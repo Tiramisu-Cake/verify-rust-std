@@ -1,0 +1,269 @@
+{
+  "head_sha": "98d6fffaf96c9a02d989ba1208365bd45f23ef2f",
+  "request_sha256": "2f5bdab60569918095f22b818bc403c572b0973f40f11ab6b1051022ddc675c5",
+  "build_id": "eb04f8fc-4ee3-4568-8053-388b7ffa72c7",
+  "kani_build": {
+    "compiletest_build_s": 17,
+    "diffstat": ".../transform/check_uninit/delayed_ub/mod.rs       |   1 +\n .../src/kani_middle/transform/check_uninit/mod.rs  | 215 ++++--\n .../transform/check_uninit/ptr_uninit/mod.rs       |   3 +-\n .../check_uninit/ptr_uninit/uninit_visitor.rs      | 781 ++++++++++++++++----\n .../transform/check_uninit/relevant_instruction.rs |  76 +-\n .../transform/check_uninit/ty_layout.rs            | 148 +++-\n library/kani_core/src/mem_init.rs                  | 194 ++++-\n .../uninit/g1-union-pointee-negative/expected      | 352 +++++++++\n .../uninit/g1-union-pointee-negative/main.rs       | 794 +++++++++++++++++++++\n .../expected                                       |   5 +\n .../main.rs                                        |  15 +\n .../uninit/g1-union-pointee-unsupported/types.inc  |  69 ++\n 12 files changed, 2394 insertions(+), 259 deletions(-)",
+    "kani_build_s": 351,
+    "patch": {
+      "path": "research/challenge-8/kani-k1/kani3300/g1r3/kani3300-g1r3-a3-build.patch",
+      "sha256": "59e556e7942bf717107a6ff293fef66b13d3e3994d8c931ec8dba7f8c2e41e87"
+    },
+    "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "tree": "1faeb244d2b054393141ce971180cdc2a5b6e64e",
+    "version": "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.11.0"
+  },
+  "validation": "VALIDATED",
+  "summary_status": "TOOL_ERROR",
+  "gate": false,
+  "binaries": {
+    "compiletest_profile": "dev",
+    "kani_profile": "release",
+    "paths": {
+      "compiletest": {
+        "invoked": "/workspace/src/kani_build/target/debug/compiletest"
+      },
+      "kani": {
+        "invoked": "/workspace/src/kani_build/scripts/kani"
+      },
+      "kani-compiler": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "release": "/workspace/src/kani_build/target/release/kani-compiler",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "sha256": "a1257e93a7a3064f9d1aebf7d62e8b43fe93e3e9f1ee980f62a78bd7f7c53439"
+      },
+      "kani-driver": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "release": "/workspace/src/kani_build/target/release/kani-driver",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "sha256": "653ba5660b15f16fb8e7b989cd0fb47b655bf93fcc415d372f988f592752de3f"
+      }
+    }
+  },
+  "total": 2,
+  "offset": 0,
+  "tests": [
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "-p",
+        "compiletest",
+        "--",
+        "--suite",
+        "expected",
+        "--mode",
+        "expected",
+        "--src-base",
+        "tests/expected",
+        "--build-base",
+        "/workspace/src/k1-out/native-0",
+        "--exact",
+        "[expected] expected/uninit/g1-union-pointee-negative/main.rs",
+        "--force-rerun",
+        "--color",
+        "never",
+        "--timeout",
+        "150"
+      ],
+      "cwd": "/workspace/src/kani_build",
+      "diagnostic": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u32`\"",
+      "diagnostic_provenance": {
+        "gate_sources": [
+          "kani_stdout",
+          "kani_stderr"
+        ],
+        "representation": "raw UTF-8 with replacement; .out then newline then .err; no rendering or console fallback",
+        "selected_source": "kani_stdout"
+      },
+      "env": {
+        "RUST_TEST_THREADS": "1"
+      },
+      "errors": [
+        "requested native PASS did not pass"
+      ],
+      "exit_code": 1,
+      "expect": "pass",
+      "file": "uninit/g1-union-pointee-negative/main.rs",
+      "mode": "expected",
+      "name": "[expected] expected/uninit/g1-union-pointee-negative/main.rs",
+      "native_status": "FAILED",
+      "output_excerpt": {
+        "diagnostic_only": true,
+        "failed_check_line_count": 1968,
+        "max_json_bytes": 4096,
+        "max_lines": 60,
+        "omitted_failed_check_line_count": 1952,
+        "omitted_line_count": 50240,
+        "records": [
+          {
+            "clipped": false,
+            "line": 1458,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "Check 18: fat_pointer_field_value_uninit_rust.safety_check.3"
+          },
+          {
+            "clipped": false,
+            "line": 1459,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "\t - Status: FAILURE"
+          },
+          {
+            "clipped": false,
+            "line": 1460,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`\""
+          },
+          {
+            "clipped": false,
+            "line": 1461,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "\t - Location: tests/expected/uninit/g1-union-pointee-negative/main.rs:715:24 in function fat_pointer_field_value_uninit_rust"
+          },
+          {
+            "clipped": false,
+            "line": 1463,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "Check 19: fat_pointer_field_value_uninit_rust.safety_check.4"
+          },
+          {
+            "clipped": false,
+            "line": 1464,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "\t - Status: FAILURE"
+          },
+          {
+            "clipped": false,
+            "line": 1465,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`\""
+          },
+          {
+            "clipped": false,
+            "line": 1466,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "\t - Location: tests/expected/uninit/g1-union-pointee-negative/main.rs:715:24 in function fat_pointer_field_value_uninit_rust"
+          },
+          {
+            "clipped": false,
+            "line": 1516,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`"
+          },
+          {
+            "clipped": false,
+            "line": 1517,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": " File: \"tests/expected/uninit/g1-union-pointee-negative/main.rs\", line 715, in fat_pointer_field_value_uninit_rust"
+          },
+          {
+            "clipped": false,
+            "line": 1518,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`"
+          },
+          {
+            "clipped": false,
+            "line": 1519,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": " File: \"tests/expected/uninit/g1-union-pointee-negative/main.rs\", line 715, in fat_pointer_field_value_uninit_rust"
+          },
+          {
+            "clipped": false,
+            "line": 1611,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "Check 8: fat_pointer_field_value_uninit_c.safety_check.3"
+          },
+          {
+            "clipped": false,
+            "line": 1612,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "\t - Status: FAILURE"
+          },
+          {
+            "clipped": false,
+            "line": 1613,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`\""
+          },
+          {
+            "clipped": false,
+            "line": 1614,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "\t - Location: tests/expected/uninit/g1-union-pointee-negative/main.rs:708:24 in function fat_pointer_field_value_uninit_c"
+          }
+        ],
+        "selected_line_count": 16,
+        "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+        "source_line_counts": {
+          "compiletest_stderr": 114,
+          "compiletest_stdout": 25086,
+          "kani_stderr": 258,
+          "kani_stdout": 24798
+        }
+      },
+      "output_sources": {
+        "compiletest_stderr": {
+          "available": true,
+          "bytes": 4032,
+          "expected_fn_error_line_found": false,
+          "path": "/workspace/src/k1-out/native-0.stderr.log",
+          "required_substring_found": false,
+          "sha256": "9bbb8cf106d878b74bc07598cebedb2bd97623424f6d42a944d9abe9ea2f0a1c",
+          "used_for_gate_diagnostic": false
+        },
+        "compiletest_stdout": {
+          "available": true,
+          "bytes": 1331314,
+          "expected_fn_error_line_found": false,
+          "path": "/workspace/src/k1-out/native-0.log",
+          "required_substring_found": true,
+          "sha256": "86b72b3eab7f6e67a461eff7e7024038a61c3e9499a5b853a1578405cb5c3006",
+          "used_for_gate_diagnostic": false
+        },
+        "kani_stderr": {
+          "available": true,
+          "bytes": 9106,
+          "expected_fn_error_line_found": false,
+          "path": "/workspace/src/k1-out/native-0/uninit/g1-union-pointee-negative/main/main.err",
+          "required_substring_found": false,
+          "sha256": "c41e0287501804015b8396f4cd35f7d18db6f4befbc7f9500a8a7c8549903e64",
+          "used_for_gate_diagnostic": true
+        },
+        "kani_stdout": {
+          "available": true,
+          "bytes": 1321266,
+          "expected_fn_error_line_found": false,
+          "path": "/workspace/src/k1-out/native-0/uninit/g1-union-pointee-negative/main/main.out",
+          "required_substring_found": true,
+          "sha256": "43de72e0e29a0d9e480b2e4024e51775e54776be4edc1c119542736570f61f0c",
+          "used_for_gate_diagnostic": true
+        }
+      },
+      "require_success": false,
+      "status": "ERROR",
+      "suite": "expected",
+      "time_s": 74.32,
+      "wall_s": 74.586
+    }
+  ],
+  "count": 1,
+  "next_offset": 1
+}

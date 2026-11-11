@@ -3,7 +3,7 @@
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-G1R3.md",
   "runtime": "Codex",
   "research_input": "431c8d0d7a7e71e8c0ecba014ff89edbddb2ce42",
-  "status": "G1R3A_SUBMITTED_WATCH_NEXT",
+  "status": "G1R3A_TERMINAL_FAILURE_BOUNDED_RESULT_RECORDED",
   "kani_candidate": "6bb067476116704763502763984b225014dce221",
   "test_parent": "02b734151ada1dd0d216b0db329776eb522d2d67",
   "production_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
@@ -37,32 +37,46 @@
     "builds": [
       "eb04f8fc-4ee3-4568-8053-388b7ffa72c7"
     ],
-    "spent_usd": "0",
-    "reserved_usd": "0.4725",
-    "dispatch": "A3 attempt 1/1 submitted; no repair/retry/B"
+    "spent_usd": "0.1620",
+    "reserved_usd": "0.0000",
+    "dispatch": "A3 attempt 1/1 terminal; no repair/retry/B"
   },
   "claims": [
     {
       "claim": "Test-only repair; full production unchanged; all G1 wrapper sweep; A3 applied tree and existing static preflight passed.",
       "assurance": "STATIC_SOURCE_AND_GIT_CHECKS_ONLY"
+    },
+    {
+      "claim": "Native A3 reports one PASS (manuallydrop) and one ERROR/FAIL (negative); exact source/request/patch/tree/tooling identities match.",
+      "assurance": "SOURCE_REPORTED_ONLY; independent B1/B2 NONE"
+    },
+    {
+      "claim": "Negative counters and individual repaired moved-source harness outcomes remain UNKNOWN; excerpt shows intended fat-pointer negative failures only, not established mismatch cause.",
+      "assurance": "BOUNDED_EXCERPT_ONLY; incomplete coverage"
     }
   ],
-  "compiler_native": "NOT_RUN",
+  "compiler_native": "CLOUD_SOURCE_REPORTED_BUILD_SUCCESS_AND_TWO_SELECTORS_EXECUTED",
   "expected_negative": {
     "SUCCESS": 0,
     "FAILURE": 70
   },
-  "observed_negative": "UNKNOWN_NOT_RUN",
+  "observed_negative": "Native FAIL / reporter ERROR / FAILED / exit1; Kani SUCCESS/FAILURE counts and full per-harness outcomes UNKNOWN_BOUNDED_LIMIT",
   "expected_manuallydrop": {
     "SUCCESS": 0,
     "FAILURE": 1
   },
-  "observed_manuallydrop": "UNKNOWN_NOT_RUN",
+  "observed_manuallydrop": {
+    "native": "PASS",
+    "exit_code": 0,
+    "inferred_SUCCESS": 0,
+    "inferred_FAILURE": 1,
+    "assurance": "SOURCE_REPORTED_INFERENCE_FROM_EXACT_GOLDEN_MATCH"
+  },
   "proof_credit": "NONE",
-  "next": "k1g.sh watch BUILD then END TURN. On wake: Evidence Brief first; bounded summary/native/native-field as authorized task interface, no raw fallback. Write RESULT-KANI3300-G1R3A.md: each of two selectors PASS/FAIL, wall seconds, negative per-harness counts if available (else native PASS/FAIL + Failed Checks excerpt), intended manuallydrop property, exact request/patch/tree/source/tooling, actual spend/cumulative G1. No repair/retry/B. Commit/push [skip ci]; REVIEW REQUEST <full research sha>.",
+  "next": "STOP. Coordinator review of bounded result; no repair, retry, B or further dispatch authorized.",
   "open": [
-    "After GO: negative per-harness counts only as supplied by bounded interface; otherwise native PASS/FAIL and Failed Checks excerpt. No raw fallback.",
-    "Inherited B/P1/full-regression limitations remain; this stage provides no native result."
+    "Negative native test failed; Complete counters, full harness outcomes and exact missing golden expectations unavailable through bounded output. No repair or additional counters authorized in this stage.",
+    "B and inherited P1/full-regression obligations remain outside A3; no further dispatch authorized."
   ],
   "review": {
     "model": "gpt-6-luna",
@@ -71,14 +85,18 @@
     "report_sha256": "f319175eeef8d23d8efbf580b6afc36f2287718e7af8a5320838fd95960c68c0",
     "verdict": "No scoped static findings; compiler/native NOT_RUN; no GO or proof credit."
   },
-  "closure_reason": null,
+  "closure_reason": "Single authorized A3 attempt terminal. Bounded native result, available Failed Checks, identity checks and final G1 accounting recorded; no raw fallback. Explicit one-attempt/no-repair boundary reached.",
   "latest_stage": "kani3300-g1r3a",
   "latest_authorization": "G1R3A-AUTHORIZATION.json",
   "T0": "2026-11-11T14:34:43+00:00",
   "main_deadline": "2026-11-11T16:34:43+00:00",
   "absolute_deadline": "2026-11-11T17:04:43+00:00",
-  "active_build_id": "eb04f8fc-4ee3-4568-8053-388b7ffa72c7",
+  "active_build_id": null,
   "prepared_artifact_inventory": "ARTIFACTS.json describes approved preparation snapshot at 3b2861eda4c0aa4097a6d3b22ba285a8ab4b455a; do not rewrite historical preparation identities.",
   "active_handoff": "G1R3A-HANDOFF.json",
-  "research_dispatch_sha": "98d6fffaf96c9a02d989ba1208365bd45f23ef2f"
+  "research_dispatch_sha": "98d6fffaf96c9a02d989ba1208365bd45f23ef2f",
+  "terminal_build_id": "eb04f8fc-4ee3-4568-8053-388b7ffa72c7",
+  "latest_result": "RESULT-KANI3300-G1R3A.md",
+  "latest_evidence": "G1R3A-OBSERVATIONS.json",
+  "cumulative_G1_spent_usd": "0.4860"
 }

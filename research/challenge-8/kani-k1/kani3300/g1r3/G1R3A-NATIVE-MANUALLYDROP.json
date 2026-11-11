@@ -1,0 +1,91 @@
+{
+  "head_sha": "98d6fffaf96c9a02d989ba1208365bd45f23ef2f",
+  "request_sha256": "2f5bdab60569918095f22b818bc403c572b0973f40f11ab6b1051022ddc675c5",
+  "build_id": "eb04f8fc-4ee3-4568-8053-388b7ffa72c7",
+  "kani_build": {
+    "compiletest_build_s": 17,
+    "diffstat": ".../transform/check_uninit/delayed_ub/mod.rs       |   1 +\n .../src/kani_middle/transform/check_uninit/mod.rs  | 215 ++++--\n .../transform/check_uninit/ptr_uninit/mod.rs       |   3 +-\n .../check_uninit/ptr_uninit/uninit_visitor.rs      | 781 ++++++++++++++++----\n .../transform/check_uninit/relevant_instruction.rs |  76 +-\n .../transform/check_uninit/ty_layout.rs            | 148 +++-\n library/kani_core/src/mem_init.rs                  | 194 ++++-\n .../uninit/g1-union-pointee-negative/expected      | 352 +++++++++\n .../uninit/g1-union-pointee-negative/main.rs       | 794 +++++++++++++++++++++\n .../expected                                       |   5 +\n .../main.rs                                        |  15 +\n .../uninit/g1-union-pointee-unsupported/types.inc  |  69 ++\n 12 files changed, 2394 insertions(+), 259 deletions(-)",
+    "kani_build_s": 351,
+    "patch": {
+      "path": "research/challenge-8/kani-k1/kani3300/g1r3/kani3300-g1r3-a3-build.patch",
+      "sha256": "59e556e7942bf717107a6ff293fef66b13d3e3994d8c931ec8dba7f8c2e41e87"
+    },
+    "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "tree": "1faeb244d2b054393141ce971180cdc2a5b6e64e",
+    "version": "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.11.0"
+  },
+  "validation": "VALIDATED",
+  "summary_status": "TOOL_ERROR",
+  "gate": false,
+  "binaries": {
+    "compiletest_profile": "dev",
+    "kani_profile": "release",
+    "paths": {
+      "compiletest": {
+        "invoked": "/workspace/src/kani_build/target/debug/compiletest"
+      },
+      "kani": {
+        "invoked": "/workspace/src/kani_build/scripts/kani"
+      },
+      "kani-compiler": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "release": "/workspace/src/kani_build/target/release/kani-compiler",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "sha256": "a1257e93a7a3064f9d1aebf7d62e8b43fe93e3e9f1ee980f62a78bd7f7c53439"
+      },
+      "kani-driver": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "release": "/workspace/src/kani_build/target/release/kani-driver",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "sha256": "653ba5660b15f16fb8e7b989cd0fb47b655bf93fcc415d372f988f592752de3f"
+      }
+    }
+  },
+  "total": 2,
+  "offset": 1,
+  "tests": [
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "-p",
+        "compiletest",
+        "--",
+        "--suite",
+        "expected",
+        "--mode",
+        "expected",
+        "--src-base",
+        "tests/expected",
+        "--build-base",
+        "/workspace/src/k1-out/native-1",
+        "--exact",
+        "[expected] expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+        "--force-rerun",
+        "--color",
+        "never",
+        "--timeout",
+        "150"
+      ],
+      "cwd": "/workspace/src/kani_build",
+      "diagnostic": "\t - Description: \"Checking memory initialization of type std::mem::ManuallyDrop<U> is not supported. Cannot determine layout for a type that contains union of type U as a field.\"",
+      "env": {
+        "RUST_TEST_THREADS": "1"
+      },
+      "errors": [],
+      "exit_code": 0,
+      "expect": "pass",
+      "file": "uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+      "mode": "expected",
+      "name": "[expected] expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+      "native_status": "ok",
+      "require_success": false,
+      "status": "PASS",
+      "suite": "expected",
+      "time_s": 0.65,
+      "wall_s": 0.868
+    }
+  ],
+  "count": 1,
+  "next_offset": null
+}

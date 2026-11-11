@@ -1,0 +1,166 @@
+{
+  "schema": "kani3300-g1r3a-observations-v1",
+  "recorded_at": "2026-11-11T14:53:27.393585+00:00",
+  "build_id": "eb04f8fc-4ee3-4568-8053-388b7ffa72c7",
+  "metadata": {
+    "id": "eb04f8fc-4ee3-4568-8053-388b7ffa72c7",
+    "status": "FAILURE",
+    "createTime": "2026-11-11T14:38:10.797203448Z",
+    "startTime": "2026-11-11T14:39:02.353867055Z",
+    "finishTime": "2026-11-11T14:50:02.725713Z",
+    "timeout": "2100s",
+    "source_sha": "98d6fffaf96c9a02d989ba1208365bd45f23ef2f",
+    "pool": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4"
+  },
+  "request_sha256": "2f5bdab60569918095f22b818bc403c572b0973f40f11ab6b1051022ddc675c5",
+  "patch_sha256": "59e556e7942bf717107a6ff293fef66b13d3e3994d8c931ec8dba7f8c2e41e87",
+  "reported_applied_tree": "1faeb244d2b054393141ce971180cdc2a5b6e64e",
+  "native_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "kani_candidate": "6bb067476116704763502763984b225014dce221",
+  "production_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
+  "reported_kani_version": "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.11.0",
+  "reported_build": {
+    "outcome": "success",
+    "kani_build_s": 351,
+    "compiletest_build_s": 17
+  },
+  "summary_status": "TOOL_ERROR",
+  "gate": false,
+  "summary_sha256": "c945b701df809c118922bbc2f9509beb3d5817eabe7694c938ea55c1be6d2971",
+  "brief": {
+    "exit": 1,
+    "response": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)"
+  },
+  "tooling_check": {
+    "command": [
+      "research/challenge-8/kani-k1/tools/k1g.sh",
+      "check-tooling",
+      "eb04f8fc-4ee3-4568-8053-388b7ffa72c7",
+      "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c"
+    ],
+    "exit": 0,
+    "pool_lane_files_six_bound_hashes_request_patch_tree": "PASS",
+    "assurance": "Source-bound identities only; no independent proof acceptance"
+  },
+  "selectors": [
+    {
+      "file": "uninit/g1-union-pointee-negative/main.rs",
+      "status": "FAIL",
+      "reporter_status": "ERROR",
+      "native_status": "FAILED",
+      "exit_code": 1,
+      "wall_s": 74.586,
+      "time_s": 74.32
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "native_status": "ok",
+      "exit_code": 0,
+      "wall_s": 0.868,
+      "time_s": 0.65
+    }
+  ],
+  "counts": {
+    "PASS": 1,
+    "FAIL": 1,
+    "reporter_ERROR": 1
+  },
+  "aggregate_harness_outcomes": {
+    "negative": {
+      "expected_SUCCESS": 0,
+      "expected_FAILURE": 70,
+      "reported_SUCCESS": null,
+      "reported_FAILURE": null,
+      "total": null,
+      "basis": "UNKNOWN: Complete counters and per-harness outcomes absent from current bounded native report/excerpt; no inference from expected golden or failure-context line count. Task authorizes native PASS/FAIL plus Failed Checks fallback; coordinator explicitly declined extra counters."
+    },
+    "manuallydrop": {
+      "expected_SUCCESS": 0,
+      "expected_FAILURE": 1,
+      "inferred_SUCCESS": 0,
+      "inferred_FAILURE": 1,
+      "basis": "SOURCE_REPORTED_INFERENCE from native PASS/exit0 with exact owner/reason/FAILURE/Complete-0-success-1-failure golden; no independent per-harness report."
+    }
+  },
+  "timing": {
+    "build_wall_s": 660.371846,
+    "queue_s": 51.556664,
+    "summed_native_wall_s": 75.454
+  },
+  "cost": {
+    "build_ledger": "1 0.1620 0.0000",
+    "G1_ledger": "4 0.4860 0.0000",
+    "charged_rounded_minutes": 12,
+    "price_per_minute_usd": "0.0135",
+    "this_build_spent_usd": "0.1620",
+    "reserved_usd": "0.0000",
+    "prior_G1_spent_usd": "0.3240",
+    "cumulative_G1_spent_usd": "0.4860",
+    "cap_usd": "0.80",
+    "remaining_G1_usd": "0.3140"
+  },
+  "diagnostics": {
+    "negative": {
+      "native_error": [
+        "requested native PASS did not pass"
+      ],
+      "native_diagnostic": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u32`\"",
+      "observed_properties": [
+        "fat_pointer_field_value_uninit_rust.safety_check.3",
+        "fat_pointer_field_value_uninit_rust.safety_check.4",
+        "fat_pointer_field_value_uninit_c.safety_check.3"
+      ],
+      "reason": "Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`",
+      "locations": [
+        "tests/expected/uninit/g1-union-pointee-negative/main.rs:715:24 in fat_pointer_field_value_uninit_rust",
+        "tests/expected/uninit/g1-union-pointee-negative/main.rs:708:24 in fat_pointer_field_value_uninit_c"
+      ],
+      "excerpt_diagnostic_only": true,
+      "failed_check_context_lines": 1968,
+      "omitted_failed_check_context_lines": 1952,
+      "selected_line_count": 16,
+      "omitted_line_count": 50240,
+      "causality": "These are intended negative checks, not established causes of the compiletest failure. Missing golden line(s), full counters and outcomes of the four repaired moved-source harnesses UNKNOWN; excerpt saturation prevents an exhaustive diagnosis."
+    },
+    "manuallydrop": {
+      "native_diagnostic": "\t - Description: \"Checking memory initialization of type std::mem::ManuallyDrop<U> is not supported. Cannot determine layout for a type that contains union of type U as a field.\"",
+      "expected_property": "std::mem::ManuallyDrop::<U>::new.unsupported_construct.1",
+      "basis": "Native PASS with exact golden; helper guard expectation matches by source-reported inference, no separate property excerpt."
+    }
+  },
+  "receipts": {
+    "G1R3A-NATIVE-NEGATIVE.json": {
+      "sha256": "27064f012175d7262e97fe1c6ca832d5988a649f6c0c780696901c0109a7fa75",
+      "bytes": 10575
+    },
+    "G1R3A-NATIVE-MANUALLYDROP.json": {
+      "sha256": "2a5850cc19c651832c0c9a8cfb10b1fcf575cd421353cbdf2c4933284a989394",
+      "bytes": 3954
+    },
+    "G1R3A-NEGATIVE-EXCERPT-META.json": {
+      "sha256": "2f4e9e0c537c98c2194a83ec44ed105f07597aaeb9cbd4eef09437638af94336",
+      "bytes": 926
+    },
+    "G1R3A-NEGATIVE-EXCERPT.json": {
+      "sha256": "0a71a838ef640ac6885a99a1e5c2ece463abf6fbb506081ba59b3f8584396beb",
+      "bytes": 4818
+    },
+    "G1R3A-NEGATIVE-ERRORS.json": {
+      "sha256": "3d51953aef076087d122602e83c92934cd8143cdb3983d05c7942edc49f47569",
+      "bytes": 766
+    },
+    "G1R3A-G1-BUDGET.txt": {
+      "sha256": "5533e97decdc98f4be16cca411a32a538ae48f0959a03476203b7c7b2bb3d1a8",
+      "bytes": 16
+    }
+  },
+  "assurance": "SOURCE_REPORTED_ONLY; native VALIDATED binds source/request/tree, not independent B1/B2 proof credit",
+  "proof_credit": "NONE",
+  "B": "NOT_AUTHORIZED_NOT_RUN",
+  "repairs": 0,
+  "retries": 0,
+  "attempt": "1/1 terminal",
+  "next": "Coordinator review; no repair/retry or further build under this authorization."
+}

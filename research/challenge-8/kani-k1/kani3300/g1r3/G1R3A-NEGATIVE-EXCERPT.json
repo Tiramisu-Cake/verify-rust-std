@@ -1,0 +1,144 @@
+{
+  "build_id": "eb04f8fc-4ee3-4568-8053-388b7ffa72c7",
+  "head_sha": "98d6fffaf96c9a02d989ba1208365bd45f23ef2f",
+  "request_sha256": "2f5bdab60569918095f22b818bc403c572b0973f40f11ab6b1051022ddc675c5",
+  "summary_file": "/tmp/kani-k1-gcb/summary-eb04f8fc-4ee3-4568-8053-388b7ffa72c7/summary/summary.json",
+  "summary_sha256": "c945b701df809c118922bbc2f9509beb3d5817eabe7694c938ea55c1be6d2971",
+  "offset": 0,
+  "file": "uninit/g1-union-pointee-negative/main.rs",
+  "field": "output_excerpt",
+  "report_source": "native",
+  "validation": "VALIDATED",
+  "diagnostic_only": true,
+  "summary_status": "TOOL_ERROR",
+  "kind": "object",
+  "units": "entries",
+  "total": 10,
+  "start": 6,
+  "value": {
+    "records": [
+      {
+        "clipped": false,
+        "line": 1458,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Check 18: fat_pointer_field_value_uninit_rust.safety_check.3"
+      },
+      {
+        "clipped": false,
+        "line": 1459,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Status: FAILURE"
+      },
+      {
+        "clipped": false,
+        "line": 1460,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`\""
+      },
+      {
+        "clipped": false,
+        "line": 1461,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Location: tests/expected/uninit/g1-union-pointee-negative/main.rs:715:24 in function fat_pointer_field_value_uninit_rust"
+      },
+      {
+        "clipped": false,
+        "line": 1463,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Check 19: fat_pointer_field_value_uninit_rust.safety_check.4"
+      },
+      {
+        "clipped": false,
+        "line": 1464,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Status: FAILURE"
+      },
+      {
+        "clipped": false,
+        "line": 1465,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`\""
+      },
+      {
+        "clipped": false,
+        "line": 1466,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Location: tests/expected/uninit/g1-union-pointee-negative/main.rs:715:24 in function fat_pointer_field_value_uninit_rust"
+      },
+      {
+        "clipped": false,
+        "line": 1516,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`"
+      },
+      {
+        "clipped": false,
+        "line": 1517,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": " File: \"tests/expected/uninit/g1-union-pointee-negative/main.rs\", line 715, in fat_pointer_field_value_uninit_rust"
+      },
+      {
+        "clipped": false,
+        "line": 1518,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`"
+      },
+      {
+        "clipped": false,
+        "line": 1519,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": " File: \"tests/expected/uninit/g1-union-pointee-negative/main.rs\", line 715, in fat_pointer_field_value_uninit_rust"
+      },
+      {
+        "clipped": false,
+        "line": 1611,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Check 8: fat_pointer_field_value_uninit_c.safety_check.3"
+      },
+      {
+        "clipped": false,
+        "line": 1612,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Status: FAILURE"
+      },
+      {
+        "clipped": false,
+        "line": 1613,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`\""
+      },
+      {
+        "clipped": false,
+        "line": 1614,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Location: tests/expected/uninit/g1-union-pointee-negative/main.rs:708:24 in function fat_pointer_field_value_uninit_c"
+      }
+    ],
+    "selected_line_count": 16,
+    "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+    "source_line_counts": {
+      "compiletest_stderr": 114,
+      "compiletest_stdout": 25086,
+      "kani_stderr": 258,
+      "kani_stdout": 24798
+    }
+  },
+  "count": 4,
+  "next_start": null
+}
