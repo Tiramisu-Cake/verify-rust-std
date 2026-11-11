@@ -1,13 +1,13 @@
 {
-  "stage": "kani3300-t1b-p",
+  "stage": "kani3300-t1b-pilot",
   "runtime": "Codex",
   "task_commit": "86cb3c464f341a02783c5960fef985964f65ceb2",
-  "state": "COMPLETE_PRE_BUILD_REVIEW_PASS_NO_DISPATCH",
+  "state": "AUTHORIZED_INSTALLED_PREFLIGHT_PASS_PENDING_DISPATCH",
   "kani_commit": "94467a24484f1d57315ebbcde7f024dd27576a00",
   "request_sha256": "d81b1b389cb37ab3d6ba1ef8e27f6dee1edda57a433af6096b68cee46c5fb3b1",
-  "active_inputs_changed": false,
-  "phase_registered": false,
-  "dispatch_authorized": false,
+  "active_inputs_changed": true,
+  "phase_registered": true,
+  "dispatch_authorized": true,
   "builds": 0,
   "cloud_usd": "0.0000",
   "static_preflight": "PREFLIGHT.json",
@@ -19,12 +19,13 @@
     "kani_candidate_commit": "94467a24484f1d57315ebbcde7f024dd27576a00"
   },
   "open": [
-    "Compilation to be checked by coordinator fork CI.",
-    "Future pilot needs new owner budget and separate kani3300-t1b-pilot ledger; old balance not reused.",
-    "Unchanged diagnostic last_writer can be stale; unresolved provenance stays UNKNOWN.",
-    "Calibration/native regressions and production acceptance are outside P."
+    "Pilot terminal evidence pending.",
+    "Unit-scoped stale last_writer provenance must remain UNKNOWN unless independently resolved.",
+    "Calibration/native regressions and production acceptance outside P."
   ],
   "proof_credit": "NONE",
-  "next_step": "STOP after review, research commit[skip ci] and push without force. No dispatch in this stage.",
-  "stop_boundary": "Exactly one T1b-P preparation stage complete; prototype, packet, static checks and independent review done. No Cloud/dispatch/budget installation authorized."
+  "next_step": "Publish installed exact request; one k1g.sh dispatch; record Build and arm k1g.sh watch; end turn WAITING. On terminal wake obtain Brief and evaluate ACCEPTANCE.md; no retries.",
+  "stop_boundary": "Exactly one pilot dispatch permitted; no repair or additional Build.",
+  "owner_authorization": "PILOT-AUTHORIZATION.json",
+  "pilot_ledger": "RUN-LEDGER-P.json"
 }

@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani3300-t1b-c2-20261111-01",
+  "request_id": "kani3300-t1b-pilot-20261111-01",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "KANI3300 T1b-C2: three roots (observed writer, failing target, passing contrast), one invocation, 1m each. Calibration pair omitted by coordinator budget decision; controls/uninit checks unchanged. Reserve $0.4455 <= $0.4490. Preparation only; dispatch requires coordinator GO.",
+  "purpose": "KANI3300 T1b-P: fresh transformer per root; C2 trio, same flags/library/ordering/diagnostics, one invocation,1m each. Preparation only, Cloud $0. Future reserve $0.4455/proposed cap $0.50; new owner budget and separate pilot ledger required. Not production acceptance.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 1,
   "kani_jobs": 1,
@@ -25,8 +25,8 @@
     }
   ],
   "kani_patch": {
-    "path": "research/challenge-8/kani-k1/kani3300/t1b-c2/kani-combined.patch",
-    "sha256": "f38fe31c3c95724098d79f569faeba0b0602464cb0cb06c8983bbfebcf88c930"
+    "path": "research/challenge-8/kani-k1/kani3300/t1b-p/kani-combined.patch",
+    "sha256": "20075382fe1e7fa63a31c25adfe4b9c722ce42a86dab0bd105f96d571acdea6a"
   },
   "diagnostic_trace": {
     "filters": [
@@ -36,6 +36,6 @@
     ],
     "library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
     "base_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
-    "expected_applied_tree": "4b08f55cae739d02d495c05eb23249a62a5a9e50"
+    "expected_applied_tree": "b8575e61d76709951f461b3eda70726be43d3636"
   }
 }
