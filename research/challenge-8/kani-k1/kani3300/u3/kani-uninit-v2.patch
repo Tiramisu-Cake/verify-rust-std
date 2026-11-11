@@ -1950,13 +1950,12 @@ index 0000000..15808b4
 +}
 diff --git a/tests/expected/uninit/maybe-uninit-review-argument-return/expected b/tests/expected/uninit/maybe-uninit-review-argument-return/expected
 new file mode 100644
-index 0000000..2f799f8
+index 0000000..b2ce7c6
 --- /dev/null
 +++ b/tests/expected/uninit/maybe-uninit-review-argument-return/expected
-@@ -0,0 +1,5 @@
-+argument_return.safety_check.\
-+	 - Status: FAILURE\
-+	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+@@ -0,0 +1,4 @@
++Checking harness argument_return...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
 +VERIFICATION:- FAILED
 +Complete - 0 successfully verified harnesses, 1 failures, 1 total.
 diff --git a/tests/expected/uninit/maybe-uninit-review-argument-return/main.rs b/tests/expected/uninit/maybe-uninit-review-argument-return/main.rs
@@ -1981,16 +1980,15 @@ index 0000000..c0c3d20
 +}
 diff --git a/tests/expected/uninit/maybe-uninit-review-overlap-copy/expected b/tests/expected/uninit/maybe-uninit-review-overlap-copy/expected
 new file mode 100644
-index 0000000..c242ca6
+index 0000000..c0fce4b
 --- /dev/null
 +++ b/tests/expected/uninit/maybe-uninit-review-overlap-copy/expected
-@@ -0,0 +1,8 @@
-+overlap_copy_right.safety_check.\
-+	 - Status: FAILURE\
-+	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
-+overlap_copy_left.safety_check.\
-+	 - Status: FAILURE\
-+	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+@@ -0,0 +1,7 @@
++Checking harness overlap_copy_right...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Checking harness overlap_copy_left...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
 +VERIFICATION:- FAILED
 +Complete - 0 successfully verified harnesses, 2 failures, 2 total.
 diff --git a/tests/expected/uninit/maybe-uninit-review-overlap-copy/main.rs b/tests/expected/uninit/maybe-uninit-review-overlap-copy/main.rs
@@ -2027,13 +2025,12 @@ index 0000000..c8e7d40
 +}
 diff --git a/tests/expected/uninit/maybe-uninit-review-overwrite-copy/expected b/tests/expected/uninit/maybe-uninit-review-overwrite-copy/expected
 new file mode 100644
-index 0000000..fa735be
+index 0000000..3bfe85b
 --- /dev/null
 +++ b/tests/expected/uninit/maybe-uninit-review-overwrite-copy/expected
-@@ -0,0 +1,5 @@
-+overwrite_copy.safety_check.\
-+	 - Status: FAILURE\
-+	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`"
+@@ -0,0 +1,4 @@
++Checking harness overwrite_copy...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`
 +VERIFICATION:- FAILED
 +Complete - 0 successfully verified harnesses, 1 failures, 1 total.
 diff --git a/tests/expected/uninit/maybe-uninit-review-overwrite-copy/main.rs b/tests/expected/uninit/maybe-uninit-review-overwrite-copy/main.rs
@@ -2210,13 +2207,12 @@ index 0000000..89b1770
 +}
 diff --git a/tests/expected/uninit/maybe-uninit-review-repeat-local/expected b/tests/expected/uninit/maybe-uninit-review-repeat-local/expected
 new file mode 100644
-index 0000000..32ba601
+index 0000000..6edba49
 --- /dev/null
 +++ b/tests/expected/uninit/maybe-uninit-review-repeat-local/expected
-@@ -0,0 +1,5 @@
-+repeat_local.safety_check.\
-+	 - Status: FAILURE\
-+	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+@@ -0,0 +1,4 @@
++Checking harness repeat_local...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`
 +VERIFICATION:- FAILED
 +Complete - 0 successfully verified harnesses, 1 failures, 1 total.
 diff --git a/tests/expected/uninit/maybe-uninit-review-repeat-local/main.rs b/tests/expected/uninit/maybe-uninit-review-repeat-local/main.rs
@@ -2242,13 +2238,12 @@ index 0000000..1fcaa0f
 +}
 diff --git a/tests/expected/uninit/maybe-uninit-review-reset-zst/expected b/tests/expected/uninit/maybe-uninit-review-reset-zst/expected
 new file mode 100644
-index 0000000..efff8c1
+index 0000000..3109282
 --- /dev/null
 +++ b/tests/expected/uninit/maybe-uninit-review-reset-zst/expected
-@@ -0,0 +1,5 @@
-+reset_after_zst.safety_check.\
-+	 - Status: FAILURE\
-+	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+@@ -0,0 +1,4 @@
++Checking harness reset_after_zst...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`
 +VERIFICATION:- FAILED
 +Complete - 0 successfully verified harnesses, 1 failures, 1 total.
 diff --git a/tests/expected/uninit/maybe-uninit-review-reset-zst/main.rs b/tests/expected/uninit/maybe-uninit-review-reset-zst/main.rs

@@ -1,20 +1,22 @@
 # KANI3300 U3 — пакет до GO
 
-Статус PREPARED, native NOT_RUN. Dispatch запрещён до exact-packet GO координатора.
-План и PLANNER-U3-ANSWER.md прочитаны целиком; ниже реализован только native v2 scope (a)/(b).
+Статус BLOCKED_MISSING_DIAGNOSTIC_BINDING, native NOT_RUN. Пункты 3–4 AMEND требуют уточнения.
+Пакет 52cd0b12353076194296d74d2f59808ace90aceb не диспатчить. Новый dispatch также запрещён без снятия blocker и GO.
+План, PLANNER-U3-ANSWER.md и AMEND-U1T.md прочитаны целиком; ниже реализован только native v2 scope (a)/(b).
 
 ## Identities и вход U1T
 
 - Research branch `experiment/kani-k1-kani3300u3-20261111`, исходный head `aa5a44ec237fdb3d36382478aac6e3b86fda5df7`.
-- Kani `/root/kani-fix-3300-v2`, branch `fix/kani-3300-v2`, commit `8bfb7c7c908fe58668214089a0fc7d1b5ccfe378`.
+- Kani `/root/kani-fix-3300-v2`, branch `fix/kani-3300-v2`, commit `3fd6f408e1d565ba65aaeb86c0c4ad0bbc57ab52`.
 - Полный pin `f046b70644e113be0df9c22c2e6ea44a65a57566`; U1 base `546bcf30379b9b2894f94b1305d5277cc5b4574c`.
 - Tooling `c98d7cee0d509b1633ab61c9a1ae989e286c8e2a`, toolchain и все lane paths неизменны.
-- Patch SHA-256 `22b82d251006b83384cce1da644ca8842cd0fdb4ee98ed4c701d8817c5372a08`; request SHA-256 `5fc7589cac51486d987a4036479cb322d96b7f5b173dbfa7e6c432718ab64709`.
-- Applied tree `0f3197223e761ee3099c5060c21ded4b97481038` = дерево Kani candidate; patch включает новые файлы тестов.
+- Patch SHA-256 `f9187933ecd69858ae03762baa8dd57f5907e456e7457db7cba73092471ae111`; request SHA-256 `8cda1fa64a8b1c7dfce56c44f30fd5d84bce508e9d93cf03a426e188f9c912da`.
+- Applied tree `d10fbe6d3089a4d015748544963824c1053e94d4` = дерево Kani candidate; patch включает новые файлы тестов.
 - U1T fetched origin head `51971120af391c3db80ff2797f43ea083ce42167`, RESULT получен через git show,
   копия [INPUT-U1T.md](INPUT-U1T.md). Его build `ff0988c7-d2f2-4872-b4ea-be581d9de02f`: source-reported 7/12 PASS,
-  5 ERROR/UNKNOWN из-за bounded reader. False SUCCESS не установлен и не исключён; не исправлял исходные ожидания.
-- Тестовый commit U1T `647109cf6342474d899aa463315a37dac14fd831` перенесён; 14 Git blobs идентичны.
+  5 ERROR/golden mismatch. Координатор уточнил: все пять Kani FAILED; FAILURE нужных uninit properties ещё не установлен.
+- Тестовый commit U1T `647109cf6342474d899aa463315a37dac14fd831` перенесён; 7 Rust sources и 2 goldens идентичны,
+  5 goldens исправлены по AMEND без изменения ожидаемых типов. Подробности/вопрос: [U1T-DIAGNOSTICS-AMEND.md](U1T-DIAGNOSTICS-AMEND.md).
 
 ## Семантика и инварианты
 
@@ -40,20 +42,28 @@ caller Load 0 после Call. Match проверяет extent и очищает
 
 ## Controls, статика, бюджет
 
-[RUN-REQUEST.json](RUN-REQUEST.json): 17 exact selectors, harnesses=[], whole job 10 min, selector 150 s.
+[RUN-REQUEST.json](RUN-REQUEST.json): 20 exact selectors, harnesses=[], whole job 10 min, selector 150 s.
 Два новых positive selectors (6 wrap + 4 buffer harnesses), U1T positive (7 harnesses) требуют require_success=true.
-Остальные требуют конкретную диагностику собственного вывода; новые negative goldens связывают FAILURE и diagnostic
-в соседних строках. Frame-negative требует `Check that *outside is assignable`. Новые goldens — ожидания до Cloud,
-существующие golden не менялись. Пары plain/PFC и clauses, nested/two args/return0/stale и no-MIR включены.
-U1T compact negatives: argument-return, padded-manually-drop; остальные 4 listed в RESULT как NOT_RUN.
+Остальные требуют конкретную диагностику собственного вывода; U3 goldens связывают FAILURE и diagnostic
+в соседних строках, а пять U1T goldens требуют Failed Checks: uninit, FAILED и Complete с failed harnesses. Frame-negative требует `Check that *outside is assignable`. Новые goldens — ожидания до Cloud,
+goldens upstream pin не менялись; ровно пять добавленных U1T goldens изменены по AMEND. Пары plain/PFC и clauses, nested/two args/return0/stale и no-MIR включены.
+Все пять обязательных U1T negatives + review-positive включены; padded-manually-drop — NOT_RUN.
 [STATIC-CHECKS.json](STATIC-CHECKS.json): validate, fresh prepare-kani/git apply --check --index, tree identity,
-rustfmt --check (36 .rs), diff-check, allowlist и transplant — PASS. Full diffstat 3999 bytes, в лимите 4096.
-Production v2−U1: 2 files +111/−13; tests с U1T: 36 files +636/−0. Полный patch: production 7 files +657/−161,
-tests 58 files +964/−0. Tooling/lane diff против c98d7cee0d — пустой.
-[REVIEW-U3-DELTA.md](REVIEW-U3-DELTA.md): независимый Luna HIGH readiness review без concrete findings; native не запускался.
+diff-check, allowlist и U1T source identity — PASS. Все 36 Rust blobs прежние, поэтому прежний rustfmt PASS сохраняется. Full diffstat 3999 bytes, в лимите 4096.
+Production v2−U1: 2 files +111/−13; tests с U1T: 36 files +631/−0. Полный patch: production 7 files +657/−161,
+tests 58 files +959/−0. Tooling/lane diff против c98d7cee0d — пустой.
+[REVIEW-U3-DELTA.md](REVIEW-U3-DELTA.md): исторический review candidate 8bfb7c7 без concrete findings;
+production delta от него пустой. Изменены только пять goldens; нового semantic review этот test-only delta не требует.
 
 Расход стадии $0; proposed reserve (10+30)×$0.0135=$0.540, cap $0.90. Ledger/reservation не менялись.
 Не более одного repair только по факту, с новым GO и actual+reserve≤cap. Общий ночной cap $6.40 сохраняется,
 актуальный общий ledger перед dispatch проверяет координатор; U1T $0.108 — входной source-reported расход другой стадии.
 Без native PASS приёмка открыта; full IntoIter не даёт credit U8/U9. Следом — отдельный native-result review, затем
 отдельный GO для diagnostic replay U1/U2,U6,U7–U9. Составные storage-формы и select — следующие отдельные scopes.
+
+## Обязательное уточнение перед GO
+
+[AMEND-U1T.md](AMEND-U1T.md) выполнен по пунктам 1–2. Статический trace пункта 3 находит механизм текста,
+но не invocation/source location observed overlap property; пункт 4 не устанавливает foreign callee по одному счётчику.
+Поэтому production fix не выдуман, недостижимость не заявлена. Координатору отправлен вопрос с точными bounded fields;
+ответ ожидается. Подробности: [U1T-DIAGNOSTICS-AMEND.md](U1T-DIAGNOSTICS-AMEND.md). До уточнения пакет заблокирован.

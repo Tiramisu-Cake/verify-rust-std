@@ -1,21 +1,40 @@
 {
   "status": "PASS_STATIC_ONLY",
+  "dispatch_readiness": "BLOCKED_MISSING_DIAGNOSTIC_BINDING",
+  "supersedes_packet": "52cd0b12353076194296d74d2f59808ace90aceb",
   "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
-  "kani_candidate": "8bfb7c7c908fe58668214089a0fc7d1b5ccfe378",
-  "applied_tree": "0f3197223e761ee3099c5060c21ded4b97481038",
-  "patch_sha256": "22b82d251006b83384cce1da644ca8842cd0fdb4ee98ed4c701d8817c5372a08",
-  "request_sha256": "5fc7589cac51486d987a4036479cb322d96b7f5b173dbfa7e6c432718ab64709",
+  "kani_candidate": "3fd6f408e1d565ba65aaeb86c0c4ad0bbc57ab52",
+  "applied_tree": "d10fbe6d3089a4d015748544963824c1053e94d4",
+  "patch_sha256": "f9187933ecd69858ae03762baa8dd57f5907e456e7457db7cba73092471ae111",
+  "request_sha256": "8cda1fa64a8b1c7dfce56c44f30fd5d84bce508e9d93cf03a426e188f9c912da",
   "checks": {
-    "validate": "PASS",
+    "validate": "PASS (20 selectors)",
     "prepare_kani_fresh_pin": "PASS",
     "apply_check_index": "PASS",
     "applied_tree_matches_candidate": "PASS",
-    "rustfmt_check": "PASS (36 Rust files)",
-    "git_diff_check": "PASS",
+    "rustfmt_check": "Previous PASS for 36 Rust files; all 36 Git blobs identical to reviewed candidate",
+    "git_diff_check": "PASS on applied tree",
     "production_path_allowlist": "PASS",
-    "u1t_transplant": "PASS (14 identical Git blobs)",
+    "production_delta_from_reviewed_candidate": "EMPTY",
+    "u1t_transplant": {
+      "rust_sources_unchanged": 7,
+      "total_blobs_unchanged": 9,
+      "goldens_amended_only": [
+        "tests/expected/uninit/maybe-uninit-review-argument-return/expected",
+        "tests/expected/uninit/maybe-uninit-review-overlap-copy/expected",
+        "tests/expected/uninit/maybe-uninit-review-overwrite-copy/expected",
+        "tests/expected/uninit/maybe-uninit-review-repeat-local/expected",
+        "tests/expected/uninit/maybe-uninit-review-reset-zst/expected"
+      ],
+      "expectation_types_changed": false
+    },
     "existing_upstream_goldens_changed": 0,
     "preflight_diffstat_bytes": 3999
+  },
+  "delta_from_reviewed_candidate": {
+    "files": 5,
+    "insertions": 13,
+    "deletions": 18
   },
   "delta_v2_minus_u1": {
     "production": {
@@ -25,7 +44,7 @@
     },
     "tests_including_u1t": {
       "files": 36,
-      "insertions": 636,
+      "insertions": 631,
       "deletions": 0
     }
   },
@@ -37,11 +56,16 @@
     },
     "tests": {
       "files": 58,
-      "insertions": 964,
+      "insertions": 959,
       "deletions": 0
     }
   },
-  "native_status": "NOT_RUN; waiting exact-packet coordinator GO",
+  "native_status": "NOT_RUN; no dispatch permitted; diagnostics unresolved and no new GO",
   "cloud_spend_usd": 0,
-  "proposed_reservation_usd": 0.54
+  "proposed_reservation_usd": 0.54,
+  "amendment_sha256": "29b48f0e458a37537fe1f999abac6fecd962a0ef12539f55ab1003744854ef68",
+  "open_diagnostics": [
+    "overlap-copy internal error entered unreachable code: actual failed property source/callsite unresolved",
+    "overwrite-copy foreign function(1): callee and callsite unresolved; reachability UNKNOWN"
+  ]
 }

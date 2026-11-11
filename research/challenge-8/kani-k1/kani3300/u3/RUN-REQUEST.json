@@ -1,15 +1,15 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani3300-u3-native-20261111-01",
+  "request_id": "kani3300-u3-native-20261111-02",
   "agent": "k1-merge",
   "kind": "kani-tests",
-  "purpose": "KANI3300 U3: exact typed-to-MaybeUninit scalar/array wraps; isolate argument shadow state from DFCC frame checks; native controls and unchanged U1T regressions. Full IntoIter remains an explicit Unsupported control.",
+  "purpose": "KANI3300 U3 amended U1T controls: five negatives bind Failed Checks without harness property names; exact typed wraps, ghost buffer frame isolation, and full IntoIter Unsupported control.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [],
   "kani_patch": {
     "path": "research/challenge-8/kani-k1/kani3300/u3/kani-uninit-v2.patch",
-    "sha256": "22b82d251006b83384cce1da644ca8842cd0fdb4ee98ed4c701d8817c5372a08"
+    "sha256": "f9187933ecd69858ae03762baa8dd57f5907e456e7457db7cba73092471ae111"
   },
   "test_timeout_seconds": 150,
   "kani_tests": [
@@ -112,15 +112,7 @@
       "file": "uninit/maybe-uninit-review-argument-return/main.rs",
       "expect": "pass",
       "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/maybe-uninit-review-padded-manually-drop/main.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `Padded`"
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
     },
     {
       "suite": "expected",
@@ -145,6 +137,38 @@
       "expect": "pass",
       "require_success": false,
       "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-overwrite-copy/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-overlap-copy/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-repeat-local/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-reset-zst/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
     }
   ]
 }
