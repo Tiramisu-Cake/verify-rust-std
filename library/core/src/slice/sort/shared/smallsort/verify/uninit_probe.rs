@@ -205,3 +205,62 @@ fn small_sort_general_scratch_unwritten_slot_u8_n4() {
     kani::cover(unwritten == 0, "U9 scratch[4]: unwritten byte zero");
     kani::cover(unwritten != 0, "U9 scratch[4]: unwritten byte nonzero");
 }
+
+/// CMP3 step 1: the actual core IndexRange without an array iterator.
+#[kani::proof]
+fn cmp3_index_range_len() {
+    let range = crate::ops::IndexRange::zero_to(2);
+    let len = range.len();
+    kani::assert(len == 2, "CMP3 IndexRange len is two");
+    kani::cover(true, "CMP3 IndexRange: len checked");
+}
+
+#[kani::proof]
+fn cmp3_polymorphic_sized_len() {
+    let a: usize = kani::any();
+    let b: usize = kani::any();
+    let len = crate::array::kani_cmp3::sized_len(a, b);
+    kani::assert(len == 2, "CMP3 sized PolymorphicIter len is two");
+    kani::cover(true, "CMP3 sized: adapter returned and len checked");
+}
+
+#[kani::proof]
+fn cmp3_polymorphic_unsized_len() {
+    let a: usize = kani::any();
+    let b: usize = kani::any();
+    let len = crate::array::kani_cmp3::unsized_len(a, b);
+    kani::assert(len == 2, "CMP3 unsized PolymorphicIter len is two");
+    kani::cover(true, "CMP3 unsized: adapter returned and len checked");
+}
+
+#[kani::proof]
+fn cmp3_manually_drop_unsized_len() {
+    let a: usize = kani::any();
+    let b: usize = kani::any();
+    let len = crate::array::kani_cmp3::manually_drop_unsized_len(a, b);
+    kani::assert(len == 2, "CMP3 ManuallyDrop unsized len is two");
+    kani::cover(true, "CMP3 ManuallyDrop unsized: adapter returned and len checked");
+}
+
+#[kani::proof]
+fn cmp3_into_iter_len() {
+    let a: usize = kani::any();
+    let b: usize = kani::any();
+    let iter = IntoIterator::into_iter([a, b]);
+    let len = iter.len();
+    kani::assert(len == 2, "CMP3 IntoIter len is two");
+    kani::cover(true, "CMP3 IntoIter: len checked before Drop");
+}
+
+#[kani::proof]
+fn cmp3_into_iter_next() {
+    let a: usize = kani::any();
+    let b: usize = kani::any();
+    let mut iter = IntoIterator::into_iter([a, b]);
+    kani::assert(iter.next() == Some(a), "CMP3 IntoIter first element");
+    kani::cover(true, "CMP3 IntoIter: first next checked");
+    kani::assert(iter.next() == Some(b), "CMP3 IntoIter second element");
+    kani::cover(true, "CMP3 IntoIter: second next checked");
+    kani::assert(iter.next().is_none(), "CMP3 IntoIter exhausted");
+    kani::cover(true, "CMP3 IntoIter: exhaustion checked before Drop");
+}

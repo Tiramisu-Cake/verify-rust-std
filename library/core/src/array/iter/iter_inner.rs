@@ -6,6 +6,58 @@ use crate::num::NonZero;
 use crate::ops::{IndexRange, NeverShortCircuit, Try};
 use crate::{fmt, iter, ptr};
 
+/// Diagnostic entry points for the opt-in SmallSort CMP3 harnesses.
+#[cfg(kani)]
+pub(crate) mod kani_cmp3 {
+    use super::PolymorphicIter;
+    use crate::mem::{ManuallyDrop, MaybeUninit};
+    use crate::ops::{Deref, IndexRange};
+
+    pub(crate) fn sized_len(a: usize, b: usize) -> usize {
+        // SAFETY: both elements in the alive range 0..2 are initialized.
+        let inner = unsafe {
+            PolymorphicIter::new_unchecked(
+                IndexRange::zero_to(2),
+                [MaybeUninit::new(a), MaybeUninit::new(b)],
+            )
+        };
+        let len = inner.len();
+        crate::kani::cover(true, "CMP3 sized: len returned before Drop");
+        len
+    }
+
+    pub(crate) fn unsized_len(a: usize, b: usize) -> usize {
+        // SAFETY: both elements in the alive range 0..2 are initialized.
+        let inner = unsafe {
+            PolymorphicIter::new_unchecked(
+                IndexRange::zero_to(2),
+                [MaybeUninit::new(a), MaybeUninit::new(b)],
+            )
+        };
+        let unsized_inner: &PolymorphicIter<[MaybeUninit<usize>]> = &inner;
+        let len = unsized_inner.len();
+        crate::kani::cover(true, "CMP3 unsized: len returned before Drop");
+        len
+    }
+
+    pub(crate) fn manually_drop_unsized_len(a: usize, b: usize) -> usize {
+        // SAFETY: both elements in the alive range 0..2 are initialized.
+        let inner = unsafe {
+            PolymorphicIter::new_unchecked(
+                IndexRange::zero_to(2),
+                [MaybeUninit::new(a), MaybeUninit::new(b)],
+            )
+        };
+        let inner = ManuallyDrop::new(inner);
+        // Match IntoIter::unsize: ManuallyDrop -> Deref -> unsize -> len.
+        let sized_inner: &PolymorphicIter<[MaybeUninit<usize>; 2]> = inner.deref();
+        let unsized_inner: &PolymorphicIter<[MaybeUninit<usize>]> = sized_inner;
+        let len = unsized_inner.len();
+        crate::kani::cover(true, "CMP3 ManuallyDrop unsized: len returned");
+        len
+    }
+}
+
 #[allow(private_bounds)]
 trait PartialDrop {
     /// # Safety

@@ -12,6 +12,8 @@ use crate::ops::{Deref as _, DerefMut as _, IndexRange, Range, Try};
 use crate::{fmt, ptr};
 
 mod iter_inner;
+#[cfg(kani)]
+pub(crate) use iter_inner::kani_cmp3;
 
 type InnerSized<T, const N: usize> = iter_inner::PolymorphicIter<[MaybeUninit<T>; N]>;
 type InnerUnsized<T> = iter_inner::PolymorphicIter<[MaybeUninit<T>]>;

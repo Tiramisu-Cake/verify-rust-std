@@ -27,6 +27,8 @@ mod iter;
 
 #[stable(feature = "array_value_iter", since = "1.51.0")]
 pub use iter::IntoIter;
+#[cfg(kani)]
+pub(crate) use iter::kani_cmp3;
 
 /// Creates an array of type `[T; N]` by repeatedly cloning a value.
 ///
