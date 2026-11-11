@@ -1,0 +1,46 @@
+{
+  "stage": "kani3300-u4b",
+  "state": "PREPARED_AWAITING_REVIEW_AND_COORDINATOR_GO",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-U4B.md",
+  "runtime": "Codex",
+  "branch": "experiment/kani-k1-kani3300u4-20261111",
+  "baseline": "582e9e0f5a436cb40ba80f3053de112d7232104b",
+  "library_commit": "9182d29c98be2ed45905f0923d2ef09ac9a1a4fb",
+  "request_id": "kani3300-u4b-uninit-20261111-01",
+  "request_sha256": "53a2f3ac1453787fd74f190d838352f9a819676619c66f456c6dad8c197bd1ff",
+  "kani_patch_sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "cloud": {
+    "status": "NOT_RUN",
+    "attempts": 0,
+    "spend_usd": "0.0000",
+    "submitted_reserve_usd": "0.0000",
+    "planned_reserve_usd": "0.5670",
+    "cap_usd": "0.60",
+    "envelope_minutes": 42
+  },
+  "claims": [
+    {
+      "claim": "Exactly two appended harnesses; prior nine and all other library files unchanged. Same N4 scratch geometry, comparator, unwind and panic stub.",
+      "assurance": "static",
+      "reference": "static-check.json"
+    },
+    {
+      "claim": "Four-root request accepted; U8/U1 entries, KT2 tooling, pin/toolchain and production patch unchanged.",
+      "assurance": "static; generated args express intent only",
+      "reference": "static-check.json"
+    }
+  ],
+  "open": [
+    "U9a/U9b runtime statuses, failure counts/types/locations and covers NOT_RUN.",
+    "Exact-packet coordinator GO required before the one permitted diagnostic build.",
+    "Actual runtime argv and observed applied tree require bounded Cloud evidence."
+  ],
+  "independent_review": {
+    "state": "PENDING"
+  },
+  "proof_credit": "NONE",
+  "next_step": "Independent Luna HIGH review, publish exact packet, PRE-BUILD REVIEW full SHA; stop until coordinator GO.",
+  "stop_boundary": "Mandatory coordinator exact-packet PRE-BUILD gate; no build submitted, no watcher armed.",
+  "thread_cwd": "/root; preparation only; assigned worktree used for every Git/edit operation; task-specific k1g watcher after future GO."
+}

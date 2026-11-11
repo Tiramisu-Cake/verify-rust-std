@@ -1,0 +1,15 @@
+--harness
+slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_scratch_written_slot_u8_n4
+--harness
+slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_scratch_unwritten_slot_only_u8_n4
+--harness
+slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4
+--harness
+slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8
+-Z
+uninit-checks
+--exact
+--harness-timeout
+3m
+--jobs=1
+--output-format=terse

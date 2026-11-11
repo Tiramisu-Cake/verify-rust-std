@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "baseline": "582e9e0f5a436cb40ba80f3053de112d7232104b",
+  "library_commit": "9182d29c98be2ed45905f0923d2ef09ac9a1a4fb",
+  "checks": {
+    "existing_source_byte_prefix_unchanged": true,
+    "existing_nine_harnesses_unchanged": true,
+    "exact_two_harnesses_added": true,
+    "only_library_change_is_probe": true,
+    "geometry_comparator_unwind_stub": true,
+    "one_written_and_one_unwritten_observation": true,
+    "protected_lane_paths_equal_KT2": true,
+    "patch_unchanged": true,
+    "patch_sha256": true,
+    "root_request_matches_snapshot": true,
+    "exact_four_roots": true,
+    "U8_U1_rows_unchanged": true,
+    "settings": true,
+    "generated_uninit_timeout_exact": true,
+    "generated_controls": true,
+    "budget_reserve": true,
+    "whitespace": true
+  },
+  "request_sha256": "53a2f3ac1453787fd74f190d838352f9a819676619c66f456c6dad8c197bd1ff",
+  "source_sha256": "f6794c80f2e2645b664dec31f8c87ef6cfbf09f486b259281692113707dc8b47",
+  "patch_sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "planned_reserve_usd": "0.5670",
+  "cloud": "NOT_RUN",
+  "proof_credit": "NONE",
+  "validation": "rustfmt wrapper, static Git/byte assertions, existing request validator; no runner changes and no local compilers/proof tools."
+}
