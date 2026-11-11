@@ -4,7 +4,7 @@
   "runtime": "Codex",
   "stage": "kani3300-g1",
   "owner": "k1-merge",
-  "status": "G1A_SUBMITTED_WAITING",
+  "status": "G1A_COMPLETE_BUILD_FAILURE_NO_NATIVE",
   "research_input_head": "98713ed97b88d611fe43c380af736bd3732b29d4",
   "kani_base": "657c2b24516b967f67ce71994299d0ef328aede9",
   "kani_production_head": "c82672f6b92b7cf0cbf28d6f645dbd0e71529e05",
@@ -69,9 +69,9 @@
     "builds": [
       "e35ca11d-307e-46f6-8212-a97e5bbee087"
     ],
-    "reserved_usd": 0.7965,
-    "spent_usd": null,
-    "dispatch": "A ONLY; attempt 1/1; final cost pending"
+    "spent_usd": 0.0675,
+    "reserved_usd": 0.0,
+    "dispatch": "A only; attempt 1/1 finished; no repair/retry; B NOT authorized"
   },
   "claims": [
     {
@@ -81,18 +81,26 @@
     {
       "claim": "Native/formal verification",
       "assurance": "NOT_RUN; proof credit NONE"
+    },
+    {
+      "claim": "A compiler build failed with two E0308 errors; all 20 native selectors NOT_RUN",
+      "assurance": "SOURCE_REPORTED_FAILURE; metadata/ledger; Brief HTTP404; proof credit NONE"
     }
   ],
   "open": [
-    "A only: dispatch once after published identity/ledger/deadline/slot final gates; then k1g.sh watch and end turn.",
-    "B NOT authorized; no installation/dispatch until separate GO.",
-    "After A terminal: Evidence Brief bounded result per selector/wall/cost, RESULT-KANI3300-G1A.md, skip-ci commit and REVIEW REQUEST."
+    "A build failed before native verification; two source MachineSize/usize mismatches need a separate authorized repair task.",
+    "B remains NOT authorized and NOT_RUN; separate coordinator/owner GO required.",
+    "Evidence Brief route HTTP404; no independent native acceptance/credit.",
+    "Inherited P1 MU-transmute Move-source limitation and full regression/core replay remain open."
   ],
-  "next": "k1g.sh watch BUILD then END TURN. On wake: Evidence Brief first; bounded A per-selector PASS/FAIL/wall seconds and cost in RESULT-KANI3300-G1A.md; skip-ci commit/push; REVIEW REQUEST <sha>. No repair/retry/B.",
-  "closure_reason": "Requested Cloud-$0 one-stage implementation, tests, static validation and build package completed; PRE-BUILD REVIEW is the explicit stop boundary.",
+  "next": "Coordinator review of bounded G1A result; no further dispatch or implementation authorized.",
+  "closure_reason": "The single authorized A attempt is terminal; bounded per-selector/wall/cost result recorded. Repair/retry and B are explicitly forbidden in this stage.",
   "latest_stage": "kani3300-g1a",
   "latest_authorization": "G1A-AUTHORIZATION.json",
   "artifact_inventory_snapshot_commit": "ad9ab524849d34c3e804356af771719b939fecb2",
-  "active_build_id": "e35ca11d-307e-46f6-8212-a97e5bbee087",
-  "active_handoff": "G1A-HANDOFF.json"
+  "active_build_id": null,
+  "active_handoff": "G1A-HANDOFF.json",
+  "terminal_build_id": "e35ca11d-307e-46f6-8212-a97e5bbee087",
+  "latest_result": "RESULT-KANI3300-G1A.md",
+  "latest_evidence": "G1A-OBSERVATIONS.json"
 }

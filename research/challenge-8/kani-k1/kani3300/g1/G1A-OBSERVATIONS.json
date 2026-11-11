@@ -1,0 +1,222 @@
+{
+  "schema": "kani3300-g1a-bounded-result-v1",
+  "build_id": "e35ca11d-307e-46f6-8212-a97e5bbee087",
+  "stage": "kani3300-g1a",
+  "package": "A",
+  "research_dispatch_sha": "3eff5da19860d6ab920ddd8307ce5fc4f5fd92d9",
+  "request_id": "kani3300-g1-a-targeted-20261111-01",
+  "request_sha256": "48bb88e982606c52aef64c5c9f9f3b0be81cb03569764074dffc21f000119ace",
+  "patch_sha256": "35cae231c17b836a1d0191ee417a6e9a875eb41f2f8cf353ef2b1442bf78e40b",
+  "kani_pin_source_reported": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "expected_preflight_tree": "bb3cb747eab1f81de9511733ec65f21fcff0bbeb",
+  "runtime_applied_tree": "UNKNOWN; bounded summary says build identity incomplete",
+  "cloud_status": "FAILURE",
+  "source_reported_run_status": "RUNNER_ERROR",
+  "source_reported_gate": false,
+  "source_reported_build_outcome": "failure",
+  "errors": [
+    {
+      "code": "E0308",
+      "file": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 324,
+      "column": 54,
+      "expression": "vec![false; source_size]",
+      "expected": "usize",
+      "found": "MachineSize",
+      "source_size_expression": "source.ty(&self.locals).unwrap().layout().unwrap().shape().size"
+    },
+    {
+      "code": "E0308",
+      "file": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 617,
+      "column": 62,
+      "expression": "vec![false; size]",
+      "expected": "usize",
+      "found": "MachineSize",
+      "source_size_expression": "ty.layout().unwrap().shape().size"
+    }
+  ],
+  "native_report": "MISSING: k1g.sh native 0 1 returned exit2: page-summary: no structured native report",
+  "not_run_basis": "Build-stage compile failure; unchanged gcb-k1.sh: build.ok set only after successful compiler/compiletest builds, verify guard requires build.ok before run-native. Not inferred from no-match alone.",
+  "native_outcomes": "NOT_RUN; 0 PASS, 0 FAIL, 20 NOT_RUN",
+  "selector_rows": [
+    {
+      "index": 0,
+      "file": "uninit/g1-union-pointee-positive/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 1,
+      "file": "uninit/g1-union-pointee-negative/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 2,
+      "file": "uninit/g1-union-pointee-unsupported-reject_array_element/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 3,
+      "file": "uninit/g1-union-pointee-unsupported-reject_bodyless_transfer/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 4,
+      "file": "uninit/g1-union-pointee-unsupported-reject_fn_pointer_field/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 5,
+      "file": "uninit/g1-union-pointee-unsupported-reject_foreign_mutation/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 6,
+      "file": "uninit/g1-union-pointee-unsupported-reject_indirect_call/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 7,
+      "file": "uninit/g1-union-pointee-unsupported-reject_init_predicate/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 8,
+      "file": "uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 9,
+      "file": "uninit/g1-union-pointee-unsupported-reject_niche_enum/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 10,
+      "file": "uninit/g1-union-pointee-unsupported-reject_select_unpredictable/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 11,
+      "file": "uninit/g1-union-pointee-unsupported-reject_struct_field/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 12,
+      "file": "uninit/g1-union-pointee-unsupported-reject_typed_swap/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 13,
+      "file": "uninit/g1-union-pointee-unsupported-reject_unaligned_read/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 14,
+      "file": "uninit/g1-union-pointee-unsupported-reject_unaligned_write/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 15,
+      "file": "uninit/g1-union-pointee-unsupported-reject_union_in_union/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 16,
+      "file": "uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 17,
+      "file": "uninit/g1-union-pointee-unsupported-reject_variant_padding/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 18,
+      "file": "uninit/g1-union-pointee-unsupported-reject_volatile_read/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    },
+    {
+      "index": 19,
+      "file": "uninit/g1-union-pointee-unsupported-reject_volatile_write/main.rs",
+      "status": "NOT_RUN",
+      "wall_seconds": null,
+      "pass_fail": "UNAVAILABLE; native did not execute"
+    }
+  ],
+  "timestamps": {
+    "createTime": "2026-11-11T13:23:36.097377145Z",
+    "startTime": "2026-11-11T13:24:31.436012170Z",
+    "finishTime": "2026-11-11T13:29:04.771408Z"
+  },
+  "build_wall_seconds": 273.335,
+  "queue_seconds": 55.339,
+  "create_to_finish_seconds": 328.674,
+  "native_wall_seconds": null,
+  "ledger": {
+    "command": "k1g.sh budget e35ca11d-307e-46f6-8212-a97e5bbee087",
+    "response": "1 0.0675 0.0000",
+    "builds": 1,
+    "used_usd": 0.0675,
+    "reserved_usd": 0.0,
+    "billed_rounded_minutes": 5,
+    "price_per_minute": 0.0135,
+    "cap_usd": 0.8,
+    "unused_cap_usd": 0.7325,
+    "unused_is_retry_authorization": false
+  },
+  "brief": {
+    "command": "smallsort-brief e35ca11d-307e-46f6-8212-a97e5bbee087",
+    "exit": 1,
+    "response": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)"
+  },
+  "bounded_interface": "The watch wakeup explicitly named k1g.sh summary; only summary/status/budget/native reporting routes were used. No raw verifier logs/archives/Cloud Logging read.",
+  "summary_inconsistency_preserved": "missing/inconsistent Kani patch/tree/version/build identity",
+  "assurance": "SOURCE_REPORTED_BUILD_FAILURE + Cloud Build metadata + coordinator ledger; no native acceptance or independent proof credit",
+  "attempt": 1,
+  "attempt_limit": 1,
+  "repair_performed": false,
+  "retry_performed": false,
+  "B": "NOT_SUBMITTED; separate GO required",
+  "kani_clone_unchanged": "45d0300e054345b4f6bdf89528195ee7c5dba8a5",
+  "closed_proof_obligations": 0,
+  "proof_credit": "NONE",
+  "failure_stage": "build"
+}
