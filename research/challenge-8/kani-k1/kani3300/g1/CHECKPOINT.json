@@ -4,7 +4,7 @@
   "runtime": "Codex",
   "stage": "kani3300-g1",
   "owner": "k1-merge",
-  "status": "STATIC_PACKAGE_PRE_BUILD_REVIEW",
+  "status": "G1A_AUTHORIZED_PREFLIGHT_READY",
   "research_input_head": "98713ed97b88d611fe43c380af736bd3732b29d4",
   "kani_base": "657c2b24516b967f67ce71994299d0ef328aede9",
   "kani_production_head": "c82672f6b92b7cf0cbf28d6f645dbd0e71529e05",
@@ -82,10 +82,13 @@
     }
   ],
   "open": [
-    "Exact coordinator review/GO and ledger approval before any install/dispatch",
-    "Native gates A and B, full regression and later core replay remain NOT_RUN",
-    "Inherited P1 non-Copy MU transmute Move-source alias invalidation outside direct-U scope; PFC limitation unchanged"
+    "A only: dispatch once after published identity/ledger/deadline/slot final gates; then k1g.sh watch and end turn.",
+    "B NOT authorized; no installation/dispatch until separate GO.",
+    "After A terminal: Evidence Brief bounded result per selector/wall/cost, RESULT-KANI3300-G1A.md, skip-ci commit and REVIEW REQUEST."
   ],
-  "next": "Review exact published research SHA; do not dispatch until separate GO.",
-  "closure_reason": "Requested Cloud-$0 one-stage implementation, tests, static validation and build package completed; PRE-BUILD REVIEW is the explicit stop boundary."
+  "next": "Publish byte-identical root A request, verify remote SHA, run existing k1g.sh dispatch once then watch; no repair.",
+  "closure_reason": "Requested Cloud-$0 one-stage implementation, tests, static validation and build package completed; PRE-BUILD REVIEW is the explicit stop boundary.",
+  "latest_stage": "kani3300-g1a",
+  "latest_authorization": "G1A-AUTHORIZATION.json",
+  "artifact_inventory_snapshot_commit": "ad9ab524849d34c3e804356af771719b939fecb2"
 }

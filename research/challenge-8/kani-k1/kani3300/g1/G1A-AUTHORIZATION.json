@@ -1,0 +1,60 @@
+{
+  "schema": "kani3300-g1a-authorization-v1",
+  "runtime": "Codex",
+  "stage": "kani3300-g1a",
+  "owner": "k1-merge",
+  "approved_research_head": "ad9ab524849d34c3e804356af771719b939fecb2",
+  "authorization": "Current coordinator message: GO ONLY package A; cap $0.80; one attempt; no repair. Package B requires separate GO and is NOT authorized.",
+  "request_id": "kani3300-g1-a-targeted-20261111-01",
+  "request_sha256": "48bb88e982606c52aef64c5c9f9f3b0be81cb03569764074dffc21f000119ace",
+  "patch_sha256": "35cae231c17b836a1d0191ee417a6e9a875eb41f2f8cf353ef2b1442bf78e40b",
+  "expected_applied_tree": "bb3cb747eab1f81de9511733ec65f21fcff0bbeb",
+  "tooling_pin": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "root_request_byte_equal_A": true,
+  "previous_root_request_sha256": "ad96f7d0ada18cbbfe9345a2a7c06cdfbce0589924fd4255b9d5374fb8ffdaac",
+  "package_B": "NOT_AUTHORIZED; NOT_INSTALLED; DO_NOT_DISPATCH",
+  "cap_usd": 0.8,
+  "attempt_limit": 1,
+  "repair_allowed": false,
+  "T0": "2026-11-11T13:19:56+00:00",
+  "T0_basis": "First UTC clock observation for current GO turn; new stage, prior static-stage Cloud window not reused. CORE default 120 main +30 finishing.",
+  "main_deadline": "2026-11-11T15:19:56+00:00",
+  "absolute_deadline": "2026-11-11T15:49:56+00:00",
+  "preflight_time": "2026-11-11T13:22:16.984208+00:00",
+  "envelope": {
+    "build_timeout_minutes": 59,
+    "native_work_minutes": 29,
+    "existing_overhead_minutes": 30,
+    "queue_allowance_minutes": 30,
+    "publication_reserve_minutes": 10,
+    "total_minutes": 99,
+    "remaining_main_minutes": 117.6502632,
+    "fits": true
+  },
+  "ledger": {
+    "builds": 286,
+    "used_usd": 115.4355,
+    "reserved_usd": 0.0,
+    "project_cap_usd": 118.96,
+    "A_reservation_usd": 0.7965,
+    "after_A_used_plus_reserved_usd": 116.232,
+    "T1_priority_reserve_preserved_usd": 1.4,
+    "after_A_plus_T1_usd": 117.632,
+    "source": "Existing k1g.sh budget; no ledger edits"
+  },
+  "slot_preflight": {
+    "ongoing_builds": [],
+    "assigned_branch_builds": [],
+    "occupied_or_unresolved": 0,
+    "stable_owner": "k1-merge",
+    "source": "Cloud Build metadata only, same dispatcher configuration; dispatch rechecks duplicate/ledger under existing lock"
+  },
+  "static_preflight": "G1A-preflight.json: exact f046, expected tree, 3013-byte diffstat; existing validate/prepare-kani PASS",
+  "watcher": {
+    "thread": "01a1ca3b-35b1-7120-b2b0-3550a5475c83",
+    "control_socket": true,
+    "codex_on_path": true,
+    "active_goal": null
+  },
+  "dispatch": "NOT_SUBMITTED; published candidate and final gates required"
+}
