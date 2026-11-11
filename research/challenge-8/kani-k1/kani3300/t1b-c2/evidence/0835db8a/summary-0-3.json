@@ -1,0 +1,7 @@
+{
+  "command": "k1g.sh summary 0835db8a-7425-4bc9-ad0e-ae83611b3e3d 0 3",
+  "exit": 0,
+  "stdout": "request_id=kani3300-t1b-c2-20261111-01\nrequest_sha256=bb97062288c84b38ae25961ada87aaad28858e23023e69fb4677fa22830fdcaa\nbuild_id=0835db8a-7425-4bc9-ad0e-ae83611b3e3d\nhead_sha=7b097ac2552fc9d2e5a4df43a6e5be3f7f6c0fdb\ntotal=3\noffset=0\ncount=3\nnext_offset=done\nname\tstatus\ttime_s\tchecks\tcovers\nslice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next\tSUCCESS\t2.9873602\t0/254\t3/3\nslice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len\tFAILED\t0.21906757\t2/28\t1/1\nslice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len\tSUCCESS\t1.455904\t0/92\t2/2\n",
+  "stderr": "",
+  "time_utc": "2026-11-11T20:10:08.569733+00:00"
+}
