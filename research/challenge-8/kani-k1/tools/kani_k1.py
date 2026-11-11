@@ -284,11 +284,38 @@ def native_output_sources(paths: dict[str, Path], required: str | None) -> tuple
 
 
 def native_output_excerpt(texts: dict[str, str | None]) -> dict[str, Any]:
-    """Own invocation only. Prefer an error and tail from each stream, then more error/tail context."""
+    """Own invocation only. Failed-check context first, then per-stream error/tail context."""
     lines = {source: (texts.get(source) or "").splitlines() for source in NATIVE_OUTPUT_SOURCES}
+    failed: dict[str, set[int]] = {}
+    for source, rows in lines.items():
+        # Match indented regular output and --jobs worker prefixes without altering recorded text.
+        normalized = [(THREAD_RE.sub(r"\2", line)).strip() for line in rows]
+        indices: set[int] = set()
+        block: list[int] = []
+        failure = False
+        for i, line in enumerate(normalized):
+            if FAILED_CHECK_RE.match(line):
+                indices.add(i)
+                if i + 1 < len(rows) and normalized[i + 1].startswith("File:"):
+                    indices.add(i + 1)
+            if re.match(r"^Check \d+:", line):
+                if failure:
+                    indices.update(block)
+                block, failure = [i], False
+            elif block and re.match(r"^- (?:Status|Description|Location):", line):
+                block.append(i)
+                failure |= line == "- Status: FAILURE"
+            elif line:
+                if failure:
+                    indices.update(block)
+                block, failure = [], False
+        if failure:
+            indices.update(block)
+        failed[source] = indices
+    failed_keys = {(source, i) for source, indices in failed.items() for i in indices}
     errors = {source: [i for i, line in enumerate(rows) if "error" in line.lower()] for source, rows in lines.items()}
     present = {source: [i for i, line in enumerate(rows) if line.strip()] for source, rows in lines.items()}
-    candidates = []
+    candidates = [(source, i) for source in NATIVE_OUTPUT_SOURCES for i in sorted(failed[source])]
     # Reserve early candidates for both kinds of context from each source, without letting one stream dominate.
     for source in NATIVE_OUTPUT_SOURCES:
         if errors[source]:
@@ -301,16 +328,19 @@ def native_output_excerpt(texts: dict[str, str | None]) -> dict[str, Any]:
                 candidates.append((source, errors[source][-depth]))
             if len(present[source]) > depth:
                 candidates.append((source, present[source][-depth - 1]))
-    result: dict[str, Any] = {"diagnostic_only": True, "selection": "error lines and tail, per source; original line order",
+    result: dict[str, Any] = {"diagnostic_only": True,
+                              "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
                               "max_lines": NATIVE_EXCERPT_LINES, "max_json_bytes": NATIVE_EXCERPT_BYTES,
                               "source_line_counts": {s: len(v) for s, v in lines.items()},
+                              "failed_check_line_count": len(failed_keys),
+                              "omitted_failed_check_line_count": len(failed_keys),
                               "selected_line_count": 0, "omitted_line_count": sum(map(len, lines.values())), "records": []}
     selected: dict[tuple[str, int], dict[str, Any]] = {}
     for source, index in dict.fromkeys(candidates):
         if len(selected) >= NATIVE_EXCERPT_LINES:
             break
         original = lines[source][index]
-        error = re.search("error", original, re.I)
+        error = re.search("error", original, re.I) if (source, index) not in failed_keys else None
         start = max(0, error.start() - 40) if error else 0
         text = original[start:start + 220]
         # Count JSON escaping as well as UTF-8, so long Unicode/control lines cannot defeat the byte bound.
@@ -320,10 +350,12 @@ def native_output_excerpt(texts: dict[str, str | None]) -> dict[str, Any]:
                   "start_char": start, "clipped": start != 0 or len(text) != len(original)}
         trial = selected | {(source, index): record}
         result.update(records=[trial[key] for key in sorted(trial, key=lambda key: (NATIVE_OUTPUT_SOURCES.index(key[0]), key[1]))],
+                      omitted_failed_check_line_count=len(failed_keys - trial.keys()),
                       selected_line_count=len(trial), omitted_line_count=sum(map(len, lines.values())) - len(trial))
         if len(json.dumps(result, ensure_ascii=False, indent=2).encode()) <= NATIVE_EXCERPT_BYTES:
             selected = trial
     result.update(records=[selected[key] for key in sorted(selected, key=lambda key: (NATIVE_OUTPUT_SOURCES.index(key[0]), key[1]))],
+                  omitted_failed_check_line_count=len(failed_keys - selected.keys()),
                   selected_line_count=len(selected), omitted_line_count=sum(map(len, lines.values())) - len(selected))
     return result
 
@@ -1523,6 +1555,64 @@ def native_page(summary: dict[str, Any], offset: int, count: int) -> str:
             raise ValueError("one native record exceeds the bounded page size")
 
 
+def native_field_page(summary: dict[str, Any], offset: int, field: str, start: int = 0, count: int = 80,
+                      *, summary_file: str | None = None, summary_sha256: str | None = None) -> str:
+    """Read one summary field; continuation counts items, entries, or Unicode codepoints, never raw logs."""
+    if not isinstance(summary, dict):
+        raise ValueError("summary must be an object")
+    native = summary.get("native")
+    validated = isinstance(native, dict)
+    if not validated:
+        artifacts = summary.get("diagnostic_artifacts")
+        native = artifacts.get("native") if isinstance(artifacts, dict) else None
+    if not isinstance(native, dict) or not isinstance(native.get("tests"), list):
+        raise ValueError("no structured native report")
+    rows = native["tests"]
+    if type(offset) is not int or not 0 <= offset < len(rows):
+        raise ValueError(f"native offset must be in 0..{len(rows) - 1}")
+    row = value = rows[offset]
+    if not isinstance(row, dict):
+        raise ValueError("native record must be an object")
+    if not field or any(not part for part in field.split(".")):
+        raise ValueError("FIELD must be a nonempty dotted path")
+    for part in field.split("."):
+        if isinstance(value, dict) and part in value:
+            value = value[part]
+        elif isinstance(value, list) and re.fullmatch(r"0|[1-9][0-9]*", part) and int(part) < len(value):
+            value = value[int(part)]
+        else:
+            raise ValueError(f"unknown native field: {field}")
+    if isinstance(value, dict):
+        kind, units, items = "object", "entries", list(value.items())
+    elif isinstance(value, list):
+        kind, units, items = "array", "items", value
+    elif isinstance(value, str):
+        kind, units, items = "string", "unicode-codepoints", value
+    else:
+        kind, units, items = "scalar", "value", [value]
+    _page_bounds(len(items), start, count)
+    run = summary.get("run")
+    page = {"build_id": run.get("id") if isinstance(run, dict) else None,
+            "head_sha": summary.get("head_sha"), "request_sha256": summary.get("request_sha256"),
+            "summary_file": summary_file, "summary_sha256": summary_sha256,
+            "offset": offset, "file": row.get("file"), "field": field,
+            "report_source": "native" if validated else "diagnostic_artifacts.native",
+            "validation": "VALIDATED" if validated else "UNVALIDATED_DIAGNOSTIC_ONLY",
+            "diagnostic_only": True, "summary_status": summary.get("status"),
+            "kind": kind, "units": units, "total": len(items), "start": start}
+    end = min(start + count, len(items))
+    while True:
+        chunk = items[start:end]
+        page.update(value=dict(chunk) if kind == "object" else (value if kind == "scalar" and chunk else chunk),
+                    count=end - start, next_start=end if end < len(items) else None)
+        text = json.dumps(page, ensure_ascii=False, indent=2) + "\n"
+        if len(text.encode()) <= MAX_MD_BYTES:
+            return text
+        if end - start <= 1:
+            raise ValueError("one native field unit or its identity exceeds the bounded page size; select a deeper FIELD")
+        end -= 1
+
+
 def inventory_page(inventory_text: str, summary: dict[str, Any], offset: int, count: int) -> str:
     header, sep, body = inventory_text.partition("\n\n")
     if not sep:
@@ -2139,6 +2229,12 @@ def main(argv: list[str]) -> int:
     pn.add_argument("summary")
     pn.add_argument("offset", type=int)
     pn.add_argument("count", type=int)
+    pf = sub.add_parser("page-native-field", help="bounded field page from summary.json; dotted keys/list indices")
+    pf.add_argument("summary")
+    pf.add_argument("offset", type=int)
+    pf.add_argument("field")
+    pf.add_argument("start", type=int, nargs="?", default=0)
+    pf.add_argument("count", type=int, nargs="?", default=80)
     pi = sub.add_parser("page-inventory")
     pi.add_argument("inventory")
     pi.add_argument("summary")
@@ -2193,6 +2289,16 @@ def main(argv: list[str]) -> int:
                             a.kani_commit, a.build_id, Path(a.out))
         except (OSError, json.JSONDecodeError, ValueError, KeyError) as exc:
             print(f"write-inventory: {exc}", file=sys.stderr)
+            return 2
+        return 0
+    if a.cmd == "page-native-field":
+        try:
+            path = Path(a.summary)
+            data = path.read_bytes()
+            print(native_field_page(json.loads(data), a.offset, a.field, a.start, a.count,
+                                    summary_file=str(path.resolve()), summary_sha256=hashlib.sha256(data).hexdigest()), end="")
+        except (OSError, ValueError) as exc:
+            print(f"page-native-field: {exc}", file=sys.stderr)
             return 2
         return 0
     if a.cmd in ("page-summary", "page-native"):
