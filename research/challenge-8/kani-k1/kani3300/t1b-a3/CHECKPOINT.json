@@ -1,12 +1,12 @@
 {
   "stage": "kani3300-t1b-a3",
-  "state": "GO_INSTALLED_PREFLIGHT_PASS",
+  "state": "WAITING",
   "task_base": "fb88f46b39467382ba73870091e8758a79116fdf",
   "candidate": "3de1e033af05252426c39d5f557b229dcc14f118",
   "producer_commit": "989f72351c2b5c5f3b5117315fc84f502e66d904",
   "runtime": "Codex",
-  "cloud_usd": "0",
-  "builds": 0,
+  "cloud_usd": "PENDING_TERMINAL_ACCOUNTING",
+  "builds": 1,
   "dispatch_authorized": true,
   "phase_registered": false,
   "active_inputs_changed": true,
@@ -17,9 +17,9 @@
   "plan_choice": "b: all 9 A2 roots; narrow literal filter to actual IndexRange::len, CMP3 step1/step4 and calibration pair",
   "proof_credit": "NONE",
   "open": [
-    "One dispatch authorized; terminal evidence and RESULT follow watcher wakeup."
+    "On watcher wakeup: bounded summary/trace-field and budget for this build; compare all9 verdicts with A2; state/complete/omitted/footer; cache hit/miss creator/last writer MemoryInitOps/function_presence for cmp3_index_range_len vs cmp3_manually_drop_unsized_len and calibration pair; write RESULT-KANI3300-T1B-A3.md <=40 lines, [skip ci] commit and push. No retries/B."
   ],
-  "stop_boundary": "After exactly one dispatch attempt arm k1g.sh watch and end turn; no polling or retries.",
+  "stop_boundary": "End turn after k1g.sh watch. No foreground build status polling; continue evidence/result only on watcher notification.",
   "candidate_tree": "15c846e82de442c23fef3950c86d54aa02b92398",
   "independent_review": "REVIEW-TOOLING.md; Luna HIGH PASS after resolved P2",
   "authorization": {
@@ -32,5 +32,17 @@
     "retry_allowed": false,
     "B_allowed": false
   },
-  "preflight": "A3-PREFLIGHT.json"
+  "preflight": "A3-PREFLIGHT.json",
+  "build_id": "35308c57-41d6-4057-943d-c55eb28642ad",
+  "dispatch_head": "f2990957c8199fea4600b6123ebaeb0a917df775",
+  "dispatch_receipt": "DISPATCH-A3.json",
+  "reserved_usd": "0.5265",
+  "retry_allowed": false,
+  "B_allowed": false,
+  "status_polling": false,
+  "watcher": {
+    "kind": "k1g.sh watch",
+    "state": "ARMED",
+    "receipt": "WATCH-A3.json"
+  }
 }
