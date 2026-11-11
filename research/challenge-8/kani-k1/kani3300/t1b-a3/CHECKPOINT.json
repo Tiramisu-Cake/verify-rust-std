@@ -1,15 +1,15 @@
 {
   "stage": "kani3300-t1b-a3",
-  "state": "PRE_BUILD_REVIEW_READY",
+  "state": "GO_INSTALLED_PREFLIGHT_PASS",
   "task_base": "fb88f46b39467382ba73870091e8758a79116fdf",
   "candidate": "3de1e033af05252426c39d5f557b229dcc14f118",
   "producer_commit": "989f72351c2b5c5f3b5117315fc84f502e66d904",
   "runtime": "Codex",
   "cloud_usd": "0",
   "builds": 0,
-  "dispatch_authorized": false,
+  "dispatch_authorized": true,
   "phase_registered": false,
-  "active_inputs_changed": false,
+  "active_inputs_changed": true,
   "A3_request_sha256": "5b82ada544e8eced4e72a10e4e22c8b71eef892bde4aed34f9309d74e9a414bd",
   "budget_remaining_usd": "0.5975",
   "draft_reserve_usd": "0.5265",
@@ -17,9 +17,20 @@
   "plan_choice": "b: all 9 A2 roots; narrow literal filter to actual IndexRange::len, CMP3 step1/step4 and calibration pair",
   "proof_credit": "NONE",
   "open": [
-    "Trace completeness and original failure reproduction UNKNOWN until coordinator GO and authorized Build; discarded A2 records unavailable."
+    "One dispatch authorized; terminal evidence and RESULT follow watcher wakeup."
   ],
-  "stop_boundary": "Exactly the requested A3 preparation completed: footer retention, service/error-path tests, independent review, narrow draft request, exact bindings. No Build/dispatch before coordinator GO.",
+  "stop_boundary": "After exactly one dispatch attempt arm k1g.sh watch and end turn; no polling or retries.",
   "candidate_tree": "15c846e82de442c23fef3950c86d54aa02b92398",
-  "independent_review": "REVIEW-TOOLING.md; Luna HIGH PASS after resolved P2"
+  "independent_review": "REVIEW-TOOLING.md; Luna HIGH PASS after resolved P2",
+  "authorization": {
+    "source": "Explicit coordinator GO in user message; ce834000ad accepted, unchanged Kani compile previously confirmed in fork CI. Install exact A3, preflight, one dispatch, k1g.sh watch and end turn; no retries/B.",
+    "accepted_pre_build_sha": "ce834000ad8cc308687ebc7a3464bba551e9433a",
+    "request_sha256": "5b82ada544e8eced4e72a10e4e22c8b71eef892bde4aed34f9309d74e9a414bd",
+    "reserve_usd": "0.5265",
+    "remaining_cap_usd": "0.5975",
+    "attempts_allowed": 1,
+    "retry_allowed": false,
+    "B_allowed": false
+  },
+  "preflight": "A3-PREFLIGHT.json"
 }

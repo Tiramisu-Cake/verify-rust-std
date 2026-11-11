@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "accepted_pre_build_head": "ce834000ad8cc308687ebc7a3464bba551e9433a",
+  "request_sha256": "5b82ada544e8eced4e72a10e4e22c8b71eef892bde4aed34f9309d74e9a414bd",
+  "dispatch": "NOT_RUN",
+  "attempts_allowed": 1,
+  "retry_allowed": false,
+  "B_allowed": false,
+  "status_polling": false,
+  "goal_free": true,
+  "static_check_exit": 0,
+  "static_checks": {
+    "checks": {
+      "validated_request": true,
+      "same_roots_and_expectations": true,
+      "exact_allowed_delta": true,
+      "trace_pins_unchanged": true,
+      "narrow_filter_and_activation": true,
+      "same_library": true,
+      "kani_unchanged_clean": true,
+      "combined_patch_digest": true,
+      "production_patch_digest": true,
+      "budget": true,
+      "request_sha": true,
+      "exact_args": true,
+      "exact_env": true,
+      "tooling_hashes": true,
+      "prebuild_line_limit": true
+    },
+    "result": "PASS",
+    "request_sha256": "5b82ada544e8eced4e72a10e4e22c8b71eef892bde4aed34f9309d74e9a414bd",
+    "reserve_usd": "0.5265",
+    "remaining_after_reserve_usd": "0.0710",
+    "compiler_cloud_dispatch": "NOT_RUN",
+    "proof_credit": "NONE"
+  },
+  "validate_exit": 0,
+  "validated_trace_env": {
+    "KANI3300_TRACE_DIR": "/workspace/src/k1-out/trace",
+    "KANI3300_TRACE_FILTER": "cmp3_index_range_len;cmp3_manually_drop_unsized_len;kani_cmp3::manually_drop_unsized_len;IndexRange::len;pincheck_calibration_",
+    "KANI3300_TRACE_ID": "5b82ada544e8eced4e72a10e4e22c8b71eef892bde4aed34f9309d74e9a414bd",
+    "KANI3300_TRACE_STAGE": "kani3300-t1b"
+  },
+  "assurance": "Static request/identity/recipe/Git preflight; unchanged Cloud prepare-kani remains mandatory before compilation",
+  "root_equals_A3_snapshot": true,
+  "generated_args_equal_reviewed_A3": true,
+  "watch_preconditions": "PASS",
+  "timeout_minutes": 39,
+  "planned_reserve_usd": "0.5265",
+  "remaining_cap_usd": "0.5975",
+  "stage_total_cap_usd": "0.80",
+  "prior_spend_usd": "0.2025"
+}

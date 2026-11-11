@@ -1,11 +1,11 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani3300-t1b-a2-20261111-01",
+  "request_id": "kani3300-t1b-a3-20261111-01",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "KANI3300 T1b-R A2: repaired diagnostic compile type, same 9 roots/library/CMP2/checks; 2m timeout justified by T1a timings. Remaining cap $0.719, reserve $0.648. Separate coordinator GO required.",
+  "purpose": "KANI3300 T1b-A3 draft: retain all 9 A2 roots to preserve compiler context; narrow payload to IndexRange::len, CMP3 steps 1/4 and calibration pair; preserve INVALID footer metadata. Timeout 1m, reserve $0.5265 <= remaining $0.5975. Dispatch requires coordinator GO.",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 2,
+  "harness_timeout_minutes": 1,
   "kani_jobs": 1,
   "controls": true,
   "uninit_checks": true,
@@ -57,10 +57,9 @@
     "filters": [
       "cmp3_index_range_len",
       "cmp3_manually_drop_unsized_len",
-      "kani_cmp3::",
-      "PolymorphicIter",
-      "IndexRange::zero_to",
-      "IndexRange::len"
+      "kani_cmp3::manually_drop_unsized_len",
+      "IndexRange::len",
+      "pincheck_calibration_"
     ],
     "library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
     "base_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
