@@ -1,7 +1,9 @@
 # KANI3300 CMP4
 
-PREPARED_CLEAN_REVIEW_PASS_AWAITING_COORDINATOR_GO. Cloud NOT_RUN; proof credit NONE.
-Four identical roots for clean f046 and immutable production CMP2; two attempts total, no retries.
-Independent Luna HIGH review PASS; clean is the active request; separate exact-packet coordinator GO required.
-Planned reserve $1.1340 / cap $1.20; spent $0.
-See CHECKPOINT.json and PRE-BUILD-clean.md.
+CLEAN_COMPLETE_CMP2_PREPARED_AWAITING_COORDINATOR_GO.
+Clean a7061950-0ce5-4776-8d65-fdd686526dd1: FAILURE/COMPLETE, gate FAIL; literal/runtime IndexRange SUCCESS.
+ManuallyDrop unsupported layout; U1 incompatible-layout failure, requested uninit control not established.
+CMP2 active request prepared, NOT_RUN; independent review covers both unchanged variants.
+Spent $0.1215 + next reserve $0.5670 = $0.6885 / cap $1.20; clean1/1, CMP2 0/1 attempts used.
+MIR/actual argv UNKNOWN; source-reported diagnostics only; proof credit NONE.
+See CHECKPOINT.json, CLEAN-OBSERVATIONS.json and PRE-BUILD-cmp2.md.

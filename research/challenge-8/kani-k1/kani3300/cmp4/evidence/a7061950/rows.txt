@@ -1,0 +1,13 @@
+request_id=kani3300-cmp4-clean-20261111-01
+request_sha256=9ab5f113371d3d360ae7592e42bee058d7c1b4a936b93a128dc7a26afc4ca6a3
+build_id=a7061950-0ce5-4776-8d65-fdd686526dd1
+head_sha=9730eb7286d50bfd956b1180b1211927595283aa
+total=4
+offset=0
+count=4
+next_offset=done
+name	status	time_s	checks	covers
+slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len	SUCCESS	0.09110829	0/20	1/1
+slice::sort::shared::smallsort::verify::uninit_probe::cmp4_index_range_len_runtime	SUCCESS	0.10221386	0/26	1/1
+slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len	FAILED	0.14265065	1/27	0/2
+slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8	FAILED	0.4404721	1/31	3/3

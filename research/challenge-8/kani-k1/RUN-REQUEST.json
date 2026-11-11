@@ -8,8 +8,8 @@
   "controls": true,
   "uninit_checks": true,
   "inventory": false,
-  "request_id": "kani3300-cmp4-clean-20261111-01",
-  "purpose": "KANI3300 CMP4 clean: differential IndexRange literal/runtime len diagnosis; same four roots and std fixture; no repair, one attempt, exact-packet coordinator GO required.",
+  "request_id": "kani3300-cmp4-cmp2-20261111-01",
+  "purpose": "KANI3300 CMP4 cmp2: differential IndexRange literal/runtime len diagnosis; same four roots and std fixture; no repair, one attempt, exact-packet coordinator GO required.",
   "harnesses": [
     {
       "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
@@ -28,5 +28,9 @@
       "expect": "FAILED",
       "expect_check": "Reading from an uninitialized"
     }
-  ]
+  ],
+  "kani_patch": {
+    "path": "research/challenge-8/kani-k1/kani3300/u4/kani-uninit.patch",
+    "sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4"
+  }
 }

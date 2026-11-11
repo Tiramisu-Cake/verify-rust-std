@@ -1,0 +1,74 @@
+{
+  "build_id": "a7061950-0ce5-4776-8d65-fdd686526dd1",
+  "assurance": "source-reported bounded diagnostic; independent proof credit NONE",
+  "files": [
+    {
+      "path": "evidence/a7061950/brief-error.txt",
+      "sha256": "7fea6ca116e6536b4a7557d51944a5e1e3deeba9dab5acc981e93ca37224e84b",
+      "bytes": 72
+    },
+    {
+      "path": "evidence/a7061950/budget.txt",
+      "sha256": "284140415b7000cde003eba4dd97338efe4c5698a1a4581f5f929cce3541d988",
+      "bytes": 16
+    },
+    {
+      "path": "evidence/a7061950/check-tooling.txt",
+      "sha256": "58a74cd5cbe75a75f4a6d27522770deb650f4b881a954980af2c32a36272d096",
+      "bytes": 1013
+    },
+    {
+      "path": "evidence/a7061950/native-error.txt",
+      "sha256": "88332bdcda05fe374078181012ce25267a824af69b42fcbdb4f24a505efb09df",
+      "bytes": 42
+    },
+    {
+      "path": "evidence/a7061950/rows.txt",
+      "sha256": "02647d1ca5da83bcdcec1dd2841e1fbd2f627b33913023aefa710c3c8fc4b248",
+      "bytes": 736
+    },
+    {
+      "path": "evidence/a7061950/status.json",
+      "sha256": "9ed4319450041ead6346c396b97bd0201ec0c3b4b32da1416f4511280c3808b2",
+      "bytes": 366
+    },
+    {
+      "path": "evidence/a7061950/summary.md",
+      "sha256": "baae006f9e7724dd811befb36eea8e156e5d3e7fe02b5f2cad3a3ed186aae42e",
+      "bytes": 4279
+    }
+  ],
+  "queries": [
+    {
+      "command": "k1g.sh summary BUILD",
+      "coverage": "summary.md bounded projection"
+    },
+    {
+      "command": "k1g.sh summary BUILD 0 4",
+      "coverage": "4/4 roots, next_offset=done"
+    },
+    {
+      "command": "k1g.sh native BUILD 0 4",
+      "exit": 2,
+      "error": "page-summary: no structured native report"
+    },
+    {
+      "command": "smallsort-brief BUILD",
+      "error": "Reader report or query route is unavailable (HTTP 404)"
+    },
+    {
+      "command": "k1g.sh status BUILD",
+      "coverage": "bounded metadata"
+    },
+    {
+      "command": "k1g.sh check-tooling BUILD 3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+      "exit": 0
+    },
+    {
+      "command": "k1g.sh budget BUILD",
+      "exit": 0,
+      "output": "1 0.1215 0.0000"
+    }
+  ],
+  "proof_credit": "NONE"
+}

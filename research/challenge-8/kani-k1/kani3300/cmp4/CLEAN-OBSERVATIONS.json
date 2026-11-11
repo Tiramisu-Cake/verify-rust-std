@@ -1,0 +1,85 @@
+{
+  "variant": "clean",
+  "build_id": "a7061950-0ce5-4776-8d65-fdd686526dd1",
+  "head_sha": "9730eb7286d50bfd956b1180b1211927595283aa",
+  "request_id": "kani3300-cmp4-clean-20261111-01",
+  "request_sha256": "9ab5f113371d3d360ae7592e42bee058d7c1b4a936b93a128dc7a26afc4ca6a3",
+  "source": "bounded k1g summary.md and four-root summary page; Cloud status, budget and check-tooling",
+  "assurance": "source-reported bounded diagnostic; independent proof credit NONE",
+  "cloud_status": "FAILURE",
+  "summary_status": "COMPLETE",
+  "gate": false,
+  "kani_exit": 1,
+  "uninit_checks_reported": true,
+  "controls_reported": true,
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "kani_patch_in_exact_request": null,
+  "tooling_check": "PASS against KT2 3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "actual_argv": "UNKNOWN: no structured native report",
+  "actual_clean_kani_tree": "UNKNOWN: clean path skips prepare-kani receipt",
+  "actual_mir_assignment": "UNKNOWN: no structured MIR trace",
+  "brief": "HTTP404",
+  "native": "exit2: page-summary: no structured native report",
+  "spend_usd": "0.1215",
+  "submitted_reserve_usd": "0.0000",
+  "attempts_used": 1,
+  "roots": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "status": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 20,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "unreachable": 0,
+      "failed_checks": []
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp4_index_range_len_runtime",
+      "status": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 26,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "unreachable": 0,
+      "failed_checks": []
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "status": "FAILED",
+      "checks_failed": 1,
+      "checks_total": 27,
+      "covers_satisfied": 0,
+      "covers_total": 2,
+      "unreachable": 1,
+      "failed_checks": [
+        {
+          "description": "Checking memory initialization of type [mem::maybe_uninit::MaybeUninit<usize>; 2] is not supported. Cannot determine layout for a type that contains union of type mem::maybe_uninit::MaybeUninit<usize> as a field.",
+          "location": "/workspace/src/library/core/src/array/iter/iter_inner.rs:48"
+        }
+      ]
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "status": "FAILED",
+      "checks_failed": 1,
+      "checks_total": 31,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "unreachable": 3,
+      "failed_checks": [
+        {
+          "description": "Transmuting between types of incompatible layouts.",
+          "location": "/workspace/src/library/core/src/mem/mod.rs:1283"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Summary status FAILED on ManuallyDrop is a source-reported unsupported-layout check; not a demonstrated uninitialized read.",
+    "U1 FAILED with incompatible-layout check does not meet requested Reading from an uninitialized control; post-UB covers do not establish credit.",
+    "Failed-check descriptions/locations shown above exhaust summary-listed failures (one for each failed root); native completeness/truncation metadata unavailable.",
+    "Both ordinary IndexRange roots source-report SUCCESS on clean. The exact paired CMP2 run remains NOT_RUN; comparison unresolved.",
+    "Summary reported pin/request/head/tooling bindings are not independently established actual argv/MIR/tree provenance."
+  ]
+}
