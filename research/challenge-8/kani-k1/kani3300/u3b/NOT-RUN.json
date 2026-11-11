@@ -58,6 +58,7 @@
     "uninit/uninhabited-union-field/uninhabited-union-field.rs",
     "uninit/unions.rs"
   ],
-  "original_buffer_fixtures": "preserved unchanged and NOT_RUN in U3B",
-  "regression_scope": "wrap positive all7 includes empty_harness; review positive all7; one plain-negative; one U1T overwrite-copy negative"
+  "original_buffer_fixtures": "Preserved unchanged in full test commit/full test patch; excluded from build patch and NOT_RUN per coordinator decision",
+  "regression_scope": "wrap positive all7 includes empty_harness; review positive all7; one plain-negative; one U1T overwrite-copy negative",
+  "build_patch_scope": "Only nine manifest fixtures/goldens; exact files listed in BUILD-PATCH-INVENTORY.json"
 }

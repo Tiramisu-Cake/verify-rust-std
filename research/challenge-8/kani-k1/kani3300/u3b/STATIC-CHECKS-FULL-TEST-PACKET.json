@@ -1,0 +1,59 @@
+{
+  "status": "STATIC_CHECKS_PASS_EXCEPT_PINNED_PREFLIGHT_BLOCKER",
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "kani_prior_candidate": "81dd85bfce67226e283fdd9a156932e32ece080b",
+  "kani_candidate": "0ab9cc703aed799f6f73d826b60281a4632ab585",
+  "kani_candidate_tree": "ef32d0009a730c26dc99e8ab828744128de69b15",
+  "patch_sha256": "129fa3742499ad06700e35519a711e2b555a29d6f2eedcff5b21236c7795bb4e",
+  "request_sha256": "cf447c650c10c2559e66d81f95f2d4f0dc53c0941c6090a66f12e6fbb5fa77db",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "production_equality": {
+    "prior_full_patch_sha256": "f3f8a82c2c22798361bf51bf6186aa60cadb1de68d0aa15b15ad62d601138c1c",
+    "production_diff_sha256_both": "a4eaf382f0fde32b7f6909c8120fe34298abf09fbdd3fd126e6fec13ae994ad4",
+    "production_files": 7,
+    "byte_equal": true,
+    "production_tree_delta_from_prior": "EMPTY"
+  },
+  "checks": {
+    "validate": "PASS, 9 selectors",
+    "fresh_apply_check_index_and_apply": "PASS inside pinned prepare-kani before diffstat rejection",
+    "applied_tree_identity": "PASS",
+    "patch_scope": "tests only vs prior: 11 files",
+    "original_buffer_fixtures": "UNCHANGED",
+    "control_pairs": {
+      "positive": "one exact root; source/contract/DFCC identical in on/off pair; body preserved",
+      "negative": "one exact root; source/contract/DFCC identical in on/off pair; body preserved"
+    },
+    "frame_user_write": "UNCHANGED line22 column5",
+    "frame_property_and_location_groups_match_retained_excerpt": [
+      [
+        "assigns",
+        "- Status: FAILURE",
+        "- Description: \"Check that *var_7 is assignable\"",
+        "- Location: tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs:22:5 in function frame_target::{closure#2}::{closure#0}"
+      ],
+      [
+        "Failed Checks: Check that *var_7 is assignable",
+        "File: \"tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs\", line 22, in frame_target::{closure#2}::{closure#0}"
+      ]
+    ],
+    "rustfmt": "PASS, 6 changed Rust files",
+    "diff_check": "PASS both repositories",
+    "tooling_and_pins": "IDENTICAL to accepted KT2",
+    "root_request_and_snapshot": "BYTE_EQUAL",
+    "new_semantic_review": "not required: test-only delta; preserves or strengthens controls; production unchanged"
+  },
+  "preflight": {
+    "status": "BLOCKED",
+    "exit_code": 2,
+    "error": "REQUEST_INVALID: patch diffstat exceeds bounded report size",
+    "diffstat_bytes": 4483,
+    "limit_bytes": 4096
+  },
+  "native_status": "NOT_RUN",
+  "dispatch_status": "NOT_AUTHORIZED; exact-packet GO required and pinned preflight unresolved",
+  "spend_usd": 0,
+  "reserved_usd": 0,
+  "proposed_reservation_usd": 0.54,
+  "cap_usd": 0.6
+}

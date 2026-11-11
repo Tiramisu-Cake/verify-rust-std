@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "prepare-kani",
+    "--request",
+    "research/challenge-8/kani-k1/RUN-REQUEST.json",
+    "--tree",
+    "/tmp/kani3300-u3b-build-preflight-pp5t5r0t",
+    "--pin",
+    "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "--out",
+    "/root/verify-rust-std-kani3300-u3/research/challenge-8/kani-k1/kani3300/u3b/preflight-build.json"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "",
+  "status": "PASS",
+  "build_patch_sha256": "d9417e68ec3ee9c8c27bb8e7ac829e2af712c4d124ac59078416ab34feebd85c",
+  "request_sha256": "f839b593b08b53953a408528e8833d54be50dc9abff281c27291e18c09b46f4a",
+  "full_test_commit": "0ab9cc703aed799f6f73d826b60281a4632ab585",
+  "applied_tree": "4de67d7ead14bdc4060d2b08060e7ee7651625bb",
+  "diffstat_bytes": 1595,
+  "production_byte_equal": true,
+  "selected_files_byte_equal_full_commit": true,
+  "full_candidate_unchanged": true
+}

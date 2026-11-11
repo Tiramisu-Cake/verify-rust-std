@@ -3,15 +3,15 @@
   "slug": "kani3300",
   "runtime": "Codex",
   "owner": "k1-merge",
-  "status": "PRE_BUILD_BLOCKED_AWAITING_COORDINATOR",
+  "status": "PRE_BUILD_PREPARED_AWAITING_COORDINATOR_GO",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-U3B.md",
   "input_research_head": "538e907ad69f3c7726e39468bab9a7050f6ed5c5",
   "branch": "experiment/kani-k1-kani3300u3-20261111",
   "kani_candidate": "0ab9cc703aed799f6f73d826b60281a4632ab585",
   "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
   "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
-  "patch_sha256": "129fa3742499ad06700e35519a711e2b555a29d6f2eedcff5b21236c7795bb4e",
-  "request_sha256": "cf447c650c10c2559e66d81f95f2d4f0dc53c0941c6090a66f12e6fbb5fa77db",
+  "patch_sha256": "d9417e68ec3ee9c8c27bb8e7ac829e2af712c4d124ac59078416ab34feebd85c",
+  "request_sha256": "f839b593b08b53953a408528e8833d54be50dc9abff281c27291e18c09b46f4a",
   "claims": [
     {
       "claim": "test-only delta; production diff byte-equal U3 repair1",
@@ -24,18 +24,22 @@
       "evidence": "STATIC-CHECKS.json"
     },
     {
-      "claim": "fresh patch applies and applied/candidate tree agree",
+      "claim": "fresh manifest-only build patch applies; production and all selected files byte-equal full test commit; exact build tree verified",
       "status": "STATIC_VERIFIED",
-      "evidence": "PREFLIGHT-OBSERVATION.json"
+      "evidence": "PREFLIGHT-OBSERVATION-BUILD.json; BUILD-PATCH-INVENTORY.json"
     },
     {
       "claim": "pinned preflight rejects diffstat4483 bytes, cap4096",
-      "status": "REPRODUCED_BLOCKER",
+      "status": "HISTORICAL_FULL_PATCH_FAILURE_RESOLVED_FOR_BUILD",
       "evidence": "PREFLIGHT-OBSERVATION.json"
+    },
+    {
+      "claim": "pinned preflight PASS exit0; diffstat1595<=4096; tooling unchanged",
+      "status": "STATIC_VERIFIED",
+      "evidence": "PREFLIGHT-OBSERVATION-BUILD.json; preflight-build.json"
     }
   ],
   "open": [
-    "Pinned tooling cannot accept full test patch due bounded diffstat limit; task forbids tooling changes",
     "Exact coordinator PRE-BUILD review/GO",
     "All native outcomes, PFC terminal causes/time/memory and on/off comparison",
     "Post-native ready-for-review v2 / known limitation / fix classification"
@@ -43,9 +47,9 @@
   "rejected_approaches": [
     "Change tooling/base without authorization",
     "Bypass or relax diffstat gate via environment/git config",
-    "Delete or weaken preserved tests/goldens to reduce diffstat",
     "Classify missing output as OOM",
-    "Dispatch before exact coordinator GO"
+    "Dispatch before exact coordinator GO",
+    "Delete or weaken full test set or manifest controls; full test commit must stay unchanged"
   ],
   "native_status": "NOT_RUN",
   "builds": [],
@@ -53,6 +57,12 @@
   "reserved_usd": 0,
   "proposed_reservation_usd": 0.54,
   "cap_usd": 0.6,
-  "next": "Coordinator review of committed packet; separately authorize preflight reporting solution before any dispatch",
-  "closure_reason": "Explicit task stop at PRE-BUILD review; no build GO; pinned preflight blocker recorded; all independent authorized static preparation completed"
+  "next": "New exact PRE-BUILD review/GO on published manifest-only build packet, then authorized native stage",
+  "closure_reason": "Explicit coordinator stop at new PRE-BUILD review; preflight blocker resolved by authorized packaging; no build GO or dispatch.",
+  "full_test_commit": "0ab9cc703aed799f6f73d826b60281a4632ab585",
+  "full_test_tree": "ef32d0009a730c26dc99e8ab828744128de69b15",
+  "build_tree": "4de67d7ead14bdc4060d2b08060e7ee7651625bb",
+  "full_test_patch_sha256": "129fa3742499ad06700e35519a711e2b555a29d6f2eedcff5b21236c7795bb4e",
+  "request_id": "kani3300-u3b-20261111-02",
+  "coordinator_decision": "Keep tooling fixed; derive build patch from full f046 with identical production v2 and only U3B manifest fixtures/goldens; full fix/kani-3300-v2 test commit retained."
 }

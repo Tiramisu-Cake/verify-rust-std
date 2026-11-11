@@ -1,11 +1,11 @@
 {
-  "status": "STATIC_CHECKS_PASS_EXCEPT_PINNED_PREFLIGHT_BLOCKER",
+  "status": "PASS_STATIC_ONLY",
   "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
   "kani_prior_candidate": "81dd85bfce67226e283fdd9a156932e32ece080b",
   "kani_candidate": "0ab9cc703aed799f6f73d826b60281a4632ab585",
   "kani_candidate_tree": "ef32d0009a730c26dc99e8ab828744128de69b15",
-  "patch_sha256": "129fa3742499ad06700e35519a711e2b555a29d6f2eedcff5b21236c7795bb4e",
-  "request_sha256": "cf447c650c10c2559e66d81f95f2d4f0dc53c0941c6090a66f12e6fbb5fa77db",
+  "patch_sha256": "d9417e68ec3ee9c8c27bb8e7ac829e2af712c4d124ac59078416ab34feebd85c",
+  "request_sha256": "f839b593b08b53953a408528e8833d54be50dc9abff281c27291e18c09b46f4a",
   "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
   "production_equality": {
     "prior_full_patch_sha256": "f3f8a82c2c22798361bf51bf6186aa60cadb1de68d0aa15b15ad62d601138c1c",
@@ -16,10 +16,10 @@
   },
   "checks": {
     "validate": "PASS, 9 selectors",
-    "fresh_apply_check_index_and_apply": "PASS inside pinned prepare-kani before diffstat rejection",
-    "applied_tree_identity": "PASS",
-    "patch_scope": "tests only vs prior: 11 files",
-    "original_buffer_fixtures": "UNCHANGED",
+    "fresh_apply_check_index_and_apply": "PASS, pinned prepare-kani exit0",
+    "applied_tree_identity": "PASS, exact manifest-only build tree; selected source/goldens and production byte-equal full test commit",
+    "patch_scope": "build: 7 unchanged production files + 18 files for 9 manifest fixtures; no other paths changed from pin",
+    "original_buffer_fixtures": "UNCHANGED in full test commit/full test patch; absent from build patch and NOT_RUN under coordinator decision",
     "control_pairs": {
       "positive": "one exact root; source/contract/DFCC identical in on/off pair; body preserved",
       "negative": "one exact root; source/contract/DFCC identical in on/off pair; body preserved"
@@ -37,23 +37,31 @@
         "File: \"tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs\", line 22, in frame_target::{closure#2}::{closure#0}"
       ]
     ],
-    "rustfmt": "PASS, 6 changed Rust files",
+    "rustfmt": "Prior PASS for 6 changed Rust files retained; included file byte-equality verified, no Rust changes in this revision",
     "diff_check": "PASS both repositories",
     "tooling_and_pins": "IDENTICAL to accepted KT2",
     "root_request_and_snapshot": "BYTE_EQUAL",
-    "new_semantic_review": "not required: test-only delta; preserves or strengthens controls; production unchanged"
+    "new_semantic_review": "not required: test-only delta; preserves or strengthens controls; production unchanged",
+    "manifest_vs_prior_packet": "Same 9 selectors, identical expectation/success/diagnostic fields",
+    "full_candidate_preservation": "HEAD remains 0ab9cc703aed799f6f73d826b60281a4632ab585; worktree clean; all full tests retained"
   },
   "preflight": {
-    "status": "BLOCKED",
-    "exit_code": 2,
-    "error": "REQUEST_INVALID: patch diffstat exceeds bounded report size",
-    "diffstat_bytes": 4483,
-    "limit_bytes": 4096
+    "status": "PASS",
+    "exit_code": 0,
+    "diffstat_bytes": 1595,
+    "limit_bytes": 4096,
+    "evidence": "PREFLIGHT-OBSERVATION-BUILD.json; preflight-build.json",
+    "historical_full_patch_failure": "PREFLIGHT-OBSERVATION.json, unchanged; resolved for build by coordinator-authorized manifest-only packaging"
   },
   "native_status": "NOT_RUN",
-  "dispatch_status": "NOT_AUTHORIZED; exact-packet GO required and pinned preflight unresolved",
+  "dispatch_status": "NOT_AUTHORIZED; exact-packet coordinator PRE-BUILD review/GO required",
   "spend_usd": 0,
   "reserved_usd": 0,
   "proposed_reservation_usd": 0.54,
-  "cap_usd": 0.6
+  "cap_usd": 0.6,
+  "full_test_commit": "0ab9cc703aed799f6f73d826b60281a4632ab585",
+  "full_test_tree": "ef32d0009a730c26dc99e8ab828744128de69b15",
+  "full_test_patch_sha256": "129fa3742499ad06700e35519a711e2b555a29d6f2eedcff5b21236c7795bb4e",
+  "build_tree": "4de67d7ead14bdc4060d2b08060e7ee7651625bb",
+  "patch_role": "Manifest-only build patch; full test patch and full fix/kani-3300-v2 commit retained unchanged"
 }

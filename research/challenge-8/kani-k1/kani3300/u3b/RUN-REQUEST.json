@@ -1,6 +1,6 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani3300-u3b-20261111-01",
+  "request_id": "kani3300-u3b-20261111-02",
   "agent": "k1-merge",
   "kind": "kani-tests",
   "purpose": "KANI3300 U3B: isolate exact positive/negative PFC roots with matched no-uninit controls; frame golden at user write line22; four regression selectors. Production v2 unchanged.",
@@ -8,8 +8,8 @@
   "harness_timeout_minutes": 10,
   "harnesses": [],
   "kani_patch": {
-    "path": "research/challenge-8/kani-k1/kani3300/u3b/kani-uninit-v2-u3b.patch",
-    "sha256": "129fa3742499ad06700e35519a711e2b555a29d6f2eedcff5b21236c7795bb4e"
+    "path": "research/challenge-8/kani-k1/kani3300/u3b/kani-uninit-v2-u3b-build.patch",
+    "sha256": "d9417e68ec3ee9c8c27bb8e7ac829e2af712c4d124ac59078416ab34feebd85c"
   },
   "test_timeout_seconds": 150,
   "kani_tests": [
