@@ -1,0 +1,110 @@
+{
+  "schema": "kani3300-c2-review-identities-v1",
+  "baseline_commit": "437cbb0ce2d0a01d6fde5b8d2ffe9be1953081f3",
+  "candidate_commit": "9f49fc16b5355492e5310207bcb558c6b24293ff",
+  "candidate_tree": "4048bdaad72f280bdfbd9176e9c1e403131d94ac",
+  "packet_sha256": "25790829444469fae172a65ab8accf280c26ca54a6b9cb239d4a53ef19a3e72b",
+  "spec_sha256": "e107238486175dfc0fd9c5c71f893d410307d72aed8936ca3352cde42a54f7ac",
+  "diff_sha256": "52fc2e1a19cffa0d62a8ab76330e7bd72f9975d970e477ff6766e58fe415bb9f",
+  "inventory_sha256": "25790829444469fae172a65ab8accf280c26ca54a6b9cb239d4a53ef19a3e72b",
+  "dependencies": [
+    {
+      "blob": "4946ebc053205b90e3a854bdea418a5699a2a7e5",
+      "member": "dependencies/0000.bin",
+      "mode": "100755",
+      "path": "research/challenge-8/kani-k1/tools/kani_k1.py",
+      "sha256": "9dfa7254942c8a33acdf93595d8222943bdd7b64a118204b9eaf7ce0012c8e96",
+      "size": 151724
+    },
+    {
+      "blob": "3a15560953a52706d4f88c6e3725c1b5af48c148",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/tools/test_kani_k1.py",
+      "sha256": "c49b4fea99ceafd2516f3f85d42c4f6e3896ad5f48438f9b2dae834924b75fda",
+      "size": 117625
+    },
+    {
+      "blob": "6752e3384d27302b022ba52e4fc5937c1f2b9ffc",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-T1B-C2.md",
+      "sha256": "d4e54c07d2731ca8034386a26b95eb4f5c1c3c0c4a34b8f2af660c7bd81b86df",
+      "size": 2749
+    },
+    {
+      "blob": "686ca5eded1bb455003b5182b19796d0ad11bc65",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-T1B-S.md",
+      "sha256": "a4b8074bdc390f8130c2ad7a7e3261de3402c69b05e9cc722e07ad74fd59b552",
+      "size": 3968
+    },
+    {
+      "blob": "0689bbe50e10485d52278711c229f0f5df950646",
+      "member": "dependencies/0004.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/kani3300/t1b-r/kani-combined.patch",
+      "sha256": "0e1dd370789a196cf7f7eadad4fe850910f83fd38cbf6e306394c6c247588298",
+      "size": 151237
+    },
+    {
+      "blob": "6b501f24abc2667dd56895e7bb34e9d6b86c1b15",
+      "member": "dependencies/0005.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/kani3300/t1b-s/kani-compact.patch",
+      "sha256": "a5e2081497c37090bcdbe4fb24b17ae109bc444cc2db41d51c6d2a816b02d0cc",
+      "size": 22114
+    },
+    {
+      "blob": "0af92271acf89798f94ea9e4f601a74da852b1c6",
+      "member": "dependencies/0006.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/kani3300/t1b-a3/RUN-REQUEST-A3.json",
+      "sha256": "5b82ada544e8eced4e72a10e4e22c8b71eef892bde4aed34f9309d74e9a414bd",
+      "size": 2489
+    },
+    {
+      "blob": "734fcbb397ba4c78490fc172dad41d5991ae8d9a",
+      "member": "dependencies/0007.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/kani3300/t1b-s/RUN-REQUEST-C.json",
+      "sha256": "61cc4a3fec6e16ef688e6835fab60e96a759bca57070726d1295d557b7910379",
+      "size": 1825
+    },
+    {
+      "blob": "185bff406cde3a8b910ad5e161a9b8ea5d1166c8",
+      "member": "dependencies/0008.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/kani3300/t1b-s/PLANNER-T1B-A3-ANSWER.md",
+      "sha256": "dda572cbd8dc3851780499cb7bdfbd6728f1ee67fcc8972aa5a43f9d07d98fb6",
+      "size": 6273
+    },
+    {
+      "blob": "ab6d2ad508ad1e5543b38b045ae47e503d532199",
+      "member": "dependencies/0009.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/kani3300/t1b-c2/RUN-REQUEST-C2.json",
+      "sha256": "bb97062288c84b38ae25961ada87aaad28858e23023e69fb4677fa22830fdcaa",
+      "size": 1529
+    },
+    {
+      "blob": "0b8c834ccd0585bd8700ad715ced22e1cfd68d6a",
+      "member": "dependencies/0010.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/kani3300/t1b-c2/check_packet.py",
+      "sha256": "642b072496c017c80ebc2294f920ed11f03271ca83e8aab60de48d1a4fa02bfd",
+      "size": 8144
+    }
+  ],
+  "reviewer": {
+    "task": "/root/c2_review",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "fresh_context": true,
+    "nested_delegation": false,
+    "result": "PASS"
+  },
+  "publication_delta": "Only checkpoint/review/description metadata; candidate code/request/patch unchanged",
+  "proof_credit": "NONE"
+}

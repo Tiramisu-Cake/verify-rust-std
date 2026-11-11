@@ -1,0 +1,35 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-t0",
+  "baseline_commit": "437cbb0ce2d0a01d6fde5b8d2ffe9be1953081f3",
+  "candidate_commit": "9f49fc16b5355492e5310207bcb558c6b24293ff",
+  "applicability": "KANI3300 T1b-C2 package and preflight only, assigned task file at baseline. No tool semantic change, Kani diagnostic commit unchanged12b4137c42. Read-only independent review; no nested delegation.",
+  "defect": "Previous C deployment included historical tests and exceeded prepare diffstat bound, but packet preflight missed this failure before a paid Build.",
+  "dependencies": [
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/tools/test_kani_k1.py",
+    "research/challenge-8/kani-k1/TASK-KANI3300-T1B-C2.md",
+    "research/challenge-8/kani-k1/TASK-KANI3300-T1B-S.md",
+    "research/challenge-8/kani-k1/kani3300/t1b-r/kani-combined.patch",
+    "research/challenge-8/kani-k1/kani3300/t1b-s/kani-compact.patch",
+    "research/challenge-8/kani-k1/kani3300/t1b-a3/RUN-REQUEST-A3.json",
+    "research/challenge-8/kani-k1/kani3300/t1b-s/RUN-REQUEST-C.json",
+    "research/challenge-8/kani-k1/kani3300/t1b-s/PLANNER-T1B-A3-ANSWER.md",
+    "research/challenge-8/kani-k1/kani3300/t1b-c2/RUN-REQUEST-C2.json",
+    "research/challenge-8/kani-k1/kani3300/t1b-c2/check_packet.py"
+  ],
+  "invariants": [
+    "Exactly three requested roots, original expectations, one invocation,1m each, jobs1, controls/uninit checks and filters preserved. Calibration exclusion explicitly recorded.",
+    "Combined patch must equal A3 production+diagnostic path projection updated to12b4137c42, retaining new codegen/function.rs; historical tests omitted, diagnostic commit untouched.",
+    "All applicable prepare bounds checked before coordinator dispatch, including path/hash/nonempty/4MiB/application/tree/diffstat4096B; guard semantics unchanged in Cloud prepare.",
+    "Budget reserve$0.4455 <=$0.4490, no added overhead/invocation. No active request install, ledger mutation, phase/reserve registration or Cloud."
+  ],
+  "controls": [
+    "Allowed Python synthetic service/error-path tests and static Git metadata with disposable indexes only. No local actual prepare/compiler/cargo/rustc/Kani/CBMC.",
+    "No Cloud/network/credentials/raw logs/Actions/PR/issue/comment/Kani push/stash. Main agent handles research publication."
+  ],
+  "known_limitations": [
+    "No new compilation/trace/proof credit; changed root context may remove failure. Live budget/deadline/slots refreshed only at later GO."
+  ],
+  "prior_reviews": []
+}

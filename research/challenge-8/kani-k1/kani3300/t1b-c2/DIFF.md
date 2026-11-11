@@ -1,0 +1,8 @@
+# T1b-C2 package scope
+- `tools/kani_k1.py`: extract the existing 4096-byte diffstat guard to `validate_patch_diffstat`; unchanged limit, UTF-8 accounting and RequestError text. Cloud prepare still rejects before returning identity.
+- `check_packet.py`: static pre-dispatch preflight using a disposable index at the exact Kani pin; invokes shared patch path/hash/size validation and shared diffstat guard. Includes old-C rejection regression and preservation of real HEAD/index/worktree. This check must be rerun by the coordinator before any later authorized dispatch; dispatch itself is outside C2 preparation.
+- `tools/test_kani_k1.py`: synthetic service boundary tests for 4096/4097 bytes and multibyte UTF-8, including Cloud prepare rejection before identity; no real Kani preparation.
+- `kani-combined.patch`: exact full non-test projection of unchanged diagnostic12b4137c42 on pinf046. A3's14paths plus new GOTO consumer hook in codegen/function.rs =15paths;99 historical regression files removed from C deployment only.
+- Reversing the compact diagnostic delta yields the exact prior A3 deployment tree. Full Kani commit and local test files remain unchanged.
+- Three-root request preserves all original SUCCESS expectations, checks, filters,1m timeout and one invocation. Calibration exclusion follows the coordinator's explicit budget decision, with no calibration claim for a future C2 PASS.
+- No production repair, semantic change, active-input install, Cloud/Actions/dispatch or Kani publication. Static checks establish package identities only; compilation and causal/proof claims remain unestablished.
