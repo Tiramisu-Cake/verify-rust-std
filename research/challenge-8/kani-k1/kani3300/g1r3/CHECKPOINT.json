@@ -3,7 +3,7 @@
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-G1R3.md",
   "runtime": "Codex",
   "research_input": "431c8d0d7a7e71e8c0ecba014ff89edbddb2ce42",
-  "status": "G1R3A_AUTHORIZED_ROOT_REQUEST_INSTALLED_NOT_SUBMITTED",
+  "status": "G1R3A_SUBMITTED_WATCH_NEXT",
   "kani_candidate": "6bb067476116704763502763984b225014dce221",
   "test_parent": "02b734151ada1dd0d216b0db329776eb522d2d67",
   "production_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
@@ -34,10 +34,12 @@
     "cap_usd": "0.80"
   },
   "cloud_this_stage": {
-    "builds": [],
+    "builds": [
+      "eb04f8fc-4ee3-4568-8053-388b7ffa72c7"
+    ],
     "spent_usd": "0",
-    "reserved_usd": "0",
-    "dispatch": "GO_RECEIVED_NOT_SUBMITTED"
+    "reserved_usd": "0.4725",
+    "dispatch": "A3 attempt 1/1 submitted; no repair/retry/B"
   },
   "claims": [
     {
@@ -57,7 +59,7 @@
   },
   "observed_manuallydrop": "UNKNOWN_NOT_RUN",
   "proof_credit": "NONE",
-  "next": "Publish exact root A3 request, final gates, one dispatch, record handoff, k1g.sh watch BUILD, END TURN.",
+  "next": "k1g.sh watch BUILD then END TURN. On wake: Evidence Brief first; bounded summary/native/native-field as authorized task interface, no raw fallback. Write RESULT-KANI3300-G1R3A.md: each of two selectors PASS/FAIL, wall seconds, negative per-harness counts if available (else native PASS/FAIL + Failed Checks excerpt), intended manuallydrop property, exact request/patch/tree/source/tooling, actual spend/cumulative G1. No repair/retry/B. Commit/push [skip ci]; REVIEW REQUEST <full research sha>.",
   "open": [
     "After GO: negative per-harness counts only as supplied by bounded interface; otherwise native PASS/FAIL and Failed Checks excerpt. No raw fallback.",
     "Inherited B/P1/full-regression limitations remain; this stage provides no native result."
@@ -75,6 +77,8 @@
   "T0": "2026-11-11T14:34:43+00:00",
   "main_deadline": "2026-11-11T16:34:43+00:00",
   "absolute_deadline": "2026-11-11T17:04:43+00:00",
-  "active_build_id": null,
-  "prepared_artifact_inventory": "ARTIFACTS.json describes approved preparation snapshot at 3b2861eda4c0aa4097a6d3b22ba285a8ab4b455a; do not rewrite historical preparation identities."
+  "active_build_id": "eb04f8fc-4ee3-4568-8053-388b7ffa72c7",
+  "prepared_artifact_inventory": "ARTIFACTS.json describes approved preparation snapshot at 3b2861eda4c0aa4097a6d3b22ba285a8ab4b455a; do not rewrite historical preparation identities.",
+  "active_handoff": "G1R3A-HANDOFF.json",
+  "research_dispatch_sha": "98d6fffaf96c9a02d989ba1208365bd45f23ef2f"
 }
