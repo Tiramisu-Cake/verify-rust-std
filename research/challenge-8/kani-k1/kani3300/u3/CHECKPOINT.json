@@ -2,7 +2,7 @@
   "schema": "kani3300-u3-prebuild-checkpoint-v1",
   "stage": "kani3300-u3",
   "stable_owner": "k1-merge",
-  "state": "BLOCKED_BOUNDED_NATIVE_READER",
+  "state": "STATIC_REGRESSION_ANALYSIS_READY_AWAITING_READER",
   "research_branch": "experiment/kani-k1-kani3300u3-20261111",
   "kani_candidate": "3fd6f408e1d565ba65aaeb86c0c4ad0bbc57ab52",
   "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
@@ -34,14 +34,24 @@
       "claim": "native build ran, tool build succeeded, all20 native ERROR; check-tooling PASS",
       "evidence": "EVIDENCE-KANI3300-U3.md",
       "status": "NO_NATIVE_ACCEPTANCE"
+    },
+    {
+      "claim": "coordinator reports Kani VERIFICATION FAILED in every harness, including previous U1T positives",
+      "evidence": "coordinator U3-REGRESSION.md instruction",
+      "status": "COORDINATOR_REPORTED"
+    },
+    {
+      "claim": "bounded static regression analysis identifies conditional whole-ghost-state layout/setup route; method-global and blanket-assignment hypotheses rejected",
+      "evidence": "REGRESSION-ANALYSIS.md",
+      "status": "STATIC_HYPOTHESIS_NOT_NATIVE_DIAGNOSIS"
     }
   ],
   "open": [
-    "bounded positive errors/excerpts offsets0,4,11",
-    "all actual Failed Checks for overwrite16 and overlap17 by harness",
-    "causes of20 native ERROR",
-    "factual repair candidate and new exact GO if applicable",
-    "post-native review/replay only after acceptance"
+    "reader improvement and actual Failed Checks for common early regression",
+    "confirm whole-state static-pointer MIR/setup binding or identify another failed property",
+    "choose minimal setup exclusion vs separate ghost static/DFCC marker fix",
+    "new exact GO required before any repair dispatch",
+    "all original native acceptance obligations remain open"
   ],
   "builds": [
     {
@@ -60,7 +70,7 @@
   "spent_usd": 0.108,
   "cap_usd": 0.9,
   "proposed_reservation_usd": 0.54,
-  "next": "Obtain coordinator bounded errors/Failed Checks; no repair dispatch without factual diagnosis and new GO",
+  "next": "Coordinator reads REGRESSION-ANALYSIS.md; obtain actual Failed Checks/setup MIR binding, select minimal fix; no repair dispatch authorized",
   "superseded_packet": "52cd0b12353076194296d74d2f59808ace90aceb",
   "authorized_build_head": "2021b7cf3518fc72fee611e2a5d306e4bf5b619e",
   "reserved_usd": 0
