@@ -205,3 +205,36 @@ fn small_sort_general_scratch_unwritten_slot_u8_n4() {
     kani::cover(unwritten == 0, "U9 scratch[4]: unwritten byte zero");
     kani::cover(unwritten != 0, "U9 scratch[4]: unwritten byte nonzero");
 }
+
+/// U9a: observe only the written slot after the same real N4 scratch sort as U9.
+#[kani::proof]
+#[kani::unwind(17)]
+#[kani::stub(super::super::panic_on_ord_violation, cut_ord_violation)]
+fn small_sort_general_scratch_written_slot_u8_n4() {
+    let mut v: [u8; 4] = kani::any();
+    let mut scratch = [MaybeUninit::<u8>::uninit(); 20];
+    small_sort_general_with_scratch(&mut v, &mut scratch, &mut strict_less);
+    kani::cover(true, "U9a scratch: normal return reached");
+
+    // SAFETY: the N4 path copies and extends both two-byte halves in scratch[0..4].
+    let written = unsafe { scratch[3].assume_init_read() };
+    kani::cover(written == 0, "U9a scratch[3]: written byte zero");
+    kani::cover(written != 0, "U9a scratch[3]: written byte nonzero");
+}
+
+/// U9b: observe only the unwritten slot after the same real N4 scratch sort as U9.
+#[kani::proof]
+#[kani::unwind(17)]
+#[kani::stub(super::super::panic_on_ord_violation, cut_ord_violation)]
+fn small_sort_general_scratch_unwritten_slot_only_u8_n4() {
+    let mut v: [u8; 4] = kani::any();
+    let mut scratch = [MaybeUninit::<u8>::uninit(); 20];
+    small_sort_general_with_scratch(&mut v, &mut scratch, &mut strict_less);
+    kani::cover(true, "U9b scratch: normal return reached");
+
+    kani::cover(true, "U9b scratch[4]: unwritten read reached");
+    // SAFETY: intentionally violated; slot 4 remains unwritten after the real sort.
+    let unwritten = unsafe { scratch[4].assume_init_read() };
+    kani::cover(unwritten == 0, "U9b scratch[4]: unwritten byte zero");
+    kani::cover(unwritten != 0, "U9b scratch[4]: unwritten byte nonzero");
+}
