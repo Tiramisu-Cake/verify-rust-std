@@ -3,7 +3,7 @@
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-G1R2.md",
   "runtime": "Codex",
   "research_input": "a62ad2d47dafb905e7f70c39199c96634fc15db8",
-  "status": "G1R2A_SUBMITTED_WATCH_NEXT",
+  "status": "G1R2A_TERMINAL_FAILURE_BOUNDED_REPORT_LIMITATION",
   "kani_candidate": "02b734151ada1dd0d216b0db329776eb522d2d67",
   "production_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
   "production_unchanged": true,
@@ -25,9 +25,9 @@
     "builds": [
       "669a0594-fd09-4879-b2f3-245438d7a947"
     ],
-    "spent_usd": null,
-    "reserved_usd": "0.6210",
-    "dispatch": "A attempt 1/1 submitted; no repair/retry/B"
+    "spent_usd": "0.1485",
+    "reserved_usd": "0.0000",
+    "dispatch": "A attempt 1/1 terminal; no repair/retry/B"
   },
   "budget_proposal": {
     "timeout_minutes": 16,
@@ -42,15 +42,23 @@
     {
       "claim": "Test repair, static sweep, unchanged expectations and production, A-only patch/application/preflight identities",
       "assurance": "STATIC_SOURCE_AND_GIT_CHECKS_ONLY"
+    },
+    {
+      "claim": "Native gate failed:18 selectors PASS,2 ERROR; positive source-reported 63 SUCCESS/0 FAILURE by exact Complete golden and require-success; negative aggregate counters UNKNOWN.",
+      "assurance": "SOURCE_REPORTED; Evidence Brief HTTP404; independent B1/B2 credit NONE"
+    },
+    {
+      "claim": "Observed helper-owned Unsupported for ManuallyDrop<U> and ManuallyDrop<NonCopyFieldC/R> at pinned core mem/manually_drop.rs:181:9.",
+      "assurance": "EXACT_BOUNDED_EXCERPTS; incomplete negative context"
     }
   ],
   "open": [
-    "Compiler/native/lint execution NOT_RUN; no new proof acceptance or B1/B2 credit.",
-    "B unchanged and requires separate owner GO.",
-    "Historical G1RA source-reported diagnostics/Evidence Brief limitation and inherited P1/full-regression limitations retained."
+    "Координатор, вопрос: negative Complete SUCCESS/FAILURE/total and differing per-harness names/Failed Checks file:line needed. Existing summary lacks counters; 2004 failure-context lines omitted; Brief HTTP404. Requested bounded supplemental data, no raw fallback.",
+    "ManuallyDrop rejection golden expects caller-owned property but actual property belongs to ManuallyDrop::<U>::new. No repair authorized.",
+    "B not authorized and NOT_RUN; inherited P1/full-regression limitations retained."
   ],
   "proof_credit": "NONE",
-  "next": "k1g.sh watch BUILD then END TURN. On wake: Evidence Brief first; bounded result in RESULT-KANI3300-G1R2A.md: each A selector PASS/FAIL and wall seconds; positive/negative SUCCESS/FAILURE harness counts versus 63 SUCCESS/0 FAILURE and 0 SUCCESS/70 FAILURE; on FAIL Failed Checks/compiler errors file:line; actual spend/cumulative G1. No raw logs/archives, no repair/retry/B. Commit/push [skip ci], REVIEW REQUEST <full research sha>.",
+  "next": "Coordinator review and bounded supplemental negative counters/diagnostics; no additional builds, repair or B in this stage.",
   "review": {
     "model": "gpt-6-luna",
     "reasoning_effort": "high",
@@ -63,8 +71,13 @@
   "T0": "2026-11-11T14:06:55+00:00",
   "main_deadline": "2026-11-11T16:06:55+00:00",
   "absolute_deadline": "2026-11-11T16:36:55+00:00",
-  "active_build_id": "669a0594-fd09-4879-b2f3-245438d7a947",
+  "active_build_id": null,
   "prepared_artifact_inventory": "ARTIFACTS.json describes approved preparation snapshot at 0a47af545e47cf81c1fca01b111574f728b9981e",
   "active_handoff": "G1R2A-HANDOFF.json",
-  "research_dispatch_sha": "b77f5d830daf0f9efc1e3dff6250c6b0556b920a"
+  "research_dispatch_sha": "b77f5d830daf0f9efc1e3dff6250c6b0556b920a",
+  "terminal_build_id": "669a0594-fd09-4879-b2f3-245438d7a947",
+  "latest_result": "RESULT-KANI3300-G1R2A.md",
+  "latest_evidence": "G1R2A-OBSERVATIONS.json",
+  "cumulative_G1_spent_usd": "0.3240",
+  "closure_reason": "Single authorized attempt terminal; all available bounded facts and accounting recorded. Reporting limitation explicitly requested; raw fallback and further execution forbidden."
 }

@@ -1,0 +1,92 @@
+{
+  "head_sha": "b77f5d830daf0f9efc1e3dff6250c6b0556b920a",
+  "request_sha256": "dc67daf8fce5fad977c38329133748923ebddd375924275d7537c07205f5f006",
+  "build_id": "669a0594-fd09-4879-b2f3-245438d7a947",
+  "kani_build": {
+    "compiletest_build_s": 17,
+    "diffstat": ".../transform/check_uninit/delayed_ub/mod.rs       |   1 +\n .../src/kani_middle/transform/check_uninit/mod.rs  | 215 ++++--\n .../transform/check_uninit/ptr_uninit/mod.rs       |   3 +-\n .../check_uninit/ptr_uninit/uninit_visitor.rs      | 781 ++++++++++++++++----\n .../transform/check_uninit/relevant_instruction.rs |  76 +-\n .../transform/check_uninit/ty_layout.rs            | 148 +++-\n library/kani_core/src/mem_init.rs                  | 194 ++++-\n .../uninit/g1-union-pointee-negative/expected      | 352 +++++++++\n .../uninit/g1-union-pointee-negative/main.rs       | 794 +++++++++++++++++++++\n .../uninit/g1-union-pointee-positive/expected      |   1 +\n .../uninit/g1-union-pointee-positive/main.rs       | 685 ++++++++++++++++++\n .../expected                                       |   5 +\n .../main.rs                                        |  15 +\n .../expected                                       |   5 +\n .../main.rs                                        |  13 +\n .../expected                                       |   5 +\n .../main.rs                                        |  16 +\n .../expected                                       |   5 +\n .../main.rs                                        |  15 +\n .../expected                                       |   5 +\n .../main.rs                                        |  14 +\n .../expected                                       |   5 +\n .../main.rs                                        |  13 +\n .../expected                                       |   5 +\n .../main.rs                                        |  15 +\n .../expected                                       |   5 +\n .../main.rs                                        |  15 +\n .../expected                                       |   5 +\n .../main.rs                                        |  14 +\n .../expected                                       |   5 +\n .../main.rs                                        |  15 +\n .../expected                                       |   5 +\n .../main.rs                                        |  16 +\n .../expected                                       |   3 +\n .../main.rs                                        |  15 +\n .../expected                                       |   3 +\n .../main.rs                                        |  15 +\n .../expected                                       |   5 +\n .../main.rs                                        |  15 +\n .../expected                                       |   5 +\n .../main.rs                                        |  18 +\n .../expected                                       |   5 +\n .../main.rs                                        |  15 +\n .../expected                                       |   3 +\n .../main.rs                                        |  13 +\n .../expected                                       |   3 +\n .../main.rs                                        |  15 +\n .../uninit/g1-union-pointee-unsupported/types.inc  |  69 ++\n 48 files changed, 3409 insertions(+), 259 deletions(-)",
+    "kani_build_s": 266,
+    "patch": {
+      "path": "research/challenge-8/kani-k1/kani3300/g1r2/kani3300-g1r2-a-build.patch",
+      "sha256": "7c277d4226960f7f5907790aa9fe3022dc06567525a2ef33d0fc88747b71153b"
+    },
+    "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "tree": "f0ac57ef6ddfc8d5b24454faef807439212abc0e",
+    "version": "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.11.0"
+  },
+  "validation": "VALIDATED",
+  "summary_status": "TOOL_ERROR",
+  "gate": false,
+  "binaries": {
+    "compiletest_profile": "dev",
+    "kani_profile": "release",
+    "paths": {
+      "compiletest": {
+        "invoked": "/workspace/src/kani_build/target/debug/compiletest"
+      },
+      "kani": {
+        "invoked": "/workspace/src/kani_build/scripts/kani"
+      },
+      "kani-compiler": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "release": "/workspace/src/kani_build/target/release/kani-compiler",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "sha256": "a1257e93a7a3064f9d1aebf7d62e8b43fe93e3e9f1ee980f62a78bd7f7c53439"
+      },
+      "kani-driver": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "release": "/workspace/src/kani_build/target/release/kani-driver",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "sha256": "653ba5660b15f16fb8e7b989cd0fb47b655bf93fcc415d372f988f592752de3f"
+      }
+    }
+  },
+  "total": 20,
+  "offset": 0,
+  "tests": [
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "-p",
+        "compiletest",
+        "--",
+        "--suite",
+        "expected",
+        "--mode",
+        "expected",
+        "--src-base",
+        "tests/expected",
+        "--build-base",
+        "/workspace/src/k1-out/native-0",
+        "--exact",
+        "[expected] expected/uninit/g1-union-pointee-positive/main.rs",
+        "--force-rerun",
+        "--color",
+        "never",
+        "--timeout",
+        "150",
+        "--require-success"
+      ],
+      "cwd": "/workspace/src/kani_build",
+      "diagnostic": null,
+      "env": {
+        "RUST_TEST_THREADS": "1"
+      },
+      "errors": [],
+      "exit_code": 0,
+      "expect": "pass",
+      "file": "uninit/g1-union-pointee-positive/main.rs",
+      "mode": "expected",
+      "name": "[expected] expected/uninit/g1-union-pointee-positive/main.rs",
+      "native_status": "ok",
+      "require_success": true,
+      "status": "PASS",
+      "suite": "expected",
+      "time_s": 67.88,
+      "wall_s": 68.093
+    }
+  ],
+  "count": 1,
+  "next_offset": 1
+}

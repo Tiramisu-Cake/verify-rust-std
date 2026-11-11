@@ -1,0 +1,130 @@
+{
+  "build_id": "669a0594-fd09-4879-b2f3-245438d7a947",
+  "head_sha": "b77f5d830daf0f9efc1e3dff6250c6b0556b920a",
+  "request_sha256": "dc67daf8fce5fad977c38329133748923ebddd375924275d7537c07205f5f006",
+  "summary_file": "/tmp/kani-k1-gcb/summary-669a0594-fd09-4879-b2f3-245438d7a947/summary/summary.json",
+  "summary_sha256": "926b850f77f22233d7d22109ac268b120aceee02bdda282791646f9d58fe1352",
+  "offset": 8,
+  "file": "uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+  "field": "output_excerpt",
+  "report_source": "native",
+  "validation": "VALIDATED",
+  "diagnostic_only": true,
+  "summary_status": "TOOL_ERROR",
+  "kind": "object",
+  "units": "entries",
+  "total": 10,
+  "start": 6,
+  "value": {
+    "records": [
+      {
+        "clipped": false,
+        "line": 9,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "error: test failed: expected output to contain the line(s):"
+      },
+      {
+        "clipped": false,
+        "line": 211,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Check 28: std::mem::ManuallyDrop::<U>::new.unsupported_construct.1"
+      },
+      {
+        "clipped": false,
+        "line": 212,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Status: FAILURE"
+      },
+      {
+        "clipped": false,
+        "line": 213,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Description: \"Checking memory initialization of type std::mem::ManuallyDrop<U> is not supported. Cannot determine layout for a type that contains union of type U as a field.\""
+      },
+      {
+        "clipped": false,
+        "line": 214,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Location: ../../../root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/manually_drop.rs:181:9 in function std::mem::ManuallyDrop::<U>::new"
+      },
+      {
+        "clipped": false,
+        "line": 369,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Checking memory initialization of type std::mem::ManuallyDrop<U> is not supported. Cannot determine layout for a type that contains union of type U as a field."
+      },
+      {
+        "clipped": false,
+        "line": 370,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": " File: \"/root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/manually_drop.rs\", line 181, in std::mem::ManuallyDrop::<U>::new"
+      },
+      {
+        "clipped": false,
+        "line": 195,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "Check 28: std::mem::ManuallyDrop::<U>::new.unsupported_construct.1"
+      },
+      {
+        "clipped": false,
+        "line": 196,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "\t - Status: FAILURE"
+      },
+      {
+        "clipped": false,
+        "line": 197,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "\t - Description: \"Checking memory initialization of type std::mem::ManuallyDrop<U> is not supported. Cannot determine layout for a type that contains union of type U as a field.\""
+      },
+      {
+        "clipped": false,
+        "line": 198,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "\t - Location: ../../../root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/manually_drop.rs:181:9 in function std::mem::ManuallyDrop::<U>::new"
+      },
+      {
+        "clipped": false,
+        "line": 353,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Checking memory initialization of type std::mem::ManuallyDrop<U> is not supported. Cannot determine layout for a type that contains union of type U as a field."
+      },
+      {
+        "clipped": false,
+        "line": 354,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": " File: \"/root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/manually_drop.rs\", line 181, in std::mem::ManuallyDrop::<U>::new"
+      },
+      {
+        "clipped": false,
+        "line": 113,
+        "source": "kani_stderr",
+        "start_char": 0,
+        "text": "warning: 17 warnings emitted"
+      }
+    ],
+    "selected_line_count": 14,
+    "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+    "source_line_counts": {
+      "compiletest_stderr": 114,
+      "compiletest_stdout": 505,
+      "kani_stderr": 114,
+      "kani_stdout": 361
+    }
+  },
+  "count": 4,
+  "next_start": null
+}

@@ -1,0 +1,258 @@
+{
+  "schema": "kani3300-g1r2a-observations-v1",
+  "recorded_at": "2026-11-11T14:25:37.723818+00:00",
+  "build_id": "669a0594-fd09-4879-b2f3-245438d7a947",
+  "metadata": {
+    "id": "669a0594-fd09-4879-b2f3-245438d7a947",
+    "status": "FAILURE",
+    "createTime": "2026-11-11T14:09:41.240757240Z",
+    "startTime": "2026-11-11T14:10:35.227568109Z",
+    "finishTime": "2026-11-11T14:21:14.134453Z",
+    "timeout": "2760s",
+    "source_sha": "b77f5d830daf0f9efc1e3dff6250c6b0556b920a",
+    "pool": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4"
+  },
+  "request_sha256": "dc67daf8fce5fad977c38329133748923ebddd375924275d7537c07205f5f006",
+  "patch_sha256": "7c277d4226960f7f5907790aa9fe3022dc06567525a2ef33d0fc88747b71153b",
+  "reported_applied_tree": "f0ac57ef6ddfc8d5b24454faef807439212abc0e",
+  "reported_kani_version": "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.11.0",
+  "reported_build": {
+    "outcome": "success",
+    "kani_build_s": 266,
+    "compiletest_build_s": 17
+  },
+  "summary_status": "TOOL_ERROR",
+  "gate": false,
+  "summary_sha256": "926b850f77f22233d7d22109ac268b120aceee02bdda282791646f9d58fe1352",
+  "brief": {
+    "exit": 1,
+    "response": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)"
+  },
+  "native_record_limit": "native offsets 1 and 8: one native record exceeds bounded page size; used output_excerpt object pages start 0 -> server next_start 6 -> null. Counts and omitted context absent from bounded fields.",
+  "selectors": [
+    {
+      "file": "uninit/g1-union-pointee-positive/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 68.093
+    },
+    {
+      "file": "uninit/g1-union-pointee-negative/main.rs",
+      "status": "FAIL",
+      "reporter_status": "ERROR",
+      "wall_s": 72.259
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_array_element/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.717
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_bodyless_transfer/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.717
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_fn_pointer_field/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.667
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_foreign_mutation/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.867
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_indirect_call/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.867
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_init_predicate/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 1.118
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+      "status": "FAIL",
+      "reporter_status": "ERROR",
+      "wall_s": 0.867
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_niche_enum/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.667
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_select_unpredictable/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.817
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_struct_field/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.717
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_typed_swap/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 3.133
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_unaligned_read/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 2.683
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_unaligned_write/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 3.385
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_union_in_union/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 1.728
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 1.929
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_variant_padding/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 1.626
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_volatile_read/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 2.229
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_volatile_write/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 2.831
+    }
+  ],
+  "counts": {
+    "PASS": 18,
+    "FAIL": 2,
+    "reporter_ERROR": 2
+  },
+  "aggregate_harness_outcomes": {
+    "positive": {
+      "expected_SUCCESS": 63,
+      "expected_FAILURE": 0,
+      "reported_SUCCESS": 63,
+      "reported_FAILURE": 0,
+      "basis": "SOURCE_REPORTED_INFERRED_FROM_NATIVE_PASS_WITH_EXACT_COMPLETE_GOLDEN_AND_REQUIRE_SUCCESS; per-harness raw output not read"
+    },
+    "negative": {
+      "expected_SUCCESS": 0,
+      "expected_FAILURE": 70,
+      "reported_SUCCESS": null,
+      "reported_FAILURE": null,
+      "total": null,
+      "basis": "UNKNOWN: summary lacks Kani counters; excerpt omits Complete line and per-harness summary. Requested bounded supplemental data from coordinator; no raw fallback."
+    }
+  },
+  "timing": {
+    "build_wall_s": 638.906885,
+    "queue_s": 53.986811,
+    "summed_native_wall_s": 167.917
+  },
+  "cost": {
+    "ledger": "k1g.sh budget BUILD: 1 0.1485 0.0000",
+    "charged_rounded_minutes": 11,
+    "price_per_minute_usd": ".0135",
+    "this_build_spent_usd": "0.1485",
+    "reserved_usd": "0.0000",
+    "prior_G1_spent_usd": "0.1755",
+    "cumulative_G1_spent_usd": "0.3240",
+    "cap_usd": ".80"
+  },
+  "diagnostics": {
+    "negative": {
+      "observed_properties": [
+        "std::mem::ManuallyDrop::<NonCopyFieldR>::new.unsupported_construct.1",
+        "std::mem::ManuallyDrop::<NonCopyFieldC>::new.unsupported_construct.1"
+      ],
+      "reason": "Checking memory initialization of type std::mem::ManuallyDrop<NonCopyFieldR/C> is not supported. Cannot determine layout for a type that contains union of type NonCopyFieldR/C as a field.",
+      "location": "/root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/manually_drop.rs:181:9",
+      "failed_check_line_count": 2016,
+      "omitted_failed_check_line_count": 2004,
+      "selected_line_count": 12,
+      "omitted_line_count": 51484,
+      "harness_association": "UNKNOWN in excerpt; do not infer exhaustive per-harness outcomes from source"
+    },
+    "manuallydrop": {
+      "observed_property": "std::mem::ManuallyDrop::<U>::new.unsupported_construct.1",
+      "expected_property": "reject_manuallydrop_union.unsupported_construct.",
+      "reason": "Checking memory initialization of type std::mem::ManuallyDrop<U> is not supported. Cannot determine layout for a type that contains union of type U as a field.",
+      "location": "/root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/manually_drop.rs:181:9",
+      "compiletest_error": "error: test failed: expected output to contain the line(s):",
+      "failed_check_line_count": 12,
+      "omitted_failed_check_line_count": 0,
+      "selected_line_count": 14,
+      "omitted_line_count": 1080
+    }
+  },
+  "receipts": {
+    "G1R2A-NEGATIVE-EXCERPT-META.json": {
+      "sha256": "21b34f3e8076d860d8c69de3d4afa3cf7c845207c53ef028c955e0d2d9739ad3",
+      "field": "output_excerpt",
+      "offset": 1,
+      "start": 0,
+      "count": 6,
+      "next_start": 6
+    },
+    "G1R2A-NEGATIVE-EXCERPT.json": {
+      "sha256": "68e41be1e8f7ae51e521cb490005cbd33a718877b75ff839a804456bdf3cca81",
+      "field": "output_excerpt",
+      "offset": 1,
+      "start": 6,
+      "count": 4,
+      "next_start": null
+    },
+    "G1R2A-MANUALLYDROP-EXCERPT-META.json": {
+      "sha256": "80815cde38761b58a46931b2f18b3381f0ea1de9a7e7c7fe7d0f5c120fa6ab59",
+      "field": "output_excerpt",
+      "offset": 8,
+      "start": 0,
+      "count": 6,
+      "next_start": 6
+    },
+    "G1R2A-MANUALLYDROP-EXCERPT.json": {
+      "sha256": "b48fa673d10231507396c24a8a724c99681030e8196d6c59bcd807200b085f24",
+      "field": "output_excerpt",
+      "offset": 8,
+      "start": 6,
+      "count": 4,
+      "next_start": null
+    }
+  },
+  "assurance": "SOURCE_REPORTED_ONLY; native VALIDATED is source binding, not independent B1/B2 proof credit",
+  "proof_credit": "NONE",
+  "B": "NOT_AUTHORIZED_NOT_RUN",
+  "repairs": 0,
+  "retries": 0,
+  "attempt": "1/1 terminal",
+  "local_disk_note": "Disk/inodes full during result recording; removed only two own disposable G1R2/G1R2A preflight checkouts. No source/evidence/ledger removed."
+}

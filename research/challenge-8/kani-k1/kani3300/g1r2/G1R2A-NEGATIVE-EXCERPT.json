@@ -1,0 +1,116 @@
+{
+  "build_id": "669a0594-fd09-4879-b2f3-245438d7a947",
+  "head_sha": "b77f5d830daf0f9efc1e3dff6250c6b0556b920a",
+  "request_sha256": "dc67daf8fce5fad977c38329133748923ebddd375924275d7537c07205f5f006",
+  "summary_file": "/tmp/kani-k1-gcb/summary-669a0594-fd09-4879-b2f3-245438d7a947/summary/summary.json",
+  "summary_sha256": "926b850f77f22233d7d22109ac268b120aceee02bdda282791646f9d58fe1352",
+  "offset": 1,
+  "file": "uninit/g1-union-pointee-negative/main.rs",
+  "field": "output_excerpt",
+  "report_source": "native",
+  "validation": "VALIDATED",
+  "diagnostic_only": true,
+  "summary_status": "TOOL_ERROR",
+  "kind": "object",
+  "units": "entries",
+  "total": 10,
+  "start": 6,
+  "value": {
+    "records": [
+      {
+        "clipped": false,
+        "line": 507,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Check 10: std::mem::ManuallyDrop::<NonCopyFieldR>::new.unsupported_construct.1"
+      },
+      {
+        "clipped": false,
+        "line": 508,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Status: FAILURE"
+      },
+      {
+        "clipped": false,
+        "line": 509,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Description: \"Checking memory initialization of type std::mem::ManuallyDrop<NonCopyFieldR> is not supported. Cannot determine layout for a type that contains union of type NonCopyFieldR as a field.\""
+      },
+      {
+        "clipped": false,
+        "line": 510,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Location: ../../../root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/manually_drop.rs:181:9 in function std::mem::ManuallyDrop::<NonCopyFieldR>::new"
+      },
+      {
+        "clipped": false,
+        "line": 805,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Checking memory initialization of type std::mem::ManuallyDrop<NonCopyFieldR> is not supported. Cannot determine layout for a type that contains union of type NonCopyFieldR as a field."
+      },
+      {
+        "clipped": false,
+        "line": 806,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": " File: \"/root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/manually_drop.rs\", line 181, in std::mem::ManuallyDrop::<NonCopyFieldR>::new"
+      },
+      {
+        "clipped": false,
+        "line": 896,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Check 1: std::mem::ManuallyDrop::<NonCopyFieldC>::new.unsupported_construct.1"
+      },
+      {
+        "clipped": false,
+        "line": 897,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Status: FAILURE"
+      },
+      {
+        "clipped": false,
+        "line": 898,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Description: \"Checking memory initialization of type std::mem::ManuallyDrop<NonCopyFieldC> is not supported. Cannot determine layout for a type that contains union of type NonCopyFieldC as a field.\""
+      },
+      {
+        "clipped": false,
+        "line": 899,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Location: ../../../root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/manually_drop.rs:181:9 in function std::mem::ManuallyDrop::<NonCopyFieldC>::new"
+      },
+      {
+        "clipped": false,
+        "line": 1239,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Checking memory initialization of type std::mem::ManuallyDrop<NonCopyFieldC> is not supported. Cannot determine layout for a type that contains union of type NonCopyFieldC as a field."
+      },
+      {
+        "clipped": false,
+        "line": 1240,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": " File: \"/root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/manually_drop.rs\", line 181, in std::mem::ManuallyDrop::<NonCopyFieldC>::new"
+      }
+    ],
+    "selected_line_count": 12,
+    "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+    "source_line_counts": {
+      "compiletest_stderr": 114,
+      "compiletest_stdout": 25706,
+      "kani_stderr": 258,
+      "kani_stdout": 25418
+    }
+  },
+  "count": 4,
+  "next_start": null
+}
