@@ -1,6 +1,6 @@
 {
   "stage": "kani3300-u4b",
-  "state": "PREPARED_AWAITING_REVIEW_AND_COORDINATOR_GO",
+  "state": "REVIEWED_AWAITING_COORDINATOR_GO",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-U4B.md",
   "runtime": "Codex",
   "branch": "experiment/kani-k1-kani3300u4-20261111",
@@ -37,10 +37,20 @@
     "Actual runtime argv and observed applied tree require bounded Cloud evidence."
   ],
   "independent_review": {
-    "state": "PENDING"
+    "state": "PASS",
+    "decision": "No blocking findings",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "receipt": "INDEPENDENT-REVIEW.md",
+    "receipt_sha256": "08a25a63bf36293233002d24b0955d56ff6b893f3c19c77d2091382510cd52b4",
+    "candidate": "72c4a6fde83c659dddda4960d3cc08999efc157b",
+    "spec_sha256": "88293a8f174c383a74bee6462a688e997ebe0a0ea2bce372f169def8898d2134",
+    "packet_sha256": "5ee26d588bb52ce41cf7aef2ef5e40b003bd920ff2931018f30ada647c9cc520",
+    "proof_credit": "NONE"
   },
   "proof_credit": "NONE",
-  "next_step": "Independent Luna HIGH review, publish exact packet, PRE-BUILD REVIEW full SHA; stop until coordinator GO.",
+  "next_step": "Coordinator exact-packet review/GO of published full HEAD; stop before dispatch. After GO: one diagnostic build, k1g watch BUILD, end turn.",
   "stop_boundary": "Mandatory coordinator exact-packet PRE-BUILD gate; no build submitted, no watcher armed.",
-  "thread_cwd": "/root; preparation only; assigned worktree used for every Git/edit operation; task-specific k1g watcher after future GO."
+  "thread_cwd": "/root; preparation only; assigned worktree used for every Git/edit operation; task-specific k1g watcher after future GO.",
+  "semantic_candidate": "72c4a6fde83c659dddda4960d3cc08999efc157b"
 }

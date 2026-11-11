@@ -1,0 +1,38 @@
+{
+  "applicability": "KANI3300 U4B, u8/N4 real core general scratch sort, existing normal-return panic stub; one diagnostic attempt after coordinator exact-packet GO.",
+  "baseline_commit": "582e9e0f5a436cb40ba80f3053de112d7232104b",
+  "candidate_commit": "72c4a6fde83c659dddda4960d3cc08999efc157b",
+  "controls": [
+    "U9a reads only scratch[3] after actual sort with observable byte covers; expected SUCCESS. U9b reads only scratch[4] with observable covers; expect FAILED and expect_check Reading from an uninitialized.",
+    "Exactly four selected roots U9a/U9b/U8/U1; retain U8 and U1 request entries and all original controls in source. Account all failed checks/types/locations and covers after runtime.",
+    "Diagnostic, standard4/jobs1, 3m per root, controls/uninit on, inventory off; one build, no retries; 42 minutes reserve $0.567 <= cap $0.60.",
+    "Stop at PRE-BUILD REVIEW full final SHA; no dispatch until coordinator GO."
+  ],
+  "defect": "U9 combines written scratch[3] and unwritten scratch[4] reads, so its two uninit failures cannot be attributed to a specific post-sort read. Split diagnostic harnesses without changing existing source or tooling.",
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-U4B.md",
+    "library/core/src/slice/sort/shared/smallsort/verify/uninit_probe.rs",
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "research/challenge-8/kani-k1/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/u4/kani-uninit.patch",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/tools/k1g.sh",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh",
+    "research/challenge-8/kani-k1/gcb/cloudbuild.yaml",
+    "tool_config/kani-version.toml",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "Only append two harnesses; preserve original nine byte for byte and every other library file. Same scratch20, comparator, panic stub and unwind17 as U9.",
+    "Keep immutable U4 production patch SHA256 46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4 and KT2 protected paths; no pin/model/runner changes.",
+    "Do not run local compiler/proof tools, Cloud dispatch, or read raw evidence/credentials. No independent proof credit."
+  ],
+  "known_limitations": [
+    "Cloud NOT_RUN. Runtime statuses, failures, covers, actual argv and observed applied tree remain unknown. Generated arguments show intent only.",
+    "Bounded split-harness diagnostic, normal returns only; comparison with U9 is diagnostic attribution, not independently established MIR/call-site binding or a general theorem.",
+    "Current thread cwd /root; preparation only, no watcher armed. Future GO uses task-specific k1g watch."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-u4"
+}
