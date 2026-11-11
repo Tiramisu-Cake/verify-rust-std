@@ -1,0 +1,521 @@
+1:  c39cc1121 ! 1:  657c2b245 Preserve MaybeUninit storage initialization across pointer and value transfers
+    @@ Metadata
+      ## Commit message ##
+         Preserve MaybeUninit storage initialization across pointer and value transfers
+
+    +    Track MaybeUninit byte initialization through raw pointer reads, writes and copies.
+    +    Support exact transmute conversions, flat slot arrays/slices and static repeats.
+    +    Preserve shadow state across ordinary MIR arguments and normal returns.
+    +    Keep typed payload reads, padding and uninitialized-byte checks intact.
+    +    Nested/arbitrary unions and compound slot storage remain Unsupported.
+    +    typed_swap, select_unpredictable and function-pointer/no-MIR transfers remain Unsupported.
+    +    Add positive and negative regressions in tests/expected/uninit.
+    +    Refs #3300
+    +
+      ## kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs ##
+     @@ kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs: fn transform(
+                          tcx,
+    @@ library/kani_core/src/mem_init.rs: fn store_argument<const LAYOUT_SIZE: usize, T
+                  unsafe {
+                      MEM_INIT_STATE.bless::<LAYOUT_SIZE>(to_ptr as *const u8, 1);
+
+    - ## tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/expected (new) ##
+    + ## tests/expected/uninit/maybe-uninit-argument-buffer/expected (new) ##
+    +@@
+    ++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
+    ++VERIFICATION:- FAILED
+    ++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+    +
+    + ## tests/expected/uninit/maybe-uninit-argument-buffer/main.rs (new) ##
+    +@@
+    ++// Copyright Kani Contributors
+    ++// SPDX-License-Identifier: Apache-2.0 OR MIT
+    ++// compile-flags: --edition 2021
+    ++// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular
+    ++
+    ++use std::mem::MaybeUninit;
+    ++
+    ++#[inline(never)]
+    ++fn return_second(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
+    ++    let _keep_two_argument_path = a;
+    ++    b
+    ++}
+    ++
+    ++#[inline(never)]
+    ++fn nested_return(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
+    ++    return_second(a, b)
+    ++}
+    ++
+    ++#[kani::proof]
+    ++fn nested_two_argument_return_reads_uninit() {
+    ++    let value = nested_return(MaybeUninit::new(5), MaybeUninit::uninit());
+    ++    let _read = unsafe { value.assume_init() };
+    ++}
+    +
+    + ## tests/expected/uninit/maybe-uninit-argument-return/expected (new) ##
+    +@@
+    ++Checking harness argument_return...
+    ++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
+    ++VERIFICATION:- FAILED
+    ++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+    +
+    + ## tests/expected/uninit/maybe-uninit-argument-return/main.rs (new) ##
+    +@@
+    ++// Copyright Kani Contributors
+    ++// SPDX-License-Identifier: Apache-2.0 OR MIT
+    ++// compile-flags: --edition 2021
+    ++// kani-flags: -Z uninit-checks --output-format=regular
+    ++use std::mem::MaybeUninit;
+    ++#[inline(never)]
+    ++fn select(a: MaybeUninit<u16>, b: MaybeUninit<u16>, first: bool) -> MaybeUninit<u16> {
+    ++    if first { a } else { b }
+    ++}
+    ++#[kani::proof]
+    ++fn argument_return() {
+    ++    let value = select(MaybeUninit::new(9), MaybeUninit::uninit(), kani::any());
+    ++    let _value = unsafe { value.assume_init() };
+    ++}
+    +
+    + ## tests/expected/uninit/maybe-uninit-contract-clause/expected (new) ##
+     @@
+     +Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
+     +VERIFICATION:- FAILED
+     +Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+
+    - ## tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs (new) ##
+    + ## tests/expected/uninit/maybe-uninit-contract-clause/main.rs (new) ##
+     @@
+     +// Copyright Kani Contributors
+     +// SPDX-License-Identifier: Apache-2.0 OR MIT
+    @@ tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs (new)
+     +    clause_target();
+     +}
+
+    - ## tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/expected (new) ##
+    + ## tests/expected/uninit/maybe-uninit-contract-frame/expected (new) ##
+     @@
+     +assigns\
+     +- Status: FAILURE\
+     +- Description: "Check that *var_7 is assignable"\
+    -+- Location: tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs:22:5 in function frame_target::{closure#2}::{closure#0}
+    ++- Location: tests/expected/uninit/maybe-uninit-contract-frame/main.rs:22:5 in function frame_target::{closure#2}::{closure#0}
+     +
+     +Failed Checks: Check that *var_7 is assignable\
+    -+ File: "tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs", line 22, in frame_target::{closure#2}::{closure#0}
+    ++ File: "tests/expected/uninit/maybe-uninit-contract-frame/main.rs", line 22, in frame_target::{closure#2}::{closure#0}
+     +
+     +VERIFICATION:- FAILED
+
+    - ## tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs (new) ##
+    + ## tests/expected/uninit/maybe-uninit-contract-frame/main.rs (new) ##
+     @@
+     +// Copyright Kani Contributors
+     +// SPDX-License-Identifier: Apache-2.0 OR MIT
+    @@ tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs (new)
+     +    let mut out = 0;
+     +    let mut outside = 0;
+     +    frame_target(&mut out, &mut outside);
+    -+}
+    -
+    - ## tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/expected (new) ##
+    -@@
+    -+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
+    -+VERIFICATION:- FAILED
+    -+Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+    -
+    - ## tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/main.rs (new) ##
+    -@@
+    -+// Copyright Kani Contributors
+    -+// SPDX-License-Identifier: Apache-2.0 OR MIT
+    -+// compile-flags: --edition 2021
+    -+// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular
+    -+
+    -+use std::mem::MaybeUninit;
+    -+
+    -+#[inline(never)]
+    -+fn return_second(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
+    -+    let _keep_two_argument_path = a;
+    -+    b
+    -+}
+    -+
+    -+#[inline(never)]
+    -+fn nested_return(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
+    -+    return_second(a, b)
+    -+}
+    -+
+    -+#[kani::proof]
+    -+fn nested_two_argument_return_reads_uninit() {
+    -+    let value = nested_return(MaybeUninit::new(5), MaybeUninit::uninit());
+    -+    let _read = unsafe { value.assume_init() };
+     +}
+
+      ## tests/expected/uninit/maybe-uninit-initialized/expected (new) ##
+    @@ tests/expected/uninit/maybe-uninit-initialized/main.rs (new)
+     +    let slot = MaybeUninit::new(pointer);
+     +    let selected = unsafe { slot.assume_init() };
+     +    assert_eq!(unsafe { *selected }, value);
+    ++}
+    +
+    + ## tests/expected/uninit/maybe-uninit-overlap-copy/expected (new) ##
+    +@@
+    ++Checking harness overlap_copy_right...
+    ++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
+    ++VERIFICATION:- FAILED
+    ++Checking harness overlap_copy_left...
+    ++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
+    ++VERIFICATION:- FAILED
+    ++Complete - 0 successfully verified harnesses, 2 failures, 2 total.
+    +
+    + ## tests/expected/uninit/maybe-uninit-overlap-copy/main.rs (new) ##
+    +@@
+    ++// Copyright Kani Contributors
+    ++// SPDX-License-Identifier: Apache-2.0 OR MIT
+    ++// compile-flags: --edition 2021
+    ++// kani-flags: -Z uninit-checks --output-format=regular
+    ++
+    ++use std::{mem::MaybeUninit, ptr};
+    ++
+    ++#[kani::proof]
+    ++fn overlap_copy_right() {
+    ++    let mut slots = [MaybeUninit::new(1u8), MaybeUninit::uninit(), MaybeUninit::new(3)];
+    ++    let p = slots.as_mut_ptr();
+    ++    unsafe {
+    ++        ptr::copy(p, p.add(1), 2);
+    ++        let _value = slots[2].assume_init();
+    ++    }
+    ++}
+    ++
+    ++#[kani::proof]
+    ++fn overlap_copy_left() {
+    ++    let mut slots = [MaybeUninit::new(1u8), MaybeUninit::uninit(), MaybeUninit::new(3)];
+    ++    let p = slots.as_mut_ptr();
+    ++    unsafe {
+    ++        ptr::copy(p.add(1), p, 2);
+    ++        let _value = slots[0].assume_init();
+    ++    }
+    ++}
+    +
+    + ## tests/expected/uninit/maybe-uninit-overwrite-copy/expected (new) ##
+    +@@
+    ++Checking harness overwrite_copy...
+    ++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`
+    ++VERIFICATION:- FAILED
+    ++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+    +
+    + ## tests/expected/uninit/maybe-uninit-overwrite-copy/main.rs (new) ##
+    +@@
+    ++// Copyright Kani Contributors
+    ++// SPDX-License-Identifier: Apache-2.0 OR MIT
+    ++// compile-flags: --edition 2021
+    ++// kani-flags: -Z uninit-checks --output-format=regular
+    ++use std::{mem::MaybeUninit, ptr};
+    ++#[kani::proof]
+    ++fn overwrite_copy() {
+    ++    let mut src = MaybeUninit::<[u8; 2]>::uninit();
+    ++    let mut dst = MaybeUninit::new([9u8; 2]);
+    ++    unsafe {
+    ++        src.as_mut_ptr().cast::<u8>().write(7);
+    ++        ptr::copy_nonoverlapping(ptr::addr_of!(src), ptr::addr_of_mut!(dst), 1);
+    ++        let _value = dst.assume_init();
+    ++    }
+     +}
+
+      ## tests/expected/uninit/maybe-uninit-partial-copy/expected (new) ##
+    @@ tests/expected/uninit/maybe-uninit-partial-copy/main.rs (new)
+     +        let wide: [u8; 4] = mem::transmute(to[0]);
+     +        assert_eq!(wide, [7, 9, 9, 9]);
+     +    }
+    ++}
+    +
+    + ## tests/expected/uninit/maybe-uninit-repeat-local/expected (new) ##
+    +@@
+    ++Checking harness repeat_local...
+    ++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`
+    ++VERIFICATION:- FAILED
+    ++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+    +
+    + ## tests/expected/uninit/maybe-uninit-repeat-local/main.rs (new) ##
+    +@@
+    ++// Copyright Kani Contributors
+    ++// SPDX-License-Identifier: Apache-2.0 OR MIT
+    ++// compile-flags: --edition 2021
+    ++// kani-flags: -Z uninit-checks --output-format=regular
+    ++use std::{mem::MaybeUninit, ptr};
+    ++#[kani::proof]
+    ++fn repeat_local() {
+    ++    let mut source = MaybeUninit::<u64>::uninit();
+    ++    let mut slots = [MaybeUninit::new(9u64); 3];
+    ++    unsafe {
+    ++        ptr::addr_of_mut!(source).write(MaybeUninit::uninit());
+    ++    }
+    ++    slots = [source; 3];
+    ++    let _value = unsafe { slots[2].assume_init() };
+     +}
+
+      ## tests/expected/uninit/maybe-uninit-reset-alias/expected (new) ##
+    @@ tests/expected/uninit/maybe-uninit-reset-alias/main.rs (new)
+     +    }
+     +}
+
+    - ## tests/expected/uninit/maybe-uninit-review-argument-return/expected (new) ##
+    + ## tests/expected/uninit/maybe-uninit-reset-zst/expected (new) ##
+     @@
+    -+Checking harness argument_return...
+    -+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
+    ++Checking harness reset_after_zst...
+    ++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`
+     +VERIFICATION:- FAILED
+     +Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+
+    - ## tests/expected/uninit/maybe-uninit-review-argument-return/main.rs (new) ##
+    + ## tests/expected/uninit/maybe-uninit-reset-zst/main.rs (new) ##
+     @@
+     +// Copyright Kani Contributors
+     +// SPDX-License-Identifier: Apache-2.0 OR MIT
+     +// compile-flags: --edition 2021
+     +// kani-flags: -Z uninit-checks --output-format=regular
+    -+use std::mem::MaybeUninit;
+    -+#[inline(never)]
+    -+fn select(a: MaybeUninit<u16>, b: MaybeUninit<u16>, first: bool) -> MaybeUninit<u16> {
+    -+    if first { a } else { b }
+    -+}
+    -+#[kani::proof]
+    -+fn argument_return() {
+    -+    let value = select(MaybeUninit::new(9), MaybeUninit::uninit(), kani::any());
+    -+    let _value = unsafe { value.assume_init() };
+    -+}
+    -
+    - ## tests/expected/uninit/maybe-uninit-review-overlap-copy/expected (new) ##
+    -@@
+    -+Checking harness overlap_copy_right...
+    -+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
+    -+VERIFICATION:- FAILED
+    -+Checking harness overlap_copy_left...
+    -+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
+    -+VERIFICATION:- FAILED
+    -+Complete - 0 successfully verified harnesses, 2 failures, 2 total.
+    -
+    - ## tests/expected/uninit/maybe-uninit-review-overlap-copy/main.rs (new) ##
+    -@@
+    -+// Copyright Kani Contributors
+    -+// SPDX-License-Identifier: Apache-2.0 OR MIT
+    -+// compile-flags: --edition 2021
+    -+// kani-flags: -Z uninit-checks --output-format=regular
+    -+
+     +use std::{mem::MaybeUninit, ptr};
+    -+
+    -+#[kani::proof]
+    -+fn overlap_copy_right() {
+    -+    let mut slots = [MaybeUninit::new(1u8), MaybeUninit::uninit(), MaybeUninit::new(3)];
+    -+    let p = slots.as_mut_ptr();
+    -+    unsafe {
+    -+        ptr::copy(p, p.add(1), 2);
+    -+        let _value = slots[2].assume_init();
+    -+    }
+    -+}
+    -+
+     +#[kani::proof]
+    -+fn overlap_copy_left() {
+    -+    let mut slots = [MaybeUninit::new(1u8), MaybeUninit::uninit(), MaybeUninit::new(3)];
+    -+    let p = slots.as_mut_ptr();
+    ++fn reset_after_zst() {
+    ++    let empty = [MaybeUninit::<()>::uninit(); 3];
+     +    unsafe {
+    -+        ptr::copy(p.add(1), p, 2);
+    -+        let _value = slots[0].assume_init();
+    ++        empty[2].assume_init();
+     +    }
+    -+}
+    -
+    - ## tests/expected/uninit/maybe-uninit-review-overwrite-copy/expected (new) ##
+    -@@
+    -+Checking harness overwrite_copy...
+    -+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`
+    -+VERIFICATION:- FAILED
+    -+Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+    -
+    - ## tests/expected/uninit/maybe-uninit-review-overwrite-copy/main.rs (new) ##
+    -@@
+    -+// Copyright Kani Contributors
+    -+// SPDX-License-Identifier: Apache-2.0 OR MIT
+    -+// compile-flags: --edition 2021
+    -+// kani-flags: -Z uninit-checks --output-format=regular
+    -+use std::{mem::MaybeUninit, ptr};
+    -+#[kani::proof]
+    -+fn overwrite_copy() {
+    -+    let mut src = MaybeUninit::<[u8; 2]>::uninit();
+    -+    let mut dst = MaybeUninit::new([9u8; 2]);
+    ++    let mut slot = MaybeUninit::new(9u64);
+     +    unsafe {
+    -+        src.as_mut_ptr().cast::<u8>().write(7);
+    -+        ptr::copy_nonoverlapping(ptr::addr_of!(src), ptr::addr_of_mut!(dst), 1);
+    -+        let _value = dst.assume_init();
+    ++        ptr::addr_of_mut!(slot).write(MaybeUninit::uninit());
+     +    }
+    ++    let _value = unsafe { slot.assume_init() };
+     +}
+
+    - ## tests/expected/uninit/maybe-uninit-review-positive/expected (new) ##
+    + ## tests/expected/uninit/maybe-uninit-transfers/expected (new) ##
+     @@
+     +Complete - 7 successfully verified harnesses, 0 failures, 7 total.
+
+    - ## tests/expected/uninit/maybe-uninit-review-positive/main.rs (new) ##
+    + ## tests/expected/uninit/maybe-uninit-transfers/main.rs (new) ##
+     @@
+     +// Copyright Kani Contributors
+     +// SPDX-License-Identifier: Apache-2.0 OR MIT
+    @@ tests/expected/uninit/maybe-uninit-review-positive/main.rs (new)
+     +    assert_eq!(unsafe { value.assume_init() }, if first { 9 } else { 7 });
+     +}
+
+    - ## tests/expected/uninit/maybe-uninit-review-repeat-local/expected (new) ##
+    -@@
+    -+Checking harness repeat_local...
+    -+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`
+    -+VERIFICATION:- FAILED
+    -+Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+    -
+    - ## tests/expected/uninit/maybe-uninit-review-repeat-local/main.rs (new) ##
+    -@@
+    -+// Copyright Kani Contributors
+    -+// SPDX-License-Identifier: Apache-2.0 OR MIT
+    -+// compile-flags: --edition 2021
+    -+// kani-flags: -Z uninit-checks --output-format=regular
+    -+use std::{mem::MaybeUninit, ptr};
+    -+#[kani::proof]
+    -+fn repeat_local() {
+    -+    let mut source = MaybeUninit::<u64>::uninit();
+    -+    let mut slots = [MaybeUninit::new(9u64); 3];
+    -+    unsafe {
+    -+        ptr::addr_of_mut!(source).write(MaybeUninit::uninit());
+    -+    }
+    -+    slots = [source; 3];
+    -+    let _value = unsafe { slots[2].assume_init() };
+    -+}
+    -
+    - ## tests/expected/uninit/maybe-uninit-review-reset-zst/expected (new) ##
+    -@@
+    -+Checking harness reset_after_zst...
+    -+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`
+    -+VERIFICATION:- FAILED
+    -+Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+    -
+    - ## tests/expected/uninit/maybe-uninit-review-reset-zst/main.rs (new) ##
+    -@@
+    -+// Copyright Kani Contributors
+    -+// SPDX-License-Identifier: Apache-2.0 OR MIT
+    -+// compile-flags: --edition 2021
+    -+// kani-flags: -Z uninit-checks --output-format=regular
+    -+use std::{mem::MaybeUninit, ptr};
+    -+#[kani::proof]
+    -+fn reset_after_zst() {
+    -+    let empty = [MaybeUninit::<()>::uninit(); 3];
+    -+    unsafe {
+    -+        empty[2].assume_init();
+    -+    }
+    -+    let mut slot = MaybeUninit::new(9u64);
+    -+    unsafe {
+    -+        ptr::addr_of_mut!(slot).write(MaybeUninit::uninit());
+    -+    }
+    -+    let _value = unsafe { slot.assume_init() };
+    -+}
+    -
+    - ## tests/expected/uninit/maybe-uninit-wrap-u3-padding/expected (new) ##
+    + ## tests/expected/uninit/maybe-uninit-transmute-padding/expected (new) ##
+     @@
+     +Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
+     +VERIFICATION:- FAILED
+     +Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+
+    - ## tests/expected/uninit/maybe-uninit-wrap-u3-padding/main.rs (new) ##
+    + ## tests/expected/uninit/maybe-uninit-transmute-padding/main.rs (new) ##
+     @@
+     +// Copyright Kani Contributors
+     +// SPDX-License-Identifier: Apache-2.0 OR MIT
+    @@ tests/expected/uninit/maybe-uninit-wrap-u3-padding/main.rs (new)
+     +    let _padding = unsafe { destination.as_ptr().cast::<u8>().add(1).read() };
+     +}
+
+    - ## tests/expected/uninit/maybe-uninit-wrap-u3-positive/expected (new) ##
+    + ## tests/expected/uninit/maybe-uninit-transmute-source-read/expected (new) ##
+    +@@
+    ++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`
+    ++VERIFICATION:- FAILED
+    ++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+    +
+    + ## tests/expected/uninit/maybe-uninit-transmute-source-read/main.rs (new) ##
+    +@@
+    ++// Copyright Kani Contributors
+    ++// SPDX-License-Identifier: Apache-2.0 OR MIT
+    ++// compile-flags: --edition 2021
+    ++// kani-flags: -Z uninit-checks --output-format=regular
+    ++
+    ++use std::mem::{self, MaybeUninit};
+    ++use std::ptr;
+    ++
+    ++#[kani::proof]
+    ++fn typed_source_read_still_checked() {
+    ++    let uninitialized = MaybeUninit::<u64>::uninit();
+    ++    let mut source = 9u64;
+    ++    unsafe {
+    ++        // Poison the already typed local using an untyped copy. Delayed UB must
+    ++        // reject its typed read even when the transmute destination allows uninit.
+    ++        ptr::copy_nonoverlapping(
+    ++            ptr::addr_of!(uninitialized),
+    ++            ptr::addr_of_mut!(source).cast::<MaybeUninit<u64>>(),
+    ++            1,
+    ++        );
+    ++        let destination: MaybeUninit<u64> = mem::transmute(source);
+    ++        // Do not read the slot: only the typed source read should fail.
+    ++        std::hint::black_box(ptr::addr_of!(destination));
+    ++    }
+    ++}
+    +
+    + ## tests/expected/uninit/maybe-uninit-transmute/expected (new) ##
+     @@
+     +Complete - 7 successfully verified harnesses, 0 failures, 7 total.
+
+    - ## tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs (new) ##
+    + ## tests/expected/uninit/maybe-uninit-transmute/main.rs (new) ##
+     @@
+     +// Copyright Kani Contributors
+     +// SPDX-License-Identifier: Apache-2.0 OR MIT
+    @@ tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs (new)
+     +    assert_eq!((first.tag, first.value), (7, 9));
+     +    assert_eq!((second.tag, second.value), (11, 13));
+     +}
+    -
+    - ## tests/expected/uninit/maybe-uninit-wrap-u3-source-read/expected (new) ##
+    -@@
+    -+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`
+    -+VERIFICATION:- FAILED
+    -+Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+    -
+    - ## tests/expected/uninit/maybe-uninit-wrap-u3-source-read/main.rs (new) ##
+    -@@
+    -+// Copyright Kani Contributors
+    -+// SPDX-License-Identifier: Apache-2.0 OR MIT
+    -+// compile-flags: --edition 2021
+    -+// kani-flags: -Z uninit-checks --output-format=regular
+    -+
+    -+use std::mem::{self, MaybeUninit};
+    -+use std::ptr;
+    -+
+    -+#[kani::proof]
+    -+fn typed_source_read_still_checked() {
+    -+    let uninitialized = MaybeUninit::<u64>::uninit();
+    -+    let mut source = 9u64;
+    -+    unsafe {
+    -+        // Poison the already typed local using an untyped copy. Delayed UB must
+    -+        // reject its typed read even when the transmute destination allows uninit.
+    -+        ptr::copy_nonoverlapping(
+    -+            ptr::addr_of!(uninitialized),
+    -+            ptr::addr_of_mut!(source).cast::<MaybeUninit<u64>>(),
+    -+            1,
+    -+        );
+    -+        let destination: MaybeUninit<u64> = mem::transmute(source);
+    -+        // Do not read the slot: only the typed source read should fail.
+    -+        std::hint::black_box(ptr::addr_of!(destination));
+    -+    }
+    -+}

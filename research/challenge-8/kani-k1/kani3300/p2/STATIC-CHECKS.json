@@ -1,0 +1,261 @@
+{
+  "input_commit": "c39cc1121cdb287d9d77c38b87cff6c84c2c8046",
+  "base": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+  "renames": {
+    "maybe-uninit-buffer-u3-clause-pfc-negative": "maybe-uninit-contract-clause",
+    "maybe-uninit-buffer-u3-frame-negative": "maybe-uninit-contract-frame",
+    "maybe-uninit-buffer-u3-plain-negative": "maybe-uninit-argument-buffer",
+    "maybe-uninit-review-argument-return": "maybe-uninit-argument-return",
+    "maybe-uninit-review-overlap-copy": "maybe-uninit-overlap-copy",
+    "maybe-uninit-review-overwrite-copy": "maybe-uninit-overwrite-copy",
+    "maybe-uninit-review-positive": "maybe-uninit-transfers",
+    "maybe-uninit-review-repeat-local": "maybe-uninit-repeat-local",
+    "maybe-uninit-review-reset-zst": "maybe-uninit-reset-zst",
+    "maybe-uninit-wrap-u3-padding": "maybe-uninit-transmute-padding",
+    "maybe-uninit-wrap-u3-positive": "maybe-uninit-transmute",
+    "maybe-uninit-wrap-u3-source-read": "maybe-uninit-transmute-source-read"
+  },
+  "fixtures": [
+    {
+      "before": "tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/expected",
+      "after": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+      "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+      "sha256": "5fc89460489e7ac8dafe69f0ad722ae5d4d3a31776f945c0f78beda15aa38ad9",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/expected",
+      "after": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+      "sha256": "85e61667ab9e23dfaf275e301725bb107c4cbc5b7613dd504a898dbf7e0ec326",
+      "byte_equal": false
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+      "sha256": "f5c45585e405fe570d88eddb69b76b6299a04ebaba168cc08e2b36bb3bbb09c2",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/expected",
+      "after": "tests/expected/uninit/maybe-uninit-argument-buffer/expected",
+      "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+      "sha256": "09e5dd454f0cfcfeed1d9df436507c7d705270e85ee11592347113d58f9f1f55",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-initialized/expected",
+      "after": "tests/expected/uninit/maybe-uninit-initialized/expected",
+      "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-partial-copy/expected",
+      "after": "tests/expected/uninit/maybe-uninit-partial-copy/expected",
+      "sha256": "86cd97e3e413fdd50e5da87c83acd815a528127db89d43d805a782cc225466db",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-partial-copy/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-partial-copy/main.rs",
+      "sha256": "52d4ef75b76aba6e84152188315d7e43aaa34bcc857429b6da9729259bbbb8f2",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-reset-alias/expected",
+      "after": "tests/expected/uninit/maybe-uninit-reset-alias/expected",
+      "sha256": "6f67fe0887ebe8d7ea7e1f7365b6c3c1cc03db1f24fcfdb5adc3855593165041",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-reset-alias/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-reset-alias/main.rs",
+      "sha256": "718713896e97f3a29c26c708b6816fdebfafff6d0884c241f466009564060b07",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-review-argument-return/expected",
+      "after": "tests/expected/uninit/maybe-uninit-argument-return/expected",
+      "sha256": "a9ed8039903d8bd6f56d7c563703e213d99020d235038e5107a1395a264a807c",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-review-argument-return/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+      "sha256": "345db788d839c5f40fae3454d7ec8d1a8b805a208554a8fcad04ee53027ff9b9",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-review-overlap-copy/expected",
+      "after": "tests/expected/uninit/maybe-uninit-overlap-copy/expected",
+      "sha256": "8f2812a0e767a3ab340b51bbe37e7cf30772865970525d33b274487827ecb59d",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-review-overlap-copy/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-overlap-copy/main.rs",
+      "sha256": "ba454420efd8f9cb540b0af42040472e25fe0857acc95ec0cb5838c4007bc692",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-review-overwrite-copy/expected",
+      "after": "tests/expected/uninit/maybe-uninit-overwrite-copy/expected",
+      "sha256": "c62ca7df25c2f41a53541c08d6ce84d00d9a36504dff15c8c21f2b8e1ea0cce5",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-review-overwrite-copy/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-overwrite-copy/main.rs",
+      "sha256": "bc70b2eb653f02193eabc7a4085fabc1dbaf04270ee54519affe5afdd0dc888c",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-review-positive/expected",
+      "after": "tests/expected/uninit/maybe-uninit-transfers/expected",
+      "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-transfers/main.rs",
+      "sha256": "5587fdcd7436a63ccfed41747fc5c9ebc18ec74f46ef988d35c2e0877dba33d9",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-review-repeat-local/expected",
+      "after": "tests/expected/uninit/maybe-uninit-repeat-local/expected",
+      "sha256": "a34636225140ae8725d1b22ff17c1b7625ea12439fbd3ed6d8c119beefe06cbb",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-review-repeat-local/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-repeat-local/main.rs",
+      "sha256": "33f47bb164d81187c16f9a640c524fd86f7bd602af20f0339aba3e3137c5a814",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-review-reset-zst/expected",
+      "after": "tests/expected/uninit/maybe-uninit-reset-zst/expected",
+      "sha256": "ac269e35cc2f27d800c96740d82127dfd8ef3120b3beb90b25e3855cb9521d7e",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-review-reset-zst/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-reset-zst/main.rs",
+      "sha256": "c3c15670264f0c3289f482ddf547dbd5a104d8550209247d82c0057c57ea6002",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-wrap-u3-padding/expected",
+      "after": "tests/expected/uninit/maybe-uninit-transmute-padding/expected",
+      "sha256": "6f67fe0887ebe8d7ea7e1f7365b6c3c1cc03db1f24fcfdb5adc3855593165041",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-wrap-u3-padding/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-transmute-padding/main.rs",
+      "sha256": "62fa7db84d1c814862e000746fef53cf64fb0faed7ec809559a42c6764ccccd7",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/expected",
+      "after": "tests/expected/uninit/maybe-uninit-transmute/expected",
+      "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-transmute/main.rs",
+      "sha256": "a8447076a637799a4f2775d1fdbf46f5ffd8ec70721806b04d5d86ba65801c48",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-wrap-u3-source-read/expected",
+      "after": "tests/expected/uninit/maybe-uninit-transmute-source-read/expected",
+      "sha256": "193351708475946afdfe207a8fbc06fb120366d0a4f1716767b431f5c70686f8",
+      "byte_equal": true
+    },
+    {
+      "before": "tests/expected/uninit/maybe-uninit-wrap-u3-source-read/main.rs",
+      "after": "tests/expected/uninit/maybe-uninit-transmute-source-read/main.rs",
+      "sha256": "341f157e31cb14cacdc99986ab46b60741f42435195b125f4d51bfacbf2c3105",
+      "byte_equal": true
+    }
+  ],
+  "production_paths_byte_equal": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "library/kani_core/src/mem_init.rs"
+  ],
+  "new_rust_license_headers": "PASS (15/15); expected files are output patterns like neighbors, not source files",
+  "rustfmt": {
+    "exit": 0,
+    "edition": "2024",
+    "config": "rustfmt.toml",
+    "files": [
+      "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "library/kani_core/src/mem_init.rs",
+      "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+      "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+      "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+      "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+      "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "tests/expected/uninit/maybe-uninit-overlap-copy/main.rs",
+      "tests/expected/uninit/maybe-uninit-overwrite-copy/main.rs",
+      "tests/expected/uninit/maybe-uninit-partial-copy/main.rs",
+      "tests/expected/uninit/maybe-uninit-repeat-local/main.rs",
+      "tests/expected/uninit/maybe-uninit-reset-alias/main.rs",
+      "tests/expected/uninit/maybe-uninit-reset-zst/main.rs",
+      "tests/expected/uninit/maybe-uninit-transfers/main.rs",
+      "tests/expected/uninit/maybe-uninit-transmute-padding/main.rs",
+      "tests/expected/uninit/maybe-uninit-transmute-source-read/main.rs",
+      "tests/expected/uninit/maybe-uninit-transmute/main.rs"
+    ]
+  },
+  "diff_check": "PASS",
+  "internal_marker_scan": "PASS (paths and added lines); existing cmp identifier is outside added lines",
+  "old_name_references": "NONE",
+  "not_run": [
+    "clippy",
+    "build",
+    "cargo",
+    "rustc",
+    "Kani",
+    "CBMC"
+  ],
+  "cloud_usd": 0,
+  "final_commit": "657c2b24516b967f67ce71994299d0ef328aede9",
+  "final_tree": "406b9a43a10393caa87bebe0711326f758c585eb",
+  "main_sha": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+  "rebase": "git fetch origin main; origin/main unchanged; git rebase origin/main: up to date; no conflicts",
+  "commit_count_above_main": 1,
+  "production_diff_bytes": 0,
+  "commit_message": "Preserve MaybeUninit storage initialization across pointer and value transfers\n\nTrack MaybeUninit byte initialization through raw pointer reads, writes and copies.\nSupport exact transmute conversions, flat slot arrays/slices and static repeats.\nPreserve shadow state across ordinary MIR arguments and normal returns.\nKeep typed payload reads, padding and uninitialized-byte checks intact.\nNested/arbitrary unions and compound slot storage remain Unsupported.\ntyped_swap, select_unpredictable and function-pointer/no-MIR transfers remain Unsupported.\nAdd positive and negative regressions in tests/expected/uninit.\nRefs #3300",
+  "final_patch_sha256": "0547a7837201f196eb1dc74399e898e729fe02372146dc55b6d8e4a0bb2b7280",
+  "kani_pushed": false,
+  "range_diff_storage": "git range-diff --no-color output; trailing whitespace stripped for research diff-check; production comparison is independently empty"
+}
