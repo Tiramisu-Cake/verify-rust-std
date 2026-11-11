@@ -1,0 +1,28 @@
+{
+  "command": [
+    "python3",
+    "-B",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "prepare-kani",
+    "--request",
+    "/root/verify-rust-std-kani3300-u3c/research/challenge-8/kani-k1/kani3300/u3c/clean/RUN-REQUEST.json",
+    "--tree",
+    "/tmp/kani3300-u3c-clean-preflight-s_hj3tlh/tree",
+    "--pin",
+    "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "--out",
+    "/root/verify-rust-std-kani3300-u3c/research/challenge-8/kani-k1/kani3300/u3c/clean/preflight.json"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "",
+  "status": "PASS",
+  "validation_exit_code": 0,
+  "validation_stdout": "request kani3300-u3c-clean-20261111-01: 0 harness(es) accepted\n",
+  "validation_stderr": "",
+  "applied_tree": "97f86904b400e81c9b269cdafa957750ef741eea",
+  "diffstat_bytes": 981,
+  "patch_sha256": "8a1df0a7eeb4b449f280d521e2a563d9cb57f0936bcc29a65fb88ad2161a1dda",
+  "request_sha256": "d8d4a877878ea44f2986be5f541d7a7ffa1eb500ea363a50718c236dc392c7bd",
+  "all_changed_files_match_candidate": true
+}

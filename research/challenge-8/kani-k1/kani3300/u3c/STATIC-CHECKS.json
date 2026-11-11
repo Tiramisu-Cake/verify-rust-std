@@ -1,0 +1,25 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "checks": {
+    "production_clean": "No production delta from f046",
+    "production_u1": "7 production files and their complete diff byte-identical to 546bcf3; U1 tests excluded",
+    "historical_source": "4 main.rs files byte-identical to 0ab9cc703a",
+    "fixtures_between_variants": "All 14 files byte-identical",
+    "on_off_source_pairs": "Only deletion of -Z uninit-checks; identical body/contract/DFCC/exact root",
+    "mu_free_plain": "Same write_u16 body/contract/root symbol; proof attribute changed to plain proof",
+    "rustfmt": "3 new sources PASS and unchanged; 4 historical sources retained byte-exact",
+    "preflight": "Both variants fresh pinned prepare-kani PASS; trees match candidates",
+    "request_validate": "7 selectors per variant PASS; require_success false and neutral VERIFICATION:- diagnostic",
+    "diffstat": "981 and 1346 bytes <=4096",
+    "lane_toolchain_pins": "Byte-identical to 3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+    "root_request": "Byte-identical to clean snapshot"
+  },
+  "native_status": "NOT_RUN",
+  "dispatch_status": "NOT_AUTHORIZED_EXACT_COORDINATOR_GO_REQUIRED",
+  "builds": [],
+  "spend_usd": 0,
+  "reserved_usd": 0,
+  "proposed_per_build_reserve_usd": 0.4725,
+  "proposed_stage_max_reserve_usd": 0.945,
+  "cap_usd": 0.95
+}

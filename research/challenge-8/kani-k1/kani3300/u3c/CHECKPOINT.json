@@ -1,0 +1,58 @@
+{
+  "stage": "kani3300-u3c",
+  "slug": "kani3300",
+  "runtime": "Codex",
+  "owner": "k1-merge",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-U3C.md",
+  "branch": "experiment/kani-k1-kani3300u3c-20261111",
+  "input_research_head": "385a116e6f2a81654ec19a6d17ea2010984f4251",
+  "status": "PREPARED_AWAITING_CLEAN_EXACT_PRE_BUILD_REVIEW_GO",
+  "active_variant": "clean",
+  "prepared_variants": [
+    "clean",
+    "u1"
+  ],
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "identities": "IDENTITIES.json",
+  "static_checks": "STATIC-CHECKS.json",
+  "claims": [
+    {
+      "claim": "Both build patches statically apply to exact pin, applied trees match, sources/goldens identical across variants",
+      "status": "STATIC_VERIFIED",
+      "evidence": "IDENTITIES.json; clean/PREFLIGHT-OBSERVATION.json; u1/PREFLIGHT-OBSERVATION.json"
+    },
+    {
+      "claim": "No native evidence for U3C yet",
+      "status": "NOT_RUN"
+    }
+  ],
+  "open": [
+    "Coordinator exact clean packet GO",
+    "Two separately authorized native builds and bounded terminal classification for each root",
+    "U1 request must be activated in a new committed/pushed packet and independently receive exact coordinator GO",
+    "Observed OOM mechanism remains UNKNOWN; no second-marker work authorized"
+  ],
+  "builds": [],
+  "spend_usd": 0,
+  "reserved_usd": 0,
+  "cap_usd": 0.95,
+  "max_build_attempts": 2,
+  "proposed_per_build_reserve_usd": 0.4725,
+  "proposed_total_reserve_usd": 0.945,
+  "phase_status": "PREPARED_NOT_REGISTERED",
+  "window": {
+    "main_minutes": 300,
+    "closeout_minutes": 30,
+    "t0": "NOT_REGISTERED; preparation does not register coordinator phase"
+  },
+  "next": "Publish clean exact PRE-BUILD packet; stop for coordinator GO. No dispatch before GO.",
+  "rejected_approaches": [
+    "Change tooling, pin, toolchain, production model or fixtures between bases",
+    "Treat neutral-golden native PASS as verification SUCCESS",
+    "Infer OOM or NOT_RUN from absent output",
+    "Dispatch or reserve before exact coordinator GO",
+    "Push local Kani branches to source read-only clones",
+    "Raw logs/archives or local verifier/compiler execution"
+  ]
+}

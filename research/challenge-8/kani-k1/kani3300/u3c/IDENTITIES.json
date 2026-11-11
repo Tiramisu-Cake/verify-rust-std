@@ -1,0 +1,118 @@
+{
+  "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "u1_production_commit": "546bcf30379b9b2894f94b1305d5277cc5b4574c",
+  "u3b_test_commit": "0ab9cc703aed799f6f73d826b60281a4632ab585",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "preparation_started_utc": "2026-11-11T05:12:31.455403+00:00",
+  "fixture_bundle_sha256": "e2339446d3cfd421e73b54534174768f5b311ab0f7cc2152198793bd02290438",
+  "fixtures": {
+    "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/expected": "68a4354afa9e7c39cab236728e20b005d2f3e41ce555cb8f5230a57472769278",
+    "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs": "f455da31a3becaf6c084b8a3ea20675015a0c2fab214acd603966b3c785331c7",
+    "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/expected": "68a4354afa9e7c39cab236728e20b005d2f3e41ce555cb8f5230a57472769278",
+    "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs": "dd65e99951057c2ff27403258162d4e7f2a07375071cf860acf1d1deb415417a",
+    "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/expected": "68a4354afa9e7c39cab236728e20b005d2f3e41ce555cb8f5230a57472769278",
+    "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs": "386b5c03cf778da4a3115bd202616bf9768a9ea02f93f022132b62911bf73a2e",
+    "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/expected": "68a4354afa9e7c39cab236728e20b005d2f3e41ce555cb8f5230a57472769278",
+    "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs": "2a6a35a2dbfeaf6dd56f388586be3892f6ecf2ee44e657fad3939964a41fc132",
+    "tests/expected/uninit/mu-free-u3c-pfc-no-uninit/expected": "68a4354afa9e7c39cab236728e20b005d2f3e41ce555cb8f5230a57472769278",
+    "tests/expected/uninit/mu-free-u3c-pfc-no-uninit/main.rs": "4f89085e42038f0d061ec8132eb83c0310529a977a99320229e86d1b18df6276",
+    "tests/expected/uninit/mu-free-u3c-pfc/expected": "68a4354afa9e7c39cab236728e20b005d2f3e41ce555cb8f5230a57472769278",
+    "tests/expected/uninit/mu-free-u3c-pfc/main.rs": "c5a3cb8431f8e7408268216088da3746c351248425c36936dcff07d11129edb1",
+    "tests/expected/uninit/mu-free-u3c-plain/expected": "68a4354afa9e7c39cab236728e20b005d2f3e41ce555cb8f5230a57472769278",
+    "tests/expected/uninit/mu-free-u3c-plain/main.rs": "d6c1cc188f1b9d6130a02ccfdf7e325f0941103d81e1203b3c6c254d9fcf13d0"
+  },
+  "production_diff_u1_sha256": "c529f960ae6ae8cc1287d0006b20c30885df5208a33da9c4bed571984fce5b1d",
+  "production_files": {
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs": {
+      "clean_sha256": "92b632cabff031938ffc2abf9fef276193ac68184edf6f65c0d8722ee87ae00c",
+      "u1_sha256": "dddbf5d1b29a398d79d4d2a8ad7f3e216dba4c22203bb75ade6fd6c8c8d8cc60"
+    },
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs": {
+      "clean_sha256": "487138ede144c9cea764b1da8562a90525cfdcab7ba110e044d46a3b75ce502e",
+      "u1_sha256": "47b1063398159a376fd4edcecee4d28ac24f54b2e86a930d836b354023cd8ed0"
+    },
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs": {
+      "clean_sha256": "acd93cd4351eaff1ba8365ccc2298b560854aa9c95311204203a3c3485afa971",
+      "u1_sha256": "503b2c0f60762313b6f61b4308f154a90c459b3a4370aeb4ba2aa4e4a7aef6ba"
+    },
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": {
+      "clean_sha256": "82c9036308e984c2da6aeeda68186dbe36f99c1f3c74b151b176dfb2b992c2f7",
+      "u1_sha256": "6af797893e0e494b4e1c1090c05332af557ede8caef66d63496fded3a4f6d2b9"
+    },
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs": {
+      "clean_sha256": "326ddfe7b112e88f61f7af8606d433fc8be29fe959565ad3b4071a875f8230a9",
+      "u1_sha256": "db408ef3264acfad8245ac52d7f3aa2e658578edce611552ef29d19b8729f28e"
+    },
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs": {
+      "clean_sha256": "c56a07b8e4e5ca07cfe0014f5d09fb34a19c3c70e9fcc0f13ba035bbbfec65ff",
+      "u1_sha256": "ce16fba0d46cae786b1a85672a67e2460ff1df4c5c91d76d2c4883eed0153253"
+    },
+    "library/kani_core/src/mem_init.rs": {
+      "clean_sha256": "88f260ddc5b315a32e64b0f6f396451373d2fb54f1a4898233508ebd81cd993c",
+      "u1_sha256": "755a9e0c03abaf37db34a89a21306a1c879acabd1db945e9ae527d3df6b1adb3"
+    }
+  },
+  "variants": {
+    "clean": {
+      "branch": "u3c-clean",
+      "candidate": "8757e3105d2fa0fc58b55d4d8c31e58ff0dd15e2",
+      "applied_tree": "97f86904b400e81c9b269cdafa957750ef741eea",
+      "patch_sha256": "8a1df0a7eeb4b449f280d521e2a563d9cb57f0936bcc29a65fb88ad2161a1dda",
+      "request_sha256": "d8d4a877878ea44f2986be5f541d7a7ffa1eb500ea363a50718c236dc392c7bd",
+      "diffstat": " .../expected                                       |  1 +\n .../main.rs                                        | 29 ++++++++++++++++++++++\n .../maybe-uninit-buffer-u3b-pfc-negative/expected  |  1 +\n .../maybe-uninit-buffer-u3b-pfc-negative/main.rs   | 29 ++++++++++++++++++++++\n .../expected                                       |  1 +\n .../main.rs                                        | 29 ++++++++++++++++++++++\n .../maybe-uninit-buffer-u3b-pfc-positive/expected  |  1 +\n .../maybe-uninit-buffer-u3b-pfc-positive/main.rs   | 29 ++++++++++++++++++++++\n .../uninit/mu-free-u3c-pfc-no-uninit/expected      |  1 +\n .../uninit/mu-free-u3c-pfc-no-uninit/main.rs       | 17 +++++++++++++\n tests/expected/uninit/mu-free-u3c-pfc/expected     |  1 +\n tests/expected/uninit/mu-free-u3c-pfc/main.rs      | 17 +++++++++++++\n tests/expected/uninit/mu-free-u3c-plain/expected   |  1 +\n tests/expected/uninit/mu-free-u3c-plain/main.rs    | 17 +++++++++++++\n 14 files changed, 174 insertions(+)\n",
+      "changed_paths": [
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/expected",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/expected",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/expected",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/expected",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
+        "tests/expected/uninit/mu-free-u3c-pfc-no-uninit/expected",
+        "tests/expected/uninit/mu-free-u3c-pfc-no-uninit/main.rs",
+        "tests/expected/uninit/mu-free-u3c-pfc/expected",
+        "tests/expected/uninit/mu-free-u3c-pfc/main.rs",
+        "tests/expected/uninit/mu-free-u3c-plain/expected",
+        "tests/expected/uninit/mu-free-u3c-plain/main.rs"
+      ],
+      "production_byte_equal_reference": true,
+      "fixture_bytes_identical": true,
+      "diffstat_bytes": 981
+    },
+    "u1": {
+      "branch": "u3c-u1",
+      "candidate": "e12d8d847b6566173446b68aab3515e09ef124e1",
+      "applied_tree": "8ebcafd3e90f32fe7b5586d7a0d2f3ea6ddb360e",
+      "patch_sha256": "c462f297d25297b69bdd0c99b520772a7906700c5886a0118e77ed83efbcc981",
+      "request_sha256": "cce17bc34ab85fc5467689ac48403c6340cb607ea590743e96ebad0a246b2a4d",
+      "diffstat": " .../transform/check_uninit/delayed_ub/mod.rs       |   1 +\n .../src/kani_middle/transform/check_uninit/mod.rs  | 106 ++++-\n .../transform/check_uninit/ptr_uninit/mod.rs       |   3 +-\n .../check_uninit/ptr_uninit/uninit_visitor.rs      | 476 ++++++++++++++++-----\n .../transform/check_uninit/relevant_instruction.rs |  59 ++-\n .../transform/check_uninit/ty_layout.rs            |  41 +-\n library/kani_core/src/mem_init.rs                  |  12 +-\n .../expected                                       |   1 +\n .../main.rs                                        |  29 ++\n .../maybe-uninit-buffer-u3b-pfc-negative/expected  |   1 +\n .../maybe-uninit-buffer-u3b-pfc-negative/main.rs   |  29 ++\n .../expected                                       |   1 +\n .../main.rs                                        |  29 ++\n .../maybe-uninit-buffer-u3b-pfc-positive/expected  |   1 +\n .../maybe-uninit-buffer-u3b-pfc-positive/main.rs   |  29 ++\n .../uninit/mu-free-u3c-pfc-no-uninit/expected      |   1 +\n .../uninit/mu-free-u3c-pfc-no-uninit/main.rs       |  17 +\n tests/expected/uninit/mu-free-u3c-pfc/expected     |   1 +\n tests/expected/uninit/mu-free-u3c-pfc/main.rs      |  17 +\n tests/expected/uninit/mu-free-u3c-plain/expected   |   1 +\n tests/expected/uninit/mu-free-u3c-plain/main.rs    |  17 +\n 21 files changed, 722 insertions(+), 150 deletions(-)\n",
+      "changed_paths": [
+        "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "library/kani_core/src/mem_init.rs",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/expected",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/expected",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/expected",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/expected",
+        "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
+        "tests/expected/uninit/mu-free-u3c-pfc-no-uninit/expected",
+        "tests/expected/uninit/mu-free-u3c-pfc-no-uninit/main.rs",
+        "tests/expected/uninit/mu-free-u3c-pfc/expected",
+        "tests/expected/uninit/mu-free-u3c-pfc/main.rs",
+        "tests/expected/uninit/mu-free-u3c-plain/expected",
+        "tests/expected/uninit/mu-free-u3c-plain/main.rs"
+      ],
+      "production_byte_equal_reference": true,
+      "fixture_bytes_identical": true,
+      "diffstat_bytes": 1346
+    }
+  }
+}

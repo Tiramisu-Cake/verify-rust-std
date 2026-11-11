@@ -1,0 +1,9 @@
+{
+  "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "patch": {
+    "path": "research/challenge-8/kani-k1/kani3300/u3c/clean/kani-u3c-clean.patch",
+    "sha256": "8a1df0a7eeb4b449f280d521e2a563d9cb57f0936bcc29a65fb88ad2161a1dda"
+  },
+  "tree": "97f86904b400e81c9b269cdafa957750ef741eea",
+  "diffstat": ".../expected                                       |  1 +\n .../main.rs                                        | 29 ++++++++++++++++++++++\n .../maybe-uninit-buffer-u3b-pfc-negative/expected  |  1 +\n .../maybe-uninit-buffer-u3b-pfc-negative/main.rs   | 29 ++++++++++++++++++++++\n .../expected                                       |  1 +\n .../main.rs                                        | 29 ++++++++++++++++++++++\n .../maybe-uninit-buffer-u3b-pfc-positive/expected  |  1 +\n .../maybe-uninit-buffer-u3b-pfc-positive/main.rs   | 29 ++++++++++++++++++++++\n .../uninit/mu-free-u3c-pfc-no-uninit/expected      |  1 +\n .../uninit/mu-free-u3c-pfc-no-uninit/main.rs       | 17 +++++++++++++\n tests/expected/uninit/mu-free-u3c-pfc/expected     |  1 +\n tests/expected/uninit/mu-free-u3c-pfc/main.rs      | 17 +++++++++++++\n tests/expected/uninit/mu-free-u3c-plain/expected   |  1 +\n tests/expected/uninit/mu-free-u3c-plain/main.rs    | 17 +++++++++++++\n 14 files changed, 174 insertions(+)"
+}

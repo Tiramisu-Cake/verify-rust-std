@@ -1,0 +1,73 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "kani3300-u3c-clean-20261111-01",
+  "agent": "k1-merge",
+  "kind": "kani-tests",
+  "purpose": "KANI3300 U3C differential diagnosis: clean production; byte-identical U3B exact roots and MU-free PFC/plain controls. Native PASS is not correctness credit; classify actual terminal output.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 5,
+  "harnesses": [],
+  "kani_patch": {
+    "path": "research/challenge-8/kani-k1/kani3300/u3c/clean/kani-u3c-clean.patch",
+    "sha256": "8a1df0a7eeb4b449f280d521e2a563d9cb57f0936bcc29a65fb88ad2161a1dda"
+  },
+  "test_timeout_seconds": 150,
+  "kani_tests": [
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "VERIFICATION:-"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "VERIFICATION:-"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "VERIFICATION:-"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "VERIFICATION:-"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/mu-free-u3c-pfc/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "VERIFICATION:-"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/mu-free-u3c-pfc-no-uninit/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "VERIFICATION:-"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/mu-free-u3c-plain/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "VERIFICATION:-"
+    }
+  ]
+}
