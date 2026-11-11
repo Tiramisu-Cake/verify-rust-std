@@ -1,13 +1,13 @@
 {
   "stage": "kani3300-t1b-s",
-  "state": "PRE_BUILD_REVIEW_COMPLETE_NO_DISPATCH",
+  "state": "C_AUTHORIZED_INSTALLED_PREFLIGHT",
   "runtime": "Codex",
   "task_commit": "25a9256dc5eb1836c10544328046584417a6464b",
   "kani_commit": "12b4137c42f3ee92f12476ea0771ea41a5cd1e8d",
   "request_sha256": "61cc4a3fec6e16ef688e6835fab60e96a759bca57070726d1295d557b7910379",
   "phase_registered": false,
-  "active_inputs_changed": false,
-  "dispatch_authorized": false,
+  "active_inputs_changed": true,
+  "dispatch_authorized": true,
   "builds": 0,
   "cloud_usd": "0.0000",
   "stage_remaining_usd": "0.4760",
@@ -25,5 +25,31 @@
     "Five-root context may not reproduce failure; capacity estimate cannot recover555 omitted A3 events or guarantee complete trace.",
     "Actual failing-root GOTO hash/last writer chain and concrete object/offset/R/runtime causality await authorized C; source-reported only, independent B1/B2 NONE."
   ],
-  "stop_boundary": "Requested single T1b-S stage complete: static design, compact diagnostics, tests/review, C prepared; no Cloud/dispatch/Actions/PR/Kani push, no retry or next stage."
+  "stop_boundary": "Requested single T1b-S stage complete: static design, compact diagnostics, tests/review, C prepared; no Cloud/dispatch/Actions/PR/Kani push, no retry or next stage.",
+  "attempts_allowed": 1,
+  "retry_allowed": false,
+  "status_polling": false,
+  "authorization": {
+    "source": "Explicit coordinator GO in user message: accepted b55fa8bdfe, fork CI success for12b4137c42; install exact C SHA, live ledger/slots/deadline, preflight, one dispatch, watch/end turn. No retries.",
+    "accepted_pre_build_head": "b55fa8bdfe1037e9529071f1b50d4d5a148b1b6c",
+    "request_sha256": "61cc4a3fec6e16ef688e6835fab60e96a759bca57070726d1295d557b7910379",
+    "reserve_usd": "0.4725",
+    "remaining_cap_usd": "0.4760",
+    "attempts_allowed": 1,
+    "retry_allowed": false,
+    "consumed": false
+  },
+  "window": {
+    "T0": "2026-11-11T19:39:49+00:00",
+    "main_deadline": "2026-11-11T21:39:49+00:00",
+    "closeout_deadline": "2026-11-11T22:09:49+00:00",
+    "source": "CORE default120+30min, no earlier active Build/T0; new explicit C GO",
+    "existing_watch_queue_allowance_minutes": 30,
+    "build_timeout_minutes": 35,
+    "publication_reserve_minutes": 5,
+    "fits_main_deadline": true,
+    "checked_at": "2026-11-11T19:41:12.382025+00:00"
+  },
+  "preflight": "C-PREFLIGHT.json",
+  "next_step": "Finish live stage ledger check, commit/push exact installed C, one k1g dispatch; k1g watch and end turn. On notification Brief then bounded summary/trace fields/cost, RESULT-KANI3300-T1B-C.md<=40lines, commit/push and stop."
 }
