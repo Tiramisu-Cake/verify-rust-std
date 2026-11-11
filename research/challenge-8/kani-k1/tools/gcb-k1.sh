@@ -228,6 +228,11 @@ PY
         while IFS= read -r assignment; do export "$assignment"; done < "$K1_OUT/trace.env"
       fi
       set +e
+      if [ -s "$K1_OUT/trace.env" ]; then
+        python3 -B "$K1_TOOLS/kani_k1.py" trace-invocation --request "$K1_REQUEST" \
+          --args "$K1_OUT/kani-args.txt" --out "$K1_OUT/trace-invocation.json" \
+          --cwd "$PWD" --build-id "${K1_BUILD_ID:-}" --head-sha "$(git rev-parse HEAD 2>/dev/null || true)"
+      fi
       # Same shape as the CircleCI lane: GNU time -v on stderr (time.txt), Kani output through tee; a run cut
       # by timeout is PARTIAL.
       if [ -s "$K1_OUT/partition.env" ]; then
@@ -285,6 +290,7 @@ PY
       if [ -s "$K1_OUT/trace.env" ]; then
         actual_library_tree=$(git rev-parse HEAD:library 2>/dev/null || true)
         trace_args=(--diagnostic-trace-dir "$K1_OUT/trace" --actual-library-tree "$actual_library_tree"
+          --diagnostic-trace-invocation "$K1_OUT/trace-invocation.json"
           --bind "$K1_TOOLS/diagnostic_trace.py" --bind "$K1_TOOLS/k1g.sh")
       fi
       os=$(. /etc/os-release && echo "$PRETTY_NAME")

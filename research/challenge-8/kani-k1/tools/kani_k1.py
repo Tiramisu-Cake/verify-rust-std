@@ -214,6 +214,56 @@ def write_trace_env(request_path: Path, out_path: Path, trace_dir: Path) -> None
     out_path.write_text("".join(f"{key}={value}\n" for key, value in values.items()))
 
 
+def write_trace_invocation(request_path: Path, args_path: Path, out_path: Path, cwd: str,
+                           build_id: str, head_sha: str) -> None:
+    """Record the concrete lane-script argv and relevant inherited environment without shell evaluation."""
+    raw = request_path.read_bytes()
+    request = validate_request(json.loads(raw))
+    trace = request.get("diagnostic_trace")
+    if trace is None:
+        raise RequestError("trace invocation manifest requires diagnostic_trace")
+    request_sha = hashlib.sha256(raw).hexdigest()
+    args = args_path.read_text().splitlines()
+    errors = []
+    if args != kani_args(request):
+        errors.append("kani-args.txt differs from validated request argv")
+    if not os.path.isabs(cwd):
+        errors.append("invocation cwd is not absolute")
+    if not re.fullmatch(r"[0-9a-f]{40}", head_sha or ""):
+        errors.append("invocation head SHA is missing or malformed")
+    expected = {"KANI3300_TRACE_DIR": os.environ.get("KANI3300_TRACE_DIR"),
+                "KANI3300_TRACE_FILTER": ";".join(trace["filters"]),
+                "KANI3300_TRACE_ID": request_sha,
+                "KANI3300_TRACE_STAGE": "kani3300-t1b"}
+    effective_env = {key: os.environ.get(key) for key in ("RUSTFLAGS", *expected)}
+    if not isinstance(effective_env.get("KANI3300_TRACE_DIR"), str) or not os.path.isabs(effective_env["KANI3300_TRACE_DIR"]):
+        errors.append("effective trace directory is missing or not absolute")
+    if any(effective_env.get(key) != value for key, value in expected.items()):
+        errors.append("effective KANI3300_TRACE_* environment differs from request")
+    if effective_env.get("RUSTFLAGS") is not None and len(effective_env["RUSTFLAGS"].encode()) > 4096:
+        effective_env["RUSTFLAGS"] = None
+        errors.append("effective RUSTFLAGS exceeds 4096 bytes")
+    if request.get("controls") and effective_env.get("RUSTFLAGS") != f"--cfg {CONTROLS_CFG}":
+        errors.append("effective RUSTFLAGS differs from requested controls cfg")
+    argv = ["scripts/run-kani.sh", "--path", cwd, "--kani-args", *args]
+    manifest = {
+        "schema": "kani3300-invocation-v1", "valid": not errors, "errors": errors,
+        "build_id": build_id, "head_sha": head_sha, "request_sha256": request_sha,
+        "cwd": cwd, "argv_scope": "scripts/run-kani.sh argv at lane executor boundary; internal Kani/rustc/CBMC argv unknown",
+        "argv": argv, "kani_args": args, "effective_env": effective_env,
+        "argv_sha256": hashlib.sha256(json.dumps(argv, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest(),
+        "env_sha256": hashlib.sha256(json.dumps(effective_env, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest(),
+    }
+    encoded = json.dumps(manifest, indent=2, sort_keys=True) + "\n"
+    if len(encoded.encode()) > 64 * 1024:
+        manifest["valid"] = False
+        manifest["errors"] = ["invocation manifest exceeds 64 KiB"]
+        manifest["argv"] = []
+        manifest["kani_args"] = []
+        encoded = json.dumps(manifest, indent=2, sort_keys=True) + "\n"
+    out_path.write_text(encoded)
+
+
 def validate_native_manifest(entries: Any) -> None:
     if not isinstance(entries, list) or not 1 <= len(entries) <= 20:
         raise RequestError("kani_tests must contain 1..20 typed selectors")
@@ -2062,7 +2112,8 @@ def _summarize_core(request_text: str | None, log_text: str | None, time_text: s
 
 
 def summarize(*args: Any, diagnostic_trace_dir: Path | None = None,
-              actual_library_tree: str | None = None, **kwargs: Any) -> dict[str, Any]:
+              actual_library_tree: str | None = None,
+              diagnostic_trace_invocation: Path | None = None, **kwargs: Any) -> dict[str, Any]:
     """Preserve the established verdict parser; attach opt-in trace evidence independently."""
     summary = _summarize_core(*args, **kwargs)
     if diagnostic_trace_dir is None:
@@ -2080,22 +2131,31 @@ def summarize(*args: Any, diagnostic_trace_dir: Path | None = None,
             raise ValueError("trace reader module unavailable")
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        filters = request["diagnostic_trace"]["filters"]
         raw = request_text.encode() if isinstance(request_text, str) else b""
-        filter_env = ";".join(filters)
+        manifest = None
+        invocation_errors = []
+        if diagnostic_trace_invocation is None or not diagnostic_trace_invocation.is_file():
+            invocation_errors.append("actual invocation manifest missing")
+        else:
+            try:
+                manifest = json.loads(diagnostic_trace_invocation.read_text())
+            except (OSError, json.JSONDecodeError, UnicodeError) as exc:
+                invocation_errors.append(f"actual invocation manifest unreadable: {type(exc).__name__}")
+        if isinstance(manifest, dict):
+            cwd = manifest.get("cwd") if isinstance(manifest.get("cwd"), str) else ""
+            expected_argv = ["scripts/run-kani.sh", "--path", cwd, "--kani-args", *kani_args(request)]
+            invocation_errors.extend(module.invocation_manifest_errors(
+                manifest, build_id=(summary.get("run") or {}).get("id"), head_sha=summary.get("head_sha"),
+                request_sha256=hashlib.sha256(raw).hexdigest(), request=request,
+                trace_dir=diagnostic_trace_dir, expected_argv=expected_argv))
         summary["diagnostic_trace"] = module.collect_trace(
             diagnostic_trace_dir, build_id=(summary.get("run") or {}).get("id"),
             head_sha=summary.get("head_sha"), request_sha256=hashlib.sha256(raw).hexdigest(),
             request=request, kani_commit=summary.get("kani_commit"),
             kani_build=summary.get("kani_build"), tooling=summary.get("tooling_sha256") or {},
             build_outcome=summary.get("build_outcome"),
-            effective_argv=["scripts/run-kani.sh", "--path", "$PWD", "--kani-args", *kani_args(request)],
-            effective_env={**({"RUSTFLAGS": f"--cfg {CONTROLS_CFG}"} if request.get("controls") else {}),
-                           "KANI3300_TRACE_DIR": str(diagnostic_trace_dir.resolve()),
-                           "KANI3300_TRACE_FILTER": filter_env,
-                           "KANI3300_TRACE_ID": hashlib.sha256(raw).hexdigest(),
-                           "KANI3300_TRACE_STAGE": "kani3300-t1b"},
-            actual_library_tree=actual_library_tree)
+            actual_library_tree=actual_library_tree, invocation=manifest,
+            invocation_errors=invocation_errors)
     except (OSError, ValueError, TypeError, KeyError) as exc:
         summary["diagnostic_trace"] = {"schema": "kani3300-diagnostic-trace-v1", "diagnostic_only": True,
                                        "state": "INVALID", "complete": False, "records": [],
@@ -2293,6 +2353,7 @@ def main(argv: list[str]) -> int:
     s.add_argument("--kani-build")
     s.add_argument("--diagnostic-trace-dir")
     s.add_argument("--actual-library-tree")
+    s.add_argument("--diagnostic-trace-invocation")
     s.add_argument("--bind", action="append", default=[], help="file whose SHA-256 is recorded (repeatable)")
     s.add_argument("--out-dir", required=True)
     g = sub.add_parser("gate")
@@ -2332,6 +2393,13 @@ def main(argv: list[str]) -> int:
     te.add_argument("--request", required=True)
     te.add_argument("--out", required=True)
     te.add_argument("--trace-dir", required=True)
+    ti = sub.add_parser("trace-invocation", help="record actual opt-in verifier argv/environment at invocation boundary")
+    ti.add_argument("--request", required=True)
+    ti.add_argument("--args", required=True)
+    ti.add_argument("--out", required=True)
+    ti.add_argument("--cwd", required=True)
+    ti.add_argument("--build-id", required=True)
+    ti.add_argument("--head-sha", required=True)
     pi = sub.add_parser("page-inventory")
     pi.add_argument("inventory")
     pi.add_argument("summary")
@@ -2420,6 +2488,13 @@ def main(argv: list[str]) -> int:
             print(f"trace-env: {exc}", file=sys.stderr)
             return 2
         return 0
+    if a.cmd == "trace-invocation":
+        try:
+            write_trace_invocation(Path(a.request), Path(a.args), Path(a.out), a.cwd, a.build_id, a.head_sha)
+        except (OSError, json.JSONDecodeError, RequestError, ValueError) as exc:
+            print(f"trace-invocation: {exc}", file=sys.stderr)
+            return 2
+        return 0
     if a.cmd in ("page-summary", "page-native"):
         try:
             renderer = native_page if a.cmd == "page-native" else summary_page
@@ -2477,7 +2552,9 @@ def main(argv: list[str]) -> int:
                             _read_optional(a.peaks), a.peaks is not None, _read_optional(a.inventory),
                             _read_optional(a.native), _read_optional(a.kani_build),
                             diagnostic_trace_dir=Path(a.diagnostic_trace_dir) if a.diagnostic_trace_dir else None,
-                            actual_library_tree=a.actual_library_tree)
+                            actual_library_tree=a.actual_library_tree,
+                            diagnostic_trace_invocation=(Path(a.diagnostic_trace_invocation)
+                                                         if a.diagnostic_trace_invocation else None))
         out = Path(a.out_dir)
         out.mkdir(parents=True, exist_ok=True)
         (out / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")

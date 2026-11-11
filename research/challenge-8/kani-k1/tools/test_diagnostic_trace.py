@@ -31,21 +31,40 @@ REQUEST = {
 
 
 def sidecar(directory: Path, request_text: str, *, state="COMPLETE", stage=dt.STAGE,
-            trace_id=None, records=None, footer=True):
+            trace_id=None, records=None, footer=True, omitted=0, seen=None):
     trace_id = trace_id or hashlib.sha256(request_text.encode()).hexdigest()
     invocation = "compiler-1"
     events = records if records is not None else [{"kind": "mir", "data": {"target": "IndexRange::len"}}]
     rows = [{"schema": dt.SCHEMA, "kind": "header", "trace_id": trace_id, "stage": stage,
              "invocation": invocation, "seq": 0,
-             "data": {"filters": REQUEST["diagnostic_trace"]["filters"]}}]
+             "data": {"filters": REQUEST["diagnostic_trace"]["filters"], "filter_mode": dt.FILTER_MODE,
+                      "limits": {"records": dt.MAX_INVOCATION_RECORDS, "record_bytes": dt.MAX_RECORD_BYTES,
+                                 "invocation_bytes": dt.MAX_PRODUCER_INVOCATION_BYTES}}}]
     rows += [{"schema": dt.SCHEMA, "kind": row["kind"], "trace_id": trace_id, "stage": stage,
               "invocation": invocation, "seq": i + 1, "data": row["data"]} for i, row in enumerate(events)]
     if footer:
         rows.append({"schema": dt.SCHEMA, "kind": "footer", "trace_id": trace_id, "stage": stage,
                      "invocation": invocation, "seq": len(events) + 1,
-                     "data": {"state": state, "seen_records": len(events), "emitted_records": len(events),
-                              "omitted_records": 0, "bytes_before_footer": 42, "coverage": ["mir"]}})
+                     "data": {"state": state, "seen_records": len(events) + omitted if seen is None else seen,
+                              "emitted_records": len(events), "omitted_records": omitted,
+                              "bytes_before_footer": 42, "coverage": {"mir": len(events)},
+                              "omission_counts": ({"synthetic": omitted} if omitted else {})}})
     (directory / "kani3300-trace-1-0.jsonl").write_text("".join(json.dumps(r, separators=(",", ":")) + "\n" for r in rows))
+
+
+def invocation(request_text, directory, *, build_id="build-1", head_sha="f" * 40, rustflags=None):
+    request = k.validate_request(json.loads(request_text)); filters = request["diagnostic_trace"]["filters"]
+    request_sha = hashlib.sha256(request_text.encode()).hexdigest()
+    cwd = str(Path(directory).resolve())
+    argv = ["scripts/run-kani.sh", "--path", cwd, "--kani-args", *k.kani_args(request)]
+    env = {"RUSTFLAGS": rustflags,
+           "KANI3300_TRACE_DIR": str((Path(directory) / "trace").resolve()),
+           "KANI3300_TRACE_FILTER": ";".join(filters), "KANI3300_TRACE_ID": request_sha,
+           "KANI3300_TRACE_STAGE": dt.STAGE}
+    return {"schema": "kani3300-invocation-v1", "valid": True, "errors": [], "build_id": build_id,
+            "head_sha": head_sha, "request_sha256": request_sha, "cwd": cwd,
+            "argv_scope": dt.INVOCATION_SCOPE, "argv": argv, "kani_args": k.kani_args(request),
+            "effective_env": env, "argv_sha256": dt._sha_json(argv), "env_sha256": dt._sha_json(env)}
 
 
 def collect(directory, request_text=None, *, outcome="success", library_tree=TREE, kani_commit=PIN,
@@ -56,8 +75,8 @@ def collect(directory, request_text=None, *, outcome="success", library_tree=TRE
                             request_sha256=hashlib.sha256(text.encode()).hexdigest(), request=req,
                             kani_commit=kani_commit, kani_build={"tree": applied},
                             tooling={"tools/x.py": "e" * 64}, build_outcome=outcome,
-                            effective_argv=["kani", "--harness", NAME], effective_env={},
-                            actual_library_tree=library_tree)
+                            actual_library_tree=library_tree,
+                            invocation=invocation(text, directory), invocation_errors=[])
 
 
 class DiagnosticTraceTests(unittest.TestCase):
@@ -126,12 +145,34 @@ class DiagnosticTraceTests(unittest.TestCase):
             result = collect(directory, raw)
             self.assertEqual(result["state"], "COMPLETE")
             self.assertEqual(result["identity"]["library_tree"], TREE)
-            summary = {"run": {"id": "build-1"}, "diagnostic_trace": result}
+            summary = {"run": {"id": "build-1"}, "head_sha": "f" * 40,
+                       "request_sha256": hashlib.sha256(raw.encode()).hexdigest(), "kani_commit": PIN,
+                       "kani_build": {"patch": REQUEST["kani_patch"], "tree": APPLIED},
+                       "tooling_sha256": result["identity"]["tooling_sha256"], "diagnostic_trace": result}
             page = json.loads(dt.trace_field_page(summary, "records", 0, 20, "build-1"))
             self.assertEqual(page["next_start"], None)
             self.assertTrue(page["complete"])
             with self.assertRaisesRegex(ValueError, "identity mismatch"):
                 dt.trace_field_page(summary, "records", 0, 20, "build-2")
+            mutations = [
+                lambda s: s["diagnostic_trace"]["identity"].update(build_id="other"),
+                lambda s: s["diagnostic_trace"]["identity"].update(head_sha="0" * 40),
+                lambda s: s["diagnostic_trace"]["identity"].update(request_sha256="0" * 64),
+                lambda s: s["diagnostic_trace"]["identity"].update(kani_commit="0" * 40),
+                lambda s: s["diagnostic_trace"]["identity"].update(patch_sha256="0" * 64),
+                lambda s: s["diagnostic_trace"]["identity"].update(applied_tree="0" * 40),
+                lambda s: s["diagnostic_trace"]["source_identity"].update(trace_id="0" * 64),
+                lambda s: s["diagnostic_trace"]["source_identity"].update(stage="wrong"),
+                lambda s: s["diagnostic_trace"]["source_identity"].update(schema="wrong"),
+                lambda s: s["diagnostic_trace"]["source_identity"].update(filter_mode="wrong"),
+                lambda s: s["diagnostic_trace"]["identity"].update(trace_stage="wrong"),
+                lambda s: s["diagnostic_trace"]["identity"].update(trace_schema="wrong"),
+                lambda s: s["diagnostic_trace"]["identity"].update(filter_sha256="0" * 64),
+            ]
+            for index, mutate in enumerate(mutations):
+                altered = copy.deepcopy(summary); mutate(altered)
+                with self.assertRaises(ValueError, msg=f"identity mutation {index} was accepted"):
+                    dt.trace_field_page(altered, "records", 0, 20)
 
     def test_missing_malformed_null_partial_oversized_and_timeout(self):
         raw = json.dumps(REQUEST, separators=(",", ":"))
@@ -144,7 +185,25 @@ class DiagnosticTraceTests(unittest.TestCase):
             directory = Path(tmp); sidecar(directory, raw, state="PARTIAL")
             self.assertEqual(collect(directory, raw)["state"], "PARTIAL")
         with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp); sidecar(directory, raw, state="PARTIAL", omitted=699, seen=700)
+            report = collect(directory, raw)
+            self.assertEqual(report["state"], "PARTIAL")
+            self.assertEqual(report["seen"], 700)
+            self.assertEqual(report["omitted"], 699)
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp); sidecar(directory, raw, state="COMPLETE", omitted=1, seen=2)
+            self.assertEqual(collect(directory, raw)["state"], "INVALID")
+        with tempfile.TemporaryDirectory() as tmp:
             directory = Path(tmp); sidecar(directory, raw, state="OVERSIZED")
+            self.assertEqual(collect(directory, raw)["state"], "OVERSIZED")
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp)
+            many = [{"kind": "event", "data": {"i": i}} for i in range(dt.MAX_INVOCATION_RECORDS + 1)]
+            sidecar(directory, raw, records=many)
+            self.assertEqual(collect(directory, raw)["state"], "OVERSIZED")
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp)
+            (directory / "kani3300-trace-large.jsonl").write_bytes(b"x" * (dt.MAX_INVOCATION_BYTES + 1))
             self.assertEqual(collect(directory, raw)["state"], "OVERSIZED")
         with tempfile.TemporaryDirectory() as tmp:
             directory = Path(tmp); (directory / "kani3300-trace-1-0.jsonl").write_text("null\n")
@@ -183,7 +242,8 @@ class DiagnosticTraceTests(unittest.TestCase):
             sidecar(directory, raw, records=records)
             self.assertEqual(collect(directory, raw)["state"], "INVALID")
 
-    def service_run(self, *, traced: bool, result: str, producer: str = "valid"):
+    def service_run(self, *, traced: bool, result: str, producer: str = "valid",
+                    rustflags: str | None = "--cfg inherited_test"):
         with tempfile.TemporaryDirectory() as tmp:
             workspace = Path(tmp)
             tools = workspace / "research/challenge-8/kani-k1/tools"
@@ -236,9 +296,9 @@ python3 - "$KANI3300_TRACE_DIR" "$KANI3300_TRACE_ID" "$KANI3300_TRACE_STAGE" "$K
 import json,sys
 from pathlib import Path
 d=Path(sys.argv[1]); tid,stage,filters=sys.argv[2:]; filters=filters.split(';'); inv='compiler-1'
-rows=[{{"schema":"kani3300-trace-v1","kind":"header","trace_id":tid,"stage":stage,"invocation":inv,"seq":0,"data":{{"filters":filters}}}},
+rows=[{{"schema":"kani3300-trace-v1","kind":"header","trace_id":tid,"stage":stage,"invocation":inv,"seq":0,"data":{{"filters":filters,"filter_mode":"semicolon-literal-substring","limits":{{"records":512,"record_bytes":2048,"invocation_bytes":256000}}}}}},
 {{"schema":"kani3300-trace-v1","kind":"mir","trace_id":tid,"stage":stage,"invocation":inv,"seq":1,"data":{{"target":"IndexRange::len"}}}},
-{{"schema":"kani3300-trace-v1","kind":"footer","trace_id":tid,"stage":stage,"invocation":inv,"seq":2,"data":{{"state":"COMPLETE","seen_records":1,"emitted_records":1,"omitted_records":0,"bytes_before_footer":200,"coverage":["mir"]}}}}]
+{{"schema":"kani3300-trace-v1","kind":"footer","trace_id":tid,"stage":stage,"invocation":inv,"seq":2,"data":{{"state":"COMPLETE","seen_records":1,"emitted_records":1,"omitted_records":0,"bytes_before_footer":200,"coverage":{{"mir":1}},"omission_counts":{{}}}}}}]
 (d/'kani3300-trace-1-0.jsonl').write_text(''.join(json.dumps(r,separators=(',',':'))+'\\n' for r in rows))
 PY
 elif [ -n "${{KANI3300_TRACE_DIR:-}}" ] && [ "{producer}" = oversized ]; then
@@ -271,7 +331,7 @@ exit 0
             run_script.chmod(0o755)
             env = dict(os.environ, PATH=f"{fakebin}:/usr/bin:/bin", HOME="/root", K1_BUILD_ID="12345678-1234-1234-1234-123456789012",
                        KANI3300_TRACE_DIR="; touch /tmp/nope", KANI3300_TRACE_FILTER="$(id)", KANI3300_TRACE_ID="bad",
-                       KANI3300_TRACE_STAGE="bad")
+                       KANI3300_TRACE_STAGE="bad", RUSTFLAGS=rustflags or "")
             verify = subprocess.run(["bash", str(tools / "gcb-k1.sh"), "verify"], cwd=workspace, env=env,
                                     capture_output=True, text=True, timeout=20)
             self.assertEqual(verify.returncode, 0, verify.stderr)
@@ -293,6 +353,11 @@ exit 0
         self.assertEqual(data["status"], "COMPLETE", data)
         self.assertFalse(data["expectation_met"])
         self.assertEqual(data["diagnostic_trace"]["state"], "COMPLETE")
+        identity = data["diagnostic_trace"]["identity"]
+        self.assertEqual(identity["effective_env"]["RUSTFLAGS"], "--cfg inherited_test")
+        self.assertEqual(identity["effective_argv"][2], identity["cwd"])
+        self.assertNotIn("$PWD", identity["effective_argv"])
+        self.assertIn("internal Kani/rustc/CBMC argv unknown", identity["argv_scope"])
 
     def test_gcb_service_missing_oversized_and_opt_out(self):
         missing, env_missing, _ = self.service_run(traced=True, result="ok", producer="missing")
@@ -304,6 +369,10 @@ exit 0
         self.assertEqual(oversized["diagnostic_trace"]["state"], "OVERSIZED")
         self.assertEqual(oversized["status"], "COMPLETE")
         self.assertEqual(oversized["kani_exit_code"], 0)
+        large_env, _, _ = self.service_run(traced=True, result="ok", rustflags="x" * 4097)
+        self.assertEqual(large_env["diagnostic_trace"]["state"], "INVALID")
+        self.assertEqual(large_env["status"], "COMPLETE")
+        self.assertEqual(large_env["kani_exit_code"], 0)
         optout, optout_env, _ = self.service_run(traced=False, result="ok")
         self.assertEqual(optout_env, ["UNSET"] * 4)
         self.assertNotIn("diagnostic_trace", optout)
@@ -314,9 +383,9 @@ exit 0
         with tempfile.TemporaryDirectory() as tmp:
             directory = Path(tmp)
             (directory / "kani3300-trace-overflow.jsonl").write_text(json.dumps({
-                "schema": dt.SCHEMA, "kind": "overflow", "state": "OVERSIZED",
+                "schema": dt.SCHEMA, "kind": "overflow", "invocation": "compiler-overflow", "seq": 0,
                 "trace_id": hashlib.sha256(raw.encode()).hexdigest(), "stage": dt.STAGE,
-                "omitted_invocations": "one-or-more"}) + "\n")
+                "data": {"state": "OVERSIZED", "omitted_invocations": "one-or-more"}}) + "\n")
             self.assertEqual(collect(directory, raw)["state"], "OVERSIZED")
 
     def test_k1g_trace_field_uses_cached_summary_only_and_checks_build_binding(self):
@@ -324,9 +393,20 @@ exit 0
             root = Path(tmp); cache = root / "cache"; build = "12345678-1234-1234-1234-123456789012"
             summary_dir = cache / f"summary-{build}" / "summary"; summary_dir.mkdir(parents=True)
             payload = {"run": {"id": build}, "diagnostic_trace": {
-                "state": "PARTIAL", "complete": False, "identity": {"build_id": build},
-                "records": [{"kind": "target", "data": {"which": 1}}, {"kind": "op", "data": {"which": 2}}],
-                "omitted": 1}}
+                "state": "PARTIAL", "complete": False, "identity": {},
+                "records": [], "omitted": 0}}
+            raw = json.dumps(REQUEST, separators=(",", ":"))
+            with tempfile.TemporaryDirectory() as trace_tmp:
+                trace_path = Path(trace_tmp); sidecar(trace_path, raw)
+                payload["diagnostic_trace"] = collect(trace_path, raw)
+            trace = payload["diagnostic_trace"]
+            trace["identity"]["build_id"] = build
+            trace["records"] = [{"kind": "target", "data": {"which": 1}}, {"kind": "op", "data": {"which": 2}}]
+            trace["emitted"], trace["seen"], trace["omitted"] = 2, 3, 1
+            trace["state"], trace["complete"] = "PARTIAL", False
+            payload.update(head_sha="f" * 40, request_sha256=hashlib.sha256(raw.encode()).hexdigest(),
+                           kani_commit=PIN, kani_build={"patch": REQUEST["kani_patch"], "tree": APPLIED},
+                           tooling_sha256=trace["identity"]["tooling_sha256"])
             (summary_dir / "summary.json").write_text(json.dumps(payload))
             key, gcfg, fakebin = root / "key", root / "gcfg", root / "bin"
             key.write_text("synthetic"); fakebin.mkdir()

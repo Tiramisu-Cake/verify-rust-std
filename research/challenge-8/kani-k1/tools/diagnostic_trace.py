@@ -4,6 +4,8 @@ from __future__ import annotations
 import hashlib
 import itertools
 import json
+import os
+import re
 from pathlib import Path
 from typing import Any
 
@@ -11,22 +13,202 @@ SCHEMA = "kani3300-trace-v1"
 STAGE = "kani3300-t1b"
 MAX_RECORD_BYTES = 2048
 MAX_RUN_BYTES = 1024 * 1024
+MAX_INVOCATION_BYTES = 256 * 1024
+MAX_PRODUCER_INVOCATION_BYTES = 250 * 1024
+MAX_INVOCATION_RECORDS = 512
 MAX_RUN_RECORDS = 4096
 MAX_SIDECARS = 128
 MAX_ERRORS = 16
 MAX_PAGE_RECORDS = 20
 MAX_PAGE_BYTES = 12000
+INVOCATION_SCOPE = "scripts/run-kani.sh argv at lane executor boundary; internal Kani/rustc/CBMC argv unknown"
+CONTROL_CFG = "kani_smallsort_controls"
+FILTER_MODE = "semicolon-literal-substring"
 
 
 def _json_bytes(value: Any) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
 
 
+def _sha_json(value: Any) -> str:
+    return hashlib.sha256(_json_bytes(value)).hexdigest()
+
+
+def _coverage_incomplete(value: Any) -> bool:
+    if isinstance(value, dict):
+        for key, child in value.items():
+            name = str(key).lower()
+            if name.startswith("omitted") and type(child) is int and child > 0:
+                return True
+            if name in ("complete", "is_complete") and child is False:
+                return True
+            if name in ("partial", "incomplete") and child is True:
+                return True
+            if name == "state" and isinstance(child, str) and child.upper() not in ("COMPLETE", "OK"):
+                return True
+            if _coverage_incomplete(child):
+                return True
+    elif isinstance(value, list):
+        return any(_coverage_incomplete(child) for child in value)
+    return False
+
+
+def validate_trace_page_identity(summary: dict[str, Any]) -> dict[str, Any]:
+    """Validate source, request, and target identities before exposing any trace page."""
+    trace = summary.get("diagnostic_trace")
+    if not isinstance(trace, dict):
+        raise ValueError("summary has no diagnostic_trace object")
+    identity = trace.get("identity")
+    source = trace.get("source_identity")
+    request_sha = summary.get("request_sha256")
+    head = summary.get("head_sha")
+    run_id = (summary.get("run") or {}).get("id")
+    kani_commit = summary.get("kani_commit")
+    kani_build = summary.get("kani_build")
+    if (trace.get("schema") != "kani3300-diagnostic-trace-v1" or not isinstance(identity, dict)
+            or not isinstance(source, dict)):
+        raise ValueError("diagnostic trace schema or identity envelope missing")
+    required = ("build_id", "head_sha", "request_sha256", "library_tree", "actual_library_tree",
+                "base_pin", "kani_commit", "patch_sha256", "applied_tree", "expected_applied_tree",
+                "tooling_sha256", "effective_argv", "effective_env", "argv_sha256", "env_sha256",
+                "filters", "filter_sha256", "trace_schema", "trace_stage", "argv_scope", "cwd")
+    if any(key not in identity for key in required):
+        raise ValueError("diagnostic trace identity fields missing")
+    if (not isinstance(run_id, str) or identity["build_id"] != run_id
+            or identity["head_sha"] != head or identity["request_sha256"] != request_sha):
+        raise ValueError("diagnostic trace build/head/request identity mismatch")
+    if (source.get("trace_id") != request_sha or source.get("stage") != STAGE
+            or source.get("schema") != SCHEMA or source.get("filter_sha256") != identity.get("filter_sha256")
+            or source.get("filter_mode") != FILTER_MODE
+            or identity.get("trace_stage") != STAGE or identity.get("trace_schema") != SCHEMA):
+        raise ValueError("diagnostic trace source/stage/schema identity mismatch")
+    if (not isinstance(request_sha, str) or not re.fullmatch(r"[0-9a-f]{64}", request_sha)
+            or not isinstance(head, str) or not re.fullmatch(r"[0-9a-f]{40}", head)):
+        raise ValueError("outer request/head identity is malformed")
+    if (not isinstance(kani_commit, str) or identity.get("base_pin") != kani_commit
+            or identity.get("kani_commit") != kani_commit):
+        raise ValueError("diagnostic trace Kani pin identity mismatch")
+    if not isinstance(kani_build, dict):
+        raise ValueError("outer Kani build identity missing")
+    patch = kani_build.get("patch")
+    patch_sha = patch.get("sha256") if isinstance(patch, dict) else None
+    applied_tree = kani_build.get("tree")
+    if (identity.get("patch_sha256") != patch_sha or identity.get("applied_tree") != applied_tree
+            or identity.get("expected_applied_tree") != applied_tree):
+        raise ValueError("diagnostic trace patch/applied-tree identity mismatch")
+    if identity.get("actual_library_tree") != identity.get("library_tree"):
+        raise ValueError("diagnostic trace library-tree identity mismatch")
+    if (not isinstance(identity.get("tooling_sha256"), dict)
+            or identity.get("tooling_sha256") != summary.get("tooling_sha256")
+            or not isinstance(identity.get("effective_argv"), list)
+            or any(not isinstance(arg, str) for arg in identity["effective_argv"])
+            or not isinstance(identity.get("effective_env"), dict)):
+        raise ValueError("diagnostic trace tooling/argv/env identity malformed")
+    if identity.get("argv_sha256") != _sha_json(identity["effective_argv"]):
+        raise ValueError("diagnostic trace argv digest mismatch")
+    if identity.get("env_sha256") != _sha_json(identity["effective_env"]):
+        raise ValueError("diagnostic trace env digest mismatch")
+    filters = identity.get("filters")
+    if (not isinstance(filters, list) or not filters or any(not isinstance(item, str) for item in filters)
+            or any(not re.fullmatch(r"[A-Za-z0-9_:.$<>-]{1,300}", item) for item in filters)
+            or sum(len(item.encode()) for item in filters) + len(filters) - 1 > 900
+            or identity.get("filter_sha256") != hashlib.sha256(";".join(filters).encode()).hexdigest()
+            or identity["effective_env"].get("KANI3300_TRACE_FILTER") != ";".join(filters)
+            or identity["effective_env"].get("KANI3300_TRACE_ID") != request_sha
+            or identity["effective_env"].get("KANI3300_TRACE_STAGE") != STAGE
+            or not identity["effective_env"].get("KANI3300_TRACE_DIR")):
+        raise ValueError("diagnostic trace filter/environment identity malformed")
+    argv = identity["effective_argv"]
+    env = identity["effective_env"]
+    if (identity.get("argv_scope") != INVOCATION_SCOPE or not isinstance(identity.get("cwd"), str)
+            or not os.path.isabs(identity["cwd"]) or len(argv) < 5
+            or argv[:4] != ["scripts/run-kani.sh", "--path", identity["cwd"], "--kani-args"]
+            or not isinstance(env.get("RUSTFLAGS"), (str, type(None)))
+            or (isinstance(env.get("RUSTFLAGS"), str) and len(env["RUSTFLAGS"].encode()) > 4096)):
+        raise ValueError("diagnostic trace invocation scope/cwd missing")
+    state = trace.get("state")
+    complete = trace.get("complete")
+    if state == "COMPLETE":
+        if complete is not True or trace.get("omitted") != 0:
+            raise ValueError("diagnostic trace COMPLETE state has omissions or incomplete flag")
+    elif complete is not False:
+        raise ValueError("incomplete diagnostic trace must explicitly set complete=false")
+    records = trace.get("records")
+    seen, emitted, omitted = (trace.get(key) for key in ("seen", "emitted", "omitted"))
+    if (not isinstance(records, list) or any(type(n) is not int or n < 0 for n in (seen, emitted, omitted))
+            or emitted != len(records) or seen != emitted + omitted):
+        raise ValueError("diagnostic trace record counters inconsistent")
+    coverage = trace.get("coverage")
+    if not isinstance(coverage, list):
+        raise ValueError("diagnostic trace coverage summary missing")
+    if state == "COMPLETE":
+        if (not coverage or any(not isinstance(item, dict) or item.get("state") != "COMPLETE"
+                                or item.get("omitted") != 0 or item.get("seen") != item.get("emitted")
+                                or not isinstance(item.get("coverage"), dict)
+                                or any(type(v) is not int or v < 0 for v in item["coverage"].values())
+                                or sum(v for v in item["coverage"].values() if type(v) is int) != item.get("emitted")
+                                or not isinstance(item.get("omission_counts"), dict)
+                                or any(type(v) is not int or v != 0 for v in item["omission_counts"].values())
+                                for item in coverage)):
+            raise ValueError("diagnostic trace coverage summary incomplete")
+    if state == "INVALID":
+        raise ValueError("diagnostic trace state INVALID; pages withheld")
+    return identity
+
+
+def invocation_manifest_errors(manifest: Any, *, build_id: str | None, head_sha: str | None,
+                               request_sha256: str | None, request: dict[str, Any],
+                               trace_dir: Path, expected_argv: list[str]) -> list[str]:
+    errors: list[str] = []
+    if not isinstance(manifest, dict) or manifest.get("schema") != "kani3300-invocation-v1":
+        return ["invocation manifest missing or schema mismatch"]
+    if manifest.get("valid") is not True or not isinstance(manifest.get("errors"), list):
+        errors.append("invocation manifest is marked invalid")
+    if manifest.get("errors"):
+        errors.extend(str(error)[:180] for error in manifest["errors"][:4])
+    if (manifest.get("build_id") != build_id or manifest.get("head_sha") != head_sha
+            or manifest.get("request_sha256") != request_sha256):
+        errors.append("invocation manifest build/head/request identity mismatch")
+    argv_for_cwd = manifest.get("argv")
+    argv_cwd = argv_for_cwd[2] if isinstance(argv_for_cwd, list) and len(argv_for_cwd) >= 3 else None
+    if manifest.get("argv_scope") != INVOCATION_SCOPE or manifest.get("cwd") != argv_cwd:
+        errors.append("invocation manifest scope/cwd mismatch")
+    if not isinstance(manifest.get("cwd"), str) or not os.path.isabs(manifest["cwd"]):
+        errors.append("invocation manifest cwd is not absolute")
+    argv = manifest.get("argv")
+    if not isinstance(argv, list) or argv != expected_argv:
+        errors.append("invocation manifest argv differs from validated runner argv")
+    if not isinstance(manifest.get("kani_args"), list) or manifest.get("kani_args") != expected_argv[4:]:
+        errors.append("invocation manifest Kani argument vector differs from runner argv")
+    if manifest.get("argv_sha256") != _sha_json(argv):
+        errors.append("invocation manifest argv digest mismatch")
+    env = manifest.get("effective_env")
+    required_env = {"RUSTFLAGS", "KANI3300_TRACE_DIR", "KANI3300_TRACE_FILTER", "KANI3300_TRACE_ID", "KANI3300_TRACE_STAGE"}
+    if not isinstance(env, dict) or set(env) != required_env:
+        errors.append("invocation manifest effective environment fields missing/extra")
+        env = env if isinstance(env, dict) else {}
+    rustflags = env.get("RUSTFLAGS")
+    if rustflags is not None and (not isinstance(rustflags, str) or len(rustflags.encode()) > 4096):
+        errors.append("invocation manifest RUSTFLAGS malformed or oversized")
+    if request.get("controls") and rustflags != f"--cfg {CONTROL_CFG}":
+        errors.append("invocation manifest RUSTFLAGS differs from controls request")
+    trace = request["diagnostic_trace"]
+    expected_env = {"KANI3300_TRACE_DIR": str(trace_dir.resolve()),
+                    "KANI3300_TRACE_FILTER": ";".join(trace["filters"]),
+                    "KANI3300_TRACE_ID": request_sha256, "KANI3300_TRACE_STAGE": STAGE}
+    if any(env.get(key) != value for key, value in expected_env.items()):
+        errors.append("invocation manifest trace environment differs from request")
+    if manifest.get("env_sha256") != _sha_json(env):
+        errors.append("invocation manifest env digest mismatch")
+    return errors
+
+
 def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None,
                   request_sha256: str | None, request: dict[str, Any], kani_commit: str | None,
                   kani_build: dict[str, Any] | None, tooling: dict[str, str],
-                  build_outcome: str | None, effective_argv: list[str], effective_env: dict[str, str],
-                  actual_library_tree: str | None) -> dict[str, Any]:
+                  build_outcome: str | None, actual_library_tree: str | None,
+                  invocation: dict[str, Any] | None = None,
+                  invocation_errors: list[str] | None = None) -> dict[str, Any]:
     """Read only compiler-produced JSONL files. Every failure is retained as diagnostic state."""
     expected_id = request_sha256
     request_trace = request["diagnostic_trace"]
@@ -35,7 +217,9 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
         "schema": "kani3300-diagnostic-trace-v1", "diagnostic_only": True,
         "state": "INCOMPLETE", "complete": False, "records": [], "seen": 0, "emitted": 0,
         "omitted": 0, "omitted_bytes": 0, "errors": [], "coverage": [],
-        "source_identity": {"trace_id": expected_id, "stage": STAGE},
+        "source_identity": {"trace_id": expected_id, "stage": STAGE, "schema": SCHEMA,
+                            "filter_mode": FILTER_MODE,
+                            "filter_sha256": hashlib.sha256(";".join(filters).encode()).hexdigest()},
         "identity": {
             "build_id": build_id, "head_sha": head_sha, "request_sha256": request_sha256,
             "library_tree": request_trace["library_tree"], "actual_library_tree": actual_library_tree,
@@ -44,8 +228,14 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
             "patch_sha256": (request.get("kani_patch") or {}).get("sha256"),
             "applied_tree": (kani_build or {}).get("tree"),
             "expected_applied_tree": request_trace["expected_applied_tree"],
-            "tooling_sha256": tooling, "effective_argv": effective_argv,
-            "effective_env": effective_env,
+            "tooling_sha256": tooling,
+            "effective_argv": (invocation or {}).get("argv", []),
+            "effective_env": (invocation or {}).get("effective_env", {}),
+            "argv_sha256": (invocation or {}).get("argv_sha256"),
+            "env_sha256": (invocation or {}).get("env_sha256"),
+            "argv_scope": (invocation or {}).get("argv_scope"),
+            "cwd": (invocation or {}).get("cwd"),
+            "filters": filters,
             "filter_sha256": hashlib.sha256(";".join(filters).encode()).hexdigest(),
             "trace_schema": SCHEMA, "trace_stage": STAGE,
         },
@@ -57,6 +247,9 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
         identity_errors.append("actual Kani base pin differs from request")
     if (kani_build or {}).get("tree") != request_trace["expected_applied_tree"]:
         identity_errors.append("actual applied Kani tree differs from request")
+    identity_errors.extend(invocation_errors or [])
+    if invocation is None:
+        identity_errors.append("actual invocation manifest missing")
     trace["errors"].extend(identity_errors)
     files = sorted(itertools.islice(directory.glob("kani3300-trace-*.jsonl"), MAX_SIDECARS + 1)) if directory.is_dir() else []
     excess_files = len(files) > MAX_SIDECARS
@@ -79,7 +272,11 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
             continue
         try:
             size = path.stat().st_size
-            if size > MAX_RUN_BYTES or total_bytes + size > MAX_RUN_BYTES:
+            if size > MAX_INVOCATION_BYTES:
+                trace["errors"].append(f"{path.name}: sidecar exceeds 256 KiB invocation cap")
+                states.append("OVERSIZED")
+                continue
+            if total_bytes + size > MAX_RUN_BYTES:
                 trace["errors"].append("aggregate sidecar bytes exceed 1 MiB")
                 states.append("OVERSIZED")
                 break
@@ -99,6 +296,11 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
             states.append("OVERSIZED")
             break
         try:
+            line_count = raw.count(b"\n") + (not raw.endswith(b"\n"))
+            if line_count > MAX_INVOCATION_RECORDS + 2:
+                trace["errors"].append(f"{path.name}: emitted records exceed per-invocation cap 512")
+                states.append("OVERSIZED")
+                continue
             lines = raw.splitlines()
             if not lines:
                 raise ValueError("empty sidecar")
@@ -113,8 +315,10 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
             if len(rows) == 1 and rows[0].get("kind") == "overflow":
                 overflow = rows[0]
                 if (overflow.get("schema") != SCHEMA or overflow.get("trace_id") != expected_id
-                        or overflow.get("stage") != STAGE or overflow.get("state") != "OVERSIZED"
-                        or overflow.get("omitted_invocations") != "one-or-more"):
+                        or overflow.get("stage") != STAGE or type(overflow.get("seq")) is not int
+                        or not isinstance(overflow.get("invocation"), str)
+                        or overflow.get("data", {}).get("state") != "OVERSIZED"
+                        or overflow.get("data", {}).get("omitted_invocations") != "one-or-more"):
                     raise ValueError("overflow sentinel identity/state mismatch")
                 states.append("OVERSIZED")
                 trace["coverage"].append({"state": "OVERSIZED", "omitted_invocations": "one-or-more"})
@@ -136,7 +340,12 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
                     or footer.get("invocation") != invocation):
                 raise ValueError("footer schema/trace identity/stage mismatch")
             hdata = header.get("data")
-            if not isinstance(hdata, dict) or hdata.get("filters") != filters:
+            if (not isinstance(hdata, dict) or hdata.get("filters") != filters
+                    or hdata.get("filter_mode") != FILTER_MODE
+                    or not isinstance(hdata.get("limits"), dict)
+                    or hdata["limits"].get("records") != MAX_INVOCATION_RECORDS
+                    or hdata["limits"].get("record_bytes") != MAX_RECORD_BYTES
+                    or hdata["limits"].get("invocation_bytes") != MAX_PRODUCER_INVOCATION_BYTES):
                 raise ValueError("source literal filter identity mismatch")
             if any(row.get("schema") != SCHEMA or row.get("trace_id") != expected_id
                    or row.get("stage") != STAGE or row.get("invocation") != invocation
@@ -155,6 +364,10 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
             seen, emitted, omitted = (fdata.get(k) for k in ("seen_records", "emitted_records", "omitted_records"))
             if any(type(n) is not int or n < 0 for n in (seen, emitted, omitted)) or emitted != len(records) or seen != emitted + omitted:
                 raise ValueError("footer record counts inconsistent")
+            if emitted > MAX_INVOCATION_RECORDS:
+                trace["errors"].append(f"{path.name}: footer emitted records exceed per-invocation cap 512")
+                states.append("OVERSIZED")
+                continue
             total_seen += seen
             total_emitted += emitted
             total_omitted += omitted
@@ -164,12 +377,30 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
                 omitted_bytes_known = False
             if type(fdata.get("bytes_before_footer")) is not int or fdata["bytes_before_footer"] < 0:
                 raise ValueError("footer byte counter missing")
+            coverage = fdata.get("coverage")
+            omission_counts = fdata.get("omission_counts")
+            if (not isinstance(coverage, dict) or any(type(v) is not int or v < 0 for v in coverage.values())
+                    or sum(coverage.values()) != emitted or not isinstance(omission_counts, dict)
+                    or any(type(v) is not int or v < 0 for v in omission_counts.values())
+                    or sum(omission_counts.values()) != omitted):
+                raise ValueError("footer coverage does not bind emitted event count")
+            if (fdata["state"] == "COMPLETE" and
+                    (omitted != 0 or seen != emitted or bool(omission_counts) or _coverage_incomplete(coverage))):
+                raise ValueError("footer claims COMPLETE with omitted/incomplete coverage")
             states.append(fdata["state"])
             trace["coverage"].append({"invocation": invocation, "state": fdata["state"],
                                       "seen": seen, "emitted": emitted, "omitted": omitted,
-                                      "coverage": fdata.get("coverage")})
+                                      "coverage": coverage, "omission_counts": omission_counts})
+            room = max(0, MAX_RUN_RECORDS - len(all_records))
+            retained = records[:room]
+            dropped = len(records) - len(retained)
             all_records.extend({"invocation": invocation, "seq": row["seq"], "kind": row["kind"], "data": row["data"]}
-                               for row in records)
+                               for row in retained)
+            if dropped:
+                total_omitted += dropped
+                states.append("OVERSIZED")
+                if len(trace["errors"]) < MAX_ERRORS:
+                    trace["errors"].append(f"summary reader retained at most {MAX_RUN_RECORDS} aggregate records")
         except (ValueError, TypeError, AttributeError, UnicodeError, json.JSONDecodeError) as exc:
             if len(trace["errors"]) < MAX_ERRORS:
                 trace["errors"].append(f"{path.name}: {str(exc)[:180]}")
@@ -177,12 +408,6 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
     if excess_files:
         trace["errors"].append("more than 128 sidecars; enumeration bounded")
         states.append("OVERSIZED")
-    if len(all_records) > MAX_RUN_RECORDS:
-        extra = len(all_records) - MAX_RUN_RECORDS
-        total_omitted += extra
-        all_records = all_records[:MAX_RUN_RECORDS]
-        states.append("OVERSIZED")
-        trace["errors"].append(f"summary reader retained at most {MAX_RUN_RECORDS} records")
     trace["records"] = all_records
     trace["seen"], trace["emitted"] = total_seen, len(all_records)
     trace["omitted"] = max(total_omitted, total_seen - len(all_records))
@@ -212,6 +437,7 @@ def trace_field_page(summary: dict[str, Any], path: str, start: int, count: int,
     actual_build_id = (summary.get("run") or {}).get("id")
     if expected_build_id is not None and actual_build_id != expected_build_id:
         raise ValueError("summary/build identity mismatch")
+    validate_trace_page_identity(summary)
     if not path or any(not part for part in path.split(".")):
         raise ValueError("path must be a nonempty dotted diagnostic_trace field")
     if type(start) is not int or start < 0 or type(count) is not int or not 1 <= count <= MAX_PAGE_RECORDS:
