@@ -1,0 +1,36 @@
+{
+  "assurance": "STATIC expected invocation only; no actual compiler/rustc/CBMC argv observed",
+  "request_sha256": "61cc4a3fec6e16ef688e6835fab60e96a759bca57070726d1295d557b7910379",
+  "stage": "kani3300-t1b",
+  "owner": "k1-merge",
+  "runner_argv": [
+    "scripts/run-kani.sh",
+    "--path",
+    "/workspace/src",
+    "--kani-args",
+    "--harness",
+    "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+    "--harness",
+    "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+    "--harness",
+    "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+    "--harness",
+    "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+    "--harness",
+    "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+    "-Z",
+    "uninit-checks",
+    "--exact",
+    "--harness-timeout",
+    "1m",
+    "--jobs=1",
+    "--output-format=terse"
+  ],
+  "env": {
+    "KANI3300_TRACE_DIR": "/workspace/src/k1-out/trace",
+    "KANI3300_TRACE_FILTER": "IndexRange::len;cmp3_index_range_len;cmp3_manually_drop_unsized_len",
+    "KANI3300_TRACE_ID": "61cc4a3fec6e16ef688e6835fab60e96a759bca57070726d1295d557b7910379",
+    "KANI3300_TRACE_STAGE": "kani3300-t1b",
+    "RUSTFLAGS": "--cfg kani_smallsort_controls"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-t1",
+  "baseline_commit": "989f72351c2b5c5f3b5117315fc84f502e66d904",
+  "candidate_commit": "12b4137c42f3ee92f12476ea0771ea41a5cd1e8d",
+  "applicability": "KANI3300 T1b-S: bounded host-only compact diagnostics. No production repair, Cloud/dispatch/compiler/rustc/cargo/Kani/CBMC/network/actions/raw logs/credentials/Kani push. Read-only independent review, no nested agents.",
+  "defect": "A3 trace lost needed GOTO consumer records under fixed 256000 byte cap; distinguish analysis lookup from actual GOTO consumption and record last writer/hash/context.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/trace.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs",
+    "kani-compiler/src/kani_middle/codegen_order.rs",
+    "rustfmt.toml"
+  ],
+  "invariants": [
+    "All semantic ops, source bodies, points-to/cache traversal, transformation order, reachability and emission behavior preserved; opt-out no fingerprints.",
+    "Record/invocation/run caps and failure handling unchanged. Unit boundary must reset diagnostic hash/writer metadata; metadata never feeds semantic cache.",
+    "New record before block emission observes the same body clone used by GOTO; presence uses final reachable items. Hash is diagnostic DefaultHasher64, not proof/cryptographic identity.",
+    "Narrow request filters exclude calibration/adapter full payload; aggregate zero ops; keep targets/relevance/selected ops and unit/stubs/actual order."
+  ],
+  "controls": [
+    "Allowed rustfmt and diff --check; compilation NOT_RUN (coordinator fork CI before GO).",
+    "Static diagnostic-erased semantic token comparison in research t1b-s/check_semantics.py; existing Python reader service tests and compact synthetic records."
+  ],
+  "known_limitations": [
+    "Subsetting 9 roots to 5 changes compiler context; reproduction UNKNOWN. New diagnostics are compile-time/source-reported only, no B1/B2 or runtime causality proof.",
+    "Capacity estimate from retained A3 records does not recover omitted 555 records or guarantee new trace completeness."
+  ],
+  "prior_reviews": []
+}

@@ -1,0 +1,498 @@
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs b/kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs
+index 1873b43..fb6c67d 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs
+@@ -124,6 +124,13 @@ pub fn codegen_function(&mut self, instance: Instance) {
+                 heads.extend(self.loop_contract_heads(&body));
+                 self.current_fn_mut().loop_decreases_mut().loop_heads = heads;
+             }
++            if crate::kani_middle::trace::enabled() {
++                crate::kani_middle::trace::body_consumed(
++                    instance.name().as_str(),
++                    instance.mangled_name().as_str(),
++                    &body,
++                );
++            }
+             blocks.into_iter().for_each(|bb| self.codegen_block(bb, &body.blocks[bb]));
+             // Report the decreases clauses that were not attached to a loop, e.g. the clause of a
+             // loop without a loop invariant.
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+index 3677a87..ce7d701 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+@@ -127,13 +127,32 @@ fn codegen_items<'tcx>(
+             })
+             .collect();
+ 
++        // Apply all transformation passes, including global passes.
++        let any_pass_modified = global_passes.run_global_passes(
++            transformer,
++            tcx,
++            starting_items,
++            instances,
++            call_graph,
++        );
++
++        // Re-collect reachable items after global transformations were applied. This is necessary
++        // since global pass could add extra calls to instrumentation.
++        if any_pass_modified {
++            (items, _) = with_timer(
++                || collect_reachable_items(tcx, transformer, starting_items),
++                "codegen reachability analysis (second pass)",
++            );
++        }
++
+         if crate::kani_middle::trace::enabled()
+             && let [MonoItem::Fn(root)] = starting_items
+         {
+             let root_name = crate::kani_middle::trace::clip(root.name().as_str(), 320);
+             if crate::kani_middle::trace::matches(&root_name) {
+-                let len_instances: Vec<serde_json::Value> = instances
++                let len_instances: Vec<serde_json::Value> = items
+                     .iter()
++                    .filter_map(|item| match item { MonoItem::Fn(instance) => Some(instance), _ => None })
+                     .filter(|instance| instance.name().as_str().contains("IndexRange::len"))
+                     .take(8)
+                     .map(|instance| serde_json::json!({
+@@ -143,10 +162,11 @@ fn codegen_items<'tcx>(
+                     .collect();
+                 let absent = len_instances.is_empty();
+                 crate::kani_middle::trace::event(
+-                    "function_presence",
++                    "goto_function_presence",
+                     serde_json::json!({
+                         "root": root_name,
+                         "function": "IndexRange::len",
++                        "phase": "final_reachable_items_before_emission",
+                         "instances": len_instances,
+                         "absent": absent,
+                         "absence_reason": if absent { "unknown; inlining-or-const-fold-possible" } else { "present" },
+@@ -155,24 +175,6 @@ fn codegen_items<'tcx>(
+             }
+         }
+ 
+-        // Apply all transformation passes, including global passes.
+-        let any_pass_modified = global_passes.run_global_passes(
+-            transformer,
+-            tcx,
+-            starting_items,
+-            instances,
+-            call_graph,
+-        );
+-
+-        // Re-collect reachable items after global transformations were applied. This is necessary
+-        // since global pass could add extra calls to instrumentation.
+-        if any_pass_modified {
+-            (items, _) = with_timer(
+-                || collect_reachable_items(tcx, transformer, starting_items),
+-                "codegen reachability analysis (second pass)",
+-            );
+-        }
+-
+         // Follow rustc naming convention (cx is abbrev for context).
+         // https://rustc-dev-guide.rust-lang.org/conventions.html#naming-conventions
+         let mut gcx =
+@@ -512,7 +514,17 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+                             unit.harnesses.iter().collect()
+                         };
+ 
+-                        for harness in ordered_harnesses {
++                        for (ordinal, harness) in ordered_harnesses.into_iter().enumerate() {
++                            if crate::kani_middle::trace::enabled() {
++                                crate::kani_middle::trace::context(
++                                    harness.name().as_str(),
++                                    "codegen",
++                                );
++                                crate::kani_middle::trace::event(
++                                    "codegen_order",
++                                    serde_json::json!({"ordinal": ordinal}),
++                                );
++                            }
+                             clear_codegen_cache();
+ 
+                             let model_path = units.harness_model_path(*harness).unwrap();
+diff --git a/kani-compiler/src/kani_middle/trace.rs b/kani-compiler/src/kani_middle/trace.rs
+index a1b6582..951e8e5 100644
+--- a/kani-compiler/src/kani_middle/trace.rs
++++ b/kani-compiler/src/kani_middle/trace.rs
+@@ -8,7 +8,6 @@
+ 
+ use serde_json::{Value, json};
+ use std::collections::BTreeMap;
+-use std::collections::VecDeque;
+ use std::fs::{File, OpenOptions, create_dir_all};
+ use std::hash::{DefaultHasher, Hasher};
+ use std::io::{self, Write};
+@@ -22,6 +21,8 @@
+ // Four compiler processes can each claim one slot. The 24 KiB headroom is reserved for the
+ // single bounded marker used when a fifth process arrives, keeping the run below 1 MiB.
+ const MAX_INVOCATION_BYTES: usize = 250 * 1024;
++const MAX_STATE_ENTRIES: usize = 64;
++const MAX_STATE_KEY_BYTES: usize = 320;
+ const MAX_FILTERS: usize = 20;
+ const MAX_FILTER_BYTES: usize = 300;
+ 
+@@ -49,6 +50,9 @@ struct Trace {
+     context_root: String,
+     context_stage: String,
+     context_unit: Option<usize>,
++    body_hashes: BTreeMap<String, String>,
++    last_writers: BTreeMap<String, Value>,
++    unchanged_snapshots: usize,
+ }
+ 
+ static TRACE: OnceLock<Mutex<Option<Trace>>> = OnceLock::new();
+@@ -153,6 +157,9 @@ fn open(config: Config) -> Option<Self> {
+             context_root: String::new(),
+             context_stage: "unit_header".to_owned(),
+             context_unit: None,
++            body_hashes: BTreeMap::new(),
++            last_writers: BTreeMap::new(),
++            unchanged_snapshots: 0,
+         };
+         trace.write_record(
+             "header",
+@@ -234,6 +241,23 @@ fn write_record(&mut self, kind: &str, data: Value, is_footer: bool) {
+         }
+     }
+ 
++    fn remember_body_hash(&mut self, name: &str, hash: String) {
++        if name.len() <= MAX_STATE_KEY_BYTES
++            && (self.body_hashes.len() < MAX_STATE_ENTRIES || self.body_hashes.contains_key(name))
++        {
++            self.body_hashes.insert(name.to_owned(), hash);
++        } else {
++            self.state_omission("snapshot_state_cap");
++        }
++    }
++
++    fn state_omission(&mut self, category: &str) {
++        *self.omission_counts.entry(category.to_owned()).or_default() += 1;
++        if self.state == "COMPLETE" {
++            self.state = "PARTIAL";
++        }
++    }
++
+     fn finish(&mut self) {
+         if self.finished || self.file.is_none() {
+             self.finished = true;
+@@ -255,6 +279,7 @@ fn finish(&mut self) {
+                 "bytes_before_footer": self.bytes,
+                 "coverage": self.coverage,
+                 "omission_counts": self.omission_counts,
++                "aggregated_unchanged_snapshots": self.unchanged_snapshots,
+             }),
+             true,
+         );
+@@ -339,6 +364,10 @@ pub(crate) fn unit(unit: usize) {
+     if let Ok(mut guard) = trace().lock()
+         && let Some(trace) = guard.as_mut()
+     {
++        if trace.context_unit != Some(unit) {
++            trace.body_hashes.clear();
++            trace.last_writers.clear();
++        }
+         trace.context_unit = Some(unit);
+     }
+ }
+@@ -375,94 +404,108 @@ pub(crate) fn mark_omission(category: &str, count: usize, oversized: bool) {
+     }
+ }
+ 
+-/// Stream a MIR dump into a bounded prefix and a lightweight body fingerprint. The public
+-/// stable-MIR `Body::dump` API is used directly; no body clone or extra MIR query is made.
++/// Fingerprint the complete dump stream without retaining MIR text. This is diagnostic data,
++/// not a cryptographic identity or a second MIR query.
++fn fingerprint(name: &str, body: &rustc_public::mir::Body) -> Value {
++    struct Sink {
++        hasher: DefaultHasher,
++        bytes: usize,
++    }
++    impl Write for Sink {
++        fn write(&mut self, bytes: &[u8]) -> io::Result<usize> {
++            self.hasher.write(bytes);
++            self.bytes = self.bytes.saturating_add(bytes.len());
++            Ok(bytes.len())
++        }
++        fn flush(&mut self) -> io::Result<()> {
++            Ok(())
++        }
++    }
++    let mut sink = Sink { hasher: DefaultHasher::new(), bytes: 0 };
++    let dump_ok = body.dump(&mut sink, name).is_ok();
++    json!({
++        "body_hash": format!("{:016x}", sink.hasher.finish()),
++        "body_hash_algorithm": "std-default-hasher-64",
++        "dump_bytes": sink.bytes,
++        "dump_ok": dump_ok,
++    })
++}
++
+ pub(crate) fn body_snapshot(name: &str, stage: &str, body: &rustc_public::mir::Body) {
+     if !matches(name) {
+         return;
+     }
+-    let mut sink = DumpSink {
+-        hasher: DefaultHasher::new(),
+-        prefix: Vec::with_capacity(128),
+-        suffix: VecDeque::with_capacity(128),
+-        line: Vec::with_capacity(256),
+-        selected_lines: Vec::with_capacity(4),
+-        selected_lines_omitted: 0,
+-        bytes: 0,
+-    };
+-    let dump_ok = body.dump(&mut sink, name).is_ok();
+-    let excerpt_omitted = sink.bytes.saturating_sub(sink.prefix.len() + sink.suffix.len());
+-    let selected_lines_omitted = sink.selected_lines_omitted;
+-    event(
+-        "mir_snapshot",
+-        json!({
+-            "instance": clip(name, 320),
+-            "stage": stage,
+-            "body_hash": format!("{:016x}", sink.hasher.finish()),
+-            "body_hash_algorithm": "std-default-hasher-64",
+-            "dump_bytes": sink.bytes,
+-            "dump_truncated": sink.bytes > sink.prefix.len() + sink.suffix.len(),
+-            "selected_lines_omitted": selected_lines_omitted,
+-            "dump_ok": dump_ok,
+-            "mir_prefix": String::from_utf8_lossy(&sink.prefix),
+-            "mir_selected_lines": sink.selected_lines.iter().map(|line| String::from_utf8_lossy(line).into_owned()).collect::<Vec<_>>(),
+-            "mir_suffix": String::from_utf8_lossy(&sink.suffix.iter().copied().collect::<Vec<_>>()),
+-        }),
+-    );
+-    if excerpt_omitted > 0 {
+-        mark_omission("mir_excerpt_bytes", excerpt_omitted, false);
+-    }
+-    if selected_lines_omitted > 0 {
+-        mark_omission("mir_selected_lines", selected_lines_omitted, false);
++    let mut data = fingerprint(name, body);
++    data["instance"] = json!(clip(name, 320));
++    data["stage"] = json!(stage);
++    if let Ok(mut guard) = trace().lock()
++        && let Some(trace) = guard.as_mut()
++    {
++        let hash = data["body_hash"].as_str().unwrap_or_default().to_owned();
++        if data["dump_ok"] == true && trace.body_hashes.get(name) == Some(&hash) {
++            trace.unchanged_snapshots += 1;
++        } else {
++            if data["dump_ok"] == true {
++                trace.remember_body_hash(name, hash);
++            }
++            trace.write_record("mir_snapshot", data, false);
++        }
+     }
+ }
+ 
+-struct DumpSink {
+-    hasher: DefaultHasher,
+-    prefix: Vec<u8>,
+-    suffix: VecDeque<u8>,
+-    line: Vec<u8>,
+-    selected_lines: Vec<Vec<u8>>,
+-    selected_lines_omitted: usize,
+-    bytes: usize,
+-}
+-
+-impl Write for DumpSink {
+-    fn write(&mut self, bytes: &[u8]) -> io::Result<usize> {
+-        self.hasher.write(bytes);
+-        self.bytes = self.bytes.saturating_add(bytes.len());
+-        for byte in bytes {
+-            if self.prefix.len() < 128 {
+-                self.prefix.push(*byte);
+-            }
+-            if self.suffix.len() == 128 {
+-                self.suffix.pop_front();
+-            }
+-            self.suffix.push_back(*byte);
+-            if *byte == b'\n' {
+-                let line = String::from_utf8_lossy(&self.line).to_ascii_lowercase();
+-                if self.selected_lines.len() < 4
+-                    && ["indexrange", "len", "constant", "copy", "move", "address_of", "ref("]
+-                        .iter()
+-                        .any(|needle| line.contains(needle))
+-                {
+-                    self.selected_lines.push(self.line.iter().copied().take(100).collect());
+-                } else if ["indexrange", "len", "constant", "copy", "move", "address_of", "ref("]
+-                    .iter()
+-                    .any(|needle| line.contains(needle))
+-                {
+-                    self.selected_lines_omitted += 1;
+-                }
+-                self.line.clear();
+-            } else if self.line.len() < 256 {
+-                self.line.push(*byte);
+-            }
++/// Record a selected writer and keep its context for the actual GOTO consumer.
++pub(crate) fn body_writer(name: &str, symbol: &str, writer: &str, body: &rustc_public::mir::Body) {
++    if !matches(name) {
++        return;
++    }
++    let mut data = fingerprint(name, body);
++    data["instance"] = json!(clip(name, 320));
++    data["mangled_symbol"] = json!(clip(symbol, 320));
++    data["writer"] = json!(writer);
++    if let Ok(mut guard) = trace().lock()
++        && let Some(trace) = guard.as_mut()
++    {
++        data["writer_context"] = json!({
++            "root": trace.context_root, "stage": trace.context_stage, "unit": trace.context_unit,
++        });
++        if symbol.len() <= MAX_STATE_KEY_BYTES
++            && (trace.last_writers.len() < MAX_STATE_ENTRIES
++                || trace.last_writers.contains_key(symbol))
++        {
++            trace.last_writers.insert(
++                symbol.to_owned(),
++                json!({
++                    "writer": data["writer"], "body_hash": data["body_hash"],
++                    "dump_ok": data["dump_ok"], "context": data["writer_context"],
++                }),
++            );
++        } else {
++            trace.state_omission("writer_state_cap");
++        }
++        if data["dump_ok"] == true {
++            trace.remember_body_hash(
++                name,
++                data["body_hash"].as_str().unwrap_or_default().to_owned(),
++            );
+         }
+-        Ok(bytes.len())
++        trace.write_record("body_cache_writer", data, false);
+     }
++}
+ 
+-    fn flush(&mut self) -> io::Result<()> {
+-        Ok(())
++/// Observe the very body passed to GOTO block emission; analysis lookups cannot emit this event.
++pub(crate) fn body_consumed(name: &str, symbol: &str, body: &rustc_public::mir::Body) {
++    if !matches(name) {
++        return;
++    }
++    let mut data = fingerprint(name, body);
++    data["instance"] = json!(clip(name, 320));
++    data["mangled_symbol"] = json!(clip(symbol, 320));
++    data["phase"] = json!("before_goto_blocks");
++    if let Ok(mut guard) = trace().lock()
++        && let Some(trace) = guard.as_mut()
++    {
++        data["last_writer"] = trace.last_writers.get(symbol).cloned().unwrap_or(Value::Null);
++        trace.write_record("goto_body_consumed", data, false);
+     }
+ }
+ 
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+index 4b04024..c1648d9 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+@@ -165,13 +165,6 @@ fn transform(
+                 let body = transformer.body(tcx, instance);
+                 let instance_name = crate::kani_middle::trace::enabled()
+                     .then(|| crate::kani_middle::trace::clip(instance.name().as_str(), 320));
+-                if let Some(instance_name) = instance_name.as_deref() {
+-                    crate::kani_middle::trace::body_snapshot(
+-                        instance_name,
+-                        "delayed_ub_before",
+-                        &body,
+-                    );
+-                }
+                 // Instrument for delayed UB.
+                 let target_finder = InstrumentationVisitor::new(
+                     &global_points_to_graph,
+@@ -188,21 +181,15 @@ fn transform(
+                     &mut self.mem_init_fn_cache,
+                     target_finder,
+                 );
+-                if let Some(instance_name) = instance_name.as_deref() {
+-                    crate::kani_middle::trace::body_snapshot(
+-                        instance_name,
+-                        "delayed_ub_after",
+-                        &body,
+-                    );
+-                }
+                 // If some instrumentation has been performed, update the cached body in the local transformer.
+                 if instrumentation_added {
+                     modified = true;
+                     if let Some(name) = instance_name.as_deref() {
+-                        crate::kani_middle::trace::cache_event(
+-                            "body_cache_writer",
+-                            serde_json::json!({"instance": instance_name.as_deref().unwrap_or_default(), "writer": "DelayedUbPass", "event": "last_writer"}),
+-                            crate::kani_middle::trace::matches(name),
++                        crate::kani_middle::trace::body_writer(
++                            name,
++                            instance.mangled_name().as_str(),
++                            "DelayedUbPass",
++                            &body,
+                         );
+                     }
+                     transformer.cache.entry(instance).and_modify(|transformation_result| {
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+index 6d03a45..f0a0f3d 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+@@ -145,7 +145,14 @@ fn instrument(
+             .then(|| crate::kani_middle::trace::clip(instance.name().as_str(), 320));
+         if instance_name.as_deref().is_some_and(crate::kani_middle::trace::matches) {
+             let instance_name = instance_name.as_deref().unwrap_or_default();
++            let mut zero_ops = 0usize;
+             for instruction in &instructions {
++                if instruction.before_instruction.is_empty()
++                    && instruction.after_instruction.is_empty()
++                {
++                    zero_ops += 1;
++                    continue;
++                }
+                 let before: Vec<&str> = instruction
+                     .before_instruction
+                     .iter()
+@@ -167,7 +174,7 @@ fn instrument(
+                         "after": after,
+                         "before_count": instruction.before_instruction.len(),
+                         "after_count": instruction.after_instruction.len(),
+-                        "decision": if instruction.before_instruction.is_empty() && instruction.after_instruction.is_empty() { "zero_ops_selected" } else { "ops_selected" },
++                        "decision": "ops_selected",
+                     }),
+                 );
+                 for (position, operations) in [
+@@ -195,6 +202,10 @@ fn instrument(
+                     }
+                 }
+             }
++            crate::kani_middle::trace::event(
++                "memory_init_ops_summary",
++                serde_json::json!({"instance": instance_name, "instructions": instructions.len(), "zero_ops": zero_ops, "nonzero_ops": instructions.len() - zero_ops}),
++            );
+             if instructions.is_empty() {
+                 crate::kani_middle::trace::event(
+                     "memory_init_ops",
+diff --git a/kani-compiler/src/kani_middle/transform/mod.rs b/kani-compiler/src/kani_middle/transform/mod.rs
+index 64ac5b7..0afb155 100644
+--- a/kani-compiler/src/kani_middle/transform/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/mod.rs
+@@ -184,21 +184,11 @@ pub fn body_ref(&mut self, tcx: TyCtxt, instance: Instance) -> &Body {
+                 let result = pass.transform(tcx, body, instance);
+                 modified |= result.0;
+                 body = result.1;
+-                if trace_enabled && result.0 {
+-                    crate::kani_middle::trace::cache_event(
+-                        "body_cache_writer",
+-                        serde_json::json!({
+-                            "instance": name.as_deref().unwrap_or_default(),
+-                            "writer": format!("local_pass_{pass_index}"),
+-                            "event": "last_writer_at_this_stage",
+-                        }),
+-                        traced,
+-                    );
+-                }
+-                if traced {
+-                    crate::kani_middle::trace::body_snapshot(
++                if traced && result.0 {
++                    crate::kani_middle::trace::body_writer(
+                         name.as_deref().unwrap_or_default(),
+-                        &format!("local_pass_{pass_index}_after"),
++                        instance.mangled_name().as_str(),
++                        &format!("local_pass_{pass_index}"),
+                         &body,
+                     );
+                 }

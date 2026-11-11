@@ -1,0 +1,29 @@
+{
+  "stage": "kani3300-t1b-s",
+  "state": "PRE_BUILD_REVIEW_COMPLETE_NO_DISPATCH",
+  "runtime": "Codex",
+  "task_commit": "25a9256dc5eb1836c10544328046584417a6464b",
+  "kani_commit": "12b4137c42f3ee92f12476ea0771ea41a5cd1e8d",
+  "request_sha256": "61cc4a3fec6e16ef688e6835fab60e96a759bca57070726d1295d557b7910379",
+  "phase_registered": false,
+  "active_inputs_changed": false,
+  "dispatch_authorized": false,
+  "builds": 0,
+  "cloud_usd": "0.0000",
+  "stage_remaining_usd": "0.4760",
+  "draft_C_reserve_usd": "0.4725",
+  "draft_C_unreserved_usd": "0.0035",
+  "live_reserved_by_this_stage_usd": "0.0000",
+  "review": "REVIEW.md; Luna HIGH PASS after state bounds fix",
+  "tests": "TESTS.json + STATIC-CHECK.json",
+  "source_static": "STATIC.md",
+  "production_repair": false,
+  "proof_credit": "NONE",
+  "open": [
+    "Coordinator fork CI compilation of exact Kani candidate required before GO.",
+    "Live project ledger/slots/deadline UNKNOWN; refresh only in a separately authorized dispatch stage.",
+    "Five-root context may not reproduce failure; capacity estimate cannot recover555 omitted A3 events or guarantee complete trace.",
+    "Actual failing-root GOTO hash/last writer chain and concrete object/offset/R/runtime causality await authorized C; source-reported only, independent B1/B2 NONE."
+  ],
+  "stop_boundary": "Requested single T1b-S stage complete: static design, compact diagnostics, tests/review, C prepared; no Cloud/dispatch/Actions/PR/Kani push, no retry or next stage."
+}

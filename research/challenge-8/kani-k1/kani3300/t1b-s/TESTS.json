@@ -1,0 +1,25 @@
+{
+  "compact_synthetic": {
+    "tests": 4,
+    "passed": 4,
+    "command": "python3 -B -m unittest discover -s research/challenge-8/kani-k1/kani3300/t1b-s -p test_compact.py -v"
+  },
+  "diagnostic_reader_service": {
+    "tests": 15,
+    "passed": 15,
+    "command": "python3 -B -m unittest discover -s research/challenge-8/kani-k1/tools -p test_diagnostic_trace.py -v",
+    "coverage": "success/error/timeout/missing/null/wrong-type/partial/oversized/source-stage-target mismatch; original exits preserved"
+  },
+  "rustfmt_check": "PASS via authorized wrapper/config",
+  "git_diff_check": "PASS",
+  "semantic_tokens": {
+    "result": "PASS",
+    "files": 5,
+    "assurance": "Static equality after removing only diagnostic statements; no compilation or MIR/GOTO runtime-equivalence claim"
+  },
+  "cargo_rustc_kani_cbmc": "NOT_RUN",
+  "Cloud_Actions": "NOT_RUN",
+  "cloud_usd": "0",
+  "proof_credit": "NONE",
+  "research_diff_check": "PASS excluding .patch data (unified-diff empty context lines must retain their one-space prefix)"
+}

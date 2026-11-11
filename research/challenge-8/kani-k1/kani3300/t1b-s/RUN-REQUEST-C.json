@@ -1,0 +1,50 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "kani3300-t1b-c-20261111-01",
+  "agent": "k1-merge",
+  "kind": "diagnostic",
+  "purpose": "KANI3300 T1b-S draft C: observed writer + failing root + passing contrast + calibration pair in one invocation, compact compile-time diagnostics. One attempt, 1m each, reserve $0.4725 <= $0.4760. No dispatch without coordinator GO.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 1,
+  "kani_jobs": 1,
+  "controls": true,
+  "uninit_checks": true,
+  "inventory": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "expect": "FAILED",
+      "expect_check": "Reading from an uninitialized"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+      "expect": "SUCCESS"
+    }
+  ],
+  "kani_patch": {
+    "path": "research/challenge-8/kani-k1/kani3300/t1b-s/kani-combined.patch",
+    "sha256": "937c238971fc6726b2aaa5e2009532d3fd55e241be5dd41e356380582d85ef4e"
+  },
+  "diagnostic_trace": {
+    "filters": [
+      "IndexRange::len",
+      "cmp3_index_range_len",
+      "cmp3_manually_drop_unsized_len"
+    ],
+    "library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
+    "base_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "expected_applied_tree": "38d1f0908526afdb2ab5dca61c9eff8cc31f9eb5"
+  }
+}
