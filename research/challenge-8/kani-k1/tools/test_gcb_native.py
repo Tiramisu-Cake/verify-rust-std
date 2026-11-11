@@ -9,6 +9,7 @@ import tempfile
 import unittest
 
 from test_kani_k1 import NATIVE_REQ, NATIVE_ENTRY, native_log, REQ, GOOD_LOG, TIME
+import test_kani_k1 as fixtures
 import kani_k1 as k
 
 TOOLS = Path(__file__).resolve().parent
@@ -269,7 +270,7 @@ elif "ls" in args:
 elif "cp" in args:
     url=args[-2]
     with (root/"downloads").open("a") as f:f.write(url+"\n")
-    Path(args[-1]).write_text("{}" if url.endswith(".json") else "bounded summary\n")
+    Path(args[-1]).write_text('{"native":{"tests":[{"file":"test.rs","errors":["failure"]}]}}' if url.endswith(".json") else "bounded summary\n")
 '''
             path = bindir / "gcloud"; path.write_text(stub); path.chmod(0o755)
             env = dict(os.environ, SERVICE_ROOT=str(root), K1_GCP_KEY=str(key), K1_GCLOUD_CONFIG=str(root / "gconfig"),
@@ -281,6 +282,88 @@ elif "cp" in args:
             downloaded = (root / "downloads").read_text().splitlines()
             self.assertEqual(len(downloaded), 2)
             self.assertTrue(all("/summary/summary." in url for url in downloaded))
+            # A fresh native-field fetch must use the same summaries-only scope.
+            shutil.rmtree(root / "cache")
+            (root / "downloads").unlink()
+            run = subprocess.run(["bash", str(tools / "k1g.sh"), "native-field",
+                                  "11111111-1111-1111-1111-111111111111", "0", "errors"],
+                                 cwd=root, env=env, capture_output=True, text=True, timeout=10)
+            self.assertEqual(run.returncode, 0, run.stderr)
+            self.assertEqual(json.loads(run.stdout)["value"], ["failure"])
+            downloaded = (root / "downloads").read_text().splitlines()
+            self.assertEqual(len(downloaded), 2)
+            self.assertTrue(all("/summary/summary." in url for url in downloaded))
+
+
+class NativeFieldServiceTests(unittest.TestCase):
+    BUILD = "11111111-1111-1111-1111-111111111111"
+
+    def test_cached_field_cli_pages_identity_and_error_paths(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            bindir = root / "bin"; bindir.mkdir()
+            stub = bindir / "gcloud"
+            stub.write_text('#!/bin/sh\ncase " $* " in *" auth list "*) echo fake-account;; *) exit 99;; esac\n')
+            stub.chmod(0o755)
+            key = root / "fake-key"; key.touch()
+            cache = root / "cache" / ("summary-" + self.BUILD) / "summary"
+            cache.mkdir(parents=True)
+            path = cache / "summary.json"
+            summary = fixtures.NativeFieldPageTests().summary()
+            summary["run"]["id"] = self.BUILD
+            original = json.dumps(summary).encode()
+            path.write_bytes(original)
+            env = dict(os.environ, K1_GCP_KEY=str(key), K1_GCLOUD_CONFIG=str(root / "gconfig"),
+                       K1_CACHE=str(root / "cache"), PATH=str(bindir) + ":/usr/bin:/bin")
+            def run(*args):
+                return subprocess.run(["bash", str(TOOLS / "k1g.sh"), "native-field", *args],
+                                      cwd=root, env=env, capture_output=True, text=True, timeout=10)
+            start, received = 0, []
+            while True:
+                result = run(self.BUILD, "0", "errors", str(start), "80")
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertLessEqual(len(result.stdout.encode()), k.MAX_MD_BYTES)
+                page = json.loads(result.stdout)
+                self.assertEqual(page["build_id"], self.BUILD)
+                self.assertEqual(page["summary_file"], str(path))
+                self.assertEqual(page["summary_sha256"], k.hashlib.sha256(original).hexdigest())
+                received.extend(page["value"])
+                if page["next_start"] is None:
+                    break
+                self.assertGreater(page["next_start"], start)
+                start = page["next_start"]
+            self.assertEqual(len(received), 15)
+            for args, message in (((self.BUILD,), "accepts BUILD OFFSET FIELD"),
+                    ((self.BUILD, "0", "errors", "0", "1", "extra"), "accepts BUILD OFFSET FIELD"),
+                    (("bad", "0", "errors"), "UUID"), ((self.BUILD, "-1", "errors"), "OFFSET"),
+                    ((self.BUILD, "0", "errors", "-1"), "START"),
+                    ((self.BUILD, "0", "errors", "0", "81"), "COUNT"),
+                    ((self.BUILD, "1", "errors"), "native offset"),
+                    ((self.BUILD, "0", "missing"), "unknown native field"),
+                    ((self.BUILD, "0", "errors", "16"), "exceeds total")):
+                with self.subTest(args=args):
+                    result = run(*args)
+                    self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                    self.assertEqual(result.stdout, "")
+                    self.assertIn(message, result.stderr)
+                    self.assertNotIn("Traceback", result.stderr)
+            summary["diagnostic_artifacts"]["native"]["tests"][0]["errors"] = ["x" * 20000]
+            for text, message in ((json.dumps(summary), "one native field unit"),
+                    ("{", "Expecting"), ("null", "summary must be an object"),
+                    ('{"native":{"tests":null}}', "no structured native report"),
+                    ('{"native":{"tests":[null]}}', "native record must be an object"),
+                    ('{"diagnostic_artifacts":null}', "no structured native report")):
+                with self.subTest(message=message):
+                    path.write_text(text)
+                    result = run(self.BUILD, "0", "errors")
+                    self.assertEqual(result.returncode, 2, result.stderr)
+                    self.assertIn("page-native-field: " + message, result.stderr)
+                    self.assertEqual(result.stdout, "")
+                    self.assertNotIn("Traceback", result.stderr)
+            path.unlink()
+            result = run(self.BUILD, "0", "errors")
+            self.assertEqual(result.returncode, 2)
+            self.assertIn("page-native-field:", result.stderr)
 
 
 if __name__ == "__main__":

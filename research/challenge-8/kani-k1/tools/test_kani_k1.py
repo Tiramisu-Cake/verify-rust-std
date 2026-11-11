@@ -1521,6 +1521,63 @@ class NativeTests(unittest.TestCase):
 
 
 class NativeOutputEvidenceTests(unittest.TestCase):
+    def assert_excerpt_bounds(self, excerpt):
+        self.assertLessEqual(len(json.dumps(excerpt, ensure_ascii=False, indent=2).encode()), k.NATIVE_EXCERPT_BYTES)
+        self.assertLessEqual(len(excerpt["records"]), k.NATIVE_EXCERPT_LINES)
+        self.assertTrue(excerpt["diagnostic_only"])
+        self.assertEqual(excerpt["selected_line_count"], len(excerpt["records"]))
+        for source in k.NATIVE_OUTPUT_SOURCES:
+            records = [r for r in excerpt["records"] if r["source"] == source]
+            self.assertEqual([r["line"] for r in records], sorted({r["line"] for r in records}))
+            for record in records:
+                self.assertLessEqual(len(record["text"]), 220)
+                self.assertLessEqual(len(json.dumps(record["text"], ensure_ascii=False).encode()), 260)
+
+    def test_terse_and_regular_failures_precede_error_tail_context(self):
+        checks = ['Failed Checks: assertion failed', 'File: "test.rs", line 3',
+                  '  Check 1: success', '  - Status: SUCCESS', '  - Description: "ignore success"',
+                  '  Check 2: failing.assertion', '  - Status: FAILURE',
+                  '  - Description: "regular failure"', '  - Location: test.rs:4:2']
+        text = "error: ordinary\n" * 100 + "\n".join(checks) + "\n" + "tail\n" * 100
+        expected = [101, 102, 106, 107, 108, 109]
+        # Exactly enough lines for failure context: error/tail must not consume any slots first.
+        with patch.object(k, "NATIVE_EXCERPT_LINES", 6):
+            excerpt = k.native_output_excerpt({"kani_stdout": text})
+            self.assert_excerpt_bounds(excerpt)
+        self.assertEqual([r["line"] for r in excerpt["records"]], expected)
+        self.assertEqual(excerpt["failed_check_line_count"], 6)
+        self.assertEqual(excerpt["omitted_failed_check_line_count"], 0)
+        self.assertIn("failed-check", excerpt["selection"])
+        # Worker prefixes and regular blank separators retain the original source lines.
+        threaded = "\n".join("Thread 1: " + line for line in checks[:2] + [""] + checks[5:])
+        excerpt = k.native_output_excerpt({"kani_stderr": threaded})
+        self.assertEqual(excerpt["failed_check_line_count"], 6)
+        self.assertEqual(excerpt["omitted_failed_check_line_count"], 0)
+
+    def test_many_failed_checks_unicode_escaping_and_exact_omission_count(self):
+        rows = []
+        for i in range(80):
+            rows.extend([f"Check {i}: " + "界İ" * 1000,
+                         "- Status: FAILURE",
+                         '- Description: "' + "\x00\t\\界" * 1000 + ' error near end"',
+                         "- Location: test.rs:123"])
+        for text in ("\n".join(rows), "\n".join("Failed Checks: " + "界" * 2000 for _ in range(100))):
+            excerpt = k.native_output_excerpt({"kani_stdout": text})
+            self.assert_excerpt_bounds(excerpt)
+            self.assertGreater(excerpt["omitted_failed_check_line_count"], 0)
+            self.assertEqual(excerpt["failed_check_line_count"], len(text.splitlines()))
+            self.assertEqual(excerpt["omitted_failed_check_line_count"],
+                             len(text.splitlines()) - len(excerpt["records"]))
+            self.assertTrue(any(r["clipped"] for r in excerpt["records"]))
+            self.assertTrue(all(r["start_char"] == 0 for r in excerpt["records"]))
+
+    def test_regular_success_block_is_not_failed_context(self):
+        text = 'Check 1: good\n- Status: SUCCESS\n- Description: good\n- Location: here\n'
+        excerpt = k.native_output_excerpt({"kani_stdout": text})
+        self.assert_excerpt_bounds(excerpt)
+        self.assertEqual(excerpt["failed_check_line_count"], 0)
+        self.assertEqual(excerpt["omitted_failed_check_line_count"], 0)
+
     def test_compiletest_stdout_and_stderr_are_separate_without_changing_exit(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); out = root / "stdout"; err = root / "stderr"
@@ -1620,6 +1677,19 @@ class NativeOutputEvidenceTests(unittest.TestCase):
             self.assertTrue(missing["output_sources"]["kani_stdout"]["required_substring_found"])
             self.assertFalse(missing["output_sources"]["kani_stderr"]["available"])
 
+    def test_failed_check_text_never_supplies_required_compiler_diagnostic(self):
+        for text in ("Failed Checks: expected `fn`\nFile: test.rs\n",
+                     'Check 1: fn\n- Status: FAILURE\n- Description: "expected `fn`"\n- Location: test.rs\n'):
+            with self.subTest(text=text), tempfile.TemporaryDirectory() as d:
+                row = self.run_case(Path(d), own_out=text, own_err="other failure\n")
+                self.assertEqual(row["status"], "ERROR")
+                self.assertIn("repro diagnostic is not an actual compiler error", row["errors"])
+                self.assertGreater(row["output_excerpt"]["failed_check_line_count"], 0)
+                self.assertTrue(row["output_excerpt"]["diagnostic_only"])
+                native, _, summarize = NativeTests().summary()
+                native["tests"][0].update(row)
+                self.assertFalse(k.gate_ok(summarize(report=native)))
+
     def test_excerpt_condition_includes_failed_positive_and_successful_negative(self):
         passed = {key: value for key, value in {**NATIVE_ENTRY, "expect": "pass"}.items() if key != "diagnostic"}
         for entry, terminal, excerpt_required in ((passed, "FAILED", True), (NATIVE_ENTRY, "ok", True), (passed, "ok", False)):
@@ -1649,6 +1719,80 @@ class NativeOutputEvidenceTests(unittest.TestCase):
             self.assertEqual(page["validation"], "UNVALIDATED_DIAGNOSTIC_ONLY")
             self.assertFalse(page["gate"])
             self.assertIn("output_excerpt", page["tests"][0])
+
+
+class NativeFieldPageTests(unittest.TestCase):
+    def summary(self):
+        return {"run": {"id": "field-build"}, "head_sha": "a" * 40, "request_sha256": "b" * 64,
+                "status": "INCONSISTENT", "diagnostic_artifacts": {"native": {"tests": [
+                    {"file": "test.rs", "errors": ["界" * 1000 for _ in range(15)],
+                     "argv": ["cargo", "run"], "env": {"A": "one", "B": "two"},
+                     "diagnostic": "界\\\x00" * 2000, "nullable": None,
+                     "output_excerpt": {"diagnostic_only": True, "records": [{"text": str(i)} for i in range(5)]}}
+                ]}}}
+
+    def test_large_record_array_pages_preserve_identity_and_continuation(self):
+        summary = self.summary()
+        with self.assertRaisesRegex(ValueError, "one native record"):
+            k.native_page(summary, 0, 1)
+        start, received = 0, []
+        while True:
+            text = k.native_field_page(summary, 0, "errors", start, 80, summary_file="/cache/summary.json", summary_sha256="c" * 64)
+            self.assertLessEqual(len(text.encode()), k.MAX_MD_BYTES)
+            page = json.loads(text)
+            self.assertEqual((page["build_id"], page["offset"], page["file"]), ("field-build", 0, "test.rs"))
+            self.assertEqual(page["summary_file"], "/cache/summary.json")
+            self.assertEqual(page["summary_sha256"], "c" * 64)
+            self.assertEqual(page["validation"], "UNVALIDATED_DIAGNOSTIC_ONLY")
+            self.assertTrue(page["diagnostic_only"])
+            self.assertEqual(page["start"], start)
+            self.assertEqual(page["count"], len(page["value"]))
+            received.extend(page["value"])
+            if page["next_start"] is None:
+                break
+            self.assertGreater(page["next_start"], start)
+            start = page["next_start"]
+        self.assertEqual(received, summary["diagnostic_artifacts"]["native"]["tests"][0]["errors"])
+
+    def test_nested_records_strings_objects_scalars_and_empty_fields(self):
+        summary = self.summary()
+        page = lambda field, start=0, count=80: json.loads(k.native_field_page(summary, 0, field, start, count))
+        self.assertEqual(page("output_excerpt.records", 2, 2)["value"], [{"text": "2"}, {"text": "3"}])
+        self.assertEqual(page("output_excerpt.records.2.text")["value"], "2")
+        self.assertEqual(page("env", 1, 1)["value"], {"B": "two"})
+        self.assertEqual(page("argv")["value"], ["cargo", "run"])
+        self.assertIsNone(page("nullable")["value"])
+        self.assertIs(page("output_excerpt.diagnostic_only")["value"], True)
+        self.assertEqual(page("diagnostic", 1, 4)["value"], "\\\x00界\\")
+        self.assertEqual(page("diagnostic")["units"], "unicode-codepoints")
+        native = summary["diagnostic_artifacts"]["native"]
+        native["tests"][0].update(empty_list=[], empty_dict={}, empty_str="")
+        for field, value in (("empty_list", []), ("empty_dict", {}), ("empty_str", "")):
+            self.assertEqual(page(field)["value"], value)
+            self.assertIsNone(page(field)["next_start"])
+        summary["native"] = native
+        self.assertEqual(page("errors")["validation"], "VALIDATED")
+        self.assertTrue(page("errors")["diagnostic_only"])
+
+    def test_bad_bounds_unknown_fields_missing_reports_and_oversized_unit(self):
+        for offset, field, start, count in ((1, "errors", 0, 1), (-1, "errors", 0, 1),
+                (0, "absent", 0, 1), (0, "errors", -1, 1), (0, "errors", 16, 1),
+                (0, "errors", 0, 0), (0, "errors", 0, 81), (0, "env.absent", 0, 1),
+                (0, "output_excerpt.records.5", 0, 1), (0, "", 0, 1), (0, "env..A", 0, 1)):
+            with self.subTest(offset=offset, field=field, start=start, count=count), self.assertRaises(ValueError):
+                k.native_field_page(self.summary(), offset, field, start, count)
+        for summary in (None, [], {}, {"native": None}, {"diagnostic_artifacts": None},
+                        {"native": {"tests": None}}, {"native": {"tests": [None]}},
+                        {"native": {"tests": []}}):
+            with self.subTest(summary=summary), self.assertRaises(ValueError):
+                k.native_field_page(summary, 0, "errors")
+        summary = self.summary()
+        summary["diagnostic_artifacts"]["native"]["tests"][0]["errors"] = ["界" * k.MAX_MD_BYTES]
+        with self.assertRaisesRegex(ValueError, "one native field unit"):
+            k.native_field_page(summary, 0, "errors")
+        # A caller can drill into the oversized item and page its string instead.
+        text = k.native_field_page(summary, 0, "errors.0")
+        self.assertEqual(json.loads(text)["next_start"], 80)
 
 
 if __name__ == "__main__":
