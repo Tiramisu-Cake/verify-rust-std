@@ -2,13 +2,13 @@
   "stage": "kani3300-t1b-c2",
   "runtime": "Codex",
   "task_commit": "437cbb0ce2d0a01d6fde5b8d2ffe9be1953081f3",
-  "state": "AUTHORIZED_C2_READY_FOR_SINGLE_DISPATCH",
+  "state": "C2_DISPATCHED_READY_TO_ARM_WATCH",
   "kani_commit": "12b4137c42f3ee92f12476ea0771ea41a5cd1e8d",
   "request_sha256": "bb97062288c84b38ae25961ada87aaad28858e23023e69fb4677fa22830fdcaa",
   "active_inputs_changed": true,
   "phase_registered": false,
   "dispatch_authorized": true,
-  "builds": 0,
+  "builds": 1,
   "cloud_usd": "0.0000",
   "static_preflight": "PREFLIGHT.json",
   "tests": "TESTS.json",
@@ -17,7 +17,7 @@
     "Root subset may remove the interaction; omitted calibration remains explicit."
   ],
   "proof_credit": "NONE",
-  "next_step": "Publish exact installed request and controls; one k1g.sh dispatch; arm k1g.sh watch; end turn. On terminal event consume watcher, Brief first, write requested <=40line result/identities/accounting, commit[skip ci]/push without force; no repeats.",
+  "next_step": "Arm k1g.sh watch exactly once, save receipt locally and end turn; consume only on queued terminal event.",
   "review": {
     "candidate_commit": "9f49fc16b5355492e5310207bcb558c6b24293ff",
     "result": "PASS",
@@ -36,7 +36,7 @@
     "checked_at": "2026-11-11T19:59:15.025850+00:00"
   },
   "attempts_allowed": 1,
-  "attempts_used": 0,
+  "attempts_used": 1,
   "retry_allowed": false,
   "preflight": "C2-PREFLIGHT.json",
   "authorization": {
@@ -45,6 +45,20 @@
     "request_sha256": "bb97062288c84b38ae25961ada87aaad28858e23023e69fb4677fa22830fdcaa",
     "reserve_usd": "0.4455",
     "remaining_cap_usd": "0.4490",
-    "consumed": false
+    "consumed": true
+  },
+  "dispatch_head": "7b097ac2552fc9d2e5a4df43a6e5be3f7f6c0fdb",
+  "dispatch_receipt": "DISPATCH-C2.json",
+  "build_id": "0835db8a-7425-4bc9-ad0e-ae83611b3e3d",
+  "live_reserved_by_this_stage_usd": "0.4455",
+  "remaining_unreserved_usd": "0.0035",
+  "status_polling": false,
+  "watcher": {
+    "kind": "k1g.sh watch",
+    "state": "READY_TO_ARM",
+    "build_id": "0835db8a-7425-4bc9-ad0e-ae83611b3e3d",
+    "receipt": "WATCH-C2.json",
+    "thread": "01a1cc29-7bb1-7a40-8223-96e548db19fb",
+    "instruction": "After arming end turn; no status polling. On queued terminal event consume watcher, smallsort-brief first. Preserve exact dispatch head7b097ac2552fc9d2e5a4df43a6e5be3f7f6c0fdb and requestbb97062288c84b38ae25961ada87aaad28858e23023e69fb4677fa22830fdcaa. Use permitted bounded K1 summary/trace-field only if Brief unavailable; no raw logs/archives/guard bypass. Compare three verdicts vs A3; trace state/complete/omitted; for failing cmp3_index_range_len and contrast cmp3_manually_drop_unsized_len record IndexRange::len goto_body_consumed hash/last writer/root and relation to writer cmp3_into_iter_next; preserve UNKNOWN if incomplete/missing. Refresh cost with k1g budget. Write RESULT-KANI3300-T1B-C2.md<=40lines plus identities/accounting, commit[skip ci]/push without force. No repeats, repairs or new Build."
   }
 }
