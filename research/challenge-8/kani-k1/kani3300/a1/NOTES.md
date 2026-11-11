@@ -1,0 +1,25 @@
+# KANI3300 A1 — typed MaybeUninit transfer
+- Scope: TASK-KANI3300-A1 at e31ca5063340db5ab0c307d7774d945884b19cb4; only A1, Cloud $0.
+- Kani: /root/kani-fix-3300-a1, fix/kani-3300-a1, base 1cd96e354ec45346b61c245554a50a8af8cb5ce7.
+- Commits: production fc37f9021; tests 5fd713a20; review ZST fix / final HEAD 613c188313e34e51e6a69d2c62bbd6ded2511819.
+- for_storage keeps the full rustc extent for raw Copy and bytewise SetSliceChunk.
+- for_typed_storage computes D(T), with false padding; arrays repeat it at rustc FieldsShape::Array stride/count.
+- Flat slices use the rustc slot size as element stride; unsupported payload layouts propagate Unsupported before mask application.
+- AssignUnion, StoreArgument, LoadArgument and SetStorage select the typed layout; StoreArgument saves live identities/extent only.
+- CopyInitStateSingle and LoadArgument receive the mask; normal return uses the existing StoreArgument/LoadArgument index 0 path.
+- Followed-source state becomes old_state && mask; the other destination branch clears padding and neutralizes overwritten data.
+- A false source data byte remains false on its witness branch; a preserve mask never initializes it.
+- SetStorage intersects evaluated constant initializedness with D(T); untyped copy passes an all-true mask.
+- Ordinary-union transfer policy is unchanged; no G1, A2 layout repair, A3 pairing or resolver changes.
+- Payload: repr(C) { tag: u8, value: u32 }; extent/stride 8, D(T)={0,4,5,6,7}, padding={1,2,3}.
+- Fixtures assert field offsets, extent, MU extent and N=2 array stride; source bytes are written in place before transfer.
+- Seven new selectors / twelve harnesses: raw copy and copy_nonoverlapping padding, typed data and arg/return data expect 6 SUCCESS.
+- Assignment/argument/return padding, unwritten data, array slot-1 padding/unwritten data expect 6 named u8 uninit FAILURE.
+- Existing fixtures/goldens are byte-identical to base; TEST-MANIFEST.json records exact new source/golden hashes and expectations.
+- Static: wrapper rustfmt --check on all 10 changed .rs and git diff --check base..HEAD PASS.
+- Pinned API signatures verified from 11 hash-matched rustc_public source files, Rust 7189d39d9ce936881b8132c6addeaf3e295cd455.
+- Static unused/ABI/-D warnings source audit and 5,544-case Python shadow sanity PASS; neither is compiler execution.
+- Independent Luna HIGH review: REVIEW.md, REVIEW-INITIAL.md, immutable initial/delta packets; ZST pointer guard restored; no proof credit.
+- NOT_RUN: compilation, Rust/Kani/CBMC/Miri, MIR/layout measurement, coordinator CI. Layout is derived and asserted, not measured locally.
+- Coordinator gate: exact SHA, named failure/count and intended reached read; no extra failures; compare padding negatives to base.
+- A2/A3/B1 pre-existing blockers remain separate; this stage does not establish overall part-1 readiness.

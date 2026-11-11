@@ -1,0 +1,109 @@
+{
+  "candidate": "613c188313e34e51e6a69d2c62bbd6ded2511819",
+  "execution": "NOT_RUN; coordinator fork CI only",
+  "target": "nightly-2026-10-23, x86_64",
+  "layout": {
+    "Padded": "#[repr(C)] { tag: u8, value: u32 }",
+    "extent": 8,
+    "data_offsets": [
+      0,
+      4,
+      5,
+      6,
+      7
+    ],
+    "padding_offsets": [
+      1,
+      2,
+      3
+    ],
+    "slot_stride": 8,
+    "array_extent": 16,
+    "assurance": "Rust repr(C) derivation with in-harness offset/size assertions; compiler MIR/layout receipt pending"
+  },
+  "acceptance": "Compare exact candidate SHA. Check named properties, count, reached intended read and absence of extra failures; fragment goldens alone do not establish this. Compare padding cases with the base; MIR/Miri only through coordinator if available.",
+  "selectors": [
+    {
+      "selector": "maybe-uninit-typed-argument-padding",
+      "harnesses": [
+        "typed_argument_discards_written_padding"
+      ],
+      "expected_result": "FAILURE",
+      "expected_failed_check": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "expected_failures_per_harness": 1,
+      "source_sha256": "b72b3f4808b58061054d143ee568c044aea48671910e4f5ca33be41dc36ed069",
+      "golden_sha256": "e83aa826b29d95fb0bc06ed4a29305fddcd83013b731632080057c99e25f1ebf"
+    },
+    {
+      "selector": "maybe-uninit-typed-array-padding",
+      "harnesses": [
+        "typed_array_discards_second_slot_padding"
+      ],
+      "expected_result": "FAILURE",
+      "expected_failed_check": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "expected_failures_per_harness": 1,
+      "source_sha256": "a3c0904fd8767b90f1874ed545e3044ea4e37b5469182a7a1f3e99186e156f7c",
+      "golden_sha256": "8449105fe45ea1e2d85f086560fb455a50cacc89829786769e6a7933c802e2a3"
+    },
+    {
+      "selector": "maybe-uninit-typed-array-partial-data",
+      "harnesses": [
+        "typed_array_preserves_second_slot_unwritten_data"
+      ],
+      "expected_result": "FAILURE",
+      "expected_failed_check": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "expected_failures_per_harness": 1,
+      "source_sha256": "305f8ed325072dd0b38a248545f537c232305d4c1c51faece5a4d996c70d67de",
+      "golden_sha256": "2617ae16f7ebf312962f17c4865f34488d877fa20fad1295f2d015b8c7780e8c"
+    },
+    {
+      "selector": "maybe-uninit-typed-assignment-padding",
+      "harnesses": [
+        "typed_assignment_discards_written_padding"
+      ],
+      "expected_result": "FAILURE",
+      "expected_failed_check": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "expected_failures_per_harness": 1,
+      "source_sha256": "cdd1a6b0dd8c30f24445763d259321b764ba96b56080ff1aeae1bd068b12cd49",
+      "golden_sha256": "c94be9f0da890e6794c6acfecb309d79f28afe249d43b525176e79a82b41b5f2"
+    },
+    {
+      "selector": "maybe-uninit-typed-partial-data",
+      "harnesses": [
+        "typed_assignment_preserves_unwritten_data"
+      ],
+      "expected_result": "FAILURE",
+      "expected_failed_check": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "expected_failures_per_harness": 1,
+      "source_sha256": "c18b33e1162acee6a333ed99e50972271e401ce0c5ddfade9869f7bd24b66e84",
+      "golden_sha256": "d26d98dece9be35bb33e29a176415c0f17eec3ce785da7dd39b44932d43b62b3"
+    },
+    {
+      "selector": "maybe-uninit-typed-return-padding",
+      "harnesses": [
+        "typed_return_discards_written_padding"
+      ],
+      "expected_result": "FAILURE",
+      "expected_failed_check": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "expected_failures_per_harness": 1,
+      "source_sha256": "f19f8e2bc02f0281e657d4141a034bbc555c03fe2269c98a45e6d9f5ad025282",
+      "golden_sha256": "c1597735af5a52d4758072b0c27736bbdf1688023fc0d64347cf206e1fb6f0d7"
+    },
+    {
+      "selector": "maybe-uninit-typed-transfer-data",
+      "harnesses": [
+        "raw_nonoverlapping_copy_preserves_padding",
+        "raw_copy_preserves_padding",
+        "typed_assignment_preserves_data",
+        "typed_argument_return_preserves_data",
+        "typed_array_preserves_data",
+        "raw_array_copy_preserves_second_slot_padding"
+      ],
+      "expected_result": "SUCCESS",
+      "expected_failed_check": null,
+      "expected_failures_per_harness": 0,
+      "source_sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41",
+      "golden_sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359"
+    }
+  ]
+}

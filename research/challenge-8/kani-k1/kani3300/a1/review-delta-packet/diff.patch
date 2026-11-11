@@ -1,0 +1,14 @@
+diff --git a/library/kani_core/src/mem_init.rs b/library/kani_core/src/mem_init.rs
+index e78b4ec1aca1e6230c2c4e54d4e34dc12294e8b3..48333aede5942db5ea176a589762dbcbc27714af 100644
+--- a/library/kani_core/src/mem_init.rs
++++ b/library/kani_core/src/mem_init.rs
+@@ -391,6 +391,9 @@ fn copy_init_state_single<const LAYOUT_SIZE: usize, T>(
+             to: *const T,
+             layout: Layout<LAYOUT_SIZE>,
+         ) {
++            if LAYOUT_SIZE == 0 {
++                return;
++            }
+             let (from_ptr, _) = from.to_raw_parts();
+             let (to_ptr, _) = to.to_raw_parts();
+             unsafe {

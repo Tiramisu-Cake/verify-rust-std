@@ -1,0 +1,48 @@
+{
+  "candidate": "613c188313e34e51e6a69d2c62bbd6ded2511819",
+  "base": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+  "rustfmt": {
+    "result": "PASS",
+    "wrapper": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+    "arguments": "--check --config-path rustfmt.toml",
+    "rust_files": 10
+  },
+  "git_diff_check": "PASS 1cd96e354..HEAD",
+  "existing_fixtures": "unchanged; only seven new fixture directories",
+  "python_shadow_sanity": {
+    "result": "PASS",
+    "configurations": 5544,
+    "scope": "Small finite simulation of the masked single-byte transition: raw masks, overlap/overwrite, initial false and true, zero extent. Not execution of Rust or Kani and not independent proof credit."
+  },
+  "pinned_api": {
+    "toolchain": "nightly-2026-10-23",
+    "rust_commit": "7189d39d9ce936881b8132c6addeaf3e295cd455",
+    "manifest": "../g1r/API-SOURCES.json",
+    "local_root": "/tmp/kani3300-g1r-api",
+    "all_11_source_hashes": "MATCH",
+    "signatures": [
+      "Ty::layout(self) -> Result<Layout, Error>",
+      "Layout::shape(self) -> LayoutShape",
+      "FieldsShape::Array { stride: Size, count: u64 }",
+      "MachineSize::bytes(self) -> usize"
+    ]
+  },
+  "source_audit": {
+    "result": "PASS static inspection; compilation NOT_RUN",
+    "checks": [
+      "No new imports or unused parameters; obsolete bless/bless_by_id helpers removed after replacement.",
+      "for_typed_storage and transfer_mask have source callers; layout_size still includes padding, raw model receives all-true mask.",
+      "CopyInitStateSingle and LoadArgument generated calls now pass Layout<LAYOUT_SIZE>; StoreArgument signature unchanged, computes validated typed extent and stores live IDs only.",
+      "SetStorage intersects constant initialized mask with typed layout; no mask can turn false source data true on followed source branch.",
+      "copy_by_id rejects zero layout size before any modulo; arrays use rustc stride/count/extent, slices use element size.",
+      "Existing -D warnings build remains coordinator validation; rustfmt checks syntax but not types or borrow checking."
+    ]
+  },
+  "forbidden_execution": "NOT_RUN: cargo/rustc/Kani/CBMC/Miri/build/dispatch/Cloud/Actions",
+  "cloud_spend_usd": 0,
+  "review_delta": {
+    "commit": "613c188313e34e51e6a69d2c62bbd6ded2511819",
+    "change": "Restore early zero-size return before typed helper pointer handling; no model signature or test changes.",
+    "checks": "PASS wrapper rustfmt --check on mem_init.rs, git diff --check base..final, static guard-order assertion"
+  }
+}

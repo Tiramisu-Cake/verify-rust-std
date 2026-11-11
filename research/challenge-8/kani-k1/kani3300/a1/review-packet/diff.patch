@@ -1,0 +1,749 @@
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+index 117b2311ae045d08b21e71e2af972058bc77ae02..b9562622f702793ca28105d8acb676c86f57f437 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+@@ -231,11 +231,12 @@ fn build_check_for_operation(
+                     // A generic set from delayed UB instrumentation would erase that state.
+                     MemoryInitOp::SetRef { .. } => return,
+                     MemoryInitOp::SetStorage { .. }
+-                    | MemoryInitOp::Copy { .. }
+                     | MemoryInitOp::AssignUnion { .. }
+                     | MemoryInitOp::StoreArgument { .. }
+-                    | MemoryInitOp::LoadArgument { .. }
+-                    | MemoryInitOp::SetSliceChunk { .. } => {
++                    | MemoryInitOp::LoadArgument { .. } => {
++                        PointeeInfo::for_typed_storage(self.tcx, pointee_ty)
++                    }
++                    MemoryInitOp::Copy { .. } | MemoryInitOp::SetSliceChunk { .. } => {
+                         PointeeInfo::for_storage(self.tcx, pointee_ty)
+                     }
+                     _ => PointeeInfo::from_ty(pointee_ty),
+@@ -435,9 +436,15 @@ fn build_set(
+         let value = operation.expect_value();
+         let terminator = match pointee_info.layout() {
+             PointeeLayout::Sized { layout } => {
++                let initialized_mask;
+                 let layout = if let MemoryInitOp::SetStorage { initialized, .. } = &operation {
+                     assert_eq!(layout.len(), initialized.len());
+-                    initialized
++                    initialized_mask = initialized
++                        .iter()
++                        .zip(layout)
++                        .map(|(initialized, data)| *initialized && *data)
++                        .collect::<Vec<_>>();
++                    &initialized_mask
+                 } else {
+                     layout
+                 };
+@@ -669,6 +676,20 @@ fn build_argument_operation(
+         );
+         let operand = operation.mk_operand(body, &mut statements, source);
+         let argument_no = operation.expect_argument_no();
++        let mut args = vec![
++            operand,
++            Operand::Constant(ConstOperand {
++                span: source.span(body.blocks()),
++                user_ty: None,
++                const_: MirConst::try_from_uint(argument_no as u128, UintTy::Usize).unwrap(),
++            }),
++        ];
++        // Stores only capture live source identities. The receiving side applies the typed mask,
++        // including for normal returns, after transferring the saved source state.
++        if matches!(operation, MemoryInitOp::LoadArgument { .. }) {
++            let layout = transfer_mask(pointee_info.layout());
++            args.push(mk_layout_operand(body, &mut statements, source, &layout));
++        }
+         let terminator = Terminator {
+             kind: TerminatorKind::Call {
+                 func: Operand::Copy(Place::from(body.new_local(
+@@ -676,15 +697,7 @@ fn build_argument_operation(
+                     source.span(body.blocks()),
+                     Mutability::Not,
+                 ))),
+-                args: vec![
+-                    operand,
+-                    Operand::Constant(ConstOperand {
+-                        span: source.span(body.blocks()),
+-                        user_ty: None,
+-                        const_: MirConst::try_from_uint(argument_no as u128, UintTy::Usize)
+-                            .unwrap(),
+-                    }),
+-                ],
++                args,
+                 destination: ret_place.clone(),
+                 target: Some(0), // this will be overriden in add_bb
+                 unwind: UnwindAction::Terminate,
+@@ -716,6 +729,8 @@ fn build_assign_union(
+             *pointee_info.ty(),
+         );
+         let (from, to) = operation.expect_assign_union_operands(body, &mut statements, source);
++        let layout = transfer_mask(pointee_info.layout());
++        let layout_operand = mk_layout_operand(body, &mut statements, source, &layout);
+         let terminator = Terminator {
+             kind: TerminatorKind::Call {
+                 func: Operand::Copy(Place::from(body.new_local(
+@@ -723,7 +738,7 @@ fn build_assign_union(
+                     source.span(body.blocks()),
+                     Mutability::Not,
+                 ))),
+-                args: vec![from, to],
++                args: vec![from, to, layout_operand],
+                 destination: ret_place.clone(),
+                 target: Some(0), // this will be overriden in add_bb
+                 unwind: UnwindAction::Terminate,
+@@ -766,6 +781,17 @@ fn inject_unsupported_check(
+     }
+ }
+ 
++/// Keep the existing whole-storage policy for ordinary unions. MaybeUninit transfers use the
++/// payload mask computed by `for_typed_storage` instead.
++fn transfer_mask(layout: &PointeeLayout) -> Vec<bool> {
++    match layout {
++        PointeeLayout::Sized { layout } => layout.clone(),
++        PointeeLayout::Slice { element_layout } => element_layout.clone(),
++        PointeeLayout::Union { .. } => vec![true; layout.maybe_size().unwrap()],
++        PointeeLayout::TraitObject => unreachable!("Cannot transfer an arbitrary layout"),
++    }
++}
++
+ /// Create an operand from a bit array that represents a byte mask for a type layout where padding
+ /// bytes are marked as `false` and data bytes are marked as `true`.
+ ///
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+index ab08539d8255cb6222fd44a6e818c56424deb085..a4518abdf217f51104d07d5404d93e5a6748419a 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+@@ -128,6 +128,34 @@ pub(super) fn maybe_uninit_storage(tcx: TyCtxt, ty: Ty) -> Option<Ty> {
+ }
+ 
+ impl PointeeInfo {
++    /// Typed slot transfers preserve only payload data, at the rustc stride of each slot.
++    pub(super) fn for_typed_storage(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputationError> {
++        let inner = maybe_uninit_storage(tcx, ty).unwrap();
++        let data_chunks = data_bytes_for_ty(&MachineInfo::target(), inner, 0)?;
++        let layout = match ty.kind() {
++            TyKind::RigidTy(RigidTy::Slice(slot)) => {
++                let stride = slot.layout().unwrap().shape().size.bytes();
++                PointeeLayout::Slice { element_layout: generate_byte_mask(stride, data_chunks) }
++            }
++            TyKind::RigidTy(RigidTy::Array(_, _)) => {
++                let shape = ty.layout().unwrap().shape();
++                let FieldsShape::Array { stride, count } = shape.fields else { unreachable!() };
++                let slot_mask = generate_byte_mask(stride.bytes(), data_chunks);
++                let mut layout = vec![false; shape.size.bytes()];
++                for index in 0..usize::try_from(count).unwrap() {
++                    let offset = index * stride.bytes();
++                    layout[offset..offset + stride.bytes()].copy_from_slice(&slot_mask);
++                }
++                PointeeLayout::Sized { layout }
++            }
++            _ => {
++                let size = ty.layout().unwrap().shape().size.bytes();
++                PointeeLayout::Sized { layout: generate_byte_mask(size, data_chunks) }
++            }
++        };
++        Ok(Self { pointee_ty: ty, layout })
++    }
++
+     /// Layout for copying storage or writing every byte with a bytewise intrinsic.
+     pub(super) fn for_storage(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputationError> {
+         let inner = maybe_uninit_storage(tcx, ty).unwrap();
+diff --git a/library/kani_core/src/mem_init.rs b/library/kani_core/src/mem_init.rs
+index 6f832d4c651f8770a46327beb6e4a957b06c1166..e78b4ec1aca1e6230c2c4e54d4e34dc12294e8b3 100644
+--- a/library/kani_core/src/mem_init.rs
++++ b/library/kani_core/src/mem_init.rs
+@@ -107,20 +107,28 @@ pub fn set<const LAYOUT_SIZE: usize>(
+                 }
+             }
+ 
+-            /// Copy memory initialization state by non-deterministically switching the tracked object and
+-            /// adjusting the tracked offset.
++            /// Copy memory initialization state by non-deterministically switching the tracked object
++            /// and adjusting the tracked offset. Only bytes selected by `layout` preserve their state.
+             #[kanitool::disable_checks(pointer)]
+             pub fn copy<const LAYOUT_SIZE: usize>(
+                 &mut self,
+                 from_ptr: *const u8,
+                 to_ptr: *const u8,
+                 num_elts: usize,
++                layout: Layout<LAYOUT_SIZE>,
+             ) {
+                 let from_obj = super::mem::pointer_object(from_ptr);
+                 let from_offset = super::mem::pointer_offset(from_ptr);
+                 let to_obj = super::mem::pointer_object(to_ptr);
+                 let to_offset = super::mem::pointer_offset(to_ptr);
+-                self.copy_by_id::<LAYOUT_SIZE>(from_obj, from_offset, to_obj, to_offset, num_elts);
++                self.copy_by_id::<LAYOUT_SIZE>(
++                    from_obj,
++                    from_offset,
++                    to_obj,
++                    to_offset,
++                    num_elts,
++                    layout,
++                );
+             }
+ 
+             /// Copy initialization state using object identities and offsets captured while the
+@@ -134,7 +142,11 @@ pub fn copy_by_id<const LAYOUT_SIZE: usize>(
+                 to_obj: usize,
+                 to_offset: usize,
+                 num_elts: usize,
++                layout: Layout<LAYOUT_SIZE>,
+             ) {
++                if LAYOUT_SIZE == 0 {
++                    return;
++                }
+                 if self.tracked_object_id == from_obj
+                     && self.tracked_offset >= from_offset
+                     && self.tracked_offset < from_offset + num_elts * LAYOUT_SIZE
+@@ -143,38 +155,18 @@ pub fn copy_by_id<const LAYOUT_SIZE: usize>(
+                     if should_reset {
+                         self.tracked_object_id = to_obj;
+                         self.tracked_offset = to_offset + (self.tracked_offset - from_offset);
+-                        // Note that this preserves the value.
++                        // A preserve mask never initializes a source byte. It discards padding.
++                        self.value &= layout[(self.tracked_offset - to_offset) % LAYOUT_SIZE];
+                         return;
+                     }
+                 }
+                 // If this path did not follow the source byte, do not retain the old state of
+                 // overwritten destination bytes. Their new state is checked on the source path.
+-                self.bless_by_id::<LAYOUT_SIZE>(to_obj, to_offset, num_elts);
+-            }
+-
+-            /// Set currently tracked memory initialization state to `true` if `ptr` points to the
+-            /// currently tracked object and the tracked offset lies within `LAYOUT_SIZE * num_elts`
+-            /// bytes of `ptr`.
+-            #[kanitool::disable_checks(pointer)]
+-            pub fn bless<const LAYOUT_SIZE: usize>(&mut self, ptr: *const u8, num_elts: usize) {
+-                let obj = super::mem::pointer_object(ptr);
+-                let offset = super::mem::pointer_offset(ptr);
+-                self.bless_by_id::<LAYOUT_SIZE>(obj, offset, num_elts);
+-            }
+-
+-            /// Bless memory using object identity and offset captured from a live pointer.
+-            #[kanitool::disable_checks(pointer)]
+-            pub fn bless_by_id<const LAYOUT_SIZE: usize>(
+-                &mut self,
+-                obj: usize,
+-                offset: usize,
+-                num_elts: usize,
+-            ) {
+-                if self.tracked_object_id == obj
+-                    && self.tracked_offset >= offset
+-                    && self.tracked_offset < offset + num_elts * LAYOUT_SIZE
++                if self.tracked_object_id == to_obj
++                    && self.tracked_offset >= to_offset
++                    && self.tracked_offset < to_offset + num_elts * LAYOUT_SIZE
+                 {
+-                    self.value = true;
++                    self.value = layout[(self.tracked_offset - to_offset) % LAYOUT_SIZE];
+                 }
+             }
+ 
+@@ -385,16 +377,30 @@ fn copy_init_state<const LAYOUT_SIZE: usize, T>(
+                     from_ptr as *const u8,
+                     to_ptr as *const u8,
+                     num_elts,
++                    [true; LAYOUT_SIZE],
+                 );
+             }
+         }
+ 
+-        /// Copy initialization state of `size_of::<T>` bytes from one pointer to the other. Note that in
+-        /// this case `LAYOUT_SIZE == size_of::<T>`.
++        /// Transfer one typed value's initialization state, preserving only bytes selected by `layout`.
++        /// In this case `LAYOUT_SIZE == size_of::<T>`.
+         #[kanitool::disable_checks(pointer)]
+         #[kanitool::fn_marker = "CopyInitStateSingleModel"]
+-        fn copy_init_state_single<const LAYOUT_SIZE: usize, T>(from: *const T, to: *const T) {
+-            copy_init_state::<LAYOUT_SIZE, T>(from, to, 1);
++        fn copy_init_state_single<const LAYOUT_SIZE: usize, T>(
++            from: *const T,
++            to: *const T,
++            layout: Layout<LAYOUT_SIZE>,
++        ) {
++            let (from_ptr, _) = from.to_raw_parts();
++            let (to_ptr, _) = to.to_raw_parts();
++            unsafe {
++                MEM_INIT_STATE.copy::<LAYOUT_SIZE>(
++                    from_ptr as *const u8,
++                    to_ptr as *const u8,
++                    1,
++                    layout,
++                );
++            }
+         }
+ 
+         /// Non-deterministically store information about currently tracked argument in the argument
+@@ -419,11 +425,16 @@ fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument
+ 
+         /// Load information from the argument buffer (if the argument position matches) via copying
+         /// the memory initialization information from an address in the caller to an address in the
+-        /// callee. Otherwise, mark that the argument as initialized, as it will be checked by
+-        /// another non-deterministic branch. Reset the argument buffer after loading from it.
++        /// callee, discarding padding according to `layout`. Otherwise, mark only the argument's
++        /// data bytes initialized, as their state is checked by another non-deterministic branch.
++        /// Reset the argument buffer after loading from it.
+         #[kanitool::disable_checks(pointer)]
+         #[kanitool::fn_marker = "LoadArgumentModel"]
+-        fn load_argument<const LAYOUT_SIZE: usize, T>(to: *const T, selected_argument: usize) {
++        fn load_argument<const LAYOUT_SIZE: usize, T>(
++            to: *const T,
++            selected_argument: usize,
++            layout: Layout<LAYOUT_SIZE>,
++        ) {
+             let (to_ptr, _) = to.to_raw_parts();
+             if unsafe {
+                 MEM_INIT_STATE.argument_buffer_active
+@@ -443,13 +454,14 @@ fn load_argument<const LAYOUT_SIZE: usize, T>(to: *const T, selected_argument: u
+                         to_object_id,
+                         to_offset,
+                         1,
++                        layout,
+                     );
+                     MEM_INIT_STATE.argument_buffer_active = false;
+                 }
+                 return;
+             }
+             unsafe {
+-                MEM_INIT_STATE.bless::<LAYOUT_SIZE>(to_ptr as *const u8, 1);
++                MEM_INIT_STATE.set::<LAYOUT_SIZE>(to_ptr as *const u8, layout, true);
+             }
+         }
+     };
+diff --git a/tests/expected/uninit/maybe-uninit-typed-argument-padding/expected b/tests/expected/uninit/maybe-uninit-typed-argument-padding/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..1f375b7fb5fb0a1be2ae9d52097310f5166246e6
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-typed-argument-padding/expected
+@@ -0,0 +1,4 @@
++Checking harness typed_argument_discards_written_padding...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-typed-argument-padding/main.rs b/tests/expected/uninit/maybe-uninit-typed-argument-padding/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..ee05f27872e99eff42b48002bde43d0be0930f10
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-typed-argument-padding/main.rs
+@@ -0,0 +1,34 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{self, MaybeUninit};
++
++#[derive(Clone, Copy)]
++#[repr(C)]
++struct Padded {
++    tag: u8,
++    value: u32,
++}
++
++fn check_layout() {
++    assert_eq!(mem::offset_of!(Padded, tag), 0);
++    assert_eq!(mem::offset_of!(Padded, value), 4);
++    assert_eq!(mem::size_of::<Padded>(), 8);
++    assert_eq!(mem::size_of::<MaybeUninit<Padded>>(), 8);
++}
++
++#[inline(never)]
++fn read_argument(slot: MaybeUninit<Padded>) -> u8 {
++    unsafe { slot.as_ptr().cast::<u8>().add(1).read() }
++}
++
++#[kani::proof]
++fn typed_argument_discards_written_padding() {
++    check_layout();
++    let mut source = MaybeUninit::<Padded>::uninit();
++    unsafe { source.as_mut_ptr().cast::<u8>().write_bytes(0x5a, 8) };
++    assert_eq!(unsafe { source.as_ptr().cast::<u8>().add(1).read() }, 0x5a);
++    let _padding = read_argument(source);
++}
+diff --git a/tests/expected/uninit/maybe-uninit-typed-array-padding/expected b/tests/expected/uninit/maybe-uninit-typed-array-padding/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..00fa68e49662e9239406e116995bc6edf8967ec4
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-typed-array-padding/expected
+@@ -0,0 +1,4 @@
++Checking harness typed_array_discards_second_slot_padding...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-typed-array-padding/main.rs b/tests/expected/uninit/maybe-uninit-typed-array-padding/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..a9a7f1852c60fff77fac5f70b3216b6b33cdc14f
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-typed-array-padding/main.rs
+@@ -0,0 +1,39 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{self, MaybeUninit};
++
++#[derive(Clone, Copy)]
++#[repr(C)]
++struct Padded {
++    tag: u8,
++    value: u32,
++}
++
++fn check_layout() {
++    assert_eq!(mem::offset_of!(Padded, tag), 0);
++    assert_eq!(mem::offset_of!(Padded, value), 4);
++    assert_eq!(mem::size_of::<Padded>(), 8);
++    assert_eq!(mem::size_of::<MaybeUninit<Padded>>(), 8);
++}
++
++#[kani::proof]
++fn typed_array_discards_second_slot_padding() {
++    check_layout();
++    let mut source = [MaybeUninit::<Padded>::uninit(); 2];
++    assert_eq!(mem::size_of_val(&source), 16);
++    unsafe {
++        assert_eq!(
++            source.as_ptr().add(1).cast::<u8>().offset_from(source.as_ptr().cast::<u8>()),
++            8
++        );
++        source.as_mut_ptr().cast::<u8>().write_bytes(0x5a, 16);
++    }
++    assert_eq!(unsafe { source[1].as_ptr().cast::<u8>().add(1).read() }, 0x5a);
++    let destination = source;
++    assert_eq!(unsafe { (*destination[0].as_ptr()).value }, 0x5a5a5a5a);
++    assert_eq!(unsafe { (*destination[1].as_ptr()).value }, 0x5a5a5a5a);
++    let _padding = unsafe { destination[1].as_ptr().cast::<u8>().add(1).read() };
++}
+diff --git a/tests/expected/uninit/maybe-uninit-typed-array-partial-data/expected b/tests/expected/uninit/maybe-uninit-typed-array-partial-data/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..6898ac3500ee03c9481a00ec42d7d24decb72b26
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-typed-array-partial-data/expected
+@@ -0,0 +1,4 @@
++Checking harness typed_array_preserves_second_slot_unwritten_data...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-typed-array-partial-data/main.rs b/tests/expected/uninit/maybe-uninit-typed-array-partial-data/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..1dbbb4e994ac418b96a7a3fd92af585bbbed5b99
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-typed-array-partial-data/main.rs
+@@ -0,0 +1,35 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{self, MaybeUninit};
++
++#[derive(Clone, Copy)]
++#[repr(C)]
++struct Padded {
++    tag: u8,
++    value: u32,
++}
++
++fn check_layout() {
++    assert_eq!(mem::offset_of!(Padded, tag), 0);
++    assert_eq!(mem::offset_of!(Padded, value), 4);
++    assert_eq!(mem::size_of::<Padded>(), 8);
++    assert_eq!(mem::size_of::<MaybeUninit<Padded>>(), 8);
++}
++
++#[kani::proof]
++fn typed_array_preserves_second_slot_unwritten_data() {
++    check_layout();
++    let mut source = [MaybeUninit::<Padded>::uninit(); 2];
++    assert_eq!(mem::size_of_val(&source), 16);
++    unsafe {
++        // Slot 0 is completely written; offset 15 is slot 1's final data byte.
++        source.as_mut_ptr().cast::<u8>().write_bytes(0x5a, 15);
++    }
++    let destination = source;
++    assert_eq!(unsafe { (*destination[0].as_ptr()).value }, 0x5a5a5a5a);
++    assert_eq!(unsafe { destination[1].as_ptr().cast::<u8>().read() }, 0x5a);
++    let _data = unsafe { destination[1].as_ptr().cast::<u8>().add(7).read() };
++}
+diff --git a/tests/expected/uninit/maybe-uninit-typed-assignment-padding/expected b/tests/expected/uninit/maybe-uninit-typed-assignment-padding/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..841a8ae369b22dd7342d5c1bdfae4f9812f68bcf
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-typed-assignment-padding/expected
+@@ -0,0 +1,4 @@
++Checking harness typed_assignment_discards_written_padding...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-typed-assignment-padding/main.rs b/tests/expected/uninit/maybe-uninit-typed-assignment-padding/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..528a702c38c790c9e701cef4cfc80a5ad2bae574
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-typed-assignment-padding/main.rs
+@@ -0,0 +1,35 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{self, MaybeUninit};
++
++#[derive(Clone, Copy)]
++#[repr(C)]
++struct Padded {
++    tag: u8,
++    value: u32,
++}
++
++fn check_layout() {
++    assert_eq!(mem::offset_of!(Padded, tag), 0);
++    assert_eq!(mem::offset_of!(Padded, value), 4);
++    assert_eq!(mem::size_of::<Padded>(), 8);
++    assert_eq!(mem::size_of::<MaybeUninit<Padded>>(), 8);
++}
++
++#[kani::proof]
++fn typed_assignment_discards_written_padding() {
++    check_layout();
++    let mut source = MaybeUninit::<Padded>::uninit();
++    unsafe { source.as_mut_ptr().cast::<u8>().write_bytes(0x5a, 8) };
++    let mut destination = MaybeUninit::<Padded>::uninit();
++    unsafe {
++        destination.as_mut_ptr().cast::<u8>().write_bytes(0x33, 8);
++        assert_eq!(destination.as_ptr().cast::<u8>().add(1).read(), 0x33);
++        assert_eq!(source.as_ptr().cast::<u8>().add(1).read(), 0x5a);
++    }
++    destination = source;
++    let _padding = unsafe { destination.as_ptr().cast::<u8>().add(1).read() };
++}
+diff --git a/tests/expected/uninit/maybe-uninit-typed-partial-data/expected b/tests/expected/uninit/maybe-uninit-typed-partial-data/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..b666481f44c9d71fe5b56b48693040ffe0f56f11
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-typed-partial-data/expected
+@@ -0,0 +1,4 @@
++Checking harness typed_assignment_preserves_unwritten_data...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-typed-partial-data/main.rs b/tests/expected/uninit/maybe-uninit-typed-partial-data/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd7854d39f93f616cb25e83e280aa59aa7640672
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-typed-partial-data/main.rs
+@@ -0,0 +1,33 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{self, MaybeUninit};
++
++#[derive(Clone, Copy)]
++#[repr(C)]
++struct Padded {
++    tag: u8,
++    value: u32,
++}
++
++fn check_layout() {
++    assert_eq!(mem::offset_of!(Padded, tag), 0);
++    assert_eq!(mem::offset_of!(Padded, value), 4);
++    assert_eq!(mem::size_of::<Padded>(), 8);
++    assert_eq!(mem::size_of::<MaybeUninit<Padded>>(), 8);
++}
++
++#[kani::proof]
++fn typed_assignment_preserves_unwritten_data() {
++    check_layout();
++    let mut source = MaybeUninit::<Padded>::uninit();
++    unsafe {
++        // Initialize all bytes except the last byte of `value`, which is data at offset 7.
++        source.as_mut_ptr().cast::<u8>().write_bytes(0x5a, 7);
++    }
++    let destination = source;
++    assert_eq!(unsafe { destination.as_ptr().cast::<u8>().read() }, 0x5a);
++    let _data = unsafe { destination.as_ptr().cast::<u8>().add(7).read() };
++}
+diff --git a/tests/expected/uninit/maybe-uninit-typed-return-padding/expected b/tests/expected/uninit/maybe-uninit-typed-return-padding/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..eda241921c7190db677a0e5151538cddcf7dea85
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-typed-return-padding/expected
+@@ -0,0 +1,4 @@
++Checking harness typed_return_discards_written_padding...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-typed-return-padding/main.rs b/tests/expected/uninit/maybe-uninit-typed-return-padding/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..eccbaf6e799f98135a08bd074043625b5864a849
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-typed-return-padding/main.rs
+@@ -0,0 +1,35 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{self, MaybeUninit};
++
++#[derive(Clone, Copy)]
++#[repr(C)]
++struct Padded {
++    tag: u8,
++    value: u32,
++}
++
++fn check_layout() {
++    assert_eq!(mem::offset_of!(Padded, tag), 0);
++    assert_eq!(mem::offset_of!(Padded, value), 4);
++    assert_eq!(mem::size_of::<Padded>(), 8);
++    assert_eq!(mem::size_of::<MaybeUninit<Padded>>(), 8);
++}
++
++#[inline(never)]
++fn return_slot() -> MaybeUninit<Padded> {
++    let mut slot = MaybeUninit::<Padded>::uninit();
++    unsafe { slot.as_mut_ptr().cast::<u8>().write_bytes(0x5a, 8) };
++    assert_eq!(unsafe { slot.as_ptr().cast::<u8>().add(1).read() }, 0x5a);
++    slot
++}
++
++#[kani::proof]
++fn typed_return_discards_written_padding() {
++    check_layout();
++    let destination = return_slot();
++    let _padding = unsafe { destination.as_ptr().cast::<u8>().add(1).read() };
++}
+diff --git a/tests/expected/uninit/maybe-uninit-typed-transfer-data/expected b/tests/expected/uninit/maybe-uninit-typed-transfer-data/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..6a30f2d04839d6a4f141d478eba7f2cfabd96e96
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-typed-transfer-data/expected
+@@ -0,0 +1 @@
++Complete - 6 successfully verified harnesses, 0 failures, 6 total.
+diff --git a/tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs b/tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..347898cf583d70a6b342b4d172b461308a31979e
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs
+@@ -0,0 +1,115 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{self, MaybeUninit};
++
++#[derive(Clone, Copy)]
++#[repr(C)]
++struct Padded {
++    tag: u8,
++    value: u32,
++}
++
++fn check_layout() {
++    assert_eq!(mem::offset_of!(Padded, tag), 0);
++    assert_eq!(mem::offset_of!(Padded, value), 4);
++    assert_eq!(mem::size_of::<Padded>(), 8);
++    assert_eq!(mem::size_of::<MaybeUninit<Padded>>(), 8);
++}
++
++#[kani::proof]
++fn raw_nonoverlapping_copy_preserves_padding() {
++    check_layout();
++    let mut source = MaybeUninit::<Padded>::uninit();
++    unsafe { source.as_mut_ptr().cast::<u8>().write_bytes(0x5a, 8) };
++    let mut destination = MaybeUninit::<Padded>::uninit();
++    unsafe {
++        std::ptr::copy_nonoverlapping(&source, &mut destination, 1);
++        assert_eq!(destination.as_ptr().cast::<u8>().add(1).read(), 0x5a);
++    }
++}
++
++#[kani::proof]
++fn raw_copy_preserves_padding() {
++    check_layout();
++    let mut source = MaybeUninit::<Padded>::uninit();
++    unsafe { source.as_mut_ptr().cast::<u8>().write_bytes(0x5a, 8) };
++    let mut destination = MaybeUninit::<Padded>::uninit();
++    unsafe {
++        std::ptr::copy(&source, &mut destination, 1);
++        assert_eq!(destination.as_ptr().cast::<u8>().add(3).read(), 0x5a);
++    }
++}
++
++#[kani::proof]
++fn typed_assignment_preserves_data() {
++    check_layout();
++    let mut source = MaybeUninit::<Padded>::uninit();
++    unsafe { source.as_mut_ptr().cast::<u8>().write_bytes(0x5a, 8) };
++    let destination = source;
++    unsafe {
++        assert_eq!((*destination.as_ptr()).tag, 0x5a);
++        assert_eq!((*destination.as_ptr()).value, 0x5a5a5a5a);
++    }
++}
++
++#[inline(never)]
++fn roundtrip(slot: MaybeUninit<Padded>) -> MaybeUninit<Padded> {
++    assert_eq!(unsafe { (*slot.as_ptr()).value }, 0x5a5a5a5a);
++    slot
++}
++
++#[kani::proof]
++fn typed_argument_return_preserves_data() {
++    check_layout();
++    let mut source = MaybeUninit::<Padded>::uninit();
++    unsafe { source.as_mut_ptr().cast::<u8>().write_bytes(0x5a, 8) };
++    let destination = roundtrip(source);
++    unsafe {
++        assert_eq!((*destination.as_ptr()).tag, 0x5a);
++        assert_eq!((*destination.as_ptr()).value, 0x5a5a5a5a);
++    }
++}
++
++#[kani::proof]
++fn typed_array_preserves_data() {
++    check_layout();
++    let mut source = [MaybeUninit::<Padded>::uninit(); 2];
++    assert_eq!(mem::size_of_val(&source), 16);
++    unsafe {
++        assert_eq!(
++            source.as_ptr().add(1).cast::<u8>().offset_from(source.as_ptr().cast::<u8>()),
++            8
++        );
++        source.as_mut_ptr().cast::<u8>().write_bytes(0x5a, 16);
++    }
++    let destination = source;
++    unsafe {
++        assert_eq!((*destination[0].as_ptr()).tag, 0x5a);
++        assert_eq!((*destination[0].as_ptr()).value, 0x5a5a5a5a);
++        assert_eq!((*destination[1].as_ptr()).tag, 0x5a);
++        assert_eq!((*destination[1].as_ptr()).value, 0x5a5a5a5a);
++    }
++}
++
++#[kani::proof]
++fn raw_array_copy_preserves_second_slot_padding() {
++    check_layout();
++    let mut source = [MaybeUninit::<Padded>::uninit(); 2];
++    assert_eq!(mem::size_of_val(&source), 16);
++    unsafe {
++        assert_eq!(
++            source.as_ptr().add(1).cast::<u8>().offset_from(source.as_ptr().cast::<u8>()),
++            8
++        );
++        source.as_mut_ptr().cast::<u8>().write_bytes(0x5a, 16);
++    }
++    let mut destination = [MaybeUninit::<Padded>::uninit(); 2];
++    unsafe {
++        std::ptr::copy_nonoverlapping(source.as_ptr(), destination.as_mut_ptr(), 2);
++        assert_eq!(destination[0].as_ptr().cast::<u8>().add(1).read(), 0x5a);
++        assert_eq!(destination[1].as_ptr().cast::<u8>().add(1).read(), 0x5a);
++    }
++}

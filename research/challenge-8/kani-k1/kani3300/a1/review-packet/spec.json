@@ -1,0 +1,36 @@
+{
+  "applicability": "Review exactly the A1 candidate delta and necessary base call sites. Static-only independent review; pinned nightly-2026-10-23 rustc_public sources /tmp/kani3300-g1r-api, hashes in ../g1r/API-SOURCES.json. Read TASK-KANI3300-A1.md and audit sections 2.1, 2.2, 4.2 as requirements, without author conclusions.",
+  "baseline_commit": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+  "candidate_commit": "5fd713a200aea3ba85edcc341f48a0a20331fce2",
+  "controls": [
+    "No nested delegation. No builds, dispatch, Cloud, cargo/rustc/Kani/CBMC/Miri, Actions/PR/issues/comments, raw evidence or credentials, network mutations or Kani push.",
+    "No production/test edits. Write only a concise REVIEW.md in this A1 research directory, with exact reviewed candidate and packet identities, concrete findings, and static limitations.",
+    "All new harness outcomes are expectations pending coordinator CI; do not claim measured proof or GO."
+  ],
+  "defect": "KANI3300 A1: typed MaybeUninit transfers must preserve only D(T), while raw copies retain the full storage extent.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "library/kani_core/src/mem_init.rs",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "Typed assignment, constants, bodyful arguments and normal returns preserve source initializedness at D(T); padding destination becomes uninitialized. A false source data byte stays false.",
+    "Raw copy/copy_nonoverlapping retain full rustc extent, padding and partial data. Flat arrays repeat D(T) at rustc stride, N>1; flat slices use slot layout.",
+    "Unsupported layouts reject before applying any mask. Preserve existing support limits; A2 offset/layout repair, A3 call-pairing, B1 resolver work are outside A1.",
+    "Keep nondeterministic single-byte witness coverage, overlap and overwrite semantics; capture return identities while live. No weakened existing fixture/check/contract.",
+    "Check model ABI vs generated calls and pinned rustc_public signatures; unused/import/borrow/type concerns under -D warnings. Inspect new regression fixtures and exact failure intent."
+  ],
+  "known_limitations": [
+    "Compilation, MIR/Miri inspection and native verification NOT_RUN by task authorization; existing A2/A3/B1 blockers remain separate."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-a1"
+}
