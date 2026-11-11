@@ -1,0 +1,34 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-zst-b3",
+  "baseline_commit": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+  "candidate_commit": "9dddcb1134f8a55ee3a4451df9513941ca3c8fc3",
+  "defect": "B3 isolated upstream ZST union backend reduction; independently review tests-only dc590936c56556ecfb20fc714da06fcb13e884db and exact backend transplant of d760bad3639ea3a7c4000d41d5462508d5be14ef. Task: /root/verify-rust-std-kani3300-t0/research/challenge-8/kani-k1/TASK-KANI3300-B3.md @ 423b4721c864ee02936e43f7b46c2a05e92a1383. Revision: read AllZst.unit by reference after typed copy to remove dead-field warning risk; independently assess this delta.",
+  "applicability": "Only B3, upstream base without G1. Static review; actual abort reproduction and fix acceptance await coordinator narrow CI at both commits.",
+  "invariants": [
+    "Only a zero-sized physical payload within a nonzero padded wrapper becomes the registered unit empty struct; logical UnionField type, padding width, non-ZST arms, all-ZST branch remain unchanged.",
+    "cprover_bindings is already identical between upstream base and d760bad; do not invent changes there. Check logical/padded representation and field/index lowering compatibility.",
+    "Test expectations must follow valid Rust semantics, never snapshot abort/Unsupported. No padding bytes read after typed transfer."
+  ],
+  "controls": [
+    "Seven harnesses per mode (14 total): byte-covered array union, original padded C and Rust union shape, repr(align(8)) ZST, union at offset 8, all-ZST union, nondeterministic [();2] indexing with read/write/reference.",
+    "Check sources identical except checks-on directive; full memset followed by typed ptr::write(&mut dst, ptr::read(&src)). Both expected files require 7 verified, zero failures.",
+    "Clippy/-D warnings source audit only: no compiler invocations allowed; inspect imports, dead fields, mutability, unsafe usage, unit comparisons/bindings and backend borrow/signature use."
+  ],
+  "dependencies": [
+    "cprover_bindings/src/goto_program/typ.rs",
+    "cprover_bindings/src/irep/to_irep.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/utils/mod.rs",
+    "rustfmt.toml",
+    ".cargo/config.toml",
+    "tools/compiletest/src/runtest.rs"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Forbidden: local cargo/rustc/Kani/CBMC, builds/dispatch/Cloud, raw logs/archives/credentials, Actions/PR/issues/comments, Kani push, stash; no network writes and no nested subagents.",
+    "Rustfmt wrapper and Python allowed. Actual compilation/clippy/verification NOT_RUN. No runtime evidence or independent proof credit; coordinator handles CI."
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "baseline_commit": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+  "candidate_commit": "9dddcb1134f8a55ee3a4451df9513941ca3c8fc3",
+  "candidate_tree": "91608f7fd254e5588f4f0543439b58fd114b9d40",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "dc2cbd09ec10f7b716538285217655d740e68cd2",
+        "mode": "100644",
+        "sha256": "c367bc4da9cc250b839f2860508788973b87bf1c6246f012e5988c83668fa02d"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "3ac5ab50289eacc3f59746e370bfa795472a7b6d",
+        "mode": "100644",
+        "sha256": "87f14ac89df2f1990feff11cc7ca53f389adfc877a3463e951f4a9bc42b4d81f"
+      },
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "45e7d6da197ca1bf27390ed6a53e6fae407e83ea",
+        "mode": "100644",
+        "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f"
+      },
+      "path": "tests/expected/uninit/zst-union-arm-no-checks/expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "c4a16c34bf1c911cd4809881aef4d63fbf8b8422",
+        "mode": "100644",
+        "sha256": "2da004499edda81b72eb50acdb0afa817e394859856d9a809a6e0d5f3ab74f5c"
+      },
+      "path": "tests/expected/uninit/zst-union-arm-no-checks/main.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "45e7d6da197ca1bf27390ed6a53e6fae407e83ea",
+        "mode": "100644",
+        "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f"
+      },
+      "path": "tests/expected/uninit/zst-union-arm-uninit-checks/expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "c04ba426987465254c15e7e81c48c1e3031fb0b0",
+        "mode": "100644",
+        "sha256": "2dd4634bee10f58b13c979136c2f47a0e9b2f0eb99d802a98721c4cc7c66345d"
+      },
+      "path": "tests/expected/uninit/zst-union-arm-uninit-checks/main.rs",
+      "status": "added"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "01148089e7d5091e5a9b7de8e870766895b78fad",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "cprover_bindings/src/goto_program/typ.rs",
+      "sha256": "ade325a1e884f3d6a648a64fe668c8f5e821c0ba42fcff419d4b2f9532b33871",
+      "size": 52225
+    },
+    {
+      "blob": "5ae646571ecd76fe4e82189773e4713b2975cd21",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "cprover_bindings/src/irep/to_irep.rs",
+      "sha256": "bda4f823aafe43d547476d540cf264e62293dc8693df861c65864566413d7b0c",
+      "size": 42906
+    },
+    {
+      "blob": "c30f863d8ae291580f98a681cb1a95787f95be54",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+      "sha256": "0e39f6bcb6f8fdf6089e26f21dd5bfe21077d316b75a15ccde5cd2f1156f78b0",
+      "size": 42662
+    },
+    {
+      "blob": "98b1bb60a6f33fe65321f3fb6e4f67bed70e47a5",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "sha256": "c0a2b93a624cf4d5310f9fd61561bb1c3b92c1260da9fd6cf7ef9a363f009f8b",
+      "size": 38920
+    },
+    {
+      "blob": "3ac5ab50289eacc3f59746e370bfa795472a7b6d",
+      "member": "dependencies/0004.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+      "sha256": "87f14ac89df2f1990feff11cc7ca53f389adfc877a3463e951f4a9bc42b4d81f",
+      "size": 95430
+    },
+    {
+      "blob": "f8ca182ce4ece6c1a07d2840bbe414a7e2c33cbc",
+      "member": "dependencies/0005.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/utils/mod.rs",
+      "sha256": "7d9e1fbd8812ba7b0b2dee7170a47e99c31edb85edfde3e7f027417e2a7e7d26",
+      "size": 352
+    },
+    {
+      "blob": "d77b82e0cf51e3324e899faafec367830d3a24c1",
+      "member": "dependencies/0006.bin",
+      "mode": "100644",
+      "path": "rustfmt.toml",
+      "sha256": "d1886a654a790b5f5779d12c770b32c5328e4e4eaa415fc3a024c6ba9df687b1",
+      "size": 238
+    },
+    {
+      "blob": "3ad7072f56cdf6cd1de83244240befb06d72659c",
+      "member": "dependencies/0007.bin",
+      "mode": "100644",
+      "path": ".cargo/config.toml",
+      "sha256": "8a7317c9b5e38ee2e842086a154e99f9bae4e2bc1118cae9e5b7cd5ee7c3547c",
+      "size": 1909
+    },
+    {
+      "blob": "82526b5d3e4560bf80fad2423cc013b6b8de7a6f",
+      "member": "dependencies/0008.bin",
+      "mode": "100644",
+      "path": "tools/compiletest/src/runtest.rs",
+      "sha256": "dad67ded3379bcf7d3cce0e4e500159fa0c25ee513ba515f13647d5c688e394f",
+      "size": 29487
+    }
+  ],
+  "diff_sha256": "7c4bd82927350f14bfb41703a83b922ccadd2b1eaf9326f41a5ce28d3034115f",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "7af5bc83fbbebd267afa8f755d8e6a286a171012f2592ab4137c1c04126f68ac",
+  "worktree": "/root/kani-fix-zst-b3"
+}
