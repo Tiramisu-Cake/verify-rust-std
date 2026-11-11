@@ -1,0 +1,152 @@
+{
+  "build_id": "5fee5ac5-ad04-4edf-b73a-6c35cc448561",
+  "dispatch_head": "b5f8737c1248627c519d599cc2c7bf4f63d7a496",
+  "request_sha256": "61cc4a3fec6e16ef688e6835fab60e96a759bca57070726d1295d557b7910379",
+  "cloud_status": "FAILURE",
+  "summary_status": "REQUEST_INVALID",
+  "classification": "SETUP_REQUEST_INVALID_NO_COMPILATION_NO_PROOF_NO_TRACE",
+  "Kani_build": "NOT_RUN",
+  "verify": "NOT_RUN",
+  "Kani_exit": null,
+  "gate": false,
+  "head_request_identity": "MATCH",
+  "published_kani_candidate": "12b4137c42f3ee92f12476ea0771ea41a5cd1e8d",
+  "published_library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
+  "actual_applied_tree": null,
+  "actual_compiler_identity": null,
+  "roots": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+      "C_status": "NOT_RUN",
+      "C_status_basis": "Explicit REQUEST_INVALID before Kani ran, build skipped; no verdict inferred from absence alone",
+      "A3": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "status": "SUCCESS",
+        "time_s": 3.0188863,
+        "checks_failed": 0,
+        "checks_total": 254,
+        "covers_satisfied": 3,
+        "covers_total": 3
+      },
+      "C_checks": null,
+      "C_covers": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "C_status": "NOT_RUN",
+      "C_status_basis": "Explicit REQUEST_INVALID before Kani ran, build skipped; no verdict inferred from absence alone",
+      "A3": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "status": "FAILED",
+        "time_s": 0.23366857,
+        "checks_failed": 2,
+        "checks_total": 28,
+        "covers_satisfied": 1,
+        "covers_total": 1
+      },
+      "C_checks": null,
+      "C_covers": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "C_status": "NOT_RUN",
+      "C_status_basis": "Explicit REQUEST_INVALID before Kani ran, build skipped; no verdict inferred from absence alone",
+      "A3": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "status": "SUCCESS",
+        "time_s": 1.5994918,
+        "checks_failed": 0,
+        "checks_total": 92,
+        "covers_satisfied": 2,
+        "covers_total": 2
+      },
+      "C_checks": null,
+      "C_covers": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "C_status": "NOT_RUN",
+      "C_status_basis": "Explicit REQUEST_INVALID before Kani ran, build skipped; no verdict inferred from absence alone",
+      "A3": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+        "status": "FAILED",
+        "time_s": 0.54733515,
+        "checks_failed": 1,
+        "checks_total": 30,
+        "covers_satisfied": 3,
+        "covers_total": 3
+      },
+      "C_checks": null,
+      "C_covers": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+      "C_status": "NOT_RUN",
+      "C_status_basis": "Explicit REQUEST_INVALID before Kani ran, build skipped; no verdict inferred from absence alone",
+      "A3": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+        "status": "SUCCESS",
+        "time_s": 0.59083694,
+        "checks_failed": 0,
+        "checks_total": 31,
+        "covers_satisfied": 3,
+        "covers_total": 3
+      },
+      "C_checks": null,
+      "C_covers": null
+    }
+  ],
+  "trace": {
+    "state": null,
+    "complete": null,
+    "omitted": null,
+    "availability": "NOT_PRODUCED: prepare rejected before compiler",
+    "reader_exit": 2,
+    "reader_error": "page-trace-field: outer Kani build identity missing",
+    "unknown_is_not_omitted_zero": true
+  },
+  "target_chains": {
+    "cmp3_index_range_len": {
+      "function": "IndexRange::len",
+      "GOTO_presence": null,
+      "goto_body_consumed_hash": null,
+      "last_writer": null,
+      "last_writer_root": null,
+      "relation_to_cmp3_into_iter_next": "UNKNOWN: C Kani/verification NOT_RUN, no actual emission/trace identity established"
+    },
+    "cmp3_manually_drop_unsized_len": {
+      "function": "IndexRange::len",
+      "GOTO_presence": null,
+      "goto_body_consumed_hash": null,
+      "last_writer": null,
+      "last_writer_root": null,
+      "relation_to_cmp3_into_iter_next": "UNKNOWN: C Kani/verification NOT_RUN, no actual emission/trace identity established"
+    }
+  },
+  "writer_cmp3_into_iter_next": "NOT_RUN; C writer/body hash UNKNOWN",
+  "packaging_defect": "Full-commit combined patch added99 historical tests; diffstat6990B>4096B; static preflight failed to check report bound",
+  "tooling_sha256_matches_published_head": {
+    ".github/workflows/kani.yml": "d51f9c59823339dfd211e0e1226e6a372f4816d2ef6c86a68cce2676dc796215",
+    "research/challenge-8/kani-k1/gcb/cloudbuild.yaml": "73b61a3573f6d1942007777e6521883fb4ba2731414fecffea80403404762d81",
+    "research/challenge-8/kani-k1/tools/diagnostic_trace.py": "8320ae6399d78ce24bec2635d0e9e59c21f82eec9d79b0b8dbb144a38ea72534",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh": "e45ccf9a2b4fddadeb78037293468f7e537865303abf7f7ec72fbe897a270246",
+    "research/challenge-8/kani-k1/tools/k1g.sh": "52612fefa011f88a42bbc3f5f7c29e6b79f6de73f72a205c1592185afadf64a2",
+    "research/challenge-8/kani-k1/tools/kani_k1.py": "707a8ca8ddcbcfd3127598a7c4b30ccde72b3454d6e1526bbd16c4bacce4b573",
+    "scripts/run-kani.sh": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+    "tool_config/kani-version.toml": "7dca0aa5bf9467c6c4fb4323dabc12254f6372f5f01af096420583bc2b5c9ca3"
+  },
+  "cost": {
+    "actual_usd": "0.0270",
+    "reserved_after_terminal_usd": "0.0000",
+    "initial_reserve_usd": "0.4725",
+    "billing_minutes": 2,
+    "elapsed_seconds": 69.127861,
+    "stage_prior_spend_usd": "0.3240",
+    "stage_cumulative_usd": "0.3510",
+    "stage_remaining_usd": "0.4490",
+    "source": "k1g budget exact Build UUID; independently agrees with rounded start..finish at$0.0135/min"
+  },
+  "brief": "exit1 HTTP404; no archive/inventory integrity or independent credit established",
+  "proof_credit": "NONE",
+  "no_repair_or_retry": true
+}

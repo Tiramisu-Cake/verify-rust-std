@@ -1,0 +1,36 @@
+{
+  "assurance": "Static Git metadata for each deployed patch path set; not local prepare/compiler/verifier execution. Cloud failure cause source-reported in bounded summary. Full A3 local commit also contains tests, but A3 deployed patch excluded them; local commit tree is not the old applied Cloud tree.",
+  "rows": [
+    {
+      "scope": "A3 deployed patch",
+      "head": "989f72351c2b5c5f3b5117315fc84f502e66d904",
+      "patch_path": "research/challenge-8/kani-k1/kani3300/t1b-r/kani-combined.patch",
+      "patch_sha256": "0e1dd370789a196cf7f7eadad4fe850910f83fd38cbf6e306394c6c247588298",
+      "patch_paths": 14,
+      "test_paths": 0,
+      "stat_stripped_utf8_bytes": 959,
+      "stat_lines": 15,
+      "limit_bytes": 4096,
+      "fits": true
+    },
+    {
+      "scope": "C deployed patch",
+      "head": "12b4137c42f3ee92f12476ea0771ea41a5cd1e8d",
+      "patch_path": "research/challenge-8/kani-k1/kani3300/t1b-s/kani-combined.patch",
+      "patch_sha256": "937c238971fc6726b2aaa5e2009532d3fd55e241be5dd41e356380582d85ef4e",
+      "patch_paths": 114,
+      "test_paths": 99,
+      "stat_stripped_utf8_bytes": 6990,
+      "stat_lines": 115,
+      "limit_bytes": 4096,
+      "fits": false
+    }
+  ],
+  "C_extra_paths_vs_A3": 100,
+  "C_extra_test_paths_vs_A3": 99,
+  "C_extra_compiler_path": [
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs"
+  ],
+  "error_source": "tools/kani_k1.py:335-337; prepare_kani rejects >4096B diffstat before returning build identity",
+  "packaging_defect": "C combined patch was generated across the full local Kani commit, adding99 historical regression test files omitted from A3 deployment patch. Preflight checked Git tree application but not diffstat-report bound. No repair or retry performed."
+}

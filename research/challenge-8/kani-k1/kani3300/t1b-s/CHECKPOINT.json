@@ -1,16 +1,16 @@
 {
   "stage": "kani3300-t1b-s",
-  "state": "C_AUTHORIZED_INSTALLED_PREFLIGHT",
+  "state": "COMPLETE_C_SETUP_REQUEST_INVALID_NO_PROOF",
   "runtime": "Codex",
   "task_commit": "25a9256dc5eb1836c10544328046584417a6464b",
   "kani_commit": "12b4137c42f3ee92f12476ea0771ea41a5cd1e8d",
   "request_sha256": "61cc4a3fec6e16ef688e6835fab60e96a759bca57070726d1295d557b7910379",
   "phase_registered": false,
   "active_inputs_changed": true,
-  "dispatch_authorized": true,
-  "builds": 0,
-  "cloud_usd": "0.0000",
-  "stage_remaining_usd": "0.4760",
+  "dispatch_authorized": false,
+  "builds": 1,
+  "cloud_usd": "0.0270",
+  "stage_remaining_usd": "0.4490",
   "draft_C_reserve_usd": "0.4725",
   "draft_C_unreserved_usd": "0.0035",
   "live_reserved_by_this_stage_usd": "0.0000",
@@ -20,12 +20,12 @@
   "production_repair": false,
   "proof_credit": "NONE",
   "open": [
-    "Coordinator fork CI compilation of exact Kani candidate required before GO.",
-    "Live project ledger/slots/deadline UNKNOWN; refresh only in a separately authorized dispatch stage.",
-    "Five-root context may not reproduce failure; capacity estimate cannot recover555 omitted A3 events or guarantee complete trace.",
-    "Actual failing-root GOTO hash/last writer chain and concrete object/offset/R/runtime causality await authorized C; source-reported only, independent B1/B2 NONE."
+    "C deployment patch contains99 historical regression test files beyond A3; diffstat6990B exceeds unchanged4096B prepare report guard. Preflight checked tree application but missed this bound. No fix applied.",
+    "C compiler/verify NOT_RUN; all5 verdicts, final presence/goto_body_consumed hash/last writer/root and relation to cmp3_into_iter_next UNKNOWN. A3 observations remain historical only.",
+    "Brief HTTP404; actual applied tree/compiler identity, archive/inventory integrity, concrete object/offset/R/runtime causality and independent B1/B2 proof credit not established.",
+    "Remaining stage cap$0.4490 does not authorize another Build."
   ],
-  "stop_boundary": "Requested single T1b-S stage complete: static design, compact diagnostics, tests/review, C prepared; no Cloud/dispatch/Actions/PR/Kani push, no retry or next stage.",
+  "stop_boundary": "One C dispatch/watch/terminal evidence/report stage complete; setup REQUEST_INVALID prevented compilation/proof/trace. No repair or repeat.",
   "attempts_allowed": 1,
   "retry_allowed": false,
   "status_polling": false,
@@ -37,7 +37,7 @@
     "remaining_cap_usd": "0.4760",
     "attempts_allowed": 1,
     "retry_allowed": false,
-    "consumed": false
+    "consumed": true
   },
   "window": {
     "T0": "2026-11-11T19:39:49+00:00",
@@ -51,5 +51,36 @@
     "checked_at": "2026-11-11T19:41:12.382025+00:00"
   },
   "preflight": "C-PREFLIGHT.json",
-  "next_step": "Finish live stage ledger check, commit/push exact installed C, one k1g dispatch; k1g watch and end turn. On notification Brief then bounded summary/trace fields/cost, RESULT-KANI3300-T1B-C.md<=40lines, commit/push and stop."
+  "next_step": "STOP. One authorized C attempt consumed. No retry/B/production or packaging repair/new Build authorized. Result and accounting committed/pushed; future work needs a new explicit task/GO.",
+  "attempts_used": 1,
+  "dispatch_head": "b5f8737c1248627c519d599cc2c7bf4f63d7a496",
+  "dispatch_receipt": "DISPATCH-C.json",
+  "build_id": "5fee5ac5-ad04-4edf-b73a-6c35cc448561",
+  "watcher": {
+    "kind": "k1g.sh watch",
+    "state": "CONSUMED",
+    "receipt": "WATCH-C.json",
+    "build_id": "5fee5ac5-ad04-4edf-b73a-6c35cc448561",
+    "instruction": "End turn now, no status polling. On terminal queued event consume this watcher, smallsort-brief first; if unavailable retain exact limitation then permitted bounded K1 summary/trace-field, never raw logs. Check head b5f8737c1248627c519d599cc2c7bf4f63d7a496 and request61cc4a3fec6e16ef688e6835fab60e96a759bca57070726d1295d557b7910379; compare five verdicts vsA3, trace completeness and failing/passing GOTO hash/writer/root chain, cost; write RESULT-KANI3300-T1B-C.md<=40lines, commit[skip ci]/push without force and stop. No retry.",
+    "terminal_event": "k1g watch: build5fee5ac5-ad04-4edf-b73a-6c35cc448561 FAILURE; wait exit0; delivery attempt1",
+    "consumed_time_utc": "2026-11-11T19:45:26.444604+00:00"
+  },
+  "cloud_status": "FAILURE",
+  "actual_cost_usd": "0.0270",
+  "stage_cumulative_usd": "0.3510",
+  "summary_status": "REQUEST_INVALID",
+  "classification": "SETUP_REQUEST_INVALID_NO_COMPILATION_NO_PROOF_NO_TRACE",
+  "result": "RESULT-KANI3300-T1B-C.md",
+  "result_lines": 27,
+  "observations": "C-OBSERVATIONS.json",
+  "evidence_index": "EVIDENCE-INDEX-C.json",
+  "static_packaging_diagnosis": "STATIC-DIFFSTAT-C.json",
+  "result_check": "RESULT-CHECK-C.json",
+  "producer_compilation_in_C": "NOT_RUN",
+  "verification_in_C": "NOT_RUN",
+  "trace_state": null,
+  "trace_complete": null,
+  "trace_omitted": null,
+  "root_verdicts": "all5 NOT_RUN; compared with A3 in RESULT",
+  "consumed_time_utc": "2026-11-11T19:48:54.229525+00:00"
 }
