@@ -10,4 +10,5 @@ Candidate: 835cb4a09c4e94ac6b531d20e68f9deee7262ce1; base: bf9c58e662fd65c64381e
 - Compiletest run_kani forwards compile-flags through RUSTFLAGS (tools/compiletest/src/runtest.rs:359).
 - Supplied rustfmt wrapper check and git diff bf9c58e662..HEAD --check passed.
 - Legacy golden sha256: 7008546b9c6963fdc4e6c0507852732014aaf7abf7ef05423d7a9c0806d9e89c, unchanged.
+The research packet preserves exact unified-diff bytes; its scoped .gitattributes permits blank context lines only in review-packet/diff.patch.
 This is a source audit, not a successful -D warnings compilation or executed regression result.
