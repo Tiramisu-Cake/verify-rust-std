@@ -1000,7 +1000,7 @@ index 973dde0..c1f1eb5 100644
  /// operand which is a reference and stores all instrumentation in the statements vector passed.
  /// A new local holding `operand`, a raw pointer, cast to `*const pointee_ty`.
 diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
-index 3992e8b..4b4842b 100644
+index 3992e8b..ab08539 100644
 --- a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
 +++ b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
 @@ -5,11 +5,13 @@
@@ -1010,7 +1010,7 @@ index 3992e8b..4b4842b 100644
 -use rustc_public::CrateDefType;
 +use rustc_attr_ir::lang_items::LangItem;
 +use rustc_middle::ty::TyCtxt;
-+use rustc_public::{CrateDefType, rustc_internal};
++use rustc_public::{CrateDef, CrateDefType, rustc_internal};
  use rustc_public::{
      abi::{FieldsShape, Scalar, TagEncoding, ValueRepr, VariantsShape},
      target::{MachineInfo, MachineSize},

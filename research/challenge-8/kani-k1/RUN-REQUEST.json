@@ -1,15 +1,15 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani3300-u1-native-20261111-02",
+  "request_id": "kani3300-u1-repair1-20261111-03",
   "agent": "k1-merge",
   "kind": "kani-tests",
-  "purpose": "KANI3300 U1 after U0: MaybeUninit source initialization, volatile reads, array-valued slots, and twenty-slot scratch repeat with unwritten-neighbor controls.",
+  "purpose": "KANI3300 U1 repair 1: import the CrateDef trait required for AdtDef::def_id; unchanged twenty native test selectors and timeouts.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 20,
   "harnesses": [],
   "kani_patch": {
     "path": "research/challenge-8/kani-k1/kani3300/u1/kani-uninit.patch",
-    "sha256": "0bd59c0589757fac590f1aae00147b61fcd4bcec1151c4978699787cfc79de6c"
+    "sha256": "306851ac5dd4f28a11778dfc49e878a5bb62fd7c35a2ad7ad0419053b9504467"
   },
   "test_timeout_seconds": 150,
   "kani_tests": [

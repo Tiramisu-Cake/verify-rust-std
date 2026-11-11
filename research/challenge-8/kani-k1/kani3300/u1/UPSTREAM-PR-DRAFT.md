@@ -8,4 +8,5 @@ Support flat arrays and constant-length repeats of slots.
 
 The regressions cover a twenty-slot scratch array, unwritten neighbors, volatile
 reads, partial copies, alias reads after reset, padded values, and array-valued slots.
-Native validation is pending.
+Native validation is pending after fixing a missing trait import found by Cloud compilation.
+The direct select_unpredictable path remains unverified.
