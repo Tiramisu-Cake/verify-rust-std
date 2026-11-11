@@ -1,0 +1,51 @@
+{
+  "assurance": "Offline Python and shell service checks only; real compiler/verifier/Cloud NOT_RUN",
+  "checks": [
+    {
+      "command": "python3 -I -m unittest discover -s research/challenge-8/kani-k1/tools -p test_kani_k1.py",
+      "tests": 96,
+      "result": "PASS"
+    },
+    {
+      "command": "python3 -I -m unittest discover -s research/challenge-8/kani-k1/tools -p test_gcb_native.py",
+      "tests": 9,
+      "result": "PASS"
+    },
+    {
+      "command": "python3 -I research/challenge-8/kani-k1/tools/test_diagnostic_trace.py",
+      "tests": 11,
+      "result": "PASS",
+      "candidate": "c3468b3bd84f4a91a2ea99fa0fcea317bd98e681"
+    },
+    {
+      "command": "bash -n research/challenge-8/kani-k1/tools/gcb-k1.sh research/challenge-8/kani-k1/tools/k1g.sh",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS"
+    },
+    {
+      "command": "python3 -I research/challenge-8/kani-k1/kani3300/t1b/check_packet.py",
+      "checks": 29,
+      "result": "PASS"
+    },
+    {
+      "command": "task rustfmt.sh --edition 2024 --check <9 changed Kani Rust files>",
+      "result": "PASS",
+      "candidate": "51848f3fc7c432ae334aa4aa1c0bd607dedbcfc0"
+    },
+    {
+      "check": "New Kani trace.rs Copyright Kani Contributors + SPDX Apache-2.0 OR MIT",
+      "result": "PASS"
+    },
+    {
+      "check": "Pinned nightly API source hashes match API-SOURCES.json; source signature/borrow/import review",
+      "result": "PASS",
+      "limitation": "Not a compiler or -D warnings pass"
+    }
+  ],
+  "cloud_spend_usd": "0",
+  "compilation": "NOT_RUN",
+  "proof_credit": "NONE"
+}

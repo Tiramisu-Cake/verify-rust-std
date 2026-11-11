@@ -1,0 +1,36 @@
+{
+  "applicability": "T1b-prep; no Cloud/builds. Assess changed runner service/error paths and identity binding before any separate GO.",
+  "baseline_commit": "92cdd616b756bbc80c9556d1da6a9c22435908ea",
+  "candidate_commit": "c3468b3bd84f4a91a2ea99fa0fcea317bd98e681",
+  "controls": [
+    "Unit and actual mocked shell service tests: valid/invalid env, malformed/null/wrong-type/partial/timeout/missing/oversized, original FAIL exit and opt-out unchanged.",
+    "Review sidecar schema, bounded allocations/errors/counts/footer, active build/head/request/library/pin/applied-tree/filters/recipe identities and summary-only fetch."
+  ],
+  "defect": "Add compile-time KANI3300 trace request/env plumbing, bounded sidecar ingestion and trace-field reader. Review tooling independently.",
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-T1B.md",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh",
+    "research/challenge-8/kani-k1/tools/k1g.sh",
+    "research/challenge-8/kani-k1/tools/diagnostic_trace.py",
+    "research/challenge-8/kani-k1/tools/test_diagnostic_trace.py",
+    "research/challenge-8/kani-k1/tools/test_kani_k1.py",
+    "research/challenge-8/kani-k1/tools/test_gcb_native.py",
+    "research/challenge-8/kani-k1/gcb/cloudbuild.yaml",
+    "scripts/run-kani.sh",
+    "tool_config/kani-version.toml",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "No changes to original verdict, exits, checks, old summary/native/native-field behavior. Opt-out must preserve original output and ignore inherited trace env.",
+    "All inputs literal validated data, no shell eval. Trace cannot trigger extra compiler transformations or runtime solver flags.",
+    "Per producer invocation <=512 records/256KiB/2048B record, run <=1MiB. Reader <=20 records/12000B with truthful next_start/complete/omitted and source-stage-target binding."
+  ],
+  "known_limitations": [
+    "Localized follow-up to prior blocking review; prior immutable packet retained. No compiler/verifier/Cloud execution or proof credit.",
+    "All unchanged constraints apply; source/bounds/identity review only."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-t0"
+}

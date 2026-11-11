@@ -1,0 +1,40 @@
+{
+  "applicability": "T1b-prep no builds/Cloud; independent Kani delta static review.",
+  "baseline_commit": "b1f0105c0390fb55081e3d186fa286d23867b585",
+  "candidate_commit": "51848f3fc7c432ae334aa4aa1c0bd607dedbcfc0",
+  "controls": [
+    "Check bounds before allocation, no panic/error propagation changing compiler, strict filter/env validation and lazy activation; footer exact counters/coverage and schema must match tooling.",
+    "Inspect Rust API signatures/borrows/types/exhaustiveness/imports under -D warnings expectations against local pinned nightly source; no actual compiler allowed."
+  ],
+  "defect": "Observe contextual IndexRange uninit compiler behavior with bounded opt-in compile-time-only diagnostics; no production fix.",
+  "dependencies": [
+    "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+    "kani-compiler/src/kani_middle/codegen_order.rs",
+    "kani-compiler/src/kani_middle/mod.rs",
+    "kani-compiler/src/kani_middle/trace.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/Cargo.toml",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/codegen_units.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "Opt-out preserves existing compiler/model/verdict/exits/checks. No added transformations/body queries/reachability/cache/traversal/HashSet order changes.",
+    "Opt-in diagnostics only: unit/root/stubs/actual warmup+codegen chronology, cache hit/miss/writer/body hashes, target origins/relevance/ops and small MIR before/after. No runtime CBMC trace/mapping/solver changes.",
+    "Producer <=512 JSONL records including header/footer, <=250KiB per invocation (task cap256KiB), record<=2048B; four slots plus one overflow marker under1MiB/run. Explicit record/payload omissions and PARTIAL/OVERSIZED.",
+    "Original CMP2 production patch remains unchanged; combined research patch will reverse delta back to production applied tree."
+  ],
+  "known_limitations": [
+    "Localized follow-up to prior blocking review; prior immutable packet retained. No compiler/verifier/Cloud execution or proof credit.",
+    "All unchanged constraints apply; source/bounds/identity review only."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-t1"
+}

@@ -1,0 +1,78 @@
+{
+  "A": {
+    "assurance": "Expected runner-boundary invocation derived statically; actual invocation capture NOT_RUN",
+    "argv": [
+      "scripts/run-kani.sh",
+      "--path",
+      "/workspace/src",
+      "--kani-args",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_sized_len",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_unsized_len",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_len",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+      "-Z",
+      "uninit-checks",
+      "--exact",
+      "--harness-timeout",
+      "3m",
+      "--jobs=1",
+      "--output-format=terse"
+    ],
+    "env": {
+      "RUSTFLAGS": "--cfg kani_smallsort_controls",
+      "KANI3300_TRACE_DIR": "/workspace/src/k1-out/trace",
+      "KANI3300_TRACE_FILTER": "cmp3_index_range_len;cmp3_manually_drop_unsized_len;kani_cmp3::;PolymorphicIter;IndexRange::zero_to;IndexRange::len",
+      "KANI3300_TRACE_ID": "b4bdf24b8808c48c366974bd0acb3740f129f21c4fb209c9ea5dc4177dc54398",
+      "KANI3300_TRACE_STAGE": "kani3300-t1b"
+    },
+    "low_level_compiler_rustc_CBMC_argv": "UNKNOWN; not captured or inferred",
+    "source_request_sha256": "b4bdf24b8808c48c366974bd0acb3740f129f21c4fb209c9ea5dc4177dc54398"
+  },
+  "B": {
+    "assurance": "Expected runner-boundary invocation derived statically; actual invocation capture NOT_RUN",
+    "argv": [
+      "scripts/run-kani.sh",
+      "--path",
+      "/workspace/src",
+      "--kani-args",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp4_index_range_len_runtime",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "-Z",
+      "uninit-checks",
+      "--exact",
+      "--harness-timeout",
+      "3m",
+      "--jobs=1",
+      "--output-format=terse"
+    ],
+    "env": {
+      "RUSTFLAGS": "--cfg kani_smallsort_controls",
+      "KANI3300_TRACE_DIR": "/workspace/src/k1-out/trace",
+      "KANI3300_TRACE_FILTER": "cmp3_index_range_len;cmp3_manually_drop_unsized_len;kani_cmp3::;PolymorphicIter;IndexRange::zero_to;IndexRange::len",
+      "KANI3300_TRACE_ID": "e35b5ce3e85683c8932aaedaf443cff7b16e960e5ca4457ddd7f7a824ad8e8f6",
+      "KANI3300_TRACE_STAGE": "kani3300-t1b"
+    },
+    "low_level_compiler_rustc_CBMC_argv": "UNKNOWN; not captured or inferred",
+    "source_request_sha256": "e35b5ce3e85683c8932aaedaf443cff7b16e960e5ca4457ddd7f7a824ad8e8f6"
+  }
+}

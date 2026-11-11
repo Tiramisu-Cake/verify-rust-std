@@ -1,0 +1,69 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "kani3300-t1b-a-20261111-01",
+  "agent": "k1-merge",
+  "kind": "diagnostic",
+  "purpose": "KANI3300 T1b A: compile-time-only trace on unchanged CMP2/library/roots/checks. No runtime trace or production fix. Separate coordinator GO required; B only after A analysis.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 3,
+  "kani_jobs": 1,
+  "controls": true,
+  "uninit_checks": true,
+  "inventory": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_sized_len",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_unsized_len",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_len",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "expect": "FAILED",
+      "expect_check": "Reading from an uninitialized"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+      "expect": "SUCCESS"
+    }
+  ],
+  "kani_patch": {
+    "path": "research/challenge-8/kani-k1/kani3300/t1b/kani-combined.patch",
+    "sha256": "8bfd47ae78d0ff8a1a9a0b9879719400b15cc463bef11e1fe03e340b6bc55545"
+  },
+  "diagnostic_trace": {
+    "filters": [
+      "cmp3_index_range_len",
+      "cmp3_manually_drop_unsized_len",
+      "kani_cmp3::",
+      "PolymorphicIter",
+      "IndexRange::zero_to",
+      "IndexRange::len"
+    ],
+    "library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
+    "base_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "expected_applied_tree": "a88f60c9559879ed29443d52d8a8013da7bee9c5"
+  }
+}
