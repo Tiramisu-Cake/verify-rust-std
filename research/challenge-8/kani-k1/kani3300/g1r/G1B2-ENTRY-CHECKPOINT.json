@@ -1,0 +1,142 @@
+{
+  "schema": "kani3300-g1r-checkpoint-v1",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-G1R.md",
+  "runtime": "Codex",
+  "stage": "kani3300-g1r",
+  "owner": "k1-merge",
+  "research_input": "ed725165b4079c0d8fa72be9abd0ac9f1e2e820b",
+  "kani_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
+  "kani_branch": "fix/kani-3300-g1",
+  "kani_pushed": false,
+  "status": "G1B_TERMINAL_SETUP_FAILURE_NOT_RUN",
+  "static_checks": "STATIC-CHECKS.json",
+  "compile_sweep": "COMPILE-SWEEP.md",
+  "packages": [
+    {
+      "package": "A",
+      "request": "RUN-REQUEST.json",
+      "request_sha256": "996eaa06da3e57d4d44bcc962e9f3301265f4eb9301cd30b97489ce67a051bcd",
+      "patch": "kani3300-g1r-a-build.patch",
+      "patch_sha256": "47e625bab9d19dab22e4ec0682ecd4f561a180c022e7c09e29b205d7abcb7339",
+      "applied_tree": "2fdd891e1c8e7d9fbaf51a6c7170d5dea6f127c5",
+      "diffstat_bytes": 3013,
+      "selector_count": 20,
+      "selectors_flags_goldens_unchanged": true,
+      "complete_production_equal_candidate": true,
+      "all_selected_sources_goldens_helpers_equal_candidate": true,
+      "git_apply_check_clean_pin": "PASS",
+      "validate": "request kani3300-g1r-a-targeted-20261111-01: 0 harness(es) accepted",
+      "work_minutes": 24,
+      "overhead_minutes": 30,
+      "reservation_usd": "0.7290",
+      "native_outcome": "SOURCE_REPORTED_TOOL_ERROR; 15 PASS, 5 ERROR; see RESULT-KANI3300-G1RA.md"
+    },
+    {
+      "package": "B",
+      "request": "RUN-REQUEST-B.json",
+      "request_sha256": "faefa40aa4777ecd13a9813f26bd91d7b44b75bf35195523da254674176f45a8",
+      "patch": "kani3300-g1r-b-build.patch",
+      "patch_sha256": "c9ddce47cae76e9b9f462e8bcac94c73f70c0e8c32438f35f9ff1d7539117767",
+      "applied_tree": "8f152bac27f8ff1d7fba45f57dc6a0ebeb348867",
+      "diffstat_bytes": 2734,
+      "selector_count": 20,
+      "selectors_flags_goldens_unchanged": true,
+      "complete_production_equal_candidate": true,
+      "all_selected_sources_goldens_helpers_equal_candidate": true,
+      "git_apply_check_clean_pin": "PASS",
+      "validate": "request kani3300-g1r-b-targeted-20261111-01: 0 harness(es) accepted",
+      "work_minutes": 29,
+      "overhead_minutes": 30,
+      "reservation_usd": "0.7965",
+      "native_outcome": "NOT_RUN (all 20; source-inferred validate setup DNS failure); see RESULT-KANI3300-G1B.md"
+    }
+  ],
+  "cloud_this_stage": {
+    "builds": [
+      "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0"
+    ],
+    "spent_usd": "0.0270",
+    "reserved_usd": "0.0000",
+    "dispatch": "B attempt 1/1 terminal setup failure; no repair/retry; negative untouched"
+  },
+  "prior_G1A_spent_usd": "0.0675",
+  "claims": [
+    {
+      "claim": "Kani/compiletest built successfully; runtime patch/tree/version source-reported",
+      "assurance": "SOURCE_REPORTED; Evidence Brief HTTP404"
+    },
+    {
+      "claim": "A gate failed:15 PASS,5 ERROR; four fixture compile failures and one golden mismatch",
+      "assurance": "SOURCE_REPORTED; independent B1/B2 credit NONE"
+    },
+    {
+      "claim": "B build failed at validate setup (Ubuntu archive DNS resolution); no summary/native outcomes. All 20 native selectors NOT_RUN by bounded-diagnostic plus pinned-runner-gate inference; B spend $0.0270.",
+      "assurance": "SOURCE_BOUND_METADATA_AND_SETUP_DIAGNOSTIC; source inference for NOT_RUN; independent B1/B2 NONE"
+    }
+  ],
+  "open": [
+    "B native acceptance unestablished; current attempt failed during setup, no repair/retry authorized.",
+    "No runtime applied tree/build/binary/summary/native/Failed Checks/compiletest expected-output line available.",
+    "A3 aggregate negative diagnosis and inherited P1/full-regression limitations remain outside B; history unchanged."
+  ],
+  "next": "STOP at PRE-BUILD REVIEW for exact B2 request. After fresh coordinator GO only: runtime ledger/deadline/slot preflight before one infrastructure retry; no negative edits.",
+  "review": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
+    "packet_sha256": "8974cd72a8e147ced8cb8c9e3e4b4155793f6c1a9a8a853df31cbc942a099e78",
+    "spec_sha256": "9312730a06660162f6c8473f71681d1378a7e440b3658316da7ba963f62e6e20",
+    "report": "REVIEW.md",
+    "report_sha256": "9a21a94bd5c75128c6b929a1ed410f7c8160e389ea8c8839201102faf512da27",
+    "verdict": "Favorable static review; no additional static compilation blocker identified; compiler/native NOT_RUN."
+  },
+  "latest_stage": "kani3300-g1b",
+  "latest_authorization": "G1B-AUTHORIZATION.json",
+  "active_build_id": null,
+  "T0": "2026-11-11T15:00:20+00:00",
+  "main_deadline": "2026-11-11T17:00:20+00:00",
+  "absolute_deadline": "2026-11-11T17:30:20+00:00",
+  "active_handoff": "G1B-HANDOFF.json",
+  "closure_reason": "Single authorized B attempt terminal at setup. Bounded stage diagnostic, Cloud metadata, source-gated NOT_RUN statuses for all 20 selectors and final accounting recorded. No native outcomes or raw fallback.",
+  "previous_stage_checkpoint": "G1B-ENTRY-CHECKPOINT.json preserves prior G1RA view; historical evidence/accounts unchanged",
+  "B_budget": {
+    "cap_usd": "0.80",
+    "scope": "SEPARATE_B",
+    "prior_spent_usd": "0",
+    "reservation_proposal_usd": "0.7965",
+    "B_ceiling_usd": "0.7965",
+    "actual_spent_usd": "0.0270",
+    "actual_reserved_usd": "0.0000",
+    "final_ledger": "1 0.0270 0.0000"
+  },
+  "prior_A_family_latest_actual_spent_usd": "0.4860",
+  "previous_terminal_build_id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
+  "terminal_build_id": "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0",
+  "previous_result": "RESULT-KANI3300-G1RA.md",
+  "latest_result": "RESULT-KANI3300-G1B.md",
+  "previous_evidence": "G1RA-OBSERVATIONS.json",
+  "latest_evidence": "G1B-OBSERVATIONS.json",
+  "historical_G1RA_cumulative_spent_usd": "0.1755",
+  "historical_claims_stage": "G1RA; preserved in G1B-ENTRY-CHECKPOINT.json",
+  "proof_credit": "NONE",
+  "research_dispatch_sha": "6ec78732cea6f1a80b8c02574ee348f20b0563ec",
+  "B2_preparation": {
+    "status": "PREPARED_AWAITING_GO",
+    "request": "RUN-REQUEST-B2.json",
+    "request_sha256": "9b4e066d929ad0bf5e87a0de825941bac8bfba4dbf7f4db4dabcc408fa509569",
+    "changed_fields": [
+      "request_id",
+      "harness_timeout_minutes"
+    ],
+    "preflight": "G1B2-preflight.json",
+    "pre_build": "G1B2-PRE-BUILD.md",
+    "static_checks": "G1B2-STATIC-CHECKS.json",
+    "reservation_proposal_usd": "0.7695",
+    "prior_B_spent_usd": "0.0270",
+    "cumulative_B_ceiling_usd": "0.7965",
+    "additional_Cloud_spent_usd": "0",
+    "additional_Cloud_reserved_usd": "0",
+    "root_request_unchanged": true,
+    "dispatch": "NOT_AUTHORIZED_PENDING_GO"
+  }
+}

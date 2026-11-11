@@ -8,7 +8,7 @@
   "kani_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
   "kani_branch": "fix/kani-3300-g1",
   "kani_pushed": false,
-  "status": "G1B_TERMINAL_SETUP_FAILURE_NOT_RUN",
+  "status": "G1B2_AUTHORIZED_ROOT_INSTALLED_NOT_SUBMITTED",
   "static_checks": "STATIC-CHECKS.json",
   "compile_sweep": "COMPILE-SWEEP.md",
   "packages": [
@@ -75,11 +75,10 @@
     }
   ],
   "open": [
-    "B native acceptance unestablished; current attempt failed during setup, no repair/retry authorized.",
-    "No runtime applied tree/build/binary/summary/native/Failed Checks/compiletest expected-output line available.",
-    "A3 aggregate negative diagnosis and inherited P1/full-regression limitations remain outside B; history unchanged."
+    "B2 native outcomes NOT_RUN; one infrastructure retry authorized, no repair or additional retry.",
+    "A3 negative diagnosis and inherited P1/full-regression limitations outside B2; historical evidence and original B request/patch remain unchanged."
   ],
-  "next": "STOP at PRE-BUILD REVIEW for exact B2 request. After fresh coordinator GO only: runtime ledger/deadline/slot preflight before one infrastructure retry; no negative edits.",
+  "next": "Publish exact B2 root request, final gates, one dispatch, handoff, k1g.sh watch BUILD, END TURN; no repair/negative edits.",
   "review": {
     "model": "gpt-6-luna",
     "reasoning_effort": "high",
@@ -90,15 +89,15 @@
     "report_sha256": "9a21a94bd5c75128c6b929a1ed410f7c8160e389ea8c8839201102faf512da27",
     "verdict": "Favorable static review; no additional static compilation blocker identified; compiler/native NOT_RUN."
   },
-  "latest_stage": "kani3300-g1b",
-  "latest_authorization": "G1B-AUTHORIZATION.json",
+  "latest_stage": "kani3300-g1b2",
+  "latest_authorization": "G1B2-AUTHORIZATION.json",
   "active_build_id": null,
   "T0": "2026-11-11T15:00:20+00:00",
   "main_deadline": "2026-11-11T17:00:20+00:00",
   "absolute_deadline": "2026-11-11T17:30:20+00:00",
   "active_handoff": "G1B-HANDOFF.json",
-  "closure_reason": "Single authorized B attempt terminal at setup. Bounded stage diagnostic, Cloud metadata, source-gated NOT_RUN statuses for all 20 selectors and final accounting recorded. No native outcomes or raw fallback.",
-  "previous_stage_checkpoint": "G1B-ENTRY-CHECKPOINT.json preserves prior G1RA view; historical evidence/accounts unchanged",
+  "closure_reason": null,
+  "previous_stage_checkpoint": "G1B2-ENTRY-CHECKPOINT.json preserves accepted B1 result/preparation view",
   "B_budget": {
     "cap_usd": "0.80",
     "scope": "SEPARATE_B",
@@ -121,7 +120,7 @@
   "proof_credit": "NONE",
   "research_dispatch_sha": "6ec78732cea6f1a80b8c02574ee348f20b0563ec",
   "B2_preparation": {
-    "status": "PREPARED_AWAITING_GO",
+    "status": "GO_RECEIVED_ROOT_INSTALLED_NOT_SUBMITTED",
     "request": "RUN-REQUEST-B2.json",
     "request_sha256": "9b4e066d929ad0bf5e87a0de825941bac8bfba4dbf7f4db4dabcc408fa509569",
     "changed_fields": [
@@ -136,7 +135,13 @@
     "cumulative_B_ceiling_usd": "0.7965",
     "additional_Cloud_spent_usd": "0",
     "additional_Cloud_reserved_usd": "0",
-    "root_request_unchanged": true,
-    "dispatch": "NOT_AUTHORIZED_PENDING_GO"
+    "root_request_unchanged": false,
+    "dispatch": "GO_RECEIVED_NOT_SUBMITTED"
+  },
+  "B2_cloud": {
+    "builds": [],
+    "spent_usd": "0",
+    "reserved_usd": "0",
+    "dispatch": "GO_RECEIVED_NOT_SUBMITTED"
   }
 }
