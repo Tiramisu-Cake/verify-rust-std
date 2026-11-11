@@ -1,55 +1,49 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani5116-kt1-repair2-20261110-03",
+  "request_id": "kani3300-u0-uninit-20261111-01",
   "agent": "k1-merge",
-  "kind": "kani-tests",
-  "purpose": "KANI5116 KT1 repair 2: bounded own-output excerpts and source provenance for native FAILED/expect-fail; unchanged fixture and five selectors.",
+  "kind": "diagnostic",
+  "purpose": "KANI3300 U0: repeat six uninit-checks rows on unpatched f046b70644; add a function-item swap comparison and the real general scratch sort for u8 at length four.",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 12,
-  "harnesses": [],
-  "kani_patch": {
-    "path": "research/challenge-8/kani-k1/kani5116/kt1/tests-only.patch",
-    "sha256": "46c68dfd5861ebd008c32d7580caa15cee9ac9b185dec960caf57d3d342f696f"
-  },
-  "test_timeout_seconds": 180,
-  "kani_tests": [
+  "harness_timeout_minutes": 3,
+  "kani_jobs": 1,
+  "controls": true,
+  "uninit_checks": true,
+  "inventory": false,
+  "harnesses": [
     {
-      "suite": "kani",
-      "mode": "kani",
-      "file": "FunctionContracts/generic_fn_pointer_argument.rs",
-      "expect": "pass",
-      "require_success": true
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "expect": "FAILED",
+      "expect_check": "Reading from an uninitialized"
     },
     {
-      "suite": "kani",
-      "mode": "kani",
-      "file": "Stubbing/stub_set_multiple_use.rs",
-      "expect": "pass",
-      "require_success": true
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+      "expect": "SUCCESS"
     },
     {
-      "suite": "ui",
-      "mode": "expected",
-      "file": "function-contracts/trait_default_fn_err.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "cannot be applied to trait function declarations without default bodies"
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::raw_uninit_read_sensitivity",
+      "expect": "FAILED",
+      "expect_check": "Reading from an uninitialized"
     },
     {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "function-contract/generic_default_missing_required.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "unable to find implementation of associated function `Probe::probe` for NoDefault"
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::swap_contract_four_positions_u8",
+      "expect": "SUCCESS"
     },
     {
-      "suite": "kani",
-      "mode": "kani",
-      "file": "FunctionContracts/specialization_default_fn_5116.rs",
-      "expect": "fail",
-      "require_success": true,
-      "diagnostic": "expected `fn`"
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::sorted_permutation_insert_tail_u8_n2",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::permutation_merge_u8_n4",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::swap_contract_four_positions_u8_function_item",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4",
+      "expect": "SUCCESS"
     }
   ]
 }
