@@ -1,0 +1,199 @@
+{
+  "build_id": "fd4c3316-efbc-4f33-8506-e22b9f2ff3b3",
+  "head_sha": "5d0679cf657683bb9beb754043dda00e48baa24c",
+  "request_id": "kani3300-t1a-uninit-20261111-01",
+  "request_sha256": "0a5300eb89b52b0e26714b7ce5b749cc66239ef2630dd3e0de5eb2e7fce0156c",
+  "assurance": "source-reported bounded diagnostic; independent B1/B2 proof credit NONE",
+  "source": "bounded k1g summary.md and 9/9-root page; Cloud status, cost and check-tooling",
+  "cloud_status": "FAILURE",
+  "summary_status": "COMPLETE",
+  "gate": false,
+  "kani_exit": 1,
+  "uninit_checks_reported": true,
+  "controls_reported": true,
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
+  "toolchain_static_binding": "nightly-2026-10-23 via unchanged pinned recipe",
+  "kani_patch_sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4",
+  "applied_tree_reported": "d356238999ab436ddc1dd7ffa845b0db214aa53e",
+  "tooling_check": "PASS against KT2 3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "actual_argv": "UNKNOWN: no structured native report",
+  "actual_mir_and_codegen_order": "UNKNOWN",
+  "brief": "exit1 HTTP404",
+  "native": "exit2: page-summary: no structured native report",
+  "roots": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "expect": "SUCCESS",
+      "status": "FAILED",
+      "time_s": 0.2196502,
+      "checks_failed": 2,
+      "checks_total": 28,
+      "unreachable": 0,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "failed_checks": [
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+          "location": "/workspace/src/library/core/src/ops/index_range.rs:57"
+        },
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+          "location": "/workspace/src/library/core/src/ops/index_range.rs:57"
+        }
+      ],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_sized_len",
+      "expect": "SUCCESS",
+      "status": "FAILED",
+      "time_s": 1.7971622,
+      "checks_failed": 2,
+      "checks_total": 142,
+      "unreachable": 6,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "failed_checks": [
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+          "location": "/workspace/src/library/core/src/ops/index_range.rs:57"
+        },
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+          "location": "/workspace/src/library/core/src/ops/index_range.rs:57"
+        }
+      ],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_unsized_len",
+      "expect": "SUCCESS",
+      "status": "FAILED",
+      "time_s": 1.9053743,
+      "checks_failed": 2,
+      "checks_total": 142,
+      "unreachable": 6,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "failed_checks": [
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+          "location": "/workspace/src/library/core/src/ops/index_range.rs:57"
+        },
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+          "location": "/workspace/src/library/core/src/ops/index_range.rs:57"
+        }
+      ],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "time_s": 1.7168927,
+      "checks_failed": 0,
+      "checks_total": 92,
+      "unreachable": 0,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "failed_checks": [],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_len",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "time_s": 1.3087981,
+      "checks_failed": 0,
+      "checks_total": 149,
+      "unreachable": 11,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "failed_checks": [],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "time_s": 3.0723398,
+      "checks_failed": 0,
+      "checks_total": 254,
+      "unreachable": 12,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "failed_checks": [],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "time_s": 33.678715,
+      "checks_failed": 0,
+      "checks_total": 550,
+      "unreachable": 19,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "failed_checks": [],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "expect": "FAILED",
+      "status": "FAILED",
+      "time_s": 0.5700313,
+      "checks_failed": 1,
+      "checks_total": 30,
+      "unreachable": 0,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "failed_checks": [
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "location": "/workspace/src/library/core/src/mem/mod.rs:1283"
+        }
+      ],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "time_s": 0.61957896,
+      "checks_failed": 0,
+      "checks_total": 31,
+      "unreachable": 0,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "failed_checks": [],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    }
+  ],
+  "summary_failed_check_descriptions": 7,
+  "summary_failed_check_omissions": 0,
+  "native_completeness": "UNKNOWN",
+  "spend_usd": "0.1350",
+  "submitted_reserve_usd": "0.0000",
+  "attempts_used": 1,
+  "attempts_allowed": 1,
+  "classification": "SAME_LIBRARY_CONTRAST_REPRODUCED",
+  "limitations": [
+    "Shared step1 FAILED in A and SUCCESS in B; B has no step2/step3/U2. A steps1-3 match original CMP3 located uninit; other A positives and U2 SUCCESS, U1 expected uninit FAILED.",
+    "Single A/B observation does not establish a mechanism or deterministic root-set-only dependency; no codegen-order inference from selectors.",
+    "U1 covers after intentional UB do not establish proof credit. Steps2/3 len-vs-Drop instance binding UNKNOWN.",
+    "Seven verbatim located descriptions exhaust aggregate failures in bounded summary (no truncated marker); native property IDs/columns/completeness UNKNOWN.",
+    "No new B, retry, repair, tracing, local compiler or raw fallback."
+  ]
+}

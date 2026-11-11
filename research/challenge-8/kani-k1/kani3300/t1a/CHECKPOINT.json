@@ -3,7 +3,7 @@
   "slug": "kani3300",
   "owner": "k1-merge",
   "runtime": "Codex",
-  "state": "PREPARED_AWAITING_COORDINATOR_GO",
+  "state": "COMPLETE_SAME_LIBRARY_CONTRAST_REPRODUCED",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-T1A.md",
   "worktree": "/root/verify-rust-std-kani3300-t0",
   "branch": "experiment/kani-k1-kani3300t0-20261111",
@@ -24,15 +24,19 @@
     "comparison": "BASELINE-COMPARISON.json"
   },
   "cloud": {
-    "status": "NOT_RUN",
+    "status": "FAILURE",
     "cap_usd": "0.80",
     "planned_reserve_usd": "0.7695",
     "timeout_minutes": 57,
-    "spend_usd": "0",
-    "submitted_reserve_usd": "0",
+    "spend_usd": "0.1350",
+    "submitted_reserve_usd": "0.0000",
     "attempts_allowed": 1,
-    "attempts_used": 0,
-    "build_id": null
+    "attempts_used": 1,
+    "build_id": "fd4c3316-efbc-4f33-8506-e22b9f2ff3b3",
+    "dispatch_head": "5d0679cf657683bb9beb754043dda00e48baa24c",
+    "summary_status": "COMPLETE",
+    "gate": false,
+    "kani_exit": 1
   },
   "independent_review": {
     "state": "PASS",
@@ -46,7 +50,10 @@
     "receipt_sha256": "ca2eb7a3ea2b5bf2e39cd1374b9b018a0036bdfc1843f5401b3f6c0675f62933",
     "proof_credit": "NONE"
   },
-  "coordinator_go": null,
+  "coordinator_go": {
+    "head": "5d0679cf657683bb9beb754043dda00e48baa24c",
+    "authorization": "Explicit coordinator GO in user message: one dispatch, cap $0.80, reserve $0.7695, no repair; watch and end turn."
+  },
   "phase_activated": false,
   "claims": [
     {
@@ -58,15 +65,40 @@
       "claim": "B three positives SUCCESS; U1 expected uninit FAILED.",
       "assurance": "source-reported bounded diagnostic; independent credit NONE",
       "reference": "BASELINE-COMPARISON.json"
+    },
+    {
+      "claim": "Steps1-3 reproduce two original usize-uninit failures each at ops/index_range.rs:57; steps4-7 and U2 SUCCESS; U1 expected uninit FAILED.",
+      "assurance": "source-reported bounded diagnostic; independent B1/B2 proof credit NONE",
+      "reference": "POST-BUILD-OBSERVATIONS.json"
+    },
+    {
+      "claim": "Same-library contrast for shared step1: A FAILED2/28 versus B SUCCESS0/20; fixed input identities and reported applied tree match. Mechanism and deterministic root-set-only dependency remain UNKNOWN.",
+      "assurance": "source-reported bounded diagnostic; independent B1/B2 proof credit NONE",
+      "reference": "COMPARISON.json"
     }
   ],
   "open": [
-    "A results and actual applied-tree/argv bindings NOT_RUN.",
-    "B native report unavailable and Brief HTTP404; actual argv/MIR UNKNOWN.",
-    "Mechanism and codegen order UNKNOWN; no deterministic root-set-only inference."
+    "Brief HTTP404 and no structured native report for A/B; actual argv/MIR/property IDs/columns/native completeness UNKNOWN.",
+    "Mechanism, cache provenance, target-origin/relevance and object+offset/Set/Copy/Get binding UNKNOWN.",
+    "B has no steps2/3/U2; no direct paired comparison for those roots; step2/3 len-vs-Drop instance UNKNOWN.",
+    "No codegen-order inference from selectors; single contrast does not establish deterministic root-set-only causality."
   ],
   "proof_credit": "NONE",
-  "next_step": "Publish exact reviewed packet, PRE-BUILD REVIEW full SHA, stop until coordinator GO. After GO only: one dispatch, k1g.sh watch BUILD, end turn.",
-  "stop_boundary": "Exact-packet PRE-BUILD REVIEW, awaiting coordinator GO; no phase activation/reservation/Build now. No repair, repeat B, retries or T1b execution.",
-  "semantic_candidate": "0dd6c63a21b156dce2c950178156946d04c02c29"
+  "next_step": "Only propose separately authorized T1b bounded compile-time provenance/MIR diagnostics; do not implement or dispatch it in T1a.",
+  "stop_boundary": "One authorized attempt terminal; evidence/result/accounting complete. No retry, repair, B repeat or next-stage execution.",
+  "semantic_candidate": "0dd6c63a21b156dce2c950178156946d04c02c29",
+  "classification": "SAME_LIBRARY_CONTRAST_REPRODUCED",
+  "result": "RESULT-KANI3300-T1A.md",
+  "comparison": "COMPARISON.json",
+  "evidence": "EVIDENCE-INDEX.json",
+  "observations": "POST-BUILD-OBSERVATIONS.json",
+  "watcher": {
+    "kind": "k1g.sh watch",
+    "build_id": "fd4c3316-efbc-4f33-8506-e22b9f2ff3b3",
+    "state": "TERMINAL_EVENT_RECEIVED",
+    "reported_status": "FAILURE",
+    "wait_exit": 0,
+    "delivery_attempt": 1
+  },
+  "closure_reason": "Single-stage task completed with reproducible same-library contrast and intact U1/U2 calibration; sole attempt consumed. Remaining localization requires separately authorized T1b."
 }

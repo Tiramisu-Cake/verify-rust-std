@@ -1,0 +1,166 @@
+{
+  "assurance": "source-reported bounded diagnostic; independent B1/B2 proof credit NONE",
+  "source": "evidence/fd4c3316/summary.md and rows.txt",
+  "build_id": "fd4c3316-efbc-4f33-8506-e22b9f2ff3b3",
+  "head_sha": "5d0679cf657683bb9beb754043dda00e48baa24c",
+  "roots": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "expect": "SUCCESS",
+      "status": "FAILED",
+      "time_s": 0.2196502,
+      "checks_failed": 2,
+      "checks_total": 28,
+      "unreachable": 0,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "failed_checks": [
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+          "location": "/workspace/src/library/core/src/ops/index_range.rs:57"
+        },
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+          "location": "/workspace/src/library/core/src/ops/index_range.rs:57"
+        }
+      ],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_sized_len",
+      "expect": "SUCCESS",
+      "status": "FAILED",
+      "time_s": 1.7971622,
+      "checks_failed": 2,
+      "checks_total": 142,
+      "unreachable": 6,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "failed_checks": [
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+          "location": "/workspace/src/library/core/src/ops/index_range.rs:57"
+        },
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+          "location": "/workspace/src/library/core/src/ops/index_range.rs:57"
+        }
+      ],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_unsized_len",
+      "expect": "SUCCESS",
+      "status": "FAILED",
+      "time_s": 1.9053743,
+      "checks_failed": 2,
+      "checks_total": 142,
+      "unreachable": 6,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "failed_checks": [
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+          "location": "/workspace/src/library/core/src/ops/index_range.rs:57"
+        },
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+          "location": "/workspace/src/library/core/src/ops/index_range.rs:57"
+        }
+      ],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "time_s": 1.7168927,
+      "checks_failed": 0,
+      "checks_total": 92,
+      "unreachable": 0,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "failed_checks": [],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_len",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "time_s": 1.3087981,
+      "checks_failed": 0,
+      "checks_total": 149,
+      "unreachable": 11,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "failed_checks": [],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "time_s": 3.0723398,
+      "checks_failed": 0,
+      "checks_total": 254,
+      "unreachable": 12,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "failed_checks": [],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "time_s": 33.678715,
+      "checks_failed": 0,
+      "checks_total": 550,
+      "unreachable": 19,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "failed_checks": [],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "expect": "FAILED",
+      "status": "FAILED",
+      "time_s": 0.5700313,
+      "checks_failed": 1,
+      "checks_total": 30,
+      "unreachable": 0,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "failed_checks": [
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "location": "/workspace/src/library/core/src/mem/mod.rs:1283"
+        }
+      ],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+      "expect": "SUCCESS",
+      "status": "SUCCESS",
+      "time_s": 0.61957896,
+      "checks_failed": 0,
+      "checks_total": 31,
+      "unreachable": 0,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "failed_checks": [],
+      "summary_failed_check_omissions": 0,
+      "native_completeness": "UNKNOWN"
+    }
+  ]
+}

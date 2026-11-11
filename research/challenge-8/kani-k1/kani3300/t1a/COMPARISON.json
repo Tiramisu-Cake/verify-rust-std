@@ -1,0 +1,134 @@
+{
+  "class": "SAME_LIBRARY_CONTRAST_REPRODUCED",
+  "assurance": "source-reported bounded diagnostic; independent B1/B2 proof credit NONE",
+  "A": {
+    "build_id": "fd4c3316-efbc-4f33-8506-e22b9f2ff3b3",
+    "head_sha": "5d0679cf657683bb9beb754043dda00e48baa24c",
+    "request_sha256": "0a5300eb89b52b0e26714b7ce5b749cc66239ef2630dd3e0de5eb2e7fce0156c"
+  },
+  "B": {
+    "build_id": "d137507f-c7de-432a-85dc-62fa03d1adaf",
+    "head_sha": "c8967c5a44e8f95b19f31761e55313d8488faea5",
+    "request_sha256": "e23db232f257a8977e1d90b15260de6295da02898e612c60333fbe19c97abd51"
+  },
+  "library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
+  "inputs_match": "library, production patch, reported applied tree, pin, static toolchain/KT2 recipe/flags",
+  "same_library_comparison": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "A": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "expect": "SUCCESS",
+        "status": "FAILED",
+        "time_s": 0.2196502,
+        "checks_failed": 2,
+        "checks_total": 28,
+        "unreachable": 0,
+        "covers_satisfied": 1,
+        "covers_total": 1,
+        "failed_checks": [
+          {
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+            "location": "/workspace/src/library/core/src/ops/index_range.rs:57"
+          },
+          {
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+            "location": "/workspace/src/library/core/src/ops/index_range.rs:57"
+          }
+        ],
+        "summary_failed_check_omissions": 0,
+        "native_completeness": "UNKNOWN"
+      },
+      "B": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "status": "SUCCESS",
+        "checks_failed": 0,
+        "checks_total": 20,
+        "covers_satisfied": 1,
+        "covers_total": 1,
+        "unreachable": 0,
+        "failed_checks": []
+      }
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "A": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "expect": "SUCCESS",
+        "status": "SUCCESS",
+        "time_s": 1.7168927,
+        "checks_failed": 0,
+        "checks_total": 92,
+        "unreachable": 0,
+        "covers_satisfied": 2,
+        "covers_total": 2,
+        "failed_checks": [],
+        "summary_failed_check_omissions": 0,
+        "native_completeness": "UNKNOWN"
+      },
+      "B": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "status": "SUCCESS",
+        "checks_failed": 0,
+        "checks_total": 84,
+        "covers_satisfied": 2,
+        "covers_total": 2,
+        "unreachable": 0,
+        "failed_checks": []
+      }
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "A": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+        "expect": "FAILED",
+        "status": "FAILED",
+        "time_s": 0.5700313,
+        "checks_failed": 1,
+        "checks_total": 30,
+        "unreachable": 0,
+        "covers_satisfied": 3,
+        "covers_total": 3,
+        "failed_checks": [
+          {
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+            "location": "/workspace/src/library/core/src/mem/mod.rs:1283"
+          }
+        ],
+        "summary_failed_check_omissions": 0,
+        "native_completeness": "UNKNOWN"
+      },
+      "B": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+        "status": "FAILED",
+        "checks_failed": 1,
+        "checks_total": 30,
+        "covers_satisfied": 3,
+        "covers_total": 3,
+        "unreachable": 0,
+        "failed_checks": [
+          {
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+            "location": "/workspace/src/library/core/src/mem/mod.rs:1283"
+          }
+        ]
+      }
+    }
+  ],
+  "unpaired_A_steps": [
+    2,
+    3,
+    5,
+    6,
+    7,
+    9
+  ],
+  "limits": [
+    "Shared step1 FAILED in A and SUCCESS in B; B has no step2/step3/U2. A steps1-3 match original CMP3 located uninit; other A positives and U2 SUCCESS, U1 expected uninit FAILED.",
+    "Single A/B observation does not establish a mechanism or deterministic root-set-only dependency; no codegen-order inference from selectors.",
+    "U1 covers after intentional UB do not establish proof credit. Steps2/3 len-vs-Drop instance binding UNKNOWN.",
+    "Seven verbatim located descriptions exhaust aggregate failures in bounded summary (no truncated marker); native property IDs/columns/completeness UNKNOWN.",
+    "No new B, retry, repair, tracing, local compiler or raw fallback."
+  ],
+  "proof_credit": "NONE"
+}
