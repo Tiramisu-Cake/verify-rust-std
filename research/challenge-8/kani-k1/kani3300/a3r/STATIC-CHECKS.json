@@ -1,0 +1,47 @@
+{
+  "baseline": "585c93b2ff366f5723611a7ca944328ef62f40b5",
+  "candidate": "a0a2386001a15fecfe2facc2f6cd87f3dee13b60",
+  "candidate_tree": "72baa2f044301ce104ab9cffa52553339f51c4c4",
+  "diff_sha256": "40378b4517d13a9449c31bfe3b3da9819e195f0c8d84b6495b095ddec593cd61",
+  "changed_files": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "library/kani_core/src/mem_init.rs",
+    "tests/expected/uninit/maybe-uninit-call-move/main.rs"
+  ],
+  "fixture_delta": "Only 20 UnwindContinue -> UnwindUnreachable replacements plus two explanatory comment lines; 13 harnesses and assertions unchanged.",
+  "all_expected_goldens": {
+    "unchanged": true,
+    "count": 587,
+    "git_inventory_sha256": "c808c5932d66f6664d711fdf761056909269ab2fd204545eb1e849093802f9db"
+  },
+  "protocol_count_equivalence": {
+    "representative_cases": 108,
+    "result": "PASS; source algebra also splits count=0 versus positive; no protocol check removed"
+  },
+  "pinned_api_hashes": {
+    "checked_files": 11,
+    "result": "PASS",
+    "rust_commit": "7189d39d9ce936881b8132c6addeaf3e295cd455"
+  },
+  "source_inputs": {
+    "/tmp/kani3300-b2b-source/library/core/src/intrinsics/mir.rs": {
+      "sha256": "929437ae1ab07fb008b2bbf3a00f30a1c4c1c8a2eded81c04184633cd3b95821",
+      "bytes": 24441
+    },
+    "/root/verify-rust-std-kani3300-g0/library/core/src/cmp.rs": {
+      "sha256": "d3483dc7d11df42f41d9abb8305d91c30c0662a304511552bdcc1f12ecd77988",
+      "bytes": 84542
+    },
+    "/root/verify-rust-std-kani3300-g0/library/core/src/intrinsics/mod.rs": {
+      "sha256": "95bad83ea99a46bcbdbd4163e42112866fdfadc4660ca1d1c4298fed57b1c5fc",
+      "bytes": 191756
+    }
+  },
+  "rustfmt_config_path_and_diff_check": "PASS",
+  "clippy_D_warnings": "Source audit only: new shadow_return local used in caller guard, return loading and intrinsic model guard; no added imports/enum variants/APIs, no changed Rust API calls; compilation/clippy NOT_RUN.",
+  "move_reset_audit": "No change to reset logic. Only exact Call Move of a paired shadow operand; all snapshots precede resets. Copy, assignment and intrinsic paths excluded. Actual temp/source identity requires coordinator MIR.",
+  "runtime_regressions": "NOT_RUN; restoration of reported expected-suite outcomes is not established. Coordinator must rerun unchanged goldens and inspect named properties for unrelated failures.",
+  "credit": "NONE; Cloud $0; no builds/dispatch/local compiler/verifier/raw evidence/Kani push",
+  "initial_candidate": "c57314d4cf8aed4721c3170827827c6c9b9cd429",
+  "intrinsic_value_guard": "Forget explicitly consumes without returning bytes; every other shadow-argument/return intrinsic fails Unsupported before can_skip_intrinsic. Nonshadow intrinsic classification/explicit pointer models unchanged. REVIEW-INITIAL finding fixed in final candidate."
+}

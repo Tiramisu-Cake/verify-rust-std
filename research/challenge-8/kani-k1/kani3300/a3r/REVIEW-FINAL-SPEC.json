@@ -1,0 +1,55 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-a1",
+  "baseline_commit": "585c93b2ff366f5723611a7ca944328ef62f40b5",
+  "candidate_commit": "a0a2386001a15fecfe2facc2f6cd87f3dee13b60",
+  "defect": "KANI3300 A3R: reported intrinsic Unsupported, invalid custom MIR, and extra uninitialized reads after A3.",
+  "applicability": "Exactly TASK-KANI3300-A3R.md at research b9a4a9d60f893fc46db6e909426935a64c9a2e3c, inheriting TASK-KANI3300-A3.md; static source review only. Independently assess the patch, without author verdict.",
+  "invariants": [
+    "Audit intrinsic classification/can_skip_intrinsic/explicit models versus caller and callee transfer guards. Preserve unsupported non-Item/shim/bodyless shadow transfers; no blanket unknown-intrinsic skip.",
+    "Audit complete argument/return protocol checks (signature/count/index/size/mandatory return0, no leftover current call state). Check changed written-count assertions and reachable transitive callees under the pinned std source.",
+    "Audit Call(Move) reset and snapshot order: exact moved shadow place only; assignment/Copy/temp original/forget controls unchanged. Identify concrete extra-uninit causes if visible; do not infer runtime results.",
+    "Audit custom MIR calls against pinned core::intrinsics::mir, Kani panic strategy, unchanged assertions/harnesses/goldens. Ensure error paths are not weakened.",
+    "Clippy/-D warnings source audit: imports, locals, API signatures, type/borrow/exhaustiveness, formatting. No compiler execution.",
+    "Delta review after REVIEW-INITIAL finding: examine the new Intrinsic::Forget arm and shadow-argument/return Unsupported guard before can_skip_intrinsic. Confirm BlackBox and every other unmodeled intrinsic value transfer fail closed, while explicit pointer models and nonshadow intrinsic handling remain available; check no protocol invariant was weakened."
+  ],
+  "controls": [
+    "No builds/Cloud/dispatch/local cargo/rustc/Kani/CBMC/Miri/Actions/PR/issues/comments/push/raw logs/archives/credentials. Source reads/Python allowed. No nested delegation.",
+    "Do not edit implementation or tests. Write only /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/a3r/REVIEW.md. Record candidate/tree/diff/spec identities, actionable findings and static limitations.",
+    "No compilation/runtime/proof credit; fork CI belongs to coordinator. Pinned API source /tmp/kani3300-g1r-api, core MIR source /tmp/kani3300-b2b-source/library/core/src/intrinsics/mir.rs; research library core/cmp.rs is also available."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/intrinsics.rs",
+    "kani-compiler/src/kani_compiler.rs",
+    "kani-driver/src/call_single_file.rs",
+    "library/kani_core/src/mem_init.rs",
+    "rust-toolchain.toml",
+    "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+    "tests/expected/uninit/maybe-uninit-call-move/expected",
+    "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+    "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+    "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/main.rs",
+    "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/expected",
+    "tests/expected/uninit/maybe-uninit-transfers/main.rs",
+    "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+    "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/a3r/REVIEW-INITIAL.md",
+      "sha256": "f91b65f4aff5856ff05416413f99c447c7496687c24f923ecb606963c9361dce"
+    }
+  ],
+  "known_limitations": [
+    "Static only. Compilation/clippy/Kani/CBMC/Miri/CI NOT_RUN. Cloud $0."
+  ]
+}
