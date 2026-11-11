@@ -1,0 +1,18 @@
+request_id=kani3300-u2-uninit-20261111-01
+request_sha256=d025202d57d3c271f125ca9ae8dda40b677d2bb591cad6b43307c5222f67bcb3
+build_id=6a2f4260-c343-427f-a6ef-6ed0bce50b7c
+head_sha=108551d92b7754d5366ec3b59bd0b652510adcef
+total=9
+offset=0
+count=9
+next_offset=done
+name	status	time_s	checks	covers
+slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8	FAILED	0.6318553	1/31	3/3
+slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8	SUCCESS	0.65874434	0/32	3/3
+slice::sort::shared::smallsort::verify::uninit_probe::raw_uninit_read_sensitivity	FAILED	0.34033254	1/57	3/3
+slice::sort::shared::smallsort::verify::uninit_probe::swap_contract_four_positions_u8	FAILED	2.0437427	1/438	2/5
+slice::sort::shared::smallsort::verify::uninit_probe::sorted_permutation_insert_tail_u8_n2	SUCCESS	1.5808861	0/178	1/1
+slice::sort::shared::smallsort::verify::uninit_probe::permutation_merge_u8_n4	SUCCESS	7.6416106	0/230	1/1
+slice::sort::shared::smallsort::verify::uninit_probe::swap_contract_four_positions_u8_function_item	FAILED	16.066118	3/400	2/5
+slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4	FAILED	1.9385056	2/507	0/1
+slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_scratch_unwritten_slot_u8_n4	FAILED	1.7735901	2/463	0/6

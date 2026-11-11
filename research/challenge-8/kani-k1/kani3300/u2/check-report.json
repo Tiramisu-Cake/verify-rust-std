@@ -1,0 +1,275 @@
+{
+  "stage": "kani3300-u2",
+  "build_id": "6a2f4260-c343-427f-a6ef-6ed0bce50b7c",
+  "build_head": "108551d92b7754d5366ec3b59bd0b652510adcef",
+  "request_id": "kani3300-u2-uninit-20261111-01",
+  "request_sha256": "d025202d57d3c271f125ca9ae8dda40b677d2bb591cad6b43307c5222f67bcb3",
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "patch_sha256": "306851ac5dd4f28a11778dfc49e878a5bb62fd7c35a2ad7ad0419053b9504467",
+  "applied_tree": "b9c36ac5ed550e39d26e1d1d77000052e62a9bb4",
+  "tooling_base": "c98d7cee0d509b1633ab61c9a1ae989e286c8e2a",
+  "cloud_status": "FAILURE",
+  "summary_status": "COMPLETE",
+  "gate": false,
+  "kani_exit_code": 1,
+  "task_acceptance": "NOT_MET",
+  "check_tooling": "PASS",
+  "instrumentation": {
+    "summary_reports_uninit_checks": true,
+    "actual_argv": "UNCONFIRMED: bounded summary/rows do not expose verification argv",
+    "generated_args": "kani.args; intent only",
+    "negative_sensitivity": "U1 and U3 each exactly one located uninit failure"
+  },
+  "rows": [
+    {
+      "row": "U1",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "status": "FAILED",
+      "classification": "expected uninit-FAILED",
+      "checks_failed": 1,
+      "checks_total": 31,
+      "failed_checks": [
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "location": "/workspace/src/library/core/src/mem/mod.rs:1283"
+        }
+      ],
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "time_s": 0.6318553,
+      "u0": {
+        "status": "FAILED",
+        "classification": "unsupported",
+        "checks_failed": 1,
+        "checks_total": 31,
+        "covers": "3/3"
+      }
+    },
+    {
+      "row": "U2",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+      "status": "SUCCESS",
+      "classification": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 32,
+      "failed_checks": [],
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "time_s": 0.65874434,
+      "u0": {
+        "status": "FAILED",
+        "classification": "unsupported",
+        "checks_failed": 1,
+        "checks_total": 32,
+        "covers": "3/3"
+      }
+    },
+    {
+      "row": "U3",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::raw_uninit_read_sensitivity",
+      "status": "FAILED",
+      "classification": "expected uninit-FAILED",
+      "checks_failed": 1,
+      "checks_total": 57,
+      "failed_checks": [
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "location": "/workspace/src/library/core/src/ptr/mod.rs:2175"
+        }
+      ],
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "time_s": 0.34033254,
+      "u0": {
+        "status": "FAILED",
+        "classification": "unsupported",
+        "checks_failed": 1,
+        "checks_total": 47,
+        "covers": "0/3"
+      }
+    },
+    {
+      "row": "U4",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::swap_contract_four_positions_u8",
+      "status": "FAILED",
+      "classification": "unsupported",
+      "checks_failed": 1,
+      "checks_total": 438,
+      "failed_checks": [
+        {
+          "description": "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300.",
+          "location": "/workspace/src/library/core/src/ops/function.rs:166"
+        }
+      ],
+      "covers_satisfied": 2,
+      "covers_total": 5,
+      "time_s": 2.0437427,
+      "u0": {
+        "status": "FAILED",
+        "classification": "unsupported",
+        "checks_failed": 1,
+        "checks_total": 454,
+        "covers": "2/5"
+      }
+    },
+    {
+      "row": "U5",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::sorted_permutation_insert_tail_u8_n2",
+      "status": "SUCCESS",
+      "classification": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 178,
+      "failed_checks": [],
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "time_s": 1.5808861,
+      "u0": {
+        "status": "SUCCESS",
+        "classification": "SUCCESS",
+        "checks_failed": 0,
+        "checks_total": 181,
+        "covers": "1/1"
+      }
+    },
+    {
+      "row": "U6",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::permutation_merge_u8_n4",
+      "status": "SUCCESS",
+      "classification": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 230,
+      "failed_checks": [],
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "time_s": 7.6416106,
+      "u0": {
+        "status": "FAILED",
+        "classification": "unsupported",
+        "checks_failed": 1,
+        "checks_total": 243,
+        "covers": "0/1"
+      }
+    },
+    {
+      "row": "U7",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::swap_contract_four_positions_u8_function_item",
+      "status": "FAILED",
+      "classification": "unsupported + instrumentation failures",
+      "checks_failed": 3,
+      "checks_total": 400,
+      "failed_checks": [
+        {
+          "description": "Check that *var_9 is assignable",
+          "location": "library/kani_core/src/mem_init.rs:382"
+        },
+        {
+          "description": "Kani does not support reasoning about memory initialization of intrinsic `Unimplemented { name: \"select_unpredictable\", issue_link: \"https://github.com/model-checking/kani/issues/new/choose\" }`.",
+          "location": "/workspace/src/library/core/src/hint.rs:871"
+        },
+        {
+          "description": "Check that *var_17 is assignable",
+          "location": "library/kani_core/src/mem_init.rs:404"
+        }
+      ],
+      "covers_satisfied": 2,
+      "covers_total": 5,
+      "time_s": 16.066118,
+      "u0": {
+        "status": "FAILED",
+        "classification": "unsupported",
+        "checks_failed": 1,
+        "checks_total": 416,
+        "covers": "2/5"
+      }
+    },
+    {
+      "row": "U8",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4",
+      "status": "FAILED",
+      "classification": "unsupported",
+      "checks_failed": 2,
+      "checks_total": 507,
+      "failed_checks": [
+        {
+          "description": "Transmuting between types of incompatible layouts.",
+          "location": "/workspace/src/library/core/src/array/iter.rs:77"
+        },
+        {
+          "description": "Kani does not support this assignment to MaybeUninit storage.",
+          "location": "/workspace/src/library/core/src/array/iter.rs:77"
+        }
+      ],
+      "covers_satisfied": 0,
+      "covers_total": 1,
+      "time_s": 1.9385056,
+      "u0": {
+        "status": "FAILED",
+        "classification": "unsupported",
+        "checks_failed": 1,
+        "checks_total": 515,
+        "covers": "0/1"
+      }
+    },
+    {
+      "row": "U9",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_scratch_unwritten_slot_u8_n4",
+      "status": "FAILED",
+      "classification": "unsupported; U9 acceptance blocked",
+      "checks_failed": 2,
+      "checks_total": 463,
+      "failed_checks": [
+        {
+          "description": "Transmuting between types of incompatible layouts.",
+          "location": "/workspace/src/library/core/src/array/iter.rs:77"
+        },
+        {
+          "description": "Kani does not support this assignment to MaybeUninit storage.",
+          "location": "/workspace/src/library/core/src/array/iter.rs:77"
+        }
+      ],
+      "covers_satisfied": 0,
+      "covers_total": 6,
+      "time_s": 1.7735901
+    }
+  ],
+  "u9_acceptance": {
+    "failed_checks": 2,
+    "uninit_failed_checks": 0,
+    "reported_failure_location": "/workspace/src/library/core/src/array/iter.rs:77",
+    "covers": "0/6",
+    "exactly_one_failure_on_scratch4": false,
+    "scratch4_read_location_confirmed": false,
+    "no_failure_reported_at_scratch3_call": true,
+    "scratch3_success_established": false,
+    "scratch3_covers_reached": false,
+    "reason": "Unsupported array iterator initialization prevents the required observations; absence of a reported failure at scratch[3] does not establish successful execution."
+  },
+  "evidence_scope": "bounded k1g summary/rows/status/check-tooling/budget; no raw evidence/logs/archives read",
+  "failed_checks_completeness": "All ten failures listed verbatim with locations; counts match all six FAILED rows; no failed-check clipping/truncation marker.",
+  "cost_usd": "0.1215",
+  "cap_usd": "0.80",
+  "remaining_usd": "0.6785",
+  "reserved_usd": "0.0000",
+  "same_nine_row_repair_reserve_usd": "0.7695",
+  "spent_plus_same_repair_usd": "0.8910",
+  "repair_dispatch_allowed": false,
+  "repair_boundary": "$0.1215 + $0.7695 = $0.8910 > $0.80; exact patch/core/tooling are frozen and stage is limited to one nine-row run.",
+  "cloud_elapsed_seconds": 515.239580628,
+  "verifier_wall": "1:52.63",
+  "proof_credit": "NONE for general scratch; no independent theorem credit",
+  "checks": {
+    "summary_identity": true,
+    "row_page_identity": true,
+    "cloud_identity": true,
+    "patch_applied_tree_binding": true,
+    "check_tooling_pass": true,
+    "all_nine_requested_rows_in_order": true,
+    "all_failed_checks_located_and_counts_match": true,
+    "u1_u3_exact_negative_counts": true,
+    "u2_u5_u6_success": true,
+    "u8_success": false,
+    "u9_exact_negative_and_reachability": false,
+    "no_timeouts": true
+  },
+  "saved_at": "2026-11-11T02:57:19.009559+00:00"
+}

@@ -1,6 +1,6 @@
 {
   "stage": "kani3300-u2",
-  "state": "PREPARED_WAITING_COORDINATOR_EXACT_PACKET_GO",
+  "state": "CLOSED_WITH_BLOCKER_TASK_ACCEPTANCE_NOT_MET",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-U2.md",
   "branch": "experiment/kani-k1-kani3300u2-20261111",
   "semantic_candidate": "7e183418c6e3dd8917563eb92d040ddc72c411a0",
@@ -15,12 +15,16 @@
     "proof_credit": "NONE"
   },
   "cloud": {
-    "status": "NOT_RUN",
-    "build_id": null,
-    "spend_usd": "0.0000",
+    "status": "FAILURE",
+    "summary_status": "COMPLETE",
+    "gate": false,
+    "build_id": "6a2f4260-c343-427f-a6ef-6ed0bce50b7c",
+    "spend_usd": "0.1215",
     "submitted_reserve_usd": "0.0000",
     "planned_reserve_usd": "0.7695",
-    "cap_usd": "0.80"
+    "cap_usd": "0.80",
+    "remaining_usd": "0.6785",
+    "repair_dispatched": false
   },
   "claims": [
     {
@@ -32,14 +36,43 @@
       "claim": "U9 written/unwritten slot choice follows N4 source path.",
       "assurance": "static source analysis; Cloud verification NOT_RUN",
       "reference": "PRE-BUILD.md"
+    },
+    {
+      "claim": "Head/request/Kani pin/patch/applied-tree bindings match the reviewed packet; check-tooling PASS.",
+      "assurance": "bounded source-reported CI metadata plus tooling closure check",
+      "reference": "build.summary.md; build.rows.txt; build.status.json; build.tooling.txt"
+    },
+    {
+      "claim": "U1/U3 each exactly one located uninit failure; U2/U5/U6 SUCCESS.",
+      "assurance": "bounded Kani result; not independent general theorem credit",
+      "reference": "check-report.json"
+    },
+    {
+      "claim": "U8/U9 each fail twice at array/iter.rs:77; U9 covers 0/6; required scratch[4] negative and scratch[3] reachability not established.",
+      "assurance": "bounded Kani result; task acceptance NOT_MET",
+      "reference": "RESULT-KANI3300-U2.md; BLOCKER.md"
     }
   ],
   "open": [
-    "Coordinator exact-packet GO pending.",
-    "After GO require COMPLETE, bindings, actual uninit argv, exact negatives/counts/locations and cover reachability.",
-    "U4 known fn-pointer unsupported; U7 forecast intrinsic limitation remains unconfirmed until U2 evidence."
+    "Array iterator transmute/storage blocker prevents U8/U9 acceptance; requires a separately authorized tool task, not an edit of the frozen U2 patch/core.",
+    "U4 fn-pointer limitation persists; U7 has intrinsic select_unpredictable Unimplemented plus two additional assignability failures.",
+    "Actual verification argv is not exposed by permitted bounded summary/rows; literal -Z uninit-checks argv binding remains UNCONFIRMED.",
+    "No general scratch-path proof; U9 has two unsupported failures and zero reached covers, not the requested single scratch[4] uninit failure."
   ],
-  "next_step": "After coordinator GO dispatch only the exact published SHA identified by PRE-BUILD REVIEW; k1g.sh watch BUILD then end turn.",
-  "stop_reason": "Explicit task boundary: PRE-BUILD REVIEW then stop until coordinator GO.",
-  "result": "NOT_RUN; RESULT-KANI3300-U2.md must follow bounded Cloud evidence, not preparation."
+  "next_step": "Coordinator reviews RESULT and blocker. In a separate task fix/test the tool array-iterator conversion and rerun U8/U9; later core progression u64 N4 Stable/function item, then N8/sort4.",
+  "stop_reason": "Explicit one-stage task and immutable patch/core/tooling boundaries; nine-row retry reserve plus actual spend exceeds cap. Bounded evidence and postmortem completed; no other independent implementation/build is authorized in this stage.",
+  "result": "RESULT-KANI3300-U2.md; stage complete with blocker, task proof acceptance NOT_MET.",
+  "build_head": "108551d92b7754d5366ec3b59bd0b652510adcef",
+  "coordinator_go": {
+    "scope": "exact packet 108551d92b7754d5366ec3b59bd0b652510adcef, request kani3300-u2-uninit-20261111-01, reserve $0.7695",
+    "u9_required": "exactly one failure at scratch[4], none at scratch[3], scratch[3] covers reached",
+    "u9_requirement_met": false
+  },
+  "evidence_files": {
+    "build.cost.txt": "284140415b7000cde003eba4dd97338efe4c5698a1a4581f5f929cce3541d988",
+    "build.rows.txt": "b8d0a7098e17e002e16dfdc117694f6f290f058d896ca6f93e8f251beed1aa5d",
+    "build.status.json": "468f444508673d67537a9b63ebd6829d36c1ffdf6a294a960bef4550dad91559",
+    "build.summary.md": "95130613ba65572546d488369238f594387cb8f7862b41bae8f875d772c2a624",
+    "build.tooling.txt": "3fb43b483d08871cef17ddb73fe7fdf98e877ee90303f5d28795817735d60415"
+  }
 }
