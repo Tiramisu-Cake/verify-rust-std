@@ -1,0 +1,35 @@
+{
+  "applicability": "Exactly four changed test files for pending-ops plain/seeded fixtures and shim plain/seeded expected output. No production changes.",
+  "baseline_commit": "29bde289d60d9f6f36c16310f6bce697338f7641",
+  "candidate_commit": "d5f072f2bcf61a04d84bb0e8b54115f3011252fc",
+  "controls": [
+    "pending-ops pair named indirect.safety_check uninitialized-u8 failure and function-pointer Unsupported expectations unchanged.",
+    "shim pair specific Failed Checks: bodyless Shim diagnostic, VERIFICATION:- FAILED and 0 successful / 1 failure summary.",
+    "Static review only; do not equate source or synthetic matcher checks with compilation or executed test evidence."
+  ],
+  "defect": "Independently review the test-only B1R2 delta against TASK-KANI3300-B1R2.md at research e88d0ca43508f72d6b2b67ea40ac2b16603bcdd7. B1 and B1R task constraints remain applicable.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "tools/compiletest/src/runtest.rs",
+    "kani-driver/src/cbmc_property_renderer.rs",
+    "tests/expected/uninit/unresolved-calls/pending-ops-plain.expected",
+    "tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected",
+    "tests/expected/uninit/unresolved-calls/shim-plain.rs",
+    "tests/expected/uninit/unresolved-calls/shim-seeded.rs",
+    "tests/expected/uninit/alloc-to-slice/alloc-to-slice.rs"
+  ],
+  "invariants": [
+    "Keep the Call-operand dereference check and explicit unresolved-call diagnostic; do not weaken the pending-ops named expectations.",
+    "Fixtures must avoid raw-pointer/union interaction and expose an uninitialized byte before the unresolved call; retain plain/seeded distinction.",
+    "Shim goldens must require the specific bodyless Shim failure and failed harness summary from the task report, using compiletest substring/consecutive-line semantics.",
+    "No change to other controls, production, or previous stage artifacts. Check edition/features and possible -D warnings hazards statically."
+  ],
+  "known_limitations": [
+    "No builds/dispatch/Cloud/Actions or local cargo/rustc/Kani/CBMC. No raw logs/archives/credentials, network writes, Kani push or nested delegation. Python and authorized rustfmt wrapper allowed. Task CI facts are source-reported, not independently reproduced."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-b1"
+}

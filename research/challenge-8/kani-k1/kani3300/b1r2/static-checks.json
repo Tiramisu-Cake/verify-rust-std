@@ -1,0 +1,19 @@
+{
+  "baseline": "29bde289d60d9f6f36c16310f6bce697338f7641",
+  "candidate": "d5f072f2bcf61a04d84bb0e8b54115f3011252fc",
+  "scope": [
+    "tests/expected/uninit/unresolved-calls/pending-ops-plain.rs",
+    "tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/shim-plain.expected",
+    "tests/expected/uninit/unresolved-calls/shim-seeded.expected"
+  ],
+  "tests_only_exact_four_paths": "PASS",
+  "pending_ops_pair_shape_seed_parity_and_warning_source_audit": "PASS (static only)",
+  "pending_ops_named_golden_and_shim_sources_unchanged": "PASS",
+  "shim_substring_matcher_positive_and_wrong_reason_summary_controls": "PASS (synthetic only)",
+  "rustfmt_wrapper_check": "PASS",
+  "git_diff_check": "PASS",
+  "compilation_execution": "NOT_RUN (prohibited by task)",
+  "proof_credit": "NONE",
+  "cloud_spend": 0
+}

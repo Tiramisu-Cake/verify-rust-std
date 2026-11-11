@@ -1,0 +1,68 @@
+diff --git a/tests/expected/uninit/unresolved-calls/pending-ops-plain.rs b/tests/expected/uninit/unresolved-calls/pending-ops-plain.rs
+index b5ef07c5f6012d398b97adbe05b98515ef41dc2f..a47f80db0e037468ce8675aff75f823b83fc0c55 100644
+--- a/tests/expected/uninit/unresolved-calls/pending-ops-plain.rs
++++ b/tests/expected/uninit/unresolved-calls/pending-ops-plain.rs
+@@ -25,6 +25,16 @@ unsafe fn indirect(f: fn(u8) -> u8, pointer: *const u8) -> u8 {
+ 
+ #[kani::proof]
+ fn check() {
+-    let value = std::mem::MaybeUninit::<u8>::uninit();
+-    let _ = unsafe { indirect(identity, value.as_ptr()) };
++    // Raw byte storage avoids the unsupported raw-pointer/union interaction.
++    let layout = std::alloc::Layout::new::<[u8; 2]>();
++    let pointer = unsafe { std::alloc::alloc(layout) };
++    if pointer.is_null() {
++        return;
++    }
++    unsafe {
++        *pointer = 7;
++        // The second byte remains uninitialized until the Call operand reads it.
++        let _ = indirect(identity, pointer.add(1));
++        std::alloc::dealloc(pointer, layout);
++    }
+ }
+diff --git a/tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs b/tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs
+index b0e4ebcf70fb8f66461bc23294836a0a98f766f3..9b75a0e05c4702392a07a9a079ba2ee0ecc0ae20 100644
+--- a/tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs
++++ b/tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs
+@@ -35,6 +35,16 @@ fn seed() {
+ #[kani::proof]
+ fn check() {
+     seed();
+-    let value = std::mem::MaybeUninit::<u8>::uninit();
+-    let _ = unsafe { indirect(identity, value.as_ptr()) };
++    // Raw byte storage avoids the unsupported raw-pointer/union interaction.
++    let layout = std::alloc::Layout::new::<[u8; 2]>();
++    let pointer = unsafe { std::alloc::alloc(layout) };
++    if pointer.is_null() {
++        return;
++    }
++    unsafe {
++        *pointer = 7;
++        // The second byte remains uninitialized until the Call operand reads it.
++        let _ = indirect(identity, pointer.add(1));
++        std::alloc::dealloc(pointer, layout);
++    }
+ }
+diff --git a/tests/expected/uninit/unresolved-calls/shim-plain.expected b/tests/expected/uninit/unresolved-calls/shim-plain.expected
+index e737b233a3c2382e9784f76cd3b255e03ed2efc1..f563778aa821ba9a1a9bf2c7acba1a64464867eb 100644
+--- a/tests/expected/uninit/unresolved-calls/shim-plain.expected
++++ b/tests/expected/uninit/unresolved-calls/shim-plain.expected
+@@ -1,5 +1,4 @@
+ Checking harness check...
+- - Status: FAILURE\
+- - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++Failed Checks: Kani does not support memory initialization checks across calls to bodyless Shim instances. For more information about planned support, see https://github.com/model-checking/kani/issues/3300.
+ VERIFICATION:- FAILED
+ Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/shim-seeded.expected b/tests/expected/uninit/unresolved-calls/shim-seeded.expected
+index e737b233a3c2382e9784f76cd3b255e03ed2efc1..f563778aa821ba9a1a9bf2c7acba1a64464867eb 100644
+--- a/tests/expected/uninit/unresolved-calls/shim-seeded.expected
++++ b/tests/expected/uninit/unresolved-calls/shim-seeded.expected
+@@ -1,5 +1,4 @@
+ Checking harness check...
+- - Status: FAILURE\
+- - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++Failed Checks: Kani does not support memory initialization checks across calls to bodyless Shim instances. For more information about planned support, see https://github.com/model-checking/kani/issues/3300.
+ VERIFICATION:- FAILED
+ Complete - 0 successfully verified harnesses, 1 failures, 1 total.
