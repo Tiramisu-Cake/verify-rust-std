@@ -1,0 +1,99 @@
+{
+  "build_id": "14dd0792-1c06-47be-b931-94f6096a664a",
+  "head_sha": "2021b7cf3518fc72fee611e2a5d306e4bf5b619e",
+  "request_sha256": "8cda1fa64a8b1c7dfce56c44f30fd5d84bce508e9d93cf03a426e188f9c912da",
+  "summary_file": "/tmp/kani-k1-gcb/summary-14dd0792-1c06-47be-b931-94f6096a664a/summary/summary.json",
+  "summary_sha256": "d9a45dc19dfe3d1d4959864ab3c04c3af991a5782df7cee700b1f31b42b4083b",
+  "offset": 16,
+  "file": "uninit/maybe-uninit-review-overwrite-copy/main.rs",
+  "field": "output_excerpt.records",
+  "report_source": "native",
+  "validation": "VALIDATED",
+  "diagnostic_only": true,
+  "summary_status": "TOOL_ERROR",
+  "kind": "array",
+  "units": "items",
+  "total": 19,
+  "start": 8,
+  "value": [
+    {
+      "clipped": false,
+      "line": 112,
+      "source": "compiletest_stderr",
+      "start_char": 0,
+      "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.09s"
+    },
+    {
+      "clipped": true,
+      "line": 113,
+      "source": "compiletest_stderr",
+      "start_char": 0,
+      "text": "     Running `target/debug/compiletest --suite expected --mode expected --src-base tests/expected --build-base /workspace/src/k1-out/native-16 --exact '[expected] expected/uninit/maybe-uninit-review-overwrite-copy/main.r"
+    },
+    {
+      "clipped": false,
+      "line": 114,
+      "source": "compiletest_stderr",
+      "start_char": 0,
+      "text": "Some tests failed in compiletest suite=expected mode=expected host=(none) target=(none)"
+    },
+    {
+      "clipped": false,
+      "line": 402,
+      "source": "kani_stdout",
+      "start_char": 0,
+      "text": "Verification Time: 0.08203926s"
+    },
+    {
+      "clipped": false,
+      "line": 404,
+      "source": "kani_stdout",
+      "start_char": 0,
+      "text": "Manual Harness Summary:"
+    },
+    {
+      "clipped": false,
+      "line": 405,
+      "source": "kani_stdout",
+      "start_char": 0,
+      "text": "Verification failed for - overwrite_copy"
+    },
+    {
+      "clipped": false,
+      "line": 406,
+      "source": "kani_stdout",
+      "start_char": 0,
+      "text": "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+    },
+    {
+      "clipped": false,
+      "line": 11,
+      "source": "kani_stderr",
+      "start_char": 0,
+      "text": "             - foreign function (1)"
+    },
+    {
+      "clipped": false,
+      "line": 13,
+      "source": "kani_stderr",
+      "start_char": 0,
+      "text": "         Verification will fail if one or more of these constructs is reachable."
+    },
+    {
+      "clipped": false,
+      "line": 14,
+      "source": "kani_stderr",
+      "start_char": 0,
+      "text": "         See https://model-checking.github.io/kani/rust-feature-support.html for more details."
+    },
+    {
+      "clipped": false,
+      "line": 16,
+      "source": "kani_stderr",
+      "start_char": 0,
+      "text": "warning: 2 warnings emitted"
+    }
+  ],
+  "count": 11,
+  "next_start": null
+}

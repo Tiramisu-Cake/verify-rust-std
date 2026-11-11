@@ -1,0 +1,106 @@
+{
+  "build_id": "14dd0792-1c06-47be-b931-94f6096a664a",
+  "head_sha": "2021b7cf3518fc72fee611e2a5d306e4bf5b619e",
+  "request_sha256": "8cda1fa64a8b1c7dfce56c44f30fd5d84bce508e9d93cf03a426e188f9c912da",
+  "summary_file": "/tmp/kani-k1-gcb/summary-14dd0792-1c06-47be-b931-94f6096a664a/summary/summary.json",
+  "summary_sha256": "d9a45dc19dfe3d1d4959864ab3c04c3af991a5782df7cee700b1f31b42b4083b",
+  "offset": 0,
+  "file": "uninit/maybe-uninit-wrap-u3-positive/main.rs",
+  "field": "output_excerpt.records",
+  "report_source": "native",
+  "validation": "VALIDATED",
+  "diagnostic_only": true,
+  "summary_status": "TOOL_ERROR",
+  "kind": "array",
+  "units": "items",
+  "total": 20,
+  "start": 8,
+  "value": [
+    {
+      "clipped": false,
+      "line": 112,
+      "source": "compiletest_stderr",
+      "start_char": 0,
+      "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.10s"
+    },
+    {
+      "clipped": true,
+      "line": 113,
+      "source": "compiletest_stderr",
+      "start_char": 0,
+      "text": "     Running `target/debug/compiletest --suite expected --mode expected --src-base tests/expected --build-base /workspace/src/k1-out/native-0 --exact '[expected] expected/uninit/maybe-uninit-wrap-u3-positive/main.rs' --f"
+    },
+    {
+      "clipped": false,
+      "line": 114,
+      "source": "compiletest_stderr",
+      "start_char": 0,
+      "text": "Some tests failed in compiletest suite=expected mode=expected host=(none) target=(none)"
+    },
+    {
+      "clipped": false,
+      "line": 1692,
+      "source": "kani_stdout",
+      "start_char": 0,
+      "text": "Verification failed for - zst_array"
+    },
+    {
+      "clipped": false,
+      "line": 1693,
+      "source": "kani_stdout",
+      "start_char": 0,
+      "text": "Verification failed for - empty_array"
+    },
+    {
+      "clipped": false,
+      "line": 1694,
+      "source": "kani_stdout",
+      "start_char": 0,
+      "text": "Verification failed for - exact_usize_array_copy"
+    },
+    {
+      "clipped": false,
+      "line": 1695,
+      "source": "kani_stdout",
+      "start_char": 0,
+      "text": "Verification failed for - scalar_copy"
+    },
+    {
+      "clipped": false,
+      "line": 1696,
+      "source": "kani_stdout",
+      "start_char": 0,
+      "text": "Complete - 0 successfully verified harnesses, 6 failures, 6 total."
+    },
+    {
+      "clipped": false,
+      "line": 5,
+      "source": "kani_stderr",
+      "start_char": 0,
+      "text": "  |            ^^^^^^^^^^^^^"
+    },
+    {
+      "clipped": false,
+      "line": 6,
+      "source": "kani_stderr",
+      "start_char": 0,
+      "text": "  |"
+    },
+    {
+      "clipped": false,
+      "line": 7,
+      "source": "kani_stderr",
+      "start_char": 0,
+      "text": "  = note: requested on the command line with `--force-warn unstable-features`"
+    },
+    {
+      "clipped": false,
+      "line": 9,
+      "source": "kani_stderr",
+      "start_char": 0,
+      "text": "warning: 1 warning emitted"
+    }
+  ],
+  "count": 12,
+  "next_start": null
+}

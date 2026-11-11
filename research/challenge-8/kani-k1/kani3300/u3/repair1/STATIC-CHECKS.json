@@ -1,0 +1,105 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "kani_candidate": "81dd85bfce67226e283fdd9a156932e32ece080b",
+  "applied_tree": "c5b24f0b0da999d1deb9758215790382fe5e3be4",
+  "patch_sha256": "f3f8a82c2c22798361bf51bf6186aa60cadb1de68d0aa15b15ad62d601138c1c",
+  "request_sha256": "2def1eb2642fe4f707dd659208c0af7ff55b2a3feba5f3ed7cc9fb99b7dcca7e",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "tooling_import": {
+    "source": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+    "cherry_pick": "d483dc371967cc5be6b0166eb506c2f4cb0179aa",
+    "receipt_source": "635368edbe9bd62f5799ba813dd04d2db8ba5552",
+    "receipt_cherry_pick": "87a11b0a9fa2d14806c2b8c9af9d3192113f90fa"
+  },
+  "checks": {
+    "validate": "PASS (20 selectors)",
+    "prepare_kani_fresh_pin": "PASS",
+    "git_apply_check_index": "PASS",
+    "tree_identity": "PASS",
+    "rustfmt_check": "PASS (36 Rust files)",
+    "diff_check": "PASS",
+    "compiler_and_SKIPPED_ITEMS_delta_from_failed_v2": "EMPTY",
+    "DFCC_contract_delta_from_failed_v2": "EMPTY",
+    "flat_state_fields": [
+      [
+        "tracked_object_id",
+        "usize"
+      ],
+      [
+        "tracked_offset",
+        "usize"
+      ],
+      [
+        "value",
+        "bool"
+      ],
+      [
+        "argument_buffer_active",
+        "bool"
+      ],
+      [
+        "argument_buffer_selected_argument",
+        "usize"
+      ],
+      [
+        "argument_buffer_saved_object_id",
+        "usize"
+      ],
+      [
+        "argument_buffer_saved_offset",
+        "usize"
+      ],
+      [
+        "argument_buffer_layout_size",
+        "usize"
+      ]
+    ],
+    "u1t_7_sources_and_5_amended_goldens": "unchanged from failed_v2",
+    "lane_files_against_new_tooling_base": "IDENTICAL",
+    "preflight_diffstat_bytes": 4001,
+    "KT2_full_python_unit_service_suite": "PASS:117 tests (74.662s)",
+    "independent_repair_review": "Luna HIGH: no static blocker found, candidate81dd85bfce67226e283fdd9a156932e32ece080b"
+  },
+  "delta_repair_vs_failed_v2": {
+    "production": {
+      "files": 1,
+      "insertions": 37,
+      "deletions": 36
+    },
+    "tests": {
+      "files": 2,
+      "insertions": 5,
+      "deletions": 1
+    }
+  },
+  "delta_vs_u1": {
+    "production": {
+      "files": 2,
+      "insertions": 129,
+      "deletions": 30
+    },
+    "tests": {
+      "files": 36,
+      "insertions": 635,
+      "deletions": 0
+    }
+  },
+  "full_patch": {
+    "production": {
+      "files": 7,
+      "insertions": 675,
+      "deletions": 178
+    },
+    "tests": {
+      "files": 58,
+      "insertions": 963,
+      "deletions": 0
+    }
+  },
+  "native_status": "NOT_RUN; PRE-BUILD REVIEW and exact coordinator GO required",
+  "actual_u3_spend_usd": 0.108,
+  "proposed_repair_reservation_usd": 0.54,
+  "actual_plus_reservation_usd": 0.648,
+  "u3_cap_usd": 0.9
+}

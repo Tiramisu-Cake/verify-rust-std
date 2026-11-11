@@ -1,0 +1,92 @@
+{
+  "build_id": "14dd0792-1c06-47be-b931-94f6096a664a",
+  "head_sha": "2021b7cf3518fc72fee611e2a5d306e4bf5b619e",
+  "request_sha256": "8cda1fa64a8b1c7dfce56c44f30fd5d84bce508e9d93cf03a426e188f9c912da",
+  "summary_file": "/tmp/kani-k1-gcb/summary-14dd0792-1c06-47be-b931-94f6096a664a/summary/summary.json",
+  "summary_sha256": "d9a45dc19dfe3d1d4959864ab3c04c3af991a5782df7cee700b1f31b42b4083b",
+  "offset": 17,
+  "file": "uninit/maybe-uninit-review-overlap-copy/main.rs",
+  "field": "output_excerpt.records",
+  "report_source": "native",
+  "validation": "VALIDATED",
+  "diagnostic_only": true,
+  "summary_status": "TOOL_ERROR",
+  "kind": "array",
+  "units": "items",
+  "total": 18,
+  "start": 8,
+  "value": [
+    {
+      "clipped": true,
+      "line": 113,
+      "source": "compiletest_stderr",
+      "start_char": 0,
+      "text": "     Running `target/debug/compiletest --suite expected --mode expected --src-base tests/expected --build-base /workspace/src/k1-out/native-17 --exact '[expected] expected/uninit/maybe-uninit-review-overlap-copy/main.rs'"
+    },
+    {
+      "clipped": false,
+      "line": 114,
+      "source": "compiletest_stderr",
+      "start_char": 0,
+      "text": "Some tests failed in compiletest suite=expected mode=expected host=(none) target=(none)"
+    },
+    {
+      "clipped": false,
+      "line": 257,
+      "source": "kani_stdout",
+      "start_char": 0,
+      "text": "\t - Description: \"internal error: entered unreachable code\""
+    },
+    {
+      "clipped": false,
+      "line": 538,
+      "source": "kani_stdout",
+      "start_char": 0,
+      "text": "\t - Description: \"internal error: entered unreachable code\""
+    },
+    {
+      "clipped": false,
+      "line": 686,
+      "source": "kani_stdout",
+      "start_char": 0,
+      "text": "Verification failed for - overlap_copy_left"
+    },
+    {
+      "clipped": false,
+      "line": 687,
+      "source": "kani_stdout",
+      "start_char": 0,
+      "text": "Verification failed for - overlap_copy_right"
+    },
+    {
+      "clipped": false,
+      "line": 688,
+      "source": "kani_stdout",
+      "start_char": 0,
+      "text": "Complete - 0 successfully verified harnesses, 2 failures, 2 total."
+    },
+    {
+      "clipped": false,
+      "line": 13,
+      "source": "kani_stderr",
+      "start_char": 0,
+      "text": "         Verification will fail if one or more of these constructs is reachable."
+    },
+    {
+      "clipped": false,
+      "line": 14,
+      "source": "kani_stderr",
+      "start_char": 0,
+      "text": "         See https://model-checking.github.io/kani/rust-feature-support.html for more details."
+    },
+    {
+      "clipped": false,
+      "line": 16,
+      "source": "kani_stderr",
+      "start_char": 0,
+      "text": "warning: 2 warnings emitted"
+    }
+  ],
+  "count": 10,
+  "next_start": null
+}

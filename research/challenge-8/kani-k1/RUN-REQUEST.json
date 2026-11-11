@@ -1,15 +1,15 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani3300-u3-native-20261111-02",
+  "request_id": "kani3300-u3-repair1-20261111-03",
   "agent": "k1-merge",
   "kind": "kani-tests",
-  "purpose": "KANI3300 U3 amended U1T controls: five negatives bind Failed Checks without harness property names; exact typed wraps, ghost buffer frame isolation, and full IntoIter Unsupported control.",
+  "purpose": "KANI3300 U3 repair 1: flat bool/usize ghost argument buffer, unchanged compiler checks, empty setup smoke harness and all U1T/frame/contract controls; KT2 bounded failed-check excerpts.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [],
   "kani_patch": {
     "path": "research/challenge-8/kani-k1/kani3300/u3/kani-uninit-v2.patch",
-    "sha256": "f9187933ecd69858ae03762baa8dd57f5907e456e7457db7cba73092471ae111"
+    "sha256": "f3f8a82c2c22798361bf51bf6186aa60cadb1de68d0aa15b15ad62d601138c1c"
   },
   "test_timeout_seconds": 150,
   "kani_tests": [

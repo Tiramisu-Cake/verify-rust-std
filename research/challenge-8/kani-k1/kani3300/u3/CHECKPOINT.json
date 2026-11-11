@@ -2,12 +2,12 @@
   "schema": "kani3300-u3-prebuild-checkpoint-v1",
   "stage": "kani3300-u3",
   "stable_owner": "k1-merge",
-  "state": "STATIC_REGRESSION_ANALYSIS_READY_AWAITING_READER",
+  "state": "PRE_BUILD_REPAIR1_REVIEW_REQUIRED",
   "research_branch": "experiment/kani-k1-kani3300u3-20261111",
-  "kani_candidate": "3fd6f408e1d565ba65aaeb86c0c4ad0bbc57ab52",
+  "kani_candidate": "81dd85bfce67226e283fdd9a156932e32ece080b",
   "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
-  "patch_sha256": "f9187933ecd69858ae03762baa8dd57f5907e456e7457db7cba73092471ae111",
-  "request_sha256": "8cda1fa64a8b1c7dfce56c44f30fd5d84bce508e9d93cf03a426e188f9c912da",
+  "patch_sha256": "f3f8a82c2c22798361bf51bf6186aa60cadb1de68d0aa15b15ad62d601138c1c",
+  "request_sha256": "2def1eb2642fe4f707dd659208c0af7ff55b2a3feba5f3ed7cc9fb99b7dcca7e",
   "assurance": "static-only; no native acceptance or proof credit",
   "claims": [
     {
@@ -44,14 +44,29 @@
       "claim": "bounded static regression analysis identifies conditional whole-ghost-state layout/setup route; method-global and blanket-assignment hypotheses rejected",
       "evidence": "REGRESSION-ANALYSIS.md",
       "status": "STATIC_HYPOTHESIS_NOT_NATIVE_DIAGNOSIS"
+    },
+    {
+      "claim": "coordinator selected flatbool+usize state, no setup exclusion or extra static/marker",
+      "evidence": "coordinator user instruction, current repair PRE-BUILD",
+      "status": "AUTHORIZED_DESIGN"
+    },
+    {
+      "claim": "flat repair fresh apply/layout rationale/rustfmt/tooling suite and independent review",
+      "evidence": "repair1/STATIC-CHECKS.json; repair1/REVIEW-FLAT-BUFFER.md",
+      "status": "PASS_STATIC_ONLY"
+    },
+    {
+      "claim": "KT2 accepted source3bb5445d2a imported unchanged",
+      "evidence": "repair1/STATIC-CHECKS.json; RESULT-KANI-KT2.md",
+      "status": "IMPORTED_IDENTICAL"
     }
   ],
   "open": [
-    "reader improvement and actual Failed Checks for common early regression",
-    "confirm whole-state static-pointer MIR/setup binding or identify another failed property",
-    "choose minimal setup exclusion vs separate ghost static/DFCC marker fix",
-    "new exact GO required before any repair dispatch",
-    "all original native acceptance obligations remain open"
+    "new exact repair-packet coordinator GO",
+    "repair native positives incl.empty harness and frame/5U1T controls",
+    "actual Failed Checks peroverwrite/overlap harness with complete bounded coverage",
+    "full IntoIter actual next Unsupported",
+    "post-native review/replay and compound/select obligations"
   ],
   "builds": [
     {
@@ -70,8 +85,16 @@
   "spent_usd": 0.108,
   "cap_usd": 0.9,
   "proposed_reservation_usd": 0.54,
-  "next": "Coordinator reads REGRESSION-ANALYSIS.md; obtain actual Failed Checks/setup MIR binding, select minimal fix; no repair dispatch authorized",
+  "next": "PRE-BUILD REVIEW of published repair SHA; wait new exact GO; after terminal read summary/check-tooling3bb/native-field Failed Checks",
   "superseded_packet": "52cd0b12353076194296d74d2f59808ace90aceb",
   "authorized_build_head": "2021b7cf3518fc72fee611e2a5d306e4bf5b619e",
-  "reserved_usd": 0
+  "reserved_usd": 0,
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "repair_request_id": "kani3300-u3-repair1-20261111-03",
+  "repair_dispatch_authorized": false,
+  "rejected_approaches": [
+    "adding initializer toSKIPPED_ITEMS: coordinator explicitly rejected",
+    "separate static+second DFCC marker: coordinator explicitly rejected",
+    "Option-containing ghost state: regressing build14dd0792; replaced under coordinator decision"
+  ]
 }
