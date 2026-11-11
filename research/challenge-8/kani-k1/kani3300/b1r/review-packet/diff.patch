@@ -1,0 +1,157 @@
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index abdaf08d3673a56797daa9f0a1264d6fa8b4aea9..738d404f75737c9e11f8395e5e60a0e97599a157 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -355,8 +355,15 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                             }
+                         }
+                     }
+-                    InstanceKind::Item => {
+-                        if instance.is_foreign_item() {
++                    InstanceKind::Item | InstanceKind::Shim => {
++                        // Bodyful shims are instrumented like other MIR callees, including
++                        // entry loads for union arguments. Do not reject drop/closure glue
++                        // merely because it is a shim, but guard shims with no body to follow.
++                        if matches!(instance.kind, InstanceKind::Shim) && !instance.has_body() {
++                            self.push_target(MemoryInitOp::Unsupported {
++                                reason: unsupported_call_reason("calls to bodyless Shim instances"),
++                            });
++                        } else if instance.is_foreign_item() {
+                             match instance.name().as_str() {
+                                 "alloc::alloc::__rust_alloc" | "alloc::alloc::__rust_realloc" => {
+                                     /* Memory is uninitialized, nothing to do here. */
+@@ -402,7 +409,7 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                             reason: unsupported_call_reason("trait object method calls"),
+                         });
+                     }
+-                    InstanceKind::Shim | InstanceKind::LlvmIntrinsic => {
++                    InstanceKind::LlvmIntrinsic => {
+                         self.push_target(MemoryInitOp::Unsupported {
+                             reason: unsupported_call_reason(&format!(
+                                 "calls to {:?} instances",
+diff --git a/tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs b/tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs
+index c7b02396b7cc5ce3d6adbb7825aeb28b068781de..68ff80ca49aad851850d64adb7ff41e9b5844aa5 100644
+--- a/tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs
++++ b/tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs
+@@ -1,7 +1,7 @@
+ // Copyright Kani Contributors
+ // SPDX-License-Identifier: Apache-2.0 OR MIT
+ // kani-flags: -Z uninit-checks
+-// compile-flags: -D warnings
++// compile-flags: --edition 2021 -D warnings
+ 
+ #![feature(core_intrinsics, custom_mir)]
+ #![allow(internal_features)]
+diff --git a/tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs b/tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs
+index 97f7a1341203289f631686224a92f6f9e24fbdc9..dcd449d63f94c4ab67c91f5777dfefa6a74f3cbb 100644
+--- a/tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs
++++ b/tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs
+@@ -1,7 +1,7 @@
+ // Copyright Kani Contributors
+ // SPDX-License-Identifier: Apache-2.0 OR MIT
+ // kani-flags: -Z uninit-checks
+-// compile-flags: -D warnings
++// compile-flags: --edition 2021 -D warnings
+ 
+ #![feature(core_intrinsics, custom_mir)]
+ #![allow(internal_features)]
+diff --git a/tests/expected/uninit/unresolved-calls/entry-partial-plain.rs b/tests/expected/uninit/unresolved-calls/entry-partial-plain.rs
+index d7d22eceb4a22f3f80d9bd143069e072044576e9..e19da372f3577339686b3bf3c25bd255154e247b 100644
+--- a/tests/expected/uninit/unresolved-calls/entry-partial-plain.rs
++++ b/tests/expected/uninit/unresolved-calls/entry-partial-plain.rs
+@@ -1,7 +1,7 @@
+ // Copyright Kani Contributors
+ // SPDX-License-Identifier: Apache-2.0 OR MIT
+ // kani-flags: -Z uninit-checks
+-// compile-flags: -D warnings
++// compile-flags: --edition 2021 -D warnings
+ 
+ #![feature(core_intrinsics, custom_mir)]
+ #![allow(internal_features)]
+diff --git a/tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs b/tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs
+index f3a9fd684a91877a981a0285c3d90c0364a0ee0a..437a44e9dfedf6d5d81989a6bf9155936981668d 100644
+--- a/tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs
++++ b/tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs
+@@ -1,7 +1,7 @@
+ // Copyright Kani Contributors
+ // SPDX-License-Identifier: Apache-2.0 OR MIT
+ // kani-flags: -Z uninit-checks
+-// compile-flags: -D warnings
++// compile-flags: --edition 2021 -D warnings
+ 
+ #![feature(core_intrinsics, custom_mir)]
+ #![allow(internal_features)]
+diff --git a/tests/expected/uninit/unresolved-calls/pending-ops-plain.rs b/tests/expected/uninit/unresolved-calls/pending-ops-plain.rs
+index 9862367768f017b3fd6432061f57bbe2abfb5a5d..b5ef07c5f6012d398b97adbe05b98515ef41dc2f 100644
+--- a/tests/expected/uninit/unresolved-calls/pending-ops-plain.rs
++++ b/tests/expected/uninit/unresolved-calls/pending-ops-plain.rs
+@@ -1,7 +1,7 @@
+ // Copyright Kani Contributors
+ // SPDX-License-Identifier: Apache-2.0 OR MIT
+ // kani-flags: -Z uninit-checks
+-// compile-flags: -D warnings
++// compile-flags: --edition 2021 -D warnings
+ 
+ #![feature(core_intrinsics, custom_mir)]
+ #![allow(internal_features)]
+diff --git a/tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs b/tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs
+index cfa4debb21e132ef53d2c30559d4addad0875bf9..b0e4ebcf70fb8f66461bc23294836a0a98f766f3 100644
+--- a/tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs
++++ b/tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs
+@@ -1,7 +1,7 @@
+ // Copyright Kani Contributors
+ // SPDX-License-Identifier: Apache-2.0 OR MIT
+ // kani-flags: -Z uninit-checks
+-// compile-flags: -D warnings
++// compile-flags: --edition 2021 -D warnings
+ 
+ #![feature(core_intrinsics, custom_mir)]
+ #![allow(internal_features)]
+diff --git a/tests/expected/uninit/unresolved-calls/shim-plain.expected b/tests/expected/uninit/unresolved-calls/shim-plain.expected
+index 4eff4564945731b086a26be782647b3097d33ff2..e737b233a3c2382e9784f76cd3b255e03ed2efc1 100644
+--- a/tests/expected/uninit/unresolved-calls/shim-plain.expected
++++ b/tests/expected/uninit/unresolved-calls/shim-plain.expected
+@@ -1,5 +1,5 @@
+ Checking harness check...
+  - Status: FAILURE\
+- - Description: "Kani does not support memory initialization checks across calls to Shim instances. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+ VERIFICATION:- FAILED
+ Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/shim-plain.rs b/tests/expected/uninit/unresolved-calls/shim-plain.rs
+index 991a9f2fa616e8b617cf4f1ff4c0189f2b27a384..c5c7766935569eb4ed7c13cdd0b1a791d61061de 100644
+--- a/tests/expected/uninit/unresolved-calls/shim-plain.rs
++++ b/tests/expected/uninit/unresolved-calls/shim-plain.rs
+@@ -11,7 +11,7 @@ fn identity(value: u8) -> u8 {
+ 
+ #[inline(never)]
+ fn indirect(f: fn(u8) -> u8) -> u8 {
+-    // Explicit Fn::call on a function pointer resolves to a FnPtrShim.
++    // Follow the bodyful FnPtrShim; its inner function-pointer call must be rejected.
+     std::ops::Fn::call(&f, (42,))
+ }
+ 
+diff --git a/tests/expected/uninit/unresolved-calls/shim-seeded.expected b/tests/expected/uninit/unresolved-calls/shim-seeded.expected
+index 4eff4564945731b086a26be782647b3097d33ff2..e737b233a3c2382e9784f76cd3b255e03ed2efc1 100644
+--- a/tests/expected/uninit/unresolved-calls/shim-seeded.expected
++++ b/tests/expected/uninit/unresolved-calls/shim-seeded.expected
+@@ -1,5 +1,5 @@
+ Checking harness check...
+  - Status: FAILURE\
+- - Description: "Kani does not support memory initialization checks across calls to Shim instances. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+ VERIFICATION:- FAILED
+ Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/shim-seeded.rs b/tests/expected/uninit/unresolved-calls/shim-seeded.rs
+index 47169129574072dea0dcad966aec85248a961eba..d23e7e65c9014727ecf41b55be2ddba8bc450b85 100644
+--- a/tests/expected/uninit/unresolved-calls/shim-seeded.rs
++++ b/tests/expected/uninit/unresolved-calls/shim-seeded.rs
+@@ -11,7 +11,7 @@ fn identity(value: u8) -> u8 {
+ 
+ #[inline(never)]
+ fn indirect(f: fn(u8) -> u8) -> u8 {
+-    // Explicit Fn::call on a function pointer resolves to a FnPtrShim.
++    // Follow the bodyful FnPtrShim; its inner function-pointer call must be rejected.
+     std::ops::Fn::call(&f, (42,))
+ }
+ 

@@ -1,0 +1,39 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-b1",
+  "baseline_commit": "835cb4a09c4e94ac6b531d20e68f9deee7262ce1",
+  "candidate_commit": "29bde289d60d9f6f36c16310f6bce697338f7641",
+  "defect": "Review the B1R repair independently against TASK-KANI3300-B1R.md at research f8e3ab9534; task B1 remains applicable.",
+  "applicability": "Only B1R shim handling and test repair; no broader model or verification changes.",
+  "invariants": [
+    "Keep collected operations and the single Call traversal from B1.",
+    "Classify InstanceKind explicitly, preserving supported bodyful callees and rejecting unresolved/bodyless effects.",
+    "Preserve existing vec-read-init and quantifier-capture regressions and their goldens.",
+    "Audit each of six custom-MIR tests for reaching the named check, edition/features, and warning hazards; distinguish static expectations from measured execution."
+  ],
+  "controls": [
+    "Existing vec-read-init and quantifier-capture/uninit regressions.",
+    "Six pending-ops/entry-partial/entry-initialized plain/seeded tests and their named properties.",
+    "New B1 FnPtrShim pair; audit changed expectations for inner indirect call."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "kani-compiler/src/kani_middle/reachability.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "tools/compiletest/src/header.rs",
+    "tools/compiletest/src/runtest.rs",
+    "tests/kani/Uninit/vec-read-init.rs",
+    "tests/expected/quantifier-capture/uninit.rs",
+    "tests/expected/quantifier-capture/uninit.expected",
+    "tests/expected/uninit/delayed-ub-unsupported-call/expected"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Static review only. No local cargo/rustc/Kani/CBMC, builds/dispatch/Cloud/Actions, raw logs/archives/credentials; no network writes or Kani push."
+  ]
+}

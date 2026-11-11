@@ -1,0 +1,57 @@
+{
+  "assurance": "STATIC_ONLY_NO_COMPILER_EXECUTION",
+  "candidate": "29bde289d60d9f6f36c16310f6bce697338f7641",
+  "custom_mir": [
+    {
+      "file": "tests/expected/uninit/unresolved-calls/pending-ops-plain.rs",
+      "sha256": "fd9af85813825c69c1d99c09fd7bb77879c41d96bac5ef08fa3b3533c125f9af",
+      "structural_check": "PASS",
+      "expected_named_safety_status": "FAILURE",
+      "execution": "NOT_RUN"
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs",
+      "sha256": "7bc409adf77ab3f714a4b6a40e511e835721bf398bef9cf6d3f0c53b0355916b",
+      "structural_check": "PASS",
+      "expected_named_safety_status": "FAILURE",
+      "execution": "NOT_RUN"
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs",
+      "sha256": "63ad8554525c48ceb67bf92dd72118d1e82575a4aaada49a8e4d508b3133f7f7",
+      "structural_check": "PASS",
+      "expected_named_safety_status": "FAILURE",
+      "execution": "NOT_RUN"
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs",
+      "sha256": "02f64755316757aad6c630319687a4ec48a5ec44527a6da795a7506f4f1a755f",
+      "structural_check": "PASS",
+      "expected_named_safety_status": "FAILURE",
+      "execution": "NOT_RUN"
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs",
+      "sha256": "294f6dd4b8e40f012aad0e5903100c597a9c049de8286cb12d64c717dcba5688",
+      "structural_check": "PASS",
+      "expected_named_safety_status": "SUCCESS",
+      "execution": "NOT_RUN"
+    },
+    {
+      "file": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs",
+      "sha256": "dfac416d1f607ca7d1d8a53e0cfdc4d441f1dfc30bbae9fc2d124ced1b4ba73f",
+      "structural_check": "PASS",
+      "expected_named_safety_status": "SUCCESS",
+      "execution": "NOT_RUN"
+    }
+  ],
+  "existing_regressions_unchanged_from_upstream": [
+    "tests/kani/Uninit/vec-read-init.rs",
+    "tests/expected/quantifier-capture",
+    "tests/expected/uninit/delayed-ub-unsupported-call"
+  ],
+  "changed_B1_added_shim_expectations": [
+    "tests/expected/uninit/unresolved-calls/shim-plain.expected",
+    "tests/expected/uninit/unresolved-calls/shim-seeded.expected"
+  ]
+}
