@@ -1,18 +1,73 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani3300-u1-repair1-20261111-03",
+  "request_id": "kani3300-u1t-native-20261111-01",
   "agent": "k1-merge",
   "kind": "kani-tests",
-  "purpose": "KANI3300 U1 repair 1: import the CrateDef trait required for AdtDef::def_id; unchanged twenty native test selectors and timeouts.",
+  "purpose": "KANI3300 U1T: six U1R negative candidates, paired positive controls, and five U1 regression selectors; production unchanged from U1.",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 20,
+  "harness_timeout_minutes": 5,
   "harnesses": [],
   "kani_patch": {
-    "path": "research/challenge-8/kani-k1/kani3300/u1/kani-uninit.patch",
-    "sha256": "306851ac5dd4f28a11778dfc49e878a5bb62fd7c35a2ad7ad0419053b9504467"
+    "path": "research/challenge-8/kani-k1/kani3300/u1t/kani-uninit-tests.patch",
+    "sha256": "37689b6c615b6c8e4f321113f07c6c8d124cdf2aa30ff94eeda909a6ba18a1e6"
   },
   "test_timeout_seconds": 150,
   "kani_tests": [
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-overwrite-copy/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-overlap-copy/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-repeat-local/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-reset-zst/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-padded-manually-drop/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `Padded`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-argument-return/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-positive/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
     {
       "suite": "expected",
       "mode": "expected",
@@ -23,34 +78,9 @@
     {
       "suite": "expected",
       "mode": "expected",
-      "file": "uninit/maybe-uninit-assume-init/main.rs",
+      "file": "uninit/maybe-uninit-scratch-array/main.rs",
       "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/maybe-uninit-raw-read/main.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/maybe-uninit-raw-address/main.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/maybe-uninit-partial-write/main.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `(u8, u8)`"
+      "require_success": true
     },
     {
       "suite": "expected",
@@ -63,30 +93,7 @@
     {
       "suite": "expected",
       "mode": "expected",
-      "file": "uninit/maybe-uninit-slice-offset/main.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
       "file": "uninit/maybe-uninit-reset-alias/main.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/maybe-uninit-scratch-array/main.rs",
-      "expect": "pass",
-      "require_success": true
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/maybe-uninit-scratch-array-unwritten/main.rs",
       "expect": "pass",
       "require_success": false,
       "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
@@ -98,77 +105,6 @@
       "expect": "pass",
       "require_success": false,
       "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/unions.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type"
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/uninhabited-union-field/uninhabited-union-field.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/copy/copy_without_padding.rs",
-      "expect": "pass",
-      "require_success": true
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/copy/read_after_copy.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type"
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/copy/expose_padding_via_non_byte_copy.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type"
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/transmute-padding/transmute_padding.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Transmuting between types of incompatible layouts."
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/delayed-ub/delayed-ub.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type"
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/access-padding-uninit/access-padding-uninit.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type"
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/multiple-instrumentations.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type"
     }
   ]
 }
