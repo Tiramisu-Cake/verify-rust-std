@@ -1,6 +1,6 @@
 {
   "stage": "kani3300-u4b",
-  "state": "REVIEWED_AWAITING_COORDINATOR_GO",
+  "state": "CLOSED_DIAGNOSTIC_COMPLETE",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-U4B.md",
   "runtime": "Codex",
   "branch": "experiment/kani-k1-kani3300u4-20261111",
@@ -11,13 +11,18 @@
   "kani_patch_sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4",
   "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
   "cloud": {
-    "status": "NOT_RUN",
-    "attempts": 0,
-    "spend_usd": "0.0000",
+    "status": "SUCCESS",
+    "attempts": 1,
+    "spend_usd": "0.1485",
     "submitted_reserve_usd": "0.0000",
     "planned_reserve_usd": "0.5670",
     "cap_usd": "0.60",
-    "envelope_minutes": 42
+    "envelope_minutes": 42,
+    "build_id": "6d1690f4-c07e-4af9-a858-d97534c4db29",
+    "remaining_usd": "0.4515",
+    "summary_status": "COMPLETE",
+    "gate": true,
+    "kani_exit": 1
   },
   "claims": [
     {
@@ -29,12 +34,27 @@
       "claim": "Four-root request accepted; U8/U1 entries, KT2 tooling, pin/toolchain and production patch unchanged.",
       "assurance": "static; generated args express intent only",
       "reference": "static-check.json"
+    },
+    {
+      "claim": "Bound build head/request/pin/patch/applied tree match; tooling PASS against KT2.",
+      "assurance": "bounded source-reported metadata and tooling closure",
+      "reference": "build.summary.md; build.status.json; build.tooling.txt"
+    },
+    {
+      "claim": "U9a SUCCESS0/492 covers3/3; U9b FAILED2/503 covers4/4, same pointer/byte uninit failures as U9. U8 SUCCESS0/572 covers1/1, U1 expected FAILED1/30 covers3/3.",
+      "assurance": "Kani-reported bounded diagnostic; not independent B1/B2 credit",
+      "reference": "POST-BUILD-OBSERVATIONS.json; build.rows.txt; build.summary.md"
+    },
+    {
+      "claim": "Written-slot read causes no uninit failure in this harness; isolated unwritten-slot read reproduces both prior U9 failures.",
+      "assurance": "split-harness diagnostic attribution; no independent MIR/call-site binding",
+      "reference": "RESULT-KANI3300-U4B.md"
     }
   ],
   "open": [
-    "U9a/U9b runtime statuses, failure counts/types/locations and covers NOT_RUN.",
-    "Exact-packet coordinator GO required before the one permitted diagnostic build.",
-    "Actual runtime argv and observed applied tree require bounded Cloud evidence."
+    "Brief report unavailable HTTP404.",
+    "Literal actual argv, property IDs, per-failure columns/call sites and individual cover records not supplied by these bounded summary/rows; remain UNKNOWN.",
+    "Normal returns only with unchanged order-violation panic stub; no theorem for arbitrary types/lengths/unwind."
   ],
   "independent_review": {
     "state": "PASS",
@@ -49,8 +69,17 @@
     "proof_credit": "NONE"
   },
   "proof_credit": "NONE",
-  "next_step": "Coordinator exact-packet review/GO of published full HEAD; stop before dispatch. After GO: one diagnostic build, k1g watch BUILD, end turn.",
-  "stop_boundary": "Mandatory coordinator exact-packet PRE-BUILD gate; no build submitted, no watcher armed.",
-  "thread_cwd": "/root; preparation only; assigned worktree used for every Git/edit operation; task-specific k1g watcher after future GO.",
-  "semantic_candidate": "72c4a6fde83c659dddda4960d3cc08999efc157b"
+  "next_step": "Coordinator reviews published completed diagnostic. No further changes or Builds within this one-stage task.",
+  "stop_boundary": "Single permitted diagnostic attempt completed; result/accounting/evidence published. No retry or new phase authorized.",
+  "thread_cwd": "/root; task-specific k1g watcher delivered terminal SUCCESS to this thread; no SmallSort session watcher armed.",
+  "semantic_candidate": "72c4a6fde83c659dddda4960d3cc08999efc157b",
+  "build_head": "d3e56afbf577da0d94e82406d10e9b77c2492900",
+  "coordinator_go": {
+    "exact_head": "d3e56afbf577da0d94e82406d10e9b77c2492900",
+    "request_id": "kani3300-u4b-uninit-20261111-01",
+    "basis": "Coordinator GO in user message: exact packet d3e56afbf577da0d94e82406d10e9b77c2492900, patch46ad585f, reserve$0.567<=cap$0.60; dispatch, k1g watch, end turn."
+  },
+  "result": "RESULT-KANI3300-U4B.md",
+  "evidence_index": "EVIDENCE-INDEX.json",
+  "evidence_index_sha256": "dadcf27555b05233ccd9752e1964cf51eaa8af417bc999999f19d218ab6a22a7"
 }

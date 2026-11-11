@@ -1,0 +1,72 @@
+{
+  "build_id": "6d1690f4-c07e-4af9-a858-d97534c4db29",
+  "build_head": "d3e56afbf577da0d94e82406d10e9b77c2492900",
+  "scope": "bounded reporting receipts only; no raw evidence",
+  "assurance": "source-reported, not independent proof",
+  "files": [
+    {
+      "path": "brief-query.txt",
+      "bytes": 142,
+      "sha256": "01c05ff511d9992feb8f3fc679dd092d2d96537e3c6aca22dffef04e54eafa55"
+    },
+    {
+      "path": "build.summary.md",
+      "bytes": 5795,
+      "sha256": "2f6a246d3d56160e7a436ddde2c07b274ad50398fad337ff7a7fd7c3fa516c57"
+    },
+    {
+      "path": "build.rows.txt",
+      "bytes": 791,
+      "sha256": "d3a3d8ca5d4c3227972fa92ab0b126d5fe1aaff2f7e2eb44512e95afe661e822"
+    },
+    {
+      "path": "build.status.json",
+      "bytes": 366,
+      "sha256": "051b57c025ac6e6187419638661f5328d0c86ba20c91a2c122a9d43396aac020"
+    },
+    {
+      "path": "build.cost.txt",
+      "bytes": 16,
+      "sha256": "07865e2fc396816e0fe57c017be8eed9159a377d014f5e813b560a78da61715d"
+    },
+    {
+      "path": "build.tooling.txt",
+      "bytes": 1309,
+      "sha256": "03196706407b17189a79e981e428c1fc68b84043a7681e0ab8545fba939ae13d"
+    },
+    {
+      "path": "POST-BUILD-OBSERVATIONS.json",
+      "bytes": 3250,
+      "sha256": "b9dec8243a68d3c900e6c0fe47a1b564ca96e91690d3352fb0a7a06d89bc0508"
+    }
+  ],
+  "queries": [
+    {
+      "command": "smallsort-brief 6d1690f4-c07e-4af9-a858-d97534c4db29",
+      "exit": 1,
+      "result": "Reader report or query route unavailable HTTP404"
+    },
+    {
+      "command": "k1g.sh summary 6d1690f4-c07e-4af9-a858-d97534c4db29",
+      "exit": 0
+    },
+    {
+      "command": "k1g.sh summary 6d1690f4-c07e-4af9-a858-d97534c4db29 0 4",
+      "exit": 0,
+      "next_offset": "done"
+    },
+    {
+      "command": "k1g.sh status 6d1690f4-c07e-4af9-a858-d97534c4db29",
+      "exit": 0
+    },
+    {
+      "command": "k1g.sh budget 6d1690f4-c07e-4af9-a858-d97534c4db29",
+      "exit": 0
+    },
+    {
+      "command": "k1g.sh check-tooling 6d1690f4-c07e-4af9-a858-d97534c4db29 3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+      "exit": 0
+    }
+  ],
+  "proof_credit": "NONE"
+}

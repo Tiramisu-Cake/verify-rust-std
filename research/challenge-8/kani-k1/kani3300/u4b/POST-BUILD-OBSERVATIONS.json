@@ -1,0 +1,75 @@
+{
+  "build_id": "6d1690f4-c07e-4af9-a858-d97534c4db29",
+  "build_head": "d3e56afbf577da0d94e82406d10e9b77c2492900",
+  "request_sha256": "53a2f3ac1453787fd74f190d838352f9a819676619c66f456c6dad8c197bd1ff",
+  "source": "Task-authorized bounded k1g summary and four-row page; Cloud status and tooling/cost interfaces. Brief HTTP404, no raw fallback.",
+  "assurance": "Kani-reported bounded diagnostic, no independent general proof credit",
+  "gate": true,
+  "kani_exit": 1,
+  "rows": [
+    {
+      "row": "U9a",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_scratch_written_slot_u8_n4",
+      "status": "SUCCESS",
+      "failed_total": "0/492",
+      "covers": "3/3",
+      "unreachable": 19
+    },
+    {
+      "row": "U9b",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_scratch_unwritten_slot_only_u8_n4",
+      "status": "FAILED",
+      "failed_total": "2/503",
+      "covers": "4/4",
+      "unreachable": 19
+    },
+    {
+      "row": "U8",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4",
+      "status": "SUCCESS",
+      "failed_total": "0/572",
+      "covers": "1/1",
+      "unreachable": 19
+    },
+    {
+      "row": "U1",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "status": "FAILED",
+      "failed_total": "1/30",
+      "covers": "3/3",
+      "unreachable": 0
+    }
+  ],
+  "failed_checks": [
+    {
+      "row": "U9b",
+      "description": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+      "location": "/workspace/src/library/core/src/ptr/mod.rs:1769"
+    },
+    {
+      "row": "U9b",
+      "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "location": "/workspace/src/library/core/src/ptr/mod.rs:1769"
+    },
+    {
+      "row": "U1",
+      "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "location": "/workspace/src/library/core/src/mem/mod.rs:1283"
+    }
+  ],
+  "coverage": "four of four rows, next_offset done; three failed descriptions equal total failed checks; aggregate cover counts only",
+  "tooling": "check-tooling PASS against 3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "identity_checks": "head/request/pin/patch/applied tree match reviewed packet and expected U4 production tree",
+  "conclusion": "U9a SUCCESS: written scratch[3] adds no uninit failure in this bounded N4 harness. U9b alone reproduces both U9 failures (pointer and byte), supporting both from scratch[4] via two instrumentation points. This is split-harness diagnostic attribution, not independent MIR/call-site proof.",
+  "limitations": [
+    "Brief report unavailable HTTP404.",
+    "Literal actual argv, property IDs, per-failure columns/call sites and individual cover records not supplied by these bounded summary/rows; remain UNKNOWN.",
+    "Normal returns only with unchanged order-violation panic stub; no theorem for arbitrary types/lengths/unwind."
+  ],
+  "cost_usd": "0.1485",
+  "reserved_usd": "0.0000",
+  "cap_usd": "0.60",
+  "unused_cap_usd": "0.4515",
+  "attempts": 1,
+  "proof_credit": "NONE"
+}
