@@ -1,0 +1,58 @@
+{
+  "stage": "kani3300-u3b",
+  "slug": "kani3300",
+  "runtime": "Codex",
+  "owner": "k1-merge",
+  "status": "PRE_BUILD_BLOCKED_AWAITING_COORDINATOR",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-U3B.md",
+  "input_research_head": "538e907ad69f3c7726e39468bab9a7050f6ed5c5",
+  "branch": "experiment/kani-k1-kani3300u3-20261111",
+  "kani_candidate": "0ab9cc703aed799f6f73d826b60281a4632ab585",
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "patch_sha256": "129fa3742499ad06700e35519a711e2b555a29d6f2eedcff5b21236c7795bb4e",
+  "request_sha256": "cf447c650c10c2559e66d81f95f2d4f0dc53c0941c6090a66f12e6fbb5fa77db",
+  "claims": [
+    {
+      "claim": "test-only delta; production diff byte-equal U3 repair1",
+      "status": "STATIC_VERIFIED",
+      "evidence": "STATIC-CHECKS.json"
+    },
+    {
+      "claim": "9 selectors, exact PFC roots, on/off controls same body/contract/DFCC",
+      "status": "STATIC_VERIFIED",
+      "evidence": "STATIC-CHECKS.json"
+    },
+    {
+      "claim": "fresh patch applies and applied/candidate tree agree",
+      "status": "STATIC_VERIFIED",
+      "evidence": "PREFLIGHT-OBSERVATION.json"
+    },
+    {
+      "claim": "pinned preflight rejects diffstat4483 bytes, cap4096",
+      "status": "REPRODUCED_BLOCKER",
+      "evidence": "PREFLIGHT-OBSERVATION.json"
+    }
+  ],
+  "open": [
+    "Pinned tooling cannot accept full test patch due bounded diffstat limit; task forbids tooling changes",
+    "Exact coordinator PRE-BUILD review/GO",
+    "All native outcomes, PFC terminal causes/time/memory and on/off comparison",
+    "Post-native ready-for-review v2 / known limitation / fix classification"
+  ],
+  "rejected_approaches": [
+    "Change tooling/base without authorization",
+    "Bypass or relax diffstat gate via environment/git config",
+    "Delete or weaken preserved tests/goldens to reduce diffstat",
+    "Classify missing output as OOM",
+    "Dispatch before exact coordinator GO"
+  ],
+  "native_status": "NOT_RUN",
+  "builds": [],
+  "spend_usd": 0,
+  "reserved_usd": 0,
+  "proposed_reservation_usd": 0.54,
+  "cap_usd": 0.6,
+  "next": "Coordinator review of committed packet; separately authorize preflight reporting solution before any dispatch",
+  "closure_reason": "Explicit task stop at PRE-BUILD review; no build GO; pinned preflight blocker recorded; all independent authorized static preparation completed"
+}

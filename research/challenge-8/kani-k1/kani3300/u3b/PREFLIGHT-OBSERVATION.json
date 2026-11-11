@@ -1,0 +1,23 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "prepare-kani",
+    "--request",
+    "research/challenge-8/kani-k1/RUN-REQUEST.json",
+    "--tree",
+    "/tmp/kani3300-u3b-preflight-9pq3hqe3",
+    "--pin",
+    "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "--out",
+    "/root/verify-rust-std-kani3300-u3/research/challenge-8/kani-k1/kani3300/u3b/preflight.json"
+  ],
+  "exit_code": 2,
+  "stdout": "",
+  "stderr": "REQUEST_INVALID: patch diffstat exceeds bounded report size\n",
+  "applied_tree_after_preflight": "ef32d0009a730c26dc99e8ab828744128de69b15",
+  "diffstat_bytes": 4483,
+  "candidate_tree": "ef32d0009a730c26dc99e8ab828744128de69b15",
+  "status": "BLOCKED"
+}
