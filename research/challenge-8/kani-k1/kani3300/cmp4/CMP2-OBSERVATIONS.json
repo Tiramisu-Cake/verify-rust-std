@@ -1,0 +1,82 @@
+{
+  "variant": "cmp2",
+  "build_id": "d137507f-c7de-432a-85dc-62fa03d1adaf",
+  "head_sha": "c8967c5a44e8f95b19f31761e55313d8488faea5",
+  "request_id": "kani3300-cmp4-cmp2-20261111-01",
+  "request_sha256": "e23db232f257a8977e1d90b15260de6295da02898e612c60333fbe19c97abd51",
+  "source": "bounded k1g summary.md and four-root summary page; Cloud status, stage budget and check-tooling",
+  "assurance": "source-reported bounded diagnostic; independent B1/B2 proof credit NONE",
+  "cloud_status": "SUCCESS",
+  "summary_status": "COMPLETE",
+  "gate": true,
+  "kani_exit": 1,
+  "uninit_checks_reported": true,
+  "controls_reported": true,
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "kani_patch_sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4",
+  "applied_tree_reported": "d356238999ab436ddc1dd7ffa845b0db214aa53e",
+  "tooling_check": "PASS against KT2 3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "actual_argv": "UNKNOWN: no structured native report",
+  "actual_mir_assignment": "UNKNOWN: no structured MIR trace",
+  "brief": "exit1 HTTP404",
+  "native": "exit2: page-summary: no structured native report",
+  "stage_spend_usd": "0.2295",
+  "cmp2_spend_usd": "0.1080",
+  "spend_basis": "Two-build stage ledger 0.2295 minus clean ledger 0.1215",
+  "submitted_reserve_usd": "0.0000",
+  "attempts_used": 1,
+  "roots": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "status": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 20,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "unreachable": 0,
+      "failed_checks": []
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp4_index_range_len_runtime",
+      "status": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 26,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "unreachable": 0,
+      "failed_checks": []
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "status": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 84,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "unreachable": 0,
+      "failed_checks": []
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "status": "FAILED",
+      "checks_failed": 1,
+      "checks_total": 30,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "unreachable": 0,
+      "failed_checks": [
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "location": "/workspace/src/library/core/src/mem/mod.rs:1283"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "All three positives SUCCESS and U1 expected uninitialized u8 failure; diagnostic gate PASS does not establish formal acceptance.",
+    "U1 covers after intentional UB do not establish credit.",
+    "One description/location exhausts summary-listed failed checks; native completeness/truncation metadata unavailable.",
+    "Both ordinary IndexRange roots source-report SUCCESS in both variants; CMP3 failure not reproduced in this four-root context.",
+    "Pin/request/head/patch/applied-tree/tooling are bounded source-reported bindings; actual argv and MIR contrast unavailable."
+  ]
+}

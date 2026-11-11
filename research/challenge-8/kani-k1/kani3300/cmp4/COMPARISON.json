@@ -1,0 +1,131 @@
+{
+  "stage": "kani3300-cmp4",
+  "status": "COMPLETE_DIAGNOSTIC",
+  "literal_classification": "UNRESOLVED: SUCCESS on both clean and CMP2; previous CMP3 failure not reproduced",
+  "const_vs_runtime": "Both SUCCESS on both variants; actual MIR assignment difference UNKNOWN",
+  "roots": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "clean": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "status": "SUCCESS",
+        "checks_failed": 0,
+        "checks_total": 20,
+        "covers_satisfied": 1,
+        "covers_total": 1,
+        "unreachable": 0,
+        "failed_checks": []
+      },
+      "cmp2": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "status": "SUCCESS",
+        "checks_failed": 0,
+        "checks_total": 20,
+        "covers_satisfied": 1,
+        "covers_total": 1,
+        "unreachable": 0,
+        "failed_checks": []
+      }
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp4_index_range_len_runtime",
+      "clean": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp4_index_range_len_runtime",
+        "status": "SUCCESS",
+        "checks_failed": 0,
+        "checks_total": 26,
+        "covers_satisfied": 1,
+        "covers_total": 1,
+        "unreachable": 0,
+        "failed_checks": []
+      },
+      "cmp2": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp4_index_range_len_runtime",
+        "status": "SUCCESS",
+        "checks_failed": 0,
+        "checks_total": 26,
+        "covers_satisfied": 1,
+        "covers_total": 1,
+        "unreachable": 0,
+        "failed_checks": []
+      }
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "clean": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "status": "FAILED",
+        "checks_failed": 1,
+        "checks_total": 27,
+        "covers_satisfied": 0,
+        "covers_total": 2,
+        "unreachable": 1,
+        "failed_checks": [
+          {
+            "description": "Checking memory initialization of type [mem::maybe_uninit::MaybeUninit<usize>; 2] is not supported. Cannot determine layout for a type that contains union of type mem::maybe_uninit::MaybeUninit<usize> as a field.",
+            "location": "/workspace/src/library/core/src/array/iter/iter_inner.rs:48"
+          }
+        ]
+      },
+      "cmp2": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "status": "SUCCESS",
+        "checks_failed": 0,
+        "checks_total": 84,
+        "covers_satisfied": 2,
+        "covers_total": 2,
+        "unreachable": 0,
+        "failed_checks": []
+      }
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "clean": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+        "status": "FAILED",
+        "checks_failed": 1,
+        "checks_total": 31,
+        "covers_satisfied": 3,
+        "covers_total": 3,
+        "unreachable": 3,
+        "failed_checks": [
+          {
+            "description": "Transmuting between types of incompatible layouts.",
+            "location": "/workspace/src/library/core/src/mem/mod.rs:1283"
+          }
+        ]
+      },
+      "cmp2": {
+        "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+        "status": "FAILED",
+        "checks_failed": 1,
+        "checks_total": 30,
+        "covers_satisfied": 3,
+        "covers_total": 3,
+        "unreachable": 0,
+        "failed_checks": [
+          {
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+            "location": "/workspace/src/library/core/src/mem/mod.rs:1283"
+          }
+        ]
+      }
+    }
+  ],
+  "bindings": {
+    "library_identical": true,
+    "roots_identical": true,
+    "expectations_identical": true,
+    "flags_identical": true,
+    "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+    "clean_observations_sha256": "9d9b9cd33da29ca1c03dd39dfd330edd29a64e1d526be90b0208aa1b3c2b1667",
+    "cmp2_observations_sha256": "b909f5269f99aad32bc01b0e90800dfa847d575fd8f9dafc713f82b96128dd45"
+  },
+  "interpretation": "Neither a pre-existing IndexRange failure nor a CMP2 IndexRange regression is established by this paired fixture. Old CMP3 failure remains historical evidence and is not erased by current SUCCESS.",
+  "next_step": "Separately authorized bounded nonmutating trace comparing original nine-root CMP3 and current four-root contexts; obtain actual MIR/place/instance, relevance/points-to, object+offset and Set/Copy/Get ordering before any constant-assignment repair.",
+  "spend_usd": "0.2295",
+  "reserved_usd": "0.0000",
+  "attempts_used": 2,
+  "attempts_allowed": 2,
+  "proof_credit": "NONE"
+}

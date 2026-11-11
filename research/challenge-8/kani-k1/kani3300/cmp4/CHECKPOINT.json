@@ -1,6 +1,6 @@
 {
   "stage": "kani3300-cmp4",
-  "state": "CLEAN_COMPLETE_CMP2_PREPARED_AWAITING_COORDINATOR_GO",
+  "state": "COMPLETE_DIAGNOSTIC_COMPARISON_UNRESOLVED",
   "runtime": "Codex",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-CMP4.md",
   "worktree": "/root/verify-rust-std-kani3300-cmp4",
@@ -26,19 +26,27 @@
     "cmp2": {
       "path": "research/challenge-8/kani-k1/kani3300/cmp4/cmp2/RUN-REQUEST.json",
       "sha256": "e23db232f257a8977e1d90b15260de6295da02898e612c60333fbe19c97abd51",
-      "cloud": "NOT_RUN",
+      "cloud": "SUCCESS",
       "attempts_allowed": 1,
-      "attempts_used": 0
+      "attempts_used": 1,
+      "summary_status": "COMPLETE",
+      "gate": true,
+      "kani_exit": 1,
+      "build_id": "d137507f-c7de-432a-85dc-62fa03d1adaf",
+      "dispatch_head": "c8967c5a44e8f95b19f31761e55313d8488faea5",
+      "spend_usd": "0.1080",
+      "evidence": "CMP2-EVIDENCE-INDEX.json",
+      "observations": "CMP2-OBSERVATIONS.json"
     }
   },
   "cloud": {
     "cap_usd": "1.20",
     "planned_reserve_each_usd": "0.5670",
     "planned_total_usd": "1.1340",
-    "spend_usd": "0.1215",
+    "spend_usd": "0.2295",
     "submitted_reserve_usd": "0.0000",
-    "next_cmp2_reserve_usd": "0.5670",
-    "spent_plus_next_reserve_usd": "0.6885"
+    "attempts_used": 2,
+    "attempts_allowed": 2
   },
   "claims": [
     {
@@ -50,17 +58,22 @@
       "claim": "Clean f046: literal and runtime IndexRange roots SUCCESS (0/20,0/26; each cover1/1); ManuallyDrop FAILED on unsupported MaybeUninit layout; U1 FAILED on incompatible layouts and did not satisfy requested uninit control.",
       "assurance": "source-reported bounded diagnostic; no independent proof credit",
       "reference": "CLEAN-OBSERVATIONS.json"
+    },
+    {
+      "claim": "CMP2 three positives SUCCESS, U1 expected uninitialized u8 FAILED; both direct IndexRange roots SUCCESS on clean and CMP2; original CMP3 failure not reproduced here.",
+      "assurance": "source-reported bounded diagnostic; independent proof credit NONE",
+      "reference": "COMPARISON.json"
     }
   ],
   "open": [
-    "Paired CMP2 run NOT_RUN; fresh differential comparison unresolved.",
-    "Actual MIR assignment, native argv and actual clean applied tree UNKNOWN; native report unavailable, Brief HTTP404.",
-    "Clean U1 incompatible-layout failure does not meet expected uninitialized-read control; no credit from its 3/3 covers.",
-    "Separate exact-packet coordinator GO required for CMP2; only one remaining attempt, no retries."
+    "Original CMP3 IndexRange failure remains unresolved and was not reproduced in CMP4 four-root context.",
+    "Actual MIR assignment/contrast, relevance/points-to/object identity and transfer/Get ordering UNKNOWN; no justification for constant-assign fix yet.",
+    "Native reports unavailable and Brief HTTP404 on both builds; actual argv and clean applied-tree binding UNKNOWN.",
+    "Clean unsupported ManuallyDrop and incompatible-layout U1 do not establish positive/uninit control acceptance; current CMP2 diagnostic PASS is not KANI3300/upstream acceptance."
   ],
   "proof_credit": "NONE",
-  "next_step": "Publish exact CMP2 activation packet, PRE-BUILD REVIEW and stop until coordinator GO. After GO dispatch once, k1g watch and end turn.",
-  "stop_boundary": "Each Build requires a separate exact-head PRE-BUILD review/GO. No retries or production repair.",
+  "next_step": "Separately authorized bounded nonmutating trace comparing original nine-root CMP3 and current four-root contexts; obtain actual MIR/place/instance, relevance/points-to, object+offset and Set/Copy/Get ordering before any constant-assignment repair.",
+  "stop_boundary": "Both authorized diagnostic Builds completed (one per variant, no retries); single stage complete. No source repair, extra Build or next stage authorized.",
   "semantic_candidate": "c39f73c8ef6a2077669d19c6a80a53ffa0751046",
   "independent_review": {
     "state": "PASS",
@@ -73,5 +86,8 @@
     "receipt": "INDEPENDENT-REVIEW.md",
     "receipt_sha256": "daa040f8f293634971d165937eb576edd0317ad02c24c6b2d1f0f2742d3e8b96",
     "proof_credit": "NONE"
-  }
+  },
+  "result": "RESULT-KANI3300-CMP4.md",
+  "comparison": "COMPARISON.json",
+  "closure_reason": "Task explicitly limited to two diagnostic Builds and one stage; both attempts completed. No additional experiments or fixes within CMP4."
 }

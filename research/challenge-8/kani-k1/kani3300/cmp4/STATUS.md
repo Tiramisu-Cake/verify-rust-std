@@ -1,9 +1,9 @@
-# KANI3300 CMP4
+# KANI3300 CMP4 — завершён
 
-CLEAN_COMPLETE_CMP2_PREPARED_AWAITING_COORDINATOR_GO.
-Clean a7061950-0ce5-4776-8d65-fdd686526dd1: FAILURE/COMPLETE, gate FAIL; literal/runtime IndexRange SUCCESS.
-ManuallyDrop unsupported layout; U1 incompatible-layout failure, requested uninit control not established.
-CMP2 active request prepared, NOT_RUN; independent review covers both unchanged variants.
-Spent $0.1215 + next reserve $0.5670 = $0.6885 / cap $1.20; clean1/1, CMP2 0/1 attempts used.
-MIR/actual argv UNKNOWN; source-reported diagnostics only; proof credit NONE.
-See CHECKPOINT.json, CLEAN-OBSERVATIONS.json and PRE-BUILD-cmp2.md.
+COMPLETE_DIAGNOSTIC_COMPARISON_UNRESOLVED.
+Clean a7061950: FAILURE/COMPLETE, gate FAIL; CMP2 d137507f: SUCCESS/COMPLETE, gate PASS.
+Literal/runtime IndexRange SUCCESS in both; original CMP3 failure not reproduced, classification unresolved.
+Clean ManuallyDrop unsupported; U1 incompatible layouts. CMP2 ManuallyDrop SUCCESS; U1 expected uninit FAILED.
+Actual MIR/argv UNKNOWN; source-reported bounded diagnostics, independent B1/B2 credit NONE.
+Spend $0.2295 / cap $1.20; reserve $0, attempts2/2 used; no retries or source repair.
+See RESULT-KANI3300-CMP4.md, COMPARISON.json and CHECKPOINT.json. One stage complete; stop.
