@@ -32,7 +32,7 @@ REQUEST = {
 
 def sidecar(directory: Path, request_text: str, *, state="COMPLETE", stage=dt.STAGE,
             trace_id=None, records=None, footer=True, omitted=0, seen=None,
-            bytes_before_footer=None, context=None):
+            bytes_before_footer=None, context=None, omission_counts=None):
     trace_id = trace_id or hashlib.sha256(request_text.encode()).hexdigest()
     invocation = "compiler-1"
     events = records if records is not None else [{"kind": "mir", "data": {"target": "IndexRange::len"}}]
@@ -54,7 +54,8 @@ def sidecar(directory: Path, request_text: str, *, state="COMPLETE", stage=dt.ST
                               "emitted_records": len(events), "omitted_records": omitted,
                               "bytes_before_footer": prefix_bytes if bytes_before_footer is None else bytes_before_footer,
                               "coverage": {"mir": len(events)},
-                              "omission_counts": ({"synthetic": omitted} if omitted else {})}})
+                              "omission_counts": (omission_counts if omission_counts is not None
+                                                  else ({"record_cap": omitted} if omitted else {}))}})
     if context is not None:
         rows[-1]["context"] = context
     (directory / "kani3300-trace-1-0.jsonl").write_text("".join(json.dumps(r, separators=(",", ":")) + "\n" for r in rows))
@@ -257,6 +258,42 @@ class DiagnosticTraceTests(unittest.TestCase):
                                                                 "tree": APPLIED, "version": "kani test"}))
         self.assertNotEqual(summary["status"], "INVALID")
 
+    def test_mixed_omission_units_preserve_partial_and_record_accounting(self):
+        raw = json.dumps(REQUEST, separators=(",", ":"))
+        mixed = {"record_cap": 3, "oversized_records": 2, "mir_excerpt_bytes": 4096,
+                 "mir_selected_lines": 7, "external_witness_cap": 18,
+                 "external_cache_witness_cap": 9, "clipped_text_bytes": 29,
+                 "truncated_debug_fields": 2, "selected_ops_payload": 4}
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp)
+            for state, omitted, counts, expected in (
+                    ("PARTIAL", 5, mixed, "PARTIAL"),
+                    ("OVERSIZED", 5, mixed, "OVERSIZED"),
+                    ("PARTIAL", 0, {"mir_excerpt_bytes": 4096}, "PARTIAL"),
+                    ("COMPLETE", 0, {"mir_excerpt_bytes": 4096}, "INVALID"),
+                    ("PARTIAL", 4, mixed, "INVALID"),
+                    ("PARTIAL", 5, {"record_cap": 5, "mir_excerpt_bytes": -1}, "INVALID"),
+                    ("PARTIAL", 0, {"mir_selected_lines": None}, "INVALID"),
+                    ("PARTIAL", 0, {"mir_selected_lines": True}, "INVALID"),
+                    ("PARTIAL", 0, [], "INVALID")):
+                with self.subTest(state=state, omitted=omitted, counts=counts):
+                    sidecar(directory, raw, state=state, omitted=omitted, omission_counts=counts)
+                    result = collect(directory, raw)
+                    self.assertEqual(result["state"], expected, result)
+                    if expected in ("PARTIAL", "OVERSIZED"):
+                        self.assertEqual((result["seen"], result["emitted"], result["omitted"]),
+                                         (1 + omitted, 1, omitted))
+                        self.assertFalse(result["complete"])
+                        self.assertEqual(result["coverage"][0]["omission_counts"], counts)
+                        self.assertEqual(result["records"][0]["kind"], "mir")
+                        summary = {"run": {"id": "build-1"}, "head_sha": "f" * 40,
+                                   "request_sha256": hashlib.sha256(raw.encode()).hexdigest(),
+                                   "kani_commit": PIN, "kani_build": {"patch": REQUEST["kani_patch"], "tree": APPLIED},
+                                   "tooling_sha256": result["identity"]["tooling_sha256"], "diagnostic_trace": result}
+                        page = json.loads(dt.trace_field_page(summary, "records", 0, 20, "build-1"))
+                        self.assertEqual(page["records"], result["records"])
+                        self.assertFalse(page["trace_complete"])
+
     def test_record_and_page_byte_caps(self):
         raw = json.dumps(REQUEST, separators=(",", ":"))
         with tempfile.TemporaryDirectory() as tmp:
@@ -327,7 +364,7 @@ esac
             run_script.write_text(f'''#!/bin/bash
 set -eu
 printf '%s\\n' "${{KANI3300_TRACE_DIR-UNSET}}" "${{KANI3300_TRACE_FILTER-UNSET}}" "${{KANI3300_TRACE_ID-UNSET}}" "${{KANI3300_TRACE_STAGE-UNSET}}" > "{capture}"
-if [ -n "${{KANI3300_TRACE_DIR:-}}" ] && [ "{producer}" = valid ]; then
+if [ -n "${{KANI3300_TRACE_DIR:-}}" ] && [[ "{producer}" = valid || "{producer}" = mixed || "{producer}" = bad_counts ]]; then
 python3 - "$KANI3300_TRACE_DIR" "$KANI3300_TRACE_ID" "$KANI3300_TRACE_STAGE" "$KANI3300_TRACE_FILTER" <<'PY'
 import json,sys
 from pathlib import Path
@@ -336,6 +373,11 @@ rows=[{{"schema":"kani3300-trace-v1","kind":"header","trace_id":tid,"stage":stag
 {{"schema":"kani3300-trace-v1","kind":"mir","trace_id":tid,"stage":stage,"invocation":inv,"seq":1,"data":{{"target":"IndexRange::len"}}}}]
 prefix=sum(len(json.dumps(r,separators=(',',':')).encode())+1 for r in rows)
 rows.append({{"schema":"kani3300-trace-v1","kind":"footer","trace_id":tid,"stage":stage,"invocation":inv,"seq":2,"data":{{"state":"COMPLETE","seen_records":1,"emitted_records":1,"omitted_records":0,"bytes_before_footer":prefix,"coverage":{{"mir":1}},"omission_counts":{{}}}}}})
+if "{producer}" in ("mixed", "bad_counts"):
+    rows[-1]['data'].update(state='PARTIAL',seen_records=3,omitted_records=2,
+                           omission_counts={{'record_cap':2,'mir_excerpt_bytes':4096,'mir_selected_lines':7}})
+    if "{producer}" == "bad_counts":
+        rows[-1]['data']['omission_counts']['record_cap']=1
 (d/'kani3300-trace-1-0.jsonl').write_text(''.join(json.dumps(r,separators=(',',':'))+'\\n' for r in rows))
 PY
 elif [ -n "${{KANI3300_TRACE_DIR:-}}" ] && [ "{producer}" = oversized ]; then
@@ -414,6 +456,19 @@ exit 0
         self.assertEqual(optout_env, ["UNSET"] * 4)
         self.assertNotIn("diagnostic_trace", optout)
         self.assertEqual(optout["kani_exit_code"], 0)
+
+    def test_gcb_service_mixed_omissions_and_bad_record_counts_keep_original_exits(self):
+        partial, _, _ = self.service_run(traced=True, result="fail", producer="mixed")
+        self.assertEqual(partial["status"], "COMPLETE")
+        self.assertEqual(partial["kani_exit_code"], 1)
+        trace = partial["diagnostic_trace"]
+        self.assertEqual(trace["state"], "PARTIAL", trace)
+        self.assertEqual((trace["seen"], trace["emitted"], trace["omitted"]), (3, 1, 2))
+        self.assertFalse(trace["complete"])
+        bad, _, _ = self.service_run(traced=True, result="ok", producer="bad_counts")
+        self.assertEqual(bad["status"], "COMPLETE")
+        self.assertEqual(bad["kani_exit_code"], 0)
+        self.assertEqual(bad["diagnostic_trace"]["state"], "INVALID")
 
     def test_producer_overflow_sentinel(self):
         raw = json.dumps(REQUEST, separators=(",", ":"))

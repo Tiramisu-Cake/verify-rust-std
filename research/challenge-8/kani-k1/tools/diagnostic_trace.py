@@ -436,7 +436,9 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
             if (not isinstance(coverage, dict) or any(type(v) is not int or v < 0 for v in coverage.values())
                     or sum(coverage.values()) != emitted or not isinstance(omission_counts, dict)
                     or any(type(v) is not int or v < 0 for v in omission_counts.values())
-                    or sum(omission_counts.values()) != omitted):
+                    # The producer also counts clipped bytes, lines and witness payloads here.
+                    # Only these two categories count serialized records omitted by write_record.
+                    or sum(omission_counts.get(k, 0) for k in ("record_cap", "oversized_records")) != omitted):
                 raise ValueError("footer coverage does not bind emitted event count")
             if (fdata["state"] == "COMPLETE" and
                     (omitted != 0 or seen != emitted or bool(omission_counts) or _coverage_incomplete(coverage))):
