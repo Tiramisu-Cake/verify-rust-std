@@ -459,6 +459,42 @@ exit 0
             self.assertEqual(page["records"], payload["diagnostic_trace"]["records"][:1])
             self.assertEqual(page["next_start"], 1)
             self.assertEqual(page["omitted"], 1)
+            trace["state"] = "INVALID"
+            trace["errors"] = ["synthetic rejected sidecar"]
+            (summary_dir / "summary.json").write_text(json.dumps(payload))
+            metadata = subprocess.run(
+                ["bash", str(ROOT / "k1g.sh"), "trace-field", build, "validation.errors", "0", "1"],
+                cwd=root, env=env, capture_output=True, text=True, timeout=10)
+            self.assertEqual(metadata.returncode, 0, metadata.stderr)
+            self.assertEqual(json.loads(metadata.stdout)["records"], trace["errors"])
+            for field in ("records", "validation.records", "validation.identity.build_id", "validation.unknown"):
+                denied = subprocess.run(
+                    ["bash", str(ROOT / "k1g.sh"), "trace-field", build, field, "0", "1"],
+                    cwd=root, env=env, capture_output=True, text=True, timeout=10)
+                self.assertNotEqual(denied.returncode, 0, field)
+            # Invalid diagnostic metadata must remain bounded and identity-bound.
+            trace["errors"] = [f"error {i}" for i in range(25)]
+            (summary_dir / "summary.json").write_text(json.dumps(payload))
+            paged = subprocess.run(
+                ["bash", str(ROOT / "k1g.sh"), "trace-field", build, "validation.errors", "0", "20"],
+                cwd=root, env=env, capture_output=True, text=True, timeout=10)
+            self.assertEqual(paged.returncode, 0, paged.stderr)
+            self.assertEqual(json.loads(paged.stdout)["next_start"], 20)
+            self.assertLessEqual(len(paged.stdout.encode()), dt.MAX_PAGE_BYTES)
+            mutations = [
+                lambda s: s["diagnostic_trace"]["source_identity"].update(trace_id="0" * 64),
+                lambda s: s["diagnostic_trace"]["source_identity"].update(stage="wrong"),
+                lambda s: s["diagnostic_trace"]["identity"].update(applied_tree="0" * 40),
+                lambda s: s["diagnostic_trace"]["identity"].update(env_sha256="0" * 64),
+                lambda s: s["diagnostic_trace"].update(emitted=123),
+            ]
+            for mutate in mutations:
+                changed = copy.deepcopy(payload); mutate(changed)
+                with self.assertRaises(ValueError):
+                    dt.trace_field_page(changed, "validation.errors", 0, 20, build)
+            trace["errors"] = ["x" * dt.MAX_PAGE_BYTES]
+            with self.assertRaisesRegex(ValueError, "12000-byte"):
+                dt.trace_field_page(payload, "validation.errors", 0, 20, build)
             payload["run"]["id"] = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
             (summary_dir / "summary.json").write_text(json.dumps(payload))
             bad = subprocess.run(["bash", str(ROOT / "k1g.sh"), "trace-field", build, "records", "0", "1"],

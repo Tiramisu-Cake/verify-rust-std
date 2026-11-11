@@ -64,7 +64,7 @@ def _validate_context(value: Any) -> None:
         raise ValueError("trace context unit must be null or a non-negative integer")
 
 
-def validate_trace_page_identity(summary: dict[str, Any]) -> dict[str, Any]:
+def _validate_trace_identity_envelope(summary: dict[str, Any]) -> dict[str, Any]:
     """Validate source, request, and target identities before exposing any trace page."""
     trace = summary.get("diagnostic_trace")
     if not isinstance(trace, dict):
@@ -177,7 +177,12 @@ def validate_trace_page_identity(summary: dict[str, Any]) -> dict[str, Any]:
                                 or any(type(v) is not int or v != 0 for v in item["omission_counts"].values())
                                 for item in coverage)):
             raise ValueError("diagnostic trace coverage summary incomplete")
-    if state == "INVALID":
+    return identity
+
+
+def validate_trace_page_identity(summary: dict[str, Any]) -> dict[str, Any]:
+    identity = _validate_trace_identity_envelope(summary)
+    if summary["diagnostic_trace"].get("state") == "INVALID":
         raise ValueError("diagnostic trace state INVALID; pages withheld")
     return identity
 
@@ -487,13 +492,26 @@ def trace_field_page(summary: dict[str, Any], path: str, start: int, count: int,
     actual_build_id = (summary.get("run") or {}).get("id")
     if expected_build_id is not None and actual_build_id != expected_build_id:
         raise ValueError("summary/build identity mismatch")
-    validate_trace_page_identity(summary)
     if not path or any(not part for part in path.split(".")):
         raise ValueError("path must be a nonempty dotted diagnostic_trace field")
+    # Validation metadata can explain a rejected sidecar, but never expose its payload.
+    # Retain every source/request/invocation identity check and the existing payload guard.
+    validation_fields = {"state", "complete", "errors", "seen", "emitted", "omitted",
+                         "omitted_bytes", "sidecar_bytes", "sidecars", "coverage", "invocations",
+                         "identity", "source_identity"}
+    if path.startswith("validation."):
+        parts = path.split(".")
+        if len(parts) != 2 or parts[1] not in validation_fields:
+            raise ValueError("unknown trace validation metadata field")
+        _validate_trace_identity_envelope(summary)
+        field_path = parts[1]
+    else:
+        validate_trace_page_identity(summary)
+        field_path = path
     if type(start) is not int or start < 0 or type(count) is not int or not 1 <= count <= MAX_PAGE_RECORDS:
         raise ValueError("start must be nonnegative and count must be 1..20")
     value: Any = summary["diagnostic_trace"]
-    for part in path.split("."):
+    for part in field_path.split("."):
         if isinstance(value, dict) and part in value:
             value = value[part]
         else:
