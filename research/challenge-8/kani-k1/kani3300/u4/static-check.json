@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "checks": {
+    "root_request_matches_snapshot": true,
+    "request_digest": true,
+    "patch_digest": true,
+    "exact_five_rows_preserved": true,
+    "settings": true,
+    "entire_library_equals_u2": true,
+    "all_lane_paths_equal_KT2": true,
+    "kani_pin": true,
+    "toolchain": true,
+    "production_paths_only": true,
+    "cmp2_build_patch_digest": true,
+    "cmp2_production_sections_byte_equal": true,
+    "diffstat_bounded": true,
+    "reserve": true,
+    "generated_uninit_flag": true,
+    "generated_timeout": true,
+    "whitespace": true
+  },
+  "unit_tests": {
+    "command": "python3 -B -m unittest discover -s research/challenge-8/kani-k1/tools -p 'test_*.py'",
+    "count": 117,
+    "result": "OK",
+    "wall_s": 58.628
+  },
+  "proof_credit": "NONE",
+  "cloud": "NOT_RUN",
+  "actual_argv": "UNCONFIRMED: generated args are intent only"
+}

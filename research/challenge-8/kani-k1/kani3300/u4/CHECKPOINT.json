@@ -1,0 +1,51 @@
+{
+  "stage": "kani3300-u4",
+  "state": "PREPARED_WAITING_NATIVE_CMP2_AND_EXACT_PACKET_GO",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-U4.md",
+  "runtime": "Codex",
+  "branch": "experiment/kani-k1-kani3300u4-20261111",
+  "base": "7b4502fedfc5b0630561da91d01bf192e5cf04bf",
+  "request_id": "kani3300-u4-uninit-20261111-01",
+  "request_sha256": "778b2ef2a1f148dd8c8e3e7b98f3da8cf99c7b48a805ef2cde38a6c9f21cf381",
+  "kani_candidate": "b1f0105c0390fb55081e3d186fa286d23867b585",
+  "kani_patch_sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4",
+  "expected_applied_tree": "d356238999ab436ddc1dd7ffa845b0db214aa53e",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "cloud": {
+    "status": "NOT_RUN",
+    "build_id": null,
+    "spend_usd": "0",
+    "submitted_reserve_usd": "0",
+    "planned_reserve_usd": "0.6075",
+    "cap_usd": "0.80"
+  },
+  "claims": [
+    {
+      "claim": "Entire library and all nine harnesses unchanged from U2; selected five request rows unchanged.",
+      "assurance": "static",
+      "reference": "static-check.json"
+    },
+    {
+      "claim": "Eight production sections byte-equal immutable CMP2 build patch; no Kani tests in U4 patch.",
+      "assurance": "static",
+      "reference": "PATCH-BINDING.json; static-check.json"
+    },
+    {
+      "claim": "All protected lane paths equal KT2; 117 Python tests pass.",
+      "assurance": "static and local synthetic service tests only",
+      "reference": "static-check.json"
+    }
+  ],
+  "open": [
+    "Native CMP2 acceptance pending; exact candidate must match accepted CMP2 RESULT. Any repair requires rebinding and review of delta.",
+    "Coordinator exact-packet GO is mandatory before a single U4 dispatch.",
+    "Actual U4 applied tree, argv, five statuses, failure counts/locations and individual covers NOT_RUN.",
+    "Thread cwd is /root; no watcher started. Later build runtime must satisfy watcher entry requirements."
+  ],
+  "independent_review": {
+    "state": "PENDING"
+  },
+  "proof_credit": "NONE",
+  "next_step": "Independent integration review, publish packet, PRE-BUILD REVIEW full SHA then stop; no build until native CMP2 PASS and exact GO.",
+  "stop_boundary": "Explicit kickoff requires preparation only and final PRE-BUILD REVIEW marker. No dispatch/phase activation/reservation permitted now."
+}
