@@ -235,7 +235,7 @@ index ad43d69..8f30704 100644
  
          (changed || instrumentation_added, body)
 diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
-index 84b0e70..3685daf 100644
+index 84b0e70..7f752c2 100644
 --- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
 +++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
 @@ -9,12 +9,17 @@
@@ -307,7 +307,7 @@ index 84b0e70..3685daf 100644
              locals: vec![],
              targets: vec![],
              current_target: InitRelevantInstruction {
-@@ -94,9 +102,247 @@ pub fn new() -> Self {
+@@ -94,9 +102,265 @@ pub fn new() -> Self {
      fn push_target(&mut self, source_op: MemoryInitOp) {
          self.current_target.push_operation(source_op);
      }
@@ -396,6 +396,24 @@ index 84b0e70..3685daf 100644
 +                            .repeat(len.eval_target_usize().unwrap().try_into().unwrap()),
 +                        position: InsertPosition::After,
 +                    });
++                } else if place.projection.is_empty()
++                    && let Operand::Copy(source) | Operand::Move(source) = operand
++                    && source.projection.is_empty()
++                    && source.local != place.local
++                {
++                    // MIR may hold a const constructor result in a local before repeating it.
++                    // Copy its byte state to each slot using the array's static element stride.
++                    let TyKind::RigidTy(RigidTy::Array(_, len)) = ty.kind() else { unreachable!() };
++                    let len = len.eval_target_usize().unwrap();
++                    for index in 0..len {
++                        let mut element = place.clone();
++                        element.projection.push(ProjectionElem::ConstantIndex {
++                            offset: index,
++                            min_length: len,
++                            from_end: false,
++                        });
++                        self.assign_storage_operand(&element, operand);
++                    }
 +                } else {
 +                    self.unsupported_storage_assignment();
 +                }
@@ -556,7 +574,7 @@ index 84b0e70..3685daf 100644
      fn visit_statement(&mut self, stmt: &Statement, location: Location) {
          // Leave it as an exhaustive match to be notified when a new kind is added.
          match &stmt.kind {
-@@ -114,112 +360,30 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+@@ -114,112 +378,30 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
                  // First check rvalue.
                  self.visit_rvalue(rvalue, location);
  
@@ -684,7 +702,7 @@ index 84b0e70..3685daf 100644
                  }
              }
              StatementKind::FakeRead(_, _)
-@@ -270,6 +434,21 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+@@ -270,6 +452,21 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
                          return;
                      }
                  };
@@ -706,7 +724,7 @@ index 84b0e70..3685daf 100644
                  match instance.kind {
                      InstanceKind::Intrinsic => {
                          match Intrinsic::from_instance(&instance) {
-@@ -323,6 +502,17 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+@@ -323,6 +520,17 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
                                      count: args[2].clone(),
                                  });
                              }
@@ -724,7 +742,7 @@ index 84b0e70..3685daf 100644
                              Intrinsic::TypedSwap => {
                                  self.push_target(MemoryInitOp::Check { operand: args[0].clone() });
                                  self.push_target(MemoryInitOp::Check { operand: args[1].clone() });
-@@ -384,7 +574,9 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+@@ -384,7 +592,9 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
                              let union_args: Vec<_> = args
                                  .iter()
                                  .enumerate()
@@ -735,7 +753,7 @@ index 84b0e70..3685daf 100644
                                  .collect();
                              if !union_args.is_empty() {
                                  for (idx, operand) in union_args {
-@@ -431,11 +623,21 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+@@ -431,11 +641,21 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
                      });
                  }
              }
@@ -758,7 +776,7 @@ index 84b0e70..3685daf 100644
              | TerminatorKind::Unreachable
              | TerminatorKind::Assert { .. }
              | TerminatorKind::InlineAsm { .. } => self.super_terminator(term, location),
-@@ -458,12 +660,11 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+@@ -458,12 +678,11 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
                      }
                  }
                  ProjectionElem::Field(_, _) => {
@@ -776,7 +794,7 @@ index 84b0e70..3685daf 100644
                              // We do not currently support having a deref projection in the same
                              // place as union field access.
                              self.push_target(MemoryInitOp::Unsupported {
-@@ -509,6 +710,31 @@ fn visit_operand(&mut self, operand: &Operand, location: Location) {
+@@ -509,6 +728,31 @@ fn visit_operand(&mut self, operand: &Operand, location: Location) {
      }
  
      fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
@@ -808,7 +826,7 @@ index 84b0e70..3685daf 100644
          if let Rvalue::Cast(cast_kind, operand, ty) = rvalue {
              match cast_kind {
                  CastKind::PointerCoercion(PointerCoercion::Unsize) => {
-@@ -522,7 +748,9 @@ fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
+@@ -522,7 +766,9 @@ fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
                  }
                  CastKind::Transmute => {
                      let operand_ty = operand.ty(&self.locals).unwrap();
@@ -1108,17 +1126,17 @@ index 0000000..7938a24
 +}
 diff --git a/tests/expected/uninit/maybe-uninit-initialized/expected b/tests/expected/uninit/maybe-uninit-initialized/expected
 new file mode 100644
-index 0000000..6a30f2d
+index 0000000..1752ef5
 --- /dev/null
 +++ b/tests/expected/uninit/maybe-uninit-initialized/expected
 @@ -0,0 +1 @@
-+Complete - 6 successfully verified harnesses, 0 failures, 6 total.
++Complete - 8 successfully verified harnesses, 0 failures, 8 total.
 diff --git a/tests/expected/uninit/maybe-uninit-initialized/main.rs b/tests/expected/uninit/maybe-uninit-initialized/main.rs
 new file mode 100644
-index 0000000..858da71
+index 0000000..cebd44c
 --- /dev/null
 +++ b/tests/expected/uninit/maybe-uninit-initialized/main.rs
-@@ -0,0 +1,86 @@
+@@ -0,0 +1,103 @@
 +// Copyright Kani Contributors
 +// SPDX-License-Identifier: Apache-2.0 OR MIT
 +// compile-flags: --edition 2021
@@ -1204,6 +1222,23 @@ index 0000000..858da71
 +        data.add(3).write(4);
 +        assert_eq!(slot.assume_init(), [1, 2, 3, 4]);
 +    }
++}
++
++#[kani::proof]
++fn volatile_read_after_write() {
++    let value: u8 = kani::any();
++    let mut slot = MaybeUninit::<u8>::uninit();
++    slot.write(value);
++    assert_eq!(unsafe { ptr::read_volatile(slot.as_ptr()) }, value);
++}
++
++#[kani::proof]
++fn pointer_valued_slot_as_used_by_select_unpredictable() {
++    let value: u8 = kani::any();
++    let pointer = ptr::addr_of!(value);
++    let slot = MaybeUninit::new(pointer);
++    let selected = unsafe { slot.assume_init() };
++    assert_eq!(unsafe { *selected }, value);
 +}
 diff --git a/tests/expected/uninit/maybe-uninit-partial-copy/expected b/tests/expected/uninit/maybe-uninit-partial-copy/expected
 new file mode 100644
@@ -1390,6 +1425,68 @@ index 0000000..15808b4
 +        assert_eq!(ManuallyDrop::into_inner(wrapped), 7);
 +    }
 +}
+diff --git a/tests/expected/uninit/maybe-uninit-scratch-array-unwritten/expected b/tests/expected/uninit/maybe-uninit-scratch-array-unwritten/expected
+new file mode 100644
+index 0000000..2d3af3f
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-scratch-array-unwritten/expected
+@@ -0,0 +1,4 @@
++Checking harness scratch_array_unwritten_neighbor...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-scratch-array-unwritten/main.rs b/tests/expected/uninit/maybe-uninit-scratch-array-unwritten/main.rs
+new file mode 100644
+index 0000000..70f2165
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-scratch-array-unwritten/main.rs
+@@ -0,0 +1,17 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::MaybeUninit;
++
++#[kani::proof]
++fn scratch_array_unwritten_neighbor() {
++    let value: u8 = kani::any();
++    let mut scratch = [MaybeUninit::<u8>::uninit(); 20];
++    scratch[0].write(value);
++    assert_eq!(unsafe { scratch[0].assume_init() }, value);
++    // Intentionally read the neighboring slot, which has never been written.
++    let got = unsafe { scratch[1].assume_init() };
++    assert_eq!(got, value);
++}
+diff --git a/tests/expected/uninit/maybe-uninit-scratch-array/expected b/tests/expected/uninit/maybe-uninit-scratch-array/expected
+new file mode 100644
+index 0000000..01a90d5
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-scratch-array/expected
+@@ -0,0 +1 @@
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-scratch-array/main.rs b/tests/expected/uninit/maybe-uninit-scratch-array/main.rs
+new file mode 100644
+index 0000000..ba472ab
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-scratch-array/main.rs
+@@ -0,0 +1,16 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::MaybeUninit;
++
++#[kani::proof]
++fn scratch_array_layout() {
++    let value: u8 = kani::any();
++    let mut scratch = [MaybeUninit::<u8>::uninit(); 20];
++    scratch[0].write(value);
++    // SAFETY: the same slot was initialized immediately above.
++    let got = unsafe { scratch[0].assume_init() };
++    assert_eq!(got, value);
++}
 diff --git a/tests/expected/uninit/maybe-uninit-slice-offset/expected b/tests/expected/uninit/maybe-uninit-slice-offset/expected
 new file mode 100644
 index 0000000..7535205
@@ -1426,4 +1523,35 @@ index 0000000..7ce3b31
 +        let neighbor: u64 = mem::transmute((*raw)[0]);
 +        assert_eq!(neighbor, 9);
 +    }
++}
+diff --git a/tests/expected/uninit/maybe-uninit-volatile-read/expected b/tests/expected/uninit/maybe-uninit-volatile-read/expected
+new file mode 100644
+index 0000000..0e57b16
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-volatile-read/expected
+@@ -0,0 +1,4 @@
++Checking harness volatile_read_empty...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-volatile-read/main.rs b/tests/expected/uninit/maybe-uninit-volatile-read/main.rs
+new file mode 100644
+index 0000000..99428bc
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-volatile-read/main.rs
+@@ -0,0 +1,15 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::MaybeUninit;
++use std::ptr;
++
++#[kani::proof]
++fn volatile_read_empty() {
++    let slot = MaybeUninit::<u8>::uninit();
++    // Intentionally violate initialization and retain an observable use of the read.
++    let value = unsafe { ptr::read_volatile(slot.as_ptr()) };
++    assert_eq!(value, 7);
 +}
