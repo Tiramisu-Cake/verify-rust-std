@@ -238,3 +238,67 @@ fn small_sort_general_scratch_unwritten_slot_only_u8_n4() {
     kani::cover(unwritten == 0, "U9b scratch[4]: unwritten byte zero");
     kani::cover(unwritten != 0, "U9b scratch[4]: unwritten byte nonzero");
 }
+
+fn less_u64(a: &u64, b: &u64) -> bool {
+    *a < *b
+}
+
+fn count_u64(v: &[u64; 4], probe: u64) -> usize {
+    (v[0] == probe) as usize
+        + (v[1] == probe) as usize
+        + (v[2] == probe) as usize
+        + (v[3] == probe) as usize
+}
+
+/// B1: the real Stable entry sorts u64/N4 and initializes scratch[3].
+#[kani::proof]
+#[kani::unwind(17)]
+#[kani::stub(super::super::panic_on_ord_violation, cut_ord_violation)]
+fn stable_small_sort_scratch_written_slot_u64_n4() {
+    let before: [u64; 4] = kani::any();
+    let probe: u64 = kani::any();
+    let mut v = before;
+    let mut scratch = [MaybeUninit::<u64>::uninit(); 20];
+    <u64 as super::super::StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut less_u64);
+    kani::assert(
+        v[0] <= v[1] && v[1] <= v[2] && v[2] <= v[3],
+        "B1 Stable sort returns sorted u64s",
+    );
+    kani::assert(
+        count_u64(&v, probe) == count_u64(&before, probe),
+        "B1 Stable sort preserves the probe count",
+    );
+    kani::cover(true, "B1 Stable scratch[3]: normal return and written read reached");
+
+    // SAFETY: the u64 Freeze specialization takes the N4 general scratch path, writing slots 0..4.
+    let written = unsafe { scratch[3].assume_init_read() };
+    kani::cover(written == 0, "B1 Stable scratch[3]: written u64 zero");
+    kani::cover(written != 0, "B1 Stable scratch[3]: written u64 nonzero");
+}
+
+/// B2: the same real Stable entry leaves scratch[4] unwritten; read only that slot.
+#[kani::proof]
+#[kani::unwind(17)]
+#[kani::stub(super::super::panic_on_ord_violation, cut_ord_violation)]
+fn stable_small_sort_scratch_unwritten_slot_only_u64_n4() {
+    let before: [u64; 4] = kani::any();
+    let probe: u64 = kani::any();
+    let mut v = before;
+    let mut scratch = [MaybeUninit::<u64>::uninit(); 20];
+    <u64 as super::super::StableSmallSortTypeImpl>::small_sort(&mut v, &mut scratch, &mut less_u64);
+    kani::assert(
+        v[0] <= v[1] && v[1] <= v[2] && v[2] <= v[3],
+        "B2 Stable sort returns sorted u64s",
+    );
+    kani::assert(
+        count_u64(&v, probe) == count_u64(&before, probe),
+        "B2 Stable sort preserves the probe count",
+    );
+    kani::cover(true, "B2 Stable scratch: normal return reached");
+
+    kani::cover(true, "B2 Stable scratch[4]: unwritten read reached");
+    // SAFETY: intentionally violated; slot 4 remains unwritten after the real N4 Stable sort.
+    let unwritten = unsafe { scratch[4].assume_init_read() };
+    kani::cover(unwritten == 0, "B2 Stable scratch[4]: unwritten u64 zero");
+    kani::cover(unwritten != 0, "B2 Stable scratch[4]: unwritten u64 nonzero");
+}
