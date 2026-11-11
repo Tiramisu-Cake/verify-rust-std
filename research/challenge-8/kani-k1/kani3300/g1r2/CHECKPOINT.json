@@ -3,7 +3,7 @@
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-G1R2.md",
   "runtime": "Codex",
   "research_input": "a62ad2d47dafb905e7f70c39199c96634fc15db8",
-  "status": "G1R2A_AUTHORIZED_PRE_SUBMIT",
+  "status": "G1R2A_SUBMITTED_WATCH_NEXT",
   "kani_candidate": "02b734151ada1dd0d216b0db329776eb522d2d67",
   "production_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
   "production_unchanged": true,
@@ -22,10 +22,12 @@
   "review_spec_sha256": "fc3608ee50112925eb19badbd6bbbdec6d2e0b7a86fdb8206a250dbd6e49fbf1",
   "review_packet_sha256": "e6f849181b5bc4ce031c5c2f499b0873ea7384435dab8aea758e74d6b9081b81",
   "cloud_this_stage": {
-    "builds": [],
-    "spent_usd": "0",
-    "reserved_usd": "0",
-    "dispatch": "NOT_AUTHORIZED_NOT_RUN"
+    "builds": [
+      "669a0594-fd09-4879-b2f3-245438d7a947"
+    ],
+    "spent_usd": null,
+    "reserved_usd": "0.6210",
+    "dispatch": "A attempt 1/1 submitted; no repair/retry/B"
   },
   "budget_proposal": {
     "timeout_minutes": 16,
@@ -48,7 +50,7 @@
     "Historical G1RA source-reported diagnostics/Evidence Brief limitation and inherited P1/full-regression limitations retained."
   ],
   "proof_credit": "NONE",
-  "next": "Commit/publish exact root A and authorization; one dispatch; handoff and k1g watch; end turn. No repair/B.",
+  "next": "k1g.sh watch BUILD then END TURN. On wake: Evidence Brief first; bounded result in RESULT-KANI3300-G1R2A.md: each A selector PASS/FAIL and wall seconds; positive/negative SUCCESS/FAILURE harness counts versus 63 SUCCESS/0 FAILURE and 0 SUCCESS/70 FAILURE; on FAIL Failed Checks/compiler errors file:line; actual spend/cumulative G1. No raw logs/archives, no repair/retry/B. Commit/push [skip ci], REVIEW REQUEST <full research sha>.",
   "review": {
     "model": "gpt-6-luna",
     "reasoning_effort": "high",
@@ -61,6 +63,8 @@
   "T0": "2026-11-11T14:06:55+00:00",
   "main_deadline": "2026-11-11T16:06:55+00:00",
   "absolute_deadline": "2026-11-11T16:36:55+00:00",
-  "active_build_id": null,
-  "prepared_artifact_inventory": "ARTIFACTS.json describes approved preparation snapshot at 0a47af545e47cf81c1fca01b111574f728b9981e"
+  "active_build_id": "669a0594-fd09-4879-b2f3-245438d7a947",
+  "prepared_artifact_inventory": "ARTIFACTS.json describes approved preparation snapshot at 0a47af545e47cf81c1fca01b111574f728b9981e",
+  "active_handoff": "G1R2A-HANDOFF.json",
+  "research_dispatch_sha": "b77f5d830daf0f9efc1e3dff6250c6b0556b920a"
 }
