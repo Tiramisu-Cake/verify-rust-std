@@ -11,7 +11,7 @@ Unchanged unit-scoped diagnostic last_writer can be stale when a fresh body is n
 Proposed stage kani3300-t1b-pilot, separate draft ledger; (3+30)×$0.0135=$0.4455, proposed new cap$0.50, margin$0.0545, historical carry$0.
 No owner budget granted by this preparation; no phase/reserve registration, active request install, dispatch or Cloud access; active inputs/runner/recipe frozen.
 Static validation: rustfmt with --config-path rustfmt.toml, diff --check, signatures and -D warnings source audit; check_packet.py must PASS on exact candidate.
-Independent Luna HIGH review of exact Kani delta and research packet follows in REVIEW.md with immutable identities.
+Independent Luna HIGH review PASS for exact Kani delta and research candidate dc8e28c4cdbc92ec79b2cbaf46314c105b642781; REVIEW.md/REVIEW-IDENTITIES.json.
 Compilation is NOT_RUN locally and must be checked by coordinator in fork CI; no Actions/PR/issue/comment initiated.
 No new compiler/verifier/runtime evidence; B1/B2/proof credit NONE; calibration/native regressions remain outside this stage.
 Stop after research commit[skip ci]/push without force; future dispatch requires new owner authorization and live ledger/slot/deadline checks.

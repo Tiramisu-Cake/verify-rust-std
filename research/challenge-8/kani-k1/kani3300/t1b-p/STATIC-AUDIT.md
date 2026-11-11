@@ -7,4 +7,4 @@ GlobalPasses::run_global_passes writes only the supplied root transformer; clone
 The root transformer remains in the loop scope until after codegen_items returns and results are consumed. codegen_items finishes synchronous body emission and gcx.split before handing owned FileDataToWrite to export workers.
 The ordering transformer is scoped inside the has_workers branch and dropped before root emission; the same heuristic/rating/sort and no-workers path remain.
 The unit-scoped trace maps are observers only; last_writer may be stale for unchanged fresh bodies. ACCEPTANCE.md preserves UNKNOWN for an unresolved literal foreign-label criterion.
-rustfmt wrapper with --config-path rustfmt.toml and --check: PASS; git diff --check: PASS. Compilation/runtime checks NOT_RUN.
+rustfmt wrapper with --config-path rustfmt.toml and --check: PASS; Kani prototype git diff --check: PASS. Research metadata diff --check excludes exact generated *.patch envelopes (their blank context markers are patch data). Compilation/runtime checks NOT_RUN.

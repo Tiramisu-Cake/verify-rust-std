@@ -2,7 +2,7 @@
   "stage": "kani3300-t1b-p",
   "runtime": "Codex",
   "task_commit": "86cb3c464f341a02783c5960fef985964f65ceb2",
-  "state": "PREPARED_AWAITING_INDEPENDENT_REVIEW",
+  "state": "COMPLETE_PRE_BUILD_REVIEW_PASS_NO_DISPATCH",
   "kani_commit": "94467a24484f1d57315ebbcde7f024dd27576a00",
   "request_sha256": "d81b1b389cb37ab3d6ba1ef8e27f6dee1edda57a433af6096b68cee46c5fb3b1",
   "active_inputs_changed": false,
@@ -11,7 +11,13 @@
   "builds": 0,
   "cloud_usd": "0.0000",
   "static_preflight": "PREFLIGHT.json",
-  "review": "PENDING",
+  "review": {
+    "result": "PASS",
+    "report": "REVIEW.md",
+    "identities": "REVIEW-IDENTITIES.json",
+    "candidate_commit": "dc8e28c4cdbc92ec79b2cbaf46314c105b642781",
+    "kani_candidate_commit": "94467a24484f1d57315ebbcde7f024dd27576a00"
+  },
   "open": [
     "Compilation to be checked by coordinator fork CI.",
     "Future pilot needs new owner budget and separate kani3300-t1b-pilot ledger; old balance not reused.",
@@ -19,5 +25,6 @@
     "Calibration/native regressions and production acceptance are outside P."
   ],
   "proof_credit": "NONE",
-  "next_step": "STOP after review, research commit[skip ci] and push without force. No dispatch in this stage."
+  "next_step": "STOP after review, research commit[skip ci] and push without force. No dispatch in this stage.",
+  "stop_boundary": "Exactly one T1b-P preparation stage complete; prototype, packet, static checks and independent review done. No Cloud/dispatch/budget installation authorized."
 }

@@ -1,0 +1,32 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-t0",
+  "baseline_commit": "86cb3c464f341a02783c5960fef985964f65ceb2",
+  "candidate_commit": "dc8e28c4cdbc92ec79b2cbaf46314c105b642781",
+  "applicability": "KANI3300 T1b-P packet and static preflight. Pair with exact prototype review packet /tmp/kani3300-t1bp-prototype-review, candidate94467a24484f1d57315ebbcde7f024dd27576a00. Read-only independent review, no nested delegation.",
+  "defect": "Prepare a three-root causal fresh-transformer pilot without dispatch or any authorized Cloud budget.",
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-T1B-P.md",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/kani3300/t1b-c2/RUN-REQUEST-C2.json",
+    "research/challenge-8/kani-k1/kani3300/t1b-c2/PATCH-IDENTITIES.json",
+    "research/challenge-8/kani-k1/kani3300/t1b-c2/kani-combined.patch",
+    "research/challenge-8/kani-k1/kani3300/t1b-r/kani-combined.patch",
+    "research/challenge-8/kani-k1/kani3300/t1b-s/kani-compact.patch"
+  ],
+  "invariants": [
+    "Exactly three C2 roots, unchanged filters/library/flags/timeout1m/jobs1/one invocation and original SUCCESS expectations. No control/check weakening.",
+    "Combined patch includes exact prototype over C2 and no historical tests, disposable-index apply/tree and diffstat<=4096B, check_packet.py PASS.",
+    "Future proposed stage kani3300-t1b-pilot uses separate new ledger and owner budget; reserve$0.4455 against proposed cap$0.50; current Cloud$0, no dispatch/installation/live mutation.",
+    "Acceptance matches planner point4, preserving CheckRefs and actual order/consumed-body hashes; unresolved stale observer labels cannot be silently counted PASS."
+  ],
+  "controls": [
+    "Only read-only/static Git/Python and permitted rustfmt; no compiler/verifier/Cloud/Actions/PR/issues/comments/network/credentials/raw logs/stash or Kani push.",
+    "Reviewer may rerun packet check with Python. Do not write repository files; report compact actionable findings to main."
+  ],
+  "known_limitations": [
+    "Compilation to be checked by coordinator fork CI. No proof/runtime credit.",
+    "Unit-scoped diagnostic observer maps are unchanged and may have stale labels; inspect documented acceptance limits."
+  ],
+  "prior_reviews": []
+}
