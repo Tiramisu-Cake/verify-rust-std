@@ -1,0 +1,51 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-a1",
+  "baseline_commit": "0b1d68ac691cac7e03dbe73f4aec139bb5389059",
+  "candidate_commit": "585c93b2ff366f5723611a7ca944328ef62f40b5",
+  "defect": "KANI3300 A2R2: raw_eq must check every byte of both referenced pointees rather than reference storage; compare normal CheckRef and delayed-UB instrumentation.",
+  "applicability": "Review exactly TASK-KANI3300-A2R2.md at research 645dbfe5a6, inheriting TASK-KANI3300-A2R.md. Static review only, no author verdict supplied. Base includes A3.",
+  "invariants": [
+    "Trace generated address, cast, pointee mask and later delayed-UB visitor. Both raw_eq arguments must cover size_of::<T>() bytes including padding and union storage, not the argument-reference storage. Compare normal CheckRef dereference. Preserve initialized reads and existing uninit reads; check reference Copy/Move/Constant handling and reference argument parameters.",
+    "Preserve full byte-mask, initial targets and unknown-layout Unsupported. Existing three MU selectors, A3 protocol, Pat/enum code must remain unchanged. Raw-pointer-to-reference CheckAs behavior must remain unchanged.",
+    "Audit fixture and golden order: initialized direct and borrowed arrays/storage/scalars/ZST expected SUCCESS, left/right one-byte hole and padding expected uninit FAILURE with [u8; N] diagnostic. No unrelated failures accepted. Three MU golden files unchanged.",
+    "Audit Rust API/types/borrowing/exhaustiveness and clippy/-D warnings by source using pinned /tmp/kani3300-g1r-api and g1r/API-SOURCES.json. No compilation."
+  ],
+  "controls": [
+    "No nested delegation, no builds/Cloud/dispatch/cargo/rustc/Kani/CBMC/Miri/Actions/PR/issues/comments/Kani push/raw evidence/credentials/network. Python/source reads allowed.",
+    "No implementation/test edits. Write only /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/a2r2/REVIEW.md. Include exact candidate/tree/diff/spec identities, actionable findings and static limits.",
+    "No runtime/compilation/proof credit. CI belongs to coordinator."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "library/kani_core/src/mem_init.rs",
+    "rust-toolchain.toml",
+    "kani-compiler/src/intrinsics.rs",
+    "tools/compiletest/src/runtest.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+    "kani-driver/src/harness_runner.rs",
+    "tests/expected/uninit/maybe-uninit-transmute/main.rs",
+    "tests/expected/uninit/maybe-uninit-transmute/expected",
+    "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+    "tests/expected/uninit/maybe-uninit-initialized/expected",
+    "tests/expected/uninit/maybe-uninit-partial-copy/main.rs",
+    "tests/expected/uninit/maybe-uninit-partial-copy/expected",
+    "tests/expected/uninit/raw-eq-uninit/main.rs",
+    "tests/expected/uninit/raw-eq-uninit/expected"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Static only; runtime verification NOT_RUN; Cloud $0."
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "base": "0b1d68ac691cac7e03dbe73f4aec139bb5389059",
+  "candidate": "585c93b2ff366f5723611a7ca944328ef62f40b5",
+  "unchanged_mu_fixtures": {
+    "tests/expected/uninit/maybe-uninit-initialized/main.rs": {
+      "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+      "unchanged_from_base": true
+    },
+    "tests/expected/uninit/maybe-uninit-initialized/expected": {
+      "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e",
+      "unchanged_from_base": true
+    },
+    "tests/expected/uninit/maybe-uninit-transmute/main.rs": {
+      "sha256": "a8447076a637799a4f2775d1fdbf46f5ffd8ec70721806b04d5d86ba65801c48",
+      "unchanged_from_base": true
+    },
+    "tests/expected/uninit/maybe-uninit-transmute/expected": {
+      "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f",
+      "unchanged_from_base": true
+    },
+    "tests/expected/uninit/maybe-uninit-partial-copy/main.rs": {
+      "sha256": "52d4ef75b76aba6e84152188315d7e43aaa34bcc857429b6da9729259bbbb8f2",
+      "unchanged_from_base": true
+    },
+    "tests/expected/uninit/maybe-uninit-partial-copy/expected": {
+      "sha256": "86cd97e3e413fdd50e5da87c83acd815a528127db89d43d805a782cc225466db",
+      "unchanged_from_base": true
+    }
+  },
+  "pinned_api_hashes": "PASS",
+  "harness_inventory": "8; expected 5 SUCCESS / 3 FAILURE (not measured)",
+  "rustfmt_and_diff_check": "PASS",
+  "clippy_D_warnings": "source audit only; no added unused imports/locals, match variants unchanged; compilation NOT_RUN",
+  "runtime_proof": "NOT_RUN; proof credit NONE; Cloud $0"
+}

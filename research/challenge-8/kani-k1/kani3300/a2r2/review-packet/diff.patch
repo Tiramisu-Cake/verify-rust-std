@@ -1,0 +1,137 @@
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+index 0a67b715a19fbd27c6e2066308dbe9ee79c45a49..477e637ee5843317ed8c01043edb2e627bc6a25f 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+@@ -433,6 +433,11 @@ fn build_get_and_check(
+             | MemoryInitOp::CheckSliceChunk { operand, .. }
+             | MemoryInitOp::CheckRef { operand } => operand.ty(body.locals()).unwrap(),
+             MemoryInitOp::CheckRefAs { pointee_ty, .. } => *pointee_ty,
++            MemoryInitOp::CheckAs { operand, pointee_ty }
++                if operand.ty(body.locals()).unwrap().kind().is_ref() =>
++            {
++                *pointee_ty
++            }
+             MemoryInitOp::CheckAs { .. } => operation.operand_ty(body),
+             _ => unreachable!(),
+         };
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index ba29bebd81cc2fe9765f58e3bbcad188b725da9c..114551a4766b6c486436dc96cfb9914cc360d4bd 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -560,6 +560,7 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                                     // raw_eq reads the whole extent, including padding and union
+                                     // storage. A byte array selects every byte without imposing
+                                     // the pointee's typed data mask or reading its value.
++                                    // CheckAs reborrows reference places as &raw const *operand.
+                                     let bytes_ty = pointee_ty.layout().ok().and_then(|layout| {
+                                         Ty::try_new_array(
+                                             Ty::unsigned_ty(UintTy::U8),
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+index 8a0fe143ceeedbf97de7eef1d4ace8d8c2c0e1de..88414a040a79ee34e99bc79bef8bc03317d6f76d 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+@@ -9,8 +9,8 @@
+ };
+ use rustc_public::{
+     mir::{
+-        CastKind, FieldIdx, Mutability, Operand, Place, RawPtrKind, Rvalue, Statement,
+-        StatementKind,
++        CastKind, FieldIdx, Mutability, Operand, Place, ProjectionElem, RawPtrKind, Rvalue,
++        Statement, StatementKind,
+     },
+     ty::{ConstantKind, RigidTy, Ty},
+ };
+@@ -314,9 +314,8 @@ pub(super) fn constant_init_mask(operand: &Operand) -> Option<Vec<bool>> {
+     }
+ }
+ 
+-/// A helper to generate instrumentation for taking a reference to a given operand. Returns the
+-/// operand which is a reference and stores all instrumentation in the statements vector passed.
+ /// A new local holding `operand`, a raw pointer, cast to `*const pointee_ty`.
++/// Reference places are reborrowed as raw pointers to their pointees, as in `CheckRef`.
+ fn mk_cast(
+     operand: &Operand,
+     pointee_ty: Ty,
+@@ -325,12 +324,24 @@ fn mk_cast(
+     source: &mut SourceInstruction,
+ ) -> Operand {
+     let span = source.span(body.blocks());
++    let operand = if operand.ty(body.locals()).unwrap().kind().is_ref()
++        && let Operand::Copy(place) | Operand::Move(place) = operand
++    {
++        // AddressOf does not read the pointee. It also avoids introducing a read of the
++        // reference's storage for the later delayed-UB visitor to instrument. Constants
++        // have no reference place and can be cast directly.
++        let mut pointee = place.clone();
++        pointee.projection.push(ProjectionElem::Deref);
++        mk_ref(&Operand::Copy(pointee), body, statements, source)
++    } else {
++        operand.clone()
++    };
+     let ptr_ty = Ty::new_ptr(pointee_ty, Mutability::Not);
+     let result = body.new_local(ptr_ty, span, Mutability::Not);
+     statements.push(Statement {
+         kind: StatementKind::Assign(
+             Place::from(result),
+-            Rvalue::Cast(CastKind::PtrToPtr, operand.clone(), ptr_ty),
++            Rvalue::Cast(CastKind::PtrToPtr, operand, ptr_ty),
+         ),
+         source_info: synthetic_source_info(span),
+     });
+diff --git a/tests/expected/uninit/raw-eq-uninit/expected b/tests/expected/uninit/raw-eq-uninit/expected
+index f01a93351e32da38ea1db0faa790011fd780df36..bc4f94a40f95768ed08b2dca3c617e0c27fcf521 100644
+--- a/tests/expected/uninit/raw-eq-uninit/expected
++++ b/tests/expected/uninit/raw-eq-uninit/expected
+@@ -1,3 +1,5 @@
++Checking harness raw_eq_initialized_array_references...
++VERIFICATION:- SUCCESSFUL
+ Checking harness raw_eq_initialized_arrays...
+ VERIFICATION:- SUCCESSFUL
+ Checking harness raw_eq_initialized_scalars...
+@@ -5,17 +7,17 @@ VERIFICATION:- SUCCESSFUL
+ Checking harness raw_eq_initialized_storage...
+ VERIFICATION:- SUCCESSFUL
+ Checking harness raw_eq_left_uninitialized_byte...
+-Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8; 3]`
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 3]`
+ VERIFICATION:- FAILED
+ Checking harness raw_eq_padding_is_uninitialized...
+-Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8; 12]`
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 12]`
+ VERIFICATION:- FAILED
+ Checking harness raw_eq_right_uninitialized_byte...
+-Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8; 3]`
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 3]`
+ VERIFICATION:- FAILED
+ Checking harness raw_eq_zero_sized...
+ VERIFICATION:- SUCCESSFUL
+ Verification failed for - raw_eq_left_uninitialized_byte
+ Verification failed for - raw_eq_padding_is_uninitialized
+ Verification failed for - raw_eq_right_uninitialized_byte
+-Complete - 4 successfully verified harnesses, 3 failures, 7 total.
++Complete - 5 successfully verified harnesses, 3 failures, 8 total.
+diff --git a/tests/expected/uninit/raw-eq-uninit/main.rs b/tests/expected/uninit/raw-eq-uninit/main.rs
+index e1355720ac6b3c1e4947b46054fb94749280e097..f5db41765fc64484a49fdc805bf13a234c1315c5 100644
+--- a/tests/expected/uninit/raw-eq-uninit/main.rs
++++ b/tests/expected/uninit/raw-eq-uninit/main.rs
+@@ -19,6 +19,20 @@ fn raw_eq_initialized_arrays() {
+     assert!(!unsafe { raw_eq(&left, &right) });
+ }
+ 
++#[inline(never)]
++fn equal_referenced_arrays(left: &[u8; 3], right: &[u8; 3]) -> bool {
++    unsafe { raw_eq(left, right) }
++}
++
++#[kani::proof]
++fn raw_eq_initialized_array_references() {
++    let left: [u8; 3] = kani::any();
++    let mut right = left;
++    assert!(equal_referenced_arrays(&left, &right));
++    right[2] ^= 1;
++    assert!(!equal_referenced_arrays(&left, &right));
++}
++
+ #[kani::proof]
+ fn raw_eq_initialized_scalars() {
+     let left: u32 = kani::any();
