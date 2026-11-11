@@ -1,0 +1,40 @@
+{
+  "applicability": "T1b-R independent full diagnostic delta compile-readiness review; no compiler/build/Cloud allowed.",
+  "baseline_commit": "b1f0105c0390fb55081e3d186fa286d23867b585",
+  "candidate_commit": "989f72351c2b5c5f3b5117315fc84f502e66d904",
+  "controls": [
+    "Explicit primary focus: will the entire diagnostic delta compile under nightly-2026-10-23 and -D warnings? Inspect every inferred let subsequently used by methods, collections, closures/borrows/moves, question marks, imports, API types (MachineSize versus usize).",
+    "Check bounds before allocation, no panic/error propagation changing compiler, strict filter/env validation and lazy activation; footer exact counters/coverage and schema must match tooling.",
+    "Inspect Rust API signatures/borrows/types/exhaustiveness/imports under -D warnings expectations against local pinned nightly source; no actual compiler allowed."
+  ],
+  "defect": "Observe contextual IndexRange uninit compiler behavior with bounded opt-in compile-time-only diagnostics; no production fix.",
+  "dependencies": [
+    "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+    "kani-compiler/src/kani_middle/codegen_order.rs",
+    "kani-compiler/src/kani_middle/mod.rs",
+    "kani-compiler/src/kani_middle/trace.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/Cargo.toml",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/codegen_units.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "Opt-out preserves existing compiler/model/verdict/exits/checks. No added transformations/body queries/reachability/cache/traversal/HashSet order changes.",
+    "Opt-in diagnostics only: unit/root/stubs/actual warmup+codegen chronology, cache hit/miss/writer/body hashes, target origins/relevance/ops and small MIR before/after. No runtime CBMC trace/mapping/solver changes.",
+    "Producer <=512 JSONL records including header/footer, <=250KiB per invocation (task cap256KiB), record<=2048B; four slots plus one overflow marker under1MiB/run. Explicit record/payload omissions and PARTIAL/OVERSIZED.",
+    "Original CMP2 production patch remains unchanged; combined research patch will reverse delta back to production applied tree."
+  ],
+  "known_limitations": [
+    "Compilation NOT_RUN by task; report static findings without claiming compiler acceptance. Previous T1b static review missed E0282; inspect whole delta independently."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-t1"
+}

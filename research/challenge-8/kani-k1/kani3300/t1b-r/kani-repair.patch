@@ -1,0 +1,13 @@
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+index aedc372..3677a87 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+@@ -115,7 +115,7 @@ fn codegen_items<'tcx>(
+         );
+ 
+         // Retrieve all instances from the currently codegened items.
+-        let instances = items
++        let instances: Vec<Instance> = items
+             .iter()
+             .filter_map(|item| match item {
+                 MonoItem::Fn(instance) => Some(*instance),
