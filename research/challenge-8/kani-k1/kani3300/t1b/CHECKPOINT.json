@@ -3,25 +3,27 @@
   "slug": "kani3300",
   "owner": "k1-merge",
   "runtime": "Codex",
-  "state": "A_READY_FOR_SINGLE_DISPATCH",
+  "state": "A_SUBMITTED_ARM_WATCH_AND_END_TURN",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-T1B.md",
   "task_base": "3a780c05130440340197e98eda602ee705e80d8e",
   "worktree": "/root/verify-rust-std-kani3300-t0",
   "branch": "experiment/kani-k1-kani3300t0-20261111",
   "cloud": {
-    "status": "PREFLIGHT_PASS",
-    "spend_usd": "0",
-    "submitted_reserve_usd": "0",
+    "status": "SUBMITTED",
+    "spend_usd": "UNKNOWN_PENDING_TERMINAL_ACCOUNTING",
+    "submitted_reserve_usd": "0.7695",
     "A_planned_reserve_usd": "0.7695",
     "A_cap_usd": "0.80",
     "B_planned_reserve_usd": "0.5670",
     "B_requires_separate_GO": true,
-    "attempts_used": 0,
+    "attempts_used": 1,
     "dispatch_authorized": true,
     "combined_planned_reserve_usd": "1.3365",
     "combined_cap_usd": "1.40",
     "max_builds_after_separate_GOs": 2,
-    "no_retries": true
+    "no_retries": true,
+    "build_id": "c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c",
+    "dispatch_head": "0f399a76b758de89d9ddd60cfea1f4f22d0904c6"
   },
   "phase_activated": false,
   "proof_credit": "NONE",
@@ -100,7 +102,7 @@
     "MIR_GOTO_equivalence_experiment": "NOT_RUN"
   },
   "active_lane_request_changed": true,
-  "next_step": "Run preflight, publish activation head, one dispatch, watcher. No status polling. On watcher completion: Brief -> bounded summary/trace-field -> result/accounting. DNS/apt setup failure means proof NOT_RUN and stop.",
+  "next_step": "Arm watch, end turn. After terminal notification: Brief -> summary 0 9 -> bounded trace-field state/omitted/coverage/records using returned next_start -> budget BUILD -> <=40-line result, commit [skip ci], push. DNS/apt setup failure means proof NOT_RUN, no retry; B forbidden.",
   "request_binding_review": {
     "state": "PASS",
     "candidate": "856653a1d0099e83b6896aa3ef966ce24911a8e6",
@@ -121,5 +123,12 @@
     "runtime": "Codex",
     "started_at": "2026-11-11T17:48:30.876994+00:00"
   },
-  "execution_result_path": "RESULT-KANI3300-T1B-A.md"
+  "execution_result_path": "RESULT-KANI3300-T1B-A.md",
+  "watcher": {
+    "kind": "k1g.sh watch",
+    "build_id": "c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c",
+    "state": "ARM_REQUESTED",
+    "command": "k1g.sh watch c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c",
+    "instruction": "After successful arm end turn, no status polling. On terminal notification read Brief then bounded summary/trace-field and cost; write RESULT-KANI3300-T1B-A.md <=40 lines, commit/push, stop."
+  }
 }
