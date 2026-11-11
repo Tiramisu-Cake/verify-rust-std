@@ -2,7 +2,7 @@
   "schema": "kani3300-u3-prebuild-checkpoint-v1",
   "stage": "kani3300-u3",
   "stable_owner": "k1-merge",
-  "state": "BLOCKED_MISSING_DIAGNOSTIC_BINDING",
+  "state": "BLOCKED_BOUNDED_NATIVE_READER",
   "research_branch": "experiment/kani-k1-kani3300u3-20261111",
   "kani_candidate": "3fd6f408e1d565ba65aaeb86c0c4ad0bbc57ab52",
   "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
@@ -24,18 +24,44 @@
       "claim": "five U1T goldens amended and all five negatives + review-positive selected",
       "evidence": "AMEND-U1T.md; RUN-REQUEST.json",
       "status": "PREPARED_NOT_RUN"
+    },
+    {
+      "claim": "prebuild AMEND diagnostic-source blocker explicitly waived; GO exact2021b7c",
+      "evidence": "coordinator user instruction preceding dispatch",
+      "status": "AUTHORIZED"
+    },
+    {
+      "claim": "native build ran, tool build succeeded, all20 native ERROR; check-tooling PASS",
+      "evidence": "EVIDENCE-KANI3300-U3.md",
+      "status": "NO_NATIVE_ACCEPTANCE"
     }
   ],
   "open": [
-    "overlap observed property source_location/callsite and status for both harnesses",
-    "overwrite foreign callee/symbol, callsite and reachability",
-    "exact packet coordinator GO",
-    "all native outcomes and post-native review/replay"
+    "bounded positive errors/excerpts offsets0,4,11",
+    "all actual Failed Checks for overwrite16 and overlap17 by harness",
+    "causes of20 native ERROR",
+    "factual repair candidate and new exact GO if applicable",
+    "post-native review/replay only after acceptance"
   ],
-  "builds": [],
-  "spent_usd": 0,
+  "builds": [
+    {
+      "id": "14dd0792-1c06-47be-b931-94f6096a664a",
+      "cloud_status": "FAILURE",
+      "summary_status": "TOOL_ERROR",
+      "gate": false,
+      "native_pass": 0,
+      "native_error": 20,
+      "tool_build": "PASS",
+      "verification_credit": "UNKNOWN",
+      "actual_usd": 0.108,
+      "reserve_usd": 0
+    }
+  ],
+  "spent_usd": 0.108,
   "cap_usd": 0.9,
   "proposed_reservation_usd": 0.54,
-  "next": "Await bounded diagnostic source/callee fields requested from coordinator; no dispatch; new PRE-BUILD REVIEW packet remains blocked",
-  "superseded_packet": "52cd0b12353076194296d74d2f59808ace90aceb"
+  "next": "Obtain coordinator bounded errors/Failed Checks; no repair dispatch without factual diagnosis and new GO",
+  "superseded_packet": "52cd0b12353076194296d74d2f59808ace90aceb",
+  "authorized_build_head": "2021b7cf3518fc72fee611e2a5d306e4bf5b619e",
+  "reserved_usd": 0
 }
