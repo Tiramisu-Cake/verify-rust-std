@@ -7,7 +7,11 @@ Worktree `/root/verify-rust-std-kani3300-t0`, branch `experiment/kani-k1-kani330
 Task base `2cc5c79ea5d2aeb5b131e11a0fb895b3086d7aac`; slug `kani3300`, stage `kani3300-t1a`, owner `k1-merge`.
 Only this directory and active lane-root `research/challenge-8/kani-k1/RUN-REQUEST.json` change.
 No phase activation, live-ledger modification, reservation, dispatch or watcher during preparation.
-Independent review is recorded separately; exact final published SHA requires coordinator GO.
+Independent Luna HIGH review PASS, no blocking findings; see `INDEPENDENT-REVIEW.md`.
+Candidate `0dd6c63a21b156dce2c950178156946d04c02c29`;
+spec SHA256 `1c7709a32b037f24f44de53d1a648f154ec395207f84bd6cecf38a965aef42d4`;
+packet SHA256 `bf369658bfcfbbabd856c4f78970997c056880a4bf096a9252ed4e203cb5915e`.
+Final metadata follow-up changes no semantic inputs; exact final published SHA requires coordinator GO.
 
 ## Same-library baseline B
 
@@ -37,7 +41,7 @@ with `Координатор, вопрос`, not a separate Build.
 ## Request A and observations required after GO
 
 `kani3300-t1a-uninit-20261111-01`; `RUN-REQUEST.json` snapshot equals the active lane-root request.
-SHA256 is recorded in `static-check.json` and `CHECKPOINT.json`.
+Request SHA256 `0a5300eb89b52b0e26714b7ce5b749cc66239ef2630dd3e0de5eb2e7fce0156c`.
 Every request field except request_id/purpose equals original CMP3. Generated `kani.args` equals CMP3 bytes.
 No diagnostic patch delta, `--emit`, `--trace`, `--no-slice-formula`, new env or tooling changes.
 All existing library roots remain present; only the original CMP3 nine roots are selected.

@@ -1,0 +1,63 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-t0",
+  "baseline_commit": "2cc5c79ea5d2aeb5b131e11a0fb895b3086d7aac",
+  "candidate_commit": "0dd6c63a21b156dce2c950178156946d04c02c29",
+  "defect": "Reproduce original CMP3 steps1-3 IndexRange uninit with nine roots on the unchanged CMP4-B library. This candidate selects existing roots; no production/tooling repair.",
+  "applicability": "KANI3300 T1a static packet/dependency review before exact-packet PRE-BUILD REVIEW and coordinator GO. One diagnostic attempt only; B reuse as source-reported baseline.",
+  "invariants": [
+    "Unchanged library tree 919cc3e2dc5fb19ea6e7f7be761914b949160a41 and CMP2 production patch; fixed pin/toolchain/KT2 recipe, exact identities in PRE-BUILD and static report.",
+    "Original nine CMP3 roots/expectations and byte-identical argv. No trace/emit/no-slice-formula, diagnostic patch, new env or repair.",
+    "B source-reported only; no independent credit or mechanism/codegen-order claim. Shared B roots are step1/step4/U1; no B step2/3/U2.",
+    "Exact coordinator GO required; one attempt, no retries, new B, T1b, live-state writes or dispatch now."
+  ],
+  "controls": [
+    "Original nine roots in CMP3 selector order including all six localization roots, U8, U1 FAILED with Reading from an uninitialized, U2 SUCCESS.",
+    "diagnostic; uninit/controls true, inventory false, standard4/jobs1/3m; fixed existing RUSTFLAGS only. One attempt, 57min/$0.7695 envelope <=cap$0.80.",
+    "Each terminal row needs status, failed/total, covers, verbatim located failures and omission accounting. Identity/control failures, Unsupported, timeout and partial reproduction kept distinct."
+  ],
+  "known_limitations": [
+    "Static only; B argv/MIR UNKNOWN, native unavailable, Brief HTTP404; A NOT_RUN.",
+    "Explicit task uses k1g watch after GO; generic watcher not armed (thread cwd /root).",
+    "Production/library/tooling unchanged. Prior reviews cover immutable dependencies; review selection, identity and claims."
+  ],
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-T1A.md",
+    "research/challenge-8/kani-k1/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/cmp3/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/cmp3/kani.args",
+    "research/challenge-8/kani-k1/kani3300/cmp4/cmp2/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/cmp4/CMP2-OBSERVATIONS.json",
+    "research/challenge-8/kani-k1/kani3300/cmp4/CMP2-EVIDENCE-INDEX.json",
+    "research/challenge-8/kani-k1/kani3300/u4/kani-uninit.patch",
+    "research/challenge-8/kani-k1/kani3300/u4/PATCH-BINDING.json",
+    "library/core/src/slice/sort/shared/smallsort/verify/uninit_probe.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/array/iter/iter_inner.rs",
+    "library/core/src/ops/index_range.rs",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh",
+    "research/challenge-8/kani-k1/tools/k1g.sh",
+    "research/challenge-8/kani-k1/gcb/cloudbuild.yaml",
+    "scripts/run-kani.sh",
+    "tool_config/kani-version.toml",
+    "rust-toolchain.toml",
+    "research/challenge-8/kani-k1/kani3300/cmp4/evidence/d137507f/brief-error.txt",
+    "research/challenge-8/kani-k1/kani3300/cmp4/evidence/d137507f/check-tooling.txt",
+    "research/challenge-8/kani-k1/kani3300/cmp4/evidence/d137507f/native-error.txt",
+    "research/challenge-8/kani-k1/kani3300/cmp4/evidence/d137507f/rows.txt",
+    "research/challenge-8/kani-k1/kani3300/cmp4/evidence/d137507f/stage-budget.txt",
+    "research/challenge-8/kani-k1/kani3300/cmp4/evidence/d137507f/status.json",
+    "research/challenge-8/kani-k1/kani3300/cmp4/evidence/d137507f/summary.md"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-t0/research/challenge-8/kani-k1/kani3300/cmp3/INDEPENDENT-REVIEW.md",
+      "sha256": "cba43145a8ece8913ac4f23f76a885186ef43f7d4fb8c030e634c362253f42cb"
+    },
+    {
+      "path": "/root/verify-rust-std-kani3300-t0/research/challenge-8/kani-k1/kani3300/cmp4/INDEPENDENT-REVIEW.md",
+      "sha256": "daa040f8f293634971d165937eb576edd0317ad02c24c6b2d1f0f2742d3e8b96"
+    }
+  ]
+}
