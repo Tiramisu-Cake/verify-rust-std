@@ -1,15 +1,15 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani3300-cmp1-20261111-02",
+  "request_id": "kani3300-cmp2-20261111-01",
   "agent": "k1-merge",
   "kind": "kani-tests",
-  "purpose": "CMP1 compound storage on coordinator-accepted experimental v2: plain buffer, working clause-PFC and U3B frame controls. Isolated PFC-OOM pair excluded; U3/PFC acceptance remains OPEN. Exact PRE-BUILD GO pending.",
+  "purpose": "CMP2 repair: ordinary typed parameter shadow initialization with R/S/P unchanged. All18 CMP1 selectors/35negative roots retained, five minimal positives and three parameter negatives added. Native/core NOT_RUN; exact PRE-BUILD GO pending.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [],
   "kani_patch": {
-    "path": "research/challenge-8/kani-k1/kani3300/cmp1/kani-uninit-cmp1-build.patch",
-    "sha256": "e216f41ca8887c85e19ba84ee56fc6581ee5b95f68ad982e111c5f1b0ca19183"
+    "path": "research/challenge-8/kani-k1/kani3300/cmp2/kani-uninit-cmp2-build.patch",
+    "sha256": "17db5a0db394c5c5db8f7182fb61866df656747b17e160ead4034e03a14dbc0a"
   },
   "test_timeout_seconds": 150,
   "kani_tests": [
@@ -152,6 +152,21 @@
       "expect": "pass",
       "require_success": false,
       "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/compound-cmp2-positive/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/compound-cmp2-argument-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
     }
   ]
 }

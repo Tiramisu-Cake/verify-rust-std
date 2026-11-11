@@ -1,0 +1,36 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-cmp",
+  "baseline_commit": "6ef9fd72066443f7f113440ba32f77f310520a93",
+  "candidate_commit": "b1f0105c0390fb55081e3d186fa286d23867b585",
+  "defect": "CMP1 native positives fail with uninitialized usize reads in std IndexRange::len; padding-negative has required diagnostic absent. Assess only CMP2 minus CMP1 for soundness and applicable source checks. Do not treat the author implementation or diagnosis as established evidence.",
+  "applicability": "The existing CMP0/CMP1 product R/S/P and ordinary typed-memory model; no new layout support, ghost state, or argument-buffer protocol permitted.",
+  "invariants": [
+    "Typed ordinary source reads remain checked before any parameter initialization can hide a false byte.",
+    "Empty MaybeUninit storage including nested product and ManuallyDrop S must retain every existing witness; pointer argument values must not initialize pointees.",
+    "R receives only the applicable typed ordinary mask after source checks, P=false; no blanket whole-product blessing.",
+    "Instrumentation source locations and ordering must remain valid at function entry, empty blocks, ordinary call/return and before/after reads/writes.",
+    "All35 negative CMP1 harness expectations are retained; changed padding fixtures still require the intended byte-level failures, not incidental pointer errors."
+  ],
+  "controls": [
+    "Assess new minimal aggregate/move, ManuallyDrop, unsize/projection, ordinary argument, pointer parameter positives and three new ordinary argument negatives.",
+    "No local cargo/rustc/Kani/CBMC and no Cloud submission. Native acceptance remains NOT_RUN."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "library/kani_core/src/mem_init.rs"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Only static validation authorized locally; exact failing-instance MIR/points-to binding unavailable in bounded CMP1 excerpts.",
+    "Build subset preserves all CMP1 selectors and adds2 selectors; review of new production is required before coordinator GO."
+  ]
+}

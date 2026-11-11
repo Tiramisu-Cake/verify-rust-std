@@ -1,0 +1,79 @@
+{
+  "stage": "kani3300-cmp2",
+  "runtime": "Codex",
+  "stable_owner": "k1-merge",
+  "state": "PRE_BUILD_REVIEW_PENDING_GO",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-CMP2.md",
+  "base_candidate": "6ef9fd72066443f7f113440ba32f77f310520a93",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "t0_utc": "2026-11-11T05:37:00Z",
+  "t0_note": "Conservative minute-rounded start of this turn; not a new registered phase",
+  "window_main_minutes": 300,
+  "window_closeout_minutes": 30,
+  "cap_usd": 0.6,
+  "spent_usd": 0,
+  "reserved_usd": 0,
+  "proposed_reservation_usd": 0.54,
+  "native_status": "NOT_RUN",
+  "core_status": "NOT_RUN",
+  "verification_credit": "NONE",
+  "inputs": [
+    {
+      "original_path": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/plan/KICKOFF-KANI3300-CMP2-CODEX.md",
+      "snapshot": "KICKOFF-CMP2.md",
+      "sha256": "d3622882d8bda3757a95cdb7d6c994c170abc1f8681809dbafc0854de0a0c893"
+    }
+  ],
+  "next": "Coordinator exact-packet PRE-BUILD GO; do not dispatch until received",
+  "kani_worktree": "/root/kani-fix-3300-cmp",
+  "kani_branch": "fix/kani-3300-cmp",
+  "kani_candidate": "b1f0105c0390fb55081e3d186fa286d23867b585",
+  "full_tree": "45511935c1ce911ea6c85eee5f6850095cbf966e",
+  "build_commit": "a03dff43df015b3be020c6717f6b1bf3c0ec2dd7",
+  "build_tree": "e6870add67f2b1602f60ef3a623cf08139831265",
+  "build_patch_sha256": "17db5a0db394c5c5db8f7182fb61866df656747b17e160ead4034e03a14dbc0a",
+  "full_patch_sha256": "f60071e6e0e81544ed537f572cdd02878df52582cabf81a322999066867d5e56",
+  "request_sha256": "27cdfcdf089af8dc025a90ec98e3e189701758ba4fe64f1d77ccd1dfc42421c5",
+  "request_id": "kani3300-cmp2-20261111-01",
+  "manifest_selectors": 20,
+  "harness_roots": 77,
+  "negative_roots": 38,
+  "review": {
+    "reviewer": "independent Luna HIGH /root/cmp2_review",
+    "candidate": "b1f0105c0390fb55081e3d186fa286d23867b585",
+    "verdict": "STATIC_GO_FOR_COORDINATOR_PRE_BUILD_CONSIDERATION",
+    "report": "REVIEW-CMP2.md",
+    "sha256": "c678c133a6d2d65cf60c88a8d0f8f85a3cbd2a8af0188ef462618eb421dcfac4"
+  },
+  "claims": [
+    {
+      "claim": "Ordinary formal-parameter shadow initialization added for delayed get targets; source checks retained; R/S/P/ghost/buffer unchanged",
+      "status": "STATIC_IMPLEMENTATION_NATIVE_NOT_RUN"
+    },
+    {
+      "claim": "All18 CMP1 entries, all35 negative requirements and old goldens retained; only two padding reads made direct",
+      "status": "STATIC_VERIFIED"
+    },
+    {
+      "claim": "Existing prepare-kani exact-pin applied tree equals inventory; reduced/full production and fixture blobs equal; KT2/request identities pass",
+      "status": "PASS_STATIC_ONLY"
+    },
+    {
+      "claim": "Independent semantic review exact candidate no blocking findings",
+      "status": "STATIC_REVIEW_ONLY"
+    }
+  ],
+  "open": [
+    "Actual failing-instance points-to binding and causal confirmation await native",
+    "All77 roots including38 negatives native NOT_RUN",
+    "No direct empty-entry-block or nested-pointer aggregate fixture; source review only",
+    "Rustfmt unavailable; compile not run locally per task",
+    "U8/U9(+U1/U2,U6) replay NOT_RUN, needs later native acceptance and separate GO",
+    "Inherited U3/PFC limitation OPEN"
+  ],
+  "builds": [],
+  "dispatch_authorized": false,
+  "phase_registered": false,
+  "closure_reason": "Task-specific mandatory PRE-BUILD review boundary: candidate, independent review, exact subset/request/static checks and result complete; GO pending",
+  "updated_utc": "2026-11-11T05:55:23.127521+00:00"
+}

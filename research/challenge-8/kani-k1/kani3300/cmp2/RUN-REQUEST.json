@@ -1,0 +1,172 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "kani3300-cmp2-20261111-01",
+  "agent": "k1-merge",
+  "kind": "kani-tests",
+  "purpose": "CMP2 repair: ordinary typed parameter shadow initialization with R/S/P unchanged. All18 CMP1 selectors/35negative roots retained, five minimal positives and three parameter negatives added. Native/core NOT_RUN; exact PRE-BUILD GO pending.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 10,
+  "harnesses": [],
+  "kani_patch": {
+    "path": "research/challenge-8/kani-k1/kani3300/cmp2/kani-uninit-cmp2-build.patch",
+    "sha256": "17db5a0db394c5c5db8f7182fb61866df656747b17e160ead4034e03a14dbc0a"
+  },
+  "test_timeout_seconds": 150,
+  "kani_tests": [
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-wrap-u3-intoiter/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/compound-cmp1-positive/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/compound-cmp1-empty-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/compound-cmp1-overwrite-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/compound-cmp1-call-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/compound-cmp1-projection-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/compound-cmp1-padding-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/compound-cmp1-layout-unsupported/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Kani does not support this compound storage layout."
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/compound-cmp1-no-mir-unsupported/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Kani does not support shadow-carrying arguments to calls without a MIR body."
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-wrap-u3-positive/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-wrap-u3-padding/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-wrap-u3-source-read/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-positive/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-overwrite-copy/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Check that *var_7 is assignable"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3-no-mir-unsupported/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Kani does not support shadow-carrying arguments to calls without a MIR body."
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/compound-cmp2-positive/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/compound-cmp2-argument-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
+    }
+  ]
+}
