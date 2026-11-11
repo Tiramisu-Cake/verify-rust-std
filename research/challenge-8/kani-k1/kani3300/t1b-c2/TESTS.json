@@ -1,0 +1,23 @@
+{
+  "kani_k1_service": {
+    "command": "python3 -B -m unittest discover -s research/challenge-8/kani-k1/tools -p test_kani_k1.py -q",
+    "tests": 97,
+    "passed": 97,
+    "new_test": "NativeTests.test_prepare_diffstat_bound_shared_with_preflight: 4096/4097 ASCII bytes and UTF-8 boundary, same Cloud prepare guard, reject before tree identity"
+  },
+  "diagnostic_reader_service": {
+    "command": "python3 -B -m unittest discover -s research/challenge-8/kani-k1/tools -p test_diagnostic_trace.py -q",
+    "tests": 15,
+    "passed": 15,
+    "coverage": "success/error/timeout/partial/missing/null/wrong type/NOT_RUN/identity-stage-target mismatch; original exits preserved"
+  },
+  "unchanged_compact_synthetic": {
+    "tests": 4,
+    "passed": 4
+  },
+  "packet_preflight": "PASS; PREFLIGHT.json; real C2 static Git metadata, original rejected C fails early, Kani HEAD/index/worktree preserved",
+  "git_diff_check": "PASS for code; patch is data with required context-space prefixes",
+  "local_prepare_compiler_cargo_rustc_kani_cbmc": "NOT_RUN",
+  "Cloud_Actions_dispatch": "NOT_RUN",
+  "proof_credit": "NONE"
+}

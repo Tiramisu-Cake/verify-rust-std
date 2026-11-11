@@ -1247,6 +1247,28 @@ def native_log(entry=NATIVE_ENTRY, result="FAILED"):
 
 
 class NativeTests(unittest.TestCase):
+    def test_prepare_diffstat_bound_shared_with_preflight(self):
+        # Synthetic service calls only: no checkout/preparation of the real Kani tree.
+        pin = "a" * 40
+        for stat, accepted in (("x" * 4096, True), ("x" * 4097, False),
+                               ("界" * 1365 + "x", True), ("界" * 1366, False)):
+            with self.subTest(bytes=len(stat.encode())):
+                if accepted:
+                    self.assertEqual(k.validate_patch_diffstat(stat), stat)
+                else:
+                    with self.assertRaisesRegex(k.RequestError, "diffstat exceeds bounded report size"):
+                        k.validate_patch_diffstat(stat)
+                with patch.object(k, "patch_bytes", return_value=None), patch.object(
+                        k, "git_output", side_effect=[pin, "", stat, "b" * 40]) as git:
+                    if accepted:
+                        info = k.prepare_kani({"kind": "diagnostic"}, Path("/fixture"), Path("/fixture"), pin)
+                        self.assertEqual(info["diffstat"], stat)
+                        self.assertEqual(info["tree"], "b" * 40)
+                    else:
+                        with self.assertRaisesRegex(k.RequestError, "diffstat exceeds bounded report size"):
+                            k.prepare_kani({"kind": "diagnostic"}, Path("/fixture"), Path("/fixture"), pin)
+                        self.assertEqual(git.call_count, 3)  # rejected before an identity can be returned
+
     def test_typed_manifest_and_limits(self):
         self.assertEqual(k.validate_request(copy.deepcopy(NATIVE_REQ)), NATIVE_REQ)
         self.assertEqual(k.kani_args(NATIVE_REQ), [])

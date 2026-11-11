@@ -1,0 +1,41 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "kani3300-t1b-c2-20261111-01",
+  "agent": "k1-merge",
+  "kind": "diagnostic",
+  "purpose": "KANI3300 T1b-C2: three roots (observed writer, failing target, passing contrast), one invocation, 1m each. Calibration pair omitted by coordinator budget decision; controls/uninit checks unchanged. Reserve $0.4455 <= $0.4490. Preparation only; dispatch requires coordinator GO.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 1,
+  "kani_jobs": 1,
+  "controls": true,
+  "uninit_checks": true,
+  "inventory": false,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "expect": "SUCCESS"
+    }
+  ],
+  "kani_patch": {
+    "path": "research/challenge-8/kani-k1/kani3300/t1b-c2/kani-combined.patch",
+    "sha256": "f38fe31c3c95724098d79f569faeba0b0602464cb0cb06c8983bbfebcf88c930"
+  },
+  "diagnostic_trace": {
+    "filters": [
+      "IndexRange::len",
+      "cmp3_index_range_len",
+      "cmp3_manually_drop_unsized_len"
+    ],
+    "library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
+    "base_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "expected_applied_tree": "4b08f55cae739d02d495c05eb23249a62a5a9e50"
+  }
+}

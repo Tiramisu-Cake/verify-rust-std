@@ -1,0 +1,13 @@
+--harness
+slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next
+--harness
+slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len
+--harness
+slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len
+-Z
+uninit-checks
+--exact
+--harness-timeout
+1m
+--jobs=1
+--output-format=terse

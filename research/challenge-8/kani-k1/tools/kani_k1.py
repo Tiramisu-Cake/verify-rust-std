@@ -91,6 +91,7 @@ MAX_MD_BYTES = 12000
 MAX_METADATA_FILES_PER_DIR = 2048
 MAX_METADATA_FILE_BYTES = 16 * 1024 * 1024
 METADATA_REFRESH_SECONDS = 2.0
+MAX_PATCH_DIFFSTAT_BYTES = 4096
 
 CHECKING_RE = re.compile(r"^(?:Thread \d+: )?Checking harness (\S+?)\.\.\.\s*$")
 # Under --jobs > 1 Kani prefixes every line of a harness's output with its worker, `Thread N: ` (seen in
@@ -315,6 +316,13 @@ def git_output(tree: Path, *args: str, data: bytes | None = None) -> str:
     return result.stdout.decode().strip()
 
 
+def validate_patch_diffstat(diffstat: str) -> str:
+    """Shared by disposable-index preflight and Cloud prepare; count UTF-8 report bytes."""
+    if len(diffstat.encode()) > MAX_PATCH_DIFFSTAT_BYTES:
+        raise RequestError("patch diffstat exceeds bounded report size")
+    return diffstat
+
+
 def prepare_kani(request: dict[str, Any], root: Path, tree: Path, pin: str) -> dict[str, Any]:
     """Fresh checkout only. The same in-memory bytes are checked and applied; index tree includes additions."""
     if git_output(tree, "rev-parse", "HEAD") != pin or git_output(tree, "status", "--porcelain", "--untracked-files=all"):
@@ -332,9 +340,7 @@ def prepare_kani(request: dict[str, Any], root: Path, tree: Path, pin: str) -> d
                 if not (tree / expected).exists():
                     expected = source.parent / "expected"
                 regular_inside(tree, str(expected))
-    diffstat = git_output(tree, "diff", "--cached", "--stat", pin)
-    if len(diffstat.encode()) > 4096:
-        raise RequestError("patch diffstat exceeds bounded report size")
+    diffstat = validate_patch_diffstat(git_output(tree, "diff", "--cached", "--stat", pin))
     return {"pin": pin, "patch": request.get("kani_patch"), "tree": git_output(tree, "write-tree"),
             "diffstat": diffstat}
 

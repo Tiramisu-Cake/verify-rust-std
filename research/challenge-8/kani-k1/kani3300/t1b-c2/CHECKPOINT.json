@@ -1,0 +1,23 @@
+{
+  "stage": "kani3300-t1b-c2",
+  "runtime": "Codex",
+  "task_commit": "437cbb0ce2d0a01d6fde5b8d2ffe9be1953081f3",
+  "state": "PRE_BUILD_REVIEW_PENDING",
+  "kani_commit": "12b4137c42f3ee92f12476ea0771ea41a5cd1e8d",
+  "request_sha256": "bb97062288c84b38ae25961ada87aaad28858e23023e69fb4677fa22830fdcaa",
+  "active_inputs_changed": false,
+  "phase_registered": false,
+  "dispatch_authorized": false,
+  "builds": 0,
+  "cloud_usd": "0.0000",
+  "static_preflight": "PREFLIGHT.json",
+  "tests": "TESTS.json",
+  "open": [
+    "Live ledgers/slots/deadlines UNKNOWN until coordinator GO.",
+    "New compile/verification/trace NOT_RUN; reproduction and actual applied/compiler identities UNKNOWN.",
+    "Calibration pair excluded by coordinator budget decision; all3 original SUCCESS expectations and checks preserved.",
+    "Static deployment tree is the non-test projection of unchanged Kani12b4137c42; full commit tree differs."
+  ],
+  "proof_credit": "NONE",
+  "next_step": "Independent review, commit/push without force; stop. Dispatch requires explicit coordinator GO."
+}
