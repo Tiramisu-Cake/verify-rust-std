@@ -31,3 +31,4 @@
 - Локальные cargo/rustc/Kani/CBMC, builds/dispatch/Actions/Cloud, raw evidence/credentials не запускались/не читались.
 - Следующий исполнительный gate — fork CI координатора на exact Kani HEAD: все шесть fixtures должны скомпилироваться и показать указанные named checks; существующие регрессии — прежние outcomes; FnPtrShim — внутренний Unsupported.
 - Независимое Luna HIGH review: PASS, findings нет; REVIEW.md. Committed delta packet f4bb3648f8f5df1be44a43b7ee23375e74e331f0f10f6196c99c4b56d06eb412 проверен review check.
+- Research diff.patch содержит обязательные context-пробелы unified diff; локальный .gitattributes исключает только blank-at-eol/blank-at-eof для этого артефакта, сохраняя exact reviewed bytes.
