@@ -1,7 +1,7 @@
 # KANI3300 U3C — clean PRE-BUILD
 
 PREPARED; native NOT_RUN. Только отдельный exact-packet GO координатора разрешит dispatch.
-Task: ../../../../TASK-KANI3300-U3C.md; планер PLANNER-AFTER-U3B-ANSWER.md п.1–3,5 прочитан.
+Task: ../../../TASK-KANI3300-U3C.md; планер PLANNER-AFTER-U3B-ANSWER.md п.1–3,5 прочитан.
 
 - Research branch: experiment/kani-k1-kani3300u3c-20261111; вход 385a116e6f2a81654ec19a6d17ea2010984f4251.
 - Kani pin: `f046b70644e113be0df9c22c2e6ea44a65a57566`; локальная test-ветка `u3c-clean`, commit `8757e3105d2fa0fc58b55d4d8c31e58ff0dd15e2`.
@@ -50,7 +50,8 @@ Work budget5min, selector150s; reserve(5+30)*0.0135=$0.4725; две разные
 Build attempts0, spend0, actual reserve0. Repair не предусмотрен. Main300min + closeout30min из задания, без переноса T0.
 Подготовка не регистрирует фазу и не расходует GO. Общий ledger/slots проверять штатно непосредственно перед dispatch.
 Root RUN-REQUEST.json сейчас побайтно равен clean snapshot. Это первый предлагаемый exact пакет.
-Перед submit независимый bounded review диагностического пакета; production U1 уже рассмотрен в ../../u1/REVIEW-KANI3300-U1R.md.
+Независимый bounded review обоих пакетов: PASS, Luna HIGH, candidate 0b0a3c33978b72147658422fac3424ce3255ac8f; ../REVIEW-U3C-PACKET.md.
+Production U1 ранее рассмотрен в ../../u1/REVIEW-KANI3300-U1R.md; review не даёт coordinator GO.
 После каждого GO/build — k1g.sh watch BUILD и конец хода. Raw evidence/локальные cargo/rustc/Kani/CBMC запрещены.
 Clean Unsupported + U1 assigns не устанавливает регрессию v2; U1 SUCCESS на том же root против v2 OOM — ухудшение на fixture.
 OOM на старых базах — существовавшее ограничение этих repro. Механизм buffer-in-MEM_INIT_STATE пока гипотеза;

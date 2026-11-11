@@ -1,0 +1,40 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-u3c",
+  "baseline_commit": "385a116e6f2a81654ec19a6d17ea2010984f4251",
+  "candidate_commit": "0b0a3c33978b72147658422fac3424ce3255ac8f",
+  "defect": "U3B observed Kani-reported OOM in two exact PFC/modifies roots with uninit checks; clean/U1 comparison is missing. This candidate prepares two differential diagnostic packets, without production model changes.",
+  "applicability": "KANI3300 U3C diagnostic fixtures and request/patch identities only. Both build requests need separate coordinator GO.",
+  "invariants": [
+    "Production clean=f046 unchanged; production U1 byte-equal 546bcf3, no other production changes.",
+    "Four historical main.rs sources and exact flags/roots must remain byte-equal 0ab9cc703a. All experiment files identical between variants.",
+    "No correctness credit from neutral goldens, native PASS, uninit-off negative SUCCESS, or OOM. No existing U3B control files changed.",
+    "Tooling, Kani pin, toolchain, lane and all existing historical evidence/controls unchanged."
+  ],
+  "controls": [
+    "Seven exact selectors: positive PFC on/off, negative PFC on/off, MU-free PFC on/off, MU-free plain on. All NOT_RUN.",
+    "MU-free controls must preserve function body/contract and change only uninit flag or proof attribute.",
+    "Neutral goldens and VERIFICATION:- diagnostic are explicitly permitted by task; verify actual outcome remains classifiable from bounded KT2 excerpt, including Unsupported and OOM."
+  ],
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-U3C.md",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh",
+    "research/challenge-8/kani-k1/tools/k1g.sh",
+    "tool_config/kani-version.toml",
+    "rust-toolchain.toml",
+    "research/challenge-8/kani-k1/kani3300/u3b/RESULT-KANI3300-U3B.md",
+    "research/challenge-8/kani-k1/kani3300/u1/REVIEW-KANI3300-U1R.md"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-u3c/research/challenge-8/kani-k1/kani3300/u1/REVIEW-KANI3300-U1R.md",
+      "sha256": "f83ac4859264022037fc4941a1f782f0690c739922d85372d092ad3bd5feab35"
+    }
+  ],
+  "known_limitations": [
+    "Static packet only; no native proof or performance evidence.",
+    "Neutral golden may cause native ERROR on Unsupported/OOM; own output excerpt must be read for classification.",
+    "No second-marker experiment, repairs, or CI dispatch authorized until exact coordinator GO."
+  ]
+}

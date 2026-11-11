@@ -44,7 +44,10 @@
   "window": {
     "main_minutes": 300,
     "closeout_minutes": 30,
-    "t0": "NOT_REGISTERED; preparation does not register coordinator phase"
+    "conservative_anchor_utc": "2026-11-11T05:10:16Z",
+    "anchor_source": "Input TASK commit 385a116e6f committer timestamp; conservative bound predates preparation. This is not a coordinator phase registration and GO cannot reset it.",
+    "main_not_after_utc": "2026-11-11T10:10:16Z",
+    "absolute_not_after_utc": "2026-11-11T10:40:16Z"
   },
   "next": "Publish clean exact PRE-BUILD packet; stop for coordinator GO. No dispatch before GO.",
   "rejected_approaches": [
@@ -54,5 +57,14 @@
     "Dispatch or reserve before exact coordinator GO",
     "Push local Kani branches to source read-only clones",
     "Raw logs/archives or local verifier/compiler execution"
-  ]
+  ],
+  "independent_review": {
+    "status": "PASS_BOUNDED_STATIC_ONLY",
+    "candidate": "0b0a3c33978b72147658422fac3424ce3255ac8f",
+    "reviewer": "GPT-6 Luna HIGH",
+    "report": "REVIEW-U3C-PACKET.md",
+    "spec": "REVIEW-SPEC.json",
+    "receipt": "REVIEW-PACKET-RECEIPT.json",
+    "post_review_delta": "Documentation/receipt only; request/patch/fixture/production/tooling unchanged"
+  }
 }
