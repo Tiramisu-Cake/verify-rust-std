@@ -1,0 +1,18 @@
+request_id=kani3300-cmp3-uninit-20261111-01
+request_sha256=2fcfec5e616561e62bdddb894ab3378974a020c03ea6fc1871f668571a90cf7a
+build_id=ddcd43e2-f48e-4b1f-b688-931250adf78e
+head_sha=d1e1a985b2d49dd0d625565e38b11b42d283bbb2
+total=9
+offset=0
+count=9
+next_offset=done
+name	status	time_s	checks	covers
+slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len	FAILED	0.2316372	2/28	1/1
+slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_sized_len	FAILED	1.8317611	2/142	2/2
+slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_unsized_len	FAILED	1.9735942	2/142	2/2
+slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len	SUCCESS	1.4614449	0/92	2/2
+slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_len	SUCCESS	1.1936973	0/149	1/1
+slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next	SUCCESS	2.7837844	0/254	3/3
+slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4	SUCCESS	32.39374	0/550	1/1
+slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8	FAILED	0.6153062	1/30	3/3
+slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8	SUCCESS	0.53942996	0/31	3/3

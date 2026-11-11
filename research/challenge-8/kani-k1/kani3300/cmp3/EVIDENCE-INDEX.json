@@ -1,0 +1,103 @@
+{
+  "build_id": "ddcd43e2-f48e-4b1f-b688-931250adf78e",
+  "source_head": "d1e1a985b2d49dd0d625565e38b11b42d283bbb2",
+  "assurance": "Saved bounded reader outputs only; these hashes identify returned outputs, not an archive/inventory/AST/MIR binding.",
+  "queries": [
+    {
+      "name": "summary",
+      "command": "k1g.sh summary ddcd43e2-f48e-4b1f-b688-931250adf78e",
+      "exit_code": 0,
+      "outputs": [
+        {
+          "path": "evidence/ddcd43e2/summary.md",
+          "bytes": 7308,
+          "sha256": "1bb43e57986f56835da34b760befec7549c4f61d748bf865150b30316bd38df5"
+        }
+      ]
+    },
+    {
+      "name": "rows",
+      "command": "k1g.sh summary ddcd43e2-f48e-4b1f-b688-931250adf78e 0 9",
+      "exit_code": 0,
+      "outputs": [
+        {
+          "path": "evidence/ddcd43e2/rows.txt",
+          "bytes": 1280,
+          "sha256": "7d6441bde1a0ad233ab663d37d5fe2b1f902a5f65b6e7a96a655f6faf2911aec"
+        }
+      ]
+    },
+    {
+      "name": "native",
+      "command": "k1g.sh native ddcd43e2-f48e-4b1f-b688-931250adf78e 0 1",
+      "exit_code": 2,
+      "outputs": [
+        {
+          "path": "evidence/ddcd43e2/native.txt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/ddcd43e2/native-error.txt",
+          "bytes": 42,
+          "sha256": "88332bdcda05fe374078181012ce25267a824af69b42fcbdb4f24a505efb09df"
+        }
+      ]
+    },
+    {
+      "name": "tooling",
+      "command": "k1g.sh check-tooling ddcd43e2-f48e-4b1f-b688-931250adf78e 3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+      "exit_code": 0,
+      "outputs": [
+        {
+          "path": "evidence/ddcd43e2/check-tooling.txt",
+          "bytes": 1309,
+          "sha256": "ca8e993f23dcaf8ff9e4cc90dfa8b29c88a28a3bf903c9a7180e7d768bd1871b"
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "command": "k1g.sh status ddcd43e2-f48e-4b1f-b688-931250adf78e",
+      "exit_code": 0,
+      "outputs": [
+        {
+          "path": "evidence/ddcd43e2/status.json",
+          "bytes": 366,
+          "sha256": "4d14c6a19e84b58fc0c47e7f5a6492d7365a6afacb5b9c6f09b4a227bec67080"
+        }
+      ]
+    },
+    {
+      "name": "budget",
+      "command": "k1g.sh budget ddcd43e2-f48e-4b1f-b688-931250adf78e",
+      "exit_code": 0,
+      "outputs": [
+        {
+          "path": "evidence/ddcd43e2/budget.txt",
+          "bytes": 16,
+          "sha256": "284140415b7000cde003eba4dd97338efe4c5698a1a4581f5f929cce3541d988"
+        }
+      ]
+    },
+    {
+      "name": "brief",
+      "command": "smallsort-brief ddcd43e2-f48e-4b1f-b688-931250adf78e",
+      "exit_code": 1,
+      "outputs": [
+        {
+          "path": "evidence/ddcd43e2/brief.txt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "evidence/ddcd43e2/brief-error.txt",
+          "bytes": 72,
+          "sha256": "7fea6ca116e6536b4a7557d51944a5e1e3deeba9dab5acc981e93ca37224e84b"
+        }
+      ]
+    }
+  ],
+  "raw_logs_or_archives_read": false,
+  "proof_credit": "NONE"
+}

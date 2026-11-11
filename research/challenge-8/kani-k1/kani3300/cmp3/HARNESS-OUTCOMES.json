@@ -1,0 +1,158 @@
+{
+  "build_id": "ddcd43e2-f48e-4b1f-b688-931250adf78e",
+  "head_sha": "d1e1a985b2d49dd0d625565e38b11b42d283bbb2",
+  "request_sha256": "2fcfec5e616561e62bdddb894ab3378974a020c03ea6fc1871f668571a90cf7a",
+  "source": "bounded k1g.sh summary and summary 0 9 outputs; not raw logs",
+  "summary_output_sha256": "1bb43e57986f56835da34b760befec7549c4f61d748bf865150b30316bd38df5",
+  "row_output_sha256": "7d6441bde1a0ad233ab663d37d5fe2b1f902a5f65b6e7a96a655f6faf2911aec",
+  "summary_status": "COMPLETE",
+  "gate": false,
+  "counts": {
+    "SUCCESS": 5,
+    "FAILED": 4,
+    "unexpected_positive_failures": 3,
+    "expected_negative_failures": 1
+  },
+  "rows": [
+    {
+      "step": 1,
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "status": "FAILED",
+      "time_s": 0.2316372,
+      "checks_failed": 2,
+      "checks_total": 28,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "failed_checks_verbatim": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `usize` @ /workspace/src/library/core/src/ops/index_range.rs:57",
+        "Undefined Behavior: Reading from an uninitialized pointer of type `usize` @ /workspace/src/library/core/src/ops/index_range.rs:57"
+      ],
+      "summary_omitted_failed_checks": 0,
+      "native_omitted_count": null
+    },
+    {
+      "step": 2,
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_sized_len",
+      "status": "FAILED",
+      "time_s": 1.8317611,
+      "checks_failed": 2,
+      "checks_total": 142,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "failed_checks_verbatim": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `usize` @ /workspace/src/library/core/src/ops/index_range.rs:57",
+        "Undefined Behavior: Reading from an uninitialized pointer of type `usize` @ /workspace/src/library/core/src/ops/index_range.rs:57"
+      ],
+      "summary_omitted_failed_checks": 0,
+      "native_omitted_count": null
+    },
+    {
+      "step": 3,
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_unsized_len",
+      "status": "FAILED",
+      "time_s": 1.9735942,
+      "checks_failed": 2,
+      "checks_total": 142,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "failed_checks_verbatim": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `usize` @ /workspace/src/library/core/src/ops/index_range.rs:57",
+        "Undefined Behavior: Reading from an uninitialized pointer of type `usize` @ /workspace/src/library/core/src/ops/index_range.rs:57"
+      ],
+      "summary_omitted_failed_checks": 0,
+      "native_omitted_count": null
+    },
+    {
+      "step": 4,
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "status": "SUCCESS",
+      "time_s": 1.4614449,
+      "checks_failed": 0,
+      "checks_total": 92,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "failed_checks_verbatim": [],
+      "summary_omitted_failed_checks": 0,
+      "native_omitted_count": null
+    },
+    {
+      "step": 5,
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_len",
+      "status": "SUCCESS",
+      "time_s": 1.1936973,
+      "checks_failed": 0,
+      "checks_total": 149,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "failed_checks_verbatim": [],
+      "summary_omitted_failed_checks": 0,
+      "native_omitted_count": null
+    },
+    {
+      "step": 6,
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+      "status": "SUCCESS",
+      "time_s": 2.7837844,
+      "checks_failed": 0,
+      "checks_total": 254,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "failed_checks_verbatim": [],
+      "summary_omitted_failed_checks": 0,
+      "native_omitted_count": null
+    },
+    {
+      "step": 7,
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4",
+      "status": "SUCCESS",
+      "time_s": 32.39374,
+      "checks_failed": 0,
+      "checks_total": 550,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "failed_checks_verbatim": [],
+      "summary_omitted_failed_checks": 0,
+      "native_omitted_count": null
+    },
+    {
+      "step": 8,
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "status": "FAILED",
+      "time_s": 0.6153062,
+      "checks_failed": 1,
+      "checks_total": 30,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "failed_checks_verbatim": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8` @ /workspace/src/library/core/src/mem/mod.rs:1283"
+      ],
+      "summary_omitted_failed_checks": 0,
+      "native_omitted_count": null
+    },
+    {
+      "step": 9,
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+      "status": "SUCCESS",
+      "time_s": 0.53942996,
+      "checks_failed": 0,
+      "checks_total": 31,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "failed_checks_verbatim": [],
+      "summary_omitted_failed_checks": 0,
+      "native_omitted_count": null
+    }
+  ],
+  "first_failed_step": 1,
+  "localization": "Direct IndexRange zero_to(2).len already reports uninitialized usize; adapters/unsize/IntoIter are not necessary to observe a failure in this packet.",
+  "cause": "UNKNOWN",
+  "limitations": [
+    "Only line-level descriptions/locations survive this selected-run summary; property IDs, columns, concrete function/MIR instances and causal object binding are unavailable.",
+    "Steps 2/3 share the len span with Drop paths; summary alone does not distinguish target-call versus Drop instances. Covers are aggregate counts, not named per-cover records.",
+    "All seven listed Failed Checks account for aggregate failure counts, so summary omissions=0; native omission metadata is unavailable, not zero.",
+    "Actual argv is unavailable; flags are source-reported summary settings, supported by unchanged tooling/request binding.",
+    "Brief HTTP404; native command exit2 no structured native report. No raw fallback used.",
+    "U8 SUCCESS does not replace original U4 gates or establish general proof credit."
+  ],
+  "proof_credit": "NONE"
+}

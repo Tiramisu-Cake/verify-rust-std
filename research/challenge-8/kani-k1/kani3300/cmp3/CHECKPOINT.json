@@ -1,6 +1,6 @@
 {
   "stage": "kani3300-cmp3",
-  "state": "PREPARED_REVIEWED_WAITING_EXACT_PACKET_GO",
+  "state": "COMPLETE_DIAGNOSTIC_GATE_FAIL",
   "runtime": "Codex",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-CMP3.md",
   "worktree": "/root/verify-rust-std-kani3300-cmp3",
@@ -12,13 +12,16 @@
   "kani_patch_sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4",
   "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
   "cloud": {
-    "status": "NOT_RUN",
-    "build_id": null,
-    "spend_usd": "0",
-    "submitted_reserve_usd": "0",
+    "status": "FAILURE",
+    "build_id": "ddcd43e2-f48e-4b1f-b688-931250adf78e",
+    "spend_usd": "0.1215",
+    "submitted_reserve_usd": "0.0000",
     "planned_reserve_usd": "0.7695",
     "cap_usd": "0.80",
-    "attempts_allowed": 1
+    "attempts_allowed": 1,
+    "summary_status": "COMPLETE",
+    "attempts_used": 1,
+    "gate": false
   },
   "claims": [
     {
@@ -30,6 +33,16 @@
       "claim": "Immutable U4 production-only patch equals CMP2 production sections; protected tooling paths equal KT2.",
       "assurance": "static only",
       "reference": "static-check.json"
+    },
+    {
+      "claim": "Nine roots completed; first failed step1 direct IndexRange; steps2/3 failed, steps4/5/6/U8/U2 succeeded; U1 failed as expected.",
+      "assurance": "source-reported bounded diagnostic, no independent proof credit",
+      "reference": "HARNESS-OUTCOMES.json"
+    },
+    {
+      "claim": "Exact head/request/patch/expected applied tree and KT2 tooling/pool binding match; actual argv unavailable.",
+      "assurance": "bounded summary and check-tooling receipt",
+      "reference": "POST-BUILD-OBSERVATIONS.json"
     }
   ],
   "independent_review": {
@@ -45,13 +58,16 @@
     "proof_credit": "NONE"
   },
   "open": [
-    "Actual runtime/typechecking/instrumentation/argv/tree, nine statuses/failure counts/covers NOT_RUN.",
-    "Cause UNKNOWN: no linked transfer/delayed-get object observations for CMP3.",
-    "Thread cwd /root; later runtime must satisfy watcher entry rules before any Build.",
-    "U4 retains its original gates; CMP3 cannot release it."
+    "Cause UNKNOWN: no linked transfer/delayed-get function/MIR/object/R/points-to/order observations.",
+    "Native report unavailable and Brief HTTP404; only bounded summary descriptions/line locations and aggregate covers available.",
+    "Steps2/3 len-vs-Drop function-instance attribution UNKNOWN.",
+    "U8 SUCCESS is specific to this packet; original U4 gates and separate exact-packet GO remain required."
   ],
   "proof_credit": "NONE",
-  "next_step": "Coordinator reviews exact final published packet; stop at PRE-BUILD REVIEW until explicit GO. No dispatch, phase activation or reservation during preparation.",
-  "stop_boundary": "Explicit kickoff authorizes preparation only; no dispatch, phase activation, reservation or retries.",
-  "semantic_candidate": "e8712286a092ff417a6cc7651e679f1d7598d3f0"
+  "next_step": "New authorization for bounded nonmutating trace of failing direct IndexRange and passing ManuallyDrop path. No repair or retry in CMP3; U4 gates and separate GO remain unchanged.",
+  "stop_boundary": "One authorized CMP3 diagnostic Build completed; no repeat. Record result, publish research-only closeout, KANI3300 CMP3 ЗАВЕРШЁН and stop.",
+  "semantic_candidate": "e8712286a092ff417a6cc7651e679f1d7598d3f0",
+  "dispatch_head": "d1e1a985b2d49dd0d625565e38b11b42d283bbb2",
+  "result": "RESULT-KANI3300-CMP3.md",
+  "evidence_index": "EVIDENCE-INDEX.json"
 }

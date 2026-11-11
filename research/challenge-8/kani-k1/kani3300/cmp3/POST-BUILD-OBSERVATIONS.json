@@ -1,0 +1,66 @@
+{
+  "stage": "kani3300-cmp3",
+  "authorization": {
+    "source": "Coordinator exact-packet GO in user message",
+    "source_head": "d1e1a985b2d49dd0d625565e38b11b42d283bbb2",
+    "request_id": "kani3300-cmp3-uninit-20261111-01",
+    "reserve_usd": "0.7695",
+    "cap_usd": "0.80",
+    "attempts_allowed": 1
+  },
+  "build": {
+    "createTime": "2026-11-11T06:34:14.921905240Z",
+    "finishTime": "2026-11-11T06:43:55.075280Z",
+    "id": "ddcd43e2-f48e-4b1f-b688-931250adf78e",
+    "pool": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4",
+    "source_sha": "d1e1a985b2d49dd0d625565e38b11b42d283bbb2",
+    "startTime": "2026-11-11T06:35:05.583524705Z",
+    "status": "FAILURE",
+    "timeout": "3420s"
+  },
+  "summary_status": "COMPLETE",
+  "gate": false,
+  "expectation_met": false,
+  "kani_exit_code": 1,
+  "kani_build": "success",
+  "kani_build_seconds": 253,
+  "applied_tree": "d356238999ab436ddc1dd7ffa845b0db214aa53e",
+  "kani_patch_sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4",
+  "request_sha256": "2fcfec5e616561e62bdddb894ab3378974a020c03ea6fc1871f668571a90cf7a",
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "check_tooling": "PASS",
+  "coverage": {
+    "roots_returned": 9,
+    "root_page_total": 9,
+    "root_page_next_offset": "done",
+    "all_cover_aggregate_counts_satisfied": true,
+    "named_cover_results": "UNAVAILABLE",
+    "summary_failed_checks_returned": 7,
+    "summary_failed_checks_omitted": 0,
+    "summary_output_truncated": false,
+    "native_omission_metadata": "UNAVAILABLE"
+  },
+  "limitations": {
+    "brief": "exit1: Reader report or query route is unavailable (HTTP 404)",
+    "native": "exit2: page-summary: no structured native report",
+    "actual_argv": "UNKNOWN; settings source-reported by summary and bound unchanged request/tooling",
+    "causal_transfer_delayed_get_binding": "UNKNOWN; no function instance/MIR place/object offset/R ranges/points-to/Set-Copy-Get order exposed",
+    "raw_fallback_used": false
+  },
+  "cost": {
+    "builds": 1,
+    "used_usd": "0.1215",
+    "reserved_usd": "0.0000",
+    "cap_usd": "0.80",
+    "planned_reserve_usd": "0.7695"
+  },
+  "next_step": "New authorization for bounded nonmutating trace of failing direct IndexRange and passing ManuallyDrop path. No repair or retry in CMP3; U4 gates and separate GO remain unchanged.",
+  "assurance": "source-reported bounded diagnostic observations only",
+  "independent_B1_B2_credit": "NONE",
+  "references": [
+    "RESULT-KANI3300-CMP3.md",
+    "HARNESS-OUTCOMES.json",
+    "EVIDENCE-INDEX.json"
+  ]
+}
