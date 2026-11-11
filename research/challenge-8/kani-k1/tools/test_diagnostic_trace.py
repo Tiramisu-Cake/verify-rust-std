@@ -32,7 +32,7 @@ REQUEST = {
 
 def sidecar(directory: Path, request_text: str, *, state="COMPLETE", stage=dt.STAGE,
             trace_id=None, records=None, footer=True, omitted=0, seen=None,
-            bytes_before_footer=None):
+            bytes_before_footer=None, context=None):
     trace_id = trace_id or hashlib.sha256(request_text.encode()).hexdigest()
     invocation = "compiler-1"
     events = records if records is not None else [{"kind": "mir", "data": {"target": "IndexRange::len"}}]
@@ -43,6 +43,9 @@ def sidecar(directory: Path, request_text: str, *, state="COMPLETE", stage=dt.ST
                                  "invocation_bytes": dt.MAX_PRODUCER_INVOCATION_BYTES}}}]
     rows += [{"schema": dt.SCHEMA, "kind": row["kind"], "trace_id": trace_id, "stage": stage,
               "invocation": invocation, "seq": i + 1, "data": row["data"]} for i, row in enumerate(events)]
+    if context is not None:
+        for row in rows:
+            row["context"] = context
     if footer:
         prefix_bytes = sum(len(json.dumps(row, separators=(",", ":")).encode()) + 1 for row in rows)
         rows.append({"schema": dt.SCHEMA, "kind": "footer", "trace_id": trace_id, "stage": stage,
@@ -52,6 +55,8 @@ def sidecar(directory: Path, request_text: str, *, state="COMPLETE", stage=dt.ST
                               "bytes_before_footer": prefix_bytes if bytes_before_footer is None else bytes_before_footer,
                               "coverage": {"mir": len(events)},
                               "omission_counts": ({"synthetic": omitted} if omitted else {})}})
+    if context is not None:
+        rows[-1]["context"] = context
     (directory / "kani3300-trace-1-0.jsonl").write_text("".join(json.dumps(r, separators=(",", ":")) + "\n" for r in rows))
 
 
@@ -144,10 +149,14 @@ class DiagnosticTraceTests(unittest.TestCase):
     def test_complete_and_paged_summary_binding(self):
         with tempfile.TemporaryDirectory() as tmp:
             directory = Path(tmp); raw = json.dumps(REQUEST, separators=(",", ":"))
-            sidecar(directory, raw)
+            producer_context = {"root": "crate::array::cmp3", "stage": "codegen", "unit": 7}
+            sidecar(directory, raw, context=producer_context)
+            sidecar_path = directory / "kani3300-trace-1-0.jsonl"
+            raw_sidecar = sidecar_path.read_bytes()
             result = collect(directory, raw)
-            self.assertEqual(result["state"], "COMPLETE")
+            self.assertEqual(result["state"], "COMPLETE", result["errors"])
             self.assertEqual(result["identity"]["library_tree"], TREE)
+            self.assertEqual(result["sidecars"][0]["sha256"], hashlib.sha256(raw_sidecar).hexdigest())
             summary = {"run": {"id": "build-1"}, "head_sha": "f" * 40,
                        "request_sha256": hashlib.sha256(raw.encode()).hexdigest(), "kani_commit": PIN,
                        "kani_build": {"patch": REQUEST["kani_patch"], "tree": APPLIED},
@@ -155,6 +164,9 @@ class DiagnosticTraceTests(unittest.TestCase):
             page = json.loads(dt.trace_field_page(summary, "records", 0, 20, "build-1"))
             self.assertEqual(page["next_start"], None)
             self.assertTrue(page["complete"])
+            self.assertEqual(page["records"][0]["context"], producer_context)
+            sidecar_page = json.loads(dt.trace_field_page(summary, "sidecars", 0, 20, "build-1"))
+            self.assertEqual(sidecar_page["records"][0]["sha256"], hashlib.sha256(raw_sidecar).hexdigest())
             with self.assertRaisesRegex(ValueError, "identity mismatch"):
                 dt.trace_field_page(summary, "records", 0, 20, "build-2")
             mutations = [
@@ -252,6 +264,19 @@ class DiagnosticTraceTests(unittest.TestCase):
             records = [{"kind": "x", "data": {"v": "x" * 2100}}]
             sidecar(directory, raw, records=records)
             self.assertEqual(collect(directory, raw)["state"], "INVALID")
+        bad_contexts = [
+            {"root": 7, "stage": "codegen", "unit": 1},
+            {"root": "r", "stage": "s" * 65, "unit": None},
+            {"root": "r" * 321, "stage": "codegen", "unit": None},
+            {"root": "r", "stage": "codegen", "unit": True},
+            {"root": "r", "stage": "codegen", "unit": -1},
+            {"root": "r", "stage": "codegen", "unit": None, "extra": 1},
+        ]
+        for context in bad_contexts:
+            with self.subTest(context=context):
+                with tempfile.TemporaryDirectory() as tmp:
+                    directory = Path(tmp); sidecar(directory, raw, context=context)
+                    self.assertEqual(collect(directory, raw)["state"], "INVALID")
 
     def service_run(self, *, traced: bool, result: str, producer: str = "valid",
                     rustflags: str | None = "--cfg inherited_test"):

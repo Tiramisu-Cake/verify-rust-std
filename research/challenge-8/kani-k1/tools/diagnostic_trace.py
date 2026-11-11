@@ -53,6 +53,17 @@ def _coverage_incomplete(value: Any) -> bool:
     return False
 
 
+def _validate_context(value: Any) -> None:
+    if not isinstance(value, dict) or set(value) != {"root", "stage", "unit"}:
+        raise ValueError("trace context must contain exactly root, stage, unit")
+    if (not isinstance(value["root"], str) or len(value["root"].encode("utf-8")) > 320
+            or not isinstance(value["stage"], str) or len(value["stage"].encode("utf-8")) > 64):
+        raise ValueError("trace context root/stage type or byte limit invalid")
+    unit = value["unit"]
+    if unit is not None and (type(unit) is not int or unit < 0):
+        raise ValueError("trace context unit must be null or a non-negative integer")
+
+
 def validate_trace_page_identity(summary: dict[str, Any]) -> dict[str, Any]:
     """Validate source, request, and target identities before exposing any trace page."""
     trace = summary.get("diagnostic_trace")
@@ -138,6 +149,21 @@ def validate_trace_page_identity(summary: dict[str, Any]) -> dict[str, Any]:
     if (not isinstance(records, list) or any(type(n) is not int or n < 0 for n in (seen, emitted, omitted))
             or emitted != len(records) or seen != emitted + omitted):
         raise ValueError("diagnostic trace record counters inconsistent")
+    sidecars = trace.get("sidecars")
+    if not isinstance(sidecars, list) or len(sidecars) > MAX_SIDECARS:
+        raise ValueError("diagnostic trace sidecar identity list missing/oversized")
+    for sidecar in sidecars:
+        if (not isinstance(sidecar, dict) or not isinstance(sidecar.get("file"), str)
+                or not sidecar["file"].startswith("kani3300-trace-")
+                or not sidecar["file"].endswith(".jsonl") or not isinstance(sidecar.get("status"), str)):
+            raise ValueError("diagnostic trace sidecar identity malformed")
+        if sidecar["status"] == "READ":
+            if (type(sidecar.get("bytes")) is not int or sidecar["bytes"] < 0
+                    or not isinstance(sidecar.get("sha256"), str)
+                    or not re.fullmatch(r"[0-9a-f]{64}", sidecar["sha256"])):
+                raise ValueError("diagnostic trace sidecar content hash malformed")
+        elif sidecar.get("sha256") is not None:
+            raise ValueError("unread sidecar cannot claim a complete content hash")
     coverage = trace.get("coverage")
     if not isinstance(coverage, list):
         raise ValueError("diagnostic trace coverage summary missing")
@@ -216,7 +242,7 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
     trace: dict[str, Any] = {
         "schema": "kani3300-diagnostic-trace-v1", "diagnostic_only": True,
         "state": "INCOMPLETE", "complete": False, "records": [], "seen": 0, "emitted": 0,
-        "omitted": 0, "omitted_bytes": 0, "errors": [], "coverage": [],
+        "omitted": 0, "omitted_bytes": 0, "errors": [], "coverage": [], "sidecars": [],
         "source_identity": {"trace_id": expected_id, "stage": STAGE, "schema": SCHEMA,
                             "filter_mode": FILTER_MODE,
                             "filter_sha256": hashlib.sha256(";".join(filters).encode()).hexdigest()},
@@ -267,29 +293,43 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
     invocations: list[str] = []
     for path in files:
         if path.is_symlink():
+            trace["sidecars"].append({"file": path.name, "bytes": None, "sha256": None, "status": "SYMLINK"})
             trace["errors"].append("sidecar is a symlink")
             states.append("INVALID")
             continue
         try:
             size = path.stat().st_size
             if size > MAX_INVOCATION_BYTES:
+                trace["sidecars"].append({"file": path.name, "bytes": size, "sha256": None,
+                                          "status": "NOT_READ_INVOCATION_CAP"})
                 trace["errors"].append(f"{path.name}: sidecar exceeds 256 KiB invocation cap")
                 states.append("OVERSIZED")
                 continue
             if total_bytes + size > MAX_RUN_BYTES:
+                trace["sidecars"].append({"file": path.name, "bytes": size, "sha256": None,
+                                          "status": "NOT_READ_RUN_CAP"})
                 trace["errors"].append("aggregate sidecar bytes exceed 1 MiB")
                 states.append("OVERSIZED")
                 break
             with path.open("rb") as stream:
                 raw = stream.read(MAX_RUN_BYTES - total_bytes + 1)
             if len(raw) > MAX_RUN_BYTES - total_bytes:
+                trace["sidecars"].append({"file": path.name, "bytes": size, "sha256": None,
+                                          "prefix_bytes": len(raw),
+                                          "prefix_sha256": hashlib.sha256(raw).hexdigest(),
+                                          "status": "PARTIAL_READ_RUN_CAP"})
                 trace["errors"].append("aggregate sidecar bytes exceed 1 MiB")
                 states.append("OVERSIZED")
                 break
         except OSError as exc:
+            if not any(item.get("file") == path.name for item in trace["sidecars"]):
+                trace["sidecars"].append({"file": path.name, "bytes": None, "sha256": None,
+                                          "status": f"READ_ERROR:{type(exc).__name__}"})
             trace["errors"].append(f"sidecar read failed: {type(exc).__name__}")
             states.append("INVALID")
             continue
+        trace["sidecars"].append({"file": path.name, "bytes": len(raw),
+                                  "sha256": hashlib.sha256(raw).hexdigest(), "status": "READ"})
         total_bytes += len(raw)
         if total_bytes > MAX_RUN_BYTES:
             trace["errors"].append("aggregate sidecar bytes exceed 1 MiB")
@@ -354,6 +394,12 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
                    or type(row.get("seq")) is not int or not isinstance(row.get("kind"), str)
                    or not isinstance(row.get("data"), dict) for row in rows):
                 raise ValueError("record identity/schema/type mismatch")
+            context_presence = ["context" in row for row in rows]
+            if any(context_presence) and not all(context_presence):
+                raise ValueError("trace context missing from some invocation rows")
+            for row in rows:
+                if "context" in row:
+                    _validate_context(row["context"])
             records = rows[1:-1]
             if any(row.get("kind") in ("header", "footer") for row in records):
                 raise ValueError("unexpected internal header/footer record")
@@ -397,8 +443,9 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
             room = max(0, MAX_RUN_RECORDS - len(all_records))
             retained = records[:room]
             dropped = len(records) - len(retained)
-            all_records.extend({"invocation": invocation, "seq": row["seq"], "kind": row["kind"], "data": row["data"]}
-                               for row in retained)
+            all_records.extend({"invocation": invocation, "seq": row["seq"], "kind": row["kind"],
+                                **({"context": row["context"]} if "context" in row else {}),
+                                "data": row["data"]} for row in retained)
             if dropped:
                 total_omitted += dropped
                 states.append("OVERSIZED")
