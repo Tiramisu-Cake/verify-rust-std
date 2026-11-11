@@ -1,0 +1,35 @@
+{
+  "applicability": "Static review only. Tests under tests/expected/zst-union-arm must use default checks; remove zst-union-arm-uninit-checks, keep all seven original no-checks harness forms. Also review b3r/PANIC-NOTE.md and PR-DRAFT.md in the research worktree against task scope and attribution.",
+  "baseline_commit": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+  "candidate_commit": "6db3c4dabd4a368314eb8e2b71d21d1eee721593",
+  "controls": [
+    "Seven harnesses: byte-covered array union typed copy; padded C and Rust union typed copies; aligned ZST; containing union at offset 8; all-ZST union; nondeterministic array indexing read/write/reference. Preserve all assertion bodies from original checks-off source.",
+    "General tests/expected layout, neutral names/comments, expected seven successes and zero failures, no uninit-checks directive.",
+    "Source-only audit for unused imports, dead fields, mutability, unsafe validity, unit comparisons and backend interfaces. Inspect test discovery convention.",
+    "PANIC-NOTE at most ten lines, upstream/panic coordinates, minimal input with honest reproduction status. Upstream PR draft must describe abort/default checks/cause/fix/tests, end in exact AI disclosure and contain no internal paths or IDs or third-party PR links."
+  ],
+  "defect": "B3R: prepare backend-only ZST union regression patch for upstream. Task TASK-KANI3300-B3R.md at research commit 30c90de4e306c453095c245b2301c73a9d7d4af0. Review the final aggregate backend diff and test relocation/removal; no new tool implementation is requested.",
+  "dependencies": [
+    "cprover_bindings/src/goto_program/typ.rs",
+    "cprover_bindings/src/irep/to_irep.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/utils/mod.rs",
+    "rustfmt.toml",
+    ".cargo/config.toml",
+    "tools/compiletest/src/runtest.rs"
+  ],
+  "invariants": [
+    "Only a zero-sized physical payload within a nonzero padded wrapper becomes the registered unit empty struct; logical UnionField type, padding width, non-ZST arms, all-ZST branch remain unchanged.",
+    "cprover_bindings is already identical between upstream base and d760bad; do not invent changes there. Check logical/padded representation and field/index lowering compatibility.",
+    "Test expectations must follow valid Rust semantics, never snapshot abort/Unsupported. No padding bytes read after typed transfer."
+  ],
+  "known_limitations": [
+    "No local cargo/rustc/Kani/CBMC, builds, dispatch, Cloud, raw logs/archives/credentials, Actions/PR/issues/comments, Kani push, stash, or nested subagents. Git/Python/rustfmt wrapper allowed.",
+    "CI facts are coordinator-supplied in the task only; no independent runtime proof. Actual compile/clippy/verification NOT_RUN here. Research docs may remain uncommitted until review concludes."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-zst-b3"
+}
