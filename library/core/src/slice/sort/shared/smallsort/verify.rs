@@ -76,3 +76,4 @@ mod scratch_geometry;
 mod smoke;
 mod tag_permutation;
 mod types;
+mod uninit_probe;
