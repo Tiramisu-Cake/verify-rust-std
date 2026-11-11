@@ -1,0 +1,18 @@
+{
+  "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "patch": {
+    "path": "research/challenge-8/kani-k1/kani5072/z1/kani-fix.patch",
+    "sha256": "380b22438bbdd115d98aacc81f97a49cce24e9abf77fa176c32067210e8ff238"
+  },
+  "tree": "f3791c8eb38f92bc331bf8b8c63cda0bc22b9db4",
+  "diffstat": ".../src/codegen_cprover_gotoc/codegen/intrinsic.rs | 32 ++++++++++++-\n .../volatile_load/zst_unaligned.expected           |  4 ++\n .../intrinsics/volatile_load/zst_unaligned.rs      | 15 ++++++\n .../volatile_load/zst_uninhabited.expected         |  4 ++\n .../intrinsics/volatile_load/zst_uninhabited.rs    | 14 ++++++\n tests/kani/Intrinsics/Volatile/load_zst.rs         | 53 ++++++++++++++++++++++\n 6 files changed, 120 insertions(+), 2 deletions(-)",
+  "local_commit": "6fba5bf9254f4954dd6dbce6ece8ef159004e905",
+  "selectors": 8,
+  "new_rs": 3,
+  "new_golden": 2,
+  "existing_selectors": 5,
+  "request_sha256": "adbeda538f3c142a3748b1f498c8aae6480e89b1a75e9c104866d61a1d588bdf",
+  "tooling_base": "c98d7cee0d509b1633ab61c9a1ae989e286c8e2a",
+  "std_contract_blob": "4121d40b756291492fef9360b6e4ac2327c5d478",
+  "native_execution": "NOT_RUN_PRE_BUILD_GO_REQUIRED"
+}

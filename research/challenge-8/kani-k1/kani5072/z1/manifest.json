@@ -1,0 +1,62 @@
+[
+  {
+    "suite": "kani",
+    "mode": "kani",
+    "file": "Intrinsics/Volatile/load_zst.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "intrinsics/volatile_load/zst_unaligned.rs",
+    "expect": "pass",
+    "require_success": false,
+    "diagnostic": "`src` must be properly aligned"
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "intrinsics/volatile_load/zst_uninhabited.rs",
+    "expect": "pass",
+    "require_success": false,
+    "diagnostic": "volatile load of an uninhabited type has undefined behavior"
+  },
+  {
+    "suite": "kani",
+    "mode": "kani",
+    "file": "Intrinsics/Volatile/load.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "kani",
+    "mode": "kani",
+    "file": "Intrinsics/Volatile/store.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "kani",
+    "mode": "kani",
+    "file": "Intrinsics/Volatile/unaligned.rs",
+    "expect": "pass",
+    "require_success": true
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "intrinsics/volatile_load/unaligned/main.rs",
+    "expect": "pass",
+    "require_success": false,
+    "diagnostic": "`src` must be properly aligned"
+  },
+  {
+    "suite": "expected",
+    "mode": "expected",
+    "file": "intrinsics/unaligned_volatile/out_of_bounds/main.rs",
+    "expect": "pass",
+    "require_success": false,
+    "diagnostic": "dereference failure: pointer outside object bounds"
+  }
+]

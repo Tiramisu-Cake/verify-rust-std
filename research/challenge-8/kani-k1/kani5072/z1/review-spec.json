@@ -1,0 +1,32 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-5072",
+  "baseline_commit": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "candidate_commit": "6fba5bf9254f4954dd6dbce6ece8ef159004e905",
+  "defect": "Review the proposed fix for #5072 and all added test expectations against the pinned Kani and Rust contracts.",
+  "applicability": "Only kani-compiler/src/codegen_cprover_gotoc/ and tests/ at the exact Kani pin; no CBMC, pointer model, tooling or toolchain changes.",
+  "invariants": [
+    "Retain alignment and invalid-value diagnostics for ZSTs.",
+    "Preserve the non-ZST load path and existing controls.",
+    "No new non-null premise for inhabited ZSTs; no invalid uninhabited SUCCESS."
+  ],
+  "controls": [
+    "New positive ZST reference/dangling/over-aligned/null/aggregate cases; negative misaligned and uninhabited fixtures. All native execution pending coordinator GO.",
+    "Existing volatile load/store/unaligned and negative non-ZST alignment/bounds remain unchanged."
+  ],
+  "dependencies": [
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/ty_stable.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs",
+    "cprover_bindings/src/goto_program/expr.rs",
+    "tools/compiletest/src/runtest.rs",
+    "tests/expected/intrinsics/volatile_load/unaligned/expected",
+    "tests/kani/Intrinsics/Volatile/load.rs",
+    "rust-toolchain.toml"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Static review only. No local cargo/rustc/Kani/CBMC. All native tests pending coordinator GO.",
+    "Pinned Rust read_volatile contract: /root/verify-rust-std-kani5072/library/core/src/ptr/mod.rs; official docs https://doc.rust-lang.org/nightly/core/ptr/fn.read_volatile.html."
+  ]
+}

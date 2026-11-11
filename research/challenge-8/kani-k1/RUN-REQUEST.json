@@ -1,55 +1,77 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani5116-kt1-repair2-20261110-03",
+  "request_id": "kani5072-z1-main-20261111-01",
   "agent": "k1-merge",
   "kind": "kani-tests",
-  "purpose": "KANI5116 KT1 repair 2: bounded own-output excerpts and source provenance for native FAILED/expect-fail; unchanged fixture and five selectors.",
+  "purpose": "KANI5072 Z1: fix volatile ZST load lowering, preserve alignment and uninhabited diagnostics, and run bounded native regression tests.",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 12,
+  "harness_timeout_minutes": 5,
   "harnesses": [],
   "kani_patch": {
-    "path": "research/challenge-8/kani-k1/kani5116/kt1/tests-only.patch",
-    "sha256": "46c68dfd5861ebd008c32d7580caa15cee9ac9b185dec960caf57d3d342f696f"
+    "path": "research/challenge-8/kani-k1/kani5072/z1/kani-fix.patch",
+    "sha256": "380b22438bbdd115d98aacc81f97a49cce24e9abf77fa176c32067210e8ff238"
   },
   "test_timeout_seconds": 180,
   "kani_tests": [
     {
       "suite": "kani",
       "mode": "kani",
-      "file": "FunctionContracts/generic_fn_pointer_argument.rs",
+      "file": "Intrinsics/Volatile/load_zst.rs",
       "expect": "pass",
       "require_success": true
-    },
-    {
-      "suite": "kani",
-      "mode": "kani",
-      "file": "Stubbing/stub_set_multiple_use.rs",
-      "expect": "pass",
-      "require_success": true
-    },
-    {
-      "suite": "ui",
-      "mode": "expected",
-      "file": "function-contracts/trait_default_fn_err.rs",
-      "expect": "pass",
-      "require_success": false,
-      "diagnostic": "cannot be applied to trait function declarations without default bodies"
     },
     {
       "suite": "expected",
       "mode": "expected",
-      "file": "function-contract/generic_default_missing_required.rs",
+      "file": "intrinsics/volatile_load/zst_unaligned.rs",
       "expect": "pass",
       "require_success": false,
-      "diagnostic": "unable to find implementation of associated function `Probe::probe` for NoDefault"
+      "diagnostic": "`src` must be properly aligned"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "intrinsics/volatile_load/zst_uninhabited.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "volatile load of an uninhabited type has undefined behavior"
     },
     {
       "suite": "kani",
       "mode": "kani",
-      "file": "FunctionContracts/specialization_default_fn_5116.rs",
-      "expect": "fail",
-      "require_success": true,
-      "diagnostic": "expected `fn`"
+      "file": "Intrinsics/Volatile/load.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "kani",
+      "mode": "kani",
+      "file": "Intrinsics/Volatile/store.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "kani",
+      "mode": "kani",
+      "file": "Intrinsics/Volatile/unaligned.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "intrinsics/volatile_load/unaligned/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "`src` must be properly aligned"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "intrinsics/unaligned_volatile/out_of_bounds/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "dereference failure: pointer outside object bounds"
     }
   ]
 }
