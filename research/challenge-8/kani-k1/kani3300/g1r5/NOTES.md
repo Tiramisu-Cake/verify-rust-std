@@ -5,7 +5,7 @@
 - Фикстура forget теперь `[U; 1]`: непустой by-value контейнер требует UnionAsField; прежний reason/owner/golden сохранены. Фактический MIR/outcome ожидает CI.
 - Удалены MoveSourceCollector/clear_move_sources, clear_moved_source, argument_buffer_moved и соответствующие emitter/model bool аргументы; assignment/repeat/forget/argument/return больше не очищают source.
 - Сохранены shadow-copy/retain, захват живых source object/offset, paired store/load и return-slot 0; intrinsic forget остаётся no-effect без StoreArgument, иначе мог бы загрязнить следующий вызов.
-- Шесть прямо названных move-source harness удалены со всеми property/summary строками. Независимый review нашёл ещё четыре whole/argument-source expectation с той же зависимостью; по общей политике п.4 они перенесены побайтно в positive (negative 60, positive 67). Все исходные 63 positive harness сохранены без изменения.
+- По явному ответу координатора (вариант 2) удалены все десять moved-from source harness и их golden-строки; в positive ничего не переносится. Negative 60, positive 63; positive source/golden побайтно равны G1R4. Move не помечает источник неинициализированным — Known limitation части 1.
 - CBMC134: причина статически НЕ установлена; production workaround не вводился, четыре исходных padding harness сохранены.
 - `padding-candidate.rs`: неисполненная редукция C/Rust до {z, padded}, typed ptr::read/write и inline(never) identity; размер/arm-набор упрощены, это кандидат для CI, не доказанное воспроизведение.
 - H1: memset(0x5a) поверх union с fat raw pointer + typed transfer; `codegen/intrinsic.rs:1967–1999`. Вариант: заменить fat arm равновеликим byte-array, удержав остальные arms/размер.
