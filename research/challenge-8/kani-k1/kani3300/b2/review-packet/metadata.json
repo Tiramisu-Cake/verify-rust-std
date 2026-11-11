@@ -1,0 +1,373 @@
+{
+  "baseline_commit": "230fa9aa656dd90503390019a6c0d153ef93520b",
+  "candidate_commit": "4770341265db9e8e5b3f4863705f3ae1e5a91703",
+  "candidate_tree": "ffeb23509e0294c4c722e8db2c9c14c8ca71f529",
+  "changed_files": [
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "3f13016e65dc6e3dea2568727504d221885e8b74",
+        "mode": "100644",
+        "sha256": "6a57c88b612cb3825bfbff1f7a4ead6d6b21e0ecb11c81aa0dcb3cf903188393"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/EXPECTATIONS.md",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "0a9db41d136d3a955a1af13d8c7f60d96e76d312",
+        "mode": "100644",
+        "sha256": "ed3246bee706a1c7fa8c195206570df7c8e9bc9533c3680e1cdf95a0ec9ec825"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/RESULT-KANI3300-B2.md",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "addd1ad7b3eba668c1021aa6bb3fbc58933e10dc",
+        "mode": "100644",
+        "sha256": "1ce64b5ff4202c8aa6a81865c20b6f282bd2feb2fb484c4bef611f1694781676"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/Cargo.toml",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "d55570f017c36fba9d81b107f22017bbafc71c4d",
+        "mode": "100644",
+        "sha256": "b03d2a6a8f29e1070acf052b83f9b7121dba0b97afdc8919dab5f64626ebb9b3"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/README.md",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "781544d15a284e3b6c2a3405dd7dbcb9c844ae4c",
+        "mode": "100644",
+        "sha256": "7410ea2c8c514e25753899ecb12ccdd33a5bc54db88b56374cb3bc0e7fa08e44"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/rust-toolchain.toml",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "4fcb08f7d32813ead6640d88a6667fb202fcfecc",
+        "mode": "100644",
+        "sha256": "79d95a4049d11678f8982912c33ac4553fa22cd9912c29e837c9f1482b05e4ec"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/argument_move_source_uninit_c.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "d07d3ee32354306799f84a63bf9c5221e63e98dc",
+        "mode": "100644",
+        "sha256": "c2ecfbf8118ffcbdc7e1223d6a6c58a347525640d883f643ae2136185a2f7797"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/argument_move_source_uninit_rust.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "9319858d26da9efc6ca36b7c0c23f493348f82f5",
+        "mode": "100644",
+        "sha256": "414fb898418f5f8f617f821f2c34a857d4ebc48217702f59f984b5eb5c6e7e2f"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/assignment_move.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "81a5bcc679b6dd077887f82231ab024e41efed82",
+        "mode": "100644",
+        "sha256": "6707347c8d5796323df30625dc6cd7e04f98788a10c4cafb243e4b1b1a996e46"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/assignment_move_reinit.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "5ce443439461dff48e996bb9af706d8c0cb14047",
+        "mode": "100644",
+        "sha256": "f5418786dc1dec1de1a735953d2652e85ef0150e6e5c2e0200f8ec07267a088e"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/call_move.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "7e7f7d13706ab4aae749e54cf3996322a35c80c7",
+        "mode": "100644",
+        "sha256": "ce66e4fb1f3d435b671a95986fe8be0fb88db235cab94b7c377ae9209705ebd1"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/call_move_address_taken.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "276cc200955b6af256781fac152f55bfffc0266d",
+        "mode": "100644",
+        "sha256": "51dc69e71f1101b3c16304e9097c2f824d6070dc1b746f99d32cd449ebc62970"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/call_move_reinit.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "09960f484fe5e3d8f6da647fd6eae45ca7ef06e6",
+        "mode": "100644",
+        "sha256": "d9c585fbae21e1919f005303dca415697c6d68e3e2b432226d48af5aa543e019"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/copy_assignment.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "d4c4db9484c94a2974f04efae36e42b8c4c1e794",
+        "mode": "100644",
+        "sha256": "a2d6c462537137b37cb81e3fe0ede5a7eb61ab172bf0b5c39315e33c1a7bde42"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/copy_call.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "b3721515f3c7cbbb1d5269219883080118abd187",
+        "mode": "100644",
+        "sha256": "19521cab31467efdfeaf3057da240597ea7ed551321961b024cc1ff77785aba9"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/field_call_move.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "09ef6ee7f8ed4217597f885751bc118331c48036",
+        "mode": "100644",
+        "sha256": "fb4de95afdea5cc6603e61db79fdc53685159748b1eae4edf770f3160aa6ff8b"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/field_call_sibling.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "2c79179db034d1b59c05235a629c19be5b3f735e",
+        "mode": "100644",
+        "sha256": "790b447a528dbed25b1253429c83abb71fcc29132b9fb177b810b273f586dcde"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/field_move_constructor_source_uninit_c.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "eacb265beec6c4d82a99d4421ed092fb98dd1de3",
+        "mode": "100644",
+        "sha256": "a0e70541b3ad599a72e904e2a9d39811aa79dc1933ff4dc60a79e0b511abf74b"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/field_move_constructor_source_uninit_rust.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "8ee8f284abe5a857c404120b3097913d9d6680b3",
+        "mode": "100644",
+        "sha256": "bcbc7ba4b976d87cc025efeef1d17bf21985d04397f7e912875cf909bc548fda"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/field_move_projection_source_uninit_c.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "3d31a0ed651fdb2681dd09058159776f2d2fba38",
+        "mode": "100644",
+        "sha256": "5e4206fb423ec4df824f9e49e0d8aaedae6454c0f826b6e9ca54b6309bd6c05b"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/field_move_projection_source_uninit_rust.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "b5db6803ed1e1f4355b036f7e60f51be3db1f019",
+        "mode": "100644",
+        "sha256": "290a7d61e5a577f3772a630c95c76a39e3f818aed9de401aed44619ff4a99875"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/field_projection_move.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "481a0a98faf8c7cd50a32f45bc2273e27a8d81dd",
+        "mode": "100644",
+        "sha256": "b6ecc608f3fe7e11e578bdb1df8f8b7f147f3194a0f241657f410b85fa1b6fa7"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/intrinsic_forget.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "76d848028a8dedf913e986c5d439f0261d209e34",
+        "mode": "100644",
+        "sha256": "4748962cdbde65b44b71385be2cac87ac52dcf4558370273338f10094e65742c"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/intrinsic_forget_move_source_uninit_c.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "5ab810b554a3128ab257cdfba5171f20dd755522",
+        "mode": "100644",
+        "sha256": "0564086a9cbbae445c5a3e1f43ee3d9a25002713f2d8640c2452ad1072f74700"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/intrinsic_forget_move_source_uninit_rust.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "05e477155413726bc37960cbc40518c8cbcb230c",
+        "mode": "100644",
+        "sha256": "aaf6870e46b8c95a085302451e3c59153550022b589a10ceee614fca4c566125"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/maybe_uninit_assignment.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "e33e0eb0bcac7a2d627f71b77eddadc2911ef6ff",
+        "mode": "100644",
+        "sha256": "cec96959ee16c76d2cb71ce357144679473deabd35cd134d660e5d84d6508038"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/maybe_uninit_call.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "78bd335380ed01dd88f6941d9faabbaa2868787b",
+        "mode": "100644",
+        "sha256": "3dfad949021a21e4250c3fa31acaed9d197d09f327964a55b76b7cf2170a4d93"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/maybe_uninit_uninit_control.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "52fe10bf860d374fbcfe91469f5ef81931523235",
+        "mode": "100644",
+        "sha256": "0999d3bea041586e21902c73ec769336d9e9f0363e8339f92d759bd9751662d1"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/mem_forget.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "25691b38f1c330f1e0fb964ef8f698393afa5fdb",
+        "mode": "100644",
+        "sha256": "aa27713801c2b4682c7276eb5d4a512b9ef5dc043e0228fab896993850c551b1"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/whole_move_source_uninit_c.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "7ed8a2c81afa8c34403de349488bd7130e571b9c",
+        "mode": "100644",
+        "sha256": "f2f2cd408c3580e9594dffa50cfc0213b96f9047cad86eb1358086b96bd14f8e"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/whole_move_source_uninit_rust.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "1bb3cc66eea0103235479d98419d6d9e9f9eaffa",
+        "mode": "100644",
+        "sha256": "e1ef17d0b28ec4e3ba5cf23151b48263566e58bc6986bbbb7c1df0afd7e60e3f"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/removed-cases.md",
+      "status": "added"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "a4389965e0d187117a49201be68512ba3125269d",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-B2.md",
+      "sha256": "80c02c1af267ff47f3f46a5a0e3b9711cb565ea6de9649df6e6dd830054ac75d",
+      "size": 3672
+    },
+    {
+      "blob": "29b899a4560fe6ef17d07faa8432d6fe5174500c",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "rust-toolchain.toml",
+      "sha256": "689c159497e53389671511fa85e200533c2a892488346620ccaae0a34ad45618",
+      "size": 231
+    }
+  ],
+  "diff_sha256": "3ed46f58a3460918b8bd2e130aa172b126303776c35a00af0985fcd06c2467a0",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "b101253b24546920fb993cecc8b67032835570241f73591a128b4696a3cac068",
+  "worktree": "/root/verify-rust-std-kani3300-t0"
+}

@@ -1,0 +1,27 @@
+{
+  "applicability": "Only b2 probe crate and its expectations/historical case restoration. Kani is unchanged. No compilation/execution/build/dispatch/Cloud/network writes.",
+  "baseline_commit": "230fa9aa656dd90503390019a6c0d153ef93520b",
+  "candidate_commit": "4770341265db9e8e5b3f4863705f3ae1e5a91703",
+  "controls": [
+    "All 10 removed historical cases represented accurately.",
+    "Independent binaries include Copy, assignment non-Copy, by-value inline(never) call, address-taken parameter, mem/intrinsic forget, reinit, field/union/MaybeUninit.",
+    "Assess likely Rust compile hazards by reading only; local Rust tool execution is forbidden."
+  ],
+  "defect": "Independently review B2 diagnostic probe scenarios against TASK-KANI3300-B2.md; establish static correctness, not measured MIR or Miri outcomes.",
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-B2.md",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "Each source read derives from a raw pointer taken before transfer and observes the same live local/allocation/field; no unrelated UB.",
+    "Use initialized padding-free bytes except the explicit uninit detector control; distinguish Copy, assignment Move, bodyful Call, intrinsic forget, and reinit.",
+    "Forecasts are not observed pinned outcomes, proof acceptance, or justification for Kani model changes."
+  ],
+  "known_limitations": [
+    "No local cargo/rustc/Kani/CBMC/Miri, compiler wrappers, builds, dispatch, Actions, Cloud, raw logs/archives, credentials, or external writes. No nested delegation.",
+    "Exact actual MIR/Miri outcomes are reserved for coordinator CI in another stage."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-t0"
+}
