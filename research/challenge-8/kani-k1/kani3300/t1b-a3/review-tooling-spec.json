@@ -1,0 +1,47 @@
+{
+  "applicability": "T1b-A3 one-stage preparation only. No actual compiler, build, dispatch, Cloud, raw archives/logs, credential reads or external messages.",
+  "baseline_commit": "fb88f46b39467382ba73870091e8758a79116fdf",
+  "candidate_commit": "e0697b05f0611e3d1f824a1fce3858c02b71f443",
+  "controls": [
+    "Synthetic diagnostic/service suite 15 tests and existing targeted NativeTests/NativeFieldPageTests 15 tests PASS. Verify tests are meaningful for before-aggregation failures and persisted INVALID data.",
+    "Check original exits/verdicts/controls, opt-out, missing/null/wrong-type/error/timeout/partial/oversized/source-stage-target mismatches.",
+    "Review A3 narrower literal function filter against producer989f72351c in /root/kani-fix-3300-t1 (read-only), 9 same roots and 1m timeout reserve. No producer modification."
+  ],
+  "defect": "Retain bounded unvalidated footer metadata in the uploaded summary even when any sidecar validator predicate rejects the input; preserve INVALID record denial and identity guards.",
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-T1B.md",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh",
+    "research/challenge-8/kani-k1/tools/k1g.sh",
+    "research/challenge-8/kani-k1/tools/diagnostic_trace.py",
+    "research/challenge-8/kani-k1/tools/test_diagnostic_trace.py",
+    "research/challenge-8/kani-k1/tools/test_kani_k1.py",
+    "research/challenge-8/kani-k1/tools/test_gcb_native.py",
+    "research/challenge-8/kani-k1/gcb/cloudbuild.yaml",
+    "scripts/run-kani.sh",
+    "tool_config/kani-version.toml",
+    "rust-toolchain.toml",
+    "research/challenge-8/kani-k1/TASK-KANI3300-T1B-A3.md",
+    "research/challenge-8/kani-k1/kani3300/t1b-a3/RUN-REQUEST-A3.json",
+    "research/challenge-8/kani-k1/kani3300/t1b-a3/PRE-BUILD.md",
+    "research/challenge-8/kani-k1/kani3300/t1b-a3/EFFECTIVE-INVOCATION.json",
+    "research/challenge-8/kani-k1/kani3300/t1b-a3/TESTS.json",
+    "research/challenge-8/kani-k1/kani3300/t1b-a3/TOOLING-FILES.json",
+    "research/challenge-8/kani-k1/kani3300/t1b-a3/STATIC-CHECK.json",
+    "research/challenge-8/kani-k1/kani3300/t1b-r/RUN-REQUEST-A2.json",
+    "research/challenge-8/kani-k1/kani3300/t1b/PLANNER-T1A-RESULT-ANSWER.md"
+  ],
+  "invariants": [
+    "Only allowlisted bounded footer counters are retained before validation; never expose INVALID payload records.",
+    "All source/request/invocation identity and page bounds remain; footer observations explicitly UNVALIDATED, bound by sidecar/line hashes, not accepted coverage.",
+    "Existing summary/native/native-field behavior, verdicts/exits/checks unchanged; summary artifact already uploaded by existing recipe.",
+    "A3 request is draft only, no active inputs/phase/ledger changes, preserved Kani patch/library/pins/9 roots and controls."
+  ],
+  "known_limitations": [
+    "A2 discarded records are not recovered. Narrower payload expected to reduce pressure but key-record completeness and failure reproduction remain UNKNOWN until authorized run.",
+    "Evidence records are observations, no B1/B2/proof credit. No local Rust compilation or Cloud actions."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-t0"
+}
