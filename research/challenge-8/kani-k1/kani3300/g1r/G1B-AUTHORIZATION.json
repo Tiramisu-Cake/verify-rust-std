@@ -1,0 +1,158 @@
+{
+  "schema": "kani3300-g1b-authorization-v1",
+  "runtime": "Codex",
+  "stage": "kani3300-g1b",
+  "owner": "k1-merge",
+  "approved_package_origin": "g1r/RUN-REQUEST-B.json, exact unchanged previously reviewed B package",
+  "coordinator_GO_research_head": "a2cc402898af45fceab67225a9514fce152d6819",
+  "authorization": "Coordinator: G1R3A accepted; owner GO for exact B package, separate cap $0.80, reserve $0.7965, one attempt, no repair. Preflight ledger/deadline/slot/identities; discrepancy => STOP and Координатор, вопрос. Do not touch negative.",
+  "request_id": "kani3300-g1r-b-targeted-20261111-01",
+  "request_sha256": "faefa40aa4777ecd13a9813f26bd91d7b44b75bf35195523da254674176f45a8",
+  "patch_sha256": "c9ddce47cae76e9b9f462e8bcac94c73f70c0e8c32438f35f9ff1d7539117767",
+  "expected_applied_tree": "8f152bac27f8ff1d7fba45f57dc6a0ebeb348867",
+  "native_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "production_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
+  "current_Kani_test_head": "6bb067476116704763502763984b225014dce221",
+  "current_production_equal_frozen_candidate": true,
+  "all_20_B_sources_goldens_and_helper_equal_frozen_candidate": true,
+  "tooling_pin": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "unchanged_review": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
+    "packet_sha256": "8974cd72a8e147ced8cb8c9e3e4b4155793f6c1a9a8a853df31cbc942a099e78",
+    "spec_sha256": "9312730a06660162f6c8473f71681d1378a7e440b3658316da7ba963f62e6e20",
+    "report": "REVIEW.md",
+    "report_sha256": "9a21a94bd5c75128c6b929a1ed410f7c8160e389ea8c8839201102faf512da27",
+    "verdict": "Favorable static review; no additional static compilation blocker identified; compiler/native NOT_RUN."
+  },
+  "previous_root_request_sha256": "2f5bdab60569918095f22b818bc403c572b0973f40f11ab6b1051022ddc675c5",
+  "root_request_byte_equal_B": true,
+  "negative": "NOT_MODIFIED; NOT_SELECTED; NO_A_RETRY",
+  "cap_usd": "0.80",
+  "cap_scope": "B_SEPARATE_FROM_A_FAMILY",
+  "prior_B_spent_usd": "0.0000",
+  "reservation_usd": "0.7965",
+  "B_ceiling_usd": "0.7965",
+  "prior_A_family_actual_spent_usd": "0.4860",
+  "attempt_limit": 1,
+  "repair_allowed": false,
+  "T0": "2026-11-11T15:00:20+00:00",
+  "T0_basis": "First clock observation in this new GO B dispatch stage; CORE default 120 main +30 finishing.",
+  "main_deadline": "2026-11-11T17:00:20+00:00",
+  "absolute_deadline": "2026-11-11T17:30:20+00:00",
+  "preflight_time": "2026-11-11T15:02:08.999400+00:00",
+  "envelope": {
+    "build_timeout_minutes": 59,
+    "native_work_minutes": 29,
+    "existing_overhead_minutes": 30,
+    "queue_allowance_minutes": 30,
+    "publication_reserve_minutes": 10,
+    "total_minutes": 99,
+    "remaining_main_minutes": 118.18334333333334,
+    "fits": true
+  },
+  "ledger": {
+    "builds": 290,
+    "used_usd": "115.9215",
+    "reserved_usd": "0.0000",
+    "project_cap_usd": "118.96",
+    "B_reservation_usd": "0.7965",
+    "after_B_used_plus_reserved_usd": "116.7180",
+    "T1_priority_reserve_preserved_usd": "1.40",
+    "after_B_plus_T1_usd": "118.1180",
+    "source": "Existing k1g.sh budget, no ledger edits; B never dispatched before this authorization."
+  },
+  "slot_preflight": {
+    "ongoing_builds": [],
+    "assigned_branch_builds": [
+      {
+        "createTime": "2026-11-11T14:38:10.797203448Z",
+        "finishTime": "2026-11-11T14:50:02.725713Z",
+        "id": "eb04f8fc-4ee3-4568-8053-388b7ffa72c7",
+        "options": {
+          "pool": {
+            "name": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4",
+            "workerRelease": "legacy"
+          }
+        },
+        "startTime": "2026-11-11T14:39:02.353867055Z",
+        "status": "FAILURE",
+        "substitutions": {
+          "_BRANCH": "experiment/kani-k1-kani3300g0-20261111",
+          "_BUCKET": "smallsort-k1-k1-runs",
+          "_SHA": "98d6fffaf96c9a02d989ba1208365bd45f23ef2f"
+        },
+        "timeout": "2100s"
+      },
+      {
+        "createTime": "2026-11-11T14:09:41.240757240Z",
+        "finishTime": "2026-11-11T14:21:14.134453Z",
+        "id": "669a0594-fd09-4879-b2f3-245438d7a947",
+        "options": {
+          "pool": {
+            "name": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4",
+            "workerRelease": "legacy"
+          }
+        },
+        "startTime": "2026-11-11T14:10:35.227568109Z",
+        "status": "FAILURE",
+        "substitutions": {
+          "_BRANCH": "experiment/kani-k1-kani3300g0-20261111",
+          "_BUCKET": "smallsort-k1-k1-runs",
+          "_SHA": "b77f5d830daf0f9efc1e3dff6250c6b0556b920a"
+        },
+        "timeout": "2760s"
+      },
+      {
+        "createTime": "2026-11-11T13:43:39.969671513Z",
+        "finishTime": "2026-11-11T13:52:18.062449Z",
+        "id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
+        "options": {
+          "pool": {
+            "name": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4",
+            "workerRelease": "legacy"
+          }
+        },
+        "startTime": "2026-11-11T13:44:39.253802759Z",
+        "status": "FAILURE",
+        "substitutions": {
+          "_BRANCH": "experiment/kani-k1-kani3300g0-20261111",
+          "_BUCKET": "smallsort-k1-k1-runs",
+          "_SHA": "132bb47b1c8688297d784f52b71bd1b5db97cf44"
+        },
+        "timeout": "3240s"
+      },
+      {
+        "createTime": "2026-11-11T13:23:36.097377145Z",
+        "finishTime": "2026-11-11T13:29:04.771408Z",
+        "id": "e35ca11d-307e-46f6-8212-a97e5bbee087",
+        "options": {
+          "pool": {
+            "name": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4",
+            "workerRelease": "legacy"
+          }
+        },
+        "startTime": "2026-11-11T13:24:31.436012170Z",
+        "status": "FAILURE",
+        "substitutions": {
+          "_BRANCH": "experiment/kani-k1-kani3300g0-20261111",
+          "_BUCKET": "smallsort-k1-k1-runs",
+          "_SHA": "3eff5da19860d6ab920ddd8307ce5fc4f5fd92d9"
+        },
+        "timeout": "3540s"
+      }
+    ],
+    "occupied_or_unresolved": 0,
+    "stable_owner": "k1-merge",
+    "source": "Existing dispatcher configuration; bounded Cloud Build metadata only; no raw logs/archives/credentials read."
+  },
+  "static_preflight": "G1B-preflight.json: exact clean f046 full index with sparse working files; explicit git apply --check, existing validate/prepare-kani PASS; 48 inventory paths and all 20 selected sources/goldens equal 3d085249c9; full tree matches approved 8f152bac.",
+  "watcher": {
+    "thread": "01a1cb02-a8cf-7ca2-8ac5-31efaf5af48c",
+    "control_socket": true,
+    "codex_on_path": true,
+    "active_goal": null
+  },
+  "dispatch": "NOT_SUBMITTED; install/publish exact root request then one submit"
+}
