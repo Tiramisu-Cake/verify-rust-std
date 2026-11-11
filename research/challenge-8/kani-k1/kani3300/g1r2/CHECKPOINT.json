@@ -3,7 +3,7 @@
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-G1R2.md",
   "runtime": "Codex",
   "research_input": "a62ad2d47dafb905e7f70c39199c96634fc15db8",
-  "status": "PRE_BUILD_REVIEW",
+  "status": "G1R2A_AUTHORIZED_PRE_SUBMIT",
   "kani_candidate": "02b734151ada1dd0d216b0db329776eb522d2d67",
   "production_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
   "production_unchanged": true,
@@ -48,7 +48,7 @@
     "Historical G1RA source-reported diagnostics/Evidence Brief limitation and inherited P1/full-regression limitations retained."
   ],
   "proof_credit": "NONE",
-  "next": "Coordinator review and separately authorized GO; no further build, retry or B action in this stage.",
+  "next": "Commit/publish exact root A and authorization; one dispatch; handoff and k1g watch; end turn. No repair/B.",
   "review": {
     "model": "gpt-6-luna",
     "reasoning_effort": "high",
@@ -56,5 +56,11 @@
     "report_sha256": "67119efa11ff6be54162a28e9f73c19f3e1dd7cb7362e61192c13f02814d59a8",
     "verdict": "No static blocker found; compiler/native NOT_RUN; no GO or proof credit."
   },
-  "closure_reason": "Requested single preparation stage complete: test-only commit, all-G1 static sweep, A-only patch/applied tree/preflight, independent review and research handoff; stop before dispatch."
+  "latest_stage": "kani3300-g1r2a",
+  "latest_authorization": "G1R2A-AUTHORIZATION.json",
+  "T0": "2026-11-11T14:06:55+00:00",
+  "main_deadline": "2026-11-11T16:06:55+00:00",
+  "absolute_deadline": "2026-11-11T16:36:55+00:00",
+  "active_build_id": null,
+  "prepared_artifact_inventory": "ARTIFACTS.json describes approved preparation snapshot at 0a47af545e47cf81c1fca01b111574f728b9981e"
 }
