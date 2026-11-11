@@ -1,9 +1,10 @@
 Avoid dereferencing pointers when lowering volatile loads of zero-sized types.
 
-Kani currently emits a memory access for `ptr::read_volatile(&())`, producing spurious pointer failures (#5072).
-For inhabited ZSTs, generate a typed ZST value while retaining alignment checks; reject uninhabited values.
+Kani emits a spurious memory access for `ptr::read_volatile(&())`, causing pointer failures (#5072).
+For inhabited ZSTs, generate a typed ZST value while retaining alignment checks; reject uninhabited ZSTs explicitly.
 The non-ZST load path is unchanged. Add reference, dangling, over-aligned, null, aggregate and negative regression cases.
-Validation: rustfmt and fresh-pin patch/tree checks pass. Native Kani subset is pending authorized Cloud execution.
+Validation: rustfmt/fresh-pin apply/tree checks pass; all 8 selected native compiletest cases PASS on nightly-2026-10-23.
+Negative alignment/uninhabited/bounds cases matched failing-check goldens; full upstream CI has not been run.
 
 Resolves #5072
 
