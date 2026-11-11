@@ -2,7 +2,7 @@
   "schema": "kani3300-u3-prebuild-checkpoint-v1",
   "stage": "kani3300-u3",
   "stable_owner": "k1-merge",
-  "state": "PRE_BUILD_REPAIR1_REVIEW_REQUIRED",
+  "state": "NATIVE_PARTIAL_HANDOFF",
   "research_branch": "experiment/kani-k1-kani3300u3-20261111",
   "kani_candidate": "81dd85bfce67226e283fdd9a156932e32ece080b",
   "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
@@ -59,14 +59,34 @@
       "claim": "KT2 accepted source3bb5445d2a imported unchanged",
       "evidence": "repair1/STATIC-CHECKS.json; RESULT-KANI-KT2.md",
       "status": "IMPORTED_IDENTICAL"
+    },
+    {
+      "claim": "repair native17PASS/3ERROR and newtooling/tree identity checksPASS",
+      "evidence": "repair1/SELECTOR-OBSERVATIONS.json; repair1/POST-BUILD-RESULTS.md",
+      "status": "BOUNDED_NATIVE_RESULT"
+    },
+    {
+      "claim": "empty_harness SUCCESS through exactsource+require-success7/7; no literal excerpt retained",
+      "evidence": "repair1/EMPTY-HARNESS-OBSERVATION.json",
+      "status": "BOUND_SOURCE_AND_NATIVE_REQUIRE_SUCCESS"
+    },
+    {
+      "claim": "actual user outside-modifies write on line22 fails assigns; golden name mismatch",
+      "evidence": "repair1/evidence/native-45287677/native-9-excerpt.json",
+      "status": "ACTUAL_RETAINED_FAILURE"
+    },
+    {
+      "claim": "PFC-negative Kani-reported OOM; bufferpositive3/4failurecauseunretained",
+      "evidence": "repair1/evidence/native-45287677/native-6-excerpt.json; native-4-excerpt.json",
+      "status": "PFC_ACCEPTANCE_OPEN"
     }
   ],
   "open": [
-    "new exact repair-packet coordinator GO",
-    "repair native positives incl.empty harness and frame/5U1T controls",
-    "actual Failed Checks peroverwrite/overlap harness with complete bounded coverage",
-    "full IntoIter actual next Unsupported",
-    "post-native review/replay and compound/select obligations"
+    "full actual Failed Checks lists for15 negative nativePASS (producer did not retain excerpts)",
+    "PFC contracted_roundtrip_harness failure reason; contracted_uninit_read_harness Kani-reported OOM",
+    "frame golden *outside naming differs from actual *var_7 source-bound line22",
+    "fullU3 acceptance and compound storage/select obligations",
+    "new explicit task/GO before any further Cloud build; one repair consumed"
   ],
   "builds": [
     {
@@ -80,21 +100,35 @@
       "verification_credit": "UNKNOWN",
       "actual_usd": 0.108,
       "reserve_usd": 0
+    },
+    {
+      "id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+      "head_sha": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+      "cloud_status": "FAILURE",
+      "summary_status": "TOOL_ERROR",
+      "gate": false,
+      "native_pass": 17,
+      "native_error": 3,
+      "tool_build": "PASS",
+      "actual_usd": 0.1755,
+      "reserve_usd": 0,
+      "verification_credit": "finite native controls only; full U3 acceptance OPEN"
     }
   ],
-  "spent_usd": 0.108,
+  "spent_usd": 0.2835,
   "cap_usd": 0.9,
   "proposed_reservation_usd": 0.54,
-  "next": "PRE-BUILD REVIEW of published repair SHA; wait new exact GO; after terminal read summary/check-tooling3bb/native-field Failed Checks",
+  "next": "Coordinator handoff: retain evidence, address PFC failures and frame golden naming in a separately authorized stage; no further builds authorized",
   "superseded_packet": "52cd0b12353076194296d74d2f59808ace90aceb",
   "authorized_build_head": "2021b7cf3518fc72fee611e2a5d306e4bf5b619e",
   "reserved_usd": 0,
   "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
   "repair_request_id": "kani3300-u3-repair1-20261111-03",
-  "repair_dispatch_authorized": false,
+  "repair_dispatch_authorized": "CONSUMED_EXACT_6308e4b9fb",
   "rejected_approaches": [
     "adding initializer toSKIPPED_ITEMS: coordinator explicitly rejected",
     "separate static+second DFCC marker: coordinator explicitly rejected",
     "Option-containing ghost state: regressing build14dd0792; replaced under coordinator decision"
-  ]
+  ],
+  "repair_limit_consumed": true
 }

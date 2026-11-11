@@ -1,0 +1,385 @@
+{
+  "kind": "bounded-native-observation",
+  "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+  "head_sha": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+  "request_sha256": "2def1eb2642fe4f707dd659208c0af7ff55b2a3feba5f3ed7cc9fb99b7dcca7e",
+  "patch_sha256": "f3f8a82c2c22798361bf51bf6186aa60cadb1de68d0aa15b15ad62d601138c1c",
+  "summary_sha256": "373f5d6bc76ad07131d07f1f7339bc2aaca5065640f7a28a29b0fc2e4a0223a8",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "native_pass": 17,
+  "native_error": 3,
+  "selectors": [
+    {
+      "offset": 0,
+      "file": "uninit/maybe-uninit-wrap-u3-positive/main.rs",
+      "native_status": "PASS",
+      "require_success": true,
+      "retained_actual_failed_checks": [],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": null,
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Kani exit success enforced by compiletest --require-success and matching positive golden; no failing properties inferred from this successful invocation"
+    },
+    {
+      "offset": 1,
+      "file": "uninit/maybe-uninit-wrap-u3-padding/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\"",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    },
+    {
+      "offset": 2,
+      "file": "uninit/maybe-uninit-wrap-u3-source-read/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u64`\"",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    },
+    {
+      "offset": 3,
+      "file": "uninit/maybe-uninit-wrap-u3-intoiter/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "\t - Description: \"Kani currently doesn't support checking memory initialization for pointers to `std::array::iter::iter_inner::PolymorphicIter<[std::mem::MaybeUninit<usize>; 2]>. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<usize> as a field.\"",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    },
+    {
+      "offset": 4,
+      "file": "uninit/maybe-uninit-buffer-u3-positive/main.rs",
+      "native_status": "ERROR",
+      "require_success": true,
+      "retained_actual_failed_checks": [],
+      "full_failed_checks_list_available": false,
+      "excerpt": "evidence/native-45287677/native-4-excerpt.json",
+      "failed_check_line_count": 0,
+      "omitted_failed_check_line_count": 0,
+      "own_selected_records": [
+        {
+          "clipped": false,
+          "line": 1368,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "Verification Time: 1.6792073s"
+        },
+        {
+          "clipped": false,
+          "line": 1370,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "Manual Harness Summary:"
+        },
+        {
+          "clipped": false,
+          "line": 1371,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "Verification failed for - contracted_roundtrip_harness"
+        },
+        {
+          "clipped": false,
+          "line": 1372,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "Complete - 3 successfully verified harnesses, 1 failures, 4 total."
+        }
+      ],
+      "verdict": "Kani 3/4 success; contracted_roundtrip_harness failed; no recognized failed-check lines; reason not retained"
+    },
+    {
+      "offset": 5,
+      "file": "uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u16`\"",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    },
+    {
+      "offset": 6,
+      "file": "uninit/maybe-uninit-buffer-u3-pfc-negative/main.rs",
+      "native_status": "ERROR",
+      "require_success": false,
+      "retained_actual_failed_checks": [],
+      "full_failed_checks_list_available": false,
+      "excerpt": "evidence/native-45287677/native-6-excerpt.json",
+      "failed_check_line_count": 0,
+      "omitted_failed_check_line_count": 0,
+      "own_selected_records": [
+        {
+          "clipped": false,
+          "line": 24,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "CBMC appears to have run out of memory. You may want to rerun your proof in an environment with additional memory or use stubbing to reduce the size of the code the verifier reasons about."
+        },
+        {
+          "clipped": false,
+          "line": 26,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "Manual Harness Summary:"
+        },
+        {
+          "clipped": false,
+          "line": 27,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "Verification failed for - contracted_uninit_read_harness"
+        },
+        {
+          "clipped": false,
+          "line": 28,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        }
+      ],
+      "verdict": "Kani reports CBMC appears to have run out of memory; no recognized failed-check lines; no uninit verdict"
+    },
+    {
+      "offset": 7,
+      "file": "uninit/maybe-uninit-buffer-u3-clause-plain-negative/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u16`\"",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    },
+    {
+      "offset": 8,
+      "file": "uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u16`\"",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    },
+    {
+      "offset": 9,
+      "file": "uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
+      "native_status": "ERROR",
+      "require_success": false,
+      "retained_actual_failed_checks": [
+        {
+          "clipped": false,
+          "line": 850,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "Failed Checks: Check that *var_7 is assignable"
+        }
+      ],
+      "full_failed_checks_list_available": "complete for KT2-recognized formats; omitted_failed=0 and records not clipped",
+      "excerpt": "evidence/native-45287677/native-9-excerpt.json",
+      "failed_check_line_count": 12,
+      "omitted_failed_check_line_count": 0,
+      "own_selected_records": [
+        {
+          "clipped": false,
+          "line": 177,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "Check 19: frame_target::{closure#2}::{closure#0}.assigns.1"
+        },
+        {
+          "clipped": false,
+          "line": 178,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "\t - Status: FAILURE"
+        },
+        {
+          "clipped": false,
+          "line": 179,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "\t - Description: \"Check that *var_7 is assignable\""
+        },
+        {
+          "clipped": false,
+          "line": 180,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "\t - Location: tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs:22:5 in function frame_target::{closure#2}::{closure#0}"
+        },
+        {
+          "clipped": false,
+          "line": 850,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "Failed Checks: Check that *var_7 is assignable"
+        },
+        {
+          "clipped": false,
+          "line": 851,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": " File: \"tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs\", line 22, in frame_target::{closure#2}::{closure#0}"
+        },
+        {
+          "clipped": false,
+          "line": 858,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        }
+      ],
+      "verdict": "Actual user frame violation FAILURE at main.rs:22; golden requires outside but failure says var_7"
+    },
+    {
+      "offset": 10,
+      "file": "uninit/maybe-uninit-buffer-u3-no-mir-unsupported/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "\t - Description: \"Kani does not support shadow-carrying arguments to calls without a MIR body.\"",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    },
+    {
+      "offset": 11,
+      "file": "uninit/maybe-uninit-review-positive/main.rs",
+      "native_status": "PASS",
+      "require_success": true,
+      "retained_actual_failed_checks": [],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": null,
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Kani exit success enforced by compiletest --require-success and matching positive golden; no failing properties inferred from this successful invocation"
+    },
+    {
+      "offset": 12,
+      "file": "uninit/maybe-uninit-review-argument-return/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [
+        {
+          "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+          "source": "own-output diagnostic field",
+          "coverage": "first matching line; complete list not retained"
+        }
+      ],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    },
+    {
+      "offset": 13,
+      "file": "uninit/maybe-uninit-assume-init/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\"",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    },
+    {
+      "offset": 14,
+      "file": "uninit/maybe-uninit-partial-copy/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`\"",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    },
+    {
+      "offset": 15,
+      "file": "uninit/maybe-uninit-reset-alias/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\"",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    },
+    {
+      "offset": 16,
+      "file": "uninit/maybe-uninit-review-overwrite-copy/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [
+        {
+          "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`",
+          "source": "own-output diagnostic field",
+          "coverage": "first matching line; complete list not retained"
+        }
+      ],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    },
+    {
+      "offset": 17,
+      "file": "uninit/maybe-uninit-review-overlap-copy/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [
+        {
+          "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "source": "own-output diagnostic field",
+          "coverage": "first matching line; complete list not retained"
+        }
+      ],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    },
+    {
+      "offset": 18,
+      "file": "uninit/maybe-uninit-review-repeat-local/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [
+        {
+          "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+          "source": "own-output diagnostic field",
+          "coverage": "first matching line; complete list not retained"
+        }
+      ],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    },
+    {
+      "offset": 19,
+      "file": "uninit/maybe-uninit-review-reset-zst/main.rs",
+      "native_status": "PASS",
+      "require_success": false,
+      "retained_actual_failed_checks": [
+        {
+          "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+          "source": "own-output diagnostic field",
+          "coverage": "first matching line; complete list not retained"
+        }
+      ],
+      "full_failed_checks_list_available": false,
+      "retained_diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+      "retention_limitation": "run_native retains output_excerpt only for native FAILED or expect fail; this native PASS has no excerpt",
+      "verdict": "Native expected-mode PASS: required golden validated; complete actual failing-property list not retained"
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+  "head_sha": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+  "request_sha256": "2def1eb2642fe4f707dd659208c0af7ff55b2a3feba5f3ed7cc9fb99b7dcca7e",
+  "summary_file": "/tmp/kani-k1-gcb/summary-45287677-98cb-4dc4-b98d-7ccae4782f5f/summary/summary.json",
+  "summary_sha256": "373f5d6bc76ad07131d07f1f7339bc2aaca5065640f7a28a29b0fc2e4a0223a8",
+  "offset": 9,
+  "file": "uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
+  "field": "output_excerpt",
+  "report_source": "native",
+  "validation": "VALIDATED",
+  "diagnostic_only": true,
+  "summary_status": "TOOL_ERROR",
+  "kind": "object",
+  "units": "entries",
+  "total": 10,
+  "start": 0,
+  "value": {
+    "diagnostic_only": true,
+    "failed_check_line_count": 12,
+    "max_json_bytes": 4096,
+    "max_lines": 60,
+    "omitted_failed_check_line_count": 0,
+    "omitted_line_count": 1862,
+    "records": [
+      {
+        "clipped": false,
+        "line": 9,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "error: test failed: expected output to contain the line(s):"
+      },
+      {
+        "clipped": false,
+        "line": 193,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Check 19: frame_target::{closure#2}::{closure#0}.assigns.1"
+      },
+      {
+        "clipped": false,
+        "line": 194,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Status: FAILURE"
+      },
+      {
+        "clipped": false,
+        "line": 195,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Description: \"Check that *var_7 is assignable\""
+      },
+      {
+        "clipped": false,
+        "line": 196,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Location: tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs:22:5 in function frame_target::{closure#2}::{closure#0}"
+      },
+      {
+        "clipped": false,
+        "line": 866,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Check that *var_7 is assignable"
+      },
+      {
+        "clipped": false,
+        "line": 867,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": " File: \"tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs\", line 22, in frame_target::{closure#2}::{closure#0}"
+      },
+      {
+        "clipped": false,
+        "line": 897,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 586 filtered out; finished in 117.78s"
+      },
+      {
+        "clipped": false,
+        "line": 114,
+        "source": "compiletest_stderr",
+        "start_char": 0,
+        "text": "Some tests failed in compiletest suite=expected mode=expected host=(none) target=(none)"
+      },
+      {
+        "clipped": false,
+        "line": 177,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "Check 19: frame_target::{closure#2}::{closure#0}.assigns.1"
+      },
+      {
+        "clipped": false,
+        "line": 178,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "\t - Status: FAILURE"
+      },
+      {
+        "clipped": false,
+        "line": 179,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "\t - Description: \"Check that *var_7 is assignable\""
+      },
+      {
+        "clipped": false,
+        "line": 180,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "\t - Location: tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs:22:5 in function frame_target::{closure#2}::{closure#0}"
+      },
+      {
+        "clipped": false,
+        "line": 850,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Check that *var_7 is assignable"
+      },
+      {
+        "clipped": false,
+        "line": 851,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": " File: \"tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs\", line 22, in frame_target::{closure#2}::{closure#0}"
+      },
+      {
+        "clipped": false,
+        "line": 858,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+      },
+      {
+        "clipped": false,
+        "line": 6,
+        "source": "kani_stderr",
+        "start_char": 0,
+        "text": "  |"
+      },
+      {
+        "clipped": false,
+        "line": 9,
+        "source": "kani_stderr",
+        "start_char": 0,
+        "text": "warning: 1 warning emitted"
+      }
+    ],
+    "selected_line_count": 18,
+    "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+    "source_line_counts": {
+      "compiletest_stderr": 114,
+      "compiletest_stdout": 898,
+      "kani_stderr": 10,
+      "kani_stdout": 858
+    }
+  },
+  "count": 10,
+  "next_start": null
+}

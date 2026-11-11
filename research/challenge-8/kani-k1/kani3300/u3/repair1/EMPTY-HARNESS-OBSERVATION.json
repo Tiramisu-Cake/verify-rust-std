@@ -1,0 +1,30 @@
+{
+  "kind": "bounded validation plus exact-source binding",
+  "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+  "head_sha": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+  "selector_offset": 0,
+  "selector": "uninit/maybe-uninit-wrap-u3-positive/main.rs",
+  "native_observation": {
+    "status": "PASS",
+    "exit_code": 0,
+    "errors": [],
+    "require_success": true,
+    "argv_has_require_success": true
+  },
+  "source_candidate": "81dd85bfce67226e283fdd9a156932e32ece080b",
+  "source_blob": "062323987d2d78188bb6ffaa93c555d93a00ac52",
+  "expected_positive_total": 7,
+  "source_harnesses": [
+    "empty_harness",
+    "scalar_copy",
+    "exact_usize_array_copy",
+    "empty_array",
+    "zst_array",
+    "padded_move",
+    "padded_array_move"
+  ],
+  "empty_harness_verdict": "SUCCESS through native --require-success and validated7/7 positive golden",
+  "failed_checks": "none under successful invocation; passing excerpt not retained",
+  "reason": "compiletest run_expected_test verifies golden and then rejects unsuccessful Kani exit (runtest.rs488-499); all7 source proof harnesses selected by this file, no harness filter",
+  "limit": "not a literal empty_harness outcome line in retained excerpt; bounded native/schema and exact source binding, no general proof credit"
+}

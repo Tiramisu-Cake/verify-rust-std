@@ -1,0 +1,54 @@
+{
+  "offset": 9,
+  "file": "uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
+  "summary_sha256": "373f5d6bc76ad07131d07f1f7339bc2aaca5065640f7a28a29b0fc2e4a0223a8",
+  "failed_check_line_count": 12,
+  "omitted_failed_check_line_count": 0,
+  "clipped_records": 0,
+  "actual_kani_stdout_failures": [
+    {
+      "kind": "regular FAILURE",
+      "records": [
+        {
+          "clipped": false,
+          "line": 177,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "Check 19: frame_target::{closure#2}::{closure#0}.assigns.1"
+        },
+        {
+          "clipped": false,
+          "line": 178,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "\t - Status: FAILURE"
+        },
+        {
+          "clipped": false,
+          "line": 179,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "\t - Description: \"Check that *var_7 is assignable\""
+        },
+        {
+          "clipped": false,
+          "line": 180,
+          "source": "kani_stdout",
+          "start_char": 0,
+          "text": "\t - Location: tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs:22:5 in function frame_target::{closure#2}::{closure#0}"
+        }
+      ]
+    },
+    {
+      "kind": "Failed Checks",
+      "text": "Failed Checks: Check that *var_7 is assignable",
+      "line": 850,
+      "clipped": false
+    }
+  ],
+  "complete_or_empty": [
+    "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+  ],
+  "record_count": 18,
+  "own_record_count": 7
+}
