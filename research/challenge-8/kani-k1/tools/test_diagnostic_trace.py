@@ -31,7 +31,8 @@ REQUEST = {
 
 
 def sidecar(directory: Path, request_text: str, *, state="COMPLETE", stage=dt.STAGE,
-            trace_id=None, records=None, footer=True, omitted=0, seen=None):
+            trace_id=None, records=None, footer=True, omitted=0, seen=None,
+            bytes_before_footer=None):
     trace_id = trace_id or hashlib.sha256(request_text.encode()).hexdigest()
     invocation = "compiler-1"
     events = records if records is not None else [{"kind": "mir", "data": {"target": "IndexRange::len"}}]
@@ -43,11 +44,13 @@ def sidecar(directory: Path, request_text: str, *, state="COMPLETE", stage=dt.ST
     rows += [{"schema": dt.SCHEMA, "kind": row["kind"], "trace_id": trace_id, "stage": stage,
               "invocation": invocation, "seq": i + 1, "data": row["data"]} for i, row in enumerate(events)]
     if footer:
+        prefix_bytes = sum(len(json.dumps(row, separators=(",", ":")).encode()) + 1 for row in rows)
         rows.append({"schema": dt.SCHEMA, "kind": "footer", "trace_id": trace_id, "stage": stage,
                      "invocation": invocation, "seq": len(events) + 1,
                      "data": {"state": state, "seen_records": len(events) + omitted if seen is None else seen,
                               "emitted_records": len(events), "omitted_records": omitted,
-                              "bytes_before_footer": 42, "coverage": {"mir": len(events)},
+                              "bytes_before_footer": prefix_bytes if bytes_before_footer is None else bytes_before_footer,
+                              "coverage": {"mir": len(events)},
                               "omission_counts": ({"synthetic": omitted} if omitted else {})}})
     (directory / "kani3300-trace-1-0.jsonl").write_text("".join(json.dumps(r, separators=(",", ":")) + "\n" for r in rows))
 
@@ -191,6 +194,9 @@ class DiagnosticTraceTests(unittest.TestCase):
             self.assertEqual(report["seen"], 700)
             self.assertEqual(report["omitted"], 699)
         with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp); sidecar(directory, raw, bytes_before_footer=0)
+            self.assertEqual(collect(directory, raw)["state"], "INVALID")
+        with tempfile.TemporaryDirectory() as tmp:
             directory = Path(tmp); sidecar(directory, raw, state="COMPLETE", omitted=1, seen=2)
             self.assertEqual(collect(directory, raw)["state"], "INVALID")
         with tempfile.TemporaryDirectory() as tmp:
@@ -198,7 +204,12 @@ class DiagnosticTraceTests(unittest.TestCase):
             self.assertEqual(collect(directory, raw)["state"], "OVERSIZED")
         with tempfile.TemporaryDirectory() as tmp:
             directory = Path(tmp)
-            many = [{"kind": "event", "data": {"i": i}} for i in range(dt.MAX_INVOCATION_RECORDS + 1)]
+            boundary = [{"kind": "event", "data": {"i": i}} for i in range(dt.MAX_INVOCATION_RECORDS - 2)]
+            sidecar(directory, raw, records=boundary)
+            self.assertEqual(collect(directory, raw)["state"], "COMPLETE")
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp)
+            many = [{"kind": "event", "data": {"i": i}} for i in range(dt.MAX_INVOCATION_RECORDS)]
             sidecar(directory, raw, records=many)
             self.assertEqual(collect(directory, raw)["state"], "OVERSIZED")
         with tempfile.TemporaryDirectory() as tmp:
@@ -297,8 +308,9 @@ import json,sys
 from pathlib import Path
 d=Path(sys.argv[1]); tid,stage,filters=sys.argv[2:]; filters=filters.split(';'); inv='compiler-1'
 rows=[{{"schema":"kani3300-trace-v1","kind":"header","trace_id":tid,"stage":stage,"invocation":inv,"seq":0,"data":{{"filters":filters,"filter_mode":"semicolon-literal-substring","limits":{{"records":512,"record_bytes":2048,"invocation_bytes":256000}}}}}},
-{{"schema":"kani3300-trace-v1","kind":"mir","trace_id":tid,"stage":stage,"invocation":inv,"seq":1,"data":{{"target":"IndexRange::len"}}}},
-{{"schema":"kani3300-trace-v1","kind":"footer","trace_id":tid,"stage":stage,"invocation":inv,"seq":2,"data":{{"state":"COMPLETE","seen_records":1,"emitted_records":1,"omitted_records":0,"bytes_before_footer":200,"coverage":{{"mir":1}},"omission_counts":{{}}}}}}]
+{{"schema":"kani3300-trace-v1","kind":"mir","trace_id":tid,"stage":stage,"invocation":inv,"seq":1,"data":{{"target":"IndexRange::len"}}}}]
+prefix=sum(len(json.dumps(r,separators=(',',':')).encode())+1 for r in rows)
+rows.append({{"schema":"kani3300-trace-v1","kind":"footer","trace_id":tid,"stage":stage,"invocation":inv,"seq":2,"data":{{"state":"COMPLETE","seen_records":1,"emitted_records":1,"omitted_records":0,"bytes_before_footer":prefix,"coverage":{{"mir":1}},"omission_counts":{{}}}}}})
 (d/'kani3300-trace-1-0.jsonl').write_text(''.join(json.dumps(r,separators=(',',':'))+'\\n' for r in rows))
 PY
 elif [ -n "${{KANI3300_TRACE_DIR:-}}" ] && [ "{producer}" = oversized ]; then

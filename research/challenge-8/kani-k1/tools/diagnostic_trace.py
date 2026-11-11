@@ -297,11 +297,13 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
             break
         try:
             line_count = raw.count(b"\n") + (not raw.endswith(b"\n"))
-            if line_count > MAX_INVOCATION_RECORDS + 2:
-                trace["errors"].append(f"{path.name}: emitted records exceed per-invocation cap 512")
+            if line_count > MAX_INVOCATION_RECORDS:
+                trace["errors"].append(f"{path.name}: JSONL rows exceed per-invocation cap 512 including header/footer")
                 states.append("OVERSIZED")
                 continue
-            lines = raw.splitlines()
+            if not raw.endswith(b"\n"):
+                raise ValueError("sidecar must end with newline-delimited footer")
+            lines = raw.split(b"\n")[:-1]
             if not lines:
                 raise ValueError("empty sidecar")
             rows = []
@@ -364,8 +366,8 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
             seen, emitted, omitted = (fdata.get(k) for k in ("seen_records", "emitted_records", "omitted_records"))
             if any(type(n) is not int or n < 0 for n in (seen, emitted, omitted)) or emitted != len(records) or seen != emitted + omitted:
                 raise ValueError("footer record counts inconsistent")
-            if emitted > MAX_INVOCATION_RECORDS:
-                trace["errors"].append(f"{path.name}: footer emitted records exceed per-invocation cap 512")
+            if emitted > MAX_INVOCATION_RECORDS - 2:
+                trace["errors"].append(f"{path.name}: footer payload exceeds 510 records after header/footer")
                 states.append("OVERSIZED")
                 continue
             total_seen += seen
@@ -375,8 +377,9 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
                 total_omitted_bytes += fdata["omitted_bytes"]
             else:
                 omitted_bytes_known = False
-            if type(fdata.get("bytes_before_footer")) is not int or fdata["bytes_before_footer"] < 0:
-                raise ValueError("footer byte counter missing")
+            bytes_before_footer = sum(len(line) + 1 for line in lines[:-1])
+            if fdata.get("bytes_before_footer") != bytes_before_footer:
+                raise ValueError("footer bytes_before_footer does not match raw JSONL prefix")
             coverage = fdata.get("coverage")
             omission_counts = fdata.get("omission_counts")
             if (not isinstance(coverage, dict) or any(type(v) is not int or v < 0 for v in coverage.values())
