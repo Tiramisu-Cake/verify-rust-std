@@ -1,0 +1,83 @@
+{
+  "schema": "kani3300-p1g-static-checks-v1",
+  "stage": "kani3300-p1g",
+  "status": "PRE_BUILD_REVIEW_PENDING",
+  "research_input_head": "ada35e422a2c5fbd241e1df3027f1f60693db2ff",
+  "request_id": "kani3300-p1-targeted-20261111-01",
+  "request_sha256": "ad96f7d0ada18cbbfe9345a2a7c06cdfbce0589924fd4255b9d5374fb8ffdaac",
+  "request_installation": "Byte-identical to p1/RUN-REQUEST.json; schema has no stage field and accepts existing request_id; stage recorded here without changing prepared bytes.",
+  "patch_sha256": "b30758e575bb0bfabab186d615e8b28871543efb0703028aa721a8622ef28c40",
+  "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "applied_tree": "10c032ab8e3c5a38a3fa639c4b0004d61b7c2ffe",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "tooling_diff": [],
+  "lane_paths_checked": [
+    ".circleci",
+    ".github/workflows",
+    "research/challenge-8/kani-k1/tools",
+    "research/challenge-8/kani-k1/gcb",
+    "scripts/run-kani.sh",
+    "tool_config/kani-version.toml",
+    "rust-toolchain.toml",
+    ".gitmodules",
+    ".cargo",
+    "library/.cargo",
+    "library/Cargo.toml",
+    "library/Cargo.lock"
+  ],
+  "selectors": 15,
+  "positive_require_success": 3,
+  "negative_own_diagnostic_and_full_golden": 12,
+  "selected_manifest_equal": true,
+  "all_37_changed_files_byte_equal_upstream_candidate": true,
+  "upstream_candidate": "c39cc1121cdb287d9d77c38b87cff6c84c2c8046",
+  "diffstat_bytes": 2315,
+  "validate": {
+    "argv": [
+      "python3",
+      "-B",
+      "/root/verify-rust-std-kani3300-u3/research/challenge-8/kani-k1/tools/kani_k1.py",
+      "validate",
+      "/root/verify-rust-std-kani3300-u3/research/challenge-8/kani-k1/RUN-REQUEST.json",
+      "--args-out",
+      "/tmp/kani3300-p1g-preflight-29h_fzyy/kani-args.txt",
+      "--max-total-minutes",
+      "720",
+      "--require-runner=gcb-e2-standard-4"
+    ],
+    "exit": 0,
+    "stdout": "request kani3300-p1-targeted-20261111-01: 0 harness(es) accepted\n",
+    "stderr": ""
+  },
+  "preflight": {
+    "command": [
+      "python3",
+      "-B",
+      "research/challenge-8/kani-k1/tools/kani_k1.py",
+      "prepare-kani",
+      "--request",
+      "/root/verify-rust-std-kani3300-u3/research/challenge-8/kani-k1/RUN-REQUEST.json",
+      "--tree",
+      "/tmp/kani3300-p1g-preflight-29h_fzyy/kani",
+      "--pin",
+      "f046b70644e113be0df9c22c2e6ea44a65a57566",
+      "--out",
+      "/root/verify-rust-std-kani3300-u3/research/challenge-8/kani-k1/kani3300/p1/P1G-preflight.json"
+    ],
+    "exit": 0,
+    "report": "P1G-preflight.json",
+    "report_sha256": "b4b44775563cf68abe30f70d2c587f27ede7e3ae0a4c19e919e72790bf7fd38f"
+  },
+  "cloud": {
+    "builds": [],
+    "spent_usd": 0,
+    "reserved_usd": 0,
+    "proposed_reservation_usd": 0.6075,
+    "cap_usd": 0.8,
+    "max_builds": 1,
+    "repair_allowed": false,
+    "dispatch": "NOT_RUN; exact coordinator GO required"
+  },
+  "next": "Publish [skip ci] commit, verify exact remote SHA, PRE-BUILD REVIEW <sha>, then stop until coordinator GO. After GO dispatch once; k1g.sh watch BUILD; end turn.",
+  "assurance": "Static identities/preflight only; all 15 current native outcomes NOT_RUN; no independent B1/B2 credit."
+}
