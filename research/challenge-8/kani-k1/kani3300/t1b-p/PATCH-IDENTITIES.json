@@ -1,0 +1,33 @@
+{
+  "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "kani_commit": "94467a24484f1d57315ebbcde7f024dd27576a00",
+  "prototype_parent": "12b4137c42f3ee92f12476ea0771ea41a5cd1e8d",
+  "kani_full_commit_tree": "3e9281a2460c0ac9bdfd7c9c7b8c57d2c3b32fa5",
+  "deployment_tree": "b8575e61d76709951f461b3eda70726be43d3636",
+  "c2_deployment_tree": "4b08f55cae739d02d495c05eb23249a62a5a9e50",
+  "prototype_patch_sha256": "ce4efbaaf877f35e091dfba24d22691951a16b656ac6eb461138ffcd5e7771d1",
+  "deployment_paths": [
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+    "kani-compiler/src/kani_middle/codegen_order.rs",
+    "kani-compiler/src/kani_middle/mod.rs",
+    "kani-compiler/src/kani_middle/trace.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "library/kani_core/src/mem_init.rs"
+  ],
+  "historical_test_paths": 0,
+  "patch_bytes": 158274,
+  "patch_sha256": "20075382fe1e7fa63a31c25adfe4b9c722ce42a86dab0bd105f96d571acdea6a",
+  "diffstat": ".../src/codegen_cprover_gotoc/codegen/function.rs  |   7 +\n .../codegen_cprover_gotoc/compiler_interface.rs    | 122 +++-\n kani-compiler/src/kani_middle/codegen_order.rs     |  15 +-\n kani-compiler/src/kani_middle/mod.rs               |   1 +\n kani-compiler/src/kani_middle/trace.rs             | 551 ++++++++++++++++\n .../delayed_ub/initial_target_visitor.rs           |  53 +-\n .../delayed_ub/instrumentation_visitor.rs          | 102 ++-\n .../transform/check_uninit/delayed_ub/mod.rs       |  56 +-\n .../src/kani_middle/transform/check_uninit/mod.rs  | 316 +++++++++-\n .../transform/check_uninit/ptr_uninit/mod.rs       |   3 +-\n .../check_uninit/ptr_uninit/uninit_visitor.rs      | 689 +++++++++++++++++----\n .../transform/check_uninit/relevant_instruction.rs |  68 +-\n .../transform/check_uninit/ty_layout.rs            | 343 +++++++++-\n kani-compiler/src/kani_middle/transform/mod.rs     |  85 ++-\n library/kani_core/src/mem_init.rs                  | 110 +++-\n 15 files changed, 2268 insertions(+), 253 deletions(-)",
+  "diffstat_utf8_bytes": 1022,
+  "diffstat_limit_bytes": 4096,
+  "assurance": "Static disposable-index application only; historical tests excluded; no compiler run"
+}

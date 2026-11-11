@@ -1,0 +1,30 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-t1",
+  "baseline_commit": "12b4137c42f3ee92f12476ea0771ea41a5cd1e8d",
+  "candidate_commit": "94467a24484f1d57315ebbcde7f024dd27576a00",
+  "applicability": "KANI3300 T1b-P exact fresh-transformer prototype only. Read-only independent review; no nested delegation. Task86cb3c464f authorizes prototype despite planner older no-code boundary.",
+  "defect": "Root-dependent global transformations write into a unit-shared BodyTransformation cache that later harness roots consume.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/reachability.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs",
+    "kani-compiler/src/kani_middle/trace.rs"
+  ],
+  "invariants": [
+    "Fresh BodyTransformation per root with identical unit/stubs/config; owns body cache/pass state/auxiliary maps through GOTO emission. No root global writes to any unit-shared body cache.",
+    "Ordering uses separate transformer. Preserve ordering algorithm, local pass semantics and order, global pass configuration, signatures, diagnostics, library, flags, CheckRef and ordinary/constant transfer.",
+    "Review -D warnings hazards and signatures statically; compile is delegated to future coordinator fork CI."
+  ],
+  "controls": [
+    "Read-only Git/Python/static source inspection and permitted rustfmt wrapper only; no local cargo/rustc/Kani/CBMC or Cloud/Actions/PR/issues/comments/push/stash.",
+    "No raw logs/archives/credentials. No nested agents. Main agent publishes research only."
+  ],
+  "known_limitations": [
+    "Prototype is uncompiled. Analyze unit-scoped diagnostic last_writer separately from semantic cache/maps; diagnostics must stay unchanged.",
+    "No runtime verification or proof credit."
+  ],
+  "prior_reviews": []
+}

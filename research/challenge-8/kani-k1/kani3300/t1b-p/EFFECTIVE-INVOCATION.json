@@ -1,0 +1,31 @@
+{
+  "assurance": "Expected executor boundary only; actual invocation NOT_RUN",
+  "request_sha256": "d81b1b389cb37ab3d6ba1ef8e27f6dee1edda57a433af6096b68cee46c5fb3b1",
+  "invocations": 1,
+  "runner_argv": [
+    "scripts/run-kani.sh",
+    "--path",
+    "/workspace/src",
+    "--kani-args",
+    "--harness",
+    "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+    "--harness",
+    "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+    "--harness",
+    "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+    "-Z",
+    "uninit-checks",
+    "--exact",
+    "--harness-timeout",
+    "1m",
+    "--jobs=1",
+    "--output-format=terse"
+  ],
+  "env": {
+    "KANI3300_TRACE_DIR": "/workspace/src/k1-out/trace",
+    "KANI3300_TRACE_FILTER": "IndexRange::len;cmp3_index_range_len;cmp3_manually_drop_unsized_len",
+    "KANI3300_TRACE_ID": "d81b1b389cb37ab3d6ba1ef8e27f6dee1edda57a433af6096b68cee46c5fb3b1",
+    "KANI3300_TRACE_STAGE": "kani3300-t1b",
+    "RUSTFLAGS": "--cfg kani_smallsort_controls"
+  }
+}

@@ -1,0 +1,3342 @@
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs b/kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs
+index 1873b43..fb6c67d 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs
+@@ -124,6 +124,13 @@ pub fn codegen_function(&mut self, instance: Instance) {
+                 heads.extend(self.loop_contract_heads(&body));
+                 self.current_fn_mut().loop_decreases_mut().loop_heads = heads;
+             }
++            if crate::kani_middle::trace::enabled() {
++                crate::kani_middle::trace::body_consumed(
++                    instance.name().as_str(),
++                    instance.mangled_name().as_str(),
++                    &body,
++                );
++            }
+             blocks.into_iter().for_each(|bb| self.codegen_block(bb, &body.blocks[bb]));
+             // Report the decreases clauses that were not attached to a loop, e.g. the clause of a
+             // loop without a loop invariant.
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+index 9c65098..a098809 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+@@ -89,6 +89,19 @@ fn codegen_items<'tcx>(
+         transformer: &mut BodyTransformation,
+         thread_pool: &ThreadPool,
+     ) -> (MinimalGotocCtx, Vec<MonoItem>, Option<AssignsContract>) {
++        if crate::kani_middle::trace::enabled() {
++            if let Some(MonoItem::Fn(root)) = starting_items.first() {
++                crate::kani_middle::trace::context(root.name().as_str(), "codegen");
++            }
++            crate::kani_middle::trace::event(
++                "codegen_root",
++                serde_json::json!({
++                    "root_count": starting_items.len(),
++                    "roots_preview": starting_items.iter().take(8).map(|item| crate::kani_middle::trace::debug(item)).collect::<Vec<_>>(),
++                    "roots_omitted_count": starting_items.len().saturating_sub(8),
++                }),
++            );
++        }
+         // This runs reachability analysis before global passes are applied.
+         //
+         // Alternatively, we could run reachability only once after the global passes are applied
+@@ -102,7 +115,7 @@ fn codegen_items<'tcx>(
+         );
+ 
+         // Retrieve all instances from the currently codegened items.
+-        let instances = items
++        let instances: Vec<Instance> = items
+             .iter()
+             .filter_map(|item| match item {
+                 MonoItem::Fn(instance) => Some(*instance),
+@@ -132,6 +145,36 @@ fn codegen_items<'tcx>(
+             );
+         }
+ 
++        if crate::kani_middle::trace::enabled()
++            && let [MonoItem::Fn(root)] = starting_items
++        {
++            let root_name = crate::kani_middle::trace::clip(root.name().as_str(), 320);
++            if crate::kani_middle::trace::matches(&root_name) {
++                let len_instances: Vec<serde_json::Value> = items
++                    .iter()
++                    .filter_map(|item| match item { MonoItem::Fn(instance) => Some(instance), _ => None })
++                    .filter(|instance| instance.name().as_str().contains("IndexRange::len"))
++                    .take(8)
++                    .map(|instance| serde_json::json!({
++                        "instance": crate::kani_middle::trace::clip(instance.name().as_str(), 320),
++                        "mangled_symbol": crate::kani_middle::trace::clip(instance.mangled_name().as_str(), 320),
++                    }))
++                    .collect();
++                let absent = len_instances.is_empty();
++                crate::kani_middle::trace::event(
++                    "goto_function_presence",
++                    serde_json::json!({
++                        "root": root_name,
++                        "function": "IndexRange::len",
++                        "phase": "final_reachable_items_before_emission",
++                        "instances": len_instances,
++                        "absent": absent,
++                        "absence_reason": if absent { "unknown; inlining-or-const-fold-possible" } else { "present" },
++                    }),
++                );
++            }
++        }
++
+         // Follow rustc naming convention (cx is abbrev for context).
+         // https://rustc-dev-guide.rust-lang.org/conventions.html#naming-conventions
+         let mut gcx =
+@@ -338,6 +381,7 @@ fn target_cpu(&self, sess: &Session) -> String {
+ 
+     fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+         let ret_val = rustc_internal::run(tcx, || {
++            let _trace_guard = crate::kani_middle::trace::begin();
+             super::utils::init();
+ 
+             // Any changes to queries from this point on is just related to caching information
+@@ -403,35 +447,85 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+                     let template_passes = GlobalPasses::new(&queries, tcx);
+ 
+                     // Cross-crate collecting of all items that are reachable from the crate harnesses.
+-                    for unit in units.iter() {
+-                        // Generate a new transformer that will be shared for all harnesses within the codegen unit.
+-                        // We reset the body cache between units for now because each codegen unit has different
+-                        // configurations that affect how we transform the instance body.
+-                        let mut shared_unit_transformer =
+-                            BodyTransformation::new(&queries, tcx, unit);
+-
++                    if crate::kani_middle::trace::configured()
++                        && units.iter().any(|unit| {
++                            unit.harnesses.iter().any(|root| {
++                                crate::kani_middle::trace::matches(root.name().as_str())
++                            })
++                        })
++                    {
++                        crate::kani_middle::trace::activate();
++                        for (unit_index, unit) in units.iter().enumerate() {
++                            crate::kani_middle::trace::event(
++                                "codegen_unit",
++                                serde_json::json!({
++                                    "unit": unit_index, "root_count": unit.harnesses.len(),
++                                    "stub_count": unit.stubs.len(),
++                                }),
++                            );
++                            for (ordinal, root) in unit.harnesses.iter().enumerate() {
++                                crate::kani_middle::trace::event(
++                                    "unit_root",
++                                    serde_json::json!({
++                                        "unit": unit_index, "ordinal": ordinal,
++                                        "root": crate::kani_middle::trace::clip(root.name().as_str(), 320),
++                                    }),
++                                );
++                            }
++                            for (from, to) in &unit.stubs {
++                                crate::kani_middle::trace::event(
++                                    "unit_stub",
++                                    serde_json::json!({
++                                        "unit": unit_index,
++                                        "from": crate::kani_middle::trace::clip(from.name().as_str(), 320),
++                                        "to": crate::kani_middle::trace::clip(to.name().as_str(), 320),
++                                    }),
++                                );
++                            }
++                        }
++                    }
++                    for (unit_index, unit) in units.iter().enumerate() {
++                        if crate::kani_middle::trace::enabled() {
++                            crate::kani_middle::trace::unit(unit_index);
++                        }
+                         // Codegen the harnesses expected to generate the most code first, so their
+                         // (slow) goto-file export runs on a worker thread while the main thread
+                         // keeps codegening the rest, rather than stalling on them at the end of
+-                        // compilation. Reachability run here to rate the harnesses also warms the
+-                        // shared transformer's body cache reused during codegen. See
+-                        // `kani_middle::codegen_order`.
++                        // compilation. Use a separate transformer for ordering so its warmed
++                        // bodies and auxiliary maps cannot leak into root-specific codegen.
++                        // See `kani_middle::codegen_order`.
+                         //
+                         // Only worth the extra reachability pass when there are export workers to
+                         // overlap with; without them exports happen synchronously on this thread,
+                         // so ordering cannot hide any latency and would only add compile time.
+                         let ordered_harnesses = if export_thread_pool.has_workers() {
++                            let mut ordering_transformer =
++                                BodyTransformation::new(&queries, tcx, unit);
+                             order_harnesses::<MostReachableItems>(
+                                 &unit.harnesses,
+                                 tcx,
+-                                &mut shared_unit_transformer,
++                                &mut ordering_transformer,
+                             )
+                         } else {
+                             unit.harnesses.iter().collect()
+                         };
+ 
+-                        for harness in ordered_harnesses {
++                        for (ordinal, harness) in ordered_harnesses.into_iter().enumerate() {
++                            if crate::kani_middle::trace::enabled() {
++                                crate::kani_middle::trace::context(
++                                    harness.name().as_str(),
++                                    "codegen",
++                                );
++                                crate::kani_middle::trace::event(
++                                    "codegen_order",
++                                    serde_json::json!({"ordinal": ordinal}),
++                                );
++                            }
+                             clear_codegen_cache();
++                            // Global passes mutate cached bodies for this root. Keep the entire
++                            // transformer root-scoped through reachability and GOTO emission,
++                            // including local-pass state and auxiliary loop-contract maps.
++                            let mut root_transformer = BodyTransformation::new(&queries, tcx, unit);
+ 
+                             let model_path = units.harness_model_path(*harness).unwrap();
+                             let is_automatic_harness = units.is_automatic_harness(harness);
+@@ -445,7 +539,7 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+                                 contract_metadata
+                                     .map(|def| rustc_internal::internal(tcx, def.def_id())),
+                                 template_passes.clone(),
+-                                &mut shared_unit_transformer,
++                                &mut root_transformer,
+                                 &export_thread_pool,
+                             );
+                             if min_gcx.has_loop_contracts {
+diff --git a/kani-compiler/src/kani_middle/codegen_order.rs b/kani-compiler/src/kani_middle/codegen_order.rs
+index 6ba2b3a..679273d 100644
+--- a/kani-compiler/src/kani_middle/codegen_order.rs
++++ b/kani-compiler/src/kani_middle/codegen_order.rs
+@@ -16,8 +16,8 @@
+ //!
+ //! Ordering is intentionally cheap on memory: we run reachability once per harness to obtain the
+ //! heuristic rating, but retain only the resulting `usize` rather than the reachable set or call
+-//! graph. Reachability is recomputed during codegen (reusing the transformer's warmed body cache),
+-//! so peak memory matches codegen of the same unit in its original order.
++//! graph. The ordering transformer is discarded before codegen, which recomputes reachability
++//! with a fresh transformer for each root.
+ 
+ use crate::kani_middle::codegen_units::Harness;
+ use crate::kani_middle::reachability::collect_reachable_items;
+@@ -48,8 +48,8 @@ fn rate(reachable: &[MonoItem]) -> usize {
+ }
+ 
+ /// Return the harnesses of a codegen unit ordered so that the ones the heuristic `H` rates highest
+-/// come first. `transformer` must be the (shared) transformer for the harnesses' codegen unit; it
+-/// is used to run reachability and its body cache is warmed as a side effect.
++/// come first. `transformer` must use the harnesses' codegen-unit configuration; it is used only
++/// for ordering reachability, and its warmed body cache is discarded before codegen.
+ pub fn order_harnesses<'a, H: CodegenHeuristic>(
+     harnesses: &'a [Harness],
+     tcx: TyCtxt,
+@@ -63,6 +63,13 @@ pub fn order_harnesses<'a, H: CodegenHeuristic>(
+     let mut rated: Vec<(&Harness, usize)> = harnesses
+         .iter()
+         .map(|harness| {
++            if crate::kani_middle::trace::enabled() {
++                crate::kani_middle::trace::context(harness.name().as_str(), "warmup");
++                crate::kani_middle::trace::event(
++                    "warmup_root",
++                    serde_json::json!({"root": crate::kani_middle::trace::clip(harness.name().as_str(), 320)}),
++                );
++            }
+             let (reachable, _call_graph) =
+                 collect_reachable_items(tcx, transformer, &[MonoItem::Fn(*harness)]);
+             (harness, H::rate(&reachable))
+diff --git a/kani-compiler/src/kani_middle/mod.rs b/kani-compiler/src/kani_middle/mod.rs
+index a478460..d054dbc 100644
+--- a/kani-compiler/src/kani_middle/mod.rs
++++ b/kani-compiler/src/kani_middle/mod.rs
+@@ -78,6 +78,7 @@ pub fn strip_local_crate_prefix(name: String) -> String {
+ pub mod reachability;
+ pub mod resolve;
+ pub mod stubbing;
++pub(crate) mod trace;
+ pub mod transform;
+ 
+ /// Check that all crate items are supported and there's no misconfiguration.
+diff --git a/kani-compiler/src/kani_middle/trace.rs b/kani-compiler/src/kani_middle/trace.rs
+new file mode 100644
+index 0000000..951e8e5
+--- /dev/null
++++ b/kani-compiler/src/kani_middle/trace.rs
+@@ -0,0 +1,551 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++//! Bounded, opt-in compiler diagnostics for the KANI3300 investigation.
++//!
++//! This module only observes values already produced by codegen and MIR passes. It is not
++//! consulted unless `KANI3300_TRACE_DIR` is present, and every write failure is contained here.
++
++use serde_json::{Value, json};
++use std::collections::BTreeMap;
++use std::fs::{File, OpenOptions, create_dir_all};
++use std::hash::{DefaultHasher, Hasher};
++use std::io::{self, Write};
++use std::path::PathBuf;
++use std::sync::atomic::{AtomicUsize, Ordering};
++use std::sync::{Mutex, OnceLock};
++
++const SCHEMA: &str = "kani3300-trace-v1";
++const MAX_RECORDS: usize = 512;
++const MAX_RECORD_BYTES: usize = 2048;
++// Four compiler processes can each claim one slot. The 24 KiB headroom is reserved for the
++// single bounded marker used when a fifth process arrives, keeping the run below 1 MiB.
++const MAX_INVOCATION_BYTES: usize = 250 * 1024;
++const MAX_STATE_ENTRIES: usize = 64;
++const MAX_STATE_KEY_BYTES: usize = 320;
++const MAX_FILTERS: usize = 20;
++const MAX_FILTER_BYTES: usize = 300;
++
++#[derive(Clone)]
++struct Config {
++    directory: PathBuf,
++    filters: Vec<String>,
++    trace_id: Option<String>,
++    stage: String,
++}
++
++struct Trace {
++    file: Option<File>,
++    config: Config,
++    invocation: String,
++    next_seq: usize,
++    seen: usize,
++    emitted: usize,
++    omitted: usize,
++    bytes: usize,
++    state: &'static str,
++    finished: bool,
++    coverage: BTreeMap<String, usize>,
++    omission_counts: BTreeMap<String, usize>,
++    context_root: String,
++    context_stage: String,
++    context_unit: Option<usize>,
++    body_hashes: BTreeMap<String, String>,
++    last_writers: BTreeMap<String, Value>,
++    unchanged_snapshots: usize,
++}
++
++static TRACE: OnceLock<Mutex<Option<Trace>>> = OnceLock::new();
++static CONFIG: OnceLock<Option<Config>> = OnceLock::new();
++static EXTERNAL_WITNESSES: AtomicUsize = AtomicUsize::new(0);
++static EXTERNAL_CACHE_WITNESSES: AtomicUsize = AtomicUsize::new(0);
++
++/// A guard makes the footer best-effort on every compiler return path.
++pub(crate) struct InvocationGuard;
++
++impl Drop for InvocationGuard {
++    fn drop(&mut self) {
++        finish();
++    }
++}
++
++pub(crate) fn begin() -> InvocationGuard {
++    let _ = config();
++    InvocationGuard
++}
++
++fn trace() -> &'static Mutex<Option<Trace>> {
++    TRACE.get_or_init(|| Mutex::new(None))
++}
++
++fn config() -> Option<&'static Config> {
++    CONFIG.get_or_init(Config::from_env).as_ref()
++}
++
++/// Claim a bounded run slot only after a codegen unit contains a selected root.
++pub(crate) fn activate() {
++    let Some(config) = config() else { return };
++    if let Ok(mut guard) = trace().lock()
++        && guard.is_none()
++    {
++        *guard = Trace::open(config.clone());
++    }
++}
++
++impl Config {
++    fn from_env() -> Option<Self> {
++        let directory = std::env::var_os("KANI3300_TRACE_DIR")?;
++        let filter = std::env::var("KANI3300_TRACE_FILTER").ok()?;
++        if filter.len() > 1024 {
++            return None;
++        }
++        let filters: Vec<String> = filter.split(';').map(str::trim).map(str::to_owned).collect();
++        if filters.is_empty()
++            || filters.len() > MAX_FILTERS
++            || filters.iter().map(String::len).sum::<usize>() > 900
++            || filters.iter().any(|part| part.is_empty() || part.len() > MAX_FILTER_BYTES)
++        {
++            return None;
++        }
++        let trace_id = std::env::var("KANI3300_TRACE_ID").ok();
++        if trace_id
++            .as_ref()
++            .is_some_and(|id| id.len() != 64 || !id.bytes().all(|byte| byte.is_ascii_hexdigit()))
++        {
++            return None;
++        }
++        let stage =
++            std::env::var("KANI3300_TRACE_STAGE").unwrap_or_else(|_| "kani3300-t1b".to_owned());
++        if stage != "kani3300-t1b" {
++            return None;
++        }
++        Some(Self { directory: PathBuf::from(directory), filters, trace_id, stage })
++    }
++}
++
++impl Trace {
++    fn open(config: Config) -> Option<Self> {
++        if create_dir_all(&config.directory).is_err() {
++            return None;
++        }
++        let pid = std::process::id();
++        let mut slot = None;
++        for index in 0..4 {
++            let path = config.directory.join(format!("kani3300-trace-{index}.jsonl"));
++            if let Ok(file) = OpenOptions::new().write(true).create_new(true).open(path) {
++                slot = Some((file, format!("{pid}:{index}")));
++                break;
++            }
++        }
++        let Some((file, invocation)) = slot else {
++            write_overflow_marker(&config, pid);
++            return None;
++        };
++        let mut trace = Self {
++            file: Some(file),
++            config,
++            invocation,
++            next_seq: 0,
++            seen: 0,
++            emitted: 0,
++            omitted: 0,
++            bytes: 0,
++            state: "COMPLETE",
++            finished: false,
++            coverage: BTreeMap::new(),
++            omission_counts: BTreeMap::new(),
++            context_root: String::new(),
++            context_stage: "unit_header".to_owned(),
++            context_unit: None,
++            body_hashes: BTreeMap::new(),
++            last_writers: BTreeMap::new(),
++            unchanged_snapshots: 0,
++        };
++        trace.write_record(
++            "header",
++            json!({
++                "filters": trace.config.filters,
++                "limits": {"records": MAX_RECORDS, "record_bytes": MAX_RECORD_BYTES,
++                    "invocation_bytes": MAX_INVOCATION_BYTES},
++                "filter_mode": "semicolon-literal-substring",
++            }),
++            true,
++        );
++        Some(trace)
++    }
++
++    fn write_record(&mut self, kind: &str, data: Value, is_footer: bool) {
++        if self.finished || self.file.is_none() {
++            return;
++        }
++        if !is_footer {
++            self.seen += 1;
++        }
++        let value = json!({
++            "schema": SCHEMA,
++            "kind": kind,
++            "trace_id": self.config.trace_id,
++            "stage": self.config.stage,
++            "invocation": self.invocation,
++            "seq": self.next_seq,
++            "context": {"root": self.context_root, "stage": self.context_stage, "unit": self.context_unit},
++            "data": data,
++        });
++        let mut sink = RecordSink { bytes: Vec::with_capacity(MAX_RECORD_BYTES), oversized: false };
++        if serde_json::to_writer(&mut sink, &value).is_err() {
++            if sink.oversized {
++                if !is_footer {
++                    self.omitted += 1;
++                    *self.omission_counts.entry("oversized_records".to_owned()).or_default() += 1;
++                    self.state = "OVERSIZED";
++                }
++            } else {
++                self.state = "IO_ERROR";
++                self.file = None;
++            }
++            return;
++        }
++        let mut encoded = sink.bytes;
++        encoded.push(b'\n');
++        let footer_reserve = if is_footer { 0 } else { MAX_RECORD_BYTES };
++        if encoded.len() > MAX_RECORD_BYTES
++            || self.bytes.saturating_add(encoded.len()).saturating_add(footer_reserve)
++                > MAX_INVOCATION_BYTES
++        {
++            if !is_footer {
++                self.omitted += 1;
++                *self.omission_counts.entry("oversized_records".to_owned()).or_default() += 1;
++                self.state = "OVERSIZED";
++            }
++            return;
++        }
++        // Header and footer consume two of the invocation's record allowance.
++        if !is_footer && self.emitted + 2 >= MAX_RECORDS {
++            self.omitted += 1;
++            *self.omission_counts.entry("record_cap".to_owned()).or_default() += 1;
++            if self.state == "COMPLETE" {
++                self.state = "PARTIAL";
++            }
++            return;
++        }
++        if self.file.as_mut().is_some_and(|file| file.write_all(&encoded).is_err()) {
++            self.state = "IO_ERROR";
++            self.file = None;
++            return;
++        }
++        self.bytes += encoded.len();
++        self.next_seq += 1;
++        if !is_footer {
++            self.emitted += 1;
++            *self.coverage.entry(kind.to_owned()).or_default() += 1;
++        }
++    }
++
++    fn remember_body_hash(&mut self, name: &str, hash: String) {
++        if name.len() <= MAX_STATE_KEY_BYTES
++            && (self.body_hashes.len() < MAX_STATE_ENTRIES || self.body_hashes.contains_key(name))
++        {
++            self.body_hashes.insert(name.to_owned(), hash);
++        } else {
++            self.state_omission("snapshot_state_cap");
++        }
++    }
++
++    fn state_omission(&mut self, category: &str) {
++        *self.omission_counts.entry(category.to_owned()).or_default() += 1;
++        if self.state == "COMPLETE" {
++            self.state = "PARTIAL";
++        }
++    }
++
++    fn finish(&mut self) {
++        if self.finished || self.file.is_none() {
++            self.finished = true;
++            return;
++        }
++        let omitted = self.omitted;
++        let state = if !self.omission_counts.is_empty() && self.state == "COMPLETE" {
++            "PARTIAL"
++        } else {
++            self.state
++        };
++        self.write_record(
++            "footer",
++            json!({
++                "state": state,
++                "seen_records": self.seen,
++                "emitted_records": self.emitted,
++                "omitted_records": omitted,
++                "bytes_before_footer": self.bytes,
++                "coverage": self.coverage,
++                "omission_counts": self.omission_counts,
++                "aggregated_unchanged_snapshots": self.unchanged_snapshots,
++            }),
++            true,
++        );
++        if let Some(file) = self.file.as_mut() {
++            let _ = file.flush();
++        }
++        self.finished = true;
++    }
++}
++
++struct RecordSink {
++    bytes: Vec<u8>,
++    oversized: bool,
++}
++impl Write for RecordSink {
++    fn write(&mut self, input: &[u8]) -> io::Result<usize> {
++        if input.len() > (MAX_RECORD_BYTES - 1).saturating_sub(self.bytes.len()) {
++            self.oversized = true;
++            return Err(io::Error::other("diagnostic record quota"));
++        }
++        self.bytes.extend_from_slice(input);
++        Ok(input.len())
++    }
++    fn flush(&mut self) -> io::Result<()> {
++        Ok(())
++    }
++}
++
++fn write_overflow_marker(config: &Config, pid: u32) {
++    let path = config.directory.join("kani3300-trace-overflow.jsonl");
++    let Ok(mut file) = OpenOptions::new().write(true).create_new(true).open(path) else { return };
++    let marker = json!({
++        "schema": SCHEMA,
++        "kind": "overflow",
++        "trace_id": config.trace_id,
++        "stage": config.stage,
++        "invocation": pid.to_string(),
++        "seq": 0,
++        "data": {"state": "OVERSIZED", "omitted_invocations": "one-or-more", "reason": "run_slot_cap"},
++    });
++    if let Ok(mut bytes) = serde_json::to_vec(&marker) {
++        bytes.push(b'\n');
++        if bytes.len() <= MAX_RECORD_BYTES {
++            let _ = file.write_all(&bytes);
++            let _ = file.flush();
++        }
++    }
++}
++
++pub(crate) fn matches(name: &str) -> bool {
++    config().is_some_and(|config| config.filters.iter().any(|filter| name.contains(filter)))
++}
++
++pub(crate) fn enabled() -> bool {
++    trace().lock().ok().is_some_and(|guard| guard.is_some())
++}
++
++pub(crate) fn configured() -> bool {
++    config().is_some()
++}
++
++pub(crate) fn event(kind: &str, data: Value) {
++    if let Ok(mut guard) = trace().lock() {
++        if let Some(trace) = guard.as_mut() {
++            trace.write_record(kind, data, false);
++        }
++    }
++}
++
++pub(crate) fn context(root: &str, stage: &str) {
++    let root = clip(root, 320);
++    let stage = clip(stage, 64);
++    if let Ok(mut guard) = trace().lock()
++        && let Some(trace) = guard.as_mut()
++    {
++        trace.context_root = root;
++        trace.context_stage = stage;
++    }
++}
++
++pub(crate) fn unit(unit: usize) {
++    if let Ok(mut guard) = trace().lock()
++        && let Some(trace) = guard.as_mut()
++    {
++        if trace.context_unit != Some(unit) {
++            trace.body_hashes.clear();
++            trace.last_writers.clear();
++        }
++        trace.context_unit = Some(unit);
++    }
++}
++
++pub(crate) fn cache_event(kind: &str, data: Value, selected: bool) {
++    if selected || EXTERNAL_CACHE_WITNESSES.fetch_add(1, Ordering::Relaxed) < 16 {
++        event(kind, data);
++    } else {
++        mark_omission("external_cache_witness_cap", 1, false);
++    }
++}
++
++pub(crate) fn witness_event(kind: &str, data: Value, selected_function: bool) {
++    if selected_function || EXTERNAL_WITNESSES.fetch_add(1, Ordering::Relaxed) < 16 {
++        event(kind, data);
++    } else {
++        mark_omission("external_witness_cap", 1, false);
++    }
++}
++
++pub(crate) fn mark_omission(category: &str, count: usize, oversized: bool) {
++    if count == 0 {
++        return;
++    }
++    if let Ok(mut guard) = trace().lock()
++        && let Some(trace) = guard.as_mut()
++    {
++        *trace.omission_counts.entry(category.to_owned()).or_default() += count;
++        if oversized {
++            trace.state = "OVERSIZED";
++        } else if trace.state == "COMPLETE" {
++            trace.state = "PARTIAL";
++        }
++    }
++}
++
++/// Fingerprint the complete dump stream without retaining MIR text. This is diagnostic data,
++/// not a cryptographic identity or a second MIR query.
++fn fingerprint(name: &str, body: &rustc_public::mir::Body) -> Value {
++    struct Sink {
++        hasher: DefaultHasher,
++        bytes: usize,
++    }
++    impl Write for Sink {
++        fn write(&mut self, bytes: &[u8]) -> io::Result<usize> {
++            self.hasher.write(bytes);
++            self.bytes = self.bytes.saturating_add(bytes.len());
++            Ok(bytes.len())
++        }
++        fn flush(&mut self) -> io::Result<()> {
++            Ok(())
++        }
++    }
++    let mut sink = Sink { hasher: DefaultHasher::new(), bytes: 0 };
++    let dump_ok = body.dump(&mut sink, name).is_ok();
++    json!({
++        "body_hash": format!("{:016x}", sink.hasher.finish()),
++        "body_hash_algorithm": "std-default-hasher-64",
++        "dump_bytes": sink.bytes,
++        "dump_ok": dump_ok,
++    })
++}
++
++pub(crate) fn body_snapshot(name: &str, stage: &str, body: &rustc_public::mir::Body) {
++    if !matches(name) {
++        return;
++    }
++    let mut data = fingerprint(name, body);
++    data["instance"] = json!(clip(name, 320));
++    data["stage"] = json!(stage);
++    if let Ok(mut guard) = trace().lock()
++        && let Some(trace) = guard.as_mut()
++    {
++        let hash = data["body_hash"].as_str().unwrap_or_default().to_owned();
++        if data["dump_ok"] == true && trace.body_hashes.get(name) == Some(&hash) {
++            trace.unchanged_snapshots += 1;
++        } else {
++            if data["dump_ok"] == true {
++                trace.remember_body_hash(name, hash);
++            }
++            trace.write_record("mir_snapshot", data, false);
++        }
++    }
++}
++
++/// Record a selected writer and keep its context for the actual GOTO consumer.
++pub(crate) fn body_writer(name: &str, symbol: &str, writer: &str, body: &rustc_public::mir::Body) {
++    if !matches(name) {
++        return;
++    }
++    let mut data = fingerprint(name, body);
++    data["instance"] = json!(clip(name, 320));
++    data["mangled_symbol"] = json!(clip(symbol, 320));
++    data["writer"] = json!(writer);
++    if let Ok(mut guard) = trace().lock()
++        && let Some(trace) = guard.as_mut()
++    {
++        data["writer_context"] = json!({
++            "root": trace.context_root, "stage": trace.context_stage, "unit": trace.context_unit,
++        });
++        if symbol.len() <= MAX_STATE_KEY_BYTES
++            && (trace.last_writers.len() < MAX_STATE_ENTRIES
++                || trace.last_writers.contains_key(symbol))
++        {
++            trace.last_writers.insert(
++                symbol.to_owned(),
++                json!({
++                    "writer": data["writer"], "body_hash": data["body_hash"],
++                    "dump_ok": data["dump_ok"], "context": data["writer_context"],
++                }),
++            );
++        } else {
++            trace.state_omission("writer_state_cap");
++        }
++        if data["dump_ok"] == true {
++            trace.remember_body_hash(
++                name,
++                data["body_hash"].as_str().unwrap_or_default().to_owned(),
++            );
++        }
++        trace.write_record("body_cache_writer", data, false);
++    }
++}
++
++/// Observe the very body passed to GOTO block emission; analysis lookups cannot emit this event.
++pub(crate) fn body_consumed(name: &str, symbol: &str, body: &rustc_public::mir::Body) {
++    if !matches(name) {
++        return;
++    }
++    let mut data = fingerprint(name, body);
++    data["instance"] = json!(clip(name, 320));
++    data["mangled_symbol"] = json!(clip(symbol, 320));
++    data["phase"] = json!("before_goto_blocks");
++    if let Ok(mut guard) = trace().lock()
++        && let Some(trace) = guard.as_mut()
++    {
++        data["last_writer"] = trace.last_writers.get(symbol).cloned().unwrap_or(Value::Null);
++        trace.write_record("goto_body_consumed", data, false);
++    }
++}
++
++pub(crate) fn clip(value: &str, max_bytes: usize) -> String {
++    if value.len() <= max_bytes {
++        return value.to_owned();
++    }
++    let mut end = max_bytes;
++    while !value.is_char_boundary(end) {
++        end -= 1;
++    }
++    mark_omission("clipped_text_bytes", value.len() - end, false);
++    value[..end].to_owned()
++}
++
++/// Bound Debug formatting before allocating its potentially large masks or projections.
++pub(crate) fn debug(value: &impl std::fmt::Debug) -> String {
++    struct Sink(String);
++    impl std::fmt::Write for Sink {
++        fn write_str(&mut self, text: &str) -> std::fmt::Result {
++            let remaining = 320usize.saturating_sub(self.0.len());
++            let mut end = remaining.min(text.len());
++            while !text.is_char_boundary(end) {
++                end -= 1;
++            }
++            self.0.push_str(&text[..end]);
++            if end < text.len() { Err(std::fmt::Error) } else { Ok(()) }
++        }
++    }
++    let mut sink = Sink(String::with_capacity(320));
++    if std::fmt::write(&mut sink, format_args!("{value:?}")).is_err() {
++        mark_omission("truncated_debug_fields", 1, false);
++    }
++    sink.0
++}
++
++pub(crate) fn finish() {
++    if let Ok(mut guard) = trace().lock() {
++        if let Some(trace) = guard.as_mut() {
++            trace.finish();
++        }
++    }
++}
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+index 03b92f3..6ea3bfd 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+@@ -29,21 +29,40 @@ pub enum AnalysisTarget {
+ /// analysis targets are *pointers* to places reading and writing from which should be tracked.
+ pub struct InitialTargetVisitor {
+     body: Body,
++    instance: Instance,
+     targets: Vec<AnalysisTarget>,
+ }
+ 
+ impl InitialTargetVisitor {
+-    pub fn new(body: Body) -> Self {
+-        Self { body, targets: vec![] }
++    pub fn new(body: Body, instance: Instance) -> Self {
++        Self { body, instance, targets: vec![] }
+     }
+ 
+     pub fn into_targets(self) -> Vec<AnalysisTarget> {
+         self.targets
+     }
+ 
+-    pub fn push_operand(&mut self, operand: &Operand) {
++    pub fn push_operand(&mut self, operand: &Operand, location: Location, reason: &str) {
++        let instance_name = if crate::kani_middle::trace::enabled() {
++            Some(crate::kani_middle::trace::clip(self.instance.name().as_str(), 320))
++        } else {
++            None
++        };
++        let selected = instance_name.as_deref().is_some_and(crate::kani_middle::trace::matches);
+         match operand {
+             Operand::Copy(place) | Operand::Move(place) => {
++                if instance_name.is_some() {
++                    crate::kani_middle::trace::witness_event(
++                        "target_origin",
++                        serde_json::json!({
++                            "instance": instance_name.as_deref().unwrap_or_default(),
++                            "location": crate::kani_middle::trace::debug(&location),
++                            "reason": reason,
++                            "target": crate::kani_middle::trace::debug(place),
++                        }),
++                        selected,
++                    );
++                }
+                 self.targets.push(AnalysisTarget::Place(place.clone()));
+             }
+             Operand::Constant(constant) => {
+@@ -51,6 +70,18 @@ pub fn push_operand(&mut self, operand: &Operand) {
+                 if let ConstantKind::Allocated(allocation) = constant.const_.kind() {
+                     for (_, prov) in &allocation.provenance.ptrs {
+                         if let GlobalAlloc::Static(static_def) = GlobalAlloc::from(prov.0) {
++                            if instance_name.is_some() {
++                                crate::kani_middle::trace::witness_event(
++                                    "target_origin",
++                                    serde_json::json!({
++                                        "instance": instance_name.as_deref().unwrap_or_default(),
++                                        "location": crate::kani_middle::trace::debug(&location),
++                                        "reason": reason,
++                                        "target": crate::kani_middle::trace::debug(&static_def),
++                                    }),
++                                    selected,
++                                );
++                            }
+                             self.targets.push(AnalysisTarget::Static(static_def));
+                         };
+                     }
+@@ -84,7 +115,15 @@ fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
+                     if let (Some(from_ty), Some(to_ty)) = (from_ty, to_ty)
+                         && !tys_layout_equal_to_size(from_ty, to_ty)
+                     {
+-                        self.push_operand(operand);
++                        self.push_operand(
++                            operand,
++                            location,
++                            match kind {
++                                CastKind::Transmute => "transmute_pointer_layout_mismatch",
++                                CastKind::PtrToPtr => "ptr_to_ptr_layout_mismatch",
++                                _ => "pointer_cast_layout_mismatch",
++                            },
++                        );
+                     }
+                 }
+                 _ => {}
+@@ -97,7 +136,7 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+         if let StatementKind::Intrinsic(NonDivergingIntrinsic::CopyNonOverlapping(copy)) =
+             &stmt.kind
+         {
+-            self.push_operand(&copy.dst);
++            self.push_operand(&copy.dst, location, "copy_non_overlapping_destination");
+         }
+         self.super_statement(stmt, location);
+     }
+@@ -113,11 +152,11 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+             match Intrinsic::from_instance(&instance) {
+                 Intrinsic::Copy => {
+                     // Here, `dst` is the second argument.
+-                    self.push_operand(&args[1]);
++                    self.push_operand(&args[1], location, "copy_intrinsic_destination");
+                 }
+                 Intrinsic::VolatileCopyMemory | Intrinsic::VolatileCopyNonOverlappingMemory => {
+                     // Here, `dst` is the first argument.
+-                    self.push_operand(&args[0]);
++                    self.push_operand(&args[0], location, "volatile_copy_intrinsic_destination");
+                 }
+                 _ => {}
+             }
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
+index 719832a..4e57d50 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
+@@ -9,8 +9,9 @@
+     transform::{
+         body::{InsertPosition, MutableBody, SourceInstruction},
+         check_uninit::{
+-            TargetFinder,
++            PointeeInfo, PointeeLayout, TargetFinder,
+             relevant_instruction::{InitRelevantInstruction, MemoryInitOp},
++            ty_layout::contains_storage,
+         },
+     },
+ };
+@@ -42,10 +43,43 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
+         self.locals = body.locals().to_vec();
+         for (bb_idx, bb) in body.blocks().iter().enumerate() {
+             self.current_target = InitRelevantInstruction {
+-                source: SourceInstruction::Statement { idx: 0, bb: bb_idx },
++                source: if bb.statements.is_empty() {
++                    SourceInstruction::Terminator { bb: bb_idx }
++                } else {
++                    SourceInstruction::Statement { idx: 0, bb: bb_idx }
++                },
+                 before_instruction: vec![],
+                 after_instruction: vec![],
+             };
++            if bb_idx == 0 {
++                // A typed by-value parameter has fresh stack storage but no MIR assignment.
++                // Its caller retains the ordinary operand checks; seed only parameter bytes
++                // that this analysis may check. In particular this covers an ordinary
++                // IndexRange copied out of IntoIter on the drop path. References/pointers
++                // initialize only their own value bytes, never the referenced storage.
++                for idx in 1..=body.arg_count() {
++                    let ty = self.locals[idx].ty;
++                    let place = Place::from(idx);
++                    let needs_get = self
++                        .points_to
++                        .resolve_place_stable(place.clone(), self.current_instance, self.tcx)
++                        .intersection(self.analysis_targets)
++                        .next()
++                        .is_some();
++                    if needs_get
++                        && !ty.kind().is_union()
++                        && !contains_storage(self.tcx, ty)
++                        && let Ok(info) = PointeeInfo::from_ty(ty)
++                        && let PointeeLayout::Sized { layout } = info.layout()
++                    {
++                        self.push_target(MemoryInitOp::SetStorage {
++                            operand: Operand::Copy(place),
++                            initialized: layout.clone(),
++                            position: InsertPosition::Before,
++                        });
++                    }
++                }
++            }
+             self.visit_basic_block(bb);
+         }
+         self.targets
+@@ -96,17 +130,12 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+     }
+ 
+     fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-        if let SourceInstruction::Statement { bb, .. } = self.current_target.source {
+-            // We don't have to push the previous target, since it already happened in the statement
+-            // handling code.
+-            self.current_target = InitRelevantInstruction {
+-                source: SourceInstruction::Terminator { bb },
+-                after_instruction: vec![],
+-                before_instruction: vec![],
+-            };
+-        } else {
+-            unreachable!()
+-        }
++        // A block can have no statements; retain any entry operations while selecting
++        // its terminator rather than a nonexistent statement at index statements.len().
++        let bb = match self.current_target.source {
++            SourceInstruction::Statement { bb, .. } | SourceInstruction::Terminator { bb } => bb,
++        };
++        self.current_target.source = SourceInstruction::Terminator { bb };
+         // The points-to analysis does not follow these calls, so the aliasing it computed is only
+         // valid on paths that do not reach them.
+         if let TerminatorKind::Call { func, .. } = &term.kind
+@@ -129,14 +158,19 @@ fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
+     }
+ 
+     fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location) {
++        let trace_name = crate::kani_middle::trace::enabled()
++            .then(|| crate::kani_middle::trace::clip(self.current_instance.name().as_str(), 320));
++        let trace_selected = trace_name.as_deref().is_some_and(crate::kani_middle::trace::matches);
+         // In order to check whether we should get-instrument the place, see if it resolves to the
+         // analysis target.
+-        let needs_get = {
+-            self.points_to
+-                .resolve_place_stable(place.clone(), self.current_instance, self.tcx)
+-                .intersection(self.analysis_targets)
+-                .next()
+-                .is_some()
++        let (needs_get, get_witness) = {
++            let resolved =
++                self.points_to.resolve_place_stable(place.clone(), self.current_instance, self.tcx);
++            let witness = resolved.intersection(self.analysis_targets).next();
++            (
++                witness.is_some(),
++                if trace_selected { witness.map(crate::kani_middle::trace::debug) } else { None },
++            )
+         };
+ 
+         // In order to check whether we should set-instrument the place, we need to figure out if
+@@ -165,8 +199,9 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+         // if we don't set-instrument `val_2` we will get a false-positive.
+         //
+         // See `tests/expected/uninit/delayed-ub-overapprox.rs` for a more specific example.
+-        let needs_set = {
++        let (needs_set, set_witness) = {
+             let mut has_common_ancestor = false;
++            let mut set_witness = None;
+             let mut self_ancestors =
+                 self.points_to.resolve_place_stable(place.clone(), self.current_instance, self.tcx);
+             let mut target_ancestors = self.analysis_targets.clone();
+@@ -179,8 +214,12 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+             // which is the answer the walk gives on every graph where it terminates.
+             let mut visited_pairs = Vec::new();
+             while !self_ancestors.is_empty() || !target_ancestors.is_empty() {
+-                if self_ancestors.intersection(&target_ancestors).next().is_some() {
++                if let Some(common_ancestor) = self_ancestors.intersection(&target_ancestors).next()
++                {
+                     has_common_ancestor = true;
++                    if trace_selected {
++                        set_witness = Some(crate::kani_middle::trace::debug(&common_ancestor));
++                    }
+                     break;
+                 }
+                 let state = (self_ancestors, target_ancestors);
+@@ -192,9 +231,28 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+                 visited_pairs.push(state);
+             }
+ 
+-            has_common_ancestor
++            (has_common_ancestor, set_witness)
+         };
+ 
++        if trace_selected {
++            crate::kani_middle::trace::event(
++                "relevance",
++                serde_json::json!({
++                    "instance": trace_name.as_deref().unwrap_or_default(),
++                    "location": crate::kani_middle::trace::debug(&location),
++                    "place": crate::kani_middle::trace::debug(&place),
++                    "needs_get": needs_get,
++                    "get_witness": get_witness,
++                    "needs_set": needs_set,
++                    "set_witness": set_witness,
++                    "decision": if ptx.is_mutating() && needs_set { "select_set_ref" }
++                        else if !ptx.is_mutating() && needs_get { "select_check_ref" }
++                        else if ptx.is_mutating() { "skip_no_common_ancestor" }
++                        else { "skip_not_target" },
++                }),
++            );
++        }
++
+         // If we are mutating the place, initialize it.
+         if ptx.is_mutating() && needs_set {
+             self.push_target(MemoryInitOp::SetRef {
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+index 76e8111..c1648d9 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+@@ -73,10 +73,30 @@ fn transform(
+             .iter()
+             .flat_map(|instance| {
+                 let body = instance.body().unwrap();
+-                let mut visitor = InitialTargetVisitor::new(body.clone());
++                let mut visitor = InitialTargetVisitor::new(body.clone(), *instance);
+                 visitor.visit_body(&body);
++                let initial_targets = visitor.into_targets();
++                let instance_name = crate::kani_middle::trace::enabled()
++                    .then(|| crate::kani_middle::trace::clip(instance.name().as_str(), 320));
++                if instance_name.as_deref().is_some_and(crate::kani_middle::trace::matches) {
++                    let instance_name = instance_name.as_deref().unwrap_or_default();
++                    for target in initial_targets.iter().take(16) {
++                        let witness = match target {
++                            AnalysisTarget::Place(place) => crate::kani_middle::trace::debug(place),
++                            AnalysisTarget::Static(static_def) => crate::kani_middle::trace::debug(static_def),
++                        };
++                        crate::kani_middle::trace::event(
++                            "target_origin",
++                            serde_json::json!({"instance": instance_name, "witness": witness}),
++                        );
++                    }
++                    crate::kani_middle::trace::event(
++                        "target_origin_summary",
++                        serde_json::json!({"instance": instance_name, "target_count": initial_targets.len(), "witnesses_emitted": initial_targets.len().min(16)}),
++                    );
++                }
+                 // Convert all places into the format of aliasing graph for later comparison.
+-                visitor.into_targets().into_iter().map(move |analysis_target| match analysis_target
++                initial_targets.into_iter().map(move |analysis_target| match analysis_target
+                 {
+                     AnalysisTarget::Place(place) => {
+                         MemLoc::from_stable_stack_allocation(*instance, place, tcx)
+@@ -87,6 +107,16 @@ fn transform(
+                 })
+             })
+             .collect();
++        if crate::kani_middle::trace::enabled() {
++            crate::kani_middle::trace::event(
++                "analysis_targets",
++                serde_json::json!({
++                    "initial_target_count": targets.len(),
++                    "starting_item_count": starting_items.len(),
++                    "skip_reason": if targets.is_empty() { "no_initial_targets; global_analysis_skipped" } else { "none" },
++                }),
++            );
++        }
+ 
+         // Only perform this analysis if there is something to analyze.
+         if !targets.is_empty() {
+@@ -112,6 +142,17 @@ fn transform(
+ 
+             // Since analysis targets are *pointers*, need to get its successors for instrumentation.
+             analysis_targets.extend(global_points_to_graph.successors(&targets));
++            if crate::kani_middle::trace::enabled() {
++                crate::kani_middle::trace::event(
++                    "analysis_targets",
++                    serde_json::json!({
++                        "initial_target_count": targets.len(),
++                        "successor_target_count": analysis_targets.len(),
++                        "starting_item_count": starting_items.len(),
++                        "skip_reason": if analysis_targets.is_empty() { "no_target_successors" } else { "none" },
++                    }),
++                );
++            }
+ 
+             // If we are generating MIR, generate the points-to graph as well.
+             if tcx.sess.opts.output_types.contains_key(&OutputType::Mir) {
+@@ -122,6 +163,8 @@ fn transform(
+             for instance in instances {
+                 // Retrieve the body with all local instrumentation passes applied.
+                 let body = transformer.body(tcx, instance);
++                let instance_name = crate::kani_middle::trace::enabled()
++                    .then(|| crate::kani_middle::trace::clip(instance.name().as_str(), 320));
+                 // Instrument for delayed UB.
+                 let target_finder = InstrumentationVisitor::new(
+                     &global_points_to_graph,
+@@ -130,6 +173,7 @@ fn transform(
+                     tcx,
+                 );
+                 let (instrumentation_added, body) = UninitInstrumenter::run(
++                    tcx,
+                     body,
+                     instance,
+                     self.safety_check_type.clone(),
+@@ -140,6 +184,14 @@ fn transform(
+                 // If some instrumentation has been performed, update the cached body in the local transformer.
+                 if instrumentation_added {
+                     modified = true;
++                    if let Some(name) = instance_name.as_deref() {
++                        crate::kani_middle::trace::body_writer(
++                            name,
++                            instance.mangled_name().as_str(),
++                            "DelayedUbPass",
++                            &body,
++                        );
++                    }
+                     transformer.cache.entry(instance).and_modify(|transformation_result| {
+                         *transformation_result = TransformationResult(body, true);
+                     });
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+index 5326c70..f0a0f3d 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+@@ -8,15 +8,17 @@
+ use crate::kani_middle::transform::body::{
+     CheckType, InsertPosition, MutableBody, SourceInstruction, synthetic_source_info,
+ };
+-use relevant_instruction::{InitRelevantInstruction, MemoryInitOp};
++use relevant_instruction::{InitRelevantInstruction, MemoryInitOp, constant_init_mask};
++use rustc_middle::ty::TyCtxt;
+ use rustc_public::{
+     mir::{
+-        AggregateKind, BasicBlock, Body, ConstOperand, Mutability, Operand, Place, Rvalue,
++        AggregateKind, BasicBlock, BinOp, Body, ConstOperand, Mutability, Operand, Place, Rvalue,
+         Statement, StatementKind, Terminator, TerminatorKind, UnwindAction, mono::Instance,
+     },
+     ty::{FnDef, GenericArgKind, GenericArgs, MirConst, RigidTy, Ty, TyConst, TyKind, UintTy},
+ };
+ use std::collections::HashMap;
++use ty_layout::{maybe_uninit_storage, product_layout};
+ 
+ use crate::kani_middle::kani_functions::{KaniFunction, KaniModel};
+ pub use delayed_ub::DelayedUbPass;
+@@ -88,16 +90,18 @@ pub trait TargetFinder {
+ ];
+ 
+ /// Instruments the code with checks for uninitialized memory, agnostic to the source of targets.
+-pub struct UninitInstrumenter<'a> {
++pub struct UninitInstrumenter<'a, 'tcx> {
++    tcx: TyCtxt<'tcx>,
+     safety_check_type: CheckType,
+     unsupported_check_type: CheckType,
+     /// Used to cache FnDef lookups of injected memory initialization functions.
+     mem_init_fn_cache: &'a mut HashMap<KaniFunction, FnDef>,
+ }
+ 
+-impl<'a> UninitInstrumenter<'a> {
++impl<'a, 'tcx> UninitInstrumenter<'a, 'tcx> {
+     /// Create the instrumenter and run it with the given parameters.
+     pub(crate) fn run(
++        tcx: TyCtxt<'tcx>,
+         body: Body,
+         instance: Instance,
+         safety_check_type: CheckType,
+@@ -106,7 +110,7 @@ pub(crate) fn run(
+         target_finder: impl TargetFinder,
+     ) -> (bool, Body) {
+         let mut instrumenter =
+-            Self { safety_check_type, unsupported_check_type, mem_init_fn_cache };
++            Self { tcx, safety_check_type, unsupported_check_type, mem_init_fn_cache };
+         let body = MutableBody::from(body);
+         let (changed, new_body) = instrumenter.instrument(body, instance, target_finder);
+         (changed, new_body.into())
+@@ -123,11 +127,93 @@ fn instrument(
+         // Need to break infinite recursion when memory initialization checks are inserted, so the
+         // internal functions responsible for memory initialization are skipped.
+         if KaniFunction::try_from(instance).map(|f| SKIPPED_ITEMS.contains(&f)).unwrap_or(false) {
++            if crate::kani_middle::trace::enabled() {
++                let name = crate::kani_middle::trace::clip(instance.name().as_str(), 320);
++                if crate::kani_middle::trace::matches(&name) {
++                    crate::kani_middle::trace::event(
++                        "memory_init_ops",
++                        serde_json::json!({"instance": name, "decision": "skipped", "reason": "internal_mem_init_function_recursion_guard"}),
++                    );
++                }
++            }
+             return (false, body);
+         }
+ 
+         let orig_len = body.blocks().len();
+-        for instruction in target_finder.find_all(&body).into_iter().rev() {
++        let instructions = target_finder.find_all(&body);
++        let instance_name = crate::kani_middle::trace::enabled()
++            .then(|| crate::kani_middle::trace::clip(instance.name().as_str(), 320));
++        if instance_name.as_deref().is_some_and(crate::kani_middle::trace::matches) {
++            let instance_name = instance_name.as_deref().unwrap_or_default();
++            let mut zero_ops = 0usize;
++            for instruction in &instructions {
++                if instruction.before_instruction.is_empty()
++                    && instruction.after_instruction.is_empty()
++                {
++                    zero_ops += 1;
++                    continue;
++                }
++                let before: Vec<&str> = instruction
++                    .before_instruction
++                    .iter()
++                    .take(12)
++                    .map(|op| op.as_ref())
++                    .collect::<Vec<_>>();
++                let after: Vec<&str> = instruction
++                    .after_instruction
++                    .iter()
++                    .take(12)
++                    .map(|op| op.as_ref())
++                    .collect::<Vec<_>>();
++                crate::kani_middle::trace::event(
++                    "memory_init_ops",
++                    serde_json::json!({
++                        "instance": instance_name,
++                        "source": format!("{:?}", instruction.source),
++                        "before": before,
++                        "after": after,
++                        "before_count": instruction.before_instruction.len(),
++                        "after_count": instruction.after_instruction.len(),
++                        "decision": "ops_selected",
++                    }),
++                );
++                for (position, operations) in [
++                    ("before", &instruction.before_instruction),
++                    ("after", &instruction.after_instruction),
++                ] {
++                    crate::kani_middle::trace::mark_omission(
++                        "selected_ops_payload",
++                        operations.len().saturating_sub(12),
++                        false,
++                    );
++                    for (ordinal, operation) in operations.iter().take(12).enumerate() {
++                        crate::kani_middle::trace::event(
++                            "memory_init_op",
++                            serde_json::json!({
++                                "instance": instance_name,
++                                "source": format!("{:?}", instruction.source),
++                                "position": position,
++                                "ordinal": ordinal,
++                                "operation": <MemoryInitOp as AsRef<str>>::as_ref(operation),
++                                "details": crate::kani_middle::trace::debug(operation),
++                                "selection_only": true,
++                            }),
++                        );
++                    }
++                }
++            }
++            crate::kani_middle::trace::event(
++                "memory_init_ops_summary",
++                serde_json::json!({"instance": instance_name, "instructions": instructions.len(), "zero_ops": zero_ops, "nonzero_ops": instructions.len() - zero_ops}),
++            );
++            if instructions.is_empty() {
++                crate::kani_middle::trace::event(
++                    "memory_init_ops",
++                    serde_json::json!({"instance": instance_name, "decision": "zero_instructions", "reason": "body_has_no_visitable_instructions"}),
++                );
++            }
++        }
++        for instruction in instructions.into_iter().rev() {
+             let source = instruction.source;
+             self.build_check_for_instruction(&mut body, instruction, source);
+         }
+@@ -154,8 +240,42 @@ fn build_check_for_operation(
+         &mut self,
+         body: &mut MutableBody,
+         source: &mut SourceInstruction,
+-        operation: MemoryInitOp,
++        mut operation: MemoryInitOp,
+     ) {
++        if let MemoryInitOp::StoreArgument { operand, .. } = &mut operation
++            && matches!(operand, Operand::Constant(_))
++            && (maybe_uninit_storage(self.tcx, operand.ty(body.locals()).unwrap()).is_some()
++                || product_layout(self.tcx, operand.ty(body.locals()).unwrap())
++                    .ok()
++                    .flatten()
++                    .is_some())
++        {
++            let Some(initialized) = constant_init_mask(operand) else {
++                self.inject_unsupported_check(
++                    body,
++                    source,
++                    InsertPosition::Before,
++                    "Kani cannot determine the initialization state of this MaybeUninit argument.",
++                );
++                return;
++            };
++            let local = body.insert_assignment(
++                Rvalue::Use(operand.clone(), WithRetag::No),
++                source,
++                InsertPosition::Before,
++            );
++            *operand = Operand::Copy(Place::from(local));
++            self.build_check_for_operation(
++                body,
++                source,
++                MemoryInitOp::SetStorage {
++                    operand: operand.clone(),
++                    initialized,
++                    position: InsertPosition::Before,
++                },
++            );
++        }
++
+         if let MemoryInitOp::Unsupported { reason } = &operation {
+             self.inject_unsupported_check(body, source, operation.position(), reason);
+             return;
+@@ -164,6 +284,12 @@ fn build_check_for_operation(
+             return;
+         };
+ 
++        if let MemoryInitOp::SetPadding { padding, .. } = &operation {
++            let padding = padding.clone();
++            self.build_product_padding(body, source, operation, &padding);
++            return;
++        }
++
+         let pointee_info = {
+             // Sanity check: since CBMC memory object primitives only accept pointers, need to
+             // ensure the correct type.
+@@ -181,7 +307,77 @@ fn build_check_for_operation(
+                     )
+                 };
+             // Calculate pointee layout for byte-by-byte memory initialization checks.
+-            match PointeeInfo::from_ty(pointee_ty) {
++            let product = match product_layout(self.tcx, pointee_ty) {
++                Ok(product) => product,
++                Err(reason) => {
++                    self.inject_unsupported_check(
++                        body,
++                        source,
++                        operation.position(),
++                        &reason.to_string(),
++                    );
++                    return;
++                }
++            };
++            let layout = if let Some(product) = product {
++                match &operation {
++                    // A delayed setter and implicit Drop address must not bless storage, or
++                    // overwrite the result of a typed transfer. Ordinary writes are handled at
++                    // their field ranges; typed reads retain the R checks below.
++                    MemoryInitOp::SetRef { operand, position, .. } => {
++                        let padding_op = MemoryInitOp::SetPadding {
++                            operand: operand.clone(),
++                            padding: product.padding_mask.clone(),
++                            position: *position,
++                        };
++                        self.build_product_padding(body, source, padding_op, &product.padding_mask);
++                        return;
++                    }
++                    MemoryInitOp::SetSliceChunk { .. } => {
++                        PointeeInfo::for_product_storage(self.tcx, pointee_ty)
++                    }
++                    MemoryInitOp::Set { .. } => {
++                        // An unmodeled typed/volatile write cannot fabricate S state. Bytewise
++                        // intrinsics through u8 pointers continue to use the ordinary path.
++                        self.inject_unsupported_check(
++                            body,
++                            source,
++                            operation.position(),
++                            "Kani does not support this write to compound storage.",
++                        );
++                        return;
++                    }
++                    _ => PointeeInfo::for_product_read(self.tcx, pointee_ty),
++                }
++            } else if maybe_uninit_storage(self.tcx, pointee_ty).is_some() {
++                match &operation {
++                    // Reading a slot or slice of slots does not require initialized data.
++                    MemoryInitOp::Check { .. }
++                    | MemoryInitOp::CheckRef { .. }
++                    | MemoryInitOp::CheckAs { .. }
++                    | MemoryInitOp::CheckSliceChunk { .. } => {
++                        match PointeeInfo::for_storage(self.tcx, pointee_ty) {
++                            Ok(_) => return,
++                            Err(reason) => Err(reason),
++                        }
++                    }
++                    // The pointer visitor handles writes to this storage, including transfers.
++                    // A generic set from delayed UB instrumentation would erase that state.
++                    MemoryInitOp::SetRef { .. } => return,
++                    MemoryInitOp::SetStorage { .. }
++                    | MemoryInitOp::Copy { .. }
++                    | MemoryInitOp::AssignUnion { .. }
++                    | MemoryInitOp::StoreArgument { .. }
++                    | MemoryInitOp::LoadArgument { .. }
++                    | MemoryInitOp::SetSliceChunk { .. } => {
++                        PointeeInfo::for_storage(self.tcx, pointee_ty)
++                    }
++                    _ => PointeeInfo::from_ty(pointee_ty),
++                }
++            } else {
++                PointeeInfo::from_ty(pointee_ty)
++            };
++            match layout {
+                 Ok(type_info) => type_info,
+                 Err(reason) => {
+                     let reason = format!(
+@@ -197,13 +393,15 @@ fn build_check_for_operation(
+             MemoryInitOp::CheckSliceChunk { .. }
+             | MemoryInitOp::Check { .. }
+             | MemoryInitOp::CheckAs { .. }
+-            | MemoryInitOp::CheckRef { .. } => {
++            | MemoryInitOp::CheckRef { .. }
++            | MemoryInitOp::CheckRefAs { .. } => {
+                 self.build_get_and_check(body, source, operation, pointee_info)
+             }
+             MemoryInitOp::SetSliceChunk { .. }
+             | MemoryInitOp::Set { .. }
+             | MemoryInitOp::SetRef { .. }
+-            | MemoryInitOp::CreateUnion { .. } => {
++            | MemoryInitOp::CreateUnion { .. }
++            | MemoryInitOp::SetStorage { .. } => {
+                 self.build_set(body, source, operation, pointee_info)
+             }
+             MemoryInitOp::Copy { .. } => self.build_copy(body, source, operation, pointee_info),
+@@ -213,12 +411,64 @@ fn build_check_for_operation(
+             MemoryInitOp::StoreArgument { .. } | MemoryInitOp::LoadArgument { .. } => {
+                 self.build_argument_operation(body, source, operation, pointee_info)
+             }
+-            MemoryInitOp::Unsupported { .. } | MemoryInitOp::TriviallyUnsafe { .. } => {
++            MemoryInitOp::Unsupported { .. }
++            | MemoryInitOp::TriviallyUnsafe { .. }
++            | MemoryInitOp::SetPadding { .. } => {
+                 unreachable!()
+             }
+         };
+     }
+ 
++    /// Clear each maximal padding interval using a u8 range. No setter spans R or S.
++    fn build_product_padding(
++        &mut self,
++        body: &mut MutableBody,
++        source: &mut SourceInstruction,
++        operation: MemoryInitOp,
++        padding: &[bool],
++    ) {
++        let position = operation.position();
++        let mut statements = vec![];
++        let address = operation.mk_operand(body, &mut statements, source);
++        for stmt in statements {
++            body.insert_stmt(stmt, source, position);
++        }
++        let u8_ty = Ty::unsigned_ty(UintTy::U8);
++        let byte_ptr = body.insert_ptr_cast(address, u8_ty, Mutability::Not, source, position);
++        let mut start = 0;
++        while start < padding.len() {
++            if !padding[start] {
++                start += 1;
++                continue;
++            }
++            let mut end = start + 1;
++            while end < padding.len() && padding[end] {
++                end += 1;
++            }
++            let span = source.span(body.blocks());
++            let offset = body.new_uint_operand(start as u128, UintTy::Usize, span);
++            let ptr = body.insert_binary_op(
++                BinOp::Offset,
++                Operand::Copy(Place::from(byte_ptr)),
++                offset,
++                source,
++                position,
++            );
++            let count = body.new_uint_operand((end - start) as u128, UintTy::Usize, span);
++            self.build_check_for_operation(
++                body,
++                source,
++                MemoryInitOp::SetSliceChunk {
++                    operand: Operand::Copy(Place::from(ptr)),
++                    count,
++                    value: false,
++                    position,
++                },
++            );
++            start = end;
++        }
++    }
++
+     /// Inject a load from memory initialization state and an assertion that all non-padding bytes
+     /// are initialized.
+     fn build_get_and_check(
+@@ -244,7 +494,8 @@ fn build_get_and_check(
+                 let (diagnostic, args) = match &operation {
+                     MemoryInitOp::Check { .. }
+                     | MemoryInitOp::CheckAs { .. }
+-                    | MemoryInitOp::CheckRef { .. } => {
++                    | MemoryInitOp::CheckRef { .. }
++                    | MemoryInitOp::CheckRefAs { .. } => {
+                         let diagnostic = KANI_IS_PTR_INITIALIZED;
+                         let args = vec![ptr_operand.clone(), layout_operand];
+                         (diagnostic, args)
+@@ -334,6 +585,7 @@ fn build_get_and_check(
+             MemoryInitOp::Check { operand }
+             | MemoryInitOp::CheckSliceChunk { operand, .. }
+             | MemoryInitOp::CheckRef { operand } => operand.ty(body.locals()).unwrap(),
++            MemoryInitOp::CheckRefAs { pointee_ty, .. } => *pointee_ty,
+             MemoryInitOp::CheckAs { .. } => operation.operand_ty(body),
+             _ => unreachable!(),
+         };
+@@ -369,11 +621,19 @@ fn build_set(
+         let value = operation.expect_value();
+         let terminator = match pointee_info.layout() {
+             PointeeLayout::Sized { layout } => {
++                let layout = if let MemoryInitOp::SetStorage { initialized, .. } = &operation {
++                    assert_eq!(layout.len(), initialized.len());
++                    initialized
++                } else {
++                    layout
++                };
+                 let layout_operand = mk_layout_operand(body, &mut statements, source, layout);
+                 // Depending on whether writing to the known number of elements in the slice, need to
+                 // pass is as an argument.
+                 let (diagnostic, args) = match &operation {
+-                    MemoryInitOp::Set { .. } | MemoryInitOp::SetRef { .. } => {
++                    MemoryInitOp::Set { .. }
++                    | MemoryInitOp::SetRef { .. }
++                    | MemoryInitOp::SetStorage { .. } => {
+                         let diagnostic = KANI_SET_PTR_INITIALIZED;
+                         let args = vec![
+                             ptr_operand,
+@@ -490,7 +750,17 @@ fn build_set(
+                         return;
+                     }
+                 };
+-                let layout = &field_layouts[union_field];
++                let field_layout = &field_layouts[union_field];
++                let mut storage_layout;
++                let layout = if maybe_uninit_storage(self.tcx, *pointee_info.ty()).is_some() {
++                    // An empty aggregate replaces the entire slot, even when its field is ().
++                    let size = pointee_info.ty().layout().unwrap().shape().size.bytes();
++                    storage_layout = field_layout.clone();
++                    storage_layout.resize(size, false);
++                    &storage_layout
++                } else {
++                    field_layout
++                };
+                 let layout_operand = mk_layout_operand(body, &mut statements, source, layout);
+                 let diagnostic = KANI_SET_PTR_INITIALIZED;
+                 let args = vec![
+@@ -608,8 +878,26 @@ fn build_argument_operation(
+             source_info: synthetic_source_info(source.span(body.blocks())),
+         };
+ 
++        // Loading a typed product also drops its target padding; only R/S retain state.
++        let padding_op = if let MemoryInitOp::LoadArgument { operand, position, .. } = &operation
++            && let Ok(Some(product)) = product_layout(self.tcx, *pointee_info.ty())
++        {
++            Some((
++                MemoryInitOp::SetPadding {
++                    operand: operand.clone(),
++                    padding: product.padding_mask.clone(),
++                    position: *position,
++                },
++                product.padding_mask,
++            ))
++        } else {
++            None
++        };
+         // Construct the basic block and insert it into the body.
+         body.insert_bb(BasicBlock { statements, terminator }, source, operation.position());
++        if let Some((padding_op, mask)) = padding_op {
++            self.build_product_padding(body, source, padding_op, &mask);
++        }
+     }
+ 
+     /// Copy memory initialization state from one union variable to another.
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs
+index ad43d69..8f30704 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs
+@@ -65,12 +65,13 @@ fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, B
+ 
+         // Call a helper that performs the actual instrumentation.
+         let (instrumentation_added, body) = UninitInstrumenter::run(
++            tcx,
+             new_body.into(),
+             instance,
+             self.safety_check_type.clone(),
+             self.unsupported_check_type.clone(),
+             &mut self.mem_init_fn_cache,
+-            CheckUninitVisitor::new(),
++            CheckUninitVisitor::new(tcx),
+         );
+ 
+         (changed || instrumentation_added, body)
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 84b0e70..33c4698 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -9,12 +9,17 @@
+     kani_middle::transform::{
+         body::{InsertPosition, MutableBody, SourceInstruction},
+         check_uninit::{
+-            PointeeInfo, TargetFinder,
+-            relevant_instruction::{InitRelevantInstruction, MemoryInitOp},
+-            ty_layout::{LayoutComputationError, tys_layout_compatible_to_size},
++            PointeeInfo, PointeeLayout, TargetFinder,
++            relevant_instruction::{InitRelevantInstruction, MemoryInitOp, constant_init_mask},
++            ty_layout::{
++                LayoutComputationError, contains_storage, maybe_uninit_storage, product_layout,
++                tys_layout_compatible_to_size, wrapper_inner,
++            },
+         },
+     },
+ };
++use rustc_attr_ir::lang_items::LangItem;
++use rustc_middle::ty::TyCtxt;
+ use rustc_public::CrateDefType;
+ use rustc_public::{
+     mir::{
+@@ -28,7 +33,8 @@
+     ty::{AdtKind, ConstantKind, RigidTy, Ty, TyKind},
+ };
+ 
+-pub struct CheckUninitVisitor {
++pub struct CheckUninitVisitor<'tcx> {
++    tcx: TyCtxt<'tcx>,
+     locals: Vec<LocalDecl>,
+     /// All target instructions in the body.
+     targets: Vec<InitRelevantInstruction>,
+@@ -36,7 +42,7 @@ pub struct CheckUninitVisitor {
+     current_target: InitRelevantInstruction,
+ }
+ 
+-impl TargetFinder for CheckUninitVisitor {
++impl TargetFinder for CheckUninitVisitor<'_> {
+     fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
+         self.locals = body.locals().to_vec();
+         for (bb_idx, bb) in body.blocks().iter().enumerate() {
+@@ -61,13 +67,14 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
+                     .enumerate()
+                     .skip(1)
+                     .take(body.arg_count())
+-                    .filter(|(_, local)| local.ty.kind().is_union())
++                    .filter(|(_, local)| self.transfers_shadow(local.ty))
+                     .collect();
+                 if !union_args.is_empty() {
+                     for (idx, _) in union_args {
+                         self.push_target(MemoryInitOp::LoadArgument {
+                             operand: Operand::Copy(Place { local: idx, projection: vec![] }),
+                             argument_no: idx,
++                            position: InsertPosition::Before,
+                         })
+                     }
+                 }
+@@ -78,9 +85,10 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
+     }
+ }
+ 
+-impl CheckUninitVisitor {
+-    pub fn new() -> Self {
++impl<'tcx> CheckUninitVisitor<'tcx> {
++    pub fn new(tcx: TyCtxt<'tcx>) -> Self {
+         Self {
++            tcx,
+             locals: vec![],
+             targets: vec![],
+             current_target: InitRelevantInstruction {
+@@ -94,9 +102,418 @@ pub fn new() -> Self {
+     fn push_target(&mut self, source_op: MemoryInitOp) {
+         self.current_target.push_operation(source_op);
+     }
++
++    fn transfers_shadow(&self, ty: Ty) -> bool {
++        ty.kind().is_union() || contains_storage(self.tcx, ty)
++    }
++
++    fn unsupported_product(&mut self) {
++        self.push_target(MemoryInitOp::Unsupported {
++            reason: "Kani does not support this compound storage layout.".to_string(),
++        });
++    }
++
++    /// All operands have already been materialized by MIR. Fieldwise shadow updates are
++    /// permitted only when the destination is disjoint from every source for the entire
++    /// sequence. Local projections without Deref stay within their root allocation; different
++    /// such roots are disjoint. Indirect or same-root aggregates fail before any shadow write.
++    fn assign_product(&mut self, place: &Place, ty: Ty, rvalue: &Rvalue) {
++        let Ok(Some(product)) = product_layout(self.tcx, ty) else {
++            self.unsupported_product();
++            return;
++        };
++        if place.projection.contains(&ProjectionElem::Deref) {
++            // The existing pointer pass checks intermediate loaded pointers, but does not
++            // establish shadow initialization of the final address operand itself. Do not
++            // introduce a new whole-product write through such an unvalidated address.
++            self.push_target(MemoryInitOp::Unsupported {
++                reason: "Kani does not support indirect compound storage assignments.".to_string(),
++            });
++            return;
++        }
++        match rvalue {
++            Rvalue::Use(operand, _) => self.assign_storage_operand(place, operand),
++            Rvalue::Aggregate(AggregateKind::Adt(_, _, _, _, None), operands) => {
++                let TyKind::RigidTy(RigidTy::Adt(def, args)) = ty.kind() else { unreachable!() };
++                let fields = def.variants_iter().next().unwrap().fields();
++                let direct = |place: &Place| {
++                    place.projection.iter().all(|elem| {
++                        matches!(
++                            elem,
++                            ProjectionElem::Field(..) | ProjectionElem::ConstantIndex { .. }
++                        )
++                    })
++                };
++                if fields.len() != operands.len()
++                    || !direct(place)
++                    || operands.iter().any(|operand| match operand {
++                        Operand::Copy(src) | Operand::Move(src) => {
++                            src.local == place.local || !direct(src)
++                        }
++                        Operand::Constant(_) => false,
++                        Operand::RuntimeChecks(_) => true,
++                    })
++                {
++                    // Different pointer locals, in particular, do not prove disjoint pointees.
++                    self.push_target(MemoryInitOp::Unsupported {
++                        reason: "Kani does not support potentially overlapping compound storage aggregates.".to_string(),
++                    });
++                    return;
++                }
++                // visit_rvalue retains the ordinary source/dereference checks. Product
++                // operands additionally check R in visit_operand. Do not fabricate an
++                // unconditional check on ordinary locals that were never shadow targets.
++                for (idx, (field, operand)) in fields.iter().zip(operands).enumerate() {
++                    let field_ty = field.ty_with_args(&args);
++                    let mut field_place = place.clone();
++                    field_place.projection.push(ProjectionElem::Field(idx, field_ty));
++                    if contains_storage(self.tcx, field_ty) {
++                        self.assign_storage_operand(&field_place, operand);
++                    } else if let Ok(info) = PointeeInfo::from_ty(field_ty)
++                        && let PointeeLayout::Sized { layout } = info.layout()
++                    {
++                        self.push_target(MemoryInitOp::SetStorage {
++                            operand: Operand::Copy(field_place),
++                            initialized: layout.clone(),
++                            position: InsertPosition::Before,
++                        });
++                    } else {
++                        self.unsupported_product();
++                        return;
++                    }
++                }
++            }
++            _ => {
++                self.unsupported_product();
++                return;
++            }
++        }
++        self.push_target(MemoryInitOp::SetPadding {
++            operand: Operand::Copy(place.clone()),
++            padding: product.padding_mask,
++            position: InsertPosition::After,
++        });
++    }
++
++    /// Preserve checks on pointer values loaded while computing a write address. The final
++    /// pointee is being written, so its old bytes need not be initialized.
++    fn check_storage_write_address(&mut self, place: &Place) {
++        if let Some(base) = try_remove_topmost_deref(place) {
++            let mut prefix = Place::from(base.local);
++            for elem in &base.projection {
++                if *elem == ProjectionElem::Deref
++                    && prefix.ty(&self.locals).unwrap().kind().is_raw_ptr()
++                {
++                    self.push_target(MemoryInitOp::Check {
++                        operand: Operand::Copy(prefix.clone()),
++                    });
++                }
++                prefix.projection.push(elem.clone());
++            }
++        }
++    }
++
++    fn in_product(&self, place: &Place) -> bool {
++        let mut prefix = Place::from(place.local);
++        for elem in &place.projection {
++            if product_layout(self.tcx, prefix.ty(&self.locals).unwrap()).ok().flatten().is_some() {
++                return true;
++            }
++            prefix.projection.push(elem.clone());
++        }
++        false
++    }
++
++    /// Locate the first union on the projection path, including a union at the end.
++    fn enclosing_union(&self, place: &Place) -> Option<Ty> {
++        let mut prefix = Place::from(place.local);
++        for projection in &place.projection {
++            let ty = prefix.ty(&self.locals).unwrap();
++            if ty.kind().is_union() {
++                return Some(ty);
++            }
++            prefix.projection.push(projection.clone());
++        }
++        let ty = prefix.ty(&self.locals).unwrap();
++        ty.kind().is_union().then_some(ty)
++    }
++
++    fn assign_storage_operand(&mut self, place: &Place, operand: &Operand) {
++        if let Some(initialized) = constant_init_mask(operand) {
++            self.push_target(MemoryInitOp::SetStorage {
++                operand: Operand::Copy(place.clone()),
++                initialized,
++                position: InsertPosition::After,
++            });
++        } else if matches!(operand, Operand::Copy(_) | Operand::Move(_)) {
++            // Capture the source and destination addresses before the assignment can overwrite
++            // any part of either place.
++            self.push_target(MemoryInitOp::AssignUnion {
++                lvalue: place.clone(),
++                rvalue: operand.clone(),
++                position: InsertPosition::Before,
++            });
++        } else {
++            self.unsupported_storage_assignment();
++        }
++    }
++
++    fn unsupported_storage_assignment(&mut self) {
++        self.push_target(MemoryInitOp::Unsupported {
++            reason: "Kani does not support this assignment to MaybeUninit storage.".to_string(),
++        });
++    }
++
++    fn assign_storage(&mut self, place: &Place, ty: Ty, rvalue: &Rvalue) {
++        match rvalue {
++            Rvalue::Cast(CastKind::Transmute, operand, target)
++                if let Some(initialized) = self.typed_storage_mask(operand, *target) =>
++            {
++                // visit_rvalue preserves the typed source checks. A typed move
++                // can discard padding, so only T's data bytes are initialized in the slot.
++                // This is the sole destination update: do not run the generic union setter.
++                self.push_target(MemoryInitOp::SetStorage {
++                    operand: Operand::Copy(place.clone()),
++                    initialized,
++                    position: InsertPosition::After,
++                });
++            }
++            Rvalue::Use(operand, _) => self.assign_storage_operand(place, operand),
++            Rvalue::Aggregate(AggregateKind::Adt(def, _, _, _, Some(field)), _)
++                if def.kind() == AdtKind::Union =>
++            {
++                self.push_target(MemoryInitOp::CreateUnion {
++                    operand: Operand::Copy(place.clone()),
++                    field: *field,
++                });
++            }
++            Rvalue::Aggregate(AggregateKind::Array(_), operands)
++                if place.projection.is_empty()
++                    && operands.iter().all(|operand| match operand {
++                        Operand::Copy(src) | Operand::Move(src) => {
++                            src.local != place.local && src.projection.is_empty()
++                        }
++                        _ => constant_init_mask(operand).is_some(),
++                    }) =>
++            {
++                let len = operands.len().try_into().unwrap();
++                for (index, operand) in operands.iter().enumerate() {
++                    let mut element = place.clone();
++                    element.projection.push(ProjectionElem::ConstantIndex {
++                        offset: index.try_into().unwrap(),
++                        min_length: len,
++                        from_end: false,
++                    });
++                    self.assign_storage_operand(&element, operand);
++                }
++            }
++            Rvalue::Repeat(operand, _) => {
++                if let Some(mask) = constant_init_mask(operand) {
++                    let TyKind::RigidTy(RigidTy::Array(_, len)) = ty.kind() else { unreachable!() };
++                    self.push_target(MemoryInitOp::SetStorage {
++                        operand: Operand::Copy(place.clone()),
++                        initialized: mask
++                            .repeat(len.eval_target_usize().unwrap().try_into().unwrap()),
++                        position: InsertPosition::After,
++                    });
++                } else if place.projection.is_empty()
++                    && let Operand::Copy(source) | Operand::Move(source) = operand
++                    && source.projection.is_empty()
++                    && source.local != place.local
++                {
++                    // MIR may hold a const constructor result in a local before repeating it.
++                    // Copy its byte state to each slot using the array's static element stride.
++                    let TyKind::RigidTy(RigidTy::Array(_, len)) = ty.kind() else { unreachable!() };
++                    let len = len.eval_target_usize().unwrap();
++                    for index in 0..len {
++                        let mut element = place.clone();
++                        element.projection.push(ProjectionElem::ConstantIndex {
++                            offset: index,
++                            min_length: len,
++                            from_end: false,
++                        });
++                        self.assign_storage_operand(&element, operand);
++                    }
++                } else {
++                    self.unsupported_storage_assignment();
++                }
++            }
++            _ => self.unsupported_storage_assignment(),
++        }
++    }
++
++    /// Match only T -> MaybeUninit<T> or [T; N] -> [MaybeUninit<T>; N].
++    /// Both the cast visitor and assignment handler use this exact predicate and mask.
++    fn typed_storage_mask(&self, operand: &Operand, target: Ty) -> Option<Vec<bool>> {
++        let source = operand.ty(&self.locals).ok()?;
++        let matches = wrapper_inner(self.tcx, target, LangItem::MaybeUninit) == Some(source)
++            || match (source.kind(), target.kind()) {
++                (
++                    TyKind::RigidTy(RigidTy::Array(from, from_len)),
++                    TyKind::RigidTy(RigidTy::Array(to, to_len)),
++                ) => {
++                    from_len == to_len
++                        && wrapper_inner(self.tcx, to, LangItem::MaybeUninit) == Some(from)
++                }
++                _ => false,
++            };
++        if !matches || source.layout().ok()?.shape().size != target.layout().ok()?.shape().size {
++            return None;
++        }
++        let info = PointeeInfo::from_ty(source).ok()?;
++        let PointeeLayout::Sized { layout } = info.layout() else { return None };
++        Some(layout.clone())
++    }
++
++    /// Match only the transparent conversion from MaybeUninit<T> to T or ManuallyDrop<T>.
++    fn maybe_uninit_transmute(&mut self, operand: &Operand, target: Ty) -> bool {
++        let operand_ty = operand.ty(&self.locals).unwrap();
++        let Some(inner) = wrapper_inner(self.tcx, operand_ty, LangItem::MaybeUninit) else {
++            return false;
++        };
++        if target != inner && wrapper_inner(self.tcx, target, LangItem::ManuallyDrop) != Some(inner)
++        {
++            return false;
++        }
++        let Ok(info) = PointeeInfo::from_ty(inner) else { return false };
++        let PointeeLayout::Sized { layout } = info.layout() else { return false };
++        if matches!(operand, Operand::Copy(_) | Operand::Move(_)) {
++            self.push_target(MemoryInitOp::CheckRefAs {
++                operand: operand.clone(),
++                pointee_ty: inner,
++            });
++        } else if let Some(initialized) = constant_init_mask(operand)
++            && initialized.len() == layout.len()
++        {
++            if layout
++                .iter()
++                .zip(initialized)
++                .any(|(required, initialized)| *required && !initialized)
++            {
++                self.push_target(MemoryInitOp::TriviallyUnsafe {
++                    reason: format!(
++                        "Undefined Behavior: Reading from an uninitialized pointer of type `{inner}`"
++                    ),
++                });
++            }
++        } else {
++            self.push_target(MemoryInitOp::Unsupported {
++                reason:
++                    "Kani cannot determine the initialization state of this MaybeUninit constant."
++                        .to_string(),
++            });
++        }
++        true
++    }
++
++    fn address_of_raw_deref(&self, place: &Place) -> bool {
++        let mut prefix = Place::from(place.local);
++        for projection in &place.projection {
++            if *projection == ProjectionElem::Deref
++                && prefix.ty(&self.locals).unwrap().kind().is_raw_ptr()
++            {
++                return true;
++            }
++            prefix.projection.push(projection.clone());
++        }
++        false
++    }
++
++    fn visit_ordinary_assignment(
++        &mut self,
++        place: &Place,
++        rvalue: &Rvalue,
++        ty: Ty,
++        in_union: bool,
++    ) {
++        // Check whether we are assigning into a dereference (*ptr = _).
++        if let Some(place_without_deref) = try_remove_topmost_deref(place) {
++            // First, check that we are not dereferencing extra pointers along the way
++            // (e.g., **ptr = _). If yes, check whether these pointers are initialized.
++            let mut place_to_add_projections =
++                Place { local: place_without_deref.local, projection: vec![] };
++            for projection_elem in place_without_deref.projection.iter() {
++                // If the projection is Deref and the current type is raw pointer, check
++                // if it points to initialized memory.
++                if *projection_elem == ProjectionElem::Deref
++                    && let TyKind::RigidTy(RigidTy::RawPtr(..)) =
++                        place_to_add_projections.ty(&self.locals).unwrap().kind()
++                {
++                    self.push_target(MemoryInitOp::Check {
++                        operand: Operand::Copy(place_to_add_projections.clone()),
++                    });
++                };
++                place_to_add_projections.projection.push(projection_elem.clone());
++            }
++            if place_without_deref.ty(&self.locals).unwrap().kind().is_raw_ptr() {
++                self.push_target(MemoryInitOp::Set {
++                    operand: Operand::Copy(place_without_deref),
++                    value: true,
++                    position: InsertPosition::After,
++                });
++            }
++        }
++        // Check whether Rvalue creates a new initialized pointer previously not captured inside shadow memory.
++        if ty.kind().is_raw_ptr()
++            && let Rvalue::AddressOf(_, addressed) = rvalue
++            && !self.address_of_raw_deref(addressed)
++            && !self.enclosing_union(addressed).is_some_and(|union| {
++                wrapper_inner(self.tcx, union, LangItem::MaybeUninit).is_some()
++            })
++            && !contains_storage(self.tcx, addressed.ty(&self.locals).unwrap())
++            && !self.in_product(addressed)
++        {
++            self.push_target(MemoryInitOp::Set {
++                operand: Operand::Copy(place.clone()),
++                value: true,
++                position: InsertPosition::After,
++            });
++        }
++
++        // Need to copy some information about union initialization, since lvalue is
++        // either a union or a field inside a union.
++        if in_union {
++            match rvalue {
++                Rvalue::Use(operand, _) => {
++                    // This is a union-to-union assignment, so we need to copy the
++                    // initialization state.
++                    if place.ty(&self.locals).unwrap().kind().is_union() {
++                        self.push_target(MemoryInitOp::AssignUnion {
++                            lvalue: place.clone(),
++                            rvalue: operand.clone(),
++                            position: InsertPosition::After,
++                        });
++                    } else {
++                        // This is assignment to a field of a union.
++                        self.push_target(MemoryInitOp::SetRef {
++                            operand: Operand::Copy(place.clone()),
++                            value: true,
++                            position: InsertPosition::After,
++                        });
++                    }
++                }
++                Rvalue::Aggregate(AggregateKind::Adt(adt_def, _, _, _, union_field), _) => {
++                    // Create a union from scratch as an aggregate. We handle it here because we
++                    // need to know which field is getting assigned.
++                    if adt_def.kind() == AdtKind::Union {
++                        self.push_target(MemoryInitOp::CreateUnion {
++                            operand: Operand::Copy(place.clone()),
++                            field: union_field.unwrap(), // Safe to unwrap because we know this is a union.
++                        });
++                    }
++                }
++                // TODO: add support for Rvalue::Cast, etc.
++                _ => self.push_target(MemoryInitOp::Unsupported {
++                    reason:
++                        "Performing a union assignment with a non-supported construct as an Rvalue"
++                            .to_string(),
++                }),
++            }
++        }
++    }
+ }
+ 
+-impl MirVisitor for CheckUninitVisitor {
++impl MirVisitor for CheckUninitVisitor<'_> {
+     fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+         // Leave it as an exhaustive match to be notified when a new kind is added.
+         match &stmt.kind {
+@@ -114,111 +531,43 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+                 // First check rvalue.
+                 self.visit_rvalue(rvalue, location);
+ 
+-                // Preemptively check if we do not support computing the layout of a type because of
+-                // inner union fields. This allows to inject `assert!(false)` early.
+-                if let Err(reason @ LayoutComputationError::UnionAsField(_)) =
+-                    PointeeInfo::from_ty(place.ty(&self.locals).unwrap())
++                let ty = place.ty(&self.locals).unwrap();
++                let union = self.enclosing_union(place);
++                let in_maybe_uninit = union
++                    .is_some_and(|ty| wrapper_inner(self.tcx, ty, LangItem::MaybeUninit).is_some());
++
++                if contains_storage(self.tcx, ty) {
++                    self.check_storage_write_address(place);
++                }
++                // Reject nested unions before the generic shadow update can treat them as values.
++                if let Err(_) = product_layout(self.tcx, ty) {
++                    self.unsupported_product();
++                } else if product_layout(self.tcx, ty).ok().flatten().is_some() {
++                    self.assign_product(place, ty, rvalue);
++                } else if maybe_uninit_storage(self.tcx, ty).is_some() {
++                    self.assign_storage(place, ty, rvalue);
++                } else if let Err(reason @ LayoutComputationError::UnionAsField(_)) =
++                    PointeeInfo::from_ty(ty)
+                 {
+                     self.push_target(MemoryInitOp::Unsupported {
+                         reason: format!(
+-                            "Checking memory initialization of type {} is not supported. {}",
+-                            place.ty(&self.locals).unwrap(),
+-                            reason
++                            "Checking memory initialization of type {ty} is not supported. {reason}"
+                         ),
+                     });
+-                    return;
+-                }
+-
+-                // Check whether we are assigning into a dereference (*ptr = _).
+-                if let Some(place_without_deref) = try_remove_topmost_deref(place) {
+-                    // First, check that we are not dereferencing extra pointers along the way
+-                    // (e.g., **ptr = _). If yes, check whether these pointers are initialized.
+-                    let mut place_to_add_projections =
+-                        Place { local: place_without_deref.local, projection: vec![] };
+-                    for projection_elem in place_without_deref.projection.iter() {
+-                        // If the projection is Deref and the current type is raw pointer, check
+-                        // if it points to initialized memory.
+-                        if *projection_elem == ProjectionElem::Deref
+-                            && let TyKind::RigidTy(RigidTy::RawPtr(..)) =
+-                                place_to_add_projections.ty(&self.locals).unwrap().kind()
+-                        {
+-                            self.push_target(MemoryInitOp::Check {
+-                                operand: Operand::Copy(place_to_add_projections.clone()),
+-                            });
+-                        };
+-                        place_to_add_projections.projection.push(projection_elem.clone());
+-                    }
+-                    if place_without_deref.ty(&self.locals).unwrap().kind().is_raw_ptr() {
+-                        self.push_target(MemoryInitOp::Set {
+-                            operand: Operand::Copy(place_without_deref),
+-                            value: true,
+-                            position: InsertPosition::After,
+-                        });
+-                    }
+-                }
+-                // Check whether Rvalue creates a new initialized pointer previously not captured inside shadow memory.
+-                if place.ty(&self.locals).unwrap().kind().is_raw_ptr()
+-                    && let Rvalue::AddressOf(..) = rvalue
+-                {
+-                    self.push_target(MemoryInitOp::Set {
++                } else if in_maybe_uninit {
++                    self.push_target(MemoryInitOp::SetRef {
+                         operand: Operand::Copy(place.clone()),
+                         value: true,
+                         position: InsertPosition::After,
+                     });
+-                }
+-
+-                // TODO: add support for ADTs which could have unions as subfields. Currently,
+-                // if a union as a subfield is detected, `assert!(false)` will be injected from
+-                // the type layout code.
+-                let is_inside_union = {
+-                    let mut place_to_add_projections =
+-                        Place { local: place.local, projection: vec![] };
+-                    let mut contains_union =
+-                        place_to_add_projections.ty(&self.locals).unwrap().kind().is_union();
+-                    for projection_elem in place.projection.iter() {
+-                        if place_to_add_projections.ty(&self.locals).unwrap().kind().is_union() {
+-                            contains_union = true;
+-                            break;
+-                        }
+-                        place_to_add_projections.projection.push(projection_elem.clone());
+-                    }
+-                    contains_union
+-                };
+-
+-                // Need to copy some information about union initialization, since lvalue is
+-                // either a union or a field inside a union.
+-                if is_inside_union {
+-                    match rvalue {
+-                        Rvalue::Use(operand, _) => {
+-                            // This is a union-to-union assignment, so we need to copy the
+-                            // initialization state.
+-                            if place.ty(&self.locals).unwrap().kind().is_union() {
+-                                self.push_target(MemoryInitOp::AssignUnion {
+-                                    lvalue: place.clone(),
+-                                    rvalue: operand.clone(),
+-                                });
+-                            } else {
+-                                // This is assignment to a field of a union.
+-                                self.push_target(MemoryInitOp::SetRef {
+-                                    operand: Operand::Copy(place.clone()),
+-                                    value: true,
+-                                    position: InsertPosition::After,
+-                                });
+-                            }
+-                        }
+-                        Rvalue::Aggregate(AggregateKind::Adt(adt_def, _, _, _, union_field), _) => {
+-                            // Create a union from scratch as an aggregate. We handle it here because we
+-                            // need to know which field is getting assigned.
+-                            if adt_def.kind() == AdtKind::Union {
+-                                self.push_target(MemoryInitOp::CreateUnion {
+-                                    operand: Operand::Copy(place.clone()),
+-                                    field: union_field.unwrap(), // Safe to unwrap because we know this is a union.
+-                                });
+-                            }
+-                        }
+-                        // TODO: add support for Rvalue::Cast, etc.
+-                        _ => self
+-                            .push_target(MemoryInitOp::Unsupported { reason: "Performing a union assignment with a non-supported construct as an Rvalue".to_string() }),
++                } else {
++                    self.visit_ordinary_assignment(place, rvalue, ty, union.is_some());
++                    if self.in_product(place) && union.is_none() {
++                        self.push_target(MemoryInitOp::SetRef {
++                            operand: Operand::Copy(place.clone()),
++                            value: true,
++                            position: InsertPosition::After,
++                        });
+                     }
+                 }
+             }
+@@ -270,6 +619,38 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                         return;
+                     }
+                 };
++                // Forget consumes its argument without reading or returning any bytes; it
++                // already has an explicit no-effect model below. Other bodyless transfers
++                // need an actual shadow model, not an unpaired argument-buffer store.
++                let modeled_consumption = instance.kind == InstanceKind::Intrinsic
++                    && matches!(Intrinsic::from_instance(&instance), Intrinsic::Forget);
++                if !instance.has_body()
++                    && !modeled_consumption
++                    && args.iter().any(|arg| self.transfers_shadow(arg.ty(&self.locals).unwrap()))
++                {
++                    self.push_target(MemoryInitOp::Unsupported {
++                        reason: "Kani does not support shadow-carrying arguments to calls without a MIR body."
++                            .to_string(),
++                    });
++                    // In particular, do not leave an unconsumed store for the next call.
++                    self.targets.push(self.current_target.clone());
++                    return;
++                }
++                let destination_ty = destination.ty(&self.locals).unwrap();
++                if contains_storage(self.tcx, destination_ty) {
++                    if instance.kind == InstanceKind::Item && instance.has_body() {
++                        self.push_target(MemoryInitOp::LoadArgument {
++                            operand: Operand::Copy(destination.clone()),
++                            argument_no: 0,
++                            position: InsertPosition::After,
++                        });
++                    } else {
++                        self.push_target(MemoryInitOp::Unsupported {
++                            reason: "Kani does not support MaybeUninit return values from calls without a MIR body."
++                                .to_string(),
++                        });
++                    }
++                }
+                 match instance.kind {
+                     InstanceKind::Intrinsic => {
+                         match Intrinsic::from_instance(&instance) {
+@@ -323,6 +704,17 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                                     count: args[2].clone(),
+                                 });
+                             }
++                            Intrinsic::TypedSwap
++                                if let TyKind::RigidTy(RigidTy::RawPtr(ty, _)) =
++                                    args[0].ty(&self.locals).unwrap().kind()
++                                    && contains_storage(self.tcx, ty) =>
++                            {
++                                self.push_target(MemoryInitOp::Unsupported {
++                                    reason:
++                                        "Kani does not support typed_swap of MaybeUninit storage."
++                                            .to_string(),
++                                });
++                            }
+                             Intrinsic::TypedSwap => {
+                                 self.push_target(MemoryInitOp::Check { operand: args[0].clone() });
+                                 self.push_target(MemoryInitOp::Check { operand: args[1].clone() });
+@@ -384,7 +776,9 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                             let union_args: Vec<_> = args
+                                 .iter()
+                                 .enumerate()
+-                                .filter(|(_, arg)| arg.ty(&self.locals).unwrap().kind().is_union())
++                                .filter(|(_, arg)| {
++                                    self.transfers_shadow(arg.ty(&self.locals).unwrap())
++                                })
+                                 .collect();
+                             if !union_args.is_empty() {
+                                 for (idx, operand) in union_args {
+@@ -403,6 +797,12 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                 self.super_terminator(term, location);
+                 let place_ty = place.ty(&self.locals).unwrap();
+ 
++                if product_layout(self.tcx, place_ty).ok().flatten().is_some() {
++                    self.push_target(MemoryInitOp::CheckRef {
++                        operand: Operand::Copy(place.clone()),
++                    });
++                }
++
+                 // When drop is codegen'ed for types that could define their own dropping
+                 // behavior, a reference is taken to the place which is later implicitly coerced
+                 // to a pointer. Hence, we need to bless this pointer as initialized.
+@@ -431,11 +831,20 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                     });
+                 }
+             }
++            TerminatorKind::Return => {
++                let return_place = Place::from(0);
++                if contains_storage(self.tcx, return_place.ty(&self.locals).unwrap()) {
++                    self.push_target(MemoryInitOp::StoreArgument {
++                        operand: Operand::Copy(return_place),
++                        argument_no: 0,
++                    });
++                }
++                self.super_terminator(term, location);
++            }
+             TerminatorKind::Goto { .. }
+             | TerminatorKind::SwitchInt { .. }
+             | TerminatorKind::Resume
+             | TerminatorKind::Abort
+-            | TerminatorKind::Return
+             | TerminatorKind::Unreachable
+             | TerminatorKind::Assert { .. }
+             | TerminatorKind::InlineAsm { .. } => self.super_terminator(term, location),
+@@ -458,12 +867,11 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+                     }
+                 }
+                 ProjectionElem::Field(_, _) => {
+-                    if intermediate_place.ty(&self.locals).unwrap().kind().is_union()
+-                        && !ptx.is_mutating()
+-                    {
+-                        let contains_deref_projection =
+-                            { place.projection.contains(&ProjectionElem::Deref) };
+-                        if contains_deref_projection {
++                    let union_ty = intermediate_place.ty(&self.locals).unwrap();
++                    if union_ty.kind().is_union() && !ptx.is_mutating() {
++                        if wrapper_inner(self.tcx, union_ty, LangItem::MaybeUninit).is_none()
++                            && place.projection.contains(&ProjectionElem::Deref)
++                        {
+                             // We do not currently support having a deref projection in the same
+                             // place as union field access.
+                             self.push_target(MemoryInitOp::Unsupported {
+@@ -489,6 +897,27 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+     }
+ 
+     fn visit_operand(&mut self, operand: &Operand, location: Location) {
++        let ty = operand.ty(&self.locals).unwrap();
++        match product_layout(self.tcx, ty) {
++            Ok(Some(product)) => {
++                if matches!(operand, Operand::Copy(_) | Operand::Move(_)) {
++                    self.push_target(MemoryInitOp::CheckRef { operand: operand.clone() });
++                } else if let Some(mask) = constant_init_mask(operand)
++                    && mask.len() == product.size
++                {
++                    if product.read_mask.iter().zip(mask).any(|(r, initialized)| *r && !initialized)
++                    {
++                        self.push_target(MemoryInitOp::TriviallyUnsafe {
++                            reason: format!("Undefined Behavior: Reading from an uninitialized pointer of type `{ty}`"),
++                        });
++                    }
++                } else {
++                    self.unsupported_product();
++                }
++            }
++            Err(_) => self.unsupported_product(),
++            Ok(None) => {}
++        }
+         if let Operand::Constant(constant) = operand
+             && let ConstantKind::Allocated(allocation) = constant.const_.kind()
+         {
+@@ -509,6 +938,31 @@ fn visit_operand(&mut self, operand: &Operand, location: Location) {
+     }
+ 
+     fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
++        if let Rvalue::AddressOf(_, place) = rvalue
++            && let Some(deref) = place.projection.iter().rposition(|p| *p == ProjectionElem::Deref)
++        {
++            // Forming an address does not read the final pointee. A pointer loaded while
++            // computing that address still needs the ordinary read checks.
++            let pointer =
++                Place { local: place.local, projection: place.projection[..deref].to_vec() };
++            self.visit_operand(&Operand::Copy(pointer), location);
++            return;
++        }
++        if let Rvalue::AddressOf(_, place) = rvalue
++            && self.enclosing_union(place).is_some_and(|union| {
++                wrapper_inner(self.tcx, union, LangItem::MaybeUninit).is_some()
++            })
++        {
++            // A raw address into the value field of a local slot also leaves shadow unchanged.
++            return;
++        }
++        if let Rvalue::Ref(_, _, place) = rvalue
++            && let Some(union) = self.enclosing_union(place)
++            && wrapper_inner(self.tcx, union, LangItem::MaybeUninit).is_some()
++        {
++            self.push_target(MemoryInitOp::CheckRef { operand: Operand::Copy(place.clone()) });
++            return;
++        }
+         if let Rvalue::Cast(cast_kind, operand, ty) = rvalue {
+             match cast_kind {
+                 CastKind::PointerCoercion(PointerCoercion::Unsize) => {
+@@ -522,7 +976,14 @@ fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
+                 }
+                 CastKind::Transmute => {
+                     let operand_ty = operand.ty(&self.locals).unwrap();
+-                    if !tys_layout_compatible_to_size(&operand_ty, ty) {
++                    if self.typed_storage_mask(operand, *ty).is_some() {
++                        // The ordinary operand traversal below retains raw-dereference and
++                        // union-field checks. Delayed UB still checks affected typed locals.
++                        // Only the layout rejection is bypassed; assign_storage installs T's
++                        // data mask once, including false padding bytes.
++                    } else if self.maybe_uninit_transmute(operand, *ty) {
++                        // Initialization was checked against the destination's data bytes.
++                    } else if !tys_layout_compatible_to_size(&operand_ty, ty) {
+                         // If transmuting between two types of incompatible layouts, padding
+                         // bytes are exposed, which is UB.
+                         self.push_target(MemoryInitOp::TriviallyUnsafe {
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+index 973dde0..a9507cf 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+@@ -12,7 +12,7 @@
+         CastKind, FieldIdx, Mutability, Operand, Place, RawPtrKind, Rvalue, Statement,
+         StatementKind,
+     },
+-    ty::{RigidTy, Ty},
++    ty::{ConstantKind, RigidTy, Ty},
+ };
+ use strum_macros::AsRefStr;
+ 
+@@ -37,9 +37,15 @@ pub enum MemoryInitOp {
+     /// Set memory initialization of data bytes in a memory region starting from the reference to
+     /// `operand` and of length `sizeof(operand)` bytes.
+     CheckRef { operand: Operand },
++    /// Check the destination type's data bytes at the address of a transmute source.
++    CheckRefAs { operand: Operand, pointee_ty: Ty },
+     /// Set memory initialization of data bytes in a memory region starting from the reference to
+     /// `operand` and of length `sizeof(operand)` bytes.
+     SetRef { operand: Operand, value: bool, position: InsertPosition },
++    /// Replace the state of every byte in storage assigned from a MIR constant.
++    SetStorage { operand: Operand, initialized: Vec<bool>, position: InsertPosition },
++    /// Clear only exact product padding bytes; preserve ordinary and storage state.
++    SetPadding { operand: Operand, padding: Vec<bool>, position: InsertPosition },
+     /// Unsupported memory initialization operation.
+     Unsupported { reason: String },
+     /// Operation that trivially accesses uninitialized memory, results in injecting `assert!(false)`.
+@@ -47,14 +53,12 @@ pub enum MemoryInitOp {
+     /// Copy memory initialization state over to another operand.
+     Copy { from: Operand, to: Operand, count: Operand },
+     /// Copy memory initialization state over from one union variable to another.
+-    AssignUnion { lvalue: Place, rvalue: Operand },
++    AssignUnion { lvalue: Place, rvalue: Operand, position: InsertPosition },
+     /// Create a union from scratch with a given field index and store it in the provided operand.
+     CreateUnion { operand: Operand, field: FieldIdx },
+-    /// Load argument containing a union from the argument buffer together if the argument number
+-    /// provided matches.
+-    LoadArgument { operand: Operand, argument_no: usize },
+-    /// Store argument containing a union into the argument buffer together with the argument number
+-    /// provided.
++    /// Load a union from the argument buffer. Index zero is reserved for the return place.
++    LoadArgument { operand: Operand, argument_no: usize, position: InsertPosition },
++    /// Store a union into the argument buffer. Index zero is reserved for the return place.
+     StoreArgument { operand: Operand, argument_no: usize },
+ }
+ 
+@@ -76,8 +80,14 @@ pub fn mk_operand(
+             MemoryInitOp::CheckAs { operand, pointee_ty } => {
+                 mk_cast(operand, *pointee_ty, body, statements, source)
+             }
++            MemoryInitOp::CheckRefAs { operand, pointee_ty } => {
++                let address = mk_ref(operand, body, statements, source);
++                mk_cast(&address, *pointee_ty, body, statements, source)
++            }
+             MemoryInitOp::CheckRef { operand, .. }
+             | MemoryInitOp::SetRef { operand, .. }
++            | MemoryInitOp::SetStorage { operand, .. }
++            | MemoryInitOp::SetPadding { operand, .. }
+             | MemoryInitOp::CreateUnion { operand, .. }
+             | MemoryInitOp::LoadArgument { operand, .. }
+             | MemoryInitOp::StoreArgument { operand, .. } => {
+@@ -108,7 +118,7 @@ pub fn expect_assign_union_operands(
+         source: &mut SourceInstruction,
+     ) -> (Operand, Operand) {
+         match self {
+-            MemoryInitOp::AssignUnion { lvalue, rvalue } => {
++            MemoryInitOp::AssignUnion { lvalue, rvalue, .. } => {
+                 let lvalue_as_operand = Operand::Copy(lvalue.clone());
+                 (
+                     mk_ref(rvalue, body, statements, source),
+@@ -125,8 +135,13 @@ pub fn operand_ty(&self, body: &MutableBody) -> Ty {
+             | MemoryInitOp::Set { operand, .. }
+             | MemoryInitOp::CheckSliceChunk { operand, .. }
+             | MemoryInitOp::SetSliceChunk { operand, .. } => operand.ty(body.locals()).unwrap(),
+-            MemoryInitOp::CheckAs { pointee_ty, .. } => Ty::new_ptr(*pointee_ty, Mutability::Not),
++            MemoryInitOp::CheckAs { pointee_ty, .. }
++            | MemoryInitOp::CheckRefAs { pointee_ty, .. } => {
++                Ty::new_ptr(*pointee_ty, Mutability::Not)
++            }
+             MemoryInitOp::SetRef { operand, .. }
++            | MemoryInitOp::SetStorage { operand, .. }
++            | MemoryInitOp::SetPadding { operand, .. }
+             | MemoryInitOp::CheckRef { operand, .. }
+             | MemoryInitOp::CreateUnion { operand, .. }
+             | MemoryInitOp::LoadArgument { operand, .. }
+@@ -174,7 +189,10 @@ pub fn expect_count(&self) -> Operand {
+             | MemoryInitOp::CheckAs { .. }
+             | MemoryInitOp::Set { .. }
+             | MemoryInitOp::CheckRef { .. }
++            | MemoryInitOp::CheckRefAs { .. }
+             | MemoryInitOp::SetRef { .. }
++            | MemoryInitOp::SetStorage { .. }
++            | MemoryInitOp::SetPadding { .. }
+             | MemoryInitOp::CreateUnion { .. }
+             | MemoryInitOp::AssignUnion { .. }
+             | MemoryInitOp::Unsupported { .. }
+@@ -189,11 +207,14 @@ pub fn expect_value(&self) -> bool {
+             MemoryInitOp::Set { value, .. }
+             | MemoryInitOp::SetSliceChunk { value, .. }
+             | MemoryInitOp::SetRef { value, .. } => *value,
+-            MemoryInitOp::CreateUnion { .. } => true,
++            MemoryInitOp::CreateUnion { .. }
++            | MemoryInitOp::SetStorage { .. }
++            | MemoryInitOp::SetPadding { .. } => true,
+             MemoryInitOp::Check { .. }
+             | MemoryInitOp::CheckAs { .. }
+             | MemoryInitOp::CheckSliceChunk { .. }
+             | MemoryInitOp::CheckRef { .. }
++            | MemoryInitOp::CheckRefAs { .. }
+             | MemoryInitOp::Unsupported { .. }
+             | MemoryInitOp::TriviallyUnsafe { .. }
+             | MemoryInitOp::Copy { .. }
+@@ -210,9 +231,12 @@ pub fn union_field(&self) -> Option<FieldIdx> {
+             | MemoryInitOp::CheckAs { .. }
+             | MemoryInitOp::CheckSliceChunk { .. }
+             | MemoryInitOp::CheckRef { .. }
++            | MemoryInitOp::CheckRefAs { .. }
+             | MemoryInitOp::Set { .. }
+             | MemoryInitOp::SetSliceChunk { .. }
+             | MemoryInitOp::SetRef { .. }
++            | MemoryInitOp::SetStorage { .. }
++            | MemoryInitOp::SetPadding { .. }
+             | MemoryInitOp::Unsupported { .. }
+             | MemoryInitOp::TriviallyUnsafe { .. }
+             | MemoryInitOp::Copy { .. }
+@@ -226,18 +250,20 @@ pub fn position(&self) -> InsertPosition {
+         match self {
+             MemoryInitOp::Set { position, .. }
+             | MemoryInitOp::SetSliceChunk { position, .. }
+-            | MemoryInitOp::SetRef { position, .. } => *position,
++            | MemoryInitOp::SetRef { position, .. }
++            | MemoryInitOp::SetStorage { position, .. }
++            | MemoryInitOp::SetPadding { position, .. }
++            | MemoryInitOp::AssignUnion { position, .. }
++            | MemoryInitOp::LoadArgument { position, .. } => *position,
+             MemoryInitOp::Check { .. }
+             | MemoryInitOp::CheckAs { .. }
+             | MemoryInitOp::CheckSliceChunk { .. }
+             | MemoryInitOp::CheckRef { .. }
++            | MemoryInitOp::CheckRefAs { .. }
+             | MemoryInitOp::Unsupported { .. }
+             | MemoryInitOp::TriviallyUnsafe { .. }
+-            | MemoryInitOp::StoreArgument { .. }
+-            | MemoryInitOp::LoadArgument { .. } => InsertPosition::Before,
+-            MemoryInitOp::Copy { .. }
+-            | MemoryInitOp::AssignUnion { .. }
+-            | MemoryInitOp::CreateUnion { .. } => InsertPosition::After,
++            | MemoryInitOp::StoreArgument { .. } => InsertPosition::Before,
++            MemoryInitOp::Copy { .. } | MemoryInitOp::CreateUnion { .. } => InsertPosition::After,
+         }
+     }
+ 
+@@ -272,6 +298,16 @@ pub fn push_operation(&mut self, source_op: MemoryInitOp) {
+     }
+ }
+ 
++/// The initialized byte mask of a fully evaluated MIR constant.
++pub(super) fn constant_init_mask(operand: &Operand) -> Option<Vec<bool>> {
++    let Operand::Constant(constant) = operand else { return None };
++    match constant.const_.kind() {
++        ConstantKind::Allocated(alloc) => Some(alloc.bytes.iter().map(Option::is_some).collect()),
++        ConstantKind::ZeroSized => Some(vec![]),
++        _ => None,
++    }
++}
++
+ /// A helper to generate instrumentation for taking a reference to a given operand. Returns the
+ /// operand which is a reference and stores all instrumentation in the statements vector passed.
+ /// A new local holding `operand`, a raw pointer, cast to `*const pointee_ty`.
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+index 3992e8b..ab48094 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+@@ -5,11 +5,13 @@
+ 
+ use std::fmt::Display;
+ 
+-use rustc_public::CrateDefType;
++use rustc_attr_ir::lang_items::LangItem;
++use rustc_middle::ty::TyCtxt;
++use rustc_public::{CrateDef, CrateDefType, rustc_internal};
+ use rustc_public::{
+     abi::{FieldsShape, Scalar, TagEncoding, ValueRepr, VariantsShape},
+     target::{MachineInfo, MachineSize},
+-    ty::{AdtKind, RigidTy, Ty, TyKind, UintTy, VariantIdx},
++    ty::{AdtKind, GenericArgKind, RigidTy, Ty, TyKind, UintTy, VariantIdx},
+ };
+ use rustc_public_bridge::IndexedVal;
+ 
+@@ -71,6 +73,18 @@ pub struct PointeeInfo {
+     layout: PointeeLayout,
+ }
+ 
++/// Byte masks for a sized struct that combines initialized data and uninitialized storage.
++///
++/// `read_mask` is the subset required for an ordinary typed read. `storage_mask` describes
++/// bytes whose initialization state is tracked as storage (including padding inside a
++/// `MaybeUninit<T>` slot). `padding_mask` is the remaining product padding.
++pub(super) struct ProductLayout {
++    pub(super) size: usize,
++    pub(super) read_mask: Vec<bool>,
++    pub(super) storage_mask: Vec<bool>,
++    pub(super) padding_mask: Vec<bool>,
++}
++
+ /// Different layout computation errors that could arise from the currently unsupported constructs.
+ pub enum LayoutComputationError {
+     UnknownUnsizedLayout(Ty),
+@@ -78,6 +92,7 @@ pub enum LayoutComputationError {
+     EnumWithMultiplePaddingVariants(Ty),
+     UnsupportedType(Ty),
+     UnionAsField(Ty),
++    CompoundStorage(Ty),
+ }
+ 
+ impl Display for LayoutComputationError {
+@@ -100,11 +115,66 @@ fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                 f,
+                 "Cannot determine layout for a type that contains union of type {ty} as a field."
+             ),
++            LayoutComputationError::CompoundStorage(_) => {
++                write!(f, "Kani does not support this compound storage layout.")
++            }
+         }
+     }
+ }
+ 
++/// Returns the type parameter of the specified standard-library wrapper.
++pub(super) fn wrapper_inner(tcx: TyCtxt, ty: Ty, wrapper: LangItem) -> Option<Ty> {
++    if let TyKind::RigidTy(RigidTy::Adt(def, args)) = ty.kind()
++        && tcx.is_lang_item(rustc_internal::internal(tcx, def.def_id()), wrapper)
++        && let Some(GenericArgKind::Type(inner)) = args.0.first()
++    {
++        Some(*inner)
++    } else {
++        None
++    }
++}
++
++/// Recognizes a slot or a flat sequence of slots. Other enclosing types keep their union error.
++pub(super) fn maybe_uninit_storage(tcx: TyCtxt, ty: Ty) -> Option<Ty> {
++    let slot_ty = match ty.kind() {
++        TyKind::RigidTy(RigidTy::Array(slot, _) | RigidTy::Slice(slot)) => slot,
++        _ => ty,
++    };
++    wrapper_inner(tcx, slot_ty, LangItem::MaybeUninit)
++}
++
+ impl PointeeInfo {
++    /// Layout for copying storage or writing every byte with a bytewise intrinsic.
++    pub(super) fn for_storage(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputationError> {
++        let inner = maybe_uninit_storage(tcx, ty).unwrap();
++        data_bytes_for_ty(&MachineInfo::target(), inner, 0)?;
++        let layout = if let TyKind::RigidTy(RigidTy::Slice(slot)) = ty.kind() {
++            let size = slot.layout().unwrap().shape().size.bytes();
++            PointeeLayout::Slice { element_layout: vec![true; size] }
++        } else {
++            let size = ty.layout().unwrap().shape().size.bytes();
++            PointeeLayout::Sized { layout: vec![true; size] }
++        };
++        Ok(Self { pointee_ty: ty, layout })
++    }
++
++    /// Layout for ordinary reads of a supported compound storage product.
++    pub(super) fn for_product_read(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputationError> {
++        let product =
++            product_layout(tcx, ty)?.ok_or(LayoutComputationError::CompoundStorage(ty))?;
++        Ok(Self { pointee_ty: ty, layout: PointeeLayout::Sized { layout: product.read_mask } })
++    }
++
++    /// Layout for bytewise operations over the complete extent of a compound storage product.
++    pub(super) fn for_product_storage(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputationError> {
++        let product =
++            product_layout(tcx, ty)?.ok_or(LayoutComputationError::CompoundStorage(ty))?;
++        Ok(Self {
++            pointee_ty: ty,
++            layout: PointeeLayout::Sized { layout: vec![true; product.size] },
++        })
++    }
++
+     pub fn from_ty(ty: Ty) -> Result<Self, LayoutComputationError> {
+         match ty.kind() {
+             TyKind::RigidTy(rigid_ty) => match rigid_ty {
+@@ -175,6 +245,275 @@ pub fn layout(&self) -> &PointeeLayout {
+     }
+ }
+ 
++/// Compute the separate read, storage, and padding masks for a sized struct product.
++/// Ordinary and flat `MaybeUninit` layouts return `None` so their existing paths remain in use.
++pub(super) fn product_layout(
++    tcx: TyCtxt,
++    ty: Ty,
++) -> Result<Option<ProductLayout>, LayoutComputationError> {
++    if let Some(slot_ty) = maybe_uninit_storage(tcx, ty) {
++        if contains_storage(tcx, slot_ty) {
++            return Err(LayoutComputationError::CompoundStorage(ty));
++        }
++        data_bytes_for_ty(&MachineInfo::target(), slot_ty, 0)
++            .map_err(|_| LayoutComputationError::CompoundStorage(ty))?;
++        return Ok(None);
++    }
++    let has_storage = contains_storage(tcx, ty);
++    if !has_storage {
++        return Ok(None);
++    }
++    validate_storage_shape(tcx, ty, false)?;
++
++    if !matches!(ty.kind().rigid(), Some(RigidTy::Adt(def, _)) if def.kind() == AdtKind::Struct) {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    }
++    if !ty.layout().unwrap().shape().is_sized() {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    }
++
++    let size = ty.layout().unwrap().shape().size.bytes();
++    let mut read_mask = vec![false; size];
++    let mut storage_mask = vec![false; size];
++    fill_product_node(tcx, ty, 0, &mut read_mask, &mut storage_mask)?;
++    let padding_mask =
++        (0..size).map(|idx| !read_mask[idx] && !storage_mask[idx]).collect::<Vec<_>>();
++
++    // Validate the partition, including target padding and zero-sized fields. Every byte must
++    // belong to exactly one of R, S, or P, and every marked extent must be in the target object.
++    if read_mask.len() != size
++        || storage_mask.len() != size
++        || padding_mask.len() != size
++        || (0..size).any(|idx| {
++            usize::from(read_mask[idx])
++                + usize::from(storage_mask[idx])
++                + usize::from(padding_mask[idx])
++                != 1
++                || (read_mask[idx] && storage_mask[idx])
++        })
++    {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    }
++
++    Ok(Some(ProductLayout { size, read_mask, storage_mask, padding_mask }))
++}
++
++/// Find storage recursively through by-value fields. Pointer and reference pointees are not
++/// part of the containing object's layout. A nested `MaybeUninit`, union, or storage enum is
++/// rejected at the point where it would otherwise make the descriptor ambiguous.
++pub(super) fn contains_storage(tcx: TyCtxt, ty: Ty) -> bool {
++    if wrapper_inner(tcx, ty, LangItem::MaybeUninit).is_some() {
++        return true;
++    }
++    if let Some(inner) = wrapper_inner(tcx, ty, LangItem::ManuallyDrop) {
++        return contains_storage(tcx, inner);
++    }
++    match ty.kind().rigid() {
++        Some(RigidTy::RawPtr(..) | RigidTy::Ref(..) | RigidTy::FnPtr(..)) => false,
++        Some(RigidTy::Array(elem, _)) | Some(RigidTy::Slice(elem)) => contains_storage(tcx, *elem),
++        Some(RigidTy::Adt(def, args)) => def.variants().iter().any(|variant| {
++            variant.fields().iter().any(|field| contains_storage(tcx, field.ty_with_args(args)))
++        }),
++        Some(RigidTy::Tuple(tys)) => tys.iter().any(|field| contains_storage(tcx, *field)),
++        _ => false,
++    }
++}
++
++fn validate_storage_shape(
++    tcx: TyCtxt,
++    ty: Ty,
++    inside_maybe_uninit: bool,
++) -> Result<bool, LayoutComputationError> {
++    if wrapper_inner(tcx, ty, LangItem::MaybeUninit).is_some() {
++        let inner = wrapper_inner(tcx, ty, LangItem::MaybeUninit).unwrap();
++        if inside_maybe_uninit || contains_storage(tcx, inner) {
++            return Err(LayoutComputationError::CompoundStorage(ty));
++        }
++        data_bytes_for_ty(&MachineInfo::target(), inner, 0)
++            .map_err(|_| LayoutComputationError::CompoundStorage(ty))?;
++        return Ok(true);
++    }
++    if let Some(inner) = wrapper_inner(tcx, ty, LangItem::ManuallyDrop) {
++        return validate_storage_shape(tcx, inner, inside_maybe_uninit);
++    }
++    match ty.kind().rigid() {
++        Some(RigidTy::RawPtr(..) | RigidTy::Ref(..) | RigidTy::FnPtr(..)) => Ok(false),
++        Some(RigidTy::Array(elem, _)) | Some(RigidTy::Slice(elem)) => {
++            validate_storage_shape(tcx, *elem, inside_maybe_uninit)
++        }
++        Some(RigidTy::Adt(def, args)) => match def.kind() {
++            AdtKind::Struct => {
++                let mut found = false;
++                for field in def.variants_iter().next().unwrap().fields() {
++                    found |=
++                        validate_storage_shape(tcx, field.ty_with_args(args), inside_maybe_uninit)?;
++                }
++                Ok(found)
++            }
++            AdtKind::Enum | AdtKind::Union => {
++                let mut found = false;
++                for variant in def.variants() {
++                    for field in variant.fields() {
++                        found |= validate_storage_shape(
++                            tcx,
++                            field.ty_with_args(args),
++                            inside_maybe_uninit,
++                        )?;
++                    }
++                }
++                if found { Err(LayoutComputationError::CompoundStorage(ty)) } else { Ok(false) }
++            }
++        },
++        Some(RigidTy::Tuple(tys)) => {
++            let mut found = false;
++            for field in tys {
++                found |= validate_storage_shape(tcx, *field, inside_maybe_uninit)?;
++            }
++            if found { Err(LayoutComputationError::CompoundStorage(ty)) } else { Ok(false) }
++        }
++        _ => Ok(false),
++    }
++}
++
++fn mark_range(
++    mask: &mut [bool],
++    offset: usize,
++    size: usize,
++    ty: Ty,
++) -> Result<(), LayoutComputationError> {
++    let Some(end) = offset.checked_add(size) else {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    };
++    if end > mask.len() {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    }
++    for byte in &mut mask[offset..end] {
++        if *byte {
++            return Err(LayoutComputationError::CompoundStorage(ty));
++        }
++        *byte = true;
++    }
++    Ok(())
++}
++
++fn fill_product_node(
++    tcx: TyCtxt,
++    ty: Ty,
++    offset: usize,
++    read_mask: &mut [bool],
++    storage_mask: &mut [bool],
++) -> Result<(), LayoutComputationError> {
++    let size = ty.layout().unwrap().shape().size.bytes();
++    if offset.checked_add(size).is_none_or(|end| end > read_mask.len()) {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    }
++    if wrapper_inner(tcx, ty, LangItem::MaybeUninit).is_some() {
++        let inner = wrapper_inner(tcx, ty, LangItem::MaybeUninit).unwrap();
++        data_bytes_for_ty(&MachineInfo::target(), inner, 0)
++            .map_err(|_| LayoutComputationError::CompoundStorage(ty))?;
++        mark_range(storage_mask, offset, size, ty)?;
++        return Ok(());
++    }
++    if let Some(inner) = wrapper_inner(tcx, ty, LangItem::ManuallyDrop) {
++        return fill_product_node(tcx, inner, offset, read_mask, storage_mask);
++    }
++    if let Some(RigidTy::Array(elem, _)) = ty.kind().rigid()
++        && wrapper_inner(tcx, *elem, LangItem::MaybeUninit).is_some()
++    {
++        let FieldsShape::Array { stride, count } = ty.layout().unwrap().shape().fields else {
++            return Err(LayoutComputationError::CompoundStorage(ty));
++        };
++        let elem_size = elem.layout().unwrap().shape().size.bytes();
++        let count_usize: usize =
++            count.try_into().map_err(|_| LayoutComputationError::CompoundStorage(ty))?;
++        let stride_bytes = stride.bytes();
++        if count_usize > 1 && stride_bytes < elem_size {
++            return Err(LayoutComputationError::CompoundStorage(ty));
++        }
++        if count_usize == 0 {
++            if size != 0 {
++                return Err(LayoutComputationError::CompoundStorage(ty));
++            }
++        } else {
++            let last_start = (count_usize - 1)
++                .checked_mul(stride_bytes)
++                .ok_or(LayoutComputationError::CompoundStorage(ty))?;
++            let total_extent = last_start
++                .checked_add(elem_size)
++                .ok_or(LayoutComputationError::CompoundStorage(ty))?;
++            if total_extent > size {
++                return Err(LayoutComputationError::CompoundStorage(ty));
++            }
++        }
++        for idx in 0..count {
++            let idx: usize =
++                idx.try_into().map_err(|_| LayoutComputationError::CompoundStorage(ty))?;
++            let elem_offset = idx
++                .checked_mul(stride_bytes)
++                .and_then(|delta| offset.checked_add(delta))
++                .ok_or(LayoutComputationError::CompoundStorage(ty))?;
++            let local_end = idx
++                .checked_mul(stride_bytes)
++                .and_then(|start| start.checked_add(elem_size))
++                .ok_or(LayoutComputationError::CompoundStorage(ty))?;
++            if local_end > size {
++                return Err(LayoutComputationError::CompoundStorage(ty));
++            }
++            mark_range(storage_mask, elem_offset, elem_size, ty)?;
++        }
++        return Ok(());
++    }
++
++    let ty_kind = ty.kind();
++    let Some(RigidTy::Adt(def, args)) = ty_kind.rigid() else {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    };
++    if def.kind() != AdtKind::Struct {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    }
++    let shape = ty.layout().unwrap().shape();
++    let FieldsShape::Arbitrary { ref offsets } = shape.fields else {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    };
++    let fields = def.variants_iter().next().unwrap().fields();
++    let mut nonzero_field_ranges = Vec::with_capacity(fields.len());
++    for (idx, field) in fields.iter().enumerate() {
++        let field_size = field.ty_with_args(args).layout().unwrap().shape().size.bytes();
++        let field_start = offsets[idx].bytes();
++        let field_end = field_start
++            .checked_add(field_size)
++            .ok_or(LayoutComputationError::CompoundStorage(ty))?;
++        if field_end > size {
++            return Err(LayoutComputationError::CompoundStorage(ty));
++        }
++        if field_size > 0 {
++            if nonzero_field_ranges
++                .iter()
++                .any(|(start, end)| field_start < *end && *start < field_end)
++            {
++                return Err(LayoutComputationError::CompoundStorage(ty));
++            }
++            nonzero_field_ranges.push((field_start, field_end));
++        }
++    }
++    for idx in shape.fields.fields_by_offset_order() {
++        let field_ty = fields[idx].ty_with_args(args);
++        let field_offset = offset
++            .checked_add(offsets[idx].bytes())
++            .ok_or(LayoutComputationError::CompoundStorage(ty))?;
++        if contains_storage(tcx, field_ty) {
++            fill_product_node(tcx, field_ty, field_offset, read_mask, storage_mask)?;
++        } else {
++            let chunks = data_bytes_for_ty(&MachineInfo::target(), field_ty, field_offset)
++                .map_err(|_| LayoutComputationError::CompoundStorage(field_ty))?;
++            for chunk in chunks {
++                mark_range(read_mask, chunk.offset, chunk.size.bytes(), field_ty)?;
++            }
++        }
++    }
++    Ok(())
++}
++
+ /// Retrieve a set of data bytes with offsets for a type.
+ fn data_bytes_for_ty(
+     machine_info: &MachineInfo,
+diff --git a/kani-compiler/src/kani_middle/transform/mod.rs b/kani-compiler/src/kani_middle/transform/mod.rs
+index d86ae41..0afb155 100644
+--- a/kani-compiler/src/kani_middle/transform/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/mod.rs
+@@ -150,33 +150,70 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {
+ 
+     /// Equivalent to `body()`, but avoids cloning the returned `Body`.
+     pub fn body_ref(&mut self, tcx: TyCtxt, instance: Instance) -> &Body {
+-        &self
+-            .cache
+-            .entry(instance)
+-            .or_insert_with(|| {
+-                // Transform and add to the cache if there's no existing entry.
+-                let mut body = instance.body().unwrap_or_else(|| build_missing_body(tcx, instance));
+-
+-                let mut modified = false;
+-                for pass in self.stub_passes.iter_mut().chain(self.inst_passes.iter_mut()) {
+-                    let result = pass.transform(tcx, body, instance);
+-                    modified |= result.0;
+-                    body = result.1;
+-                    self.generated_loop_modifies.extend(
+-                        pass.take_generated_loop_modifies()
+-                            .into_iter()
+-                            .map(|(register_fn, locals)| ((instance, register_fn), locals)),
+-                    );
+-                    self.loop_modifies_bindings.extend(
+-                        pass.take_loop_modifies_bindings()
+-                            .into_iter()
+-                            .map(|(binding, register_fn)| ((instance, binding), register_fn)),
++        let trace_enabled = crate::kani_middle::trace::enabled();
++        let name =
++            trace_enabled.then(|| crate::kani_middle::trace::clip(instance.name().as_str(), 320));
++        let traced = name.as_deref().is_some_and(crate::kani_middle::trace::matches);
++        let cache_hit = trace_enabled && self.cache.contains_key(&instance);
++        if trace_enabled {
++            crate::kani_middle::trace::cache_event(
++                "body_cache",
++                serde_json::json!({
++                    "instance": name.as_deref().unwrap_or_default(),
++                    "mangled_symbol": crate::kani_middle::trace::clip(instance.mangled_name().as_str(), 320),
++                    "event": if cache_hit { "hit" } else { "miss_creator" },
++                }),
++                traced,
++            );
++        }
++        let transformed = self.cache.entry(instance).or_insert_with(|| {
++            // Transform and add to the cache if there's no existing entry.
++            let mut body = instance.body().unwrap_or_else(|| build_missing_body(tcx, instance));
++            if traced {
++                crate::kani_middle::trace::body_snapshot(
++                    name.as_deref().unwrap_or_default(),
++                    "local_before_passes",
++                    &body,
++                );
++            }
++
++            let mut modified = false;
++            for (pass_index, pass) in
++                self.stub_passes.iter_mut().chain(self.inst_passes.iter_mut()).enumerate()
++            {
++                let result = pass.transform(tcx, body, instance);
++                modified |= result.0;
++                body = result.1;
++                if traced && result.0 {
++                    crate::kani_middle::trace::body_writer(
++                        name.as_deref().unwrap_or_default(),
++                        instance.mangled_name().as_str(),
++                        &format!("local_pass_{pass_index}"),
++                        &body,
+                     );
+                 }
++                self.generated_loop_modifies.extend(
++                    pass.take_generated_loop_modifies()
++                        .into_iter()
++                        .map(|(register_fn, locals)| ((instance, register_fn), locals)),
++                );
++                self.loop_modifies_bindings.extend(
++                    pass.take_loop_modifies_bindings()
++                        .into_iter()
++                        .map(|(binding, register_fn)| ((instance, binding), register_fn)),
++                );
++            }
+ 
+-                TransformationResult(body, modified)
+-            })
+-            .0
++            TransformationResult(body, modified)
++        });
++        if traced {
++            crate::kani_middle::trace::body_snapshot(
++                name.as_deref().unwrap_or_default(),
++                "cached_body_return",
++                &transformed.0,
++            );
++        }
++        &transformed.0
+     }
+ 
+     /// The locals of the transformed body of `instance` that codegen adds to the loop modifies
+diff --git a/library/kani_core/src/mem_init.rs b/library/kani_core/src/mem_init.rs
+index 37b9da8..6f832d4 100644
+--- a/library/kani_core/src/mem_init.rs
++++ b/library/kani_core/src/mem_init.rs
+@@ -18,9 +18,6 @@ macro_rules! kani_mem_init {
+         #[kanitool::fn_marker = "KaniMemoryInitializationState"]
+         static mut MEM_INIT_STATE: MemoryInitializationState = MemoryInitializationState::new();
+ 
+-        /// Global object for tracking union initialization state across function boundaries.
+-        static mut ARGUMENT_BUFFER: Option<ArgumentBuffer> = None;
+-
+         /// Bytewise mask, representing which bytes of a type are data and which are padding.
+         /// For example, for a type like this:
+         /// ```
+@@ -38,13 +35,29 @@ struct MemoryInitializationState {
+             pub tracked_object_id: usize,
+             pub tracked_offset: usize,
+             pub value: bool,
++            /// Union initialization state currently being transferred across a function boundary.
++            /// Keep it in the marked state object so DFCC treats it as verifier-private state.
++            pub argument_buffer_active: bool,
++            pub argument_buffer_selected_argument: usize,
++            pub argument_buffer_saved_object_id: usize,
++            pub argument_buffer_saved_offset: usize,
++            pub argument_buffer_layout_size: usize,
+         }
+ 
+         impl MemoryInitializationState {
+             /// This is a dummy initialization function -- the values will be eventually overwritten by a
+             /// call to `initialize_memory_initialization_state`.
+             pub const fn new() -> Self {
+-                Self { tracked_object_id: 0, tracked_offset: 0, value: false }
++                Self {
++                    tracked_object_id: 0,
++                    tracked_offset: 0,
++                    value: false,
++                    argument_buffer_active: false,
++                    argument_buffer_selected_argument: 0,
++                    argument_buffer_saved_object_id: 0,
++                    argument_buffer_saved_offset: 0,
++                    argument_buffer_layout_size: 0,
++                }
+             }
+ 
+             /// Return currently tracked memory initialization state if `ptr` points to the currently
+@@ -105,10 +118,23 @@ pub fn copy<const LAYOUT_SIZE: usize>(
+             ) {
+                 let from_obj = super::mem::pointer_object(from_ptr);
+                 let from_offset = super::mem::pointer_offset(from_ptr);
+-
+                 let to_obj = super::mem::pointer_object(to_ptr);
+                 let to_offset = super::mem::pointer_offset(to_ptr);
++                self.copy_by_id::<LAYOUT_SIZE>(from_obj, from_offset, to_obj, to_offset, num_elts);
++            }
+ 
++            /// Copy initialization state using object identities and offsets captured while the
++            /// source pointer was live. This also supports return-value transfers, whose source
++            /// stack slot is no longer live when the caller consumes the argument buffer.
++            #[kanitool::disable_checks(pointer)]
++            pub fn copy_by_id<const LAYOUT_SIZE: usize>(
++                &mut self,
++                from_obj: usize,
++                from_offset: usize,
++                to_obj: usize,
++                to_offset: usize,
++                num_elts: usize,
++            ) {
+                 if self.tracked_object_id == from_obj
+                     && self.tracked_offset >= from_offset
+                     && self.tracked_offset < from_offset + num_elts * LAYOUT_SIZE
+@@ -116,12 +142,14 @@ pub fn copy<const LAYOUT_SIZE: usize>(
+                     let should_reset: bool = super::any();
+                     if should_reset {
+                         self.tracked_object_id = to_obj;
+-                        self.tracked_offset += to_offset - from_offset;
++                        self.tracked_offset = to_offset + (self.tracked_offset - from_offset);
+                         // Note that this preserves the value.
++                        return;
+                     }
+-                } else {
+-                    self.bless::<LAYOUT_SIZE>(to_ptr, 1);
+                 }
++                // If this path did not follow the source byte, do not retain the old state of
++                // overwritten destination bytes. Their new state is checked on the source path.
++                self.bless_by_id::<LAYOUT_SIZE>(to_obj, to_offset, num_elts);
+             }
+ 
+             /// Set currently tracked memory initialization state to `true` if `ptr` points to the
+@@ -131,7 +159,17 @@ pub fn copy<const LAYOUT_SIZE: usize>(
+             pub fn bless<const LAYOUT_SIZE: usize>(&mut self, ptr: *const u8, num_elts: usize) {
+                 let obj = super::mem::pointer_object(ptr);
+                 let offset = super::mem::pointer_offset(ptr);
++                self.bless_by_id::<LAYOUT_SIZE>(obj, offset, num_elts);
++            }
+ 
++            /// Bless memory using object identity and offset captured from a live pointer.
++            #[kanitool::disable_checks(pointer)]
++            pub fn bless_by_id<const LAYOUT_SIZE: usize>(
++                &mut self,
++                obj: usize,
++                offset: usize,
++                num_elts: usize,
++            ) {
+                 if self.tracked_object_id == obj
+                     && self.tracked_offset >= offset
+                     && self.tracked_offset < offset + num_elts * LAYOUT_SIZE
+@@ -198,6 +236,7 @@ fn initialize_memory_initialization_state() {
+                 MEM_INIT_STATE.tracked_object_id = super::any();
+                 MEM_INIT_STATE.tracked_offset = super::any();
+                 MEM_INIT_STATE.value = false;
++                MEM_INIT_STATE.argument_buffer_active = false;
+             }
+         }
+ 
+@@ -358,30 +397,22 @@ fn copy_init_state_single<const LAYOUT_SIZE: usize, T>(from: *const T, to: *cons
+             copy_init_state::<LAYOUT_SIZE, T>(from, to, 1);
+         }
+ 
+-        /// Information about currently tracked argument, used for passing union initialization
+-        /// state across function boundaries. This struct is written to by the caller and read from
+-        /// by the callee.
+-        #[derive(Clone, Copy)]
+-        struct ArgumentBuffer {
+-            selected_argument: usize,
+-            saved_address: *const (),
+-            layout_size: usize,
+-        }
+-
+         /// Non-deterministically store information about currently tracked argument in the argument
+         /// buffer.
+         #[kanitool::disable_checks(pointer)]
+         #[kanitool::fn_marker = "StoreArgumentModel"]
+         fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument: usize) {
+             let (from_ptr, _) = from.to_raw_parts();
+-            let should_store: bool = super::any();
+-            if should_store {
++            let saved_object_id = super::mem::pointer_object(from_ptr);
++            let saved_offset = super::mem::pointer_offset(from_ptr);
++            // A return has exactly one value to transfer. Arguments compete for the buffer.
++            if selected_argument == 0 || super::any() {
+                 unsafe {
+-                    ARGUMENT_BUFFER = Some(ArgumentBuffer {
+-                        selected_argument,
+-                        saved_address: from_ptr,
+-                        layout_size: LAYOUT_SIZE,
+-                    })
++                    MEM_INIT_STATE.argument_buffer_selected_argument = selected_argument;
++                    MEM_INIT_STATE.argument_buffer_saved_object_id = saved_object_id;
++                    MEM_INIT_STATE.argument_buffer_saved_offset = saved_offset;
++                    MEM_INIT_STATE.argument_buffer_layout_size = LAYOUT_SIZE;
++                    MEM_INIT_STATE.argument_buffer_active = true;
+                 }
+             }
+         }
+@@ -394,15 +425,28 @@ fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument
+         #[kanitool::fn_marker = "LoadArgumentModel"]
+         fn load_argument<const LAYOUT_SIZE: usize, T>(to: *const T, selected_argument: usize) {
+             let (to_ptr, _) = to.to_raw_parts();
+-            if let Some(buffer) = unsafe { ARGUMENT_BUFFER } {
+-                if buffer.selected_argument == selected_argument {
+-                    assert!(buffer.layout_size == LAYOUT_SIZE);
+-                    copy_init_state_single::<LAYOUT_SIZE, ()>(buffer.saved_address, to_ptr);
+-                    unsafe {
+-                        ARGUMENT_BUFFER = None;
+-                    }
+-                    return;
++            if unsafe {
++                MEM_INIT_STATE.argument_buffer_active
++                    && MEM_INIT_STATE.argument_buffer_selected_argument == selected_argument
++            } {
++                let buffer_layout_size = unsafe { MEM_INIT_STATE.argument_buffer_layout_size };
++                assert!(buffer_layout_size == LAYOUT_SIZE);
++                let buffer_saved_object_id =
++                    unsafe { MEM_INIT_STATE.argument_buffer_saved_object_id };
++                let buffer_saved_offset = unsafe { MEM_INIT_STATE.argument_buffer_saved_offset };
++                let to_object_id = super::mem::pointer_object(to_ptr);
++                let to_offset = super::mem::pointer_offset(to_ptr);
++                unsafe {
++                    MEM_INIT_STATE.copy_by_id::<LAYOUT_SIZE>(
++                        buffer_saved_object_id,
++                        buffer_saved_offset,
++                        to_object_id,
++                        to_offset,
++                        1,
++                    );
++                    MEM_INIT_STATE.argument_buffer_active = false;
+                 }
++                return;
+             }
+             unsafe {
+                 MEM_INIT_STATE.bless::<LAYOUT_SIZE>(to_ptr as *const u8, 1);

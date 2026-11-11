@@ -1,0 +1,84 @@
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+index ce7d701..a098809 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+@@ -488,27 +488,23 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+                         if crate::kani_middle::trace::enabled() {
+                             crate::kani_middle::trace::unit(unit_index);
+                         }
+-                        // Generate a new transformer that will be shared for all harnesses within the codegen unit.
+-                        // We reset the body cache between units for now because each codegen unit has different
+-                        // configurations that affect how we transform the instance body.
+-                        let mut shared_unit_transformer =
+-                            BodyTransformation::new(&queries, tcx, unit);
+-
+                         // Codegen the harnesses expected to generate the most code first, so their
+                         // (slow) goto-file export runs on a worker thread while the main thread
+                         // keeps codegening the rest, rather than stalling on them at the end of
+-                        // compilation. Reachability run here to rate the harnesses also warms the
+-                        // shared transformer's body cache reused during codegen. See
+-                        // `kani_middle::codegen_order`.
++                        // compilation. Use a separate transformer for ordering so its warmed
++                        // bodies and auxiliary maps cannot leak into root-specific codegen.
++                        // See `kani_middle::codegen_order`.
+                         //
+                         // Only worth the extra reachability pass when there are export workers to
+                         // overlap with; without them exports happen synchronously on this thread,
+                         // so ordering cannot hide any latency and would only add compile time.
+                         let ordered_harnesses = if export_thread_pool.has_workers() {
++                            let mut ordering_transformer =
++                                BodyTransformation::new(&queries, tcx, unit);
+                             order_harnesses::<MostReachableItems>(
+                                 &unit.harnesses,
+                                 tcx,
+-                                &mut shared_unit_transformer,
++                                &mut ordering_transformer,
+                             )
+                         } else {
+                             unit.harnesses.iter().collect()
+@@ -526,6 +522,10 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+                                 );
+                             }
+                             clear_codegen_cache();
++                            // Global passes mutate cached bodies for this root. Keep the entire
++                            // transformer root-scoped through reachability and GOTO emission,
++                            // including local-pass state and auxiliary loop-contract maps.
++                            let mut root_transformer = BodyTransformation::new(&queries, tcx, unit);
+ 
+                             let model_path = units.harness_model_path(*harness).unwrap();
+                             let is_automatic_harness = units.is_automatic_harness(harness);
+@@ -539,7 +539,7 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+                                 contract_metadata
+                                     .map(|def| rustc_internal::internal(tcx, def.def_id())),
+                                 template_passes.clone(),
+-                                &mut shared_unit_transformer,
++                                &mut root_transformer,
+                                 &export_thread_pool,
+                             );
+                             if min_gcx.has_loop_contracts {
+diff --git a/kani-compiler/src/kani_middle/codegen_order.rs b/kani-compiler/src/kani_middle/codegen_order.rs
+index 9b27d99..679273d 100644
+--- a/kani-compiler/src/kani_middle/codegen_order.rs
++++ b/kani-compiler/src/kani_middle/codegen_order.rs
+@@ -16,8 +16,8 @@
+ //!
+ //! Ordering is intentionally cheap on memory: we run reachability once per harness to obtain the
+ //! heuristic rating, but retain only the resulting `usize` rather than the reachable set or call
+-//! graph. Reachability is recomputed during codegen (reusing the transformer's warmed body cache),
+-//! so peak memory matches codegen of the same unit in its original order.
++//! graph. The ordering transformer is discarded before codegen, which recomputes reachability
++//! with a fresh transformer for each root.
+ 
+ use crate::kani_middle::codegen_units::Harness;
+ use crate::kani_middle::reachability::collect_reachable_items;
+@@ -48,8 +48,8 @@ fn rate(reachable: &[MonoItem]) -> usize {
+ }
+ 
+ /// Return the harnesses of a codegen unit ordered so that the ones the heuristic `H` rates highest
+-/// come first. `transformer` must be the (shared) transformer for the harnesses' codegen unit; it
+-/// is used to run reachability and its body cache is warmed as a side effect.
++/// come first. `transformer` must use the harnesses' codegen-unit configuration; it is used only
++/// for ordering reachability, and its warmed body cache is discarded before codegen.
+ pub fn order_harnesses<'a, H: CodegenHeuristic>(
+     harnesses: &'a [Harness],
+     tcx: TyCtxt,
