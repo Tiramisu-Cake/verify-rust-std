@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "assurance": "Local request/identity/recipe/static Git preflight; existing Cloud prepare-kani preflight runs before compilation. No local compiler/verifier.",
+  "reviewed_head": "84b462137c3f30aee6ec0b8b79f226fd1693b2e8",
+  "request_sha256": "b4bdf24b8808c48c366974bd0acb3740f129f21c4fb209c9ea5dc4177dc54398",
+  "root_equals_A_snapshot": true,
+  "static_checks": 29,
+  "generated_args_equal_reviewed_A": true,
+  "runner": "gcb-e2-standard-4",
+  "rustflags": "--cfg kani_smallsort_controls",
+  "validated_trace_env": {
+    "KANI3300_TRACE_DIR": "/workspace/src/k1-out/trace",
+    "KANI3300_TRACE_FILTER": "cmp3_index_range_len;cmp3_manually_drop_unsized_len;kani_cmp3::;PolymorphicIter;IndexRange::zero_to;IndexRange::len",
+    "KANI3300_TRACE_ID": "b4bdf24b8808c48c366974bd0acb3740f129f21c4fb209c9ea5dc4177dc54398",
+    "KANI3300_TRACE_STAGE": "kani3300-t1b"
+  },
+  "timeout_minutes": 57,
+  "planned_reserve_usd": "0.7695",
+  "cap_usd": "0.80",
+  "attempts_allowed": 1,
+  "B_allowed": false,
+  "status_polling": false,
+  "watch_preconditions": "PASS",
+  "DNS_apt_retry_allowed": false,
+  "cloud_dispatch": "NOT_RUN"
+}

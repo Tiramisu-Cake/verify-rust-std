@@ -1,9 +1,9 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani3300-t1a-uninit-20261111-01",
+  "request_id": "kani3300-t1b-a-20261111-01",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "KANI3300 T1a: reproduce original nine CMP3 roots on the exact CMP4-B library and unchanged CMP2/KT2 recipe; no trace or repair; one diagnostic attempt, exact-packet coordinator GO required.",
+  "purpose": "KANI3300 T1b A: compile-time-only trace on unchanged CMP2/library/roots/checks. No runtime trace or production fix. Separate coordinator GO required; B only after A analysis.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 3,
   "kani_jobs": 1,
@@ -50,7 +50,20 @@
     }
   ],
   "kani_patch": {
-    "path": "research/challenge-8/kani-k1/kani3300/u4/kani-uninit.patch",
-    "sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4"
+    "path": "research/challenge-8/kani-k1/kani3300/t1b/kani-combined.patch",
+    "sha256": "8bfd47ae78d0ff8a1a9a0b9879719400b15cc463bef11e1fe03e340b6bc55545"
+  },
+  "diagnostic_trace": {
+    "filters": [
+      "cmp3_index_range_len",
+      "cmp3_manually_drop_unsized_len",
+      "kani_cmp3::",
+      "PolymorphicIter",
+      "IndexRange::zero_to",
+      "IndexRange::len"
+    ],
+    "library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
+    "base_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "expected_applied_tree": "a88f60c9559879ed29443d52d8a8013da7bee9c5"
   }
 }

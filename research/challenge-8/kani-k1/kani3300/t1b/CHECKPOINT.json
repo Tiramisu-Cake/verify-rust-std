@@ -3,13 +3,13 @@
   "slug": "kani3300",
   "owner": "k1-merge",
   "runtime": "Codex",
-  "state": "PRE_BUILD_REVIEW",
+  "state": "A_READY_FOR_SINGLE_DISPATCH",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-T1B.md",
   "task_base": "3a780c05130440340197e98eda602ee705e80d8e",
   "worktree": "/root/verify-rust-std-kani3300-t0",
   "branch": "experiment/kani-k1-kani3300t0-20261111",
   "cloud": {
-    "status": "NOT_RUN",
+    "status": "PREFLIGHT_PASS",
     "spend_usd": "0",
     "submitted_reserve_usd": "0",
     "A_planned_reserve_usd": "0.7695",
@@ -17,7 +17,7 @@
     "B_planned_reserve_usd": "0.5670",
     "B_requires_separate_GO": true,
     "attempts_used": 0,
-    "dispatch_authorized": false,
+    "dispatch_authorized": true,
     "combined_planned_reserve_usd": "1.3365",
     "combined_cap_usd": "1.40",
     "max_builds_after_separate_GOs": 2,
@@ -32,7 +32,7 @@
     "Actual runner invocation/environment capture and Cloud preflight NOT_RUN; low-level compiler/rustc/CBMC argv UNKNOWN.",
     "Prepared A/B requests are snapshots only; active lane-root request remains untouched under this task scope."
   ],
-  "stop_boundary": "PRE-BUILD REVIEW; no dispatch, builds, reservation or Cloud activity.",
+  "stop_boundary": "After one dispatch arm k1g.sh watch and end turn; after terminal evidence write RESULT-KANI3300-T1B-A.md and stop; no B/retries/repair.",
   "tooling_initial_candidate": "5c6c875ba43451d1a769625056170d292c4f4f60",
   "tooling_review": {
     "state": "PASS",
@@ -99,13 +99,27 @@
     "compiler_and_D_warnings": "NOT_RUN",
     "MIR_GOTO_equivalence_experiment": "NOT_RUN"
   },
-  "active_lane_request_changed": false,
-  "next_step": "Stop at PRE-BUILD REVIEW. Coordinator may review, promote exact A bytes and bind final execution head before separate GO. B only after A identity/coverage/controls/reproduction checks and separate GO; no automatic retry.",
+  "active_lane_request_changed": true,
+  "next_step": "Run preflight, publish activation head, one dispatch, watcher. No status polling. On watcher completion: Brief -> bounded summary/trace-field -> result/accounting. DNS/apt setup failure means proof NOT_RUN and stop.",
   "request_binding_review": {
     "state": "PASS",
     "candidate": "856653a1d0099e83b6896aa3ef966ce24911a8e6",
     "receipt": "REVIEW-PACKET.md",
     "spec_sha256": "76e8c5bd19b3ca57929020d500e55c92e252b568b512b31a23341204181d0588",
     "packet_sha256": "92767e3f85e7a09d37e5891839cf86f971c1edfd8e271a9d3677b9904743f0f9"
-  }
+  },
+  "authorization": {
+    "reviewed_head": "84b462137c3f30aee6ec0b8b79f226fd1693b2e8",
+    "request_sha256": "b4bdf24b8808c48c366974bd0acb3740f129f21c4fb209c9ea5dc4177dc54398",
+    "source": "Explicit coordinator GO in user message; install exact A bytes, preflight, one dispatch, k1g.sh watch, end turn without status polling.",
+    "A_only": true,
+    "B_allowed": false,
+    "attempts_allowed": 1,
+    "cap_usd": "0.80",
+    "reserve_usd": "0.7695",
+    "retry_DNS_apt_setup_failure": false,
+    "runtime": "Codex",
+    "started_at": "2026-11-11T17:48:30.876994+00:00"
+  },
+  "execution_result_path": "RESULT-KANI3300-T1B-A.md"
 }
