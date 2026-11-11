@@ -1,0 +1,2197 @@
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+index 117b2311ae045d08b21e71e2af972058bc77ae02..102dd6ced42f6ecdef11663d7054261221857d73 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+@@ -12,13 +12,13 @@
+ use rustc_middle::ty::TyCtxt;
+ use rustc_public::{
+     mir::{
+-        AggregateKind, BasicBlock, Body, ConstOperand, Mutability, Operand, Place, Rvalue,
++        AggregateKind, BasicBlock, BinOp, Body, ConstOperand, Mutability, Operand, Place, Rvalue,
+         Statement, StatementKind, Terminator, TerminatorKind, UnwindAction, mono::Instance,
+     },
+     ty::{FnDef, GenericArgKind, GenericArgs, MirConst, RigidTy, Ty, TyConst, TyKind, UintTy},
+ };
+ use std::collections::HashMap;
+-use ty_layout::maybe_uninit_storage;
++use ty_layout::{maybe_uninit_storage, product_layout};
+ 
+ use crate::kani_middle::kani_functions::{KaniFunction, KaniModel};
+ pub use delayed_ub::DelayedUbPass;
+@@ -162,7 +162,11 @@ fn build_check_for_operation(
+     ) {
+         if let MemoryInitOp::StoreArgument { operand, .. } = &mut operation
+             && matches!(operand, Operand::Constant(_))
+-            && maybe_uninit_storage(self.tcx, operand.ty(body.locals()).unwrap()).is_some()
++            && (maybe_uninit_storage(self.tcx, operand.ty(body.locals()).unwrap()).is_some()
++                || product_layout(self.tcx, operand.ty(body.locals()).unwrap())
++                    .ok()
++                    .flatten()
++                    .is_some())
+         {
+             let Some(initialized) = constant_init_mask(operand) else {
+                 self.inject_unsupported_check(
+@@ -198,6 +202,12 @@ fn build_check_for_operation(
+             return;
+         };
+ 
++        if let MemoryInitOp::SetPadding { padding, .. } = &operation {
++            let padding = padding.clone();
++            self.build_product_padding(body, source, operation, &padding);
++            return;
++        }
++
+         let pointee_info = {
+             // Sanity check: since CBMC memory object primitives only accept pointers, need to
+             // ensure the correct type.
+@@ -215,7 +225,49 @@ fn build_check_for_operation(
+                     )
+                 };
+             // Calculate pointee layout for byte-by-byte memory initialization checks.
+-            let layout = if maybe_uninit_storage(self.tcx, pointee_ty).is_some() {
++            let product = match product_layout(self.tcx, pointee_ty) {
++                Ok(product) => product,
++                Err(reason) => {
++                    self.inject_unsupported_check(
++                        body,
++                        source,
++                        operation.position(),
++                        &reason.to_string(),
++                    );
++                    return;
++                }
++            };
++            let layout = if let Some(product) = product {
++                match &operation {
++                    // A delayed setter and implicit Drop address must not bless storage, or
++                    // overwrite the result of a typed transfer. Ordinary writes are handled at
++                    // their field ranges; typed reads retain the R checks below.
++                    MemoryInitOp::SetRef { operand, position, .. } => {
++                        let padding_op = MemoryInitOp::SetPadding {
++                            operand: operand.clone(),
++                            padding: product.padding_mask.clone(),
++                            position: *position,
++                        };
++                        self.build_product_padding(body, source, padding_op, &product.padding_mask);
++                        return;
++                    }
++                    MemoryInitOp::SetSliceChunk { .. } => {
++                        PointeeInfo::for_product_storage(self.tcx, pointee_ty)
++                    }
++                    MemoryInitOp::Set { .. } => {
++                        // An unmodeled typed/volatile write cannot fabricate S state. Bytewise
++                        // intrinsics through u8 pointers continue to use the ordinary path.
++                        self.inject_unsupported_check(
++                            body,
++                            source,
++                            operation.position(),
++                            "Kani does not support this write to compound storage.",
++                        );
++                        return;
++                    }
++                    _ => PointeeInfo::for_product_read(self.tcx, pointee_ty),
++                }
++            } else if maybe_uninit_storage(self.tcx, pointee_ty).is_some() {
+                 match &operation {
+                     // Reading a slot or slice of slots does not require initialized data.
+                     MemoryInitOp::Check { .. }
+@@ -277,12 +329,64 @@ fn build_check_for_operation(
+             MemoryInitOp::StoreArgument { .. } | MemoryInitOp::LoadArgument { .. } => {
+                 self.build_argument_operation(body, source, operation, pointee_info)
+             }
+-            MemoryInitOp::Unsupported { .. } | MemoryInitOp::TriviallyUnsafe { .. } => {
++            MemoryInitOp::Unsupported { .. }
++            | MemoryInitOp::TriviallyUnsafe { .. }
++            | MemoryInitOp::SetPadding { .. } => {
+                 unreachable!()
+             }
+         };
+     }
+ 
++    /// Clear each maximal padding interval using a u8 range. No setter spans R or S.
++    fn build_product_padding(
++        &mut self,
++        body: &mut MutableBody,
++        source: &mut SourceInstruction,
++        operation: MemoryInitOp,
++        padding: &[bool],
++    ) {
++        let position = operation.position();
++        let mut statements = vec![];
++        let address = operation.mk_operand(body, &mut statements, source);
++        for stmt in statements {
++            body.insert_stmt(stmt, source, position);
++        }
++        let u8_ty = Ty::unsigned_ty(UintTy::U8);
++        let byte_ptr = body.insert_ptr_cast(address, u8_ty, Mutability::Not, source, position);
++        let mut start = 0;
++        while start < padding.len() {
++            if !padding[start] {
++                start += 1;
++                continue;
++            }
++            let mut end = start + 1;
++            while end < padding.len() && padding[end] {
++                end += 1;
++            }
++            let span = source.span(body.blocks());
++            let offset = body.new_uint_operand(start as u128, UintTy::Usize, span);
++            let ptr = body.insert_binary_op(
++                BinOp::Offset,
++                Operand::Copy(Place::from(byte_ptr)),
++                offset,
++                source,
++                position,
++            );
++            let count = body.new_uint_operand((end - start) as u128, UintTy::Usize, span);
++            self.build_check_for_operation(
++                body,
++                source,
++                MemoryInitOp::SetSliceChunk {
++                    operand: Operand::Copy(Place::from(ptr)),
++                    count,
++                    value: false,
++                    position,
++                },
++            );
++            start = end;
++        }
++    }
++
+     /// Inject a load from memory initialization state and an assertion that all non-padding bytes
+     /// are initialized.
+     fn build_get_and_check(
+@@ -692,8 +796,26 @@ fn build_argument_operation(
+             source_info: synthetic_source_info(source.span(body.blocks())),
+         };
+ 
++        // Loading a typed product also drops its target padding; only R/S retain state.
++        let padding_op = if let MemoryInitOp::LoadArgument { operand, position, .. } = &operation
++            && let Ok(Some(product)) = product_layout(self.tcx, *pointee_info.ty())
++        {
++            Some((
++                MemoryInitOp::SetPadding {
++                    operand: operand.clone(),
++                    padding: product.padding_mask.clone(),
++                    position: *position,
++                },
++                product.padding_mask,
++            ))
++        } else {
++            None
++        };
+         // Construct the basic block and insert it into the body.
+         body.insert_bb(BasicBlock { statements, terminator }, source, operation.position());
++        if let Some((padding_op, mask)) = padding_op {
++            self.build_product_padding(body, source, padding_op, &mask);
++        }
+     }
+ 
+     /// Copy memory initialization state from one union variable to another.
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 3f7ea62044fe27297cc74c7ba01b70647751fd50..33c4698453797393240ab9ddc4a04d042cfe2df5 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -12,8 +12,8 @@
+             PointeeInfo, PointeeLayout, TargetFinder,
+             relevant_instruction::{InitRelevantInstruction, MemoryInitOp, constant_init_mask},
+             ty_layout::{
+-                LayoutComputationError, maybe_uninit_storage, tys_layout_compatible_to_size,
+-                wrapper_inner,
++                LayoutComputationError, contains_storage, maybe_uninit_storage, product_layout,
++                tys_layout_compatible_to_size, wrapper_inner,
+             },
+         },
+     },
+@@ -104,7 +104,124 @@ fn push_target(&mut self, source_op: MemoryInitOp) {
+     }
+ 
+     fn transfers_shadow(&self, ty: Ty) -> bool {
+-        ty.kind().is_union() || maybe_uninit_storage(self.tcx, ty).is_some()
++        ty.kind().is_union() || contains_storage(self.tcx, ty)
++    }
++
++    fn unsupported_product(&mut self) {
++        self.push_target(MemoryInitOp::Unsupported {
++            reason: "Kani does not support this compound storage layout.".to_string(),
++        });
++    }
++
++    /// All operands have already been materialized by MIR. Fieldwise shadow updates are
++    /// permitted only when the destination is disjoint from every source for the entire
++    /// sequence. Local projections without Deref stay within their root allocation; different
++    /// such roots are disjoint. Indirect or same-root aggregates fail before any shadow write.
++    fn assign_product(&mut self, place: &Place, ty: Ty, rvalue: &Rvalue) {
++        let Ok(Some(product)) = product_layout(self.tcx, ty) else {
++            self.unsupported_product();
++            return;
++        };
++        if place.projection.contains(&ProjectionElem::Deref) {
++            // The existing pointer pass checks intermediate loaded pointers, but does not
++            // establish shadow initialization of the final address operand itself. Do not
++            // introduce a new whole-product write through such an unvalidated address.
++            self.push_target(MemoryInitOp::Unsupported {
++                reason: "Kani does not support indirect compound storage assignments.".to_string(),
++            });
++            return;
++        }
++        match rvalue {
++            Rvalue::Use(operand, _) => self.assign_storage_operand(place, operand),
++            Rvalue::Aggregate(AggregateKind::Adt(_, _, _, _, None), operands) => {
++                let TyKind::RigidTy(RigidTy::Adt(def, args)) = ty.kind() else { unreachable!() };
++                let fields = def.variants_iter().next().unwrap().fields();
++                let direct = |place: &Place| {
++                    place.projection.iter().all(|elem| {
++                        matches!(
++                            elem,
++                            ProjectionElem::Field(..) | ProjectionElem::ConstantIndex { .. }
++                        )
++                    })
++                };
++                if fields.len() != operands.len()
++                    || !direct(place)
++                    || operands.iter().any(|operand| match operand {
++                        Operand::Copy(src) | Operand::Move(src) => {
++                            src.local == place.local || !direct(src)
++                        }
++                        Operand::Constant(_) => false,
++                        Operand::RuntimeChecks(_) => true,
++                    })
++                {
++                    // Different pointer locals, in particular, do not prove disjoint pointees.
++                    self.push_target(MemoryInitOp::Unsupported {
++                        reason: "Kani does not support potentially overlapping compound storage aggregates.".to_string(),
++                    });
++                    return;
++                }
++                // visit_rvalue retains the ordinary source/dereference checks. Product
++                // operands additionally check R in visit_operand. Do not fabricate an
++                // unconditional check on ordinary locals that were never shadow targets.
++                for (idx, (field, operand)) in fields.iter().zip(operands).enumerate() {
++                    let field_ty = field.ty_with_args(&args);
++                    let mut field_place = place.clone();
++                    field_place.projection.push(ProjectionElem::Field(idx, field_ty));
++                    if contains_storage(self.tcx, field_ty) {
++                        self.assign_storage_operand(&field_place, operand);
++                    } else if let Ok(info) = PointeeInfo::from_ty(field_ty)
++                        && let PointeeLayout::Sized { layout } = info.layout()
++                    {
++                        self.push_target(MemoryInitOp::SetStorage {
++                            operand: Operand::Copy(field_place),
++                            initialized: layout.clone(),
++                            position: InsertPosition::Before,
++                        });
++                    } else {
++                        self.unsupported_product();
++                        return;
++                    }
++                }
++            }
++            _ => {
++                self.unsupported_product();
++                return;
++            }
++        }
++        self.push_target(MemoryInitOp::SetPadding {
++            operand: Operand::Copy(place.clone()),
++            padding: product.padding_mask,
++            position: InsertPosition::After,
++        });
++    }
++
++    /// Preserve checks on pointer values loaded while computing a write address. The final
++    /// pointee is being written, so its old bytes need not be initialized.
++    fn check_storage_write_address(&mut self, place: &Place) {
++        if let Some(base) = try_remove_topmost_deref(place) {
++            let mut prefix = Place::from(base.local);
++            for elem in &base.projection {
++                if *elem == ProjectionElem::Deref
++                    && prefix.ty(&self.locals).unwrap().kind().is_raw_ptr()
++                {
++                    self.push_target(MemoryInitOp::Check {
++                        operand: Operand::Copy(prefix.clone()),
++                    });
++                }
++                prefix.projection.push(elem.clone());
++            }
++        }
++    }
++
++    fn in_product(&self, place: &Place) -> bool {
++        let mut prefix = Place::from(place.local);
++        for elem in &place.projection {
++            if product_layout(self.tcx, prefix.ty(&self.locals).unwrap()).ok().flatten().is_some() {
++                return true;
++            }
++            prefix.projection.push(elem.clone());
++        }
++        false
+     }
+ 
+     /// Locate the first union on the projection path, including a union at the end.
+@@ -343,7 +460,8 @@ fn visit_ordinary_assignment(
+             && !self.enclosing_union(addressed).is_some_and(|union| {
+                 wrapper_inner(self.tcx, union, LangItem::MaybeUninit).is_some()
+             })
+-            && maybe_uninit_storage(self.tcx, addressed.ty(&self.locals).unwrap()).is_none()
++            && !contains_storage(self.tcx, addressed.ty(&self.locals).unwrap())
++            && !self.in_product(addressed)
+         {
+             self.push_target(MemoryInitOp::Set {
+                 operand: Operand::Copy(place.clone()),
+@@ -418,8 +536,15 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+                 let in_maybe_uninit = union
+                     .is_some_and(|ty| wrapper_inner(self.tcx, ty, LangItem::MaybeUninit).is_some());
+ 
++                if contains_storage(self.tcx, ty) {
++                    self.check_storage_write_address(place);
++                }
+                 // Reject nested unions before the generic shadow update can treat them as values.
+-                if maybe_uninit_storage(self.tcx, ty).is_some() {
++                if let Err(_) = product_layout(self.tcx, ty) {
++                    self.unsupported_product();
++                } else if product_layout(self.tcx, ty).ok().flatten().is_some() {
++                    self.assign_product(place, ty, rvalue);
++                } else if maybe_uninit_storage(self.tcx, ty).is_some() {
+                     self.assign_storage(place, ty, rvalue);
+                 } else if let Err(reason @ LayoutComputationError::UnionAsField(_)) =
+                     PointeeInfo::from_ty(ty)
+@@ -437,6 +562,13 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+                     });
+                 } else {
+                     self.visit_ordinary_assignment(place, rvalue, ty, union.is_some());
++                    if self.in_product(place) && union.is_none() {
++                        self.push_target(MemoryInitOp::SetRef {
++                            operand: Operand::Copy(place.clone()),
++                            value: true,
++                            position: InsertPosition::After,
++                        });
++                    }
+                 }
+             }
+             StatementKind::FakeRead(_, _)
+@@ -505,7 +637,7 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                     return;
+                 }
+                 let destination_ty = destination.ty(&self.locals).unwrap();
+-                if maybe_uninit_storage(self.tcx, destination_ty).is_some() {
++                if contains_storage(self.tcx, destination_ty) {
+                     if instance.kind == InstanceKind::Item && instance.has_body() {
+                         self.push_target(MemoryInitOp::LoadArgument {
+                             operand: Operand::Copy(destination.clone()),
+@@ -575,7 +707,7 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                             Intrinsic::TypedSwap
+                                 if let TyKind::RigidTy(RigidTy::RawPtr(ty, _)) =
+                                     args[0].ty(&self.locals).unwrap().kind()
+-                                    && maybe_uninit_storage(self.tcx, ty).is_some() =>
++                                    && contains_storage(self.tcx, ty) =>
+                             {
+                                 self.push_target(MemoryInitOp::Unsupported {
+                                     reason:
+@@ -665,6 +797,12 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                 self.super_terminator(term, location);
+                 let place_ty = place.ty(&self.locals).unwrap();
+ 
++                if product_layout(self.tcx, place_ty).ok().flatten().is_some() {
++                    self.push_target(MemoryInitOp::CheckRef {
++                        operand: Operand::Copy(place.clone()),
++                    });
++                }
++
+                 // When drop is codegen'ed for types that could define their own dropping
+                 // behavior, a reference is taken to the place which is later implicitly coerced
+                 // to a pointer. Hence, we need to bless this pointer as initialized.
+@@ -695,8 +833,7 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+             }
+             TerminatorKind::Return => {
+                 let return_place = Place::from(0);
+-                if maybe_uninit_storage(self.tcx, return_place.ty(&self.locals).unwrap()).is_some()
+-                {
++                if contains_storage(self.tcx, return_place.ty(&self.locals).unwrap()) {
+                     self.push_target(MemoryInitOp::StoreArgument {
+                         operand: Operand::Copy(return_place),
+                         argument_no: 0,
+@@ -760,6 +897,27 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+     }
+ 
+     fn visit_operand(&mut self, operand: &Operand, location: Location) {
++        let ty = operand.ty(&self.locals).unwrap();
++        match product_layout(self.tcx, ty) {
++            Ok(Some(product)) => {
++                if matches!(operand, Operand::Copy(_) | Operand::Move(_)) {
++                    self.push_target(MemoryInitOp::CheckRef { operand: operand.clone() });
++                } else if let Some(mask) = constant_init_mask(operand)
++                    && mask.len() == product.size
++                {
++                    if product.read_mask.iter().zip(mask).any(|(r, initialized)| *r && !initialized)
++                    {
++                        self.push_target(MemoryInitOp::TriviallyUnsafe {
++                            reason: format!("Undefined Behavior: Reading from an uninitialized pointer of type `{ty}`"),
++                        });
++                    }
++                } else {
++                    self.unsupported_product();
++                }
++            }
++            Err(_) => self.unsupported_product(),
++            Ok(None) => {}
++        }
+         if let Operand::Constant(constant) = operand
+             && let ConstantKind::Allocated(allocation) = constant.const_.kind()
+         {
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+index c1f1eb5ef858efd590ab3f3e0e988767b79e27a3..a9507cf8aed735222aa7d52180e48a3ddc191a5e 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+@@ -44,6 +44,8 @@ pub enum MemoryInitOp {
+     SetRef { operand: Operand, value: bool, position: InsertPosition },
+     /// Replace the state of every byte in storage assigned from a MIR constant.
+     SetStorage { operand: Operand, initialized: Vec<bool>, position: InsertPosition },
++    /// Clear only exact product padding bytes; preserve ordinary and storage state.
++    SetPadding { operand: Operand, padding: Vec<bool>, position: InsertPosition },
+     /// Unsupported memory initialization operation.
+     Unsupported { reason: String },
+     /// Operation that trivially accesses uninitialized memory, results in injecting `assert!(false)`.
+@@ -85,6 +87,7 @@ pub fn mk_operand(
+             MemoryInitOp::CheckRef { operand, .. }
+             | MemoryInitOp::SetRef { operand, .. }
+             | MemoryInitOp::SetStorage { operand, .. }
++            | MemoryInitOp::SetPadding { operand, .. }
+             | MemoryInitOp::CreateUnion { operand, .. }
+             | MemoryInitOp::LoadArgument { operand, .. }
+             | MemoryInitOp::StoreArgument { operand, .. } => {
+@@ -138,6 +141,7 @@ pub fn operand_ty(&self, body: &MutableBody) -> Ty {
+             }
+             MemoryInitOp::SetRef { operand, .. }
+             | MemoryInitOp::SetStorage { operand, .. }
++            | MemoryInitOp::SetPadding { operand, .. }
+             | MemoryInitOp::CheckRef { operand, .. }
+             | MemoryInitOp::CreateUnion { operand, .. }
+             | MemoryInitOp::LoadArgument { operand, .. }
+@@ -188,6 +192,7 @@ pub fn expect_count(&self) -> Operand {
+             | MemoryInitOp::CheckRefAs { .. }
+             | MemoryInitOp::SetRef { .. }
+             | MemoryInitOp::SetStorage { .. }
++            | MemoryInitOp::SetPadding { .. }
+             | MemoryInitOp::CreateUnion { .. }
+             | MemoryInitOp::AssignUnion { .. }
+             | MemoryInitOp::Unsupported { .. }
+@@ -202,7 +207,9 @@ pub fn expect_value(&self) -> bool {
+             MemoryInitOp::Set { value, .. }
+             | MemoryInitOp::SetSliceChunk { value, .. }
+             | MemoryInitOp::SetRef { value, .. } => *value,
+-            MemoryInitOp::CreateUnion { .. } | MemoryInitOp::SetStorage { .. } => true,
++            MemoryInitOp::CreateUnion { .. }
++            | MemoryInitOp::SetStorage { .. }
++            | MemoryInitOp::SetPadding { .. } => true,
+             MemoryInitOp::Check { .. }
+             | MemoryInitOp::CheckAs { .. }
+             | MemoryInitOp::CheckSliceChunk { .. }
+@@ -229,6 +236,7 @@ pub fn union_field(&self) -> Option<FieldIdx> {
+             | MemoryInitOp::SetSliceChunk { .. }
+             | MemoryInitOp::SetRef { .. }
+             | MemoryInitOp::SetStorage { .. }
++            | MemoryInitOp::SetPadding { .. }
+             | MemoryInitOp::Unsupported { .. }
+             | MemoryInitOp::TriviallyUnsafe { .. }
+             | MemoryInitOp::Copy { .. }
+@@ -244,6 +252,7 @@ pub fn position(&self) -> InsertPosition {
+             | MemoryInitOp::SetSliceChunk { position, .. }
+             | MemoryInitOp::SetRef { position, .. }
+             | MemoryInitOp::SetStorage { position, .. }
++            | MemoryInitOp::SetPadding { position, .. }
+             | MemoryInitOp::AssignUnion { position, .. }
+             | MemoryInitOp::LoadArgument { position, .. } => *position,
+             MemoryInitOp::Check { .. }
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+index ab08539d8255cb6222fd44a6e818c56424deb085..ab48094130c35dd9b551b30fcfd828be69934167 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+@@ -73,6 +73,18 @@ pub struct PointeeInfo {
+     layout: PointeeLayout,
+ }
+ 
++/// Byte masks for a sized struct that combines initialized data and uninitialized storage.
++///
++/// `read_mask` is the subset required for an ordinary typed read. `storage_mask` describes
++/// bytes whose initialization state is tracked as storage (including padding inside a
++/// `MaybeUninit<T>` slot). `padding_mask` is the remaining product padding.
++pub(super) struct ProductLayout {
++    pub(super) size: usize,
++    pub(super) read_mask: Vec<bool>,
++    pub(super) storage_mask: Vec<bool>,
++    pub(super) padding_mask: Vec<bool>,
++}
++
+ /// Different layout computation errors that could arise from the currently unsupported constructs.
+ pub enum LayoutComputationError {
+     UnknownUnsizedLayout(Ty),
+@@ -80,6 +92,7 @@ pub enum LayoutComputationError {
+     EnumWithMultiplePaddingVariants(Ty),
+     UnsupportedType(Ty),
+     UnionAsField(Ty),
++    CompoundStorage(Ty),
+ }
+ 
+ impl Display for LayoutComputationError {
+@@ -102,6 +115,9 @@ fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+                 f,
+                 "Cannot determine layout for a type that contains union of type {ty} as a field."
+             ),
++            LayoutComputationError::CompoundStorage(_) => {
++                write!(f, "Kani does not support this compound storage layout.")
++            }
+         }
+     }
+ }
+@@ -142,6 +158,23 @@ pub(super) fn for_storage(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputation
+         Ok(Self { pointee_ty: ty, layout })
+     }
+ 
++    /// Layout for ordinary reads of a supported compound storage product.
++    pub(super) fn for_product_read(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputationError> {
++        let product =
++            product_layout(tcx, ty)?.ok_or(LayoutComputationError::CompoundStorage(ty))?;
++        Ok(Self { pointee_ty: ty, layout: PointeeLayout::Sized { layout: product.read_mask } })
++    }
++
++    /// Layout for bytewise operations over the complete extent of a compound storage product.
++    pub(super) fn for_product_storage(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputationError> {
++        let product =
++            product_layout(tcx, ty)?.ok_or(LayoutComputationError::CompoundStorage(ty))?;
++        Ok(Self {
++            pointee_ty: ty,
++            layout: PointeeLayout::Sized { layout: vec![true; product.size] },
++        })
++    }
++
+     pub fn from_ty(ty: Ty) -> Result<Self, LayoutComputationError> {
+         match ty.kind() {
+             TyKind::RigidTy(rigid_ty) => match rigid_ty {
+@@ -212,6 +245,275 @@ pub fn layout(&self) -> &PointeeLayout {
+     }
+ }
+ 
++/// Compute the separate read, storage, and padding masks for a sized struct product.
++/// Ordinary and flat `MaybeUninit` layouts return `None` so their existing paths remain in use.
++pub(super) fn product_layout(
++    tcx: TyCtxt,
++    ty: Ty,
++) -> Result<Option<ProductLayout>, LayoutComputationError> {
++    if let Some(slot_ty) = maybe_uninit_storage(tcx, ty) {
++        if contains_storage(tcx, slot_ty) {
++            return Err(LayoutComputationError::CompoundStorage(ty));
++        }
++        data_bytes_for_ty(&MachineInfo::target(), slot_ty, 0)
++            .map_err(|_| LayoutComputationError::CompoundStorage(ty))?;
++        return Ok(None);
++    }
++    let has_storage = contains_storage(tcx, ty);
++    if !has_storage {
++        return Ok(None);
++    }
++    validate_storage_shape(tcx, ty, false)?;
++
++    if !matches!(ty.kind().rigid(), Some(RigidTy::Adt(def, _)) if def.kind() == AdtKind::Struct) {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    }
++    if !ty.layout().unwrap().shape().is_sized() {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    }
++
++    let size = ty.layout().unwrap().shape().size.bytes();
++    let mut read_mask = vec![false; size];
++    let mut storage_mask = vec![false; size];
++    fill_product_node(tcx, ty, 0, &mut read_mask, &mut storage_mask)?;
++    let padding_mask =
++        (0..size).map(|idx| !read_mask[idx] && !storage_mask[idx]).collect::<Vec<_>>();
++
++    // Validate the partition, including target padding and zero-sized fields. Every byte must
++    // belong to exactly one of R, S, or P, and every marked extent must be in the target object.
++    if read_mask.len() != size
++        || storage_mask.len() != size
++        || padding_mask.len() != size
++        || (0..size).any(|idx| {
++            usize::from(read_mask[idx])
++                + usize::from(storage_mask[idx])
++                + usize::from(padding_mask[idx])
++                != 1
++                || (read_mask[idx] && storage_mask[idx])
++        })
++    {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    }
++
++    Ok(Some(ProductLayout { size, read_mask, storage_mask, padding_mask }))
++}
++
++/// Find storage recursively through by-value fields. Pointer and reference pointees are not
++/// part of the containing object's layout. A nested `MaybeUninit`, union, or storage enum is
++/// rejected at the point where it would otherwise make the descriptor ambiguous.
++pub(super) fn contains_storage(tcx: TyCtxt, ty: Ty) -> bool {
++    if wrapper_inner(tcx, ty, LangItem::MaybeUninit).is_some() {
++        return true;
++    }
++    if let Some(inner) = wrapper_inner(tcx, ty, LangItem::ManuallyDrop) {
++        return contains_storage(tcx, inner);
++    }
++    match ty.kind().rigid() {
++        Some(RigidTy::RawPtr(..) | RigidTy::Ref(..) | RigidTy::FnPtr(..)) => false,
++        Some(RigidTy::Array(elem, _)) | Some(RigidTy::Slice(elem)) => contains_storage(tcx, *elem),
++        Some(RigidTy::Adt(def, args)) => def.variants().iter().any(|variant| {
++            variant.fields().iter().any(|field| contains_storage(tcx, field.ty_with_args(args)))
++        }),
++        Some(RigidTy::Tuple(tys)) => tys.iter().any(|field| contains_storage(tcx, *field)),
++        _ => false,
++    }
++}
++
++fn validate_storage_shape(
++    tcx: TyCtxt,
++    ty: Ty,
++    inside_maybe_uninit: bool,
++) -> Result<bool, LayoutComputationError> {
++    if wrapper_inner(tcx, ty, LangItem::MaybeUninit).is_some() {
++        let inner = wrapper_inner(tcx, ty, LangItem::MaybeUninit).unwrap();
++        if inside_maybe_uninit || contains_storage(tcx, inner) {
++            return Err(LayoutComputationError::CompoundStorage(ty));
++        }
++        data_bytes_for_ty(&MachineInfo::target(), inner, 0)
++            .map_err(|_| LayoutComputationError::CompoundStorage(ty))?;
++        return Ok(true);
++    }
++    if let Some(inner) = wrapper_inner(tcx, ty, LangItem::ManuallyDrop) {
++        return validate_storage_shape(tcx, inner, inside_maybe_uninit);
++    }
++    match ty.kind().rigid() {
++        Some(RigidTy::RawPtr(..) | RigidTy::Ref(..) | RigidTy::FnPtr(..)) => Ok(false),
++        Some(RigidTy::Array(elem, _)) | Some(RigidTy::Slice(elem)) => {
++            validate_storage_shape(tcx, *elem, inside_maybe_uninit)
++        }
++        Some(RigidTy::Adt(def, args)) => match def.kind() {
++            AdtKind::Struct => {
++                let mut found = false;
++                for field in def.variants_iter().next().unwrap().fields() {
++                    found |=
++                        validate_storage_shape(tcx, field.ty_with_args(args), inside_maybe_uninit)?;
++                }
++                Ok(found)
++            }
++            AdtKind::Enum | AdtKind::Union => {
++                let mut found = false;
++                for variant in def.variants() {
++                    for field in variant.fields() {
++                        found |= validate_storage_shape(
++                            tcx,
++                            field.ty_with_args(args),
++                            inside_maybe_uninit,
++                        )?;
++                    }
++                }
++                if found { Err(LayoutComputationError::CompoundStorage(ty)) } else { Ok(false) }
++            }
++        },
++        Some(RigidTy::Tuple(tys)) => {
++            let mut found = false;
++            for field in tys {
++                found |= validate_storage_shape(tcx, *field, inside_maybe_uninit)?;
++            }
++            if found { Err(LayoutComputationError::CompoundStorage(ty)) } else { Ok(false) }
++        }
++        _ => Ok(false),
++    }
++}
++
++fn mark_range(
++    mask: &mut [bool],
++    offset: usize,
++    size: usize,
++    ty: Ty,
++) -> Result<(), LayoutComputationError> {
++    let Some(end) = offset.checked_add(size) else {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    };
++    if end > mask.len() {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    }
++    for byte in &mut mask[offset..end] {
++        if *byte {
++            return Err(LayoutComputationError::CompoundStorage(ty));
++        }
++        *byte = true;
++    }
++    Ok(())
++}
++
++fn fill_product_node(
++    tcx: TyCtxt,
++    ty: Ty,
++    offset: usize,
++    read_mask: &mut [bool],
++    storage_mask: &mut [bool],
++) -> Result<(), LayoutComputationError> {
++    let size = ty.layout().unwrap().shape().size.bytes();
++    if offset.checked_add(size).is_none_or(|end| end > read_mask.len()) {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    }
++    if wrapper_inner(tcx, ty, LangItem::MaybeUninit).is_some() {
++        let inner = wrapper_inner(tcx, ty, LangItem::MaybeUninit).unwrap();
++        data_bytes_for_ty(&MachineInfo::target(), inner, 0)
++            .map_err(|_| LayoutComputationError::CompoundStorage(ty))?;
++        mark_range(storage_mask, offset, size, ty)?;
++        return Ok(());
++    }
++    if let Some(inner) = wrapper_inner(tcx, ty, LangItem::ManuallyDrop) {
++        return fill_product_node(tcx, inner, offset, read_mask, storage_mask);
++    }
++    if let Some(RigidTy::Array(elem, _)) = ty.kind().rigid()
++        && wrapper_inner(tcx, *elem, LangItem::MaybeUninit).is_some()
++    {
++        let FieldsShape::Array { stride, count } = ty.layout().unwrap().shape().fields else {
++            return Err(LayoutComputationError::CompoundStorage(ty));
++        };
++        let elem_size = elem.layout().unwrap().shape().size.bytes();
++        let count_usize: usize =
++            count.try_into().map_err(|_| LayoutComputationError::CompoundStorage(ty))?;
++        let stride_bytes = stride.bytes();
++        if count_usize > 1 && stride_bytes < elem_size {
++            return Err(LayoutComputationError::CompoundStorage(ty));
++        }
++        if count_usize == 0 {
++            if size != 0 {
++                return Err(LayoutComputationError::CompoundStorage(ty));
++            }
++        } else {
++            let last_start = (count_usize - 1)
++                .checked_mul(stride_bytes)
++                .ok_or(LayoutComputationError::CompoundStorage(ty))?;
++            let total_extent = last_start
++                .checked_add(elem_size)
++                .ok_or(LayoutComputationError::CompoundStorage(ty))?;
++            if total_extent > size {
++                return Err(LayoutComputationError::CompoundStorage(ty));
++            }
++        }
++        for idx in 0..count {
++            let idx: usize =
++                idx.try_into().map_err(|_| LayoutComputationError::CompoundStorage(ty))?;
++            let elem_offset = idx
++                .checked_mul(stride_bytes)
++                .and_then(|delta| offset.checked_add(delta))
++                .ok_or(LayoutComputationError::CompoundStorage(ty))?;
++            let local_end = idx
++                .checked_mul(stride_bytes)
++                .and_then(|start| start.checked_add(elem_size))
++                .ok_or(LayoutComputationError::CompoundStorage(ty))?;
++            if local_end > size {
++                return Err(LayoutComputationError::CompoundStorage(ty));
++            }
++            mark_range(storage_mask, elem_offset, elem_size, ty)?;
++        }
++        return Ok(());
++    }
++
++    let ty_kind = ty.kind();
++    let Some(RigidTy::Adt(def, args)) = ty_kind.rigid() else {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    };
++    if def.kind() != AdtKind::Struct {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    }
++    let shape = ty.layout().unwrap().shape();
++    let FieldsShape::Arbitrary { ref offsets } = shape.fields else {
++        return Err(LayoutComputationError::CompoundStorage(ty));
++    };
++    let fields = def.variants_iter().next().unwrap().fields();
++    let mut nonzero_field_ranges = Vec::with_capacity(fields.len());
++    for (idx, field) in fields.iter().enumerate() {
++        let field_size = field.ty_with_args(args).layout().unwrap().shape().size.bytes();
++        let field_start = offsets[idx].bytes();
++        let field_end = field_start
++            .checked_add(field_size)
++            .ok_or(LayoutComputationError::CompoundStorage(ty))?;
++        if field_end > size {
++            return Err(LayoutComputationError::CompoundStorage(ty));
++        }
++        if field_size > 0 {
++            if nonzero_field_ranges
++                .iter()
++                .any(|(start, end)| field_start < *end && *start < field_end)
++            {
++                return Err(LayoutComputationError::CompoundStorage(ty));
++            }
++            nonzero_field_ranges.push((field_start, field_end));
++        }
++    }
++    for idx in shape.fields.fields_by_offset_order() {
++        let field_ty = fields[idx].ty_with_args(args);
++        let field_offset = offset
++            .checked_add(offsets[idx].bytes())
++            .ok_or(LayoutComputationError::CompoundStorage(ty))?;
++        if contains_storage(tcx, field_ty) {
++            fill_product_node(tcx, field_ty, field_offset, read_mask, storage_mask)?;
++        } else {
++            let chunks = data_bytes_for_ty(&MachineInfo::target(), field_ty, field_offset)
++                .map_err(|_| LayoutComputationError::CompoundStorage(field_ty))?;
++            for chunk in chunks {
++                mark_range(read_mask, chunk.offset, chunk.size.bytes(), field_ty)?;
++            }
++        }
++    }
++    Ok(())
++}
++
+ /// Retrieve a set of data bytes with offsets for a type.
+ fn data_bytes_for_ty(
+     machine_info: &MachineInfo,
+diff --git a/tests/expected/uninit/compound-cmp1-call-negative/expected b/tests/expected/uninit/compound-cmp1-call-negative/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..a80748978df0ac29ad0d327887acc2edeec4fdd4
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-call-negative/expected
+@@ -0,0 +1,25 @@
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - empty_slot_read_in_caller_after_return
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - first_argument_empty_at_distinct_slot_after_return
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - second_argument_empty_at_distinct_slot_after_return
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - initialized_return_does_not_bless_later_empty_return
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - callee_read_of_nonreturned_second_argument_empty_slot_fails
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - callee_read_of_nonreturned_first_argument_empty_slot_fails
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - caller_reads_original_nonreturned_second_argument_copy
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - caller_reads_original_nonreturned_first_argument_copy
++Complete - 0 successfully verified harnesses, 8 failures, 8 total.
+diff --git a/tests/expected/uninit/compound-cmp1-call-negative/main.rs b/tests/expected/uninit/compound-cmp1-call-negative/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..988f7ae89b75c966018dddfa8a67b3a2a52ceb92
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-call-negative/main.rs
+@@ -0,0 +1,131 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=terse
++
++use std::mem::MaybeUninit;
++
++#[derive(Clone, Copy)]
++struct C {
++    marker: usize,
++    slots: [MaybeUninit<usize>; 2],
++}
++#[inline(never)]
++fn id(value: C) -> C {
++    value
++}
++#[inline(never)]
++fn nested(value: C) -> C {
++    id(id(value))
++}
++#[inline(never)]
++fn pair(a: C, b: C, first: bool) -> C {
++    if first { a } else { b }
++}
++#[inline(never)]
++fn pair_reads_nonreturned_empty_slot(a: C, b: C, first: bool) -> C {
++    if first {
++        kani::cover!(true);
++        unsafe {
++            b.slots[1].assume_init_read();
++        }
++        a
++    } else {
++        kani::cover!(true);
++        unsafe {
++            a.slots[0].assume_init_read();
++        }
++        b
++    }
++}
++
++#[kani::proof]
++fn empty_slot_read_in_caller_after_return() {
++    let value = C { marker: 11, slots: [MaybeUninit::new(7), MaybeUninit::uninit()] };
++    let returned = nested(value);
++    assert_eq!(returned.marker, 11);
++    assert_eq!(unsafe { returned.slots[0].assume_init() }, 7);
++    kani::cover!(true);
++    unsafe {
++        returned.slots[1].assume_init();
++    }
++}
++
++#[kani::proof]
++fn first_argument_empty_at_distinct_slot_after_return() {
++    let a = C { marker: 13, slots: [MaybeUninit::uninit(), MaybeUninit::new(17)] };
++    let b = C { marker: 19, slots: [MaybeUninit::new(23), MaybeUninit::new(29)] };
++    let returned = pair(a, b, true);
++    assert_eq!(unsafe { returned.slots[1].assume_init() }, 17);
++    kani::cover!(true);
++    unsafe {
++        returned.slots[0].assume_init();
++    }
++}
++
++#[kani::proof]
++fn second_argument_empty_at_distinct_slot_after_return() {
++    let a = C { marker: 31, slots: [MaybeUninit::new(37), MaybeUninit::new(41)] };
++    let b = C { marker: 43, slots: [MaybeUninit::new(47), MaybeUninit::uninit()] };
++    let returned = pair(a, b, false);
++    assert_eq!(returned.marker, 43);
++    assert_eq!(unsafe { returned.slots[0].assume_init() }, 47);
++    kani::cover!(true);
++    unsafe {
++        returned.slots[1].assume_init();
++    }
++}
++
++#[kani::proof]
++fn initialized_return_does_not_bless_later_empty_return() {
++    let initialized = id(C { marker: 53, slots: [MaybeUninit::new(59), MaybeUninit::new(61)] });
++    assert_eq!(unsafe { initialized.slots[1].assume_init() }, 61);
++    let partial = id(C { marker: 67, slots: [MaybeUninit::new(71), MaybeUninit::uninit()] });
++    assert_eq!(unsafe { partial.slots[0].assume_init() }, 71);
++    kani::cover!(true);
++    unsafe {
++        partial.slots[1].assume_init();
++    }
++}
++
++#[kani::proof]
++fn callee_read_of_nonreturned_second_argument_empty_slot_fails() {
++    let a = C { marker: 73, slots: [MaybeUninit::new(79), MaybeUninit::uninit()] };
++    let b = C { marker: 83, slots: [MaybeUninit::new(89), MaybeUninit::uninit()] };
++    let returned = pair_reads_nonreturned_empty_slot(a, b, true);
++    assert_eq!(returned.marker, 73);
++}
++
++#[kani::proof]
++fn callee_read_of_nonreturned_first_argument_empty_slot_fails() {
++    let a = C { marker: 97, slots: [MaybeUninit::uninit(), MaybeUninit::new(101)] };
++    let b = C { marker: 103, slots: [MaybeUninit::new(107), MaybeUninit::uninit()] };
++    let returned = pair_reads_nonreturned_empty_slot(a, b, false);
++    assert_eq!(returned.marker, 103);
++}
++
++#[kani::proof]
++fn caller_reads_original_nonreturned_second_argument_copy() {
++    let a = C { marker: 109, slots: [MaybeUninit::new(113), MaybeUninit::new(127)] };
++    let b = C { marker: 131, slots: [MaybeUninit::new(137), MaybeUninit::uninit()] };
++    let returned = pair(a, b, true);
++    assert_eq!(returned.marker, 109);
++    assert_eq!(unsafe { returned.slots[0].assume_init() }, 113);
++    kani::cover!(true);
++    unsafe {
++        b.slots[1].assume_init();
++    }
++}
++
++#[kani::proof]
++fn caller_reads_original_nonreturned_first_argument_copy() {
++    let a = C { marker: 139, slots: [MaybeUninit::uninit(), MaybeUninit::new(149)] };
++    let b = C { marker: 151, slots: [MaybeUninit::new(157), MaybeUninit::new(163)] };
++    let returned = pair(a, b, false);
++    assert_eq!(returned.marker, 151);
++    assert_eq!(unsafe { returned.slots[1].assume_init() }, 163);
++    kani::cover!(true);
++    unsafe {
++        a.slots[0].assume_init();
++    }
++}
+diff --git a/tests/expected/uninit/compound-cmp1-call-positive/expected b/tests/expected/uninit/compound-cmp1-call-positive/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..7796c7727d8af97a5b171551cadcbcdbe66c715f
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-call-positive/expected
+@@ -0,0 +1,2 @@
++VERIFICATION:- SUCCESSFUL
++Complete - 4 successfully verified harnesses, 0 failures, 4 total.
+diff --git a/tests/expected/uninit/compound-cmp1-call-positive/main.rs b/tests/expected/uninit/compound-cmp1-call-positive/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..ff03a446318d3c69ea2614ffe029621f3caea9e5
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-call-positive/main.rs
+@@ -0,0 +1,74 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::MaybeUninit;
++
++#[derive(Clone, Copy)]
++struct C {
++    marker: usize,
++    slots: [MaybeUninit<usize>; 2],
++}
++
++#[inline(never)]
++fn id(value: C) -> C {
++    value
++}
++#[inline(never)]
++fn nested(value: C) -> C {
++    id(id(value))
++}
++#[inline(never)]
++fn pair(a: C, b: C, first: bool) -> C {
++    assert_eq!(a.marker, a.marker);
++    assert_eq!(b.marker, b.marker);
++    unsafe {
++        a.slots[0].assume_init_ref();
++        b.slots[0].assume_init_ref();
++    }
++    if first { a } else { b }
++}
++
++#[kani::proof]
++fn id_and_nested_id_preserve_partial_storage() {
++    let value = C { marker: 11, slots: [MaybeUninit::new(7), MaybeUninit::uninit()] };
++    let returned = nested(id(value));
++    assert_eq!(returned.marker, 11);
++    assert_eq!(unsafe { returned.slots[0].assume_init() }, 7);
++
++    kani::cover!(true);
++}
++
++#[kani::proof]
++fn pair_first_argument_and_read_nonreturned_second_in_callee() {
++    let a = C { marker: 13, slots: [MaybeUninit::new(17), MaybeUninit::uninit()] };
++    let b = C { marker: 19, slots: [MaybeUninit::new(23), MaybeUninit::new(29)] };
++    let returned = pair(a, b, true);
++    assert_eq!(returned.marker, 13);
++    assert_eq!(unsafe { returned.slots[0].assume_init() }, 17);
++
++    kani::cover!(true);
++}
++
++#[kani::proof]
++fn pair_second_argument_and_read_nonreturned_first_in_callee() {
++    let a = C { marker: 31, slots: [MaybeUninit::new(37), MaybeUninit::new(41)] };
++    let b = C { marker: 43, slots: [MaybeUninit::new(47), MaybeUninit::uninit()] };
++    let returned = pair(a, b, false);
++    assert_eq!(returned.marker, 43);
++    assert_eq!(unsafe { returned.slots[0].assume_init() }, 47);
++
++    kani::cover!(true);
++}
++
++#[kani::proof]
++fn repeated_calls_clear_stale_return_buffer() {
++    let first = id(C { marker: 53, slots: [MaybeUninit::new(59), MaybeUninit::new(61)] });
++    assert_eq!(unsafe { first.slots[1].assume_init() }, 61);
++    let second = id(C { marker: 67, slots: [MaybeUninit::new(71), MaybeUninit::uninit()] });
++    assert_eq!(second.marker, 67);
++    assert_eq!(unsafe { second.slots[0].assume_init() }, 71);
++
++    kani::cover!(true);
++}
+diff --git a/tests/expected/uninit/compound-cmp1-drop-positive/expected b/tests/expected/uninit/compound-cmp1-drop-positive/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..c567490122370ad7127bd1de7319d3d47c201916
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-drop-positive/expected
+@@ -0,0 +1,2 @@
++VERIFICATION:- SUCCESSFUL
++Complete - 3 successfully verified harnesses, 0 failures, 3 total.
+diff --git a/tests/expected/uninit/compound-cmp1-drop-positive/main.rs b/tests/expected/uninit/compound-cmp1-drop-positive/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..34059ec94901beabd7f146bcb10b8862ec3aa15e
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-drop-positive/main.rs
+@@ -0,0 +1,59 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular --default-unwind 8
++
++use std::cell::Cell;
++use std::mem::{ManuallyDrop, MaybeUninit};
++
++struct Token<'a>(&'a Cell<usize>);
++impl Drop for Token<'_> {
++    fn drop(&mut self) {
++        self.0.set(self.0.get() + 1);
++    }
++}
++
++#[kani::proof]
++fn early_iterator_drop_drops_remaining_tokens_once() {
++    let drops = Cell::new(0);
++    let mut iter = IntoIterator::into_iter([Token(&drops), Token(&drops), Token(&drops)]);
++    drop(iter.next().unwrap());
++    assert_eq!(drops.get(), 1);
++    drop(iter);
++    assert_eq!(drops.get(), 3);
++
++    kani::cover!(true);
++}
++
++#[kani::proof]
++fn exhausted_iterator_does_not_redrop_yielded_tokens() {
++    let drops = Cell::new(0);
++    let mut iter = IntoIterator::into_iter([Token(&drops), Token(&drops)]);
++    drop(iter.next().unwrap());
++    drop(iter.next().unwrap());
++    assert_eq!(drops.get(), 2);
++    drop(iter);
++    assert_eq!(drops.get(), 2);
++
++    kani::cover!(true);
++}
++
++struct Wrapped<'a> {
++    marker: usize,
++    slot: MaybeUninit<usize>,
++    token: Token<'a>,
++}
++
++#[kani::proof]
++fn manually_drop_wrapper_without_explicit_drop_does_not_drop_or_read_payload() {
++    let drops = Cell::new(0);
++    let value = ManuallyDrop::new(Wrapped {
++        marker: 41,
++        slot: MaybeUninit::uninit(),
++        token: Token(&drops),
++    });
++    assert_eq!(value.marker, 41);
++    assert_eq!(drops.get(), 0);
++
++    kani::cover!(true);
++}
+diff --git a/tests/expected/uninit/compound-cmp1-empty-negative/expected b/tests/expected/uninit/compound-cmp1-empty-negative/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..feb0cb898952c228f795d3dd17b10320071cf801
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-empty-negative/expected
+@@ -0,0 +1,7 @@
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - empty_source_slot_read
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - empty_copy_destination_slot_read
++Complete - 0 successfully verified harnesses, 2 failures, 2 total.
+diff --git a/tests/expected/uninit/compound-cmp1-empty-negative/main.rs b/tests/expected/uninit/compound-cmp1-empty-negative/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..bf844fa42ba6ac9fbb24a7c7547e545f290a4a74
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-empty-negative/main.rs
+@@ -0,0 +1,37 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=terse
++
++use std::mem::MaybeUninit;
++
++#[derive(Clone, Copy)]
++struct C {
++    marker: usize,
++    slots: [MaybeUninit<usize>; 2],
++}
++
++#[kani::proof]
++fn empty_source_slot_read() {
++    let value = C { marker: 11, slots: [MaybeUninit::new(7), MaybeUninit::uninit()] };
++    assert_eq!(value.marker, 11);
++    assert_eq!(unsafe { value.slots[0].assume_init() }, 7);
++    kani::cover!(true);
++    unsafe {
++        value.slots[1].assume_init();
++    }
++}
++
++#[kani::proof]
++fn empty_copy_destination_slot_read() {
++    let value = C { marker: 13, slots: [MaybeUninit::new(17), MaybeUninit::uninit()] };
++    let copy = value;
++    assert_eq!(value.marker, 13);
++    assert_eq!(unsafe { value.slots[0].assume_init() }, 17);
++    assert_eq!(copy.marker, 13);
++    assert_eq!(unsafe { copy.slots[0].assume_init() }, 17);
++    kani::cover!(true);
++    unsafe {
++        copy.slots[1].assume_init();
++    }
++}
+diff --git a/tests/expected/uninit/compound-cmp1-fields-positive/expected b/tests/expected/uninit/compound-cmp1-fields-positive/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..9e3938ee878bfb009f8acc694d2013f4dc8e6906
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-fields-positive/expected
+@@ -0,0 +1,2 @@
++VERIFICATION:- SUCCESSFUL
++Complete - 6 successfully verified harnesses, 0 failures, 6 total.
+diff --git a/tests/expected/uninit/compound-cmp1-fields-positive/main.rs b/tests/expected/uninit/compound-cmp1-fields-positive/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..ec7e1ed5fba7e944ba68555c7e19e02eb079aff3
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-fields-positive/main.rs
+@@ -0,0 +1,106 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{ManuallyDrop, MaybeUninit};
++
++#[derive(Clone, Copy)]
++struct C {
++    marker: usize,
++    slots: [MaybeUninit<usize>; 2],
++}
++#[derive(Clone, Copy)]
++struct Generic<T> {
++    marker: T,
++    slots: [MaybeUninit<usize>; 2],
++}
++#[derive(Clone, Copy)]
++struct Nested {
++    inner: C,
++}
++#[derive(Clone, Copy)]
++struct Reordered {
++    slots: [MaybeUninit<usize>; 2],
++    marker: usize,
++}
++#[repr(C)]
++#[derive(Clone, Copy)]
++struct CBefore {
++    slots: [MaybeUninit<usize>; 2],
++    marker: usize,
++}
++#[repr(C)]
++#[derive(Clone, Copy)]
++struct CAfter {
++    marker: usize,
++    slots: [MaybeUninit<usize>; 2],
++}
++
++#[kani::proof]
++fn copied_partial_product_and_manually_drop() {
++    let value = C { marker: 11, slots: [MaybeUninit::new(7), MaybeUninit::uninit()] };
++    let copy = value;
++    let wrapped = ManuallyDrop::new(value);
++    assert_eq!(copy.marker, 11);
++    assert_eq!(unsafe { copy.slots[0].assume_init() }, 7);
++    assert_eq!(wrapped.marker, 11);
++    assert_eq!(unsafe { wrapped.slots[0].assume_init() }, 7);
++    assert_eq!(value.marker, 11);
++    assert_eq!(unsafe { value.slots[0].assume_init() }, 7);
++
++    kani::cover!(true);
++}
++
++#[kani::proof]
++fn nested_product_copy() {
++    let value =
++        Nested { inner: C { marker: 13, slots: [MaybeUninit::new(17), MaybeUninit::uninit()] } };
++    let copy = value;
++    assert_eq!(copy.inner.marker, 13);
++    assert_eq!(unsafe { copy.inner.slots[0].assume_init() }, 17);
++
++    kani::cover!(true);
++}
++
++#[kani::proof]
++fn reordered_repr_rust_fields() {
++    let value = Reordered { slots: [MaybeUninit::new(19), MaybeUninit::uninit()], marker: 23 };
++    let copy = value;
++    assert_eq!(copy.marker, 23);
++    assert_eq!(unsafe { copy.slots[0].assume_init() }, 19);
++
++    kani::cover!(true);
++}
++
++#[kani::proof]
++fn repr_c_storage_before_ordinary_field() {
++    let value = CBefore { slots: [MaybeUninit::new(29), MaybeUninit::new(31)], marker: 37 };
++    let copy = value;
++    assert_eq!(copy.marker, 37);
++    assert_eq!(unsafe { copy.slots[0].assume_init() }, 29);
++    assert_eq!(unsafe { copy.slots[1].assume_init() }, 31);
++
++    kani::cover!(true);
++}
++
++#[kani::proof]
++fn repr_c_storage_after_ordinary_field() {
++    let value = CAfter { marker: 41, slots: [MaybeUninit::new(43), MaybeUninit::new(47)] };
++    let copy = value;
++    assert_eq!(copy.marker, 41);
++    assert_eq!(unsafe { copy.slots[0].assume_init() }, 43);
++    assert_eq!(unsafe { copy.slots[1].assume_init() }, 47);
++
++    kani::cover!(true);
++}
++
++#[kani::proof]
++fn generic_usize_marker_product() {
++    let value = Generic { marker: 53usize, slots: [MaybeUninit::new(59), MaybeUninit::uninit()] };
++    let copy = value;
++    assert_eq!(copy.marker, 53);
++    assert_eq!(unsafe { copy.slots[0].assume_init() }, 59);
++
++    kani::cover!(true);
++}
+diff --git a/tests/expected/uninit/compound-cmp1-layout-unsupported/expected b/tests/expected/uninit/compound-cmp1-layout-unsupported/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..0d52e65ef035784485d7dd1da943b51ab341971d
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-layout-unsupported/expected
+@@ -0,0 +1,15 @@
++Failed Checks: Kani does not support this compound storage layout.
++VERIFICATION:- FAILED
++Verification failed for - arbitrary_union_product_is_unsupported
++Failed Checks: Kani does not support this compound storage layout.
++VERIFICATION:- FAILED
++Verification failed for - storage_enum_is_unsupported
++Failed Checks: Kani does not support this compound storage layout.
++VERIFICATION:- FAILED
++Verification failed for - nested_maybe_uninit_is_unsupported
++Failed Checks: Kani does not support this compound storage layout.
++VERIFICATION:- FAILED
++Verification failed for - nested_union_product_is_unsupported
++Failed Checks: Kani does not support indirect compound storage assignments.
++Verification failed for - indirect_whole_product_write_is_unsupported
++Complete - 0 successfully verified harnesses, 5 failures, 5 total.
+diff --git a/tests/expected/uninit/compound-cmp1-layout-unsupported/main.rs b/tests/expected/uninit/compound-cmp1-layout-unsupported/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..f0ad4def73f53ed56d0086a8c883b8555e2af172
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-layout-unsupported/main.rs
+@@ -0,0 +1,88 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=terse
++
++use std::mem::MaybeUninit;
++
++#[derive(Clone, Copy)]
++union U {
++    word: usize,
++    byte: [u8; 8],
++}
++#[derive(Clone, Copy)]
++struct HasUnion {
++    marker: usize,
++    slots: [MaybeUninit<usize>; 2],
++    union: U,
++}
++
++enum StorageEnum {
++    Empty,
++    Full([MaybeUninit<usize>; 2]),
++}
++struct NestedStorage(MaybeUninit<MaybeUninit<usize>>);
++#[derive(Clone, Copy)]
++union InnerUnion {
++    value: usize,
++    bytes: [u8; 8],
++}
++#[derive(Clone, Copy)]
++struct NestedUnionField {
++    union: InnerUnion,
++}
++#[derive(Clone, Copy)]
++struct HasNestedUnion {
++    marker: usize,
++    slots: [MaybeUninit<usize>; 2],
++    nested: NestedUnionField,
++}
++
++#[kani::proof]
++fn arbitrary_union_product_is_unsupported() {
++    let value = HasUnion {
++        marker: 1,
++        slots: [MaybeUninit::new(2), MaybeUninit::uninit()],
++        union: U { word: 3 },
++    };
++    std::hint::black_box(value);
++}
++
++#[kani::proof]
++fn storage_enum_is_unsupported() {
++    let value = StorageEnum::Full([MaybeUninit::new(5), MaybeUninit::uninit()]);
++    std::hint::black_box(value);
++}
++
++#[kani::proof]
++fn nested_maybe_uninit_is_unsupported() {
++    let value = NestedStorage(MaybeUninit::uninit());
++    std::hint::black_box(value);
++}
++
++#[kani::proof]
++fn nested_union_product_is_unsupported() {
++    let value = HasNestedUnion {
++        marker: 7,
++        slots: [MaybeUninit::new(11), MaybeUninit::uninit()],
++        nested: NestedUnionField { union: InnerUnion { value: 13 } },
++    };
++    std::hint::black_box(value);
++}
++
++#[derive(Clone, Copy)]
++struct IndirectProduct {
++    marker: usize,
++    slot: MaybeUninit<usize>,
++}
++
++#[kani::proof]
++fn indirect_whole_product_write_is_unsupported() {
++    let src = IndirectProduct { marker: 17, slot: MaybeUninit::uninit() };
++    let mut dst = IndirectProduct { marker: 19, slot: MaybeUninit::new(23) };
++    let address = std::ptr::addr_of_mut!(dst);
++    unsafe {
++        *address = src;
++    }
++    std::hint::black_box(dst);
++}
+diff --git a/tests/expected/uninit/compound-cmp1-no-mir-unsupported/expected b/tests/expected/uninit/compound-cmp1-no-mir-unsupported/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..a3b0e0d5aa48ce2bdc2f6063461d9f7b93254568
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-no-mir-unsupported/expected
+@@ -0,0 +1,4 @@
++Failed Checks: Kani does not support shadow-carrying arguments to calls without a MIR body.
++VERIFICATION:- FAILED
++Verification failed for - bodyless_shadow_carrying_argument_is_unsupported_before_call
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/compound-cmp1-no-mir-unsupported/main.rs b/tests/expected/uninit/compound-cmp1-no-mir-unsupported/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..7ffc158755475e1910c1f96d7e96bb02bd7b965b
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-no-mir-unsupported/main.rs
+@@ -0,0 +1,23 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=terse
++
++use std::mem::MaybeUninit;
++
++#[derive(Clone, Copy)]
++struct C {
++    marker: usize,
++    slots: [MaybeUninit<usize>; 2],
++}
++extern "Rust" {
++    fn opaque(value: C) -> C;
++}
++
++#[kani::proof]
++fn bodyless_shadow_carrying_argument_is_unsupported_before_call() {
++    let value = C { marker: 11, slots: [MaybeUninit::new(7), MaybeUninit::uninit()] };
++    unsafe {
++        let _ = opaque(value);
++    }
++}
+diff --git a/tests/expected/uninit/compound-cmp1-overwrite-negative/expected b/tests/expected/uninit/compound-cmp1-overwrite-negative/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..d02390c791e528a6862248abc2357f51efc05521
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-overwrite-negative/expected
+@@ -0,0 +1,10 @@
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - overwrite_full_destination_with_empty_source_copy
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - overwrite_full_destination_with_empty_source_move
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - shifted_empty_source_slot_does_not_reuse_destination_witness
++Complete - 0 successfully verified harnesses, 3 failures, 3 total.
+diff --git a/tests/expected/uninit/compound-cmp1-overwrite-negative/main.rs b/tests/expected/uninit/compound-cmp1-overwrite-negative/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..a1f50b4b23128f15841e337744d72cb624e59046
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-overwrite-negative/main.rs
+@@ -0,0 +1,56 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=terse
++
++use std::mem::MaybeUninit;
++
++#[derive(Clone, Copy)]
++struct C {
++    marker: usize,
++    slots: [MaybeUninit<usize>; 2],
++}
++
++#[kani::proof]
++fn overwrite_full_destination_with_empty_source_copy() {
++    let source = C { marker: 3, slots: [MaybeUninit::new(5), MaybeUninit::uninit()] };
++    let mut destination = C { marker: 7, slots: [MaybeUninit::new(11), MaybeUninit::new(13)] };
++    destination = source;
++    assert_eq!(destination.marker, 3);
++    assert_eq!(unsafe { destination.slots[0].assume_init() }, 5);
++    kani::cover!(true);
++    unsafe {
++        destination.slots[1].assume_init();
++    }
++}
++
++struct M {
++    marker: usize,
++    slots: [MaybeUninit<usize>; 2],
++}
++
++#[kani::proof]
++fn overwrite_full_destination_with_empty_source_move() {
++    let source = M { marker: 17, slots: [MaybeUninit::new(19), MaybeUninit::uninit()] };
++    let mut destination = M { marker: 23, slots: [MaybeUninit::new(29), MaybeUninit::new(31)] };
++    destination = source;
++    assert_eq!(destination.marker, 17);
++    assert_eq!(unsafe { destination.slots[0].assume_init() }, 19);
++    kani::cover!(true);
++    unsafe {
++        destination.slots[1].assume_init();
++    }
++}
++
++#[kani::proof]
++fn shifted_empty_source_slot_does_not_reuse_destination_witness() {
++    let source = C { marker: 37, slots: [MaybeUninit::uninit(), MaybeUninit::new(41)] };
++    let mut destination = C { marker: 43, slots: [MaybeUninit::new(47), MaybeUninit::new(53)] };
++    destination = source;
++    assert_eq!(destination.marker, 37);
++    assert_eq!(unsafe { destination.slots[1].assume_init() }, 41);
++    kani::cover!(true);
++    unsafe {
++        destination.slots[0].assume_init();
++    }
++}
+diff --git a/tests/expected/uninit/compound-cmp1-padding-negative/expected b/tests/expected/uninit/compound-cmp1-padding-negative/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..0d571557090e07bdc06cf1466cbe370e211d3d6e
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-padding-negative/expected
+@@ -0,0 +1,13 @@
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `C<Pad>`
++VERIFICATION:- FAILED
++Verification failed for - partial_ordinary_field_cannot_be_read_as_whole_product_after_copy
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u32`
++VERIFICATION:- FAILED
++Verification failed for - partial_ordinary_field_read_remains_checked_after_call_copy
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Verification failed for - padding_byte_stays_uninitialized_after_typed_copy
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Verification failed for - padding_stays_uninitialized_after_call_return
++Complete - 0 successfully verified harnesses, 4 failures, 4 total.
+diff --git a/tests/expected/uninit/compound-cmp1-padding-negative/main.rs b/tests/expected/uninit/compound-cmp1-padding-negative/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..501dbbdbc9ad3ad9f334a15405321669617db0e1
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-padding-negative/main.rs
+@@ -0,0 +1,88 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=terse
++
++use std::mem::MaybeUninit;
++use std::ptr;
++
++#[repr(C)]
++#[derive(Clone, Copy)]
++struct Pad {
++    byte: u8,
++    word: u32,
++}
++#[repr(C)]
++#[derive(Clone, Copy)]
++struct C<T> {
++    marker: T,
++    slots: [MaybeUninit<usize>; 2],
++}
++
++fn complete_value() -> C<Pad> {
++    C { marker: Pad { byte: 7, word: 11 }, slots: [MaybeUninit::new(13), MaybeUninit::new(17)] }
++}
++
++// Copy an uninitialized padding byte from an ordinary, initialized Pad into
++// one byte of the ordinary word field. The storage leaves stay initialized.
++unsafe fn poison_one_word_byte(value: &mut C<Pad>) {
++    let pad_start = ptr::addr_of!(value.marker).cast::<u8>();
++    let word_start = ptr::addr_of_mut!(value.marker.word).cast::<u8>();
++    ptr::copy_nonoverlapping(pad_start.add(1), word_start, 1);
++}
++
++#[kani::proof]
++fn partial_ordinary_field_cannot_be_read_as_whole_product_after_copy() {
++    let mut source = complete_value();
++    assert_eq!(unsafe { source.slots[0].assume_init() }, 13);
++    assert_eq!(unsafe { source.slots[1].assume_init() }, 17);
++    unsafe {
++        poison_one_word_byte(&mut source);
++    }
++    kani::cover!(true);
++    let copy = source;
++    std::hint::black_box(copy);
++}
++
++#[kani::proof]
++fn partial_ordinary_field_read_remains_checked_after_call_copy() {
++    #[inline(never)]
++    fn id(value: C<Pad>) -> C<Pad> {
++        value
++    }
++    let mut returned = id(complete_value());
++    unsafe {
++        poison_one_word_byte(&mut returned);
++    }
++    assert_eq!(unsafe { returned.slots[0].assume_init() }, 13);
++    assert_eq!(unsafe { returned.slots[1].assume_init() }, 17);
++    kani::cover!(true);
++    let word = returned.marker.word;
++    std::hint::black_box(word);
++}
++
++#[kani::proof]
++fn padding_byte_stays_uninitialized_after_typed_copy() {
++    let source = complete_value();
++    let copy = source;
++    assert_eq!(copy.marker.byte, 7);
++    assert_eq!(copy.marker.word, 11);
++    assert_eq!(unsafe { copy.slots[0].assume_init() }, 13);
++    kani::cover!(true);
++    let padding = unsafe { ptr::addr_of!(copy.marker).cast::<u8>().add(1).read() };
++    std::hint::black_box(padding);
++}
++
++#[kani::proof]
++fn padding_stays_uninitialized_after_call_return() {
++    #[inline(never)]
++    fn id(value: C<Pad>) -> C<Pad> {
++        value
++    }
++    let returned = id(complete_value());
++    assert_eq!(returned.marker.byte, 7);
++    assert_eq!(returned.marker.word, 11);
++    kani::cover!(true);
++    let padding = unsafe { ptr::addr_of!(returned.marker).cast::<u8>().add(1).read() };
++    std::hint::black_box(padding);
++}
+diff --git a/tests/expected/uninit/compound-cmp1-positive/expected b/tests/expected/uninit/compound-cmp1-positive/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..e6d6949805ade8e08691dcb89d449e600a99f9ee
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-positive/expected
+@@ -0,0 +1,18 @@
++Checking harness fields::copied_partial_product_and_manually_drop...
++Checking harness fields::nested_product_copy...
++Checking harness fields::reordered_repr_rust_fields...
++Checking harness fields::repr_c_storage_before_ordinary_field...
++Checking harness fields::repr_c_storage_after_ordinary_field...
++Checking harness fields::generic_usize_marker_product...
++Checking harness call::id_and_nested_id_preserve_partial_storage...
++Checking harness call::pair_first_argument_and_read_nonreturned_second_in_callee...
++Checking harness call::pair_second_argument_and_read_nonreturned_first_in_callee...
++Checking harness call::repeated_calls_clear_stale_return_buffer...
++Checking harness zero_zst::empty_standard_usize_into_iter...
++Checking harness zero_zst::zst_standard_into_iter_payload_and_len...
++Checking harness zero_zst::zero_extent_does_not_change_adjacent_storage...
++Checking harness drop::early_iterator_drop_drops_remaining_tokens_once...
++Checking harness drop::exhausted_iterator_does_not_redrop_yielded_tokens...
++Checking harness drop::manually_drop_wrapper_without_explicit_drop_does_not_drop_or_read_payload...
++VERIFICATION:- SUCCESSFUL
++Complete - 16 successfully verified harnesses, 0 failures, 16 total.
+diff --git a/tests/expected/uninit/compound-cmp1-positive/main.rs b/tests/expected/uninit/compound-cmp1-positive/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..ca41bda4f97f907858fd351891559fb97f120f1d
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-positive/main.rs
+@@ -0,0 +1,15 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --default-unwind 8 --output-format=terse
++
++// Keep every standalone positive control, grouped to leave manifest slots for
++// all four isolated U3B PFC on/off controls.
++#[path = "../compound-cmp1-call-positive/main.rs"]
++mod call;
++#[path = "../compound-cmp1-drop-positive/main.rs"]
++mod drop;
++#[path = "../compound-cmp1-fields-positive/main.rs"]
++mod fields;
++#[path = "../compound-cmp1-zero-zst-positive/main.rs"]
++mod zero_zst;
+diff --git a/tests/expected/uninit/compound-cmp1-projection-negative/expected b/tests/expected/uninit/compound-cmp1-projection-negative/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..2aa1ea4579825f3b55bd208457dbabb70862a9ca
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-projection-negative/expected
+@@ -0,0 +1,11 @@
++VERIFICATION:- SUCCESSFUL
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - true_unsize_reborrow_empty_index_is_uninitialized
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - drop_impl_read_of_empty_slot_fails
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`
++VERIFICATION:- FAILED
++Verification failed for - dropping_ordinary_field_keeps_empty_manually_dropped_neighbor_empty
++Complete - 1 successfully verified harnesses, 3 failures, 4 total.
+diff --git a/tests/expected/uninit/compound-cmp1-projection-negative/main.rs b/tests/expected/uninit/compound-cmp1-projection-negative/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..5d8e0642af7208f009d019a4ad41ddb855de306a
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-projection-negative/main.rs
+@@ -0,0 +1,98 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=terse
++
++use std::mem::{ManuallyDrop, MaybeUninit};
++
++#[derive(Clone, Copy)]
++struct C {
++    marker: usize,
++    slots: [MaybeUninit<usize>; 2],
++}
++
++#[kani::proof]
++fn true_unsize_reborrow_and_manually_drop_projection_preserve_filled_storage() {
++    let mut value = C { marker: 11, slots: [MaybeUninit::new(7), MaybeUninit::uninit()] };
++    value.marker = 17;
++    let raw = std::ptr::addr_of_mut!(value);
++    let slots_ptr = {
++        let wrapped = unsafe { ManuallyDrop::new(&mut *raw) };
++        let slice: &[MaybeUninit<usize>] = &wrapped.slots;
++        assert_eq!(wrapped.marker, 17);
++        assert_eq!(unsafe { slice[0].assume_init() }, 7);
++        std::ptr::addr_of!(wrapped.slots) as *mut [MaybeUninit<usize>; 2]
++    };
++    unsafe {
++        (*slots_ptr)[1] = MaybeUninit::uninit();
++    }
++    assert_eq!(unsafe { (*slots_ptr)[0].assume_init() }, 7);
++
++    kani::cover!(true);
++}
++
++#[kani::proof]
++fn true_unsize_reborrow_empty_index_is_uninitialized() {
++    let value = C { marker: 19, slots: [MaybeUninit::new(23), MaybeUninit::uninit()] };
++    let wrapped = ManuallyDrop::new(value);
++    let slice: &[MaybeUninit<usize>] = &wrapped.slots;
++    assert_eq!(wrapped.marker, 19);
++    assert_eq!(unsafe { slice[0].assume_init() }, 23);
++    kani::cover!(true);
++    unsafe {
++        slice[1].assume_init();
++    }
++}
++
++struct DropReadsEmpty {
++    slots: [MaybeUninit<usize>; 2],
++}
++impl Drop for DropReadsEmpty {
++    fn drop(&mut self) {
++        kani::cover!(true);
++        unsafe {
++            self.slots[1].assume_init_read();
++        }
++    }
++}
++
++#[kani::proof]
++fn drop_impl_read_of_empty_slot_fails() {
++    let mut value =
++        ManuallyDrop::new(DropReadsEmpty { slots: [MaybeUninit::new(27), MaybeUninit::uninit()] });
++    kani::cover!(true);
++    unsafe {
++        std::ptr::drop_in_place(&mut *value);
++    }
++}
++
++struct OrdinaryDrop<'a>(&'a std::cell::Cell<usize>);
++impl Drop for OrdinaryDrop<'_> {
++    fn drop(&mut self) {
++        self.0.set(self.0.get() + 1);
++    }
++}
++struct DropFieldProduct<'a> {
++    marker: OrdinaryDrop<'a>,
++    slots: [MaybeUninit<usize>; 2],
++}
++
++#[kani::proof]
++fn dropping_ordinary_field_keeps_empty_manually_dropped_neighbor_empty() {
++    let drops = std::cell::Cell::new(0);
++    let mut outer = ManuallyDrop::new(DropFieldProduct {
++        marker: OrdinaryDrop(&drops),
++        slots: [MaybeUninit::new(29), MaybeUninit::uninit()],
++    });
++    let raw = &mut *outer as *mut DropFieldProduct<'_>;
++    let slots = unsafe { std::ptr::addr_of_mut!((*raw).slots) };
++    unsafe {
++        std::ptr::drop_in_place(std::ptr::addr_of_mut!((*raw).marker));
++    }
++    assert_eq!(drops.get(), 1);
++    assert_eq!(unsafe { (*slots)[0].assume_init() }, 29);
++    kani::cover!(true);
++    unsafe {
++        (*slots)[1].assume_init();
++    }
++}
+diff --git a/tests/expected/uninit/compound-cmp1-zero-zst-positive/expected b/tests/expected/uninit/compound-cmp1-zero-zst-positive/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..c567490122370ad7127bd1de7319d3d47c201916
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-zero-zst-positive/expected
+@@ -0,0 +1,2 @@
++VERIFICATION:- SUCCESSFUL
++Complete - 3 successfully verified harnesses, 0 failures, 3 total.
+diff --git a/tests/expected/uninit/compound-cmp1-zero-zst-positive/main.rs b/tests/expected/uninit/compound-cmp1-zero-zst-positive/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..1f59730aee0357420c88d8241769685cd1b7043d
+--- /dev/null
++++ b/tests/expected/uninit/compound-cmp1-zero-zst-positive/main.rs
+@@ -0,0 +1,46 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular --default-unwind 8
++
++use std::mem::MaybeUninit;
++
++#[derive(Clone, Copy)]
++struct C {
++    marker: usize,
++    slots: [MaybeUninit<usize>; 1],
++}
++
++#[kani::proof]
++fn empty_standard_usize_into_iter() {
++    let values: [usize; 0] = [];
++    let mut iter = IntoIterator::into_iter(values);
++    assert_eq!(iter.next(), None);
++    assert_eq!(iter.len(), 0);
++
++    kani::cover!(true);
++}
++
++#[kani::proof]
++fn zst_standard_into_iter_payload_and_len() {
++    let mut iter = IntoIterator::into_iter([(), ()]);
++    assert_eq!(iter.len(), 2);
++    assert_eq!(iter.next(), Some(()));
++    assert_eq!(iter.len(), 1);
++    assert_eq!(iter.next(), Some(()));
++    assert_eq!(iter.next(), None);
++
++    kani::cover!(true);
++}
++
++#[kani::proof]
++fn zero_extent_does_not_change_adjacent_storage() {
++    let value = C { marker: 31, slots: [MaybeUninit::new(37)] };
++    let zero: [MaybeUninit<()>; 0] = [];
++    let copy = value;
++    assert_eq!(zero.len(), 0);
++    assert_eq!(copy.marker, 31);
++    assert_eq!(unsafe { copy.slots[0].assume_init() }, 37);
++
++    kani::cover!(true);
++}
+diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/expected b/tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/expected
+index ba60a042e496b666e451ec28f3a757bf738864c7..e94131db57b30e44ee1c25df42b602c299fb5c51 100644
+--- a/tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/expected
++++ b/tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/expected
+@@ -1,7 +1,9 @@
+ assigns\
+ - Status: FAILURE\
+-- Description: "Check that *outside is assignable"
++- Description: "Check that *var_7 is assignable"\
++- Location: tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs:22:5 in function frame_target::{closure#2}::{closure#0}
+ 
+-Failed Checks: Check that *outside is assignable
++Failed Checks: Check that *var_7 is assignable\
++ File: "tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs", line 22, in frame_target::{closure#2}::{closure#0}
+ 
+ VERIFICATION:- FAILED
+diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/expected b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ba36358c4516fa57028370e0d8a5ea90639389ea
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/expected
+@@ -0,0 +1,2 @@
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..939a4bf0e5ca52b7650d4d4ad20b4176c6c37a76
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs
+@@ -0,0 +1,29 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z function-contracts --output-format=terse --harness contracted_uninit_read_harness --exact
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn return_second(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    let _keep_two_argument_path = a;
++    b
++}
++
++#[inline(never)]
++fn nested_return(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    return_second(a, b)
++}
++
++#[kani::modifies(out)]
++fn contracted_uninit_read(out: &mut u16) {
++    let value = nested_return(MaybeUninit::new(5), MaybeUninit::uninit());
++    *out = unsafe { value.assume_init() };
++}
++
++#[kani::proof_for_contract(contracted_uninit_read)]
++fn contracted_uninit_read_harness() {
++    let mut out = 0;
++    contracted_uninit_read(&mut out);
++}
+diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/expected b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..661477fcfcef59a566ccb6f3f562cf93b4cfe651
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/expected
+@@ -0,0 +1,3 @@
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..bc2ef4263747a20fc32ba20ac373b85a06665b5e
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs
+@@ -0,0 +1,29 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks -Z function-contracts --output-format=terse --harness contracted_uninit_read_harness --exact
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn return_second(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    let _keep_two_argument_path = a;
++    b
++}
++
++#[inline(never)]
++fn nested_return(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    return_second(a, b)
++}
++
++#[kani::modifies(out)]
++fn contracted_uninit_read(out: &mut u16) {
++    let value = nested_return(MaybeUninit::new(5), MaybeUninit::uninit());
++    *out = unsafe { value.assume_init() };
++}
++
++#[kani::proof_for_contract(contracted_uninit_read)]
++fn contracted_uninit_read_harness() {
++    let mut out = 0;
++    contracted_uninit_read(&mut out);
++}
+diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/expected b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ba36358c4516fa57028370e0d8a5ea90639389ea
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/expected
+@@ -0,0 +1,2 @@
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..e1a58bff1377d0e112bbc23c1282b52c73d3c280
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs
+@@ -0,0 +1,29 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z function-contracts --output-format=terse --harness contracted_roundtrip_harness --exact
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn choose(a: MaybeUninit<u16>, b: MaybeUninit<u16>, first: bool) -> MaybeUninit<u16> {
++    if first { a } else { b }
++}
++
++#[inline(never)]
++fn relay(a: MaybeUninit<u16>, b: MaybeUninit<u16>, first: bool) -> MaybeUninit<u16> {
++    choose(a, b, first)
++}
++
++#[kani::modifies(out)]
++fn contracted_roundtrip(out: &mut u16) {
++    let _discarded = relay(MaybeUninit::uninit(), MaybeUninit::new(7), kani::any());
++    let value = relay(MaybeUninit::new(11), MaybeUninit::new(13), kani::any());
++    *out = unsafe { value.assume_init() };
++}
++
++#[kani::proof_for_contract(contracted_roundtrip)]
++fn contracted_roundtrip_harness() {
++    let mut out = 0;
++    contracted_roundtrip(&mut out);
++}
+diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/expected b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ba36358c4516fa57028370e0d8a5ea90639389ea
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/expected
+@@ -0,0 +1,2 @@
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..45476edbcdba3a596e323907a27af88d76cb6a63
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs
+@@ -0,0 +1,29 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks -Z function-contracts --output-format=terse --harness contracted_roundtrip_harness --exact
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn choose(a: MaybeUninit<u16>, b: MaybeUninit<u16>, first: bool) -> MaybeUninit<u16> {
++    if first { a } else { b }
++}
++
++#[inline(never)]
++fn relay(a: MaybeUninit<u16>, b: MaybeUninit<u16>, first: bool) -> MaybeUninit<u16> {
++    choose(a, b, first)
++}
++
++#[kani::modifies(out)]
++fn contracted_roundtrip(out: &mut u16) {
++    let _discarded = relay(MaybeUninit::uninit(), MaybeUninit::new(7), kani::any());
++    let value = relay(MaybeUninit::new(11), MaybeUninit::new(13), kani::any());
++    *out = unsafe { value.assume_init() };
++}
++
++#[kani::proof_for_contract(contracted_roundtrip)]
++fn contracted_roundtrip_harness() {
++    let mut out = 0;
++    contracted_roundtrip(&mut out);
++}
+diff --git a/tests/expected/uninit/maybe-uninit-review-positive/main.rs b/tests/expected/uninit/maybe-uninit-review-positive/main.rs
+index 89b177092ea828b677533bd0525e777dd8ef1c22..69a8c8115f267d332860d07df7c11aa9ef7bc675 100644
+--- a/tests/expected/uninit/maybe-uninit-review-positive/main.rs
++++ b/tests/expected/uninit/maybe-uninit-review-positive/main.rs
+@@ -1,7 +1,7 @@
+ // Copyright Kani Contributors
+ // SPDX-License-Identifier: Apache-2.0 OR MIT
+ // compile-flags: --edition 2021
+-// kani-flags: -Z uninit-checks --output-format=regular
++// kani-flags: -Z uninit-checks --output-format=terse
+ 
+ use std::{
+     mem::{self, ManuallyDrop, MaybeUninit},
+diff --git a/tests/expected/uninit/maybe-uninit-wrap-u3-intoiter/expected b/tests/expected/uninit/maybe-uninit-wrap-u3-intoiter/expected
+index 4f5b9fc87b554fa235ca664e8c8e60d59a28bf5b..c567490122370ad7127bd1de7319d3d47c201916 100644
+--- a/tests/expected/uninit/maybe-uninit-wrap-u3-intoiter/expected
++++ b/tests/expected/uninit/maybe-uninit-wrap-u3-intoiter/expected
+@@ -1,4 +1,2 @@
+-- Status: FAILURE\
+-Cannot determine layout for a type that contains union
+-VERIFICATION:- FAILED
+-Complete - 0 successfully verified harnesses, 1 failures, 1 total.
++VERIFICATION:- SUCCESSFUL
++Complete - 3 successfully verified harnesses, 0 failures, 3 total.
+diff --git a/tests/expected/uninit/maybe-uninit-wrap-u3-intoiter/main.rs b/tests/expected/uninit/maybe-uninit-wrap-u3-intoiter/main.rs
+index 087cbbdacb38fdfe3fffb52113f5bf911a31b4f4..4709028e1d5f8e3769b5901fcf5fb99127005e9a 100644
+--- a/tests/expected/uninit/maybe-uninit-wrap-u3-intoiter/main.rs
++++ b/tests/expected/uninit/maybe-uninit-wrap-u3-intoiter/main.rs
+@@ -1,7 +1,7 @@
+ // Copyright Kani Contributors
+ // SPDX-License-Identifier: Apache-2.0 OR MIT
+ // compile-flags: --edition 2021
+-// kani-flags: -Z uninit-checks --output-format=regular
++// kani-flags: -Z uninit-checks --output-format=regular --default-unwind 8
+ 
+ #[kani::proof]
+ fn complete_standard_into_iter() {
+@@ -10,4 +10,35 @@ fn complete_standard_into_iter() {
+     assert_eq!(iterator.next(), Some(7));
+     assert_eq!(iterator.next(), Some(9));
+     assert_eq!(iterator.next(), None);
++
++    kani::cover!(true);
++}
++
++#[kani::proof]
++fn empty_standard_into_iter_returns_none() {
++    let values: [usize; 0] = [];
++    let mut iterator = IntoIterator::into_iter(values);
++    assert_eq!(iterator.next(), None);
++    assert_eq!(iterator.len(), 0);
++
++    kani::cover!(true);
++}
++
++struct DropToken<'a>(&'a std::cell::Cell<usize>);
++impl Drop for DropToken<'_> {
++    fn drop(&mut self) {
++        self.0.set(self.0.get() + 1);
++    }
++}
++
++#[kani::proof]
++fn early_drop_after_some_drops_only_remaining_elements() {
++    let drops = std::cell::Cell::new(0);
++    let mut iterator = IntoIterator::into_iter([DropToken(&drops), DropToken(&drops)]);
++    drop(iterator.next().unwrap());
++    assert_eq!(drops.get(), 1);
++    drop(iterator);
++    assert_eq!(drops.get(), 2);
++
++    kani::cover!(true);
+ }
+diff --git a/tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs b/tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs
+index 062323987d2d78188bb6ffaa93c555d93a00ac52..84034642435fbce75fe6cd9cc18a94488cfd7506 100644
+--- a/tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs
++++ b/tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs
+@@ -1,7 +1,7 @@
+ // Copyright Kani Contributors
+ // SPDX-License-Identifier: Apache-2.0 OR MIT
+ // compile-flags: --edition 2021
+-// kani-flags: -Z uninit-checks --output-format=regular
++// kani-flags: -Z uninit-checks --output-format=terse
+ 
+ use std::mem::{self, MaybeUninit};
+ use std::ptr;

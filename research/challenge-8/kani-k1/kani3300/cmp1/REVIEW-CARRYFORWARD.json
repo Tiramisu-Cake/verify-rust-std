@@ -1,0 +1,24 @@
+{
+  "reviewed_candidate": "bb767b96ed5d39c57c5a790c4098d0367c7400ed",
+  "final_candidate": "6ef9fd72066443f7f113440ba32f77f310520a93",
+  "all_production_blobs_equal": true,
+  "production_delta_sha256": "221a7a72d5b65940a5fa1b228dcd5863d0e91c726afb1d0548612b9ce7a2c855",
+  "production_blobs": {
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs": "67a822dc48a41a73e9ca3980dd3bbde8a2ad9f9f",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs": "102dd6ced42f6ecdef11663d7054261221857d73",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs": "8f30704f0b03cdf6ca8d9593358bcbfcbdba8a09",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": "33c4698453797393240ab9ddc4a04d042cfe2df5",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs": "a9507cf8aed735222aa7d52180e48a3ddc191a5e",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs": "ab48094130c35dd9b551b30fcfd828be69934167",
+    "library/kani_core/src/mem_init.rs": "6f832d4c651f8770a46327beb6e4a957b06c1166"
+  },
+  "post_review_changes": [
+    "tests/expected/uninit/compound-cmp1-layout-unsupported/main.rs",
+    "tests/expected/uninit/compound-cmp1-padding-negative/expected",
+    "tests/expected/uninit/compound-cmp1-padding-negative/main.rs",
+    "tests/expected/uninit/compound-cmp1-projection-negative/expected",
+    "tests/expected/uninit/compound-cmp1-projection-negative/main.rs"
+  ],
+  "review_scope": "same semantic candidate; test-only source/read/reset controls and layout diagnostic isolation",
+  "no_native_acceptance": true
+}

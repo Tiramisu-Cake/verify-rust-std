@@ -1,0 +1,26 @@
+{
+  "command": [
+    "python3",
+    "-B",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "prepare-kani",
+    "--request",
+    "research/challenge-8/kani-k1/RUN-REQUEST.json",
+    "--tree",
+    "/tmp/kani3300-cmp1-final-preflight-my9e5cio",
+    "--pin",
+    "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "--out",
+    "/root/verify-rust-std-kani3300-cmp/research/challenge-8/kani-k1/kani3300/cmp1/preflight.json"
+  ],
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "",
+  "status": "PASS",
+  "request_sha256": "87e38d8430faa561cf7f3f22a5194346a4a128b5f28331a38588b13990e77b5a",
+  "build_patch_sha256": "c819f200d3f995811fe66589f8cbd0593fe05deb8a5231442efec4f87ef295ec",
+  "full_candidate": "6ef9fd72066443f7f113440ba32f77f310520a93",
+  "applied_tree": "a85582af9753e386075f3ee11d012b7777ac5d98",
+  "verification": "static git apply/preflight only; native NOT_RUN",
+  "diffstat_bytes": 3179
+}

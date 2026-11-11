@@ -1,0 +1,34 @@
+{
+  "applicability": "Sized struct products with ordinary fields and MU or flat array leaves; nested structs and ManuallyDrop. Unsupported shapes must fail closed. No whole DST transfer.",
+  "baseline_commit": "81dd85bfce67226e283fdd9a156932e32ece080b",
+  "candidate_commit": "03f9a43a4001605b5367fa62a6ff910e389c003b",
+  "controls": [
+    "Read required task/design/planner documents from paths provided in reviewer assignment. Fixtures prepared separately, native NOT_RUN.",
+    "Check both source and destination copy witnesses; overwrite with empty slots; ordinary R poisoning with full S; raw/ref projections and real unsize; late Drop SetRef.",
+    "Check all unsupported union/storage-enum/nested MU guards independently; bodyless calls fail before unpaired Store."
+  ],
+  "defect": "Compound struct layouts containing MaybeUninit storage currently fail layout computation. Review the CMP1 production delta and the existing argument/copy shadow protocol it relies upon.",
+  "dependencies": [
+    "library/kani_core/src/mem_init.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs"
+  ],
+  "invariants": [
+    "Target R/S/P byte ranges are pairwise disjoint, in bounds and cover size; internal and tail padding plus zero extents are explicit.",
+    "Product typed reads require R. Storage transfer preserves every live uninitialized destination byte on an abstract witness path; no generic Set can bless S.",
+    "Aggregate operands are materialized and destination disjoint from all source allocations throughout fieldwise updates; guard precedes first shadow mutation.",
+    "Whole product copies, return and multiple arguments retain witness coverage, including nonreturned arguments and callee/caller reads.",
+    "Typed source reads retain delayed UB checks before static mask can hide them. Padding updates touch only P. One unchanged flat ghost-state and argument buffer."
+  ],
+  "known_limitations": [
+    "No local compiler/Kani/CBMC runs permitted; only static and rustfmt checks.",
+    "U3B result currently PRE_BUILD native NOT_RUN; production equals v2, PFC acceptance pending.",
+    "Only disjoint direct-local aggregate sources supported; indirect/same-root aggregate Unsupported."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-cmp"
+}
