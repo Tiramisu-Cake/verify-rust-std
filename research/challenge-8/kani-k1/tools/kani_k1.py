@@ -67,7 +67,7 @@ REQUEST_KEYS = {"schema", "request_id", "agent", "kind", "purpose", "runner", "h
 # the submitted set (plan R8, L1-6/L1-9). 16 GB pool only.
 CONTROLS_CFG = "kani_smallsort_controls"
 OPTIONAL_REQUEST_KEYS = {"kani_jobs", "uninit_checks", "valid_value_checks", "controls", "worker_index", "worker_total", "inventory",
-                         "kani_patch", "kani_tests", "test_timeout_seconds"}
+                         "kani_patch", "kani_tests", "test_timeout_seconds", "diagnostic_trace"}
 NATIVE_MAX_MINUTES = 29  # + unchanged 30 min dispatch overhead = 59 min / $0.7965 reserve
 NATIVE_SCHEMA = "kani-k1-native-tests-v1"
 KANI_JOBS = {1, 2, 3}
@@ -172,6 +172,46 @@ def regular_inside(root: Path, relative: str) -> Path:
 
 def native_name(entry: dict[str, Any]) -> str:
     return f"[{entry['mode']}] {entry['suite']}/{entry['file']}"
+
+
+def validate_diagnostic_trace(value: Any, request: dict[str, Any]) -> None:
+    """Validate the small opt-in trace request before translating it to environment variables."""
+    if (request.get("kind") != "diagnostic" or request.get("runner") != STANDARD_RUNNER
+            or not request.get("kani_patch")):
+        raise RequestError("diagnostic_trace is only supported for patched diagnostic runs on the standard runner")
+    if not isinstance(value, dict) or set(value) != {"filters", "library_tree", "base_pin", "expected_applied_tree"}:
+        raise RequestError("diagnostic_trace requires filters, library_tree, base_pin, expected_applied_tree")
+    for key in ("library_tree", "base_pin", "expected_applied_tree"):
+        if not isinstance(value[key], str) or not re.fullmatch(r"[0-9a-f]{40}", value[key]):
+            raise RequestError(f"diagnostic_trace.{key} must be a full 40-hex Git identity")
+    filters = value["filters"]
+    if not isinstance(filters, list) or not 1 <= len(filters) <= 20:
+        raise RequestError("diagnostic_trace.filters must contain 1..20 literal patterns")
+    for item in filters:
+        if (not isinstance(item, str) or not 1 <= len(item.encode("utf-8")) <= 300
+                or not re.fullmatch(r"[A-Za-z0-9_:.$<>-]+", item)):
+            raise RequestError("diagnostic_trace filters must be 1..300 byte literal qualified-name patterns")
+    if sum(len(item.encode("utf-8")) for item in filters) + len(filters) - 1 > 900:
+        raise RequestError("diagnostic_trace filters exceed 900 aggregate bytes")
+    if len(set(filters)) != len(filters):
+        raise RequestError("diagnostic_trace filters must be unique")
+
+
+def write_trace_env(request_path: Path, out_path: Path, trace_dir: Path) -> None:
+    """Write only validated fixed-name assignments; callers export each line without shell evaluation."""
+    raw = request_path.read_bytes()
+    request = validate_request(json.loads(raw))
+    trace = request.get("diagnostic_trace")
+    if trace is None:
+        out_path.write_text("")
+        return
+    values = {
+        "KANI3300_TRACE_DIR": str(trace_dir.resolve()),
+        "KANI3300_TRACE_FILTER": ";".join(trace["filters"]),
+        "KANI3300_TRACE_ID": hashlib.sha256(raw).hexdigest(),
+        "KANI3300_TRACE_STAGE": "kani3300-t1b",
+    }
+    out_path.write_text("".join(f"{key}={value}\n" for key, value in values.items()))
 
 
 def validate_native_manifest(entries: Any) -> None:
@@ -492,6 +532,8 @@ def validate_request(data: Any, max_total_minutes: int | None = None) -> dict[st
         raise RequestError(f"missing request keys: {sorted(missing)}")
     if data["schema"] != SCHEMA:
         raise RequestError(f"schema must be {SCHEMA}")
+    if "diagnostic_trace" in data:
+        validate_diagnostic_trace(data["diagnostic_trace"], data)
     if not _one_line(data["purpose"], 300):
         raise RequestError("purpose must be one non-empty line of at most 300 characters")
     if not isinstance(data["request_id"], str) or not REQUEST_ID_RE.fullmatch(data["request_id"]):
@@ -1679,7 +1721,7 @@ def file_bindings(paths: list[str]) -> dict[str, str]:
     return out
 
 
-def summarize(request_text: str | None, log_text: str | None, time_text: str | None, exit_code: int | None,
+def _summarize_core(request_text: str | None, log_text: str | None, time_text: str | None, exit_code: int | None,
               head_sha: str | None, kani_commit: str | None, request_error: str | None = None,
               run: dict[str, Any] | None = None, tooling: dict[str, str] | None = None,
               build_outcome: str | None = None, memcap_text: str | None = None,
@@ -2019,6 +2061,49 @@ def summarize(request_text: str | None, log_text: str | None, time_text: str | N
     return summary
 
 
+def summarize(*args: Any, diagnostic_trace_dir: Path | None = None,
+              actual_library_tree: str | None = None, **kwargs: Any) -> dict[str, Any]:
+    """Preserve the established verdict parser; attach opt-in trace evidence independently."""
+    summary = _summarize_core(*args, **kwargs)
+    if diagnostic_trace_dir is None:
+        return summary
+    request_text = args[0] if args else kwargs.get("request_text")
+    try:
+        request = validate_request(json.loads(request_text)) if request_text else None
+        if request is None or "diagnostic_trace" not in request:
+            return summary
+        # Delayed local import keeps the legacy service module usable when its file is loaded directly.
+        import importlib.util
+        module_path = Path(__file__).with_name("diagnostic_trace.py")
+        spec = importlib.util.spec_from_file_location("kani_k1_diagnostic_trace", module_path)
+        if spec is None or spec.loader is None:
+            raise ValueError("trace reader module unavailable")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        filters = request["diagnostic_trace"]["filters"]
+        raw = request_text.encode() if isinstance(request_text, str) else b""
+        filter_env = ";".join(filters)
+        summary["diagnostic_trace"] = module.collect_trace(
+            diagnostic_trace_dir, build_id=(summary.get("run") or {}).get("id"),
+            head_sha=summary.get("head_sha"), request_sha256=hashlib.sha256(raw).hexdigest(),
+            request=request, kani_commit=summary.get("kani_commit"),
+            kani_build=summary.get("kani_build"), tooling=summary.get("tooling_sha256") or {},
+            build_outcome=summary.get("build_outcome"),
+            effective_argv=["scripts/run-kani.sh", "--path", "$PWD", "--kani-args", *kani_args(request)],
+            effective_env={**({"RUSTFLAGS": f"--cfg {CONTROLS_CFG}"} if request.get("controls") else {}),
+                           "KANI3300_TRACE_DIR": str(diagnostic_trace_dir.resolve()),
+                           "KANI3300_TRACE_FILTER": filter_env,
+                           "KANI3300_TRACE_ID": hashlib.sha256(raw).hexdigest(),
+                           "KANI3300_TRACE_STAGE": "kani3300-t1b"},
+            actual_library_tree=actual_library_tree)
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        summary["diagnostic_trace"] = {"schema": "kani3300-diagnostic-trace-v1", "diagnostic_only": True,
+                                       "state": "INVALID", "complete": False, "records": [],
+                                       "seen": 0, "emitted": 0, "omitted": 0,
+                                       "errors": [f"trace collector error: {str(exc)[:180]}"]}
+    return summary
+
+
 def gate_ok(summary: dict[str, Any]) -> bool:
     if summary.get("status") != "COMPLETE" or summary.get("expectation_met") is not True:
         return False
@@ -2206,6 +2291,8 @@ def main(argv: list[str]) -> int:
     s.add_argument("--inventory", help="completed inventory artifact, required to gate kind inventory")
     s.add_argument("--native")
     s.add_argument("--kani-build")
+    s.add_argument("--diagnostic-trace-dir")
+    s.add_argument("--actual-library-tree")
     s.add_argument("--bind", action="append", default=[], help="file whose SHA-256 is recorded (repeatable)")
     s.add_argument("--out-dir", required=True)
     g = sub.add_parser("gate")
@@ -2235,6 +2322,16 @@ def main(argv: list[str]) -> int:
     pf.add_argument("field")
     pf.add_argument("start", type=int, nargs="?", default=0)
     pf.add_argument("count", type=int, nargs="?", default=80)
+    pt = sub.add_parser("page-trace-field", help="bounded field page from summary.json diagnostic_trace")
+    pt.add_argument("summary")
+    pt.add_argument("path")
+    pt.add_argument("start", type=int)
+    pt.add_argument("count", type=int)
+    pt.add_argument("--build-id")
+    te = sub.add_parser("trace-env", help="write validated opt-in compiler trace environment assignments")
+    te.add_argument("--request", required=True)
+    te.add_argument("--out", required=True)
+    te.add_argument("--trace-dir", required=True)
     pi = sub.add_parser("page-inventory")
     pi.add_argument("inventory")
     pi.add_argument("summary")
@@ -2301,6 +2398,28 @@ def main(argv: list[str]) -> int:
             print(f"page-native-field: {exc}", file=sys.stderr)
             return 2
         return 0
+    if a.cmd == "page-trace-field":
+        try:
+            import importlib.util
+            module_path = Path(__file__).with_name("diagnostic_trace.py")
+            spec = importlib.util.spec_from_file_location("kani_k1_diagnostic_trace", module_path)
+            if spec is None or spec.loader is None:
+                raise ValueError("trace reader module unavailable")
+            module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+            path = Path(a.summary)
+            print(module.trace_field_page(json.loads(path.read_text()), a.path, a.start, a.count,
+                                          expected_build_id=a.build_id), end="")
+        except (OSError, json.JSONDecodeError, ValueError) as exc:
+            print(f"page-trace-field: {exc}", file=sys.stderr)
+            return 2
+        return 0
+    if a.cmd == "trace-env":
+        try:
+            write_trace_env(Path(a.request), Path(a.out), Path(a.trace_dir))
+        except (OSError, json.JSONDecodeError, RequestError, ValueError) as exc:
+            print(f"trace-env: {exc}", file=sys.stderr)
+            return 2
+        return 0
     if a.cmd in ("page-summary", "page-native"):
         try:
             renderer = native_page if a.cmd == "page-native" else summary_page
@@ -2356,7 +2475,9 @@ def main(argv: list[str]) -> int:
                             a.head_sha, a.kani_commit, a.request_error or None, run, file_bindings(a.bind),
                             a.build_outcome or None, _read_optional(a.memcap), a.memcap is not None,
                             _read_optional(a.peaks), a.peaks is not None, _read_optional(a.inventory),
-                            _read_optional(a.native), _read_optional(a.kani_build))
+                            _read_optional(a.native), _read_optional(a.kani_build),
+                            diagnostic_trace_dir=Path(a.diagnostic_trace_dir) if a.diagnostic_trace_dir else None,
+                            actual_library_tree=a.actual_library_tree)
         out = Path(a.out_dir)
         out.mkdir(parents=True, exist_ok=True)
         (out / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")

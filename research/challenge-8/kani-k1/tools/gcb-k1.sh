@@ -66,6 +66,11 @@ stage() {
           echo "controls cfg used outside the proof modules: $(echo $stray)" > "$K1_OUT/request-error.txt"; rm -f "$K1_OUT/valid"
         fi
       fi
+      if valid && python3 -B -c 'import json,sys; sys.exit(0 if "diagnostic_trace" in json.load(open(sys.argv[1])) else 1)' "$K1_REQUEST"; then
+        mkdir -p "$K1_OUT/trace"
+        python3 -B "$K1_TOOLS/kani_k1.py" trace-env --request "$K1_REQUEST" \
+          --trace-dir "$PWD/$K1_OUT/trace" --out "$K1_OUT/trace.env"
+      fi
       cat "$K1_OUT/request-error.txt" >&2 || true ;;
 
     prepare)
@@ -217,6 +222,11 @@ PY
       # Opt-in control harnesses (request field "controls"): RUSTFLAGS reaches every crate Kani compiles.
       rustflags=$(head -n 1 "$K1_OUT/rustflags.txt" 2>/dev/null || true)
       if [ -n "$rustflags" ]; then export RUSTFLAGS="$rustflags"; echo "RUSTFLAGS=$rustflags" | tee -a "$K1_OUT/machine.txt"; fi
+      unset KANI3300_TRACE_DIR KANI3300_TRACE_FILTER KANI3300_TRACE_ID KANI3300_TRACE_STAGE
+      if [ -s "$K1_OUT/trace.env" ]; then
+        # Assignments were produced from the validated request with fixed variable names; never source/eval them.
+        while IFS= read -r assignment; do export "$assignment"; done < "$K1_OUT/trace.env"
+      fi
       set +e
       # Same shape as the CircleCI lane: GNU time -v on stderr (time.txt), Kani output through tee; a run cut
       # by timeout is PARTIAL.
@@ -271,6 +281,12 @@ PY
       native_args=()
       [ ! -f "$K1_OUT/kani-build.json" ] || native_args+=(--kani-build "$K1_OUT/kani-build.json")
       [ ! -f "$K1_OUT/native.json" ] || native_args+=(--native "$K1_OUT/native.json")
+      trace_args=()
+      if [ -s "$K1_OUT/trace.env" ]; then
+        actual_library_tree=$(git rev-parse HEAD:library 2>/dev/null || true)
+        trace_args=(--diagnostic-trace-dir "$K1_OUT/trace" --actual-library-tree "$actual_library_tree"
+          --bind "$K1_TOOLS/diagnostic_trace.py" --bind "$K1_TOOLS/k1g.sh")
+      fi
       os=$(. /etc/os-release && echo "$PRETTY_NAME")
       mem=$(free -b 2>/dev/null | awk '/^Mem:/{printf "%.1f GiB", $2 / 2^30}' || true)
       hw="$(nproc) CPU $(sed -n 's/^model name\t*: *//p' /proc/cpuinfo | head -1), ${mem:-? GiB} (container view; pool per Cloud Build record)"
@@ -281,7 +297,7 @@ PY
         --image-os "$os" --image-version "$hw" \
         --bind research/challenge-8/kani-k1/gcb/cloudbuild.yaml --bind "$K1_TOOLS/kani_k1.py" \
         --bind "$K1_TOOLS/gcb-k1.sh" --bind scripts/run-kani.sh --bind tool_config/kani-version.toml --bind .github/workflows/kani.yml \
-        --out-dir "$K1_OUT/summary"
+        --out-dir "$K1_OUT/summary" "${trace_args[@]}"
       cat "$K1_OUT/summary/summary.md" ;;
 
     gate)

@@ -14,6 +14,7 @@
 #   k1g.sh summary BUILD OFFSET [COUNT] bounded summary.json harness page (COUNT <= 80)
 #   k1g.sh native BUILD [OFFSET [COUNT]] bounded native argv/cwd/binary evidence (COUNT <= 4)
 #   k1g.sh native-field BUILD OFFSET FIELD [START [COUNT]] bounded dotted field page (COUNT <= 80)
+#   k1g.sh trace-field BUILD PATH START COUNT bounded diagnostic_trace field page (COUNT <= 20)
 #   k1g.sh inventory BUILD [OFFSET [COUNT]] filtered ordinary names (COUNT <= 80)
 #   k1g.sh cancel BUILD                  request cancellation of one Cloud Build
 #   k1g.sh check-tooling BUILD BASE     lane files of the build's commit equal BASE; exit 1 otherwise
@@ -249,6 +250,16 @@ case "$cmd" in
     [[ "$count" =~ ^[0-9]+$ ]] && [ "$count" -ge 1 ] && [ "$count" -le 80 ] || die "COUNT must be 1..80"
     auth; dir=$(fetch "$id" summaries)
     python3 -B "$TOOLS/kani_k1.py" page-native-field "$dir/summary/summary.json" "$offset" "$field" "$start" "$count" ;;
+  trace-field)
+    id=${1:-}; is_build "$id"
+    [ "$#" -eq 4 ] || die "trace-field accepts BUILD PATH START COUNT"
+    field=$2; start=$3; count=$4
+    [ -n "$field" ] || die "PATH must be a nonempty diagnostic_trace field path"
+    [[ "$start" =~ ^[0-9]+$ ]] || die "START must be a non-negative integer"
+    [[ "$count" =~ ^[0-9]+$ ]] && [ "$count" -ge 1 ] && [ "$count" -le 20 ] || die "COUNT must be 1..20"
+    auth; dir=$(fetch "$id" summaries)
+    [ -f "$dir/summary/summary.json" ] || die "build $id has no summary.json"
+    python3 -B "$TOOLS/kani_k1.py" page-trace-field "$dir/summary/summary.json" "$field" "$start" "$count" --build-id "$id" ;;
   inventory)
     id=${1:-}; is_build "$id"; auth
     [ "$#" -le 3 ] || die "inventory accepts BUILD and optional OFFSET/COUNT"
