@@ -1,0 +1,260 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "upstream_main": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+  "upstream_candidate": "c39cc1121cdb287d9d77c38b87cff6c84c2c8046",
+  "source_v2": "0ab9cc703aed799f6f73d826b60281a4632ab585",
+  "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "build_tree": "10c032ab8e3c5a38a3fa639c4b0004d61b7c2ffe",
+  "patch_sha256": "b30758e575bb0bfabab186d615e8b28871543efb0703028aa721a8622ef28c40",
+  "request_sha256": "ad96f7d0ada18cbbfe9345a2a7c06cdfbce0589924fd4255b9d5374fb8ffdaac",
+  "diffstat_bytes": 2315,
+  "fixtures": 15,
+  "production_byte_equal_final_v2": true,
+  "gate_files_byte_equal_upstream_candidate": true,
+  "main_touched_check_uninit_or_mem_init": false,
+  "preflight_command": [
+    "python3",
+    "-B",
+    "/root/verify-rust-std-kani3300-u3/research/challenge-8/kani-k1/tools/kani_k1.py",
+    "prepare-kani",
+    "--request",
+    "/root/verify-rust-std-kani3300-u3/research/challenge-8/kani-k1/kani3300/p1/RUN-REQUEST.json",
+    "--tree",
+    "/tmp/kani3300-p1-preflight-6dkhw2ah/kani",
+    "--pin",
+    "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "--out",
+    "/root/verify-rust-std-kani3300-u3/research/challenge-8/kani-k1/kani3300/p1/preflight.json"
+  ],
+  "preflight_exit": 0,
+  "preflight_stdout": "",
+  "preflight_stderr": "",
+  "validate_exit": 0,
+  "validate_stdout": "request kani3300-p1-targeted-20261111-01: 0 harness(es) accepted\n",
+  "validate_stderr": "",
+  "preflight_checkout": "/tmp/kani3300-p1-preflight-6dkhw2ah/kani",
+  "cloud": "NOT_RUN; $0 spent, $0 reserved; next-stage authorization required",
+  "proposed_reservation_usd": 0.6075,
+  "proposed_cap_usd": 0.8,
+  "reserve_formula": "(15 work minutes + 30 existing overhead minutes) * $0.0135/min = $0.6075",
+  "rustfmt_check": [
+    {
+      "file": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "edition": "2024",
+      "exit": 0
+    },
+    {
+      "file": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "edition": "2024",
+      "exit": 0
+    },
+    {
+      "file": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "edition": "2024",
+      "exit": 0
+    },
+    {
+      "file": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "edition": "2024",
+      "exit": 0
+    },
+    {
+      "file": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "edition": "2024",
+      "exit": 0
+    },
+    {
+      "file": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "edition": "2024",
+      "exit": 0
+    },
+    {
+      "file": "library/kani_core/src/mem_init.rs",
+      "edition": "2024",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
+      "edition": "2021",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
+      "edition": "2021",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "edition": "2021",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-wrap-u3-padding/main.rs",
+      "edition": "2021",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-wrap-u3-source-read/main.rs",
+      "edition": "2021",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
+      "edition": "2021",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
+      "edition": "2021",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
+      "edition": "2021",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-partial-copy/main.rs",
+      "edition": "2021",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-reset-alias/main.rs",
+      "edition": "2021",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-review-argument-return/main.rs",
+      "edition": "2021",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-review-overwrite-copy/main.rs",
+      "edition": "2021",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-review-overlap-copy/main.rs",
+      "edition": "2021",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-review-repeat-local/main.rs",
+      "edition": "2021",
+      "exit": 0
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-review-reset-zst/main.rs",
+      "edition": "2021",
+      "exit": 0
+    }
+  ],
+  "source_inventory": [
+    {
+      "file": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
+      "sha256": "a8447076a637799a4f2775d1fdbf46f5ffd8ec70721806b04d5d86ba65801c48",
+      "byte_equal_final_v2": true
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
+      "sha256": "5587fdcd7436a63ccfed41747fc5c9ebc18ec74f46ef988d35c2e0877dba33d9",
+      "byte_equal_final_v2": true
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+      "byte_equal_final_v2": true
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-wrap-u3-padding/main.rs",
+      "sha256": "62fa7db84d1c814862e000746fef53cf64fb0faed7ec809559a42c6764ccccd7",
+      "byte_equal_final_v2": true
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-wrap-u3-source-read/main.rs",
+      "sha256": "341f157e31cb14cacdc99986ab46b60741f42435195b125f4d51bfacbf2c3105",
+      "byte_equal_final_v2": true
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
+      "sha256": "09e5dd454f0cfcfeed1d9df436507c7d705270e85ee11592347113d58f9f1f55",
+      "byte_equal_final_v2": true
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
+      "sha256": "5fc89460489e7ac8dafe69f0ad722ae5d4d3a31776f945c0f78beda15aa38ad9",
+      "byte_equal_final_v2": true
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
+      "sha256": "f5c45585e405fe570d88eddb69b76b6299a04ebaba168cc08e2b36bb3bbb09c2",
+      "byte_equal_final_v2": true
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-partial-copy/main.rs",
+      "sha256": "52d4ef75b76aba6e84152188315d7e43aaa34bcc857429b6da9729259bbbb8f2",
+      "byte_equal_final_v2": true
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-reset-alias/main.rs",
+      "sha256": "718713896e97f3a29c26c708b6816fdebfafff6d0884c241f466009564060b07",
+      "byte_equal_final_v2": true
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-review-argument-return/main.rs",
+      "sha256": "345db788d839c5f40fae3454d7ec8d1a8b805a208554a8fcad04ee53027ff9b9",
+      "byte_equal_final_v2": true
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-review-overwrite-copy/main.rs",
+      "sha256": "bc70b2eb653f02193eabc7a4085fabc1dbaf04270ee54519affe5afdd0dc888c",
+      "byte_equal_final_v2": true
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-review-overlap-copy/main.rs",
+      "sha256": "ba454420efd8f9cb540b0af42040472e25fe0857acc95ec0cb5838c4007bc692",
+      "byte_equal_final_v2": true
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-review-repeat-local/main.rs",
+      "sha256": "33f47bb164d81187c16f9a640c524fd86f7bd602af20f0339aba3e3137c5a814",
+      "byte_equal_final_v2": true
+    },
+    {
+      "file": "tests/expected/uninit/maybe-uninit-review-reset-zst/main.rs",
+      "sha256": "c3c15670264f0c3289f482ddf547dbd5a104d8550209247d82c0057c57ea6002",
+      "byte_equal_final_v2": true
+    }
+  ],
+  "golden_deltas": [
+    "tests/expected/uninit/maybe-uninit-wrap-u3-padding/expected",
+    "tests/expected/uninit/maybe-uninit-wrap-u3-source-read/expected",
+    "tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/expected",
+    "tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/expected",
+    "tests/expected/uninit/maybe-uninit-partial-copy/expected",
+    "tests/expected/uninit/maybe-uninit-reset-alias/expected"
+  ],
+  "frame_user_write_line": 22,
+  "new_rs_license_headers": "PASS",
+  "production_diffstat": {
+    "files": 7,
+    "insertions": 675,
+    "deletions": 178
+  },
+  "tests_diffstat": {
+    "files": 30,
+    "insertions": 592,
+    "deletions": 0
+  },
+  "upstream_commit_has_one_parent_main": true,
+  "all_selected_rs_byte_equal_final_v2": true,
+  "upstream_root_clean": true,
+  "initialized_source_byte_equal_original_u1_patch": true,
+  "whitespace_checks": {
+    "upstream_candidate_diff_check": "PASS",
+    "research_non_patch_diff_check": "PASS",
+    "research_whole_diff_check_exit": 2,
+    "research_whole_diff_check_diagnosis": "Only canonical single-space empty context lines in embedded exact .patch files; not source whitespace defects. Patch bytes/hashes preserved.",
+    "embedded_patch_context_lines": 172
+  }
+}

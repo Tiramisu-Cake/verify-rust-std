@@ -1,0 +1,64 @@
+{
+  "schema": "kani3300-p1-static-checkpoint-v1",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-P1.md",
+  "stage": "KANI3300-P1",
+  "runtime": "Codex",
+  "status": "COMPLETE_STATIC_PACKAGING",
+  "research_branch": "experiment/kani-k1-kani3300u3-20261111",
+  "research_input_head": "e1fb5c2a13ac475c8e113e83d673167cfb06e087",
+  "upstream_clone": "/root/kani-upstream-3300",
+  "upstream_remote": "https://github.com/model-checking/kani",
+  "upstream_branch": "upstream-3300-part1",
+  "upstream_main": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+  "upstream_commit": "c39cc1121cdb287d9d77c38b87cff6c84c2c8046",
+  "upstream_tree": "582c123d68fb1f585ffb3e40b0d5c96c1d7d4ca3",
+  "source_v2": "0ab9cc703aed799f6f73d826b60281a4632ab585",
+  "source_production": "81dd85bfce67226e283fdd9a156932e32ece080b",
+  "native_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "proposed_gate_tree": "10c032ab8e3c5a38a3fa639c4b0004d61b7c2ffe",
+  "patch_sha256": "b30758e575bb0bfabab186d615e8b28871543efb0703028aa721a8622ef28c40",
+  "request_sha256": "ad96f7d0ada18cbbfe9345a2a7c06cdfbce0589924fd4255b9d5374fb8ffdaac",
+  "review": {
+    "model": "GPT-6 Luna",
+    "effort": "high",
+    "candidate": "c39cc1121cdb287d9d77c38b87cff6c84c2c8046",
+    "spec_sha256": "6274eba94f8208d3e466c30e4e115d364aaafecc9d395913cfd518727be3b02b",
+    "packet_sha256": "3797b5f5a590bdc7cf23c1f43fa2f79fab4b88feea917a4f483d79d9efdaf49b",
+    "report": "REVIEW-INVARIANTS.md",
+    "report_sha256": "2928c8054a17397c7c1ea0829851e77e421f35c8a7d72f3a204a984fe93040c0",
+    "verdict": "No blocking invariant violation identified within the stated supported domain; static only"
+  },
+  "claims": [
+    {
+      "claim": "Full final-v2 semantic comparison to f046 and official main; no production-path drift; candidate production byte-equal source",
+      "assurance": "STATIC_VERIFIED",
+      "evidence": "SEMANTIC-DIFF.md; STATIC-CHECKS.json; V2-FULL-DIFF.patch; V2-VS-MAIN.patch"
+    },
+    {
+      "claim": "15 selected fixtures have historical native PASS, current source equals v2; six golden adaptations await gate",
+      "assurance": "HISTORICAL_FINITE_NATIVE_OUTCOMES_AND_STATIC_IDENTITIES",
+      "evidence": "TEST-MANIFEST.json; TEST-EVIDENCE.md; STATIC-CHECKS.json"
+    },
+    {
+      "claim": "Existing validate/prepare-kani preflight passes on f046, 2315-byte diffstat; tree equals candidate on all selected paths",
+      "assurance": "PASS_STATIC_ONLY",
+      "evidence": "STATIC-CHECKS.json; preflight.json"
+    }
+  ],
+  "limitations": [
+    "PFC v2 MU-roundtrip reports OOM; clean positive timed out; U1 comparison INCONSISTENT/UNVALIDATED; neither upstream-existing OOM nor regression established",
+    "Nested/arbitrary unions, compound storage, typed_swap, select_unpredictable, fn-pointer/no-MIR transfers unsupported",
+    "Packaged goldens/context and current main NOT_RUN; gate on f046 cannot establish main CI acceptance",
+    "No full property lists retained for every historical native PASS; no independent B1/B2 or general proof credit"
+  ],
+  "cloud": {
+    "spent_usd": 0,
+    "reserved_usd": 0,
+    "builds": [],
+    "proposed_next_stage_reservation_usd": 0.6075,
+    "proposed_next_stage_cap_usd": 0.8,
+    "authorization": "NONE; separate exact GO required"
+  },
+  "next": "Coordinator review of published research packet; authorize/install exact request and separately dispatch targeted native gate if desired. No upstream push/PR/issue/comment authorized.",
+  "closure_reason": "All five requested static packaging steps completed: main/source comparisons, independent full invariant review, 15 evidenced fixtures and formatting, honest PR draft, preflighted native-gate packet. No builds or publication to Kani performed."
+}

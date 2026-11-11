@@ -1,0 +1,301 @@
+{
+  "schema": "kani3300-p1-test-manifest-v1",
+  "source_commit": "0ab9cc703aed799f6f73d826b60281a4632ab585",
+  "native_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "fixtures": [
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-wrap-u3-positive",
+      "file": "uninit/maybe-uninit-wrap-u3-positive/main.rs",
+      "require_success": true,
+      "diagnostic": null,
+      "prior_native": [
+        {
+          "stage": "U3-repair1",
+          "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+          "research_head": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+          "selector_offset": 0,
+          "status": "PASS",
+          "source": "../u3/repair1/SELECTOR-OBSERVATIONS.json"
+        },
+        {
+          "stage": "U3B",
+          "build_id": "9f964706-4b89-4340-a1ee-022aa23ecbe9",
+          "research_head": "a3e082da37f65095f85ebf998170775d7b75db9c",
+          "selector_offset": 5,
+          "status": "PASS",
+          "source": "../u3b/POST-BUILD-OBSERVATIONS.json"
+        }
+      ],
+      "packaging_delta": "golden unchanged; rustfmt only on source; packaged candidate NOT_RUN"
+    },
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-review-positive",
+      "file": "uninit/maybe-uninit-review-positive/main.rs",
+      "require_success": true,
+      "diagnostic": null,
+      "prior_native": [
+        {
+          "stage": "U3-repair1",
+          "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+          "research_head": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+          "selector_offset": 11,
+          "status": "PASS",
+          "source": "../u3/repair1/SELECTOR-OBSERVATIONS.json"
+        },
+        {
+          "stage": "U3B",
+          "build_id": "9f964706-4b89-4340-a1ee-022aa23ecbe9",
+          "research_head": "a3e082da37f65095f85ebf998170775d7b75db9c",
+          "selector_offset": 7,
+          "status": "PASS",
+          "source": "../u3b/POST-BUILD-OBSERVATIONS.json"
+        }
+      ],
+      "packaging_delta": "golden unchanged; rustfmt only on source; packaged candidate NOT_RUN"
+    },
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-initialized",
+      "file": "uninit/maybe-uninit-initialized/main.rs",
+      "require_success": true,
+      "diagnostic": null,
+      "prior_native": [
+        {
+          "stage": "U1-repair1",
+          "build_id": "d5d15c41-1c07-4f9f-a6ff-16c25fae00e1",
+          "research_head": "7c0d8e84134d2e0c28031285aded2292cb2a4678",
+          "status": "PASS",
+          "source": "../../RESULT-KANI3300-U1.md",
+          "limitation": "older production; not rechecked in U3"
+        }
+      ],
+      "packaging_delta": "golden unchanged; rustfmt only on source; packaged candidate NOT_RUN"
+    },
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-wrap-u3-padding",
+      "file": "uninit/maybe-uninit-wrap-u3-padding/main.rs",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "prior_native": [
+        {
+          "stage": "U3-repair1",
+          "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+          "research_head": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+          "selector_offset": 1,
+          "status": "PASS",
+          "source": "../u3/repair1/SELECTOR-OBSERVATIONS.json"
+        }
+      ],
+      "packaging_delta": "golden now uses Failed Checks rather than a property description; NOT_RUN in this form; rustfmt only on source; packaged candidate NOT_RUN"
+    },
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-wrap-u3-source-read",
+      "file": "uninit/maybe-uninit-wrap-u3-source-read/main.rs",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+      "prior_native": [
+        {
+          "stage": "U3-repair1",
+          "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+          "research_head": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+          "selector_offset": 2,
+          "status": "PASS",
+          "source": "../u3/repair1/SELECTOR-OBSERVATIONS.json"
+        }
+      ],
+      "packaging_delta": "golden now uses Failed Checks rather than a property description; NOT_RUN in this form; rustfmt only on source; packaged candidate NOT_RUN"
+    },
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative",
+      "file": "uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+      "prior_native": [
+        {
+          "stage": "U3-repair1",
+          "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+          "research_head": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+          "selector_offset": 5,
+          "status": "PASS",
+          "source": "../u3/repair1/SELECTOR-OBSERVATIONS.json"
+        },
+        {
+          "stage": "U3B",
+          "build_id": "9f964706-4b89-4340-a1ee-022aa23ecbe9",
+          "research_head": "a3e082da37f65095f85ebf998170775d7b75db9c",
+          "selector_offset": 6,
+          "status": "PASS",
+          "source": "../u3b/POST-BUILD-OBSERVATIONS.json"
+        }
+      ],
+      "packaging_delta": "golden now uses Failed Checks rather than a property description; NOT_RUN in this form; rustfmt only on source; packaged candidate NOT_RUN"
+    },
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative",
+      "file": "uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+      "prior_native": [
+        {
+          "stage": "U3-repair1",
+          "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+          "research_head": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+          "selector_offset": 8,
+          "status": "PASS",
+          "source": "../u3/repair1/SELECTOR-OBSERVATIONS.json"
+        }
+      ],
+      "packaging_delta": "golden now uses Failed Checks rather than a property description; NOT_RUN in this form; rustfmt only on source; packaged candidate NOT_RUN"
+    },
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative",
+      "file": "uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Check that *var_7 is assignable",
+      "prior_native": [
+        {
+          "stage": "U3B",
+          "build_id": "9f964706-4b89-4340-a1ee-022aa23ecbe9",
+          "research_head": "a3e082da37f65095f85ebf998170775d7b75db9c",
+          "selector_offset": 4,
+          "status": "PASS",
+          "source": "../u3b/POST-BUILD-OBSERVATIONS.json"
+        }
+      ],
+      "packaging_delta": "golden unchanged; rustfmt only on source; packaged candidate NOT_RUN"
+    },
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-partial-copy",
+      "file": "uninit/maybe-uninit-partial-copy/main.rs",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+      "prior_native": [
+        {
+          "stage": "U3-repair1",
+          "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+          "research_head": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+          "selector_offset": 14,
+          "status": "PASS",
+          "source": "../u3/repair1/SELECTOR-OBSERVATIONS.json"
+        }
+      ],
+      "packaging_delta": "golden now uses Failed Checks rather than a property description; NOT_RUN in this form; rustfmt only on source; packaged candidate NOT_RUN"
+    },
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-reset-alias",
+      "file": "uninit/maybe-uninit-reset-alias/main.rs",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "prior_native": [
+        {
+          "stage": "U3-repair1",
+          "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+          "research_head": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+          "selector_offset": 15,
+          "status": "PASS",
+          "source": "../u3/repair1/SELECTOR-OBSERVATIONS.json"
+        }
+      ],
+      "packaging_delta": "golden now uses Failed Checks rather than a property description; NOT_RUN in this form; rustfmt only on source; packaged candidate NOT_RUN"
+    },
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-review-argument-return",
+      "file": "uninit/maybe-uninit-review-argument-return/main.rs",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+      "prior_native": [
+        {
+          "stage": "U3-repair1",
+          "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+          "research_head": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+          "selector_offset": 12,
+          "status": "PASS",
+          "source": "../u3/repair1/SELECTOR-OBSERVATIONS.json"
+        }
+      ],
+      "packaging_delta": "golden unchanged; rustfmt only on source; packaged candidate NOT_RUN"
+    },
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-review-overwrite-copy",
+      "file": "uninit/maybe-uninit-review-overwrite-copy/main.rs",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`",
+      "prior_native": [
+        {
+          "stage": "U3-repair1",
+          "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+          "research_head": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+          "selector_offset": 16,
+          "status": "PASS",
+          "source": "../u3/repair1/SELECTOR-OBSERVATIONS.json"
+        },
+        {
+          "stage": "U3B",
+          "build_id": "9f964706-4b89-4340-a1ee-022aa23ecbe9",
+          "research_head": "a3e082da37f65095f85ebf998170775d7b75db9c",
+          "selector_offset": 8,
+          "status": "PASS",
+          "source": "../u3b/POST-BUILD-OBSERVATIONS.json"
+        }
+      ],
+      "packaging_delta": "golden unchanged; rustfmt only on source; packaged candidate NOT_RUN"
+    },
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-review-overlap-copy",
+      "file": "uninit/maybe-uninit-review-overlap-copy/main.rs",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "prior_native": [
+        {
+          "stage": "U3-repair1",
+          "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+          "research_head": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+          "selector_offset": 17,
+          "status": "PASS",
+          "source": "../u3/repair1/SELECTOR-OBSERVATIONS.json"
+        }
+      ],
+      "packaging_delta": "golden unchanged; rustfmt only on source; packaged candidate NOT_RUN"
+    },
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-review-repeat-local",
+      "file": "uninit/maybe-uninit-review-repeat-local/main.rs",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+      "prior_native": [
+        {
+          "stage": "U3-repair1",
+          "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+          "research_head": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+          "selector_offset": 18,
+          "status": "PASS",
+          "source": "../u3/repair1/SELECTOR-OBSERVATIONS.json"
+        }
+      ],
+      "packaging_delta": "golden unchanged; rustfmt only on source; packaged candidate NOT_RUN"
+    },
+    {
+      "directory": "tests/expected/uninit/maybe-uninit-review-reset-zst",
+      "file": "uninit/maybe-uninit-review-reset-zst/main.rs",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+      "prior_native": [
+        {
+          "stage": "U3-repair1",
+          "build_id": "45287677-98cb-4dc4-b98d-7ccae4782f5f",
+          "research_head": "6308e4b9fb3dcc81584d3227a7c1701db855a643",
+          "selector_offset": 19,
+          "status": "PASS",
+          "source": "../u3/repair1/SELECTOR-OBSERVATIONS.json"
+        }
+      ],
+      "packaging_delta": "golden unchanged; rustfmt only on source; packaged candidate NOT_RUN"
+    }
+  ],
+  "exclusions": [
+    "PFC MU-roundtrip on/off pair: on-roots OOM, excluded as upstream tests",
+    "U3 buffer-positive: UNKNOWN/failed positive",
+    "compound/IntoIter: unsupported domain; CMP1/CMP2 not included",
+    "non-selected historical fixtures retained unchanged in read-only v2 clone"
+  ],
+  "assurance": "prior finite native outcomes only; no claim of execution after formatting, golden adaptation or main rebase"
+}

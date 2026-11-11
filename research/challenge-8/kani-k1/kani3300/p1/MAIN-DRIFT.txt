@@ -1,0 +1,57 @@
+bf9c58e662fd65c64381ef2ac97a6397ffc0693a Pin Z3 in kani-dependencies and bump it automatically (#5039)
+cfa7932373a7a5e6346f90c017ae8c889c94a66b Fix `--concrete-playback=inplace` inside a workspace member (#5142)
+1cdef01646e1c1a815160e29b17b3beea612ecf4 Fix nested quantifier capture projection and guard unsupported safety checks (#5136)
+
+A	.github/workflows/z3-update.yml
+M	cprover_bindings/src/goto_program/expr.rs
+M	docs/src/reference/experimental/quantifiers.md
+M	kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs
+M	kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs
+M	kani-compiler/src/codegen_cprover_gotoc/overrides/mod.rs
+M	kani-dependencies
+M	kani-driver/src/concrete_playback/test_generator.rs
+M	kani-driver/src/harness_runner.rs
+M	kani-driver/src/project.rs
+M	scripts/setup/macos/install_deps.sh
+A	tests/expected/quantifier-capture/invalid_value.expected
+A	tests/expected/quantifier-capture/invalid_value.rs
+A	tests/expected/quantifier-capture/uninit.expected
+A	tests/expected/quantifier-capture/uninit.rs
+A	tests/kani/Quantifiers/helper_safety_checks.rs
+A	tests/kani/Quantifiers/nested_capture_pointer.rs
+A	tests/kani/Quantifiers/nested_capture_semantics.rs
+A	tests/kani/Quantifiers/pure_exists_extra_ub.rs
+A	tests/script-based-pre/cargo_playback_workspace_member/config.yml
+A	tests/script-based-pre/cargo_playback_workspace_member/playback_member.expected
+A	tests/script-based-pre/cargo_playback_workspace_member/playback_member.sh
+A	tests/script-based-pre/cargo_playback_workspace_member/sample_workspace/Cargo.toml
+A	tests/script-based-pre/cargo_playback_workspace_member/sample_workspace/member/Cargo.toml
+A	tests/script-based-pre/cargo_playback_workspace_member/sample_workspace/member/src/lib.rs
+A	tests/ui/quantifier-safety-checks/exists_ptr_add_uninit.expected
+A	tests/ui/quantifier-safety-checks/exists_ptr_add_uninit.rs
+A	tests/ui/quantifier-safety-checks/exists_ptr_add_validity.expected
+A	tests/ui/quantifier-safety-checks/exists_ptr_add_validity.rs
+A	tests/ui/quantifier-safety-checks/exists_unused_uninit.expected
+A	tests/ui/quantifier-safety-checks/exists_unused_uninit.rs
+A	tests/ui/quantifier-safety-checks/exists_unused_validity.expected
+A	tests/ui/quantifier-safety-checks/exists_unused_validity.rs
+A	tests/ui/quantifier-safety-checks/helper_uninit.expected
+A	tests/ui/quantifier-safety-checks/helper_uninit.rs
+A	tests/ui/quantifier-safety-checks/helper_validity.expected
+A	tests/ui/quantifier-safety-checks/helper_validity.rs
+A	tests/ui/quantifier-safety-checks/indirect_call.expected
+A	tests/ui/quantifier-safety-checks/indirect_call.rs
+A	tests/ui/quantifier-safety-checks/invalid_value.expected
+A	tests/ui/quantifier-safety-checks/invalid_value.rs
+A	tests/ui/quantifier-safety-checks/issue_4902.expected
+A	tests/ui/quantifier-safety-checks/issue_4902.rs
+A	tests/ui/quantifier-safety-checks/nested_default_checks.expected
+A	tests/ui/quantifier-safety-checks/nested_default_checks.rs
+A	tests/ui/quantifier-safety-checks/nested_pointer_read.expected
+A	tests/ui/quantifier-safety-checks/nested_pointer_read.rs
+A	tests/ui/quantifier-safety-checks/uninit.expected
+A	tests/ui/quantifier-safety-checks/uninit.rs
+A	tests/ui/quantifier-safety-checks/unused_intrinsic_uninit.expected
+A	tests/ui/quantifier-safety-checks/unused_intrinsic_uninit.rs
+A	tests/ui/quantifier-safety-checks/unused_intrinsic_validity.expected
+A	tests/ui/quantifier-safety-checks/unused_intrinsic_validity.rs

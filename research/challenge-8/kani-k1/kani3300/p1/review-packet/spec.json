@@ -1,0 +1,37 @@
+{
+  "applicability": "Part 1 only, final source 0ab9cc703aed799f6f73d826b60281a4632ab585 production equals 81dd85bfce67226e283fdd9a156932e32ece080b. Baseline f046..main has no changes in check_uninit or mem_init.rs. No builds, no publication.",
+  "baseline_commit": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+  "candidate_commit": "c39cc1121cdb287d9d77c38b87cff6c84c2c8046",
+  "controls": [
+    "15 historical native PASS fixtures selected. Inspect all new sources/goldens, positive and negative pair strength; five adversarial argument/overlap/overwrite/repeat/reset tests are required. Current packaged form NOT_RUN.",
+    "Frame negative must stay bound to actual user write at main.rs:22. Goldens for failures inside core use Failed Checks.",
+    "No local cargo/rustc/Kani/CBMC; static review only."
+  ],
+  "defect": "Kani #3300: MaybeUninit storage must carry byte initialization state through pointers, transmute, flat slot arrays/slices and ordinary MIR argument/return transfers. Review the entire production v2, not merely the last repair.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "library/kani_core/src/mem_init.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs"
+  ],
+  "invariants": [
+    "Single-byte nondeterministic shadow witness must detect any initializedness violation; data/padding masks preserved; copies must invalidate overwritten destination and preserve source witness.",
+    "Flat bool/usize buffer is inside marked MEM_INIT_STATE. Non-deterministic argument selection, deterministic return index zero, nested calls and consuming active state must preserve witnesses.",
+    "copy_by_id must not inspect dead return pointers or fabricate object/provenance ownership. Snapshot IDs while source live.",
+    "DFCC may exempt verifier-private MEM_INIT_STATE only; actual writes outside modifies must remain checked. No assumptions or user-check weakening."
+  ],
+  "known_limitations": [
+    "PFC MU-roundtrip v2 reports OOM; clean positive timed out, U1 comparison INCONSISTENT/UNVALIDATED. No upstream-existing-OOM or regression claim established.",
+    "Nested/arbitrary unions, compound storage, typed_swap, select_unpredictable, function-pointer transfers outside supported domain. CMP1/CMP2 excluded.",
+    "Bounded finite native controls, not general proof credit; current main candidate not executed."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-upstream-3300"
+}
