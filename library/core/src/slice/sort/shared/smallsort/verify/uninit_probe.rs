@@ -264,3 +264,13 @@ fn cmp3_into_iter_next() {
     kani::assert(iter.next().is_none(), "CMP3 IntoIter exhausted");
     kani::cover(true, "CMP3 IntoIter: exhaustion checked before Drop");
 }
+
+/// CMP4 runtime pair for CMP3 step 1: the bound is nondeterministic rather than literal.
+#[kani::proof]
+fn cmp4_index_range_len_runtime() {
+    let n: usize = kani::any_where(|n| *n <= 4);
+    let range = crate::ops::IndexRange::zero_to(n);
+    let len = range.len();
+    kani::assert(len == n, "CMP4 runtime IndexRange len equals its bound");
+    kani::cover(true, "CMP4 runtime IndexRange: len checked");
+}
