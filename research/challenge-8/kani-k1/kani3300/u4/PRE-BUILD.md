@@ -71,5 +71,7 @@ actual cost and next step. Scope: u8/N4, actual general scratch route, normal re
 no arbitrary types/lengths, unwind theorem, independent B1/B2 credit or resolved U3 PFC claim.
 
 Static receipts: request validation, unchanged library/protected paths, production-section equality, Git-derived tree,
-`git diff --check`, and 117 Python unit tests PASS. No local cargo/rustc/Kani/CBMC or Kani checkout preparation.
-Independent integration review is recorded separately; no review receipt authorizes dispatch.
+non-patch committed `git diff --check`, and 117 Python unit tests PASS.
+The full nested-patch diff check flags 37 context blank-line markers; patch bytes remain unchanged. No local cargo/rustc/Kani/CBMC or Kani checkout preparation.
+Independent Luna HIGH integration review PASS: `INDEPENDENT-REVIEW.md`, semantic candidate
+`47f33dda784613382c5bf50dd6c90851251ba3e7`; no blocking findings. No review receipt authorizes dispatch.

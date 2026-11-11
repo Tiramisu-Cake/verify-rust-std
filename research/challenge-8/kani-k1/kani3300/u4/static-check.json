@@ -17,7 +17,7 @@
     "reserve": true,
     "generated_uninit_flag": true,
     "generated_timeout": true,
-    "whitespace": true
+    "nonpatch_committed_diff_whitespace": true
   },
   "unit_tests": {
     "command": "python3 -B -m unittest discover -s research/challenge-8/kani-k1/tools -p 'test_*.py'",
@@ -27,5 +27,11 @@
   },
   "proof_credit": "NONE",
   "cloud": "NOT_RUN",
-  "actual_argv": "UNCONFIRMED: generated args are intent only"
+  "actual_argv": "UNCONFIRMED: generated args are intent only",
+  "whitespace": {
+    "full_base_to_candidate_check": "Nested diff context blank-line markers reported; immutable patch preserved",
+    "context_blank_line_markers": 37,
+    "all_patch_trailing_whitespace_lines_are_context_blank_markers": true,
+    "scope": "git diff --check 7b4502fedf HEAD -- . :(exclude)research/challenge-8/kani-k1/kani3300/u4/kani-uninit.patch PASS"
+  }
 }

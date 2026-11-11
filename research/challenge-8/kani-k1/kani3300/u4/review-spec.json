@@ -1,0 +1,45 @@
+{
+  "applicability": "Research-only KANI3300 U4; preparation only, native CMP2 acceptance and exact coordinator GO remain mandatory. u8/N4 real general scratch path with existing normal-return panic stub.",
+  "baseline_commit": "7b4502fedfc5b0630561da91d01bf192e5cf04bf",
+  "candidate_commit": "47f33dda784613382c5bf50dd6c90851251ba3e7",
+  "controls": [
+    "Five row diagnostic, standard4/jobs1, 3m per harness, controls/uninit on and inventory off; reserve $0.6075 <= $0.80; Cloud NOT_RUN.",
+    "U1 exactly one uninit failure vs U2 SUCCESS; U6 regression SUCCESS. U8 sorted/count assertions plus normal-return cover.",
+    "U9 must read scratch[3] successfully, covers reached, then exactly one scratch[4] uninit failure. Substring gate alone is insufficient; full manual failure/cover/location accounting required.",
+    "CMP2 repair invalidates binding and requires regenerated candidate/delta review; no dispatch until native PASS plus exact-packet GO."
+  ],
+  "defect": "U2 core scratch rows were blocked by array iterator/storage instrumentation. Replay the existing five rows with immutable production-only CMP2, preserving all library source; integrate mandated KT2 tooling.",
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-U4.md",
+    "research/challenge-8/kani-k1/kani3300/u2/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/u2/RESULT-KANI3300-U2.md",
+    "library/core/src/slice/sort/shared/smallsort/verify/uninit_probe.rs",
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/tools/k1g.sh",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh",
+    "research/challenge-8/kani-k1/gcb/cloudbuild.yaml",
+    "tool_config/kani-version.toml",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "Entire library and nine harnesses unchanged from U2; selected U1/U2/U6/U8/U9 row entries equal U2.",
+    "Production patch must equal full b1f0105 CMP2 production and exact native-build production sections, no tests; unchanged f046 pin/toolchain. Expected production-only tree is static Git calculation, never actual evidence.",
+    "All protected lane files equal 3bb5445 KT2 via requested d483dc cherry-pick; no other tool changes.",
+    "No local cargo/rustc/Kani/CBMC/preparation, other worktree mutations, raw evidence or dispatch; proof credit NONE."
+  ],
+  "known_limitations": [
+    "This is an integration review of unchanged mandated CMP2 and KT2, not a redesign/general memory-model proof. Prior CMP2 review covers only CMP2-CMP1 delta. Flag concrete integration problems; preserve native acceptance gate.",
+    "Native CMP2 currently pending. U4 runtime observations, actual argv, applied tree, statuses and covers NOT_RUN. Generated args only show intent.",
+    "No tests from Kani candidate in U4 production patch; native evidence belongs to separate CMP2 task.",
+    "Thread cwd /root; no watcher armed and no dispatch requested. Future authorized build runtime must satisfy its watcher entry rules."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-cmp/research/challenge-8/kani-k1/kani3300/cmp2/REVIEW-CMP2.md",
+      "sha256": "c678c133a6d2d65cf60c88a8d0f8f85a3cbd2a8af0188ef462618eb421dcfac4"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-u4"
+}

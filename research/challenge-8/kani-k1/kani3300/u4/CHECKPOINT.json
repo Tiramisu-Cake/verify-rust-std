@@ -43,9 +43,19 @@
     "Thread cwd is /root; no watcher started. Later build runtime must satisfy watcher entry requirements."
   ],
   "independent_review": {
-    "state": "PENDING"
+    "state": "PASS",
+    "decision": "No blocking integration findings",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "receipt": "INDEPENDENT-REVIEW.md",
+    "receipt_sha256": "32dd1ab8134ce89af8e54d7996bc3abaf2a9550316a57825d605d3233df76568",
+    "candidate": "47f33dda784613382c5bf50dd6c90851251ba3e7",
+    "spec_sha256": "380babe419b979ee0619d26a85b8991a465085d9c67b00feb2bd8ea5369855cc",
+    "packet_sha256": "3159c10cd7de355a2eebc666ec9cfdd0e8f72defc53ab5e7574e954eeef07e08",
+    "proof_credit": "NONE"
   },
   "proof_credit": "NONE",
-  "next_step": "Independent integration review, publish packet, PRE-BUILD REVIEW full SHA then stop; no build until native CMP2 PASS and exact GO.",
-  "stop_boundary": "Explicit kickoff requires preparation only and final PRE-BUILD REVIEW marker. No dispatch/phase activation/reservation permitted now."
+  "next_step": "Coordinator reviews final published packet; stop at PRE-BUILD REVIEW. No dispatch until accepted bound native CMP2 PASS and exact-packet GO. Any repair requires rebinding and review of delta.",
+  "stop_boundary": "Explicit kickoff requires preparation only and final PRE-BUILD REVIEW marker. No dispatch/phase activation/reservation permitted now.",
+  "semantic_candidate": "47f33dda784613382c5bf50dd6c90851251ba3e7"
 }
