@@ -1,6 +1,6 @@
 {
   "stage": "kani3300-t1b-r",
-  "state": "PREP_COMPLETE_AWAITING_COORDINATOR_GO",
+  "state": "AUTHORIZED_A2_INSTALLED_PREFLIGHT_PASS",
   "task_base": "5b1dc4d73262bca86913e43d1fcac7f3a3561d6d",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-T1B-R.md",
   "runtime": "Codex",
@@ -17,9 +17,26 @@
   "prior_A_spend_usd": "0.081",
   "remaining_cap_usd": "0.719",
   "A2_planned_reserve_usd": "0.648",
-  "dispatch_authorized": false,
+  "dispatch_authorized": true,
   "phase_activated": false,
   "Kani_push": false,
   "B_changed": false,
-  "stop_boundary": "Exact T1b-R stage complete. Coordinator fork CI compile and exact-packet GO required; no builds/dispatch here."
+  "stop_boundary": "Single A2 dispatch then k1g.sh watch and end turn; after terminal event bounded evidence/result; no B/retry.",
+  "authorization": {
+    "source": "Explicit coordinator GO in user message",
+    "accepted_pre_build_head": "b08bfaea6ad1e591cb6345626c068ddba53c1318",
+    "request_sha256": "73903bb3f80c34492d575d40d74a4552e4e2d9a55149e578fe05dde01d55035e",
+    "fork_CI": {
+      "repository": "Tiramisu-Cake/kani",
+      "run_id": "43075826938",
+      "job": "benchcomp-tests",
+      "step": "Build Kani using release mode",
+      "outcome": "success",
+      "assurance": "Coordinator source-reported"
+    },
+    "attempts_allowed": 1,
+    "B_allowed": false,
+    "retry_allowed": false,
+    "started_at": "2026-11-11T18:18:49.617176+00:00"
+  }
 }

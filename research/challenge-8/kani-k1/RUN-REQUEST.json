@@ -1,11 +1,11 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani3300-t1b-a-20261111-01",
+  "request_id": "kani3300-t1b-a2-20261111-01",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "KANI3300 T1b A: compile-time-only trace on unchanged CMP2/library/roots/checks. No runtime trace or production fix. Separate coordinator GO required; B only after A analysis.",
+  "purpose": "KANI3300 T1b-R A2: repaired diagnostic compile type, same 9 roots/library/CMP2/checks; 2m timeout justified by T1a timings. Remaining cap $0.719, reserve $0.648. Separate coordinator GO required.",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 3,
+  "harness_timeout_minutes": 2,
   "kani_jobs": 1,
   "controls": true,
   "uninit_checks": true,
@@ -50,8 +50,8 @@
     }
   ],
   "kani_patch": {
-    "path": "research/challenge-8/kani-k1/kani3300/t1b/kani-combined.patch",
-    "sha256": "8bfd47ae78d0ff8a1a9a0b9879719400b15cc463bef11e1fe03e340b6bc55545"
+    "path": "research/challenge-8/kani-k1/kani3300/t1b-r/kani-combined.patch",
+    "sha256": "0e1dd370789a196cf7f7eadad4fe850910f83fd38cbf6e306394c6c247588298"
   },
   "diagnostic_trace": {
     "filters": [
@@ -64,6 +64,6 @@
     ],
     "library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
     "base_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
-    "expected_applied_tree": "a88f60c9559879ed29443d52d8a8013da7bee9c5"
+    "expected_applied_tree": "53927d9bc0ccbff8183aa91ffb6c29d1c8a74465"
   }
 }

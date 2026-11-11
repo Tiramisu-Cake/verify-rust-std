@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "assurance": "Static request/identity/recipe/Git preflight; existing Cloud prepare-kani remains mandatory before compilation",
+  "accepted_pre_build_head": "b08bfaea6ad1e591cb6345626c068ddba53c1318",
+  "request_sha256": "73903bb3f80c34492d575d40d74a4552e4e2d9a55149e578fe05dde01d55035e",
+  "root_equals_A2_snapshot": true,
+  "static_checks": 26,
+  "generated_args_equal_reviewed_A2": true,
+  "validated_trace_env": {
+    "KANI3300_TRACE_DIR": "/workspace/src/k1-out/trace",
+    "KANI3300_TRACE_FILTER": "cmp3_index_range_len;cmp3_manually_drop_unsized_len;kani_cmp3::;PolymorphicIter;IndexRange::zero_to;IndexRange::len",
+    "KANI3300_TRACE_ID": "73903bb3f80c34492d575d40d74a4552e4e2d9a55149e578fe05dde01d55035e",
+    "KANI3300_TRACE_STAGE": "kani3300-t1b"
+  },
+  "timeout_minutes": 48,
+  "planned_reserve_usd": "0.648",
+  "remaining_cap_usd": "0.719",
+  "stage_total_cap_usd": "0.80",
+  "prior_spend_usd": "0.081",
+  "watch_preconditions": "PASS",
+  "attempts_allowed": 1,
+  "B_allowed": false,
+  "retry_allowed": false,
+  "status_polling": false,
+  "dispatch": "NOT_RUN"
+}
