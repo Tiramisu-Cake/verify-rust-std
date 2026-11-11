@@ -20,10 +20,10 @@ KANI3300_TRACE_DIR=/workspace/src/k1-out/trace; FILTER literals in requests/EFFE
 KANI3300_TRACE_ID=exact request SHA256 above; KANI3300_TRACE_STAGE=kani3300-t1b; other compiler/rustc/CBMC argv UNKNOWN.
 Actual runner argv/relevant env captured at Cloud boundary only; current effective invocation artifact is a static expectation, NOT_RUN.
 A planned envelope57min; (9*3+30)*0.0135=$0.7695 <=cap$0.80; no reservation/phase activation in prep.
-B planned envelope42min; (4*3+30)*0.0135=$0.5670; same immutable diagnostic/tooling/library; no automatic B/retries.
+B planned envelope42min; (4*3+30)*0.0135=$0.5670; same immutable diagnostic/tooling/library; no automatic B/retries; A+B planned$1.3365 <=cap$1.40, max2 builds.
 30min overhead preserved; diagnostic compile cost unmeasured; live budget/slots/deadline and existing Cloud preflight remain later gates.
 Active lane-root request remains T1a by authorized write scope; coordinator must promote A bytes, bind final head and give exact-packet GO before dispatch.
-Reviews: separate Luna HIGH Kani/tooling PASS receipts; no semantic acceptance from packet integrity or tests alone.
+Reviews: separate Luna HIGH Kani/tooling PASS receipts plus REVIEW-PACKET.md binding PASS; no semantic acceptance from packet integrity or tests alone.
 Before B: verify A identities/required trace coverage/controls and original failure reproduction; missing/partial/broken trace or changed checks =>stop UNKNOWN.
 Checks: STATIC-CHECK.json29 PASS, Python96+9+11 PASS, rustfmt/diff/license/shell syntax; compiler/-D warnings NOT_RUN.
 Concrete object/offset/R/runtime causality UNKNOWN; proof credit NONE. PRE-BUILD REVIEW is the stop boundary.

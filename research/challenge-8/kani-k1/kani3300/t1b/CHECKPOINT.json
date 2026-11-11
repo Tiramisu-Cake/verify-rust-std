@@ -17,7 +17,11 @@
     "B_planned_reserve_usd": "0.5670",
     "B_requires_separate_GO": true,
     "attempts_used": 0,
-    "dispatch_authorized": false
+    "dispatch_authorized": false,
+    "combined_planned_reserve_usd": "1.3365",
+    "combined_cap_usd": "1.40",
+    "max_builds_after_separate_GOs": 2,
+    "no_retries": true
   },
   "phase_activated": false,
   "proof_credit": "NONE",
@@ -96,5 +100,12 @@
     "MIR_GOTO_equivalence_experiment": "NOT_RUN"
   },
   "active_lane_request_changed": false,
-  "next_step": "Stop at PRE-BUILD REVIEW. Coordinator may review, promote exact A bytes and bind final execution head before separate GO. B only after A identity/coverage/controls/reproduction checks and separate GO; no automatic retry."
+  "next_step": "Stop at PRE-BUILD REVIEW. Coordinator may review, promote exact A bytes and bind final execution head before separate GO. B only after A identity/coverage/controls/reproduction checks and separate GO; no automatic retry.",
+  "request_binding_review": {
+    "state": "PASS",
+    "candidate": "856653a1d0099e83b6896aa3ef966ce24911a8e6",
+    "receipt": "REVIEW-PACKET.md",
+    "spec_sha256": "76e8c5bd19b3ca57929020d500e55c92e252b568b512b31a23341204181d0588",
+    "packet_sha256": "92767e3f85e7a09d37e5891839cf86f971c1edfd8e271a9d3677b9904743f0f9"
+  }
 }

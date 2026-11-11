@@ -1,0 +1,43 @@
+{
+  "applicability": "Final bounded request/dependency integration check only; prior source reviews PASS, no code changes in this packet.",
+  "baseline_commit": "c3468b3bd84f4a91a2ea99fa0fcea317bd98e681",
+  "candidate_commit": "856653a1d0099e83b6896aa3ef966ce24911a8e6",
+  "controls": [
+    "Check task/planner and A/B request validation identity fields, patch/tool bindings and static report, effective invocation claims and honest NOT_RUN.",
+    "Bounded source data inspection only, no compiler/Cloud/source-script execution; no fresh full source review required."
+  ],
+  "defect": "Bind prepared A/B diagnostic requests to independently reviewed Kani51848/toolingc346, preserving original roots/expectations and no-build stop.",
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-T1B.md",
+    "research/challenge-8/kani-k1/kani3300/t1b/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/t1b/RUN-REQUEST-B.json",
+    "research/challenge-8/kani-k1/kani3300/t1b/PATCH-BINDING.json",
+    "research/challenge-8/kani-k1/kani3300/t1b/TOOLING-BINDING.json",
+    "research/challenge-8/kani-k1/kani3300/t1b/STATIC-CHECK.json",
+    "research/challenge-8/kani-k1/kani3300/t1b/EFFECTIVE-INVOCATION.json",
+    "research/challenge-8/kani-k1/kani3300/t1b/PRE-BUILD.md",
+    "research/challenge-8/kani-k1/kani3300/t1b/REVIEW-KANI.md",
+    "research/challenge-8/kani-k1/kani3300/t1b/REVIEW-TOOLING.md",
+    "research/challenge-8/kani-k1/kani3300/t1b/kani-combined.patch",
+    "research/challenge-8/kani-k1/kani3300/t1b/kani-diagnostic.patch",
+    "research/challenge-8/kani-k1/kani3300/cmp3/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/cmp4/cmp2/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/u4/kani-uninit.patch",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/tools/diagnostic_trace.py",
+    "tool_config/kani-version.toml",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "A nine CMP3 roots; B four CMP4 roots; librarytree919cc3e2dc5fb19ea6e7f7be761914b949160a41; production CMP2 byte-identical.",
+    "Request combined SHA/tree exactly PATCH-BINDING; toolingc346+KT2; no runtime flags; original argv/controls/uninit/inventory/timeout/jobs/runner unchanged.",
+    "Cloud $0 prep; A planned reserve0.7695/cap0.80; B after A and separateGO; active lane-root request unchanged under authorized write scope."
+  ],
+  "known_limitations": [
+    "Prior Kani and tooling source review PASS are separate receipts; this check is request/metadata binding, not coordinator GO or proof credit.",
+    "Actual Cloud appliedtree, compilerargv and proof outcomes NOT_RUN; bounded excerpts mayPARTIAL."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-t0"
+}
