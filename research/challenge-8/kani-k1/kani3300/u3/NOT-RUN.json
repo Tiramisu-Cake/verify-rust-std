@@ -1,0 +1,32 @@
+{
+  "status": "NOT_RUN",
+  "u1_manifest_not_selected": [
+    "uninit/maybe-uninit-initialized/main.rs",
+    "uninit/maybe-uninit-raw-read/main.rs",
+    "uninit/maybe-uninit-raw-address/main.rs",
+    "uninit/maybe-uninit-partial-write/main.rs",
+    "uninit/maybe-uninit-slice-offset/main.rs",
+    "uninit/maybe-uninit-scratch-array/main.rs",
+    "uninit/maybe-uninit-scratch-array-unwritten/main.rs",
+    "uninit/maybe-uninit-volatile-read/main.rs",
+    "uninit/unions.rs",
+    "uninit/uninhabited-union-field/uninhabited-union-field.rs",
+    "uninit/copy/copy_without_padding.rs",
+    "uninit/copy/read_after_copy.rs",
+    "uninit/copy/expose_padding_via_non_byte_copy.rs",
+    "uninit/transmute-padding/transmute_padding.rs",
+    "uninit/delayed-ub/delayed-ub.rs",
+    "uninit/access-padding-uninit/access-padding-uninit.rs",
+    "uninit/multiple-instrumentations.rs"
+  ],
+  "u1t_manifest_not_selected": [
+    "uninit/maybe-uninit-review-overwrite-copy/main.rs",
+    "uninit/maybe-uninit-review-overlap-copy/main.rs",
+    "uninit/maybe-uninit-review-repeat-local/main.rs",
+    "uninit/maybe-uninit-review-reset-zst/main.rs",
+    "uninit/maybe-uninit-initialized/main.rs",
+    "uninit/maybe-uninit-scratch-array/main.rs",
+    "uninit/maybe-uninit-volatile-read/main.rs"
+  ],
+  "selected_manifest_native_status": "all NOT_RUN until GO"
+}

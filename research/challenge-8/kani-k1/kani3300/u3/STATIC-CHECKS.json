@@ -1,0 +1,47 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "kani_candidate": "8bfb7c7c908fe58668214089a0fc7d1b5ccfe378",
+  "applied_tree": "0f3197223e761ee3099c5060c21ded4b97481038",
+  "patch_sha256": "22b82d251006b83384cce1da644ca8842cd0fdb4ee98ed4c701d8817c5372a08",
+  "request_sha256": "5fc7589cac51486d987a4036479cb322d96b7f5b173dbfa7e6c432718ab64709",
+  "checks": {
+    "validate": "PASS",
+    "prepare_kani_fresh_pin": "PASS",
+    "apply_check_index": "PASS",
+    "applied_tree_matches_candidate": "PASS",
+    "rustfmt_check": "PASS (36 Rust files)",
+    "git_diff_check": "PASS",
+    "production_path_allowlist": "PASS",
+    "u1t_transplant": "PASS (14 identical Git blobs)",
+    "existing_upstream_goldens_changed": 0,
+    "preflight_diffstat_bytes": 3999
+  },
+  "delta_v2_minus_u1": {
+    "production": {
+      "files": 2,
+      "insertions": 111,
+      "deletions": 13
+    },
+    "tests_including_u1t": {
+      "files": 36,
+      "insertions": 636,
+      "deletions": 0
+    }
+  },
+  "full_patch": {
+    "production": {
+      "files": 7,
+      "insertions": 657,
+      "deletions": 161
+    },
+    "tests": {
+      "files": 58,
+      "insertions": 964,
+      "deletions": 0
+    }
+  },
+  "native_status": "NOT_RUN; waiting exact-packet coordinator GO",
+  "cloud_spend_usd": 0,
+  "proposed_reservation_usd": 0.54
+}

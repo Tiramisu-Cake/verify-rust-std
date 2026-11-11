@@ -1,0 +1,36 @@
+{
+  "schema": "kani3300-u3-prebuild-checkpoint-v1",
+  "stage": "kani3300-u3",
+  "stable_owner": "k1-merge",
+  "state": "PRE_BUILD_REVIEW_REQUIRED",
+  "research_branch": "experiment/kani-k1-kani3300u3-20261111",
+  "kani_candidate": "8bfb7c7c908fe58668214089a0fc7d1b5ccfe378",
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "patch_sha256": "22b82d251006b83384cce1da644ca8842cd0fdb4ee98ed4c701d8817c5372a08",
+  "request_sha256": "5fc7589cac51486d987a4036479cb322d96b7f5b173dbfa7e6c432718ab64709",
+  "assurance": "static-only; no native acceptance or proof credit",
+  "claims": [
+    {
+      "claim": "fresh pin apply/tree/format/scope/U1T transplant",
+      "evidence": "STATIC-CHECKS.json",
+      "status": "PASS_STATIC_ONLY"
+    },
+    {
+      "claim": "bounded semantic readiness review",
+      "evidence": "REVIEW-U3-DELTA.md",
+      "status": "NO_CONCRETE_FINDINGS"
+    }
+  ],
+  "open": [
+    "exact packet coordinator GO",
+    "all native outcomes, frame-negative and clause/PFC positives",
+    "full IntoIter concrete next Unsupported",
+    "U1T five negative UNKNOWN records remain unresolved input",
+    "post-native separate independent review and diagnostic GO"
+  ],
+  "builds": [],
+  "spent_usd": 0,
+  "cap_usd": 0.9,
+  "proposed_reservation_usd": 0.54,
+  "next": "STOP at PRE-BUILD REVIEW of published full research SHA; no dispatch without GO"
+}

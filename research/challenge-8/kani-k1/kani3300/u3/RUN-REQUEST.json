@@ -1,0 +1,150 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "kani3300-u3-native-20261111-01",
+  "agent": "k1-merge",
+  "kind": "kani-tests",
+  "purpose": "KANI3300 U3: exact typed-to-MaybeUninit scalar/array wraps; isolate argument shadow state from DFCC frame checks; native controls and unchanged U1T regressions. Full IntoIter remains an explicit Unsupported control.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 10,
+  "harnesses": [],
+  "kani_patch": {
+    "path": "research/challenge-8/kani-k1/kani3300/u3/kani-uninit-v2.patch",
+    "sha256": "22b82d251006b83384cce1da644ca8842cd0fdb4ee98ed4c701d8817c5372a08"
+  },
+  "test_timeout_seconds": 150,
+  "kani_tests": [
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-wrap-u3-positive/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-wrap-u3-padding/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-wrap-u3-source-read/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-wrap-u3-intoiter/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Cannot determine layout for a type that contains union"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3-positive/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3-pfc-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3-clause-plain-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Check that *outside is assignable"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3-no-mir-unsupported/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Kani does not support shadow-carrying arguments to calls without a MIR body."
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-positive/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-argument-return/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-padded-manually-drop/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `Padded`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-assume-init/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-partial-copy/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-reset-alias/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    }
+  ]
+}
