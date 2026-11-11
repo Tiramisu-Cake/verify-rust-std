@@ -1,0 +1,47 @@
+{
+  "stage": "kani3300-u2",
+  "task_base": "97d947b91f628c953c57b9320f44260349aef9f3",
+  "library_commit": "7ed74cec8287dfb3380637a88f5ec5ccfa5bba3c",
+  "tooling_base": "c98d7cee0d509b1633ab61c9a1ae989e286c8e2a",
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "toolchain": "nightly-2026-10-23",
+  "request_sha256": "d025202d57d3c271f125ca9ae8dda40b677d2bb591cad6b43307c5222f67bcb3",
+  "patch_sha256": "306851ac5dd4f28a11778dfc49e878a5bb62fd7c35a2ad7ad0419053b9504467",
+  "uninit_probe_sha256": "4f63a11de4ef62415af148f7390dc3eda3386d021395a8f065c34ec1679ce098",
+  "checks": {
+    "branch": true,
+    "u0_eight_harnesses_byte_preserved": true,
+    "library_scope": true,
+    "module_opt_in": true,
+    "request_first_eight_rows_unchanged": true,
+    "nine_proof_roots": true,
+    "nine_requested_harnesses_exist": true,
+    "request_copy_matches": true,
+    "u1_patch_bytes_identical": true,
+    "patch_task_sha": true,
+    "protected_paths_equal_tooling_base": true,
+    "request_settings": true,
+    "generated_uninit_flag": true,
+    "reserve_within_cap": true,
+    "diff_check": true
+  },
+  "rustfmt": {
+    "exit_code": 0,
+    "diff": "zero",
+    "receipt": "rustfmt-check.txt"
+  },
+  "u9_call_site_lines": {
+    "written": 198,
+    "unwritten": 204
+  },
+  "expected_applied_tree": {
+    "value": "b9c36ac5ed550e39d26e1d1d77000052e62a9bb4",
+    "assurance": "source-reported from U1 RESULT; U2 Cloud binding NOT_RUN"
+  },
+  "harness_minutes": 27,
+  "build_timeout_minutes": 57,
+  "reserve_usd": "0.7695",
+  "cap_usd": "0.80",
+  "cloud_build": "NOT_RUN; coordinator GO required",
+  "scope": "static only; no local compiler/verifier/preparation executed"
+}
