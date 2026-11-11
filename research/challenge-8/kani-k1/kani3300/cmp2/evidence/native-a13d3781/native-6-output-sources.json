@@ -1,0 +1,58 @@
+{
+  "build_id": "a13d3781-287d-4229-88d6-6b3dd1a74879",
+  "head_sha": "6f50f1fbc4a95ca21444ee9ac6f101034081cd43",
+  "request_sha256": "27cdfcdf089af8dc025a90ec98e3e189701758ba4fe64f1d77ccd1dfc42421c5",
+  "summary_file": "/tmp/kani-k1-gcb/summary-a13d3781-287d-4229-88d6-6b3dd1a74879/summary/summary.json",
+  "summary_sha256": "5a633c83229f75870075644a658179b85df83117f0188fe652eb1c1d7f990503",
+  "offset": 6,
+  "file": "uninit/compound-cmp1-padding-negative/main.rs",
+  "field": "output_sources",
+  "report_source": "native",
+  "validation": "VALIDATED",
+  "diagnostic_only": true,
+  "summary_status": "TOOL_ERROR",
+  "kind": "object",
+  "units": "entries",
+  "total": 4,
+  "start": 0,
+  "value": {
+    "compiletest_stderr": {
+      "available": true,
+      "bytes": 4037,
+      "expected_fn_error_line_found": false,
+      "path": "/workspace/src/k1-out/native-6.stderr.log",
+      "required_substring_found": false,
+      "sha256": "723b744c16b3d9219d7497ebea9f583fd84fe332967e6c6728acd92dc76f13c1",
+      "used_for_gate_diagnostic": false
+    },
+    "compiletest_stdout": {
+      "available": true,
+      "bytes": 4718,
+      "expected_fn_error_line_found": false,
+      "path": "/workspace/src/k1-out/native-6.log",
+      "required_substring_found": true,
+      "sha256": "fe3c9a9d22cef0f1ab020d032d7311b14092be332326de6f75db72c6e3a27af6",
+      "used_for_gate_diagnostic": false
+    },
+    "kani_stderr": {
+      "available": true,
+      "bytes": 551,
+      "expected_fn_error_line_found": false,
+      "path": "/workspace/src/k1-out/native-6/uninit/compound-cmp1-padding-negative/main/main.err",
+      "required_substring_found": false,
+      "sha256": "d85db53a7ef19c65ccf89c95e73100e79ceea4e25cc787bfe9efe2e6417a4644",
+      "used_for_gate_diagnostic": true
+    },
+    "kani_stdout": {
+      "available": true,
+      "bytes": 3277,
+      "expected_fn_error_line_found": false,
+      "path": "/workspace/src/k1-out/native-6/uninit/compound-cmp1-padding-negative/main/main.out",
+      "required_substring_found": false,
+      "sha256": "501baec3517cee8af037d93b39a2dea5a5e6ab8c6da5b0d1c95a83a62e696d5a",
+      "used_for_gate_diagnostic": true
+    }
+  },
+  "count": 4,
+  "next_start": null
+}

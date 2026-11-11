@@ -1,0 +1,910 @@
+[
+  {
+    "offset": 0,
+    "file": "uninit/maybe-uninit-wrap-u3-intoiter/main.rs",
+    "require_success": true,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "complete_standard_into_iter",
+        "source": "tests/expected/uninit/maybe-uninit-wrap-u3-intoiter/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "empty_standard_into_iter_returns_none",
+        "source": "tests/expected/uninit/maybe-uninit-wrap-u3-intoiter/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "early_drop_after_some_drops_only_remaining_elements",
+        "source": "tests/expected/uninit/maybe-uninit-wrap-u3-intoiter/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      }
+    ],
+    "native_status": "ERROR"
+  },
+  {
+    "offset": 1,
+    "file": "uninit/compound-cmp1-positive/main.rs",
+    "require_success": true,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "call::id_and_nested_id_preserve_partial_storage",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-call-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "call::pair_first_argument_and_read_nonreturned_second_in_callee",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-call-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "call::pair_second_argument_and_read_nonreturned_first_in_callee",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-call-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "call::repeated_calls_clear_stale_return_buffer",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-call-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "drop::early_iterator_drop_drops_remaining_tokens_once",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-drop-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "drop::exhausted_iterator_does_not_redrop_yielded_tokens",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-drop-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "drop::manually_drop_wrapper_without_explicit_drop_does_not_drop_or_read_payload",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-drop-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "fields::copied_partial_product_and_manually_drop",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-fields-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "fields::nested_product_copy",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-fields-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "fields::reordered_repr_rust_fields",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-fields-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "fields::repr_c_storage_before_ordinary_field",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-fields-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "fields::repr_c_storage_after_ordinary_field",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-fields-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "fields::generic_usize_marker_product",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-fields-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "zero_zst::empty_standard_usize_into_iter",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-zero-zst-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "zero_zst::zst_standard_into_iter_payload_and_len",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-zero-zst-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "zero_zst::zero_extent_does_not_change_adjacent_storage",
+        "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-zero-zst-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      }
+    ],
+    "native_status": "ERROR"
+  },
+  {
+    "offset": 2,
+    "file": "uninit/compound-cmp1-empty-negative/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "empty_source_slot_read",
+        "source": "tests/expected/uninit/compound-cmp1-empty-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "empty_copy_destination_slot_read",
+        "source": "tests/expected/uninit/compound-cmp1-empty-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  },
+  {
+    "offset": 3,
+    "file": "uninit/compound-cmp1-overwrite-negative/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "overwrite_full_destination_with_empty_source_copy",
+        "source": "tests/expected/uninit/compound-cmp1-overwrite-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "overwrite_full_destination_with_empty_source_move",
+        "source": "tests/expected/uninit/compound-cmp1-overwrite-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "shifted_empty_source_slot_does_not_reuse_destination_witness",
+        "source": "tests/expected/uninit/compound-cmp1-overwrite-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  },
+  {
+    "offset": 4,
+    "file": "uninit/compound-cmp1-call-negative/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "empty_slot_read_in_caller_after_return",
+        "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "first_argument_empty_at_distinct_slot_after_return",
+        "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "second_argument_empty_at_distinct_slot_after_return",
+        "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "initialized_return_does_not_bless_later_empty_return",
+        "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "callee_read_of_nonreturned_second_argument_empty_slot_fails",
+        "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "callee_read_of_nonreturned_first_argument_empty_slot_fails",
+        "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "caller_reads_original_nonreturned_second_argument_copy",
+        "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "caller_reads_original_nonreturned_first_argument_copy",
+        "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  },
+  {
+    "offset": 5,
+    "file": "uninit/compound-cmp1-projection-negative/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "true_unsize_reborrow_and_manually_drop_projection_preserve_filled_storage",
+        "source": "tests/expected/uninit/compound-cmp1-projection-negative/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_MIXED_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Mixed selector5 PASS with published golden1successful/4named failures; sole positive root source-reported success, no own full check list"
+      },
+      {
+        "harness": "true_unsize_reborrow_empty_index_is_uninitialized",
+        "source": "tests/expected/uninit/compound-cmp1-projection-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "drop_impl_read_of_empty_slot_fails",
+        "source": "tests/expected/uninit/compound-cmp1-projection-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "dropping_ordinary_field_keeps_empty_manually_dropped_neighbor_empty",
+        "source": "tests/expected/uninit/compound-cmp1-projection-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "reset_filled_slot_through_reference_preserves_empty_state",
+        "source": "tests/expected/uninit/compound-cmp1-projection-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  },
+  {
+    "offset": 6,
+    "file": "uninit/compound-cmp1-padding-negative/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "partial_ordinary_field_cannot_be_read_as_whole_product_after_copy",
+        "source": "tests/expected/uninit/compound-cmp1-padding-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `C<Pad>`",
+        "reported_terminal": "UNKNOWN",
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "partial_ordinary_field_read_remains_checked_after_call_copy",
+        "source": "tests/expected/uninit/compound-cmp1-padding-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+        "reported_terminal": "UNKNOWN",
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "padding_byte_stays_uninitialized_after_typed_copy",
+        "source": "tests/expected/uninit/compound-cmp1-padding-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+        "reported_terminal": "UNKNOWN",
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "padding_stays_uninitialized_after_call_return",
+        "source": "tests/expected/uninit/compound-cmp1-padding-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+        "reported_terminal": "UNKNOWN",
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      },
+      {
+        "harness": "ordinary_operand_aggregate_preserves_typed_source_checks",
+        "source": "tests/expected/uninit/compound-cmp1-padding-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `Pad`",
+        "reported_terminal": "UNKNOWN",
+        "actual": "UNKNOWN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Selector ERROR; retained bounded excerpt does not map every own terminal/root cause"
+      }
+    ],
+    "native_status": "ERROR"
+  },
+  {
+    "offset": 7,
+    "file": "uninit/compound-cmp1-layout-unsupported/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "arbitrary_union_product_is_unsupported",
+        "source": "tests/expected/uninit/compound-cmp1-layout-unsupported/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Kani does not support this compound storage layout.",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "storage_enum_is_unsupported",
+        "source": "tests/expected/uninit/compound-cmp1-layout-unsupported/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Kani does not support this compound storage layout.",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "nested_maybe_uninit_is_unsupported",
+        "source": "tests/expected/uninit/compound-cmp1-layout-unsupported/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Kani does not support this compound storage layout.",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "nested_union_product_is_unsupported",
+        "source": "tests/expected/uninit/compound-cmp1-layout-unsupported/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Kani does not support this compound storage layout.",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "indirect_whole_product_write_is_unsupported",
+        "source": "tests/expected/uninit/compound-cmp1-layout-unsupported/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Kani does not support indirect compound storage assignments.",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  },
+  {
+    "offset": 8,
+    "file": "uninit/compound-cmp1-no-mir-unsupported/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "bodyless_shadow_carrying_argument_is_unsupported_before_call",
+        "source": "tests/expected/uninit/compound-cmp1-no-mir-unsupported/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Kani does not support shadow-carrying arguments to calls without a MIR body.",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  },
+  {
+    "offset": 9,
+    "file": "uninit/maybe-uninit-wrap-u3-positive/main.rs",
+    "require_success": true,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "empty_harness",
+        "source": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "scalar_copy",
+        "source": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "exact_usize_array_copy",
+        "source": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "empty_array",
+        "source": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "zst_array",
+        "source": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "padded_move",
+        "source": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "padded_array_move",
+        "source": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  },
+  {
+    "offset": 10,
+    "file": "uninit/maybe-uninit-wrap-u3-padding/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "typed_padding_is_not_initialized",
+        "source": "tests/expected/uninit/maybe-uninit-wrap-u3-padding/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  },
+  {
+    "offset": 11,
+    "file": "uninit/maybe-uninit-wrap-u3-source-read/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "typed_source_read_still_checked",
+        "source": "tests/expected/uninit/maybe-uninit-wrap-u3-source-read/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  },
+  {
+    "offset": 12,
+    "file": "uninit/maybe-uninit-review-positive/main.rs",
+    "require_success": true,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "overwrite_copy_written_byte",
+        "source": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "overlap_copy_right_written_slot",
+        "source": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "overlap_copy_left_written_slot",
+        "source": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "repeat_local_initialized_source",
+        "source": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "reset_after_zst_then_initialize",
+        "source": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "complete_padded_transmute",
+        "source": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "argument_return_both_initialized",
+        "source": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  },
+  {
+    "offset": 13,
+    "file": "uninit/maybe-uninit-review-overwrite-copy/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "overwrite_copy",
+        "source": "tests/expected/uninit/maybe-uninit-review-overwrite-copy/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  },
+  {
+    "offset": 14,
+    "file": "uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "frame_negative",
+        "source": "tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Failed Checks: Check that *var_7 is assignable",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  },
+  {
+    "offset": 15,
+    "file": "uninit/maybe-uninit-buffer-u3-no-mir-unsupported/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "no_mir_shadow_argument_is_unsupported",
+        "source": "tests/expected/uninit/maybe-uninit-buffer-u3-no-mir-unsupported/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Kani does not support shadow-carrying arguments to calls without a MIR body.",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  },
+  {
+    "file": "uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "nested_two_argument_return_reads_uninit",
+        "source": "tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      }
+    ],
+    "offset": 16,
+    "native_status": "PASS"
+  },
+  {
+    "file": "uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "clause_pfc_negative",
+        "source": "tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      }
+    ],
+    "offset": 17,
+    "native_status": "PASS"
+  },
+  {
+    "offset": 18,
+    "file": "uninit/compound-cmp2-positive/main.rs",
+    "require_success": true,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "aggregate::aggregate_and_move_keep_ordinary_pair",
+        "source": "tests/expected/uninit/compound-cmp2-positive/aggregate.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "manually_drop::manually_drop_keeps_ordinary_pair",
+        "source": "tests/expected/uninit/compound-cmp2-positive/manually_drop.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "ordinary_argument::cloned_ordinary_argument_has_its_own_shadow",
+        "source": "tests/expected/uninit/compound-cmp2-positive/ordinary_argument.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "pointer_argument::ordinary_pointer_argument_does_not_poison_valid_read",
+        "source": "tests/expected/uninit/compound-cmp2-positive/pointer_argument.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      },
+      {
+        "harness": "unsize::unsize_and_projection_keep_ordinary_pair",
+        "source": "tests/expected/uninit/compound-cmp2-positive/unsize.rs",
+        "intended_kani": "SUCCESS",
+        "required_diagnostic": null,
+        "actual": "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS with --require-success and retained published golden; full property list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  },
+  {
+    "offset": 19,
+    "file": "uninit/compound-cmp2-argument-negative/main.rs",
+    "require_success": false,
+    "actual": "NOT_RUN",
+    "harnesses": [
+      {
+        "harness": "ordinary_parameter_seed_does_not_hide_caller_poison",
+        "source": "tests/expected/uninit/compound-cmp2-argument-negative/main.rs",
+        "intended_kani": "FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `Pad`",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "ordinary_parameter_seed_does_not_hide_callee_poison",
+        "source": "tests/expected/uninit/compound-cmp2-argument-negative/main.rs",
+        "intended_kani": "FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      },
+      {
+        "harness": "pointer_parameter_seed_does_not_initialize_pointee",
+        "source": "tests/expected/uninit/compound-cmp2-argument-negative/main.rs",
+        "intended_kani": "FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+        "actual": "FAILURE_BY_GOLDEN",
+        "own_failed_checks_complete": false,
+        "actual_reason": "Native expected-mode PASS requires named failure and total golden; per-root own Failed Checks list not retained"
+      }
+    ],
+    "native_status": "PASS"
+  }
+]

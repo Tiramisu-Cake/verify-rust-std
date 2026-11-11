@@ -2,7 +2,7 @@
   "stage": "kani3300-cmp2",
   "runtime": "Codex",
   "stable_owner": "k1-merge",
-  "state": "PRE_BUILD_REVIEW_PENDING_GO",
+  "state": "NATIVE_FAILED_HANDOFF",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-CMP2.md",
   "base_candidate": "6ef9fd72066443f7f113440ba32f77f310520a93",
   "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
@@ -11,10 +11,10 @@
   "window_main_minutes": 300,
   "window_closeout_minutes": 30,
   "cap_usd": 0.6,
-  "spent_usd": 0,
+  "spent_usd": 0.162,
   "reserved_usd": 0,
-  "proposed_reservation_usd": 0.54,
-  "native_status": "NOT_RUN",
+  "proposed_reservation_usd": 0,
+  "native_status": "17_PASS_3_ERROR",
   "core_status": "NOT_RUN",
   "verification_credit": "NONE",
   "inputs": [
@@ -24,7 +24,7 @@
       "sha256": "d3622882d8bda3757a95cdb7d6c994c170abc1f8681809dbafc0854de0a0c893"
     }
   ],
-  "next": "Coordinator exact-packet PRE-BUILD GO; do not dispatch until received",
+  "next": "Coordinator handoff; no repair/retry/core replay without new task/GO",
   "kani_worktree": "/root/kani-fix-3300-cmp",
   "kani_branch": "fix/kani-3300-cmp",
   "kani_candidate": "b1f0105c0390fb55081e3d186fa286d23867b585",
@@ -61,19 +61,59 @@
     {
       "claim": "Independent semantic review exact candidate no blocking findings",
       "status": "STATIC_REVIEW_ONLY"
+    },
+    {
+      "claim": "Exact GO packet submitted once; watcher terminal FAILURE; tool build and tooling/request/tree/patch identities pass",
+      "status": "BOUNDED_CI_FACTS",
+      "evidence": "POST-BUILD-OBSERVATIONS.json"
+    },
+    {
+      "claim": "Native17PASS/3ERROR; new positive/negative selectors PASS, original error offsets0,1,6 persist",
+      "status": "BOUNDED_NATIVE_RESULT_ACCEPTANCE_FAIL",
+      "evidence": "evidence/native-a13d3781/summary.md"
+    },
+    {
+      "claim": "Ordinary-parameter diagnosis is not confirmed causal; exact losing R step still UNKNOWN",
+      "status": "OPEN_AFTER_FAILED_REPAIR",
+      "evidence": "RESULT-KANI3300-CMP2.md"
     }
   ],
   "open": [
-    "Actual failing-instance points-to binding and causal confirmation await native",
-    "All77 roots including38 negatives native NOT_RUN",
-    "No direct empty-entry-block or nested-pointer aggregate fixture; source review only",
-    "Rustfmt unavailable; compile not run locally per task",
-    "U8/U9(+U1/U2,U6) replay NOT_RUN, needs later native acceptance and separate GO",
+    "Original IndexRange::len false uninit persists in offsets0,1; exact failing-instance/points-to binding UNKNOWN",
+    "Padding required u8 own diagnostic absent; direct byte read still *const u8 failure in retained compiletest echo;5root outcomesUNKNOWN",
+    "33negative failures by golden; all38negative full own per-root causes incomplete/UNKNOWN",
+    "New repros nativePASS but baseline sensitivity NOT_RUN; cannot claim they isolate CMP1 defect",
+    "No direct empty-entry/nested-pointer aggregate fixture; source review only",
+    "Test rustfmt deferred to upstream packaging; compiler coordinator-reported PASS",
+    "Core U8/U9(+U1/U2,U6) NOT_RUN and not ready for replay; native acceptance FAIL",
     "Inherited U3/PFC limitation OPEN"
   ],
-  "builds": [],
-  "dispatch_authorized": false,
+  "builds": [
+    {
+      "build_id": "a13d3781-287d-4229-88d6-6b3dd1a74879",
+      "head_sha": "6f50f1fbc4a95ca21444ee9ac6f101034081cd43",
+      "request_id": "kani3300-cmp2-20261111-01",
+      "status": "FAILURE",
+      "summary_status": "TOOL_ERROR",
+      "tool_build": "PASS",
+      "native_pass": 17,
+      "native_error": 3,
+      "spent_usd": 0.162,
+      "reserved_usd": 0
+    }
+  ],
+  "dispatch_authorized": true,
   "phase_registered": false,
-  "closure_reason": "Task-specific mandatory PRE-BUILD review boundary: candidate, independent review, exact subset/request/static checks and result complete; GO pending",
-  "updated_utc": "2026-11-11T05:55:23.127521+00:00"
+  "closure_reason": "Single authorized native attempt completed; original IntoIter/grouped failures and padding diagnostic persist. Independent next proof/build/replay work requires new GO; bounded closeout complete.",
+  "updated_utc": "2026-11-11T06:15:45.793858+00:00",
+  "dispatch_head": "6f50f1fbc4a95ca21444ee9ac6f101034081cd43",
+  "coordinator_go": {
+    "head": "6f50f1fbc4a95ca21444ee9ac6f101034081cd43",
+    "request_id": "kani3300-cmp2-20261111-01",
+    "compiler_rustfmt": "SOURCE_REPORTED_PASS by coordinator (--edition 2024, clone rustfmt.toml)",
+    "test_rustfmt": "DEFERRED_TO_UPSTREAM_PACKAGING_STYLE_ONLY_NO_BUILD_CHANGE"
+  },
+  "authorized_attempts_remaining": 0,
+  "current_dispatch_authorized": false,
+  "observations": "POST-BUILD-OBSERVATIONS.json"
 }

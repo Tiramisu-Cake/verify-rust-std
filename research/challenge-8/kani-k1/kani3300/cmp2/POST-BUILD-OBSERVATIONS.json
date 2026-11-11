@@ -1,0 +1,82 @@
+{
+  "build_id": "a13d3781-287d-4229-88d6-6b3dd1a74879",
+  "dispatch_head": "6f50f1fbc4a95ca21444ee9ac6f101034081cd43",
+  "request_sha256": "27cdfcdf089af8dc025a90ec98e3e189701758ba4fe64f1d77ccd1dfc42421c5",
+  "summary_sha256": "5a633c83229f75870075644a658179b85df83117f0188fe652eb1c1d7f990503",
+  "cloud_status": "FAILURE",
+  "summary_status": "TOOL_ERROR",
+  "gate": false,
+  "tool_build": "PASS",
+  "applied_tree": "e6870add67f2b1602f60ef3a623cf08139831265",
+  "patch_sha256": "17db5a0db394c5c5db8f7182fb61866df656747b17e160ead4034e03a14dbc0a",
+  "kani_compiler_sha256": "8333e8c37ce9c7fd4225b64bdd44ec8ce41d2b54c55478002ebe6f3c4657cec4",
+  "kani_driver_sha256": "653ba5660b15f16fb8e7b989cd0fb47b655bf93fcc415d372f988f592752de3f",
+  "tooling_identity": "PASS KT2 3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c; pool/request/applied tree/patch match",
+  "native_pass": 17,
+  "native_error": 3,
+  "error_offsets": [
+    0,
+    1,
+    6
+  ],
+  "positive_new_repros": "offset18 native PASS with --require-success,5 named roots and0 failures golden",
+  "negative_new_controls": "offset19 native PASS,3 named failures golden; required u32 diagnostic matched; own per-root Failed Checks NOT_RETAINED",
+  "harness_counts_by_evidence_class": {
+    "UNKNOWN": 24,
+    "FAILURE_BY_GOLDEN": 33,
+    "SUCCESS_BY_MIXED_GOLDEN": 1,
+    "SUCCESS_BY_NATIVE_REQUIRE_SUCCESS_AND_GOLDEN": 19
+  },
+  "failures": [
+    {
+      "offset": 0,
+      "failed_check_line_count": 24,
+      "omitted_failed_check_line_count": 9,
+      "selected_line_count": 15,
+      "coverage": "PARTIAL; streams distinguish actual invocation output from compiletest echoes",
+      "description": "IndexRange::len usize safety_check.1/.2 remains"
+    },
+    {
+      "offset": 1,
+      "failed_check_line_count": 16,
+      "omitted_failed_check_line_count": 3,
+      "selected_line_count": 14,
+      "coverage": "PARTIAL; streams distinguish actual invocation output from compiletest echoes",
+      "description": "IndexRange::len usize safety_check.1/.2 remains"
+    },
+    {
+      "offset": 6,
+      "failed_check_line_count": 29,
+      "omitted_failed_check_line_count": 15,
+      "selected_line_count": 15,
+      "coverage": "PARTIAL; streams distinguish actual invocation output from compiletest echoes",
+      "description": "Required u8 diagnostic absent in own stdout/stderr; compiletest echoes include *const u8 at direct-read lines78,92 and Pad/u32/C<Pad>; cannot substitute echoes for own per-root cause"
+    }
+  ],
+  "spent_usd": 0.162,
+  "reserved_usd": 0,
+  "cap_usd": 0.6,
+  "allowed_attempts_remaining": 0,
+  "core_status": "NOT_RUN",
+  "verification_credit": "NONE",
+  "causality": "CMP2 did not resolve CMP1 failures; no measured binding establishes parameter entry as cause or proves new repros fail on CMP1",
+  "formatting": "Coordinator-reported compiler rustfmt PASS; test style deferred to upstream packaging",
+  "query_limitations": [
+    {
+      "offset": 18,
+      "field": "output_excerpt",
+      "exit_code": 2,
+      "message": "page-native-field: unknown native field: output_excerpt",
+      "follow_up": "bounded native18 record retained instead"
+    },
+    {
+      "offset": 19,
+      "field": "output_excerpt",
+      "exit_code": 2,
+      "message": "page-native-field: unknown native field: output_excerpt",
+      "follow_up": "bounded native19 record retained instead"
+    }
+  ],
+  "historical_snapshots": "PRE-BUILD, REVIEW, STATIC-CHECKS, HARNESS-EXPECTATIONS and PACKET-CONTENTS remain pre-build snapshots from approved head; current state is CHECKPOINT/RESULT/POST-BUILD-OBSERVATIONS/HARNESS-OUTCOMES",
+  "updated_utc": "2026-11-11T06:15:45.793858+00:00"
+}

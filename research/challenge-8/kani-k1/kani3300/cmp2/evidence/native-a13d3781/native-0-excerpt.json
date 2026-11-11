@@ -1,0 +1,143 @@
+{
+  "build_id": "a13d3781-287d-4229-88d6-6b3dd1a74879",
+  "head_sha": "6f50f1fbc4a95ca21444ee9ac6f101034081cd43",
+  "request_sha256": "27cdfcdf089af8dc025a90ec98e3e189701758ba4fe64f1d77ccd1dfc42421c5",
+  "summary_file": "/tmp/kani-k1-gcb/summary-a13d3781-287d-4229-88d6-6b3dd1a74879/summary/summary.json",
+  "summary_sha256": "5a633c83229f75870075644a658179b85df83117f0188fe652eb1c1d7f990503",
+  "offset": 0,
+  "file": "uninit/maybe-uninit-wrap-u3-intoiter/main.rs",
+  "field": "output_excerpt",
+  "report_source": "native",
+  "validation": "VALIDATED",
+  "diagnostic_only": true,
+  "summary_status": "TOOL_ERROR",
+  "kind": "object",
+  "units": "entries",
+  "total": 10,
+  "start": 0,
+  "value": {
+    "diagnostic_only": true,
+    "failed_check_line_count": 24,
+    "max_json_bytes": 4096,
+    "max_lines": 60,
+    "omitted_failed_check_line_count": 9,
+    "omitted_line_count": 7847,
+    "records": [
+      {
+        "clipped": false,
+        "line": 131,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Check 1: std::ops::index_range::IndexRange::len.safety_check.1"
+      },
+      {
+        "clipped": false,
+        "line": 132,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Status: FAILURE"
+      },
+      {
+        "clipped": false,
+        "line": 133,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `usize`\""
+      },
+      {
+        "clipped": false,
+        "line": 134,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Location: ../../../root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/index_range.rs:52:51 in function std::ops::index_range::IndexRange::len"
+      },
+      {
+        "clipped": false,
+        "line": 136,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Check 2: std::ops::index_range::IndexRange::len.safety_check.2"
+      },
+      {
+        "clipped": false,
+        "line": 137,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Status: FAILURE"
+      },
+      {
+        "clipped": false,
+        "line": 138,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `usize`\""
+      },
+      {
+        "clipped": false,
+        "line": 139,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "\t - Location: ../../../root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/index_range.rs:52:61 in function std::ops::index_range::IndexRange::len"
+      },
+      {
+        "clipped": false,
+        "line": 1357,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`"
+      },
+      {
+        "clipped": false,
+        "line": 1358,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": " File: \"/root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/index_range.rs\", line 52, in std::ops::index_range::IndexRange::len"
+      },
+      {
+        "clipped": false,
+        "line": 1359,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `usize`"
+      },
+      {
+        "clipped": false,
+        "line": 1360,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": " File: \"/root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/index_range.rs\", line 52, in std::ops::index_range::IndexRange::len"
+      },
+      {
+        "clipped": false,
+        "line": 117,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "Check 1: std::ops::index_range::IndexRange::len.safety_check.1"
+      },
+      {
+        "clipped": false,
+        "line": 118,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "\t - Status: FAILURE"
+      },
+      {
+        "clipped": false,
+        "line": 119,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `usize`\""
+      }
+    ],
+    "selected_line_count": 15,
+    "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+    "source_line_counts": {
+      "compiletest_stderr": 114,
+      "compiletest_stdout": 3888,
+      "kani_stderr": 17,
+      "kani_stdout": 3843
+    }
+  },
+  "count": 10,
+  "next_start": null
+}
