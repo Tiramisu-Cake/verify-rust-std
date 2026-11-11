@@ -1,15 +1,15 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani3300-g1-a-targeted-20261111-01",
+  "request_id": "kani3300-g1r-a-targeted-20261111-01",
   "agent": "k1-merge",
   "kind": "kani-tests",
-  "purpose": "PREPARED NOT AUTHORIZED: KANI3300 G1 package A; exact candidate 45d0300e054345b4f6bdf89528195ee7c5dba8a5; native NOT_RUN. No automatic dispatch or repair.",
+  "purpose": "PREPARED NOT AUTHORIZED: KANI3300 G1R package A; exact candidate 3d085249c9c6c49a9c2e5747e2167d629748fb70; compilation/native NOT_RUN; dispatch only after coordinator GO.",
   "runner": "gcb-e2-standard-4",
-  "harness_timeout_minutes": 29,
+  "harness_timeout_minutes": 24,
   "harnesses": [],
   "kani_patch": {
-    "path": "research/challenge-8/kani-k1/kani3300/g1/kani3300-g1-a-build.patch",
-    "sha256": "35cae231c17b836a1d0191ee417a6e9a875eb41f2f8cf353ef2b1442bf78e40b"
+    "path": "research/challenge-8/kani-k1/kani3300/g1r/kani3300-g1r-a-build.patch",
+    "sha256": "47e625bab9d19dab22e4ec0682ecd4f561a180c022e7c09e29b205d7abcb7339"
   },
   "test_timeout_seconds": 150,
   "kani_tests": [

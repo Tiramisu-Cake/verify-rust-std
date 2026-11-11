@@ -8,7 +8,7 @@
   "kani_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
   "kani_branch": "fix/kani-3300-g1",
   "kani_pushed": false,
-  "status": "PRE_BUILD_REVIEW_READY",
+  "status": "G1RA_A_AUTHORIZED_PRE_DISPATCH",
   "static_checks": "STATIC-CHECKS.json",
   "compile_sweep": "COMPILE-SWEEP.md",
   "packages": [
@@ -55,7 +55,7 @@
     "builds": [],
     "spent_usd": 0,
     "reserved_usd": 0,
-    "dispatch": "NOT_AUTHORIZED_NOT_RUN"
+    "dispatch": "A ONLY AUTHORIZED; one attempt; no repair; B NOT authorized"
   },
   "prior_G1A_spent_usd": "0.0675",
   "claims": [
@@ -73,7 +73,7 @@
     "B requires separate owner GO; budget unchanged.",
     "Inherited P1 limitations/full regressions remain open."
   ],
-  "next": "Coordinator review of committed research package; dispatch only after explicit GO; B requires separate owner GO; stop.",
+  "next": "Publish exact A root request, final preflight, k1g.sh dispatch once, persist handoff, k1g.sh watch BUILD and end turn.",
   "review": {
     "model": "gpt-6-luna",
     "reasoning_effort": "high",
@@ -84,5 +84,10 @@
     "report_sha256": "9a21a94bd5c75128c6b929a1ed410f7c8160e389ea8c8839201102faf512da27",
     "verdict": "Favorable static review; no additional static compilation blocker identified; compiler/native NOT_RUN."
   },
-  "closure_reason": "Single authorized G1R stage complete: repair, full static production API sweep, unchanged-selector A/B packaging/preflight and independent review. No builds or Cloud authorized."
+  "latest_stage": "kani3300-g1ra",
+  "latest_authorization": "G1RA-AUTHORIZATION.json",
+  "active_build_id": null,
+  "T0": "2026-11-11T13:41:27+00:00",
+  "main_deadline": "2026-11-11T15:41:27+00:00",
+  "absolute_deadline": "2026-11-11T16:11:27+00:00"
 }
