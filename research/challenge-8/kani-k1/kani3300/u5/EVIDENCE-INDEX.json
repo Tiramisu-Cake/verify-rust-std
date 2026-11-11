@@ -1,0 +1,77 @@
+{
+  "build_id": "f4cf7bbd-b5ac-40df-b777-4ddaeb27d7f9",
+  "build_head": "f53c4611f8abbf0b495cccfcf8eb72a61b09fd51",
+  "scope": "bounded reporting receipts only; no raw evidence",
+  "assurance": "source-reported, not independent proof",
+  "files": [
+    {
+      "path": "brief-query.txt",
+      "bytes": 142,
+      "sha256": "42645fdb08e392356f33ed9b4cb7c71c16d32c1f8ba7b5eb63f59f5c60f8c764"
+    },
+    {
+      "path": "build.summary.md",
+      "bytes": 5655,
+      "sha256": "5c3be62765f540a01fb274f36074f17b0e67dc636587ba9ac9cbab272f18cd40"
+    },
+    {
+      "path": "build.rows.txt",
+      "bytes": 906,
+      "sha256": "d7ac36e96d8810f583ce005a4c026d32014eea215bc899efd56249be7b023fa4"
+    },
+    {
+      "path": "build.status.json",
+      "bytes": 366,
+      "sha256": "357233bb5e5837ef499c9c6b9eb5ded5718a98f0b375aa542bc3a16fcd38bc55"
+    },
+    {
+      "path": "build.cost.txt",
+      "bytes": 16,
+      "sha256": "32d5bfb21c3a4c674f4bbbcbd286402511f798328b7a5ec38d5de423e39799cb"
+    },
+    {
+      "path": "build.tooling.txt",
+      "bytes": 1309,
+      "sha256": "2f033e6f8ed95864dfee382d55cbe9a3c5f52805cc599897090135155202b8d2"
+    },
+    {
+      "path": "POST-BUILD-OBSERVATIONS.json",
+      "bytes": 4477,
+      "sha256": "6d217d775cc3ecd020fb8cdb5d87bfd43b32b1bd3e31b6540d81b23544852031"
+    },
+    {
+      "path": "RESULT-KANI3300-U5.md",
+      "bytes": 1963,
+      "sha256": "739bbd372ceafb9aeb05fb841a3ed5495c398a15ed1c45cff7725a0d528d40e6"
+    }
+  ],
+  "queries": [
+    {
+      "command": "smallsort-brief f4cf7bbd-b5ac-40df-b777-4ddaeb27d7f9",
+      "exit": 1,
+      "result": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)"
+    },
+    {
+      "command": "k1g.sh summary f4cf7bbd-b5ac-40df-b777-4ddaeb27d7f9",
+      "exit": 0
+    },
+    {
+      "command": "k1g.sh summary f4cf7bbd-b5ac-40df-b777-4ddaeb27d7f9 0 5",
+      "exit": 0,
+      "next_offset": "done"
+    },
+    {
+      "command": "k1g.sh status f4cf7bbd-b5ac-40df-b777-4ddaeb27d7f9",
+      "exit": 0
+    },
+    {
+      "command": "k1g.sh budget f4cf7bbd-b5ac-40df-b777-4ddaeb27d7f9",
+      "exit": 0
+    },
+    {
+      "command": "k1g.sh check-tooling f4cf7bbd-b5ac-40df-b777-4ddaeb27d7f9 3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+      "exit": 0
+    }
+  ],
+  "proof_credit": "NONE"
+}

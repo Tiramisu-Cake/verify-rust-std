@@ -1,6 +1,6 @@
 {
   "stage": "kani3300-u5",
-  "state": "PRE_BUILD_REVIEW_PENDING_COORDINATOR_GO",
+  "state": "CLOSED_DIAGNOSTIC_COMPLETE",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-U5.md",
   "runtime": "Codex",
   "owner": "k1-merge",
@@ -13,14 +13,18 @@
   "kani_patch_sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4",
   "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
   "cloud": {
-    "status": "NOT_RUN",
-    "attempts": 0,
-    "spend_usd": "0.0000",
+    "status": "SUCCESS",
+    "attempts": 1,
+    "spend_usd": "0.1620",
     "submitted_reserve_usd": "0.0000",
     "planned_reserve_usd": "0.6075",
     "cap_usd": "0.80",
     "envelope_minutes": 45,
-    "build_id": null
+    "build_id": "f4cf7bbd-b5ac-40df-b777-4ddaeb27d7f9",
+    "remaining_usd": "0.6380",
+    "summary_status": "COMPLETE",
+    "gate": true,
+    "kani_exit": 1
   },
   "claims": [
     {
@@ -37,13 +41,28 @@
       "claim": "u64 Freeze specialization routes Stable entry to general scratch path; N4 writes slots [0,4), leaves slot4 untouched on normal return.",
       "assurance": "source analysis only; not independent MIR binding",
       "reference": "PRE-BUILD.md"
+    },
+    {
+      "claim": "Bound build head/request/Kani pin/CMP2 patch/applied tree match; protected tooling PASS against KT2.",
+      "assurance": "bounded source-reported metadata and tooling closure",
+      "reference": "build.summary.md; build.status.json; build.tooling.txt"
+    },
+    {
+      "claim": "B1 SUCCESS 0/547 covers3/3; B2 expected FAILED2/564 covers4/4 with *const u64 and u64 uninit failures. U8 SUCCESS0/550 covers1/1, U1 expected FAILED1/30 covers3/3, U2 SUCCESS0/31 covers3/3.",
+      "assurance": "Kani-reported bounded diagnostic; not independent B1/B2 credit",
+      "reference": "POST-BUILD-OBSERVATIONS.json; build.rows.txt; build.summary.md"
+    },
+    {
+      "claim": "Written-slot read passes and isolated unwritten-slot read reports u64 uninit, observing sensitivity on real Stable u64/N4 path; pointer cause and independent MIR/call-site binding unestablished.",
+      "assurance": "bounded diagnostic observation, not general compound/native acceptance",
+      "reference": "RESULT-KANI3300-U5.md"
     }
   ],
   "open": [
-    "Cloud results, actual argv, applied tree, failed/total, covers and failure locations remain NOT_RUN/UNKNOWN.",
-    "B2 must show uninit u64; count all failures, classify pointer failures separately; no fixed failure multiplicity.",
-    "No independent MIR/call-site binding or pointer-cause attribution.",
-    "Normal returns only with unchanged panic stub; no theorem for arbitrary types/lengths/unwind."
+    "Brief report/query route unavailable HTTP404; only task-authorized bounded Kani summary/rows and status/tooling/cost receipts used, without raw fallback.",
+    "Literal actual argv, property IDs, per-failure columns/call sites and individual cover records not supplied by these bounded summary/rows; remain UNKNOWN.",
+    "Pointer-type failure cause and relationship to payload failure remain UNKNOWN; source locations alone do not establish MIR/call-site binding or independent proof credit.",
+    "Normal returns only with unchanged order-violation panic stub; fixed type/length/comparator/patch, not arbitrary types/lengths/unwind. Covers after intentional UB confer no credit."
   ],
   "independent_review": {
     "state": "PASS",
@@ -58,13 +77,18 @@
     "proof_credit": "NONE"
   },
   "proof_credit": "NONE",
-  "next_step": "Coordinator reviews exact published packet SHA. STOP until GO; then one dispatch, k1g.sh watch BUILD and end turn.",
-  "stop_boundary": "No dispatch until exact-packet coordinator PRE-BUILD review/GO; one diagnostic attempt only, no retries.",
-  "thread_cwd": "/root; task-specific k1g watcher required only after GO and dispatch; no watcher armed.",
+  "next_step": "Coordinator reviews published completed diagnostic; no further changes or Builds within this one-stage task.",
+  "stop_boundary": "Single permitted diagnostic attempt completed; result, accounting and bounded evidence recorded. No retry or new phase authorized.",
+  "thread_cwd": "/root; task-specific k1g watcher delivered terminal SUCCESS to this thread; no generic SmallSort session watcher armed.",
   "result": "RESULT-KANI3300-U5.md",
   "semantic_candidate": "be8bd0d11d75d6bc3898bb1d3429b7d03fe8f61b",
   "coordinator_go": {
-    "state": "PENDING",
-    "exact_head": null
-  }
+    "state": "APPROVED_AND_DISPATCHED",
+    "exact_head": "f53c4611f8abbf0b495cccfcf8eb72a61b09fd51",
+    "request_id": "kani3300-u5-uninit-20261111-01",
+    "basis": "Explicit coordinator GO in user message for exact packet f53c4611f8abbf0b495cccfcf8eb72a61b09fd51, request kani3300-u5-uninit-20261111-01, patch46ad585f, reserve$0.6075<=cap$0.80; dispatch, k1g watch, end turn."
+  },
+  "build_head": "f53c4611f8abbf0b495cccfcf8eb72a61b09fd51",
+  "evidence_index": "EVIDENCE-INDEX.json",
+  "evidence_index_sha256": "5c6f64457f928cbdfc04f09f350140ba9b9b2f7fc3847ae061efb9b0f4e733dd"
 }

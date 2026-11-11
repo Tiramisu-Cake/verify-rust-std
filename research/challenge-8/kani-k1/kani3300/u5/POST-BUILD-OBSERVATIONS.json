@@ -1,0 +1,94 @@
+{
+  "build_id": "f4cf7bbd-b5ac-40df-b777-4ddaeb27d7f9",
+  "build_head": "f53c4611f8abbf0b495cccfcf8eb72a61b09fd51",
+  "request_id": "kani3300-u5-uninit-20261111-01",
+  "request_sha256": "5c21d21c3dc53a0d5d716d2ebf290287fa24c1fc8f9842b8187cf91abc23e6a3",
+  "source": "Task-authorized bounded k1g summary and complete five-row page; Cloud status and tooling/cost interfaces. Brief HTTP404, no raw fallback.",
+  "assurance": "Kani-reported bounded diagnostic, no independent B1/B2 proof credit",
+  "gate": true,
+  "expectation_met": true,
+  "kani_exit": 1,
+  "rows": [
+    {
+      "row": "B1",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::stable_small_sort_scratch_written_slot_u64_n4",
+      "status": "SUCCESS",
+      "failed_total": "0/547",
+      "covers": "3/3",
+      "unreachable": 13,
+      "time_s": "61.658916"
+    },
+    {
+      "row": "B2",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::stable_small_sort_scratch_unwritten_slot_only_u64_n4",
+      "status": "FAILED",
+      "failed_total": "2/564",
+      "covers": "4/4",
+      "unreachable": 13,
+      "time_s": "49.899044"
+    },
+    {
+      "row": "B3/U8",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4",
+      "status": "SUCCESS",
+      "failed_total": "0/550",
+      "covers": "1/1",
+      "unreachable": 19,
+      "time_s": "35.632748"
+    },
+    {
+      "row": "B4/U1",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "status": "FAILED",
+      "failed_total": "1/30",
+      "covers": "3/3",
+      "unreachable": 0,
+      "time_s": "0.5437408"
+    },
+    {
+      "row": "B5/U2",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+      "status": "SUCCESS",
+      "failed_total": "0/31",
+      "covers": "3/3",
+      "unreachable": 0,
+      "time_s": "0.5741581"
+    }
+  ],
+  "failed_checks": [
+    {
+      "row": "B2",
+      "description": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u64`",
+      "location": "/workspace/src/library/core/src/ptr/mod.rs:1769",
+      "classification": "pointer-typed uninit diagnostic; cause and relation to payload diagnostic UNKNOWN"
+    },
+    {
+      "row": "B2",
+      "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+      "location": "/workspace/src/library/core/src/ptr/mod.rs:1769",
+      "classification": "u64 payload uninit diagnostic expected by B2"
+    },
+    {
+      "row": "B4/U1",
+      "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "location": "/workspace/src/library/core/src/mem/mod.rs:1283",
+      "classification": "u8 calibration uninit diagnostic expected by U1"
+    }
+  ],
+  "coverage": "five of five requested rows; next_offset done; three reported Failed Checks match aggregate failure count; aggregate covers only",
+  "tooling": "check-tooling PASS against 3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "identity_checks": "authorized build head/request/Kani pin/patch/applied tree match; bounded tooling receipts and published Git blobs checked",
+  "conclusion": "Source-reported bounded replay through real Stable u64/N4 entry: B1 scratch[3] SUCCESS, sortedness/count and normal-return checks. B2 isolated scratch[4] read reports u64 payload and separate *const u64 uninit diagnostics; sensitivity observed on this width/path. Pointer cause and independent MIR/call-site binding remain open. U8/U1/U2 controls meet expectations.",
+  "limitations": [
+    "Brief report/query route unavailable HTTP404; only task-authorized bounded Kani summary/rows and status/tooling/cost receipts used, without raw fallback.",
+    "Literal actual argv, property IDs, per-failure columns/call sites and individual cover records not supplied by these bounded summary/rows; remain UNKNOWN.",
+    "Pointer-type failure cause and relationship to payload failure remain UNKNOWN; source locations alone do not establish MIR/call-site binding or independent proof credit.",
+    "Normal returns only with unchanged order-violation panic stub; fixed type/length/comparator/patch, not arbitrary types/lengths/unwind. Covers after intentional UB confer no credit."
+  ],
+  "cost_usd": "0.1620",
+  "reserved_usd": "0.0000",
+  "cap_usd": "0.80",
+  "unused_cap_usd": "0.6380",
+  "attempts": 1,
+  "proof_credit": "NONE"
+}
