@@ -1,0 +1,183 @@
+{
+  "stage": "kani3300-u0",
+  "build_id": "51f228c7-615f-4027-8bae-d68fb293e132",
+  "build_head": "69b3b92fc9965e3e35af4eeff80d02c650745285",
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "request_id": "kani3300-u0-uninit-20261111-01",
+  "request_sha256": "0dbce45f0859d38e56817b53e1861e4d028853418f6826caa73293adfb966056",
+  "cloud_status": "FAILURE",
+  "summary_status": "COMPLETE",
+  "gate": false,
+  "tooling_base": "c98d7cee0d509b1633ab61c9a1ae989e286c8e2a",
+  "evidence_scope": "bounded k1g summary, rows, terminal status, tooling and ledger",
+  "failed_checks_completeness": "one listed and located check for each of seven failed rows, no clipping or truncation markers",
+  "rows": [
+    {
+      "row": "U1",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "status": "FAILED",
+      "classification": "unsupported",
+      "checks_failed": 1,
+      "checks_total": 31,
+      "failed_checks": [
+        {
+          "description": "Transmuting between types of incompatible layouts.",
+          "location": "/workspace/src/library/core/src/mem/mod.rs:1283"
+        }
+      ],
+      "covers": "3/3",
+      "time_s": 0.38240585,
+      "historical_checks_total": 31
+    },
+    {
+      "row": "U2",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+      "status": "FAILED",
+      "classification": "unsupported",
+      "checks_failed": 1,
+      "checks_total": 32,
+      "failed_checks": [
+        {
+          "description": "Transmuting between types of incompatible layouts.",
+          "location": "/workspace/src/library/core/src/mem/mod.rs:1283"
+        }
+      ],
+      "covers": "3/3",
+      "time_s": 0.49518698,
+      "historical_checks_total": 32
+    },
+    {
+      "row": "U3",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::raw_uninit_read_sensitivity",
+      "status": "FAILED",
+      "classification": "unsupported",
+      "checks_failed": 1,
+      "checks_total": 47,
+      "failed_checks": [
+        {
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "location": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/uninit_probe.rs:47"
+        }
+      ],
+      "covers": "0/3",
+      "time_s": 0.10888922,
+      "historical_checks_total": 47
+    },
+    {
+      "row": "U4",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::swap_contract_four_positions_u8",
+      "status": "FAILED",
+      "classification": "unsupported",
+      "checks_failed": 1,
+      "checks_total": 454,
+      "failed_checks": [
+        {
+          "description": "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300.",
+          "location": "/workspace/src/library/core/src/ops/function.rs:166"
+        }
+      ],
+      "covers": "2/5",
+      "time_s": 1.9651716,
+      "historical_checks_total": 450
+    },
+    {
+      "row": "U5",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::sorted_permutation_insert_tail_u8_n2",
+      "status": "SUCCESS",
+      "classification": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 181,
+      "failed_checks": [],
+      "covers": "1/1",
+      "time_s": 1.4840374,
+      "historical_checks_total": 174
+    },
+    {
+      "row": "U6",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::permutation_merge_u8_n4",
+      "status": "FAILED",
+      "classification": "unsupported",
+      "checks_failed": 1,
+      "checks_total": 243,
+      "failed_checks": [
+        {
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "location": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/uninit_probe.rs:117"
+        }
+      ],
+      "covers": "0/1",
+      "time_s": 0.26872548,
+      "historical_checks_total": 235
+    },
+    {
+      "row": "U7",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::swap_contract_four_positions_u8_function_item",
+      "status": "FAILED",
+      "classification": "unsupported",
+      "checks_failed": 1,
+      "checks_total": 416,
+      "failed_checks": [
+        {
+          "description": "Interaction between raw pointers and unions is not yet supported.",
+          "location": "/workspace/src/library/core/src/hint.rs:844"
+        }
+      ],
+      "covers": "2/5",
+      "time_s": 4.6925774,
+      "historical_checks_total": null
+    },
+    {
+      "row": "U8",
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4",
+      "status": "FAILED",
+      "classification": "unsupported",
+      "checks_failed": 1,
+      "checks_total": 515,
+      "failed_checks": [
+        {
+          "description": "Checking memory initialization of type [mem::maybe_uninit::MaybeUninit<u8>; 20] is not supported. Cannot determine layout for a type that contains union of type mem::maybe_uninit::MaybeUninit<u8> as a field.",
+          "location": "/workspace/src/library/core/src/slice/sort/shared/smallsort/verify/uninit_probe.rs:177"
+        }
+      ],
+      "covers": "0/1",
+      "time_s": 0.40498284,
+      "historical_checks_total": null
+    }
+  ],
+  "cost_usd": "0.1215",
+  "cap_usd": "0.80",
+  "cloud_elapsed_seconds": 524.007864,
+  "verifier_wall": "1:28.94",
+  "repro": {
+    "path": "research/challenge-8/kani-k1/kani3300/u0/scratch-array-layout.rs",
+    "status": "candidate, not executed",
+    "edition": "2021",
+    "lines": 18,
+    "rejection": "check_uninit/ty_layout.rs:403",
+    "diagnostic_injection": "check_uninit/ptr_uninit/uninit_visitor.rs:119",
+    "rustfmt": "PASS, specified wrapper, edition 2021, codefix/rustfmt.toml, --check",
+    "sha256": "a60b74aa7a7dd851f8eadf65c204dc358f62bf920c1961ab558f824227205e78"
+  },
+  "checks": {
+    "summary_complete": true,
+    "summary_identity": true,
+    "row_page_identity": true,
+    "cloud_identity": true,
+    "check_tooling_pass": true,
+    "unpatched_request": true,
+    "all_eight_rows_in_request_order": true,
+    "failure_descriptions_complete_in_bounded_summary": true,
+    "all_failed_checks_located": true,
+    "seven_unsupported_one_success": true,
+    "no_timeouts": true,
+    "repro_at_most_30_lines": true,
+    "library_equals_built_packet": true,
+    "reference_pin_and_clean_tree": true,
+    "cost_within_cap": true
+  },
+  "reference_source_sha256": {
+    "ty_layout.rs": "c56a07b8e4e5ca07cfe0014f5d09fb34a19c3c70e9fcc0f13ba035bbbfec65ff",
+    "ptr_uninit/uninit_visitor.rs": "82c9036308e984c2da6aeeda68186dbe36f99c1f3c74b151b176dfb2b992c2f7",
+    "mod.rs": "487138ede144c9cea764b1da8562a90525cfdcab7ba110e044d46a3b75ce502e"
+  }
+}
