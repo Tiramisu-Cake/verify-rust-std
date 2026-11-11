@@ -1,0 +1,50 @@
+{
+  "applicability": "CMP3 preparation only, six localization roots plus existing U8/U1/U2; exact-packet coordinator GO before one diagnostic Build. All nine normative planner points apply.",
+  "baseline_commit": "b557178a8bf10cb5e984d73f1c6efaadd2ccdb87",
+  "candidate_commit": "e8712286a092ff417a6cc7651e679f1d7598d3f0",
+  "controls": [
+    "Exactly nine roots in required order: IndexRange len, sized len, unsized len, ManuallyDrop unsized len, IntoIter len, IntoIter next, existing U8, existing U1 negative, existing U2 positive.",
+    "Assert len==2 and Some(a)/Some(b)/None with covers after operations, separate Drop errors from len; account every failure and omission.",
+    "diagnostic, uninit/controls true, inventory false, standard4/jobs1, 3m per harness; one Build, no repeats, 57min reserve $0.7695 <= $0.80."
+  ],
+  "defect": "Diagnose the first observed uninitialized IndexRange::len check on the actual core array IntoIter path; no Kani fix in this task.",
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-CMP3.md",
+    "research/challenge-8/kani-k1/kani3300/cmp3/PLANNER-CMP3-ANSWER.md",
+    "research/challenge-8/kani-k1/kani3300/cmp3/PRE-BUILD.md",
+    "research/challenge-8/kani-k1/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/u4/kani-uninit.patch",
+    "research/challenge-8/kani-k1/kani3300/u4/PATCH-BINDING.json",
+    "library/core/src/array/iter/iter_inner.rs",
+    "library/core/src/array/iter.rs",
+    "library/core/src/array/mod.rs",
+    "library/core/src/ops/index_range.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/uninit_probe.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh",
+    "research/challenge-8/kani-k1/tools/k1g.sh",
+    "tool_config/kani-version.toml",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "Library scope limited to appended roots in uninit_probe.rs and minimal cfg(kani) adapters/re-exports in array iterator files. Preserve all existing roots, production methods, types and visibility.",
+    "Steps 2-4 must call native PolymorphicIter::len with alive=0..2 and both MaybeUninit::new values; explicit ManuallyDrop -> deref -> unsize in step4; no pre-len raw-read/AddressOf instrumentation.",
+    "Keep immutable production-only U4 patch, pin/toolchain and KT2 protected lane paths unchanged; no kani_smallsort_controls outside permitted SmallSort paths.",
+    "Do not weaken U4 gates or claim causality from spans/covers; retain UNKNOWN until linked object/transfer/delayed-get evidence."
+  ],
+  "known_limitations": [
+    "No local compiler/cargo/Kani/CBMC/preparation or Cloud dispatch authorized at this stage. Static review is not runtime proof.",
+    "Inherited U4 binding/acceptance text describes U4 history; CMP2 acceptance FAIL motivates CMP3 and U4 remains held.",
+    "Extra adapter boundaries, inlining, unsize and Drop affect instrumentation; no causal transfer/delayed-get binding currently available.",
+    "Thread cwd is /root; later runtime must satisfy watcher entry requirements before any Build."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-cmp3/research/challenge-8/kani-k1/kani3300/u4/INDEPENDENT-REVIEW.md",
+      "sha256": "32dd1ab8134ce89af8e54d7996bc3abaf2a9550316a57825d605d3233df76568"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-cmp3"
+}

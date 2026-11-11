@@ -55,7 +55,9 @@ Exactly one diagnostic build, standard4/jobs1, 3m per root, controls/uninit on, 
 Envelope 9*3+30 = 57 minutes; reserve 57*$0.0135 = $0.7695 <= cap $0.80. Spend $0, submitted reserve $0.
 Generated kani.args/rustflags prove intent only. Static request validation and scope/identity checks PASS (`static-check.json`).
 No local cargo/rustc/Kani/CBMC or preparation/extraction; no Actions/PR/issue. Runner unchanged; no service tests rerun.
-Independent review receipt will bind the semantic candidate/spec/packet; review does not authorize dispatch.
+Independent Luna HIGH review PASS (`INDEPENDENT-REVIEW.md`), candidate `e8712286a092ff417a6cc7651e679f1d7598d3f0`;
+spec SHA256 `f0f7f1e42c224fbfcc381f3a018facc60d964090d633aee32c342cd7205250ad`,
+packet SHA256 `d15a2cbc0abf2e259fff54a3fad7a67b9c9fc56169ee87d37ad50c17e7afea96`. Review does not authorize dispatch.
 Coordinator must check exact published head/request, slots, phase, deadline envelope and project/nightly accounting before GO.
 After GO only: existing k1g.sh dispatch for this branch, then k1g.sh watch BUILD and end turn (watcher runtime entry required).
 After terminal: permitted Brief and bounded k1g.sh summary/native/native-field/rows; status, budget, check-tooling against KT2.
