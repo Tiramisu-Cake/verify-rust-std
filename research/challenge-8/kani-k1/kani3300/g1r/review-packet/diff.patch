@@ -1,0 +1,22 @@
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 386c73e3eba710cb386d6567baf8610bb3e5a84a..82c4b1b6268d5dd5311b6a7d39fedd433337cfd3 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -318,7 +318,7 @@ fn assign_storage(&mut self, place: &Place, ty: Ty, rvalue: &Rvalue, location: L
+                     }
+                     if let Operand::Move(source) = operand {
+                         let source_size =
+-                            source.ty(&self.locals).unwrap().layout().unwrap().shape().size;
++                            source.ty(&self.locals).unwrap().layout().unwrap().shape().size.bytes();
+                         self.push_target(MemoryInitOp::SetStorage {
+                             operand: Operand::Copy(source.clone()),
+                             initialized: vec![false; source_size],
+@@ -611,7 +611,7 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                         if let Operand::Move(source) = arg {
+                             let ty = arg.ty(&self.locals).unwrap();
+                             if self.transfers_shadow(ty) {
+-                                let size = ty.layout().unwrap().shape().size;
++                                let size = ty.layout().unwrap().shape().size.bytes();
+                                 self.push_target(MemoryInitOp::SetStorage {
+                                     operand: Operand::Copy(source.clone()),
+                                     initialized: vec![false; size],

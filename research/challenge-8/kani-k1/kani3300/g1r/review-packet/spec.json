@@ -1,0 +1,53 @@
+{
+  "applicability": "Independent static review of exact repair delta plus complete production diff 657c2b245..candidate and COMPILE-SWEEP.md. No compiler/build/Cloud execution. Exact rustc_public sources available at /tmp/kani3300-g1r-api (API-SOURCES.json).",
+  "baseline_commit": "45d0300e054345b4f6bdf89528195ee7c5dba8a5",
+  "candidate_commit": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
+  "controls": [
+    "Tests/selectors/goldens must remain byte-identical to 45d0300e05; no semantic change.",
+    "Check every new/changed API use in five production files against f046 source and nightly-2026-10-23 source, including types, borrows, exhaustiveness, imports and generic model args.",
+    "No cargo/rustc/Kani/CBMC/build/Cloud, no nested delegation, no edits outside g1r/REVIEW.md."
+  ],
+  "defect": "G1R: MachineSize used as usize for Repeat Move and intrinsic Forget masks; audit all G1 production API changes for compilation compatibility.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "library/kani_core/src/mem_init.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/kani_intrinsics.rs"
+  ],
+  "invariants": [
+    "Single-byte nondeterministic shadow witness must detect any initializedness violation; data/padding masks preserved; copies must invalidate overwritten destination and preserve source witness.",
+    "Flat bool/usize buffer is inside marked MEM_INIT_STATE. Non-deterministic argument selection, deterministic return index zero, nested calls and consuming active state must preserve witnesses.",
+    "copy_by_id must not inspect dead return pointers or fabricate object/provenance ownership. Snapshot IDs while source live.",
+    "DFCC may exempt verifier-private MEM_INIT_STATE only; actual writes outside modifies must remain checked. No assumptions or user-check weakening.",
+    "Full rustc storage extent versus typed preserve-mask: false source stays false; untyped copies preserve padding; typed copies/load/constant clear uncovered padding and tail.",
+    "Whole-create resets full union, projected stores touch exact field/subfield extent, ZST field does not bless payload; address formation never initializes union.",
+    "Matching argument/return/destination protocol, captured addresses before overwrite, no return dead pointer dereference.",
+    "No layout shortcut bypasses nested union/G2, fn-pointer, niche/different-padding enum; all-ZST handled.",
+    "Thin/fat union pointer field aliases reach delayed typed reads; pointer bytes do not imply initialized pointee.",
+    "Unmodeled volatile/typed_swap/select_unpredictable/bodyless/foreign and MU-specific transmute fail closed.",
+    "MIR Move differs from Copy: copy/retain destination then clear source-only bytes; selected argument Move clears on matching callee entry; constructor/field Move source checks precede source clearing and destination mask installation; Repeat clears source once after all slot copies.",
+    "Direct intrinsic Forget Move clears tracked storage. G2 by-value formals/return locals/call arguments reject before no-op/zero-sized shortcuts; MU flat arrays retain validated storage path."
+  ],
+  "known_limitations": [
+    "No native or compiler results; full regression/core replay later require separate GO.",
+    "G2 by-value union containers/wrappers remain Unsupported, including unaligned U transfers via Unaligned<U>.",
+    "OR-of-arm data mask is explicit rustc-layout inference; no backend observation used as preservation guarantee.",
+    "Existing P1 PFC limitation remains open; no independent B1/B2 credit.",
+    "Inherited P1: non-Copy MU<T> transmute Move-source raw-alias invalidation in both directions is outside this direct-U change; conversion whitelist remains unchanged. No general P1 soundness claim.",
+    "New 23 selectors (154 harnesses) plus 17 renamed/existing regressions require two future 20-selector requests; neither is executed."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-g1"
+}
