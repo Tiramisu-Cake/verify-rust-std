@@ -1,0 +1,33 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "kani3300-g1r3-a3-targeted-20261111-01",
+  "agent": "k1-merge",
+  "kind": "kani-tests",
+  "purpose": "PREPARED NOT AUTHORIZED: KANI3300 G1R3 A3 two-selector retest; exact test candidate 6bb067476116704763502763984b225014dce221; production unchanged from 3d085249c9c6c49a9c2e5747e2167d629748fb70; compiler/native NOT_RUN; dispatch only after coordinator GO.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 5,
+  "harnesses": [],
+  "kani_patch": {
+    "path": "research/challenge-8/kani-k1/kani3300/g1r3/kani3300-g1r3-a3-build.patch",
+    "sha256": "59e556e7942bf717107a6ff293fef66b13d3e3994d8c931ec8dba7f8c2e41e87"
+  },
+  "test_timeout_seconds": 150,
+  "kani_tests": [
+    {
+      "file": "uninit/g1-union-pointee-negative/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field."
+    }
+  ]
+}

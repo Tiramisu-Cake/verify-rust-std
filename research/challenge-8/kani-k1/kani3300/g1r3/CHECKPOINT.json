@@ -1,0 +1,73 @@
+{
+  "schema": "kani3300-g1r3-checkpoint-v1",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-G1R3.md",
+  "runtime": "Codex",
+  "research_input": "431c8d0d7a7e71e8c0ecba014ff89edbddb2ce42",
+  "status": "PRE_BUILD_REVIEW_A3_PACKAGE_READY_STOP",
+  "kani_candidate": "6bb067476116704763502763984b225014dce221",
+  "test_parent": "02b734151ada1dd0d216b0db329776eb522d2d67",
+  "production_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
+  "production_unchanged": true,
+  "kani_pushed": false,
+  "package": "A3_ONLY_TWO_SELECTORS",
+  "request": "RUN-REQUEST.json",
+  "request_sha256": "2f5bdab60569918095f22b818bc403c572b0973f40f11ab6b1051022ddc675c5",
+  "patch": "kani3300-g1r3-a3-build.patch",
+  "patch_sha256": "59e556e7942bf717107a6ff293fef66b13d3e3994d8c931ec8dba7f8c2e41e87",
+  "applied_tree": "1faeb244d2b054393141ce971180cdc2a5b6e64e",
+  "native_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "tooling_pin": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "selectors": 2,
+  "static_checks": "STATIC-CHECKS.json",
+  "sweep": "SWEEP.md",
+  "sweep_sha256": "7764b6a06425734f092e0724e1a96788523ea63f683392aa86808534f02b8809",
+  "review_spec_raw_sha256": "0dfad465816af258b2052dc63d758d75ac9b16e4cf54058675fe02ccbc1a5775",
+  "review_spec_normalized_sha256": "f8a7045a7e838a34e35ccc6a8cd360b7936c6703cccdeb0de856f2296f74d89d",
+  "review_packet_sha256": "185f984304631b2ff50078790d562e31f16807463319e82c9e565470eca90209",
+  "budget_proposal": {
+    "work_minutes": 5,
+    "overhead_minutes": 30,
+    "proposal_usd": "0.4725",
+    "remaining_G1_usd": "0.4760",
+    "prior_G1_spent_usd": "0.3240",
+    "total_with_proposal_usd": "0.7965",
+    "cap_usd": "0.80"
+  },
+  "cloud_this_stage": {
+    "builds": [],
+    "spent_usd": "0",
+    "reserved_usd": "0",
+    "dispatch": "NOT_AUTHORIZED_NOT_RUN"
+  },
+  "claims": [
+    {
+      "claim": "Test-only repair; full production unchanged; all G1 wrapper sweep; A3 applied tree and existing static preflight passed.",
+      "assurance": "STATIC_SOURCE_AND_GIT_CHECKS_ONLY"
+    }
+  ],
+  "compiler_native": "NOT_RUN",
+  "expected_negative": {
+    "SUCCESS": 0,
+    "FAILURE": 70
+  },
+  "observed_negative": "UNKNOWN_NOT_RUN",
+  "expected_manuallydrop": {
+    "SUCCESS": 0,
+    "FAILURE": 1
+  },
+  "observed_manuallydrop": "UNKNOWN_NOT_RUN",
+  "proof_credit": "NONE",
+  "next": "STOP. Exact published research commit requires coordinator review/GO before any build, dispatch or Cloud. Then use bounded results for negative counts or native PASS/FAIL and Failed Checks excerpt.",
+  "open": [
+    "After GO: negative per-harness counts only as supplied by bounded interface; otherwise native PASS/FAIL and Failed Checks excerpt. No raw fallback.",
+    "Inherited B/P1/full-regression limitations remain; this stage provides no native result."
+  ],
+  "review": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "report": "REVIEW.md",
+    "report_sha256": "f319175eeef8d23d8efbf580b6afc36f2287718e7af8a5320838fd95960c68c0",
+    "verdict": "No scoped static findings; compiler/native NOT_RUN; no GO or proof credit."
+  },
+  "closure_reason": "Single preparation stage completed; test repair, all-G1 sweep, A3 patch/application/preflight, independent review and publication prepared. Explicit task requires stop before build/dispatch/Cloud."
+}

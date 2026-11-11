@@ -1,0 +1,1005 @@
+{
+  "schema": "kani3300-g1-test-manifest-v1",
+  "candidate": "6bb067476116704763502763984b225014dce221",
+  "kani_base": "657c2b24516b967f67ce71994299d0ef328aede9",
+  "native_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "fixtures": [
+    {
+      "file": "uninit/g1-union-pointee-negative/main.rs",
+      "expected_file": "uninit/g1-union-pointee-negative/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "unwritten_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "unwritten_c.safety_check",
+          "reading_binding": "unwritten_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = CU { z: () }; let p = &u as *const CU; unsafe { let _value = (*p).wide; }"
+        },
+        {
+          "name": "unwritten_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "unwritten_rust.safety_check",
+          "reading_binding": "unwritten_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = RU { z: () }; let p = &u as *const RU; unsafe { let _value = (*p).wide; }"
+        },
+        {
+          "name": "narrow_then_wide_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "narrow_then_wide_c.safety_check",
+          "reading_binding": "narrow_then_wide_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = CU { narrow: 9 }; let p = &mut u as *mut CU; unsafe { (*p).narrow = 10; let _value = (*p).wide; }"
+        },
+        {
+          "name": "narrow_then_wide_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "narrow_then_wide_rust.safety_check",
+          "reading_binding": "narrow_then_wide_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = RU { narrow: 9 }; let p = &mut u as *mut RU; unsafe { (*p).narrow = 10; let _value = (*p).wide; }"
+        },
+        {
+          "name": "whole_copy_partial_assign_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_copy_partial_assign_c.safety_check",
+          "reading_binding": "whole_copy_partial_assign_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = CU { z: () }; let mut dst = CU { wide: 1 }; unsafe { *(&mut dst as *mut CU) = *(&src as *const CU); let _value = (*(&dst as *const CU)).wide; }"
+        },
+        {
+          "name": "whole_copy_partial_assign_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_copy_partial_assign_rust.safety_check",
+          "reading_binding": "whole_copy_partial_assign_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = RU { z: () }; let mut dst = RU { wide: 1 }; unsafe { *(&mut dst as *mut RU) = *(&src as *const RU); let _value = (*(&dst as *const RU)).wide; }"
+        },
+        {
+          "name": "whole_copy_partial_ptr_read_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_copy_partial_ptr_read_c.safety_check",
+          "reading_binding": "whole_copy_partial_ptr_read_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::read",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = CU { z: () }; let dst = unsafe { ptr::read(&src) }; let _value = unsafe { (*(&dst as *const CU)).wide };"
+        },
+        {
+          "name": "whole_copy_partial_ptr_read_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_copy_partial_ptr_read_rust.safety_check",
+          "reading_binding": "whole_copy_partial_ptr_read_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::read",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = RU { z: () }; let dst = unsafe { ptr::read(&src) }; let _value = unsafe { (*(&dst as *const RU)).wide };"
+        },
+        {
+          "name": "whole_move_source_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_move_source_uninit_c.safety_check",
+          "reading_binding": "whole_move_source_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "noncopy_move",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let src = MoveC { wide: 173 }; let p = ptr::addr_of!(src); let _dst = src; unsafe { let _moved_from = (*p).wide; }"
+        },
+        {
+          "name": "whole_move_source_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_move_source_uninit_rust.safety_check",
+          "reading_binding": "whole_move_source_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "noncopy_move",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let src = MoveR { wide: 179 }; let p = ptr::addr_of!(src); let _dst = src; unsafe { let _moved_from = (*p).wide; }"
+        },
+        {
+          "name": "argument_move_source_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_move_source_uninit_c.safety_check",
+          "reading_binding": "argument_move_source_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let src = MoveC { wide: 181 }; let p = ptr::addr_of!(src); consume_move_c(src); unsafe { let _moved_from = (*p).wide; }"
+        },
+        {
+          "name": "argument_move_source_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_move_source_uninit_rust.safety_check",
+          "reading_binding": "argument_move_source_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let src = MoveR { wide: 191 }; let p = ptr::addr_of!(src); consume_move_rust(src); unsafe { let _moved_from = (*p).wide; }"
+        },
+        {
+          "name": "whole_move_partial_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_move_partial_c.safety_check",
+          "reading_binding": "whole_move_partial_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = MoveC { z: () }; let dst = src; unsafe { let _value = dst.wide; }"
+        },
+        {
+          "name": "whole_move_partial_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_move_partial_rust.safety_check",
+          "reading_binding": "whole_move_partial_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = MoveR { z: () }; let dst = src; unsafe { let _value = dst.wide; }"
+        },
+        {
+          "name": "whole_copy_partial_nonoverlap_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_copy_partial_nonoverlap_c.safety_check",
+          "reading_binding": "whole_copy_partial_nonoverlap_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::copy_nonoverlapping",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = CU { z: () }; let mut dst = CU { wide: 3 }; unsafe { ptr::copy_nonoverlapping(&src, &mut dst, 1); let _value = (*(&dst as *const CU)).wide; }"
+        },
+        {
+          "name": "whole_copy_partial_nonoverlap_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_copy_partial_nonoverlap_rust.safety_check",
+          "reading_binding": "whole_copy_partial_nonoverlap_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::copy_nonoverlapping",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = RU { z: () }; let mut dst = RU { wide: 3 }; unsafe { ptr::copy_nonoverlapping(&src, &mut dst, 1); let _value = (*(&dst as *const RU)).wide; }"
+        },
+        {
+          "name": "whole_copy_partial_overlapping_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "whole_copy_partial_overlapping_c.safety_check",
+          "reading_binding": "whole_copy_partial_overlapping_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "ptr::copy",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut b = RawBacking([0u8; 32]); let base = b.0.as_mut_ptr(); unsafe { ptr::write(base.cast::<CU>(), CU { z: () }); ptr::copy(base, base.add(1), std::mem::size_of::<CU>()); let _value = *base.add(1); }"
+        },
+        {
+          "name": "whole_copy_partial_overlapping_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "whole_copy_partial_overlapping_rust.safety_check",
+          "reading_binding": "whole_copy_partial_overlapping_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "ptr::copy",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut b = RawBacking([0u8; 32]); let base = b.0.as_mut_ptr(); unsafe { ptr::write(base.cast::<RU>(), RU { z: () }); ptr::copy(base, base.add(1), std::mem::size_of::<RU>()); let _value = *base.add(1); }"
+        },
+        {
+          "name": "whole_reset_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_reset_c.safety_check",
+          "reading_binding": "whole_reset_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = CU { wide: 0x12345678 }; let p = &mut u as *mut CU; unsafe { ptr::write(p, CU { narrow: 1 }); let _value = (*p).wide; }"
+        },
+        {
+          "name": "whole_reset_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_reset_rust.safety_check",
+          "reading_binding": "whole_reset_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = RU { wide: 0x12345678 }; let p = &mut u as *mut RU; unsafe { ptr::write(p, RU { narrow: 1 }); let _value = (*p).wide; }"
+        },
+        {
+          "name": "whole_reset_alias_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_reset_alias_c.safety_check",
+          "reading_binding": "whole_reset_alias_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = CU { wide: 0x12345678 }; let p = &mut u as *mut CU; let alias = p; unsafe { ptr::write(p, CU { narrow: 1 }); let _value = (*alias).wide; }"
+        },
+        {
+          "name": "whole_reset_alias_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_reset_alias_rust.safety_check",
+          "reading_binding": "whole_reset_alias_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = RU { wide: 0x12345678 }; let p = &mut u as *mut RU; let alias = p; unsafe { ptr::write(p, RU { narrow: 1 }); let _value = (*alias).wide; }"
+        },
+        {
+          "name": "argument_return_partial_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_return_partial_c.safety_check",
+          "reading_binding": "argument_return_partial_c.safety_check direct read",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let x = identity_c(CU { z: () }); let _value = unsafe { x.wide };"
+        },
+        {
+          "name": "argument_return_partial_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_return_partial_rust.safety_check",
+          "reading_binding": "argument_return_partial_rust.safety_check direct read",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let x = identity_rust(RU { z: () }); let _value = unsafe { x.wide };"
+        },
+        {
+          "name": "argument_return_partial_reused_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_return_partial_reused_c.safety_check",
+          "reading_binding": "argument_return_partial_reused_c.safety_check direct read",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut destination = pair_identity_c(CU { wide: 1 }, CU { z: () }); destination = pair_identity_c(CU { z: () }, CU { wide: 2 }); let _value = unsafe { destination.wide };"
+        },
+        {
+          "name": "argument_return_partial_reused_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_return_partial_reused_rust.safety_check",
+          "reading_binding": "argument_return_partial_reused_rust.safety_check direct read",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut destination = pair_identity_rust(RU { wide: 1 }, RU { z: () }); destination = pair_identity_rust(RU { z: () }, RU { wide: 2 }); let _value = unsafe { destination.wide };"
+        },
+        {
+          "name": "argument_return_partial_mixed_size_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_return_partial_mixed_size_c.safety_check",
+          "reading_binding": "argument_return_partial_mixed_size_c.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let value = pair_mixed_c(CU { z: () }, TailC { bytes: [1; 5] }); let _read = unsafe { value.wide };"
+        },
+        {
+          "name": "argument_return_partial_mixed_size_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_return_partial_mixed_size_rust.safety_check",
+          "reading_binding": "argument_return_partial_mixed_size_rust.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let value = pair_mixed_rust(RU { z: () }, TailR { bytes: [1; 5] }); let _read = unsafe { value.wide };"
+        },
+        {
+          "name": "padded_byte_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "padded_byte_c.safety_check",
+          "reading_binding": "padded_byte_c.safety_check direct read",
+          "operation_binding": [
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let u = CU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) }; let p = &u as *const CU; unsafe { let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "padded_byte_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "padded_byte_rust.safety_check",
+          "reading_binding": "padded_byte_rust.safety_check direct read",
+          "operation_binding": [
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let u = RU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) }; let p = &u as *const RU; unsafe { let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "padded_typed_transfer_padding_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "padded_typed_transfer_padding_c.safety_check",
+          "reading_binding": "padded_typed_transfer_padding_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::read",
+            "ptr::write",
+            "ptr::write_bytes",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let mut src = CU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) }; let mut dst = CU { z: () }; unsafe { ptr::write_bytes((&mut src as *mut CU).cast::<u8>(), 0x5a, std::mem::size_of::<CU>()); ptr::write(&mut dst, ptr::read(&src)); let p = &dst as *const CU; let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "padded_typed_transfer_padding_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "padded_typed_transfer_padding_rust.safety_check",
+          "reading_binding": "padded_typed_transfer_padding_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::read",
+            "ptr::write",
+            "ptr::write_bytes",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let mut src = RU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) }; let mut dst = RU { z: () }; unsafe { ptr::write_bytes((&mut src as *mut RU).cast::<u8>(), 0x5a, std::mem::size_of::<RU>()); ptr::write(&mut dst, ptr::read(&src)); let p = &dst as *const RU; let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "padded_argument_return_padding_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "padded_argument_return_padding_c.safety_check",
+          "reading_binding": "padded_argument_return_padding_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write_bytes",
+            "bodyful_transfer",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let mut src = CU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) }; unsafe { ptr::write_bytes((&mut src as *mut CU).cast::<u8>(), 0x5a, std::mem::size_of::<CU>()); } let u = padded_identity_c(src); let p = &u as *const CU; unsafe { let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "padded_argument_return_padding_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "padded_argument_return_padding_rust.safety_check",
+          "reading_binding": "padded_argument_return_padding_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write_bytes",
+            "bodyful_transfer",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let mut src = RU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) }; unsafe { ptr::write_bytes((&mut src as *mut RU).cast::<u8>(), 0x5a, std::mem::size_of::<RU>()); } let u = padded_identity_rust(src); let p = &u as *const RU; unsafe { let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "array_field_unwritten_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u16",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+          "property_binding": "array_field_unwritten_c.safety_check",
+          "reading_binding": "array_field_unwritten_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = CU { z: () }; let p = &u as *const CU; unsafe { let _value = (*p).pair[1]; }"
+        },
+        {
+          "name": "array_field_unwritten_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u16",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+          "property_binding": "array_field_unwritten_rust.safety_check",
+          "reading_binding": "array_field_unwritten_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = RU { z: () }; let p = &u as *const RU; unsafe { let _value = (*p).pair[1]; }"
+        },
+        {
+          "name": "array_padded_byte_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "array_padded_byte_c.safety_check",
+          "reading_binding": "array_padded_byte_c.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let u = CU { padded: ManuallyDrop::new(Padded { byte: 1, word: 2 }) }; let p = (&u as *const CU).cast::<u8>(); unsafe { let _padding = *p.add(1); }"
+        },
+        {
+          "name": "array_padded_byte_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "array_padded_byte_rust.safety_check",
+          "reading_binding": "array_padded_byte_rust.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let u = RU { padded: ManuallyDrop::new(Padded { byte: 1, word: 2 }) }; let p = (&u as *const RU).cast::<u8>(); unsafe { let _padding = *p.add(1); }"
+        },
+        {
+          "name": "array_padded_elements_byte_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "array_padded_elements_byte_c.safety_check",
+          "reading_binding": "array_padded_elements_byte_c.safety_check direct read",
+          "operation_binding": [
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let u = CU { padded_pair: [ ManuallyDrop::new(Padded { byte: 1, word: 2 }), ManuallyDrop::new(Padded { byte: 3, word: 5 }), ], }; let p = &u as *const CU; unsafe { let padding = ptr::addr_of!((&(*p).padded_pair[1]).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "array_padded_elements_byte_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "array_padded_elements_byte_rust.safety_check",
+          "reading_binding": "array_padded_elements_byte_rust.safety_check direct read",
+          "operation_binding": [
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let u = RU { padded_pair: [ ManuallyDrop::new(Padded { byte: 1, word: 2 }), ManuallyDrop::new(Padded { byte: 3, word: 5 }), ], }; let p = &u as *const RU; unsafe { let padding = ptr::addr_of!((&(*p).padded_pair[1]).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "zst_whole_reset_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "zst_whole_reset_c.safety_check",
+          "reading_binding": "zst_whole_reset_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = CU { wide: 0x76543210 }; let p = &mut u as *mut CU; unsafe { ptr::write(p, CU { z: () }); let _value = (*p).wide; }"
+        },
+        {
+          "name": "zst_whole_reset_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "zst_whole_reset_rust.safety_check",
+          "reading_binding": "zst_whole_reset_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = RU { wide: 0x76543210 }; let p = &mut u as *mut RU; unsafe { ptr::write(p, RU { z: () }); let _value = (*p).wide; }"
+        },
+        {
+          "name": "align_tail_typed_copy_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "align_tail_typed_copy_c.safety_check",
+          "reading_binding": "align_tail_typed_copy_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::read",
+            "ptr::write",
+            "ptr::write_bytes"
+          ],
+          "source_body": "let mut b = RawBacking([0u8; 32]); let p = b.0.as_mut_ptr().cast::<TailC>(); unsafe { ptr::write(p, TailC { bytes: [0x5a; 5] }); ptr::write_bytes(p.cast::<u8>(), 0x5a, std::mem::size_of::<TailC>()); let value = ptr::read(p); ptr::write(p.add(1), value); let _tail = *tail_c_padding(p.add(1)); }"
+        },
+        {
+          "name": "align_tail_typed_copy_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "align_tail_typed_copy_rust.safety_check",
+          "reading_binding": "align_tail_typed_copy_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::read",
+            "ptr::write",
+            "ptr::write_bytes"
+          ],
+          "source_body": "let mut b = RawBacking([0u8; 32]); let p = b.0.as_mut_ptr().cast::<TailR>(); unsafe { ptr::write(p, TailR { bytes: [0x5a; 5] }); ptr::write_bytes(p.cast::<u8>(), 0x5a, std::mem::size_of::<TailR>()); let value = ptr::read(p); ptr::write(p.add(1), value); let _tail = *tail_r_padding(p.add(1)); }"
+        },
+        {
+          "name": "align_tail_argument_return_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "align_tail_argument_return_c.safety_check",
+          "reading_binding": "align_tail_argument_return_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write_bytes",
+            "bodyful_transfer"
+          ],
+          "source_body": "let mut src = TailC { bytes: [1; 5] }; unsafe { ptr::write_bytes((&mut src as *mut TailC).cast::<u8>(), 0x5a, std::mem::size_of::<TailC>()); } let u = tail_identity_c(src); unsafe { let _tail = *tail_c_padding(&u as *const TailC); }"
+        },
+        {
+          "name": "align_tail_argument_return_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "align_tail_argument_return_rust.safety_check",
+          "reading_binding": "align_tail_argument_return_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write_bytes",
+            "bodyful_transfer"
+          ],
+          "source_body": "let mut src = TailR { bytes: [1; 5] }; unsafe { ptr::write_bytes((&mut src as *mut TailR).cast::<u8>(), 0x5a, std::mem::size_of::<TailR>()); } let u = tail_identity_rust(src); unsafe { let _tail = *tail_r_padding(&u as *const TailR); }"
+        },
+        {
+          "name": "align_tail_reset_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "align_tail_reset_c.safety_check",
+          "reading_binding": "align_tail_reset_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "ptr::write_bytes"
+          ],
+          "source_body": "let mut b = RawBacking([0u8; 32]); let p = b.0.as_mut_ptr().cast::<TailC>(); unsafe { ptr::write_bytes(p.cast::<u8>(), 0x5a, std::mem::size_of::<TailC>()); ptr::write(p, TailC { bytes: [1; 5] }); let _tail = *tail_c_padding(p); }"
+        },
+        {
+          "name": "align_tail_reset_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "align_tail_reset_rust.safety_check",
+          "reading_binding": "align_tail_reset_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "ptr::write_bytes"
+          ],
+          "source_body": "let mut b = RawBacking([0u8; 32]); let p = b.0.as_mut_ptr().cast::<TailR>(); unsafe { ptr::write_bytes(p.cast::<u8>(), 0x5a, std::mem::size_of::<TailR>()); ptr::write(p, TailR { bytes: [1; 5] }); let _tail = *tail_r_padding(p); }"
+        },
+        {
+          "name": "address_no_bless_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "address_no_bless_c.safety_check",
+          "reading_binding": "address_no_bless_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let u = CU { z: () }; let p = &u as *const CU; let _address = unsafe { ptr::addr_of!((*p).wide) }; unsafe { let _value = (*p).wide; }"
+        },
+        {
+          "name": "address_no_bless_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "address_no_bless_rust.safety_check",
+          "reading_binding": "address_no_bless_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let u = RU { z: () }; let p = &u as *const RU; let _address = unsafe { ptr::addr_of!((*p).wide) }; unsafe { let _value = (*p).wide; }"
+        },
+        {
+          "name": "pointer_pointee_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "pointer_pointee_uninit_c.safety_check",
+          "reading_binding": "pointer_pointee_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = std::mem::MaybeUninit::<u32>::uninit(); let mut u = CU { ptr: target.as_mut_ptr() }; let p = &mut u as *mut CU; unsafe { (*p).ptr = target.as_mut_ptr(); let q = (*p).ptr; let _value = *q; }"
+        },
+        {
+          "name": "pointer_pointee_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "pointer_pointee_uninit_rust.safety_check",
+          "reading_binding": "pointer_pointee_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = std::mem::MaybeUninit::<u32>::uninit(); let mut u = RU { ptr: target.as_mut_ptr() }; let p = &mut u as *mut RU; unsafe { (*p).ptr = target.as_mut_ptr(); let q = (*p).ptr; let _value = *q; }"
+        },
+        {
+          "name": "pointer_compound_read_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_compound_read_uninit_c.safety_check",
+          "reading_binding": "pointer_compound_read_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = CU { z: () }; let p = &u as *const CU; unsafe { let _value = *(*p).ptr; }"
+        },
+        {
+          "name": "pointer_compound_read_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_compound_read_uninit_rust.safety_check",
+          "reading_binding": "pointer_compound_read_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = RU { z: () }; let p = &u as *const RU; unsafe { let _value = *(*p).ptr; }"
+        },
+        {
+          "name": "pointer_compound_store_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_compound_store_uninit_c.safety_check",
+          "reading_binding": "pointer_compound_store_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let mut u = CU { z: () }; let p = &mut u as *mut CU; unsafe { *(*p).ptr = 113; }"
+        },
+        {
+          "name": "pointer_compound_store_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_compound_store_uninit_rust.safety_check",
+          "reading_binding": "pointer_compound_store_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let mut u = RU { z: () }; let p = &mut u as *mut RU; unsafe { *(*p).ptr = 127; }"
+        },
+        {
+          "name": "pointer_compound_read_after_reset_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_compound_read_after_reset_c.safety_check",
+          "reading_binding": "pointer_compound_read_after_reset_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = 131u32; let mut u = CU { ptr: &mut target }; let p = &mut u as *mut CU; unsafe { ptr::write(p, CU { z: () }); let _value = *(*p).ptr; }"
+        },
+        {
+          "name": "pointer_compound_read_after_reset_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_compound_read_after_reset_rust.safety_check",
+          "reading_binding": "pointer_compound_read_after_reset_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = 137u32; let mut u = RU { ptr: &mut target }; let p = &mut u as *mut RU; unsafe { ptr::write(p, RU { z: () }); let _value = *(*p).ptr; }"
+        },
+        {
+          "name": "pointer_delayed_partial_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "pointer_delayed_partial_c.safety_check",
+          "reading_binding": "pointer_delayed_partial_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::copy_nonoverlapping",
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = CU { z: () }; let mut local = 37u32; let holder = identity_c(CU { ptr: &mut local }); let q = unsafe { holder.ptr }; unsafe { ptr::copy_nonoverlapping( (&src as *const CU).cast::<u8>(), q.cast::<u8>(), std::mem::size_of::<u32>(), ); } assert_eq!(local, 37);"
+        },
+        {
+          "name": "pointer_delayed_partial_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "pointer_delayed_partial_rust.safety_check",
+          "reading_binding": "pointer_delayed_partial_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::copy_nonoverlapping",
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = RU { z: () }; let mut local = 41u32; let holder = identity_rust(RU { ptr: &mut local }); let q = unsafe { holder.ptr }; unsafe { ptr::copy_nonoverlapping( (&src as *const RU).cast::<u8>(), q.cast::<u8>(), std::mem::size_of::<u32>(), ); } assert_eq!(local, 41);"
+        },
+        {
+          "name": "pointer_field_value_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_field_value_uninit_c.safety_check",
+          "reading_binding": "pointer_field_value_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let u = CU { z: () }; unsafe { let _pointer = (*(&u as *const CU)).ptr; }"
+        },
+        {
+          "name": "pointer_field_value_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_field_value_uninit_rust.safety_check",
+          "reading_binding": "pointer_field_value_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let u = RU { z: () }; unsafe { let _pointer = (*(&u as *const RU)).ptr; }"
+        },
+        {
+          "name": "fat_pointer_field_value_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*const [u8]",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`",
+          "property_binding": "fat_pointer_field_value_uninit_c.safety_check",
+          "reading_binding": "fat_pointer_field_value_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let u = CU { z: () }; unsafe { let _pointer = (*(&u as *const CU)).fat; }"
+        },
+        {
+          "name": "fat_pointer_field_value_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*const [u8]",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`",
+          "property_binding": "fat_pointer_field_value_uninit_rust.safety_check",
+          "reading_binding": "fat_pointer_field_value_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let u = RU { z: () }; unsafe { let _pointer = (*(&u as *const RU)).fat; }"
+        },
+        {
+          "name": "field_move_constructor_source_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "field_move_constructor_source_uninit_c.safety_check",
+          "reading_binding": "field_move_constructor_source_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "whole_union_constructor_move",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let source = ManuallyDrop::new(NonCopyWord { word: 193 }); let source_word = ptr::addr_of!(source).cast::<u32>(); let union = NonCopyFieldC { value: source }; unsafe { std::intrinsics::forget(union); let _moved_from = *source_word; }"
+        },
+        {
+          "name": "field_move_constructor_source_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "field_move_constructor_source_uninit_rust.safety_check",
+          "reading_binding": "field_move_constructor_source_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "whole_union_constructor_move",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let source = ManuallyDrop::new(NonCopyWord { word: 197 }); let source_word = ptr::addr_of!(source).cast::<u32>(); let union = NonCopyFieldR { value: source }; unsafe { std::intrinsics::forget(union); let _moved_from = *source_word; }"
+        },
+        {
+          "name": "field_move_projection_source_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "field_move_projection_source_uninit_c.safety_check",
+          "reading_binding": "field_move_projection_source_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "projected_noncopy_field_move",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let source = ManuallyDrop::new(NonCopyWord { word: 199 }); let source_word = ptr::addr_of!(source).cast::<u32>(); let mut union = NonCopyFieldC { z: () }; let union_ptr = &mut union as *mut NonCopyFieldC; unsafe { (*union_ptr).value = source; std::intrinsics::forget(union); let _moved_from = *source_word; }"
+        },
+        {
+          "name": "field_move_projection_source_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "field_move_projection_source_uninit_rust.safety_check",
+          "reading_binding": "field_move_projection_source_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "projected_noncopy_field_move",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let source = ManuallyDrop::new(NonCopyWord { word: 211 }); let source_word = ptr::addr_of!(source).cast::<u32>(); let mut union = NonCopyFieldR { z: () }; let union_ptr = &mut union as *mut NonCopyFieldR; unsafe { (*union_ptr).value = source; std::intrinsics::forget(union); let _moved_from = *source_word; }"
+        },
+        {
+          "name": "intrinsic_forget_move_source_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "intrinsic_forget_move_source_uninit_c.safety_check",
+          "reading_binding": "intrinsic_forget_move_source_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "intrinsic_forget",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let src = MoveC { wide: 239 }; let p = ptr::addr_of!(src); unsafe { std::intrinsics::forget(src); let _moved_from = (*p).wide; }"
+        },
+        {
+          "name": "intrinsic_forget_move_source_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "intrinsic_forget_move_source_uninit_rust.safety_check",
+          "reading_binding": "intrinsic_forget_move_source_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "intrinsic_forget",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let src = MoveR { wide: 241 }; let p = ptr::addr_of!(src); unsafe { std::intrinsics::forget(src); let _moved_from = (*p).wide; }"
+        }
+      ],
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "d1f94363c8e22bc557ba1ed95af569098ff4fb3530be1245078d9e7a00b6b1d2",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-negative/expected",
+      "golden_sha256": "2f431fb7f59942dcd747dcfaedec6fd74baf2e2ad9ca34f4ba75128afe9d9c24",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_manuallydrop_union",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "ManuallyDrop<U>",
+          "diagnostic_substring": "Cannot determine layout for a type that contains union of type U as a field.",
+          "property_binding": "std::mem::ManuallyDrop::<U>::new.unsupported_construct.1",
+          "reading_binding": "reject_manuallydrop_union: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let wrapper = ManuallyDrop::new(U { wide: 1 }); let p = &wrapper as *const ManuallyDrop<U>; unsafe { let _value = (&*p).wide; }"
+        }
+      ],
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "e3a0d7fca86a7a015421272d1c91d59aa116d2455ebbbda7b1eb8f320a63c5f5",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/expected",
+      "golden_sha256": "c666dad05d345f6b0932d7cac65bba899867479a507911a47b34fea2c37b0dfe",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    }
+  ],
+  "helpers": [
+    {
+      "path": "tests/expected/uninit/g1-union-pointee-unsupported/types.inc",
+      "sha256": "422df5f16f8cc08c9ebf38994f4964bd4d6cc8901cc28323cc54951b4a9db33a"
+    }
+  ],
+  "current_outcome": "NOT_RUN",
+  "acceptance": "Every selector must pass compiletest; positive require-success; each negative own named property and complete golden; each one-harness rejection own diagnostic and failed summary. No OOM/timeout/setup/compile error credit.",
+  "regression_name_map": {
+    "04": "maybe-uninit-transmute",
+    "05": "maybe-uninit-transfers",
+    "06": "maybe-uninit-initialized",
+    "07": "maybe-uninit-transmute-padding",
+    "08": "maybe-uninit-transmute-source-read",
+    "09": "maybe-uninit-argument-buffer",
+    "10": "maybe-uninit-contract-clause",
+    "11": "maybe-uninit-contract-frame",
+    "12": "maybe-uninit-partial-copy",
+    "13": "maybe-uninit-reset-alias",
+    "14": "maybe-uninit-argument-return",
+    "15": "maybe-uninit-overwrite-copy",
+    "16": "maybe-uninit-overlap-copy",
+    "17": "maybe-uninit-repeat-local",
+    "18": "maybe-uninit-reset-zst"
+  }
+}

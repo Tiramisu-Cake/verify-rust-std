@@ -1,0 +1,52 @@
+diff --git a/tests/expected/uninit/g1-union-pointee-negative/main.rs b/tests/expected/uninit/g1-union-pointee-negative/main.rs
+index 8fbfc77743e797d393f18405fe648575d9d06520..69feda4d933e5a898e2f8d8a9156a2286f9154e8 100644
+--- a/tests/expected/uninit/g1-union-pointee-negative/main.rs
++++ b/tests/expected/uninit/g1-union-pointee-negative/main.rs
+@@ -734,8 +734,8 @@ fn field_move_constructor_source_uninit_c() {
+     let source = ManuallyDrop::new(NonCopyWord { word: 193 });
+     let source_word = ptr::addr_of!(source).cast::<u32>();
+     let union = NonCopyFieldC { value: source };
+-    std::mem::forget(union);
+     unsafe {
++        std::intrinsics::forget(union);
+         let _moved_from = *source_word;
+     }
+ }
+@@ -744,8 +744,8 @@ fn field_move_constructor_source_uninit_rust() {
+     let source = ManuallyDrop::new(NonCopyWord { word: 197 });
+     let source_word = ptr::addr_of!(source).cast::<u32>();
+     let union = NonCopyFieldR { value: source };
+-    std::mem::forget(union);
+     unsafe {
++        std::intrinsics::forget(union);
+         let _moved_from = *source_word;
+     }
+ }
+@@ -757,7 +757,7 @@ fn field_move_projection_source_uninit_c() {
+     let union_ptr = &mut union as *mut NonCopyFieldC;
+     unsafe {
+         (*union_ptr).value = source;
+-        std::mem::forget(union);
++        std::intrinsics::forget(union);
+         let _moved_from = *source_word;
+     }
+ }
+@@ -769,7 +769,7 @@ fn field_move_projection_source_uninit_rust() {
+     let union_ptr = &mut union as *mut NonCopyFieldR;
+     unsafe {
+         (*union_ptr).value = source;
+-        std::mem::forget(union);
++        std::intrinsics::forget(union);
+         let _moved_from = *source_word;
+     }
+ }
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/expected
+index f7b23c20be7a1dc75f96b3f7869470038d77c03e..18b547e2c5dddbef56c1dff5fec814f8f754ca62 100644
+--- a/tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/expected
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/expected
+@@ -1,4 +1,4 @@
+-reject_manuallydrop_union.unsupported_construct.\
++std::mem::ManuallyDrop::<U>::new.unsupported_construct.1\
+ 	 - Status: FAILURE\
+ Cannot determine layout for a type that contains union of type U as a field.
+ Verification failed for - reject_manuallydrop_union

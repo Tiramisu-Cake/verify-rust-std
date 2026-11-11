@@ -1,0 +1,34 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-g1",
+  "baseline_commit": "02b734151ada1dd0d216b0db329776eb522d2d67",
+  "candidate_commit": "6bb067476116704763502763984b225014dce221",
+  "defect": "Negative fixtures encounter a wrapper guard before their intended moved-from reads; ManuallyDrop rejection golden property owner differs from observed helper owner.",
+  "applicability": "Independent static delta review and all-G1 std/core-wrapper sweep. Verify claims in /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/g1r3/SWEEP.md SHA256 7764b6a06425734f092e0724e1a96788523ea63f683392aa86808534f02b8809 independently. Inspect package A3 RUN-REQUEST.json, TEST-MANIFEST.json, STATIC-CHECKS.json, APPLIED-INVENTORY-A3.json and preflight-a3.json under /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/g1r3; Rust sources at /tmp/kani3300-g1r3-rust-source and /tmp/kani3300-g1r2-rust-source, hashes in /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/g1r3/RUST-SOURCES.json SHA256 e2b1672ac9a31b71b821c006a0ad3a7f32b93a17c807f4e319f4ee431185a9ff. No compiler/native results exist for this candidate.",
+  "invariants": [
+    "Production must remain identical to 3d085249c9c6c49a9c2e5747e2167d629748fb70; only four mem::forget calls and one golden owner may change.",
+    "Four moved-from u32 reads and negative golden/70 harness outcomes must remain intact; direct intrinsic path must avoid unintended G2 and preserve modeled Move invalidation.",
+    "ManuallyDrop<U> test remains an intentional G2 rejection; only exact owner/index changes, with same reason/FAILURE/harness/summary.",
+    "Find unintended std/core union wrapper paths across all G1 fixtures; intentional rejection fixtures remain controls.",
+    "A3 only the two task selectors; full unchanged P1+G1 production against f046; selected source/golden/helper bytes equal candidate. B untouched. Timeout<=5 and proposal (5+30)*0.0135<=0.476; Cloud $0."
+  ],
+  "controls": [
+    "No nested delegation; no cargo/rustc/Kani/CBMC, build/dispatch/Cloud, raw evidence/credentials, Kani push, external messages.",
+    "Read-only investigation; write only /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/g1r3/REVIEW.md. Do not edit tests/production/packages.",
+    "Report concise findings, exact candidate/spec/packet and sweep identities, static limitations; no GO or proof credit."
+  ],
+  "dependencies": [
+    "tests/expected/uninit/g1-union-pointee-negative/main.rs",
+    "tests/expected/uninit/g1-union-pointee-positive/main.rs",
+    "tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+    "tests/expected/uninit/g1-union-pointee-negative/expected",
+    "tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/expected",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "rust-toolchain.toml"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Compilation and native verification NOT_RUN. Static inspection cannot establish per-harness results or independent B1/B2 credit."
+  ]
+}
