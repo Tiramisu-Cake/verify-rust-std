@@ -1,38 +1,40 @@
-# RESULT-KANI3300-CMP1 — PRE-BUILD
-Status: PREPARED; experimental v2 base accepted by coordinator; native/core NOT_RUN; exact PRE-BUILD GO pending.
-Full Kani candidate `6ef9fd72066443f7f113440ba32f77f310520a93`; branch fix/kani-3300-cmp.
-Full tree `97159e7c2d7ce369fb7cf7fee60c58002a7a2610`; all tests retained in clone and full patch.
-Build subset commit `617e714b9beb9cc037378bbb86085a6c13e4c910` (local derivation; published patch is canonical).
-Build tree `4c0c56b2808adb542f6e58a59f4672fdc89b439c`; production/selected fixtures equal full candidate.
-Build patch SHA256 `e216f41ca8887c85e19ba84ee56fc6581ee5b95f68ad982e111c5f1b0ca19183`.
-Request SHA256 `49fb4a6df2268219dd96b29febb4c598b1490e5bc726773760e819949851b53e`; full patch SHA256 `481c01624dcc36d0820d8f66912c28e074f0feaa28e246a8976efec54aa12a1c`.
-Pin f046b70644e113be0df9c22c2e6ea44a65a57566; tooling 3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c unchanged.
-Invariant: disjoint target R/S/P partition; typed R reads retained; complete S transfer; exact P clears; indirect whole assignment Unsupported.
-Diffstat CMP1−v2 production: 4 files, +606/−15; ghost-state/SKIPPED_ITEMS unchanged.
-Luna HIGH: no remaining identified production blocker after localized fixes; static only; see REVIEW-CMP1.md.
-Static PASS: fresh exact-pin apply/tree, validate18, rustfmt, scope/blob/lane equality, tooling117; pinned diffstat2939<=4096.
-OPEN outside this profile: isolated U3B PFC+modifies+uninit positive/negative both Kani-reported OOM; U3/PFC acceptance not closed.
-Budget CMP1: spent$0, reserved$0, proposed$0.540, cap$0.60; no Build submitted.
-
-|offset|selector suffix|intended / actual|
-|---:|---|---|
-|0|maybe-uninit-wrap-u3-intoiter|SUCCESS / NOT_RUN|
-|1|compound-cmp1-positive|SUCCESS / NOT_RUN|
-|2|compound-cmp1-empty-negative|specific FAILURE / NOT_RUN|
-|3|compound-cmp1-overwrite-negative|specific FAILURE / NOT_RUN|
-|4|compound-cmp1-call-negative|specific FAILURE / NOT_RUN|
-|5|compound-cmp1-projection-negative|one SUCCESS + four uninit FAILURE / NOT_RUN|
-|6|compound-cmp1-padding-negative|specific FAILURE / NOT_RUN|
-|7|compound-cmp1-layout-unsupported|union, enum, nested-MU, nested-union, indirect: each Unsupported / NOT_RUN|
-|8|compound-cmp1-no-mir-unsupported|specific FAILURE / NOT_RUN|
-|9|maybe-uninit-wrap-u3-positive|SUCCESS / NOT_RUN|
-|10|maybe-uninit-wrap-u3-padding|specific FAILURE / NOT_RUN|
-|11|maybe-uninit-wrap-u3-source-read|specific FAILURE / NOT_RUN|
-|12|maybe-uninit-review-positive|SUCCESS / NOT_RUN|
-|13|maybe-uninit-review-overwrite-copy|specific FAILURE / NOT_RUN|
-|14|maybe-uninit-buffer-u3-frame-negative|specific FAILURE / NOT_RUN|
-|15|maybe-uninit-buffer-u3-no-mir-unsupported|specific FAILURE / NOT_RUN|
-|16|maybe-uninit-buffer-u3-plain-negative|specific FAILURE / NOT_RUN|
-|17|maybe-uninit-buffer-u3-clause-pfc-negative|specific FAILURE / NOT_RUN|
-Excluded by coordinator: isolated U3B PFC on/off fixtures and old4-root buffer-positive; retained in full candidate, no CMP1 credit.
-Core proposal after native+new GO: U8/U9 plus U1/U2,U6; preserve original assertions/covers/domain/flags; bind exact source paths.
+# RESULT-KANI3300-CMP1 — native partial / acceptance OPEN
+Build `77e4765a-d82a-48c8-bf2e-cb6ae2fcdc07`, head `66881e0c52d010af94403a9bcf6dd7775b1d7cfb`; full `6ef9fd72066443f7f113440ba32f77f310520a93` tree `97159e7c2d7ce369fb7cf7fee60c58002a7a2610`; build tree `4c0c56b2808adb542f6e58a59f4672fdc89b439c`; patch `e216f41ca8887c85e19ba84ee56fc6581ee5b95f68ad982e111c5f1b0ca19183`; request `49fb4a6df2268219dd96b29febb4c598b1490e5bc726773760e819949851b53e`; tooling3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c PASS.
+Cloud FAILURE / TOOL_ERROR, gate=false; tool-build PASS; native15PASS/3ERROR (offset0IntoIter,1positives,6padding). Spent$0.1755/reserved$0/cap$0.60. R/S/P invariant/review unchanged; diff4files+606/-15. Full checks/covers UNKNOWN; two single-root FC matches below,33root causes UNKNOWN. Core U8/U9(+U1/U2,U6) NOT_RUN/noGO; PFC-OOM OPEN. Details POST-BUILD-OBSERVATIONS.json / POST-BUILD-KANI3300-CMP1.md.
+|offset: negative harness|own Failed Checks result|
+|---|---|
+|2: empty_source_slot_read|FAILURE via golden; own FC UNKNOWN|
+|2: empty_copy_destination_slot_read|FAILURE via golden; own FC UNKNOWN|
+|3: overwrite_full_destination_with_empty_source_copy|FAILURE via golden; own FC UNKNOWN|
+|3: overwrite_full_destination_with_empty_source_move|FAILURE via golden; own FC UNKNOWN|
+|3: shifted_empty_source_slot_does_not_reuse_destination_witness|FAILURE via golden; own FC UNKNOWN|
+|4: empty_slot_read_in_caller_after_return|FAILURE via golden; own FC UNKNOWN|
+|4: first_argument_empty_at_distinct_slot_after_return|FAILURE via golden; own FC UNKNOWN|
+|4: second_argument_empty_at_distinct_slot_after_return|FAILURE via golden; own FC UNKNOWN|
+|4: initialized_return_does_not_bless_later_empty_return|FAILURE via golden; own FC UNKNOWN|
+|4: callee_read_of_nonreturned_second_argument_empty_slot_fails|FAILURE via golden; own FC UNKNOWN|
+|4: callee_read_of_nonreturned_first_argument_empty_slot_fails|FAILURE via golden; own FC UNKNOWN|
+|4: caller_reads_original_nonreturned_second_argument_copy|FAILURE via golden; own FC UNKNOWN|
+|4: caller_reads_original_nonreturned_first_argument_copy|FAILURE via golden; own FC UNKNOWN|
+|5: true_unsize_reborrow_empty_index_is_uninitialized|FAILURE via golden; own FC UNKNOWN|
+|5: drop_impl_read_of_empty_slot_fails|FAILURE via golden; own FC UNKNOWN|
+|5: dropping_ordinary_field_keeps_empty_manually_dropped_neighbor_empty|FAILURE via golden; own FC UNKNOWN|
+|5: reset_filled_slot_through_reference_preserves_empty_state|FAILURE via golden; own FC UNKNOWN|
+|6: partial_ordinary_field_cannot_be_read_as_whole_product_after_copy|UNKNOWN|
+|6: partial_ordinary_field_read_remains_checked_after_call_copy|UNKNOWN|
+|6: padding_byte_stays_uninitialized_after_typed_copy|UNKNOWN|
+|6: padding_stays_uninitialized_after_call_return|UNKNOWN|
+|6: ordinary_operand_aggregate_preserves_typed_source_checks|UNKNOWN|
+|7: arbitrary_union_product_is_unsupported|FAILURE via golden; own FC UNKNOWN|
+|7: storage_enum_is_unsupported|FAILURE via golden; own FC UNKNOWN|
+|7: nested_maybe_uninit_is_unsupported|FAILURE via golden; own FC UNKNOWN|
+|7: nested_union_product_is_unsupported|FAILURE via golden; own FC UNKNOWN|
+|7: indirect_whole_product_write_is_unsupported|FAILURE via golden; own FC UNKNOWN|
+|8: bodyless_shadow_carrying_argument_is_unsupported_before_call|one own FC: shadow-carrying bodyless-call Unsupported; other checks UNKNOWN|
+|10: typed_padding_is_not_initialized|FAILURE via golden; own FC UNKNOWN|
+|11: typed_source_read_still_checked|FAILURE via golden; own FC UNKNOWN|
+|13: overwrite_copy|FAILURE via golden; own FC UNKNOWN|
+|14: frame_negative|one own FC: *var_7 not assignable; full list UNKNOWN|
+|15: no_mir_shadow_argument_is_unsupported|FAILURE via golden; own FC UNKNOWN|
+|16: nested_two_argument_return_reads_uninit|FAILURE via golden; own FC UNKNOWN|
+|17: clause_pfc_negative|FAILURE via golden; own FC UNKNOWN|

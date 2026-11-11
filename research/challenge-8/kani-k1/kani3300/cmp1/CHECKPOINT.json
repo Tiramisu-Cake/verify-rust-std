@@ -3,7 +3,7 @@
   "slug": "kani3300",
   "runtime": "Codex",
   "stable_owner": "k1-merge",
-  "state": "PRE_BUILD_PREPARED_AWAITING_COORDINATOR_GO",
+  "state": "NATIVE_PARTIAL_HANDOFF",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-CMP1.md",
   "research_branch": "experiment/kani-k1-kani3300cmp-20261111",
   "kani_worktree": "/root/kani-fix-3300-cmp",
@@ -47,13 +47,29 @@
       "claim": "U3B source-reports7PASS/2ERROR, on-uninit PFC Kani-reported OOM; acceptanceOPEN",
       "status": "SOURCE_REPORTED_NOT_INDEPENDENT_CREDIT",
       "evidence": "U3B-BASE-OBSERVATION.json"
+    },
+    {
+      "claim": "Exact66881e0c52 packet authorized by coordinator; submitted once, watcher terminalFAILURE",
+      "status": "AUTHORIZED_BUILD_COMPLETED",
+      "evidence": "POST-BUILD-OBSERVATIONS.json"
+    },
+    {
+      "claim": "ToolbuildPASS; appliedtree/patch/request/pool/tooling identitiesPASS;15nativePASS/3ERROR",
+      "status": "BOUNDED_NATIVE_RESULT",
+      "evidence": "evidence/native-77e4765a/summary.md; check-tooling.txt"
+    },
+    {
+      "claim": "35negative roots individually recorded:2single-root ownFCmatches,33causeUNKNOWN; no completeFailedChecks lists retained",
+      "status": "PARTIAL_LITERAL_EVIDENCE",
+      "evidence": "POST-BUILD-OBSERVATIONS.json; RESULT-KANI3300-CMP1.md"
     }
   ],
   "open": [
-    "U3/PFC acceptance and isolated PFC+modifies+uninit OOM pair remain OPEN outside CMP1 limited native profile",
-    "Exact immutable research-packet PRE-BUILD review/GO before dispatch",
-    "All CMP1 compile/native outcomes and per-root Failed Checks/source/covers; omitted retained output must remainUNKNOWN",
-    "Separate core U8/U9 plusU1/U2/U6 exact source binding/request/GO and results"
+    "IntoIter and groupedpositive errors: own uninit usize failure/property in IndexRange::len; individual root mapping/full list incomplete",
+    "PaddingnegativeERROR: u8diagnostic absent from own stdout/stderr; retained excerpt onlycompiletest echoes;5root outcomesUNKNOWN",
+    "33negative ownFailedChecks root causesUNKNOWN; complete lists/source/cover evidence absent; nativePASS not substituted for per-root cause",
+    "FullCMP1acceptance and coreU8/U9(+U1/U2,U6) OPEN; newtask/GO required before repair/replay",
+    "Separate U3/PFC+modifies+uninit OOM limitation OPEN outside this limited profile"
   ],
   "rejected_approaches": [
     "Treat historical four-root bufferpositive as passingregression",
@@ -64,20 +80,34 @@
     "Change SKIPPED_ITEMS/ghostshape/addstatic to obtainPASS",
     "Run local compiler/Kani/CBMC or dispatch beforeGO"
   ],
-  "native_status": "NOT_RUN",
+  "native_status": "15_PASS_3_ERROR",
   "core_status": "NOT_RUN",
-  "builds": [],
-  "spent_usd": 0,
+  "builds": [
+    {
+      "build_id": "77e4765a-d82a-48c8-bf2e-cb6ae2fcdc07",
+      "head_sha": "66881e0c52d010af94403a9bcf6dd7775b1d7cfb",
+      "request_sha256": "49fb4a6df2268219dd96b29febb4c598b1490e5bc726773760e819949851b53e",
+      "summary_status": "TOOL_ERROR",
+      "cloud_status": "FAILURE",
+      "gate": false,
+      "tool_build": "PASS",
+      "native_pass": 15,
+      "native_error": 3,
+      "spent_usd": 0.1755,
+      "reserved_usd": 0
+    }
+  ],
+  "spent_usd": 0.1755,
   "reserved_usd": 0,
-  "proposed_reservation_usd": 0.54,
+  "proposed_reservation_usd": 0,
   "cap_usd": 0.6,
   "window_main_minutes": 420,
   "window_closeout_minutes": 30,
   "window_note": "Original task window preserved; this packet does not open/reset a session or phase. Clone created2026-11-11T04:51:27.484565Z; not claimed exact task T0.",
-  "next": "Coordinator reviews exact updated18-selector experimental CMP1 packet and issues GO before any dispatch",
-  "closure_reason": "Explicit PRE-BUILD stop; experimental base admitted by coordinator, exact-packet native GO pending",
+  "next": "Coordinator handoff with bounded results and actual evidence gaps; no automatic repair/core Build",
+  "closure_reason": "Authorized single native attempt completed; acceptance fails and retained per-root evidence incomplete; repair requires newGO",
   "verification_credit": "NONE",
-  "updated_utc": "2026-11-11T05:13:53.512888+00:00",
+  "updated_utc": "2026-11-11T05:36:37.731827+00:00",
   "inputs": [
     {
       "original_path": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/plan/KICKOFF-KANI3300-CMP1-CODEX.md",

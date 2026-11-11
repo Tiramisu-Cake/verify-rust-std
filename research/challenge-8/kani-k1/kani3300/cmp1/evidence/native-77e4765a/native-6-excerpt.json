@@ -1,0 +1,136 @@
+{
+  "build_id": "77e4765a-d82a-48c8-bf2e-cb6ae2fcdc07",
+  "head_sha": "66881e0c52d010af94403a9bcf6dd7775b1d7cfb",
+  "request_sha256": "49fb4a6df2268219dd96b29febb4c598b1490e5bc726773760e819949851b53e",
+  "summary_file": "/tmp/kani-k1-gcb/summary-77e4765a-d82a-48c8-bf2e-cb6ae2fcdc07/summary/summary.json",
+  "summary_sha256": "a8b756fdd93c0fb3402ea7e7c4807d97fe161da32cf9ca060a10c5af08328628",
+  "offset": 6,
+  "file": "uninit/compound-cmp1-padding-negative/main.rs",
+  "field": "output_excerpt",
+  "report_source": "native",
+  "validation": "VALIDATED",
+  "diagnostic_only": true,
+  "summary_status": "TOOL_ERROR",
+  "kind": "object",
+  "units": "entries",
+  "total": 10,
+  "start": 0,
+  "value": {
+    "diagnostic_only": true,
+    "failed_check_line_count": 29,
+    "max_json_bytes": 4096,
+    "max_lines": 60,
+    "omitted_failed_check_line_count": 15,
+    "omitted_line_count": 318,
+    "records": [
+      {
+        "clipped": false,
+        "line": 10,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      },
+      {
+        "clipped": false,
+        "line": 24,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `Pad`"
+      },
+      {
+        "clipped": false,
+        "line": 25,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": " File: \"tests/expected/uninit/compound-cmp1-padding-negative/main.rs\", line 104, in ordinary_operand_aggregate_preserves_typed_source_checks"
+      },
+      {
+        "clipped": false,
+        "line": 37,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+      },
+      {
+        "clipped": false,
+        "line": 38,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": " File: \"/root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs\", line 1754, in std::ptr::read::<u8>"
+      },
+      {
+        "clipped": false,
+        "line": 50,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+      },
+      {
+        "clipped": false,
+        "line": 51,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": " File: \"/root/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs\", line 1754, in std::ptr::read::<u8>"
+      },
+      {
+        "clipped": false,
+        "line": 63,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
+      },
+      {
+        "clipped": false,
+        "line": 64,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": " File: \"tests/expected/uninit/compound-cmp1-padding-negative/main.rs\", line 64, in partial_ordinary_field_read_remains_checked_after_call_copy"
+      },
+      {
+        "clipped": false,
+        "line": 76,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `C<Pad>`"
+      },
+      {
+        "clipped": false,
+        "line": 77,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": " File: \"tests/expected/uninit/compound-cmp1-padding-negative/main.rs\", line 43, in partial_ordinary_field_cannot_be_read_as_whole_product_after_copy"
+      },
+      {
+        "clipped": false,
+        "line": 78,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `C<Pad>`"
+      },
+      {
+        "clipped": false,
+        "line": 79,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": " File: \"tests/expected/uninit/compound-cmp1-padding-negative/main.rs\", line 43, in partial_ordinary_field_cannot_be_read_as_whole_product_after_copy"
+      },
+      {
+        "clipped": false,
+        "line": 80,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `C<Pad>`"
+      }
+    ],
+    "selected_line_count": 14,
+    "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+    "source_line_counts": {
+      "compiletest_stderr": 114,
+      "compiletest_stdout": 123,
+      "kani_stderr": 17,
+      "kani_stdout": 78
+    }
+  },
+  "count": 10,
+  "next_start": null
+}

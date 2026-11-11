@@ -3,28 +3,34 @@
     "offset": 0,
     "file": "uninit/maybe-uninit-wrap-u3-intoiter/main.rs",
     "require_success": true,
-    "actual": "NOT_RUN",
+    "actual": "ERROR",
     "harnesses": [
       {
         "harness": "complete_standard_into_iter",
         "source": "tests/expected/uninit/maybe-uninit-wrap-u3-intoiter/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "empty_standard_into_iter_returns_none",
         "source": "tests/expected/uninit/maybe-uninit-wrap-u3-intoiter/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "early_drop_after_some_drops_only_remaining_elements",
         "source": "tests/expected/uninit/maybe-uninit-wrap-u3-intoiter/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       }
     ]
   },
@@ -32,119 +38,151 @@
     "offset": 1,
     "file": "uninit/compound-cmp1-positive/main.rs",
     "require_success": true,
-    "actual": "NOT_RUN",
+    "actual": "ERROR",
     "harnesses": [
       {
         "harness": "call::id_and_nested_id_preserve_partial_storage",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-call-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "call::pair_first_argument_and_read_nonreturned_second_in_callee",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-call-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "call::pair_second_argument_and_read_nonreturned_first_in_callee",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-call-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "call::repeated_calls_clear_stale_return_buffer",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-call-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "drop::early_iterator_drop_drops_remaining_tokens_once",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-drop-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "drop::exhausted_iterator_does_not_redrop_yielded_tokens",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-drop-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "drop::manually_drop_wrapper_without_explicit_drop_does_not_drop_or_read_payload",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-drop-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "fields::copied_partial_product_and_manually_drop",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-fields-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "fields::nested_product_copy",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-fields-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "fields::reordered_repr_rust_fields",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-fields-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "fields::repr_c_storage_before_ordinary_field",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-fields-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "fields::repr_c_storage_after_ordinary_field",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-fields-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "fields::generic_usize_marker_product",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-fields-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "zero_zst::empty_standard_usize_into_iter",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-zero-zst-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "zero_zst::zst_standard_into_iter_payload_and_len",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-zero-zst-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "zero_zst::zero_extent_does_not_change_adjacent_storage",
         "source": "tests/expected/uninit/compound-cmp1-positive/../compound-cmp1-zero-zst-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "No retained per-root terminal and own Failed Checks in errored file",
+        "own_failed_checks_complete": false
       }
     ]
   },
@@ -152,21 +190,27 @@
     "offset": 2,
     "file": "uninit/compound-cmp1-empty-negative/main.rs",
     "require_success": false,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "empty_source_slot_read",
         "source": "tests/expected/uninit/compound-cmp1-empty-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "empty_copy_destination_slot_read",
         "source": "tests/expected/uninit/compound-cmp1-empty-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       }
     ]
   },
@@ -174,28 +218,37 @@
     "offset": 3,
     "file": "uninit/compound-cmp1-overwrite-negative/main.rs",
     "require_success": false,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "overwrite_full_destination_with_empty_source_copy",
         "source": "tests/expected/uninit/compound-cmp1-overwrite-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "overwrite_full_destination_with_empty_source_move",
         "source": "tests/expected/uninit/compound-cmp1-overwrite-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "shifted_empty_source_slot_does_not_reuse_destination_witness",
         "source": "tests/expected/uninit/compound-cmp1-overwrite-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       }
     ]
   },
@@ -203,63 +256,87 @@
     "offset": 4,
     "file": "uninit/compound-cmp1-call-negative/main.rs",
     "require_success": false,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "empty_slot_read_in_caller_after_return",
         "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "first_argument_empty_at_distinct_slot_after_return",
         "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "second_argument_empty_at_distinct_slot_after_return",
         "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "initialized_return_does_not_bless_later_empty_return",
         "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "callee_read_of_nonreturned_second_argument_empty_slot_fails",
         "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "callee_read_of_nonreturned_first_argument_empty_slot_fails",
         "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "caller_reads_original_nonreturned_second_argument_copy",
         "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "caller_reads_original_nonreturned_first_argument_copy",
         "source": "tests/expected/uninit/compound-cmp1-call-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       }
     ]
   },
@@ -267,42 +344,56 @@
     "offset": 5,
     "file": "uninit/compound-cmp1-projection-negative/main.rs",
     "require_success": false,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "true_unsize_reborrow_and_manually_drop_projection_preserve_filled_storage",
         "source": "tests/expected/uninit/compound-cmp1-projection-negative/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_GOLDEN",
+        "actual_reason": "native PASS; exact golden binds4 other failure names plus1success/5total; literal SUCCESS excerpt not retained",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "true_unsize_reborrow_empty_index_is_uninitialized",
         "source": "tests/expected/uninit/compound-cmp1-projection-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "drop_impl_read_of_empty_slot_fails",
         "source": "tests/expected/uninit/compound-cmp1-projection-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "dropping_ordinary_field_keeps_empty_manually_dropped_neighbor_empty",
         "source": "tests/expected/uninit/compound-cmp1-projection-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "reset_filled_slot_through_reference_preserves_empty_state",
         "source": "tests/expected/uninit/compound-cmp1-projection-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `usize`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       }
     ]
   },
@@ -310,42 +401,57 @@
     "offset": 6,
     "file": "uninit/compound-cmp1-padding-negative/main.rs",
     "require_success": false,
-    "actual": "NOT_RUN",
+    "actual": "ERROR",
     "harnesses": [
       {
         "harness": "partial_ordinary_field_cannot_be_read_as_whole_product_after_copy",
         "source": "tests/expected/uninit/compound-cmp1-padding-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `C<Pad>`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "retained excerpt has no kani_stdout/kani_stderr Failed Checks records; compiletest echo is not accepted",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "UNKNOWN"
       },
       {
         "harness": "partial_ordinary_field_read_remains_checked_after_call_copy",
         "source": "tests/expected/uninit/compound-cmp1-padding-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "retained excerpt has no kani_stdout/kani_stderr Failed Checks records; compiletest echo is not accepted",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "UNKNOWN"
       },
       {
         "harness": "padding_byte_stays_uninitialized_after_typed_copy",
         "source": "tests/expected/uninit/compound-cmp1-padding-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "retained excerpt has no kani_stdout/kani_stderr Failed Checks records; compiletest echo is not accepted",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "UNKNOWN"
       },
       {
         "harness": "padding_stays_uninitialized_after_call_return",
         "source": "tests/expected/uninit/compound-cmp1-padding-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "retained excerpt has no kani_stdout/kani_stderr Failed Checks records; compiletest echo is not accepted",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "UNKNOWN"
       },
       {
         "harness": "ordinary_operand_aggregate_preserves_typed_source_checks",
         "source": "tests/expected/uninit/compound-cmp1-padding-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `Pad`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "retained excerpt has no kani_stdout/kani_stderr Failed Checks records; compiletest echo is not accepted",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "UNKNOWN"
       }
     ]
   },
@@ -353,42 +459,57 @@
     "offset": 7,
     "file": "uninit/compound-cmp1-layout-unsupported/main.rs",
     "require_success": false,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "arbitrary_union_product_is_unsupported",
         "source": "tests/expected/uninit/compound-cmp1-layout-unsupported/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Kani does not support this compound storage layout.",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "storage_enum_is_unsupported",
         "source": "tests/expected/uninit/compound-cmp1-layout-unsupported/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Kani does not support this compound storage layout.",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "nested_maybe_uninit_is_unsupported",
         "source": "tests/expected/uninit/compound-cmp1-layout-unsupported/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Kani does not support this compound storage layout.",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "nested_union_product_is_unsupported",
         "source": "tests/expected/uninit/compound-cmp1-layout-unsupported/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Kani does not support this compound storage layout.",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       },
       {
         "harness": "indirect_whole_product_write_is_unsupported",
         "source": "tests/expected/uninit/compound-cmp1-layout-unsupported/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Kani does not support indirect compound storage assignments.",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       }
     ]
   },
@@ -396,14 +517,17 @@
     "offset": 8,
     "file": "uninit/compound-cmp1-no-mir-unsupported/main.rs",
     "require_success": false,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "bodyless_shadow_carrying_argument_is_unsupported_before_call",
         "source": "tests/expected/uninit/compound-cmp1-no-mir-unsupported/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Kani does not support shadow-carrying arguments to calls without a MIR body.",
-        "actual": "NOT_RUN"
+        "actual": "MATCH_ONE_OWN_FAILED_CHECK",
+        "actual_reason": "one unique root; native-field diagnostic comes from own invocation; full Failed Checks list/source excerpt not retained",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       }
     ]
   },
@@ -411,56 +535,70 @@
     "offset": 9,
     "file": "uninit/maybe-uninit-wrap-u3-positive/main.rs",
     "require_success": true,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "empty_harness",
         "source": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_REQUIRE_SUCCESS",
+        "actual_reason": "validated native PASS with require_success and exact fixture/golden; no literal SUCCESS excerpt retained",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "scalar_copy",
         "source": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_REQUIRE_SUCCESS",
+        "actual_reason": "validated native PASS with require_success and exact fixture/golden; no literal SUCCESS excerpt retained",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "exact_usize_array_copy",
         "source": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_REQUIRE_SUCCESS",
+        "actual_reason": "validated native PASS with require_success and exact fixture/golden; no literal SUCCESS excerpt retained",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "empty_array",
         "source": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_REQUIRE_SUCCESS",
+        "actual_reason": "validated native PASS with require_success and exact fixture/golden; no literal SUCCESS excerpt retained",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "zst_array",
         "source": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_REQUIRE_SUCCESS",
+        "actual_reason": "validated native PASS with require_success and exact fixture/golden; no literal SUCCESS excerpt retained",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "padded_move",
         "source": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_REQUIRE_SUCCESS",
+        "actual_reason": "validated native PASS with require_success and exact fixture/golden; no literal SUCCESS excerpt retained",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "padded_array_move",
         "source": "tests/expected/uninit/maybe-uninit-wrap-u3-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_REQUIRE_SUCCESS",
+        "actual_reason": "validated native PASS with require_success and exact fixture/golden; no literal SUCCESS excerpt retained",
+        "own_failed_checks_complete": false
       }
     ]
   },
@@ -468,14 +606,17 @@
     "offset": 10,
     "file": "uninit/maybe-uninit-wrap-u3-padding/main.rs",
     "require_success": false,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "typed_padding_is_not_initialized",
         "source": "tests/expected/uninit/maybe-uninit-wrap-u3-padding/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       }
     ]
   },
@@ -483,14 +624,17 @@
     "offset": 11,
     "file": "uninit/maybe-uninit-wrap-u3-source-read/main.rs",
     "require_success": false,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "typed_source_read_still_checked",
         "source": "tests/expected/uninit/maybe-uninit-wrap-u3-source-read/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       }
     ]
   },
@@ -498,56 +642,70 @@
     "offset": 12,
     "file": "uninit/maybe-uninit-review-positive/main.rs",
     "require_success": true,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "overwrite_copy_written_byte",
         "source": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_REQUIRE_SUCCESS",
+        "actual_reason": "validated native PASS with require_success and exact fixture/golden; no literal SUCCESS excerpt retained",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "overlap_copy_right_written_slot",
         "source": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_REQUIRE_SUCCESS",
+        "actual_reason": "validated native PASS with require_success and exact fixture/golden; no literal SUCCESS excerpt retained",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "overlap_copy_left_written_slot",
         "source": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_REQUIRE_SUCCESS",
+        "actual_reason": "validated native PASS with require_success and exact fixture/golden; no literal SUCCESS excerpt retained",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "repeat_local_initialized_source",
         "source": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_REQUIRE_SUCCESS",
+        "actual_reason": "validated native PASS with require_success and exact fixture/golden; no literal SUCCESS excerpt retained",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "reset_after_zst_then_initialize",
         "source": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_REQUIRE_SUCCESS",
+        "actual_reason": "validated native PASS with require_success and exact fixture/golden; no literal SUCCESS excerpt retained",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "complete_padded_transmute",
         "source": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_REQUIRE_SUCCESS",
+        "actual_reason": "validated native PASS with require_success and exact fixture/golden; no literal SUCCESS excerpt retained",
+        "own_failed_checks_complete": false
       },
       {
         "harness": "argument_return_both_initialized",
         "source": "tests/expected/uninit/maybe-uninit-review-positive/main.rs",
         "intended_kani": "SUCCESS",
         "required_diagnostic": null,
-        "actual": "NOT_RUN"
+        "actual": "SUCCESS_BOUND_REQUIRE_SUCCESS",
+        "actual_reason": "validated native PASS with require_success and exact fixture/golden; no literal SUCCESS excerpt retained",
+        "own_failed_checks_complete": false
       }
     ]
   },
@@ -555,14 +713,17 @@
     "offset": 13,
     "file": "uninit/maybe-uninit-review-overwrite-copy/main.rs",
     "require_success": false,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "overwrite_copy",
         "source": "tests/expected/uninit/maybe-uninit-review-overwrite-copy/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       }
     ]
   },
@@ -570,14 +731,17 @@
     "offset": 14,
     "file": "uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
     "require_success": false,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "frame_negative",
         "source": "tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Failed Checks: Check that *var_7 is assignable",
-        "actual": "NOT_RUN"
+        "actual": "MATCH_ONE_OWN_FAILED_CHECK",
+        "actual_reason": "one unique root; native-field diagnostic comes from own invocation; full Failed Checks list/source excerpt not retained",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       }
     ]
   },
@@ -585,28 +749,34 @@
     "offset": 15,
     "file": "uninit/maybe-uninit-buffer-u3-no-mir-unsupported/main.rs",
     "require_success": false,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "no_mir_shadow_argument_is_unsupported",
         "source": "tests/expected/uninit/maybe-uninit-buffer-u3-no-mir-unsupported/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Kani does not support shadow-carrying arguments to calls without a MIR body.",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       }
     ]
   },
   {
     "file": "uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
     "require_success": false,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "nested_two_argument_return_reads_uninit",
         "source": "tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       }
     ],
     "offset": 16
@@ -614,14 +784,17 @@
   {
     "file": "uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
     "require_success": false,
-    "actual": "NOT_RUN",
+    "actual": "PASS",
     "harnesses": [
       {
         "harness": "clause_pfc_negative",
         "source": "tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
         "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
-        "actual": "NOT_RUN"
+        "actual": "UNKNOWN",
+        "actual_reason": "native-field output_excerpt absent; own file diagnostic is not bound to this individual root",
+        "own_failed_checks_complete": false,
+        "reported_terminal": "FAILURE_BOUND_EXACT_GOLDEN"
       }
     ],
     "offset": 17

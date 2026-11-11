@@ -1,0 +1,91 @@
+{
+  "head_sha": "66881e0c52d010af94403a9bcf6dd7775b1d7cfb",
+  "request_sha256": "49fb4a6df2268219dd96b29febb4c598b1490e5bc726773760e819949851b53e",
+  "build_id": "77e4765a-d82a-48c8-bf2e-cb6ae2fcdc07",
+  "kani_build": {
+    "compiletest_build_s": 16,
+    "diffstat": ".../transform/check_uninit/delayed_ub/mod.rs       |   1 +\n .../src/kani_middle/transform/check_uninit/mod.rs  | 232 ++++++-\n .../transform/check_uninit/ptr_uninit/mod.rs       |   3 +-\n .../check_uninit/ptr_uninit/uninit_visitor.rs      | 689 +++++++++++++++++----\n .../transform/check_uninit/relevant_instruction.rs |  68 +-\n .../transform/check_uninit/ty_layout.rs            | 343 +++++++++-\n library/kani_core/src/mem_init.rs                  | 110 +++-\n .../uninit/compound-cmp1-call-negative/expected    |  25 +\n .../uninit/compound-cmp1-call-negative/main.rs     | 131 ++++\n .../uninit/compound-cmp1-call-positive/main.rs     |  74 +++\n .../uninit/compound-cmp1-drop-positive/main.rs     |  59 ++\n .../uninit/compound-cmp1-empty-negative/expected   |   7 +\n .../uninit/compound-cmp1-empty-negative/main.rs    |  37 ++\n .../uninit/compound-cmp1-fields-positive/main.rs   | 106 ++++\n .../compound-cmp1-layout-unsupported/expected      |  15 +\n .../compound-cmp1-layout-unsupported/main.rs       |  88 +++\n .../compound-cmp1-no-mir-unsupported/expected      |   4 +\n .../compound-cmp1-no-mir-unsupported/main.rs       |  23 +\n .../compound-cmp1-overwrite-negative/expected      |  10 +\n .../compound-cmp1-overwrite-negative/main.rs       |  56 ++\n .../uninit/compound-cmp1-padding-negative/expected |  15 +\n .../uninit/compound-cmp1-padding-negative/main.rs  | 106 ++++\n .../uninit/compound-cmp1-positive/expected         |  18 +\n .../expected/uninit/compound-cmp1-positive/main.rs |  15 +\n .../compound-cmp1-projection-negative/expected     |  13 +\n .../compound-cmp1-projection-negative/main.rs      | 111 ++++\n .../uninit/compound-cmp1-zero-zst-positive/main.rs |  46 ++\n .../expected                                       |   4 +\n .../main.rs                                        |  30 +\n .../maybe-uninit-buffer-u3-frame-negative/expected |   9 +\n .../maybe-uninit-buffer-u3-frame-negative/main.rs  |  31 +\n .../expected                                       |   4 +\n .../main.rs                                        |  17 +\n .../maybe-uninit-buffer-u3-plain-negative/expected |   4 +\n .../maybe-uninit-buffer-u3-plain-negative/main.rs  |  23 +\n .../maybe-uninit-review-overwrite-copy/expected    |   4 +\n .../maybe-uninit-review-overwrite-copy/main.rs     |  15 +\n .../uninit/maybe-uninit-review-positive/expected   |   1 +\n .../uninit/maybe-uninit-review-positive/main.rs    | 100 +++\n .../uninit/maybe-uninit-wrap-u3-intoiter/expected  |   2 +\n .../uninit/maybe-uninit-wrap-u3-intoiter/main.rs   |  44 ++\n .../uninit/maybe-uninit-wrap-u3-padding/expected   |   4 +\n .../uninit/maybe-uninit-wrap-u3-padding/main.rs    |  21 +\n .../uninit/maybe-uninit-wrap-u3-positive/expected  |   1 +\n .../uninit/maybe-uninit-wrap-u3-positive/main.rs   |  71 +++\n .../maybe-uninit-wrap-u3-source-read/expected      |   4 +\n .../maybe-uninit-wrap-u3-source-read/main.rs       |  25 +\n 47 files changed, 2640 insertions(+), 179 deletions(-)",
+    "kani_build_s": 252,
+    "patch": {
+      "path": "research/challenge-8/kani-k1/kani3300/cmp1/kani-uninit-cmp1-build.patch",
+      "sha256": "e216f41ca8887c85e19ba84ee56fc6581ee5b95f68ad982e111c5f1b0ca19183"
+    },
+    "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "tree": "4c0c56b2808adb542f6e58a59f4672fdc89b439c",
+    "version": "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.11.0"
+  },
+  "validation": "VALIDATED",
+  "summary_status": "TOOL_ERROR",
+  "gate": false,
+  "binaries": {
+    "compiletest_profile": "dev",
+    "kani_profile": "release",
+    "paths": {
+      "compiletest": {
+        "invoked": "/workspace/src/kani_build/target/debug/compiletest"
+      },
+      "kani": {
+        "invoked": "/workspace/src/kani_build/scripts/kani"
+      },
+      "kani-compiler": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "release": "/workspace/src/kani_build/target/release/kani-compiler",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "sha256": "9ce783f5f2bcb152bb027f40f031c25201ff261de1375de512456dc43637867f"
+      },
+      "kani-driver": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "release": "/workspace/src/kani_build/target/release/kani-driver",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "sha256": "653ba5660b15f16fb8e7b989cd0fb47b655bf93fcc415d372f988f592752de3f"
+      }
+    }
+  },
+  "total": 18,
+  "offset": 11,
+  "tests": [
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "-p",
+        "compiletest",
+        "--",
+        "--suite",
+        "expected",
+        "--mode",
+        "expected",
+        "--src-base",
+        "tests/expected",
+        "--build-base",
+        "/workspace/src/k1-out/native-11",
+        "--exact",
+        "[expected] expected/uninit/maybe-uninit-wrap-u3-source-read/main.rs",
+        "--force-rerun",
+        "--color",
+        "never",
+        "--timeout",
+        "150"
+      ],
+      "cwd": "/workspace/src/kani_build",
+      "diagnostic": "\t - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u64`\"",
+      "env": {
+        "RUST_TEST_THREADS": "1"
+      },
+      "errors": [],
+      "exit_code": 0,
+      "expect": "pass",
+      "file": "uninit/maybe-uninit-wrap-u3-source-read/main.rs",
+      "mode": "expected",
+      "name": "[expected] expected/uninit/maybe-uninit-wrap-u3-source-read/main.rs",
+      "native_status": "ok",
+      "require_success": false,
+      "status": "PASS",
+      "suite": "expected",
+      "time_s": 1.06,
+      "wall_s": 1.269
+    }
+  ],
+  "count": 1,
+  "next_offset": 12
+}
