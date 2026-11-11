@@ -1,0 +1,1101 @@
+diff --git a/kani-compiler/src/kani_middle/points_to/mod.rs b/kani-compiler/src/kani_middle/points_to/mod.rs
+index 984bf086d0a5c57b97fc2f7b4fa40bfdf286c8b2..21e8bdffc7b83f2aafaea86b8790f09eff3ad81d 100644
+--- a/kani-compiler/src/kani_middle/points_to/mod.rs
++++ b/kani-compiler/src/kani_middle/points_to/mod.rs
+@@ -7,5 +7,5 @@
+ mod points_to_analysis;
+ mod points_to_graph;
+ 
+-pub use points_to_analysis::{run_points_to_analysis, unsupported_call};
++pub use points_to_analysis::run_points_to_analysis;
+ pub use points_to_graph::{MemLoc, PointsToGraph};
+diff --git a/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs b/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
+index 6a8444fcac70f172b7623aa3b83c67c8697da7d2..7a3a78b181e697b0a679ef59d4e5793bb27dfa20 100644
+--- a/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
++++ b/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
+@@ -345,8 +345,9 @@ fn apply_call_return_effect(
+ 
+ /// Why the analysis cannot follow a call to a callee of type `func_ty`, if it cannot: the callee of
+ /// a call through a function pointer or a vtable is not known statically. Callers that rely on the
+-/// analysis must guard such calls with an unsupported check.
+-pub fn unsupported_call(func_ty: StableTy) -> Option<String> {
++/// analysis must guard such calls with an unsupported check. The local uninitialized-memory
++/// visitor owns that check, independently of whether delayed-UB analysis has any targets.
++fn unsupported_call(func_ty: StableTy) -> Option<String> {
+     let reason = match func_ty.kind() {
+         StableTyKind::RigidTy(StableRigidTy::FnDef(def, args)) => {
+             match StableInstance::resolve(def, &args) {
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
+index 719832acf5d5090207ab71a30dbd44290fcd04dc..7909418cb12719499de258247b89c9c8b5649e41 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
+@@ -5,7 +5,7 @@
+ //! UB. In practice, that means collecting all instructions where the place is featured.
+ 
+ use crate::kani_middle::{
+-    points_to::{MemLoc, PointsToGraph, unsupported_call},
++    points_to::{MemLoc, PointsToGraph},
+     transform::{
+         body::{InsertPosition, MutableBody, SourceInstruction},
+         check_uninit::{
+@@ -16,7 +16,7 @@
+ };
+ use rustc_middle::ty::TyCtxt;
+ use rustc_public::mir::{
+-    LocalDecl, MirVisitor, Operand, Place, Rvalue, Statement, Terminator, TerminatorKind,
++    MirVisitor, Operand, Place, Rvalue, Statement, Terminator,
+     mono::Instance,
+     visit::{Location, PlaceContext},
+ };
+@@ -32,14 +32,11 @@ pub struct InstrumentationVisitor<'a, 'tcx> {
+     /// The list of places we should be looking for, ignoring others
+     analysis_targets: &'a HashSet<MemLoc<'tcx>>,
+     current_instance: Instance,
+-    /// The locals of the body being visited, to type call operands.
+-    locals: Vec<LocalDecl>,
+     tcx: TyCtxt<'tcx>,
+ }
+ 
+ impl TargetFinder for InstrumentationVisitor<'_, '_> {
+     fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
+-        self.locals = body.locals().to_vec();
+         for (bb_idx, bb) in body.blocks().iter().enumerate() {
+             self.current_target = InitRelevantInstruction {
+                 source: SourceInstruction::Statement { idx: 0, bb: bb_idx },
+@@ -69,7 +66,6 @@ pub fn new(
+             points_to,
+             analysis_targets,
+             current_instance,
+-            locals: vec![],
+             tcx,
+         }
+     }
+@@ -107,13 +103,8 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+         } else {
+             unreachable!()
+         }
+-        // The points-to analysis does not follow these calls, so the aliasing it computed is only
+-        // valid on paths that do not reach them.
+-        if let TerminatorKind::Call { func, .. } = &term.kind
+-            && let Some(reason) = unsupported_call(func.ty(&self.locals).unwrap())
+-        {
+-            self.push_target(MemoryInitOp::Unsupported { reason });
+-        }
++        // The local uninitialized-memory visitor owns unsupported-call checks. It runs
++        // even without delayed-UB targets, and preserves checks on the call's operands.
+         self.super_terminator(term, location);
+         // Push the current target from the terminator onto the list.
+         self.targets.push(self.current_target.clone());
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 84b0e70c837c96cded53ee6f03a971f3fd052e0d..abdaf08d3673a56797daa9f0a1264d6fa8b4aea9 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -260,14 +260,15 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+         }
+         // Leave it as an exhaustive match to be notified when a new kind is added.
+         match &term.kind {
+-            TerminatorKind::Call { func, args, destination, .. } => {
++            TerminatorKind::Call { func, args, destination, .. } => 'call: {
+                 self.super_terminator(term, location);
+                 let instance = match try_resolve_instance(&self.locals, func) {
+                     Ok(instance) => instance,
+                     Err(reason) => {
+-                        self.super_terminator(term, location);
+                         self.push_target(MemoryInitOp::Unsupported { reason });
+-                        return;
++                        // Keep entry loads and operations collected while visiting the call.
++                        // The common terminator epilogue must publish this target, even on error.
++                        break 'call;
+                     }
+                 };
+                 match instance.kind {
+@@ -396,7 +397,19 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                             }
+                         }
+                     }
+-                    _ => {}
++                    InstanceKind::Virtual { .. } => {
++                        self.push_target(MemoryInitOp::Unsupported {
++                            reason: unsupported_call_reason("trait object method calls"),
++                        });
++                    }
++                    InstanceKind::Shim | InstanceKind::LlvmIntrinsic => {
++                        self.push_target(MemoryInitOp::Unsupported {
++                            reason: unsupported_call_reason(&format!(
++                                "calls to {:?} instances",
++                                instance.kind
++                            )),
++                        });
++                    }
+                 }
+             }
+             TerminatorKind::Drop { place, .. } => {
+@@ -708,13 +721,20 @@ fn try_remove_topmost_deref(place: &Place) -> Option<Place> {
+ fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Result<Instance, String> {
+     let ty = func.ty(locals).unwrap();
+     match ty.kind() {
+-        TyKind::RigidTy(RigidTy::FnDef(def, args)) => Ok(Instance::resolve(def, &args).unwrap()),
+-        _ => Err(format!(
+-            "Kani was not able to resolve the instance of the function operand `{ty:?}`. Currently, memory initialization checks in presence of function pointers and vtable calls are not supported. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+-        )),
++        TyKind::RigidTy(RigidTy::FnDef(def, args)) => Instance::resolve(def, &args).map_err(|err| {
++            format!("Kani could not resolve function item `{ty:?}` for memory initialization checks: {err:?}.")
++        }),
++        _ => Err(unsupported_call_reason("calls through function pointers")),
+     }
+ }
+ 
++/// Describe a call whose memory effects cannot be tracked by the uninitialized-memory passes.
++fn unsupported_call_reason(kind: &str) -> String {
++    format!(
++        "Kani does not support memory initialization checks across {kind}. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++    )
++}
++
+ /// The pointer argument of an allocation shim, as a raw pointer.
+ ///
+ /// These shims take `NonNull<u8>` as of nightly-2026-03-21, where they previously took `*mut u8`.
+diff --git a/tests/expected/uninit/unresolved-calls/direct-plain.expected b/tests/expected/uninit/unresolved-calls/direct-plain.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..c02f563f407655a2d92c2c8bbe9cf9adac1de2b3
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/direct-plain.expected
+@@ -0,0 +1,3 @@
++Checking harness check...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/direct-plain.rs b/tests/expected/uninit/unresolved-calls/direct-plain.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..ca18966ff4369b5297a8e00387a9eda02a4f6fef
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/direct-plain.rs
+@@ -0,0 +1,14 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++#[inline(never)]
++fn direct(value: u8) -> u8 {
++    value
++}
++
++#[kani::proof]
++fn check() {
++    assert_eq!(direct(42), 42);
++}
+diff --git a/tests/expected/uninit/unresolved-calls/direct-seeded.expected b/tests/expected/uninit/unresolved-calls/direct-seeded.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..c02f563f407655a2d92c2c8bbe9cf9adac1de2b3
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/direct-seeded.expected
+@@ -0,0 +1,3 @@
++Checking harness check...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/direct-seeded.rs b/tests/expected/uninit/unresolved-calls/direct-seeded.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..70ae032c0ddba00a69637fc3c18df674a1856f29
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/direct-seeded.rs
+@@ -0,0 +1,24 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++#[inline(never)]
++fn direct(value: u8) -> u8 {
++    value
++}
++
++// A copy intrinsic creates a delayed-UB analysis target without introducing UB.
++#[inline(never)]
++fn seed() {
++    let source = 7u8;
++    let mut destination = 0u8;
++    unsafe { std::ptr::copy_nonoverlapping(&source, &mut destination, 1) };
++    assert_eq!(destination, source);
++}
++
++#[kani::proof]
++fn check() {
++    seed();
++    assert_eq!(direct(42), 42);
++}
+diff --git a/tests/expected/uninit/unresolved-calls/entry-initialized-plain.expected b/tests/expected/uninit/unresolved-calls/entry-initialized-plain.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..d5e5069afa3240956775cbfeec6d830fcde64e70
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/entry-initialized-plain.expected
+@@ -0,0 +1,8 @@
++Checking harness check...
++indirect.safety_check.\
++ - Status: SUCCESS\
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs b/tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..c7b02396b7cc5ce3d6adbb7825aeb28b068781de
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs
+@@ -0,0 +1,32 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++#![feature(core_intrinsics, custom_mir)]
++#![allow(internal_features)]
++
++use core::intrinsics::mir::*;
++
++union Word {
++    word: u32,
++}
++fn identity(value: u32) -> u32 {
++    value
++}
++
++// No statements in bb0: LoadArgument and the union-field Check share the
++// unresolved Call's target. The initialized control requires the load to survive.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++#[inline(never)]
++unsafe fn indirect(value: Word, f: fn(u32) -> u32) -> u32 {
++    mir! {
++        { Call(RET = f(value.word), ReturnTo(done), UnwindUnreachable()) }
++        done = { Return() }
++    }
++}
++
++#[kani::proof]
++fn check() {
++    let _ = unsafe { indirect(Word { word: 42 }, identity) };
++}
+diff --git a/tests/expected/uninit/unresolved-calls/entry-initialized-seeded.expected b/tests/expected/uninit/unresolved-calls/entry-initialized-seeded.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..d5e5069afa3240956775cbfeec6d830fcde64e70
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/entry-initialized-seeded.expected
+@@ -0,0 +1,8 @@
++Checking harness check...
++indirect.safety_check.\
++ - Status: SUCCESS\
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs b/tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..97f7a1341203289f631686224a92f6f9e24fbdc9
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs
+@@ -0,0 +1,42 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++#![feature(core_intrinsics, custom_mir)]
++#![allow(internal_features)]
++
++use core::intrinsics::mir::*;
++
++union Word {
++    word: u32,
++}
++fn identity(value: u32) -> u32 {
++    value
++}
++
++// No statements in bb0: LoadArgument and the union-field Check share the
++// unresolved Call's target. The initialized control requires the load to survive.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++#[inline(never)]
++unsafe fn indirect(value: Word, f: fn(u32) -> u32) -> u32 {
++    mir! {
++        { Call(RET = f(value.word), ReturnTo(done), UnwindUnreachable()) }
++        done = { Return() }
++    }
++}
++
++// A copy intrinsic creates a delayed-UB analysis target without introducing UB.
++#[inline(never)]
++fn seed() {
++    let source = 7u8;
++    let mut destination = 0u8;
++    unsafe { std::ptr::copy_nonoverlapping(&source, &mut destination, 1) };
++    assert_eq!(destination, source);
++}
++
++#[kani::proof]
++fn check() {
++    seed();
++    let _ = unsafe { indirect(Word { word: 42 }, identity) };
++}
+diff --git a/tests/expected/uninit/unresolved-calls/entry-partial-plain.expected b/tests/expected/uninit/unresolved-calls/entry-partial-plain.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..9cc9db923394ad7419c0683f7602256ab425ab73
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/entry-partial-plain.expected
+@@ -0,0 +1,8 @@
++Checking harness check...
++indirect.safety_check.\
++ - Status: FAILURE\
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/entry-partial-plain.rs b/tests/expected/uninit/unresolved-calls/entry-partial-plain.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..d7d22eceb4a22f3f80d9bd143069e072044576e9
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/entry-partial-plain.rs
+@@ -0,0 +1,33 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++#![feature(core_intrinsics, custom_mir)]
++#![allow(internal_features)]
++
++use core::intrinsics::mir::*;
++
++union Word {
++    byte: u8,
++    word: u32,
++}
++fn identity(value: u32) -> u32 {
++    value
++}
++
++// No statements in bb0: preserve the entry LoadArgument and the Check
++// collected from the union field used as the call argument.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++#[inline(never)]
++unsafe fn indirect(value: Word, f: fn(u32) -> u32) -> u32 {
++    mir! {
++        { Call(RET = f(value.word), ReturnTo(done), UnwindUnreachable()) }
++        done = { Return() }
++    }
++}
++
++#[kani::proof]
++fn check() {
++    let _ = unsafe { indirect(Word { byte: 42 }, identity) };
++}
+diff --git a/tests/expected/uninit/unresolved-calls/entry-partial-seeded.expected b/tests/expected/uninit/unresolved-calls/entry-partial-seeded.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..9cc9db923394ad7419c0683f7602256ab425ab73
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/entry-partial-seeded.expected
+@@ -0,0 +1,8 @@
++Checking harness check...
++indirect.safety_check.\
++ - Status: FAILURE\
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs b/tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..f3a9fd684a91877a981a0285c3d90c0364a0ee0a
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs
+@@ -0,0 +1,43 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++#![feature(core_intrinsics, custom_mir)]
++#![allow(internal_features)]
++
++use core::intrinsics::mir::*;
++
++union Word {
++    byte: u8,
++    word: u32,
++}
++fn identity(value: u32) -> u32 {
++    value
++}
++
++// No statements in bb0: preserve the entry LoadArgument and the Check
++// collected from the union field used as the call argument.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++#[inline(never)]
++unsafe fn indirect(value: Word, f: fn(u32) -> u32) -> u32 {
++    mir! {
++        { Call(RET = f(value.word), ReturnTo(done), UnwindUnreachable()) }
++        done = { Return() }
++    }
++}
++
++// A copy intrinsic creates a delayed-UB analysis target without introducing UB.
++#[inline(never)]
++fn seed() {
++    let source = 7u8;
++    let mut destination = 0u8;
++    unsafe { std::ptr::copy_nonoverlapping(&source, &mut destination, 1) };
++    assert_eq!(destination, source);
++}
++
++#[kani::proof]
++fn check() {
++    seed();
++    let _ = unsafe { indirect(Word { byte: 42 }, identity) };
++}
+diff --git a/tests/expected/uninit/unresolved-calls/erased-pointer-plain.expected b/tests/expected/uninit/unresolved-calls/erased-pointer-plain.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..e737b233a3c2382e9784f76cd3b255e03ed2efc1
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/erased-pointer-plain.expected
+@@ -0,0 +1,5 @@
++Checking harness check...
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs b/tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..a704098b407849f50e93960036d1ab19d6c3ad4d
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs
+@@ -0,0 +1,23 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++use std::ffi::c_void;
++
++fn write(pointer: *mut c_void) {
++    unsafe { *pointer.cast::<u8>() = 7 };
++}
++
++#[inline(never)]
++fn indirect(f: fn(*mut c_void), pointer: *mut c_void) {
++    f(pointer);
++}
++
++#[kani::proof]
++fn check() {
++    let mut value = 0u8;
++    // c_void and u8 have the same one-byte data layout; erasure itself adds no seed.
++    indirect(write, (&raw mut value).cast());
++    assert_eq!(value, 7);
++}
+diff --git a/tests/expected/uninit/unresolved-calls/erased-pointer-seeded.expected b/tests/expected/uninit/unresolved-calls/erased-pointer-seeded.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..e737b233a3c2382e9784f76cd3b255e03ed2efc1
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/erased-pointer-seeded.expected
+@@ -0,0 +1,5 @@
++Checking harness check...
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs b/tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..35261d078d34fafa60c0ad9925923f885bcc5371
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs
+@@ -0,0 +1,33 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++use std::ffi::c_void;
++
++fn write(pointer: *mut c_void) {
++    unsafe { *pointer.cast::<u8>() = 7 };
++}
++
++#[inline(never)]
++fn indirect(f: fn(*mut c_void), pointer: *mut c_void) {
++    f(pointer);
++}
++
++// A copy intrinsic creates a delayed-UB analysis target without introducing UB.
++#[inline(never)]
++fn seed() {
++    let source = 7u8;
++    let mut destination = 0u8;
++    unsafe { std::ptr::copy_nonoverlapping(&source, &mut destination, 1) };
++    assert_eq!(destination, source);
++}
++
++#[kani::proof]
++fn check() {
++    seed();
++    let mut value = 0u8;
++    // c_void and u8 have the same one-byte data layout; erasure itself adds no seed.
++    indirect(write, (&raw mut value).cast());
++    assert_eq!(value, 7);
++}
+diff --git a/tests/expected/uninit/unresolved-calls/fn-pointer-plain.expected b/tests/expected/uninit/unresolved-calls/fn-pointer-plain.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..e737b233a3c2382e9784f76cd3b255e03ed2efc1
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/fn-pointer-plain.expected
+@@ -0,0 +1,5 @@
++Checking harness check...
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/fn-pointer-plain.rs b/tests/expected/uninit/unresolved-calls/fn-pointer-plain.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..5866893083123796c986e9bcced19ce7f19570da
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/fn-pointer-plain.rs
+@@ -0,0 +1,18 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++#[inline(never)]
++fn indirect(f: fn(u8) -> u8, value: u8) -> u8 {
++    f(value)
++}
++
++fn identity(value: u8) -> u8 {
++    value
++}
++
++#[kani::proof]
++fn check() {
++    assert_eq!(indirect(identity, 42), 42);
++}
+diff --git a/tests/expected/uninit/unresolved-calls/fn-pointer-seeded.expected b/tests/expected/uninit/unresolved-calls/fn-pointer-seeded.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..e737b233a3c2382e9784f76cd3b255e03ed2efc1
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/fn-pointer-seeded.expected
+@@ -0,0 +1,5 @@
++Checking harness check...
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs b/tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..844037d99a5875fdffffbaac080457ea5269c1d6
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs
+@@ -0,0 +1,28 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++#[inline(never)]
++fn indirect(f: fn(u8) -> u8, value: u8) -> u8 {
++    f(value)
++}
++
++fn identity(value: u8) -> u8 {
++    value
++}
++
++// A copy intrinsic creates a delayed-UB analysis target without introducing UB.
++#[inline(never)]
++fn seed() {
++    let source = 7u8;
++    let mut destination = 0u8;
++    unsafe { std::ptr::copy_nonoverlapping(&source, &mut destination, 1) };
++    assert_eq!(destination, source);
++}
++
++#[kani::proof]
++fn check() {
++    seed();
++    assert_eq!(indirect(identity, 42), 42);
++}
+diff --git a/tests/expected/uninit/unresolved-calls/global-escaped-plain.expected b/tests/expected/uninit/unresolved-calls/global-escaped-plain.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..e737b233a3c2382e9784f76cd3b255e03ed2efc1
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/global-escaped-plain.expected
+@@ -0,0 +1,5 @@
++Checking harness check...
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/global-escaped-plain.rs b/tests/expected/uninit/unresolved-calls/global-escaped-plain.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..e94bd9e454be367bc369b4c72b5524bd7e134a03
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/global-escaped-plain.rs
+@@ -0,0 +1,24 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++static mut ESCAPED: *mut u8 = std::ptr::null_mut();
++
++fn write() {
++    unsafe { *ESCAPED = 7 };
++}
++
++#[inline(never)]
++fn indirect(f: fn()) {
++    // There is no pointer argument or return value to gate instrumentation on.
++    f();
++}
++
++#[kani::proof]
++fn check() {
++    let mut value = 0u8;
++    unsafe { ESCAPED = &raw mut value };
++    indirect(write);
++    assert_eq!(value, 7);
++}
+diff --git a/tests/expected/uninit/unresolved-calls/global-escaped-seeded.expected b/tests/expected/uninit/unresolved-calls/global-escaped-seeded.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..e737b233a3c2382e9784f76cd3b255e03ed2efc1
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/global-escaped-seeded.expected
+@@ -0,0 +1,5 @@
++Checking harness check...
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs b/tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..976a978648c3f2e5a90603a3fbbc8b60e959fc19
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs
+@@ -0,0 +1,34 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++static mut ESCAPED: *mut u8 = std::ptr::null_mut();
++
++fn write() {
++    unsafe { *ESCAPED = 7 };
++}
++
++#[inline(never)]
++fn indirect(f: fn()) {
++    // There is no pointer argument or return value to gate instrumentation on.
++    f();
++}
++
++// A copy intrinsic creates a delayed-UB analysis target without introducing UB.
++#[inline(never)]
++fn seed() {
++    let source = 7u8;
++    let mut destination = 0u8;
++    unsafe { std::ptr::copy_nonoverlapping(&source, &mut destination, 1) };
++    assert_eq!(destination, source);
++}
++
++#[kani::proof]
++fn check() {
++    seed();
++    let mut value = 0u8;
++    unsafe { ESCAPED = &raw mut value };
++    indirect(write);
++    assert_eq!(value, 7);
++}
+diff --git a/tests/expected/uninit/unresolved-calls/pending-ops-plain.expected b/tests/expected/uninit/unresolved-calls/pending-ops-plain.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..2fcdd1cbb49c3f320f3cf5a03d58e28d48b37abe
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/pending-ops-plain.expected
+@@ -0,0 +1,8 @@
++Checking harness check...
++indirect.safety_check.\
++ - Status: FAILURE\
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/pending-ops-plain.rs b/tests/expected/uninit/unresolved-calls/pending-ops-plain.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..9862367768f017b3fd6432061f57bbe2abfb5a5d
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/pending-ops-plain.rs
+@@ -0,0 +1,30 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++#![feature(core_intrinsics, custom_mir)]
++#![allow(internal_features)]
++
++use core::intrinsics::mir::*;
++
++fn identity(value: u8) -> u8 {
++    value
++}
++
++// The dereference is an operand of the Call terminator, so super_terminator
++// collects its Check before resolution fails. It must precede Unsupported.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++#[inline(never)]
++unsafe fn indirect(f: fn(u8) -> u8, pointer: *const u8) -> u8 {
++    mir! {
++        { Call(RET = f(*pointer), ReturnTo(done), UnwindUnreachable()) }
++        done = { Return() }
++    }
++}
++
++#[kani::proof]
++fn check() {
++    let value = std::mem::MaybeUninit::<u8>::uninit();
++    let _ = unsafe { indirect(identity, value.as_ptr()) };
++}
+diff --git a/tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected b/tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..2fcdd1cbb49c3f320f3cf5a03d58e28d48b37abe
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected
+@@ -0,0 +1,8 @@
++Checking harness check...
++indirect.safety_check.\
++ - Status: FAILURE\
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs b/tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..cfa4debb21e132ef53d2c30559d4addad0875bf9
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs
+@@ -0,0 +1,40 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++#![feature(core_intrinsics, custom_mir)]
++#![allow(internal_features)]
++
++use core::intrinsics::mir::*;
++
++fn identity(value: u8) -> u8 {
++    value
++}
++
++// The dereference is an operand of the Call terminator, so super_terminator
++// collects its Check before resolution fails. It must precede Unsupported.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++#[inline(never)]
++unsafe fn indirect(f: fn(u8) -> u8, pointer: *const u8) -> u8 {
++    mir! {
++        { Call(RET = f(*pointer), ReturnTo(done), UnwindUnreachable()) }
++        done = { Return() }
++    }
++}
++
++// A copy intrinsic creates a delayed-UB analysis target without introducing UB.
++#[inline(never)]
++fn seed() {
++    let source = 7u8;
++    let mut destination = 0u8;
++    unsafe { std::ptr::copy_nonoverlapping(&source, &mut destination, 1) };
++    assert_eq!(destination, source);
++}
++
++#[kani::proof]
++fn check() {
++    seed();
++    let value = std::mem::MaybeUninit::<u8>::uninit();
++    let _ = unsafe { indirect(identity, value.as_ptr()) };
++}
+diff --git a/tests/expected/uninit/unresolved-calls/shim-plain.expected b/tests/expected/uninit/unresolved-calls/shim-plain.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..4eff4564945731b086a26be782647b3097d33ff2
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/shim-plain.expected
+@@ -0,0 +1,5 @@
++Checking harness check...
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls to Shim instances. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/shim-plain.rs b/tests/expected/uninit/unresolved-calls/shim-plain.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..991a9f2fa616e8b617cf4f1ff4c0189f2b27a384
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/shim-plain.rs
+@@ -0,0 +1,21 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++#![feature(fn_traits)]
++
++fn identity(value: u8) -> u8 {
++    value
++}
++
++#[inline(never)]
++fn indirect(f: fn(u8) -> u8) -> u8 {
++    // Explicit Fn::call on a function pointer resolves to a FnPtrShim.
++    std::ops::Fn::call(&f, (42,))
++}
++
++#[kani::proof]
++fn check() {
++    assert_eq!(indirect(identity), 42);
++}
+diff --git a/tests/expected/uninit/unresolved-calls/shim-seeded.expected b/tests/expected/uninit/unresolved-calls/shim-seeded.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..4eff4564945731b086a26be782647b3097d33ff2
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/shim-seeded.expected
+@@ -0,0 +1,5 @@
++Checking harness check...
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls to Shim instances. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/shim-seeded.rs b/tests/expected/uninit/unresolved-calls/shim-seeded.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..47169129574072dea0dcad966aec85248a961eba
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/shim-seeded.rs
+@@ -0,0 +1,31 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++#![feature(fn_traits)]
++
++fn identity(value: u8) -> u8 {
++    value
++}
++
++#[inline(never)]
++fn indirect(f: fn(u8) -> u8) -> u8 {
++    // Explicit Fn::call on a function pointer resolves to a FnPtrShim.
++    std::ops::Fn::call(&f, (42,))
++}
++
++// A copy intrinsic creates a delayed-UB analysis target without introducing UB.
++#[inline(never)]
++fn seed() {
++    let source = 7u8;
++    let mut destination = 0u8;
++    unsafe { std::ptr::copy_nonoverlapping(&source, &mut destination, 1) };
++    assert_eq!(destination, source);
++}
++
++#[kani::proof]
++fn check() {
++    seed();
++    assert_eq!(indirect(identity), 42);
++}
+diff --git a/tests/expected/uninit/unresolved-calls/virtual-plain.expected b/tests/expected/uninit/unresolved-calls/virtual-plain.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..50fcbeae27515311da1976352d62783ba6d10468
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/virtual-plain.expected
+@@ -0,0 +1,5 @@
++Checking harness check...
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across trait object method calls. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/virtual-plain.rs b/tests/expected/uninit/unresolved-calls/virtual-plain.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..3f493a7e5a9d1e8d7398fadac4909b34a9655f96
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/virtual-plain.rs
+@@ -0,0 +1,26 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++trait Writer {
++    fn write(&self, pointer: *mut u8);
++}
++struct ByteWriter;
++impl Writer for ByteWriter {
++    fn write(&self, pointer: *mut u8) {
++        unsafe { *pointer = 7 };
++    }
++}
++
++#[inline(never)]
++fn indirect(writer: &dyn Writer, pointer: *mut u8) {
++    writer.write(pointer);
++}
++
++#[kani::proof]
++fn check() {
++    let mut value = 0u8;
++    indirect(&ByteWriter, &raw mut value);
++    assert_eq!(value, 7);
++}
+diff --git a/tests/expected/uninit/unresolved-calls/virtual-seeded.expected b/tests/expected/uninit/unresolved-calls/virtual-seeded.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..50fcbeae27515311da1976352d62783ba6d10468
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/virtual-seeded.expected
+@@ -0,0 +1,5 @@
++Checking harness check...
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across trait object method calls. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/virtual-seeded.rs b/tests/expected/uninit/unresolved-calls/virtual-seeded.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..be2b16bb0cb785e674671752b5d4acb0e44f34a4
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/virtual-seeded.rs
+@@ -0,0 +1,36 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++trait Writer {
++    fn write(&self, pointer: *mut u8);
++}
++struct ByteWriter;
++impl Writer for ByteWriter {
++    fn write(&self, pointer: *mut u8) {
++        unsafe { *pointer = 7 };
++    }
++}
++
++#[inline(never)]
++fn indirect(writer: &dyn Writer, pointer: *mut u8) {
++    writer.write(pointer);
++}
++
++// A copy intrinsic creates a delayed-UB analysis target without introducing UB.
++#[inline(never)]
++fn seed() {
++    let source = 7u8;
++    let mut destination = 0u8;
++    unsafe { std::ptr::copy_nonoverlapping(&source, &mut destination, 1) };
++    assert_eq!(destination, source);
++}
++
++#[kani::proof]
++fn check() {
++    seed();
++    let mut value = 0u8;
++    indirect(&ByteWriter, &raw mut value);
++    assert_eq!(value, 7);
++}
+diff --git a/tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.expected b/tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..e737b233a3c2382e9784f76cd3b255e03ed2efc1
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.expected
+@@ -0,0 +1,5 @@
++Checking harness check...
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.rs b/tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..bb950c32c683e50d6c16bf5923d19610056c3457
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.rs
+@@ -0,0 +1,24 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++struct Wrapped {
++    pointer: *mut u8,
++}
++
++fn write(wrapper: Wrapped) {
++    unsafe { *wrapper.pointer = 7 };
++}
++
++#[inline(never)]
++fn indirect(f: fn(Wrapped), wrapper: Wrapped) {
++    f(wrapper);
++}
++
++#[kani::proof]
++fn check() {
++    let mut value = 0u8;
++    indirect(write, Wrapped { pointer: &raw mut value });
++    assert_eq!(value, 7);
++}
+diff --git a/tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.expected b/tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..e737b233a3c2382e9784f76cd3b255e03ed2efc1
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.expected
+@@ -0,0 +1,5 @@
++Checking harness check...
++ - Status: FAILURE\
++ - Description: "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs b/tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..d461fcb506ed216fdc3c924c09eec1f24f596f8e
+--- /dev/null
++++ b/tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs
+@@ -0,0 +1,34 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// kani-flags: -Z uninit-checks
++// compile-flags: -D warnings
++
++struct Wrapped {
++    pointer: *mut u8,
++}
++
++fn write(wrapper: Wrapped) {
++    unsafe { *wrapper.pointer = 7 };
++}
++
++#[inline(never)]
++fn indirect(f: fn(Wrapped), wrapper: Wrapped) {
++    f(wrapper);
++}
++
++// A copy intrinsic creates a delayed-UB analysis target without introducing UB.
++#[inline(never)]
++fn seed() {
++    let source = 7u8;
++    let mut destination = 0u8;
++    unsafe { std::ptr::copy_nonoverlapping(&source, &mut destination, 1) };
++    assert_eq!(destination, source);
++}
++
++#[kani::proof]
++fn check() {
++    seed();
++    let mut value = 0u8;
++    indirect(write, Wrapped { pointer: &raw mut value });
++    assert_eq!(value, 7);
++}

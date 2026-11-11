@@ -1,0 +1,27 @@
+# KANI3300 B1
+- Задание: TASK-KANI3300-B1.md из research 41b5f09bae9eb1fd47cf49fc2c072a952222bb8e; только B1.
+- Kani: /root/kani-fix-3300-b1, fix/kani-uninit-unresolved-call.
+- Чистая upstream-база: bf9c58e662fd65c64381ef2ac97a6397ffc0693a; часть 1 не включена.
+- Production: 751603f96fde4e7d2b9462331380f6204ffe9ce4.
+- Tests/HEAD: 835cb4a09c4e94ac6b531d20e68f9deee7262ce1; оба коммита Tiramisu-Cake через git -c.
+- Call выполняет super_terminator один раз; Err выходит из labelled block в общий epilogue публикации target.
+- Сохраняются entry LoadArgument, operand checks, остальные накопленные before/after ops и Unsupported.
+- Virtual получает явный Unsupported; Shim/LlvmIntrinsic консервативно отвергаются без заявлений о моделировании effects.
+- Item/Intrinsic сохраняют прежнюю обработку; расширение caller/callee protocol, foreign/realloc model не входит в B1.
+- FnDef resolve error локально превращается в Unsupported, а не unwrap panic.
+- Единственный владелец fn-pointer/virtual diagnostic — ptr_uninit visitor; delayed visitor не дублирует guard.
+- Неиспользуемые locals/LocalDecl/TerminatorKind/import/export удалены; points-to helper остаётся внутренним и используемым.
+- Legacy delayed-ub-unsupported-call golden сохранён побайтно: новые сообщения основного visitor совпадают с ним.
+- 20 одногарнессных fixtures: 10 форм × plain/seeded; seeds — безопасный copy_nonoverlapping.
+- Формы: FnPtr, erased c_void, wrapper, dyn, global/escaped, FnPtrShim, pending operand ops, entry initialized/partial, direct positive.
+- Custom optimized MIR + inline(never) фиксируют пустой bb0 и чтение прямо в Call; goldens требуют именованный safety_check.
+- Initialized entry ожидает SUCCESS safety check + Unsupported; partial entry/pending ops — FAILURE safety check + Unsupported.
+- Direct controls ожидают SUCCESS; остальные — конкретную Unsupported diagnostic и один failed harness.
+- Ожидания заданы по семантике; исполнения, измеренного false SUCCESS и proof credit нет.
+- Статика: указанная rustfmt-обёртка --config-path rustfmt.toml (--check тоже), git diff base..HEAD --check — PASS.
+- Source audit под -D warnings: removed stale imports/fields/export; все fixtures передают -D warnings через compile-flags/RUSTFLAGS.
+- Компиляция -D warnings НЕ запускалась; предупреждения compiler/macro expansion и goldens подтвердит fork CI координатора.
+- Независимое Luna HIGH review: PASS, findings нет; REVIEW.md; exact committed packet — review-packet/, spec — review-spec.json.
+- Локальные cargo/rustc/Kani/CBMC, builds/dispatch/Actions/Cloud, Kani push и внешние сообщения не выполнялись; Cloud $0.
+- Следующий разрешённый исполнительный gate: узкий uninit fork CI координатора на exact HEAD; проверить named properties/counts и MIR формы.
+B1 READY 835cb4a09c4e94ac6b531d20e68f9deee7262ce1

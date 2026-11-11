@@ -1,0 +1,596 @@
+{
+  "baseline_commit": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+  "candidate_commit": "835cb4a09c4e94ac6b531d20e68f9deee7262ce1",
+  "candidate_tree": "4b426d96a0dc2f5b87bdbfe1c32f0e492e8461f3",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "984bf086d0a5c57b97fc2f7b4fa40bfdf286c8b2",
+        "mode": "100644",
+        "sha256": "738450b46997007c931d9c2d03e25e8025e0cb2c93db28ad0d097c8f9839a0e5"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "21e8bdffc7b83f2aafaea86b8790f09eff3ad81d",
+        "mode": "100644",
+        "sha256": "7ce608ea14a4c13b2a67e7fe444f8a6e8795a9851db7063a917b01e2ad7d4e05"
+      },
+      "path": "kani-compiler/src/kani_middle/points_to/mod.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "6a8444fcac70f172b7623aa3b83c67c8697da7d2",
+        "mode": "100644",
+        "sha256": "9f78de44ceffa0436de11ff3a4bf789c5d9909fe8425c7de543f84cd6c37fd91"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "7a3a78b181e697b0a679ef59d4e5793bb27dfa20",
+        "mode": "100644",
+        "sha256": "e5e2b42c6589bd3f078845f50720098d47571c166cb580f4945eab6f5de4338f"
+      },
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "719832acf5d5090207ab71a30dbd44290fcd04dc",
+        "mode": "100644",
+        "sha256": "354079ebb24304c7f8dc6516ba2e50dad70f0e30466f9660d17ecece01bc7277"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "7909418cb12719499de258247b89c9c8b5649e41",
+        "mode": "100644",
+        "sha256": "6facb556d7b898a15e9d72e073d4da2ea5658deefbe4ef00a8963ab281de5d26"
+      },
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "84b0e70c837c96cded53ee6f03a971f3fd052e0d",
+        "mode": "100644",
+        "sha256": "82c9036308e984c2da6aeeda68186dbe36f99c1f3c74b151b176dfb2b992c2f7"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "abdaf08d3673a56797daa9f0a1264d6fa8b4aea9",
+        "mode": "100644",
+        "sha256": "83fee3ae892edf87d5fc3f6f408c3db8610e8520813b5816607b849f07b21cf7"
+      },
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "c02f563f407655a2d92c2c8bbe9cf9adac1de2b3",
+        "mode": "100644",
+        "sha256": "b0936f39b1372ce308ec0efba323e602cd03e36cada34138dcb3d37f68af7fed"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/direct-plain.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "ca18966ff4369b5297a8e00387a9eda02a4f6fef",
+        "mode": "100644",
+        "sha256": "c3bd9c4154a15bf0c243403de5b35c120c4fbc9030587d4d7ab3571ff7ff6f45"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/direct-plain.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "c02f563f407655a2d92c2c8bbe9cf9adac1de2b3",
+        "mode": "100644",
+        "sha256": "b0936f39b1372ce308ec0efba323e602cd03e36cada34138dcb3d37f68af7fed"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/direct-seeded.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "70ae032c0ddba00a69637fc3c18df674a1856f29",
+        "mode": "100644",
+        "sha256": "77842a4aefeb1976156dfd52d316035821898462bfaad2ffcf670a2c9ce4b6f6"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/direct-seeded.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "d5e5069afa3240956775cbfeec6d830fcde64e70",
+        "mode": "100644",
+        "sha256": "aecbd2939d8717cf0ec3e6a44d44cd833f7bc855f8335d1cd64fcf65e0bc81a5"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "c7b02396b7cc5ce3d6adbb7825aeb28b068781de",
+        "mode": "100644",
+        "sha256": "76c753c22a233aff10f7fdc2694a0ec6cfabb8f95df32212c7f0cf5daba41b28"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "d5e5069afa3240956775cbfeec6d830fcde64e70",
+        "mode": "100644",
+        "sha256": "aecbd2939d8717cf0ec3e6a44d44cd833f7bc855f8335d1cd64fcf65e0bc81a5"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "97f7a1341203289f631686224a92f6f9e24fbdc9",
+        "mode": "100644",
+        "sha256": "ef00bd9f0371406df2aafc06127ec6f8ee0a07c8b57beb7e369dffbeb74e6e4d"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "9cc9db923394ad7419c0683f7602256ab425ab73",
+        "mode": "100644",
+        "sha256": "fe9d12488a16d7ade2cbbfd07bb36e9db6fa9e13185b32ef8dcb361faf990cef"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/entry-partial-plain.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "d7d22eceb4a22f3f80d9bd143069e072044576e9",
+        "mode": "100644",
+        "sha256": "2bff8b157e020ef3132651d2b940dfb3e8ba312204f9707d066b3f673f27a935"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "9cc9db923394ad7419c0683f7602256ab425ab73",
+        "mode": "100644",
+        "sha256": "fe9d12488a16d7ade2cbbfd07bb36e9db6fa9e13185b32ef8dcb361faf990cef"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "f3a9fd684a91877a981a0285c3d90c0364a0ee0a",
+        "mode": "100644",
+        "sha256": "b78290bd8122be63727faca0bd1671edc300d4dac8a3f6f9f7f221486c98bffa"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+        "mode": "100644",
+        "sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "a704098b407849f50e93960036d1ab19d6c3ad4d",
+        "mode": "100644",
+        "sha256": "a019fb74ef32acdb4cede16392ccd3174c294976083c361149aeadad15c8b468"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+        "mode": "100644",
+        "sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "35261d078d34fafa60c0ad9925923f885bcc5371",
+        "mode": "100644",
+        "sha256": "4bcf2d6425386c34c0d8e7e9a423b39f58e62bd6ab7f29c4ddda6f81f5ea8e01"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+        "mode": "100644",
+        "sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/fn-pointer-plain.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "5866893083123796c986e9bcced19ce7f19570da",
+        "mode": "100644",
+        "sha256": "00a2ebef7f380f7d3b157e36eff2a5a6303a44d89e1b13a4dd92933f7e08387c"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/fn-pointer-plain.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+        "mode": "100644",
+        "sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "844037d99a5875fdffffbaac080457ea5269c1d6",
+        "mode": "100644",
+        "sha256": "23b85bc82e9dba8e4a9fe8bb9ce1aa53a529c091a29e1d2a789cf55156106447"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+        "mode": "100644",
+        "sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/global-escaped-plain.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "e94bd9e454be367bc369b4c72b5524bd7e134a03",
+        "mode": "100644",
+        "sha256": "a82d6c7d12de3a840ccc56c6b5f919d74edd164aac7e82d0deb378efd6b91672"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/global-escaped-plain.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+        "mode": "100644",
+        "sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/global-escaped-seeded.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "976a978648c3f2e5a90603a3fbbc8b60e959fc19",
+        "mode": "100644",
+        "sha256": "492a14704d782c353ed7239641ce5289ab3303f84e2566f33664dc23756e4305"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "2fcdd1cbb49c3f320f3cf5a03d58e28d48b37abe",
+        "mode": "100644",
+        "sha256": "a98cba93c04805a857c52b571a41e93a9fb459dc3ba606dba7d91153258cc01c"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/pending-ops-plain.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "9862367768f017b3fd6432061f57bbe2abfb5a5d",
+        "mode": "100644",
+        "sha256": "c28965b499b7d78149cefe1197e472845121ceec4fcf87ed3e5e754607f0b1fd"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/pending-ops-plain.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "2fcdd1cbb49c3f320f3cf5a03d58e28d48b37abe",
+        "mode": "100644",
+        "sha256": "a98cba93c04805a857c52b571a41e93a9fb459dc3ba606dba7d91153258cc01c"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "cfa4debb21e132ef53d2c30559d4addad0875bf9",
+        "mode": "100644",
+        "sha256": "630a2a8c420b80fb6f7f85b480a6e7ac089a4643a2b70df1d2022e8777315018"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "4eff4564945731b086a26be782647b3097d33ff2",
+        "mode": "100644",
+        "sha256": "b52450be92891f2c855fbd2086f8f413a8b6e376c0d41164c0be7f568c83adbd"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/shim-plain.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "991a9f2fa616e8b617cf4f1ff4c0189f2b27a384",
+        "mode": "100644",
+        "sha256": "0c5e58e065477b2a6cd1673f534cafee9427e36e28e570487a0613e620f0bae9"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/shim-plain.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "4eff4564945731b086a26be782647b3097d33ff2",
+        "mode": "100644",
+        "sha256": "b52450be92891f2c855fbd2086f8f413a8b6e376c0d41164c0be7f568c83adbd"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/shim-seeded.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "47169129574072dea0dcad966aec85248a961eba",
+        "mode": "100644",
+        "sha256": "655223c49945268df466d7e4ab37fd15d7c6e77dbc924f645d8d57becc65eda7"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/shim-seeded.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "50fcbeae27515311da1976352d62783ba6d10468",
+        "mode": "100644",
+        "sha256": "7f159f37bda578496904e263508101f8894d9130c37a061d5ae6e6773fd3bc25"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/virtual-plain.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "3f493a7e5a9d1e8d7398fadac4909b34a9655f96",
+        "mode": "100644",
+        "sha256": "d60b379a68acb2bfaba88c9273b240f6450f3c164960133bbba1b35292159b29"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/virtual-plain.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "50fcbeae27515311da1976352d62783ba6d10468",
+        "mode": "100644",
+        "sha256": "7f159f37bda578496904e263508101f8894d9130c37a061d5ae6e6773fd3bc25"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/virtual-seeded.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "be2b16bb0cb785e674671752b5d4acb0e44f34a4",
+        "mode": "100644",
+        "sha256": "e7a4066924c4c7d6f973d0de26460d547614d9cd84a6ed31e46d3edf695ddee4"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/virtual-seeded.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+        "mode": "100644",
+        "sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "bb950c32c683e50d6c16bf5923d19610056c3457",
+        "mode": "100644",
+        "sha256": "b11e9b84dc0377527fb2967a5323aa9ff7e8ef4f8ba20d12c51efc3b23bc8370"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "e737b233a3c2382e9784f76cd3b255e03ed2efc1",
+        "mode": "100644",
+        "sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "d461fcb506ed216fdc3c924c09eec1f24f596f8e",
+        "mode": "100644",
+        "sha256": "b0a9bc2c6ca4cd843f498c8d9f9be4d3f8c38391f9ee8193831313022224ccee"
+      },
+      "path": "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs",
+      "status": "added"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "ad43d696568370539327776669b1bc6830e0f9bd",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "sha256": "acd93cd4351eaff1ba8365ccc2298b560854aa9c95311204203a3c3485afa971",
+      "size": 4308
+    },
+    {
+      "blob": "76e8111987ee93c255f81e3ff334a0533feb11a9",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "sha256": "92b632cabff031938ffc2abf9fef276193ac68184edf6f65c0d8722ee87ae00c",
+      "size": 5802
+    },
+    {
+      "blob": "03b92f331064023b090ad5e6afc10fe0b9ff828e",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "sha256": "0f32763a6981ae6269d4b938302ac106ff6ebaa19df9fa413765a982f1390277",
+      "size": 5335
+    },
+    {
+      "blob": "5326c704e544bb85167b6e721e6706d0a908343a",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "sha256": "487138ede144c9cea764b1da8562a90525cfdcab7ba110e044d46a3b75ce502e",
+      "size": 33518
+    },
+    {
+      "blob": "973dde0b840ab9eb975ee9efd3eb0650c8814748",
+      "member": "dependencies/0004.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "sha256": "326ddfe7b112e88f61f7af8606d433fc8be29fe959565ad3b4071a875f8230a9",
+      "size": 14119
+    },
+    {
+      "blob": "d86ae417a7e5998244a2222bc72a0ed43d2d8970",
+      "member": "dependencies/0005.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "sha256": "c9b0f47bc79751ab906c443243750ae840311d87c78924147a6765df94971339",
+      "size": 16878
+    },
+    {
+      "blob": "ae984c26e220b2fc689c7f16fecd970b7cbe0a20",
+      "member": "dependencies/0006.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/body.rs",
+      "sha256": "930636ad1ab2290fb2b10f1970f2283f6e29c52de9a7b1696c7767c041a469d5",
+      "size": 26496
+    },
+    {
+      "blob": "2f0b42e279266d51a4f387b180d19f3304257b3e",
+      "member": "dependencies/0007.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/delayed-ub-unsupported-call/main.rs",
+      "sha256": "b464e866a3ce94fcb20589e16b47c74589ef821ea2f7ed7e2666febf63aac1fd",
+      "size": 841
+    },
+    {
+      "blob": "50ed98d19581c12641eda49d01980073465e282f",
+      "member": "dependencies/0008.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/delayed-ub-unsupported-call/expected",
+      "sha256": "7008546b9c6963fdc4e6c0507852732014aaf7abf7ef05423d7a9c0806d9e89c",
+      "size": 390
+    },
+    {
+      "blob": "82526b5d3e4560bf80fad2423cc013b6b8de7a6f",
+      "member": "dependencies/0009.bin",
+      "mode": "100644",
+      "path": "tools/compiletest/src/runtest.rs",
+      "sha256": "dad67ded3379bcf7d3cce0e4e500159fa0c25ee513ba515f13647d5c688e394f",
+      "size": 29487
+    }
+  ],
+  "diff_sha256": "393f826b0f4d8552e3ec12cc4938aa43a2e774ee4b55d0ec1a28031b9dddf8b5",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "81b9d66c74564d28f8d7e499cd60630e0970cc45662731f634cbad44b48d9e87",
+  "worktree": "/root/kani-fix-3300-b1"
+}

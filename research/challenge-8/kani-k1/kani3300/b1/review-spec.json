@@ -1,0 +1,35 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-b1",
+  "baseline_commit": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+  "candidate_commit": "835cb4a09c4e94ac6b531d20e68f9deee7262ce1",
+  "defect": "Unresolved Call drops current_target and repeats super_terminator; non-Item instances can escape classification. Review the B1 candidate independently against TASK-KANI3300-B1.md.",
+  "applicability": "Only upstream uninitialized-memory call handling and its regression controls. No memory-model extensions, builds, dispatch, or Kani publication.",
+  "invariants": [
+    "Exactly one super_terminator per Call; retain entry loads and collected operand operations on resolution error.",
+    "Every instance kind has an explicit supported or Unsupported policy.",
+    "One pass owns fn-pointer/virtual diagnostics regardless of delayed-UB seeds; do not weaken checks."
+  ],
+  "controls": [
+    "Empty entry block with union argument loads, initialized/partial controls; pending operand checks at unresolved Call.",
+    "FnPtr, erased/wrapped pointer, virtual, global/escaped, shim, direct positive; each with and without added delayed-UB seed.",
+    "Audit Rust warning hazards under -D warnings; local compilation is forbidden."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "tests/expected/uninit/delayed-ub-unsupported-call/main.rs",
+    "tests/expected/uninit/delayed-ub-unsupported-call/expected",
+    "tools/compiletest/src/runtest.rs"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "No local cargo/rustc/Kani/CBMC, builds, Actions, Cloud, raw logs/archives, credentials, or network writes. Compiler execution and measured results are reserved to coordinator fork CI.",
+    "Source inspection and goldens are expectations, not measured false SUCCESS or proof credit."
+  ]
+}
