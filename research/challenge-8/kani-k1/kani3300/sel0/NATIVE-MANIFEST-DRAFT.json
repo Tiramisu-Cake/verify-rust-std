@@ -1,0 +1,153 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "DRAFT-kani3300-sel1-native-NOT-AUTHORIZED",
+  "kind": "kani-tests",
+  "harnesses": [],
+  "kani_tests": [
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-values/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-pointer-initialized/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-pointer-uninit-true/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-pointer-uninit-false/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-pointer-no-read/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-delayed-true/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-delayed-false/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-delayed-reinitialized/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-hint-scalar-guard/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Kani does not support select_unpredictable with shadow-carrying storage results."
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-hint-pointer-guard/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Kani does not support select_unpredictable with shadow-carrying storage results."
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-storage-guard/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Kani does not support select_unpredictable with shadow-carrying storage results."
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-partial-storage-guard/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Kani does not support select_unpredictable with shadow-carrying storage results."
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-pfc-swap-direct/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-pfc-swap-hint-guard/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Kani does not support select_unpredictable with shadow-carrying storage results."
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/select-sel1-pfc-frame-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Check that *outside is assignable"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3-positive/main.rs",
+      "expect": "pass",
+      "require_success": true
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Check that *outside is assignable"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-overwrite-copy/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-review-positive/main.rs",
+      "expect": "pass",
+      "require_success": true
+    }
+  ]
+}

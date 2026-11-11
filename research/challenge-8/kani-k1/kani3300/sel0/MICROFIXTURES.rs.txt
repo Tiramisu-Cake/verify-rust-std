@@ -1,0 +1,232 @@
+// DESIGN TEXT ONLY: NOT_RUN, not an installed native suite.
+// Split each `selector:` section into the corresponding manifest file.
+// Common header for new files:
+// compile-flags: --edition 2021
+// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular
+#![feature(core_intrinsics)]
+#![allow(internal_features)]
+use std::{hint, mem::MaybeUninit, ptr};
+
+// Copy these helpers only where used; retain the real intrinsic, not a manual if replacement.
+#[inline(never)]
+fn select<T: Copy>(condition: bool, a: T, b: T) -> T {
+    core::intrinsics::select_unpredictable(condition, a, b)
+}
+
+// selector: values
+#[kani::proof]
+fn values() {
+    let c: bool = kani::any();
+    let a: u64 = kani::any();
+    let b: u64 = kani::any();
+    assert_eq!(select(c, a, b), if c { a } else { b });
+    assert_eq!(select(true, 11u64, 13), 11);
+    assert_eq!(select(false, 11u64, 13), 13);
+    assert_eq!(select(c, true, false), c);
+    assert_eq!(select(c, 'a', 'z'), if c { 'a' } else { 'z' });
+    assert_eq!(select(c, 1.0f32, 2.0), if c { 1.0 } else { 2.0 });
+    kani::cover!(c);
+    kani::cover!(!c);
+}
+
+// selector: pointer-initialized
+#[kani::proof]
+fn pointer_initialized() {
+    let a = MaybeUninit::new(11u8);
+    let b = MaybeUninit::new(13u8);
+    let c: bool = kani::any();
+    let q = select(c, a.as_ptr(), b.as_ptr());
+    assert_eq!(unsafe { q.read() }, if c { 11 } else { 13 });
+    kani::cover!(c);
+    kani::cover!(!c);
+}
+
+// selector: pointer-uninit-true
+#[kani::proof]
+fn pointer_uninit_true() {
+    let a = MaybeUninit::<u8>::uninit();
+    let b = MaybeUninit::new(13u8);
+    let c: bool = kani::any();
+    let q = select(c, a.as_ptr(), b.as_ptr());
+    kani::cover!(c); // failing read branch; selection itself is legal
+    let value = unsafe { q.read() }; // EXPECT: uninit u8 when c
+    assert!(value <= u8::MAX);
+}
+
+// selector: pointer-uninit-false
+#[kani::proof]
+fn pointer_uninit_false() {
+    let a = MaybeUninit::new(11u8);
+    let b = MaybeUninit::<u8>::uninit();
+    let c: bool = kani::any();
+    let q = select(c, a.as_ptr(), b.as_ptr());
+    kani::cover!(!c);
+    let value = unsafe { q.read() }; // EXPECT: uninit u8 when !c
+    assert!(value <= u8::MAX);
+}
+
+// selector: pointer-no-read
+#[kani::proof]
+fn pointer_no_read() {
+    let a = MaybeUninit::<u8>::uninit();
+    let dangling = ptr::NonNull::<u8>::dangling().as_ptr().cast_const();
+    let c: bool = kani::any();
+    let q = select(c, a.as_ptr(), dangling);
+    assert_eq!(q, if c { a.as_ptr() } else { dangling });
+    kani::cover!(c);
+    kani::cover!(!c); // EXPECT: SUCCESS, no pointee read
+}
+
+// Common delayed helpers: pinned x86_64 target; u64 and Pad size 8, Pad alignment <= u64.
+#[repr(C)]
+#[derive(Clone, Copy)]
+struct Pad { a: u8, b: u32 }
+
+// selector: delayed-true
+#[kani::proof]
+fn delayed_true() {
+    assert_eq!(size_of::<Pad>(), size_of::<u64>());
+    let mut x = 0u64;
+    let mut y = 0u64;
+    let c: bool = kani::any();
+    let q = select(c, ptr::addr_of_mut!(x), ptr::addr_of_mut!(y));
+    unsafe { q.cast::<Pad>().write(Pad { a: 1, b: 2 }); }
+    kani::cover!(c);
+    let value = x; // EXPECT: uninit u64 when c; !c leaves x == 0
+    kani::cover!(value != 0); // consume read without a separate failing value assertion
+}
+
+// selector: delayed-false
+#[kani::proof]
+fn delayed_false() {
+    assert_eq!(size_of::<Pad>(), size_of::<u64>());
+    let mut x = 0u64;
+    let mut y = 0u64;
+    let c: bool = kani::any();
+    let q = select(c, ptr::addr_of_mut!(x), ptr::addr_of_mut!(y));
+    unsafe { q.cast::<Pad>().write(Pad { a: 1, b: 2 }); }
+    kani::cover!(!c);
+    let value = y; // EXPECT: uninit u64 when !c; c leaves y == 0
+    kani::cover!(value != 0);
+}
+
+// selector: delayed-reinitialized
+#[kani::proof]
+fn delayed_reinitialized() {
+    assert_eq!(size_of::<Pad>(), size_of::<u64>());
+    let mut x = 0u64;
+    let mut y = 0u64;
+    let c: bool = kani::any();
+    let q = select(c, ptr::addr_of_mut!(x), ptr::addr_of_mut!(y));
+    unsafe {
+        q.cast::<Pad>().write(Pad { a: 1, b: 2 });
+        q.write(9u64);
+    }
+    assert_eq!(x, if c { 9 } else { 0 });
+    assert_eq!(y, if c { 0 } else { 9 });
+    kani::cover!(c);
+    kani::cover!(!c);
+}
+
+// selector: hint-scalar-guard
+#[kani::proof]
+fn hint_scalar_guard() {
+    let c: bool = kani::any();
+    let v = hint::select_unpredictable(c, 11u8, 13);
+    assert_eq!(v, if c { 11 } else { 13 });
+    // Scope 1 EXPECT: explicit storage Unsupported at hint.rs:885, no ghost assigns.
+    // After separately reviewed selected-shadow transfer: SUCCESS and both covers.
+    kani::cover!(c);
+    kani::cover!(!c);
+}
+
+// selector: hint-pointer-guard
+#[kani::proof]
+fn hint_pointer_guard() {
+    let x = 11u8;
+    let y = 13u8;
+    let c: bool = kani::any();
+    let q = hint::select_unpredictable(c, ptr::addr_of!(x), ptr::addr_of!(y));
+    assert_eq!(unsafe { q.read() }, if c { 11 } else { 13 });
+    // Scope 1 EXPECT: storage Unsupported; future promotion also needs payload aliases.
+}
+
+// selector: storage-guard
+#[kani::proof]
+fn storage_guard() {
+    let c: bool = kani::any();
+    let q = select(c, MaybeUninit::new(11u8), MaybeUninit::new(13));
+    assert_eq!(unsafe { q.assume_init() }, if c { 11 } else { 13 });
+    // Consume the result to retain the call; both arms are fully initialized.
+    // EXPECT: storage Unsupported, not an uninit failure.
+}
+
+// selector: partial-storage-guard
+#[kani::proof]
+fn partial_storage_guard() {
+    let mut a = MaybeUninit::<[u8; 2]>::uninit();
+    unsafe { a.as_mut_ptr().cast::<u8>().write(7); }
+    let c: bool = kani::any();
+    let q = select(c, a, MaybeUninit::new([11, 13]));
+    assert_eq!(unsafe { q.as_ptr().cast::<u8>().read() }, if c { 7 } else { 11 });
+    // Only the initialized first byte is read; no unrelated uninit failure.
+    // EXPECT: storage Unsupported; selected whole storage still has a partial arm.
+}
+
+// Common PFC helper; primitive selected pointers, no shadow-carrying result.
+#[kani::modifies(x, y)]
+fn swap_direct(x: &mut u8, y: &mut u8, c: bool) {
+    let old_x = *x;
+    let old_y = *y;
+    let a = select(c, x as *mut u8, y as *mut u8);
+    let b = select(c, y as *mut u8, x as *mut u8);
+    unsafe { let t = a.read(); a.write(b.read()); b.write(t); }
+    assert_eq!(*x, old_y);
+    assert_eq!(*y, old_x);
+}
+
+// selector: pfc-swap-direct
+#[kani::proof_for_contract(swap_direct)]
+fn pfc_swap_direct() {
+    let mut x: u8 = kani::any();
+    let mut y: u8 = kani::any();
+    let c: bool = kani::any();
+    swap_direct(&mut x, &mut y, c);
+    kani::cover!(c);
+    kani::cover!(!c); // EXPECT: SUCCESS, no instrumentation assignable failures
+}
+
+// selector: pfc-swap-hint-guard (include this helper, not swap_direct)
+#[kani::modifies(x, y)]
+fn swap_hint(x: &mut u8, y: &mut u8, c: bool) {
+    let old_x = *x;
+    let old_y = *y;
+    let a = hint::select_unpredictable(c, x as *mut u8, y as *mut u8);
+    let b = hint::select_unpredictable(c, y as *mut u8, x as *mut u8);
+    unsafe { let t = a.read(); a.write(b.read()); b.write(t); }
+    assert_eq!(*x, old_y);
+    assert_eq!(*y, old_x);
+}
+#[kani::proof_for_contract(swap_hint)]
+fn pfc_swap_hint_guard() {
+    let mut x = 11;
+    let mut y = 13;
+    swap_hint(&mut x, &mut y, kani::any());
+    // EXPECT: storage Unsupported only; after future storage support SUCCESS.
+}
+
+// selector: pfc-frame-negative (include select helper)
+#[kani::modifies(x, y)]
+fn swap_outside(x: &mut u8, y: &mut u8, outside: &mut u8, c: bool) {
+    let a = select(c, x as *mut u8, y as *mut u8);
+    let b = select(c, y as *mut u8, x as *mut u8);
+    unsafe { let t = a.read(); a.write(b.read()); b.write(t); }
+    *outside = 17; // EXPECT: user frame assignable failure, never excluded as ghost
+}
+#[kani::proof_for_contract(swap_outside)]
+fn pfc_frame_negative() {
+    let mut x = 11;
+    let mut y = 13;
+    let mut outside = 0;
+    swap_outside(&mut x, &mut y, &mut outside, kani::any());
+}
