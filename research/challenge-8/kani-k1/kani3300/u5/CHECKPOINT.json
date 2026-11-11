@@ -1,6 +1,6 @@
 {
   "stage": "kani3300-u5",
-  "state": "PREPARED_AWAITING_INDEPENDENT_REVIEW",
+  "state": "PRE_BUILD_REVIEW_PENDING_COORDINATOR_GO",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-U5.md",
   "runtime": "Codex",
   "owner": "k1-merge",
@@ -46,11 +46,25 @@
     "Normal returns only with unchanged panic stub; no theorem for arbitrary types/lengths/unwind."
   ],
   "independent_review": {
-    "state": "PENDING"
+    "state": "PASS",
+    "decision": "No blocking findings",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "receipt": "INDEPENDENT-REVIEW.md",
+    "receipt_sha256": "ad869741a044e99c36c904aea5838635f0cca3eedd952e1d921a3f8daceedf14",
+    "candidate": "be8bd0d11d75d6bc3898bb1d3429b7d03fe8f61b",
+    "spec_sha256": "2445677db7258e13f7dd0579982bf6f8aa5672ca0457d7538753020554b80a10",
+    "packet_sha256": "609d604ff60d072f0bb4234b69e9ebd9f4f131d57adce425fa7c4b6f99d6eeb2",
+    "proof_credit": "NONE"
   },
   "proof_credit": "NONE",
-  "next_step": "Independent review of committed semantic candidate, then publish review receipt and exact packet SHA. Stop pending coordinator GO.",
+  "next_step": "Coordinator reviews exact published packet SHA. STOP until GO; then one dispatch, k1g.sh watch BUILD and end turn.",
   "stop_boundary": "No dispatch until exact-packet coordinator PRE-BUILD review/GO; one diagnostic attempt only, no retries.",
   "thread_cwd": "/root; task-specific k1g watcher required only after GO and dispatch; no watcher armed.",
-  "result": "RESULT-KANI3300-U5.md"
+  "result": "RESULT-KANI3300-U5.md",
+  "semantic_candidate": "be8bd0d11d75d6bc3898bb1d3429b7d03fe8f61b",
+  "coordinator_go": {
+    "state": "PENDING",
+    "exact_head": null
+  }
 }

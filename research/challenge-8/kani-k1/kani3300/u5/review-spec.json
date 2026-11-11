@@ -1,0 +1,41 @@
+{
+  "applicability": "KANI3300 U5 u64/N4 actual StableSmallSortTypeImpl entry, normal returns under unchanged panic stub, opt-in uninit checks; one diagnostic attempt only after coordinator exact-packet GO.",
+  "baseline_commit": "e962c304c15664b23f17e834ce92ca3c5eb4ebef",
+  "candidate_commit": "be8bd0d11d75d6bc3898bb1d3429b7d03fe8f61b",
+  "controls": [
+    "Exactly five selected rows B1/B2/U8/U1/U2. B1 asserts sortedness and count by arbitrary u64 probe, normal return, reads only written scratch[3] with before/after covers; SUCCESS, no uninit/Unsupported/unrelated failures.",
+    "B2 same actual Stable entry, asserts sortedness/count before read of only scratch[4]; FAILED with expected uninit substring. Require uninit u64; record all failure types/counts/locations, classify pointer failure separately without assumed multiplicity. Covers after UB confer no credit.",
+    "U8 and U1 request entries unchanged; U2 initialized-byte positive control added to selected set without source changes. All prior roots retained.",
+    "Diagnostic standard4/jobs1/3m, controls/uninit on, inventory off; five roots, 45-minute envelope, planned reserve $0.6075 <= $0.80 cap; no retries.",
+    "Preparation registers no phase or reservation. Stop at PRE-BUILD REVIEW full final SHA; coordinator exact-packet GO required before dispatch."
+  ],
+  "defect": "Prior u8/N4 diagnostics do not test the u64 width or actual Stable entry. Add positive written-slot and negative unwritten-slot roots through that entry, preserving existing controls and model.",
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-U5.md",
+    "library/core/src/slice/sort/shared/smallsort/verify/uninit_probe.rs",
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "library/core/src/slice/sort/shared/mod.rs",
+    "research/challenge-8/kani-k1/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/u4/kani-uninit.patch",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/tools/k1g.sh",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh",
+    "research/challenge-8/kani-k1/gcb/cloudbuild.yaml",
+    "tool_config/kani-version.toml",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "Only append new roots/helpers to uninit_probe.rs; preserve original eleven roots byte for byte and every other library file. Use actual Stable trait entry, strict < function item without fn-pointer cast, N4 scratch20, unwind17 and unchanged panic stub.",
+    "Do not change production CMP2 patch SHA256 46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4, KT2 protected tooling paths or Kani/toolchain pins; no new model/trusted premises.",
+    "No local compilers/proof tools, Cloud dispatch, raw evidence or credentials. Runtime remains NOT_RUN, independent proof credit NONE."
+  ],
+  "known_limitations": [
+    "Cloud NOT_RUN; statuses/failed checks/covers/actual argv/applied tree UNKNOWN. Generated args and static route do not establish runtime success or independent MIR/call-site binding.",
+    "Normal returns only under existing panic stub, fixed type/length/comparator/patch; no compound/native acceptance or general theorem.",
+    "Thread cwd /root; no generic session watcher armed. Task mandates k1g watch after future GO and dispatch.",
+    "Review spec and receipt will be committed after review; post-candidate changes must remain review metadata only."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-u5"
+}

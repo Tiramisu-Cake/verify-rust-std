@@ -65,3 +65,8 @@ Static checks PASS (`static-check.json`): prior roots preserved, exact selectors
 generated args and controls. Existing validator accepted five roots; rustfmt wrapper applied; whitespace clean.
 No runner changes requiring new service tests. No local cargo/rustc/Kani/CBMC execution.
 Independent review receipt follows separately; packet validation and review do not authorize dispatch.
+
+Independent Luna HIGH review PASS, no blocking findings: `INDEPENDENT-REVIEW.md`.
+Reviewed semantic candidate `be8bd0d11d75d6bc3898bb1d3429b7d03fe8f61b`;
+post-review delta contains only canonical review spec, review receipt and packet/checkpoint review metadata.
+No runtime results or proof credit; no dispatch authorization. Coordinator reviews exact final published SHA.
