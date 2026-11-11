@@ -1,0 +1,47 @@
+{
+  "stage": "kani3300-cmp3",
+  "state": "PREPARED_PENDING_INDEPENDENT_REVIEW_AND_EXACT_PACKET_GO",
+  "runtime": "Codex",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-CMP3.md",
+  "worktree": "/root/verify-rust-std-kani3300-cmp3",
+  "branch": "experiment/kani-k1-kani3300cmp3-20261111",
+  "baseline": "b557178a8bf10cb5e984d73f1c6efaadd2ccdb87",
+  "library_commit": "a5a66cc6e1f6b2d77c1ba46150b0d296a2f55df0",
+  "request_id": "kani3300-cmp3-uninit-20261111-01",
+  "request_sha256": "2fcfec5e616561e62bdddb894ab3378974a020c03ea6fc1871f668571a90cf7a",
+  "kani_patch_sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "cloud": {
+    "status": "NOT_RUN",
+    "build_id": null,
+    "spend_usd": "0",
+    "submitted_reserve_usd": "0",
+    "planned_reserve_usd": "0.7695",
+    "cap_usd": "0.80",
+    "attempts_allowed": 1
+  },
+  "claims": [
+    {
+      "claim": "Six new opt-in roots plus three cfg(kani) adapters/re-exports; all existing roots and real array methods/types/visibility preserved.",
+      "assurance": "static only",
+      "reference": "static-check.json"
+    },
+    {
+      "claim": "Immutable U4 production-only patch equals CMP2 production sections; protected tooling paths equal KT2.",
+      "assurance": "static only",
+      "reference": "static-check.json"
+    }
+  ],
+  "independent_review": {
+    "state": "PENDING"
+  },
+  "open": [
+    "Actual runtime/typechecking/instrumentation/argv/tree, nine statuses/failure counts/covers NOT_RUN.",
+    "Cause UNKNOWN: no linked transfer/delayed-get object observations for CMP3.",
+    "Thread cwd /root; later runtime must satisfy watcher entry rules before any Build.",
+    "U4 retains its original gates; CMP3 cannot release it."
+  ],
+  "proof_credit": "NONE",
+  "next_step": "Independent Luna HIGH review, publish exact packet, PRE-BUILD REVIEW final SHA; wait for coordinator GO.",
+  "stop_boundary": "Explicit kickoff authorizes preparation only; no dispatch, phase activation, reservation or retries."
+}

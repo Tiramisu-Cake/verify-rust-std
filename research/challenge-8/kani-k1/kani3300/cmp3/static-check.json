@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "assurance": "static only; no compiler or verifier execution",
+  "baseline": "b557178a8bf10cb5e984d73f1c6efaadd2ccdb87",
+  "library_commit": "a5a66cc6e1f6b2d77c1ba46150b0d296a2f55df0",
+  "checks": {
+    "library_scope_exact": true,
+    "existing_probe_bytes_preserved": true,
+    "existing_kani_proof_roots_preserved": 9,
+    "six_new_roots_match_request_order": true,
+    "production_array_code_types_visibility_unchanged": true,
+    "adapters_cfg_kani_only": true,
+    "controls_cfg_scope": true,
+    "all_lane_paths_equal_KT2": true,
+    "request_snapshot_equal": true,
+    "selected_U8_U1_U2_rows_preserved": true,
+    "patch_immutable_and_cmp2_production_sections_equal": true,
+    "generated_flags_and_reserve": true,
+    "diff_whitespace": true
+  },
+  "request_sha256": "2fcfec5e616561e62bdddb894ab3378974a020c03ea6fc1871f668571a90cf7a",
+  "patch_sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "planned_reserve_usd": "0.7695",
+  "cap_usd": "0.80",
+  "cloud": "NOT_RUN",
+  "proof_credit": "NONE",
+  "limitations": [
+    "Static source checks are not Rust typechecking or actual instrumentation evidence.",
+    "Runner unchanged; service tests were not rerun.",
+    "Expected Kani applied tree d356238999ab436ddc1dd7ffa845b0db214aa53e is inherited static U4 binding; actual Cloud tree NOT_RUN."
+  ]
+}
