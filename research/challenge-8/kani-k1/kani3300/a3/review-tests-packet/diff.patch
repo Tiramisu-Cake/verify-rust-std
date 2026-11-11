@@ -1,0 +1,504 @@
+diff --git a/tests/expected/uninit/maybe-uninit-call-move/expected b/tests/expected/uninit/maybe-uninit-call-move/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..184281161f8206dc1fddebbb8e1abca1be60bb08
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-call-move/expected
+@@ -0,0 +1,27 @@
++Checking harness in_place_copy_preserves_source...
++VERIFICATION:- SUCCESSFUL
++Checking harness in_place_copy_write_changes_parameter_only...
++VERIFICATION:- SUCCESSFUL
++Checking harness in_place_move_delivers_initialized_payload_to_callee...
++VERIFICATION:- SUCCESSFUL
++Checking harness in_place_move_reads_initialized_callee_then_uninit_source...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Verification failed for - in_place_move_reads_initialized_callee_then_uninit_source
++Checking harness in_place_move_still_checks_uninitialized_callee_payload...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Verification failed for - in_place_move_still_checks_uninitialized_callee_payload
++Checking harness in_place_move_write_still_deinitializes_source...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Verification failed for - in_place_move_write_still_deinitializes_source
++Checking harness ordinary_by_value_temporary_preserves_original_source...
++VERIFICATION:- SUCCESSFUL
++Checking harness union_in_place_copy_preserves_source...
++VERIFICATION:- SUCCESSFUL
++Checking harness union_in_place_move_deinitializes_source...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Verification failed for - union_in_place_move_deinitializes_source
++Complete - 5 successfully verified harnesses, 4 failures, 9 total.
+diff --git a/tests/expected/uninit/maybe-uninit-call-move/main.rs b/tests/expected/uninit/maybe-uninit-call-move/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..9f4f4fcc377e80fe9eb7b0250ca6bad84b5515a7
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-call-move/main.rs
+@@ -0,0 +1,295 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn consume(value: MaybeUninit<u8>) -> u8 {
++    unsafe { value.assume_init() }
++}
++
++#[inline(never)]
++fn consume_and_write(mut value: MaybeUninit<u8>) -> u8 {
++    value.write(0xA7);
++    unsafe { value.assume_init() }
++}
++
++#[inline(never)]
++unsafe fn read_payload(pointer: *const MaybeUninit<u8>) -> u8 {
++    unsafe { (*pointer).assume_init() }
++}
++
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn move_call(source: MaybeUninit<u8>) -> (u8, u8) {
++    mir! {
++        type RET = (u8, u8);
++        let pointer: *const MaybeUninit<u8>;
++        let callee: u8;
++        let observed: u8;
++
++        {
++            pointer = std::ptr::addr_of!(source);
++            Call(callee = consume(Move(source)), ReturnTo(after_call), UnwindContinue())
++        }
++
++        after_call = {
++            Call(observed = read_payload(pointer), ReturnTo(done), UnwindContinue())
++        }
++
++        done = {
++            RET.0 = callee;
++            RET.1 = observed;
++            Return()
++        }
++    }
++}
++
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn move_uninitialized_payload(source: MaybeUninit<u8>) -> u8 {
++    mir! {
++        type RET = u8;
++        let callee: u8;
++
++        {
++            Call(callee = consume(Move(source)), ReturnTo(done), UnwindContinue())
++        }
++
++        done = {
++            RET = callee;
++            Return()
++        }
++    }
++}
++
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn move_initialized_callee_only(source: MaybeUninit<u8>) -> u8 {
++    mir! {
++        type RET = u8;
++        let callee: u8;
++
++        {
++            Call(callee = consume(Move(source)), ReturnTo(done), UnwindContinue())
++        }
++
++        done = {
++            RET = callee;
++            Return()
++        }
++    }
++}
++
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn move_call_writes_parameter(source: MaybeUninit<u8>) -> (u8, u8) {
++    mir! {
++        type RET = (u8, u8);
++        let pointer: *const MaybeUninit<u8>;
++        let callee: u8;
++        let observed: u8;
++
++        {
++            pointer = std::ptr::addr_of!(source);
++            Call(callee = consume_and_write(Move(source)), ReturnTo(after_call), UnwindContinue())
++        }
++
++        after_call = {
++            Call(observed = read_payload(pointer), ReturnTo(done), UnwindContinue())
++        }
++
++        done = {
++            RET.0 = callee;
++            RET.1 = observed;
++            Return()
++        }
++    }
++}
++
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn copy_call(source: MaybeUninit<u8>) -> (u8, u8) {
++    mir! {
++        type RET = (u8, u8);
++        let pointer: *const MaybeUninit<u8>;
++        let callee: u8;
++        let observed: u8;
++
++        {
++            pointer = std::ptr::addr_of!(source);
++            // The bare place is Operand::Copy; the custom MIR source is Copy.
++            Call(callee = consume(source), ReturnTo(after_call), UnwindContinue())
++        }
++
++        after_call = {
++            Call(observed = read_payload(pointer), ReturnTo(done), UnwindContinue())
++        }
++
++        done = {
++            RET.0 = callee;
++            RET.1 = observed;
++            Return()
++        }
++    }
++}
++
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn copy_call_writes_parameter(source: MaybeUninit<u8>) -> (u8, u8) {
++    mir! {
++        type RET = (u8, u8);
++        let pointer: *const MaybeUninit<u8>;
++        let callee: u8;
++        let observed: u8;
++
++        {
++            pointer = std::ptr::addr_of!(source);
++            Call(callee = consume_and_write(source), ReturnTo(after_call), UnwindContinue())
++        }
++
++        after_call = {
++            Call(observed = read_payload(pointer), ReturnTo(done), UnwindContinue())
++        }
++
++        done = {
++            RET.0 = callee;
++            RET.1 = observed;
++            Return()
++        }
++    }
++}
++
++#[kani::proof]
++fn in_place_move_reads_initialized_callee_then_uninit_source() {
++    let (callee, source) = unsafe { move_call(MaybeUninit::new(0x51)) };
++    assert_eq!(callee, 0x51);
++    assert_eq!(source, 0x51);
++}
++
++#[kani::proof]
++fn in_place_move_still_checks_uninitialized_callee_payload() {
++    let _callee = unsafe { move_uninitialized_payload(MaybeUninit::uninit()) };
++}
++
++#[kani::proof]
++fn in_place_move_delivers_initialized_payload_to_callee() {
++    let callee = unsafe { move_initialized_callee_only(MaybeUninit::new(0x51)) };
++    assert_eq!(callee, 0x51);
++}
++
++#[kani::proof]
++fn in_place_move_write_still_deinitializes_source() {
++    let (callee, source) = unsafe { move_call_writes_parameter(MaybeUninit::new(0x51)) };
++    assert_eq!(callee, 0xA7);
++    assert_eq!(source, 0x51);
++}
++
++#[kani::proof]
++fn in_place_copy_preserves_source() {
++    let (callee, source) = unsafe { copy_call(MaybeUninit::new(0x51)) };
++    assert_eq!(callee, 0x51);
++    assert_eq!(source, 0x51);
++}
++
++#[kani::proof]
++fn in_place_copy_write_changes_parameter_only() {
++    let (callee, source) = unsafe { copy_call_writes_parameter(MaybeUninit::new(0x51)) };
++    assert_eq!(callee, 0xA7);
++    assert_eq!(source, 0x51);
++}
++
++struct NonCopy(u8);
++
++#[inline(never)]
++fn consume_noncopy(value: MaybeUninit<NonCopy>) -> u8 {
++    unsafe { value.assume_init().0 }
++}
++
++#[kani::proof]
++fn ordinary_by_value_temporary_preserves_original_source() {
++    let source = MaybeUninit::new(NonCopy(0x51));
++    let pointer = source.as_ptr().cast::<u8>();
++    let callee = consume_noncopy(source);
++    let observed = unsafe { std::ptr::read_volatile(pointer) };
++    assert_eq!(callee, 0x51);
++    assert_eq!(observed, 0x51);
++}
++
++#[derive(Clone, Copy)]
++union Byte {
++    byte: u8,
++}
++
++#[inline(never)]
++fn consume_union(value: Byte) -> u8 {
++    unsafe { value.byte }
++}
++
++#[inline(never)]
++unsafe fn read_union(pointer: *const Byte) -> u8 {
++    unsafe { std::ptr::read_volatile(pointer.cast::<u8>()) }
++}
++
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn union_move_call(source: Byte) -> (u8, u8) {
++    mir! {
++        type RET = (u8, u8);
++        let pointer: *const Byte;
++        let callee: u8;
++        let observed: u8;
++
++        {
++            pointer = std::ptr::addr_of!(source);
++            Call(callee = consume_union(Move(source)), ReturnTo(after_call), UnwindContinue())
++        }
++
++        after_call = {
++            Call(observed = read_union(pointer), ReturnTo(done), UnwindContinue())
++        }
++
++        done = {
++            RET.0 = callee;
++            RET.1 = observed;
++            Return()
++        }
++    }
++}
++
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn union_copy_call(source: Byte) -> (u8, u8) {
++    mir! {
++        type RET = (u8, u8);
++        let pointer: *const Byte;
++        let callee: u8;
++        let observed: u8;
++
++        {
++            pointer = std::ptr::addr_of!(source);
++            Call(callee = consume_union(source), ReturnTo(after_call), UnwindContinue())
++        }
++
++        after_call = {
++            Call(observed = read_union(pointer), ReturnTo(done), UnwindContinue())
++        }
++
++        done = {
++            RET.0 = callee;
++            RET.1 = observed;
++            Return()
++        }
++    }
++}
++
++#[kani::proof]
++fn union_in_place_move_deinitializes_source() {
++    let (callee, source) = unsafe { union_move_call(Byte { byte: 0x51 }) };
++    assert_eq!(callee, 0x51);
++    assert_eq!(source, 0x51);
++}
++
++#[kani::proof]
++fn union_in_place_copy_preserves_source() {
++    let (callee, source) = unsafe { union_copy_call(Byte { byte: 0x51 }) };
++    assert_eq!(callee, 0x51);
++    assert_eq!(source, 0x51);
++}
+diff --git a/tests/expected/uninit/maybe-uninit-call-pairing-unsupported/expected b/tests/expected/uninit/maybe-uninit-call-pairing-unsupported/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..98d92650bad09d2cd7d56cd0636471534c8f2304
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-call-pairing-unsupported/expected
+@@ -0,0 +1,9 @@
++Checking harness bodyless_foreign_argument_and_return_are_unsupported...
++Failed Checks: Kani does not support shadow transfers without a paired argument/return protocol.
++VERIFICATION:- FAILED
++Verification failed for - bodyless_foreign_argument_and_return_are_unsupported
++Checking harness fn_once_shim_argument_and_return_are_unsupported...
++Failed Checks: Kani does not support shadow transfers without a paired argument/return protocol.
++VERIFICATION:- FAILED
++Verification failed for - fn_once_shim_argument_and_return_are_unsupported
++Complete - 0 successfully verified harnesses, 2 failures, 2 total.
+diff --git a/tests/expected/uninit/maybe-uninit-call-pairing-unsupported/main.rs b/tests/expected/uninit/maybe-uninit-call-pairing-unsupported/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..98295be8ec436a50e5af69104b47e810c49af84e
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-call-pairing-unsupported/main.rs
+@@ -0,0 +1,34 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::MaybeUninit;
++
++extern "Rust" {
++    fn foreign_echo(value: MaybeUninit<u16>) -> MaybeUninit<u16>;
++}
++
++fn make_echo() -> impl Fn(MaybeUninit<u16>) -> MaybeUninit<u16> {
++    |value| value
++}
++
++#[inline(never)]
++fn invoke_once<F>(function: F, value: MaybeUninit<u16>) -> MaybeUninit<u16>
++where
++    F: FnOnce(MaybeUninit<u16>) -> MaybeUninit<u16>,
++{
++    function(value)
++}
++
++#[kani::proof]
++fn bodyless_foreign_argument_and_return_are_unsupported() {
++    let value = unsafe { foreign_echo(MaybeUninit::uninit()) };
++    let _read = unsafe { value.assume_init() };
++}
++
++#[kani::proof]
++fn fn_once_shim_argument_and_return_are_unsupported() {
++    let value = invoke_once(make_echo(), MaybeUninit::uninit());
++    let _read = unsafe { value.assume_init() };
++}
+diff --git a/tests/expected/uninit/maybe-uninit-call-pairing/expected b/tests/expected/uninit/maybe-uninit-call-pairing/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..6638a4cc21cacdbf79b718754f54728f1d5bd680
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-call-pairing/expected
+@@ -0,0 +1,21 @@
++Checking harness initialized_argument_return_control...
++VERIFICATION:- SUCCESSFUL
++Checking harness nested_same_size_calls_preserve_selected_uninit...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
++VERIFICATION:- FAILED
++Verification failed for - nested_same_size_calls_preserve_selected_uninit
++Checking harness repeated_call_unread_uninit_then_initialized_return...
++VERIFICATION:- SUCCESSFUL
++Checking harness selected_first_argument_reads_uninit...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
++VERIFICATION:- FAILED
++Verification failed for - selected_first_argument_reads_uninit
++Checking harness selected_last_argument_reads_uninit...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
++VERIFICATION:- FAILED
++Verification failed for - selected_last_argument_reads_uninit
++Checking harness selected_middle_argument_reads_uninit...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
++VERIFICATION:- FAILED
++Verification failed for - selected_middle_argument_reads_uninit
++Complete - 2 successfully verified harnesses, 4 failures, 6 total.
+diff --git a/tests/expected/uninit/maybe-uninit-call-pairing/main.rs b/tests/expected/uninit/maybe-uninit-call-pairing/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..14a32d4143365cb7c907605d197c57e4650e995f
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-call-pairing/main.rs
+@@ -0,0 +1,82 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(
++    first: MaybeUninit<u16>,
++    gap: u32,
++    second: MaybeUninit<u16>,
++    gap2: u64,
++    third: MaybeUninit<u16>,
++    which: u8,
++) -> MaybeUninit<u16> {
++    let _keep_non_shadow_arguments = (gap, gap2);
++    match which {
++        0 => first,
++        1 => second,
++        _ => third,
++    }
++}
++
++#[inline(never)]
++fn nested_select(
++    first: MaybeUninit<u16>,
++    gap: u32,
++    second: MaybeUninit<u16>,
++    gap2: u64,
++    third: MaybeUninit<u16>,
++) -> MaybeUninit<u16> {
++    select(first, gap, second, gap2, third, 2)
++}
++
++#[kani::proof]
++fn selected_first_argument_reads_uninit() {
++    let value =
++        select(MaybeUninit::uninit(), 11, MaybeUninit::new(21), 17, MaybeUninit::new(31), 0);
++    let _read = unsafe { value.assume_init() };
++}
++
++#[kani::proof]
++fn selected_middle_argument_reads_uninit() {
++    let value =
++        select(MaybeUninit::new(11), 13, MaybeUninit::uninit(), 19, MaybeUninit::new(31), 1);
++    let _read = unsafe { value.assume_init() };
++}
++
++#[kani::proof]
++fn selected_last_argument_reads_uninit() {
++    let value =
++        select(MaybeUninit::new(11), 13, MaybeUninit::new(21), 19, MaybeUninit::uninit(), 2);
++    let _read = unsafe { value.assume_init() };
++}
++
++#[kani::proof]
++fn nested_same_size_calls_preserve_selected_uninit() {
++    let initialized =
++        nested_select(MaybeUninit::new(11), 13, MaybeUninit::new(21), 19, MaybeUninit::new(31));
++    let _initialized = unsafe { initialized.assume_init() };
++
++    let uninitialized =
++        nested_select(MaybeUninit::new(41), 23, MaybeUninit::new(51), 29, MaybeUninit::uninit());
++    let _read = unsafe { uninitialized.assume_init() };
++}
++
++#[kani::proof]
++fn initialized_argument_return_control() {
++    let value =
++        select(MaybeUninit::new(11), 13, MaybeUninit::uninit(), 19, MaybeUninit::new(31), 0);
++    assert_eq!(unsafe { value.assume_init() }, 11);
++}
++
++#[kani::proof]
++fn repeated_call_unread_uninit_then_initialized_return() {
++    let _unread =
++        select(MaybeUninit::uninit(), 13, MaybeUninit::new(21), 19, MaybeUninit::new(31), 0);
++    let initialized =
++        select(MaybeUninit::new(41), 23, MaybeUninit::uninit(), 29, MaybeUninit::new(61), 2);
++    assert_eq!(unsafe { initialized.assume_init() }, 61);
++}

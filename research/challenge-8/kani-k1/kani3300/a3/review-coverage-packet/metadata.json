@@ -1,0 +1,95 @@
+{
+  "baseline_commit": "14c0a3c95b6ece62b01f96f663b455f8c5e155dc",
+  "candidate_commit": "0b1d68ac691cac7e03dbe73f4aec139bb5389059",
+  "candidate_tree": "7b249e34038812fb2ad22027ae1201345653c125",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "184281161f8206dc1fddebbb8e1abca1be60bb08",
+        "mode": "100644",
+        "sha256": "1d7926aeacf734436516c27ab83845a7caf5a5cc5bd3addceceb72e8dedcc132"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "076711befd04839d74709dbce7309437c90840c8",
+        "mode": "100644",
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "4b223059f996d78e74d665a7b4fd0f3171401fac",
+        "mode": "100644",
+        "sha256": "73d7347ac7e1a9f6dc6e550ffe83b9c35711656481f68ba376859e05eead7ff0"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "be91f5f2e86c88232afc3921ca1977750f61e9fa",
+        "mode": "100644",
+        "sha256": "21a94b6e52620e85de03dee88a149e8c3a81b83fa7706565dc29aebe31df8265"
+      },
+      "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "status": "modified"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "be91f5f2e86c88232afc3921ca1977750f61e9fa",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "sha256": "21a94b6e52620e85de03dee88a149e8c3a81b83fa7706565dc29aebe31df8265",
+      "size": 10920
+    },
+    {
+      "blob": "076711befd04839d74709dbce7309437c90840c8",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+      "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31",
+      "size": 2221
+    },
+    {
+      "blob": "0d7037172569b9737c7e501590b6ddec35232f7b",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "sha256": "70989e979e259cdfa5bfa0811cb53776f98a8ec1147c660ceec4e3f6d93b9186",
+      "size": 5567
+    },
+    {
+      "blob": "ba29bebd81cc2fe9765f58e3bbcad188b725da9c",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "sha256": "d391ef37e2ba51a4b867881cb7f80f638a41daaf214de9452fda005ed724f6be",
+      "size": 54047
+    },
+    {
+      "blob": "0a67b715a19fbd27c6e2066308dbe9ee79c45a49",
+      "member": "dependencies/0004.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "sha256": "46214010ffc67f498e6c175d700aac8b4f042c6747eca9eb1e782bba981c56f1",
+      "size": 40935
+    }
+  ],
+  "diff_sha256": "36cb214ff6035cee2b41130167f32d21f017e5a36c892ea1902cd3e3f3788ffb",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/a3/REVIEW-CORE-FINAL.md",
+      "sha256": "5fabc1c5ad9c8160a0503be7f449845e2413f79d93eaefe4c219e480cf9de012"
+    },
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/a3/REVIEW-TESTS.md",
+      "sha256": "6738dab704070ef2f29040230eccb9ce2c38a981a5c4d872c5b5bae8647faab2"
+    }
+  ],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "b9c4a7f0309a3e409b9309b359740d3ad3e65bc377a6ef9df63e473b82d9e5ee",
+  "worktree": "/root/kani-fix-3300-a1"
+}

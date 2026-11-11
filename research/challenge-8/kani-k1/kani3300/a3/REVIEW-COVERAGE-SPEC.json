@@ -1,0 +1,39 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-a1",
+  "baseline_commit": "14c0a3c95b6ece62b01f96f663b455f8c5e155dc",
+  "candidate_commit": "0b1d68ac691cac7e03dbe73f4aec139bb5389059",
+  "defect": "Add controls closing A3 review gaps: full-extent padded MU Move/Copy source observation and ordinary union normal-return initialized/uninitialized pair.",
+  "applicability": "Fixture-only continuation, same semantic candidate e3c529a. All coverage-only new outcomes remain NOT_RUN. Assess source MIR and absence of unrelated baseline failures by static inspection.",
+  "invariants": [
+    "Same predicate must gate caller StoreArgument and callee LoadArgument. Reject bodyless/shim/non-Item shadow transfers early with Unsupported; no initialized fallback if no current protocol. Check instance/signature identity, count, ordered indices, selected-payload size, completion, obligatory return0, no state leaked across nested/repeated same-size calls.",
+    "For shadow storage union/MaybeUninit Call Move, snapshot witness while live before deinit, then full-extent deinit source, including padding. Callee must preserve pre-move false bytes, not reread reset shadow. Copy/assignment/field assignment/forget/temp-original storage must retain intended semantics. Ordinary union returns should pair too.",
+    "Audit insertion order and interaction with delayed-UB pass, pointer checks and marked verifier-private state / DFCC. Check guard reachability and existing checks preserved; identify scope limitations rather than broadening to B1.",
+    "Audit Rust API/types/borrowing/exhaustive matches, macro feature compatibility, unused imports/code, clippy/-D warnings statically using pinned /tmp/kani3300-g1r-api. No compilation or local tools beyond Python and permitted rustfmt. Check compiler-context Ty::to_index as protocol identity under actual transform lifecycle."
+  ],
+  "controls": [
+    "No nested delegation. No builds/Cloud/dispatch/cargo/rustc/Kani/CBMC/Miri/Actions/PR/issues/comments/Kani push/raw logs/archives/credentials. Do not browse network.",
+    "No implementation or fixture edits. Write only /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/a3/REVIEW-COVERAGE.md; include exact identities and static limits.",
+    "No compilation/runtime/proof credit. Main will submit test-only controls after fixture worker finishes."
+  ],
+  "dependencies": [
+    "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+    "tests/expected/uninit/maybe-uninit-call-move/expected",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/a3/REVIEW-CORE-FINAL.md",
+      "sha256": "5fabc1c5ad9c8160a0503be7f449845e2413f79d93eaefe4c219e480cf9de012"
+    },
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/a3/REVIEW-TESTS.md",
+      "sha256": "6738dab704070ef2f29040230eccb9ce2c38a981a5c4d872c5b5bae8647faab2"
+    }
+  ],
+  "known_limitations": [
+    "Static only. Coordinator fork CI owns compilation and measured verification. A3 shadow-storage domain uses preexisting transfers_shadow type recognition."
+  ]
+}

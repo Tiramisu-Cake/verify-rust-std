@@ -1,0 +1,54 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-a1",
+  "baseline_commit": "e3c529a0d5a501987a36c1481bb7e8a48c80dc73",
+  "candidate_commit": "55d704a56dbd5864ffb75e3d861a544c281f8ebd",
+  "defect": "KANI3300 A3 new fixture controls: paired calls, custom MIR in-place Move/Copy, unsupported foreign/shim shapes.",
+  "applicability": "Test-only follow-up to semantic candidate e3c529a0d5a501987a36c1481bb7e8a48c80dc73; same A3 contract. Review fixtures plus existing semantic dependencies. Union pointer probes are being adjusted to avoid unrelated delayed-UB checks; follow-up edit will be supplied.",
+  "invariants": [
+    "Same predicate must gate caller StoreArgument and callee LoadArgument. Reject bodyless/shim/non-Item shadow transfers early with Unsupported; no initialized fallback if no current protocol. Check instance/signature identity, count, ordered indices, selected-payload size, completion, obligatory return0, no state leaked across nested/repeated same-size calls.",
+    "For shadow storage union/MaybeUninit Call Move, snapshot witness while live before deinit, then full-extent deinit source, including padding. Callee must preserve pre-move false bytes, not reread reset shadow. Copy/assignment/field assignment/forget/temp-original storage must retain intended semantics. Ordinary union returns should pair too.",
+    "Audit insertion order and interaction with delayed-UB pass, pointer checks and marked verifier-private state / DFCC. Check guard reachability and existing checks preserved; identify scope limitations rather than broadening to B1.",
+    "Audit Rust API/types/borrowing/exhaustive matches, macro feature compatibility, unused imports/code, clippy/-D warnings statically using pinned /tmp/kani3300-g1r-api. No compilation or local tools beyond Python and permitted rustfmt. Check compiler-context Ty::to_index as protocol identity under actual transform lifecycle."
+  ],
+  "controls": [
+    "No nested delegation. No builds/Cloud/dispatch/cargo/rustc/Kani/CBMC/Miri/Actions/PR/issues/comments/Kani push/raw logs/archives/credentials. Do not browse network.",
+    "No implementation edits. Write only /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/a3/REVIEW.md. Report exact candidate/tree/diff/spec identities, actionable findings and static verdict/limits.",
+    "No compilation/runtime/proof credit. Main will submit test-only controls after fixture worker finishes."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "library/kani_core/src/mem_init.rs",
+    "rust-toolchain.toml",
+    "tools/compiletest/src/runtest.rs",
+    "kani-driver/src/call_single_file.rs",
+    "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+    "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+    "tests/expected/uninit/maybe-uninit-typed-argument-padding/main.rs",
+    "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+    "tests/expected/uninit/maybe-uninit-call-move/expected",
+    "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+    "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+    "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/main.rs",
+    "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/expected"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/a3/REVIEW.md",
+      "sha256": "30144c68b0e010b219e4a690f6bb8922d81e99861ab5a046a5740fd3b3b53a04"
+    }
+  ],
+  "known_limitations": [
+    "Static only. Coordinator fork CI owns compilation and measured verification. A3 shadow-storage domain uses preexisting transfers_shadow type recognition."
+  ]
+}

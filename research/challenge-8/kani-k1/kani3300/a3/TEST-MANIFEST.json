@@ -1,0 +1,150 @@
+{
+  "baseline": "b207847932da34ac19886c1337f5b69ace0b0843",
+  "semantic_candidate": "e3c529a0d5a501987a36c1481bb7e8a48c80dc73",
+  "candidate": "0b1d68ac691cac7e03dbe73f4aec139bb5389059",
+  "assurance": "Static fixture inventory; all execution NOT_RUN, proof credit NONE",
+  "selectors": [
+    {
+      "selector": "tests/expected/uninit/maybe-uninit-call-pairing",
+      "source_sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3",
+      "expected_sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f",
+      "harnesses": {
+        "selected_first_argument_reads_uninit": "FAILURE",
+        "selected_middle_argument_reads_uninit": "FAILURE",
+        "selected_last_argument_reads_uninit": "FAILURE",
+        "nested_same_size_calls_preserve_selected_uninit": "FAILURE",
+        "initialized_argument_return_control": "SUCCESS",
+        "repeated_call_unread_uninit_then_initialized_return": "SUCCESS"
+      },
+      "expected_successes": 2,
+      "expected_failures": 4,
+      "expected_total": 6,
+      "named_failure_summary": [
+        "nested_same_size_calls_preserve_selected_uninit",
+        "selected_first_argument_reads_uninit",
+        "selected_last_argument_reads_uninit",
+        "selected_middle_argument_reads_uninit"
+      ]
+    },
+    {
+      "selector": "tests/expected/uninit/maybe-uninit-call-move",
+      "source_sha256": "21a94b6e52620e85de03dee88a149e8c3a81b83fa7706565dc29aebe31df8265",
+      "expected_sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31",
+      "harnesses": {
+        "in_place_move_reads_initialized_callee_then_uninit_source": "FAILURE",
+        "in_place_move_still_checks_uninitialized_callee_payload": "FAILURE",
+        "in_place_move_delivers_initialized_payload_to_callee": "SUCCESS",
+        "in_place_move_write_still_deinitializes_source": "FAILURE",
+        "in_place_copy_preserves_source": "SUCCESS",
+        "in_place_copy_write_changes_parameter_only": "SUCCESS",
+        "ordinary_by_value_temporary_preserves_original_source": "SUCCESS",
+        "union_in_place_move_deinitializes_source": "FAILURE",
+        "union_in_place_copy_preserves_source": "SUCCESS",
+        "union_normal_return_preserves_initialized_byte": "SUCCESS",
+        "union_normal_return_preserves_uninitialized_byte": "FAILURE",
+        "padded_custom_move_deinitializes_source_padding": "FAILURE",
+        "padded_custom_copy_preserves_source_padding": "SUCCESS"
+      },
+      "expected_successes": 7,
+      "expected_failures": 6,
+      "expected_total": 13,
+      "named_failure_summary": [
+        "in_place_move_reads_initialized_callee_then_uninit_source",
+        "in_place_move_still_checks_uninitialized_callee_payload",
+        "in_place_move_write_still_deinitializes_source",
+        "padded_custom_move_deinitializes_source_padding",
+        "union_in_place_move_deinitializes_source",
+        "union_normal_return_preserves_uninitialized_byte"
+      ]
+    },
+    {
+      "selector": "tests/expected/uninit/maybe-uninit-call-pairing-unsupported",
+      "source_sha256": "0b7441a2d1ef041c32364334a0535a566f324e4ca59d0dddb65137060feadb5d",
+      "expected_sha256": "01cbc989516b4a6d21a432a1a1c4bce3b7df00ae50c9e9ca158d52450a4693d9",
+      "harnesses": {
+        "bodyless_foreign_argument_and_return_are_unsupported": "FAILURE",
+        "fn_once_shim_argument_and_return_are_unsupported": "FAILURE"
+      },
+      "expected_successes": 0,
+      "expected_failures": 2,
+      "expected_total": 2,
+      "named_failure_summary": [
+        "bodyless_foreign_argument_and_return_are_unsupported",
+        "fn_once_shim_argument_and_return_are_unsupported"
+      ]
+    }
+  ],
+  "coordinator_gate": "Exact source/flags/MIR; named expected outcomes and total counts; inspect reached intended read and reject any extra protocol/bounds/pointer/unrelated failures.",
+  "unchanged_legacy_controls": [
+    {
+      "path": "tests/expected/uninit/maybe-uninit-transmute/main.rs",
+      "sha256": "a8447076a637799a4f2775d1fdbf46f5ffd8ec70721806b04d5d86ba65801c48",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-transmute/expected",
+      "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+      "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-partial-copy/main.rs",
+      "sha256": "52d4ef75b76aba6e84152188315d7e43aaa34bcc857429b6da9729259bbbb8f2",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-partial-copy/expected",
+      "sha256": "86cd97e3e413fdd50e5da87c83acd815a528127db89d43d805a782cc225466db",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/raw-eq-uninit/main.rs",
+      "sha256": "246f3ba9461867dc640bc788c47d56b8e936f5fa1784c05afb9279b02e7c81ea",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/raw-eq-uninit/expected",
+      "sha256": "3b4d38aa4495cecaed03f24937185575e0e3eb9ca20afcd3c04b8bb34fb267bc",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+      "sha256": "09e5dd454f0cfcfeed1d9df436507c7d705270e85ee11592347113d58f9f1f55",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-buffer/expected",
+      "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+      "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+      "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-argument-padding/main.rs",
+      "sha256": "b72b3f4808b58061054d143ee568c044aea48671910e4f5ca33be41dc36ed069",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-argument-padding/expected",
+      "sha256": "e83aa826b29d95fb0bc06ed4a29305fddcd83013b731632080057c99e25f1ebf",
+      "unchanged_from_base": true
+    }
+  ]
+}

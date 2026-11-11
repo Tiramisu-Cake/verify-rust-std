@@ -1,0 +1,33 @@
+{
+  "candidate": "0b1d68ac691cac7e03dbe73f4aec139bb5389059",
+  "semantic_candidate": "e3c529a0d5a501987a36c1481bb7e8a48c80dc73",
+  "semantic_delta_unchanged_after_review": true,
+  "fixture_groups": 3,
+  "harnesses": 21,
+  "expected_successes": 9,
+  "expected_failures": 12,
+  "golden_names_counts_and_named_failure_binding": "PASS",
+  "legacy_files_identical": 14,
+  "hash_matched_pinned_api_sources": 11,
+  "clippy_and_D_warnings": "SOURCE_AUDIT_ONLY (REVIEW-CORE-FINAL.md); NOT_EXECUTED",
+  "compilation_MIR_runtime_verification": "NOT_RUN",
+  "proof_credit": "NONE",
+  "cloud_cost": 0,
+  "rustfmt_wrapper_check_config_path_rustfmt_toml": "PASS (10 changed Rust files)",
+  "git_diff_check_baseline_to_candidate": "PASS",
+  "independent_reviews": [
+    {
+      "path": "REVIEW-CORE-FINAL.md",
+      "sha256": "5fabc1c5ad9c8160a0503be7f449845e2413f79d93eaefe4c219e480cf9de012"
+    },
+    {
+      "path": "REVIEW-TESTS.md",
+      "sha256": "6738dab704070ef2f29040230eccb9ce2c38a981a5c4d872c5b5bae8647faab2"
+    },
+    {
+      "path": "REVIEW-COVERAGE.md",
+      "sha256": "3f2c083a3c07ed11884c987785b139ac3a497fd2b155d40d09d8dd23ee52865a"
+    }
+  ],
+  "review_result": "No blocking static findings; source-only, exact semantic and incremental fixture candidates reviewed"
+}

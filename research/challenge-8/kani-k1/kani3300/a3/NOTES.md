@@ -1,0 +1,30 @@
+# KANI3300 A3 — paired shadow calls and in-place Move
+- Contract: TASK-KANI3300-A3.md at 0fbd976d7f2b401a04bdc9ef803b00dbef8ac239; only A3; Cloud $0.
+- Kani worktree /root/kani-fix-3300-a1, fix/kani-3300-a1; immutable A2R base b207847932da34ac19886c1337f5b69ace0b0843.
+- Semantic candidate e3c529a0d5a501987a36c1481bb7e8a48c80dc73; final Kani 0b1d68ac691cac7e03dbe73f4aec139bb5389059.
+- Defect: has_body alone did not pair bodyful non-Item calls; missing buffers could bless data; live source IDs cannot survive deinit.
+- Shared predicate: ordinary nonforeign InstanceKind::Item with body, on both caller and callee; other shadow transfers emit early Unsupported.
+- Scope is the existing shadow-storage domain: direct unions and MaybeUninit slots/flat slot arrays; no new enclosing-layout domain.
+- Begin establishes an active current-call protocol with exact compiler-context function-item Ty identity and shadow-argument count.
+- Stores/loads check signature, count, ascending MIR argument indices and selected payload size; last entry load invalidates the buffer.
+- Unselected argument fallback is available only inside that verified current protocol; absent/mismatched protocol is an assertion failure.
+- Normal return index 0 is mandatory and unconditional for both MaybeUninit and ordinary union returns; its load closes a separate pair.
+- Nested/recursive bodies start after entry consumption; repeated calls start fresh; no lifetime-spanning source pointer is dereferenced.
+- Store snapshots witness membership, relative byte offset and value while live, before any Call(Move) source shadow is cleared.
+- Callee/return loads nondeterministically follow the saved witness and intersect saved value with D(T), or neutralize overwritten data/padding.
+- For paired Call operands Move(place) of shadow storage, all snapshots precede full-source-extent SetRef(false), including union padding.
+- Copy operands, assignment/field moves and intrinsic forget keep their former effects; a normal temporary move clears only that temporary.
+- MIR applicability: direct runtime/optimized custom MIR forces Call(Move(the same address-taken source)); Copy uses the bare source place.
+- Kani driver sets neither -Copt-level nor -Zmir-opt-level; it disables RemoveStorageMarkers. RUSTFLAGS/compile-flags can override defaults.
+- Ordinary by-value source is expected to lower through a temporary as in the task-reported Miri probes; exact Kani MIR remains NOT_RUN.
+- Coordinator must capture exact flags/MIR, confirm original-place vs temporary identity and callee read/write, and inspect the reached byte read.
+- Authoritative core review: REVIEW-CORE-FINAL.md; it corrects the initial REVIEW.md unwind caveat (no concrete active-buffer path found).
+- Static formatting/diff checks, fixture reviews and exact expectations are recorded in the review files and TEST-MANIFEST.
+- Controls: 21 harnesses in 3 selectors, expected 9 SUCCESS / 12 FAILURE, including padded source Move/Copy and union return0.
+- Goldens bind named failing harnesses and exact totals; they cannot exclude extra failing properties inside one negative harness.
+- Coordinator acceptance requires only the intended uninit/Unsupported failures and no protocol, bounds, pointer or unrelated failures.
+- Build, clippy execution, Kani/CBMC/Miri and runtime outcomes are NOT_RUN; clippy/-D warnings is source audit only; proof credit NONE.
+- No build/dispatch/Cloud, local compiler/verifier, raw evidence read, Actions/PR/issue/comment, Kani push or stash was performed.
+- Existing constant-union operand materialization limitation is outside this delta; actual MIR shapes require coordinator inspection.
+- Independent Luna HIGH semantic and fixture reviews found no blocking static findings; earlier fixture coverage gaps are closed in REVIEW-COVERAGE.md.
+- Other stages, including resolver B1 and later integration/CI gates, are not performed or claimed closed by A3.
