@@ -1,0 +1,249 @@
+{
+  "schema": "kani3300-g1ra-observations-v1",
+  "recorded_at": "2026-11-11T13:56:43.347483+00:00",
+  "build_id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
+  "metadata": {
+    "id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
+    "status": "FAILURE",
+    "createTime": "2026-11-11T13:43:39.969671513Z",
+    "startTime": "2026-11-11T13:44:39.253802759Z",
+    "finishTime": "2026-11-11T13:52:18.062449Z",
+    "timeout": "3240s",
+    "source_sha": "132bb47b1c8688297d784f52b71bd1b5db97cf44",
+    "pool": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4"
+  },
+  "request_sha256": "996eaa06da3e57d4d44bcc962e9f3301265f4eb9301cd30b97489ce67a051bcd",
+  "patch_sha256": "47e625bab9d19dab22e4ec0682ecd4f561a180c022e7c09e29b205d7abcb7339",
+  "reported_applied_tree": "2fdd891e1c8e7d9fbaf51a6c7170d5dea6f127c5",
+  "reported_kani_version": "Kani Rust Verifier 0.68.0 (standalone); CBMC 6.11.0",
+  "reported_build": {
+    "outcome": "success",
+    "kani_build_s": 259,
+    "compiletest_build_s": 18
+  },
+  "summary_status": "TOOL_ERROR",
+  "gate": false,
+  "summary_sha256": "72d5516353e7738d50062bc84796c38de51ade3918ed5234e27df674a310824a",
+  "summary_md_sha256": "2236b55532c8ce5a73d5840b88e82d5ac46c322aeaa27d662d7e8b923c3588b0",
+  "brief": {
+    "exit": 1,
+    "response": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)"
+  },
+  "native_record_limit": "offset0: page-summary: one native record exceeds the bounded page size; used native-field output_excerpt",
+  "selectors": [
+    {
+      "file": "uninit/g1-union-pointee-positive/main.rs",
+      "status": "FAIL",
+      "reporter_status": "ERROR",
+      "wall_s": 0.316,
+      "diagnostic": ""
+    },
+    {
+      "file": "uninit/g1-union-pointee-negative/main.rs",
+      "status": "FAIL",
+      "reporter_status": "ERROR",
+      "wall_s": 0.316,
+      "diagnostic": ""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_array_element/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.767,
+      "diagnostic": "- Description: \"Checking memory initialization of type [U; 1] is not supported. Cannot determine layout for a type that contains union of type U as a field.\""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_bodyless_transfer/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.767,
+      "diagnostic": "- Description: \"Kani does not support foreign mutation of union storage without an effect model.\""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_fn_pointer_field/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.667,
+      "diagnostic": "- Description: \"Kani currently doesn't support checking memory initialization for pointers to `FunctionPointerUnion. Cannot determine layout for an unsupported type fn() -> u32.\""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_foreign_mutation/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.918,
+      "diagnostic": "- Description: \"Kani does not support foreign mutation of union storage without an effect model.\""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_indirect_call/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.868,
+      "diagnostic": "Removal of function pointers and virtual functions"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_init_predicate/main.rs",
+      "status": "FAIL",
+      "reporter_status": "ERROR",
+      "wall_s": 1.169,
+      "diagnostic": "- Description: \"Kani does not yet support using initialization predicates on unions.\""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+      "status": "FAIL",
+      "reporter_status": "ERROR",
+      "wall_s": 0.316,
+      "diagnostic": ""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_niche_enum/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.768,
+      "diagnostic": "- Description: \"Kani currently doesn't support checking memory initialization for pointers to `Niche. Cannot determine layout for an Enum with niche encoding of type Niche\""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_select_unpredictable/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.919,
+      "diagnostic": "- Description: \"Kani does not support select_unpredictable of union storage.\""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_struct_field/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.767,
+      "diagnostic": "- Description: \"Checking memory initialization of type HasUnion is not supported. Cannot determine layout for a type that contains union of type U as a field.\""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_typed_swap/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 1.62,
+      "diagnostic": "- Description: \"Kani does not support typed_swap of union storage.\""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_unaligned_read/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 1.068,
+      "diagnostic": "- Description: \"Checking memory initialization of type std::ptr::Unaligned<U> is not supported. Cannot determine layout for a type that contains union of type U as a field.\""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_unaligned_write/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 1.37,
+      "diagnostic": "- Description: \"Checking memory initialization of type std::ptr::Unaligned<U> is not supported. Cannot determine layout for a type that contains union of type U as a field.\""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_union_in_union/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.717,
+      "diagnostic": "- Description: \"Kani currently doesn't support checking memory initialization for pointers to `Outer. Cannot determine layout for a type that contains union of type U as a field.\""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs",
+      "status": "FAIL",
+      "reporter_status": "ERROR",
+      "wall_s": 0.266,
+      "diagnostic": ""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_variant_padding/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.667,
+      "diagnostic": "- Description: \"Kani currently doesn't support checking memory initialization for pointers to `DifferentPadding. Cannot determine layout for an Enum of type DifferentPadding, as it has multiple variants that have different padding.\""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_volatile_read/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 0.918,
+      "diagnostic": "- Description: \"Kani does not support volatile loads of union storage.\""
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_volatile_write/main.rs",
+      "status": "PASS",
+      "reporter_status": "PASS",
+      "wall_s": 1.169,
+      "diagnostic": "- Description: \"Kani does not support volatile stores of union storage.\""
+    }
+  ],
+  "counts": {
+    "PASS": 15,
+    "FAIL": 5,
+    "reporter_ERROR": 5
+  },
+  "timing": {
+    "build_wall_s": 458.808647,
+    "queue_wall_s": 59.284131,
+    "native_invocation_wall_sum_s": 16.353
+  },
+  "accounting": {
+    "stage_spent_usd": "0.1080",
+    "prior_G1A_spent_usd": "0.0675",
+    "cumulative_G1_spent_usd": "0.1755",
+    "reserved_usd": "0.0000",
+    "cap_usd": "0.80",
+    "selected_ledger_response": "2 0.1755 0.0000"
+  },
+  "compiler_error_coordinates": [
+    {
+      "file": "tests/expected/uninit/g1-union-pointee-positive/main.rs",
+      "line": 565,
+      "code": "E0133",
+      "reason": "holder.ptr outside unsafe",
+      "source_text": "    let q = holder.ptr;",
+      "assurance": "SOURCE_LOCATED_INFERENCE; diagnostic arrows omitted from bounded excerpts"
+    },
+    {
+      "file": "tests/expected/uninit/g1-union-pointee-positive/main.rs",
+      "line": 580,
+      "code": "E0133",
+      "reason": "holder.ptr outside unsafe",
+      "source_text": "    let q = holder.ptr;",
+      "assurance": "SOURCE_LOCATED_INFERENCE; diagnostic arrows omitted from bounded excerpts"
+    },
+    {
+      "file": "tests/expected/uninit/g1-union-pointee-negative/main.rs",
+      "line": 665,
+      "code": "E0133",
+      "reason": "holder.ptr outside unsafe",
+      "source_text": "    let q = holder.ptr;",
+      "assurance": "SOURCE_LOCATED_INFERENCE; diagnostic arrows omitted from bounded excerpts"
+    },
+    {
+      "file": "tests/expected/uninit/g1-union-pointee-negative/main.rs",
+      "line": 680,
+      "code": "E0133",
+      "reason": "holder.ptr outside unsafe",
+      "source_text": "    let q = holder.ptr;",
+      "assurance": "SOURCE_LOCATED_INFERENCE; diagnostic arrows omitted from bounded excerpts"
+    },
+    {
+      "file": "tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+      "line": 13,
+      "code": "dangerous_implicit_autorefs",
+      "reason": "Implicit autoref of raw ManuallyDrop<U> pointer",
+      "source_text": "        let _value = (*p).wide;",
+      "assurance": "SOURCE_LOCATED_INFERENCE; diagnostic arrows omitted from bounded excerpts"
+    },
+    {
+      "file": "tests/expected/uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs",
+      "line": 10,
+      "code": "E0422",
+      "reason": "TransmuteU absent from scope",
+      "source_text": "    let value = TransmuteU { bytes: [5; 5] };",
+      "assurance": "SOURCE_LOCATED_INFERENCE; diagnostic arrows omitted from bounded excerpts"
+    }
+  ],
+  "remaining_limitation": "Excerpts report 2/2/1/1 compiler errors but omit diagnostic coordinates. Locations are explicit frozen-source inferences; exact exhaustive stderr diagnostics UNKNOWN. Coordinator asked for bounded file:line records or explicitly authorized administrative audit.",
+  "assurance": "SOURCE_REPORTED; independent B1/B2 credit NONE; no raw log fallback, no download_verified",
+  "attempt": 1,
+  "attempt_limit": 1,
+  "repair_allowed": false,
+  "B": "NOT_AUTHORIZED; NOT_RUN"
+}

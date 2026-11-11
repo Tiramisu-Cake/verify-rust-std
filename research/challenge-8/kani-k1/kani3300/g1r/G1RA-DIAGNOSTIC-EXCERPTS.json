@@ -1,0 +1,798 @@
+{
+  "schema": "kani3300-g1ra-bounded-diagnostics-v1",
+  "assurance": "SOURCE_REPORTED; lane VALIDATED is not independent proof credit",
+  "pages": [
+    {
+      "build_id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
+      "head_sha": "132bb47b1c8688297d784f52b71bd1b5db97cf44",
+      "request_sha256": "996eaa06da3e57d4d44bcc962e9f3301265f4eb9301cd30b97489ce67a051bcd",
+      "summary_file": "/tmp/kani-k1-gcb/summary-8b32494f-c7bb-415c-acd6-8e64575fc447/summary/summary.json",
+      "summary_sha256": "72d5516353e7738d50062bc84796c38de51ade3918ed5234e27df674a310824a",
+      "offset": 0,
+      "file": "uninit/g1-union-pointee-positive/main.rs",
+      "field": "output_excerpt",
+      "report_source": "native",
+      "validation": "VALIDATED",
+      "diagnostic_only": true,
+      "summary_status": "TOOL_ERROR",
+      "kind": "object",
+      "units": "entries",
+      "total": 10,
+      "start": 0,
+      "value": {
+        "diagnostic_only": true,
+        "failed_check_line_count": 0,
+        "max_json_bytes": 4096,
+        "max_lines": 60,
+        "omitted_failed_check_line_count": 0,
+        "omitted_line_count": 169,
+        "records": [
+          {
+            "clipped": false,
+            "line": 9,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error: test failed: expected output to contain the line(s):"
+          },
+          {
+            "clipped": false,
+            "line": 30,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error[E0133]: access to union field is unsafe and requires unsafe function or block"
+          },
+          {
+            "clipped": false,
+            "line": 38,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error: aborting due to 2 previous errors"
+          },
+          {
+            "clipped": false,
+            "line": 40,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "For more information about this error, try `rustc --explain E0133`."
+          },
+          {
+            "clipped": false,
+            "line": 46,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "failures:"
+          },
+          {
+            "clipped": false,
+            "line": 47,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "    [expected] expected/uninit/g1-union-pointee-positive/main.rs"
+          },
+          {
+            "clipped": false,
+            "line": 49,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 577 filtered out; finished in 0.11s"
+          },
+          {
+            "clipped": false,
+            "line": 112,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.10s"
+          },
+          {
+            "clipped": true,
+            "line": 113,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "     Running `target/debug/compiletest --suite expected --mode expected --src-base tests/expected --build-base /workspace/src/k1-out/native-0 --exact '[expected] expected/uninit/g1-union-pointee-positive/main.rs' --force"
+          },
+          {
+            "clipped": false,
+            "line": 114,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "Some tests failed in compiletest suite=expected mode=expected host=(none) target=(none)"
+          },
+          {
+            "clipped": false,
+            "line": 1,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "Kani Rust Verifier 0.68.0 (standalone)"
+          },
+          {
+            "clipped": false,
+            "line": 2,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "CBMC 6.11.0"
+          },
+          {
+            "clipped": false,
+            "line": 3,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "error: /workspace/src/kani_build/target/kani/bin/kani-compiler exited with status exit status: 101"
+          },
+          {
+            "clipped": false,
+            "line": 1,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "error[E0133]: access to union field is unsafe and requires unsafe function or block"
+          },
+          {
+            "clipped": false,
+            "line": 15,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "    = note: the field may not be properly initialized: using uninitialized data will cause undefined behavior"
+          },
+          {
+            "clipped": false,
+            "line": 17,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "error: aborting due to 2 previous errors"
+          },
+          {
+            "clipped": false,
+            "line": 19,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "For more information about this error, try `rustc --explain E0133`."
+          }
+        ],
+        "selected_line_count": 17,
+        "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+        "source_line_counts": {
+          "compiletest_stderr": 114,
+          "compiletest_stdout": 50,
+          "kani_stderr": 19,
+          "kani_stdout": 3
+        }
+      },
+      "count": 10,
+      "next_start": null
+    },
+    {
+      "build_id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
+      "head_sha": "132bb47b1c8688297d784f52b71bd1b5db97cf44",
+      "request_sha256": "996eaa06da3e57d4d44bcc962e9f3301265f4eb9301cd30b97489ce67a051bcd",
+      "summary_file": "/tmp/kani-k1-gcb/summary-8b32494f-c7bb-415c-acd6-8e64575fc447/summary/summary.json",
+      "summary_sha256": "72d5516353e7738d50062bc84796c38de51ade3918ed5234e27df674a310824a",
+      "offset": 1,
+      "file": "uninit/g1-union-pointee-negative/main.rs",
+      "field": "output_excerpt",
+      "report_source": "native",
+      "validation": "VALIDATED",
+      "diagnostic_only": true,
+      "summary_status": "TOOL_ERROR",
+      "kind": "object",
+      "units": "entries",
+      "total": 10,
+      "start": 0,
+      "value": {
+        "diagnostic_only": true,
+        "failed_check_line_count": 0,
+        "max_json_bytes": 4096,
+        "max_lines": 60,
+        "omitted_failed_check_line_count": 0,
+        "omitted_line_count": 225,
+        "records": [
+          {
+            "clipped": false,
+            "line": 9,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error: test failed: expected output to contain the line(s):"
+          },
+          {
+            "clipped": false,
+            "line": 59,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error[E0133]: access to union field is unsafe and requires unsafe function or block"
+          },
+          {
+            "clipped": false,
+            "line": 67,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error: aborting due to 2 previous errors; 3 warnings emitted"
+          },
+          {
+            "clipped": false,
+            "line": 69,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "For more information about this error, try `rustc --explain E0133`."
+          },
+          {
+            "clipped": false,
+            "line": 75,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "failures:"
+          },
+          {
+            "clipped": false,
+            "line": 76,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "    [expected] expected/uninit/g1-union-pointee-negative/main.rs"
+          },
+          {
+            "clipped": false,
+            "line": 78,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 577 filtered out; finished in 0.11s"
+          },
+          {
+            "clipped": false,
+            "line": 112,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.09s"
+          },
+          {
+            "clipped": true,
+            "line": 113,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "     Running `target/debug/compiletest --suite expected --mode expected --src-base tests/expected --build-base /workspace/src/k1-out/native-1 --exact '[expected] expected/uninit/g1-union-pointee-negative/main.rs' --force"
+          },
+          {
+            "clipped": false,
+            "line": 114,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "Some tests failed in compiletest suite=expected mode=expected host=(none) target=(none)"
+          },
+          {
+            "clipped": false,
+            "line": 1,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "Kani Rust Verifier 0.68.0 (standalone)"
+          },
+          {
+            "clipped": false,
+            "line": 2,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "CBMC 6.11.0"
+          },
+          {
+            "clipped": false,
+            "line": 3,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "error: /workspace/src/kani_build/target/kani/bin/kani-compiler exited with status exit status: 101"
+          },
+          {
+            "clipped": false,
+            "line": 28,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "error[E0133]: access to union field is unsafe and requires unsafe function or block"
+          },
+          {
+            "clipped": false,
+            "line": 42,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "    = note: the field may not be properly initialized: using uninitialized data will cause undefined behavior"
+          },
+          {
+            "clipped": false,
+            "line": 44,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "error: aborting due to 2 previous errors; 3 warnings emitted"
+          },
+          {
+            "clipped": false,
+            "line": 46,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "For more information about this error, try `rustc --explain E0133`."
+          }
+        ],
+        "selected_line_count": 17,
+        "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+        "source_line_counts": {
+          "compiletest_stderr": 114,
+          "compiletest_stdout": 79,
+          "kani_stderr": 46,
+          "kani_stdout": 3
+        }
+      },
+      "count": 10,
+      "next_start": null
+    },
+    {
+      "build_id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
+      "head_sha": "132bb47b1c8688297d784f52b71bd1b5db97cf44",
+      "request_sha256": "996eaa06da3e57d4d44bcc962e9f3301265f4eb9301cd30b97489ce67a051bcd",
+      "summary_file": "/tmp/kani-k1-gcb/summary-8b32494f-c7bb-415c-acd6-8e64575fc447/summary/summary.json",
+      "summary_sha256": "72d5516353e7738d50062bc84796c38de51ade3918ed5234e27df674a310824a",
+      "offset": 7,
+      "file": "uninit/g1-union-pointee-unsupported-reject_init_predicate/main.rs",
+      "field": "output_excerpt",
+      "report_source": "native",
+      "validation": "VALIDATED",
+      "diagnostic_only": true,
+      "summary_status": "TOOL_ERROR",
+      "kind": "object",
+      "units": "entries",
+      "total": 10,
+      "start": 0,
+      "value": {
+        "diagnostic_only": true,
+        "failed_check_line_count": 12,
+        "max_json_bytes": 4096,
+        "max_lines": 60,
+        "omitted_failed_check_line_count": 0,
+        "omitted_line_count": 1008,
+        "records": [
+          {
+            "clipped": false,
+            "line": 9,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error: test failed: expected output to contain the line(s):"
+          },
+          {
+            "clipped": false,
+            "line": 82,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "Check 3: kani::mem::is_initialized::<U>.unsupported_construct.1"
+          },
+          {
+            "clipped": false,
+            "line": 83,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "\t - Status: FAILURE"
+          },
+          {
+            "clipped": false,
+            "line": 84,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "\t - Description: \"Kani does not yet support using initialization predicates on unions.\""
+          },
+          {
+            "clipped": false,
+            "line": 85,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "\t - Location: library/kani/src/lib.rs:63:1 in function kani::mem::is_initialized::<U>"
+          },
+          {
+            "clipped": false,
+            "line": 335,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "Failed Checks: Kani does not yet support using initialization predicates on unions."
+          },
+          {
+            "clipped": false,
+            "line": 336,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": " File: \"library/kani/src/lib.rs\", line 63, in kani::mem::is_initialized::<U>"
+          },
+          {
+            "clipped": false,
+            "line": 470,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 577 filtered out; finished in 0.97s"
+          },
+          {
+            "clipped": false,
+            "line": 114,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "Some tests failed in compiletest suite=expected mode=expected host=(none) target=(none)"
+          },
+          {
+            "clipped": false,
+            "line": 66,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "Check 3: kani::mem::is_initialized::<U>.unsupported_construct.1"
+          },
+          {
+            "clipped": false,
+            "line": 67,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "\t - Status: FAILURE"
+          },
+          {
+            "clipped": false,
+            "line": 68,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "\t - Description: \"Kani does not yet support using initialization predicates on unions.\""
+          },
+          {
+            "clipped": false,
+            "line": 69,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "\t - Location: library/kani/src/lib.rs:63:1 in function kani::mem::is_initialized::<U>"
+          },
+          {
+            "clipped": false,
+            "line": 319,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "Failed Checks: Kani does not yet support using initialization predicates on unions."
+          },
+          {
+            "clipped": false,
+            "line": 320,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": " File: \"library/kani/src/lib.rs\", line 63, in kani::mem::is_initialized::<U>"
+          },
+          {
+            "clipped": false,
+            "line": 326,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "Verification failed for - reject_init_predicate"
+          },
+          {
+            "clipped": false,
+            "line": 327,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+          },
+          {
+            "clipped": false,
+            "line": 113,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "warning: 17 warnings emitted"
+          }
+        ],
+        "selected_line_count": 18,
+        "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+        "source_line_counts": {
+          "compiletest_stderr": 114,
+          "compiletest_stdout": 471,
+          "kani_stderr": 114,
+          "kani_stdout": 327
+        }
+      },
+      "count": 10,
+      "next_start": null
+    },
+    {
+      "build_id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
+      "head_sha": "132bb47b1c8688297d784f52b71bd1b5db97cf44",
+      "request_sha256": "996eaa06da3e57d4d44bcc962e9f3301265f4eb9301cd30b97489ce67a051bcd",
+      "summary_file": "/tmp/kani-k1-gcb/summary-8b32494f-c7bb-415c-acd6-8e64575fc447/summary/summary.json",
+      "summary_sha256": "72d5516353e7738d50062bc84796c38de51ade3918ed5234e27df674a310824a",
+      "offset": 8,
+      "file": "uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+      "field": "output_excerpt",
+      "report_source": "native",
+      "validation": "VALIDATED",
+      "diagnostic_only": true,
+      "summary_status": "TOOL_ERROR",
+      "kind": "object",
+      "units": "entries",
+      "total": 10,
+      "start": 0,
+      "value": {
+        "diagnostic_only": true,
+        "failed_check_line_count": 0,
+        "max_json_bytes": 4096,
+        "max_lines": 60,
+        "omitted_failed_check_line_count": 0,
+        "omitted_line_count": 393,
+        "records": [
+          {
+            "clipped": false,
+            "line": 9,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error: test failed: expected output to contain the line(s):"
+          },
+          {
+            "clipped": false,
+            "line": 19,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error: /workspace/src/kani_build/target/kani/bin/kani-compiler exited with status exit status: 101"
+          },
+          {
+            "clipped": false,
+            "line": 136,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error: implicit autoref creates a reference to the dereference of a raw pointer"
+          },
+          {
+            "clipped": false,
+            "line": 152,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error: aborting due to 1 previous error; 17 warnings emitted"
+          },
+          {
+            "clipped": false,
+            "line": 159,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "failures:"
+          },
+          {
+            "clipped": false,
+            "line": 160,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "    [expected] expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs"
+          },
+          {
+            "clipped": false,
+            "line": 162,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 577 filtered out; finished in 0.07s"
+          },
+          {
+            "clipped": false,
+            "line": 112,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.10s"
+          },
+          {
+            "clipped": true,
+            "line": 113,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "     Running `target/debug/compiletest --suite expected --mode expected --src-base tests/expected --build-base /workspace/src/k1-out/native-8 --exact '[expected] expected/uninit/g1-union-pointee-unsupported-reject_manual"
+          },
+          {
+            "clipped": false,
+            "line": 114,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "Some tests failed in compiletest suite=expected mode=expected host=(none) target=(none)"
+          },
+          {
+            "clipped": false,
+            "line": 1,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "Kani Rust Verifier 0.68.0 (standalone)"
+          },
+          {
+            "clipped": false,
+            "line": 2,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "CBMC 6.11.0"
+          },
+          {
+            "clipped": false,
+            "line": 3,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "error: /workspace/src/kani_build/target/kani/bin/kani-compiler exited with status exit status: 101"
+          },
+          {
+            "clipped": false,
+            "line": 113,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "error: implicit autoref creates a reference to the dereference of a raw pointer"
+          },
+          {
+            "clipped": false,
+            "line": 126,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "13 |         let _value = (&(*p)).wide;"
+          },
+          {
+            "clipped": false,
+            "line": 127,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "   |                      ++    +"
+          },
+          {
+            "clipped": false,
+            "line": 129,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "error: aborting due to 1 previous error; 17 warnings emitted"
+          }
+        ],
+        "selected_line_count": 17,
+        "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+        "source_line_counts": {
+          "compiletest_stderr": 114,
+          "compiletest_stdout": 163,
+          "kani_stderr": 130,
+          "kani_stdout": 3
+        }
+      },
+      "count": 10,
+      "next_start": null
+    },
+    {
+      "build_id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
+      "head_sha": "132bb47b1c8688297d784f52b71bd1b5db97cf44",
+      "request_sha256": "996eaa06da3e57d4d44bcc962e9f3301265f4eb9301cd30b97489ce67a051bcd",
+      "summary_file": "/tmp/kani-k1-gcb/summary-8b32494f-c7bb-415c-acd6-8e64575fc447/summary/summary.json",
+      "summary_sha256": "72d5516353e7738d50062bc84796c38de51ade3918ed5234e27df674a310824a",
+      "offset": 16,
+      "file": "uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs",
+      "field": "output_excerpt",
+      "report_source": "native",
+      "validation": "VALIDATED",
+      "diagnostic_only": true,
+      "summary_status": "TOOL_ERROR",
+      "kind": "object",
+      "units": "entries",
+      "total": 10,
+      "start": 0,
+      "value": {
+        "diagnostic_only": true,
+        "failed_check_line_count": 0,
+        "max_json_bytes": 4096,
+        "max_lines": 60,
+        "omitted_failed_check_line_count": 0,
+        "omitted_line_count": 167,
+        "records": [
+          {
+            "clipped": false,
+            "line": 9,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error: test failed: expected output to contain the line(s):"
+          },
+          {
+            "clipped": false,
+            "line": 24,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error[E0422]: cannot find struct, variant or union type `TransmuteU` in this scope"
+          },
+          {
+            "clipped": false,
+            "line": 38,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error: aborting due to 1 previous error; 1 warning emitted"
+          },
+          {
+            "clipped": false,
+            "line": 40,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "For more information about this error, try `rustc --explain E0422`."
+          },
+          {
+            "clipped": false,
+            "line": 46,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "failures:"
+          },
+          {
+            "clipped": false,
+            "line": 47,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "    [expected] expected/uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs"
+          },
+          {
+            "clipped": false,
+            "line": 49,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 577 filtered out; finished in 0.07s"
+          },
+          {
+            "clipped": false,
+            "line": 112,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.10s"
+          },
+          {
+            "clipped": true,
+            "line": 113,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "     Running `target/debug/compiletest --suite expected --mode expected --src-base tests/expected --build-base /workspace/src/k1-out/native-16 --exact '[expected] expected/uninit/g1-union-pointee-unsupported-reject_union"
+          },
+          {
+            "clipped": false,
+            "line": 114,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "Some tests failed in compiletest suite=expected mode=expected host=(none) target=(none)"
+          },
+          {
+            "clipped": false,
+            "line": 1,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "Kani Rust Verifier 0.68.0 (standalone)"
+          },
+          {
+            "clipped": false,
+            "line": 2,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "CBMC 6.11.0"
+          },
+          {
+            "clipped": false,
+            "line": 3,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "error: /workspace/src/kani_build/target/kani/bin/kani-compiler exited with status exit status: 101"
+          },
+          {
+            "clipped": false,
+            "line": 1,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "error[E0422]: cannot find struct, variant or union type `TransmuteU` in this scope"
+          },
+          {
+            "clipped": false,
+            "line": 13,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default"
+          },
+          {
+            "clipped": false,
+            "line": 15,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "error: aborting due to 1 previous error; 1 warning emitted"
+          },
+          {
+            "clipped": false,
+            "line": 17,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "For more information about this error, try `rustc --explain E0422`."
+          }
+        ],
+        "selected_line_count": 17,
+        "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+        "source_line_counts": {
+          "compiletest_stderr": 114,
+          "compiletest_stdout": 50,
+          "kani_stderr": 17,
+          "kani_stdout": 3
+        }
+      },
+      "count": 10,
+      "next_start": null
+    }
+  ]
+}

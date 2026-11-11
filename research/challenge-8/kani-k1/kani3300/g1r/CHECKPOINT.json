@@ -8,7 +8,7 @@
   "kani_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
   "kani_branch": "fix/kani-3300-g1",
   "kani_pushed": false,
-  "status": "G1RA_A_BUILD_HANDOFF",
+  "status": "G1RA_COMPLETE_NATIVE_GATE_FAILURE",
   "static_checks": "STATIC-CHECKS.json",
   "compile_sweep": "COMPILE-SWEEP.md",
   "packages": [
@@ -29,7 +29,7 @@
       "work_minutes": 24,
       "overhead_minutes": 30,
       "reservation_usd": "0.7290",
-      "native_outcome": "NOT_RUN"
+      "native_outcome": "SOURCE_REPORTED_TOOL_ERROR; 15 PASS, 5 ERROR; see RESULT-KANI3300-G1RA.md"
     },
     {
       "package": "B",
@@ -55,27 +55,28 @@
     "builds": [
       "8b32494f-c7bb-415c-acd6-8e64575fc447"
     ],
-    "spent_usd": 0,
-    "reserved_usd": "0.7290",
-    "dispatch": "A only; attempt 1/1 submitted; B NOT authorized"
+    "spent_usd": "0.1080",
+    "reserved_usd": "0.0000",
+    "dispatch": "A only; attempt1/1 finished; no repair/retry; B NOT authorized"
   },
   "prior_G1A_spent_usd": "0.0675",
   "claims": [
     {
-      "claim": "Repair and package identities statically checked",
-      "assurance": "STATIC_ONLY"
+      "claim": "Kani/compiletest built successfully; runtime patch/tree/version source-reported",
+      "assurance": "SOURCE_REPORTED; Evidence Brief HTTP404"
     },
     {
-      "claim": "Compiler/native/formal results",
-      "assurance": "NOT_RUN; proof credit NONE"
+      "claim": "A gate failed:15 PASS,5 ERROR; four fixture compile failures and one golden mismatch",
+      "assurance": "SOURCE_REPORTED; independent B1/B2 credit NONE"
     }
   ],
   "open": [
-    "Coordinator GO required before any A dispatch.",
-    "B requires separate owner GO; budget unchanged.",
-    "Inherited P1 limitations/full regressions remain open."
+    "Excerpts report 2/2/1/1 compiler errors but omit diagnostic coordinates. Locations are explicit frozen-source inferences; exact exhaustive stderr diagnostics UNKNOWN. Coordinator asked for bounded file:line records or explicitly authorized administrative audit.",
+    "B NOT authorized and NOT_RUN.",
+    "Inherited P1 limitations/full regressions remain open.",
+    "Evidence Brief HTTP404; no independent proof acceptance."
   ],
-  "next": "k1g.sh watch BUILD then END TURN. On wake: Evidence Brief first; bounded A per-selector PASS/FAIL and wall seconds, spend, all compiler errors file:line if compilation fails in RESULT-KANI3300-G1RA.md; commit/push [skip ci]; REVIEW REQUEST <sha>. No repair/retry/B.",
+  "next": "Coordinator review of bounded G1RA result; no repair/retry/B dispatch authorized.",
   "review": {
     "model": "gpt-6-luna",
     "reasoning_effort": "high",
@@ -88,9 +89,14 @@
   },
   "latest_stage": "kani3300-g1ra",
   "latest_authorization": "G1RA-AUTHORIZATION.json",
-  "active_build_id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
+  "active_build_id": null,
   "T0": "2026-11-11T13:41:27+00:00",
   "main_deadline": "2026-11-11T15:41:27+00:00",
   "absolute_deadline": "2026-11-11T16:11:27+00:00",
-  "active_handoff": "G1RA-HANDOFF.json"
+  "active_handoff": "G1RA-HANDOFF.json",
+  "terminal_build_id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
+  "latest_result": "RESULT-KANI3300-G1RA.md",
+  "latest_evidence": "G1RA-OBSERVATIONS.json",
+  "cumulative_G1_spent_usd": "0.1755",
+  "closure_reason": "Single authorized attempt terminal; bounded outcomes/accounting recorded. Exact diagnostic-coordinate limitation requested; no raw fallback or additional build."
 }
