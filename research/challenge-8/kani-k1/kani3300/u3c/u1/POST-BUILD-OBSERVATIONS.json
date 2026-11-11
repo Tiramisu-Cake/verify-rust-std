@@ -1,0 +1,179 @@
+{
+  "build_id": "36f4b5c4-c9fc-4f44-b9d0-537889168954",
+  "head_sha": "6ee847b331186ed558375ba2d350646061b6ca8a",
+  "request_id": "kani3300-u3c-u1-20261111-01",
+  "request_sha256": "cce17bc34ab85fc5467689ac48403c6340cb607ea590743e96ebad0a246b2a4d",
+  "build_patch_sha256": "c462f297d25297b69bdd0c99b520772a7906700c5886a0118e77ed83efbcc981",
+  "build_tree": "8ebcafd3e90f32fe7b5586d7a0d2f3ea6ddb360e",
+  "summary_sha256": "8ba2b21fe6a96e9cec7cdc4bace3da4f669fbfab6c193da812c4d989f636e10d",
+  "cloud_status": "FAILURE",
+  "summary_status": "INCONSISTENT",
+  "summary_inconsistencies": [
+    "native timing missing/corrupt"
+  ],
+  "gate": false,
+  "tool_build": "PASS",
+  "kani_build_s": 260,
+  "compiletest_build_s": 17,
+  "native_diagnostic_rows": {
+    "pass": 6,
+    "error": 1,
+    "all": "UNVALIDATED_DIAGNOSTIC_ONLY; no validated native report"
+  },
+  "native_selector_wall_total_s": 328.588,
+  "rows": [
+    {
+      "offset": 0,
+      "file": "uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
+      "native_status": null,
+      "status": "ERROR",
+      "compiletest_exit_code": -9,
+      "compiletest_test_s": null,
+      "selector_wall_s": 180.002,
+      "diagnostic": null,
+      "errors": [
+        "native running/name/result/summary must identify exactly one requested test",
+        "timeout/kill/build failure/runner panic is not a native result",
+        "own test output missing",
+        "requested native PASS did not pass"
+      ],
+      "actual_classification": "NATIVE_OUTER_TIMEOUT_INFERRED_180S_SIGKILL",
+      "assurance": "UNVALIDATED_DIAGNOSTIC_ONLY_SOURCE_REPORTED",
+      "failed_check_property": null
+    },
+    {
+      "offset": 1,
+      "file": "uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs",
+      "native_status": "ok",
+      "status": "PASS",
+      "compiletest_exit_code": 0,
+      "compiletest_test_s": 0.72,
+      "selector_wall_s": 0.967,
+      "diagnostic": "VERIFICATION:- SUCCESSFUL",
+      "errors": [],
+      "actual_classification": "KANI_SUCCESS_REPORTED",
+      "assurance": "UNVALIDATED_DIAGNOSTIC_ONLY_SOURCE_REPORTED",
+      "failed_check_property": null
+    },
+    {
+      "offset": 2,
+      "file": "uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs",
+      "native_status": "ok",
+      "status": "PASS",
+      "compiletest_exit_code": 0,
+      "compiletest_test_s": 143.74,
+      "selector_wall_s": 143.95,
+      "diagnostic": "VERIFICATION:- FAILED",
+      "errors": [],
+      "actual_classification": "KANI_VERIFICATION_FAILED_PROPERTY_UNKNOWN",
+      "assurance": "UNVALIDATED_DIAGNOSTIC_ONLY_SOURCE_REPORTED",
+      "failed_check_property": null
+    },
+    {
+      "offset": 3,
+      "file": "uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs",
+      "native_status": "ok",
+      "status": "PASS",
+      "compiletest_exit_code": 0,
+      "compiletest_test_s": 0.69,
+      "selector_wall_s": 0.917,
+      "diagnostic": "VERIFICATION:- SUCCESSFUL",
+      "errors": [],
+      "actual_classification": "KANI_SUCCESS_REPORTED",
+      "assurance": "UNVALIDATED_DIAGNOSTIC_ONLY_SOURCE_REPORTED",
+      "failed_check_property": null
+    },
+    {
+      "offset": 4,
+      "file": "uninit/mu-free-u3c-pfc/main.rs",
+      "native_status": "ok",
+      "status": "PASS",
+      "compiletest_exit_code": 0,
+      "compiletest_test_s": 0.97,
+      "selector_wall_s": 1.168,
+      "diagnostic": "VERIFICATION:- SUCCESSFUL",
+      "errors": [],
+      "actual_classification": "KANI_SUCCESS_REPORTED",
+      "assurance": "UNVALIDATED_DIAGNOSTIC_ONLY_SOURCE_REPORTED",
+      "failed_check_property": null
+    },
+    {
+      "offset": 5,
+      "file": "uninit/mu-free-u3c-pfc-no-uninit/main.rs",
+      "native_status": "ok",
+      "status": "PASS",
+      "compiletest_exit_code": 0,
+      "compiletest_test_s": 0.73,
+      "selector_wall_s": 0.917,
+      "diagnostic": "VERIFICATION:- SUCCESSFUL",
+      "errors": [],
+      "actual_classification": "KANI_SUCCESS_REPORTED",
+      "assurance": "UNVALIDATED_DIAGNOSTIC_ONLY_SOURCE_REPORTED",
+      "failed_check_property": null
+    },
+    {
+      "offset": 6,
+      "file": "uninit/mu-free-u3c-plain/main.rs",
+      "native_status": "ok",
+      "status": "PASS",
+      "compiletest_exit_code": 0,
+      "compiletest_test_s": 0.47,
+      "selector_wall_s": 0.667,
+      "diagnostic": "VERIFICATION:- SUCCESSFUL",
+      "errors": [],
+      "actual_classification": "KANI_SUCCESS_REPORTED",
+      "assurance": "UNVALIDATED_DIAGNOSTIC_ONLY_SOURCE_REPORTED",
+      "failed_check_property": null
+    }
+  ],
+  "manual_identity_checks": "Exact head/request/patch/pin/tree, selector set/order/count, all argv/env/cwd and expected diagnostic strings checked against committed packet; does not alter global INCONSISTENT status or create proof credit.",
+  "positive_on_limit": {
+    "classification": "TIMEOUT_INFERRED_FROM_RUNNER_BOUND",
+    "wall_s": 180.002,
+    "exit_code": -9,
+    "time_s": null,
+    "native_status": null,
+    "basis": "Pinned run_native sets outer limit min(test_timeout150+30, remaining deadline). bounded_command SIGKILLs group on TimeoutExpired. Observed180.002/-9/null result is consistent with outer timeout; timed_out boolean itself is not retained.",
+    "oom": "No explicit Kani OOM evidence retained; do not classify OOM",
+    "output_excerpt": "Absent because native_status null does not enter excerpt retention branch"
+  },
+  "negative_on_limit": {
+    "classification": "VERIFICATION_FAILED_SLOW",
+    "wall_s": 143.95,
+    "diagnostic": "VERIFICATION:- FAILED",
+    "actual_failed_check": "UNKNOWN",
+    "reason": "Neutral golden yields native PASS; pinned KT2 omits excerpt for successful native tests",
+    "targeted_query": "evidence/native-2-excerpt-query.json returns exit2 unknown native field: output_excerpt",
+    "credit": "Neither specific uninit failure nor assigns failure is established"
+  },
+  "clean_coordinator_interpretation": {
+    "offset0": "TIMEOUT (wall162.497 > per-test150), per coordinator GO instruction; preserve initial bounded observations without retroactive changes",
+    "offset2": "VERIFICATION FAILED / SLOW at124.869; property UNKNOWN; not OOM"
+  },
+  "memory": {
+    "per_root_rss_kib": null,
+    "kernel_oom_kill_confirmation": "UNAVAILABLE",
+    "instrumentation_mechanism": "UNKNOWN"
+  },
+  "unexpected_success_of_on_negative": false,
+  "comparison": "Clean/U1 positive on do not succeed (timeout classification); both negative on are slow FAILED with unknown properties; off-pair SUCCESS. Only v2 has explicit Kani-reported OOM in U3B. This establishes neither an existing upstream OOM nor a regression from a passing old root; mechanism remains open. MU-free PFC on/off and plain on report SUCCESS for clean/U1.",
+  "proof_credit": "Finite source-reported diagnostic results; U1 globally UNVALIDATED_DIAGNOSTIC_ONLY; no independent B1/B2 or formal proof credit",
+  "budget": {
+    "u1_actual_usd": 0.2295,
+    "clean_actual_usd": 0.1755,
+    "stage_actual_usd": 0.405,
+    "reserved_usd": 0,
+    "cap_usd": 0.95,
+    "builds": 2,
+    "additional_builds_authorized": false
+  },
+  "evidence_files_sha256": {
+    "budget.txt": "020dadcbca412ed3e5fab472750e88fc0282aa04bdf865572a1deea62266666c",
+    "native-0-errors.json": "86bdcc92fc3426171ae844c5fc467356dc3aa5e93f02875dbc53648b828150a9",
+    "native-2-excerpt-query.json": "864aad3d872e6f64cd72519ef52c7390465cfb5ad7bf87d77ca66615e074db90",
+    "native-page-0.json": "e3ecbbac2d3dae1d9ebba60ab9d3d4f8112044d6ba076656b064794601a87dbc",
+    "native-page-1.json": "663d343acd9eda2a5c1174de146e27d5914921569321d96c6786dc5d010ea63b",
+    "native-page-5.json": "433e41821a769bfdaab430fa95e01282d84d5af52a6e0e8ae5e7ab74442fff14",
+    "summary.md": "909b529cd64b6c5e96b0ad12ad610bcd9c173a9df73ac91a0e760379f816819b"
+  }
+}

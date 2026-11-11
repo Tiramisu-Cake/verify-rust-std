@@ -1,0 +1,26 @@
+{
+  "build_id": "36f4b5c4-c9fc-4f44-b9d0-537889168954",
+  "head_sha": "6ee847b331186ed558375ba2d350646061b6ca8a",
+  "request_sha256": "cce17bc34ab85fc5467689ac48403c6340cb607ea590743e96ebad0a246b2a4d",
+  "summary_file": "/tmp/kani-k1-gcb/summary-36f4b5c4-c9fc-4f44-b9d0-537889168954/summary/summary.json",
+  "summary_sha256": "8ba2b21fe6a96e9cec7cdc4bace3da4f669fbfab6c193da812c4d989f636e10d",
+  "offset": 0,
+  "file": "uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
+  "field": "errors",
+  "report_source": "diagnostic_artifacts.native",
+  "validation": "UNVALIDATED_DIAGNOSTIC_ONLY",
+  "diagnostic_only": true,
+  "summary_status": "INCONSISTENT",
+  "kind": "array",
+  "units": "items",
+  "total": 4,
+  "start": 0,
+  "value": [
+    "native running/name/result/summary must identify exactly one requested test",
+    "timeout/kill/build failure/runner panic is not a native result",
+    "own test output missing",
+    "requested native PASS did not pass"
+  ],
+  "count": 4,
+  "next_start": null
+}

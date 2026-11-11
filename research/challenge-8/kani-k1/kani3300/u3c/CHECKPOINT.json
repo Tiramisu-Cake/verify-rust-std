@@ -6,7 +6,7 @@
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-U3C.md",
   "branch": "experiment/kani-k1-kani3300u3c-20261111",
   "input_research_head": "385a116e6f2a81654ec19a6d17ea2010984f4251",
-  "status": "CLEAN_CLASSIFIED_AWAITING_U1_EXACT_PRE_BUILD_REVIEW_GO",
+  "status": "STAGE_COMPLETE_BOUNDED_DIAGNOSIS_WITH_LIMITATIONS",
   "active_variant": "u1",
   "prepared_variants": [
     "clean",
@@ -28,25 +28,37 @@
       "evidence": "clean/TOOLING-CHECK.json; clean/POST-BUILD-OBSERVATIONS.json"
     },
     {
-      "claim": "Clean positive-on native ERROR; exact cause UNKNOWN, not established OOM; negative-on VERIFICATION FAILED, property UNKNOWN; other5 SUCCESS",
-      "status": "BOUNDED_SOURCE_REPORTED_NATIVE_DIAGNOSTICS",
-      "evidence": "clean/POST-BUILD-OBSERVATIONS.json; clean/evidence/native-page-0.json; clean/evidence/native-page-1.json; clean/evidence/native-page-5.json"
+      "claim": "Both builds exact source/request/patch/tree and pinned tooling match",
+      "status": "PASS_IDENTITIES",
+      "evidence": "clean/TOOLING-CHECK.json; u1/TOOLING-CHECK.json"
     },
     {
-      "claim": "Clean MU-free PFC on/off and plain on SUCCESS",
-      "status": "FINITE_SOURCE_REPORTED_CONTROLS",
-      "evidence": "clean/POST-BUILD-OBSERVATIONS.json"
+      "claim": "Clean positive timeout per coordinator; U1 positive timeout inferred from180.002s/-9 and pinned180s outer bound; no explicit OOM established for old bases",
+      "status": "BOUNDED_DIAGNOSIS_WITH_ATTRIBUTION",
+      "evidence": "clean/POST-BUILD-OBSERVATIONS.json; coordinator_clean_classification; u1/POST-BUILD-OBSERVATIONS.json"
     },
     {
-      "claim": "U1 native NOT_RUN; root request byte-equal reviewed U1 snapshot",
-      "status": "STATIC_VERIFIED"
+      "claim": "Both negatives report VERIFICATION FAILED slowly (124.869/143.950s); actual failure property unknown",
+      "status": "SOURCE_REPORTED; U1_UNVALIDATED_DIAGNOSTIC_ONLY",
+      "evidence": "clean/evidence/native-page-1.json; u1/evidence/native-page-1.json; both targeted excerpt queries"
+    },
+    {
+      "claim": "MU-free PFC on/off and plain on report SUCCESS in both bases; MU off-controls also SUCCESS",
+      "status": "FINITE_SOURCE_REPORTED_CONTROLS; U1_UNVALIDATED_DIAGNOSTIC_ONLY",
+      "evidence": "RESULT-KANI3300-U3C.md; clean/POST-BUILD-OBSERVATIONS.json; u1/POST-BUILD-OBSERVATIONS.json"
+    },
+    {
+      "claim": "Only historical v2 U3B has explicit Kani-reported OOM; no regression from passing clean/U1 root established; mechanism open",
+      "status": "BOUNDED_DIFFERENTIAL_CONCLUSION",
+      "evidence": "RESULT-KANI3300-U3C.md; ../u3b/POST-BUILD-OBSERVATIONS.json"
     }
   ],
   "open": [
-    "Coordinator exact U1 packet PRE-BUILD review/GO",
-    "One remaining authorized-by-task native build requires separate exact GO; U1 NOT_RUN",
-    "Clean positive precise timeout/kill/runner cause and negative failed property absent from retained bounded evidence; no raw fallback",
-    "v2 OOM mechanism and differential causality remain UNKNOWN; no second-marker work authorized"
+    "Actual failed properties for clean/U1 negative roots absent from retained successful-native excerpts",
+    "U1 native summary INCONSISTENT because first killed invocation has null time_s; diagnostic rows are not promoted to validated proof evidence",
+    "Exact clean timeout trigger and U1 timed_out flag not retained; coordinator/inference classifications are attributed",
+    "v2 OOM mechanism and differential causality remain UNKNOWN; no second-marker work authorized",
+    "Further runner diagnostics/minimized repro requires separate task/budget/GO"
   ],
   "builds": [
     {
@@ -64,15 +76,31 @@
       "native_error": 1,
       "classification": "POSITIVE_ON_NATIVE_ERROR_PRECISE_CAUSE_UNKNOWN; NEGATIVE_ON_VERIFICATION_FAILED_PROPERTY_UNKNOWN",
       "verification_credit": "Finite source-reported diagnostics only"
+    },
+    {
+      "id": "36f4b5c4-c9fc-4f44-b9d0-537889168954",
+      "variant": "u1",
+      "head_sha": "6ee847b331186ed558375ba2d350646061b6ca8a",
+      "request_id": "kani3300-u3c-u1-20261111-01",
+      "status": "FAILURE",
+      "reserved_usd": 0,
+      "authorization": "Coordinator exact U1 GO in current conversation; same timeouts as clean; second and final stage build",
+      "submitted_recorded_utc": "2026-11-11T05:38:30.740975+00:00",
+      "summary_status": "INCONSISTENT",
+      "actual_usd": 0.2295,
+      "native_diagnostic_pass": 6,
+      "native_diagnostic_error": 1,
+      "classification": "POSITIVE_ON_TIMEOUT_INFERRED; NEGATIVE_ON_SLOW_FAILED_PROPERTY_UNKNOWN",
+      "verification_credit": "UNVALIDATED_DIAGNOSTIC_ONLY; no formal/independent credit"
     }
   ],
-  "spend_usd": 0.1755,
+  "spend_usd": 0.405,
   "reserved_usd": 0,
   "cap_usd": 0.95,
   "max_build_attempts": 2,
-  "proposed_per_build_reserve_usd": 0.4725,
-  "proposed_total_reserve_usd": 0.945,
-  "phase_status": "CLEAN_EXACT_GO_CONSUMED_ONCE; U1_NOT_AUTHORIZED",
+  "proposed_per_build_reserve_usd": 0,
+  "proposed_total_reserve_usd": 0,
+  "phase_status": "CLOSED_TWO_EXACT_GOS_CONSUMED; NO_FURTHER_BUILDS",
   "window": {
     "main_minutes": 300,
     "closeout_minutes": 30,
@@ -81,7 +109,7 @@
     "main_not_after_utc": "2026-11-11T10:10:16Z",
     "absolute_not_after_utc": "2026-11-11T10:40:16Z"
   },
-  "next": "Publish exact active U1 packet; PRE-BUILD REVIEW full SHA and stop until coordinator GO. Retain clean limitations; classify U1 via bounded interface; no repair.",
+  "next": "Coordinator review of RESULT and limitations; proposed next separate task: minimized MU reproduction and bounded retention of actual Failed Checks/timeout. This one-stage task stops; no further build/repair/model work authorized.",
   "rejected_approaches": [
     "Change tooling, pin, toolchain, production model or fixtures between bases",
     "Treat neutral-golden native PASS as verification SUCCESS",
@@ -99,5 +127,13 @@
     "receipt": "REVIEW-PACKET-RECEIPT.json",
     "post_review_delta": "Documentation/receipt only; request/patch/fixture/production/tooling unchanged"
   },
-  "next_proposed_reserve_usd": 0.4725
+  "next_proposed_reserve_usd": 0,
+  "coordinator_clean_classification": {
+    "offset0": "timeout: wall162s > per-test150s, coordinator instruction; not OOM",
+    "offset2": "slow verification FAILED at125s, property UNKNOWN; not OOM",
+    "provenance": "Coordinator U1 GO message in current conversation; retain original bounded clean observations unchanged"
+  },
+  "unspent_cap_usd": 0.545,
+  "result": "RESULT-KANI3300-U3C.md",
+  "closure_reason": "Both separately authorized builds completed and bounded available evidence, identities, root classifications/limits, accounting and final comparison recorded. Two-attempt ceiling reached; repair, tool changes, second marker and further builds are outside this one-stage task. Prior static review covers unchanged candidates; no implementation work remains authorized."
 }

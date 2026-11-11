@@ -1,0 +1,214 @@
+{
+  "head_sha": "6ee847b331186ed558375ba2d350646061b6ca8a",
+  "request_sha256": "cce17bc34ab85fc5467689ac48403c6340cb607ea590743e96ebad0a246b2a4d",
+  "build_id": "36f4b5c4-c9fc-4f44-b9d0-537889168954",
+  "kani_build": {
+    "compiletest_build_s": 17,
+    "diffstat": ".../transform/check_uninit/delayed_ub/mod.rs       |   1 +\n .../src/kani_middle/transform/check_uninit/mod.rs  | 106 ++++-\n .../transform/check_uninit/ptr_uninit/mod.rs       |   3 +-\n .../check_uninit/ptr_uninit/uninit_visitor.rs      | 476 ++++++++++++++++-----\n .../transform/check_uninit/relevant_instruction.rs |  59 ++-\n .../transform/check_uninit/ty_layout.rs            |  41 +-\n library/kani_core/src/mem_init.rs                  |  12 +-\n .../expected                                       |   1 +\n .../main.rs                                        |  29 ++\n .../maybe-uninit-buffer-u3b-pfc-negative/expected  |   1 +\n .../maybe-uninit-buffer-u3b-pfc-negative/main.rs   |  29 ++\n .../expected                                       |   1 +\n .../main.rs                                        |  29 ++\n .../maybe-uninit-buffer-u3b-pfc-positive/expected  |   1 +\n .../maybe-uninit-buffer-u3b-pfc-positive/main.rs   |  29 ++\n .../uninit/mu-free-u3c-pfc-no-uninit/expected      |   1 +\n .../uninit/mu-free-u3c-pfc-no-uninit/main.rs       |  17 +\n tests/expected/uninit/mu-free-u3c-pfc/expected     |   1 +\n tests/expected/uninit/mu-free-u3c-pfc/main.rs      |  17 +\n tests/expected/uninit/mu-free-u3c-plain/expected   |   1 +\n tests/expected/uninit/mu-free-u3c-plain/main.rs    |  17 +\n 21 files changed, 722 insertions(+), 150 deletions(-)",
+    "kani_build_s": 260,
+    "patch": {
+      "path": "research/challenge-8/kani-k1/kani3300/u3c/u1/kani-u3c-u1.patch",
+      "sha256": "c462f297d25297b69bdd0c99b520772a7906700c5886a0118e77ed83efbcc981"
+    },
+    "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "tree": "8ebcafd3e90f32fe7b5586d7a0d2f3ea6ddb360e",
+    "version": "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.11.0"
+  },
+  "validation": "UNVALIDATED_DIAGNOSTIC_ONLY",
+  "summary_status": "INCONSISTENT",
+  "gate": false,
+  "binaries": {
+    "compiletest_profile": "dev",
+    "kani_profile": "release",
+    "paths": {
+      "compiletest": {
+        "invoked": "/workspace/src/kani_build/target/debug/compiletest"
+      },
+      "kani": {
+        "invoked": "/workspace/src/kani_build/scripts/kani"
+      },
+      "kani-compiler": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "release": "/workspace/src/kani_build/target/release/kani-compiler",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "sha256": "d2ea5c75190b1d4f179a27d9bd3493ad30cbb2f3d9044d994f5723bbac908fe6"
+      },
+      "kani-driver": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "release": "/workspace/src/kani_build/target/release/kani-driver",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "sha256": "653ba5660b15f16fb8e7b989cd0fb47b655bf93fcc415d372f988f592752de3f"
+      }
+    }
+  },
+  "total": 7,
+  "offset": 1,
+  "tests": [
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "-p",
+        "compiletest",
+        "--",
+        "--suite",
+        "expected",
+        "--mode",
+        "expected",
+        "--src-base",
+        "tests/expected",
+        "--build-base",
+        "/workspace/src/k1-out/native-1",
+        "--exact",
+        "[expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs",
+        "--force-rerun",
+        "--color",
+        "never",
+        "--timeout",
+        "150"
+      ],
+      "cwd": "/workspace/src/kani_build",
+      "diagnostic": "VERIFICATION:- SUCCESSFUL",
+      "env": {
+        "RUST_TEST_THREADS": "1"
+      },
+      "errors": [],
+      "exit_code": 0,
+      "expect": "pass",
+      "file": "uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs",
+      "mode": "expected",
+      "name": "[expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs",
+      "native_status": "ok",
+      "require_success": false,
+      "status": "PASS",
+      "suite": "expected",
+      "time_s": 0.72,
+      "wall_s": 0.967
+    },
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "-p",
+        "compiletest",
+        "--",
+        "--suite",
+        "expected",
+        "--mode",
+        "expected",
+        "--src-base",
+        "tests/expected",
+        "--build-base",
+        "/workspace/src/k1-out/native-2",
+        "--exact",
+        "[expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs",
+        "--force-rerun",
+        "--color",
+        "never",
+        "--timeout",
+        "150"
+      ],
+      "cwd": "/workspace/src/kani_build",
+      "diagnostic": "VERIFICATION:- FAILED",
+      "env": {
+        "RUST_TEST_THREADS": "1"
+      },
+      "errors": [],
+      "exit_code": 0,
+      "expect": "pass",
+      "file": "uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs",
+      "mode": "expected",
+      "name": "[expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs",
+      "native_status": "ok",
+      "require_success": false,
+      "status": "PASS",
+      "suite": "expected",
+      "time_s": 143.74,
+      "wall_s": 143.95
+    },
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "-p",
+        "compiletest",
+        "--",
+        "--suite",
+        "expected",
+        "--mode",
+        "expected",
+        "--src-base",
+        "tests/expected",
+        "--build-base",
+        "/workspace/src/k1-out/native-3",
+        "--exact",
+        "[expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs",
+        "--force-rerun",
+        "--color",
+        "never",
+        "--timeout",
+        "150"
+      ],
+      "cwd": "/workspace/src/kani_build",
+      "diagnostic": "VERIFICATION:- SUCCESSFUL",
+      "env": {
+        "RUST_TEST_THREADS": "1"
+      },
+      "errors": [],
+      "exit_code": 0,
+      "expect": "pass",
+      "file": "uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs",
+      "mode": "expected",
+      "name": "[expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs",
+      "native_status": "ok",
+      "require_success": false,
+      "status": "PASS",
+      "suite": "expected",
+      "time_s": 0.69,
+      "wall_s": 0.917
+    },
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "-p",
+        "compiletest",
+        "--",
+        "--suite",
+        "expected",
+        "--mode",
+        "expected",
+        "--src-base",
+        "tests/expected",
+        "--build-base",
+        "/workspace/src/k1-out/native-4",
+        "--exact",
+        "[expected] expected/uninit/mu-free-u3c-pfc/main.rs",
+        "--force-rerun",
+        "--color",
+        "never",
+        "--timeout",
+        "150"
+      ],
+      "cwd": "/workspace/src/kani_build",
+      "diagnostic": "VERIFICATION:- SUCCESSFUL",
+      "env": {
+        "RUST_TEST_THREADS": "1"
+      },
+      "errors": [],
+      "exit_code": 0,
+      "expect": "pass",
+      "file": "uninit/mu-free-u3c-pfc/main.rs",
+      "mode": "expected",
+      "name": "[expected] expected/uninit/mu-free-u3c-pfc/main.rs",
+      "native_status": "ok",
+      "require_success": false,
+      "status": "PASS",
+      "suite": "expected",
+      "time_s": 0.97,
+      "wall_s": 1.168
+    }
+  ],
+  "count": 4,
+  "next_offset": 5
+}

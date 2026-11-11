@@ -1,0 +1,22 @@
+{
+  "status": "PASS_STATIC_REPORT_CONSISTENCY_ONLY",
+  "result_lines": 26,
+  "limits_preserved": [
+    "U1 summary INCONSISTENT / diagnostic rows unvalidated",
+    "Negative Failed Checks property UNKNOWN",
+    "Timeout inference/coordinator attribution explicit",
+    "No independent B1/B2 proof credit",
+    "No raw evidence, compiler/verifier, model/tooling changes or extra builds"
+  ],
+  "u1_manual_checks": [
+    "All7 source/report/selector/order/count/argv/env/cwd identities",
+    "All6 complete rows terminal/exit/diagnostic/timing consistency",
+    "First row null time/result preserved; not repaired or accepted"
+  ],
+  "budget": {
+    "builds": 2,
+    "actual_usd": 0.405,
+    "reserve_usd": 0,
+    "cap_usd": 0.95
+  }
+}

@@ -1,6 +1,8 @@
 # KANI3300 U3C — u1 PRE-BUILD
 
-PREPARED; native NOT_RUN. Только отдельный exact-packet GO координатора разрешит dispatch.
+HISTORICAL PRE-BUILD snapshot: exact GO consumed once on source 6ee847b331186ed558375ba2d350646061b6ca8a.
+Build 36f4b5c4-c9fc-4f44-b9d0-537889168954 завершён; см. POST-BUILD-OBSERVATIONS.json и ../RESULT-KANI3300-U3C.md.
+Ниже сохранены параметры до dispatch; новые U1 Build/repair не разрешены.
 Task: ../../../TASK-KANI3300-U3C.md; планер PLANNER-AFTER-U3B-ANSWER.md п.1–3,5 прочитан.
 
 - Research branch: experiment/kani-k1-kani3300u3c-20261111; вход 385a116e6f2a81654ec19a6d17ea2010984f4251.
