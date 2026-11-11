@@ -1,0 +1,17 @@
+# KANI3300 A2R — source audit
+- Contract: `TASK-KANI3300-A2R.md` at research `3d5ce04887`; baseline Kani `3dc0227cee87d85bed32678a2209353ebdb9d2fa`.
+- `RawEq` computes each reference pointee's rustc size and emits `CheckAs` through `*const [u8; size]`; every mask byte is true, including padding and union storage. Unknown layout yields Unsupported.
+- `CheckAs::mk_operand` reuses `mk_cast` (`PtrToPtr`); `codegen_misc_cast` accepts reference-to-raw-pointer casts and preserves the pointee address, rather than checking the reference local's bytes.
+- Synthetic `[u8; size]` layouts bypass typed MaybeUninit no-read shortcuts; `is_ptr_initialized` checks the full extent and accepts zero extent without reading memory.
+- `InitialTargetVisitor` seeds both raw_eq references so delayed UB instruments prior ordinary writes and aliases; otherwise ordinary initialized arrays would retain the shadow model's default false.
+- Existing MaybeUninit typed writes/transfers keep their initialization masks; checks never bless uninitialized data or padding.
+- Original fixture cause, by source inspection: pinned rustc `InstSimplify::simplify_raw_eq` replaces primitive-sized comparisons with two dereferenced-value transmute casts and integer Eq. The old MaybeUninit<u32>/8-byte Padded controls therefore missed the intrinsic, reaching incompatible-layout rejection and/or a typed uninitialized u32 check.
+- This is a fixture reachability defect, not a defect in A2 Pat/enum offsets. No MIR execution/causal measurement claimed. Small-size transmute semantics are outside this repair.
+- Primary source: [pinned rustc InstSimplify](https://github.com/rust-lang/rust/blob/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_mir_transform/src/instsimplify.rs#L297-L350).
+- New fixture uses 3-byte arrays and a 12-byte padded payload to retain raw_eq; scalar and ZST positive controls are also retained/added. Expected: 4 SUCCESS, 3 uninitialized FAILURE; execution NOT_RUN.
+- Left first-byte and right last-byte holes occur in distinct valid MaybeUninit arrays; no assume_init/transmute or typed read precedes their raw_eq. The padding control's explicit T -> MaybeUninit<T> transfers are covered by the unchanged typed_storage_mask path.
+- All three legacy selectors and their goldens are byte-identical to A2, as is ty_layout.rs; hashes are in TEST-MANIFEST.json. Expected restored legacy results are pending coordinator CI.
+- Static API audit: all 11 pinned rustc_public source hashes match g1r/API-SOURCES.json; Ty::try_new_array takes u64 and returns Result<Ty, Error>, layout/shape/size.bytes signatures match; UintTy import is used, args are borrowed, no API signature changed.
+- Static -D warnings/clippy audit found no unused import/variable, unnecessary clone, borrow conflict, unchecked reference-value transmute or missing match arm in this delta. Actual clippy/compilation NOT_RUN by contract.
+- rustfmt wrapper with --config-path rustfmt.toml (format and check) and git diff --check PASS. No builds/dispatch/Cloud/local cargo/rustc/Kani/CBMC/Miri, Actions or Kani push.
+- Compiletest matches ordinary expected lines independently; the final golden also requires all three named failure-summary lines plus exact 4/3/7 totals. This binds harness outcomes, but cannot exclude additional properties within a failing harness; coordinator CI must inspect them.

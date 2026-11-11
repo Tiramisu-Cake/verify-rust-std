@@ -1,0 +1,63 @@
+{
+  "baseline": "3dc0227cee87d85bed32678a2209353ebdb9d2fa",
+  "candidate": "b207847932da34ac19886c1337f5b69ace0b0843",
+  "assurance": "Static source and expected-output inventory; execution NOT_RUN; no proof credit",
+  "unchanged_legacy_fixtures": [
+    {
+      "path": "tests/expected/uninit/maybe-uninit-transmute/main.rs",
+      "sha256": "a8447076a637799a4f2775d1fdbf46f5ffd8ec70721806b04d5d86ba65801c48",
+      "unchanged_from_A2": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-transmute/expected",
+      "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f",
+      "unchanged_from_A2": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+      "unchanged_from_A2": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+      "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e",
+      "unchanged_from_A2": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-partial-copy/main.rs",
+      "sha256": "52d4ef75b76aba6e84152188315d7e43aaa34bcc857429b6da9729259bbbb8f2",
+      "unchanged_from_A2": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-partial-copy/expected",
+      "sha256": "86cd97e3e413fdd50e5da87c83acd815a528127db89d43d805a782cc225466db",
+      "unchanged_from_A2": true
+    }
+  ],
+  "unchanged_layout_source": {
+    "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "sha256": "faa4e5692c295612771e5b7f384d6ce1913155f77941d9e8b4cc046aa990e451"
+  },
+  "new_selector": {
+    "selector": "tests/expected/uninit/raw-eq-uninit",
+    "harnesses": [
+      "raw_eq_initialized_arrays",
+      "raw_eq_initialized_scalars",
+      "raw_eq_initialized_storage",
+      "raw_eq_left_uninitialized_byte",
+      "raw_eq_padding_is_uninitialized",
+      "raw_eq_right_uninitialized_byte",
+      "raw_eq_zero_sized"
+    ],
+    "expected_successes": 4,
+    "expected_failures": 3,
+    "source_sha256": "246f3ba9461867dc640bc788c47d56b8e936f5fa1784c05afb9279b02e7c81ea",
+    "expected_sha256": "3b4d38aa4495cecaed03f24937185575e0e3eb9ca20afcd3c04b8bb34fb267bc",
+    "named_failure_summary": [
+      "raw_eq_left_uninitialized_byte",
+      "raw_eq_padding_is_uninitialized",
+      "raw_eq_right_uninitialized_byte"
+    ]
+  },
+  "semantic_candidate": "85fc5cd2ca770cdc5ae1bb514c27b6da7b6d9b18"
+}

@@ -1,0 +1,12 @@
+diff --git a/tests/expected/uninit/raw-eq-uninit/expected b/tests/expected/uninit/raw-eq-uninit/expected
+index 0df39517aeae92eef8c1cc4ce92a262c6e5d3774..f01a93351e32da38ea1db0faa790011fd780df36 100644
+--- a/tests/expected/uninit/raw-eq-uninit/expected
++++ b/tests/expected/uninit/raw-eq-uninit/expected
+@@ -15,4 +15,7 @@ Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
+ VERIFICATION:- FAILED
+ Checking harness raw_eq_zero_sized...
+ VERIFICATION:- SUCCESSFUL
++Verification failed for - raw_eq_left_uninitialized_byte
++Verification failed for - raw_eq_padding_is_uninitialized
++Verification failed for - raw_eq_right_uninitialized_byte
+ Complete - 4 successfully verified harnesses, 3 failures, 7 total.

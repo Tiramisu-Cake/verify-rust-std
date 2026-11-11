@@ -1,0 +1,260 @@
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+index 03b92f331064023b090ad5e6afc10fe0b9ff828e..0d7037172569b9737c7e501590b6ddec35232f7b 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+@@ -65,6 +65,7 @@ pub fn push_operand(&mut self, operand: &Operand) {
+ /// We implement MirVisitor to facilitate target finding, we look for:
+ /// - pointer casts where pointees have different padding;
+ /// - calls to `copy`-like intrinsics.
++/// - both reference operands of `raw_eq`, which also reads padding bytes.
+ impl MirVisitor for InitialTargetVisitor {
+     fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
+         if let Rvalue::Cast(kind, operand, ty) = rvalue {
+@@ -103,14 +104,18 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+     }
+ 
+     fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-        // Only calls to the copy intrinsics write to a target here. A call through a function
+-        // pointer or a vtable cannot be one (intrinsics cannot be coerced to function pointers),
+-        // and whatever its callee writes is collected when visiting the callee's own body.
++        // Copy destinations and raw_eq operands need their prior writes tracked. A call through
++        // a function pointer or a vtable cannot be an intrinsic (intrinsics cannot be coerced to
++        // function pointers); effects in other callees are collected from their own bodies.
+         if let TerminatorKind::Call { func, args, .. } = &term.kind
+             && let Some(instance) = try_resolve_instance(self.body.locals(), func)
+             && instance.kind == InstanceKind::Intrinsic
+         {
+             match Intrinsic::from_instance(&instance) {
++                Intrinsic::RawEq => {
++                    self.push_operand(&args[0]);
++                    self.push_operand(&args[1]);
++                }
+                 Intrinsic::Copy => {
+                     // Here, `dst` is the second argument.
+                     self.push_operand(&args[1]);
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index c0826d2ae7b8e8b6bac5ca0b513516823e0c7cd5..5b560133bdab1da7e01c7b0f9d93693533518211 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -30,7 +30,7 @@
+         mono::{Instance, InstanceKind},
+         visit::{Location, PlaceContext},
+     },
+-    ty::{AdtKind, ConstantKind, RigidTy, Ty, TyKind},
++    ty::{AdtKind, ConstantKind, RigidTy, Ty, TyKind, UintTy},
+ };
+ 
+ pub struct CheckUninitVisitor<'tcx> {
+@@ -543,12 +543,35 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                                 self.push_target(MemoryInitOp::Check { operand: args[0].clone() });
+                             }
+                             Intrinsic::RawEq => {
+-                                // References only guarantee initialized data, while raw_eq
+-                                // reads every byte, including padding and union storage.
+-                                self.push_target(MemoryInitOp::Unsupported {
+-                                    reason: "Kani does not support checking memory initialization of raw_eq, which reads all bytes through references."
+-                                        .to_string(),
+-                                });
++                                for operand in args {
++                                    let TyKind::RigidTy(RigidTy::Ref(_, pointee_ty, _)) =
++                                        operand.ty(&self.locals).unwrap().kind()
++                                    else {
++                                        unreachable!("raw_eq operands must be references")
++                                    };
++                                    // raw_eq reads the whole extent, including padding and union
++                                    // storage. A byte array selects every byte without imposing
++                                    // the pointee's typed data mask or reading its value.
++                                    let bytes_ty = pointee_ty.layout().ok().and_then(|layout| {
++                                        Ty::try_new_array(
++                                            Ty::unsigned_ty(UintTy::U8),
++                                            layout.shape().size.bytes().try_into().unwrap(),
++                                        )
++                                        .ok()
++                                    });
++                                    if let Some(pointee_ty) = bytes_ty {
++                                        self.push_target(MemoryInitOp::CheckAs {
++                                            operand: operand.clone(),
++                                            pointee_ty,
++                                        });
++                                    } else {
++                                        self.push_target(MemoryInitOp::Unsupported {
++                                            reason: format!(
++                                                "Kani cannot determine the pointee layout for raw_eq of `{pointee_ty}`."
++                                            ),
++                                        });
++                                    }
++                                }
+                             }
+                             Intrinsic::CompareBytes => {
+                                 self.push_target(MemoryInitOp::CheckSliceChunk {
+diff --git a/tests/expected/uninit/raw-eq-uninit-unsupported/expected b/tests/expected/uninit/raw-eq-uninit-unsupported/expected
+deleted file mode 100644
+index aee850daf8d0233b5b395299054a724aa562cb3d..0000000000000000000000000000000000000000
+--- a/tests/expected/uninit/raw-eq-uninit-unsupported/expected
++++ /dev/null
+@@ -1,10 +0,0 @@
+-Checking harness raw_eq_initialized_scalars_is_unsupported...
+-Failed Checks: Kani does not support checking memory initialization of raw_eq, which reads all bytes through references.
+-VERIFICATION:- FAILED
+-Checking harness raw_eq_padding_is_unsupported...
+-Failed Checks: Kani does not support checking memory initialization of raw_eq, which reads all bytes through references.
+-VERIFICATION:- FAILED
+-Checking harness raw_eq_uninitialized_storage_is_unsupported...
+-Failed Checks: Kani does not support checking memory initialization of raw_eq, which reads all bytes through references.
+-VERIFICATION:- FAILED
+-Complete - 0 successfully verified harnesses, 3 failures, 3 total.
+diff --git a/tests/expected/uninit/raw-eq-uninit-unsupported/main.rs b/tests/expected/uninit/raw-eq-uninit-unsupported/main.rs
+deleted file mode 100644
+index a513d897c749681fab842c142f22e273135a57a8..0000000000000000000000000000000000000000
+--- a/tests/expected/uninit/raw-eq-uninit-unsupported/main.rs
++++ /dev/null
+@@ -1,42 +0,0 @@
+-// Copyright Kani Contributors
+-// SPDX-License-Identifier: Apache-2.0 OR MIT
+-// compile-flags: --edition 2021
+-// kani-flags: -Z uninit-checks --output-format=regular
+-
+-#![feature(core_intrinsics)]
+-#![allow(internal_features)]
+-
+-use std::intrinsics::raw_eq;
+-use std::mem::MaybeUninit;
+-
+-#[repr(C)]
+-struct Padded {
+-    tag: u8,
+-    value: u32,
+-}
+-
+-#[kani::proof]
+-fn raw_eq_initialized_scalars_is_unsupported() {
+-    let left: u32 = kani::any();
+-    let right: u32 = kani::any();
+-    let equal = unsafe { raw_eq(&left, &right) };
+-    assert_eq!(equal, left == right);
+-}
+-
+-#[kani::proof]
+-fn raw_eq_uninitialized_storage_is_unsupported() {
+-    // References to MaybeUninit are valid even when its data is uninitialized.
+-    let left = MaybeUninit::<u32>::uninit();
+-    let right = MaybeUninit::<u32>::uninit();
+-    let equal = unsafe { raw_eq(&left, &right) };
+-    kani::cover!(equal);
+-}
+-
+-#[kani::proof]
+-fn raw_eq_padding_is_unsupported() {
+-    let left = Padded { tag: 7, value: 9 };
+-    let right = Padded { tag: 7, value: 9 };
+-    assert_eq!((left.tag, left.value), (right.tag, right.value));
+-    let equal = unsafe { raw_eq(&left, &right) };
+-    kani::cover!(equal);
+-}
+diff --git a/tests/expected/uninit/raw-eq-uninit/expected b/tests/expected/uninit/raw-eq-uninit/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..0df39517aeae92eef8c1cc4ce92a262c6e5d3774
+--- /dev/null
++++ b/tests/expected/uninit/raw-eq-uninit/expected
+@@ -0,0 +1,18 @@
++Checking harness raw_eq_initialized_arrays...
++VERIFICATION:- SUCCESSFUL
++Checking harness raw_eq_initialized_scalars...
++VERIFICATION:- SUCCESSFUL
++Checking harness raw_eq_initialized_storage...
++VERIFICATION:- SUCCESSFUL
++Checking harness raw_eq_left_uninitialized_byte...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8; 3]`
++VERIFICATION:- FAILED
++Checking harness raw_eq_padding_is_uninitialized...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8; 12]`
++VERIFICATION:- FAILED
++Checking harness raw_eq_right_uninitialized_byte...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8; 3]`
++VERIFICATION:- FAILED
++Checking harness raw_eq_zero_sized...
++VERIFICATION:- SUCCESSFUL
++Complete - 4 successfully verified harnesses, 3 failures, 7 total.
+diff --git a/tests/expected/uninit/raw-eq-uninit/main.rs b/tests/expected/uninit/raw-eq-uninit/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..e1355720ac6b3c1e4947b46054fb94749280e097
+--- /dev/null
++++ b/tests/expected/uninit/raw-eq-uninit/main.rs
+@@ -0,0 +1,77 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::{self, MaybeUninit};
++
++// Three bytes cannot be simplified by rustc's InstSimplify into integer transmutes.
++#[kani::proof]
++fn raw_eq_initialized_arrays() {
++    let left: [u8; 3] = kani::any();
++    let mut right = left;
++    assert!(unsafe { raw_eq(&left, &right) });
++    right[2] ^= 1;
++    assert!(!unsafe { raw_eq(&left, &right) });
++}
++
++#[kani::proof]
++fn raw_eq_initialized_scalars() {
++    let left: u32 = kani::any();
++    let right: u32 = kani::any();
++    let equal = unsafe { raw_eq(&left, &right) };
++    assert_eq!(equal, left == right);
++}
++
++#[kani::proof]
++fn raw_eq_initialized_storage() {
++    let left = [MaybeUninit::new(7u8); 3];
++    let right = [MaybeUninit::new(7u8); 3];
++    assert!(unsafe { raw_eq(&left, &right) });
++}
++
++#[kani::proof]
++fn raw_eq_left_uninitialized_byte() {
++    let mut left = [MaybeUninit::new(7u8); 3];
++    let right = [MaybeUninit::new(7u8); 3];
++    left[0] = MaybeUninit::uninit();
++    // The references are valid; the only invalid read is raw_eq's first byte.
++    let _equal = unsafe { raw_eq(&left, &right) };
++}
++
++#[repr(C)]
++struct Padded {
++    tag: u8,
++    value: [u32; 2],
++}
++
++#[kani::proof]
++fn raw_eq_padding_is_uninitialized() {
++    assert_eq!(mem::size_of::<Padded>(), 12);
++    assert_eq!(mem::offset_of!(Padded, value), 4);
++    // Typed transfers initialize data but leave padding uninitialized. Twelve bytes
++    // also avoid the integer-transmute simplification used by the original fixture.
++    let left: MaybeUninit<Padded> = unsafe { mem::transmute(Padded { tag: 7, value: [9, 9] }) };
++    let right: MaybeUninit<Padded> = unsafe { mem::transmute(Padded { tag: 7, value: [9, 9] }) };
++    let _equal = unsafe { raw_eq(&left, &right) };
++}
++
++#[kani::proof]
++fn raw_eq_right_uninitialized_byte() {
++    let left = [MaybeUninit::new(7u8); 3];
++    let mut right = [MaybeUninit::new(7u8); 3];
++    right[2] = MaybeUninit::uninit();
++    // Distinct allocations and a hole at the end cover the second operand's extent.
++    let _equal = unsafe { raw_eq(&left, &right) };
++}
++
++#[kani::proof]
++fn raw_eq_zero_sized() {
++    let left: [u8; 0] = [];
++    let right: [u8; 0] = [];
++    assert!(unsafe { raw_eq(&left, &right) });
++}

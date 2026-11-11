@@ -1,0 +1,63 @@
+{
+  "baseline_commit": "85fc5cd2ca770cdc5ae1bb514c27b6da7b6d9b18",
+  "candidate_commit": "b207847932da34ac19886c1337f5b69ace0b0843",
+  "candidate_tree": "3cdfc7e4ee0551211554f40968d391e3d404e27d",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "0df39517aeae92eef8c1cc4ce92a262c6e5d3774",
+        "mode": "100644",
+        "sha256": "dc73d41c74a28478b275a83a392efaf4ea1c27702029176e20a0aaf4da25ad26"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "f01a93351e32da38ea1db0faa790011fd780df36",
+        "mode": "100644",
+        "sha256": "3b4d38aa4495cecaed03f24937185575e0e3eb9ca20afcd3c04b8bb34fb267bc"
+      },
+      "path": "tests/expected/uninit/raw-eq-uninit/expected",
+      "status": "modified"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "e1355720ac6b3c1e4947b46054fb94749280e097",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/raw-eq-uninit/main.rs",
+      "sha256": "246f3ba9461867dc640bc788c47d56b8e936f5fa1784c05afb9279b02e7c81ea",
+      "size": 2413
+    },
+    {
+      "blob": "f9c83f3b9d1d4e5a91d505ed9b9b8379d7037cd5",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "kani-driver/src/harness_runner.rs",
+      "sha256": "4ddabb49fcbc59990e1cce5b6d2985eae33d12724fe1efe2af2534cc4ba0f480",
+      "size": 26032
+    },
+    {
+      "blob": "31925de86a346fa4e90dcd106591c74d826674a5",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "kani-driver/src/metadata.rs",
+      "sha256": "af5cee0d4b9d3f1d3c5d7ca97d157db90f9ca6499743881edcbe5f5d0390232c",
+      "size": 11231
+    },
+    {
+      "blob": "82526b5d3e4560bf80fad2423cc013b6b8de7a6f",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "tools/compiletest/src/runtest.rs",
+      "sha256": "dad67ded3379bcf7d3cce0e4e500159fa0c25ee513ba515f13647d5c688e394f",
+      "size": 29487
+    }
+  ],
+  "diff_sha256": "0e185648814b3c9f3dfd2accea2cef4b9d0b059bedb833ea057ce28c8d148327",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "1cdc3f65e1a08d4fd2ead1133086fdf04b24620c11763e909e7b4ab23ff08a28",
+  "worktree": "/root/kani-fix-3300-a1"
+}

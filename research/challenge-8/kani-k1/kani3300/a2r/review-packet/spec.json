@@ -1,0 +1,49 @@
+{
+  "applicability": "Review only A2R delta and required dependencies. Contract: TASK-KANI3300-A2R.md at research commit 3d5ce04887. Independent static source review; no author verdict supplied.",
+  "baseline_commit": "3dc0227cee87d85bed32678a2209353ebdb9d2fa",
+  "candidate_commit": "85fc5cd2ca770cdc5ae1bb514c27b6da7b6d9b18",
+  "controls": [
+    "No nested delegation; no builds/Cloud/dispatch/cargo/rustc/Kani/CBMC/Miri/Actions/PR/issues/comments/raw evidence/credentials/network mutations/Kani push.",
+    "No code/test edits. Write only /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/a2r/REVIEW.md. Report exact candidate/tree/diff/spec identities, actionable findings, static verdict and limits.",
+    "No proof/compilation/runtime credit. CI outcomes are unmeasured expectations for the coordinator."
+  ],
+  "defect": "KANI3300 A2R: raw_eq must check every byte of both referenced pointees rather than reject supported layouts.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "library/kani_core/src/mem_init.rs",
+    "rust-toolchain.toml",
+    "kani-compiler/src/intrinsics.rs",
+    "tools/compiletest/src/runtest.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+    "kani-driver/src/harness_runner.rs",
+    "tests/expected/uninit/maybe-uninit-transmute/main.rs",
+    "tests/expected/uninit/maybe-uninit-transmute/expected",
+    "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+    "tests/expected/uninit/maybe-uninit-initialized/expected",
+    "tests/expected/uninit/maybe-uninit-partial-copy/main.rs",
+    "tests/expected/uninit/maybe-uninit-partial-copy/expected"
+  ],
+  "invariants": [
+    "Both raw_eq reference operands must be checked over the full size_of::<T>() extent, including padding and MaybeUninit storage. Unsupported only when pointee layout cannot be computed. Inspect pointer casts and generated masks, shadow setup, initial target selection and effects on existing initialized array equality.",
+    "Pat offsets and enum variant-local layout comparison must remain unchanged. Existing maybe-uninit-transmute, maybe-uninit-initialized, maybe-uninit-partial-copy goldens must remain unchanged.",
+    "Inspect fixture reachability: arrays fully initialized succeed; exactly one uninitialized byte fails on raw_eq, both operand positions; padding checks remain covered. Explain whether old transmute failures arise from fixture/rustc simplification or A2 code. No unrelated failures accepted as evidence.",
+    "Audit Rust API, types, imports, borrowing, unused code and clippy/-D warnings statically using pinned /tmp/kani3300-g1r-api and g1r/API-SOURCES.json. No compilation. Check expected harness order/diagnostics/counts against runner source."
+  ],
+  "known_limitations": [
+    "Static only; no builds or local compilers are authorized."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-a1"
+}

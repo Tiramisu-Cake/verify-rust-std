@@ -1,0 +1,26 @@
+{
+  "applicability": "Test-only follow-up to initial A2R semantic packet c7b5900fd64467627cc99a4a47c6a1b05984586642e96168e81cefb02fba71e0. Production source unchanged.",
+  "baseline_commit": "85fc5cd2ca770cdc5ae1bb514c27b6da7b6d9b18",
+  "candidate_commit": "b207847932da34ac19886c1337f5b69ace0b0843",
+  "controls": [
+    "No nested delegation; no builds/Cloud/dispatch/cargo/rustc/Kani/CBMC/Miri/Actions/PR/issues/comments/raw evidence/credentials/network mutations/Kani push.",
+    "No code/test edits. Write only /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/a2r/REVIEW.md. Report exact candidate/tree/diff/spec identities, actionable findings, static verdict and limits.",
+    "No proof/compilation/runtime credit. CI outcomes are unmeasured expectations for the coordinator."
+  ],
+  "defect": "A2R expected-output strengthening: bind the three failures to named harness summary lines.",
+  "dependencies": [
+    "tests/expected/uninit/raw-eq-uninit/main.rs",
+    "kani-driver/src/harness_runner.rs",
+    "kani-driver/src/metadata.rs",
+    "tools/compiletest/src/runtest.rs"
+  ],
+  "invariants": [
+    "Keep exact 4 success / 3 failure / 7 total expectation and require each of the three intended negative harness names in the final failure summary. No removal or weakening of diagnostics or checks."
+  ],
+  "known_limitations": [
+    "Static only; no builds or local compilers are authorized."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-a1"
+}
