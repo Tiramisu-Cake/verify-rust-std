@@ -1,6 +1,6 @@
 {
   "stage": "kani3300-cmp4",
-  "state": "PREPARED_CLEAN_REVIEW_PENDING_GO",
+  "state": "PREPARED_CLEAN_REVIEW_PASS_AWAITING_COORDINATOR_GO",
   "runtime": "Codex",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-CMP4.md",
   "worktree": "/root/verify-rust-std-kani3300-cmp4",
@@ -40,9 +40,22 @@
   ],
   "open": [
     "Actual MIR assignments and instrumentation cause UNKNOWN.",
-    "Independent review and exact-packet coordinator GO required; no Build submitted."
+    "Exact-packet coordinator GO required for clean, then separate CMP2 packet/GO; no Build submitted."
   ],
   "proof_credit": "NONE",
-  "next_step": "Independent review, publish exact clean packet, PRE-BUILD REVIEW and stop until coordinator GO.",
-  "stop_boundary": "Each Build requires a separate exact-head PRE-BUILD review/GO. No retries or production repair."
+  "next_step": "Publish clean packet and verify exact remote head; PRE-BUILD REVIEW and stop until coordinator GO.",
+  "stop_boundary": "Each Build requires a separate exact-head PRE-BUILD review/GO. No retries or production repair.",
+  "semantic_candidate": "c39f73c8ef6a2077669d19c6a80a53ffa0751046",
+  "independent_review": {
+    "state": "PASS",
+    "decision": "No blocking findings",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "candidate": "c39f73c8ef6a2077669d19c6a80a53ffa0751046",
+    "spec_sha256": "011daa2bf17ca0b6b8312f62cf020bc6c297b456e062d6651e8f6db1af70d56e",
+    "packet_sha256": "f95b1fd8e7045200eb9783adce164f24f958d696bb02f6633067e8003f5cede6",
+    "receipt": "INDEPENDENT-REVIEW.md",
+    "receipt_sha256": "daa040f8f293634971d165937eb576edd0317ad02c24c6b2d1f0f2742d3e8b96",
+    "proof_credit": "NONE"
+  }
 }

@@ -38,7 +38,9 @@ CMP2 patch stays `kani3300/u4/kani-uninit.patch`, SHA256 46ad585f769143200634e2c
 Expected CMP2 applied tree d356238999ab436ddc1dd7ffa845b0db214aa53e is inherited static U4 binding; actual tree NOT_RUN.
 Inherited U4 acceptance text is historical, not CMP4 authorization or proof credit.
 Static validation/scope/identity checks PASS; wrapper rustfmt --check and git diff --check PASS.
-Independent review pending before final published PRE-BUILD marker; packet check alone is not review/GO.
+Independent Luna HIGH review PASS (INDEPENDENT-REVIEW.md), semantic candidate c39f73c8ef6a2077669d19c6a80a53ffa0751046.
+Spec SHA256 011daa2bf17ca0b6b8312f62cf020bc6c297b456e062d6651e8f6db1af70d56e; packet SHA256 f95b1fd8e7045200eb9783adce164f24f958d696bb02f6633067e8003f5cede6.
+Receipt/spec/checkpoint follow-up is metadata only; packet integrity and review do not authorize dispatch.
 No local compiler/Kani/CBMC/preparation. Runner unchanged; no service tests required for this fixture-only delta.
 
 Actual MIR assignment remains UNKNOWN. Source literal call is const-evaluable; runtime bound is nondeterministic.

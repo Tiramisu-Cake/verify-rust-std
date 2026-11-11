@@ -1,0 +1,51 @@
+{
+  "applicability": "CMP4 fixture-only delta and paired request preparation; each diagnostic requires a separate exact-head coordinator GO.",
+  "baseline_commit": "2f0c922464772be8f917b17eba7c58f030b60455",
+  "candidate_commit": "c39f73c8ef6a2077669d19c6a80a53ffa0751046",
+  "controls": [
+    "Root order: cmp3_index_range_len, cmp4_index_range_len_runtime, cmp3_manually_drop_unsized_len, U1 pincheck_calibration_uninit_read_u8.",
+    "Runtime n:usize kani::any_where(|n| *n<=4), assert zero_to(n).len()==n and post-len cover. U1 unchanged FAILED/uninit expectation.",
+    "diagnostic, uninit/controls true, inventory false, standard4/jobs1, harness timeout3m. Exactly two attempts, no retries; each 42min/$0.5670, total$1.1340 <=cap$1.20."
+  ],
+  "defect": "Differential diagnosis of IndexRange zero_to literal/runtime len uninit behavior on clean f046 vs unchanged CMP2; no repair.",
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-CMP4.md",
+    "research/challenge-8/kani-k1/kani3300/cmp4/PLANNER-AFTER-CMP3-ANSWER.md",
+    "research/challenge-8/kani-k1/kani3300/cmp4/PRE-BUILD-clean.md",
+    "research/challenge-8/kani-k1/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/cmp4/clean/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/cmp4/cmp2/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/u4/kani-uninit.patch",
+    "research/challenge-8/kani-k1/kani3300/u4/PATCH-BINDING.json",
+    "library/core/src/slice/sort/shared/smallsort/verify/uninit_probe.rs",
+    "library/core/src/array/iter/iter_inner.rs",
+    "library/core/src/array/iter.rs",
+    "library/core/src/array/mod.rs",
+    "library/core/src/ops/index_range.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/tools/k1g.sh",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh",
+    "tool_config/kani-version.toml",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "Only append a cfg-gated runtime root; preserve all existing roots, real methods, signatures, visibility, adapters and controls.",
+    "Identical four roots and library fixture for clean and cmp2; clean omits kani_patch, cmp2 immutable production U4 patch SHA46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4.",
+    "No new pre-len raw-read/AddressOf, production fix, assumed shadow seed, new tooling or local compiler.",
+    "MIR assignment UNKNOWN unless observed; const fn source does not establish a MIR Constant. No proof credit from diagnostic gates or covers."
+  ],
+  "known_limitations": [
+    "Static review cannot establish typechecking, actual MIR contrast or instrumentation cause. No Build authorized by preparation.",
+    "Thread cwd /root; task explicitly uses k1g watch after dispatch. Generic smallsort-session watch not launched.",
+    "Inherited U4 PATCH-BINDING acceptance text historical; not CMP4 gate/authorization."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-cmp4/research/challenge-8/kani-k1/kani3300/cmp3/INDEPENDENT-REVIEW.md",
+      "sha256": "cba43145a8ece8913ac4f23f76a885186ef43f7d4fb8c030e634c362253f42cb"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-cmp4"
+}
