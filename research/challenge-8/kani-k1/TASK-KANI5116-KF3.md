@@ -19,10 +19,12 @@ Runtime **Codex**, одна стадия, Cloud **$0**, без сборок.
 
 ## Правки
 
-1. **Production:** убрать `ContractFunction`; `contract_main` парсит `syn::ImplItemFn`, `ContractConditionsHandler.annotated_fn`
-   и `new()` — `ImplItemFn`; `handle_untouched` выводит `#vis #defaultness #sig`; `handle_expanded` печатает
-   `ImplItemFn` целиком. Сохранить guard для trait declarations без тела; прочие `ItemFn` (proof-harness и т.п.) не трогать;
-   размещение inner attrs не менять. Ожидаемый diff около +13/−12 в `library/kani_macros/src/sysroot/contracts/{mod,bootstrap,initialize}.rs`.
+1. **Production — патч аудитора побайтно:** `/root/KANI5116-use-ImplItemFn.patch` (SHA-256 начинается с `0921813bdd50693e`;
+   записать полный). Это дельта поверх `2a3e2ae`; `git apply --check` на чистом `2a3e2ae` координатор проверил — OK, итог
+   против main +13/−12 в `library/kani_macros/src/sysroot/contracts/{mod,bootstrap,initialize}.rs`. Применить как есть,
+   **своих production-правок не делать**; набросок координатора отбросить. В RESULT показать, что production-diff
+   `bf9c58e662..HEAD` = `2a3e2ae` + этот патч. Статически проверить замечания планера: guard для trait declarations без тела
+   сохранён, прочие `ItemFn` не тронуты, размещение inner attrs не изменено.
 2. **`tests/expected/function-contract/specialization_default_requires_fail.rs`:** добавить `--no-assert-contracts` в kani-flags;
    сохранить PFC и `stub_verified`, имя invalid-caller harness и конкретный expected `value != 0` failure.
 3. **`tests/kani/FunctionContracts/specialization_default_clauses.rs`:** `forward`/`reverse` → `requires_first`/`modifies_first`
@@ -42,9 +44,11 @@ Runtime **Codex**, одна стадия, Cloud **$0**, без сборок.
 ## RESULT
 
 **RESULT-KANI5116-KF3.md** в `kani5116/kf3/` (≤ 25 строк): финальный SHA `upstream-5116-v2`, база, diffstat
-(production / tests), что изменено по пунктам 1–4, проверки, ревью, что NOT_RUN. Плюс `PR-TESTING-NOTE.md` — предложенный
-англ. раздел Testing для PR: прежние 19 selectors — targeted native compiletest on Linux на f046b70644 с **предыдущей**
-ревизией патча (negative PASS = совпадение expected diagnostic); новый fork CI — плейсхолдер `<run, SHA>`.
+(production / tests), что изменено по пунктам 1–4, проверки, ревью, что NOT_RUN. Плюс `PR-TESTING-NOTE.md` — предложенный англ. раздел Testing для PR в стиле текста аудитора
+(`/root/KANI5116-PR-REVIEWED.md` — основа PR по решению владельца): новый fork CI — плейсхолдер `<run, SHA>`; прежние
+19 selectors — targeted native compiletest on Linux на f046b70644 с **предыдущей** ревизией патча (negative PASS =
+совпадение expected diagnostic). Если по итогам правок какие-то фразы текста аудитора стали неточными (например, про
+stub для обоих порядков) — перечислить.
 
 ## Запреты
 
