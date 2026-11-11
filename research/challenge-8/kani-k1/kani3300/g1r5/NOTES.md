@@ -1,0 +1,15 @@
+# KANI3300 G1R5 — статические выводы
+- Base f046b70644 `ptr_uninit/uninit_visitor.rs:266–271`: Err добавлял Unsupported в current_target, но return пропускал self.targets.push; отдельная находка вне scope, issue не создавался.
+- Теперь Err сохраняет target только при touches_shadow(args/destination), включая transfers_shadow; обычный fn-pointer вызов сохраняет base delayed-UB путь, его golden побайтно неизменён.
+- `[U; 0]` не имеет байтов; forget не читает/не возвращает storage, SUCCESS допустим при устранении операции в MIR. Это не общее разрешение нулевых G2-layout: сохранён validate_layout_type до ABI shortcuts.
+- Фикстура forget теперь `[U; 1]`: непустой by-value контейнер требует UnionAsField; прежний reason/owner/golden сохранены. Фактический MIR/outcome ожидает CI.
+- Удалены MoveSourceCollector/clear_move_sources, clear_moved_source, argument_buffer_moved и соответствующие emitter/model bool аргументы; assignment/repeat/forget/argument/return больше не очищают source.
+- Сохранены shadow-copy/retain, захват живых source object/offset, paired store/load и return-slot 0; intrinsic forget остаётся no-effect без StoreArgument, иначе мог бы загрязнить следующий вызов.
+- Шесть прямо названных move-source harness удалены со всеми property/summary строками. Независимый review нашёл ещё четыре whole/argument-source expectation с той же зависимостью; по общей политике п.4 они перенесены побайтно в positive (negative 60, positive 67). Все исходные 63 positive harness сохранены без изменения.
+- CBMC134: причина статически НЕ установлена; production workaround не вводился, четыре исходных padding harness сохранены.
+- `padding-candidate.rs`: неисполненная редукция C/Rust до {z, padded}, typed ptr::read/write и inline(never) identity; размер/arm-набор упрощены, это кандидат для CI, не доказанное воспроизведение.
+- H1: memset(0x5a) поверх union с fat raw pointer + typed transfer; `codegen/intrinsic.rs:1967–1999`. Вариант: заменить fat arm равновеликим byte-array, удержав остальные arms/размер.
+- H2: union member получает padded wrapper в `codegen/typ.rs:1293–1322`, но initializer/projection использует исходный member type (`codegen/rvalue.rs:623–633`); проверить equal-size arm и отдельно внутренний Padded layout.
+- H3: ZST arm + полный typed overwrite (direct-transfer dst={z:()}); заменить только dst initializer. Это не объясняет identity-пару само по себе.
+- Дополнительный статический риск: transfer_mask OR всех arms сохраняет padding Padded, покрытый wide/pair/fat arm. Это предсказывает пропуск padding FAILURE, НЕ объясняет abort; редукция убирает эти arms.
+- Проверки только статические; CBMC134, CI outcomes и независимый B1/B2 proof credit не установлены; Cloud $0.
