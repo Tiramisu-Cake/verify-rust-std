@@ -1,0 +1,23 @@
+{
+  "candidate": "f34c6316ef714802e93106e16c2e7e1612b2bdfd",
+  "diagnostic_service_suite": {
+    "argv": [
+      "python3",
+      "-I",
+      "research/challenge-8/kani-k1/tools/test_diagnostic_trace.py"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ".............\n----------------------------------------------------------------------\nRan 13 tests in 15.249s\n\nOK\n"
+  },
+  "unchanged_native_checks": {
+    "tests": [
+      "NativeTests",
+      "NativeFieldPageTests"
+    ],
+    "result": "15/15 PASS; earlier targeted invocation, no subsequent changes to kani_k1.py"
+  },
+  "git_diff_check": "PASS",
+  "compiler_cloud": "NOT_RUN",
+  "proof_credit": "NONE"
+}

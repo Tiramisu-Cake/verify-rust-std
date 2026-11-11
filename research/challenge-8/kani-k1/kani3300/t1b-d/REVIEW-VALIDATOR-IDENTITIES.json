@@ -1,0 +1,150 @@
+{
+  "baseline_commit": "6646181d23377325d9893b9f08e173f32c766f8c",
+  "candidate_commit": "f34c6316ef714802e93106e16c2e7e1612b2bdfd",
+  "candidate_tree": "a3992f077163bce6c7a02dfd43036ee546825b56",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "4a52eb54996f590815c4e26c479306459c93cc82",
+        "mode": "100644",
+        "sha256": "9bbf42b888a5a2654a9a71b2ef80ef7b3ef000b9f63c011d7ee67765c8514756"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "cbd9eb92fc5378a00f3011845ab51d354218ceb9",
+        "mode": "100644",
+        "sha256": "b4649d2049f01fd4d6253376c741713dae01ef3a738a40e9554f016f159c6133"
+      },
+      "path": "research/challenge-8/kani-k1/tools/diagnostic_trace.py",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "0225384032c64bde839d3e0dea0c43089034358e",
+        "mode": "100644",
+        "sha256": "3760325b7b40328371721a8c3d654ba9480b9579e9bb378470ab8ba68c176f98"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "a74b8f9853085d17a4d46e09e6d5841b2fb3f1c8",
+        "mode": "100644",
+        "sha256": "5a92e8152aa95271dddb19d065e74725177574449ef323e62a790bf440240bbf"
+      },
+      "path": "research/challenge-8/kani-k1/tools/test_diagnostic_trace.py",
+      "status": "modified"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "daa5f2063a0fc5d20f83e0c67b062c02dc8e5259",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-T1B.md",
+      "sha256": "987f8fefc5bcd040d22aad191de1d59294d25341f2705ba8fad77bc7cbe6a47e",
+      "size": 6097
+    },
+    {
+      "blob": "edacb303781e57c83639f339502fb412bf27afd3",
+      "member": "dependencies/0001.bin",
+      "mode": "100755",
+      "path": "research/challenge-8/kani-k1/tools/kani_k1.py",
+      "sha256": "707a8ca8ddcbcfd3127598a7c4b30ccde72b3454d6e1526bbd16c4bacce4b573",
+      "size": 151482
+    },
+    {
+      "blob": "4f931e9f8c8e159b2d54b22ed74681c7fa8524a6",
+      "member": "dependencies/0002.bin",
+      "mode": "100755",
+      "path": "research/challenge-8/kani-k1/tools/gcb-k1.sh",
+      "sha256": "e45ccf9a2b4fddadeb78037293468f7e537865303abf7f7ec72fbe897a270246",
+      "size": 21465
+    },
+    {
+      "blob": "e59278e01380422c9daa4761a95378f773dbd662",
+      "member": "dependencies/0003.bin",
+      "mode": "100755",
+      "path": "research/challenge-8/kani-k1/tools/k1g.sh",
+      "sha256": "52612fefa011f88a42bbc3f5f7c29e6b79f6de73f72a205c1592185afadf64a2",
+      "size": 25829
+    },
+    {
+      "blob": "cbd9eb92fc5378a00f3011845ab51d354218ceb9",
+      "member": "dependencies/0004.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/tools/diagnostic_trace.py",
+      "sha256": "b4649d2049f01fd4d6253376c741713dae01ef3a738a40e9554f016f159c6133",
+      "size": 32921
+    },
+    {
+      "blob": "a74b8f9853085d17a4d46e09e6d5841b2fb3f1c8",
+      "member": "dependencies/0005.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/tools/test_diagnostic_trace.py",
+      "sha256": "5a92e8152aa95271dddb19d065e74725177574449ef323e62a790bf440240bbf",
+      "size": 35984
+    },
+    {
+      "blob": "0f460e5a0fd0d7b0c563fbbdd71db3c9b0052024",
+      "member": "dependencies/0006.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/tools/test_kani_k1.py",
+      "sha256": "76562a645e535277283c7e02c1fcef8fcb655634b6f0bb91effd1c0842b44536",
+      "size": 116151
+    },
+    {
+      "blob": "dc5e79a528b864ec57083be0fc52081589e66c93",
+      "member": "dependencies/0007.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/tools/test_gcb_native.py",
+      "sha256": "2c9ae37e07153007e9cd4868cb2ab0c1053c072f00c1b292994440eaf03e7056",
+      "size": 23459
+    },
+    {
+      "blob": "b25a264751a5e94640386d631893006c30b6aed3",
+      "member": "dependencies/0008.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/gcb/cloudbuild.yaml",
+      "sha256": "73b61a3573f6d1942007777e6521883fb4ba2731414fecffea80403404762d81",
+      "size": 1625
+    },
+    {
+      "blob": "55227b2921c1113fe242f18f3e0bc8669c4ecdd1",
+      "member": "dependencies/0009.bin",
+      "mode": "100755",
+      "path": "scripts/run-kani.sh",
+      "sha256": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+      "size": 15039
+    },
+    {
+      "blob": "12a48c3d0b8a373fb6afae6ee90a52c143231fdd",
+      "member": "dependencies/0010.bin",
+      "mode": "100644",
+      "path": "tool_config/kani-version.toml",
+      "sha256": "7dca0aa5bf9467c6c4fb4323dabc12254f6372f5f01af096420583bc2b5c9ca3",
+      "size": 193
+    },
+    {
+      "blob": "29b899a4560fe6ef17d07faa8432d6fe5174500c",
+      "member": "dependencies/0011.bin",
+      "mode": "100644",
+      "path": "rust-toolchain.toml",
+      "sha256": "689c159497e53389671511fa85e200533c2a892488346620ccaae0a34ad45618",
+      "size": 231
+    },
+    {
+      "blob": "5e1ecde0792985b611d0494cf05799e2ed39bef5",
+      "member": "dependencies/0012.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-T1B-D.md",
+      "sha256": "875ee76162fa8c8f73e397318dcc4cb93469c1d56ddba0a90ef7890b318d52f1",
+      "size": 3207
+    }
+  ],
+  "diff_sha256": "c688917e902342f6bba43d28978bf3461d33d98825ec47b6abe48c957cce6d6e",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "d5c25118636dd11c90cc3bb8661f4f76f8f8fdb6803c43e6e4cd844c6fcf196d",
+  "worktree": "/root/verify-rust-std-kani3300-t0"
+}

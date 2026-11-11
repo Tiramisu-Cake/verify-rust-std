@@ -1,0 +1,38 @@
+{
+  "applicability": "T1b-D one-stage zero Cloud investigation; no Builds/compiler/raw archive/log access.",
+  "baseline_commit": "6646181d23377325d9893b9f08e173f32c766f8c",
+  "candidate_commit": "f34c6316ef714802e93106e16c2e7e1612b2bdfd",
+  "controls": [
+    "13 isolated diagnostic/service tests pass, including mixed PARTIAL/OVERSIZED, COMPLETE with omissions rejected, wrong record omissions/null/bool/negative metadata rejected; original exits preserved.",
+    "Check producer write_record and mark_omission in /root/kani-fix-3300-t1 at commit989f72351c2b5c5f3b5117315fc84f502e66d904; source read only.",
+    "No claim of recovered A2 records: immutable summary records were discarded before aggregation, sidecar not in upload recipe."
+  ],
+  "defect": "Validator equates heterogeneous omission units with serialized record omissions; review delta retaining exact record_cap+oversized_records accounting.",
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-T1B.md",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh",
+    "research/challenge-8/kani-k1/tools/k1g.sh",
+    "research/challenge-8/kani-k1/tools/diagnostic_trace.py",
+    "research/challenge-8/kani-k1/tools/test_diagnostic_trace.py",
+    "research/challenge-8/kani-k1/tools/test_kani_k1.py",
+    "research/challenge-8/kani-k1/tools/test_gcb_native.py",
+    "research/challenge-8/kani-k1/gcb/cloudbuild.yaml",
+    "scripts/run-kani.sh",
+    "tool_config/kani-version.toml",
+    "rust-toolchain.toml",
+    "research/challenge-8/kani-k1/TASK-KANI3300-T1B-D.md"
+  ],
+  "invariants": [
+    "Existing summary/native/native-field and original trace payload guards unchanged; no INVALID records exposed.",
+    "Validation metadata requires all existing source/request/invocation identity/envelope checks; <=20 entries/12000 bytes and next_start.",
+    "Only serialized record categories record_cap and oversized_records sum to omitted_records; preserve all other category counts without pretending they share units.",
+    "COMPLETE still requires no omissions; INVALID payload withheld; original summary/native/native-field unchanged."
+  ],
+  "known_limitations": [
+    "Continuation of same reviewer/accessor review, no actual sidecar reread or build. Actual A2 footer subpredicate and full sidecar validity require unavailable bounded footer metadata."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-t0"
+}

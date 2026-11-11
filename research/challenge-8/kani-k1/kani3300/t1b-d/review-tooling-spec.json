@@ -1,0 +1,33 @@
+{
+  "applicability": "T1b-D one-stage zero Cloud investigation; no Builds/compiler/raw archive/log access.",
+  "baseline_commit": "19a808200ac40a07754ba15bc4ef44eb1c92d5cb",
+  "candidate_commit": "6646181d23377325d9893b9f08e173f32c766f8c",
+  "controls": [
+    "Run python3 -I tools/test_diagnostic_trace.py; metadata paging/byte cap/allowlist and original INVALID payload denial; reject build/source/stage/applied-tree/env/counter mismatches."
+  ],
+  "defect": "INVALID trace blocks even bounded validation errors. Add allowlisted validation metadata fields retaining all envelope checks and payload guard.",
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-T1B.md",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh",
+    "research/challenge-8/kani-k1/tools/k1g.sh",
+    "research/challenge-8/kani-k1/tools/diagnostic_trace.py",
+    "research/challenge-8/kani-k1/tools/test_diagnostic_trace.py",
+    "research/challenge-8/kani-k1/tools/test_kani_k1.py",
+    "research/challenge-8/kani-k1/tools/test_gcb_native.py",
+    "research/challenge-8/kani-k1/gcb/cloudbuild.yaml",
+    "scripts/run-kani.sh",
+    "tool_config/kani-version.toml",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "Existing summary/native/native-field and original trace payload guards unchanged; no INVALID records exposed.",
+    "Validation metadata requires all existing source/request/invocation identity/envelope checks; <=20 entries/12000 bytes and next_start."
+  ],
+  "known_limitations": [
+    "No assumption that existing build trace is valid; this permits reading validation diagnostics only."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-t0"
+}

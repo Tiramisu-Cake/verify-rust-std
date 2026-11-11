@@ -1,0 +1,21 @@
+{
+  "stage": "kani3300-t1b-d",
+  "state": "COMPLETE_VALIDATOR_FIX_EVIDENCE_LIMIT",
+  "task_base": "19a808200ac40a07754ba15bc4ef44eb1c92d5cb",
+  "build_id": "cbf4045a-cf4b-4ac7-8495-dfafcf57f6fb",
+  "reader_candidate": "f34c6316ef714802e93106e16c2e7e1612b2bdfd",
+  "producer_commit": "989f72351c2b5c5f3b5117315fc84f502e66d904",
+  "cloud_usd": "0",
+  "builds": 0,
+  "dispatch_authorized": false,
+  "A3_prepared": false,
+  "proof_credit": "NONE",
+  "classification": "d/b validator omission-unit mismatch; actual complete sidecar validity UNKNOWN",
+  "result": "RESULT-KANI3300-T1B-D.md",
+  "evidence": "EVIDENCE-INDEX.json",
+  "open": [
+    "Exact failed footer subpredicate/original state and counters not retained in immutable summary",
+    "cmp3_index_range_len and calibration pair trace records unavailable; need bounded sidecar/footer with SHA2567e399e510aa70d0ab55b3c9928f42bba8db277b7a8ad9c3955e4c3f7e88f6182"
+  ],
+  "stop_boundary": "One stage complete: bounded diagnosis, static validator fix, service tests, independent review and reread; original summary discarded records, raw fallback/new Build prohibited."
+}
