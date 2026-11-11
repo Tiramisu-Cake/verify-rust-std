@@ -568,21 +568,6 @@
   },
   {
     "offset": 14,
-    "file": "uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
-    "require_success": true,
-    "actual": "NOT_RUN",
-    "harnesses": [
-      {
-        "harness": "contracted_roundtrip_harness",
-        "source": "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
-        "intended_kani": "SUCCESS",
-        "required_diagnostic": null,
-        "actual": "NOT_RUN"
-      }
-    ]
-  },
-  {
-    "offset": 15,
     "file": "uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
     "require_success": false,
     "actual": "NOT_RUN",
@@ -597,7 +582,7 @@
     ]
   },
   {
-    "offset": 16,
+    "offset": 15,
     "file": "uninit/maybe-uninit-buffer-u3-no-mir-unsupported/main.rs",
     "require_success": false,
     "actual": "NOT_RUN",
@@ -612,48 +597,33 @@
     ]
   },
   {
-    "offset": 17,
-    "file": "uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs",
-    "require_success": true,
-    "actual": "NOT_RUN",
-    "harnesses": [
-      {
-        "harness": "contracted_roundtrip_harness",
-        "source": "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs",
-        "intended_kani": "SUCCESS",
-        "required_diagnostic": null,
-        "actual": "NOT_RUN"
-      }
-    ]
-  },
-  {
-    "offset": 18,
-    "file": "uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs",
+    "file": "uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
     "require_success": false,
     "actual": "NOT_RUN",
     "harnesses": [
       {
-        "harness": "contracted_uninit_read_harness",
-        "source": "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs",
+        "harness": "nested_two_argument_return_reads_uninit",
+        "source": "tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
         "intended_kani": "EXPECTED_FAILURE",
-        "required_diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
         "actual": "NOT_RUN"
       }
-    ]
+    ],
+    "offset": 16
   },
   {
-    "offset": 19,
-    "file": "uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs",
-    "require_success": true,
+    "file": "uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
+    "require_success": false,
     "actual": "NOT_RUN",
     "harnesses": [
       {
-        "harness": "contracted_uninit_read_harness",
-        "source": "tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs",
-        "intended_kani": "SUCCESS",
-        "required_diagnostic": null,
+        "harness": "clause_pfc_negative",
+        "source": "tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
+        "intended_kani": "EXPECTED_FAILURE",
+        "required_diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
         "actual": "NOT_RUN"
       }
-    ]
+    ],
+    "offset": 17
   }
 ]

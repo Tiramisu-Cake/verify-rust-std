@@ -3,7 +3,7 @@
   "slug": "kani3300",
   "runtime": "Codex",
   "stable_owner": "k1-merge",
-  "state": "PRE_BUILD_PREPARED_ADMISSION_BLOCKED",
+  "state": "PRE_BUILD_PREPARED_AWAITING_COORDINATOR_GO",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-CMP1.md",
   "research_branch": "experiment/kani-k1-kani3300cmp-20261111",
   "kani_worktree": "/root/kani-fix-3300-cmp",
@@ -11,13 +11,13 @@
   "kani_v2_base": "81dd85bfce67226e283fdd9a156932e32ece080b",
   "kani_candidate": "6ef9fd72066443f7f113440ba32f77f310520a93",
   "full_tree": "97159e7c2d7ce369fb7cf7fee60c58002a7a2610",
-  "build_commit": "5bd2d2bf4b7702b9a6eac0051e705c01c0d4f609",
-  "build_tree": "a85582af9753e386075f3ee11d012b7777ac5d98",
+  "build_commit": "617e714b9beb9cc037378bbb86085a6c13e4c910",
+  "build_tree": "4c0c56b2808adb542f6e58a59f4672fdc89b439c",
   "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
   "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
-  "build_patch_sha256": "c819f200d3f995811fe66589f8cbd0593fe05deb8a5231442efec4f87ef295ec",
+  "build_patch_sha256": "e216f41ca8887c85e19ba84ee56fc6581ee5b95f68ad982e111c5f1b0ca19183",
   "full_patch_sha256": "481c01624dcc36d0820d8f66912c28e074f0feaa28e246a8976efec54aa12a1c",
-  "request_sha256": "87e38d8430faa561cf7f3f22a5194346a4a128b5f28331a38588b13990e77b5a",
+  "request_sha256": "49fb4a6df2268219dd96b29febb4c598b1490e5bc726773760e819949851b53e",
   "claims": [
     {
       "claim": "R/S/P target descriptor, direct product copy/aggregate, whole-size argument/return, exact P clearing and conservative indirect-write guard implemented",
@@ -29,17 +29,17 @@
       "evidence": "REVIEW-CMP1.md; REVIEW-CARRYFORWARD.json"
     },
     {
-      "claim": "fresh exact-pin preflight apply/tree,validate20,rustfmt,scope/lane/source equality,tooling117 tests",
+      "claim": "fresh exact-pin preflight apply/tree,validate18,rustfmt,scope/lane/source equality,tooling117 tests",
       "status": "PASS_STATIC_ONLY",
       "evidence": "STATIC-CHECKS.json; PREFLIGHT-OBSERVATION.json"
     },
     {
-      "claim": "20selectors71roots including every draft/planner scenario and four U3B isolated PFC controls",
+      "claim": "18selectors69roots; all compound controls plus accepted plain-negative/review-positive, working clause-PFC and U3B frame; isolated PFC OOM/on-off excluded by coordinator",
       "status": "PREPARED_NOT_RUN",
       "evidence": "HARNESS-EXPECTATIONS.json"
     },
     {
-      "claim": "U3B production=v2; selected U3B fixtures/frame carried byte-equal",
+      "claim": "U3B production=v2; frame source/golden byte-equal U3B; plain/clause-PFC controls byte-equal v2",
       "status": "STATIC_VERIFIED",
       "evidence": "U3B-BASE-OBSERVATION.json; STATIC-CHECKS.json"
     },
@@ -50,14 +50,14 @@
     }
   ],
   "open": [
-    "Coordinator accepted-base/PFC-boundary decision after U3B known limitation; retained on-uninit selectors have prior OOM and are not claimed repaired",
+    "U3/PFC acceptance and isolated PFC+modifies+uninit OOM pair remain OPEN outside CMP1 limited native profile",
     "Exact immutable research-packet PRE-BUILD review/GO before dispatch",
     "All CMP1 compile/native outcomes and per-root Failed Checks/source/covers; omitted retained output must remainUNKNOWN",
     "Separate core U8/U9 plusU1/U2/U6 exact source binding/request/GO and results"
   ],
   "rejected_approaches": [
     "Treat historical four-root bufferpositive as passingregression",
-    "Drop OOM/failingselectors to fit count/diffstat",
+    "Drop controls or silently widen acceptance; isolated PFC OOM/on-off exclusion is explicitly authorized by coordinator and documented",
     "Use generic whole-product R setter after Stransfer",
     "Permit indirect whole-product destinations without validated finaladdress",
     "Infer source-PASS/formal credit from golden match/integrity",
@@ -74,10 +74,10 @@
   "window_main_minutes": 420,
   "window_closeout_minutes": 30,
   "window_note": "Original task window preserved; this packet does not open/reset a session or phase. Clone created2026-11-11T04:51:27.484565Z; not claimed exact task T0.",
-  "next": "Coordinator resolves accepted U3B/base/PFC boundary and reviews exact published research packet; no automatic dispatch",
-  "closure_reason": "Explicit kickoff/task PRE-BUILD stop before coordinator GO; implementation/review/static packaging complete; native admission remains OPEN",
+  "next": "Coordinator reviews exact updated18-selector experimental CMP1 packet and issues GO before any dispatch",
+  "closure_reason": "Explicit PRE-BUILD stop; experimental base admitted by coordinator, exact-packet native GO pending",
   "verification_credit": "NONE",
-  "updated_utc": "2026-11-11T05:10:47.467935+00:00",
+  "updated_utc": "2026-11-11T05:13:53.512888+00:00",
   "inputs": [
     {
       "original_path": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/plan/KICKOFF-KANI3300-CMP1-CODEX.md",
@@ -88,6 +88,14 @@
       "original_path": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/plan/PLANNER-CMP0-REVIEW-ANSWER.md",
       "snapshot": "PLANNER-CMP0-REVIEW-ANSWER.md",
       "sha256": "6cfe128e6ccc20a741a0f9f22f960f1f597b14be0183f49f6183101c8e5dfdeb"
+    },
+    {
+      "original_path": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/plan/PLANNER-AFTER-U3B-ANSWER.md",
+      "snapshot": "PLANNER-AFTER-U3B-ANSWER.md",
+      "sha256": "54f9e68fa848bcdac9c8024db538f70e09ed512bce7798bbc43d5dd8f3925d4b"
     }
-  ]
+  ],
+  "experimental_base_accepted": true,
+  "u3_pfc_acceptance": "OPEN",
+  "coordinator_decision": "Immutable81dd85b production=U3repair1 accepted only as experimental CMP1 base; exclude isolated U3B PFC pair/on-off and old4-root bufferpositive; use plain-negative/review-positive/clause-PFC/frame"
 }

@@ -3049,6 +3049,52 @@ index 0000000..1f59730
 +
 +    kani::cover!(true);
 +}
+diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/expected b/tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/expected
+new file mode 100644
+index 0000000..bd631d8
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/expected
+@@ -0,0 +1,4 @@
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs b/tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs
+new file mode 100644
+index 0000000..8017b0d
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs
+@@ -0,0 +1,30 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn choose(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    let _first_argument = a;
++    b
++}
++
++#[inline(never)]
++fn relay(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    choose(a, b)
++}
++
++fn clause_helper() -> bool {
++    let input = MaybeUninit::<u16>::uninit();
++    unsafe { relay(input, input).assume_init() == 17 }
++}
++
++#[kani::requires(clause_helper())]
++fn clause_target() {}
++
++#[kani::proof_for_contract(clause_target)]
++fn clause_pfc_negative() {
++    clause_target();
++}
 diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/expected b/tests/expected/uninit/maybe-uninit-buffer-u3-frame-negative/expected
 new file mode 100644
 index 0000000..e94131d
@@ -3134,68 +3180,26 @@ index 0000000..6c824ba
 +    // handling may also emit its standard unsupported diagnostic.
 +    unsafe { shadow_sink(MaybeUninit::uninit()) };
 +}
-diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/expected b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/expected
+diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/expected b/tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/expected
 new file mode 100644
-index 0000000..ba36358
+index 0000000..bd631d8
 --- /dev/null
-+++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/expected
-@@ -0,0 +1,2 @@
-+VERIFICATION:- SUCCESSFUL
-+Complete - 1 successfully verified harnesses, 0 failures, 1 total.
-diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs
-new file mode 100644
-index 0000000..939a4bf
---- /dev/null
-+++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs
-@@ -0,0 +1,29 @@
-+// Copyright Kani Contributors
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+// compile-flags: --edition 2021
-+// kani-flags: -Z function-contracts --output-format=terse --harness contracted_uninit_read_harness --exact
-+
-+use std::mem::MaybeUninit;
-+
-+#[inline(never)]
-+fn return_second(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
-+    let _keep_two_argument_path = a;
-+    b
-+}
-+
-+#[inline(never)]
-+fn nested_return(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
-+    return_second(a, b)
-+}
-+
-+#[kani::modifies(out)]
-+fn contracted_uninit_read(out: &mut u16) {
-+    let value = nested_return(MaybeUninit::new(5), MaybeUninit::uninit());
-+    *out = unsafe { value.assume_init() };
-+}
-+
-+#[kani::proof_for_contract(contracted_uninit_read)]
-+fn contracted_uninit_read_harness() {
-+    let mut out = 0;
-+    contracted_uninit_read(&mut out);
-+}
-diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/expected b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/expected
-new file mode 100644
-index 0000000..661477f
---- /dev/null
-+++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/expected
-@@ -0,0 +1,3 @@
-+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
++++ b/tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/expected
+@@ -0,0 +1,4 @@
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
 +VERIFICATION:- FAILED
 +Complete - 0 successfully verified harnesses, 1 failures, 1 total.
-diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs
+diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/main.rs b/tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/main.rs
 new file mode 100644
-index 0000000..bc2ef42
+index 0000000..875d867
 --- /dev/null
-+++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs
-@@ -0,0 +1,29 @@
++++ b/tests/expected/uninit/maybe-uninit-buffer-u3-plain-negative/main.rs
+@@ -0,0 +1,23 @@
 +// Copyright Kani Contributors
 +// SPDX-License-Identifier: Apache-2.0 OR MIT
 +// compile-flags: --edition 2021
-+// kani-flags: -Z uninit-checks -Z function-contracts --output-format=terse --harness contracted_uninit_read_harness --exact
++// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular
 +
 +use std::mem::MaybeUninit;
 +
@@ -3210,102 +3214,10 @@ index 0000000..bc2ef42
 +    return_second(a, b)
 +}
 +
-+#[kani::modifies(out)]
-+fn contracted_uninit_read(out: &mut u16) {
++#[kani::proof]
++fn nested_two_argument_return_reads_uninit() {
 +    let value = nested_return(MaybeUninit::new(5), MaybeUninit::uninit());
-+    *out = unsafe { value.assume_init() };
-+}
-+
-+#[kani::proof_for_contract(contracted_uninit_read)]
-+fn contracted_uninit_read_harness() {
-+    let mut out = 0;
-+    contracted_uninit_read(&mut out);
-+}
-diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/expected b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/expected
-new file mode 100644
-index 0000000..ba36358
---- /dev/null
-+++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/expected
-@@ -0,0 +1,2 @@
-+VERIFICATION:- SUCCESSFUL
-+Complete - 1 successfully verified harnesses, 0 failures, 1 total.
-diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs
-new file mode 100644
-index 0000000..e1a58bf
---- /dev/null
-+++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs
-@@ -0,0 +1,29 @@
-+// Copyright Kani Contributors
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+// compile-flags: --edition 2021
-+// kani-flags: -Z function-contracts --output-format=terse --harness contracted_roundtrip_harness --exact
-+
-+use std::mem::MaybeUninit;
-+
-+#[inline(never)]
-+fn choose(a: MaybeUninit<u16>, b: MaybeUninit<u16>, first: bool) -> MaybeUninit<u16> {
-+    if first { a } else { b }
-+}
-+
-+#[inline(never)]
-+fn relay(a: MaybeUninit<u16>, b: MaybeUninit<u16>, first: bool) -> MaybeUninit<u16> {
-+    choose(a, b, first)
-+}
-+
-+#[kani::modifies(out)]
-+fn contracted_roundtrip(out: &mut u16) {
-+    let _discarded = relay(MaybeUninit::uninit(), MaybeUninit::new(7), kani::any());
-+    let value = relay(MaybeUninit::new(11), MaybeUninit::new(13), kani::any());
-+    *out = unsafe { value.assume_init() };
-+}
-+
-+#[kani::proof_for_contract(contracted_roundtrip)]
-+fn contracted_roundtrip_harness() {
-+    let mut out = 0;
-+    contracted_roundtrip(&mut out);
-+}
-diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/expected b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/expected
-new file mode 100644
-index 0000000..ba36358
---- /dev/null
-+++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/expected
-@@ -0,0 +1,2 @@
-+VERIFICATION:- SUCCESSFUL
-+Complete - 1 successfully verified harnesses, 0 failures, 1 total.
-diff --git a/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs
-new file mode 100644
-index 0000000..45476ed
---- /dev/null
-+++ b/tests/expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs
-@@ -0,0 +1,29 @@
-+// Copyright Kani Contributors
-+// SPDX-License-Identifier: Apache-2.0 OR MIT
-+// compile-flags: --edition 2021
-+// kani-flags: -Z uninit-checks -Z function-contracts --output-format=terse --harness contracted_roundtrip_harness --exact
-+
-+use std::mem::MaybeUninit;
-+
-+#[inline(never)]
-+fn choose(a: MaybeUninit<u16>, b: MaybeUninit<u16>, first: bool) -> MaybeUninit<u16> {
-+    if first { a } else { b }
-+}
-+
-+#[inline(never)]
-+fn relay(a: MaybeUninit<u16>, b: MaybeUninit<u16>, first: bool) -> MaybeUninit<u16> {
-+    choose(a, b, first)
-+}
-+
-+#[kani::modifies(out)]
-+fn contracted_roundtrip(out: &mut u16) {
-+    let _discarded = relay(MaybeUninit::uninit(), MaybeUninit::new(7), kani::any());
-+    let value = relay(MaybeUninit::new(11), MaybeUninit::new(13), kani::any());
-+    *out = unsafe { value.assume_init() };
-+}
-+
-+#[kani::proof_for_contract(contracted_roundtrip)]
-+fn contracted_roundtrip_harness() {
-+    let mut out = 0;
-+    contracted_roundtrip(&mut out);
++    let _read = unsafe { value.assume_init() };
 +}
 diff --git a/tests/expected/uninit/maybe-uninit-review-overwrite-copy/expected b/tests/expected/uninit/maybe-uninit-review-overwrite-copy/expected
 new file mode 100644

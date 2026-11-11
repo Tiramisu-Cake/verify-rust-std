@@ -7,9 +7,9 @@
 Research worktree `/root/verify-rust-std-kani3300-cmp`, branch `experiment/kani-k1-kani3300cmp-20261111`; вход `d34f33869d`.
 Новый отдельный Kani clone `/root/kani-fix-3300-cmp`, branch `fix/kani-3300-cmp`, создан от immutable `81dd85bfce67226e283fdd9a156932e32ece080b`; другие author/reviewer clones не изменялись.
 Full candidate `6ef9fd72066443f7f113440ba32f77f310520a93`, tree `97159e7c2d7ce369fb7cf7fee60c58002a7a2610`.
-Build subset commit `5bd2d2bf4b7702b9a6eac0051e705c01c0d4f609`, tree `a85582af9753e386075f3ee11d012b7777ac5d98`; derived local commit, canonical publication — exact research patch and tree.
-Build patch SHA256 `c819f200d3f995811fe66589f8cbd0593fe05deb8a5231442efec4f87ef295ec`; full patch and SHA recorded in BUILD-PATCH-INVENTORY.json.
-Request `kani3300-cmp1-20261111-01`, SHA256 `87e38d8430faa561cf7f3f22a5194346a4a128b5f28331a38588b13990e77b5a`; root request equals snapshot.
+Build subset commit `617e714b9beb9cc037378bbb86085a6c13e4c910`, tree `4c0c56b2808adb542f6e58a59f4672fdc89b439c`; derived local commit, canonical publication — exact research patch and tree.
+Build patch SHA256 `e216f41ca8887c85e19ba84ee56fc6581ee5b95f68ad982e111c5f1b0ca19183`; full patch and SHA recorded in BUILD-PATCH-INVENTORY.json.
+Request `kani3300-cmp1-20261111-02`, SHA256 `49fb4a6df2268219dd96b29febb4c598b1490e5bc726773760e819949851b53e`; root request equals snapshot.
 Kani pin `f046b70644e113be0df9c22c2e6ea44a65a57566`; toolchain nightly-2026-10-23; lane files byte-equal KT2 `3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c`.
 KT2 cherry-pick was already present in branch ancestry; empty attempted cherry-pick was skipped, no lane modifications.
 
@@ -27,7 +27,7 @@ CMP1−v2 production: 4files +606/−15. Ghost-state flat six usize+two bool, о
 
 ## Матрица и packaging
 
-20 file selectors,71 harness roots: HARNESS-EXPECTATIONS.json — отдельные named expectations/actual NOT_RUN. Четыре standalone positive источника включены модулями в compound-cmp1-positive; сохранены все16 harnesses, assertions, covers и исходные standalone goldens в full clone. Освобождённые slots заняты обоими изолированными U3B PFC roots с uninit on/off. Ни один failing selector не удалён.
+18 file selectors,69 harness roots: HARNESS-EXPECTATIONS.json — отдельные named expectations/actual NOT_RUN. Четыре standalone positive источника включены модулями в compound-cmp1-positive; сохранены все16 harnesses, assertions, covers и исходные standalone goldens в full clone. По прямому решению координатора из ограниченного native-профиля исключены все четыре isolated U3B PFC on/off fixtures; старый four-root buffer-positive также не включён. В manifest присутствуют принятые plain-negative u16 и review-positive, рабочий clause-pfc-negative u16 и frame-negative с golden U3B (*var_7, user line22). Production/full candidate и сами исключённые тесты не изменены; U3/PFC acceptance не закрыта.
 
 Fixtures покрывают IntoIter Some/None/payload/empty/early-drop; product/reordered/repr(C)/ManuallyDrop/nested/generic usize и Pad; source/destination Copy; overwrite Move; callee/caller/two-argument/nonreturned/stale-return; настоящий slice unsize/reborrow; Drop::drop empty-read и живой сосед после drop ordinary field; ordinary R deinit raw padding-copy до whole-copy, field-read и product aggregate; padding после copy/call/return; zero/ZST; каждый из четырёх layout guards плюс indirect-write guard; bodyless call guard.
 
@@ -39,15 +39,15 @@ Build patch содержит все production changes от pin и только 
 
 Независимый Luna HIGH semantic review: финальная production-дельта без оставшихся identified blockers; см. REVIEW-CMP1.md и REVIEW-CARRYFORWARD.json. Исправлен type-kind lifetime; indirect whole write conservatively fail-closed. Последующий test-only commit не меняет reviewed production blobs. Native/compile acceptance review не утверждает.
 
-Штатный pinned prepare-kani на новом clean exact-pin clone PASS: apply --check --index, apply, resulting tree и наличие manifest goldens; normalized diffstat3179bytes <=4096. Отдельно validate20 PASS, rustfmt parse/format PASS, git diff --check, scope, production/fixture identities, lane equality и117 synthetic tooling tests PASS. Локальные cargo/rustc/Kani/CBMC не запускались. Raw evidence/archives/credentials не читались; Actions/PR/issues не создавались.
+Штатный pinned prepare-kani на новом clean exact-pin clone PASS: apply --check --index, apply, resulting tree и наличие manifest goldens; normalized diffstat2939bytes <=4096. Отдельно validate18 PASS, rustfmt parse/format PASS, git diff --check, scope, production/fixture identities, lane equality и117 synthetic tooling tests PASS. Локальные cargo/rustc/Kani/CBMC не запускались. Raw evidence/archives/credentials не читались; Actions/PR/issues не создавались.
 
 ## U3B base gate и бюджет
 
 Через git fetch + git show прочитан RESULT из research commit `5fcc28054e99f834db005621be0d832457a8128e`: U3B source-reports build9f964706-4b89-4340-a1ee-022aa23ecbe9, native7PASS/2ERROR; оба on-uninit PFC roots дали Kani-reported OOM, off-controls SUCCESS; full U3/PFC acceptance OPEN. Это source report, не самостоятельно установленное proof credit. Механизм/RSS UNKNOWN.
 
-Production blobs U3B `0ab9cc703aed799f6f73d826b60281a4632ab585` равны v2; перенесены byte-equal corrected frame golden (user write line22) и все четыре isolated PFC fixtures. Старый four-root buffer-positive хранится только в полном клоне и регрессией не засчитан. CMP1 эти OOM не объявляет исправленными, selectors/ожидания не ослаблены.
+Production blobs U3B `0ab9cc703aed799f6f73d826b60281a4632ab585` равны v2. Corrected frame source/golden (user write line22) включён byte-equal U3B; plain/clause-PFC controls byte-equal immutable v2. Все четыре isolated PFC fixtures и старый four-root buffer-positive сохранены в полном клоне/full patch, но исключены из manifest/build subset по решению координатора. Оба on-uninit PFC OOM — отдельное OPEN ограничение проверенного v2; CMP1 их не объявляет исправленными и не получает за них credit. Причинность upstream/v2 не установлена этим пакетом.
 
-Координатор, вопрос: принять ли immutable v2/U3B production как base с явно OPEN known limitation PFC/uninit для CMP1, и как допустить этот native пакет с двумя сохранёнными on-uninit selectors? Согласованного решения о base/PFC-границе пока нет; dispatch запрещён до такого решения и exact-packet GO. При изменении production базы пересобрать дельту и вернуть её тому же reviewer.
+Координатор принял immutable v2 `81dd85bfce67226e283fdd9a156932e32ece080b` (production=U3repair1) как экспериментальную базу CMP1 для ограниченного plain-пути; U3/PFC acceptance остаётся OPEN. Решение и ссылка на п.4 планера сохранены в COORDINATOR-BASE-DECISION.md. Семантический кандидат и dependencies не изменились, прежний Luna review переносится по точному равенству production blobs. Это разрешение на новый состав пакета, не GO на dispatch: остановка на новом exact PRE-BUILD REVIEW. При изменении production базы пересобрать дельту и вернуть её тому же reviewer.
 
 CMP1 owner k1-merge, stage kani3300-cmp1, slug kani3300; cap$0.60, spent$0/reserved$0, proposed$0.540 (=10min work+30min overhead при$0.0135/min); per-test150sec внутри600sec work envelope. Repair требует нового GO. Подготовка не регистрирует phase/резерв и не разрешает dispatch. Main420+closeout30 из задания сохраняются; новая подготовка не перезапускает окно.
 

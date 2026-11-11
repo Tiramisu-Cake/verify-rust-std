@@ -1,15 +1,15 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani3300-cmp1-20261111-01",
+  "request_id": "kani3300-cmp1-20261111-02",
   "agent": "k1-merge",
   "kind": "kani-tests",
-  "purpose": "CMP1 compound MaybeUninit products: target R/S/P, typed read and copy/call witnesses, IntoIter, unsupported layouts, and isolated U3B PFC on/off/frame regressions. U3B acceptance and exact coordinator GO pending.",
+  "purpose": "CMP1 compound storage on coordinator-accepted experimental v2: plain buffer, working clause-PFC and U3B frame controls. Isolated PFC-OOM pair excluded; U3/PFC acceptance remains OPEN. Exact PRE-BUILD GO pending.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 10,
   "harnesses": [],
   "kani_patch": {
     "path": "research/challenge-8/kani-k1/kani3300/cmp1/kani-uninit-cmp1-build.patch",
-    "sha256": "c819f200d3f995811fe66589f8cbd0593fe05deb8a5231442efec4f87ef295ec"
+    "sha256": "e216f41ca8887c85e19ba84ee56fc6581ee5b95f68ad982e111c5f1b0ca19183"
   },
   "test_timeout_seconds": 150,
   "kani_tests": [
@@ -124,13 +124,6 @@
     {
       "suite": "expected",
       "mode": "expected",
-      "file": "uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
-      "expect": "pass",
-      "require_success": true
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
       "file": "uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
       "expect": "pass",
       "require_success": false,
@@ -147,24 +140,18 @@
     {
       "suite": "expected",
       "mode": "expected",
-      "file": "uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs",
-      "expect": "pass",
-      "require_success": true
-    },
-    {
-      "suite": "expected",
-      "mode": "expected",
-      "file": "uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs",
+      "file": "uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
       "expect": "pass",
       "require_success": false,
-      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
     },
     {
       "suite": "expected",
       "mode": "expected",
-      "file": "uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs",
+      "file": "uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
       "expect": "pass",
-      "require_success": true
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
     }
   ]
 }
