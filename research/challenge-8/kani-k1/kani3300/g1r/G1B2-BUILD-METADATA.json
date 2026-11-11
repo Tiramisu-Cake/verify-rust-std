@@ -1,0 +1,54 @@
+{
+  "createTime": "2026-11-11T15:15:53.633946031Z",
+  "finishTime": "2026-11-11T15:20:08.259319Z",
+  "id": "b5e18fb8-b102-47fa-8300-644ee9348f85",
+  "options": {
+    "pool": {
+      "name": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4",
+      "workerRelease": "legacy"
+    }
+  },
+  "startTime": "2026-11-11T15:16:48.557432209Z",
+  "status": "FAILURE",
+  "steps": [
+    {
+      "id": "checkout",
+      "status": "SUCCESS",
+      "timing": {
+        "endTime": "2026-11-11T15:16:55.731901053Z",
+        "startTime": "2026-11-11T15:16:50.650015730Z"
+      }
+    },
+    {
+      "id": "k1",
+      "status": "SUCCESS",
+      "timing": {
+        "endTime": "2026-11-11T15:19:31.491220835Z",
+        "startTime": "2026-11-11T15:16:55.732204143Z"
+      }
+    },
+    {
+      "id": "upload",
+      "status": "SUCCESS",
+      "timing": {
+        "endTime": "2026-11-11T15:19:57.120787272Z",
+        "startTime": "2026-11-11T15:19:31.491391663Z"
+      }
+    },
+    {
+      "exitCode": 1,
+      "id": "gate",
+      "status": "FAILURE",
+      "timing": {
+        "endTime": "2026-11-11T15:19:57.795682202Z",
+        "startTime": "2026-11-11T15:19:57.120911717Z"
+      }
+    }
+  ],
+  "substitutions": {
+    "_BRANCH": "experiment/kani-k1-kani3300g0-20261111",
+    "_BUCKET": "smallsort-k1-k1-runs",
+    "_SHA": "76ffcf85e3989e8da5f1cc16c2d545237e550134"
+  },
+  "timeout": "3420s"
+}

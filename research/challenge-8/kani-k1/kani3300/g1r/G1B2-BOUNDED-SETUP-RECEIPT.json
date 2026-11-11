@@ -1,0 +1,77 @@
+{
+  "schema": "kani3300-g1b2-bounded-setup-receipt-v1",
+  "build_id": "b5e18fb8-b102-47fa-8300-644ee9348f85",
+  "brief": {
+    "command": [
+      "smallsort-brief",
+      "b5e18fb8-b102-47fa-8300-644ee9348f85"
+    ],
+    "exit": 1,
+    "response": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)"
+  },
+  "summary": {
+    "command": [
+      "research/challenge-8/kani-k1/tools/k1g.sh",
+      "summary",
+      "b5e18fb8-b102-47fa-8300-644ee9348f85"
+    ],
+    "exit": 0,
+    "status": "RUNNER_ERROR",
+    "reported_build": "failure",
+    "gate": false,
+    "expectation_met": false,
+    "first_failed_stage": "build",
+    "selected_exact_setup_excerpt": [
+      "E: Failed to fetch http://archive.ubuntu.com/ubuntu/pool/main/m/m4/m4_1.4.19-4build1_amd64.deb  Could not resolve 'archive.ubuntu.com'",
+      "E: Failed to fetch http://archive.ubuntu.com/ubuntu/pool/universe/z/z3/z3_4.8.12-3.1build1_amd64.deb  Could not resolve 'archive.ubuntu.com'",
+      "E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?"
+    ],
+    "inconsistencies": [
+      "missing/inconsistent Kani patch/tree/version/build identity"
+    ],
+    "summary_present": true,
+    "summary_sha256": null,
+    "summary_hash_limitation": "Not exposed by the available bounded summary/native routes for a missing native report; full cached summary JSON not read.",
+    "reported_tooling_sha256": {
+      ".github/workflows/kani.yml": "d51f9c59823339dfd211e0e1226e6a372f4816d2ef6c86a68cce2676dc796215",
+      "research/challenge-8/kani-k1/gcb/cloudbuild.yaml": "73b61a3573f6d1942007777e6521883fb4ba2731414fecffea80403404762d81",
+      "research/challenge-8/kani-k1/tools/gcb-k1.sh": "60af9d2e9f2d704ed66e6201cfc990662e000d860a230967ab64ec0e20801897",
+      "research/challenge-8/kani-k1/tools/kani_k1.py": "2a1b6d7a20af9b3c0296d9dc435cb7f12585ce16e27add45f10b9902e35fee23",
+      "scripts/run-kani.sh": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+      "tool_config/kani-version.toml": "7dca0aa5bf9467c6c4fb4323dabc12254f6372f5f01af096420583bc2b5c9ca3"
+    },
+    "source": "Authorized bounded summary helper; first failed-stage diagnostic capped at 41 lines / 300 chars per line; not raw logs"
+  },
+  "budget": {
+    "B2_command": [
+      "research/challenge-8/kani-k1/tools/k1g.sh",
+      "budget",
+      "b5e18fb8-b102-47fa-8300-644ee9348f85"
+    ],
+    "B2_exit": 0,
+    "B2_response": "1 0.0540 0.0000",
+    "cumulative_command": [
+      "research/challenge-8/kani-k1/tools/k1g.sh",
+      "budget",
+      "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0",
+      "b5e18fb8-b102-47fa-8300-644ee9348f85"
+    ],
+    "cumulative_exit": 0,
+    "cumulative_response": "2 0.0810 0.0000"
+  },
+  "source_inference": {
+    "outcome": "Kani/compiletest compilation and all 20 native selector invocations NOT_RUN",
+    "basis": "Pinned gcb-k1.sh build:111 runs Kani Ubuntu install_deps.sh before rustup/cargo and build.ok. Pinned install_deps.sh uses set -eu and apt-get install; the bounded stage-build apt DNS failure exits before compilation/build.ok. verify:141 requires build.ok; native execution therefore skipped.",
+    "Kani_install_deps": {
+      "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+      "path": "scripts/setup/ubuntu/install_deps.sh",
+      "sha256": "820a436228d735c1231d09a791de1cb56958d9be42778bb422735183c749bc50"
+    },
+    "assurance": "BOUNDED_SETUP_DIAGNOSTIC_PLUS_PINNED_RUNNER_GATES; no observed native report"
+  },
+  "limits": [
+    "Cloud k1 step SUCCESS is wrapper success for upload, not a compiler/verification result.",
+    "No completed runtime applied-tree/version/binary identity report; preflight tree not promoted to runtime confirmation.",
+    "No native Failed Checks or compiletest expected-output failure line available."
+  ]
+}

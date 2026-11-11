@@ -1,0 +1,415 @@
+{
+  "schema": "kani3300-g1b2-observations-v1",
+  "recorded_at": "2026-11-11T15:24:00.917626+00:00",
+  "build_id": "b5e18fb8-b102-47fa-8300-644ee9348f85",
+  "metadata": {
+    "createTime": "2026-11-11T15:15:53.633946031Z",
+    "finishTime": "2026-11-11T15:20:08.259319Z",
+    "id": "b5e18fb8-b102-47fa-8300-644ee9348f85",
+    "options": {
+      "pool": {
+        "name": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4",
+        "workerRelease": "legacy"
+      }
+    },
+    "startTime": "2026-11-11T15:16:48.557432209Z",
+    "status": "FAILURE",
+    "steps": [
+      {
+        "id": "checkout",
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-11-11T15:16:55.731901053Z",
+          "startTime": "2026-11-11T15:16:50.650015730Z"
+        }
+      },
+      {
+        "id": "k1",
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-11-11T15:19:31.491220835Z",
+          "startTime": "2026-11-11T15:16:55.732204143Z"
+        }
+      },
+      {
+        "id": "upload",
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-11-11T15:19:57.120787272Z",
+          "startTime": "2026-11-11T15:19:31.491391663Z"
+        }
+      },
+      {
+        "exitCode": 1,
+        "id": "gate",
+        "status": "FAILURE",
+        "timing": {
+          "endTime": "2026-11-11T15:19:57.795682202Z",
+          "startTime": "2026-11-11T15:19:57.120911717Z"
+        }
+      }
+    ],
+    "substitutions": {
+      "_BRANCH": "experiment/kani-k1-kani3300g0-20261111",
+      "_BUCKET": "smallsort-k1-k1-runs",
+      "_SHA": "76ffcf85e3989e8da5f1cc16c2d545237e550134"
+    },
+    "timeout": "3420s"
+  },
+  "request_sha256": "9b4e066d929ad0bf5e87a0de825941bac8bfba4dbf7f4db4dabcc408fa509569",
+  "patch_sha256": "c9ddce47cae76e9b9f462e8bcac94c73f70c0e8c32438f35f9ff1d7539117767",
+  "published_source": "76ffcf85e3989e8da5f1cc16c2d545237e550134",
+  "production_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
+  "native_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "preflight_applied_tree": "8f152bac27f8ff1d7fba45f57dc6a0ebeb348867",
+  "runtime_completed_build_identity": null,
+  "runtime_applied_tree": null,
+  "summary_present": true,
+  "summary_sha256": null,
+  "summary_status": "RUNNER_ERROR",
+  "reported_build": "failure",
+  "native_report_present": false,
+  "summary_harness_rows": 0,
+  "reported_kani_build": null,
+  "reported_compiletest_build": null,
+  "compiletest_invocation": "NOT_RUN_SOURCE_INFERENCE",
+  "native_invocations": "NOT_RUN_SOURCE_INFERENCE",
+  "gate": {
+    "summary": false,
+    "cloud_step": "FAILURE",
+    "exitCode": 1
+  },
+  "tooling": {
+    "expected_pin": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+    "published_lane_git_equal": true,
+    "six_summary_reported_hashes_equal_source_and_KT2": true,
+    "reported_sha256": {
+      ".github/workflows/kani.yml": "d51f9c59823339dfd211e0e1226e6a372f4816d2ef6c86a68cce2676dc796215",
+      "research/challenge-8/kani-k1/gcb/cloudbuild.yaml": "73b61a3573f6d1942007777e6521883fb4ba2731414fecffea80403404762d81",
+      "research/challenge-8/kani-k1/tools/gcb-k1.sh": "60af9d2e9f2d704ed66e6201cfc990662e000d860a230967ab64ec0e20801897",
+      "research/challenge-8/kani-k1/tools/kani_k1.py": "2a1b6d7a20af9b3c0296d9dc435cb7f12585ce16e27add45f10b9902e35fee23",
+      "scripts/run-kani.sh": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+      "tool_config/kani-version.toml": "7dca0aa5bf9467c6c4fb4323dabc12254f6372f5f01af096420583bc2b5c9ca3"
+    },
+    "assurance": "Source-bound tooling identity only, not successful Kani build or independent proof"
+  },
+  "selectors": [
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_bodyless_return/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_foreign_mutation_erased/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_forget_union_array/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-transmute/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": true,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-transfers/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": true,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-initialized/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": true,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-transmute-padding/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-transmute-source-read/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-argument-buffer/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-contract-clause/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-contract-frame/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-partial-copy/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-reset-alias/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-argument-return/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-overwrite-copy/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-overlap-copy/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-repeat-local/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-reset-zst/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/unions.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    },
+    {
+      "file": "uninit/uninhabited-union-field/uninhabited-union-field.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Bounded build-stage dependency/DNS failure plus pinned build.ok/verify gates; source inference, no native report"
+    }
+  ],
+  "counts": {
+    "observed_native_PASS": 0,
+    "observed_native_FAIL": 0,
+    "NOT_RUN_source_inferred": 20
+  },
+  "failure": {
+    "stage": "build",
+    "class_": "DEPENDENCY_SETUP_DNS_APT_FETCH",
+    "host": "archive.ubuntu.com",
+    "diagnostic": "Could not resolve 'archive.ubuntu.com'",
+    "summary_inconsistency": "missing/inconsistent Kani patch/tree/version/build identity",
+    "inconsistency_interpretation": "Completed build identity absent after dependency failure, not an established conflicting runtime tree/patch value.",
+    "failed_checks": null,
+    "compiletest_expected_output_to_contain": null,
+    "diagnostic_scope": "Bounded build-stage setup diagnostic; no compiler/verifier failure inferred."
+  },
+  "timing": {
+    "build_wall_s": 199.701887,
+    "queue_s": 54.923486,
+    "native_wall_s": null
+  },
+  "cost": {
+    "B2_ledger": "1 0.0540 0.0000",
+    "B1_plus_B2_ledger": "2 0.0810 0.0000",
+    "B2_charged_rounded_minutes": 4,
+    "price_per_minute_usd": "0.0135",
+    "B2_spent_usd": "0.0540",
+    "B1_spent_usd": "0.0270",
+    "B_cumulative_spent_usd": "0.0810",
+    "B_reserved_usd": "0.0000",
+    "B_cap_usd": "0.80",
+    "B_cap_scope": "B1_PLUS_B2_SEPARATE_FROM_A_FAMILY",
+    "B_unspent_cap_usd": "0.7190",
+    "prior_A_family_actual_spent_usd": "0.4860",
+    "A_family_unchanged": true
+  },
+  "receipts": {
+    "G1B2-BUILD-METADATA.json": {
+      "sha256": "07e51f950f250bf29fc33062a1a3e5413ba9db3e9abb24aa8c75da962d58a930",
+      "bytes": 1391
+    },
+    "G1B2-BOUNDED-SETUP-RECEIPT.json": {
+      "sha256": "97534f8379ca6fec80ded0b745a060947ddbc155e7caa1aada5c6ee4235dd9b2",
+      "bytes": 3806
+    },
+    "G1B2-SUMMARY-ROWS.txt": {
+      "sha256": "bff567a0757eabbd3b15bb107369e7f044f7d1a4fda8f90166d906498f0f8238",
+      "bytes": 298
+    }
+  },
+  "assurance": "SOURCE_BOUND_CLOUD_METADATA_AND_BOUNDED_SETUP_DIAGNOSTIC; NOT_RUN source inference; no native outcomes/proof credit",
+  "proof_credit": "NONE",
+  "attempt": "B2 1/1 terminal; B total infrastructure attempts 2",
+  "repairs": 0,
+  "further_retries": 0,
+  "negative": "NOT_MODIFIED; NOT_SELECTED; historical A3 evidence unchanged",
+  "next": "STOP for coordinator review; no further retry or repair authorized."
+}

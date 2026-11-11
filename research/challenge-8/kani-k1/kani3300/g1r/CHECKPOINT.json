@@ -8,7 +8,7 @@
   "kani_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
   "kani_branch": "fix/kani-3300-g1",
   "kani_pushed": false,
-  "status": "G1B2_SUBMITTED_WATCH_NEXT",
+  "status": "G1B2_TERMINAL_DEPENDENCY_DNS_FAILURE_NOT_RUN",
   "static_checks": "STATIC-CHECKS.json",
   "compile_sweep": "COMPILE-SWEEP.md",
   "packages": [
@@ -48,16 +48,16 @@
       "work_minutes": 29,
       "overhead_minutes": 30,
       "reservation_usd": "0.7965",
-      "native_outcome": "NOT_RUN (all 20; source-inferred validate setup DNS failure); see RESULT-KANI3300-G1B.md"
+      "native_outcome": "B1 and B2: all 20 NOT_RUN by source-gated DNS/setup-failure inference; see RESULT-KANI3300-G1B.md and RESULT-KANI3300-G1B2.md"
     }
   ],
   "cloud_this_stage": {
     "builds": [
-      "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0"
+      "b5e18fb8-b102-47fa-8300-644ee9348f85"
     ],
-    "spent_usd": "0.0270",
+    "spent_usd": "0.0540",
     "reserved_usd": "0.0000",
-    "dispatch": "B attempt 1/1 terminal setup failure; no repair/retry; negative untouched"
+    "dispatch": "B2 1/1 terminal; dependency DNS failure; no repair/further retry/negative edits"
   },
   "prior_G1A_spent_usd": "0.0675",
   "claims": [
@@ -72,13 +72,18 @@
     {
       "claim": "B build failed at validate setup (Ubuntu archive DNS resolution); no summary/native outcomes. All 20 native selectors NOT_RUN by bounded-diagnostic plus pinned-runner-gate inference; B spend $0.0270.",
       "assurance": "SOURCE_BOUND_METADATA_AND_SETUP_DIAGNOSTIC; source inference for NOT_RUN; independent B1/B2 NONE"
+    },
+    {
+      "claim": "B2 RUNNER_ERROR at build-stage dependency installation, same Ubuntu archive DNS failure; all 20 native selectors NOT_RUN by bounded-diagnostic/source-gate inference. B2 cost $0.0540; B cumulative $0.0810, reserve0.",
+      "assurance": "SOURCE_BOUND_METADATA_AND_BOUNDED_SETUP_DIAGNOSTIC; no independent B1/B2 proof credit"
     }
   ],
   "open": [
-    "B2 native outcomes NOT_RUN; one infrastructure retry authorized, no repair or additional retry.",
-    "A3 negative diagnosis and inherited P1/full-regression limitations outside B2; historical evidence and original B request/patch remain unchanged."
+    "B native acceptance unestablished after two infrastructure failures; no further retry/repair authorized.",
+    "Completed runtime Kani build/tree/version/binary/native outcomes and Failed Checks/compiletest expected-output diagnostics unavailable.",
+    "A3 aggregate negative diagnosis and inherited P1/full-regression limitations remain outside B2; history unchanged."
   ],
-  "next": "k1g.sh watch BUILD then END TURN. On wake: Evidence Brief first; authorized bounded summary/native/native-field and metadata/budget; no raw fallback. Write g1r/RESULT-KANI3300-G1B2.md as G1B: all 20 selectors PASS/FAIL and wall seconds (or explicit NOT_RUN/UNKNOWN if setup), exact identities, actual B2 and cumulative B1+B2 spend <=$0.80; for FAIL retain Failed Checks and compiletest expected output to contain line if bounded interface supplies it. No repair/retry or negative edits. Commit/push [skip ci]; REVIEW REQUEST <full research sha>.",
+  "next": "STOP. Coordinator review of second B infrastructure/DNS failure; no further retry, repair, negative edits or build authorized.",
   "review": {
     "model": "gpt-6-luna",
     "reasoning_effort": "high",
@@ -91,12 +96,12 @@
   },
   "latest_stage": "kani3300-g1b2",
   "latest_authorization": "G1B2-AUTHORIZATION.json",
-  "active_build_id": "b5e18fb8-b102-47fa-8300-644ee9348f85",
+  "active_build_id": null,
   "T0": "2026-11-11T15:00:20+00:00",
   "main_deadline": "2026-11-11T17:00:20+00:00",
   "absolute_deadline": "2026-11-11T17:30:20+00:00",
   "active_handoff": "G1B2-HANDOFF.json",
-  "closure_reason": null,
+  "closure_reason": "Authorized B2 infrastructure attempt terminal at dependency setup. Bounded summary/metadata, source-gated NOT_RUN statuses for all 20 selectors, available setup diagnostic and cumulative B accounting recorded; no native outcomes/raw fallback.",
   "previous_stage_checkpoint": "G1B2-ENTRY-CHECKPOINT.json preserves accepted B1 result/preparation view",
   "B_budget": {
     "cap_usd": "0.80",
@@ -104,23 +109,25 @@
     "prior_spent_usd": "0",
     "reservation_proposal_usd": "0.7965",
     "B_ceiling_usd": "0.7965",
-    "actual_spent_usd": "0.0270",
+    "actual_spent_usd": "0.0810",
     "actual_reserved_usd": "0.0000",
-    "final_ledger": "1 0.0270 0.0000"
+    "final_ledger": "2 0.0810 0.0000",
+    "B1_actual_spent_usd": "0.0270",
+    "B2_actual_spent_usd": "0.0540"
   },
   "prior_A_family_latest_actual_spent_usd": "0.4860",
   "previous_terminal_build_id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
-  "terminal_build_id": "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0",
+  "terminal_build_id": "b5e18fb8-b102-47fa-8300-644ee9348f85",
   "previous_result": "RESULT-KANI3300-G1RA.md",
-  "latest_result": "RESULT-KANI3300-G1B.md",
+  "latest_result": "RESULT-KANI3300-G1B2.md",
   "previous_evidence": "G1RA-OBSERVATIONS.json",
-  "latest_evidence": "G1B-OBSERVATIONS.json",
+  "latest_evidence": "G1B2-OBSERVATIONS.json",
   "historical_G1RA_cumulative_spent_usd": "0.1755",
   "historical_claims_stage": "G1RA; preserved in G1B-ENTRY-CHECKPOINT.json",
   "proof_credit": "NONE",
   "research_dispatch_sha": "76ffcf85e3989e8da5f1cc16c2d545237e550134",
   "B2_preparation": {
-    "status": "SUBMITTED",
+    "status": "TERMINAL_RUNNER_ERROR_NOT_RUN",
     "request": "RUN-REQUEST-B2.json",
     "request_sha256": "9b4e066d929ad0bf5e87a0de825941bac8bfba4dbf7f4db4dabcc408fa509569",
     "changed_fields": [
@@ -136,14 +143,14 @@
     "additional_Cloud_spent_usd": "0",
     "additional_Cloud_reserved_usd": "0",
     "root_request_unchanged": false,
-    "dispatch": "B2_ONE_AUTHORIZED_INFRASTRUCTURE_RETRY_SUBMITTED"
+    "dispatch": "AUTHORIZED_B2_ATTEMPT_TERMINAL"
   },
   "B2_cloud": {
     "builds": [
       "b5e18fb8-b102-47fa-8300-644ee9348f85"
     ],
-    "spent_usd": "0",
-    "reserved_usd": "0.7695",
-    "dispatch": "B2 attempt 1/1 submitted; cumulative B ceiling $0.7965; no repair/further retry/negative changes"
+    "spent_usd": "0.0540",
+    "reserved_usd": "0.0000",
+    "dispatch": "B2 1/1 terminal; dependency DNS failure; no repair/further retry/negative edits"
   }
 }
