@@ -1,6 +1,6 @@
 {
   "stage": "kani3300-t1b-r",
-  "state": "A2_SUBMITTED_WAITING",
+  "state": "COMPLETE_A2_ORIGINAL_FAILURE_TRACE_INVALID",
   "task_base": "5b1dc4d73262bca86913e43d1fcac7f3a3561d6d",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-T1B-R.md",
   "runtime": "Codex",
@@ -10,18 +10,18 @@
   "diagnostic_review": "REVIEW-KANI.md",
   "static_checks": 26,
   "rustfmt_changed_files": 9,
-  "compilation": "NOT_RUN",
-  "D_warnings": "NOT_RUN",
+  "compilation": "SUCCESS_CLOUD_SOURCE_REPORTED",
+  "D_warnings": "NOT_INDEPENDENTLY_ESTABLISHED",
   "proof_credit": "NONE",
-  "cloud_this_stage_usd": "PENDING_TERMINAL_ACCOUNTING",
+  "cloud_this_stage_usd": "0.1215",
   "prior_A_spend_usd": "0.081",
-  "remaining_cap_usd": "0.719",
+  "remaining_cap_usd": "0.5975",
   "A2_planned_reserve_usd": "0.648",
   "dispatch_authorized": false,
   "phase_activated": false,
   "Kani_push": false,
   "B_changed": false,
-  "stop_boundary": "Single A2 dispatch then k1g.sh watch and end turn; after terminal event bounded evidence/result; no B/retry.",
+  "stop_boundary": "One authorized A2 completed and analyzed; original verdicts reproduced, trace INVALID; no B/retry/repair authorized.",
   "authorization": {
     "source": "Explicit coordinator GO in user message",
     "accepted_pre_build_head": "b08bfaea6ad1e591cb6345626c068ddba53c1318",
@@ -43,13 +43,24 @@
   "build_id": "cbf4045a-cf4b-4ac7-8495-dfafcf57f6fb",
   "dispatch_head": "bddfa044cbb4e884f9140b51c0cc0b9dfc464e58",
   "attempts_used": 1,
-  "submitted_reserve_usd": "0.648",
+  "submitted_reserve_usd": "0.0000",
   "watcher": {
     "kind": "k1g.sh watch",
     "build_id": "cbf4045a-cf4b-4ac7-8495-dfafcf57f6fb",
-    "state": "START_AFTER_RECEIPT_PUSH_THEN_END_TURN",
+    "state": "TERMINAL_EVENT_RECEIVED_AND_HANDLED",
     "status_polling": false,
-    "next_step": "On terminal event read smallsort-brief, bounded summary/trace-field and cost; write RESULT-KANI3300-T1B-A2.md <=40 lines, commit [skip ci] and push; no B/retry."
+    "next_step": "On terminal event read smallsort-brief, bounded summary/trace-field and cost; write RESULT-KANI3300-T1B-A2.md <=40 lines, commit [skip ci] and push; no B/retry.",
+    "reported_status": "FAILURE",
+    "wait_exit": 0,
+    "delivery_attempt": 1
   },
-  "result_path": "RESULT-KANI3300-T1B-A2.md"
+  "result_path": "RESULT-KANI3300-T1B-A2.md",
+  "cumulative_A_A2_spend_usd": "0.2025",
+  "result": "RESULT-KANI3300-T1B-A2.md",
+  "observations": "A2-OBSERVATIONS.json",
+  "evidence": "A2-EVIDENCE-INDEX.json",
+  "open": [
+    "diagnostic_trace INVALID; all trace-field pages withheld, complete/omitted/key records and INVALID cause UNKNOWN",
+    "KANI3300 mechanism/concrete object/offset/R/runtime causality UNKNOWN; no independent proof credit"
+  ]
 }
