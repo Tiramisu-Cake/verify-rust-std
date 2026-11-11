@@ -79,7 +79,7 @@
     "No runtime applied tree/build/binary/summary/native/Failed Checks/compiletest expected-output line available.",
     "A3 aggregate negative diagnosis and inherited P1/full-regression limitations remain outside B; history unchanged."
   ],
-  "next": "STOP. Coordinator review of setup/DNS failure; no repair, retry, negative edits or further build authorized.",
+  "next": "STOP at PRE-BUILD REVIEW for exact B2 request. After fresh coordinator GO only: runtime ledger/deadline/slot preflight before one infrastructure retry; no negative edits.",
   "review": {
     "model": "gpt-6-luna",
     "reasoning_effort": "high",
@@ -119,5 +119,24 @@
   "historical_G1RA_cumulative_spent_usd": "0.1755",
   "historical_claims_stage": "G1RA; preserved in G1B-ENTRY-CHECKPOINT.json",
   "proof_credit": "NONE",
-  "research_dispatch_sha": "6ec78732cea6f1a80b8c02574ee348f20b0563ec"
+  "research_dispatch_sha": "6ec78732cea6f1a80b8c02574ee348f20b0563ec",
+  "B2_preparation": {
+    "status": "PREPARED_AWAITING_GO",
+    "request": "RUN-REQUEST-B2.json",
+    "request_sha256": "9b4e066d929ad0bf5e87a0de825941bac8bfba4dbf7f4db4dabcc408fa509569",
+    "changed_fields": [
+      "request_id",
+      "harness_timeout_minutes"
+    ],
+    "preflight": "G1B2-preflight.json",
+    "pre_build": "G1B2-PRE-BUILD.md",
+    "static_checks": "G1B2-STATIC-CHECKS.json",
+    "reservation_proposal_usd": "0.7695",
+    "prior_B_spent_usd": "0.0270",
+    "cumulative_B_ceiling_usd": "0.7965",
+    "additional_Cloud_spent_usd": "0",
+    "additional_Cloud_reserved_usd": "0",
+    "root_request_unchanged": true,
+    "dispatch": "NOT_AUTHORIZED_PENDING_GO"
+  }
 }
