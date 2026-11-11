@@ -8,7 +8,7 @@
   "kani_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
   "kani_branch": "fix/kani-3300-g1",
   "kani_pushed": false,
-  "status": "G1RA_A_AUTHORIZED_PRE_DISPATCH",
+  "status": "G1RA_A_BUILD_HANDOFF",
   "static_checks": "STATIC-CHECKS.json",
   "compile_sweep": "COMPILE-SWEEP.md",
   "packages": [
@@ -52,10 +52,12 @@
     }
   ],
   "cloud_this_stage": {
-    "builds": [],
+    "builds": [
+      "8b32494f-c7bb-415c-acd6-8e64575fc447"
+    ],
     "spent_usd": 0,
-    "reserved_usd": 0,
-    "dispatch": "A ONLY AUTHORIZED; one attempt; no repair; B NOT authorized"
+    "reserved_usd": "0.7290",
+    "dispatch": "A only; attempt 1/1 submitted; B NOT authorized"
   },
   "prior_G1A_spent_usd": "0.0675",
   "claims": [
@@ -73,7 +75,7 @@
     "B requires separate owner GO; budget unchanged.",
     "Inherited P1 limitations/full regressions remain open."
   ],
-  "next": "Publish exact A root request, final preflight, k1g.sh dispatch once, persist handoff, k1g.sh watch BUILD and end turn.",
+  "next": "k1g.sh watch BUILD then END TURN. On wake: Evidence Brief first; bounded A per-selector PASS/FAIL and wall seconds, spend, all compiler errors file:line if compilation fails in RESULT-KANI3300-G1RA.md; commit/push [skip ci]; REVIEW REQUEST <sha>. No repair/retry/B.",
   "review": {
     "model": "gpt-6-luna",
     "reasoning_effort": "high",
@@ -86,8 +88,9 @@
   },
   "latest_stage": "kani3300-g1ra",
   "latest_authorization": "G1RA-AUTHORIZATION.json",
-  "active_build_id": null,
+  "active_build_id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
   "T0": "2026-11-11T13:41:27+00:00",
   "main_deadline": "2026-11-11T15:41:27+00:00",
-  "absolute_deadline": "2026-11-11T16:11:27+00:00"
+  "absolute_deadline": "2026-11-11T16:11:27+00:00",
+  "active_handoff": "G1RA-HANDOFF.json"
 }
