@@ -1,0 +1,176 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "kani3300-g1-a-targeted-20261111-01",
+  "agent": "k1-merge",
+  "kind": "kani-tests",
+  "purpose": "PREPARED NOT AUTHORIZED: KANI3300 G1 package A; exact candidate 45d0300e054345b4f6bdf89528195ee7c5dba8a5; native NOT_RUN. No automatic dispatch or repair.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 29,
+  "harnesses": [],
+  "kani_patch": {
+    "path": "research/challenge-8/kani-k1/kani3300/g1/kani3300-g1-a-build.patch",
+    "sha256": "35cae231c17b836a1d0191ee417a6e9a875eb41f2f8cf353ef2b1442bf78e40b"
+  },
+  "test_timeout_seconds": 150,
+  "kani_tests": [
+    {
+      "file": "uninit/g1-union-pointee-positive/main.rs",
+      "require_success": true,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass"
+    },
+    {
+      "file": "uninit/g1-union-pointee-negative/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_array_element/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_bodyless_transfer/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Kani does not support foreign mutation of union storage without an effect model."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_fn_pointer_field/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Cannot determine layout for an unsupported type fn() -> u32."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_foreign_mutation/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Kani does not support foreign mutation of union storage without an effect model."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_indirect_call/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "function pointers"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_init_predicate/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Kani does not yet support using initialization predicates on unions."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_niche_enum/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Cannot determine layout for an Enum with niche encoding of type Niche"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_select_unpredictable/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Kani does not support select_unpredictable of union storage."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_struct_field/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_typed_swap/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Kani does not support typed_swap of union storage."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_unaligned_read/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_unaligned_write/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_union_in_union/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Transmuting between types of incompatible layouts."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_variant_padding/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Cannot determine layout for an Enum of type DifferentPadding, as it has multiple variants that have different padding."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_volatile_read/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Kani does not support volatile loads of union storage."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_volatile_write/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Kani does not support volatile stores of union storage."
+    }
+  ]
+}

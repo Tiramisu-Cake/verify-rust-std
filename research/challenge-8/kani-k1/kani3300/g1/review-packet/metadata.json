@@ -1,0 +1,211 @@
+{
+  "baseline_commit": "657c2b24516b967f67ce71994299d0ef328aede9",
+  "candidate_commit": "0780eb57cedf07cf96ebba25b7a14701d647bf3e",
+  "candidate_tree": "a4c85b12642d114d7d1c69b724265119e674e5f0",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "117b2311ae045d08b21e71e2af972058bc77ae02",
+        "mode": "100644",
+        "sha256": "47b1063398159a376fd4edcecee4d28ac24f54b2e86a930d836b354023cd8ed0"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "34e5a43013c42a37ae82c238c8be9b34e4aba7f9",
+        "mode": "100644",
+        "sha256": "98cc8f96504b5cee192eb777e1b53075965f0ff348efbc98e9b008da3f07cd3e"
+      },
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "3f7ea62044fe27297cc74c7ba01b70647751fd50",
+        "mode": "100644",
+        "sha256": "6a4d519b9261a2a3e479b6b143a8f6702273ddcaeee734fa513187fc4df92723"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "e60366ae0b6aeb1b2f93d0e5151e789ee2aeeb9b",
+        "mode": "100644",
+        "sha256": "cdbb06031a9794993e2efcfc9a119532ff76475ffe063e776b7bfb71486d97a1"
+      },
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "c1f1eb5ef858efd590ab3f3e0e988767b79e27a3",
+        "mode": "100644",
+        "sha256": "db408ef3264acfad8245ac52d7f3aa2e658578edce611552ef29d19b8729f28e"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "c56cb7b76862bc41ee10b42986727be87f80a1f8",
+        "mode": "100644",
+        "sha256": "a6421b3d9ec9976aaae80346a89e9eeb53a7a787dea9c431cb05a19fc63b2726"
+      },
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "ab08539d8255cb6222fd44a6e818c56424deb085",
+        "mode": "100644",
+        "sha256": "ce16fba0d46cae786b1a85672a67e2460ff1df4c5c91d76d2c4883eed0153253"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "b819f0e66bab5e3f921e940e66e2d45f6e4a5594",
+        "mode": "100644",
+        "sha256": "5441ca6dfe44a3f50e309a84739888208fdbace3ea2e4a40bb247ad5bdc2f0d8"
+      },
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "6f832d4c651f8770a46327beb6e4a957b06c1166",
+        "mode": "100644",
+        "sha256": "d565a600e34ef6199f4c6e0a799a5eb9a224ec0ed9a563ef47da2cbbe908cc06"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "3dec9fa479ad72ce1e333e14f2ff0909b3b29504",
+        "mode": "100644",
+        "sha256": "5eb267c31b1119a8b8664ad5d1a456d172fd2d710785cec65220293781ecfe0d"
+      },
+      "path": "library/kani_core/src/mem_init.rs",
+      "status": "modified"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "67a822dc48a41a73e9ca3980dd3bbde8a2ad9f9f",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "sha256": "dddbf5d1b29a398d79d4d2a8ad7f3e216dba4c22203bb75ade6fd6c8c8d8cc60",
+      "size": 5827
+    },
+    {
+      "blob": "34e5a43013c42a37ae82c238c8be9b34e4aba7f9",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "sha256": "98cc8f96504b5cee192eb777e1b53075965f0ff348efbc98e9b008da3f07cd3e",
+      "size": 38450
+    },
+    {
+      "blob": "8f30704f0b03cdf6ca8d9593358bcbfcbdba8a09",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "sha256": "503b2c0f60762313b6f61b4308f154a90c459b3a4370aeb4ba2aa4e4a7aef6ba",
+      "size": 4328
+    },
+    {
+      "blob": "e60366ae0b6aeb1b2f93d0e5151e789ee2aeeb9b",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "sha256": "cdbb06031a9794993e2efcfc9a119532ff76475ffe063e776b7bfb71486d97a1",
+      "size": 52713
+    },
+    {
+      "blob": "c56cb7b76862bc41ee10b42986727be87f80a1f8",
+      "member": "dependencies/0004.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "sha256": "a6421b3d9ec9976aaae80346a89e9eeb53a7a787dea9c431cb05a19fc63b2726",
+      "size": 14807
+    },
+    {
+      "blob": "b819f0e66bab5e3f921e940e66e2d45f6e4a5594",
+      "member": "dependencies/0005.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "sha256": "5441ca6dfe44a3f50e309a84739888208fdbace3ea2e4a40bb247ad5bdc2f0d8",
+      "size": 27326
+    },
+    {
+      "blob": "3dec9fa479ad72ce1e333e14f2ff0909b3b29504",
+      "member": "dependencies/0006.bin",
+      "mode": "100644",
+      "path": "library/kani_core/src/mem_init.rs",
+      "sha256": "5eb267c31b1119a8b8664ad5d1a456d172fd2d710785cec65220293781ecfe0d",
+      "size": 21955
+    },
+    {
+      "blob": "a47dad9458283c11393f1c8661b43a5aa94222d9",
+      "member": "dependencies/0007.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+      "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+      "size": 12461
+    },
+    {
+      "blob": "ae984c26e220b2fc689c7f16fecd970b7cbe0a20",
+      "member": "dependencies/0008.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/body.rs",
+      "sha256": "930636ad1ab2290fb2b10f1970f2283f6e29c52de9a7b1696c7767c041a469d5",
+      "size": 26496
+    },
+    {
+      "blob": "94997512d78721fb09c6a94134a00c9a3a6be957",
+      "member": "dependencies/0009.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/kani_functions.rs",
+      "sha256": "4fc4ef480440d05432e1f5b2245be83bd7c70b3cd547c57442c901457feb3ab4",
+      "size": 14997
+    },
+    {
+      "blob": "6a8444fcac70f172b7623aa3b83c67c8697da7d2",
+      "member": "dependencies/0010.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "sha256": "9f78de44ceffa0436de11ff3a4bf789c5d9909fe8425c7de543f84cd6c37fd91",
+      "size": 34857
+    },
+    {
+      "blob": "fa31ed48f8c378e6f36c985b8f91438532bab25c",
+      "member": "dependencies/0011.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+      "sha256": "775b43c73d1350994de789dd30847e6c0339ee6ddc4ec91d9261cb2346c027d2",
+      "size": 10507
+    },
+    {
+      "blob": "719832acf5d5090207ab71a30dbd44290fcd04dc",
+      "member": "dependencies/0012.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+      "sha256": "354079ebb24304c7f8dc6516ba2e50dad70f0e30466f9660d17ecece01bc7277",
+      "size": 8598
+    },
+    {
+      "blob": "03b92f331064023b090ad5e6afc10fe0b9ff828e",
+      "member": "dependencies/0013.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "sha256": "0f32763a6981ae6269d4b938302ac106ff6ebaa19df9fa413765a982f1390277",
+      "size": 5335
+    },
+    {
+      "blob": "7def650ad5fcbd9c8e404afacbd685d6070bbaf4",
+      "member": "dependencies/0014.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/kani_intrinsics.rs",
+      "sha256": "62242895cd5608f1631b68ed1a4bfffc0b9dfc593809778a029de8ec4c5fb840",
+      "size": 30508
+    }
+  ],
+  "diff_sha256": "fa8d8d0610fd6253906a3d2d19a5e389ebedbbfcb4f6a7be877f351be493af63",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "16bb62b2a894f565992eaeabe5c73a54bff570aca920a7d4d2dbe2187fa0578a",
+  "worktree": "/root/kani-fix-3300-g1"
+}

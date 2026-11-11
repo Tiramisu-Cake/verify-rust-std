@@ -1,0 +1,3817 @@
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+index 117b2311ae045d08b21e71e2af972058bc77ae02..0839add6faa22c09d09257ead321cb0ca49a2f47 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+@@ -18,7 +18,7 @@
+     ty::{FnDef, GenericArgKind, GenericArgs, MirConst, RigidTy, Ty, TyConst, TyKind, UintTy},
+ };
+ use std::collections::HashMap;
+-use ty_layout::maybe_uninit_storage;
++use ty_layout::{maybe_uninit_storage, union_storage};
+ 
+ use crate::kani_middle::kani_functions::{KaniFunction, KaniModel};
+ pub use delayed_ub::DelayedUbPass;
+@@ -162,14 +162,14 @@ fn build_check_for_operation(
+     ) {
+         if let MemoryInitOp::StoreArgument { operand, .. } = &mut operation
+             && matches!(operand, Operand::Constant(_))
+-            && maybe_uninit_storage(self.tcx, operand.ty(body.locals()).unwrap()).is_some()
++            && union_storage(self.tcx, operand.ty(body.locals()).unwrap())
+         {
+             let Some(initialized) = constant_init_mask(operand) else {
+                 self.inject_unsupported_check(
+                     body,
+                     source,
+                     InsertPosition::Before,
+-                    "Kani cannot determine the initialization state of this MaybeUninit argument.",
++                    "Kani cannot determine the initialization state of this union storage argument.",
+                 );
+                 return;
+             };
+@@ -215,7 +215,7 @@ fn build_check_for_operation(
+                     )
+                 };
+             // Calculate pointee layout for byte-by-byte memory initialization checks.
+-            let layout = if maybe_uninit_storage(self.tcx, pointee_ty).is_some() {
++            let layout = if union_storage(self.tcx, pointee_ty) {
+                 match &operation {
+                     // Reading a slot or slice of slots does not require initialized data.
+                     MemoryInitOp::Check { .. }
+@@ -229,15 +229,31 @@ fn build_check_for_operation(
+                     }
+                     // The pointer visitor handles writes to this storage, including transfers.
+                     // A generic set from delayed UB instrumentation would erase that state.
+-                    MemoryInitOp::SetRef { .. } => return,
+-                    MemoryInitOp::SetStorage { .. }
+-                    | MemoryInitOp::Copy { .. }
+-                    | MemoryInitOp::AssignUnion { .. }
+-                    | MemoryInitOp::StoreArgument { .. }
+-                    | MemoryInitOp::LoadArgument { .. }
+-                    | MemoryInitOp::SetSliceChunk { .. } => {
++                    MemoryInitOp::SetRef { .. } => {
++                        match PointeeInfo::for_storage(self.tcx, pointee_ty) {
++                            Ok(_) => return,
++                            Err(reason) => Err(reason),
++                        }
++                    }
++                    MemoryInitOp::SetStorage { .. } => {
++                        if maybe_uninit_storage(self.tcx, pointee_ty).is_some() {
++                            PointeeInfo::for_storage(self.tcx, pointee_ty)
++                        } else {
++                            PointeeInfo::from_ty(pointee_ty)
++                        }
++                    }
++                    MemoryInitOp::Copy { .. } | MemoryInitOp::SetSliceChunk { .. } => {
+                         PointeeInfo::for_storage(self.tcx, pointee_ty)
+                     }
++                    MemoryInitOp::AssignUnion { .. }
++                    | MemoryInitOp::StoreArgument { .. }
++                    | MemoryInitOp::LoadArgument { .. } => {
++                        if maybe_uninit_storage(self.tcx, pointee_ty).is_some() {
++                            PointeeInfo::for_storage(self.tcx, pointee_ty)
++                        } else {
++                            PointeeInfo::from_ty(pointee_ty)
++                        }
++                    }
+                     _ => PointeeInfo::from_ty(pointee_ty),
+                 }
+             } else {
+@@ -381,9 +397,8 @@ fn build_get_and_check(
+                 return;
+             }
+             PointeeLayout::Union { .. } => {
+-                // Here we are reading from a pointer to a union.
+-                // TODO: we perhaps need to check that the union at least contains an intersection
+-                // of all layouts initialized.
++                // Whole union reads are allowed only through validated storage transfers.
++                // Other union-valued checks retain a fail-closed fallback.
+                 let reason = "Interaction between raw pointers and unions is not yet supported.";
+                 self.inject_unsupported_check(body, source, operation.position(), reason);
+                 return;
+@@ -545,37 +560,43 @@ fn build_set(
+                 self.inject_unsupported_check(body, source, operation.position(), reason);
+                 return;
+             }
+-            PointeeLayout::Union { field_layouts } => {
+-                // Writing union data, which could be either creating a union from scratch or
+-                // performing some pointer operations with it. If we are creating a union from
+-                // scratch, an operation will contain a union field.
+-
+-                // TODO: If we don't have a union field, we are either creating a pointer to a union
+-                // or assigning to one. In the former case, it is safe to return from this function,
+-                // since the union must be already tracked (on creation and update). In the latter
+-                // case, we should have been using union assignment instead. Nevertheless, this is
+-                // currently mitigated by injecting `assert!(false)`.
+-                let union_field = match operation.union_field() {
+-                    Some(field) => field,
+-                    None => {
+-                        let reason =
+-                            "Interaction between raw pointers and unions is not yet supported.";
+-                        self.inject_unsupported_check(body, source, operation.position(), reason);
++            PointeeLayout::Union { field_layouts, field_offsets, storage_size } => {
++                let mut layout = match &operation {
++                    MemoryInitOp::CreateUnion { field, .. } => {
++                        // Full replacement uses rustc's arm offset and size(U), including tail.
++                        let mut mask = vec![false; *storage_size];
++                        let offset = field_offsets[*field];
++                        let data = &field_layouts[*field];
++                        mask[offset..offset + data.len()].copy_from_slice(data);
++                        mask
++                    }
++                    MemoryInitOp::SetStorage { initialized, .. } => {
++                        if initialized.len() != *storage_size {
++                            self.inject_unsupported_check(
++                                body, source, operation.position(),
++                                "Kani cannot determine the initialization state of this union constant.",
++                            );
++                            return;
++                        }
++                        initialized.clone()
++                    }
++                    _ => {
++                        self.inject_unsupported_check(
++                            body,
++                            source,
++                            operation.position(),
++                            "Kani does not support this unmodeled union storage update.",
++                        );
+                         return;
+                     }
+                 };
+-                let field_layout = &field_layouts[union_field];
+-                let mut storage_layout;
+-                let layout = if maybe_uninit_storage(self.tcx, *pointee_info.ty()).is_some() {
+-                    // An empty aggregate replaces the entire slot, even when its field is ().
+-                    let size = pointee_info.ty().layout().unwrap().shape().size.bytes();
+-                    storage_layout = field_layout.clone();
+-                    storage_layout.resize(size, false);
+-                    &storage_layout
+-                } else {
+-                    field_layout
+-                };
+-                let layout_operand = mk_layout_operand(body, &mut statements, source, layout);
++                // Constants are typed transfers too; allocation padding is not a guarantee.
++                if matches!(operation, MemoryInitOp::SetStorage { .. }) {
++                    for (initialized, data) in layout.iter_mut().zip(pointee_info.transfer_mask()) {
++                        *initialized &= data;
++                    }
++                }
++                let layout_operand = mk_layout_operand(body, &mut statements, source, &layout);
+                 let diagnostic = KANI_SET_PTR_INITIALIZED;
+                 let args = vec![
+                     ptr_operand,
+@@ -669,6 +690,29 @@ fn build_argument_operation(
+         );
+         let operand = operation.mk_operand(body, &mut statements, source);
+         let argument_no = operation.expect_argument_no();
++        let mut args = vec![
++            operand,
++            Operand::Constant(ConstOperand {
++                span: source.span(body.blocks()),
++                user_ty: None,
++                const_: MirConst::try_from_uint(argument_no as u128, UintTy::Usize).unwrap(),
++            }),
++        ];
++        if matches!(operation, MemoryInitOp::LoadArgument { .. }) {
++            args.push(mk_layout_operand(
++                body,
++                &mut statements,
++                source,
++                &pointee_info.transfer_mask(),
++            ));
++        }
++        if let MemoryInitOp::StoreArgument { operand, .. } = &operation {
++            args.push(Operand::Constant(ConstOperand {
++                span: source.span(body.blocks()),
++                user_ty: None,
++                const_: MirConst::from_bool(matches!(operand, Operand::Move(_))),
++            }));
++        }
+         let terminator = Terminator {
+             kind: TerminatorKind::Call {
+                 func: Operand::Copy(Place::from(body.new_local(
+@@ -676,15 +720,7 @@ fn build_argument_operation(
+                     source.span(body.blocks()),
+                     Mutability::Not,
+                 ))),
+-                args: vec![
+-                    operand,
+-                    Operand::Constant(ConstOperand {
+-                        span: source.span(body.blocks()),
+-                        user_ty: None,
+-                        const_: MirConst::try_from_uint(argument_no as u128, UintTy::Usize)
+-                            .unwrap(),
+-                    }),
+-                ],
++                args,
+                 destination: ret_place.clone(),
+                 target: Some(0), // this will be overriden in add_bb
+                 unwind: UnwindAction::Terminate,
+@@ -716,6 +752,7 @@ fn build_assign_union(
+             *pointee_info.ty(),
+         );
+         let (from, to) = operation.expect_assign_union_operands(body, &mut statements, source);
++        let mask = mk_layout_operand(body, &mut statements, source, &pointee_info.transfer_mask());
+         let terminator = Terminator {
+             kind: TerminatorKind::Call {
+                 func: Operand::Copy(Place::from(body.new_local(
+@@ -723,7 +760,19 @@ fn build_assign_union(
+                     source.span(body.blocks()),
+                     Mutability::Not,
+                 ))),
+-                args: vec![from, to],
++                args: vec![
++                    from,
++                    to,
++                    mask,
++                    Operand::Constant(ConstOperand {
++                        span: source.span(body.blocks()),
++                        user_ty: None,
++                        const_: MirConst::from_bool(matches!(
++                            &operation,
++                            MemoryInitOp::AssignUnion { rvalue: Operand::Move(_), .. }
++                        )),
++                    }),
++                ],
+                 destination: ret_place.clone(),
+                 target: Some(0), // this will be overriden in add_bb
+                 unwind: UnwindAction::Terminate,
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 3f7ea62044fe27297cc74c7ba01b70647751fd50..386c73e3eba710cb386d6567baf8610bb3e5a84a 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -13,7 +13,7 @@
+             relevant_instruction::{InitRelevantInstruction, MemoryInitOp, constant_init_mask},
+             ty_layout::{
+                 LayoutComputationError, maybe_uninit_storage, tys_layout_compatible_to_size,
+-                wrapper_inner,
++                union_storage, wrapper_inner,
+             },
+         },
+     },
+@@ -42,6 +42,20 @@ pub struct CheckUninitVisitor<'tcx> {
+     current_target: InitRelevantInstruction,
+ }
+ 
++#[derive(Default)]
++struct MoveSourceCollector {
++    places: Vec<Place>,
++}
++
++impl MirVisitor for MoveSourceCollector {
++    fn visit_operand(&mut self, operand: &Operand, location: Location) {
++        if let Operand::Move(place) = operand {
++            self.places.push(place.clone());
++        }
++        self.super_operand(operand, location);
++    }
++}
++
+ impl TargetFinder for CheckUninitVisitor<'_> {
+     fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
+         self.locals = body.locals().to_vec();
+@@ -61,13 +75,29 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
+                 }
+             };
+             if bb_idx == 0 {
++                // Validate by-value formals and the return place even when their values are
++                // never assigned or transferred in the body. Flat MaybeUninit storage keeps
++                // its dedicated validation path in `for_storage`.
++                for local in body.locals().iter().take(body.arg_count() + 1) {
++                    if let Some(reason) = self.union_as_field_error(local.ty) {
++                        self.push_target(MemoryInitOp::Unsupported {
++                            reason: format!(
++                                "Checking memory initialization of type {} is not supported. {reason}",
++                                local.ty
++                            ),
++                        });
++                    }
++                }
+                 let union_args: Vec<_> = body
+                     .locals()
+                     .iter()
+                     .enumerate()
+                     .skip(1)
+                     .take(body.arg_count())
+-                    .filter(|(_, local)| self.transfers_shadow(local.ty))
++                    .filter(|(_, local)| {
++                        self.transfers_shadow(local.ty)
++                            && self.union_as_field_error(local.ty).is_none()
++                    })
+                     .collect();
+                 if !union_args.is_empty() {
+                     for (idx, _) in union_args {
+@@ -104,7 +134,64 @@ fn push_target(&mut self, source_op: MemoryInitOp) {
+     }
+ 
+     fn transfers_shadow(&self, ty: Ty) -> bool {
+-        ty.kind().is_union() || maybe_uninit_storage(self.tcx, ty).is_some()
++        union_storage(self.tcx, ty)
++    }
++
++    /// Fail closed on G2 nested-union layouts, while letting flat MaybeUninit storage use its
++    /// dedicated `for_storage` validation path.
++    fn union_as_field_error(&self, ty: Ty) -> Option<LayoutComputationError> {
++        if maybe_uninit_storage(self.tcx, ty).is_some() {
++            return None;
++        }
++        match PointeeInfo::from_ty(ty) {
++            Err(reason @ LayoutComputationError::UnionAsField(_)) => Some(reason),
++            _ => None,
++        }
++    }
++
++    /// Whether a call argument can let the callee access storage whose byte shadow we track.
++    fn touches_shadow(&self, ty: Ty) -> bool {
++        self.transfers_shadow(ty)
++            || match ty.kind() {
++                TyKind::RigidTy(RigidTy::RawPtr(pointee, _))
++                | TyKind::RigidTy(RigidTy::Ref(_, pointee, _)) => self.transfers_shadow(pointee),
++                _ => false,
++            }
++    }
++
++    fn pointer_or_reference(&self, ty: Ty) -> bool {
++        matches!(ty.kind(), TyKind::RigidTy(RigidTy::RawPtr(..) | RigidTy::Ref(..)))
++    }
++
++    fn shadow_pointer(&self, operand: &Operand) -> bool {
++        match operand.ty(&self.locals).ok().map(|ty| ty.kind().clone()) {
++            Some(TyKind::RigidTy(RigidTy::RawPtr(pointee, _))) => self.transfers_shadow(pointee),
++            _ => false,
++        }
++    }
++
++    /// Mark moved-from non-union fields uninitialized after their source checks and before the
++    /// assignment. Whole-union sources use the paired storage-transfer operation instead.
++    fn clear_move_sources(&mut self, rvalue: &Rvalue, location: Location) {
++        let mut collector = MoveSourceCollector::default();
++        collector.visit_rvalue(rvalue, location);
++        for place in collector.places {
++            if place.ty(&self.locals).unwrap().kind().is_union() {
++                continue;
++            }
++            self.push_target(MemoryInitOp::SetRef {
++                operand: Operand::Copy(place),
++                value: false,
++                position: InsertPosition::Before,
++            });
++        }
++    }
++
++    fn union_pointer(&self, operand: &Operand) -> bool {
++        matches!(
++            operand.ty(&self.locals).ok().map(|ty| ty.kind().clone()),
++            Some(TyKind::RigidTy(RigidTy::RawPtr(pointee, _))) if pointee.kind().is_union()
++        )
+     }
+ 
+     /// Locate the first union on the projection path, including a union at the end.
+@@ -121,6 +208,13 @@ fn enclosing_union(&self, place: &Place) -> Option<Ty> {
+         ty.kind().is_union().then_some(ty)
+     }
+ 
++    /// True when a raw pointer value is stored in a projection inside a union arm. `Check` on
++    /// this place checks the pointer's pointee; `CheckRef` checks the pointer value's own bytes.
++    fn is_union_field_pointer(&self, place: &Place) -> bool {
++        place.ty(&self.locals).is_ok_and(|ty| ty.kind().is_raw_ptr())
++            && self.enclosing_union(place).is_some()
++    }
++
+     fn assign_storage_operand(&mut self, place: &Place, operand: &Operand) {
+         if let Some(initialized) = constant_init_mask(operand) {
+             self.push_target(MemoryInitOp::SetStorage {
+@@ -143,11 +237,11 @@ fn assign_storage_operand(&mut self, place: &Place, operand: &Operand) {
+ 
+     fn unsupported_storage_assignment(&mut self) {
+         self.push_target(MemoryInitOp::Unsupported {
+-            reason: "Kani does not support this assignment to MaybeUninit storage.".to_string(),
++            reason: "Kani does not support this assignment to tracked storage.".to_string(),
+         });
+     }
+ 
+-    fn assign_storage(&mut self, place: &Place, ty: Ty, rvalue: &Rvalue) {
++    fn assign_storage(&mut self, place: &Place, ty: Ty, rvalue: &Rvalue, location: Location) {
+         match rvalue {
+             Rvalue::Cast(CastKind::Transmute, operand, target)
+                 if let Some(initialized) = self.typed_storage_mask(operand, *target) =>
+@@ -165,6 +259,7 @@ fn assign_storage(&mut self, place: &Place, ty: Ty, rvalue: &Rvalue) {
+             Rvalue::Aggregate(AggregateKind::Adt(def, _, _, _, Some(field)), _)
+                 if def.kind() == AdtKind::Union =>
+             {
++                self.clear_move_sources(rvalue, location);
+                 self.push_target(MemoryInitOp::CreateUnion {
+                     operand: Operand::Copy(place.clone()),
+                     field: *field,
+@@ -208,6 +303,10 @@ fn assign_storage(&mut self, place: &Place, ty: Ty, rvalue: &Rvalue) {
+                     // Copy its byte state to each slot using the array's static element stride.
+                     let TyKind::RigidTy(RigidTy::Array(_, len)) = ty.kind() else { unreachable!() };
+                     let len = len.eval_target_usize().unwrap();
++                    let source_operand = match operand {
++                        Operand::Move(source) => Operand::Copy(source.clone()),
++                        _ => operand.clone(),
++                    };
+                     for index in 0..len {
+                         let mut element = place.clone();
+                         element.projection.push(ProjectionElem::ConstantIndex {
+@@ -215,7 +314,16 @@ fn assign_storage(&mut self, place: &Place, ty: Ty, rvalue: &Rvalue) {
+                             min_length: len,
+                             from_end: false,
+                         });
+-                        self.assign_storage_operand(&element, operand);
++                        self.assign_storage_operand(&element, &source_operand);
++                    }
++                    if let Operand::Move(source) = operand {
++                        let source_size =
++                            source.ty(&self.locals).unwrap().layout().unwrap().shape().size;
++                        self.push_target(MemoryInitOp::SetStorage {
++                            operand: Operand::Copy(source.clone()),
++                            initialized: vec![false; source_size],
++                            position: InsertPosition::After,
++                        });
+                     }
+                 } else {
+                     self.unsupported_storage_assignment();
+@@ -308,6 +416,7 @@ fn visit_ordinary_assignment(
+         rvalue: &Rvalue,
+         ty: Ty,
+         in_union: bool,
++        location: Location,
+     ) {
+         // Check whether we are assigning into a dereference (*ptr = _).
+         if let Some(place_without_deref) = try_remove_topmost_deref(place) {
+@@ -322,6 +431,11 @@ fn visit_ordinary_assignment(
+                     && let TyKind::RigidTy(RigidTy::RawPtr(..)) =
+                         place_to_add_projections.ty(&self.locals).unwrap().kind()
+                 {
++                    if self.is_union_field_pointer(&place_to_add_projections) {
++                        self.push_target(MemoryInitOp::CheckRef {
++                            operand: Operand::Copy(place_to_add_projections.clone()),
++                        });
++                    }
+                     self.push_target(MemoryInitOp::Check {
+                         operand: Operand::Copy(place_to_add_projections.clone()),
+                     });
+@@ -329,6 +443,11 @@ fn visit_ordinary_assignment(
+                 place_to_add_projections.projection.push(projection_elem.clone());
+             }
+             if place_without_deref.ty(&self.locals).unwrap().kind().is_raw_ptr() {
++                if self.is_union_field_pointer(&place_without_deref) {
++                    self.push_target(MemoryInitOp::CheckRef {
++                        operand: Operand::Copy(place_without_deref.clone()),
++                    });
++                }
+                 self.push_target(MemoryInitOp::Set {
+                     operand: Operand::Copy(place_without_deref),
+                     value: true,
+@@ -340,10 +459,8 @@ fn visit_ordinary_assignment(
+         if ty.kind().is_raw_ptr()
+             && let Rvalue::AddressOf(_, addressed) = rvalue
+             && !self.address_of_raw_deref(addressed)
+-            && !self.enclosing_union(addressed).is_some_and(|union| {
+-                wrapper_inner(self.tcx, union, LangItem::MaybeUninit).is_some()
+-            })
+-            && maybe_uninit_storage(self.tcx, addressed.ty(&self.locals).unwrap()).is_none()
++            && self.enclosing_union(addressed).is_none()
++            && !self.transfers_shadow(addressed.ty(&self.locals).unwrap())
+         {
+             self.push_target(MemoryInitOp::Set {
+                 operand: Operand::Copy(place.clone()),
+@@ -352,45 +469,17 @@ fn visit_ordinary_assignment(
+             });
+         }
+ 
+-        // Need to copy some information about union initialization, since lvalue is
+-        // either a union or a field inside a union.
++        // A projected write changes only the bytes of the projected field. The operation
++        // computes the field's typed data mask, clearing padding inside that field extent while
++        // preserving bytes outside it. Whole-union assignments are handled through
++        // assign_storage above.
+         if in_union {
+-            match rvalue {
+-                Rvalue::Use(operand, _) => {
+-                    // This is a union-to-union assignment, so we need to copy the
+-                    // initialization state.
+-                    if place.ty(&self.locals).unwrap().kind().is_union() {
+-                        self.push_target(MemoryInitOp::AssignUnion {
+-                            lvalue: place.clone(),
+-                            rvalue: operand.clone(),
+-                            position: InsertPosition::After,
+-                        });
+-                    } else {
+-                        // This is assignment to a field of a union.
+-                        self.push_target(MemoryInitOp::SetRef {
+-                            operand: Operand::Copy(place.clone()),
+-                            value: true,
+-                            position: InsertPosition::After,
+-                        });
+-                    }
+-                }
+-                Rvalue::Aggregate(AggregateKind::Adt(adt_def, _, _, _, union_field), _) => {
+-                    // Create a union from scratch as an aggregate. We handle it here because we
+-                    // need to know which field is getting assigned.
+-                    if adt_def.kind() == AdtKind::Union {
+-                        self.push_target(MemoryInitOp::CreateUnion {
+-                            operand: Operand::Copy(place.clone()),
+-                            field: union_field.unwrap(), // Safe to unwrap because we know this is a union.
+-                        });
+-                    }
+-                }
+-                // TODO: add support for Rvalue::Cast, etc.
+-                _ => self.push_target(MemoryInitOp::Unsupported {
+-                    reason:
+-                        "Performing a union assignment with a non-supported construct as an Rvalue"
+-                            .to_string(),
+-                }),
+-            }
++            self.clear_move_sources(rvalue, location);
++            self.push_target(MemoryInitOp::SetRef {
++                operand: Operand::Copy(place.clone()),
++                value: true,
++                position: InsertPosition::After,
++            });
+         }
+     }
+ }
+@@ -419,8 +508,8 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+                     .is_some_and(|ty| wrapper_inner(self.tcx, ty, LangItem::MaybeUninit).is_some());
+ 
+                 // Reject nested unions before the generic shadow update can treat them as values.
+-                if maybe_uninit_storage(self.tcx, ty).is_some() {
+-                    self.assign_storage(place, ty, rvalue);
++                if self.transfers_shadow(ty) {
++                    self.assign_storage(place, ty, rvalue, location);
+                 } else if let Err(reason @ LayoutComputationError::UnionAsField(_)) =
+                     PointeeInfo::from_ty(ty)
+                 {
+@@ -430,13 +519,14 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+                         ),
+                     });
+                 } else if in_maybe_uninit {
++                    self.clear_move_sources(rvalue, location);
+                     self.push_target(MemoryInitOp::SetRef {
+                         operand: Operand::Copy(place.clone()),
+                         value: true,
+                         position: InsertPosition::After,
+                     });
+                 } else {
+-                    self.visit_ordinary_assignment(place, rvalue, ty, union.is_some());
++                    self.visit_ordinary_assignment(place, rvalue, ty, union.is_some(), location);
+                 }
+             }
+             StatementKind::FakeRead(_, _)
+@@ -482,22 +572,73 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                 let instance = match try_resolve_instance(&self.locals, func) {
+                     Ok(instance) => instance,
+                     Err(reason) => {
+-                        self.super_terminator(term, location);
+                         self.push_target(MemoryInitOp::Unsupported { reason });
++                        self.targets.push(self.current_target.clone());
+                         return;
+                     }
+                 };
++                let instance_name = instance.name();
++                if let Some((ty, reason)) = args.iter().find_map(|arg| {
++                    let ty = arg.ty(&self.locals).unwrap();
++                    self.union_as_field_error(ty).map(|reason| (ty, reason))
++                }) {
++                    self.push_target(MemoryInitOp::Unsupported {
++                        reason: format!(
++                            "Checking memory initialization of type {ty} is not supported. {reason}"
++                        ),
++                    });
++                    self.targets.push(self.current_target.clone());
++                    return;
++                }
++                if instance.kind == InstanceKind::Intrinsic
++                    && instance.intrinsic_name().as_deref() == Some("select_unpredictable")
++                    && args.iter().any(|arg| self.transfers_shadow(arg.ty(&self.locals).unwrap()))
++                {
++                    self.push_target(MemoryInitOp::Unsupported {
++                        reason: "Kani does not support select_unpredictable of union storage."
++                            .to_string(),
++                    });
++                    self.targets.push(self.current_target.clone());
++                    return;
++                }
+                 // Forget consumes its argument without reading or returning any bytes; it
+                 // already has an explicit no-effect model below. Other bodyless transfers
+                 // need an actual shadow model, not an unpaired argument-buffer store.
+                 let modeled_consumption = instance.kind == InstanceKind::Intrinsic
+                     && matches!(Intrinsic::from_instance(&instance), Intrinsic::Forget);
+-                if !instance.has_body()
+-                    && !modeled_consumption
+-                    && args.iter().any(|arg| self.transfers_shadow(arg.ty(&self.locals).unwrap()))
++                if modeled_consumption {
++                    for arg in args {
++                        if let Operand::Move(source) = arg {
++                            let ty = arg.ty(&self.locals).unwrap();
++                            if self.transfers_shadow(ty) {
++                                let size = ty.layout().unwrap().shape().size;
++                                self.push_target(MemoryInitOp::SetStorage {
++                                    operand: Operand::Copy(source.clone()),
++                                    initialized: vec![false; size],
++                                    position: InsertPosition::Before,
++                                });
++                            }
++                        }
++                    }
++                }
++                let modeled_foreign_memory_effect = matches!(
++                    instance_name.as_str(),
++                    "alloc::alloc::__rust_alloc"
++                        | "alloc::alloc::__rust_realloc"
++                        | "alloc::alloc::__rust_alloc_zeroed"
++                        | "alloc::alloc::__rust_dealloc"
++                );
++                let has_unmodeled_memory_args = args.iter().any(|arg| {
++                    let ty = arg.ty(&self.locals).unwrap();
++                    self.touches_shadow(ty) || self.pointer_or_reference(ty)
++                });
++                if instance.kind == InstanceKind::Item
++                    && !modeled_foreign_memory_effect
++                    && (instance.is_foreign_item()
++                        || (!instance.has_body() && has_unmodeled_memory_args))
+                 {
+                     self.push_target(MemoryInitOp::Unsupported {
+-                        reason: "Kani does not support shadow-carrying arguments to calls without a MIR body."
++                        reason: "Kani does not support foreign mutation of union storage without an effect model."
+                             .to_string(),
+                     });
+                     // In particular, do not leave an unconsumed store for the next call.
+@@ -505,8 +646,8 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                     return;
+                 }
+                 let destination_ty = destination.ty(&self.locals).unwrap();
+-                if maybe_uninit_storage(self.tcx, destination_ty).is_some() {
+-                    if instance.kind == InstanceKind::Item && instance.has_body() {
++                if self.transfers_shadow(destination_ty) && instance.kind == InstanceKind::Item {
++                    if instance.has_body() {
+                         self.push_target(MemoryInitOp::LoadArgument {
+                             operand: Operand::Copy(destination.clone()),
+                             argument_no: 0,
+@@ -514,11 +655,25 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                         });
+                     } else {
+                         self.push_target(MemoryInitOp::Unsupported {
+-                            reason: "Kani does not support MaybeUninit return values from calls without a MIR body."
++                            reason: "Kani does not support union storage returned from calls without a MIR body."
+                                 .to_string(),
+                         });
+                     }
+                 }
++                if instance.kind == InstanceKind::Intrinsic
++                    && !modeled_consumption
++                    && can_skip_intrinsic(Intrinsic::from_instance(&instance))
++                    && (args.iter().any(|arg| self.transfers_shadow(arg.ty(&self.locals).unwrap()))
++                        || self.transfers_shadow(destination_ty))
++                {
++                    self.push_target(MemoryInitOp::Unsupported {
++                        reason:
++                            "Kani does not support unpaired intrinsic transfers of union storage."
++                                .to_string(),
++                    });
++                    self.targets.push(self.current_target.clone());
++                    return;
++                }
+                 match instance.kind {
+                     InstanceKind::Intrinsic => {
+                         match Intrinsic::from_instance(&instance) {
+@@ -573,23 +728,54 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                                 });
+                             }
+                             Intrinsic::TypedSwap
+-                                if let TyKind::RigidTy(RigidTy::RawPtr(ty, _)) =
+-                                    args[0].ty(&self.locals).unwrap().kind()
+-                                    && maybe_uninit_storage(self.tcx, ty).is_some() =>
++                                if args.iter().any(|arg| self.shadow_pointer(arg)) =>
+                             {
++                                let kind = if args.iter().any(|arg| self.union_pointer(arg)) {
++                                    "union"
++                                } else {
++                                    "MaybeUninit"
++                                };
+                                 self.push_target(MemoryInitOp::Unsupported {
+-                                    reason:
+-                                        "Kani does not support typed_swap of MaybeUninit storage."
+-                                            .to_string(),
++                                    reason: format!(
++                                        "Kani does not support typed_swap of {kind} storage."
++                                    ),
+                                 });
+                             }
+                             Intrinsic::TypedSwap => {
+                                 self.push_target(MemoryInitOp::Check { operand: args[0].clone() });
+                                 self.push_target(MemoryInitOp::Check { operand: args[1].clone() });
+                             }
++                            Intrinsic::VolatileLoad | Intrinsic::UnalignedVolatileLoad
++                                if self.shadow_pointer(&args[0]) =>
++                            {
++                                let kind = if self.union_pointer(&args[0]) {
++                                    "union"
++                                } else {
++                                    "MaybeUninit"
++                                };
++                                self.push_target(MemoryInitOp::Unsupported {
++                                    reason: format!(
++                                        "Kani does not support volatile loads of {kind} storage."
++                                    ),
++                                });
++                            }
+                             Intrinsic::VolatileLoad | Intrinsic::UnalignedVolatileLoad => {
+                                 self.push_target(MemoryInitOp::Check { operand: args[0].clone() });
+                             }
++                            Intrinsic::VolatileStore | Intrinsic::UnalignedVolatileStore
++                                if self.shadow_pointer(&args[0]) =>
++                            {
++                                let kind = if self.union_pointer(&args[0]) {
++                                    "union"
++                                } else {
++                                    "MaybeUninit"
++                                };
++                                self.push_target(MemoryInitOp::Unsupported {
++                                    reason: format!(
++                                        "Kani does not support volatile stores of {kind} storage."
++                                    ),
++                                });
++                            }
+                             Intrinsic::VolatileStore | Intrinsic::UnalignedVolatileStore => {
+                                 self.push_target(MemoryInitOp::Set {
+                                     operand: args[0].clone(),
+@@ -668,21 +854,31 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                 // When drop is codegen'ed for types that could define their own dropping
+                 // behavior, a reference is taken to the place which is later implicitly coerced
+                 // to a pointer. Hence, we need to bless this pointer as initialized.
+-                match place
+-                    .ty(&self.locals)
+-                    .unwrap()
+-                    .kind()
+-                    .rigid()
+-                    .expect("should be working with monomorphized code")
++                if let Err(reason @ LayoutComputationError::UnionAsField(_)) =
++                    PointeeInfo::from_ty(place_ty)
+                 {
+-                    RigidTy::Adt(..) | RigidTy::Dynamic(_, _) => {
+-                        self.push_target(MemoryInitOp::SetRef {
+-                            operand: Operand::Copy(place.clone()),
+-                            value: true,
+-                            position: InsertPosition::Before,
+-                        });
++                    self.push_target(MemoryInitOp::Unsupported {
++                        reason: format!(
++                            "Checking memory initialization of type {place_ty} is not supported. {reason}"
++                        ),
++                    });
++                } else {
++                    match place_ty
++                        .kind()
++                        .rigid()
++                        .expect("should be working with monomorphized code")
++                    {
++                        RigidTy::Adt(..) | RigidTy::Dynamic(_, _)
++                            if !place_ty.kind().is_union() =>
++                        {
++                            self.push_target(MemoryInitOp::SetRef {
++                                operand: Operand::Copy(place.clone()),
++                                value: true,
++                                position: InsertPosition::Before,
++                            });
++                        }
++                        _ => {}
+                     }
+-                    _ => {}
+                 }
+ 
+                 if place_ty.kind().is_raw_ptr() {
+@@ -695,8 +891,7 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+             }
+             TerminatorKind::Return => {
+                 let return_place = Place::from(0);
+-                if maybe_uninit_storage(self.tcx, return_place.ty(&self.locals).unwrap()).is_some()
+-                {
++                if self.transfers_shadow(return_place.ty(&self.locals).unwrap()) {
+                     self.push_target(MemoryInitOp::StoreArgument {
+                         operand: Operand::Copy(return_place),
+                         argument_no: 0,
+@@ -717,6 +912,7 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+     }
+ 
+     fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location) {
++        let mut reads_union_field = false;
+         for (idx, elem) in place.projection.iter().enumerate() {
+             let intermediate_place =
+                 Place { local: place.local, projection: place.projection[..idx].to_vec() };
+@@ -724,6 +920,11 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+                 ProjectionElem::Deref => {
+                     let ptr_ty = intermediate_place.ty(&self.locals).unwrap();
+                     if ptr_ty.kind().is_raw_ptr() {
++                        if self.is_union_field_pointer(&intermediate_place) {
++                            self.push_target(MemoryInitOp::CheckRef {
++                                operand: Operand::Copy(intermediate_place.clone()),
++                            });
++                        }
+                         self.push_target(MemoryInitOp::Check {
+                             operand: Operand::Copy(intermediate_place.clone()),
+                         });
+@@ -732,19 +933,7 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+                 ProjectionElem::Field(_, _) => {
+                     let union_ty = intermediate_place.ty(&self.locals).unwrap();
+                     if union_ty.kind().is_union() && !ptx.is_mutating() {
+-                        if wrapper_inner(self.tcx, union_ty, LangItem::MaybeUninit).is_none()
+-                            && place.projection.contains(&ProjectionElem::Deref)
+-                        {
+-                            // We do not currently support having a deref projection in the same
+-                            // place as union field access.
+-                            self.push_target(MemoryInitOp::Unsupported {
+-                                reason: "Kani does not yet support performing a dereference on a union field".to_string(),
+-                            });
+-                        }
+-                        // Accessing a place inside the union, need to check if it is initialized.
+-                        self.push_target(MemoryInitOp::CheckRef {
+-                            operand: Operand::Copy(place.clone()),
+-                        });
++                        reads_union_field = true;
+                     }
+                 }
+                 ProjectionElem::Index(_)
+@@ -756,6 +945,11 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+                 ProjectionElem::OpaqueCast(_) => {}
+             }
+         }
++        if reads_union_field {
++            // Check the selected projection only after any union-held pointers used to form its
++            // address have had their own bytes checked above.
++            self.push_target(MemoryInitOp::CheckRef { operand: Operand::Copy(place.clone()) });
++        }
+         self.super_place(place, ptx, location)
+     }
+ 
+@@ -793,9 +987,10 @@ fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
+         if let Rvalue::AddressOf(_, place) = rvalue
+             && self.enclosing_union(place).is_some_and(|union| {
+                 wrapper_inner(self.tcx, union, LangItem::MaybeUninit).is_some()
++                    || union.kind().is_union()
+             })
+         {
+-            // A raw address into the value field of a local slot also leaves shadow unchanged.
++            // Taking an address into tracked storage does not read or initialize its payload.
+             return;
+         }
+         if let Rvalue::Ref(_, _, place) = rvalue
+@@ -825,6 +1020,11 @@ fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
+                         // data mask once, including false padding bytes.
+                     } else if self.maybe_uninit_transmute(operand, *ty) {
+                         // Initialization was checked against the destination's data bytes.
++                    } else if operand_ty.kind().is_union() || ty.kind().is_union() {
++                        self.push_target(MemoryInitOp::TriviallyUnsafe {
++                            reason: "Transmuting between types of incompatible layouts."
++                                .to_string(),
++                        });
+                     } else if !tys_layout_compatible_to_size(&operand_ty, ty) {
+                         // If transmuting between two types of incompatible layouts, padding
+                         // bytes are exposed, which is UB.
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+index c1f1eb5ef858efd590ab3f3e0e988767b79e27a3..c56cb7b76862bc41ee10b42986727be87f80a1f8 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+@@ -217,27 +217,6 @@ pub fn expect_value(&self) -> bool {
+         }
+     }
+ 
+-    pub fn union_field(&self) -> Option<FieldIdx> {
+-        match self {
+-            MemoryInitOp::CreateUnion { field, .. } => Some(*field),
+-            MemoryInitOp::Check { .. }
+-            | MemoryInitOp::CheckAs { .. }
+-            | MemoryInitOp::CheckSliceChunk { .. }
+-            | MemoryInitOp::CheckRef { .. }
+-            | MemoryInitOp::CheckRefAs { .. }
+-            | MemoryInitOp::Set { .. }
+-            | MemoryInitOp::SetSliceChunk { .. }
+-            | MemoryInitOp::SetRef { .. }
+-            | MemoryInitOp::SetStorage { .. }
+-            | MemoryInitOp::Unsupported { .. }
+-            | MemoryInitOp::TriviallyUnsafe { .. }
+-            | MemoryInitOp::Copy { .. }
+-            | MemoryInitOp::AssignUnion { .. }
+-            | MemoryInitOp::StoreArgument { .. }
+-            | MemoryInitOp::LoadArgument { .. } => None,
+-        }
+-    }
+-
+     pub fn position(&self) -> InsertPosition {
+         match self {
+             MemoryInitOp::Set { position, .. }
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+index ab08539d8255cb6222fd44a6e818c56424deb085..8daeb43c43bf7b9817be0cbfb0f9905a31b21446 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+@@ -49,7 +49,7 @@ pub enum PointeeLayout {
+     /// Layout of slices, *const/mut str is included in this case and treated as *const/mut [u8].
+     Slice { element_layout: Layout },
+     /// Layout of unions, which are shared storage for multiple fields of potentially different layouts.
+-    Union { field_layouts: Vec<Layout> },
++    Union { field_layouts: Vec<Layout>, field_offsets: Vec<usize>, storage_size: usize },
+     /// Trait objects have an arbitrary layout.
+     TraitObject,
+ }
+@@ -60,9 +60,7 @@ pub fn maybe_size(&self) -> Option<usize> {
+         match self {
+             PointeeLayout::Sized { layout } => Some(layout.len()),
+             PointeeLayout::Slice { element_layout } => Some(element_layout.len()),
+-            PointeeLayout::Union { field_layouts } => {
+-                Some(field_layouts.iter().map(|field_layout| field_layout.len()).max().unwrap())
+-            }
++            PointeeLayout::Union { storage_size, .. } => Some(*storage_size),
+             PointeeLayout::TraitObject => None,
+         }
+     }
+@@ -130,8 +128,14 @@ pub(super) fn maybe_uninit_storage(tcx: TyCtxt, ty: Ty) -> Option<Ty> {
+ impl PointeeInfo {
+     /// Layout for copying storage or writing every byte with a bytewise intrinsic.
+     pub(super) fn for_storage(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputationError> {
+-        let inner = maybe_uninit_storage(tcx, ty).unwrap();
+-        data_bytes_for_ty(&MachineInfo::target(), inner, 0)?;
++        if let Some(inner) = maybe_uninit_storage(tcx, ty) {
++            validate_layout_type(inner, false)?;
++            data_bytes_for_ty(&MachineInfo::target(), inner, 0)?;
++        } else {
++            // A direct union is storage; its by-value children must still be ordinary types.
++            Self::from_ty(ty)?;
++            assert!(ty.kind().is_union());
++        }
+         let layout = if let TyKind::RigidTy(RigidTy::Slice(slot)) = ty.kind() {
+             let size = slot.layout().unwrap().shape().size.bytes();
+             PointeeLayout::Slice { element_layout: vec![true; size] }
+@@ -143,6 +147,8 @@ pub(super) fn for_storage(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputation
+     }
+ 
+     pub fn from_ty(ty: Ty) -> Result<Self, LayoutComputationError> {
++        // Validate type structure before ABI shortcuts, including zero-sized and scalar ABIs.
++        validate_layout_type(ty, true)?;
+         match ty.kind() {
+             TyKind::RigidTy(rigid_ty) => match rigid_ty {
+                 RigidTy::Adt(adt_def, args) if adt_def.kind() == AdtKind::Union => {
+@@ -159,9 +165,27 @@ pub fn from_ty(ty: Ty) -> Result<Self, LayoutComputationError> {
+                                 .map(|data_chunks| generate_byte_mask(size_in_bytes, data_chunks))
+                         })
+                         .collect();
++                    let field_layouts: Vec<Layout> = fields?;
++                    let shape = ty.layout().unwrap().shape();
++                    let storage_size = shape.size.bytes();
++                    let field_offsets: Vec<usize> = match shape.fields {
++                        // This rustc shape explicitly denotes shared, zero-offset storage.
++                        FieldsShape::Union(_) => vec![0; field_layouts.len()],
++                        FieldsShape::Arbitrary { offsets } => {
++                            offsets.iter().map(|offset| offset.bytes()).collect()
++                        }
++                        _ => return Err(LayoutComputationError::UnsupportedType(ty)),
++                    };
++                    if field_offsets.len() != field_layouts.len()
++                        || field_offsets.iter().zip(&field_layouts).any(|(offset, field)| {
++                            offset.checked_add(field.len()).is_none_or(|end| end > storage_size)
++                        })
++                    {
++                        return Err(LayoutComputationError::UnsupportedType(ty));
++                    }
+                     Ok(PointeeInfo {
+                         pointee_ty: ty,
+-                        layout: PointeeLayout::Union { field_layouts: fields? },
++                        layout: PointeeLayout::Union { field_layouts, field_offsets, storage_size },
+                     })
+                 }
+                 RigidTy::Str => {
+@@ -203,6 +227,23 @@ pub fn from_ty(ty: Ty) -> Result<Self, LayoutComputationError> {
+         }
+     }
+ 
++    /// Typed union transfers preserve possible data bytes, never uncovered padding/tail.
++    /// This is a preservation mask, not evidence that any source byte is initialized.
++    pub(super) fn transfer_mask(&self) -> Vec<bool> {
++        match &self.layout {
++            PointeeLayout::Union { field_layouts, field_offsets, storage_size } => {
++                let mut mask = vec![false; *storage_size];
++                for (offset, field) in field_offsets.iter().zip(field_layouts) {
++                    for (byte, data) in mask.iter_mut().skip(*offset).zip(field) {
++                        *byte |= *data;
++                    }
++                }
++                mask
++            }
++            _ => vec![true; self.layout.maybe_size().unwrap()],
++        }
++    }
++
+     pub fn ty(&self) -> &Ty {
+         &self.pointee_ty
+     }
+@@ -212,6 +253,56 @@ pub fn layout(&self) -> &PointeeLayout {
+     }
+ }
+ 
++/// Storage classification only. Every use must validate with `from_ty` / `for_storage`.
++pub(super) fn union_storage(tcx: TyCtxt, ty: Ty) -> bool {
++    ty.kind().is_union() || maybe_uninit_storage(tcx, ty).is_some()
++}
++
++/// Reject unsupported structural types before a zero-sized/scalar ABI can hide them.
++fn validate_layout_type(ty: Ty, allow_union: bool) -> Result<(), LayoutComputationError> {
++    match ty.kind().rigid().expect("expected a monomorphized type") {
++        RigidTy::Adt(def, args) => {
++            if def.kind() == AdtKind::Union && !allow_union {
++                return Err(LayoutComputationError::UnionAsField(ty));
++            }
++            for variant in def.variants_iter() {
++                for field in variant.fields() {
++                    validate_layout_type(field.ty_with_args(args), false)?;
++                }
++            }
++            if def.kind() == AdtKind::Enum {
++                // Even [UnsupportedEnum; 0] and scalar-ABI niches retain their guard.
++                if matches!(
++                    ty.layout().unwrap().shape().variants,
++                    VariantsShape::Multiple { tag_encoding: TagEncoding::Niche { .. }, .. }
++                ) {
++                    return Err(LayoutComputationError::EnumWithNicheEncoding(ty));
++                }
++                data_bytes_for_ty(&MachineInfo::target(), ty, 0)?;
++            }
++            Ok(())
++        }
++        RigidTy::Array(element, _) | RigidTy::Slice(element) | RigidTy::Pat(element, _) => {
++            validate_layout_type(*element, false)
++        }
++        RigidTy::Tuple(fields) => {
++            for field in fields {
++                validate_layout_type(*field, false)?;
++            }
++            Ok(())
++        }
++        RigidTy::FnDef(..)
++        | RigidTy::FnPtr(..)
++        | RigidTy::Closure(..)
++        | RigidTy::Coroutine(..)
++        | RigidTy::CoroutineClosure(..)
++        | RigidTy::CoroutineWitness(..)
++        | RigidTy::Foreign(..) => Err(LayoutComputationError::UnsupportedType(ty)),
++        // A pointer is data; do not recurse into the storage of its pointee.
++        _ => Ok(()),
++    }
++}
++
+ /// Retrieve a set of data bytes with offsets for a type.
+ fn data_bytes_for_ty(
+     machine_info: &MachineInfo,
+@@ -371,7 +462,11 @@ fn data_bytes_for_ty(
+                 RigidTy::Pat(base_ty, ..) => {
+                     // This is similar to a structure with one field and with niche defined.
+                     let mut pat_data_bytes = vec![];
+-                    pat_data_bytes.append(&mut data_bytes_for_ty(machine_info, *base_ty, 0)?);
++                    pat_data_bytes.append(&mut data_bytes_for_ty(
++                        machine_info,
++                        *base_ty,
++                        current_offset,
++                    )?);
+                     Ok(pat_data_bytes)
+                 }
+                 RigidTy::Tuple(tys) => {
+diff --git a/library/kani_core/src/mem_init.rs b/library/kani_core/src/mem_init.rs
+index 6f832d4c651f8770a46327beb6e4a957b06c1166..a2dc5546a063e07d52c6eba275c6041c7f072f04 100644
+--- a/library/kani_core/src/mem_init.rs
++++ b/library/kani_core/src/mem_init.rs
+@@ -42,6 +42,7 @@ struct MemoryInitializationState {
+             pub argument_buffer_saved_object_id: usize,
+             pub argument_buffer_saved_offset: usize,
+             pub argument_buffer_layout_size: usize,
++            pub argument_buffer_moved: bool,
+         }
+ 
+         impl MemoryInitializationState {
+@@ -57,6 +58,7 @@ pub const fn new() -> Self {
+                     argument_buffer_saved_object_id: 0,
+                     argument_buffer_saved_offset: 0,
+                     argument_buffer_layout_size: 0,
++                    argument_buffer_moved: false,
+                 }
+             }
+ 
+@@ -107,6 +109,45 @@ pub fn set<const LAYOUT_SIZE: usize>(
+                 }
+             }
+ 
++            /// Intersect the tracked destination state with a typed-transfer preservation mask.
++            /// Unlike `set`, this never changes a false data byte into a true one.
++            #[kanitool::disable_checks(pointer)]
++            pub fn retain<const LAYOUT_SIZE: usize>(
++                &mut self,
++                ptr: *const u8,
++                layout: Layout<LAYOUT_SIZE>,
++            ) {
++                let obj = super::mem::pointer_object(ptr);
++                let offset = super::mem::pointer_offset(ptr);
++                if self.tracked_object_id == obj
++                    && self.tracked_offset >= offset
++                    && self.tracked_offset < offset + LAYOUT_SIZE
++                {
++                    self.value &= layout[self.tracked_offset - offset];
++                }
++            }
++
++            /// A MIR Move deinitializes source-only bytes; the destination wins on overlap.
++            /// Identities are captured before a move/return, without reading expired pointers.
++            #[kanitool::disable_checks(pointer)]
++            pub fn clear_moved_source<const LAYOUT_SIZE: usize>(
++                &mut self,
++                from_obj: usize,
++                from_offset: usize,
++                to_obj: usize,
++                to_offset: usize,
++            ) {
++                if self.tracked_object_id == from_obj
++                    && self.tracked_offset >= from_offset
++                    && self.tracked_offset < from_offset + LAYOUT_SIZE
++                    && !(self.tracked_object_id == to_obj
++                        && self.tracked_offset >= to_offset
++                        && self.tracked_offset < to_offset + LAYOUT_SIZE)
++                {
++                    self.value = false;
++                }
++            }
++
+             /// Copy memory initialization state by non-deterministically switching the tracked object and
+             /// adjusting the tracked offset.
+             #[kanitool::disable_checks(pointer)]
+@@ -393,15 +434,38 @@ fn copy_init_state<const LAYOUT_SIZE: usize, T>(
+         /// this case `LAYOUT_SIZE == size_of::<T>`.
+         #[kanitool::disable_checks(pointer)]
+         #[kanitool::fn_marker = "CopyInitStateSingleModel"]
+-        fn copy_init_state_single<const LAYOUT_SIZE: usize, T>(from: *const T, to: *const T) {
++        fn copy_init_state_single<const LAYOUT_SIZE: usize, T>(
++            from: *const T,
++            to: *const T,
++            preserve: Layout<LAYOUT_SIZE>,
++            is_move: bool,
++        ) {
++            if LAYOUT_SIZE == 0 {
++                return;
++            }
+             copy_init_state::<LAYOUT_SIZE, T>(from, to, 1);
++            unsafe {
++                MEM_INIT_STATE.retain(to as *const u8, preserve);
++                if is_move {
++                    MEM_INIT_STATE.clear_moved_source::<LAYOUT_SIZE>(
++                        super::mem::pointer_object(from),
++                        super::mem::pointer_offset(from),
++                        super::mem::pointer_object(to),
++                        super::mem::pointer_offset(to),
++                    );
++                }
++            }
+         }
+ 
+         /// Non-deterministically store information about currently tracked argument in the argument
+         /// buffer.
+         #[kanitool::disable_checks(pointer)]
+         #[kanitool::fn_marker = "StoreArgumentModel"]
+-        fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument: usize) {
++        fn store_argument<const LAYOUT_SIZE: usize, T>(
++            from: *const T,
++            selected_argument: usize,
++            is_move: bool,
++        ) {
+             let (from_ptr, _) = from.to_raw_parts();
+             let saved_object_id = super::mem::pointer_object(from_ptr);
+             let saved_offset = super::mem::pointer_offset(from_ptr);
+@@ -412,6 +476,7 @@ fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument
+                     MEM_INIT_STATE.argument_buffer_saved_object_id = saved_object_id;
+                     MEM_INIT_STATE.argument_buffer_saved_offset = saved_offset;
+                     MEM_INIT_STATE.argument_buffer_layout_size = LAYOUT_SIZE;
++                    MEM_INIT_STATE.argument_buffer_moved = is_move;
+                     MEM_INIT_STATE.argument_buffer_active = true;
+                 }
+             }
+@@ -423,7 +488,11 @@ fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument
+         /// another non-deterministic branch. Reset the argument buffer after loading from it.
+         #[kanitool::disable_checks(pointer)]
+         #[kanitool::fn_marker = "LoadArgumentModel"]
+-        fn load_argument<const LAYOUT_SIZE: usize, T>(to: *const T, selected_argument: usize) {
++        fn load_argument<const LAYOUT_SIZE: usize, T>(
++            to: *const T,
++            selected_argument: usize,
++            preserve: Layout<LAYOUT_SIZE>,
++        ) {
+             let (to_ptr, _) = to.to_raw_parts();
+             if unsafe {
+                 MEM_INIT_STATE.argument_buffer_active
+@@ -434,6 +503,7 @@ fn load_argument<const LAYOUT_SIZE: usize, T>(to: *const T, selected_argument: u
+                 let buffer_saved_object_id =
+                     unsafe { MEM_INIT_STATE.argument_buffer_saved_object_id };
+                 let buffer_saved_offset = unsafe { MEM_INIT_STATE.argument_buffer_saved_offset };
++                let is_move = unsafe { MEM_INIT_STATE.argument_buffer_moved };
+                 let to_object_id = super::mem::pointer_object(to_ptr);
+                 let to_offset = super::mem::pointer_offset(to_ptr);
+                 unsafe {
+@@ -445,11 +515,21 @@ fn load_argument<const LAYOUT_SIZE: usize, T>(to: *const T, selected_argument: u
+                         1,
+                     );
+                     MEM_INIT_STATE.argument_buffer_active = false;
++                    MEM_INIT_STATE.retain(to_ptr as *const u8, preserve);
++                    if is_move {
++                        MEM_INIT_STATE.clear_moved_source::<LAYOUT_SIZE>(
++                            buffer_saved_object_id,
++                            buffer_saved_offset,
++                            to_object_id,
++                            to_offset,
++                        );
++                    }
+                 }
+                 return;
+             }
+             unsafe {
+                 MEM_INIT_STATE.bless::<LAYOUT_SIZE>(to_ptr as *const u8, 1);
++                MEM_INIT_STATE.retain(to_ptr as *const u8, preserve);
+             }
+         }
+     };
+diff --git a/tests/expected/uninit/g1-union-pointee-negative/expected b/tests/expected/uninit/g1-union-pointee-negative/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..c0ad973e9d7eca5e6fc7b29a44855196ab9f711b
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-negative/expected
+@@ -0,0 +1,352 @@
++unwritten_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++unwritten_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++narrow_then_wide_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++narrow_then_wide_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++whole_copy_partial_assign_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++whole_copy_partial_assign_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++whole_copy_partial_ptr_read_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++whole_copy_partial_ptr_read_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++whole_move_source_uninit_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++whole_move_source_uninit_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++argument_move_source_uninit_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++argument_move_source_uninit_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++whole_move_partial_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++whole_move_partial_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++whole_copy_partial_nonoverlap_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++whole_copy_partial_nonoverlap_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++whole_copy_partial_overlapping_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++whole_copy_partial_overlapping_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++whole_reset_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++whole_reset_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++whole_reset_alias_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++whole_reset_alias_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++argument_return_partial_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++argument_return_partial_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++argument_return_partial_reused_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++argument_return_partial_reused_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++argument_return_partial_mixed_size_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++argument_return_partial_mixed_size_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++padded_byte_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++padded_byte_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++padded_typed_transfer_padding_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++padded_typed_transfer_padding_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++padded_argument_return_padding_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++padded_argument_return_padding_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++array_field_unwritten_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
++
++array_field_unwritten_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
++
++array_padded_byte_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++array_padded_byte_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++array_padded_elements_byte_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++array_padded_elements_byte_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++zst_whole_reset_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++zst_whole_reset_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++align_tail_typed_copy_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++align_tail_typed_copy_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++align_tail_argument_return_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++align_tail_argument_return_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++align_tail_reset_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++align_tail_reset_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++
++address_no_bless_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++address_no_bless_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++pointer_pointee_uninit_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++pointer_pointee_uninit_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++pointer_compound_read_uninit_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`"
++
++pointer_compound_read_uninit_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`"
++
++pointer_compound_store_uninit_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`"
++
++pointer_compound_store_uninit_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`"
++
++pointer_compound_read_after_reset_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`"
++
++pointer_compound_read_after_reset_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`"
++
++pointer_delayed_partial_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++pointer_delayed_partial_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++pointer_field_value_uninit_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`"
++
++pointer_field_value_uninit_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`"
++
++fat_pointer_field_value_uninit_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`"
++
++fat_pointer_field_value_uninit_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`"
++
++field_move_constructor_source_uninit_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++field_move_constructor_source_uninit_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++field_move_projection_source_uninit_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++field_move_projection_source_uninit_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++intrinsic_forget_move_source_uninit_c.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++intrinsic_forget_move_source_uninit_rust.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++
++Summary:
++Verification failed for - unwritten_c
++Verification failed for - unwritten_rust
++Verification failed for - narrow_then_wide_c
++Verification failed for - narrow_then_wide_rust
++Verification failed for - whole_copy_partial_assign_c
++Verification failed for - whole_copy_partial_assign_rust
++Verification failed for - whole_copy_partial_ptr_read_c
++Verification failed for - whole_copy_partial_ptr_read_rust
++Verification failed for - whole_move_source_uninit_c
++Verification failed for - whole_move_source_uninit_rust
++Verification failed for - argument_move_source_uninit_c
++Verification failed for - argument_move_source_uninit_rust
++Verification failed for - whole_move_partial_c
++Verification failed for - whole_move_partial_rust
++Verification failed for - whole_copy_partial_nonoverlap_c
++Verification failed for - whole_copy_partial_nonoverlap_rust
++Verification failed for - whole_copy_partial_overlapping_c
++Verification failed for - whole_copy_partial_overlapping_rust
++Verification failed for - whole_reset_c
++Verification failed for - whole_reset_rust
++Verification failed for - whole_reset_alias_c
++Verification failed for - whole_reset_alias_rust
++Verification failed for - argument_return_partial_c
++Verification failed for - argument_return_partial_rust
++Verification failed for - argument_return_partial_reused_c
++Verification failed for - argument_return_partial_reused_rust
++Verification failed for - argument_return_partial_mixed_size_c
++Verification failed for - argument_return_partial_mixed_size_rust
++Verification failed for - padded_byte_c
++Verification failed for - padded_byte_rust
++Verification failed for - padded_typed_transfer_padding_c
++Verification failed for - padded_typed_transfer_padding_rust
++Verification failed for - padded_argument_return_padding_c
++Verification failed for - padded_argument_return_padding_rust
++Verification failed for - array_field_unwritten_c
++Verification failed for - array_field_unwritten_rust
++Verification failed for - array_padded_byte_c
++Verification failed for - array_padded_byte_rust
++Verification failed for - array_padded_elements_byte_c
++Verification failed for - array_padded_elements_byte_rust
++Verification failed for - zst_whole_reset_c
++Verification failed for - zst_whole_reset_rust
++Verification failed for - align_tail_typed_copy_c
++Verification failed for - align_tail_typed_copy_rust
++Verification failed for - align_tail_argument_return_c
++Verification failed for - align_tail_argument_return_rust
++Verification failed for - align_tail_reset_c
++Verification failed for - align_tail_reset_rust
++Verification failed for - address_no_bless_c
++Verification failed for - address_no_bless_rust
++Verification failed for - pointer_pointee_uninit_c
++Verification failed for - pointer_pointee_uninit_rust
++Verification failed for - pointer_compound_read_uninit_c
++Verification failed for - pointer_compound_read_uninit_rust
++Verification failed for - pointer_compound_store_uninit_c
++Verification failed for - pointer_compound_store_uninit_rust
++Verification failed for - pointer_compound_read_after_reset_c
++Verification failed for - pointer_compound_read_after_reset_rust
++Verification failed for - pointer_delayed_partial_c
++Verification failed for - pointer_delayed_partial_rust
++Verification failed for - pointer_field_value_uninit_c
++Verification failed for - pointer_field_value_uninit_rust
++Verification failed for - fat_pointer_field_value_uninit_c
++Verification failed for - fat_pointer_field_value_uninit_rust
++Verification failed for - field_move_constructor_source_uninit_c
++Verification failed for - field_move_constructor_source_uninit_rust
++Verification failed for - field_move_projection_source_uninit_c
++Verification failed for - field_move_projection_source_uninit_rust
++Verification failed for - intrinsic_forget_move_source_uninit_c
++Verification failed for - intrinsic_forget_move_source_uninit_rust
++Complete - 0 successfully verified harnesses, 70 failures, 70 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-negative/main.rs b/tests/expected/uninit/g1-union-pointee-negative/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..5079d48082983a602140eec45e71c3754313ba99
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-negative/main.rs
+@@ -0,0 +1,794 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++#![feature(core_intrinsics)]
++
++use std::mem::ManuallyDrop;
++use std::ptr;
++
++#[repr(C)]
++#[derive(Clone, Copy)]
++struct Padded {
++    byte: u8,
++    word: u32,
++}
++#[repr(C)]
++#[derive(Clone, Copy)]
++union CU {
++    wide: u32,
++    narrow: u8,
++    z: (),
++    pair: [u16; 2],
++    padded: ManuallyDrop<Padded>,
++    tuple: ManuallyDrop<(u8, u32)>,
++    padded_pair: [ManuallyDrop<Padded>; 2],
++    zst_array: [(); 2],
++    ptr: *mut u32,
++    fat: *const [u8],
++}
++#[derive(Clone, Copy)]
++union RU {
++    wide: u32,
++    narrow: u8,
++    z: (),
++    pair: [u16; 2],
++    padded: ManuallyDrop<Padded>,
++    tuple: ManuallyDrop<(u8, u32)>,
++    padded_pair: [ManuallyDrop<Padded>; 2],
++    zst_array: [(); 2],
++    ptr: *mut u32,
++    fat: *const [u8],
++}
++#[repr(C, align(8))]
++#[derive(Clone, Copy)]
++union TailC {
++    bytes: [u8; 5],
++    word: u32,
++}
++#[repr(align(8))]
++#[derive(Clone, Copy)]
++union TailR {
++    bytes: [u8; 5],
++    word: u32,
++}
++
++unsafe fn tail_c_padding(p: *const TailC) -> *const u8 {
++    unsafe {
++        p.cast::<u8>().add(std::mem::offset_of!(TailC, bytes) + std::mem::size_of::<[u8; 5]>())
++    }
++}
++unsafe fn tail_r_padding(p: *const TailR) -> *const u8 {
++    unsafe {
++        p.cast::<u8>().add(std::mem::offset_of!(TailR, bytes) + std::mem::size_of::<[u8; 5]>())
++    }
++}
++
++#[kani::proof]
++fn unwritten_c() {
++    let u = CU { z: () };
++    let p = &u as *const CU;
++    unsafe {
++        let _value = (*p).wide;
++    }
++}
++#[kani::proof]
++fn unwritten_rust() {
++    let u = RU { z: () };
++    let p = &u as *const RU;
++    unsafe {
++        let _value = (*p).wide;
++    }
++}
++#[kani::proof]
++fn narrow_then_wide_c() {
++    let mut u = CU { narrow: 9 };
++    let p = &mut u as *mut CU;
++    unsafe {
++        (*p).narrow = 10;
++        let _value = (*p).wide;
++    }
++}
++#[kani::proof]
++fn narrow_then_wide_rust() {
++    let mut u = RU { narrow: 9 };
++    let p = &mut u as *mut RU;
++    unsafe {
++        (*p).narrow = 10;
++        let _value = (*p).wide;
++    }
++}
++
++#[kani::proof]
++fn whole_copy_partial_assign_c() {
++    let src = CU { z: () };
++    let mut dst = CU { wide: 1 };
++    unsafe {
++        *(&mut dst as *mut CU) = *(&src as *const CU);
++        let _value = (*(&dst as *const CU)).wide;
++    }
++}
++#[kani::proof]
++fn whole_copy_partial_assign_rust() {
++    let src = RU { z: () };
++    let mut dst = RU { wide: 1 };
++    unsafe {
++        *(&mut dst as *mut RU) = *(&src as *const RU);
++        let _value = (*(&dst as *const RU)).wide;
++    }
++}
++#[kani::proof]
++fn whole_copy_partial_ptr_read_c() {
++    let src = CU { z: () };
++    let dst = unsafe { ptr::read(&src) };
++    let _value = unsafe { (*(&dst as *const CU)).wide };
++}
++#[kani::proof]
++fn whole_copy_partial_ptr_read_rust() {
++    let src = RU { z: () };
++    let dst = unsafe { ptr::read(&src) };
++    let _value = unsafe { (*(&dst as *const RU)).wide };
++}
++union MoveC {
++    wide: u32,
++    narrow: u8,
++    z: (),
++}
++union MoveR {
++    wide: u32,
++    narrow: u8,
++    z: (),
++}
++#[kani::proof]
++fn whole_move_source_uninit_c() {
++    let src = MoveC { wide: 173 };
++    let p = ptr::addr_of!(src);
++    let _dst = src;
++    unsafe {
++        let _moved_from = (*p).wide;
++    }
++}
++#[kani::proof]
++fn whole_move_source_uninit_rust() {
++    let src = MoveR { wide: 179 };
++    let p = ptr::addr_of!(src);
++    let _dst = src;
++    unsafe {
++        let _moved_from = (*p).wide;
++    }
++}
++#[inline(never)]
++fn consume_move_c(_value: MoveC) {}
++#[inline(never)]
++fn consume_move_rust(_value: MoveR) {}
++#[kani::proof]
++fn argument_move_source_uninit_c() {
++    let src = MoveC { wide: 181 };
++    let p = ptr::addr_of!(src);
++    consume_move_c(src);
++    unsafe {
++        let _moved_from = (*p).wide;
++    }
++}
++#[kani::proof]
++fn argument_move_source_uninit_rust() {
++    let src = MoveR { wide: 191 };
++    let p = ptr::addr_of!(src);
++    consume_move_rust(src);
++    unsafe {
++        let _moved_from = (*p).wide;
++    }
++}
++#[kani::proof]
++fn whole_move_partial_c() {
++    let src = MoveC { z: () };
++    let dst = src;
++    unsafe {
++        let _value = dst.wide;
++    }
++}
++#[kani::proof]
++fn whole_move_partial_rust() {
++    let src = MoveR { z: () };
++    let dst = src;
++    unsafe {
++        let _value = dst.wide;
++    }
++}
++#[kani::proof]
++fn whole_copy_partial_nonoverlap_c() {
++    let src = CU { z: () };
++    let mut dst = CU { wide: 3 };
++    unsafe {
++        ptr::copy_nonoverlapping(&src, &mut dst, 1);
++        let _value = (*(&dst as *const CU)).wide;
++    }
++}
++#[kani::proof]
++fn whole_copy_partial_nonoverlap_rust() {
++    let src = RU { z: () };
++    let mut dst = RU { wide: 3 };
++    unsafe {
++        ptr::copy_nonoverlapping(&src, &mut dst, 1);
++        let _value = (*(&dst as *const RU)).wide;
++    }
++}
++#[kani::proof]
++fn whole_copy_partial_overlapping_c() {
++    let mut b = RawBacking([0u8; 32]);
++    let base = b.0.as_mut_ptr();
++    unsafe {
++        ptr::write(base.cast::<CU>(), CU { z: () });
++        ptr::copy(base, base.add(1), std::mem::size_of::<CU>());
++        let _value = *base.add(1);
++    }
++}
++#[kani::proof]
++fn whole_copy_partial_overlapping_rust() {
++    let mut b = RawBacking([0u8; 32]);
++    let base = b.0.as_mut_ptr();
++    unsafe {
++        ptr::write(base.cast::<RU>(), RU { z: () });
++        ptr::copy(base, base.add(1), std::mem::size_of::<RU>());
++        let _value = *base.add(1);
++    }
++}
++
++#[kani::proof]
++fn whole_reset_c() {
++    let mut u = CU { wide: 0x12345678 };
++    let p = &mut u as *mut CU;
++    unsafe {
++        ptr::write(p, CU { narrow: 1 });
++        let _value = (*p).wide;
++    }
++}
++#[kani::proof]
++fn whole_reset_rust() {
++    let mut u = RU { wide: 0x12345678 };
++    let p = &mut u as *mut RU;
++    unsafe {
++        ptr::write(p, RU { narrow: 1 });
++        let _value = (*p).wide;
++    }
++}
++#[kani::proof]
++fn whole_reset_alias_c() {
++    let mut u = CU { wide: 0x12345678 };
++    let p = &mut u as *mut CU;
++    let alias = p;
++    unsafe {
++        ptr::write(p, CU { narrow: 1 });
++        let _value = (*alias).wide;
++    }
++}
++#[kani::proof]
++fn whole_reset_alias_rust() {
++    let mut u = RU { wide: 0x12345678 };
++    let p = &mut u as *mut RU;
++    let alias = p;
++    unsafe {
++        ptr::write(p, RU { narrow: 1 });
++        let _value = (*alias).wide;
++    }
++}
++
++#[inline(never)]
++fn identity_c(x: CU) -> CU {
++    x
++}
++#[inline(never)]
++fn identity_rust(x: RU) -> RU {
++    x
++}
++#[kani::proof]
++fn argument_return_partial_c() {
++    let x = identity_c(CU { z: () });
++    let _value = unsafe { x.wide };
++}
++#[kani::proof]
++fn argument_return_partial_rust() {
++    let x = identity_rust(RU { z: () });
++    let _value = unsafe { x.wide };
++}
++#[inline(never)]
++fn pair_identity_c(a: CU, _b: CU) -> CU {
++    identity_c(a)
++}
++#[inline(never)]
++fn pair_identity_rust(a: RU, _b: RU) -> RU {
++    identity_rust(a)
++}
++#[kani::proof]
++fn argument_return_partial_reused_c() {
++    let mut destination = pair_identity_c(CU { wide: 1 }, CU { z: () });
++    destination = pair_identity_c(CU { z: () }, CU { wide: 2 });
++    let _value = unsafe { destination.wide };
++}
++#[kani::proof]
++fn argument_return_partial_reused_rust() {
++    let mut destination = pair_identity_rust(RU { wide: 1 }, RU { z: () });
++    destination = pair_identity_rust(RU { z: () }, RU { wide: 2 });
++    let _value = unsafe { destination.wide };
++}
++
++#[inline(never)]
++fn pair_mixed_c(a: CU, _b: TailC) -> CU {
++    a
++}
++#[inline(never)]
++fn pair_mixed_rust(a: RU, _b: TailR) -> RU {
++    a
++}
++#[kani::proof]
++fn argument_return_partial_mixed_size_c() {
++    let value = pair_mixed_c(CU { z: () }, TailC { bytes: [1; 5] });
++    let _read = unsafe { value.wide };
++}
++#[kani::proof]
++fn argument_return_partial_mixed_size_rust() {
++    let value = pair_mixed_rust(RU { z: () }, TailR { bytes: [1; 5] });
++    let _read = unsafe { value.wide };
++}
++#[kani::proof]
++fn padded_byte_c() {
++    let u = CU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) };
++    let p = &u as *const CU;
++    unsafe {
++        let padding = ptr::addr_of!((*p).padded.word).cast::<u8>().sub(1);
++        let _padding = *padding;
++    }
++}
++#[kani::proof]
++fn padded_byte_rust() {
++    let u = RU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) };
++    let p = &u as *const RU;
++    unsafe {
++        let padding = ptr::addr_of!((*p).padded.word).cast::<u8>().sub(1);
++        let _padding = *padding;
++    }
++}
++#[kani::proof]
++fn padded_typed_transfer_padding_c() {
++    let mut src = CU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) };
++    let mut dst = CU { z: () };
++    unsafe {
++        ptr::write_bytes((&mut src as *mut CU).cast::<u8>(), 0x5a, std::mem::size_of::<CU>());
++        ptr::write(&mut dst, ptr::read(&src));
++        let p = &dst as *const CU;
++        let padding = ptr::addr_of!((*p).padded.word).cast::<u8>().sub(1);
++        let _padding = *padding;
++    }
++}
++#[kani::proof]
++fn padded_typed_transfer_padding_rust() {
++    let mut src = RU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) };
++    let mut dst = RU { z: () };
++    unsafe {
++        ptr::write_bytes((&mut src as *mut RU).cast::<u8>(), 0x5a, std::mem::size_of::<RU>());
++        ptr::write(&mut dst, ptr::read(&src));
++        let p = &dst as *const RU;
++        let padding = ptr::addr_of!((*p).padded.word).cast::<u8>().sub(1);
++        let _padding = *padding;
++    }
++}
++#[inline(never)]
++fn padded_identity_c(x: CU) -> CU {
++    x
++}
++#[inline(never)]
++fn padded_identity_rust(x: RU) -> RU {
++    x
++}
++#[kani::proof]
++fn padded_argument_return_padding_c() {
++    let mut src = CU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) };
++    unsafe {
++        ptr::write_bytes((&mut src as *mut CU).cast::<u8>(), 0x5a, std::mem::size_of::<CU>());
++    }
++    let u = padded_identity_c(src);
++    let p = &u as *const CU;
++    unsafe {
++        let padding = ptr::addr_of!((*p).padded.word).cast::<u8>().sub(1);
++        let _padding = *padding;
++    }
++}
++#[kani::proof]
++fn padded_argument_return_padding_rust() {
++    let mut src = RU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) };
++    unsafe {
++        ptr::write_bytes((&mut src as *mut RU).cast::<u8>(), 0x5a, std::mem::size_of::<RU>());
++    }
++    let u = padded_identity_rust(src);
++    let p = &u as *const RU;
++    unsafe {
++        let padding = ptr::addr_of!((*p).padded.word).cast::<u8>().sub(1);
++        let _padding = *padding;
++    }
++}
++
++#[kani::proof]
++fn array_field_unwritten_c() {
++    let u = CU { z: () };
++    let p = &u as *const CU;
++    unsafe {
++        let _value = (*p).pair[1];
++    }
++}
++#[kani::proof]
++fn array_field_unwritten_rust() {
++    let u = RU { z: () };
++    let p = &u as *const RU;
++    unsafe {
++        let _value = (*p).pair[1];
++    }
++}
++#[kani::proof]
++fn array_padded_byte_c() {
++    let u = CU { padded: ManuallyDrop::new(Padded { byte: 1, word: 2 }) };
++    let p = (&u as *const CU).cast::<u8>();
++    unsafe {
++        let _padding = *p.add(1);
++    }
++}
++#[kani::proof]
++fn array_padded_byte_rust() {
++    let u = RU { padded: ManuallyDrop::new(Padded { byte: 1, word: 2 }) };
++    let p = (&u as *const RU).cast::<u8>();
++    unsafe {
++        let _padding = *p.add(1);
++    }
++}
++#[kani::proof]
++fn array_padded_elements_byte_c() {
++    let u = CU {
++        padded_pair: [
++            ManuallyDrop::new(Padded { byte: 1, word: 2 }),
++            ManuallyDrop::new(Padded { byte: 3, word: 5 }),
++        ],
++    };
++    let p = &u as *const CU;
++    unsafe {
++        let padding = ptr::addr_of!((*p).padded_pair[1].word).cast::<u8>().sub(1);
++        let _padding = *padding;
++    }
++}
++#[kani::proof]
++fn array_padded_elements_byte_rust() {
++    let u = RU {
++        padded_pair: [
++            ManuallyDrop::new(Padded { byte: 1, word: 2 }),
++            ManuallyDrop::new(Padded { byte: 3, word: 5 }),
++        ],
++    };
++    let p = &u as *const RU;
++    unsafe {
++        let padding = ptr::addr_of!((*p).padded_pair[1].word).cast::<u8>().sub(1);
++        let _padding = *padding;
++    }
++}
++
++#[kani::proof]
++fn zst_whole_reset_c() {
++    let mut u = CU { wide: 0x76543210 };
++    let p = &mut u as *mut CU;
++    unsafe {
++        ptr::write(p, CU { z: () });
++        let _value = (*p).wide;
++    }
++}
++#[kani::proof]
++fn zst_whole_reset_rust() {
++    let mut u = RU { wide: 0x76543210 };
++    let p = &mut u as *mut RU;
++    unsafe {
++        ptr::write(p, RU { z: () });
++        let _value = (*p).wide;
++    }
++}
++
++#[repr(align(8))]
++struct RawBacking([u8; 32]);
++#[kani::proof]
++fn align_tail_typed_copy_c() {
++    let mut b = RawBacking([0u8; 32]);
++    let p = b.0.as_mut_ptr().cast::<TailC>();
++    unsafe {
++        ptr::write(p, TailC { bytes: [0x5a; 5] });
++        ptr::write_bytes(p.cast::<u8>(), 0x5a, std::mem::size_of::<TailC>());
++        let value = ptr::read(p);
++        ptr::write(p.add(1), value);
++        let _tail = *tail_c_padding(p.add(1));
++    }
++}
++#[kani::proof]
++fn align_tail_typed_copy_rust() {
++    let mut b = RawBacking([0u8; 32]);
++    let p = b.0.as_mut_ptr().cast::<TailR>();
++    unsafe {
++        ptr::write(p, TailR { bytes: [0x5a; 5] });
++        ptr::write_bytes(p.cast::<u8>(), 0x5a, std::mem::size_of::<TailR>());
++        let value = ptr::read(p);
++        ptr::write(p.add(1), value);
++        let _tail = *tail_r_padding(p.add(1));
++    }
++}
++#[inline(never)]
++fn tail_identity_c(x: TailC) -> TailC {
++    x
++}
++#[inline(never)]
++fn tail_identity_rust(x: TailR) -> TailR {
++    x
++}
++#[kani::proof]
++fn align_tail_argument_return_c() {
++    let mut src = TailC { bytes: [1; 5] };
++    unsafe {
++        ptr::write_bytes((&mut src as *mut TailC).cast::<u8>(), 0x5a, std::mem::size_of::<TailC>());
++    }
++    let u = tail_identity_c(src);
++    unsafe {
++        let _tail = *tail_c_padding(&u as *const TailC);
++    }
++}
++#[kani::proof]
++fn align_tail_argument_return_rust() {
++    let mut src = TailR { bytes: [1; 5] };
++    unsafe {
++        ptr::write_bytes((&mut src as *mut TailR).cast::<u8>(), 0x5a, std::mem::size_of::<TailR>());
++    }
++    let u = tail_identity_rust(src);
++    unsafe {
++        let _tail = *tail_r_padding(&u as *const TailR);
++    }
++}
++#[kani::proof]
++fn align_tail_reset_c() {
++    let mut b = RawBacking([0u8; 32]);
++    let p = b.0.as_mut_ptr().cast::<TailC>();
++    unsafe {
++        ptr::write_bytes(p.cast::<u8>(), 0x5a, std::mem::size_of::<TailC>());
++        ptr::write(p, TailC { bytes: [1; 5] });
++        let _tail = *tail_c_padding(p);
++    }
++}
++#[kani::proof]
++fn align_tail_reset_rust() {
++    let mut b = RawBacking([0u8; 32]);
++    let p = b.0.as_mut_ptr().cast::<TailR>();
++    unsafe {
++        ptr::write_bytes(p.cast::<u8>(), 0x5a, std::mem::size_of::<TailR>());
++        ptr::write(p, TailR { bytes: [1; 5] });
++        let _tail = *tail_r_padding(p);
++    }
++}
++
++#[kani::proof]
++fn address_no_bless_c() {
++    let u = CU { z: () };
++    let p = &u as *const CU;
++    let _address = unsafe { ptr::addr_of!((*p).wide) };
++    unsafe {
++        let _value = (*p).wide;
++    }
++}
++#[kani::proof]
++fn address_no_bless_rust() {
++    let u = RU { z: () };
++    let p = &u as *const RU;
++    let _address = unsafe { ptr::addr_of!((*p).wide) };
++    unsafe {
++        let _value = (*p).wide;
++    }
++}
++
++#[kani::proof]
++fn pointer_pointee_uninit_c() {
++    let mut target = std::mem::MaybeUninit::<u32>::uninit();
++    let mut u = CU { ptr: target.as_mut_ptr() };
++    let p = &mut u as *mut CU;
++    unsafe {
++        (*p).ptr = target.as_mut_ptr();
++        let q = (*p).ptr;
++        let _value = *q;
++    }
++}
++#[kani::proof]
++fn pointer_pointee_uninit_rust() {
++    let mut target = std::mem::MaybeUninit::<u32>::uninit();
++    let mut u = RU { ptr: target.as_mut_ptr() };
++    let p = &mut u as *mut RU;
++    unsafe {
++        (*p).ptr = target.as_mut_ptr();
++        let q = (*p).ptr;
++        let _value = *q;
++    }
++}
++#[kani::proof]
++fn pointer_compound_read_uninit_c() {
++    let u = CU { z: () };
++    let p = &u as *const CU;
++    unsafe {
++        let _value = *(*p).ptr;
++    }
++}
++#[kani::proof]
++fn pointer_compound_read_uninit_rust() {
++    let u = RU { z: () };
++    let p = &u as *const RU;
++    unsafe {
++        let _value = *(*p).ptr;
++    }
++}
++#[kani::proof]
++fn pointer_compound_store_uninit_c() {
++    let mut u = CU { z: () };
++    let p = &mut u as *mut CU;
++    unsafe {
++        *(*p).ptr = 113;
++    }
++}
++#[kani::proof]
++fn pointer_compound_store_uninit_rust() {
++    let mut u = RU { z: () };
++    let p = &mut u as *mut RU;
++    unsafe {
++        *(*p).ptr = 127;
++    }
++}
++#[kani::proof]
++fn pointer_compound_read_after_reset_c() {
++    let mut target = 131u32;
++    let mut u = CU { ptr: &mut target };
++    let p = &mut u as *mut CU;
++    unsafe {
++        ptr::write(p, CU { z: () });
++        let _value = *(*p).ptr;
++    }
++}
++#[kani::proof]
++fn pointer_compound_read_after_reset_rust() {
++    let mut target = 137u32;
++    let mut u = RU { ptr: &mut target };
++    let p = &mut u as *mut RU;
++    unsafe {
++        ptr::write(p, RU { z: () });
++        let _value = *(*p).ptr;
++    }
++}
++#[kani::proof]
++fn pointer_delayed_partial_c() {
++    let src = CU { z: () };
++    let mut local = 37u32;
++    let holder = identity_c(CU { ptr: &mut local });
++    let q = holder.ptr;
++    unsafe {
++        ptr::copy_nonoverlapping(
++            (&src as *const CU).cast::<u8>(),
++            q.cast::<u8>(),
++            std::mem::size_of::<u32>(),
++        );
++    }
++    assert_eq!(local, 37);
++}
++#[kani::proof]
++fn pointer_delayed_partial_rust() {
++    let src = RU { z: () };
++    let mut local = 41u32;
++    let holder = identity_rust(RU { ptr: &mut local });
++    let q = holder.ptr;
++    unsafe {
++        ptr::copy_nonoverlapping(
++            (&src as *const RU).cast::<u8>(),
++            q.cast::<u8>(),
++            std::mem::size_of::<u32>(),
++        );
++    }
++    assert_eq!(local, 41);
++}
++#[kani::proof]
++fn pointer_field_value_uninit_c() {
++    let u = CU { z: () };
++    unsafe {
++        let _pointer = (*(&u as *const CU)).ptr;
++    }
++}
++#[kani::proof]
++fn pointer_field_value_uninit_rust() {
++    let u = RU { z: () };
++    unsafe {
++        let _pointer = (*(&u as *const RU)).ptr;
++    }
++}
++#[kani::proof]
++fn fat_pointer_field_value_uninit_c() {
++    let u = CU { z: () };
++    unsafe {
++        let _pointer = (*(&u as *const CU)).fat;
++    }
++}
++#[kani::proof]
++fn fat_pointer_field_value_uninit_rust() {
++    let u = RU { z: () };
++    unsafe {
++        let _pointer = (*(&u as *const RU)).fat;
++    }
++}
++
++#[repr(C)]
++struct NonCopyWord {
++    word: u32,
++}
++union NonCopyFieldC {
++    value: ManuallyDrop<NonCopyWord>,
++    z: (),
++}
++union NonCopyFieldR {
++    value: ManuallyDrop<NonCopyWord>,
++    z: (),
++}
++
++#[kani::proof]
++fn field_move_constructor_source_uninit_c() {
++    let source = ManuallyDrop::new(NonCopyWord { word: 193 });
++    let source_word = ptr::addr_of!(source).cast::<u32>();
++    let union = NonCopyFieldC { value: source };
++    std::mem::forget(union);
++    unsafe {
++        let _moved_from = *source_word;
++    }
++}
++#[kani::proof]
++fn field_move_constructor_source_uninit_rust() {
++    let source = ManuallyDrop::new(NonCopyWord { word: 197 });
++    let source_word = ptr::addr_of!(source).cast::<u32>();
++    let union = NonCopyFieldR { value: source };
++    std::mem::forget(union);
++    unsafe {
++        let _moved_from = *source_word;
++    }
++}
++#[kani::proof]
++fn field_move_projection_source_uninit_c() {
++    let source = ManuallyDrop::new(NonCopyWord { word: 199 });
++    let source_word = ptr::addr_of!(source).cast::<u32>();
++    let mut union = NonCopyFieldC { z: () };
++    let union_ptr = &mut union as *mut NonCopyFieldC;
++    unsafe {
++        (*union_ptr).value = source;
++        std::mem::forget(union);
++        let _moved_from = *source_word;
++    }
++}
++#[kani::proof]
++fn field_move_projection_source_uninit_rust() {
++    let source = ManuallyDrop::new(NonCopyWord { word: 211 });
++    let source_word = ptr::addr_of!(source).cast::<u32>();
++    let mut union = NonCopyFieldR { z: () };
++    let union_ptr = &mut union as *mut NonCopyFieldR;
++    unsafe {
++        (*union_ptr).value = source;
++        std::mem::forget(union);
++        let _moved_from = *source_word;
++    }
++}
++
++#[kani::proof]
++fn intrinsic_forget_move_source_uninit_c() {
++    let src = MoveC { wide: 239 };
++    let p = ptr::addr_of!(src);
++    unsafe {
++        std::intrinsics::forget(src);
++        let _moved_from = (*p).wide;
++    }
++}
++#[kani::proof]
++fn intrinsic_forget_move_source_uninit_rust() {
++    let src = MoveR { wide: 241 };
++    let p = ptr::addr_of!(src);
++    unsafe {
++        std::intrinsics::forget(src);
++        let _moved_from = (*p).wide;
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-positive/expected b/tests/expected/uninit/g1-union-pointee-positive/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..08c7706e42eac48d44ecb2886c26d6fbb6b53ae8
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-positive/expected
+@@ -0,0 +1 @@
++Complete - 63 successfully verified harnesses, 0 failures, 63 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-positive/main.rs b/tests/expected/uninit/g1-union-pointee-positive/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..f476c00303e99a5d463141a2e729e21a0f86b406
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-positive/main.rs
+@@ -0,0 +1,685 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::ManuallyDrop;
++use std::ptr;
++
++#[repr(C)]
++#[derive(Clone, Copy)]
++struct Padded {
++    byte: u8,
++    word: u32,
++}
++
++#[repr(C)]
++#[derive(Clone, Copy)]
++union CU {
++    wide: u32,
++    narrow: u8,
++    z: (),
++    pair: [u16; 2],
++    padded: ManuallyDrop<Padded>,
++    tuple: ManuallyDrop<(u8, u32)>,
++    padded_pair: [ManuallyDrop<Padded>; 2],
++    zst_array: [(); 2],
++    ptr: *mut u32,
++    fat: *const [u8],
++}
++
++#[derive(Clone, Copy)]
++union RU {
++    wide: u32,
++    narrow: u8,
++    z: (),
++    pair: [u16; 2],
++    padded: ManuallyDrop<Padded>,
++    tuple: ManuallyDrop<(u8, u32)>,
++    padded_pair: [ManuallyDrop<Padded>; 2],
++    zst_array: [(); 2],
++    ptr: *mut u32,
++    fat: *const [u8],
++}
++
++#[repr(C, align(8))]
++#[derive(Clone, Copy)]
++union TailC {
++    bytes: [u8; 5],
++    word: u32,
++}
++
++#[repr(align(8))]
++#[derive(Clone, Copy)]
++union TailR {
++    bytes: [u8; 5],
++    word: u32,
++}
++
++unsafe fn tail_c_padding(p: *const TailC) -> *const u8 {
++    unsafe {
++        p.cast::<u8>().add(std::mem::offset_of!(TailC, bytes) + std::mem::size_of::<[u8; 5]>())
++    }
++}
++unsafe fn tail_r_padding(p: *const TailR) -> *const u8 {
++    unsafe {
++        p.cast::<u8>().add(std::mem::offset_of!(TailR, bytes) + std::mem::size_of::<[u8; 5]>())
++    }
++}
++
++#[kani::proof]
++fn written_c() {
++    let mut u = CU { z: () };
++    let p = &mut u as *mut CU;
++    unsafe {
++        (*p).wide = 0x1234;
++        assert_eq!((*p).wide, 0x1234);
++    }
++}
++#[kani::proof]
++fn written_rust() {
++    let mut u = RU { z: () };
++    let p = &mut u as *mut RU;
++    unsafe {
++        (*p).wide = 0x1234;
++        assert_eq!((*p).wide, 0x1234);
++    }
++}
++
++#[kani::proof]
++fn wide_then_narrow_field_c() {
++    let mut u = CU { wide: 0x12345678 };
++    let p = &mut u as *mut CU;
++    unsafe {
++        (*p).narrow = 4;
++        let mut expected = 0x12345678u32.to_ne_bytes();
++        expected[std::mem::offset_of!(CU, narrow)] = 4;
++        assert_eq!((*p).wide, u32::from_ne_bytes(expected));
++    }
++}
++#[kani::proof]
++fn wide_then_narrow_field_rust() {
++    let mut u = RU { wide: 0x12345678 };
++    let p = &mut u as *mut RU;
++    unsafe {
++        (*p).narrow = 4;
++        let mut expected = 0x12345678u32.to_ne_bytes();
++        expected[std::mem::offset_of!(RU, narrow)] = 4;
++        assert_eq!((*p).wide, u32::from_ne_bytes(expected));
++    }
++}
++
++#[kani::proof]
++fn whole_copy_assign_c() {
++    let src = CU { wide: 17 };
++    let mut dst = CU { z: () };
++    let (s, d) = (&src as *const CU, &mut dst as *mut CU);
++    unsafe {
++        *d = *s;
++        assert_eq!((*d).wide, 17);
++    }
++}
++#[kani::proof]
++fn whole_copy_assign_rust() {
++    let src = RU { wide: 17 };
++    let mut dst = RU { z: () };
++    let (s, d) = (&src as *const RU, &mut dst as *mut RU);
++    unsafe {
++        *d = *s;
++        assert_eq!((*d).wide, 17);
++    }
++}
++union MoveC {
++    wide: u32,
++    narrow: u8,
++    z: (),
++}
++union MoveR {
++    wide: u32,
++    narrow: u8,
++    z: (),
++}
++#[kani::proof]
++fn whole_move_c() {
++    let src = MoveC { wide: 163 };
++    let dst = src;
++    assert_eq!(unsafe { dst.wide }, 163);
++}
++#[kani::proof]
++fn whole_move_rust() {
++    let src = MoveR { wide: 167 };
++    let dst = src;
++    assert_eq!(unsafe { dst.wide }, 167);
++}
++#[kani::proof]
++fn whole_copy_ptr_read_c() {
++    let src = CU { wide: 19 };
++    let mut dst = CU { z: () };
++    unsafe {
++        let value = ptr::read(&src);
++        ptr::write(&mut dst, value);
++        assert_eq!((*(&dst as *const CU)).wide, 19);
++    }
++}
++#[kani::proof]
++fn whole_copy_ptr_read_rust() {
++    let src = RU { wide: 19 };
++    let mut dst = RU { z: () };
++    unsafe {
++        let value = ptr::read(&src);
++        ptr::write(&mut dst, value);
++        assert_eq!((*(&dst as *const RU)).wide, 19);
++    }
++}
++#[kani::proof]
++fn whole_copy_bytes_c() {
++    let src = CU { wide: 23 };
++    let mut dst = CU { z: () };
++    unsafe {
++        ptr::copy_nonoverlapping(&src, &mut dst, 1);
++        assert_eq!((*(&dst as *const CU)).wide, 23);
++    }
++}
++#[kani::proof]
++fn whole_copy_bytes_rust() {
++    let src = RU { wide: 23 };
++    let mut dst = RU { z: () };
++    unsafe {
++        ptr::copy_nonoverlapping(&src, &mut dst, 1);
++        assert_eq!((*(&dst as *const RU)).wide, 23);
++    }
++}
++#[kani::proof]
++fn whole_copy_overlap_self_c() {
++    let mut u = CU { wide: 29 };
++    let p = &mut u as *mut CU;
++    unsafe {
++        ptr::copy(p, p, 1);
++        assert_eq!((*p).wide, 29);
++    }
++}
++#[kani::proof]
++fn whole_copy_overlap_self_rust() {
++    let mut u = RU { wide: 31 };
++    let p = &mut u as *mut RU;
++    unsafe {
++        ptr::copy(p, p, 1);
++        assert_eq!((*p).wide, 31);
++    }
++}
++#[kani::proof]
++fn overlap_byte_copy_c() {
++    let mut b = RawBacking([0; 32]);
++    let base = b.0.as_mut_ptr();
++    unsafe {
++        ptr::write(base.cast::<CU>(), CU { wide: 0x12345678 });
++        ptr::copy(base, base.add(1), std::mem::size_of::<CU>());
++        assert_eq!(ptr::read(base.add(1)), 0x78);
++    }
++}
++#[kani::proof]
++fn overlap_byte_copy_rust() {
++    let mut b = RawBacking([0; 32]);
++    let base = b.0.as_mut_ptr();
++    unsafe {
++        ptr::write(base.cast::<RU>(), RU { wide: 0x12345678 });
++        ptr::copy(base, base.add(1), std::mem::size_of::<RU>());
++        assert_eq!(ptr::read(base.add(1)), 0x78);
++    }
++}
++
++#[kani::proof]
++fn whole_overwrite_c() {
++    let mut u = CU { wide: 0x12345678 };
++    let p = &mut u as *mut CU;
++    unsafe {
++        ptr::write(p, CU { wide: 0x87654321 });
++        assert_eq!((*p).wide, 0x87654321);
++    }
++}
++#[kani::proof]
++fn whole_overwrite_rust() {
++    let mut u = RU { wide: 0x12345678 };
++    let p = &mut u as *mut RU;
++    unsafe {
++        ptr::write(p, RU { wide: 0x87654321 });
++        assert_eq!((*p).wide, 0x87654321);
++    }
++}
++
++#[inline(never)]
++fn identity_c(x: CU) -> CU {
++    x
++}
++#[inline(never)]
++fn identity_rust(x: RU) -> RU {
++    x
++}
++#[kani::proof]
++fn argument_return_c() {
++    let x = identity_c(CU { wide: 37 });
++    assert_eq!(unsafe { x.wide }, 37);
++}
++#[kani::proof]
++fn argument_return_rust() {
++    let x = identity_rust(RU { wide: 41 });
++    assert_eq!(unsafe { x.wide }, 41);
++}
++#[inline(never)]
++fn pair_identity_c(a: CU, _b: CU) -> CU {
++    identity_c(a)
++}
++#[inline(never)]
++fn pair_identity_rust(a: RU, _b: RU) -> RU {
++    identity_rust(a)
++}
++#[kani::proof]
++fn argument_return_reused_c() {
++    let mut destination = pair_identity_c(CU { wide: 43 }, CU { z: () });
++    assert_eq!(unsafe { destination.wide }, 43);
++    destination = pair_identity_c(CU { wide: 47 }, CU { z: () });
++    assert_eq!(unsafe { destination.wide }, 47);
++}
++#[kani::proof]
++fn argument_return_reused_rust() {
++    let mut destination = pair_identity_rust(RU { wide: 53 }, RU { z: () });
++    assert_eq!(unsafe { destination.wide }, 53);
++    destination = pair_identity_rust(RU { wide: 59 }, RU { z: () });
++    assert_eq!(unsafe { destination.wide }, 59);
++}
++#[inline(never)]
++fn pair_mixed_c(a: CU, _b: TailC) -> CU {
++    a
++}
++#[inline(never)]
++fn pair_mixed_rust(a: RU, _b: TailR) -> RU {
++    a
++}
++#[kani::proof]
++fn argument_return_mixed_size_c() {
++    let value = pair_mixed_c(CU { wide: 61 }, TailC { bytes: [1; 5] });
++    assert_eq!(unsafe { value.wide }, 61);
++}
++#[kani::proof]
++fn argument_return_mixed_size_rust() {
++    let value = pair_mixed_rust(RU { wide: 67 }, TailR { bytes: [1; 5] });
++    assert_eq!(unsafe { value.wide }, 67);
++}
++#[inline(never)]
++fn padded_identity_c(x: CU) -> CU {
++    x
++}
++#[inline(never)]
++fn padded_identity_rust(x: RU) -> RU {
++    x
++}
++#[kani::proof]
++fn padded_argument_return_c() {
++    let u = padded_identity_c(CU { padded: ManuallyDrop::new(Padded { byte: 2, word: 37 }) });
++    assert_eq!(unsafe { u.padded.word }, 37);
++}
++#[kani::proof]
++fn padded_argument_return_rust() {
++    let u = padded_identity_rust(RU { padded: ManuallyDrop::new(Padded { byte: 3, word: 41 }) });
++    assert_eq!(unsafe { u.padded.word }, 41);
++}
++
++#[kani::proof]
++fn padded_typed_c() {
++    let p = Padded { byte: 7, word: 11 };
++    let u = CU { padded: ManuallyDrop::new(p) };
++    assert_eq!(unsafe { (*(&u as *const CU)).padded.byte }, 7);
++    assert_eq!(unsafe { (*(&u as *const CU)).padded.word }, 11);
++}
++#[kani::proof]
++fn padded_typed_rust() {
++    let p = Padded { byte: 13, word: 17 };
++    let u = RU { padded: ManuallyDrop::new(p) };
++    assert_eq!(unsafe { (*(&u as *const RU)).padded.byte }, 13);
++    assert_eq!(unsafe { (*(&u as *const RU)).padded.word }, 17);
++}
++#[kani::proof]
++fn padded_tuple_typed_c() {
++    let u = CU { tuple: ManuallyDrop::new((2, 151)) };
++    assert_eq!(unsafe { (*(&u as *const CU)).tuple.0 }, 2);
++    assert_eq!(unsafe { (*(&u as *const CU)).tuple.1 }, 151);
++}
++#[kani::proof]
++fn padded_tuple_typed_rust() {
++    let u = RU { tuple: ManuallyDrop::new((3, 157)) };
++    assert_eq!(unsafe { (*(&u as *const RU)).tuple.0 }, 3);
++    assert_eq!(unsafe { (*(&u as *const RU)).tuple.1 }, 157);
++}
++#[kani::proof]
++fn padded_typed_copy_c() {
++    let src = CU { padded: ManuallyDrop::new(Padded { byte: 19, word: 23 }) };
++    let mut dst = CU { z: () };
++    unsafe {
++        ptr::write(&mut dst, ptr::read(&src));
++        assert_eq!((*(&dst as *const CU)).padded.word, 23);
++    }
++}
++#[kani::proof]
++fn padded_typed_copy_rust() {
++    let src = RU { padded: ManuallyDrop::new(Padded { byte: 29, word: 31 }) };
++    let mut dst = RU { z: () };
++    unsafe {
++        ptr::write(&mut dst, ptr::read(&src));
++        assert_eq!((*(&dst as *const RU)).padded.word, 31);
++    }
++}
++
++#[kani::proof]
++fn array_field_c() {
++    let u = CU { pair: [61, 67] };
++    assert_eq!(unsafe { (*(&u as *const CU)).pair[1] }, 67);
++}
++#[kani::proof]
++fn array_field_rust() {
++    let u = RU { pair: [71, 73] };
++    assert_eq!(unsafe { (*(&u as *const RU)).pair[1] }, 73);
++}
++#[kani::proof]
++fn array_padded_field_c() {
++    let a = [Padded { byte: 1, word: 2 }, Padded { byte: 3, word: 5 }];
++    let u = CU { padded: ManuallyDrop::new(a[1]) };
++    assert_eq!(unsafe { (*(&u as *const CU)).padded.word }, 5);
++}
++#[kani::proof]
++fn array_zst_field_c() {
++    let u = CU { z: () };
++    assert_eq!(unsafe { (*(&u as *const CU)).zst_array[1] }, ());
++}
++#[kani::proof]
++fn array_zst_field_rust() {
++    let u = RU { z: () };
++    assert_eq!(unsafe { (*(&u as *const RU)).zst_array[1] }, ());
++}
++#[kani::proof]
++fn array_padded_elements_c() {
++    let u = CU {
++        padded_pair: [
++            ManuallyDrop::new(Padded { byte: 2, word: 3 }),
++            ManuallyDrop::new(Padded { byte: 5, word: 7 }),
++        ],
++    };
++    assert_eq!(unsafe { (*(&u as *const CU)).padded_pair[1].word }, 7);
++}
++#[kani::proof]
++fn array_padded_elements_rust() {
++    let u = RU {
++        padded_pair: [
++            ManuallyDrop::new(Padded { byte: 11, word: 13 }),
++            ManuallyDrop::new(Padded { byte: 17, word: 19 }),
++        ],
++    };
++    assert_eq!(unsafe { (*(&u as *const RU)).padded_pair[1].word }, 19);
++}
++
++#[kani::proof]
++fn zst_field_no_reset_c() {
++    let mut u = CU { wide: 0x76543210 };
++    let p = &mut u as *mut CU;
++    unsafe {
++        (*p).z = ();
++        assert_eq!((*p).wide, 0x76543210);
++    }
++}
++#[kani::proof]
++fn zst_field_no_reset_rust() {
++    let mut u = RU { wide: 0x76543210 };
++    let p = &mut u as *mut RU;
++    unsafe {
++        (*p).z = ();
++        assert_eq!((*p).wide, 0x76543210);
++    }
++}
++
++// The backing is aligned raw bytes, not an array of by-value union elements.
++#[repr(align(8))]
++struct RawBacking([u8; 32]);
++#[kani::proof]
++fn aligned_tail_untyped_copy_c() {
++    let mut backing = RawBacking([0u8; 32]);
++    let base = backing.0.as_mut_ptr().cast::<u8>();
++    unsafe {
++        ptr::write_bytes(base, 0x5a, std::mem::size_of::<TailC>());
++        let src = base.cast::<TailC>();
++        let dst = base.add(std::mem::size_of::<TailC>()).cast::<TailC>();
++        ptr::copy_nonoverlapping(src, dst, 1);
++        assert_eq!(*tail_c_padding(dst), 0x5a);
++    }
++}
++#[kani::proof]
++fn aligned_tail_untyped_copy_rust() {
++    let mut backing = RawBacking([0u8; 32]);
++    let base = backing.0.as_mut_ptr().cast::<u8>();
++    unsafe {
++        ptr::write_bytes(base, 0x6b, std::mem::size_of::<TailR>());
++        let src = base.cast::<TailR>();
++        let dst = base.add(std::mem::size_of::<TailR>()).cast::<TailR>();
++        ptr::copy(src, dst, 1);
++        assert_eq!(*tail_r_padding(dst), 0x6b);
++    }
++}
++
++#[kani::proof]
++fn address_only_c() {
++    let u = CU { z: () };
++    let p = &u as *const CU;
++    let field = unsafe { ptr::addr_of!((*p).wide) };
++    assert!(!field.is_null());
++}
++#[kani::proof]
++fn address_only_rust() {
++    let u = RU { z: () };
++    let p = &u as *const RU;
++    let field = unsafe { ptr::addr_of!((*p).wide) };
++    assert!(!field.is_null());
++}
++
++#[kani::proof]
++fn pointer_alias_c() {
++    let mut target = 79u32;
++    let mut u = CU { ptr: &mut target };
++    let p = &mut u as *mut CU;
++    unsafe {
++        (*p).ptr = &mut target;
++        let q = (*p).ptr;
++        assert_eq!(*q, 79);
++    }
++}
++#[kani::proof]
++fn pointer_alias_rust() {
++    let mut target = 83u32;
++    let mut u = RU { ptr: &mut target };
++    let p = &mut u as *mut RU;
++    unsafe {
++        (*p).ptr = &mut target;
++        let q = (*p).ptr;
++        assert_eq!(*q, 83);
++    }
++}
++#[kani::proof]
++fn pointer_compound_read_c() {
++    let mut target = 101u32;
++    let mut u = CU { ptr: &mut target };
++    let p = &mut u as *mut CU;
++    unsafe {
++        let value = *(*p).ptr;
++        assert_eq!(value, 101);
++    }
++}
++#[kani::proof]
++fn pointer_compound_read_rust() {
++    let mut target = 103u32;
++    let mut u = RU { ptr: &mut target };
++    let p = &mut u as *mut RU;
++    unsafe {
++        let value = *(*p).ptr;
++        assert_eq!(value, 103);
++    }
++}
++#[kani::proof]
++fn pointer_compound_store_c() {
++    let mut target = 0u32;
++    let mut u = CU { ptr: &mut target };
++    let p = &mut u as *mut CU;
++    unsafe {
++        *(*p).ptr = 107;
++        assert_eq!(target, 107);
++    }
++}
++#[kani::proof]
++fn pointer_compound_store_rust() {
++    let mut target = 0u32;
++    let mut u = RU { ptr: &mut target };
++    let p = &mut u as *mut RU;
++    unsafe {
++        *(*p).ptr = 109;
++        assert_eq!(target, 109);
++    }
++}
++
++#[kani::proof]
++fn pointer_argument_return_c() {
++    let mut target = 139u32;
++    let value = identity_c(CU { ptr: &mut target });
++    unsafe {
++        assert_eq!(*value.ptr, 139);
++    }
++}
++#[kani::proof]
++fn pointer_argument_return_rust() {
++    let mut target = 149u32;
++    let value = identity_rust(RU { ptr: &mut target });
++    unsafe {
++        assert_eq!(*value.ptr, 149);
++    }
++}
++#[kani::proof]
++fn pointer_delayed_c() {
++    let src = CU { wide: 37 };
++    let mut local = 0u32;
++    let holder = identity_c(CU { ptr: &mut local });
++    let q = holder.ptr;
++    unsafe {
++        ptr::copy_nonoverlapping(
++            (&src as *const CU).cast::<u8>(),
++            q.cast::<u8>(),
++            std::mem::size_of::<u32>(),
++        );
++        assert_eq!(local, 37);
++    }
++}
++#[kani::proof]
++fn pointer_delayed_rust() {
++    let src = RU { wide: 41 };
++    let mut local = 0u32;
++    let holder = identity_rust(RU { ptr: &mut local });
++    let q = holder.ptr;
++    unsafe {
++        ptr::copy_nonoverlapping(
++            (&src as *const RU).cast::<u8>(),
++            q.cast::<u8>(),
++            std::mem::size_of::<u32>(),
++        );
++        assert_eq!(local, 41);
++    }
++}
++#[kani::proof]
++fn fat_pointer_field_c() {
++    let data = [2u8, 3, 5];
++    let u = CU { fat: &data[..] };
++    unsafe {
++        let s = (*(&u as *const CU)).fat;
++        assert_eq!(s.len(), 3);
++        assert_eq!(*(s as *const u8).add(2), 5);
++    }
++}
++#[kani::proof]
++fn fat_pointer_field_rust() {
++    let data = [7u8, 11];
++    let u = RU { fat: &data[..] };
++    unsafe {
++        let s = (*(&u as *const RU)).fat;
++        assert_eq!(s.len(), 2);
++        assert_eq!(*(s as *const u8).add(1), 11);
++    }
++}
++
++#[repr(C)]
++union ZC {
++    a: (),
++    b: [(); 0],
++}
++union ZR {
++    a: (),
++    b: [(); 0],
++}
++#[inline(never)]
++fn zc(x: ZC) -> ZC {
++    x
++}
++#[inline(never)]
++fn zr(x: ZR) -> ZR {
++    x
++}
++#[kani::proof]
++fn size0_union_copy_argument_return_c() {
++    let x = zc(ZC { a: () });
++    let y = unsafe { ptr::read(&x) };
++    let _ = zc(y);
++}
++#[kani::proof]
++fn size0_union_copy_argument_return_rust() {
++    let x = zr(ZR { a: () });
++    let y = unsafe { ptr::read(&x) };
++    let _ = zr(y);
++}
++
++#[repr(C)]
++struct NonCopyWord {
++    word: u32,
++}
++union NonCopyFieldC {
++    value: ManuallyDrop<NonCopyWord>,
++    z: (),
++}
++union NonCopyFieldR {
++    value: ManuallyDrop<NonCopyWord>,
++    z: (),
++}
++
++#[kani::proof]
++fn field_move_constructor_c() {
++    let source = ManuallyDrop::new(NonCopyWord { word: 223 });
++    let union = NonCopyFieldC { value: source };
++    assert_eq!(unsafe { union.value.word }, 223);
++}
++#[kani::proof]
++fn field_move_constructor_rust() {
++    let source = ManuallyDrop::new(NonCopyWord { word: 227 });
++    let union = NonCopyFieldR { value: source };
++    assert_eq!(unsafe { union.value.word }, 227);
++}
++#[kani::proof]
++fn field_move_projection_c() {
++    let source = ManuallyDrop::new(NonCopyWord { word: 229 });
++    let mut union = NonCopyFieldC { z: () };
++    let union_ptr = &mut union as *mut NonCopyFieldC;
++    unsafe {
++        (*union_ptr).value = source;
++        assert_eq!((*union_ptr).value.word, 229);
++    }
++}
++#[kani::proof]
++fn field_move_projection_rust() {
++    let source = ManuallyDrop::new(NonCopyWord { word: 233 });
++    let mut union = NonCopyFieldR { z: () };
++    let union_ptr = &mut union as *mut NonCopyFieldR;
++    unsafe {
++        (*union_ptr).value = source;
++        assert_eq!((*union_ptr).value.word, 233);
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_array_element/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_array_element/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..83880f296fc73375904384b484174571441cfc87
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_array_element/expected
+@@ -0,0 +1,5 @@
++reject_array_element.unsupported_construct.\
++	 - Status: FAILURE\
++Cannot determine layout for a type that contains union of type U as a field.
++Verification failed for - reject_array_element
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_array_element/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_array_element/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..4d9e8ff9a83810a4e81834d8c66ec1f58376b5ba
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_array_element/main.rs
+@@ -0,0 +1,15 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_array_element() {
++    let values = [U { wide: 1 }];
++    let p = values.as_ptr();
++    unsafe {
++        let _value = (*p).wide;
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_return/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_return/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..fb675120c5a67c7882d06eb9be9b36294194cbcb
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_return/expected
+@@ -0,0 +1,5 @@
++reject_bodyless_return.unsupported_construct.\
++	 - Status: FAILURE\
++Kani does not support union storage returned from calls without a MIR body.
++Verification failed for - reject_bodyless_return
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_return/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_return/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..f7e33b502d6deae7311d7571f61d1c017ea2505e
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_return/main.rs
+@@ -0,0 +1,12 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_bodyless_return() {
++    let value = unsafe { bodyless_union_return() };
++    let _read = unsafe { value.wide };
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_transfer/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_transfer/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..6bc9924215a482f595d50103e28b60fcf862cb6c
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_transfer/expected
+@@ -0,0 +1,5 @@
++reject_bodyless_transfer.unsupported_construct.\
++	 - Status: FAILURE\
++Kani does not support foreign mutation of union storage without an effect model.
++Verification failed for - reject_bodyless_transfer
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_transfer/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_transfer/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..7e55bdd5f76f52c3673bc553fc90e6aead254a5d
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_transfer/main.rs
+@@ -0,0 +1,13 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_bodyless_transfer() {
++    let value = U { wide: 3 };
++    let out = unsafe { bodyless_union_transfer(value) };
++    let _read = unsafe { out.wide };
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_fn_pointer_field/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_fn_pointer_field/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..e5742b9523274331530b6ceb0c6706e983b152b4
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_fn_pointer_field/expected
+@@ -0,0 +1,5 @@
++reject_fn_pointer_field.unsupported_construct.\
++	 - Status: FAILURE\
++Cannot determine layout for an unsupported type fn() -> u32.
++Verification failed for - reject_fn_pointer_field
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_fn_pointer_field/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_fn_pointer_field/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..41b17e10e9ed2bf21827f50cf9ffea3f231ee101
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_fn_pointer_field/main.rs
+@@ -0,0 +1,16 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_fn_pointer_field() {
++    let f: fn() -> u32 = || 1;
++    let u = FunctionPointerUnion { value: f };
++    let p = &u as *const FunctionPointerUnion;
++    unsafe {
++        let _value = (*p).value;
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..0b2a04a32f4ee6bf1c72b608e8c92d767961e17f
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation/expected
+@@ -0,0 +1,5 @@
++reject_foreign_mutation.unsupported_construct.\
++	 - Status: FAILURE\
++Kani does not support foreign mutation of union storage without an effect model.
++Verification failed for - reject_foreign_mutation
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..45fbbde82dfed06ae26fb470166875233d967920
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation/main.rs
+@@ -0,0 +1,15 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_foreign_mutation() {
++    let mut value = U { wide: 3 };
++    unsafe {
++        foreign_mutate_union(&mut value);
++        let _read = (&value as *const U).read().wide;
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation_erased/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation_erased/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..104dbdc82c41c3229742738fa52fef91d56386d6
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation_erased/expected
+@@ -0,0 +1,5 @@
++reject_foreign_mutation_erased.unsupported_construct.\
++	 - Status: FAILURE\
++Kani does not support foreign mutation of union storage without an effect model.
++Verification failed for - reject_foreign_mutation_erased
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation_erased/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation_erased/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..01bea655cbb5e83fb9871c5d6fe09f788468db54
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation_erased/main.rs
+@@ -0,0 +1,15 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_foreign_mutation_erased() {
++    let mut value = U { wide: 31 };
++    unsafe {
++        foreign_mutate_erased((&mut value as *mut U).cast());
++        let _read = (&value as *const U).read().wide;
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_forget_union_array/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_forget_union_array/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..81b176eb18af897d2904964b0df06d1a9cfc245f
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_forget_union_array/expected
+@@ -0,0 +1,5 @@
++reject_forget_union_array.unsupported_construct.\
++	 - Status: FAILURE\
++Cannot determine layout for a type that contains union of type U as a field.
++Verification failed for - reject_forget_union_array
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_forget_union_array/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_forget_union_array/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..fc737c42ffb4c0c3b2b1d813363cf9a02e432acc
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_forget_union_array/main.rs
+@@ -0,0 +1,14 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++#![feature(core_intrinsics)]
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_forget_union_array() {
++    unsafe {
++        std::intrinsics::forget([U { wide: 1 }; 0]);
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_indirect_call/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_indirect_call/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..5dda361009f06a46bc5d4c4c26cc1c2091902d34
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_indirect_call/expected
+@@ -0,0 +1,5 @@
++reject_indirect_call.unsupported_construct.\
++	 - Status: FAILURE\
++Currently, memory initialization checks in presence of function pointers and vtable calls are not supported.
++Verification failed for - reject_indirect_call
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_indirect_call/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_indirect_call/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..0841906338dbddc2ac73e6d3c4fe31255bc0be78
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_indirect_call/main.rs
+@@ -0,0 +1,14 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_indirect_call() {
++    let call: fn(U) -> U = indirect_target;
++    let value = U { wide: 2 };
++    let out = call(value);
++    let _read = unsafe { out.wide };
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_init_predicate/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_init_predicate/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..6b7d4402e13bc33647c91fa96b21d707f071dd6d
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_init_predicate/expected
+@@ -0,0 +1,5 @@
++reject_init_predicate.unsupported_construct.\
++	 - Status: FAILURE\
++Kani does not yet support using initialization predicates on unions.
++Verification failed for - reject_init_predicate
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_init_predicate/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_init_predicate/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..03c88ce7ea55f5e3b427c106713f0217ada6326d
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_init_predicate/main.rs
+@@ -0,0 +1,13 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks -Z valid-value-checks -Z mem-predicates --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_init_predicate() {
++    let value = U { wide: 7 };
++    let pointer = &value as *const U;
++    let _initialized = kani::mem::can_dereference(pointer);
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..f7b23c20be7a1dc75f96b3f7869470038d77c03e
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/expected
+@@ -0,0 +1,5 @@
++reject_manuallydrop_union.unsupported_construct.\
++	 - Status: FAILURE\
++Cannot determine layout for a type that contains union of type U as a field.
++Verification failed for - reject_manuallydrop_union
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..788aa08af2f9064f1d82b78e1cefda237f67903a
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs
+@@ -0,0 +1,15 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_manuallydrop_union() {
++    let wrapper = ManuallyDrop::new(U { wide: 1 });
++    let p = &wrapper as *const ManuallyDrop<U>;
++    unsafe {
++        let _value = (*p).wide;
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_niche_enum/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_niche_enum/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..d8391d573ff24acf5a7159833772e27f05a610f7
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_niche_enum/expected
+@@ -0,0 +1,5 @@
++reject_niche_enum.unsupported_construct.\
++	 - Status: FAILURE\
++Cannot determine layout for an Enum with niche encoding of type Niche
++Verification failed for - reject_niche_enum
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_niche_enum/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_niche_enum/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..b580824a971e782133bd7e2fea16e82451d538d3
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_niche_enum/main.rs
+@@ -0,0 +1,15 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_niche_enum() {
++    let u = NicheUnion { value: Niche::Some(NonZeroU32::new(1).unwrap()) };
++    let p = &u as *const NicheUnion;
++    unsafe {
++        let _value = (*p).value;
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_select_unpredictable/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_select_unpredictable/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..0fa8eb55f77b629fb01d622f4c9922c89056e578
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_select_unpredictable/expected
+@@ -0,0 +1,5 @@
++reject_select_unpredictable.unsupported_construct.\
++	 - Status: FAILURE\
++Kani does not support select_unpredictable of union storage.
++Verification failed for - reject_select_unpredictable
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_select_unpredictable/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_select_unpredictable/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..5f2314edf94a6946f33292e3a01762a134cd1544
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_select_unpredictable/main.rs
+@@ -0,0 +1,14 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++#![feature(core_intrinsics)]
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_select_unpredictable() {
++    let a = U { wide: 17 };
++    let b = U { wide: 19 };
++    let _selected = unsafe { std::intrinsics::select_unpredictable(true, a, b) };
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_struct_field/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_struct_field/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..1a7d129a81ca2e97f2a3ef0b0f5e0fc310aba158
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_struct_field/expected
+@@ -0,0 +1,5 @@
++reject_struct_field.unsupported_construct.\
++	 - Status: FAILURE\
++Cannot determine layout for a type that contains union of type U as a field.
++Verification failed for - reject_struct_field
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_struct_field/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_struct_field/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..487dd9865b1d4b46f31473417d929f84ba4d098a
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_struct_field/main.rs
+@@ -0,0 +1,15 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_struct_field() {
++    let wrapper = HasUnion { value: U { wide: 1 } };
++    let p = &wrapper as *const HasUnion;
++    unsafe {
++        let _value = (*p).value.wide;
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_typed_swap/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_typed_swap/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..c43179c32979bc46ecd8e8bb1dfd358ea22aa91d
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_typed_swap/expected
+@@ -0,0 +1,5 @@
++reject_typed_swap.unsupported_construct.\
++	 - Status: FAILURE\
++Kani does not support typed_swap of union storage.
++Verification failed for - reject_typed_swap
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_typed_swap/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_typed_swap/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..da39239e058a45bc8a5ff11f57068db1c1533032
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_typed_swap/main.rs
+@@ -0,0 +1,16 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++#![feature(core_intrinsics)]
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_typed_swap() {
++    let mut left = U { wide: 11 };
++    let mut right = U { wide: 13 };
++    unsafe {
++        std::intrinsics::typed_swap_nonoverlapping(&mut left, &mut right);
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_unaligned_read/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_unaligned_read/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..174938d9bfb58eaa9c5da27e2d1d51bf5a6a3a9d
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_unaligned_read/expected
+@@ -0,0 +1,3 @@
++Cannot determine layout for a type that contains union of type U as a field.
++Verification failed for - reject_unaligned_read
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_unaligned_read/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_unaligned_read/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..e75b61d32cddc95130e7eeb4373b9b87e733e462
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_unaligned_read/main.rs
+@@ -0,0 +1,15 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_unaligned_read() {
++    let bytes = [0u8; 16];
++    let p = unsafe { bytes.as_ptr().add(1).cast::<U>() };
++    unsafe {
++        let _value = ptr::read_unaligned(p);
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_unaligned_write/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_unaligned_write/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..1215b6b1503cf35f0cd5b86a10e64650d8b9d57a
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_unaligned_write/expected
+@@ -0,0 +1,3 @@
++Cannot determine layout for a type that contains union of type U as a field.
++Verification failed for - reject_unaligned_write
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_unaligned_write/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_unaligned_write/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..1f8a266bdc433f9a163d81e1af3f08ade6db6d4c
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_unaligned_write/main.rs
+@@ -0,0 +1,15 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_unaligned_write() {
++    let mut bytes = [0u8; 16];
++    let p = unsafe { bytes.as_mut_ptr().add(1).cast::<U>() };
++    unsafe {
++        ptr::write_unaligned(p, U { wide: 29 });
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_in_union/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_in_union/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..601e4d86c9fde5dd96e210e0c744d83aeab0839f
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_in_union/expected
+@@ -0,0 +1,5 @@
++reject_union_in_union.unsupported_construct.\
++	 - Status: FAILURE\
++Cannot determine layout for a type that contains union of type U as a field.
++Verification failed for - reject_union_in_union
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_in_union/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_in_union/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..06e9c9d6cbf2785f287ed315d07ddce13481a855
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_in_union/main.rs
+@@ -0,0 +1,15 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_union_in_union() {
++    let outer = Outer { inner: U { wide: 1 } };
++    let p = &outer as *const Outer;
++    unsafe {
++        let _value = (*p).inner.wide;
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_transmute/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_transmute/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..0792dd660b661374daf33ab3cec66081a0cfae36
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_transmute/expected
+@@ -0,0 +1,5 @@
++reject_union_transmute.safety_check.\
++	 - Status: FAILURE\
++	 - Description: "Transmuting between types of incompatible layouts."
++Verification failed for - reject_union_transmute
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..21325b573980a24976a07b926964037a67c1eacc
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs
+@@ -0,0 +1,12 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_union_transmute() {
++    let value = TransmuteU { bytes: [5; 5] };
++    let _out: [u64; 1] = unsafe { std::mem::transmute(value) };
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_variant_padding/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_variant_padding/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..aa89a47dc75c4c49cd6e80befb720228c41efc1b
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_variant_padding/expected
+@@ -0,0 +1,5 @@
++reject_variant_padding.unsupported_construct.\
++	 - Status: FAILURE\
++Cannot determine layout for an Enum of type DifferentPadding, as it has multiple variants that have different padding.
++Verification failed for - reject_variant_padding
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_variant_padding/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_variant_padding/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..a8a68d8870bd91d888a139ce94a3806fced76d14
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_variant_padding/main.rs
+@@ -0,0 +1,15 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_variant_padding() {
++    let u = DifferentPaddingUnion { value: DifferentPadding::Byte(1) };
++    let p = &u as *const DifferentPaddingUnion;
++    unsafe {
++        let _value = (*p).value;
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_volatile_read/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_volatile_read/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..28f57aad686fb86d3ac9ba19e142ade17a07752b
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_volatile_read/expected
+@@ -0,0 +1,3 @@
++Kani does not support volatile loads of union storage.
++Verification failed for - reject_volatile_read
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_volatile_read/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_volatile_read/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..60a808dea59b7c75fc6e8796c6f39b27b92ae324
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_volatile_read/main.rs
+@@ -0,0 +1,13 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_volatile_read() {
++    let value = U { wide: 23 };
++    let p = &value as *const U;
++    let _read = unsafe { ptr::read_volatile(p) };
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_volatile_write/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_volatile_write/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..38674d8f6c4c0fe16871bb1a0408a558cbf9364e
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_volatile_write/expected
+@@ -0,0 +1,3 @@
++Kani does not support volatile stores of union storage.
++Verification failed for - reject_volatile_write
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_volatile_write/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_volatile_write/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..6c3a698675fe01f18431590ca6637592fc2eb170
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_volatile_write/main.rs
+@@ -0,0 +1,15 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++include!("../g1-union-pointee-unsupported/types.inc");
++
++#[kani::proof]
++fn reject_volatile_write() {
++    let mut value = U { wide: 23 };
++    let p = &mut value as *mut U;
++    unsafe {
++        ptr::write_volatile(p, U { wide: 29 });
++    }
++}
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported/types.inc b/tests/expected/uninit/g1-union-pointee-unsupported/types.inc
+new file mode 100644
+index 0000000000000000000000000000000000000000..c45ea2eab8f6b599c27f1186f119c9099e633200
+--- /dev/null
++++ b/tests/expected/uninit/g1-union-pointee-unsupported/types.inc
+@@ -0,0 +1,69 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++use std::mem::ManuallyDrop;
++use std::num::NonZeroU32;
++use std::ptr;
++
++#[derive(Clone, Copy)]
++union U {
++    wide: u32,
++    small: u8,
++}
++#[derive(Clone, Copy)]
++struct HasUnion {
++    value: U,
++}
++#[derive(Clone, Copy)]
++union Outer {
++    inner: U,
++    wide: u32,
++}
++#[derive(Clone, Copy)]
++struct Padded {
++    byte: u8,
++    word: u32,
++}
++#[derive(Clone, Copy)]
++union PaddedUnion {
++    value: ManuallyDrop<Padded>,
++    wide: u64,
++}
++#[derive(Clone, Copy)]
++enum Niche {
++    Empty,
++    Some(NonZeroU32),
++}
++#[derive(Clone, Copy)]
++#[repr(u8)]
++enum DifferentPadding {
++    Padded(Padded),
++    Byte(u8),
++}
++#[derive(Clone, Copy)]
++union NicheUnion {
++    value: Niche,
++    wide: u32,
++}
++#[derive(Clone, Copy)]
++union DifferentPaddingUnion {
++    value: DifferentPadding,
++    wide: u64,
++}
++#[derive(Clone, Copy)]
++union FunctionPointerUnion {
++    value: fn() -> u32,
++    wide: u32,
++}
++
++#[inline(never)]
++fn indirect_target(x: U) -> U {
++    x
++}
++
++unsafe extern "Rust" {
++    fn bodyless_union_transfer(value: U) -> U;
++    fn bodyless_union_return() -> U;
++    fn foreign_mutate_union(value: *mut U);
++    fn foreign_mutate_erased(pointer: *mut u8);
++}

@@ -1,0 +1,174 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "request_id": "kani3300-g1-b-targeted-20261111-01",
+  "agent": "k1-merge",
+  "kind": "kani-tests",
+  "purpose": "PREPARED NOT AUTHORIZED: KANI3300 G1 package B; exact candidate 45d0300e054345b4f6bdf89528195ee7c5dba8a5; native NOT_RUN. No automatic dispatch or repair.",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 29,
+  "harnesses": [],
+  "kani_patch": {
+    "path": "research/challenge-8/kani-k1/kani3300/g1/kani3300-g1-b-build.patch",
+    "sha256": "f9b65990a0fcb4793a5bfe54bb9fedadf4f26f8d08dc0ab817d854cb2c8a2945"
+  },
+  "test_timeout_seconds": 150,
+  "kani_tests": [
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_bodyless_return/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Kani does not support foreign mutation of union storage without an effect model."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_foreign_mutation_erased/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Kani does not support foreign mutation of union storage without an effect model."
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_forget_union_array/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field."
+    },
+    {
+      "file": "uninit/maybe-uninit-transmute/main.rs",
+      "require_success": true,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass"
+    },
+    {
+      "file": "uninit/maybe-uninit-transfers/main.rs",
+      "require_success": true,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass"
+    },
+    {
+      "file": "uninit/maybe-uninit-initialized/main.rs",
+      "require_success": true,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass"
+    },
+    {
+      "file": "uninit/maybe-uninit-transmute-padding/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "file": "uninit/maybe-uninit-transmute-source-read/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    },
+    {
+      "file": "uninit/maybe-uninit-argument-buffer/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "file": "uninit/maybe-uninit-contract-clause/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "file": "uninit/maybe-uninit-contract-frame/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Failed Checks: Check that *var_7 is assignable"
+    },
+    {
+      "file": "uninit/maybe-uninit-partial-copy/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`"
+    },
+    {
+      "file": "uninit/maybe-uninit-reset-alias/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "file": "uninit/maybe-uninit-argument-return/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+    },
+    {
+      "file": "uninit/maybe-uninit-overwrite-copy/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`"
+    },
+    {
+      "file": "uninit/maybe-uninit-overlap-copy/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+    },
+    {
+      "file": "uninit/maybe-uninit-repeat-local/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    },
+    {
+      "file": "uninit/maybe-uninit-reset-zst/main.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    },
+    {
+      "file": "uninit/unions.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
+    },
+    {
+      "file": "uninit/uninhabited-union-field/uninhabited-union-field.rs",
+      "require_success": false,
+      "suite": "expected",
+      "mode": "expected",
+      "expect": "pass",
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+    }
+  ]
+}

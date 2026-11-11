@@ -1,0 +1,91 @@
+{
+  "schema": "kani3300-g1-checkpoint-v1",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-G1.md",
+  "runtime": "Codex",
+  "stage": "kani3300-g1",
+  "owner": "k1-merge",
+  "status": "STATIC_PACKAGE_PRE_BUILD_REVIEW",
+  "research_input_head": "98713ed97b88d611fe43c380af736bd3732b29d4",
+  "kani_base": "657c2b24516b967f67ce71994299d0ef328aede9",
+  "kani_production_head": "c82672f6b92b7cf0cbf28d6f645dbd0e71529e05",
+  "kani_candidate": "45d0300e054345b4f6bdf89528195ee7c5dba8a5",
+  "kani_branch": "fix/kani-3300-g1",
+  "kani_pushed": false,
+  "tooling": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "requests": [
+    {
+      "package": "A",
+      "path": "RUN-REQUEST.json",
+      "request_sha256": "48bb88e982606c52aef64c5c9f9f3b0be81cb03569764074dffc21f000119ace",
+      "patch": "kani3300-g1-a-build.patch",
+      "patch_sha256": "35cae231c17b836a1d0191ee417a6e9a875eb41f2f8cf353ef2b1442bf78e40b",
+      "selectors": 20,
+      "applied_tree": "bb3cb747eab1f81de9511733ec65f21fcff0bbeb",
+      "diffstat_bytes": 3013,
+      "validate": "request kani3300-g1-a-targeted-20261111-01: 0 harness(es) accepted",
+      "production_equal_candidate": true,
+      "all_selected_sources_goldens_helpers_equal_candidate": true,
+      "native_outcome": "NOT_RUN",
+      "proposal": {
+        "work_minutes": 29,
+        "overhead_minutes": 30,
+        "reservation_usd": 0.7965,
+        "cap_usd": 0.8
+      }
+    },
+    {
+      "package": "B",
+      "path": "RUN-REQUEST-B.json",
+      "request_sha256": "ae774c0135ad562ba7f846d0de935336b3167a99bce4aa9d7ba62cb04bddc0d1",
+      "patch": "kani3300-g1-b-build.patch",
+      "patch_sha256": "f9b65990a0fcb4793a5bfe54bb9fedadf4f26f8d08dc0ab817d854cb2c8a2945",
+      "selectors": 20,
+      "applied_tree": "37b330554636052a8a944b2130751b1db174ccd7",
+      "diffstat_bytes": 2734,
+      "validate": "request kani3300-g1-b-targeted-20261111-01: 0 harness(es) accepted",
+      "production_equal_candidate": true,
+      "all_selected_sources_goldens_helpers_equal_candidate": true,
+      "native_outcome": "NOT_RUN",
+      "proposal": {
+        "work_minutes": 29,
+        "overhead_minutes": 30,
+        "reservation_usd": 0.7965,
+        "cap_usd": 0.8
+      }
+    }
+  ],
+  "review": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "candidate": "45d0300e054345b4f6bdf89528195ee7c5dba8a5",
+    "packet": "review-packet-ready",
+    "packet_sha256": "f78b9b3e8d4f8a5c89ac6c1a290dc1295f06f08aab66c1f17e583ce4dd658ae5",
+    "spec_sha256": "888c58ed2cd2d79cba5693d583992d1e7059583b00a77703053e49d92fa57202",
+    "report": "REVIEW-INVARIANTS.md",
+    "report_sha256": "f896087b7b7aa29f5c00b2f97870049c13e342f88eafe91cedc5d45d24ff4801",
+    "verdict": "No blocking source-level finding remains; bounded static only; inherited P1 limitation stated."
+  },
+  "current_cloud": {
+    "spent_usd": 0,
+    "reserved_usd": 0,
+    "builds": [],
+    "dispatch": "NOT_RUN"
+  },
+  "claims": [
+    {
+      "claim": "Implementation and exact native gate packet are committed locally with static source identities and preflight checks",
+      "assurance": "STATIC_ONLY"
+    },
+    {
+      "claim": "Native/formal verification",
+      "assurance": "NOT_RUN; proof credit NONE"
+    }
+  ],
+  "open": [
+    "Exact coordinator review/GO and ledger approval before any install/dispatch",
+    "Native gates A and B, full regression and later core replay remain NOT_RUN",
+    "Inherited P1 non-Copy MU transmute Move-source alias invalidation outside direct-U scope; PFC limitation unchanged"
+  ],
+  "next": "Review exact published research SHA; do not dispatch until separate GO.",
+  "closure_reason": "Requested Cloud-$0 one-stage implementation, tests, static validation and build package completed; PRE-BUILD REVIEW is the explicit stop boundary."
+}

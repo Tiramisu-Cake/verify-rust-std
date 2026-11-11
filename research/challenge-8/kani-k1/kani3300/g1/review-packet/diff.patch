@@ -1,0 +1,870 @@
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+index 117b2311ae045d08b21e71e2af972058bc77ae02..34e5a43013c42a37ae82c238c8be9b34e4aba7f9 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+@@ -18,7 +18,7 @@
+     ty::{FnDef, GenericArgKind, GenericArgs, MirConst, RigidTy, Ty, TyConst, TyKind, UintTy},
+ };
+ use std::collections::HashMap;
+-use ty_layout::maybe_uninit_storage;
++use ty_layout::{maybe_uninit_storage, union_storage};
+ 
+ use crate::kani_middle::kani_functions::{KaniFunction, KaniModel};
+ pub use delayed_ub::DelayedUbPass;
+@@ -162,14 +162,14 @@ fn build_check_for_operation(
+     ) {
+         if let MemoryInitOp::StoreArgument { operand, .. } = &mut operation
+             && matches!(operand, Operand::Constant(_))
+-            && maybe_uninit_storage(self.tcx, operand.ty(body.locals()).unwrap()).is_some()
++            && union_storage(self.tcx, operand.ty(body.locals()).unwrap())
+         {
+             let Some(initialized) = constant_init_mask(operand) else {
+                 self.inject_unsupported_check(
+                     body,
+                     source,
+                     InsertPosition::Before,
+-                    "Kani cannot determine the initialization state of this MaybeUninit argument.",
++                    "Kani cannot determine the initialization state of this union storage argument.",
+                 );
+                 return;
+             };
+@@ -215,7 +215,7 @@ fn build_check_for_operation(
+                     )
+                 };
+             // Calculate pointee layout for byte-by-byte memory initialization checks.
+-            let layout = if maybe_uninit_storage(self.tcx, pointee_ty).is_some() {
++            let layout = if union_storage(self.tcx, pointee_ty) {
+                 match &operation {
+                     // Reading a slot or slice of slots does not require initialized data.
+                     MemoryInitOp::Check { .. }
+@@ -229,15 +229,31 @@ fn build_check_for_operation(
+                     }
+                     // The pointer visitor handles writes to this storage, including transfers.
+                     // A generic set from delayed UB instrumentation would erase that state.
+-                    MemoryInitOp::SetRef { .. } => return,
+-                    MemoryInitOp::SetStorage { .. }
+-                    | MemoryInitOp::Copy { .. }
+-                    | MemoryInitOp::AssignUnion { .. }
+-                    | MemoryInitOp::StoreArgument { .. }
+-                    | MemoryInitOp::LoadArgument { .. }
+-                    | MemoryInitOp::SetSliceChunk { .. } => {
++                    MemoryInitOp::SetRef { .. } => {
++                        match PointeeInfo::for_storage(self.tcx, pointee_ty) {
++                            Ok(_) => return,
++                            Err(reason) => Err(reason),
++                        }
++                    }
++                    MemoryInitOp::SetStorage { .. } => {
++                        if maybe_uninit_storage(self.tcx, pointee_ty).is_some() {
++                            PointeeInfo::for_storage(self.tcx, pointee_ty)
++                        } else {
++                            PointeeInfo::from_ty(pointee_ty)
++                        }
++                    }
++                    MemoryInitOp::Copy { .. } | MemoryInitOp::SetSliceChunk { .. } => {
+                         PointeeInfo::for_storage(self.tcx, pointee_ty)
+                     }
++                    MemoryInitOp::AssignUnion { .. }
++                    | MemoryInitOp::StoreArgument { .. }
++                    | MemoryInitOp::LoadArgument { .. } => {
++                        if maybe_uninit_storage(self.tcx, pointee_ty).is_some() {
++                            PointeeInfo::for_storage(self.tcx, pointee_ty)
++                        } else {
++                            PointeeInfo::from_ty(pointee_ty)
++                        }
++                    }
+                     _ => PointeeInfo::from_ty(pointee_ty),
+                 }
+             } else {
+@@ -381,9 +397,8 @@ fn build_get_and_check(
+                 return;
+             }
+             PointeeLayout::Union { .. } => {
+-                // Here we are reading from a pointer to a union.
+-                // TODO: we perhaps need to check that the union at least contains an intersection
+-                // of all layouts initialized.
++                // Whole union reads are allowed only through validated storage transfers.
++                // Other union-valued checks retain a fail-closed fallback.
+                 let reason = "Interaction between raw pointers and unions is not yet supported.";
+                 self.inject_unsupported_check(body, source, operation.position(), reason);
+                 return;
+@@ -545,37 +560,42 @@ fn build_set(
+                 self.inject_unsupported_check(body, source, operation.position(), reason);
+                 return;
+             }
+-            PointeeLayout::Union { field_layouts } => {
+-                // Writing union data, which could be either creating a union from scratch or
+-                // performing some pointer operations with it. If we are creating a union from
+-                // scratch, an operation will contain a union field.
+-
+-                // TODO: If we don't have a union field, we are either creating a pointer to a union
+-                // or assigning to one. In the former case, it is safe to return from this function,
+-                // since the union must be already tracked (on creation and update). In the latter
+-                // case, we should have been using union assignment instead. Nevertheless, this is
+-                // currently mitigated by injecting `assert!(false)`.
+-                let union_field = match operation.union_field() {
+-                    Some(field) => field,
+-                    None => {
+-                        let reason =
+-                            "Interaction between raw pointers and unions is not yet supported.";
+-                        self.inject_unsupported_check(body, source, operation.position(), reason);
++            PointeeLayout::Union { field_layouts, storage_size } => {
++                let mut layout = match &operation {
++                    MemoryInitOp::CreateUnion { field, .. } => {
++                        // rustc's Union fields shape gives every arm offset zero. Resize to
++                        // size(U), not max(field size): whole construction resets the tail.
++                        let mut mask = field_layouts[*field].clone();
++                        mask.resize(*storage_size, false);
++                        mask
++                    }
++                    MemoryInitOp::SetStorage { initialized, .. } => {
++                        if initialized.len() != *storage_size {
++                            self.inject_unsupported_check(
++                                body, source, operation.position(),
++                                "Kani cannot determine the initialization state of this union constant.",
++                            );
++                            return;
++                        }
++                        initialized.clone()
++                    }
++                    _ => {
++                        self.inject_unsupported_check(
++                            body,
++                            source,
++                            operation.position(),
++                            "Kani does not support this unmodeled union storage update.",
++                        );
+                         return;
+                     }
+                 };
+-                let field_layout = &field_layouts[union_field];
+-                let mut storage_layout;
+-                let layout = if maybe_uninit_storage(self.tcx, *pointee_info.ty()).is_some() {
+-                    // An empty aggregate replaces the entire slot, even when its field is ().
+-                    let size = pointee_info.ty().layout().unwrap().shape().size.bytes();
+-                    storage_layout = field_layout.clone();
+-                    storage_layout.resize(size, false);
+-                    &storage_layout
+-                } else {
+-                    field_layout
+-                };
+-                let layout_operand = mk_layout_operand(body, &mut statements, source, layout);
++                // Constants are typed transfers too; allocation padding is not a guarantee.
++                if matches!(operation, MemoryInitOp::SetStorage { .. }) {
++                    for (initialized, data) in layout.iter_mut().zip(pointee_info.transfer_mask()) {
++                        *initialized &= data;
++                    }
++                }
++                let layout_operand = mk_layout_operand(body, &mut statements, source, &layout);
+                 let diagnostic = KANI_SET_PTR_INITIALIZED;
+                 let args = vec![
+                     ptr_operand,
+@@ -669,6 +689,22 @@ fn build_argument_operation(
+         );
+         let operand = operation.mk_operand(body, &mut statements, source);
+         let argument_no = operation.expect_argument_no();
++        let mut args = vec![
++            operand,
++            Operand::Constant(ConstOperand {
++                span: source.span(body.blocks()),
++                user_ty: None,
++                const_: MirConst::try_from_uint(argument_no as u128, UintTy::Usize).unwrap(),
++            }),
++        ];
++        if matches!(operation, MemoryInitOp::LoadArgument { .. }) {
++            args.push(mk_layout_operand(
++                body,
++                &mut statements,
++                source,
++                &pointee_info.transfer_mask(),
++            ));
++        }
+         let terminator = Terminator {
+             kind: TerminatorKind::Call {
+                 func: Operand::Copy(Place::from(body.new_local(
+@@ -676,15 +712,7 @@ fn build_argument_operation(
+                     source.span(body.blocks()),
+                     Mutability::Not,
+                 ))),
+-                args: vec![
+-                    operand,
+-                    Operand::Constant(ConstOperand {
+-                        span: source.span(body.blocks()),
+-                        user_ty: None,
+-                        const_: MirConst::try_from_uint(argument_no as u128, UintTy::Usize)
+-                            .unwrap(),
+-                    }),
+-                ],
++                args,
+                 destination: ret_place.clone(),
+                 target: Some(0), // this will be overriden in add_bb
+                 unwind: UnwindAction::Terminate,
+@@ -716,6 +744,7 @@ fn build_assign_union(
+             *pointee_info.ty(),
+         );
+         let (from, to) = operation.expect_assign_union_operands(body, &mut statements, source);
++        let mask = mk_layout_operand(body, &mut statements, source, &pointee_info.transfer_mask());
+         let terminator = Terminator {
+             kind: TerminatorKind::Call {
+                 func: Operand::Copy(Place::from(body.new_local(
+@@ -723,7 +752,7 @@ fn build_assign_union(
+                     source.span(body.blocks()),
+                     Mutability::Not,
+                 ))),
+-                args: vec![from, to],
++                args: vec![from, to, mask],
+                 destination: ret_place.clone(),
+                 target: Some(0), // this will be overriden in add_bb
+                 unwind: UnwindAction::Terminate,
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 3f7ea62044fe27297cc74c7ba01b70647751fd50..e60366ae0b6aeb1b2f93d0e5151e789ee2aeeb9b 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -12,8 +12,7 @@
+             PointeeInfo, PointeeLayout, TargetFinder,
+             relevant_instruction::{InitRelevantInstruction, MemoryInitOp, constant_init_mask},
+             ty_layout::{
+-                LayoutComputationError, maybe_uninit_storage, tys_layout_compatible_to_size,
+-                wrapper_inner,
++                LayoutComputationError, tys_layout_compatible_to_size, union_storage, wrapper_inner,
+             },
+         },
+     },
+@@ -104,7 +103,35 @@ fn push_target(&mut self, source_op: MemoryInitOp) {
+     }
+ 
+     fn transfers_shadow(&self, ty: Ty) -> bool {
+-        ty.kind().is_union() || maybe_uninit_storage(self.tcx, ty).is_some()
++        union_storage(self.tcx, ty)
++    }
++
++    /// Whether a call argument can let the callee access storage whose byte shadow we track.
++    fn touches_shadow(&self, ty: Ty) -> bool {
++        self.transfers_shadow(ty)
++            || match ty.kind() {
++                TyKind::RigidTy(RigidTy::RawPtr(pointee, _))
++                | TyKind::RigidTy(RigidTy::Ref(_, pointee, _)) => self.transfers_shadow(pointee),
++                _ => false,
++            }
++    }
++
++    fn pointer_or_reference(&self, ty: Ty) -> bool {
++        matches!(ty.kind(), TyKind::RigidTy(RigidTy::RawPtr(..) | RigidTy::Ref(..)))
++    }
++
++    fn shadow_pointer(&self, operand: &Operand) -> bool {
++        match operand.ty(&self.locals).ok().map(|ty| ty.kind().clone()) {
++            Some(TyKind::RigidTy(RigidTy::RawPtr(pointee, _))) => self.transfers_shadow(pointee),
++            _ => false,
++        }
++    }
++
++    fn union_pointer(&self, operand: &Operand) -> bool {
++        matches!(
++            operand.ty(&self.locals).ok().map(|ty| ty.kind().clone()),
++            Some(TyKind::RigidTy(RigidTy::RawPtr(pointee, _))) if pointee.kind().is_union()
++        )
+     }
+ 
+     /// Locate the first union on the projection path, including a union at the end.
+@@ -143,7 +170,7 @@ fn assign_storage_operand(&mut self, place: &Place, operand: &Operand) {
+ 
+     fn unsupported_storage_assignment(&mut self) {
+         self.push_target(MemoryInitOp::Unsupported {
+-            reason: "Kani does not support this assignment to MaybeUninit storage.".to_string(),
++            reason: "Kani does not support this assignment to tracked storage.".to_string(),
+         });
+     }
+ 
+@@ -340,10 +367,8 @@ fn visit_ordinary_assignment(
+         if ty.kind().is_raw_ptr()
+             && let Rvalue::AddressOf(_, addressed) = rvalue
+             && !self.address_of_raw_deref(addressed)
+-            && !self.enclosing_union(addressed).is_some_and(|union| {
+-                wrapper_inner(self.tcx, union, LangItem::MaybeUninit).is_some()
+-            })
+-            && maybe_uninit_storage(self.tcx, addressed.ty(&self.locals).unwrap()).is_none()
++            && self.enclosing_union(addressed).is_none()
++            && !self.transfers_shadow(addressed.ty(&self.locals).unwrap())
+         {
+             self.push_target(MemoryInitOp::Set {
+                 operand: Operand::Copy(place.clone()),
+@@ -352,45 +377,16 @@ fn visit_ordinary_assignment(
+             });
+         }
+ 
+-        // Need to copy some information about union initialization, since lvalue is
+-        // either a union or a field inside a union.
++        // A projected write changes only the bytes of the projected field. The operation
++        // computes the field's typed data mask, clearing padding inside that field extent while
++        // preserving bytes outside it. Whole-union assignments are handled through
++        // assign_storage above.
+         if in_union {
+-            match rvalue {
+-                Rvalue::Use(operand, _) => {
+-                    // This is a union-to-union assignment, so we need to copy the
+-                    // initialization state.
+-                    if place.ty(&self.locals).unwrap().kind().is_union() {
+-                        self.push_target(MemoryInitOp::AssignUnion {
+-                            lvalue: place.clone(),
+-                            rvalue: operand.clone(),
+-                            position: InsertPosition::After,
+-                        });
+-                    } else {
+-                        // This is assignment to a field of a union.
+-                        self.push_target(MemoryInitOp::SetRef {
+-                            operand: Operand::Copy(place.clone()),
+-                            value: true,
+-                            position: InsertPosition::After,
+-                        });
+-                    }
+-                }
+-                Rvalue::Aggregate(AggregateKind::Adt(adt_def, _, _, _, union_field), _) => {
+-                    // Create a union from scratch as an aggregate. We handle it here because we
+-                    // need to know which field is getting assigned.
+-                    if adt_def.kind() == AdtKind::Union {
+-                        self.push_target(MemoryInitOp::CreateUnion {
+-                            operand: Operand::Copy(place.clone()),
+-                            field: union_field.unwrap(), // Safe to unwrap because we know this is a union.
+-                        });
+-                    }
+-                }
+-                // TODO: add support for Rvalue::Cast, etc.
+-                _ => self.push_target(MemoryInitOp::Unsupported {
+-                    reason:
+-                        "Performing a union assignment with a non-supported construct as an Rvalue"
+-                            .to_string(),
+-                }),
+-            }
++            self.push_target(MemoryInitOp::SetRef {
++                operand: Operand::Copy(place.clone()),
++                value: true,
++                position: InsertPosition::After,
++            });
+         }
+     }
+ }
+@@ -419,7 +415,7 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+                     .is_some_and(|ty| wrapper_inner(self.tcx, ty, LangItem::MaybeUninit).is_some());
+ 
+                 // Reject nested unions before the generic shadow update can treat them as values.
+-                if maybe_uninit_storage(self.tcx, ty).is_some() {
++                if self.transfers_shadow(ty) {
+                     self.assign_storage(place, ty, rvalue);
+                 } else if let Err(reason @ LayoutComputationError::UnionAsField(_)) =
+                     PointeeInfo::from_ty(ty)
+@@ -482,22 +478,46 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                 let instance = match try_resolve_instance(&self.locals, func) {
+                     Ok(instance) => instance,
+                     Err(reason) => {
+-                        self.super_terminator(term, location);
+                         self.push_target(MemoryInitOp::Unsupported { reason });
++                        self.targets.push(self.current_target.clone());
+                         return;
+                     }
+                 };
++                let instance_name = instance.name();
++                if instance.kind == InstanceKind::Intrinsic
++                    && instance_name.ends_with("select_unpredictable")
++                    && args.iter().any(|arg| self.transfers_shadow(arg.ty(&self.locals).unwrap()))
++                {
++                    self.push_target(MemoryInitOp::Unsupported {
++                        reason: "Kani does not support select_unpredictable of union storage."
++                            .to_string(),
++                    });
++                    self.targets.push(self.current_target.clone());
++                    return;
++                }
+                 // Forget consumes its argument without reading or returning any bytes; it
+                 // already has an explicit no-effect model below. Other bodyless transfers
+                 // need an actual shadow model, not an unpaired argument-buffer store.
+                 let modeled_consumption = instance.kind == InstanceKind::Intrinsic
+                     && matches!(Intrinsic::from_instance(&instance), Intrinsic::Forget);
+-                if !instance.has_body()
+-                    && !modeled_consumption
+-                    && args.iter().any(|arg| self.transfers_shadow(arg.ty(&self.locals).unwrap()))
++                let modeled_foreign_memory_effect = matches!(
++                    instance_name.as_str(),
++                    "alloc::alloc::__rust_alloc"
++                        | "alloc::alloc::__rust_realloc"
++                        | "alloc::alloc::__rust_alloc_zeroed"
++                        | "alloc::alloc::__rust_dealloc"
++                );
++                let has_unmodeled_memory_args = args.iter().any(|arg| {
++                    let ty = arg.ty(&self.locals).unwrap();
++                    self.touches_shadow(ty) || self.pointer_or_reference(ty)
++                });
++                if instance.kind == InstanceKind::Item
++                    && !modeled_foreign_memory_effect
++                    && (instance.is_foreign_item()
++                        || (!instance.has_body() && has_unmodeled_memory_args))
+                 {
+                     self.push_target(MemoryInitOp::Unsupported {
+-                        reason: "Kani does not support shadow-carrying arguments to calls without a MIR body."
++                        reason: "Kani does not support foreign mutation of union storage without an effect model."
+                             .to_string(),
+                     });
+                     // In particular, do not leave an unconsumed store for the next call.
+@@ -505,8 +525,8 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                     return;
+                 }
+                 let destination_ty = destination.ty(&self.locals).unwrap();
+-                if maybe_uninit_storage(self.tcx, destination_ty).is_some() {
+-                    if instance.kind == InstanceKind::Item && instance.has_body() {
++                if self.transfers_shadow(destination_ty) && instance.kind == InstanceKind::Item {
++                    if instance.has_body() {
+                         self.push_target(MemoryInitOp::LoadArgument {
+                             operand: Operand::Copy(destination.clone()),
+                             argument_no: 0,
+@@ -514,11 +534,25 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                         });
+                     } else {
+                         self.push_target(MemoryInitOp::Unsupported {
+-                            reason: "Kani does not support MaybeUninit return values from calls without a MIR body."
++                            reason: "Kani does not support union storage returned from calls without a MIR body."
+                                 .to_string(),
+                         });
+                     }
+                 }
++                if instance.kind == InstanceKind::Intrinsic
++                    && !modeled_consumption
++                    && can_skip_intrinsic(Intrinsic::from_instance(&instance))
++                    && (args.iter().any(|arg| self.transfers_shadow(arg.ty(&self.locals).unwrap()))
++                        || self.transfers_shadow(destination_ty))
++                {
++                    self.push_target(MemoryInitOp::Unsupported {
++                        reason:
++                            "Kani does not support unpaired intrinsic transfers of union storage."
++                                .to_string(),
++                    });
++                    self.targets.push(self.current_target.clone());
++                    return;
++                }
+                 match instance.kind {
+                     InstanceKind::Intrinsic => {
+                         match Intrinsic::from_instance(&instance) {
+@@ -573,23 +607,54 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                                 });
+                             }
+                             Intrinsic::TypedSwap
+-                                if let TyKind::RigidTy(RigidTy::RawPtr(ty, _)) =
+-                                    args[0].ty(&self.locals).unwrap().kind()
+-                                    && maybe_uninit_storage(self.tcx, ty).is_some() =>
++                                if args.iter().any(|arg| self.shadow_pointer(arg)) =>
+                             {
++                                let kind = if args.iter().any(|arg| self.union_pointer(arg)) {
++                                    "union"
++                                } else {
++                                    "MaybeUninit"
++                                };
+                                 self.push_target(MemoryInitOp::Unsupported {
+-                                    reason:
+-                                        "Kani does not support typed_swap of MaybeUninit storage."
+-                                            .to_string(),
++                                    reason: format!(
++                                        "Kani does not support typed_swap of {kind} storage."
++                                    ),
+                                 });
+                             }
+                             Intrinsic::TypedSwap => {
+                                 self.push_target(MemoryInitOp::Check { operand: args[0].clone() });
+                                 self.push_target(MemoryInitOp::Check { operand: args[1].clone() });
+                             }
++                            Intrinsic::VolatileLoad | Intrinsic::UnalignedVolatileLoad
++                                if self.shadow_pointer(&args[0]) =>
++                            {
++                                let kind = if self.union_pointer(&args[0]) {
++                                    "union"
++                                } else {
++                                    "MaybeUninit"
++                                };
++                                self.push_target(MemoryInitOp::Unsupported {
++                                    reason: format!(
++                                        "Kani does not support volatile loads of {kind} storage."
++                                    ),
++                                });
++                            }
+                             Intrinsic::VolatileLoad | Intrinsic::UnalignedVolatileLoad => {
+                                 self.push_target(MemoryInitOp::Check { operand: args[0].clone() });
+                             }
++                            Intrinsic::VolatileStore | Intrinsic::UnalignedVolatileStore
++                                if self.shadow_pointer(&args[0]) =>
++                            {
++                                let kind = if self.union_pointer(&args[0]) {
++                                    "union"
++                                } else {
++                                    "MaybeUninit"
++                                };
++                                self.push_target(MemoryInitOp::Unsupported {
++                                    reason: format!(
++                                        "Kani does not support volatile stores of {kind} storage."
++                                    ),
++                                });
++                            }
+                             Intrinsic::VolatileStore | Intrinsic::UnalignedVolatileStore => {
+                                 self.push_target(MemoryInitOp::Set {
+                                     operand: args[0].clone(),
+@@ -668,21 +733,31 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                 // When drop is codegen'ed for types that could define their own dropping
+                 // behavior, a reference is taken to the place which is later implicitly coerced
+                 // to a pointer. Hence, we need to bless this pointer as initialized.
+-                match place
+-                    .ty(&self.locals)
+-                    .unwrap()
+-                    .kind()
+-                    .rigid()
+-                    .expect("should be working with monomorphized code")
++                if let Err(reason @ LayoutComputationError::UnionAsField(_)) =
++                    PointeeInfo::from_ty(place_ty)
+                 {
+-                    RigidTy::Adt(..) | RigidTy::Dynamic(_, _) => {
+-                        self.push_target(MemoryInitOp::SetRef {
+-                            operand: Operand::Copy(place.clone()),
+-                            value: true,
+-                            position: InsertPosition::Before,
+-                        });
++                    self.push_target(MemoryInitOp::Unsupported {
++                        reason: format!(
++                            "Checking memory initialization of type {place_ty} is not supported. {reason}"
++                        ),
++                    });
++                } else {
++                    match place_ty
++                        .kind()
++                        .rigid()
++                        .expect("should be working with monomorphized code")
++                    {
++                        RigidTy::Adt(..) | RigidTy::Dynamic(_, _)
++                            if !place_ty.kind().is_union() =>
++                        {
++                            self.push_target(MemoryInitOp::SetRef {
++                                operand: Operand::Copy(place.clone()),
++                                value: true,
++                                position: InsertPosition::Before,
++                            });
++                        }
++                        _ => {}
+                     }
+-                    _ => {}
+                 }
+ 
+                 if place_ty.kind().is_raw_ptr() {
+@@ -695,8 +770,7 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+             }
+             TerminatorKind::Return => {
+                 let return_place = Place::from(0);
+-                if maybe_uninit_storage(self.tcx, return_place.ty(&self.locals).unwrap()).is_some()
+-                {
++                if self.transfers_shadow(return_place.ty(&self.locals).unwrap()) {
+                     self.push_target(MemoryInitOp::StoreArgument {
+                         operand: Operand::Copy(return_place),
+                         argument_no: 0,
+@@ -732,16 +806,9 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+                 ProjectionElem::Field(_, _) => {
+                     let union_ty = intermediate_place.ty(&self.locals).unwrap();
+                     if union_ty.kind().is_union() && !ptx.is_mutating() {
+-                        if wrapper_inner(self.tcx, union_ty, LangItem::MaybeUninit).is_none()
+-                            && place.projection.contains(&ProjectionElem::Deref)
+-                        {
+-                            // We do not currently support having a deref projection in the same
+-                            // place as union field access.
+-                            self.push_target(MemoryInitOp::Unsupported {
+-                                reason: "Kani does not yet support performing a dereference on a union field".to_string(),
+-                            });
+-                        }
+-                        // Accessing a place inside the union, need to check if it is initialized.
++                        // Accessing a projected place inside the union requires the projected
++                        // bytes to be initialized. Any pointer dereference in the projection has
++                        // its own pointer-byte check above.
+                         self.push_target(MemoryInitOp::CheckRef {
+                             operand: Operand::Copy(place.clone()),
+                         });
+@@ -793,9 +860,10 @@ fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
+         if let Rvalue::AddressOf(_, place) = rvalue
+             && self.enclosing_union(place).is_some_and(|union| {
+                 wrapper_inner(self.tcx, union, LangItem::MaybeUninit).is_some()
++                    || union.kind().is_union()
+             })
+         {
+-            // A raw address into the value field of a local slot also leaves shadow unchanged.
++            // Taking an address into tracked storage does not read or initialize its payload.
+             return;
+         }
+         if let Rvalue::Ref(_, _, place) = rvalue
+@@ -825,6 +893,11 @@ fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
+                         // data mask once, including false padding bytes.
+                     } else if self.maybe_uninit_transmute(operand, *ty) {
+                         // Initialization was checked against the destination's data bytes.
++                    } else if operand_ty.kind().is_union() || ty.kind().is_union() {
++                        self.push_target(MemoryInitOp::TriviallyUnsafe {
++                            reason: "Transmuting between types of incompatible layouts."
++                                .to_string(),
++                        });
+                     } else if !tys_layout_compatible_to_size(&operand_ty, ty) {
+                         // If transmuting between two types of incompatible layouts, padding
+                         // bytes are exposed, which is UB.
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+index c1f1eb5ef858efd590ab3f3e0e988767b79e27a3..c56cb7b76862bc41ee10b42986727be87f80a1f8 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+@@ -217,27 +217,6 @@ pub fn expect_value(&self) -> bool {
+         }
+     }
+ 
+-    pub fn union_field(&self) -> Option<FieldIdx> {
+-        match self {
+-            MemoryInitOp::CreateUnion { field, .. } => Some(*field),
+-            MemoryInitOp::Check { .. }
+-            | MemoryInitOp::CheckAs { .. }
+-            | MemoryInitOp::CheckSliceChunk { .. }
+-            | MemoryInitOp::CheckRef { .. }
+-            | MemoryInitOp::CheckRefAs { .. }
+-            | MemoryInitOp::Set { .. }
+-            | MemoryInitOp::SetSliceChunk { .. }
+-            | MemoryInitOp::SetRef { .. }
+-            | MemoryInitOp::SetStorage { .. }
+-            | MemoryInitOp::Unsupported { .. }
+-            | MemoryInitOp::TriviallyUnsafe { .. }
+-            | MemoryInitOp::Copy { .. }
+-            | MemoryInitOp::AssignUnion { .. }
+-            | MemoryInitOp::StoreArgument { .. }
+-            | MemoryInitOp::LoadArgument { .. } => None,
+-        }
+-    }
+-
+     pub fn position(&self) -> InsertPosition {
+         match self {
+             MemoryInitOp::Set { position, .. }
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+index ab08539d8255cb6222fd44a6e818c56424deb085..b819f0e66bab5e3f921e940e66e2d45f6e4a5594 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+@@ -49,7 +49,7 @@ pub enum PointeeLayout {
+     /// Layout of slices, *const/mut str is included in this case and treated as *const/mut [u8].
+     Slice { element_layout: Layout },
+     /// Layout of unions, which are shared storage for multiple fields of potentially different layouts.
+-    Union { field_layouts: Vec<Layout> },
++    Union { field_layouts: Vec<Layout>, storage_size: usize },
+     /// Trait objects have an arbitrary layout.
+     TraitObject,
+ }
+@@ -60,9 +60,7 @@ pub fn maybe_size(&self) -> Option<usize> {
+         match self {
+             PointeeLayout::Sized { layout } => Some(layout.len()),
+             PointeeLayout::Slice { element_layout } => Some(element_layout.len()),
+-            PointeeLayout::Union { field_layouts } => {
+-                Some(field_layouts.iter().map(|field_layout| field_layout.len()).max().unwrap())
+-            }
++            PointeeLayout::Union { storage_size, .. } => Some(*storage_size),
+             PointeeLayout::TraitObject => None,
+         }
+     }
+@@ -130,8 +128,14 @@ pub(super) fn maybe_uninit_storage(tcx: TyCtxt, ty: Ty) -> Option<Ty> {
+ impl PointeeInfo {
+     /// Layout for copying storage or writing every byte with a bytewise intrinsic.
+     pub(super) fn for_storage(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputationError> {
+-        let inner = maybe_uninit_storage(tcx, ty).unwrap();
+-        data_bytes_for_ty(&MachineInfo::target(), inner, 0)?;
++        if let Some(inner) = maybe_uninit_storage(tcx, ty) {
++            validate_layout_type(inner, false)?;
++            data_bytes_for_ty(&MachineInfo::target(), inner, 0)?;
++        } else {
++            // A direct union is storage; its by-value children must still be ordinary types.
++            Self::from_ty(ty)?;
++            assert!(ty.kind().is_union());
++        }
+         let layout = if let TyKind::RigidTy(RigidTy::Slice(slot)) = ty.kind() {
+             let size = slot.layout().unwrap().shape().size.bytes();
+             PointeeLayout::Slice { element_layout: vec![true; size] }
+@@ -143,6 +147,8 @@ pub(super) fn for_storage(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputation
+     }
+ 
+     pub fn from_ty(ty: Ty) -> Result<Self, LayoutComputationError> {
++        // Validate type structure before ABI shortcuts, including zero-sized and scalar ABIs.
++        validate_layout_type(ty, true)?;
+         match ty.kind() {
+             TyKind::RigidTy(rigid_ty) => match rigid_ty {
+                 RigidTy::Adt(adt_def, args) if adt_def.kind() == AdtKind::Union => {
+@@ -161,7 +167,10 @@ pub fn from_ty(ty: Ty) -> Result<Self, LayoutComputationError> {
+                         .collect();
+                     Ok(PointeeInfo {
+                         pointee_ty: ty,
+-                        layout: PointeeLayout::Union { field_layouts: fields? },
++                        layout: PointeeLayout::Union {
++                            field_layouts: fields?,
++                            storage_size: ty.layout().unwrap().shape().size.bytes(),
++                        },
+                     })
+                 }
+                 RigidTy::Str => {
+@@ -203,6 +212,24 @@ pub fn from_ty(ty: Ty) -> Result<Self, LayoutComputationError> {
+         }
+     }
+ 
++    /// Typed union transfers preserve possible data bytes, never uncovered padding/tail.
++    /// This is a preservation mask, not evidence that any source byte is initialized.
++    pub(super) fn transfer_mask(&self) -> Vec<bool> {
++        match &self.layout {
++            PointeeLayout::Union { field_layouts, storage_size } => {
++                let mut mask = vec![false; *storage_size];
++                for field in field_layouts {
++                    assert!(field.len() <= *storage_size);
++                    for (byte, data) in mask.iter_mut().zip(field) {
++                        *byte |= *data;
++                    }
++                }
++                mask
++            }
++            _ => vec![true; self.layout.maybe_size().unwrap()],
++        }
++    }
++
+     pub fn ty(&self) -> &Ty {
+         &self.pointee_ty
+     }
+@@ -212,6 +239,56 @@ pub fn layout(&self) -> &PointeeLayout {
+     }
+ }
+ 
++/// Storage classification only. Every use must validate with `from_ty` / `for_storage`.
++pub(super) fn union_storage(tcx: TyCtxt, ty: Ty) -> bool {
++    ty.kind().is_union() || maybe_uninit_storage(tcx, ty).is_some()
++}
++
++/// Reject unsupported structural types before a zero-sized/scalar ABI can hide them.
++fn validate_layout_type(ty: Ty, allow_union: bool) -> Result<(), LayoutComputationError> {
++    match ty.kind().rigid().expect("expected a monomorphized type") {
++        RigidTy::Adt(def, args) => {
++            if def.kind() == AdtKind::Union && !allow_union {
++                return Err(LayoutComputationError::UnionAsField(ty));
++            }
++            for variant in def.variants_iter() {
++                for field in variant.fields() {
++                    validate_layout_type(field.ty_with_args(args), false)?;
++                }
++            }
++            if def.kind() == AdtKind::Enum {
++                // Even [UnsupportedEnum; 0] and scalar-ABI niches retain their guard.
++                if matches!(
++                    ty.layout().unwrap().shape().variants,
++                    VariantsShape::Multiple { tag_encoding: TagEncoding::Niche { .. }, .. }
++                ) {
++                    return Err(LayoutComputationError::EnumWithNicheEncoding(ty));
++                }
++                data_bytes_for_ty(&MachineInfo::target(), ty, 0)?;
++            }
++            Ok(())
++        }
++        RigidTy::Array(element, _) | RigidTy::Slice(element) | RigidTy::Pat(element, _) => {
++            validate_layout_type(*element, false)
++        }
++        RigidTy::Tuple(fields) => {
++            for field in fields {
++                validate_layout_type(*field, false)?;
++            }
++            Ok(())
++        }
++        RigidTy::FnDef(..)
++        | RigidTy::FnPtr(..)
++        | RigidTy::Closure(..)
++        | RigidTy::Coroutine(..)
++        | RigidTy::CoroutineClosure(..)
++        | RigidTy::CoroutineWitness(..)
++        | RigidTy::Foreign(..) => Err(LayoutComputationError::UnsupportedType(ty)),
++        // A pointer is data; do not recurse into the storage of its pointee.
++        _ => Ok(()),
++    }
++}
++
+ /// Retrieve a set of data bytes with offsets for a type.
+ fn data_bytes_for_ty(
+     machine_info: &MachineInfo,
+@@ -371,7 +448,11 @@ fn data_bytes_for_ty(
+                 RigidTy::Pat(base_ty, ..) => {
+                     // This is similar to a structure with one field and with niche defined.
+                     let mut pat_data_bytes = vec![];
+-                    pat_data_bytes.append(&mut data_bytes_for_ty(machine_info, *base_ty, 0)?);
++                    pat_data_bytes.append(&mut data_bytes_for_ty(
++                        machine_info,
++                        *base_ty,
++                        current_offset,
++                    )?);
+                     Ok(pat_data_bytes)
+                 }
+                 RigidTy::Tuple(tys) => {
+diff --git a/library/kani_core/src/mem_init.rs b/library/kani_core/src/mem_init.rs
+index 6f832d4c651f8770a46327beb6e4a957b06c1166..3dec9fa479ad72ce1e333e14f2ff0909b3b29504 100644
+--- a/library/kani_core/src/mem_init.rs
++++ b/library/kani_core/src/mem_init.rs
+@@ -107,6 +107,24 @@ pub fn set<const LAYOUT_SIZE: usize>(
+                 }
+             }
+ 
++            /// Intersect the tracked destination state with a typed-transfer preservation mask.
++            /// Unlike `set`, this never changes a false data byte into a true one.
++            #[kanitool::disable_checks(pointer)]
++            pub fn retain<const LAYOUT_SIZE: usize>(
++                &mut self,
++                ptr: *const u8,
++                layout: Layout<LAYOUT_SIZE>,
++            ) {
++                let obj = super::mem::pointer_object(ptr);
++                let offset = super::mem::pointer_offset(ptr);
++                if self.tracked_object_id == obj
++                    && self.tracked_offset >= offset
++                    && self.tracked_offset < offset + LAYOUT_SIZE
++                {
++                    self.value &= layout[self.tracked_offset - offset];
++                }
++            }
++
+             /// Copy memory initialization state by non-deterministically switching the tracked object and
+             /// adjusting the tracked offset.
+             #[kanitool::disable_checks(pointer)]
+@@ -393,8 +411,18 @@ fn copy_init_state<const LAYOUT_SIZE: usize, T>(
+         /// this case `LAYOUT_SIZE == size_of::<T>`.
+         #[kanitool::disable_checks(pointer)]
+         #[kanitool::fn_marker = "CopyInitStateSingleModel"]
+-        fn copy_init_state_single<const LAYOUT_SIZE: usize, T>(from: *const T, to: *const T) {
++        fn copy_init_state_single<const LAYOUT_SIZE: usize, T>(
++            from: *const T,
++            to: *const T,
++            preserve: Layout<LAYOUT_SIZE>,
++        ) {
++            if LAYOUT_SIZE == 0 {
++                return;
++            }
+             copy_init_state::<LAYOUT_SIZE, T>(from, to, 1);
++            unsafe {
++                MEM_INIT_STATE.retain(to as *const u8, preserve);
++            }
+         }
+ 
+         /// Non-deterministically store information about currently tracked argument in the argument
+@@ -423,7 +451,11 @@ fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument
+         /// another non-deterministic branch. Reset the argument buffer after loading from it.
+         #[kanitool::disable_checks(pointer)]
+         #[kanitool::fn_marker = "LoadArgumentModel"]
+-        fn load_argument<const LAYOUT_SIZE: usize, T>(to: *const T, selected_argument: usize) {
++        fn load_argument<const LAYOUT_SIZE: usize, T>(
++            to: *const T,
++            selected_argument: usize,
++            preserve: Layout<LAYOUT_SIZE>,
++        ) {
+             let (to_ptr, _) = to.to_raw_parts();
+             if unsafe {
+                 MEM_INIT_STATE.argument_buffer_active
+@@ -445,11 +477,13 @@ fn load_argument<const LAYOUT_SIZE: usize, T>(to: *const T, selected_argument: u
+                         1,
+                     );
+                     MEM_INIT_STATE.argument_buffer_active = false;
++                    MEM_INIT_STATE.retain(to_ptr as *const u8, preserve);
+                 }
+                 return;
+             }
+             unsafe {
+                 MEM_INIT_STATE.bless::<LAYOUT_SIZE>(to_ptr as *const u8, 1);
++                MEM_INIT_STATE.retain(to_ptr as *const u8, preserve);
+             }
+         }
+     };

@@ -1,0 +1,199 @@
+{
+  "candidate": "45d0300e054345b4f6bdf89528195ee7c5dba8a5",
+  "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "applied_tree": "37b330554636052a8a944b2130751b1db174ccd7",
+  "paths": [
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "sha256": "dddbf5d1b29a398d79d4d2a8ad7f3e216dba4c22203bb75ade6fd6c8c8d8cc60"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "sha256": "474483db6d76712472f97f7a852130a0ef864294ccccf8edc7e79b5d5e1e96fa"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "sha256": "503b2c0f60762313b6f61b4308f154a90c459b3a4370aeb4ba2aa4e4a7aef6ba"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "sha256": "1754333700d5089b7d2229cf0c84ea2c9a5b2f5def950ae6a3bdcc58bb1d8025"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "sha256": "a6421b3d9ec9976aaae80346a89e9eeb53a7a787dea9c431cb05a19fc63b2726"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "sha256": "31eab7bff7382d187879547501690eeab5cfada36a1b72e1f182d9008968357b"
+    },
+    {
+      "path": "library/kani_core/src/mem_init.rs",
+      "sha256": "7bfb55904a10d92186c96913f3e279304187c3014255074934e6799600b6abab"
+    },
+    {
+      "path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_return/expected",
+      "sha256": "037eb2f554fa2cae309d9feee431cd0fb385dcf60b367aef19800687827cada9"
+    },
+    {
+      "path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_return/main.rs",
+      "sha256": "0b6e65210ede9d533d94df614034ac189a61a260f6f48868d0c8b0d3cef55fae"
+    },
+    {
+      "path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation_erased/expected",
+      "sha256": "64c3b34f094bdeed8b652ed76c626070f31af4071402aedf5902d8a9a936182b"
+    },
+    {
+      "path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation_erased/main.rs",
+      "sha256": "1287dc23f5d01ec674b2fab88d537ab7b078cd06c7c0be2245a4383d8b4b4ebd"
+    },
+    {
+      "path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_forget_union_array/expected",
+      "sha256": "ceef49a22bd6c6710471db70306dd9262b89b180503593d2a273094995840429"
+    },
+    {
+      "path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_forget_union_array/main.rs",
+      "sha256": "b006371c05c260b9341925be2b18d19f3b78e1e1e2c6ac17d13b13b752c4e6fa"
+    },
+    {
+      "path": "tests/expected/uninit/g1-union-pointee-unsupported/types.inc",
+      "sha256": "422df5f16f8cc08c9ebf38994f4964bd4d6cc8901cc28323cc54951b4a9db33a"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-buffer/expected",
+      "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+      "sha256": "09e5dd454f0cfcfeed1d9df436507c7d705270e85ee11592347113d58f9f1f55"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-return/expected",
+      "sha256": "a9ed8039903d8bd6f56d7c563703e213d99020d235038e5107a1395a264a807c"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+      "sha256": "345db788d839c5f40fae3454d7ec8d1a8b805a208554a8fcad04ee53027ff9b9"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+      "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+      "sha256": "5fc89460489e7ac8dafe69f0ad722ae5d4d3a31776f945c0f78beda15aa38ad9"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+      "sha256": "85e61667ab9e23dfaf275e301725bb107c4cbc5b7613dd504a898dbf7e0ec326"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+      "sha256": "f5c45585e405fe570d88eddb69b76b6299a04ebaba168cc08e2b36bb3bbb09c2"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+      "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-overlap-copy/expected",
+      "sha256": "8f2812a0e767a3ab340b51bbe37e7cf30772865970525d33b274487827ecb59d"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-overlap-copy/main.rs",
+      "sha256": "ba454420efd8f9cb540b0af42040472e25fe0857acc95ec0cb5838c4007bc692"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-overwrite-copy/expected",
+      "sha256": "c62ca7df25c2f41a53541c08d6ce84d00d9a36504dff15c8c21f2b8e1ea0cce5"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-overwrite-copy/main.rs",
+      "sha256": "bc70b2eb653f02193eabc7a4085fabc1dbaf04270ee54519affe5afdd0dc888c"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-partial-copy/expected",
+      "sha256": "86cd97e3e413fdd50e5da87c83acd815a528127db89d43d805a782cc225466db"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-partial-copy/main.rs",
+      "sha256": "52d4ef75b76aba6e84152188315d7e43aaa34bcc857429b6da9729259bbbb8f2"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-repeat-local/expected",
+      "sha256": "a34636225140ae8725d1b22ff17c1b7625ea12439fbd3ed6d8c119beefe06cbb"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-repeat-local/main.rs",
+      "sha256": "33f47bb164d81187c16f9a640c524fd86f7bd602af20f0339aba3e3137c5a814"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-reset-alias/expected",
+      "sha256": "6f67fe0887ebe8d7ea7e1f7365b6c3c1cc03db1f24fcfdb5adc3855593165041"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-reset-alias/main.rs",
+      "sha256": "718713896e97f3a29c26c708b6816fdebfafff6d0884c241f466009564060b07"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-reset-zst/expected",
+      "sha256": "ac269e35cc2f27d800c96740d82127dfd8ef3120b3beb90b25e3855cb9521d7e"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-reset-zst/main.rs",
+      "sha256": "c3c15670264f0c3289f482ddf547dbd5a104d8550209247d82c0057c57ea6002"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-transfers/expected",
+      "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-transfers/main.rs",
+      "sha256": "5587fdcd7436a63ccfed41747fc5c9ebc18ec74f46ef988d35c2e0877dba33d9"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-transmute-padding/expected",
+      "sha256": "6f67fe0887ebe8d7ea7e1f7365b6c3c1cc03db1f24fcfdb5adc3855593165041"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-transmute-padding/main.rs",
+      "sha256": "62fa7db84d1c814862e000746fef53cf64fb0faed7ec809559a42c6764ccccd7"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-transmute-source-read/expected",
+      "sha256": "193351708475946afdfe207a8fbc06fb120366d0a4f1716767b431f5c70686f8"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-transmute-source-read/main.rs",
+      "sha256": "341f157e31cb14cacdc99986ab46b60741f42435195b125f4d51bfacbf2c3105"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-transmute/expected",
+      "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-transmute/main.rs",
+      "sha256": "a8447076a637799a4f2775d1fdbf46f5ffd8ec70721806b04d5d86ba65801c48"
+    },
+    {
+      "path": "tests/expected/uninit/uninhabited-union-field/expected",
+      "sha256": "ee078b26d1ed35c88d21386ce4ce45807d8db232d6778b33ec76bd921bb33a33"
+    },
+    {
+      "path": "tests/expected/uninit/uninhabited-union-field/uninhabited-union-field.rs",
+      "sha256": "788b7de41d6ef22175448f95ac1f260362bda8b5b55203e79e0cef601b7d3983"
+    },
+    {
+      "path": "tests/expected/uninit/unions.expected",
+      "sha256": "b176bd197d438bd401b8535ad208c2cd3f350d8b054dd9da564ed8da371267a2"
+    },
+    {
+      "path": "tests/expected/uninit/unions.rs",
+      "sha256": "304e5efcff64657d5cb98671a5e972143950b1e2f5568863c7bcfab83392385e"
+    }
+  ]
+}

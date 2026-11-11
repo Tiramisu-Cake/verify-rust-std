@@ -1,0 +1,50 @@
+{
+  "applicability": "One static Runtime Codex stage. No builds/local proof tools/publication to Kani. Review G1 diff plus complete P1 production dependencies.",
+  "baseline_commit": "657c2b24516b967f67ce71994299d0ef328aede9",
+  "candidate_commit": "0780eb57cedf07cf96ebba25b7a14701d647bf3e",
+  "controls": [
+    "Review all new G1 sources/goldens and exact manifest; bind each negative harness to its own reading/property/type/outcome. Native outcomes NOT_RUN.",
+    "Existing renamed P1 controls and frame golden must remain identical to base657c.",
+    "No assumptions/check removal/golden weakening, no successful G2 workaround via [U;N].",
+    "No cargo/rustc/Kani/CBMC/build/Cloud; static review only."
+  ],
+  "defect": "KANI3300 G1: supported direct union raw pointees; typed and untyped transfer separation with conservative padding; G2 remains rejected.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "library/kani_core/src/mem_init.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/kani_intrinsics.rs"
+  ],
+  "invariants": [
+    "Single-byte nondeterministic shadow witness must detect any initializedness violation; data/padding masks preserved; copies must invalidate overwritten destination and preserve source witness.",
+    "Flat bool/usize buffer is inside marked MEM_INIT_STATE. Non-deterministic argument selection, deterministic return index zero, nested calls and consuming active state must preserve witnesses.",
+    "copy_by_id must not inspect dead return pointers or fabricate object/provenance ownership. Snapshot IDs while source live.",
+    "DFCC may exempt verifier-private MEM_INIT_STATE only; actual writes outside modifies must remain checked. No assumptions or user-check weakening.",
+    "Full rustc storage extent versus typed preserve-mask: false source stays false; untyped copies preserve padding; typed copies/load/constant clear uncovered padding and tail.",
+    "Whole-create resets full union, projected stores touch exact field/subfield extent, ZST field does not bless payload; address formation never initializes union.",
+    "Matching argument/return/destination protocol, captured addresses before overwrite, no return dead pointer dereference.",
+    "No layout shortcut bypasses nested union/G2, fn-pointer, niche/different-padding enum; all-ZST handled.",
+    "Thin/fat union pointer field aliases reach delayed typed reads; pointer bytes do not imply initialized pointee.",
+    "Unmodeled volatile/typed_swap/select_unpredictable/bodyless/foreign and MU-specific transmute fail closed."
+  ],
+  "known_limitations": [
+    "No native or compiler results; full regression/core replay later require separate GO.",
+    "G2 by-value union containers/wrappers remain Unsupported, including unaligned U transfers via Unaligned<U>.",
+    "OR-of-arm data mask is explicit rustc-layout inference; no backend observation used as preservation guarantee.",
+    "Existing P1 PFC limitation remains open; no independent B1/B2 credit."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-g1"
+}
