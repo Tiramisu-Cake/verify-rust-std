@@ -1,0 +1,21 @@
+{
+  "command": [
+    "bash",
+    "research/challenge-8/kani-k1/tools/k1g.sh",
+    "check-tooling",
+    "9f964706-4b89-4340-a1ee-022aa23ecbe9",
+    "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c"
+  ],
+  "exit_code": 0,
+  "record_basis": "Successful command output observed in this Codex turn; structured receipt, not a verbatim stdout capture",
+  "build_head": "a3e082da37f65095f85ebf998170775d7b75db9c",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "checks": {
+    "runner_pool": "PASS k1-standard4",
+    "all_lane_paths_equal_base": "PASS",
+    "six_bound_file_hashes_equal_base": "PASS",
+    "candidate_request_sha256": "PASS f839b593b08b53953a408528e8833d54be50dc9abff281c27291e18c09b46f4a",
+    "applied_patch_specification_and_tree": "PASS 4de67d7ead14bdc4060d2b08060e7ee7651625bb",
+    "published_patch_sha256": "PASS d9417e68ec3ee9c8c27bb8e7ac829e2af712c4d124ac59078416ab34feebd85c"
+  }
+}

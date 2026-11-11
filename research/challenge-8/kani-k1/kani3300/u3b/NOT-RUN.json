@@ -1,17 +1,7 @@
 {
-  "status": "ALL_NATIVE_NOT_RUN_PENDING_PRE_BUILD_GO",
+  "status": "NON_MANIFEST_NOT_RUN; ALL9_MANIFEST_SELECTORS_ATTEMPTED",
   "selected_count": 9,
-  "selected_not_run": [
-    "uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
-    "uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
-    "uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs",
-    "uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs",
-    "uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs",
-    "uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
-    "uninit/maybe-uninit-review-overwrite-copy/main.rs",
-    "uninit/maybe-uninit-review-positive/main.rs",
-    "uninit/maybe-uninit-wrap-u3-positive/main.rs"
-  ],
+  "selected_not_run": [],
   "patch_fixtures_not_selected": [
     "uninit/maybe-uninit-assume-init/main.rs",
     "uninit/maybe-uninit-buffer-u3-clause-pfc-negative/main.rs",
@@ -60,5 +50,17 @@
   ],
   "original_buffer_fixtures": "Preserved unchanged in full test commit/full test patch; excluded from build patch and NOT_RUN per coordinator decision",
   "regression_scope": "wrap positive all7 includes empty_harness; review positive all7; one plain-negative; one U1T overwrite-copy negative",
-  "build_patch_scope": "Only nine manifest fixtures/goldens; exact files listed in BUILD-PATCH-INVENTORY.json"
+  "build_patch_scope": "Only nine manifest fixtures/goldens; exact files listed in BUILD-PATCH-INVENTORY.json",
+  "selected_attempted": [
+    "uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
+    "uninit/maybe-uninit-buffer-u3b-pfc-positive-no-uninit/main.rs",
+    "uninit/maybe-uninit-buffer-u3b-pfc-negative/main.rs",
+    "uninit/maybe-uninit-buffer-u3b-pfc-negative-no-uninit/main.rs",
+    "uninit/maybe-uninit-buffer-u3-frame-negative/main.rs",
+    "uninit/maybe-uninit-wrap-u3-positive/main.rs",
+    "uninit/maybe-uninit-buffer-u3-plain-negative/main.rs",
+    "uninit/maybe-uninit-review-positive/main.rs",
+    "uninit/maybe-uninit-review-overwrite-copy/main.rs"
+  ],
+  "selected_manifest_native_status": "7 PASS / 2 ERROR; no selected NOT_RUN; PFC errors are Kani-reported OOM"
 }

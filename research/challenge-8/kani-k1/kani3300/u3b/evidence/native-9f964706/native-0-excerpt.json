@@ -1,0 +1,164 @@
+{
+  "build_id": "9f964706-4b89-4340-a1ee-022aa23ecbe9",
+  "head_sha": "a3e082da37f65095f85ebf998170775d7b75db9c",
+  "request_sha256": "f839b593b08b53953a408528e8833d54be50dc9abff281c27291e18c09b46f4a",
+  "summary_file": "/tmp/kani-k1-gcb/summary-9f964706-4b89-4340-a1ee-022aa23ecbe9/summary/summary.json",
+  "summary_sha256": "326b8b92d822f3a4f4e2fbecb158b84a2c062dcb359bdb560a315a453a9733b5",
+  "offset": 0,
+  "file": "uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
+  "field": "output_excerpt",
+  "report_source": "native",
+  "validation": "VALIDATED",
+  "diagnostic_only": true,
+  "summary_status": "TOOL_ERROR",
+  "kind": "object",
+  "units": "entries",
+  "total": 10,
+  "start": 0,
+  "value": {
+    "diagnostic_only": true,
+    "failed_check_line_count": 0,
+    "max_json_bytes": 4096,
+    "max_lines": 60,
+    "omitted_failed_check_line_count": 0,
+    "omitted_line_count": 166,
+    "records": [
+      {
+        "clipped": false,
+        "line": 9,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "error: test failed: expected output to contain the line(s):"
+      },
+      {
+        "clipped": false,
+        "line": 38,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "warning: 1 warning emitted"
+      },
+      {
+        "clipped": false,
+        "line": 41,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "------------------------------------------"
+      },
+      {
+        "clipped": false,
+        "line": 45,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "failures:"
+      },
+      {
+        "clipped": false,
+        "line": 46,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "    [expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs"
+      },
+      {
+        "clipped": false,
+        "line": 48,
+        "source": "compiletest_stdout",
+        "start_char": 0,
+        "text": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 566 filtered out; finished in 50.10s"
+      },
+      {
+        "clipped": false,
+        "line": 111,
+        "source": "compiletest_stderr",
+        "start_char": 0,
+        "text": "warning: `scanner` (manifest) generated 1 warning"
+      },
+      {
+        "clipped": false,
+        "line": 112,
+        "source": "compiletest_stderr",
+        "start_char": 0,
+        "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.09s"
+      },
+      {
+        "clipped": true,
+        "line": 113,
+        "source": "compiletest_stderr",
+        "start_char": 0,
+        "text": "     Running `target/debug/compiletest --suite expected --mode expected --src-base tests/expected --build-base /workspace/src/k1-out/native-0 --exact '[expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main."
+      },
+      {
+        "clipped": false,
+        "line": 114,
+        "source": "compiletest_stderr",
+        "start_char": 0,
+        "text": "Some tests failed in compiletest suite=expected mode=expected host=(none) target=(none)"
+      },
+      {
+        "clipped": false,
+        "line": 7,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "CBMC appears to have run out of memory. You may want to rerun your proof in an environment with additional memory or use stubbing to reduce the size of the code the verifier reasons about."
+      },
+      {
+        "clipped": false,
+        "line": 9,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "Manual Harness Summary:"
+      },
+      {
+        "clipped": false,
+        "line": 10,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "Verification failed for - contracted_roundtrip_harness"
+      },
+      {
+        "clipped": false,
+        "line": 11,
+        "source": "kani_stdout",
+        "start_char": 0,
+        "text": "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+      },
+      {
+        "clipped": false,
+        "line": 5,
+        "source": "kani_stderr",
+        "start_char": 0,
+        "text": "  |            ^^^^^^^^^^^^^"
+      },
+      {
+        "clipped": false,
+        "line": 6,
+        "source": "kani_stderr",
+        "start_char": 0,
+        "text": "  |"
+      },
+      {
+        "clipped": false,
+        "line": 7,
+        "source": "kani_stderr",
+        "start_char": 0,
+        "text": "  = note: requested on the command line with `--force-warn unstable-features`"
+      },
+      {
+        "clipped": false,
+        "line": 9,
+        "source": "kani_stderr",
+        "start_char": 0,
+        "text": "warning: 1 warning emitted"
+      }
+    ],
+    "selected_line_count": 18,
+    "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+    "source_line_counts": {
+      "compiletest_stderr": 114,
+      "compiletest_stdout": 49,
+      "kani_stderr": 10,
+      "kani_stdout": 11
+    }
+  },
+  "count": 10,
+  "next_start": null
+}

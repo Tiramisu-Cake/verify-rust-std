@@ -3,7 +3,7 @@
   "slug": "kani3300",
   "runtime": "Codex",
   "owner": "k1-merge",
-  "status": "PRE_BUILD_PREPARED_AWAITING_COORDINATOR_GO",
+  "status": "STAGE_COMPLETE_KNOWN_LIMITATION",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-U3B.md",
   "input_research_head": "538e907ad69f3c7726e39468bab9a7050f6ed5c5",
   "branch": "experiment/kani-k1-kani3300u3-20261111",
@@ -37,12 +37,33 @@
       "claim": "pinned preflight PASS exit0; diffstat1595<=4096; tooling unchanged",
       "status": "STATIC_VERIFIED",
       "evidence": "PREFLIGHT-OBSERVATION-BUILD.json; preflight-build.json"
+    },
+    {
+      "claim": "authorized build exact source/request/patch/tree and KT2 tooling verified",
+      "status": "PASS_IDENTITIES",
+      "evidence": "TOOLING-CHECK.json; POST-BUILD-OBSERVATIONS.json"
+    },
+    {
+      "claim": "both isolated PFC on-roots Kani-reported OOM; matching off-controls SUCCESS",
+      "status": "BOUNDED_NATIVE_DIAGNOSIS",
+      "evidence": "POST-BUILD-OBSERVATIONS.json; evidence/native-9f964706/native-0-excerpt.json; evidence/native-9f964706/native-2-excerpt.json"
+    },
+    {
+      "claim": "frame negative golden with user line22 passes; four regression selectors PASS",
+      "status": "FINITE_NATIVE_CONTROL_RESULT",
+      "evidence": "POST-BUILD-OBSERVATIONS.json"
+    },
+    {
+      "claim": "RSS/kill metrics unavailable; specific instrumentation mechanism UNKNOWN",
+      "status": "EVIDENCE_LIMITATION",
+      "evidence": "POST-BUILD-OBSERVATIONS.json"
     }
   ],
   "open": [
-    "Exact coordinator PRE-BUILD review/GO",
-    "All native outcomes, PFC terminal causes/time/memory and on/off comparison",
-    "Post-native ready-for-review v2 / known limitation / fix classification"
+    "Full U3/PFC acceptance: positive on-root SUCCESS and negative on-root actual uninit FAILURE not achieved",
+    "Mechanism of Kani-reported OOM; no per-root RSS or kernel/cgroup evidence in this lane",
+    "Full final-v2 upstream review/compatibility decision remains separate",
+    "New explicit task/GO required for any further Build or repair"
   ],
   "rejected_approaches": [
     "Change tooling/base without authorization",
@@ -51,18 +72,35 @@
     "Dispatch before exact coordinator GO",
     "Delete or weaken full test set or manifest controls; full test commit must stay unchanged"
   ],
-  "native_status": "NOT_RUN",
-  "builds": [],
-  "spend_usd": 0,
+  "native_status": "7 PASS / 2 ERROR; PFC on-roots Kani-reported OOM; off-controls SUCCESS",
+  "builds": [
+    {
+      "id": "9f964706-4b89-4340-a1ee-022aa23ecbe9",
+      "head_sha": "a3e082da37f65095f85ebf998170775d7b75db9c",
+      "cloud_status": "FAILURE",
+      "summary_status": "TOOL_ERROR",
+      "gate": false,
+      "tool_build": "PASS",
+      "native_pass": 7,
+      "native_error": 2,
+      "actual_usd": 0.162,
+      "reserve_usd": 0,
+      "classification": "KANI_REPORTED_OOM_BOTH_PFC_ON_ROOTS",
+      "verification_credit": "finite native controls only; full PFC acceptance OPEN"
+    }
+  ],
+  "spend_usd": 0.162,
   "reserved_usd": 0,
-  "proposed_reservation_usd": 0.54,
+  "proposed_reservation_usd": 0,
   "cap_usd": 0.6,
-  "next": "New exact PRE-BUILD review/GO on published manifest-only build packet, then authorized native stage",
-  "closure_reason": "Explicit coordinator stop at new PRE-BUILD review; preflight blocker resolved by authorized packaging; no build GO or dispatch.",
+  "next": "Coordinator review of known-limitation result and small repros; no further work/build authorized by this one-stage task",
+  "closure_reason": "One authorized native build consumed; both PFC terminal causes and off-controls classified, frame/regressions/evidence/accounting complete; task explicitly one stage with no repair. No further Build or production change authorized.",
   "full_test_commit": "0ab9cc703aed799f6f73d826b60281a4632ab585",
   "full_test_tree": "ef32d0009a730c26dc99e8ab828744128de69b15",
   "build_tree": "4de67d7ead14bdc4060d2b08060e7ee7651625bb",
   "full_test_patch_sha256": "129fa3742499ad06700e35519a711e2b555a29d6f2eedcff5b21236c7795bb4e",
   "request_id": "kani3300-u3b-20261111-02",
-  "coordinator_decision": "Keep tooling fixed; derive build patch from full f046 with identical production v2 and only U3B manifest fixtures/goldens; full fix/kani-3300-v2 test commit retained."
+  "coordinator_decision": "Keep tooling fixed; derive build patch from full f046 with identical production v2 and only U3B manifest fixtures/goldens; full fix/kani-3300-v2 test commit retained.",
+  "authorized_build_head": "a3e082da37f65095f85ebf998170775d7b75db9c",
+  "dispatch_authorization": "Coordinator exact GO on a3e082da37f65095f85ebf998170775d7b75db9c, request02, reserve0.540/cap0.60; consumed once"
 }

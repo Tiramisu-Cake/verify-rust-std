@@ -1,0 +1,133 @@
+{
+  "head_sha": "a3e082da37f65095f85ebf998170775d7b75db9c",
+  "request_sha256": "f839b593b08b53953a408528e8833d54be50dc9abff281c27291e18c09b46f4a",
+  "build_id": "9f964706-4b89-4340-a1ee-022aa23ecbe9",
+  "kani_build": {
+    "compiletest_build_s": 17,
+    "diffstat": ".../transform/check_uninit/delayed_ub/mod.rs       |   1 +\n .../src/kani_middle/transform/check_uninit/mod.rs  | 106 +++-\n .../transform/check_uninit/ptr_uninit/mod.rs       |   3 +-\n .../check_uninit/ptr_uninit/uninit_visitor.rs      | 533 ++++++++++++++++-----\n .../transform/check_uninit/relevant_instruction.rs |  59 ++-\n .../transform/check_uninit/ty_layout.rs            |  41 +-\n library/kani_core/src/mem_init.rs                  | 110 +++--\n .../maybe-uninit-buffer-u3-frame-negative/expected |   9 +\n .../maybe-uninit-buffer-u3-frame-negative/main.rs  |  31 ++\n .../maybe-uninit-buffer-u3-plain-negative/expected |   4 +\n .../maybe-uninit-buffer-u3-plain-negative/main.rs  |  23 +\n .../expected                                       |   2 +\n .../main.rs                                        |  29 ++\n .../maybe-uninit-buffer-u3b-pfc-negative/expected  |   3 +\n .../maybe-uninit-buffer-u3b-pfc-negative/main.rs   |  29 ++\n .../expected                                       |   2 +\n .../main.rs                                        |  29 ++\n .../maybe-uninit-buffer-u3b-pfc-positive/expected  |   2 +\n .../maybe-uninit-buffer-u3b-pfc-positive/main.rs   |  29 ++\n .../maybe-uninit-review-overwrite-copy/expected    |   4 +\n .../maybe-uninit-review-overwrite-copy/main.rs     |  15 +\n .../uninit/maybe-uninit-review-positive/expected   |   1 +\n .../uninit/maybe-uninit-review-positive/main.rs    | 100 ++++\n .../uninit/maybe-uninit-wrap-u3-positive/expected  |   1 +\n .../uninit/maybe-uninit-wrap-u3-positive/main.rs   |  71 +++\n 25 files changed, 1059 insertions(+), 178 deletions(-)",
+    "kani_build_s": 248,
+    "patch": {
+      "path": "research/challenge-8/kani-k1/kani3300/u3b/kani-uninit-v2-u3b-build.patch",
+      "sha256": "d9417e68ec3ee9c8c27bb8e7ac829e2af712c4d124ac59078416ab34feebd85c"
+    },
+    "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "tree": "4de67d7ead14bdc4060d2b08060e7ee7651625bb",
+    "version": "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.11.0"
+  },
+  "validation": "VALIDATED",
+  "summary_status": "TOOL_ERROR",
+  "gate": false,
+  "binaries": {
+    "compiletest_profile": "dev",
+    "kani_profile": "release",
+    "paths": {
+      "compiletest": {
+        "invoked": "/workspace/src/kani_build/target/debug/compiletest"
+      },
+      "kani": {
+        "invoked": "/workspace/src/kani_build/scripts/kani"
+      },
+      "kani-compiler": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "release": "/workspace/src/kani_build/target/release/kani-compiler",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "sha256": "62d31031f66eaba2780a64a7fa00e1162342bd551b515cefe864eb17a8b647ef"
+      },
+      "kani-driver": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "release": "/workspace/src/kani_build/target/release/kani-driver",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "sha256": "653ba5660b15f16fb8e7b989cd0fb47b655bf93fcc415d372f988f592752de3f"
+      }
+    }
+  },
+  "total": 9,
+  "offset": 7,
+  "tests": [
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "-p",
+        "compiletest",
+        "--",
+        "--suite",
+        "expected",
+        "--mode",
+        "expected",
+        "--src-base",
+        "tests/expected",
+        "--build-base",
+        "/workspace/src/k1-out/native-7",
+        "--exact",
+        "[expected] expected/uninit/maybe-uninit-review-positive/main.rs",
+        "--force-rerun",
+        "--color",
+        "never",
+        "--timeout",
+        "150",
+        "--require-success"
+      ],
+      "cwd": "/workspace/src/kani_build",
+      "diagnostic": null,
+      "env": {
+        "RUST_TEST_THREADS": "1"
+      },
+      "errors": [],
+      "exit_code": 0,
+      "expect": "pass",
+      "file": "uninit/maybe-uninit-review-positive/main.rs",
+      "mode": "expected",
+      "name": "[expected] expected/uninit/maybe-uninit-review-positive/main.rs",
+      "native_status": "ok",
+      "require_success": true,
+      "status": "PASS",
+      "suite": "expected",
+      "time_s": 9.63,
+      "wall_s": 9.85
+    },
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "-p",
+        "compiletest",
+        "--",
+        "--suite",
+        "expected",
+        "--mode",
+        "expected",
+        "--src-base",
+        "tests/expected",
+        "--build-base",
+        "/workspace/src/k1-out/native-8",
+        "--exact",
+        "[expected] expected/uninit/maybe-uninit-review-overwrite-copy/main.rs",
+        "--force-rerun",
+        "--color",
+        "never",
+        "--timeout",
+        "150"
+      ],
+      "cwd": "/workspace/src/kani_build",
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`",
+      "env": {
+        "RUST_TEST_THREADS": "1"
+      },
+      "errors": [],
+      "exit_code": 0,
+      "expect": "pass",
+      "file": "uninit/maybe-uninit-review-overwrite-copy/main.rs",
+      "mode": "expected",
+      "name": "[expected] expected/uninit/maybe-uninit-review-overwrite-copy/main.rs",
+      "native_status": "ok",
+      "require_success": false,
+      "status": "PASS",
+      "suite": "expected",
+      "time_s": 1.58,
+      "wall_s": 1.771
+    }
+  ],
+  "count": 2,
+  "next_offset": null
+}

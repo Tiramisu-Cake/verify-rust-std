@@ -1,0 +1,284 @@
+{
+  "head_sha": "a3e082da37f65095f85ebf998170775d7b75db9c",
+  "request_sha256": "f839b593b08b53953a408528e8833d54be50dc9abff281c27291e18c09b46f4a",
+  "build_id": "9f964706-4b89-4340-a1ee-022aa23ecbe9",
+  "kani_build": {
+    "compiletest_build_s": 17,
+    "diffstat": ".../transform/check_uninit/delayed_ub/mod.rs       |   1 +\n .../src/kani_middle/transform/check_uninit/mod.rs  | 106 +++-\n .../transform/check_uninit/ptr_uninit/mod.rs       |   3 +-\n .../check_uninit/ptr_uninit/uninit_visitor.rs      | 533 ++++++++++++++++-----\n .../transform/check_uninit/relevant_instruction.rs |  59 ++-\n .../transform/check_uninit/ty_layout.rs            |  41 +-\n library/kani_core/src/mem_init.rs                  | 110 +++--\n .../maybe-uninit-buffer-u3-frame-negative/expected |   9 +\n .../maybe-uninit-buffer-u3-frame-negative/main.rs  |  31 ++\n .../maybe-uninit-buffer-u3-plain-negative/expected |   4 +\n .../maybe-uninit-buffer-u3-plain-negative/main.rs  |  23 +\n .../expected                                       |   2 +\n .../main.rs                                        |  29 ++\n .../maybe-uninit-buffer-u3b-pfc-negative/expected  |   3 +\n .../maybe-uninit-buffer-u3b-pfc-negative/main.rs   |  29 ++\n .../expected                                       |   2 +\n .../main.rs                                        |  29 ++\n .../maybe-uninit-buffer-u3b-pfc-positive/expected  |   2 +\n .../maybe-uninit-buffer-u3b-pfc-positive/main.rs   |  29 ++\n .../maybe-uninit-review-overwrite-copy/expected    |   4 +\n .../maybe-uninit-review-overwrite-copy/main.rs     |  15 +\n .../uninit/maybe-uninit-review-positive/expected   |   1 +\n .../uninit/maybe-uninit-review-positive/main.rs    | 100 ++++\n .../uninit/maybe-uninit-wrap-u3-positive/expected  |   1 +\n .../uninit/maybe-uninit-wrap-u3-positive/main.rs   |  71 +++\n 25 files changed, 1059 insertions(+), 178 deletions(-)",
+    "kani_build_s": 248,
+    "patch": {
+      "path": "research/challenge-8/kani-k1/kani3300/u3b/kani-uninit-v2-u3b-build.patch",
+      "sha256": "d9417e68ec3ee9c8c27bb8e7ac829e2af712c4d124ac59078416ab34feebd85c"
+    },
+    "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "tree": "4de67d7ead14bdc4060d2b08060e7ee7651625bb",
+    "version": "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.11.0"
+  },
+  "validation": "VALIDATED",
+  "summary_status": "TOOL_ERROR",
+  "gate": false,
+  "binaries": {
+    "compiletest_profile": "dev",
+    "kani_profile": "release",
+    "paths": {
+      "compiletest": {
+        "invoked": "/workspace/src/kani_build/target/debug/compiletest"
+      },
+      "kani": {
+        "invoked": "/workspace/src/kani_build/scripts/kani"
+      },
+      "kani-compiler": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "release": "/workspace/src/kani_build/target/release/kani-compiler",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "sha256": "62d31031f66eaba2780a64a7fa00e1162342bd551b515cefe864eb17a8b647ef"
+      },
+      "kani-driver": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "release": "/workspace/src/kani_build/target/release/kani-driver",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "sha256": "653ba5660b15f16fb8e7b989cd0fb47b655bf93fcc415d372f988f592752de3f"
+      }
+    }
+  },
+  "total": 9,
+  "offset": 0,
+  "tests": [
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "-p",
+        "compiletest",
+        "--",
+        "--suite",
+        "expected",
+        "--mode",
+        "expected",
+        "--src-base",
+        "tests/expected",
+        "--build-base",
+        "/workspace/src/k1-out/native-0",
+        "--exact",
+        "[expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
+        "--force-rerun",
+        "--color",
+        "never",
+        "--timeout",
+        "150",
+        "--require-success"
+      ],
+      "cwd": "/workspace/src/kani_build",
+      "diagnostic": null,
+      "diagnostic_provenance": {
+        "gate_sources": [
+          "kani_stdout",
+          "kani_stderr"
+        ],
+        "representation": "raw UTF-8 with replacement; .out then newline then .err; no rendering or console fallback",
+        "selected_source": null
+      },
+      "env": {
+        "RUST_TEST_THREADS": "1"
+      },
+      "errors": [
+        "requested native PASS did not pass"
+      ],
+      "exit_code": 1,
+      "expect": "pass",
+      "file": "uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
+      "mode": "expected",
+      "name": "[expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
+      "native_status": "FAILED",
+      "output_excerpt": {
+        "diagnostic_only": true,
+        "failed_check_line_count": 0,
+        "max_json_bytes": 4096,
+        "max_lines": 60,
+        "omitted_failed_check_line_count": 0,
+        "omitted_line_count": 166,
+        "records": [
+          {
+            "clipped": false,
+            "line": 9,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error: test failed: expected output to contain the line(s):"
+          },
+          {
+            "clipped": false,
+            "line": 38,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "warning: 1 warning emitted"
+          },
+          {
+            "clipped": false,
+            "line": 41,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "------------------------------------------"
+          },
+          {
+            "clipped": false,
+            "line": 45,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "failures:"
+          },
+          {
+            "clipped": false,
+            "line": 46,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "    [expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs"
+          },
+          {
+            "clipped": false,
+            "line": 48,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 566 filtered out; finished in 50.10s"
+          },
+          {
+            "clipped": false,
+            "line": 111,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "warning: `scanner` (manifest) generated 1 warning"
+          },
+          {
+            "clipped": false,
+            "line": 112,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.09s"
+          },
+          {
+            "clipped": true,
+            "line": 113,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "     Running `target/debug/compiletest --suite expected --mode expected --src-base tests/expected --build-base /workspace/src/k1-out/native-0 --exact '[expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main."
+          },
+          {
+            "clipped": false,
+            "line": 114,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "Some tests failed in compiletest suite=expected mode=expected host=(none) target=(none)"
+          },
+          {
+            "clipped": false,
+            "line": 7,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "CBMC appears to have run out of memory. You may want to rerun your proof in an environment with additional memory or use stubbing to reduce the size of the code the verifier reasons about."
+          },
+          {
+            "clipped": false,
+            "line": 9,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "Manual Harness Summary:"
+          },
+          {
+            "clipped": false,
+            "line": 10,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "Verification failed for - contracted_roundtrip_harness"
+          },
+          {
+            "clipped": false,
+            "line": 11,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+          },
+          {
+            "clipped": false,
+            "line": 5,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "  |            ^^^^^^^^^^^^^"
+          },
+          {
+            "clipped": false,
+            "line": 6,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "  |"
+          },
+          {
+            "clipped": false,
+            "line": 7,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "  = note: requested on the command line with `--force-warn unstable-features`"
+          },
+          {
+            "clipped": false,
+            "line": 9,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "warning: 1 warning emitted"
+          }
+        ],
+        "selected_line_count": 18,
+        "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+        "source_line_counts": {
+          "compiletest_stderr": 114,
+          "compiletest_stdout": 49,
+          "kani_stderr": 10,
+          "kani_stdout": 11
+        }
+      },
+      "output_sources": {
+        "compiletest_stderr": {
+          "available": true,
+          "bytes": 4061,
+          "expected_fn_error_line_found": false,
+          "path": "/workspace/src/k1-out/native-0.stderr.log",
+          "required_substring_found": null,
+          "sha256": "6caa2665585302d5fe5fed2482101202873dcbf9443a99bca217fe31bb730f92",
+          "used_for_gate_diagnostic": false
+        },
+        "compiletest_stdout": {
+          "available": true,
+          "bytes": 1643,
+          "expected_fn_error_line_found": false,
+          "path": "/workspace/src/k1-out/native-0.log",
+          "required_substring_found": null,
+          "sha256": "336e83c35ae5b1b0136d4a6a4594327f7843fd9c56a158c4b48b1fc7a188abcd",
+          "used_for_gate_diagnostic": false
+        },
+        "kani_stderr": {
+          "available": true,
+          "bytes": 239,
+          "expected_fn_error_line_found": false,
+          "path": "/workspace/src/k1-out/native-0/uninit/maybe-uninit-buffer-u3b-pfc-positive/main/main.err",
+          "required_substring_found": null,
+          "sha256": "aa37d2e86bc636bcd67aa0145945d3c3f3da9233bb0dd8c1008975c5909a2fb4",
+          "used_for_gate_diagnostic": true
+        },
+        "kani_stdout": {
+          "available": true,
+          "bytes": 471,
+          "expected_fn_error_line_found": false,
+          "path": "/workspace/src/k1-out/native-0/uninit/maybe-uninit-buffer-u3b-pfc-positive/main/main.out",
+          "required_substring_found": null,
+          "sha256": "8a6d809caf25b2c4377d7915f543b20633a7c2467989e9d3d89a70d6f049bb2c",
+          "used_for_gate_diagnostic": true
+        }
+      },
+      "require_success": true,
+      "status": "ERROR",
+      "suite": "expected",
+      "time_s": 50.1,
+      "wall_s": 50.284
+    }
+  ],
+  "count": 1,
+  "next_offset": 1
+}
