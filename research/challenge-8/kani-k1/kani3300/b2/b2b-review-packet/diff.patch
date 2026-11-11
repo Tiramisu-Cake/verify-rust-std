@@ -1,0 +1,338 @@
+diff --git a/research/challenge-8/kani-k1/kani3300/b2/EXPECTATIONS.md b/research/challenge-8/kani-k1/kani3300/b2/EXPECTATIONS.md
+index 3f13016e65dc6e3dea2568727504d221885e8b74..46c0407ec85199eddcbe4b1689ef331cec588e9f 100644
+--- a/research/challenge-8/kani-k1/kani3300/b2/EXPECTATIONS.md
++++ b/research/challenge-8/kani-k1/kani3300/b2/EXPECTATIONS.md
+@@ -1,6 +1,7 @@
+ # KANI3300 B2 — ожидания до CI
+ 
+-**Все outcomes ниже — прогнозы, не измерения.** Целевой запуск: Miri `nightly-2026-10-23`.
++**Исходная таблица B2 ниже содержит прогнозы, не измерения.** Дополнение B2b в конце
++учитывает CI-сведения, переданные координатором в TASK-KANI3300-B2B.md. Целевой запуск: Miri `nightly-2026-10-23`.
+ Источник аудита Rust `7189d39d9ce936881b8132c6addeaf3e295cd455` — точная версия цитируемого кода;
+ соответствие этого SHA указанному nightly здесь не установлено, его сверяет CI через `rustc -Vv`.
+ 
+@@ -62,3 +63,46 @@
+ Критерии интерпретации: `probes/README.md`. Source byte reads volatile, без value-printing; destination reads в assignment
+ probes наблюдают только заведомо initialized payload. Ни один OK здесь не устанавливает, что общий moved-from Rust code корректен.
+ Нет measured MIR/Miri verdicts, tool-model changes, formal proof или независимого proof credit; следующий шаг принадлежит CI координатора.
++
++## B2b — прямой in-place Call(Move) на custom MIR
++
++Переданные координатором результаты runs 43109689395/43109978880 записаны в
++[TASK-KANI3300-B2B.md](../../TASK-KANI3300-B2B.md): 22 формы дали Miri OK, uninit detector дал UB;
++reinit-ошибки оказались Stacked Borrows invalidation. Это source-reported CI facts, не самостоятельно
++проверенные здесь evidence. Старые условные прогнозы таблицы B2 не следует выдавать за outcomes.
++В частности, обычный `call_move_address_taken` передаёт temporary: он не проверил in-place Move наблюдаемого src.
++
++Новые четыре бинари задают `runtime/optimized` MIR напрямую. Единственный `src: u8` получает `0x51`,
++`p = addr_of!(src)` создаёт `&raw const src`, и сам `src` передаётся в `consume(Move(src))`.
++После возврата `read_volatile::<u8>(p)` читает ровно этот же байт. Между этими операциями нет source
++reinit, StorageDead или смены указателя. `u8` исключает padding, invalid bit patterns и pointer cast.
++Copy и Move намеренно используют одинаковый Copy-тип: здесь операнд MIR выбран явно и не выводится
++из trait/lowering. В Copy-бинарях `consume(src)` означает `Operand::Copy(src)`;
++функции `Copy(src)` в API нет. Callee получает только значение, не `p`; write-вариант volatile пишет `0xA7`
++в свой параметр и volatile читает его обратно. Оба варианта возвращают наблюдённый callee byte.
++
++| Новый бинарь | Прогноз pinned Miri | Если исходное чтение завершится |
++| --- | --- | --- |
++| custom_call_move_read | source деинициализируется; UB uninitialized на post-call source read | печатает callee/source, ожидаемый callee `0x51` |
++| custom_call_move_write | source остаётся uninit; UB на том же read; callee write его не восстанавливает | печатает callee/source, ожидаемый callee `0xA7`; видимость записи проверяется значением source |
++| custom_call_copy_read | OK, source `0x51`, callee `0x51` | обе величины печатаются и проверяются |
++| custom_call_copy_write | OK, source `0x51`, callee `0xA7` | запись в параметр не видна в исходнике; обе величины проверяются |
++
++Обоснование — цепочка интерпретатора **того же audit pin**, а не обещание Reference:
++
++1. [step.rs:402–433](https://github.com/rust-lang/rust/blob/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_const_eval/src/interpret/step.rs#L402-L433):
++   Copy даёт `FnArg::Copy`; Move memory-backed place даёт `FnArg::InPlace` при любом значении
++   `move_definitely_disjoint`. Взятие raw-адреса обеспечивает allocation именно `src`.
++2. [call.rs:421–445](https://github.com/rust-lang/rust/blob/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_const_eval/src/interpret/call.rs#L421-L445):
++   значение сначала копируется в отдельный callee local, затем исходный InPlace защищается.
++   Поэтому callee читает initialized параметр и пишет собственный storage, не восстанавливая `src`.
++3. [machine.rs:1857–1875](https://github.com/rust-lang/rust/blob/7189d39d9ce936881b8132c6addeaf3e295cd455/src/tools/miri/src/machine.rs#L1857-L1875):
++   защита явно записывает `uninit` в исходное место, в том числе без borrow tracker;
++   после возврата оно не восстанавливается. Прогноз для прямого in-place Move — UB, а не OK.
++
++Синтаксис сверен по [mir.rs:211–252](https://github.com/rust-lang/rust/blob/7189d39d9ce936881b8132c6addeaf3e295cd455/library/core/src/intrinsics/mir.rs#L211-L252)
++(locals/Copy/Move, assignments, addr_of!, Call) и [примеру runtime/optimized и tuple-return:123–160](https://github.com/rust-lang/rust/blob/7189d39d9ce936881b8132c6addeaf3e295cd455/library/core/src/intrinsics/mir.rs#L123-L160).
++CI должен подтвердить exact MIR source place, обе callee операции и диагностическую точку source read.
++Alias/dangling/compile error не устанавливает uninit-прогноз; другой diagnostic надо записать отдельно.
++Фактические B2b compile/MIR/Miri outcomes здесь **NOT_RUN**, соответствие nightly audit SHA ещё сверяет CI.
++Ни прогноз, ни возможный OK не дают общего Rust/Kani proof credit.
+diff --git a/research/challenge-8/kani-k1/kani3300/b2/probes/README.md b/research/challenge-8/kani-k1/kani3300/b2/probes/README.md
+index d55570f017c36fba9d81b107f22017bbafc71c4d..107126e0bb1e74acf206fbb35b952519a1614833 100644
+--- a/research/challenge-8/kani-k1/kani3300/b2/probes/README.md
++++ b/research/challenge-8/kani-k1/kani3300/b2/probes/README.md
+@@ -1,6 +1,6 @@
+ # KANI3300 B2 — coordinator CI input
+ 
+-25 независимых бинарей, edition 2021, без зависимостей; общий код/библиотека отсутствуют.
++Исходные 25 независимых бинарей, edition 2021, без зависимостей; общий код/библиотека отсутствуют.
+ Локальный pin — `nightly-2026-10-23`, компонент `miri`; `[workspace]` изолирует crate от корневого Rust workspace.
+ В B2 ничего не компилировалось и не запускалось. Следующие команды — вход для **CI координатора**, не локальные checks:
+ 
+@@ -19,7 +19,7 @@ cargo miri run --bin <name>
+ В MIR сопоставить исходный local/field, `Copy`/assignment `Move`/`Call(Move)`, промежуточные temporaries,
+ исчезновение intrinsic forget, reinit и `StorageDead`. Особенно проверить, получает ли callee сам source или временную копию.
+ 
+-Каждый main печатает сценарий **до** передачи/чтения, затем читает ровно четыре байта исходного local/field через
++Каждый из исходных 25 main печатает сценарий **до** передачи/чтения, затем читает ровно четыре байта исходного local/field через
+ raw pointer, созданный до передачи. Успешные reads отмечаются постоянной строкой без печати значений.
+ `read_volatile::<u8>` удерживает наблюдение; volatile не разрешает читать uninit. Не заменять на чтение `MaybeUninit<u8>`.
+ Word/NonCopyWord/union payload состоят из четырех инициализированных байтов без padding; негативный MU control намеренно uninit.
+@@ -30,3 +30,22 @@ Reinit пишет в тот же mut local; последующий read испо
+ Для принятия результата проверить allocation/source identity и live storage у наблюдаемого read, а не только равенство адресов.
+ Различать `uninitialized` в исходном read, dangling/alias/invalid-value/compile error и UB в другом месте.
+ `OK` означает только исход конкретного pinned Miri пути, а не разрешение такого кода Rust Reference или Kani proof credit.
++
++## B2b — четыре дополнительных custom MIR бинаря
++
++`custom_call_move_read`, `custom_call_move_write`, `custom_call_copy_read`, `custom_call_copy_write`:
++итого в crate 29 бинарей. Feature gates `custom_mir, core_intrinsics`; dialect `runtime`, phase `optimized`.
++Пробы читают **один** байт `src: u8`, инициализированный `0x51`, после прямого Call тем же place.
++`addr_of!(src)` — документированный RawPtr rvalue; Copy задаётся bare place `src`, Move — `Move(src)`.
++Никаких assignment temporaries перед consume; source не reinit и не StorageDead.
++У callee только by-value u8; в write-варианте volatile запись `0xA7` и последующий volatile read.
++Если post-call source read завершается, main печатает callee/source значения; Copy-контроли проверяют оба,
++Move проверяет callee и оставляет source значение для интерпретации CI без навязанного исхода.
++Прогнозы и точные source:line ссылки: B2b раздел `../EXPECTATIONS.md`.
++
++Существующий coordinator-only цикл выше применим и к этим четырём бинарям без новых flags.
++CI сверяет `probe` MIR (не только `main`): raw address относится к `src`, consume получает именно
++`Move(src)`/`Copy(src)`, а post-call `read_volatile` — сохранённый `p` до возврата из probe.
++В стандартном callee MIR также подтвердить volatile read/write параметра. Не запускать весь crate
++без выбора bin и не трактовать ожидаемую Move UB как ошибку доставки пробы.
++Все исполнения остаются CI координатора; в B2b локально только чтение исходников и static checks.
+diff --git a/research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_copy_read.rs b/research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_copy_read.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..6105bfc49c3b9a26122f4e87e65b36056afe9717
+--- /dev/null
++++ b/research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_copy_read.rs
+@@ -0,0 +1,51 @@
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[inline(never)]
++fn consume(value: u8) -> u8 {
++    // Read only the initialized by-value parameter, never caller storage.
++    unsafe { std::ptr::read_volatile(&raw const value) }
++}
++
++// u8 is intentionally shared by Move and Copy variants: the custom MIR operand,
++// not the Rust Copy trait, selects the transfer. No padding or pointer cast.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn probe() -> (u8, u8) {
++    mir! {
++        type RET = (u8, u8);
++        let src: u8;
++        let p: *const u8;
++        let callee: u8;
++        let observed: u8;
++
++        {
++            src = 0x51_u8;
++            // Documented addr_of! form creates the RawPtr rvalue (&raw const src).
++            p = std::ptr::addr_of!(src);
++            // A bare place is Operand::Copy; there is no custom-MIR Copy() function.
++            Call(callee = consume(src), ReturnTo(after_call), UnwindContinue())
++        }
++
++        after_call = {
++            // Same pre-transfer pointer, after the callee returns, no reinit.
++            Call(observed = std::ptr::read_volatile::<u8>(p), ReturnTo(done), UnwindContinue())
++        }
++
++        done = {
++            RET.0 = callee;
++            RET.1 = observed;
++            Return()
++        }
++    }
++}
++
++fn main() {
++    println!("custom_call_copy_read: original address-taken src is the call operand");
++    // Copy preserves src even when the callee writes its own parameter.
++    let (callee, source) = unsafe { probe() };
++    println!("callee={callee:#04x} source={source:#04x}");
++    assert_eq!(callee, 0x51, "callee parameter observation");
++    assert_eq!(source, 0x51, "Copy must preserve the source byte");
++}
+diff --git a/research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_copy_write.rs b/research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_copy_write.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..d5c2cf5d5783097cabbf71ebcd29d7e4d7366f1b
+--- /dev/null
++++ b/research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_copy_write.rs
+@@ -0,0 +1,55 @@
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[inline(never)]
++fn consume(mut value: u8) -> u8 {
++    // Observe an actual write to the callee parameter; no caller pointer is passed.
++    let parameter = &raw mut value;
++    unsafe {
++        std::ptr::write_volatile(parameter, 0xA7);
++        std::ptr::read_volatile(parameter)
++    }
++}
++
++// u8 is intentionally shared by Move and Copy variants: the custom MIR operand,
++// not the Rust Copy trait, selects the transfer. No padding or pointer cast.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn probe() -> (u8, u8) {
++    mir! {
++        type RET = (u8, u8);
++        let src: u8;
++        let p: *const u8;
++        let callee: u8;
++        let observed: u8;
++
++        {
++            src = 0x51_u8;
++            // Documented addr_of! form creates the RawPtr rvalue (&raw const src).
++            p = std::ptr::addr_of!(src);
++            // A bare place is Operand::Copy; there is no custom-MIR Copy() function.
++            Call(callee = consume(src), ReturnTo(after_call), UnwindContinue())
++        }
++
++        after_call = {
++            // Same pre-transfer pointer, after the callee returns, no reinit.
++            Call(observed = std::ptr::read_volatile::<u8>(p), ReturnTo(done), UnwindContinue())
++        }
++
++        done = {
++            RET.0 = callee;
++            RET.1 = observed;
++            Return()
++        }
++    }
++}
++
++fn main() {
++    println!("custom_call_copy_write: original address-taken src is the call operand");
++    // Copy preserves src even when the callee writes its own parameter.
++    let (callee, source) = unsafe { probe() };
++    println!("callee={callee:#04x} source={source:#04x}");
++    assert_eq!(callee, 0xA7, "callee parameter observation");
++    assert_eq!(source, 0x51, "Copy must preserve the source byte");
++}
+diff --git a/research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_move_read.rs b/research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_move_read.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..787e958c1cec8d199571ee1347cca42df8f7ee7a
+--- /dev/null
++++ b/research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_move_read.rs
+@@ -0,0 +1,50 @@
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[inline(never)]
++fn consume(value: u8) -> u8 {
++    // Read only the initialized by-value parameter, never caller storage.
++    unsafe { std::ptr::read_volatile(&raw const value) }
++}
++
++// u8 is intentionally shared by Move and Copy variants: the custom MIR operand,
++// not the Rust Copy trait, selects the transfer. No padding or pointer cast.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn probe() -> (u8, u8) {
++    mir! {
++        type RET = (u8, u8);
++        let src: u8;
++        let p: *const u8;
++        let callee: u8;
++        let observed: u8;
++
++        {
++            src = 0x51_u8;
++            // Documented addr_of! form creates the RawPtr rvalue (&raw const src).
++            p = std::ptr::addr_of!(src);
++            // A bare place is Operand::Copy; there is no custom-MIR Copy() function.
++            Call(callee = consume(Move(src)), ReturnTo(after_call), UnwindContinue())
++        }
++
++        after_call = {
++            // Same pre-transfer pointer, after the callee returns, no reinit.
++            Call(observed = std::ptr::read_volatile::<u8>(p), ReturnTo(done), UnwindContinue())
++        }
++
++        done = {
++            RET.0 = callee;
++            RET.1 = observed;
++            Return()
++        }
++    }
++}
++
++fn main() {
++    println!("custom_call_move_read: original address-taken src is the call operand");
++    // Move is expected to fail at the source read; report values if it completes.
++    let (callee, source) = unsafe { probe() };
++    println!("callee={callee:#04x} source={source:#04x}");
++    assert_eq!(callee, 0x51, "callee parameter observation");
++}
+diff --git a/research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_move_write.rs b/research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_move_write.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..966e29714fedf27b41bf452dc3f34fd370caf4b1
+--- /dev/null
++++ b/research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_move_write.rs
+@@ -0,0 +1,54 @@
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[inline(never)]
++fn consume(mut value: u8) -> u8 {
++    // Observe an actual write to the callee parameter; no caller pointer is passed.
++    let parameter = &raw mut value;
++    unsafe {
++        std::ptr::write_volatile(parameter, 0xA7);
++        std::ptr::read_volatile(parameter)
++    }
++}
++
++// u8 is intentionally shared by Move and Copy variants: the custom MIR operand,
++// not the Rust Copy trait, selects the transfer. No padding or pointer cast.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn probe() -> (u8, u8) {
++    mir! {
++        type RET = (u8, u8);
++        let src: u8;
++        let p: *const u8;
++        let callee: u8;
++        let observed: u8;
++
++        {
++            src = 0x51_u8;
++            // Documented addr_of! form creates the RawPtr rvalue (&raw const src).
++            p = std::ptr::addr_of!(src);
++            // A bare place is Operand::Copy; there is no custom-MIR Copy() function.
++            Call(callee = consume(Move(src)), ReturnTo(after_call), UnwindContinue())
++        }
++
++        after_call = {
++            // Same pre-transfer pointer, after the callee returns, no reinit.
++            Call(observed = std::ptr::read_volatile::<u8>(p), ReturnTo(done), UnwindContinue())
++        }
++
++        done = {
++            RET.0 = callee;
++            RET.1 = observed;
++            Return()
++        }
++    }
++}
++
++fn main() {
++    println!("custom_call_move_write: original address-taken src is the call operand");
++    // Move is expected to fail at the source read; report values if it completes.
++    let (callee, source) = unsafe { probe() };
++    println!("callee={callee:#04x} source={source:#04x}");
++    assert_eq!(callee, 0xA7, "callee parameter observation");
++}

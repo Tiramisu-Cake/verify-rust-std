@@ -1,0 +1,29 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-t0",
+  "baseline_commit": "50fa409e4dffe4fb3bd1a33b67197d3a63aa77d1",
+  "candidate_commit": "8f09ae8085e6d2884ecee1402019491038288bc7",
+  "defect": "Independently assess TASK-KANI3300-B2B custom MIR probes, source identity at transfer/read, syntax against pinned core MIR API, and Miri forecasts.",
+  "applicability": "Only B2b four new diagnostic binaries and accompanying expectations/README. Static source review; no tool execution or CI.",
+  "invariants": [
+    "Call operand must be the original address-taken source place, with a pre-transfer raw pointer used for a post-return byte read; assess storage lifetime and unrelated UB.",
+    "Every custom MIR construct must be documented at Rust 7189d39d9ce936881b8132c6addeaf3e295cd455 library/core/src/intrinsics/mir.rs; assess Copy-typed src with explicit Move and implicit Copy operands.",
+    "Forecasts must follow pinned interpreter code and stay separate from measured CI, language guarantees and proof credit."
+  ],
+  "controls": [
+    "Read-only callee and writing callee each have a matching Copy control; assess observable write, parameter/source separation and diagnostics.",
+    "Check expected syntax, initialization, return locals, raw pointer validity, lack of temporary transfer/reinit and exact source:line citations by reading source only.",
+    "Review candidate Git diff and declared dependencies; do not rely on prior B2 review verdict."
+  ],
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-B2B.md",
+    "research/challenge-8/kani-k1/kani3300/b2/probes/Cargo.toml",
+    "research/challenge-8/kani-k1/kani3300/b2/probes/rust-toolchain.toml"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Forbidden: cargo/rustc/Kani/CBMC/Miri, builds/dispatch/Cloud, Actions/PR/issues/comments, Kani push, stash, raw logs/archives/credentials; no nested agents; no network writes.",
+    "Compile/MIR/Miri outcomes are NOT_RUN and belong only to coordinator CI; audit SHA versus nightly mapping is unestablished.",
+    "Upstream source pin may be read via GitHub; local source-only copies at /tmp/kani3300-b2b-source preserve upstream paths and may be independently fetched/hashed."
+  ]
+}

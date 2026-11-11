@@ -1,0 +1,114 @@
+{
+  "baseline_commit": "50fa409e4dffe4fb3bd1a33b67197d3a63aa77d1",
+  "candidate_commit": "8f09ae8085e6d2884ecee1402019491038288bc7",
+  "candidate_tree": "97879d30bdcddde37d84ad400b17e84b3b72f708",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "3f13016e65dc6e3dea2568727504d221885e8b74",
+        "mode": "100644",
+        "sha256": "6a57c88b612cb3825bfbff1f7a4ead6d6b21e0ecb11c81aa0dcb3cf903188393"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "46c0407ec85199eddcbe4b1689ef331cec588e9f",
+        "mode": "100644",
+        "sha256": "7849810c7c8eb3a78133cbab90bceb2776ed01b3b60c76ccefd9347ac86a6e39"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/EXPECTATIONS.md",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "d55570f017c36fba9d81b107f22017bbafc71c4d",
+        "mode": "100644",
+        "sha256": "b03d2a6a8f29e1070acf052b83f9b7121dba0b97afdc8919dab5f64626ebb9b3"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "107126e0bb1e74acf206fbb35b952519a1614833",
+        "mode": "100644",
+        "sha256": "ac594a7f293cce929d4a3f8541e34968a3b8d04257dc0cfe93df16d488907913"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/README.md",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "6105bfc49c3b9a26122f4e87e65b36056afe9717",
+        "mode": "100644",
+        "sha256": "34d49b063919a0e85b2d224e4affaa387526f9d1f7d0c83b93d4f12c265f3dd7"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_copy_read.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "d5c2cf5d5783097cabbf71ebcd29d7e4d7366f1b",
+        "mode": "100644",
+        "sha256": "6b4bf17ebb083bcabb08bce15ca97820ae6dc66d9b84e4a4585c5a1ae501cc03"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_copy_write.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "787e958c1cec8d199571ee1347cca42df8f7ee7a",
+        "mode": "100644",
+        "sha256": "4c146c213870a56f83501bd100f3aa4132b540ca64969c31118feb76be77f717"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_move_read.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "966e29714fedf27b41bf452dc3f34fd370caf4b1",
+        "mode": "100644",
+        "sha256": "c45f85336b4d6bdc101cf39b19ac2850f6aab1b1da6005ea4a6b5908ba4ec072"
+      },
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/src/bin/custom_call_move_write.rs",
+      "status": "added"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "f1500cd2c416417f41f40eadecb39ba6c4713787",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-B2B.md",
+      "sha256": "71582c1d32896e8efbc2516a2206f76c8b1c052aa6ca88e87c90d8f88f50deae",
+      "size": 3797
+    },
+    {
+      "blob": "addd1ad7b3eba668c1021aa6bb3fbc58933e10dc",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/Cargo.toml",
+      "sha256": "1ce64b5ff4202c8aa6a81865c20b6f282bd2feb2fb484c4bef611f1694781676",
+      "size": 192
+    },
+    {
+      "blob": "781544d15a284e3b6c2a3405dd7dbcb9c844ae4c",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "research/challenge-8/kani-k1/kani3300/b2/probes/rust-toolchain.toml",
+      "sha256": "7410ea2c8c514e25753899ecb12ccdd33a5bc54db88b56374cb3bc0e7fa08e44",
+      "size": 85
+    }
+  ],
+  "diff_sha256": "7e2c0be90e134d5730d3f75b482bd57722e3add7e0efb4eb609c723fab0c7a2e",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "b088690eae6bd53bde3b1ac7c5ddd57effd065923bd3de1c35c4019c680042cc",
+  "worktree": "/root/verify-rust-std-kani3300-t0"
+}
