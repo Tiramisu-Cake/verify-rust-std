@@ -1,0 +1,38 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-a1",
+  "baseline_commit": "613c188313e34e51e6a69d2c62bbd6ded2511819",
+  "candidate_commit": "1dc99da6bf3c6387d8f69d9a44ffa8a8e0419139",
+  "defect": "KANI3300 A2: recursive Pat offsets and nested enum padding comparison; explicit boundaries for reverse MaybeUninit array transmute and raw_eq.",
+  "applicability": "Review exactly A2 delta with necessary A1 dependencies. Read TASK-KANI3300-A2.md at research commit a9ae7b5f6c and audit 4.1 / W1-A2 planner requirements. Static only; no author conclusions supplied.",
+  "invariants": [
+    "Pat must preserve current_offset. Variant padding masks use enum-local offsets; selected chunks receive the enclosing offset exactly once. Same data layouts remain supported; differing padding is Unsupported.",
+    "Inspect tests with nonzero offsets in MaybeUninit payload structs; include wide-pointer Pat arbitrary layout rather than only scalar shortcut. Confirm fixtures distinguish the defects; inspect expected diagnostics and read reachability.",
+    "Reverse [MaybeUninit<T>; N] -> [T; N] and raw_eq must have covered initializedness semantics or explicit Unsupported. raw_eq reads all bytes via references, including padding; no skip permitted.",
+    "No weakened existing controls, checks, proof domains or model invariants. A3 pairing/B1 resolver, G1, allocator, validity, and unrelated semantics remain outside A2.",
+    "Audit unchanged API/helper signatures and new code for type/borrow/import/unused/-D warnings/clippy concerns using pinned local rustc_public sources /tmp/kani3300-g1r-api and manifest kani3300/g1r/API-SOURCES.json; do not compile."
+  ],
+  "controls": [
+    "No nested delegation; no builds/Cloud/dispatch/cargo/rustc/Kani/CBMC/Miri/Actions/PR/issues/comments/raw evidence/credentials/network mutations/Kani push.",
+    "No code/test edits. Write only research/challenge-8/kani-k1/kani3300/a2/REVIEW.md. Include reviewed candidate/tree/diff/spec identities, actionable findings, static verdict and limits.",
+    "Outcomes are expectations pending coordinator CI. Do not claim measured proof, compilation, MIR/layout measurement or GO."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "library/kani_core/src/mem_init.rs",
+    "rust-toolchain.toml",
+    "kani-compiler/src/intrinsics.rs",
+    "tools/compiletest/src/runtest.rs"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Static review only; compiler, MIR measurement, -D warnings and coordinator CI NOT_RUN. A1 is a dependency, not newly proved."
+  ]
+}

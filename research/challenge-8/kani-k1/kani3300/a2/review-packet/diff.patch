@@ -1,0 +1,417 @@
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 3f7ea62044fe27297cc74c7ba01b70647751fd50..c0826d2ae7b8e8b6bac5ca0b513516823e0c7cd5 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -542,6 +542,14 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                             | Intrinsic::AtomicXsub => {
+                                 self.push_target(MemoryInitOp::Check { operand: args[0].clone() });
+                             }
++                            Intrinsic::RawEq => {
++                                // References only guarantee initialized data, while raw_eq
++                                // reads every byte, including padding and union storage.
++                                self.push_target(MemoryInitOp::Unsupported {
++                                    reason: "Kani does not support checking memory initialization of raw_eq, which reads all bytes through references."
++                                        .to_string(),
++                                });
++                            }
+                             Intrinsic::CompareBytes => {
+                                 self.push_target(MemoryInitOp::CheckSliceChunk {
+                                     operand: args[0].clone(),
+@@ -823,6 +831,17 @@ fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
+                         // union-field checks. Delayed UB still checks affected typed locals.
+                         // Only the layout rejection is bypassed; assign_storage installs T's
+                         // data mask once, including false padding bytes.
++                    } else if let (
++                        TyKind::RigidTy(RigidTy::Array(from, from_len)),
++                        TyKind::RigidTy(RigidTy::Array(to, to_len)),
++                    ) = (operand_ty.kind(), ty.kind())
++                        && from_len == to_len
++                        && wrapper_inner(self.tcx, from, LangItem::MaybeUninit) == Some(to)
++                    {
++                        self.push_target(MemoryInitOp::Unsupported {
++                            reason: "Kani does not support checking memory initialization of transmute from [MaybeUninit<T>; N] to [T; N]."
++                                .to_string(),
++                        });
+                     } else if self.maybe_uninit_transmute(operand, *ty) {
+                         // Initialization was checked against the destination's data bytes.
+                     } else if !tys_layout_compatible_to_size(&operand_ty, ty) {
+@@ -928,7 +947,6 @@ fn can_skip_intrinsic(intrinsic: Intrinsic) -> bool {
+         | Intrinsic::PowF64
+         | Intrinsic::PowIF32
+         | Intrinsic::PowIF64
+-        | Intrinsic::RawEq
+         | Intrinsic::RotateLeft
+         | Intrinsic::RotateRight
+         | Intrinsic::RoundF32
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+index a4518abdf217f51104d07d5404d93e5a6748419a..6aee36d0769ca56bd747074e4e5e7ca242a6862d 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+@@ -322,7 +322,8 @@ fn data_bytes_for_ty(
+                                     let tag_data_bytes =
+                                         vec![DataBytes { offset: current_offset, size: tag_size }];
+ 
+-                                    // Retrieve data bytes for the fields.
++                                    // Compare variant layouts relative to the enum. Absolute
++                                    // offsets could be clipped by the enum-sized masks below.
+                                     let mut fields_data_bytes = vec![];
+                                     // Iterate over all variants for the enum.
+                                     for (index, variant) in variants.iter().enumerate() {
+@@ -335,7 +336,7 @@ fn data_bytes_for_ty(
+                                                 &mut data_bytes_for_ty(
+                                                     machine_info,
+                                                     field_ty,
+-                                                    field_offset + current_offset,
++                                                    field_offset,
+                                                 )?,
+                                             );
+                                         }
+@@ -365,6 +366,10 @@ fn data_bytes_for_ty(
+                                         let mut total_data_bytes = tag_data_bytes;
+                                         let mut field_data_bytes =
+                                             fields_data_bytes.first().unwrap().clone();
++                                        // Compose the selected local layout exactly once.
++                                        for data_bytes in &mut field_data_bytes {
++                                            data_bytes.offset += current_offset;
++                                        }
+                                         total_data_bytes.append(&mut field_data_bytes);
+                                         Ok(total_data_bytes)
+                                     } else {
+@@ -398,9 +403,7 @@ fn data_bytes_for_ty(
+                 }
+                 RigidTy::Pat(base_ty, ..) => {
+                     // This is similar to a structure with one field and with niche defined.
+-                    let mut pat_data_bytes = vec![];
+-                    pat_data_bytes.append(&mut data_bytes_for_ty(machine_info, *base_ty, 0)?);
+-                    Ok(pat_data_bytes)
++                    data_bytes_for_ty(machine_info, *base_ty, current_offset)
+                 }
+                 RigidTy::Tuple(tys) => {
+                     let mut tuple_data_bytes = vec![];
+diff --git a/tests/expected/uninit/maybe-uninit-array-reverse-unsupported/expected b/tests/expected/uninit/maybe-uninit-array-reverse-unsupported/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..270a99a2f8931de92def3e22780e4f18ac13c50b
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-array-reverse-unsupported/expected
+@@ -0,0 +1,7 @@
++Test: initialized_array_reverse_is_unsupported
++Failed Checks: Kani does not support checking memory initialization of transmute from [MaybeUninit<T>; N] to [T; N].
++VERIFICATION:- FAILED
++Test: partial_array_reverse_is_unsupported
++Failed Checks: Kani does not support checking memory initialization of transmute from [MaybeUninit<T>; N] to [T; N].
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 2 failures, 2 total.
+diff --git a/tests/expected/uninit/maybe-uninit-array-reverse-unsupported/main.rs b/tests/expected/uninit/maybe-uninit-array-reverse-unsupported/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..bd464c1add359dc24efc71dd3e054325f783a859
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-array-reverse-unsupported/main.rs
+@@ -0,0 +1,21 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{self, MaybeUninit};
++
++#[kani::proof]
++fn initialized_array_reverse_is_unsupported() {
++    let source = [MaybeUninit::new(7_u32), MaybeUninit::new(9_u32)];
++    let destination: [u32; 2] = unsafe { mem::transmute(source) };
++    assert_eq!(destination, [7, 9]);
++}
++
++#[kani::proof]
++fn partial_array_reverse_is_unsupported() {
++    let source = [MaybeUninit::new(7_u32), MaybeUninit::uninit()];
++    let destination: [u32; 2] = unsafe { mem::transmute(source) };
++    assert_eq!(destination[0], 7);
++    assert_eq!(destination[1], 9);
++}
+diff --git a/tests/expected/uninit/nested-enum-different-padding/expected b/tests/expected/uninit/nested-enum-different-padding/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..02ec20b86589e84e6574e723cdde88be298f5ee6
+--- /dev/null
++++ b/tests/expected/uninit/nested-enum-different-padding/expected
+@@ -0,0 +1,4 @@
++Test: nested_enum_different_padding_is_unsupported
++Cannot determine layout for an Enum of type Different, as it has multiple variants that have different padding.
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/nested-enum-different-padding/main.rs b/tests/expected/uninit/nested-enum-different-padding/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..2ac4f0170e26202e345bb2326ed1918e4a7e7257
+--- /dev/null
++++ b/tests/expected/uninit/nested-enum-different-padding/main.rs
+@@ -0,0 +1,45 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{self, MaybeUninit};
++use std::ptr;
++
++#[derive(Clone, Copy)]
++#[repr(C, u8)]
++enum Different {
++    A(u32, u8),
++    B(u32),
++}
++
++#[repr(C)]
++struct Nested {
++    prefix: [u8; 16],
++    value: Different,
++}
++
++#[kani::proof]
++fn nested_enum_different_padding_is_unsupported() {
++    assert_eq!(mem::size_of::<Different>(), 12);
++    assert_eq!(mem::offset_of!(Nested, value), 16);
++    assert_eq!(mem::size_of::<Nested>(), 28);
++    let second: bool = kani::any();
++    let value = if second { Different::B(7) } else { Different::A(7, 9) };
++    let mut source = MaybeUninit::<Nested>::uninit();
++    unsafe {
++        ptr::addr_of_mut!((*source.as_mut_ptr()).prefix).write([9; 16]);
++        ptr::addr_of_mut!((*source.as_mut_ptr()).value).write(value);
++    }
++    // The preserve mask must reject the whole Nested payload: offset 16 exceeds
++    // the enum's size 12, which used to clip both variant masks to all-false.
++    let destination = source;
++    let actual = unsafe { ptr::addr_of!((*destination.as_ptr()).value).read() };
++    match actual {
++        Different::A(number, byte) => {
++            assert_eq!(number, 7);
++            assert_eq!(byte, 9);
++        }
++        Different::B(number) => assert_eq!(number, 7),
++    }
++}
+diff --git a/tests/expected/uninit/nested-enum-same-padding/expected b/tests/expected/uninit/nested-enum-same-padding/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ba36358c4516fa57028370e0d8a5ea90639389ea
+--- /dev/null
++++ b/tests/expected/uninit/nested-enum-same-padding/expected
+@@ -0,0 +1,2 @@
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/nested-enum-same-padding/main.rs b/tests/expected/uninit/nested-enum-same-padding/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..b29e665f388c0324727fb9645edcb192752d063e
+--- /dev/null
++++ b/tests/expected/uninit/nested-enum-same-padding/main.rs
+@@ -0,0 +1,49 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{self, MaybeUninit};
++use std::ptr;
++
++#[derive(Clone, Copy)]
++#[repr(C, u8)]
++enum Same {
++    A(u32),
++    B(u32),
++}
++
++#[repr(C)]
++struct Nested {
++    prefix: [u8; 16],
++    value: Same,
++}
++
++#[kani::proof]
++fn nested_enum_equal_layouts_preserve_data() {
++    assert_eq!(mem::size_of::<Same>(), 8);
++    assert_eq!(mem::offset_of!(Nested, value), 16);
++    assert_eq!(mem::size_of::<Nested>(), 24);
++    let second: bool = kani::any();
++    let number: u32 = kani::any();
++    let value = if second { Same::B(number) } else { Same::A(number) };
++    let mut source = MaybeUninit::<Nested>::uninit();
++    unsafe {
++        ptr::addr_of_mut!((*source.as_mut_ptr()).prefix).write([9; 16]);
++        ptr::addr_of_mut!((*source.as_mut_ptr()).value).write(value);
++    }
++    let destination = source;
++    unsafe {
++        assert_eq!((*destination.as_ptr()).prefix, [9; 16]);
++        match ptr::addr_of!((*destination.as_ptr()).value).read() {
++            Same::A(actual) => {
++                assert!(!second);
++                assert_eq!(actual, number);
++            }
++            Same::B(actual) => {
++                assert!(second);
++                assert_eq!(actual, number);
++            }
++        }
++    }
++}
+diff --git a/tests/expected/uninit/nested-pat-data/expected b/tests/expected/uninit/nested-pat-data/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ba36358c4516fa57028370e0d8a5ea90639389ea
+--- /dev/null
++++ b/tests/expected/uninit/nested-pat-data/expected
+@@ -0,0 +1,2 @@
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/nested-pat-data/main.rs b/tests/expected/uninit/nested-pat-data/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..bb421946bce4f5814fcfb8412b3db34bf0d8949a
+--- /dev/null
++++ b/tests/expected/uninit/nested-pat-data/main.rs
+@@ -0,0 +1,35 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{self, MaybeUninit};
++use std::ptr::{self, NonNull};
++
++// NonNull<[u8]> contains a wide-pointer RigidTy::Pat, whose layout is arbitrary,
++// so this exercises the recursive Pat branch rather than the scalar shortcut.
++#[repr(C)]
++struct NestedPat {
++    prefix: u8,
++    pointer: NonNull<[u8]>,
++}
++
++#[kani::proof]
++fn nested_pat_preserves_data_at_nonzero_offset() {
++    assert_eq!(mem::offset_of!(NestedPat, pointer), 8);
++    assert_eq!(mem::size_of::<NestedPat>(), 24);
++    let mut bytes = [7_u8; 3];
++    let pointer = NonNull::from(&mut bytes[..]);
++    let mut source = MaybeUninit::<NestedPat>::uninit();
++    unsafe {
++        ptr::addr_of_mut!((*source.as_mut_ptr()).prefix).write(11);
++        ptr::addr_of_mut!((*source.as_mut_ptr()).pointer).write(pointer);
++    }
++    let destination = source;
++    unsafe {
++        assert_eq!((*destination.as_ptr()).prefix, 11);
++        let actual = ptr::addr_of!((*destination.as_ptr()).pointer).read();
++        assert_eq!(actual.len(), 3);
++        assert_eq!(actual.as_ptr().cast::<u8>(), pointer.as_ptr().cast::<u8>());
++    }
++}
+diff --git a/tests/expected/uninit/nested-pat-padding/expected b/tests/expected/uninit/nested-pat-padding/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..f9e67c658f0f99f0e7e1042369d5fa18b4ce1a81
+--- /dev/null
++++ b/tests/expected/uninit/nested-pat-padding/expected
+@@ -0,0 +1,4 @@
++Test: nested_pat_does_not_initialize_prefix_padding
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/nested-pat-padding/main.rs b/tests/expected/uninit/nested-pat-padding/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..ada4f89e8626d09215a1889157f4fdd61e3e649a
+--- /dev/null
++++ b/tests/expected/uninit/nested-pat-padding/main.rs
+@@ -0,0 +1,34 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{self, MaybeUninit};
++use std::ptr::{self, NonNull};
++
++#[repr(C)]
++struct NestedPat {
++    prefix: u8,
++    pointer: NonNull<[u8]>,
++}
++
++#[kani::proof]
++fn nested_pat_does_not_initialize_prefix_padding() {
++    assert_eq!(mem::offset_of!(NestedPat, pointer), 8);
++    assert_eq!(mem::size_of::<NestedPat>(), 24);
++    let mut bytes = [7_u8; 3];
++    let pointer = NonNull::from(&mut bytes[..]);
++    let mut source = MaybeUninit::<NestedPat>::uninit();
++    unsafe {
++        source.as_mut_ptr().cast::<u8>().write_bytes(0x5a, 24);
++        ptr::addr_of_mut!((*source.as_mut_ptr()).pointer).write(pointer);
++    }
++    let destination = source;
++    unsafe {
++        assert_eq!((*destination.as_ptr()).prefix, 0x5a);
++        assert_eq!(ptr::addr_of!((*destination.as_ptr()).pointer).read().len(), 3);
++    }
++    // Byte 1 is outside the Pat at offset 8. Typed copying discards this padding,
++    // even though the source byte was physically initialized before the copy.
++    assert_eq!(unsafe { destination.as_ptr().cast::<u8>().add(1).read() }, 0x5a);
++}
+diff --git a/tests/expected/uninit/raw-eq-uninit-unsupported/expected b/tests/expected/uninit/raw-eq-uninit-unsupported/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..a17baff63e8b7102f3d2f9795e743b12b373b859
+--- /dev/null
++++ b/tests/expected/uninit/raw-eq-uninit-unsupported/expected
+@@ -0,0 +1,10 @@
++Test: raw_eq_initialized_scalars_is_unsupported
++Failed Checks: Kani does not support checking memory initialization of raw_eq, which reads all bytes through references.
++VERIFICATION:- FAILED
++Test: raw_eq_padding_is_unsupported
++Failed Checks: Kani does not support checking memory initialization of raw_eq, which reads all bytes through references.
++VERIFICATION:- FAILED
++Test: raw_eq_uninitialized_storage_is_unsupported
++Failed Checks: Kani does not support checking memory initialization of raw_eq, which reads all bytes through references.
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 3 failures, 3 total.
+diff --git a/tests/expected/uninit/raw-eq-uninit-unsupported/main.rs b/tests/expected/uninit/raw-eq-uninit-unsupported/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..a513d897c749681fab842c142f22e273135a57a8
+--- /dev/null
++++ b/tests/expected/uninit/raw-eq-uninit-unsupported/main.rs
+@@ -0,0 +1,42 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++#[repr(C)]
++struct Padded {
++    tag: u8,
++    value: u32,
++}
++
++#[kani::proof]
++fn raw_eq_initialized_scalars_is_unsupported() {
++    let left: u32 = kani::any();
++    let right: u32 = kani::any();
++    let equal = unsafe { raw_eq(&left, &right) };
++    assert_eq!(equal, left == right);
++}
++
++#[kani::proof]
++fn raw_eq_uninitialized_storage_is_unsupported() {
++    // References to MaybeUninit are valid even when its data is uninitialized.
++    let left = MaybeUninit::<u32>::uninit();
++    let right = MaybeUninit::<u32>::uninit();
++    let equal = unsafe { raw_eq(&left, &right) };
++    kani::cover!(equal);
++}
++
++#[kani::proof]
++fn raw_eq_padding_is_unsupported() {
++    let left = Padded { tag: 7, value: 9 };
++    let right = Padded { tag: 7, value: 9 };
++    assert_eq!((left.tag, left.value), (right.tag, right.value));
++    let equal = unsafe { raw_eq(&left, &right) };
++    kani::cover!(equal);
++}

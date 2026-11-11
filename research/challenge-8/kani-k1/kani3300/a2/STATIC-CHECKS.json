@@ -1,0 +1,57 @@
+{
+  "candidate": "3dc0227cee87d85bed32678a2209353ebdb9d2fa",
+  "base": "613c188313e34e51e6a69d2c62bbd6ded2511819",
+  "rustfmt": {
+    "result": "PASS",
+    "rust_files": 8,
+    "command": [
+      "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+      "--check",
+      "--config-path",
+      "rustfmt.toml",
+      "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "tests/expected/uninit/maybe-uninit-array-reverse-unsupported/main.rs",
+      "tests/expected/uninit/nested-enum-different-padding/main.rs",
+      "tests/expected/uninit/nested-enum-same-padding/main.rs",
+      "tests/expected/uninit/nested-pat-data/main.rs",
+      "tests/expected/uninit/nested-pat-padding/main.rs",
+      "tests/expected/uninit/raw-eq-uninit-unsupported/main.rs"
+    ]
+  },
+  "git_diff_check": "PASS base..candidate",
+  "pinned_api": {
+    "rust_commit": "7189d39d9ce936881b8132c6addeaf3e295cd455",
+    "toolchain": "nightly-2026-10-23",
+    "source_hashes_matched": 11,
+    "manifest": "../g1r/API-SOURCES.json",
+    "signatures": [
+      "data_bytes_for_ty(&MachineInfo, Ty, usize) -> Result<Vec<DataBytes>, LayoutComputationError> unchanged",
+      "Ty::kind(self) -> TyKind; RigidTy::Array(Ty, TyConst), RigidTy::Pat(Ty, Pattern)",
+      "FieldsShape/VariantsShape/Scalar layouts and MachineSize::bytes(self) -> usize unchanged",
+      "wrapper_inner(TyCtxt, Ty, LangItem) -> Option<Ty> unchanged; existing LangItem::MaybeUninit"
+    ]
+  },
+  "source_audit": {
+    "result": "PASS static inspection only; -D warnings/clippy compilation NOT_RUN",
+    "checks": [
+      "No new imports, public symbols, helper signatures, dead helpers or model ABI changes.",
+      "Pattern Array(from, from_len) matches existing typed_storage_mask API usage; comparisons consume no borrowed vector and wrapper_inner accepts Ty values.",
+      "Pat tail returns the existing Result directly; enum fields are inferred Vec<DataBytes>; mutable iteration shifts only the selected local field chunks.",
+      "RawEq removed from can_skip_intrinsic true-list; wildcard returns false; explicit Call handling emits Unsupported.",
+      "Reverse array guard precedes the bool compatibility fallback, including zero length and ZST cases; T -> MaybeUninit and direct MaybeUninit<T> -> T stay on existing branches.",
+      "No broad lint suppression; Padded and enum fields used; no discarded must_use results; new test helper imports all used.",
+      "Existing source and golden fixtures untouched; two production paths plus six new fixture directories.",
+      "Golden harness prefixes checked against kani-driver/src/harness_runner.rs:273. Test-only delta corrects new labels; full diagnostic/count expectations retained.",
+      "New positive layout assertions avoid whole-array Eq/raw_eq; prefix still checked bytewise with unwind(17), reverse-array values checked separately. Existing regressions unchanged; raw_eq-related support restriction may change their outcomes."
+    ]
+  },
+  "forbidden_execution": "NOT_RUN: build/dispatch/Cloud/Actions/cargo/rustc/Kani/CBMC/Miri; no Kani push",
+  "cloud_spend_usd": 0,
+  "finite_offset_sanity": {
+    "script": "layout_sanity.py",
+    "cases": 109220,
+    "old_false_equalities": 65024,
+    "result": "PASS finite algebra; no Rust execution/proof credit"
+  }
+}

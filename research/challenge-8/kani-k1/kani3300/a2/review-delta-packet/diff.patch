@@ -1,0 +1,68 @@
+diff --git a/tests/expected/uninit/maybe-uninit-array-reverse-unsupported/expected b/tests/expected/uninit/maybe-uninit-array-reverse-unsupported/expected
+index 270a99a2f8931de92def3e22780e4f18ac13c50b..608f7a0b3406331d0d7a4d6c499149eebfeb4b6d 100644
+--- a/tests/expected/uninit/maybe-uninit-array-reverse-unsupported/expected
++++ b/tests/expected/uninit/maybe-uninit-array-reverse-unsupported/expected
+@@ -1,7 +1,7 @@
+-Test: initialized_array_reverse_is_unsupported
++Checking harness initialized_array_reverse_is_unsupported...
+ Failed Checks: Kani does not support checking memory initialization of transmute from [MaybeUninit<T>; N] to [T; N].
+ VERIFICATION:- FAILED
+-Test: partial_array_reverse_is_unsupported
++Checking harness partial_array_reverse_is_unsupported...
+ Failed Checks: Kani does not support checking memory initialization of transmute from [MaybeUninit<T>; N] to [T; N].
+ VERIFICATION:- FAILED
+ Complete - 0 successfully verified harnesses, 2 failures, 2 total.
+diff --git a/tests/expected/uninit/nested-enum-different-padding/expected b/tests/expected/uninit/nested-enum-different-padding/expected
+index 02ec20b86589e84e6574e723cdde88be298f5ee6..645ef4c87956620fadbdccddfef47ada6760a611 100644
+--- a/tests/expected/uninit/nested-enum-different-padding/expected
++++ b/tests/expected/uninit/nested-enum-different-padding/expected
+@@ -1,4 +1,4 @@
+-Test: nested_enum_different_padding_is_unsupported
++Checking harness nested_enum_different_padding_is_unsupported...
+ Cannot determine layout for an Enum of type Different, as it has multiple variants that have different padding.
+ VERIFICATION:- FAILED
+ Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/nested-enum-same-padding/expected b/tests/expected/uninit/nested-enum-same-padding/expected
+index ba36358c4516fa57028370e0d8a5ea90639389ea..879222fc69f7d1123d25357668d75f80df668150 100644
+--- a/tests/expected/uninit/nested-enum-same-padding/expected
++++ b/tests/expected/uninit/nested-enum-same-padding/expected
+@@ -1,2 +1,3 @@
++Checking harness nested_enum_equal_layouts_preserve_data...
+ VERIFICATION:- SUCCESSFUL
+ Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/nested-pat-data/expected b/tests/expected/uninit/nested-pat-data/expected
+index ba36358c4516fa57028370e0d8a5ea90639389ea..deaf888ee23b8d76715fcfb6aebc236ebb794689 100644
+--- a/tests/expected/uninit/nested-pat-data/expected
++++ b/tests/expected/uninit/nested-pat-data/expected
+@@ -1,2 +1,3 @@
++Checking harness nested_pat_preserves_data_at_nonzero_offset...
+ VERIFICATION:- SUCCESSFUL
+ Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/nested-pat-padding/expected b/tests/expected/uninit/nested-pat-padding/expected
+index f9e67c658f0f99f0e7e1042369d5fa18b4ce1a81..aefb5857006492b7060ec8c6147802f1248f7985 100644
+--- a/tests/expected/uninit/nested-pat-padding/expected
++++ b/tests/expected/uninit/nested-pat-padding/expected
+@@ -1,4 +1,4 @@
+-Test: nested_pat_does_not_initialize_prefix_padding
++Checking harness nested_pat_does_not_initialize_prefix_padding...
+ Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
+ VERIFICATION:- FAILED
+ Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/raw-eq-uninit-unsupported/expected b/tests/expected/uninit/raw-eq-uninit-unsupported/expected
+index a17baff63e8b7102f3d2f9795e743b12b373b859..aee850daf8d0233b5b395299054a724aa562cb3d 100644
+--- a/tests/expected/uninit/raw-eq-uninit-unsupported/expected
++++ b/tests/expected/uninit/raw-eq-uninit-unsupported/expected
+@@ -1,10 +1,10 @@
+-Test: raw_eq_initialized_scalars_is_unsupported
++Checking harness raw_eq_initialized_scalars_is_unsupported...
+ Failed Checks: Kani does not support checking memory initialization of raw_eq, which reads all bytes through references.
+ VERIFICATION:- FAILED
+-Test: raw_eq_padding_is_unsupported
++Checking harness raw_eq_padding_is_unsupported...
+ Failed Checks: Kani does not support checking memory initialization of raw_eq, which reads all bytes through references.
+ VERIFICATION:- FAILED
+-Test: raw_eq_uninitialized_storage_is_unsupported
++Checking harness raw_eq_uninitialized_storage_is_unsupported...
+ Failed Checks: Kani does not support checking memory initialization of raw_eq, which reads all bytes through references.
+ VERIFICATION:- FAILED
+ Complete - 0 successfully verified harnesses, 3 failures, 3 total.

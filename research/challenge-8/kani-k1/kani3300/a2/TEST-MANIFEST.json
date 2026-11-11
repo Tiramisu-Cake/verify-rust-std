@@ -1,0 +1,103 @@
+{
+  "candidate": "3dc0227cee87d85bed32678a2209353ebdb9d2fa",
+  "base": "613c188313e34e51e6a69d2c62bbd6ded2511819",
+  "selectors": [
+    {
+      "selector": "tests/expected/uninit/maybe-uninit-array-reverse-unsupported",
+      "harnesses": [
+        "initialized_array_reverse_is_unsupported",
+        "partial_array_reverse_is_unsupported"
+      ],
+      "source_sha256": "af433a9f35e57f52b0303184bd4d1b663278a09c69f868e1115ffd533434d775",
+      "expected_sha256": "262b885c87c2b1460f4b732cd455f97c27bc73e026af39fc24bb3863b6ef317a",
+      "expected_output": [
+        "Checking harness initialized_array_reverse_is_unsupported...",
+        "Failed Checks: Kani does not support checking memory initialization of transmute from [MaybeUninit<T>; N] to [T; N].",
+        "VERIFICATION:- FAILED",
+        "Checking harness partial_array_reverse_is_unsupported...",
+        "Failed Checks: Kani does not support checking memory initialization of transmute from [MaybeUninit<T>; N] to [T; N].",
+        "VERIFICATION:- FAILED",
+        "Complete - 0 successfully verified harnesses, 2 failures, 2 total."
+      ]
+    },
+    {
+      "selector": "tests/expected/uninit/nested-enum-different-padding",
+      "harnesses": [
+        "nested_enum_different_padding_is_unsupported"
+      ],
+      "source_sha256": "6cb4da13aabcdba34ffc4b09b956d724edd4e8e506e661691591756705906b83",
+      "expected_sha256": "933d70734c69e4ea6a28239718f23bb174fe19780cf3a33732bf1fe255bf452a",
+      "expected_output": [
+        "Checking harness nested_enum_different_padding_is_unsupported...",
+        "Cannot determine layout for an Enum of type Different, as it has multiple variants that have different padding.",
+        "VERIFICATION:- FAILED",
+        "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+      ]
+    },
+    {
+      "selector": "tests/expected/uninit/nested-enum-same-padding",
+      "harnesses": [
+        "nested_enum_equal_layouts_preserve_data"
+      ],
+      "source_sha256": "e9f422fe9912cb5360c790fd6e3b33fa41ad3173a019d3822c37d8d3e3157c18",
+      "expected_sha256": "aae5fc3ee97d4608cdffdbc2ba0acfed762804ecc155a61d49ed7861efe1918b",
+      "expected_output": [
+        "Checking harness nested_enum_equal_layouts_preserve_data...",
+        "VERIFICATION:- SUCCESSFUL",
+        "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+      ]
+    },
+    {
+      "selector": "tests/expected/uninit/nested-pat-data",
+      "harnesses": [
+        "nested_pat_preserves_data_at_nonzero_offset"
+      ],
+      "source_sha256": "bc5b9b63a961d033acc87bc398366315a46379069068822aeaf419ae8ac2ab89",
+      "expected_sha256": "20b432525cb1adeae1aa633b3906c88ffdbb51af9a4a992cef4219a5a312b234",
+      "expected_output": [
+        "Checking harness nested_pat_preserves_data_at_nonzero_offset...",
+        "VERIFICATION:- SUCCESSFUL",
+        "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+      ]
+    },
+    {
+      "selector": "tests/expected/uninit/nested-pat-padding",
+      "harnesses": [
+        "nested_pat_does_not_initialize_prefix_padding"
+      ],
+      "source_sha256": "eafda6d3a678990e958d37326d73773104b3b07840a1c5ffbe55a790e67c4380",
+      "expected_sha256": "c3908cb6703d6902086d6796d588ffdd06027895ad4a53aeb8469057c7307d35",
+      "expected_output": [
+        "Checking harness nested_pat_does_not_initialize_prefix_padding...",
+        "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+        "VERIFICATION:- FAILED",
+        "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+      ]
+    },
+    {
+      "selector": "tests/expected/uninit/raw-eq-uninit-unsupported",
+      "harnesses": [
+        "raw_eq_initialized_scalars_is_unsupported",
+        "raw_eq_uninitialized_storage_is_unsupported",
+        "raw_eq_padding_is_unsupported"
+      ],
+      "source_sha256": "837b316bbfe00c4130a2f58043928281d930bc71e8c6f9f581b2aaa82c34be1f",
+      "expected_sha256": "37e52a36bee93bc6a47a3057fa22b1285b7336c11e6b750adcc340325e3dcaad",
+      "expected_output": [
+        "Checking harness raw_eq_initialized_scalars_is_unsupported...",
+        "Failed Checks: Kani does not support checking memory initialization of raw_eq, which reads all bytes through references.",
+        "VERIFICATION:- FAILED",
+        "Checking harness raw_eq_padding_is_unsupported...",
+        "Failed Checks: Kani does not support checking memory initialization of raw_eq, which reads all bytes through references.",
+        "VERIFICATION:- FAILED",
+        "Checking harness raw_eq_uninitialized_storage_is_unsupported...",
+        "Failed Checks: Kani does not support checking memory initialization of raw_eq, which reads all bytes through references.",
+        "VERIFICATION:- FAILED",
+        "Complete - 0 successfully verified harnesses, 3 failures, 3 total."
+      ]
+    }
+  ],
+  "coordinator_gate": "Expect 2 SUCCESS, 1 named u8 uninit FAILURE, 6 Unsupported harness failures. Inspect named properties/counts and reached operations, no unrelated failures; these are unexecuted expectations. Compare nested Pat data/padding and differing-enum controls with A1 baseline. Run existing A1 and layout/transmute/raw-eq regressions on exact candidate.",
+  "status": "NOT_RUN; no measured proof credit",
+  "compatibility_boundary": "raw_eq is explicitly Unsupported for all types with uninit-checks, including std array equality specializations. Existing maybe-uninit-transmute/exact_usize_array_copy contains a whole-array comparison and is expected to encounter this boundary; its historical success golden is unchanged, not claimed passing. Coordinator must account for this intentional support restriction separately from the new layout controls."
+}

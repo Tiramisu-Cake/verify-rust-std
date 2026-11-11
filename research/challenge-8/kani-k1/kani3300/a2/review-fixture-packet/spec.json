@@ -1,0 +1,35 @@
+{
+  "applicability": "Review exactly A2 delta with necessary A1 dependencies. Read TASK-KANI3300-A2.md at research commit a9ae7b5f6c and audit 4.1 / W1-A2 planner requirements. Static only; no author conclusions supplied.",
+  "baseline_commit": "b8c0d00ac3ab00eefaa22396274af4e9d2b15450",
+  "candidate_commit": "3dc0227cee87d85bed32678a2209353ebdb9d2fa",
+  "controls": [
+    "No nested delegation; no builds/Cloud/dispatch/cargo/rustc/Kani/CBMC/Miri/Actions/PR/issues/comments/raw evidence/credentials/network mutations/Kani push.",
+    "No code/test edits. Write only research/challenge-8/kani-k1/kani3300/a2/REVIEW.md. Include reviewed candidate/tree/diff/spec identities, actionable findings, static verdict and limits.",
+    "Outcomes are expectations pending coordinator CI. Do not claim measured proof, compilation, MIR/layout measurement or GO."
+  ],
+  "defect": "A2 fixture-only delta: avoid std array equality invoking the intentional raw_eq Unsupported boundary in unrelated layout controls.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "library/kani_core/src/mem_init.rs",
+    "rust-toolchain.toml",
+    "kani-compiler/src/intrinsics.rs",
+    "tools/compiletest/src/runtest.rs",
+    "kani-driver/src/harness_runner.rs"
+  ],
+  "invariants": [
+    "Production code unchanged. All 16 prefix byte assertions retained by explicit loop and unwind(17); both reverse-array destination elements compared separately. No weakened old controls. Assess exact new fixture diff and compatibility note: raw_eq Unsupported also affects std bytewise array equality under uninit-checks."
+  ],
+  "known_limitations": [
+    "Static review only; compiler, MIR measurement, -D warnings and coordinator CI NOT_RUN. A1 is a dependency, not newly proved."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-a1"
+}

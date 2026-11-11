@@ -1,0 +1,27 @@
+# KANI3300 A2 — nested layout offsets
+- Scope: TASK-KANI3300-A2 at a9ae7b5f6c; audit §4.1 / planner W1-A2; one stage, Cloud $0.
+- Research: /root/verify-rust-std-kani3300-g0, experiment/kani-k1-kani3300g0-20261111.
+- Kani: /root/kani-fix-3300-a1, fix/kani-3300-a1; A1 base 613c188313e34e51e6a69d2c62bbd6ded2511819.
+- Production 1f91626a305161ac6b9ba6c79ae66daa22af9c54; fixtures 1dc99da6bf3c6387d8f69d9a44ffa8a8e0419139.
+- Golden labels b8c0d00ac3ab00eefaa22396274af4e9d2b15450; final fixture control 3dc0227cee87d85bed32678a2209353ebdb9d2fa.
+- All four Kani commits authored Tiramisu-Cake via -c; no Kani push, Actions, PR, issue, comment or dispatch.
+- RigidTy::Pat passes current_offset, matching G1 cac044742; direct recursive Result avoids an unnecessary temporary.
+- Multiple enum variants collect field chunks locally, compare enum-sized masks, then shift selected chunks once.
+- The tag retains current_offset; nested enum/array field recursion composes naturally; diagnostics unchanged.
+- Different A(u32,u8)/B(u32): enum extent 12, enclosing offset 16; old masks both clip to false, new masks differ.
+- Same A(u32)/B(u32): enum extent 8, enclosing offset 16; typed MU copy must retain tag and payload data.
+- NestedPat contains NonNull<[u8]> (wide-pointer Pat), offset 8, extent 24; this exercises Arbitrary, not scalar layout.
+- Pat data positive reads metadata/address after MU copy; padding negative reads byte 1 after fully initialized source copy.
+- Uncovered reverse [MaybeUninit<T>; N] -> [T; N] transmute emits explicit Unsupported before layout-compatibility fallback.
+- raw_eq removed from skip-list and explicitly Unsupported for all types under uninit-checks; references may expose padding.
+- This also rejects std bytewise array equality; known existing caller: maybe-uninit-transmute/exact_usize_array_copy.
+- Its historical golden remains unchanged; no claim that the entire existing regression suite now passes.
+- New layout controls compare prefix bytes individually (unwind 17), so raw_eq cannot hide their intended outcomes.
+- Six selectors / nine harnesses expect 2 SUCCESS, 1 named u8 uninit FAILURE, 6 Unsupported failures; TEST-MANIFEST.json pins sources/goldens.
+- Coordinator must inspect exact named properties/counts and reached operations, excluding unrelated failures; compare A1 baseline.
+- Static PASS: wrapper rustfmt --check on 8 Rust files, git diff --check base..final, 11 pinned API source hashes.
+- Source audit: unchanged helper/model ABI; no new imports/unused helpers; clippy/-D warnings remain compiler-unverified.
+- Python finite offset algebra: 109220 cases, 65024 old false equalities; recursive composition and Pat checks PASS; no Rust/proof credit.
+- Independent Luna HIGH review: REVIEW.md; immutable semantic/golden/fixture packets retain exact identities and limitations.
+- NOT_RUN: cargo/rustc/Kani/CBMC/Miri, compilation/clippy, MIR/layout measurement, build/CI; coordinator executes narrow fork CI.
+- No A3 protocol, B1 resolver, G1 union expansion, backend or allocator changes; A2 READY means static candidate, not overall proof acceptance.
