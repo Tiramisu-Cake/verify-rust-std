@@ -1,0 +1,3373 @@
+{
+  "schema": "kani3300-g1-test-manifest-v1",
+  "candidate": "02b734151ada1dd0d216b0db329776eb522d2d67",
+  "kani_base": "657c2b24516b967f67ce71994299d0ef328aede9",
+  "native_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "fixtures": [
+    {
+      "file": "uninit/g1-union-pointee-positive/main.rs",
+      "expected_file": "uninit/g1-union-pointee-positive/expected",
+      "package": "A",
+      "require_success": true,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "written_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "written_c require-success",
+          "reading_binding": "written_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = CU { z: () }; let p = &mut u as *mut CU; unsafe { (*p).wide = 0x1234; assert_eq!((*p).wide, 0x1234); }"
+        },
+        {
+          "name": "written_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "written_rust require-success",
+          "reading_binding": "written_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = RU { z: () }; let p = &mut u as *mut RU; unsafe { (*p).wide = 0x1234; assert_eq!((*p).wide, 0x1234); }"
+        },
+        {
+          "name": "wide_then_narrow_field_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "wide_then_narrow_field_c require-success",
+          "reading_binding": "wide_then_narrow_field_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = CU { wide: 0x12345678 }; let p = &mut u as *mut CU; unsafe { (*p).narrow = 4; let mut expected = 0x12345678u32.to_ne_bytes(); expected[std::mem::offset_of!(CU, narrow)] = 4; assert_eq!((*p).wide, u32::from_ne_bytes(expected)); }"
+        },
+        {
+          "name": "wide_then_narrow_field_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "wide_then_narrow_field_rust require-success",
+          "reading_binding": "wide_then_narrow_field_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = RU { wide: 0x12345678 }; let p = &mut u as *mut RU; unsafe { (*p).narrow = 4; let mut expected = 0x12345678u32.to_ne_bytes(); expected[std::mem::offset_of!(RU, narrow)] = 4; assert_eq!((*p).wide, u32::from_ne_bytes(expected)); }"
+        },
+        {
+          "name": "whole_copy_assign_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "whole_copy_assign_c require-success",
+          "reading_binding": "whole_copy_assign_c: positive harness must verify successfully",
+          "operation_binding": [
+            "typed_copy_assignment",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = CU { wide: 17 }; let mut dst = CU { z: () }; let (s, d) = (&src as *const CU, &mut dst as *mut CU); unsafe { *d = *s; assert_eq!((*d).wide, 17); }"
+        },
+        {
+          "name": "whole_copy_assign_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "whole_copy_assign_rust require-success",
+          "reading_binding": "whole_copy_assign_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "typed_copy_assignment",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = RU { wide: 17 }; let mut dst = RU { z: () }; let (s, d) = (&src as *const RU, &mut dst as *mut RU); unsafe { *d = *s; assert_eq!((*d).wide, 17); }"
+        },
+        {
+          "name": "whole_move_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "whole_move_c require-success",
+          "reading_binding": "whole_move_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = MoveC { wide: 163 }; let dst = src; assert_eq!(unsafe { dst.wide }, 163);"
+        },
+        {
+          "name": "whole_move_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "whole_move_rust require-success",
+          "reading_binding": "whole_move_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = MoveR { wide: 167 }; let dst = src; assert_eq!(unsafe { dst.wide }, 167);"
+        },
+        {
+          "name": "whole_copy_ptr_read_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "whole_copy_ptr_read_c require-success",
+          "reading_binding": "whole_copy_ptr_read_c: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::read",
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = CU { wide: 19 }; let mut dst = CU { z: () }; unsafe { let value = ptr::read(&src); ptr::write(&mut dst, value); assert_eq!((*(&dst as *const CU)).wide, 19); }"
+        },
+        {
+          "name": "whole_copy_ptr_read_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "whole_copy_ptr_read_rust require-success",
+          "reading_binding": "whole_copy_ptr_read_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::read",
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = RU { wide: 19 }; let mut dst = RU { z: () }; unsafe { let value = ptr::read(&src); ptr::write(&mut dst, value); assert_eq!((*(&dst as *const RU)).wide, 19); }"
+        },
+        {
+          "name": "whole_copy_bytes_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "whole_copy_bytes_c require-success",
+          "reading_binding": "whole_copy_bytes_c: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::copy_nonoverlapping",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = CU { wide: 23 }; let mut dst = CU { z: () }; unsafe { ptr::copy_nonoverlapping(&src, &mut dst, 1); assert_eq!((*(&dst as *const CU)).wide, 23); }"
+        },
+        {
+          "name": "whole_copy_bytes_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "whole_copy_bytes_rust require-success",
+          "reading_binding": "whole_copy_bytes_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::copy_nonoverlapping",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = RU { wide: 23 }; let mut dst = RU { z: () }; unsafe { ptr::copy_nonoverlapping(&src, &mut dst, 1); assert_eq!((*(&dst as *const RU)).wide, 23); }"
+        },
+        {
+          "name": "whole_copy_overlap_self_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "whole_copy_overlap_self_c require-success",
+          "reading_binding": "whole_copy_overlap_self_c: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::copy",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = CU { wide: 29 }; let p = &mut u as *mut CU; unsafe { ptr::copy(p, p, 1); assert_eq!((*p).wide, 29); }"
+        },
+        {
+          "name": "whole_copy_overlap_self_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "whole_copy_overlap_self_rust require-success",
+          "reading_binding": "whole_copy_overlap_self_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::copy",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = RU { wide: 31 }; let p = &mut u as *mut RU; unsafe { ptr::copy(p, p, 1); assert_eq!((*p).wide, 31); }"
+        },
+        {
+          "name": "overlap_byte_copy_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "overlap_byte_copy_c require-success",
+          "reading_binding": "overlap_byte_copy_c: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::read",
+            "ptr::write",
+            "ptr::copy",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut b = RawBacking([0; 32]); let base = b.0.as_mut_ptr(); unsafe { ptr::write(base.cast::<CU>(), CU { wide: 0x12345678 }); ptr::copy(base, base.add(1), std::mem::size_of::<CU>()); assert_eq!(ptr::read(base.add(1)), 0x78); }"
+        },
+        {
+          "name": "overlap_byte_copy_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "overlap_byte_copy_rust require-success",
+          "reading_binding": "overlap_byte_copy_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::read",
+            "ptr::write",
+            "ptr::copy",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut b = RawBacking([0; 32]); let base = b.0.as_mut_ptr(); unsafe { ptr::write(base.cast::<RU>(), RU { wide: 0x12345678 }); ptr::copy(base, base.add(1), std::mem::size_of::<RU>()); assert_eq!(ptr::read(base.add(1)), 0x78); }"
+        },
+        {
+          "name": "whole_overwrite_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "whole_overwrite_c require-success",
+          "reading_binding": "whole_overwrite_c: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = CU { wide: 0x12345678 }; let p = &mut u as *mut CU; unsafe { ptr::write(p, CU { wide: 0x87654321 }); assert_eq!((*p).wide, 0x87654321); }"
+        },
+        {
+          "name": "whole_overwrite_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "whole_overwrite_rust require-success",
+          "reading_binding": "whole_overwrite_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = RU { wide: 0x12345678 }; let p = &mut u as *mut RU; unsafe { ptr::write(p, RU { wide: 0x87654321 }); assert_eq!((*p).wide, 0x87654321); }"
+        },
+        {
+          "name": "argument_return_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "argument_return_c require-success",
+          "reading_binding": "argument_return_c: positive harness must verify successfully",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let x = identity_c(CU { wide: 37 }); assert_eq!(unsafe { x.wide }, 37);"
+        },
+        {
+          "name": "argument_return_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "argument_return_rust require-success",
+          "reading_binding": "argument_return_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let x = identity_rust(RU { wide: 41 }); assert_eq!(unsafe { x.wide }, 41);"
+        },
+        {
+          "name": "argument_return_reused_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "argument_return_reused_c require-success",
+          "reading_binding": "argument_return_reused_c: positive harness must verify successfully",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut destination = pair_identity_c(CU { wide: 43 }, CU { z: () }); assert_eq!(unsafe { destination.wide }, 43); destination = pair_identity_c(CU { wide: 47 }, CU { z: () }); assert_eq!(unsafe { destination.wide }, 47);"
+        },
+        {
+          "name": "argument_return_reused_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "argument_return_reused_rust require-success",
+          "reading_binding": "argument_return_reused_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut destination = pair_identity_rust(RU { wide: 53 }, RU { z: () }); assert_eq!(unsafe { destination.wide }, 53); destination = pair_identity_rust(RU { wide: 59 }, RU { z: () }); assert_eq!(unsafe { destination.wide }, 59);"
+        },
+        {
+          "name": "argument_return_mixed_size_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "argument_return_mixed_size_c require-success",
+          "reading_binding": "argument_return_mixed_size_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let value = pair_mixed_c(CU { wide: 61 }, TailC { bytes: [1; 5] }); assert_eq!(unsafe { value.wide }, 61);"
+        },
+        {
+          "name": "argument_return_mixed_size_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "argument_return_mixed_size_rust require-success",
+          "reading_binding": "argument_return_mixed_size_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let value = pair_mixed_rust(RU { wide: 67 }, TailR { bytes: [1; 5] }); assert_eq!(unsafe { value.wide }, 67);"
+        },
+        {
+          "name": "padded_argument_return_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "padded_argument_return_c require-success",
+          "reading_binding": "padded_argument_return_c: positive harness must verify successfully",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = padded_identity_c(CU { padded: ManuallyDrop::new(Padded { byte: 2, word: 37 }) }); assert_eq!(unsafe { u.padded.word }, 37);"
+        },
+        {
+          "name": "padded_argument_return_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "padded_argument_return_rust require-success",
+          "reading_binding": "padded_argument_return_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = padded_identity_rust(RU { padded: ManuallyDrop::new(Padded { byte: 3, word: 41 }) }); assert_eq!(unsafe { u.padded.word }, 41);"
+        },
+        {
+          "name": "padded_typed_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "padded_typed_c require-success",
+          "reading_binding": "padded_typed_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let p = Padded { byte: 7, word: 11 }; let u = CU { padded: ManuallyDrop::new(p) }; assert_eq!(unsafe { (&(*(&u as *const CU)).padded).byte }, 7); assert_eq!(unsafe { (&(*(&u as *const CU)).padded).word }, 11);"
+        },
+        {
+          "name": "padded_typed_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "padded_typed_rust require-success",
+          "reading_binding": "padded_typed_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let p = Padded { byte: 13, word: 17 }; let u = RU { padded: ManuallyDrop::new(p) }; assert_eq!(unsafe { (&(*(&u as *const RU)).padded).byte }, 13); assert_eq!(unsafe { (&(*(&u as *const RU)).padded).word }, 17);"
+        },
+        {
+          "name": "padded_tuple_typed_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "padded_tuple_typed_c require-success",
+          "reading_binding": "padded_tuple_typed_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = CU { tuple: ManuallyDrop::new((2, 151)) }; assert_eq!(unsafe { (&(*(&u as *const CU)).tuple).0 }, 2); assert_eq!(unsafe { (&(*(&u as *const CU)).tuple).1 }, 151);"
+        },
+        {
+          "name": "padded_tuple_typed_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "padded_tuple_typed_rust require-success",
+          "reading_binding": "padded_tuple_typed_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = RU { tuple: ManuallyDrop::new((3, 157)) }; assert_eq!(unsafe { (&(*(&u as *const RU)).tuple).0 }, 3); assert_eq!(unsafe { (&(*(&u as *const RU)).tuple).1 }, 157);"
+        },
+        {
+          "name": "padded_typed_copy_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "padded_typed_copy_c require-success",
+          "reading_binding": "padded_typed_copy_c: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::read",
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = CU { padded: ManuallyDrop::new(Padded { byte: 19, word: 23 }) }; let mut dst = CU { z: () }; unsafe { ptr::write(&mut dst, ptr::read(&src)); assert_eq!((&(*(&dst as *const CU)).padded).word, 23); }"
+        },
+        {
+          "name": "padded_typed_copy_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "padded_typed_copy_rust require-success",
+          "reading_binding": "padded_typed_copy_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::read",
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = RU { padded: ManuallyDrop::new(Padded { byte: 29, word: 31 }) }; let mut dst = RU { z: () }; unsafe { ptr::write(&mut dst, ptr::read(&src)); assert_eq!((&(*(&dst as *const RU)).padded).word, 31); }"
+        },
+        {
+          "name": "array_field_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "array_field_c require-success",
+          "reading_binding": "array_field_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = CU { pair: [61, 67] }; assert_eq!(unsafe { (*(&u as *const CU)).pair[1] }, 67);"
+        },
+        {
+          "name": "array_field_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "array_field_rust require-success",
+          "reading_binding": "array_field_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = RU { pair: [71, 73] }; assert_eq!(unsafe { (*(&u as *const RU)).pair[1] }, 73);"
+        },
+        {
+          "name": "array_padded_field_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "array_padded_field_c require-success",
+          "reading_binding": "array_padded_field_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let a = [Padded { byte: 1, word: 2 }, Padded { byte: 3, word: 5 }]; let u = CU { padded: ManuallyDrop::new(a[1]) }; assert_eq!(unsafe { (&(*(&u as *const CU)).padded).word }, 5);"
+        },
+        {
+          "name": "array_zst_field_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "array_zst_field_c require-success",
+          "reading_binding": "array_zst_field_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = CU { z: () }; assert_eq!(unsafe { (*(&u as *const CU)).zst_array[1] }, ());"
+        },
+        {
+          "name": "array_zst_field_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "array_zst_field_rust require-success",
+          "reading_binding": "array_zst_field_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = RU { z: () }; assert_eq!(unsafe { (*(&u as *const RU)).zst_array[1] }, ());"
+        },
+        {
+          "name": "array_padded_elements_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "array_padded_elements_c require-success",
+          "reading_binding": "array_padded_elements_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = CU { padded_pair: [ ManuallyDrop::new(Padded { byte: 2, word: 3 }), ManuallyDrop::new(Padded { byte: 5, word: 7 }), ], }; assert_eq!(unsafe { (&(*(&u as *const CU)).padded_pair[1]).word }, 7);"
+        },
+        {
+          "name": "array_padded_elements_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "array_padded_elements_rust require-success",
+          "reading_binding": "array_padded_elements_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = RU { padded_pair: [ ManuallyDrop::new(Padded { byte: 11, word: 13 }), ManuallyDrop::new(Padded { byte: 17, word: 19 }), ], }; assert_eq!(unsafe { (&(*(&u as *const RU)).padded_pair[1]).word }, 19);"
+        },
+        {
+          "name": "zst_field_no_reset_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "zst_field_no_reset_c require-success",
+          "reading_binding": "zst_field_no_reset_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = CU { wide: 0x76543210 }; let p = &mut u as *mut CU; unsafe { (*p).z = (); assert_eq!((*p).wide, 0x76543210); }"
+        },
+        {
+          "name": "zst_field_no_reset_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "zst_field_no_reset_rust require-success",
+          "reading_binding": "zst_field_no_reset_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = RU { wide: 0x76543210 }; let p = &mut u as *mut RU; unsafe { (*p).z = (); assert_eq!((*p).wide, 0x76543210); }"
+        },
+        {
+          "name": "aligned_tail_untyped_copy_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "aligned_tail_untyped_copy_c require-success",
+          "reading_binding": "aligned_tail_untyped_copy_c: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::copy_nonoverlapping",
+            "ptr::write_bytes",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut backing = RawBacking([0u8; 32]); let base = backing.0.as_mut_ptr().cast::<u8>(); unsafe { ptr::write_bytes(base, 0x5a, std::mem::size_of::<TailC>()); let src = base.cast::<TailC>(); let dst = base.add(std::mem::size_of::<TailC>()).cast::<TailC>(); ptr::copy_nonoverlapping(src, dst, 1); assert_eq!(*tail_c_padding(dst), 0x5a); }"
+        },
+        {
+          "name": "aligned_tail_untyped_copy_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "aligned_tail_untyped_copy_rust require-success",
+          "reading_binding": "aligned_tail_untyped_copy_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::copy",
+            "ptr::write_bytes",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut backing = RawBacking([0u8; 32]); let base = backing.0.as_mut_ptr().cast::<u8>(); unsafe { ptr::write_bytes(base, 0x6b, std::mem::size_of::<TailR>()); let src = base.cast::<TailR>(); let dst = base.add(std::mem::size_of::<TailR>()).cast::<TailR>(); ptr::copy(src, dst, 1); assert_eq!(*tail_r_padding(dst), 0x6b); }"
+        },
+        {
+          "name": "address_only_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "address_only_c require-success",
+          "reading_binding": "address_only_c: positive harness must verify successfully",
+          "operation_binding": [
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let u = CU { z: () }; let p = &u as *const CU; let field = unsafe { ptr::addr_of!((*p).wide) }; assert!(!field.is_null());"
+        },
+        {
+          "name": "address_only_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "address_only_rust require-success",
+          "reading_binding": "address_only_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let u = RU { z: () }; let p = &u as *const RU; let field = unsafe { ptr::addr_of!((*p).wide) }; assert!(!field.is_null());"
+        },
+        {
+          "name": "pointer_alias_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "pointer_alias_c require-success",
+          "reading_binding": "pointer_alias_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = 79u32; let mut u = CU { ptr: &mut target }; let p = &mut u as *mut CU; unsafe { (*p).ptr = &mut target; let q = (*p).ptr; assert_eq!(*q, 79); }"
+        },
+        {
+          "name": "pointer_alias_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "pointer_alias_rust require-success",
+          "reading_binding": "pointer_alias_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = 83u32; let mut u = RU { ptr: &mut target }; let p = &mut u as *mut RU; unsafe { (*p).ptr = &mut target; let q = (*p).ptr; assert_eq!(*q, 83); }"
+        },
+        {
+          "name": "pointer_compound_read_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "pointer_compound_read_c require-success",
+          "reading_binding": "pointer_compound_read_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = 101u32; let mut u = CU { ptr: &mut target }; let p = &mut u as *mut CU; unsafe { let value = *(*p).ptr; assert_eq!(value, 101); }"
+        },
+        {
+          "name": "pointer_compound_read_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "pointer_compound_read_rust require-success",
+          "reading_binding": "pointer_compound_read_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = 103u32; let mut u = RU { ptr: &mut target }; let p = &mut u as *mut RU; unsafe { let value = *(*p).ptr; assert_eq!(value, 103); }"
+        },
+        {
+          "name": "pointer_compound_store_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "pointer_compound_store_c require-success",
+          "reading_binding": "pointer_compound_store_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = 0u32; let mut u = CU { ptr: &mut target }; let p = &mut u as *mut CU; unsafe { *(*p).ptr = 107; assert_eq!(target, 107); }"
+        },
+        {
+          "name": "pointer_compound_store_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "pointer_compound_store_rust require-success",
+          "reading_binding": "pointer_compound_store_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = 0u32; let mut u = RU { ptr: &mut target }; let p = &mut u as *mut RU; unsafe { *(*p).ptr = 109; assert_eq!(target, 109); }"
+        },
+        {
+          "name": "pointer_argument_return_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "pointer_argument_return_c require-success",
+          "reading_binding": "pointer_argument_return_c: positive harness must verify successfully",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = 139u32; let value = identity_c(CU { ptr: &mut target }); unsafe { assert_eq!(*value.ptr, 139); }"
+        },
+        {
+          "name": "pointer_argument_return_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "pointer_argument_return_rust require-success",
+          "reading_binding": "pointer_argument_return_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = 149u32; let value = identity_rust(RU { ptr: &mut target }); unsafe { assert_eq!(*value.ptr, 149); }"
+        },
+        {
+          "name": "pointer_delayed_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "pointer_delayed_c require-success",
+          "reading_binding": "pointer_delayed_c: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::copy_nonoverlapping",
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = CU { wide: 37 }; let mut local = 0u32; let holder = identity_c(CU { ptr: &mut local }); let q = unsafe { holder.ptr }; unsafe { ptr::copy_nonoverlapping( (&src as *const CU).cast::<u8>(), q.cast::<u8>(), std::mem::size_of::<u32>(), ); assert_eq!(local, 37); }"
+        },
+        {
+          "name": "pointer_delayed_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "pointer_delayed_rust require-success",
+          "reading_binding": "pointer_delayed_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::copy_nonoverlapping",
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = RU { wide: 41 }; let mut local = 0u32; let holder = identity_rust(RU { ptr: &mut local }); let q = unsafe { holder.ptr }; unsafe { ptr::copy_nonoverlapping( (&src as *const RU).cast::<u8>(), q.cast::<u8>(), std::mem::size_of::<u32>(), ); assert_eq!(local, 41); }"
+        },
+        {
+          "name": "fat_pointer_field_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "fat_pointer_field_c require-success",
+          "reading_binding": "fat_pointer_field_c: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let data = [2u8, 3, 5]; let u = CU { fat: &data[..] }; unsafe { let s = (*(&u as *const CU)).fat; assert_eq!(s.len(), 3); assert_eq!(*(s as *const u8).add(2), 5); }"
+        },
+        {
+          "name": "fat_pointer_field_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "fat_pointer_field_rust require-success",
+          "reading_binding": "fat_pointer_field_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let data = [7u8, 11]; let u = RU { fat: &data[..] }; unsafe { let s = (*(&u as *const RU)).fat; assert_eq!(s.len(), 2); assert_eq!(*(s as *const u8).add(1), 11); }"
+        },
+        {
+          "name": "size0_union_copy_argument_return_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "size0_union_copy_argument_return_c require-success",
+          "reading_binding": "size0_union_copy_argument_return_c: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::read"
+          ],
+          "source_body": "let x = zc(ZC { a: () }); let y = unsafe { ptr::read(&x) }; let _ = zc(y);"
+        },
+        {
+          "name": "size0_union_copy_argument_return_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "size0_union_copy_argument_return_rust require-success",
+          "reading_binding": "size0_union_copy_argument_return_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "ptr::read"
+          ],
+          "source_body": "let x = zr(ZR { a: () }); let y = unsafe { ptr::read(&x) }; let _ = zr(y);"
+        },
+        {
+          "name": "field_move_constructor_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "field_move_constructor_c require-success",
+          "reading_binding": "field_move_constructor_c: positive harness must verify successfully",
+          "operation_binding": [
+            "whole_union_constructor_move",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let source = ManuallyDrop::new(NonCopyWord { word: 223 }); let union = NonCopyFieldC { value: source }; assert_eq!(unsafe { union.value.word }, 223);"
+        },
+        {
+          "name": "field_move_constructor_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "field_move_constructor_rust require-success",
+          "reading_binding": "field_move_constructor_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "whole_union_constructor_move",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let source = ManuallyDrop::new(NonCopyWord { word: 227 }); let union = NonCopyFieldR { value: source }; assert_eq!(unsafe { union.value.word }, 227);"
+        },
+        {
+          "name": "field_move_projection_c",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "field_move_projection_c require-success",
+          "reading_binding": "field_move_projection_c: positive harness must verify successfully",
+          "operation_binding": [
+            "projected_noncopy_field_move",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let source = ManuallyDrop::new(NonCopyWord { word: 229 }); let mut union = NonCopyFieldC { z: () }; let union_ptr = &mut union as *mut NonCopyFieldC; unsafe { (*union_ptr).value = source; assert_eq!((&(*union_ptr).value).word, 229); }"
+        },
+        {
+          "name": "field_move_projection_rust",
+          "expected_outcome": "SUCCESS",
+          "expected_type": null,
+          "diagnostic_substring": null,
+          "property_binding": "field_move_projection_rust require-success",
+          "reading_binding": "field_move_projection_rust: positive harness must verify successfully",
+          "operation_binding": [
+            "projected_noncopy_field_move",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let source = ManuallyDrop::new(NonCopyWord { word: 233 }); let mut union = NonCopyFieldR { z: () }; let union_ptr = &mut union as *mut NonCopyFieldR; unsafe { (*union_ptr).value = source; assert_eq!((&(*union_ptr).value).word, 233); }"
+        }
+      ],
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "79949e53589e9f4a7d9cc03eb589f45616293368c8f6aab87a160f53ffab9973",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-positive/expected",
+      "golden_sha256": "c6e12a9d66e47e557dd235e08d5a83e5a23efec8f2bdb91340823b53187110e9",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-negative/main.rs",
+      "expected_file": "uninit/g1-union-pointee-negative/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "unwritten_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "unwritten_c.safety_check",
+          "reading_binding": "unwritten_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = CU { z: () }; let p = &u as *const CU; unsafe { let _value = (*p).wide; }"
+        },
+        {
+          "name": "unwritten_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "unwritten_rust.safety_check",
+          "reading_binding": "unwritten_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = RU { z: () }; let p = &u as *const RU; unsafe { let _value = (*p).wide; }"
+        },
+        {
+          "name": "narrow_then_wide_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "narrow_then_wide_c.safety_check",
+          "reading_binding": "narrow_then_wide_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = CU { narrow: 9 }; let p = &mut u as *mut CU; unsafe { (*p).narrow = 10; let _value = (*p).wide; }"
+        },
+        {
+          "name": "narrow_then_wide_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "narrow_then_wide_rust.safety_check",
+          "reading_binding": "narrow_then_wide_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = RU { narrow: 9 }; let p = &mut u as *mut RU; unsafe { (*p).narrow = 10; let _value = (*p).wide; }"
+        },
+        {
+          "name": "whole_copy_partial_assign_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_copy_partial_assign_c.safety_check",
+          "reading_binding": "whole_copy_partial_assign_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = CU { z: () }; let mut dst = CU { wide: 1 }; unsafe { *(&mut dst as *mut CU) = *(&src as *const CU); let _value = (*(&dst as *const CU)).wide; }"
+        },
+        {
+          "name": "whole_copy_partial_assign_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_copy_partial_assign_rust.safety_check",
+          "reading_binding": "whole_copy_partial_assign_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = RU { z: () }; let mut dst = RU { wide: 1 }; unsafe { *(&mut dst as *mut RU) = *(&src as *const RU); let _value = (*(&dst as *const RU)).wide; }"
+        },
+        {
+          "name": "whole_copy_partial_ptr_read_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_copy_partial_ptr_read_c.safety_check",
+          "reading_binding": "whole_copy_partial_ptr_read_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::read",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = CU { z: () }; let dst = unsafe { ptr::read(&src) }; let _value = unsafe { (*(&dst as *const CU)).wide };"
+        },
+        {
+          "name": "whole_copy_partial_ptr_read_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_copy_partial_ptr_read_rust.safety_check",
+          "reading_binding": "whole_copy_partial_ptr_read_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::read",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = RU { z: () }; let dst = unsafe { ptr::read(&src) }; let _value = unsafe { (*(&dst as *const RU)).wide };"
+        },
+        {
+          "name": "whole_move_source_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_move_source_uninit_c.safety_check",
+          "reading_binding": "whole_move_source_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "noncopy_move",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let src = MoveC { wide: 173 }; let p = ptr::addr_of!(src); let _dst = src; unsafe { let _moved_from = (*p).wide; }"
+        },
+        {
+          "name": "whole_move_source_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_move_source_uninit_rust.safety_check",
+          "reading_binding": "whole_move_source_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "noncopy_move",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let src = MoveR { wide: 179 }; let p = ptr::addr_of!(src); let _dst = src; unsafe { let _moved_from = (*p).wide; }"
+        },
+        {
+          "name": "argument_move_source_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_move_source_uninit_c.safety_check",
+          "reading_binding": "argument_move_source_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let src = MoveC { wide: 181 }; let p = ptr::addr_of!(src); consume_move_c(src); unsafe { let _moved_from = (*p).wide; }"
+        },
+        {
+          "name": "argument_move_source_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_move_source_uninit_rust.safety_check",
+          "reading_binding": "argument_move_source_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let src = MoveR { wide: 191 }; let p = ptr::addr_of!(src); consume_move_rust(src); unsafe { let _moved_from = (*p).wide; }"
+        },
+        {
+          "name": "whole_move_partial_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_move_partial_c.safety_check",
+          "reading_binding": "whole_move_partial_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = MoveC { z: () }; let dst = src; unsafe { let _value = dst.wide; }"
+        },
+        {
+          "name": "whole_move_partial_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_move_partial_rust.safety_check",
+          "reading_binding": "whole_move_partial_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = MoveR { z: () }; let dst = src; unsafe { let _value = dst.wide; }"
+        },
+        {
+          "name": "whole_copy_partial_nonoverlap_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_copy_partial_nonoverlap_c.safety_check",
+          "reading_binding": "whole_copy_partial_nonoverlap_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::copy_nonoverlapping",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = CU { z: () }; let mut dst = CU { wide: 3 }; unsafe { ptr::copy_nonoverlapping(&src, &mut dst, 1); let _value = (*(&dst as *const CU)).wide; }"
+        },
+        {
+          "name": "whole_copy_partial_nonoverlap_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_copy_partial_nonoverlap_rust.safety_check",
+          "reading_binding": "whole_copy_partial_nonoverlap_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::copy_nonoverlapping",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = RU { z: () }; let mut dst = RU { wide: 3 }; unsafe { ptr::copy_nonoverlapping(&src, &mut dst, 1); let _value = (*(&dst as *const RU)).wide; }"
+        },
+        {
+          "name": "whole_copy_partial_overlapping_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "whole_copy_partial_overlapping_c.safety_check",
+          "reading_binding": "whole_copy_partial_overlapping_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "ptr::copy",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut b = RawBacking([0u8; 32]); let base = b.0.as_mut_ptr(); unsafe { ptr::write(base.cast::<CU>(), CU { z: () }); ptr::copy(base, base.add(1), std::mem::size_of::<CU>()); let _value = *base.add(1); }"
+        },
+        {
+          "name": "whole_copy_partial_overlapping_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "whole_copy_partial_overlapping_rust.safety_check",
+          "reading_binding": "whole_copy_partial_overlapping_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "ptr::copy",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut b = RawBacking([0u8; 32]); let base = b.0.as_mut_ptr(); unsafe { ptr::write(base.cast::<RU>(), RU { z: () }); ptr::copy(base, base.add(1), std::mem::size_of::<RU>()); let _value = *base.add(1); }"
+        },
+        {
+          "name": "whole_reset_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_reset_c.safety_check",
+          "reading_binding": "whole_reset_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = CU { wide: 0x12345678 }; let p = &mut u as *mut CU; unsafe { ptr::write(p, CU { narrow: 1 }); let _value = (*p).wide; }"
+        },
+        {
+          "name": "whole_reset_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_reset_rust.safety_check",
+          "reading_binding": "whole_reset_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = RU { wide: 0x12345678 }; let p = &mut u as *mut RU; unsafe { ptr::write(p, RU { narrow: 1 }); let _value = (*p).wide; }"
+        },
+        {
+          "name": "whole_reset_alias_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_reset_alias_c.safety_check",
+          "reading_binding": "whole_reset_alias_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = CU { wide: 0x12345678 }; let p = &mut u as *mut CU; let alias = p; unsafe { ptr::write(p, CU { narrow: 1 }); let _value = (*alias).wide; }"
+        },
+        {
+          "name": "whole_reset_alias_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "whole_reset_alias_rust.safety_check",
+          "reading_binding": "whole_reset_alias_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = RU { wide: 0x12345678 }; let p = &mut u as *mut RU; let alias = p; unsafe { ptr::write(p, RU { narrow: 1 }); let _value = (*alias).wide; }"
+        },
+        {
+          "name": "argument_return_partial_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_return_partial_c.safety_check",
+          "reading_binding": "argument_return_partial_c.safety_check direct read",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let x = identity_c(CU { z: () }); let _value = unsafe { x.wide };"
+        },
+        {
+          "name": "argument_return_partial_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_return_partial_rust.safety_check",
+          "reading_binding": "argument_return_partial_rust.safety_check direct read",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let x = identity_rust(RU { z: () }); let _value = unsafe { x.wide };"
+        },
+        {
+          "name": "argument_return_partial_reused_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_return_partial_reused_c.safety_check",
+          "reading_binding": "argument_return_partial_reused_c.safety_check direct read",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut destination = pair_identity_c(CU { wide: 1 }, CU { z: () }); destination = pair_identity_c(CU { z: () }, CU { wide: 2 }); let _value = unsafe { destination.wide };"
+        },
+        {
+          "name": "argument_return_partial_reused_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_return_partial_reused_rust.safety_check",
+          "reading_binding": "argument_return_partial_reused_rust.safety_check direct read",
+          "operation_binding": [
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut destination = pair_identity_rust(RU { wide: 1 }, RU { z: () }); destination = pair_identity_rust(RU { z: () }, RU { wide: 2 }); let _value = unsafe { destination.wide };"
+        },
+        {
+          "name": "argument_return_partial_mixed_size_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_return_partial_mixed_size_c.safety_check",
+          "reading_binding": "argument_return_partial_mixed_size_c.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let value = pair_mixed_c(CU { z: () }, TailC { bytes: [1; 5] }); let _read = unsafe { value.wide };"
+        },
+        {
+          "name": "argument_return_partial_mixed_size_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "argument_return_partial_mixed_size_rust.safety_check",
+          "reading_binding": "argument_return_partial_mixed_size_rust.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let value = pair_mixed_rust(RU { z: () }, TailR { bytes: [1; 5] }); let _read = unsafe { value.wide };"
+        },
+        {
+          "name": "padded_byte_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "padded_byte_c.safety_check",
+          "reading_binding": "padded_byte_c.safety_check direct read",
+          "operation_binding": [
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let u = CU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) }; let p = &u as *const CU; unsafe { let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "padded_byte_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "padded_byte_rust.safety_check",
+          "reading_binding": "padded_byte_rust.safety_check direct read",
+          "operation_binding": [
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let u = RU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) }; let p = &u as *const RU; unsafe { let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "padded_typed_transfer_padding_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "padded_typed_transfer_padding_c.safety_check",
+          "reading_binding": "padded_typed_transfer_padding_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::read",
+            "ptr::write",
+            "ptr::write_bytes",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let mut src = CU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) }; let mut dst = CU { z: () }; unsafe { ptr::write_bytes((&mut src as *mut CU).cast::<u8>(), 0x5a, std::mem::size_of::<CU>()); ptr::write(&mut dst, ptr::read(&src)); let p = &dst as *const CU; let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "padded_typed_transfer_padding_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "padded_typed_transfer_padding_rust.safety_check",
+          "reading_binding": "padded_typed_transfer_padding_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::read",
+            "ptr::write",
+            "ptr::write_bytes",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let mut src = RU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) }; let mut dst = RU { z: () }; unsafe { ptr::write_bytes((&mut src as *mut RU).cast::<u8>(), 0x5a, std::mem::size_of::<RU>()); ptr::write(&mut dst, ptr::read(&src)); let p = &dst as *const RU; let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "padded_argument_return_padding_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "padded_argument_return_padding_c.safety_check",
+          "reading_binding": "padded_argument_return_padding_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write_bytes",
+            "bodyful_transfer",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let mut src = CU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) }; unsafe { ptr::write_bytes((&mut src as *mut CU).cast::<u8>(), 0x5a, std::mem::size_of::<CU>()); } let u = padded_identity_c(src); let p = &u as *const CU; unsafe { let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "padded_argument_return_padding_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "padded_argument_return_padding_rust.safety_check",
+          "reading_binding": "padded_argument_return_padding_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write_bytes",
+            "bodyful_transfer",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let mut src = RU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) }; unsafe { ptr::write_bytes((&mut src as *mut RU).cast::<u8>(), 0x5a, std::mem::size_of::<RU>()); } let u = padded_identity_rust(src); let p = &u as *const RU; unsafe { let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "array_field_unwritten_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u16",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+          "property_binding": "array_field_unwritten_c.safety_check",
+          "reading_binding": "array_field_unwritten_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = CU { z: () }; let p = &u as *const CU; unsafe { let _value = (*p).pair[1]; }"
+        },
+        {
+          "name": "array_field_unwritten_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u16",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+          "property_binding": "array_field_unwritten_rust.safety_check",
+          "reading_binding": "array_field_unwritten_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = RU { z: () }; let p = &u as *const RU; unsafe { let _value = (*p).pair[1]; }"
+        },
+        {
+          "name": "array_padded_byte_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "array_padded_byte_c.safety_check",
+          "reading_binding": "array_padded_byte_c.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let u = CU { padded: ManuallyDrop::new(Padded { byte: 1, word: 2 }) }; let p = (&u as *const CU).cast::<u8>(); unsafe { let _padding = *p.add(1); }"
+        },
+        {
+          "name": "array_padded_byte_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "array_padded_byte_rust.safety_check",
+          "reading_binding": "array_padded_byte_rust.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let u = RU { padded: ManuallyDrop::new(Padded { byte: 1, word: 2 }) }; let p = (&u as *const RU).cast::<u8>(); unsafe { let _padding = *p.add(1); }"
+        },
+        {
+          "name": "array_padded_elements_byte_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "array_padded_elements_byte_c.safety_check",
+          "reading_binding": "array_padded_elements_byte_c.safety_check direct read",
+          "operation_binding": [
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let u = CU { padded_pair: [ ManuallyDrop::new(Padded { byte: 1, word: 2 }), ManuallyDrop::new(Padded { byte: 3, word: 5 }), ], }; let p = &u as *const CU; unsafe { let padding = ptr::addr_of!((&(*p).padded_pair[1]).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "array_padded_elements_byte_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "array_padded_elements_byte_rust.safety_check",
+          "reading_binding": "array_padded_elements_byte_rust.safety_check direct read",
+          "operation_binding": [
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let u = RU { padded_pair: [ ManuallyDrop::new(Padded { byte: 1, word: 2 }), ManuallyDrop::new(Padded { byte: 3, word: 5 }), ], }; let p = &u as *const RU; unsafe { let padding = ptr::addr_of!((&(*p).padded_pair[1]).word).cast::<u8>().sub(1); let _padding = *padding; }"
+        },
+        {
+          "name": "zst_whole_reset_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "zst_whole_reset_c.safety_check",
+          "reading_binding": "zst_whole_reset_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = CU { wide: 0x76543210 }; let p = &mut u as *mut CU; unsafe { ptr::write(p, CU { z: () }); let _value = (*p).wide; }"
+        },
+        {
+          "name": "zst_whole_reset_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "zst_whole_reset_rust.safety_check",
+          "reading_binding": "zst_whole_reset_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut u = RU { wide: 0x76543210 }; let p = &mut u as *mut RU; unsafe { ptr::write(p, RU { z: () }); let _value = (*p).wide; }"
+        },
+        {
+          "name": "align_tail_typed_copy_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "align_tail_typed_copy_c.safety_check",
+          "reading_binding": "align_tail_typed_copy_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::read",
+            "ptr::write",
+            "ptr::write_bytes"
+          ],
+          "source_body": "let mut b = RawBacking([0u8; 32]); let p = b.0.as_mut_ptr().cast::<TailC>(); unsafe { ptr::write(p, TailC { bytes: [0x5a; 5] }); ptr::write_bytes(p.cast::<u8>(), 0x5a, std::mem::size_of::<TailC>()); let value = ptr::read(p); ptr::write(p.add(1), value); let _tail = *tail_c_padding(p.add(1)); }"
+        },
+        {
+          "name": "align_tail_typed_copy_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "align_tail_typed_copy_rust.safety_check",
+          "reading_binding": "align_tail_typed_copy_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::read",
+            "ptr::write",
+            "ptr::write_bytes"
+          ],
+          "source_body": "let mut b = RawBacking([0u8; 32]); let p = b.0.as_mut_ptr().cast::<TailR>(); unsafe { ptr::write(p, TailR { bytes: [0x5a; 5] }); ptr::write_bytes(p.cast::<u8>(), 0x5a, std::mem::size_of::<TailR>()); let value = ptr::read(p); ptr::write(p.add(1), value); let _tail = *tail_r_padding(p.add(1)); }"
+        },
+        {
+          "name": "align_tail_argument_return_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "align_tail_argument_return_c.safety_check",
+          "reading_binding": "align_tail_argument_return_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write_bytes",
+            "bodyful_transfer"
+          ],
+          "source_body": "let mut src = TailC { bytes: [1; 5] }; unsafe { ptr::write_bytes((&mut src as *mut TailC).cast::<u8>(), 0x5a, std::mem::size_of::<TailC>()); } let u = tail_identity_c(src); unsafe { let _tail = *tail_c_padding(&u as *const TailC); }"
+        },
+        {
+          "name": "align_tail_argument_return_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "align_tail_argument_return_rust.safety_check",
+          "reading_binding": "align_tail_argument_return_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write_bytes",
+            "bodyful_transfer"
+          ],
+          "source_body": "let mut src = TailR { bytes: [1; 5] }; unsafe { ptr::write_bytes((&mut src as *mut TailR).cast::<u8>(), 0x5a, std::mem::size_of::<TailR>()); } let u = tail_identity_rust(src); unsafe { let _tail = *tail_r_padding(&u as *const TailR); }"
+        },
+        {
+          "name": "align_tail_reset_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "align_tail_reset_c.safety_check",
+          "reading_binding": "align_tail_reset_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "ptr::write_bytes"
+          ],
+          "source_body": "let mut b = RawBacking([0u8; 32]); let p = b.0.as_mut_ptr().cast::<TailC>(); unsafe { ptr::write_bytes(p.cast::<u8>(), 0x5a, std::mem::size_of::<TailC>()); ptr::write(p, TailC { bytes: [1; 5] }); let _tail = *tail_c_padding(p); }"
+        },
+        {
+          "name": "align_tail_reset_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u8",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "property_binding": "align_tail_reset_rust.safety_check",
+          "reading_binding": "align_tail_reset_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "ptr::write_bytes"
+          ],
+          "source_body": "let mut b = RawBacking([0u8; 32]); let p = b.0.as_mut_ptr().cast::<TailR>(); unsafe { ptr::write_bytes(p.cast::<u8>(), 0x5a, std::mem::size_of::<TailR>()); ptr::write(p, TailR { bytes: [1; 5] }); let _tail = *tail_r_padding(p); }"
+        },
+        {
+          "name": "address_no_bless_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "address_no_bless_c.safety_check",
+          "reading_binding": "address_no_bless_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let u = CU { z: () }; let p = &u as *const CU; let _address = unsafe { ptr::addr_of!((*p).wide) }; unsafe { let _value = (*p).wide; }"
+        },
+        {
+          "name": "address_no_bless_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "address_no_bless_rust.safety_check",
+          "reading_binding": "address_no_bless_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let u = RU { z: () }; let p = &u as *const RU; let _address = unsafe { ptr::addr_of!((*p).wide) }; unsafe { let _value = (*p).wide; }"
+        },
+        {
+          "name": "pointer_pointee_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "pointer_pointee_uninit_c.safety_check",
+          "reading_binding": "pointer_pointee_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = std::mem::MaybeUninit::<u32>::uninit(); let mut u = CU { ptr: target.as_mut_ptr() }; let p = &mut u as *mut CU; unsafe { (*p).ptr = target.as_mut_ptr(); let q = (*p).ptr; let _value = *q; }"
+        },
+        {
+          "name": "pointer_pointee_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "pointer_pointee_uninit_rust.safety_check",
+          "reading_binding": "pointer_pointee_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = std::mem::MaybeUninit::<u32>::uninit(); let mut u = RU { ptr: target.as_mut_ptr() }; let p = &mut u as *mut RU; unsafe { (*p).ptr = target.as_mut_ptr(); let q = (*p).ptr; let _value = *q; }"
+        },
+        {
+          "name": "pointer_compound_read_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_compound_read_uninit_c.safety_check",
+          "reading_binding": "pointer_compound_read_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = CU { z: () }; let p = &u as *const CU; unsafe { let _value = *(*p).ptr; }"
+        },
+        {
+          "name": "pointer_compound_read_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_compound_read_uninit_rust.safety_check",
+          "reading_binding": "pointer_compound_read_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = RU { z: () }; let p = &u as *const RU; unsafe { let _value = *(*p).ptr; }"
+        },
+        {
+          "name": "pointer_compound_store_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_compound_store_uninit_c.safety_check",
+          "reading_binding": "pointer_compound_store_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let mut u = CU { z: () }; let p = &mut u as *mut CU; unsafe { *(*p).ptr = 113; }"
+        },
+        {
+          "name": "pointer_compound_store_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_compound_store_uninit_rust.safety_check",
+          "reading_binding": "pointer_compound_store_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let mut u = RU { z: () }; let p = &mut u as *mut RU; unsafe { *(*p).ptr = 127; }"
+        },
+        {
+          "name": "pointer_compound_read_after_reset_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_compound_read_after_reset_c.safety_check",
+          "reading_binding": "pointer_compound_read_after_reset_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = 131u32; let mut u = CU { ptr: &mut target }; let p = &mut u as *mut CU; unsafe { ptr::write(p, CU { z: () }); let _value = *(*p).ptr; }"
+        },
+        {
+          "name": "pointer_compound_read_after_reset_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_compound_read_after_reset_rust.safety_check",
+          "reading_binding": "pointer_compound_read_after_reset_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::write",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut target = 137u32; let mut u = RU { ptr: &mut target }; let p = &mut u as *mut RU; unsafe { ptr::write(p, RU { z: () }); let _value = *(*p).ptr; }"
+        },
+        {
+          "name": "pointer_delayed_partial_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "pointer_delayed_partial_c.safety_check",
+          "reading_binding": "pointer_delayed_partial_c.safety_check direct read",
+          "operation_binding": [
+            "ptr::copy_nonoverlapping",
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = CU { z: () }; let mut local = 37u32; let holder = identity_c(CU { ptr: &mut local }); let q = unsafe { holder.ptr }; unsafe { ptr::copy_nonoverlapping( (&src as *const CU).cast::<u8>(), q.cast::<u8>(), std::mem::size_of::<u32>(), ); } assert_eq!(local, 37);"
+        },
+        {
+          "name": "pointer_delayed_partial_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "pointer_delayed_partial_rust.safety_check",
+          "reading_binding": "pointer_delayed_partial_rust.safety_check direct read",
+          "operation_binding": [
+            "ptr::copy_nonoverlapping",
+            "bodyful_transfer",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let src = RU { z: () }; let mut local = 41u32; let holder = identity_rust(RU { ptr: &mut local }); let q = unsafe { holder.ptr }; unsafe { ptr::copy_nonoverlapping( (&src as *const RU).cast::<u8>(), q.cast::<u8>(), std::mem::size_of::<u32>(), ); } assert_eq!(local, 41);"
+        },
+        {
+          "name": "pointer_field_value_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_field_value_uninit_c.safety_check",
+          "reading_binding": "pointer_field_value_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let u = CU { z: () }; unsafe { let _pointer = (*(&u as *const CU)).ptr; }"
+        },
+        {
+          "name": "pointer_field_value_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*mut u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u32`",
+          "property_binding": "pointer_field_value_uninit_rust.safety_check",
+          "reading_binding": "pointer_field_value_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let u = RU { z: () }; unsafe { let _pointer = (*(&u as *const RU)).ptr; }"
+        },
+        {
+          "name": "fat_pointer_field_value_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*const [u8]",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`",
+          "property_binding": "fat_pointer_field_value_uninit_c.safety_check",
+          "reading_binding": "fat_pointer_field_value_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let u = CU { z: () }; unsafe { let _pointer = (*(&u as *const CU)).fat; }"
+        },
+        {
+          "name": "fat_pointer_field_value_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "*const [u8]",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `*const [u8]`",
+          "property_binding": "fat_pointer_field_value_uninit_rust.safety_check",
+          "reading_binding": "fat_pointer_field_value_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let u = RU { z: () }; unsafe { let _pointer = (*(&u as *const RU)).fat; }"
+        },
+        {
+          "name": "field_move_constructor_source_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "field_move_constructor_source_uninit_c.safety_check",
+          "reading_binding": "field_move_constructor_source_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "whole_union_constructor_move",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let source = ManuallyDrop::new(NonCopyWord { word: 193 }); let source_word = ptr::addr_of!(source).cast::<u32>(); let union = NonCopyFieldC { value: source }; std::mem::forget(union); unsafe { let _moved_from = *source_word; }"
+        },
+        {
+          "name": "field_move_constructor_source_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "field_move_constructor_source_uninit_rust.safety_check",
+          "reading_binding": "field_move_constructor_source_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "whole_union_constructor_move",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let source = ManuallyDrop::new(NonCopyWord { word: 197 }); let source_word = ptr::addr_of!(source).cast::<u32>(); let union = NonCopyFieldR { value: source }; std::mem::forget(union); unsafe { let _moved_from = *source_word; }"
+        },
+        {
+          "name": "field_move_projection_source_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "field_move_projection_source_uninit_c.safety_check",
+          "reading_binding": "field_move_projection_source_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "projected_noncopy_field_move",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let source = ManuallyDrop::new(NonCopyWord { word: 199 }); let source_word = ptr::addr_of!(source).cast::<u32>(); let mut union = NonCopyFieldC { z: () }; let union_ptr = &mut union as *mut NonCopyFieldC; unsafe { (*union_ptr).value = source; std::mem::forget(union); let _moved_from = *source_word; }"
+        },
+        {
+          "name": "field_move_projection_source_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "field_move_projection_source_uninit_rust.safety_check",
+          "reading_binding": "field_move_projection_source_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "projected_noncopy_field_move",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let source = ManuallyDrop::new(NonCopyWord { word: 211 }); let source_word = ptr::addr_of!(source).cast::<u32>(); let mut union = NonCopyFieldR { z: () }; let union_ptr = &mut union as *mut NonCopyFieldR; unsafe { (*union_ptr).value = source; std::mem::forget(union); let _moved_from = *source_word; }"
+        },
+        {
+          "name": "intrinsic_forget_move_source_uninit_c",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "intrinsic_forget_move_source_uninit_c.safety_check",
+          "reading_binding": "intrinsic_forget_move_source_uninit_c.safety_check direct read",
+          "operation_binding": [
+            "intrinsic_forget",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let src = MoveC { wide: 239 }; let p = ptr::addr_of!(src); unsafe { std::intrinsics::forget(src); let _moved_from = (*p).wide; }"
+        },
+        {
+          "name": "intrinsic_forget_move_source_uninit_rust",
+          "expected_outcome": "FAILURE",
+          "expected_type": "u32",
+          "diagnostic_substring": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+          "property_binding": "intrinsic_forget_move_source_uninit_rust.safety_check",
+          "reading_binding": "intrinsic_forget_move_source_uninit_rust.safety_check direct read",
+          "operation_binding": [
+            "intrinsic_forget",
+            "direct_typed_read_or_assertion",
+            "address_only_or_raw_alias"
+          ],
+          "source_body": "let src = MoveR { wide: 241 }; let p = ptr::addr_of!(src); unsafe { std::intrinsics::forget(src); let _moved_from = (*p).wide; }"
+        }
+      ],
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "95063d2f824e9be241d96e67b057628f62829f9252a65e768884c7db5a0dc7e4",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-negative/expected",
+      "golden_sha256": "2f431fb7f59942dcd747dcfaedec6fd74baf2e2ad9ca34f4ba75128afe9d9c24",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_array_element/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_array_element/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_array_element",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "[U; 1]",
+          "diagnostic_substring": "Cannot determine layout for a type that contains union of type U as a field.",
+          "property_binding": "reject_array_element.unsupported_construct",
+          "reading_binding": "reject_array_element: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let values = [U { wide: 1 }]; let p = values.as_ptr(); unsafe { let _value = (*p).wide; }"
+        }
+      ],
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "cf7e412161f4fa6983fbff3dd9d457d76843d47e8133b2b05a534afa76ff4128",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_array_element/expected",
+      "golden_sha256": "79008db1fdf76a4b32525aab46a8937d468cbbae2d5aa6f740e7a1233246ad48",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_bodyless_transfer/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_bodyless_transfer/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_bodyless_transfer",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "U argument/return",
+          "diagnostic_substring": "Kani does not support foreign mutation of union storage without an effect model.",
+          "property_binding": "reject_bodyless_transfer.unsupported_construct",
+          "reading_binding": "reject_bodyless_transfer: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let value = U { wide: 3 }; let out = unsafe { bodyless_union_transfer(value) }; let _read = unsafe { out.wide };"
+        }
+      ],
+      "diagnostic": "Kani does not support foreign mutation of union storage without an effect model.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "69ca3b8fd44071ee8c17eb878dd8bcadbc08b71e119996254c0afdc2b7e99701",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_transfer/expected",
+      "golden_sha256": "fbbabc3068d6f003c682b85d0c4529e8e1160c0fcbe477405e4115155550d49f",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_fn_pointer_field/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_fn_pointer_field/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_fn_pointer_field",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "FunctionPointerUnion",
+          "diagnostic_substring": "Cannot determine layout for an unsupported type fn() -> u32.",
+          "property_binding": "reject_fn_pointer_field.unsupported_construct",
+          "reading_binding": "reject_fn_pointer_field: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let f: fn() -> u32 = || 1; let u = FunctionPointerUnion { value: f }; let p = &u as *const FunctionPointerUnion; unsafe { let _value = (*p).value; }"
+        }
+      ],
+      "diagnostic": "Cannot determine layout for an unsupported type fn() -> u32.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "e0000bd5d5b2bd23f22cd26369489e32de590502c236507a97db9fdf0a143203",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_fn_pointer_field/expected",
+      "golden_sha256": "9ff5fbbeae98771925349ea54947cc1f707d556e4aadab75ec10a40ba6cb6fd8",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_foreign_mutation/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_foreign_mutation/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_foreign_mutation",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "*mut U foreign argument",
+          "diagnostic_substring": "Kani does not support foreign mutation of union storage without an effect model.",
+          "property_binding": "reject_foreign_mutation.unsupported_construct",
+          "reading_binding": "reject_foreign_mutation: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut value = U { wide: 3 }; unsafe { foreign_mutate_union(&mut value); let _read = (&value as *const U).read().wide; }"
+        }
+      ],
+      "diagnostic": "Kani does not support foreign mutation of union storage without an effect model.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "50f2aed9bcdc1a27ae36550e467137d5c8b60a76ba64fc7bf910459fa768be4a",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation/expected",
+      "golden_sha256": "16eb5bd127db72715a04dba212ecc4c15745faffe1f2cca4842ee65709778c90",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_indirect_call/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_indirect_call/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_indirect_call",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "function pointer call",
+          "diagnostic_substring": "function pointers",
+          "property_binding": "reject_indirect_call.unsupported_construct",
+          "reading_binding": "reject_indirect_call: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let call: fn(U) -> U = indirect_target; let value = U { wide: 2 }; let out = call(value); let _read = unsafe { out.wide };"
+        }
+      ],
+      "diagnostic": "function pointers",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "166309fb44dfe61b30392c57c2399f09dfd2e7c36c882789c674ebe59cf4d1ba",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_indirect_call/expected",
+      "golden_sha256": "1391b2f01a01e4327740cc333e898d43da42e515f1fdb8faa5a94973fe6d3962",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_init_predicate/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_init_predicate/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "-Z",
+        "valid-value-checks",
+        "-Z",
+        "mem-predicates",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_init_predicate",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "U",
+          "diagnostic_substring": "Kani does not yet support using initialization predicates on unions.",
+          "property_binding": "kani::mem::is_initialized::<U>.unsupported_construct.1",
+          "reading_binding": "reject_init_predicate: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "can_dereference"
+          ],
+          "source_body": "let value = U { wide: 7 }; let pointer = &value as *const U; let _initialized = kani::mem::can_dereference(pointer);"
+        }
+      ],
+      "diagnostic": "Kani does not yet support using initialization predicates on unions.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "24bb5b17816be931634c3ff102fe69ecfa5c0f0e8181fba548b1f89f8557a4ba",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_init_predicate/expected",
+      "golden_sha256": "08113b2c8d9ee0ef2804aaeca3b03ba2dd54540397322ef2508c002493486150",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "-Z",
+        "valid-value-checks",
+        "-Z",
+        "mem-predicates",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_manuallydrop_union",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "ManuallyDrop<U>",
+          "diagnostic_substring": "Cannot determine layout for a type that contains union of type U as a field.",
+          "property_binding": "reject_manuallydrop_union.unsupported_construct",
+          "reading_binding": "reject_manuallydrop_union: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let wrapper = ManuallyDrop::new(U { wide: 1 }); let p = &wrapper as *const ManuallyDrop<U>; unsafe { let _value = (&*p).wide; }"
+        }
+      ],
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "e3a0d7fca86a7a015421272d1c91d59aa116d2455ebbbda7b1eb8f320a63c5f5",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/expected",
+      "golden_sha256": "105465b6ad1c4fc8820b2af7377364c0bf71022c740aeeeb7be216d00215c668",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_niche_enum/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_niche_enum/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_niche_enum",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "NicheUnion",
+          "diagnostic_substring": "Cannot determine layout for an Enum with niche encoding of type Niche",
+          "property_binding": "reject_niche_enum.unsupported_construct",
+          "reading_binding": "reject_niche_enum: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = NicheUnion { value: Niche::Some(NonZeroU32::new(1).unwrap()) }; let p = &u as *const NicheUnion; unsafe { let _value = (*p).value; }"
+        }
+      ],
+      "diagnostic": "Cannot determine layout for an Enum with niche encoding of type Niche",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "edb75a98a5efe33c900ac8cb4c138f9a7a611dabb790d34637bfd8b0cba577c0",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_niche_enum/expected",
+      "golden_sha256": "fa75c86fe3974740fd550e1b84e32671caa32eab69f44786cd421165d6b3714f",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_select_unpredictable/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_select_unpredictable/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_select_unpredictable",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "U",
+          "diagnostic_substring": "Kani does not support select_unpredictable of union storage.",
+          "property_binding": "reject_select_unpredictable.unsupported_construct",
+          "reading_binding": "reject_select_unpredictable: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "select_unpredictable"
+          ],
+          "source_body": "let a = U { wide: 17 }; let b = U { wide: 19 }; let _selected = unsafe { std::intrinsics::select_unpredictable(true, a, b) };"
+        }
+      ],
+      "diagnostic": "Kani does not support select_unpredictable of union storage.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "cb3c908b0e5354a7afa1cea1ce6a217647bc7e5259539ff886c61b1b4003b870",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_select_unpredictable/expected",
+      "golden_sha256": "7b4258c4b7df931d69913a52a30ddfbaba086fd74a9ce326e2786f4dba7f7e52",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_struct_field/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_struct_field/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_struct_field",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "HasUnion",
+          "diagnostic_substring": "Cannot determine layout for a type that contains union of type U as a field.",
+          "property_binding": "reject_struct_field.unsupported_construct",
+          "reading_binding": "reject_struct_field: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let wrapper = HasUnion { value: U { wide: 1 } }; let p = &wrapper as *const HasUnion; unsafe { let _value = (*p).value.wide; }"
+        }
+      ],
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "9c232865d46032c7103a62db01e18d84a8129a47fa1500997dc5c078c7485e00",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_struct_field/expected",
+      "golden_sha256": "c4abffb4694ed99ff86490b813dc30821c5206e3a6f049177f5eae5a98a76f55",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_typed_swap/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_typed_swap/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_typed_swap",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "U",
+          "diagnostic_substring": "Kani does not support typed_swap of union storage.",
+          "property_binding": "reject_typed_swap.unsupported_construct",
+          "reading_binding": "reject_typed_swap: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "typed_swap"
+          ],
+          "source_body": "let mut left = U { wide: 11 }; let mut right = U { wide: 13 }; unsafe { std::intrinsics::typed_swap_nonoverlapping(&mut left, &mut right); }"
+        }
+      ],
+      "diagnostic": "Kani does not support typed_swap of union storage.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "87c379cdee35203b7b7585c539ae54dcf8a150e63e1e03f1d76b1859c7701402",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_typed_swap/expected",
+      "golden_sha256": "4684cc5cd06da5f1145b358cf84fbd3013cbe8bb33fcb71c346a379395507cb3",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_unaligned_read/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_unaligned_read/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_unaligned_read",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "Unaligned<U>",
+          "diagnostic_substring": "Cannot determine layout for a type that contains union of type U as a field.",
+          "property_binding": "single-harness selector + exact diagnostic + named failure summary",
+          "reading_binding": "reject_unaligned_read: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "ptr::read_unaligned",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let bytes = [0u8; 16]; let p = unsafe { bytes.as_ptr().add(1).cast::<U>() }; unsafe { let _value = ptr::read_unaligned(p); }"
+        }
+      ],
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "59bbdc0cfa2739d28b13ffbf5d482e6983a95b2ee66ee395af4901d5b6de5059",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_unaligned_read/expected",
+      "golden_sha256": "8f4679360e0f81d91be0bee71aaae2dd25037fc9c761e2daa933bd7c8c50f5c7",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_unaligned_write/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_unaligned_write/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_unaligned_write",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "Unaligned<U>",
+          "diagnostic_substring": "Cannot determine layout for a type that contains union of type U as a field.",
+          "property_binding": "single-harness selector + exact diagnostic + named failure summary",
+          "reading_binding": "reject_unaligned_write: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "ptr::write_unaligned"
+          ],
+          "source_body": "let mut bytes = [0u8; 16]; let p = unsafe { bytes.as_mut_ptr().add(1).cast::<U>() }; unsafe { ptr::write_unaligned(p, U { wide: 29 }); }"
+        }
+      ],
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "26bd2a70891b795767af29565350229949c1766f15f4143e992cee3c35897086",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_unaligned_write/expected",
+      "golden_sha256": "3fc593e7641f1d28f732d1b2869b3c0ce20b9911bd1d831829624ce00c6f5b81",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_union_in_union/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_union_in_union/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_union_in_union",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "Outer",
+          "diagnostic_substring": "Cannot determine layout for a type that contains union of type U as a field.",
+          "property_binding": "reject_union_in_union.unsupported_construct",
+          "reading_binding": "reject_union_in_union: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let outer = Outer { inner: U { wide: 1 } }; let p = &outer as *const Outer; unsafe { let _value = (*p).inner.wide; }"
+        }
+      ],
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "b8f3afd9289470ddf36da4ed4cf904475df2e553eada0d425128f9cc4855e507",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_union_in_union/expected",
+      "golden_sha256": "224f5013db1bfe7bcfcaa6a9a274b5c15fdd9aeaf2644003b4189a72e68da622",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_union_transmute/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_union_transmute",
+          "expected_outcome": "FAILURE",
+          "expected_type": "TransmuteU -> [u64; 1]",
+          "diagnostic_substring": "Transmuting between types of incompatible layouts.",
+          "property_binding": "reject_union_transmute.safety_check",
+          "reading_binding": "reject_union_transmute: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "harness_execution"
+          ],
+          "source_body": "let value = TransmuteU { bytes: [5; 5] }; let _out: [u64; 1] = unsafe { std::mem::transmute(value) };"
+        }
+      ],
+      "diagnostic": "Transmuting between types of incompatible layouts.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "fc1f1613412cd5d16c24405edfb990595340d38c69263047ea2c141e947d4560",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_union_transmute/expected",
+      "golden_sha256": "071821e2664f97e03a4030c3104877b086087cb667835615195e109cfe883942",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_variant_padding/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_variant_padding/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_variant_padding",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "DifferentPaddingUnion",
+          "diagnostic_substring": "Cannot determine layout for an Enum of type DifferentPadding, as it has multiple variants that have different padding.",
+          "property_binding": "reject_variant_padding.unsupported_construct",
+          "reading_binding": "reject_variant_padding: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let u = DifferentPaddingUnion { value: DifferentPadding::Byte(1) }; let p = &u as *const DifferentPaddingUnion; unsafe { let _value = (*p).value; }"
+        }
+      ],
+      "diagnostic": "Cannot determine layout for an Enum of type DifferentPadding, as it has multiple variants that have different padding.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "ddd59c30b1bdf59eebd882b6e4c45854df57a5454eebe7b70b7ea60a743cda99",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_variant_padding/expected",
+      "golden_sha256": "88c61279e43dde41d2780c378c45b668421cc84cf57e290208a377389269cb2b",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_volatile_read/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_volatile_read/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_volatile_read",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "U",
+          "diagnostic_substring": "Kani does not support volatile loads of union storage.",
+          "property_binding": "single-harness selector + exact diagnostic + named failure summary",
+          "reading_binding": "reject_volatile_read: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "ptr::read_volatile",
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let value = U { wide: 23 }; let p = &value as *const U; let _read = unsafe { ptr::read_volatile(p) };"
+        }
+      ],
+      "diagnostic": "Kani does not support volatile loads of union storage.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "b42944724ecbff0b9e0d3c54731697afc6751a286bace36943764ebe335c7412",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_volatile_read/expected",
+      "golden_sha256": "1d194815d7ca6e40818d07d80ddbcb668770b217c2d94450283e0ea88fd23802",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_volatile_write/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_volatile_write/expected",
+      "package": "A",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_volatile_write",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "U",
+          "diagnostic_substring": "Kani does not support volatile stores of union storage.",
+          "property_binding": "single-harness selector + exact diagnostic + named failure summary",
+          "reading_binding": "reject_volatile_write: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "ptr::write_volatile"
+          ],
+          "source_body": "let mut value = U { wide: 23 }; let p = &mut value as *mut U; unsafe { ptr::write_volatile(p, U { wide: 29 }); }"
+        }
+      ],
+      "diagnostic": "Kani does not support volatile stores of union storage.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "a0fbf96a7309931bf39c373557f7816784322e83af1fcd9b5455f612abda1ac8",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_volatile_write/expected",
+      "golden_sha256": "e1512527e51b6df77c85eb7d67d339fe3ff13eb6da5adabf2d2495b8e98cd580",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_bodyless_return/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_bodyless_return/expected",
+      "package": "B",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_bodyless_return",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "U return",
+          "diagnostic_substring": "Kani does not support foreign mutation of union storage without an effect model.",
+          "property_binding": "reject_bodyless_return.unsupported_construct",
+          "reading_binding": "reject_bodyless_return: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let value = unsafe { bodyless_union_return() }; let _read = unsafe { value.wide };"
+        }
+      ],
+      "diagnostic": "Kani does not support foreign mutation of union storage without an effect model.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "0b6e65210ede9d533d94df614034ac189a61a260f6f48868d0c8b0d3cef55fae",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_bodyless_return/expected",
+      "golden_sha256": "037eb2f554fa2cae309d9feee431cd0fb385dcf60b367aef19800687827cada9",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_foreign_mutation_erased/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_foreign_mutation_erased/expected",
+      "package": "B",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_foreign_mutation_erased",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "*mut u8 alias to U",
+          "diagnostic_substring": "Kani does not support foreign mutation of union storage without an effect model.",
+          "property_binding": "reject_foreign_mutation_erased.unsupported_construct",
+          "reading_binding": "reject_foreign_mutation_erased: source operation triggers expected unsupported or safety check",
+          "operation_binding": [
+            "direct_typed_read_or_assertion"
+          ],
+          "source_body": "let mut value = U { wide: 31 }; unsafe { foreign_mutate_erased((&mut value as *mut U).cast()); let _read = (&value as *const U).read().wide; }"
+        }
+      ],
+      "diagnostic": "Kani does not support foreign mutation of union storage without an effect model.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "1287dc23f5d01ec674b2fab88d537ab7b078cd06c7c0be2245a4383d8b4b4ebd",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_foreign_mutation_erased/expected",
+      "golden_sha256": "64c3b34f094bdeed8b652ed76c626070f31af4071402aedf5902d8a9a936182b",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_forget_union_array/main.rs",
+      "expected_file": "uninit/g1-union-pointee-unsupported-reject_forget_union_array/expected",
+      "package": "B",
+      "require_success": false,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "harnesses": [
+        {
+          "name": "reject_forget_union_array",
+          "expected_outcome": "UNSUPPORTED",
+          "expected_type": "[U; 0]",
+          "diagnostic_substring": "Cannot determine layout for a type that contains union of type U as a field.",
+          "property_binding": "reject_forget_union_array.unsupported_construct",
+          "reading_binding": "zero-length array by-value argument to core intrinsic forget; G2 layout rejection",
+          "operation_binding": [
+            "std::intrinsics::forget",
+            "by-value array argument"
+          ],
+          "source_body": "unsafe { std::intrinsics::forget([U { wide: 1 }; 0]); }"
+        }
+      ],
+      "diagnostic": "Cannot determine layout for a type that contains union of type U as a field.",
+      "source": "G1_NEW_NOT_RUN",
+      "source_sha256": "b006371c05c260b9341925be2b18d19f3b78e1e1e2c6ac17d13b13b752c4e6fa",
+      "golden_path": "tests/expected/uninit/g1-union-pointee-unsupported-reject_forget_union_array/expected",
+      "golden_sha256": "ceef49a22bd6c6710471db70306dd9262b89b180503593d2a273094995840429",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-transmute/main.rs",
+      "expect": "pass",
+      "require_success": true,
+      "harnesses": [
+        {
+          "name": "empty_harness",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "scalar_copy",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "exact_usize_array_copy",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "empty_array",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "zst_array",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "padded_move",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "padded_array_move",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "a8447076a637799a4f2775d1fdbf46f5ffd8ec70721806b04d5d86ba65801c48",
+      "golden_path": "tests/expected/uninit/maybe-uninit-transmute/expected",
+      "golden_sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=terse"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-transfers/main.rs",
+      "expect": "pass",
+      "require_success": true,
+      "harnesses": [
+        {
+          "name": "overwrite_copy_written_byte",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "overlap_copy_right_written_slot",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "overlap_copy_left_written_slot",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "repeat_local_initialized_source",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "reset_after_zst_then_initialize",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "complete_padded_transmute",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "argument_return_both_initialized",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "5587fdcd7436a63ccfed41747fc5c9ebc18ec74f46ef988d35c2e0877dba33d9",
+      "golden_path": "tests/expected/uninit/maybe-uninit-transfers/expected",
+      "golden_sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=terse"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-initialized/main.rs",
+      "expect": "pass",
+      "require_success": true,
+      "harnesses": [
+        {
+          "name": "assume_init_after_write",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "raw_read_after_write",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "padded_and_manually_drop_transmute",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "partial_copy_preserves_written_byte",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "slice_offset_and_reinitialization",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "array_value_as_used_by_merge_output",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "volatile_read_after_write",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "pointer_valued_slot_as_used_by_select_unpredictable",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+      "golden_path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+      "golden_sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-transmute-padding/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "harnesses": [
+        {
+          "name": "typed_padding_is_not_initialized",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u8",
+          "property_binding": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "reading_binding": "Base657c frozen fixture/golden: uninit/maybe-uninit-transmute-padding/main.rs"
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "62fa7db84d1c814862e000746fef53cf64fb0faed7ec809559a42c6764ccccd7",
+      "golden_path": "tests/expected/uninit/maybe-uninit-transmute-padding/expected",
+      "golden_sha256": "6f67fe0887ebe8d7ea7e1f7365b6c3c1cc03db1f24fcfdb5adc3855593165041",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-transmute-source-read/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+      "harnesses": [
+        {
+          "name": "typed_source_read_still_checked",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u64",
+          "property_binding": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+          "reading_binding": "Base657c frozen fixture/golden: uninit/maybe-uninit-transmute-source-read/main.rs"
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "341f157e31cb14cacdc99986ab46b60741f42435195b125f4d51bfacbf2c3105",
+      "golden_path": "tests/expected/uninit/maybe-uninit-transmute-source-read/expected",
+      "golden_sha256": "193351708475946afdfe207a8fbc06fb120366d0a4f1716767b431f5c70686f8",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-argument-buffer/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+      "harnesses": [
+        {
+          "name": "nested_two_argument_return_reads_uninit",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u16",
+          "property_binding": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+          "reading_binding": "Base657c frozen fixture/golden: uninit/maybe-uninit-argument-buffer/main.rs"
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "09e5dd454f0cfcfeed1d9df436507c7d705270e85ee11592347113d58f9f1f55",
+      "golden_path": "tests/expected/uninit/maybe-uninit-argument-buffer/expected",
+      "golden_sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "-Z",
+        "function-contracts",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-contract-clause/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+      "harnesses": [
+        {
+          "name": "clause_pfc_negative",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u16",
+          "property_binding": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+          "reading_binding": "Base657c frozen fixture/golden: uninit/maybe-uninit-contract-clause/main.rs"
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "5fc89460489e7ac8dafe69f0ad722ae5d4d3a31776f945c0f78beda15aa38ad9",
+      "golden_path": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+      "golden_sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "-Z",
+        "function-contracts",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-contract-frame/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Check that *var_7 is assignable",
+      "harnesses": [
+        {
+          "name": "frame_negative",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": null,
+          "property_binding": "assigns FAILURE: Check that *var_7 is assignable",
+          "reading_binding": "Actual user write, main.rs:22; frame_target closure. No frame-check exemption expanded."
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "f5c45585e405fe570d88eddb69b76b6299a04ebaba168cc08e2b36bb3bbb09c2",
+      "golden_path": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+      "golden_sha256": "85e61667ab9e23dfaf275e301725bb107c4cbc5b7613dd504a898dbf7e0ec326",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "-Z",
+        "function-contracts",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-partial-copy/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+      "harnesses": [
+        {
+          "name": "copy_replaces_initialized_bytes",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "[u8; 4]",
+          "property_binding": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+          "reading_binding": "Base657c frozen fixture/golden: uninit/maybe-uninit-partial-copy/main.rs"
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "52d4ef75b76aba6e84152188315d7e43aaa34bcc857429b6da9729259bbbb8f2",
+      "golden_path": "tests/expected/uninit/maybe-uninit-partial-copy/expected",
+      "golden_sha256": "86cd97e3e413fdd50e5da87c83acd815a528127db89d43d805a782cc225466db",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-reset-alias/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "harnesses": [
+        {
+          "name": "reset_through_another_alias",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u8",
+          "property_binding": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "reading_binding": "Base657c frozen fixture/golden: uninit/maybe-uninit-reset-alias/main.rs"
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "718713896e97f3a29c26c708b6816fdebfafff6d0884c241f466009564060b07",
+      "golden_path": "tests/expected/uninit/maybe-uninit-reset-alias/expected",
+      "golden_sha256": "6f67fe0887ebe8d7ea7e1f7365b6c3c1cc03db1f24fcfdb5adc3855593165041",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-argument-return/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+      "harnesses": [
+        {
+          "name": "argument_return",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u16",
+          "property_binding": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+          "reading_binding": "Base657c frozen fixture/golden: uninit/maybe-uninit-argument-return/main.rs"
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "345db788d839c5f40fae3454d7ec8d1a8b805a208554a8fcad04ee53027ff9b9",
+      "golden_path": "tests/expected/uninit/maybe-uninit-argument-return/expected",
+      "golden_sha256": "a9ed8039903d8bd6f56d7c563703e213d99020d235038e5107a1395a264a807c",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-overwrite-copy/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`",
+      "harnesses": [
+        {
+          "name": "overwrite_copy",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "[u8; 2]",
+          "property_binding": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 2]`",
+          "reading_binding": "Base657c frozen fixture/golden: uninit/maybe-uninit-overwrite-copy/main.rs"
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "bc70b2eb653f02193eabc7a4085fabc1dbaf04270ee54519affe5afdd0dc888c",
+      "golden_path": "tests/expected/uninit/maybe-uninit-overwrite-copy/expected",
+      "golden_sha256": "c62ca7df25c2f41a53541c08d6ce84d00d9a36504dff15c8c21f2b8e1ea0cce5",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-overlap-copy/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "harnesses": [
+        {
+          "name": "overlap_copy_right",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u8",
+          "property_binding": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "reading_binding": "Base657c frozen fixture/golden: uninit/maybe-uninit-overlap-copy/main.rs"
+        },
+        {
+          "name": "overlap_copy_left",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u8",
+          "property_binding": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "reading_binding": "Base657c frozen fixture/golden: uninit/maybe-uninit-overlap-copy/main.rs"
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "ba454420efd8f9cb540b0af42040472e25fe0857acc95ec0cb5838c4007bc692",
+      "golden_path": "tests/expected/uninit/maybe-uninit-overlap-copy/expected",
+      "golden_sha256": "8f2812a0e767a3ab340b51bbe37e7cf30772865970525d33b274487827ecb59d",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-repeat-local/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+      "harnesses": [
+        {
+          "name": "repeat_local",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u64",
+          "property_binding": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+          "reading_binding": "Base657c frozen fixture/golden: uninit/maybe-uninit-repeat-local/main.rs"
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "33f47bb164d81187c16f9a640c524fd86f7bd602af20f0339aba3e3137c5a814",
+      "golden_path": "tests/expected/uninit/maybe-uninit-repeat-local/expected",
+      "golden_sha256": "a34636225140ae8725d1b22ff17c1b7625ea12439fbd3ed6d8c119beefe06cbb",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "suite": "expected",
+      "mode": "expected",
+      "file": "uninit/maybe-uninit-reset-zst/main.rs",
+      "expect": "pass",
+      "require_success": false,
+      "diagnostic": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+      "harnesses": [
+        {
+          "name": "reset_after_zst",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u64",
+          "property_binding": "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+          "reading_binding": "Base657c frozen fixture/golden: uninit/maybe-uninit-reset-zst/main.rs"
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "c3c15670264f0c3289f482ddf547dbd5a104d8550209247d82c0057c57ea6002",
+      "golden_path": "tests/expected/uninit/maybe-uninit-reset-zst/expected",
+      "golden_sha256": "ac269e35cc2f27d800c96740d82127dfd8ef3120b3beb90b25e3855cb9521d7e",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular"
+      ],
+      "compile_flags": [
+        "--edition",
+        "2021"
+      ],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "file": "uninit/unions.rs",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+      "harnesses": [
+        {
+          "name": "basic_union_should_pass",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "basic_union_should_fail",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u32",
+          "property_binding": "Unchanged unions.expected: named safety_check + FAILURE + Description for basic_union_should_fail",
+          "reading_binding": "Existing union projection read in basic_union_should_fail"
+        },
+        {
+          "name": "basic_multifield_union_should_pass",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "basic_multifield_union_should_fail",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u128",
+          "property_binding": "Unchanged unions.expected: named safety_check + FAILURE + Description for basic_multifield_union_should_fail",
+          "reading_binding": "Existing union projection read in basic_multifield_union_should_fail"
+        },
+        {
+          "name": "union_complex_subfields_should_pass",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "union_complex_subfields_should_fail",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u16",
+          "property_binding": "Unchanged unions.expected: named safety_check + FAILURE + Description for union_complex_subfields_should_fail",
+          "reading_binding": "Existing union projection read in union_complex_subfields_should_fail"
+        },
+        {
+          "name": "union_update_should_pass",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "union_update_should_fail",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u32",
+          "property_binding": "Unchanged unions.expected: named safety_check + FAILURE + Description for union_update_should_fail",
+          "reading_binding": "Existing union projection read in union_update_should_fail"
+        },
+        {
+          "name": "cross_function_union_should_fail",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u32",
+          "property_binding": "Unchanged unions.expected: named safety_check + FAILURE + Description for cross_function_union_should_fail",
+          "reading_binding": "Existing union projection read in cross_function_union_should_fail"
+        },
+        {
+          "name": "cross_function_union_should_pass",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "multi_cross_function_union_should_fail",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u32",
+          "property_binding": "Unchanged unions.expected: named safety_check + FAILURE + Description for multi_cross_function_union_should_fail",
+          "reading_binding": "Existing union projection read in multi_cross_function_union_should_fail"
+        },
+        {
+          "name": "multi_cross_function_union_should_pass",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "cross_function_multi_union_should_fail",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u32",
+          "property_binding": "Unchanged unions.expected: named safety_check + FAILURE + Description for cross_function_multi_union_should_fail",
+          "reading_binding": "Existing union projection read in cross_function_multi_union_should_fail"
+        },
+        {
+          "name": "cross_function_multi_union_should_pass",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "304e5efcff64657d5cb98671a5e972143950b1e2f5568863c7bcfab83392385e",
+      "golden_path": "tests/expected/uninit/unions.expected",
+      "golden_sha256": "b176bd197d438bd401b8535ad208c2cd3f350d8b054dd9da564ed8da371267a2",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks"
+      ],
+      "compile_flags": [],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    },
+    {
+      "file": "uninit/uninhabited-union-field/uninhabited-union-field.rs",
+      "require_success": false,
+      "diagnostic": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+      "harnesses": [
+        {
+          "name": "read_init_ok",
+          "expected_outcome": "SUCCESS",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged."
+        },
+        {
+          "name": "read_uninit_bytes_should_fail",
+          "expected_outcome": "FAILURE",
+          "binding": "Unchanged base657c golden; expected file SHA and diagnostic retained; existing property/summary binding strength unchanged.",
+          "expected_type": "u64",
+          "property_binding": "Undefined Behavior: Reading from an uninitialized pointer of type `u64`",
+          "reading_binding": "Base657c frozen fixture/golden: uninit/uninhabited-union-field/uninhabited-union-field.rs"
+        }
+      ],
+      "source": "BASE657C_REGRESSION_UNCHANGED",
+      "source_sha256": "788b7de41d6ef22175448f95ac1f260362bda8b5b55203e79e0cef601b7d3983",
+      "golden_path": "tests/expected/uninit/uninhabited-union-field/expected",
+      "golden_sha256": "ee078b26d1ed35c88d21386ce4ce45807d8db232d6778b33ec76bd921bb33a33",
+      "effective_kani_flags": [
+        "-Z",
+        "uninit-checks"
+      ],
+      "compile_flags": [],
+      "current_native_outcome": "NOT_RUN",
+      "package": "B"
+    }
+  ],
+  "helpers": [
+    {
+      "path": "tests/expected/uninit/g1-union-pointee-unsupported/types.inc",
+      "sha256": "422df5f16f8cc08c9ebf38994f4964bd4d6cc8901cc28323cc54951b4a9db33a"
+    }
+  ],
+  "current_outcome": "NOT_RUN",
+  "acceptance": "Every selector must pass compiletest; positive require-success; each negative own named property and complete golden; each one-harness rejection own diagnostic and failed summary. No OOM/timeout/setup/compile error credit.",
+  "regression_name_map": {
+    "04": "maybe-uninit-transmute",
+    "05": "maybe-uninit-transfers",
+    "06": "maybe-uninit-initialized",
+    "07": "maybe-uninit-transmute-padding",
+    "08": "maybe-uninit-transmute-source-read",
+    "09": "maybe-uninit-argument-buffer",
+    "10": "maybe-uninit-contract-clause",
+    "11": "maybe-uninit-contract-frame",
+    "12": "maybe-uninit-partial-copy",
+    "13": "maybe-uninit-reset-alias",
+    "14": "maybe-uninit-argument-return",
+    "15": "maybe-uninit-overwrite-copy",
+    "16": "maybe-uninit-overlap-copy",
+    "17": "maybe-uninit-repeat-local",
+    "18": "maybe-uninit-reset-zst"
+  }
+}

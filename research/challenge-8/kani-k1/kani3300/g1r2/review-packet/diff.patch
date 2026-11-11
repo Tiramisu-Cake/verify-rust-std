@@ -1,0 +1,253 @@
+diff --git a/tests/expected/uninit/g1-union-pointee-negative/main.rs b/tests/expected/uninit/g1-union-pointee-negative/main.rs
+index 5079d48082983a602140eec45e71c3754313ba99..8fbfc77743e797d393f18405fe648575d9d06520 100644
+--- a/tests/expected/uninit/g1-union-pointee-negative/main.rs
++++ b/tests/expected/uninit/g1-union-pointee-negative/main.rs
+@@ -335,7 +335,7 @@ fn padded_byte_c() {
+     let u = CU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) };
+     let p = &u as *const CU;
+     unsafe {
+-        let padding = ptr::addr_of!((*p).padded.word).cast::<u8>().sub(1);
++        let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1);
+         let _padding = *padding;
+     }
+ }
+@@ -344,7 +344,7 @@ fn padded_byte_rust() {
+     let u = RU { padded: ManuallyDrop::new(Padded { byte: 4, word: 5 }) };
+     let p = &u as *const RU;
+     unsafe {
+-        let padding = ptr::addr_of!((*p).padded.word).cast::<u8>().sub(1);
++        let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1);
+         let _padding = *padding;
+     }
+ }
+@@ -356,7 +356,7 @@ fn padded_typed_transfer_padding_c() {
+         ptr::write_bytes((&mut src as *mut CU).cast::<u8>(), 0x5a, std::mem::size_of::<CU>());
+         ptr::write(&mut dst, ptr::read(&src));
+         let p = &dst as *const CU;
+-        let padding = ptr::addr_of!((*p).padded.word).cast::<u8>().sub(1);
++        let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1);
+         let _padding = *padding;
+     }
+ }
+@@ -368,7 +368,7 @@ fn padded_typed_transfer_padding_rust() {
+         ptr::write_bytes((&mut src as *mut RU).cast::<u8>(), 0x5a, std::mem::size_of::<RU>());
+         ptr::write(&mut dst, ptr::read(&src));
+         let p = &dst as *const RU;
+-        let padding = ptr::addr_of!((*p).padded.word).cast::<u8>().sub(1);
++        let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1);
+         let _padding = *padding;
+     }
+ }
+@@ -389,7 +389,7 @@ fn padded_argument_return_padding_c() {
+     let u = padded_identity_c(src);
+     let p = &u as *const CU;
+     unsafe {
+-        let padding = ptr::addr_of!((*p).padded.word).cast::<u8>().sub(1);
++        let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1);
+         let _padding = *padding;
+     }
+ }
+@@ -402,7 +402,7 @@ fn padded_argument_return_padding_rust() {
+     let u = padded_identity_rust(src);
+     let p = &u as *const RU;
+     unsafe {
+-        let padding = ptr::addr_of!((*p).padded.word).cast::<u8>().sub(1);
++        let padding = ptr::addr_of!((&(*p).padded).word).cast::<u8>().sub(1);
+         let _padding = *padding;
+     }
+ }
+@@ -449,7 +449,7 @@ fn array_padded_elements_byte_c() {
+     };
+     let p = &u as *const CU;
+     unsafe {
+-        let padding = ptr::addr_of!((*p).padded_pair[1].word).cast::<u8>().sub(1);
++        let padding = ptr::addr_of!((&(*p).padded_pair[1]).word).cast::<u8>().sub(1);
+         let _padding = *padding;
+     }
+ }
+@@ -463,7 +463,7 @@ fn array_padded_elements_byte_rust() {
+     };
+     let p = &u as *const RU;
+     unsafe {
+-        let padding = ptr::addr_of!((*p).padded_pair[1].word).cast::<u8>().sub(1);
++        let padding = ptr::addr_of!((&(*p).padded_pair[1]).word).cast::<u8>().sub(1);
+         let _padding = *padding;
+     }
+ }
+@@ -662,7 +662,7 @@ fn pointer_delayed_partial_c() {
+     let src = CU { z: () };
+     let mut local = 37u32;
+     let holder = identity_c(CU { ptr: &mut local });
+-    let q = holder.ptr;
++    let q = unsafe { holder.ptr };
+     unsafe {
+         ptr::copy_nonoverlapping(
+             (&src as *const CU).cast::<u8>(),
+@@ -677,7 +677,7 @@ fn pointer_delayed_partial_rust() {
+     let src = RU { z: () };
+     let mut local = 41u32;
+     let holder = identity_rust(RU { ptr: &mut local });
+-    let q = holder.ptr;
++    let q = unsafe { holder.ptr };
+     unsafe {
+         ptr::copy_nonoverlapping(
+             (&src as *const RU).cast::<u8>(),
+diff --git a/tests/expected/uninit/g1-union-pointee-positive/main.rs b/tests/expected/uninit/g1-union-pointee-positive/main.rs
+index f476c00303e99a5d463141a2e729e21a0f86b406..70c53a470f5d2522e8debd3dff105af74d15b8d7 100644
+--- a/tests/expected/uninit/g1-union-pointee-positive/main.rs
++++ b/tests/expected/uninit/g1-union-pointee-positive/main.rs
+@@ -328,27 +328,27 @@ fn padded_argument_return_rust() {
+ fn padded_typed_c() {
+     let p = Padded { byte: 7, word: 11 };
+     let u = CU { padded: ManuallyDrop::new(p) };
+-    assert_eq!(unsafe { (*(&u as *const CU)).padded.byte }, 7);
+-    assert_eq!(unsafe { (*(&u as *const CU)).padded.word }, 11);
++    assert_eq!(unsafe { (&(*(&u as *const CU)).padded).byte }, 7);
++    assert_eq!(unsafe { (&(*(&u as *const CU)).padded).word }, 11);
+ }
+ #[kani::proof]
+ fn padded_typed_rust() {
+     let p = Padded { byte: 13, word: 17 };
+     let u = RU { padded: ManuallyDrop::new(p) };
+-    assert_eq!(unsafe { (*(&u as *const RU)).padded.byte }, 13);
+-    assert_eq!(unsafe { (*(&u as *const RU)).padded.word }, 17);
++    assert_eq!(unsafe { (&(*(&u as *const RU)).padded).byte }, 13);
++    assert_eq!(unsafe { (&(*(&u as *const RU)).padded).word }, 17);
+ }
+ #[kani::proof]
+ fn padded_tuple_typed_c() {
+     let u = CU { tuple: ManuallyDrop::new((2, 151)) };
+-    assert_eq!(unsafe { (*(&u as *const CU)).tuple.0 }, 2);
+-    assert_eq!(unsafe { (*(&u as *const CU)).tuple.1 }, 151);
++    assert_eq!(unsafe { (&(*(&u as *const CU)).tuple).0 }, 2);
++    assert_eq!(unsafe { (&(*(&u as *const CU)).tuple).1 }, 151);
+ }
+ #[kani::proof]
+ fn padded_tuple_typed_rust() {
+     let u = RU { tuple: ManuallyDrop::new((3, 157)) };
+-    assert_eq!(unsafe { (*(&u as *const RU)).tuple.0 }, 3);
+-    assert_eq!(unsafe { (*(&u as *const RU)).tuple.1 }, 157);
++    assert_eq!(unsafe { (&(*(&u as *const RU)).tuple).0 }, 3);
++    assert_eq!(unsafe { (&(*(&u as *const RU)).tuple).1 }, 157);
+ }
+ #[kani::proof]
+ fn padded_typed_copy_c() {
+@@ -356,7 +356,7 @@ fn padded_typed_copy_c() {
+     let mut dst = CU { z: () };
+     unsafe {
+         ptr::write(&mut dst, ptr::read(&src));
+-        assert_eq!((*(&dst as *const CU)).padded.word, 23);
++        assert_eq!((&(*(&dst as *const CU)).padded).word, 23);
+     }
+ }
+ #[kani::proof]
+@@ -365,7 +365,7 @@ fn padded_typed_copy_rust() {
+     let mut dst = RU { z: () };
+     unsafe {
+         ptr::write(&mut dst, ptr::read(&src));
+-        assert_eq!((*(&dst as *const RU)).padded.word, 31);
++        assert_eq!((&(*(&dst as *const RU)).padded).word, 31);
+     }
+ }
+ 
+@@ -383,7 +383,7 @@ fn array_field_rust() {
+ fn array_padded_field_c() {
+     let a = [Padded { byte: 1, word: 2 }, Padded { byte: 3, word: 5 }];
+     let u = CU { padded: ManuallyDrop::new(a[1]) };
+-    assert_eq!(unsafe { (*(&u as *const CU)).padded.word }, 5);
++    assert_eq!(unsafe { (&(*(&u as *const CU)).padded).word }, 5);
+ }
+ #[kani::proof]
+ fn array_zst_field_c() {
+@@ -403,7 +403,7 @@ fn array_padded_elements_c() {
+             ManuallyDrop::new(Padded { byte: 5, word: 7 }),
+         ],
+     };
+-    assert_eq!(unsafe { (*(&u as *const CU)).padded_pair[1].word }, 7);
++    assert_eq!(unsafe { (&(*(&u as *const CU)).padded_pair[1]).word }, 7);
+ }
+ #[kani::proof]
+ fn array_padded_elements_rust() {
+@@ -413,7 +413,7 @@ fn array_padded_elements_rust() {
+             ManuallyDrop::new(Padded { byte: 17, word: 19 }),
+         ],
+     };
+-    assert_eq!(unsafe { (*(&u as *const RU)).padded_pair[1].word }, 19);
++    assert_eq!(unsafe { (&(*(&u as *const RU)).padded_pair[1]).word }, 19);
+ }
+ 
+ #[kani::proof]
+@@ -562,7 +562,7 @@ fn pointer_delayed_c() {
+     let src = CU { wide: 37 };
+     let mut local = 0u32;
+     let holder = identity_c(CU { ptr: &mut local });
+-    let q = holder.ptr;
++    let q = unsafe { holder.ptr };
+     unsafe {
+         ptr::copy_nonoverlapping(
+             (&src as *const CU).cast::<u8>(),
+@@ -577,7 +577,7 @@ fn pointer_delayed_rust() {
+     let src = RU { wide: 41 };
+     let mut local = 0u32;
+     let holder = identity_rust(RU { ptr: &mut local });
+-    let q = holder.ptr;
++    let q = unsafe { holder.ptr };
+     unsafe {
+         ptr::copy_nonoverlapping(
+             (&src as *const RU).cast::<u8>(),
+@@ -670,7 +670,7 @@ fn field_move_projection_c() {
+     let union_ptr = &mut union as *mut NonCopyFieldC;
+     unsafe {
+         (*union_ptr).value = source;
+-        assert_eq!((*union_ptr).value.word, 229);
++        assert_eq!((&(*union_ptr).value).word, 229);
+     }
+ }
+ #[kani::proof]
+@@ -680,6 +680,6 @@ fn field_move_projection_rust() {
+     let union_ptr = &mut union as *mut NonCopyFieldR;
+     unsafe {
+         (*union_ptr).value = source;
+-        assert_eq!((*union_ptr).value.word, 233);
++        assert_eq!((&(*union_ptr).value).word, 233);
+     }
+ }
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_init_predicate/expected b/tests/expected/uninit/g1-union-pointee-unsupported-reject_init_predicate/expected
+index 6b7d4402e13bc33647c91fa96b21d707f071dd6d..2458b1331a9eb604c54ed99ec48707651e0b3644 100644
+--- a/tests/expected/uninit/g1-union-pointee-unsupported-reject_init_predicate/expected
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_init_predicate/expected
+@@ -1,4 +1,4 @@
+-reject_init_predicate.unsupported_construct.\
++kani::mem::is_initialized::<U>.unsupported_construct.1\
+ 	 - Status: FAILURE\
+ Kani does not yet support using initialization predicates on unions.
+ Verification failed for - reject_init_predicate
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs
+index 788aa08af2f9064f1d82b78e1cefda237f67903a..08b59b9a50faa137200c848145827938b9811099 100644
+--- a/tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_manuallydrop_union/main.rs
+@@ -10,6 +10,6 @@ fn reject_manuallydrop_union() {
+     let wrapper = ManuallyDrop::new(U { wide: 1 });
+     let p = &wrapper as *const ManuallyDrop<U>;
+     unsafe {
+-        let _value = (*p).wide;
++        let _value = (&*p).wide;
+     }
+ }
+diff --git a/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs b/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs
+index 21325b573980a24976a07b926964037a67c1eacc..ae74dd67b6d4fa1dc652dbbb1f183bd3144b76b4 100644
+--- a/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs
++++ b/tests/expected/uninit/g1-union-pointee-unsupported-reject_union_transmute/main.rs
+@@ -5,6 +5,12 @@
+ 
+ include!("../g1-union-pointee-unsupported/types.inc");
+ 
++#[repr(C, align(8))]
++union TransmuteU {
++    bytes: [u8; 5],
++    word: u32,
++}
++
+ #[kani::proof]
+ fn reject_union_transmute() {
+     let value = TransmuteU { bytes: [5; 5] };

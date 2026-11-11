@@ -1,0 +1,60 @@
+{
+  "schema": "kani3300-g1r2-checkpoint-v1",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-G1R2.md",
+  "runtime": "Codex",
+  "research_input": "a62ad2d47dafb905e7f70c39199c96634fc15db8",
+  "status": "PRE_BUILD_REVIEW",
+  "kani_candidate": "02b734151ada1dd0d216b0db329776eb522d2d67",
+  "production_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
+  "production_unchanged": true,
+  "kani_pushed": false,
+  "package": "A_ONLY",
+  "request": "RUN-REQUEST.json",
+  "request_sha256": "dc67daf8fce5fad977c38329133748923ebddd375924275d7537c07205f5f006",
+  "patch": "kani3300-g1r2-a-build.patch",
+  "patch_sha256": "7c277d4226960f7f5907790aa9fe3022dc06567525a2ef33d0fc88747b71153b",
+  "applied_tree": "f0ac57ef6ddfc8d5b24454faef807439212abc0e",
+  "native_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "tooling_pin": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "selectors": 20,
+  "static_checks": "STATIC-CHECKS.json",
+  "test_sweep": "TEST-SWEEP.md",
+  "review_spec_sha256": "fc3608ee50112925eb19badbd6bbbdec6d2e0b7a86fdb8206a250dbd6e49fbf1",
+  "review_packet_sha256": "e6f849181b5bc4ce031c5c2f499b0873ea7384435dab8aea758e74d6b9081b81",
+  "cloud_this_stage": {
+    "builds": [],
+    "spent_usd": "0",
+    "reserved_usd": "0",
+    "dispatch": "NOT_AUTHORIZED_NOT_RUN"
+  },
+  "budget_proposal": {
+    "timeout_minutes": 16,
+    "overhead_minutes": 30,
+    "reserve_usd": "0.6210",
+    "remaining_G1_usd": "0.6245",
+    "prior_G1_spent_usd": "0.1755",
+    "total_with_proposal_usd": "0.7965",
+    "cap_usd": "0.80"
+  },
+  "claims": [
+    {
+      "claim": "Test repair, static sweep, unchanged expectations and production, A-only patch/application/preflight identities",
+      "assurance": "STATIC_SOURCE_AND_GIT_CHECKS_ONLY"
+    }
+  ],
+  "open": [
+    "Compiler/native/lint execution NOT_RUN; no new proof acceptance or B1/B2 credit.",
+    "B unchanged and requires separate owner GO.",
+    "Historical G1RA source-reported diagnostics/Evidence Brief limitation and inherited P1/full-regression limitations retained."
+  ],
+  "proof_credit": "NONE",
+  "next": "Coordinator review and separately authorized GO; no further build, retry or B action in this stage.",
+  "review": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "report": "REVIEW.md",
+    "report_sha256": "67119efa11ff6be54162a28e9f73c19f3e1dd7cb7362e61192c13f02814d59a8",
+    "verdict": "No static blocker found; compiler/native NOT_RUN; no GO or proof credit."
+  },
+  "closure_reason": "Requested single preparation stage complete: test-only commit, all-G1 static sweep, A-only patch/applied tree/preflight, independent review and research handoff; stop before dispatch."
+}

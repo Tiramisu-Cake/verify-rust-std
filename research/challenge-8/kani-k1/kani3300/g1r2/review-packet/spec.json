@@ -1,0 +1,38 @@
+{
+  "applicability": "Independent static review of exact test delta and all 23 G1 fixtures; verify TEST-SWEEP.md at /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/g1r2/TEST-SWEEP.md SHA256 963fd018b4d34612639bc4000e872223358dcdda75b9fcb4b008534155d4a234. Manifest /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/g1r2/TEST-MANIFEST.json SHA256 6b2eeb71d1618999cc296805510c1c66a54ad399568eb071120315fe0ff39050. Pinned nightly sources listed in /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/g1r2/RUST-SOURCES.json SHA256 ab98668843515b26fc0e7a5d86e1d6733bb188363576ac37e658380092fdb27d; local root /tmp/kani3300-g1r2-rust-source. Check claims independently; compiler/native NOT_RUN.",
+  "baseline_commit": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
+  "candidate_commit": "02b734151ada1dd0d216b0db329776eb522d2d67",
+  "controls": [
+    "No cargo/rustc/Kani/CBMC/build/Cloud; Python and allowed rustfmt wrapper only.",
+    "No nested delegation, no external messages, no Kani push; do not alter production/tests/packages.",
+    "Write only g1r2/REVIEW.md with exact candidate/spec/packet and sweep hashes, findings and explicit static-only limitation.",
+    "Package A selectors/flags/require_success unchanged; B untouched."
+  ],
+  "defect": "G1RA fixture compilation failures and initialization-predicate property mismatch; test-only repair plus static compilation sweep of all G1 fixtures.",
+  "dependencies": [
+    "tests/expected/uninit/g1-union-pointee-unsupported/types.inc",
+    "tests/expected/uninit/g1-union-pointee-positive/expected",
+    "tests/expected/uninit/g1-union-pointee-negative/expected",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/kani_intrinsics.rs",
+    "library/kani_core/src/mem.rs",
+    "library/kani_core/src/lib.rs",
+    "library/kani/src/lib.rs",
+    "tools/compiletest/src/header.rs",
+    "tools/compiletest/src/runtest.rs",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "Production remains byte-identical to parent; only test compilation/naming fixes.",
+    "All 63 positive and 70 negative harnesses and their expected outcomes, types, diagnostics and complete goldens preserved. Explicit borrows must preserve same original projected reads and existing implicit reference obligations; no lint suppression or check weakening.",
+    "ManuallyDrop<U> fixture must retain original UnionAsField guard; init-predicate property must be the same intended intrinsic guard; generic transmute must reach original incompatible-layout safety check.",
+    "All G1 fixtures: check unsafe contexts, nightly deny lints, name/type/import/borrow correctness and property names; no new statically identifiable blocker."
+  ],
+  "known_limitations": [
+    "Static inspection does not establish compilation or native verification; proof credit NONE."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-g1"
+}
