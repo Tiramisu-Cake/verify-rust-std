@@ -1,0 +1,69 @@
+{
+  "build_id": "6a2c009d-95f5-4cb6-800b-48dde18e2372",
+  "source": "bounded existing k1g summary/status/rows/tooling/budget queries only; no raw evidence",
+  "files": [
+    {
+      "path": "build.summary.md",
+      "sha256": "5c4f48887db9fba8525f5749af0f140ceddbc36fc74b3661b7b308ce987d8cfc",
+      "bytes": 5803
+    },
+    {
+      "path": "build.rows.txt",
+      "sha256": "739ee9b3ae4becdd63122028f16f13554468c2e4c60fb6a8b2a4b57d15240028",
+      "bytes": 878
+    },
+    {
+      "path": "build.status.json",
+      "sha256": "9da997ef797ff9f7b794835f3caffefbf702a0f2a973200ed17d3add71c080fa",
+      "bytes": 366
+    },
+    {
+      "path": "build.tooling.txt",
+      "sha256": "1c769806426cea1c046db8a2e4442651dcf41433b731a91d148e7cf84e34a08a",
+      "bytes": 1309
+    },
+    {
+      "path": "build.cost.txt",
+      "sha256": "284140415b7000cde003eba4dd97338efe4c5698a1a4581f5f929cce3541d988",
+      "bytes": 16
+    },
+    {
+      "path": "build.native-query.txt",
+      "sha256": "88332bdcda05fe374078181012ce25267a824af69b42fcbdb4f24a505efb09df",
+      "bytes": 42
+    },
+    {
+      "path": "build.native-field-query.txt",
+      "sha256": "8d6f973c2735860c117168b01ffe992f65b3cedaab13700b42ca6ffd00132e87",
+      "bytes": 47
+    },
+    {
+      "path": "POST-BUILD-OBSERVATIONS.json",
+      "sha256": "90d162fd54e18d8f6b02d921f78fd56994badfd81c093b4dfb9076bcb786c01d",
+      "bytes": 5210
+    },
+    {
+      "path": "RESULT-KANI3300-U4.md",
+      "sha256": "9d40d90d56c63b90429194cd25a262a86f8dd529aa473ca057bd3dd853efc9d5",
+      "bytes": 5174
+    }
+  ],
+  "limitations": [
+    {
+      "tool": "smallsort-brief 6a2c009d-95f5-4cb6-800b-48dde18e2372",
+      "exit_code": 1,
+      "response": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)"
+    },
+    {
+      "tool": "k1g.sh native 6a2c009d-95f5-4cb6-800b-48dde18e2372 0 1",
+      "exit_code": 2,
+      "response": "page-summary: no structured native report"
+    },
+    {
+      "tool": "k1g.sh native-field 6a2c009d-95f5-4cb6-800b-48dde18e2372 4 failed_located 0 20",
+      "exit_code": 2,
+      "response": "page-native-field: no structured native report"
+    }
+  ],
+  "proof_credit": "NONE"
+}

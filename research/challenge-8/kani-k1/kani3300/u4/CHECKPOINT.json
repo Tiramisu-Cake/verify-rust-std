@@ -1,6 +1,6 @@
 {
   "stage": "kani3300-u4",
-  "state": "PREPARED_WAITING_NATIVE_CMP2_AND_EXACT_PACKET_GO",
+  "state": "CLOSED_WITH_BLOCKER_TASK_ACCEPTANCE_NOT_MET",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-U4.md",
   "runtime": "Codex",
   "branch": "experiment/kani-k1-kani3300u4-20261111",
@@ -12,12 +12,18 @@
   "expected_applied_tree": "d356238999ab436ddc1dd7ffa845b0db214aa53e",
   "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
   "cloud": {
-    "status": "NOT_RUN",
-    "build_id": null,
-    "spend_usd": "0",
-    "submitted_reserve_usd": "0",
+    "status": "SUCCESS",
+    "build_id": "6a2c009d-95f5-4cb6-800b-48dde18e2372",
+    "spend_usd": "0.1215",
+    "submitted_reserve_usd": "0.0000",
     "planned_reserve_usd": "0.6075",
-    "cap_usd": "0.80"
+    "cap_usd": "0.80",
+    "summary_status": "COMPLETE",
+    "gate": true,
+    "kani_exit": 1,
+    "remaining_usd": "0.6785",
+    "repair_dispatched": false,
+    "attempts": 1
   },
   "claims": [
     {
@@ -34,13 +40,28 @@
       "claim": "All protected lane paths equal KT2; 117 Python tests pass.",
       "assurance": "static and local synthetic service tests only",
       "reference": "static-check.json"
+    },
+    {
+      "claim": "Exact head/request/pin/production patch/applied tree match; check-tooling PASS against KT2.",
+      "assurance": "bounded source-reported metadata and tooling closure",
+      "reference": "build.summary.md; build.status.json; build.tooling.txt"
+    },
+    {
+      "claim": "U1 has one uninit failure; U2/U6/U8 SUCCESS; U8 normal-return cover1/1 and U9 covers6/6.",
+      "assurance": "Kani-reported bounded diagnostic, not independent general proof",
+      "reference": "build.rows.txt; build.summary.md"
+    },
+    {
+      "claim": "U9 has two located uninit failures (pointer and byte) at ptr/mod.rs:1769; exact-one requirement fails; scratch[3]/scratch[4] attribution UNKNOWN.",
+      "assurance": "bounded source-reported failures; no causal/MIR binding established",
+      "reference": "POST-BUILD-OBSERVATIONS.json; RESULT-KANI3300-U4.md"
     }
   ],
   "open": [
-    "Native CMP2 acceptance pending; exact candidate must match accepted CMP2 RESULT. Any repair requires rebinding and review of delta.",
-    "Coordinator exact-packet GO is mandatory before a single U4 dispatch.",
-    "Actual U4 applied tree, argv, five statuses, failure counts/locations and individual covers NOT_RUN.",
-    "Thread cwd is /root; no watcher started. Later build runtime must satisfy watcher entry requirements."
+    "U9 exact-one failure requirement NOT_MET: 2/504 failures; absence of failure at scratch[3] and single scratch[4] attribution UNCONFIRMED.",
+    "Actual literal -Z uninit-checks argv UNKNOWN: summary reports on and tooling is bound, but no structured native report; Brief HTTP404.",
+    "Native CMP2 PASS was explicitly waived only for this diagnostic attempt; CMP3 did not establish a universal fix or close native/CMP2/PFC limitations.",
+    "Property IDs, columns, per-failure call sites and individual cover records unavailable through permitted responses; raw fallback prohibited."
   ],
   "independent_review": {
     "state": "PASS",
@@ -55,7 +76,16 @@
     "proof_credit": "NONE"
   },
   "proof_credit": "NONE",
-  "next_step": "Coordinator reviews final published packet; stop at PRE-BUILD REVIEW. No dispatch until accepted bound native CMP2 PASS and exact-packet GO. Any repair requires rebinding and review of delta.",
-  "stop_boundary": "Explicit kickoff requires preparation only and final PRE-BUILD REVIEW marker. No dispatch/phase activation/reservation permitted now.",
-  "semantic_candidate": "47f33dda784613382c5bf50dd6c90851251ba3e7"
+  "next_step": "Coordinator reviews result; separately authorize bounded evidence/trace for extra pointer-uninit failure and actual argv, distinguish scratch[3]/scratch[4], retain all controls; no repair/retry without new GO.",
+  "stop_boundary": "One-stage task and single authorized diagnostic attempt completed. Remaining semantic localization/repair and another build are outside this exact packet authorization; no source/tool edits or new dispatch. Evidence/accounting/result published; task proof acceptance NOT_MET.",
+  "semantic_candidate": "47f33dda784613382c5bf50dd6c90851251ba3e7",
+  "build_head": "e1ed2374b72bd4be72c283c4fba5c88c7cbe7374",
+  "coordinator_go": {
+    "exact_head": "e1ed2374b72bd4be72c283c4fba5c88c7cbe7374",
+    "native_cmp2_gate": "EXPLICITLY_WAIVED_FOR_THIS_ONE_DIAGNOSTIC_BUILD; NOT native CMP2 PASS",
+    "basis": "Coordinator message: CMP3 ddcd43e2-f48e-4b1f-b688-931250adf78e, result at research/challenge-8/kani-k1/kani3300/cmp3/RESULT-KANI3300-CMP3.md in /root/verify-rust-std-kani3300-cmp3 @ 5e8bf28b11cac1a061189312caab3cffcfcbdbaa; same production patch, U8 SUCCESS 0/550, into_iter len/next SUCCESS, direct IndexRange::zero_to(2).len() diagnostic remains failing. Source-reported observations, not independent cause/proof credit."
+  },
+  "result": "RESULT-KANI3300-U4.md",
+  "evidence_index": "EVIDENCE-INDEX.json",
+  "evidence_index_sha256": "c9fbc3a20fa8f2b93fc5b39471357286e8f713b7bf9ff4157e03771ae5e98a38"
 }

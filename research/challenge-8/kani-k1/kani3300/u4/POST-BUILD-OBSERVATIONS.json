@@ -1,0 +1,124 @@
+{
+  "build_id": "6a2c009d-95f5-4cb6-800b-48dde18e2372",
+  "cloud_status": "SUCCESS",
+  "summary_status": "COMPLETE",
+  "gate": true,
+  "kani_exit": 1,
+  "head_sha": "e1ed2374b72bd4be72c283c4fba5c88c7cbe7374",
+  "request_id": "kani3300-u4-uninit-20261111-01",
+  "request_sha256": "778b2ef2a1f148dd8c8e3e7b98f3da8cf99c7b48a805ef2cde38a6c9f21cf381",
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "patch_sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4",
+  "applied_tree": "d356238999ab436ddc1dd7ffa845b0db214aa53e",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "check_tooling": "PASS",
+  "rows": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "status": "FAILED",
+      "checks_failed": 1,
+      "checks_total": 30,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+      "status": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 31,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::permutation_merge_u8_n4",
+      "status": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 229,
+      "covers_satisfied": 1,
+      "covers_total": 1
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4",
+      "status": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 550,
+      "covers_satisfied": 1,
+      "covers_total": 1
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_scratch_unwritten_slot_u8_n4",
+      "status": "FAILED",
+      "checks_failed": 2,
+      "checks_total": 504,
+      "covers_satisfied": 6,
+      "covers_total": 6
+    }
+  ],
+  "failed_checks": [
+    {
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "location": "/workspace/src/library/core/src/mem/mod.rs:1283"
+    },
+    {
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_scratch_unwritten_slot_u8_n4",
+      "description": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+      "location": "/workspace/src/library/core/src/ptr/mod.rs:1769"
+    },
+    {
+      "harness": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_scratch_unwritten_slot_u8_n4",
+      "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "location": "/workspace/src/library/core/src/ptr/mod.rs:1769"
+    }
+  ],
+  "bounded_summary_completeness": {
+    "render_truncation_markers": false,
+    "failure_descriptions": 3,
+    "aggregate_failed_checks": 3,
+    "property_ids_columns_call_sites": "UNAVAILABLE",
+    "individual_cover_descriptions": "UNAVAILABLE; counts only; unchanged U9 source has six explicit covers"
+  },
+  "uninit_checks": {
+    "summary_reports_on": true,
+    "unchanged_lane_binding": "PASS",
+    "actual_argv": "UNKNOWN: no structured native report; generated args and source-reported flags are not an observed argv"
+  },
+  "u9_acceptance": {
+    "required_failures": 1,
+    "observed_failures": 2,
+    "count_requirement": "NOT_MET",
+    "scratch3_vs_scratch4_failure_attribution": "UNKNOWN; same ptr::read callee location cannot identify source call site",
+    "all_six_covers_reported_reached": true,
+    "absence_of_failure_at_scratch3": "UNCONFIRMED"
+  },
+  "task_acceptance": "NOT_MET",
+  "coordinator_go": {
+    "exact_head": "e1ed2374b72bd4be72c283c4fba5c88c7cbe7374",
+    "native_cmp2_gate": "EXPLICITLY_WAIVED_FOR_THIS_ONE_DIAGNOSTIC_BUILD; NOT native CMP2 PASS",
+    "basis": "Coordinator message: CMP3 ddcd43e2-f48e-4b1f-b688-931250adf78e, result at research/challenge-8/kani-k1/kani3300/cmp3/RESULT-KANI3300-CMP3.md in /root/verify-rust-std-kani3300-cmp3 @ 5e8bf28b11cac1a061189312caab3cffcfcbdbaa; same production patch, U8 SUCCESS 0/550, into_iter len/next SUCCESS, direct IndexRange::zero_to(2).len() diagnostic remains failing. Source-reported observations, not independent cause/proof credit."
+  },
+  "evidence_query_limits": [
+    {
+      "tool": "smallsort-brief 6a2c009d-95f5-4cb6-800b-48dde18e2372",
+      "exit_code": 1,
+      "response": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)"
+    },
+    {
+      "tool": "k1g.sh native 6a2c009d-95f5-4cb6-800b-48dde18e2372 0 1",
+      "exit_code": 2,
+      "response": "page-summary: no structured native report"
+    },
+    {
+      "tool": "k1g.sh native-field 6a2c009d-95f5-4cb6-800b-48dde18e2372 4 failed_located 0 20",
+      "exit_code": 2,
+      "response": "page-native-field: no structured native report"
+    }
+  ],
+  "spend_usd": "0.1215",
+  "submitted_reserve_usd": "0.0000",
+  "cap_usd": "0.80",
+  "remaining_usd": "0.6785",
+  "proof_credit": "Source-reported bounded diagnostic only; independent B1/B2 NONE",
+  "no_raw_fallback": true,
+  "repair_dispatched": false
+}

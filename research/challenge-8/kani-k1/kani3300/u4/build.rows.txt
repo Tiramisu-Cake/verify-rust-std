@@ -1,0 +1,14 @@
+request_id=kani3300-u4-uninit-20261111-01
+request_sha256=778b2ef2a1f148dd8c8e3e7b98f3da8cf99c7b48a805ef2cde38a6c9f21cf381
+build_id=6a2c009d-95f5-4cb6-800b-48dde18e2372
+head_sha=e1ed2374b72bd4be72c283c4fba5c88c7cbe7374
+total=5
+offset=0
+count=5
+next_offset=done
+name	status	time_s	checks	covers
+slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8	FAILED	0.5073785	1/30	3/3
+slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8	SUCCESS	0.5539222	0/31	3/3
+slice::sort::shared::smallsort::verify::uninit_probe::permutation_merge_u8_n4	SUCCESS	6.0066924	0/229	1/1
+slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4	SUCCESS	29.477413	0/550	1/1
+slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_scratch_unwritten_slot_u8_n4	FAILED	34.22144	2/504	6/6
