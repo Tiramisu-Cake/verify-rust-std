@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -364,7 +365,7 @@ esac
             run_script.write_text(f'''#!/bin/bash
 set -eu
 printf '%s\\n' "${{KANI3300_TRACE_DIR-UNSET}}" "${{KANI3300_TRACE_FILTER-UNSET}}" "${{KANI3300_TRACE_ID-UNSET}}" "${{KANI3300_TRACE_STAGE-UNSET}}" > "{capture}"
-if [ -n "${{KANI3300_TRACE_DIR:-}}" ] && [[ "{producer}" = valid || "{producer}" = mixed || "{producer}" = bad_counts ]]; then
+if [ -n "${{KANI3300_TRACE_DIR:-}}" ] && [[ "{producer}" = valid || "{producer}" = mixed || "{producer}" = bad_counts || "{producer}" = deep_json ]]; then
 python3 - "$KANI3300_TRACE_DIR" "$KANI3300_TRACE_ID" "$KANI3300_TRACE_STAGE" "$KANI3300_TRACE_FILTER" <<'PY'
 import json,sys
 from pathlib import Path
@@ -378,7 +379,10 @@ if "{producer}" in ("mixed", "bad_counts"):
                            omission_counts={{'record_cap':2,'mir_excerpt_bytes':4096,'mir_selected_lines':7}})
     if "{producer}" == "bad_counts":
         rows[-1]['data']['omission_counts']['record_cap']=1
-(d/'kani3300-trace-1-0.jsonl').write_text(''.join(json.dumps(r,separators=(',',':'))+'\\n' for r in rows))
+lines=[json.dumps(r,separators=(',',':')) for r in rows]
+if "{producer}" == "deep_json":
+    lines[1]='['*1000+'0'+']'*1000
+(d/'kani3300-trace-1-0.jsonl').write_text('\\n'.join(lines)+'\\n')
 PY
 elif [ -n "${{KANI3300_TRACE_DIR:-}}" ] && [ "{producer}" = oversized ]; then
 python3 - "$KANI3300_TRACE_DIR" <<'PY'
@@ -485,10 +489,18 @@ exit 0
         self.assertTrue(json.loads(dt.trace_field_page(bad, "validation.errors", 0, 20))["records"])
         with self.assertRaisesRegex(ValueError, "INVALID"):
             dt.trace_field_page(bad, "records", 0, 20)
+        deep, _, _ = self.service_run(traced=True, result="ok", producer="deep_json")
+        self.assertEqual(deep["status"], "COMPLETE")
+        self.assertEqual(deep["kani_exit_code"], 0)
+        self.assertEqual(deep["diagnostic_trace"]["state"], "INVALID")
+        self.assertEqual(deep["diagnostic_trace"]["footers"][0]["data"]["state"], "COMPLETE")
+        self.assertEqual(len(json.loads(dt.trace_field_page(deep, "validation.footers", 0, 20))["records"]), 1)
+        with self.assertRaisesRegex(ValueError, "INVALID"):
+            dt.trace_field_page(deep, "records", 0, 20)
 
     def test_footer_survives_early_rejection_without_exposing_invalid_payload(self):
         raw = json.dumps(REQUEST, separators=(",", ":"))
-        for failure in ("invalid_json", "wrong_row_type", "oversized_row", "wrong_stage", "wrong_context"):
+        for failure in ("invalid_json", "wrong_row_type", "oversized_row", "wrong_stage", "wrong_context", "deep_json"):
             with self.subTest(failure=failure), tempfile.TemporaryDirectory() as tmp:
                 directory = Path(tmp); sidecar(directory, raw, state="PARTIAL", omitted=1)
                 path = directory / "kani3300-trace-1-0.jsonl"
@@ -500,16 +512,31 @@ exit 0
                     lines[1] = b"null"
                 elif failure == "oversized_row":
                     lines[1] = b"x" * (dt.MAX_RECORD_BYTES + 1)
+                elif failure == "deep_json":
+                    lines[1] = b"[" * 1000 + b"0" + b"]" * 1000
+                    self.assertLessEqual(len(lines[1]), dt.MAX_RECORD_BYTES)
                 else:
                     row = json.loads(lines[1])
                     row.update({"stage": "wrong"} if failure == "wrong_stage" else {"context": None})
                     lines[1] = json.dumps(row).encode()
                 path.write_bytes(b"\n".join(lines) + b"\n")
-                trace = collect(directory, raw)
+                original_loads = json.loads
+
+                def decode(line):
+                    # CPython decoder nesting limits differ by version. Inject the
+                    # supported parser exception at its boundary for a portable test.
+                    if failure == "deep_json" and line == lines[1]:
+                        raise RecursionError("synthetic decoder recursion")
+                    return original_loads(line)
+
+                with mock.patch.object(dt.json, "loads", side_effect=decode):
+                    trace = collect(directory, raw)
                 self.assertEqual(trace["state"], "INVALID", trace)
                 self.assertEqual(trace["records"], [])
                 self.assertEqual(trace["footers"][0]["data"], footer)
                 self.assertEqual(trace["footers"][0]["sidecar_sha256"], hashlib.sha256(path.read_bytes()).hexdigest())
+                if failure == "deep_json":
+                    self.assertIn("synthetic decoder recursion", trace["errors"][0])
 
     def test_footer_missing_null_wrong_types_and_bounds_are_explicit(self):
         for raw in (b"", b"null\n", b"{\n", b"x" * (dt.MAX_RECORD_BYTES + 1),

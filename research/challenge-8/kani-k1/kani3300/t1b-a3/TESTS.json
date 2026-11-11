@@ -6,9 +6,10 @@
       "research/challenge-8/kani-k1/tools/test_diagnostic_trace.py"
     ],
     "exit": 0,
-    "tests": 15,
-    "seconds": 18.847,
-    "result": "PASS"
+    "stdout": "",
+    "stderr": "...............\n----------------------------------------------------------------------\nRan 15 tests in 18.434s\n\nOK\n",
+    "elapsed_seconds": 18.79,
+    "tests": 15
   },
   "legacy_native_targeted": {
     "classes": [
@@ -23,12 +24,12 @@
   },
   "git_diff_check": "PASS",
   "static_packet": "STATIC-CHECK.json",
-  "tooling_delta_sha256": "8a53734c2d1f3b71a76d0f77c4b8e86d24f3f54415707b8a729eb2e1c4fc8311",
+  "tooling_delta_sha256": "7918fe9705e9337d8f6dae23d74f5e8d8e99dd8135ee6774102eb502ab0e06d6",
   "tested_files": {
-    "research/challenge-8/kani-k1/tools/diagnostic_trace.py": "822fa3b3eac320c4d495a9f707381a56c68edd2dd0acde6f296a2e523268fd1c",
+    "research/challenge-8/kani-k1/tools/diagnostic_trace.py": "8320ae6399d78ce24bec2635d0e9e59c21f82eec9d79b0b8dbb144a38ea72534",
     "research/challenge-8/kani-k1/tools/kani_k1.py": "707a8ca8ddcbcfd3127598a7c4b30ccde72b3454d6e1526bbd16c4bacce4b573",
     "research/challenge-8/kani-k1/tools/mac_autoharness.py": "11d8b638b35576d29600f1975c1f86100c627088397d26c6d2e5592c12135aee",
-    "research/challenge-8/kani-k1/tools/test_diagnostic_trace.py": "723a17a6a5d2b5c63e14ef1d754e2f5e1ae67bcf0098d62b04b3562cdcb762fb",
+    "research/challenge-8/kani-k1/tools/test_diagnostic_trace.py": "58f1c91985268283479bdb622992726f619538bfb22a4584290fb43090d507a5",
     "research/challenge-8/kani-k1/tools/test_gcb_native.py": "2c9ae37e07153007e9cd4868cb2ab0c1053c072f00c1b292994440eaf03e7056",
     "research/challenge-8/kani-k1/tools/test_kani_k1.py": "76562a645e535277283c7e02c1fcef8fcb655634b6f0bb91effd1c0842b44536",
     "research/challenge-8/kani-k1/tools/test_mac_autoharness.py": "91c1e85e4f753cbda8f3b36b1e0aa29270a6cf1155d60e7fca6e7a38fba23481",
@@ -40,5 +41,9 @@
     "rust-toolchain.toml": "689c159497e53389671511fa85e200533c2a892488346620ccaae0a34ad45618"
   },
   "actual_compiler_cloud_dispatch": "NOT_RUN",
-  "proof_credit": "NONE"
+  "proof_credit": "NONE",
+  "initial_regression_test_failure": {
+    "artifact": "DIAGNOSTIC-TEST-FAILED.json",
+    "reason": "Test assumed CPython3.12 C decoder would raise for 1000-deep 2001-byte array; it accepts then collector rejects non-object. Portable decoder-boundary fault injection replaces that assumption; real service deep-row rejection also checked."
+  }
 }

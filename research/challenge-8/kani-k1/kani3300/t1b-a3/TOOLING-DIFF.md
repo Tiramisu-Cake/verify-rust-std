@@ -11,6 +11,8 @@ Read `k1g.sh trace-field BUILD validation.footers 0 20` and `validation.errors`;
 INVALID payload records remain withheld, with all existing identity/envelope and <=20 items/12000 B guards.
 No native-field changes: that command continues to read native test records, not top-level diagnostic_trace.
 Tests include real synthetic verify/summarize stages (stub compiler), original success/failure exits and persisted rejected footer.
-Early invalid JSON/null row/oversized row/source-stage/context failures retain footer; absent/null/wrong-type/footer cap paths explicit.
+Early invalid JSON/null row/oversized row/source-stage/context/deep JSON failures retain footer; missing/type/cap paths explicit.
+Review P2: parser RecursionError now becomes INVALID; portable decoder fault injection + persisted deep-row service rejection tested.
+Current Python3.12 C decoder accepts this nested row before rejecting its type; actual bounded RecursionError trigger is not established.
 Reader CLI tests cover cached summaries only, footer paging/bounds, source/stage/applied-tree/env/counter mismatches and INVALID denial.
 No local Rust compiler/Kani/CBMC or Cloud operation is used. Historical summaries/ledgers and active requests remain unchanged.

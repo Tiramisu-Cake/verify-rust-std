@@ -504,7 +504,7 @@ def collect_trace(directory: Path, *, build_id: str | None, head_sha: str | None
                 states.append("OVERSIZED")
                 if len(trace["errors"]) < MAX_ERRORS:
                     trace["errors"].append(f"summary reader retained at most {MAX_RUN_RECORDS} aggregate records")
-        except (ValueError, TypeError, AttributeError, UnicodeError, json.JSONDecodeError) as exc:
+        except (ValueError, TypeError, AttributeError, UnicodeError, json.JSONDecodeError, RecursionError) as exc:
             if len(trace["errors"]) < MAX_ERRORS:
                 trace["errors"].append(f"{path.name}: {str(exc)[:180]}")
             states.append("INVALID")
