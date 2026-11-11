@@ -1,0 +1,45 @@
+{
+  "stage": "kani3300-u2",
+  "state": "PREPARED_WAITING_COORDINATOR_EXACT_PACKET_GO",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-U2.md",
+  "branch": "experiment/kani-k1-kani3300u2-20261111",
+  "semantic_candidate": "7e183418c6e3dd8917563eb92d040ddc72c411a0",
+  "library_commit": "7ed74cec8287dfb3380637a88f5ec5ccfa5bba3c",
+  "request_id": "kani3300-u2-uninit-20261111-01",
+  "request_sha256": "d025202d57d3c271f125ca9ae8dda40b677d2bb591cad6b43307c5222f67bcb3",
+  "independent_review": {
+    "decision": "PASS",
+    "model": "gpt-6-luna",
+    "reasoning": "high",
+    "receipt": "INDEPENDENT-REVIEW.md",
+    "proof_credit": "NONE"
+  },
+  "cloud": {
+    "status": "NOT_RUN",
+    "build_id": null,
+    "spend_usd": "0.0000",
+    "submitted_reserve_usd": "0.0000",
+    "planned_reserve_usd": "0.7695",
+    "cap_usd": "0.80"
+  },
+  "claims": [
+    {
+      "claim": "U0 probe file is preserved byte-for-byte as a prefix; U9 is the sole library addition.",
+      "assurance": "static",
+      "reference": "static-check.json"
+    },
+    {
+      "claim": "U9 written/unwritten slot choice follows N4 source path.",
+      "assurance": "static source analysis; Cloud verification NOT_RUN",
+      "reference": "PRE-BUILD.md"
+    }
+  ],
+  "open": [
+    "Coordinator exact-packet GO pending.",
+    "After GO require COMPLETE, bindings, actual uninit argv, exact negatives/counts/locations and cover reachability.",
+    "U4 known fn-pointer unsupported; U7 forecast intrinsic limitation remains unconfirmed until U2 evidence."
+  ],
+  "next_step": "After coordinator GO dispatch only the exact published SHA identified by PRE-BUILD REVIEW; k1g.sh watch BUILD then end turn.",
+  "stop_reason": "Explicit task boundary: PRE-BUILD REVIEW then stop until coordinator GO.",
+  "result": "NOT_RUN; RESULT-KANI3300-U2.md must follow bounded Cloud evidence, not preparation."
+}

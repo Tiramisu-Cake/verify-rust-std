@@ -1,0 +1,45 @@
+{
+  "applicability": "Research-only KANI3300 U2 diagnostic on Kani f046b70644, nightly-2026-10-23; real small_sort_general_with_scratch u8/N4 with normal-return panic stub.",
+  "baseline_commit": "97d947b91f628c953c57b9320f44260349aef9f3",
+  "candidate_commit": "7e183418c6e3dd8917563eb92d040ddc72c411a0",
+  "controls": [
+    "U1 uninitialized calibration vs U2 initialized calibration; U3 raw uninitialized read; unchanged.",
+    "U8 real positive scratch sort; U9 real same geometry with observable initialized scratch[3] then uninitialized scratch[4], six covers.",
+    "U9 needs exactly one located uninit failure on the second read and none on first; diagnostic substring gate alone insufficient.",
+    "Nine-row diagnostic request, controls/uninit on, inventory off, standard4/jobs1, timeout3m; reserve $0.7695 <= $0.80. All Cloud controls NOT_RUN pending coordinator GO."
+  ],
+  "defect": "U0 general scratch path was blocked by uninit instrumentation. Integrate the exact mandated U1 patch and add a negative unwritten-slot read after the real u8/N4 scratch sort, preserving all eight existing harnesses.",
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-KANI3300-U2.md",
+    "research/challenge-8/kani-k1/kani3300/u2/kani-uninit.patch",
+    "research/challenge-8/kani-k1/kani3300/u0/RUN-REQUEST.json",
+    "research/challenge-8/kani-k1/kani3300/u0/RESULT-KANI3300-U0.md",
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs",
+    "library/core/src/mem/maybe_uninit.rs",
+    "research/challenge-8/kani-k1/tools/kani_k1.py",
+    "research/challenge-8/kani-k1/tools/gcb-k1.sh",
+    "research/challenge-8/kani-k1/tools/k1g.sh",
+    "research/challenge-8/kani-k1/gcb/cloudbuild.yaml",
+    "tool_config/kani-version.toml",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "U0 probe file preserved as a byte prefix; no edits to eight existing harnesses/helpers, core algorithms or requires.",
+    "Only uninit_probe.rs changes in library, separately committed; tooling/pin/toolchain unchanged.",
+    "Patch bytes exactly match task SHA 306851ac5dd4f28a11778dfc49e878a5bb62fd7c35a2ad7ad0419053b9504467; do not modify patch or clones.",
+    "No new trusted premise or proof credit; static observations are not Cloud evidence."
+  ],
+  "known_limitations": [
+    "Cloud NOT_RUN; coordinator exact-packet GO required before dispatch.",
+    "U1 patch is mandated and reused without change; do not broaden into redesign/re-review of its entire memory model. Check integration binding and any concrete integration issue.",
+    "U4 fn-pointer unsupported expected; U7 intrinsic unsupported forecast unconfirmed. Both retain semantic request expect SUCCESS to keep limitations visible.",
+    "Actual argv, applied tree, failures, source locations and cover reachability must be checked after GO; generated args are intent only.",
+    "No local cargo/rustc/Kani/CBMC, no raw logs/evidence or credentials, no other worktrees/Kani clones."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-u2"
+}
