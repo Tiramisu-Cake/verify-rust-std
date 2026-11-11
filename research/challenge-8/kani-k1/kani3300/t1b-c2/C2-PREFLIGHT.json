@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "accepted_pre_build_head": "5fb3634f5449d293387087a065c404ebb26753e2",
+  "request_sha256": "bb97062288c84b38ae25961ada87aaad28858e23023e69fb4677fa22830fdcaa",
+  "before_install": "C2-PREFLIGHT-BEFORE-INSTALL.json",
+  "install": "C2-INSTALL.json",
+  "root_equals_accepted_C2": true,
+  "project_live_ledger": {
+    "receipt": "C2-LIVE-PROJECT-LEDGER.json",
+    "builds": 296,
+    "used_usd": "116.3535",
+    "reserved_usd": "0.0000",
+    "cap_usd": "118.96",
+    "with_C2_reserve_usd": "116.7990",
+    "occupied_slots": 0,
+    "slots_assurance": "Complete ledger296<1000; every unfinished build reserves positive timeout at positive price, so zero reservation implies none; dispatch rechecks under existing lock"
+  },
+  "stage_live_ledger": {
+    "receipt": "C2-LIVE-STAGE-LEDGER.json",
+    "used_usd": "0.3510",
+    "reserved_usd": "0.0000",
+    "remaining_usd": "0.4490",
+    "cap_usd": "0.8000"
+  },
+  "reserve_usd": "0.4455",
+  "margin_usd": "0.0035",
+  "timeout_minutes": 33,
+  "additional_overhead_minutes": 0,
+  "invocations": 1,
+  "attempts_allowed": 1,
+  "retry_allowed": false,
+  "window": {
+    "T0": "2026-11-11T19:39:49+00:00",
+    "main_deadline": "2026-11-11T21:39:49+00:00",
+    "closeout_deadline": "2026-11-11T22:09:49+00:00",
+    "source": "Conservatively retain earlier C published T0/deadlines; C2 GO does not extend them",
+    "build_timeout_minutes": 33,
+    "existing_watch_queue_allowance_minutes": 30,
+    "publication_reserve_minutes": 5,
+    "fits_main_deadline": true,
+    "checked_at": "2026-11-11T19:59:15.025850+00:00"
+  },
+  "watch_preconditions": {
+    "goal_free": true,
+    "thread": "01a1cc29-7bb1-7a40-8223-96e548db19fb",
+    "socket": true,
+    "codex_present": true
+  },
+  "dispatch": "NOT_RUN"
+}

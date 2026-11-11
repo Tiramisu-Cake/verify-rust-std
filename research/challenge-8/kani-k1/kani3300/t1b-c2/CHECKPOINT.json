@@ -2,29 +2,49 @@
   "stage": "kani3300-t1b-c2",
   "runtime": "Codex",
   "task_commit": "437cbb0ce2d0a01d6fde5b8d2ffe9be1953081f3",
-  "state": "COMPLETE_PRE_BUILD_REVIEW_PASS_NO_DISPATCH",
+  "state": "AUTHORIZED_C2_READY_FOR_SINGLE_DISPATCH",
   "kani_commit": "12b4137c42f3ee92f12476ea0771ea41a5cd1e8d",
   "request_sha256": "bb97062288c84b38ae25961ada87aaad28858e23023e69fb4677fa22830fdcaa",
-  "active_inputs_changed": false,
+  "active_inputs_changed": true,
   "phase_registered": false,
-  "dispatch_authorized": false,
+  "dispatch_authorized": true,
   "builds": 0,
   "cloud_usd": "0.0000",
   "static_preflight": "PREFLIGHT.json",
   "tests": "TESTS.json",
   "open": [
-    "Live ledgers/slots/deadlines UNKNOWN until coordinator GO.",
     "New compile/verification/trace NOT_RUN; reproduction and actual applied/compiler identities UNKNOWN.",
-    "Calibration pair excluded by coordinator budget decision; all3 original SUCCESS expectations and checks preserved.",
-    "Static deployment tree is the non-test projection of unchanged Kani12b4137c42; full commit tree differs."
+    "Root subset may remove the interaction; omitted calibration remains explicit."
   ],
   "proof_credit": "NONE",
-  "next_step": "STOP after research commit[skip ci]/push without force; coordinator reviews exact published identities and refreshes live controls only after GO.",
+  "next_step": "Publish exact installed request and controls; one k1g.sh dispatch; arm k1g.sh watch; end turn. On terminal event consume watcher, Brief first, write requested <=40line result/identities/accounting, commit[skip ci]/push without force; no repeats.",
   "review": {
     "candidate_commit": "9f49fc16b5355492e5310207bcb558c6b24293ff",
     "result": "PASS",
     "report": "REVIEW.md",
     "identities": "REVIEW-IDENTITIES.json"
   },
-  "stop_boundary": "Exactly one authorized C2 preparation stage complete. No Build/dispatch/Cloud. Future dispatch requires explicit coordinator GO."
+  "window": {
+    "T0": "2026-11-11T19:39:49+00:00",
+    "main_deadline": "2026-11-11T21:39:49+00:00",
+    "closeout_deadline": "2026-11-11T22:09:49+00:00",
+    "source": "Conservatively retain earlier C published T0/deadlines; C2 GO does not extend them",
+    "build_timeout_minutes": 33,
+    "existing_watch_queue_allowance_minutes": 30,
+    "publication_reserve_minutes": 5,
+    "fits_main_deadline": true,
+    "checked_at": "2026-11-11T19:59:15.025850+00:00"
+  },
+  "attempts_allowed": 1,
+  "attempts_used": 0,
+  "retry_allowed": false,
+  "preflight": "C2-PREFLIGHT.json",
+  "authorization": {
+    "source": "Explicit coordinator GO in current user message; accepted5fb3634f54; exact C2 SHA; live ledger/slots/deadline/preflight; one dispatch, watch and end turn, no repeats",
+    "accepted_pre_build_head": "5fb3634f5449d293387087a065c404ebb26753e2",
+    "request_sha256": "bb97062288c84b38ae25961ada87aaad28858e23023e69fb4677fa22830fdcaa",
+    "reserve_usd": "0.4455",
+    "remaining_cap_usd": "0.4490",
+    "consumed": false
+  }
 }
