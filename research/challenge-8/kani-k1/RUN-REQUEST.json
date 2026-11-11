@@ -1,15 +1,15 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani3300-u3c-clean-20261111-01",
+  "request_id": "kani3300-u3c-u1-20261111-01",
   "agent": "k1-merge",
   "kind": "kani-tests",
-  "purpose": "KANI3300 U3C differential diagnosis: clean production; byte-identical U3B exact roots and MU-free PFC/plain controls. Native PASS is not correctness credit; classify actual terminal output.",
+  "purpose": "KANI3300 U3C differential diagnosis: u1 production; byte-identical U3B exact roots and MU-free PFC/plain controls. Native PASS is not correctness credit; classify actual terminal output.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 5,
   "harnesses": [],
   "kani_patch": {
-    "path": "research/challenge-8/kani-k1/kani3300/u3c/clean/kani-u3c-clean.patch",
-    "sha256": "8a1df0a7eeb4b449f280d521e2a563d9cb57f0936bcc29a65fb88ad2161a1dda"
+    "path": "research/challenge-8/kani-k1/kani3300/u3c/u1/kani-u3c-u1.patch",
+    "sha256": "c462f297d25297b69bdd0c99b520772a7906700c5886a0118e77ed83efbcc981"
   },
   "test_timeout_seconds": 150,
   "kani_tests": [

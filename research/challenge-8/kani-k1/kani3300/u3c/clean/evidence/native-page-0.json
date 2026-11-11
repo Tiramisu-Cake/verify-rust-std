@@ -1,0 +1,292 @@
+{
+  "head_sha": "08438b07d1a6dd646cd8c8b7f638ec509229b7e7",
+  "request_sha256": "d8d4a877878ea44f2986be5f541d7a7ffa1eb500ea363a50718c236dc392c7bd",
+  "build_id": "87c1def4-07d7-4233-84ea-5b01eda765a2",
+  "kani_build": {
+    "compiletest_build_s": 18,
+    "diffstat": ".../expected                                       |  1 +\n .../main.rs                                        | 29 ++++++++++++++++++++++\n .../maybe-uninit-buffer-u3b-pfc-negative/expected  |  1 +\n .../maybe-uninit-buffer-u3b-pfc-negative/main.rs   | 29 ++++++++++++++++++++++\n .../expected                                       |  1 +\n .../main.rs                                        | 29 ++++++++++++++++++++++\n .../maybe-uninit-buffer-u3b-pfc-positive/expected  |  1 +\n .../maybe-uninit-buffer-u3b-pfc-positive/main.rs   | 29 ++++++++++++++++++++++\n .../uninit/mu-free-u3c-pfc-no-uninit/expected      |  1 +\n .../uninit/mu-free-u3c-pfc-no-uninit/main.rs       | 17 +++++++++++++\n tests/expected/uninit/mu-free-u3c-pfc/expected     |  1 +\n tests/expected/uninit/mu-free-u3c-pfc/main.rs      | 17 +++++++++++++\n tests/expected/uninit/mu-free-u3c-plain/expected   |  1 +\n tests/expected/uninit/mu-free-u3c-plain/main.rs    | 17 +++++++++++++\n 14 files changed, 174 insertions(+)",
+    "kani_build_s": 269,
+    "patch": {
+      "path": "research/challenge-8/kani-k1/kani3300/u3c/clean/kani-u3c-clean.patch",
+      "sha256": "8a1df0a7eeb4b449f280d521e2a563d9cb57f0936bcc29a65fb88ad2161a1dda"
+    },
+    "pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "tree": "97f86904b400e81c9b269cdafa957750ef741eea",
+    "version": "Kani Rust Verifier 0.68.0 (standalone)\nCBMC 6.11.0"
+  },
+  "validation": "VALIDATED",
+  "summary_status": "TOOL_ERROR",
+  "gate": false,
+  "binaries": {
+    "compiletest_profile": "dev",
+    "kani_profile": "release",
+    "paths": {
+      "compiletest": {
+        "invoked": "/workspace/src/kani_build/target/debug/compiletest"
+      },
+      "kani": {
+        "invoked": "/workspace/src/kani_build/scripts/kani"
+      },
+      "kani-compiler": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "release": "/workspace/src/kani_build/target/release/kani-compiler",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-compiler",
+        "sha256": "b2b670a79365f84d844ffee25d0807783fb99eb58e1fcddfd0ea79f23abd8c0f"
+      },
+      "kani-driver": {
+        "invoked": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "release": "/workspace/src/kani_build/target/release/kani-driver",
+        "resolved": "/workspace/src/kani_build/target/kani/bin/kani-driver",
+        "sha256": "653ba5660b15f16fb8e7b989cd0fb47b655bf93fcc415d372f988f592752de3f"
+      }
+    }
+  },
+  "total": 7,
+  "offset": 0,
+  "tests": [
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "-p",
+        "compiletest",
+        "--",
+        "--suite",
+        "expected",
+        "--mode",
+        "expected",
+        "--src-base",
+        "tests/expected",
+        "--build-base",
+        "/workspace/src/k1-out/native-0",
+        "--exact",
+        "[expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
+        "--force-rerun",
+        "--color",
+        "never",
+        "--timeout",
+        "150"
+      ],
+      "cwd": "/workspace/src/kani_build",
+      "diagnostic": null,
+      "diagnostic_provenance": {
+        "gate_sources": [
+          "kani_stdout",
+          "kani_stderr"
+        ],
+        "representation": "raw UTF-8 with replacement; .out then newline then .err; no rendering or console fallback",
+        "selected_source": null
+      },
+      "env": {
+        "RUST_TEST_THREADS": "1"
+      },
+      "errors": [
+        "timeout/kill/build failure/runner panic is not a native result",
+        "required diagnostic absent from this test's own output",
+        "requested native PASS did not pass"
+      ],
+      "exit_code": 1,
+      "expect": "pass",
+      "file": "uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
+      "mode": "expected",
+      "name": "[expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs",
+      "native_status": "FAILED",
+      "output_excerpt": {
+        "diagnostic_only": true,
+        "failed_check_line_count": 0,
+        "max_json_bytes": 4096,
+        "max_lines": 60,
+        "omitted_failed_check_line_count": 0,
+        "omitted_line_count": 150,
+        "records": [
+          {
+            "clipped": false,
+            "line": 10,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "error: test failed: expected output to contain the line(s):"
+          },
+          {
+            "clipped": false,
+            "line": 31,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "warning: 1 warning emitted"
+          },
+          {
+            "clipped": false,
+            "line": 34,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "------------------------------------------"
+          },
+          {
+            "clipped": false,
+            "line": 38,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "failures:"
+          },
+          {
+            "clipped": false,
+            "line": 39,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "    [expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main.rs"
+          },
+          {
+            "clipped": false,
+            "line": 41,
+            "source": "compiletest_stdout",
+            "start_char": 0,
+            "text": "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 564 filtered out; finished in 162.28s"
+          },
+          {
+            "clipped": false,
+            "line": 110,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "   |"
+          },
+          {
+            "clipped": false,
+            "line": 111,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "warning: `scanner` (manifest) generated 1 warning"
+          },
+          {
+            "clipped": false,
+            "line": 112,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.09s"
+          },
+          {
+            "clipped": true,
+            "line": 113,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "     Running `target/debug/compiletest --suite expected --mode expected --src-base tests/expected --build-base /workspace/src/k1-out/native-0 --exact '[expected] expected/uninit/maybe-uninit-buffer-u3b-pfc-positive/main."
+          },
+          {
+            "clipped": false,
+            "line": 114,
+            "source": "compiletest_stderr",
+            "start_char": 0,
+            "text": "Some tests failed in compiletest suite=expected mode=expected host=(none) target=(none)"
+          },
+          {
+            "clipped": false,
+            "line": 1,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "Kani Rust Verifier 0.68.0 (standalone)"
+          },
+          {
+            "clipped": false,
+            "line": 2,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "CBMC 6.11.0"
+          },
+          {
+            "clipped": false,
+            "line": 3,
+            "source": "kani_stdout",
+            "start_char": 0,
+            "text": "Checking harness contracted_roundtrip_harness..."
+          },
+          {
+            "clipped": false,
+            "line": 4,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "1 | #![feature(register_tool)]"
+          },
+          {
+            "clipped": false,
+            "line": 5,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "  |            ^^^^^^^^^^^^^"
+          },
+          {
+            "clipped": false,
+            "line": 6,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "  |"
+          },
+          {
+            "clipped": false,
+            "line": 7,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "  = note: requested on the command line with `--force-warn unstable-features`"
+          },
+          {
+            "clipped": false,
+            "line": 9,
+            "source": "kani_stderr",
+            "start_char": 0,
+            "text": "warning: 1 warning emitted"
+          }
+        ],
+        "selected_line_count": 19,
+        "selection": "failed-check lines (terse + File; regular Check/FAILURE/Description/Location), then error lines and tail per source; original line order",
+        "source_line_counts": {
+          "compiletest_stderr": 114,
+          "compiletest_stdout": 42,
+          "kani_stderr": 10,
+          "kani_stdout": 3
+        }
+      },
+      "output_sources": {
+        "compiletest_stderr": {
+          "available": true,
+          "bytes": 4043,
+          "expected_fn_error_line_found": false,
+          "path": "/workspace/src/k1-out/native-0.stderr.log",
+          "required_substring_found": false,
+          "sha256": "a0bd96f2e91328f2f789e9788fba4551c4d0ebb22153ed01d526093aff507f0b",
+          "used_for_gate_diagnostic": false
+        },
+        "compiletest_stdout": {
+          "available": true,
+          "bytes": 1525,
+          "expected_fn_error_line_found": false,
+          "path": "/workspace/src/k1-out/native-0.log",
+          "required_substring_found": true,
+          "sha256": "ba7cfd24dc519adec168e55742c88c2e88c7e4d16f298460fc929a3c82a3cb89",
+          "used_for_gate_diagnostic": false
+        },
+        "kani_stderr": {
+          "available": true,
+          "bytes": 239,
+          "expected_fn_error_line_found": false,
+          "path": "/workspace/src/k1-out/native-0/uninit/maybe-uninit-buffer-u3b-pfc-positive/main/main.err",
+          "required_substring_found": false,
+          "sha256": "aa37d2e86bc636bcd67aa0145945d3c3f3da9233bb0dd8c1008975c5909a2fb4",
+          "used_for_gate_diagnostic": true
+        },
+        "kani_stdout": {
+          "available": true,
+          "bytes": 100,
+          "expected_fn_error_line_found": false,
+          "path": "/workspace/src/k1-out/native-0/uninit/maybe-uninit-buffer-u3b-pfc-positive/main/main.out",
+          "required_substring_found": false,
+          "sha256": "32bfb5ba03a4e85ca460b471138255678b841828c6a6a87140330e45f8b520a1",
+          "used_for_gate_diagnostic": true
+        }
+      },
+      "require_success": false,
+      "status": "ERROR",
+      "suite": "expected",
+      "time_s": 162.28,
+      "wall_s": 162.497
+    }
+  ],
+  "count": 1,
+  "next_offset": 1
+}

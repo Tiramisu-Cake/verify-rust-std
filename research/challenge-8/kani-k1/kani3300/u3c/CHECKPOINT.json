@@ -6,8 +6,8 @@
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-U3C.md",
   "branch": "experiment/kani-k1-kani3300u3c-20261111",
   "input_research_head": "385a116e6f2a81654ec19a6d17ea2010984f4251",
-  "status": "PREPARED_AWAITING_CLEAN_EXACT_PRE_BUILD_REVIEW_GO",
-  "active_variant": "clean",
+  "status": "CLEAN_CLASSIFIED_AWAITING_U1_EXACT_PRE_BUILD_REVIEW_GO",
+  "active_variant": "u1",
   "prepared_variants": [
     "clean",
     "u1"
@@ -23,24 +23,56 @@
       "evidence": "IDENTITIES.json; clean/PREFLIGHT-OBSERVATION.json; u1/PREFLIGHT-OBSERVATION.json"
     },
     {
-      "claim": "No native evidence for U3C yet",
-      "status": "NOT_RUN"
+      "claim": "Exact clean build source/request/patch/tree and pinned tooling match",
+      "status": "PASS_IDENTITIES",
+      "evidence": "clean/TOOLING-CHECK.json; clean/POST-BUILD-OBSERVATIONS.json"
+    },
+    {
+      "claim": "Clean positive-on native ERROR; exact cause UNKNOWN, not established OOM; negative-on VERIFICATION FAILED, property UNKNOWN; other5 SUCCESS",
+      "status": "BOUNDED_SOURCE_REPORTED_NATIVE_DIAGNOSTICS",
+      "evidence": "clean/POST-BUILD-OBSERVATIONS.json; clean/evidence/native-page-0.json; clean/evidence/native-page-1.json; clean/evidence/native-page-5.json"
+    },
+    {
+      "claim": "Clean MU-free PFC on/off and plain on SUCCESS",
+      "status": "FINITE_SOURCE_REPORTED_CONTROLS",
+      "evidence": "clean/POST-BUILD-OBSERVATIONS.json"
+    },
+    {
+      "claim": "U1 native NOT_RUN; root request byte-equal reviewed U1 snapshot",
+      "status": "STATIC_VERIFIED"
     }
   ],
   "open": [
-    "Coordinator exact clean packet GO",
-    "Two separately authorized native builds and bounded terminal classification for each root",
-    "U1 request must be activated in a new committed/pushed packet and independently receive exact coordinator GO",
-    "Observed OOM mechanism remains UNKNOWN; no second-marker work authorized"
+    "Coordinator exact U1 packet PRE-BUILD review/GO",
+    "One remaining authorized-by-task native build requires separate exact GO; U1 NOT_RUN",
+    "Clean positive precise timeout/kill/runner cause and negative failed property absent from retained bounded evidence; no raw fallback",
+    "v2 OOM mechanism and differential causality remain UNKNOWN; no second-marker work authorized"
   ],
-  "builds": [],
-  "spend_usd": 0,
+  "builds": [
+    {
+      "id": "87c1def4-07d7-4233-84ea-5b01eda765a2",
+      "variant": "clean",
+      "head_sha": "08438b07d1a6dd646cd8c8b7f638ec509229b7e7",
+      "request_id": "kani3300-u3c-clean-20261111-01",
+      "status": "FAILURE",
+      "reserved_usd": 0,
+      "authorization": "Coordinator exact packet GO in current conversation; clean only; U1 requires separate PRE-BUILD review/GO",
+      "submitted_recorded_utc": "2026-11-11T05:18:24.591093+00:00",
+      "summary_status": "TOOL_ERROR",
+      "actual_usd": 0.1755,
+      "native_pass": 6,
+      "native_error": 1,
+      "classification": "POSITIVE_ON_NATIVE_ERROR_PRECISE_CAUSE_UNKNOWN; NEGATIVE_ON_VERIFICATION_FAILED_PROPERTY_UNKNOWN",
+      "verification_credit": "Finite source-reported diagnostics only"
+    }
+  ],
+  "spend_usd": 0.1755,
   "reserved_usd": 0,
   "cap_usd": 0.95,
   "max_build_attempts": 2,
   "proposed_per_build_reserve_usd": 0.4725,
   "proposed_total_reserve_usd": 0.945,
-  "phase_status": "PREPARED_NOT_REGISTERED",
+  "phase_status": "CLEAN_EXACT_GO_CONSUMED_ONCE; U1_NOT_AUTHORIZED",
   "window": {
     "main_minutes": 300,
     "closeout_minutes": 30,
@@ -49,7 +81,7 @@
     "main_not_after_utc": "2026-11-11T10:10:16Z",
     "absolute_not_after_utc": "2026-11-11T10:40:16Z"
   },
-  "next": "Publish clean exact PRE-BUILD packet; stop for coordinator GO. No dispatch before GO.",
+  "next": "Publish exact active U1 packet; PRE-BUILD REVIEW full SHA and stop until coordinator GO. Retain clean limitations; classify U1 via bounded interface; no repair.",
   "rejected_approaches": [
     "Change tooling, pin, toolchain, production model or fixtures between bases",
     "Treat neutral-golden native PASS as verification SUCCESS",
@@ -66,5 +98,6 @@
     "spec": "REVIEW-SPEC.json",
     "receipt": "REVIEW-PACKET-RECEIPT.json",
     "post_review_delta": "Documentation/receipt only; request/patch/fixture/production/tooling unchanged"
-  }
+  },
+  "next_proposed_reserve_usd": 0.4725
 }

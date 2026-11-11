@@ -47,12 +47,28 @@ missing/timeout/runner errors записывать отдельно. Off-negativ
 
 Slug kani3300; stage kani3300-u3c; owner k1-merge; kind kani-tests; runner gcb-e2-standard-4.
 Work budget5min, selector150s; reserve(5+30)*0.0135=$0.4725; две разные базы максимум $0.945 <= stage cap$0.95.
-Build attempts0, spend0, actual reserve0. Repair не предусмотрен. Main300min + closeout30min из задания, без переноса T0.
+Стадия: clean Build1 завершён FAILURE/TOOL_ERROR, расход $0.1755, actual reserve0.
+Предлагаемый U1 reserve $0.4725; spend+reserve=$0.6480 <=$0.95; это вторая и последняя попытка стадии. Repair не предусмотрен. Main300min + closeout30min из задания, без переноса T0.
 Подготовка не регистрирует фазу и не расходует GO. Общий ledger/slots проверять штатно непосредственно перед dispatch.
-U1 пока только snapshot: НЕ активный root request. После clean evidence потребуется отдельный committed/pushed U1 packet и PRE-BUILD review/GO.
+Root RUN-REQUEST.json теперь побайтно равен reviewed U1 snapshot; patch/request SHA и applied tree прежние.
+Clean GO не разрешает U1 dispatch. Новый exact PRE-BUILD review/GO обязателен.
 Независимый bounded review обоих пакетов: PASS, Luna HIGH, candidate 0b0a3c33978b72147658422fac3424ce3255ac8f; ../REVIEW-U3C-PACKET.md.
 Production U1 ранее рассмотрен в ../../u1/REVIEW-KANI3300-U1R.md; review не даёт coordinator GO.
 После каждого GO/build — k1g.sh watch BUILD и конец хода. Raw evidence/локальные cargo/rustc/Kani/CBMC запрещены.
 Clean Unsupported + U1 assigns не устанавливает регрессию v2; U1 SUCCESS на том же root против v2 OOM — ухудшение на fixture.
 OOM на старых базах — существовавшее ограничение этих repro. Механизм buffer-in-MEM_INIT_STATE пока гипотеза;
 следующий опыт выбирать после MU-free контроля, без немедленного второго marker. Итог RESULT <=30 строк после двух результатов.
+
+## Clean result и ограничения сравнения
+
+Clean build `87c1def4-07d7-4233-84ea-5b01eda765a2`: tool build PASS; native6 PASS/1 ERROR.
+Positive-on native ERROR за162.497s; report объединяет timeout/kill/build/panic, точный trigger не сохранён в excerpt.
+Нельзя выдавать этот результат за timeout или Kani-reported OOM. Negative-on содержит `VERIFICATION:- FAILED` за124.869s;
+actual Failed Check UNKNOWN: neutral golden дал native PASS, а pinned KT2 не сохраняет excerpt успешного native-теста.
+Targeted native-field output_excerpt возвращает unknown field; raw обход не выполнялся.
+On/off MU-free PFC и plain-on дали SUCCESS (1.471/1.069/0.767s), оба MU-off repro SUCCESS (3.237/1.069s).
+Все выводы и evidence identities: ../clean/POST-BUILD-OBSERVATIONS.json, ../clean/CLEAN-RESULT.md.
+Это не устанавливает существовавший upstream OOM или ухудшение v2; механизм пока открыт.
+U1 идёт с теми же neutral goldens/flags/roots для строгой дифференциальности; ограничение сохранения Failed Checks
+для native PASS распространяется и на U1. Ни correctness credit, ни конкретный assigns/uninit класс из общего FAILED не выводить.
+Изменения относительно reviewed U1 snapshot только activation root request и docs/evidence; нового semantic diff нет.

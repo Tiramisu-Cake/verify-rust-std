@@ -1,0 +1,21 @@
+{
+  "command": [
+    "bash",
+    "research/challenge-8/kani-k1/tools/k1g.sh",
+    "check-tooling",
+    "87c1def4-07d7-4233-84ea-5b01eda765a2",
+    "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c"
+  ],
+  "exit_code": 0,
+  "status": "PASS",
+  "head_sha": "08438b07d1a6dd646cd8c8b7f638ec509229b7e7",
+  "summary_sha256": "da10db75d7555408712c53fdd021fb8981ab73963261ae427145837ea37f30ab",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "observed_checks": [
+    "Cloud Build pool matches standard runner",
+    "All lane paths byte-equal tooling base",
+    "All six summary tooling hashes match tooling base",
+    "Request hash, patch spec and published patch SHA256 match exact build source"
+  ],
+  "applied_tree": "97f86904b400e81c9b269cdafa957750ef741eea"
+}
