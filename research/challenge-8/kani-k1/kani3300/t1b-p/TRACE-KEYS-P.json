@@ -1,0 +1,1167 @@
+{
+  "assurance": "Source-reported compile-time diagnostics from bounded identity-guarded K1 pages; no runtime binding or independent proof credit",
+  "identity": {
+    "actual_library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
+    "applied_tree": "b8575e61d76709951f461b3eda70726be43d3636",
+    "argv_scope": "scripts/run-kani.sh argv at lane executor boundary; internal Kani/rustc/CBMC argv unknown",
+    "argv_sha256": "b40f3c87cb4f267c8153ef77851beb99bd099e6b868cc63c04a5dc9ab21ef035",
+    "base_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "build_id": "1c007e31-5bb6-459d-8197-9354ce20a66c",
+    "cwd": "/workspace/src",
+    "effective_argv": [
+      "scripts/run-kani.sh",
+      "--path",
+      "/workspace/src",
+      "--kani-args",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "-Z",
+      "uninit-checks",
+      "--exact",
+      "--harness-timeout",
+      "1m",
+      "--jobs=1",
+      "--output-format=terse"
+    ],
+    "effective_env": {
+      "KANI3300_TRACE_DIR": "/workspace/src/k1-out/trace",
+      "KANI3300_TRACE_FILTER": "IndexRange::len;cmp3_index_range_len;cmp3_manually_drop_unsized_len",
+      "KANI3300_TRACE_ID": "d81b1b389cb37ab3d6ba1ef8e27f6dee1edda57a433af6096b68cee46c5fb3b1",
+      "KANI3300_TRACE_STAGE": "kani3300-t1b",
+      "RUSTFLAGS": "--cfg kani_smallsort_controls"
+    },
+    "env_sha256": "8d1dbfffcb851e596ab13b8221512c775ca7458bda28d353cfdc34131c02c5ae",
+    "expected_applied_tree": "b8575e61d76709951f461b3eda70726be43d3636",
+    "filter_sha256": "9bc435ddcd06546191ee3e0359c5aa2d8bc447ea46a00d37f3b1edb6ca58c877",
+    "filters": [
+      "IndexRange::len",
+      "cmp3_index_range_len",
+      "cmp3_manually_drop_unsized_len"
+    ],
+    "head_sha": "4301de66b941a380dfe9a54d16a5a10378fe55d1",
+    "kani_commit": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
+    "patch_sha256": "20075382fe1e7fa63a31c25adfe4b9c722ce42a86dab0bd105f96d571acdea6a",
+    "request_sha256": "d81b1b389cb37ab3d6ba1ef8e27f6dee1edda57a433af6096b68cee46c5fb3b1",
+    "tooling_sha256": {
+      ".github/workflows/kani.yml": "d51f9c59823339dfd211e0e1226e6a372f4816d2ef6c86a68cce2676dc796215",
+      "research/challenge-8/kani-k1/gcb/cloudbuild.yaml": "73b61a3573f6d1942007777e6521883fb4ba2731414fecffea80403404762d81",
+      "research/challenge-8/kani-k1/tools/diagnostic_trace.py": "8320ae6399d78ce24bec2635d0e9e59c21f82eec9d79b0b8dbb144a38ea72534",
+      "research/challenge-8/kani-k1/tools/gcb-k1.sh": "e45ccf9a2b4fddadeb78037293468f7e537865303abf7f7ec72fbe897a270246",
+      "research/challenge-8/kani-k1/tools/k1g.sh": "52612fefa011f88a42bbc3f5f7c29e6b79f6de73f72a205c1592185afadf64a2",
+      "research/challenge-8/kani-k1/tools/kani_k1.py": "9dfa7254942c8a33acdf93595d8222943bdd7b64a118204b9eaf7ce0012c8e96",
+      "scripts/run-kani.sh": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+      "tool_config/kani-version.toml": "7dca0aa5bf9467c6c4fb4323dabc12254f6372f5f01af096420583bc2b5c9ca3"
+    },
+    "trace_schema": "kani3300-trace-v1",
+    "trace_stage": "kani3300-t1b"
+  },
+  "invocation": "8614:0",
+  "unit": 0,
+  "actual_codegen_order": [
+    "cmp3_into_iter_next",
+    "cmp3_manually_drop_unsized_len",
+    "cmp3_index_range_len"
+  ],
+  "selected_records": [
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "mangled_symbol": "_RNvNtNtNtNtNtNtCs6yCX8DdYmoX_4core5slice4sort6shared9smallsort6verify12uninit_probe19cmp3_into_iter_next"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 6
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "<core::option::Option<usize> as core::cmp::PartialEq>::eq",
+        "mangled_symbol": "_RNvXsf_NtCs6yCX8DdYmoX_4core6optionINtB5_6OptionjENtNtB7_3cmp9PartialEq2eqB7_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 7
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::cmp::impls::<impl core::cmp::PartialEq for usize>::eq",
+        "mangled_symbol": "_RNvXsj_NtNtCs6yCX8DdYmoX_4core3cmp5implsjNtB7_9PartialEq2eqB9_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 8
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::ptr::drop_glue::<core::array::iter::IntoIter<usize, 2>>",
+        "mangled_symbol": "_RINvNtCs6yCX8DdYmoX_4core3ptr9drop_glueINtNtNtB4_5array4iter8IntoIterjKj2_EEB4_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 9
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "<core::array::iter::IntoIter<usize, 2> as core::ops::drop::Drop>::drop",
+        "mangled_symbol": "_RNvXs5_NtNtCs6yCX8DdYmoX_4core5array4iterINtB5_8IntoIterjKj2_ENtNtNtB9_3ops4drop4Drop4dropB9_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 10
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::mem::needs_drop::<usize>",
+        "mangled_symbol": "_RINvNtCs6yCX8DdYmoX_4core3mem10needs_dropjEB4_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 11
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::mem::manually_drop::ManuallyDrop::<core::array::iter::iter_inner::PolymorphicIter<[core::mem::maybe_uninit::MaybeUninit<usize>; 2]>>::drop",
+        "mangled_symbol": "_RNvMs_NtNtCs6yCX8DdYmoX_4core3mem13manually_dropINtB4_12ManuallyDropINtNtNtNtB8_5array4iter10iter_inner15PolymorphicIterAINtNtB6_12maybe_uninit11MaybeUninitjEj2_EE4dropB8_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 12
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::ptr::drop_in_place::<core::array::iter::iter_inner::PolymorphicIter<[core::mem::maybe_uninit::MaybeUninit<usize>; 2]>>",
+        "mangled_symbol": "_RINvNtCs6yCX8DdYmoX_4core3ptr13drop_in_placeINtNtNtNtB4_5array4iter10iter_inner15PolymorphicIterAINtNtNtB4_3mem12maybe_uninit11MaybeUninitjEj2_EEB4_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 13
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::kani::mem_init::is_ptr_initialized::<32, core::array::iter::iter_inner::PolymorphicIter<[core::mem::maybe_uninit::MaybeUninit<usize>; 2]>>",
+        "mangled_symbol": "_RINvNtNtCs6yCX8DdYmoX_4core4kani8mem_init18is_ptr_initializedKj20_INtNtNtNtB6_5array4iter10iter_inner15PolymorphicIterAINtNtNtB6_3mem12maybe_uninit11MaybeUninitjEj2_EEB6_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 14
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::ptr::const_ptr::<impl *const core::array::iter::iter_inner::PolymorphicIter<[core::mem::maybe_uninit::MaybeUninit<usize>; 2]>>::to_raw_parts",
+        "mangled_symbol": "_RNvMNtNtCs6yCX8DdYmoX_4core3ptr9const_ptrPINtNtNtNtB6_5array4iter10iter_inner15PolymorphicIterAINtNtNtB6_3mem12maybe_uninit11MaybeUninitjEj2_E12to_raw_partsB6_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 15
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::ptr::metadata::metadata::<core::array::iter::iter_inner::PolymorphicIter<[core::mem::maybe_uninit::MaybeUninit<usize>; 2]>>",
+        "mangled_symbol": "_RINvNtNtCs6yCX8DdYmoX_4core3ptr8metadata8metadataINtNtNtNtB6_5array4iter10iter_inner15PolymorphicIterAINtNtNtB6_3mem12maybe_uninit11MaybeUninitjEj2_EEB6_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 16
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::ptr::const_ptr::<impl *const core::array::iter::iter_inner::PolymorphicIter<[core::mem::maybe_uninit::MaybeUninit<usize>; 2]>>::cast::<()>",
+        "mangled_symbol": "_RINvMNtNtCs6yCX8DdYmoX_4core3ptr9const_ptrPINtNtNtNtB7_5array4iter10iter_inner15PolymorphicIterAINtNtNtB7_3mem12maybe_uninit11MaybeUninitjEj2_E4castuEB7_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 17
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::ptr::drop_glue::<core::kani::mem_init::MemoryInitializationState>",
+        "mangled_symbol": "_RINvNtCs6yCX8DdYmoX_4core3ptr9drop_glueNtNtNtB4_4kani8mem_init25MemoryInitializationStateEB4_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 18
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::kani::mem_init::MemoryInitializationState::get::<32>",
+        "mangled_symbol": "_RINvMNtNtCs6yCX8DdYmoX_4core4kani8mem_initNtB3_25MemoryInitializationState3getKj20_EB7_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 19
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::kani::mem::pointer_object::<u8>",
+        "mangled_symbol": "_RINvNtNtCs6yCX8DdYmoX_4core4kani3mem14pointer_objecthEB6_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 20
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::kani::kani_intrinsic::<usize>",
+        "mangled_symbol": "_RINvNtCs6yCX8DdYmoX_4core4kani14kani_intrinsicjEB4_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 21
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::ops::index_range::IndexRange::len",
+        "mangled_symbol": "_RNvMNtNtCs6yCX8DdYmoX_4core3ops11index_rangeNtB2_10IndexRange3lenB6_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 22
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "8e83681b4d5b4436",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 422,
+        "dump_ok": true,
+        "instance": "core::ops::index_range::IndexRange::len",
+        "stage": "local_before_passes"
+      },
+      "invocation": "8614:0",
+      "kind": "mir_snapshot",
+      "seq": 23
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "instance": "core::ops::index_range::IndexRange::len",
+        "instructions": 8,
+        "nonzero_ops": 0,
+        "zero_ops": 8
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_ops_summary",
+      "seq": 24
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "mangled_symbol": "_RNvNtNtNtNtNtNtCs6yCX8DdYmoX_4core5slice4sort6shared9smallsort6verify12uninit_probe30cmp3_manually_drop_unsized_len"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 26
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "eb513feae7068629",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 1009,
+        "dump_ok": true,
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "local_before_passes"
+      },
+      "invocation": "8614:0",
+      "kind": "mir_snapshot",
+      "seq": 27
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "instructions": 10,
+        "nonzero_ops": 0,
+        "zero_ops": 10
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_ops_summary",
+      "seq": 28
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "2baa0ab19a2a9844",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 1173,
+        "dump_ok": true,
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "mangled_symbol": "_RNvNtNtNtNtNtNtCs6yCX8DdYmoX_4core5slice4sort6shared9smallsort6verify12uninit_probe30cmp3_manually_drop_unsized_len",
+        "writer": "local_pass_5",
+        "writer_context": {
+          "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+          "stage": "warmup",
+          "unit": 0
+        }
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache_writer",
+      "seq": 29
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "mangled_symbol": "_RNvNtNtNtNtNtNtCs6yCX8DdYmoX_4core5slice4sort6shared9smallsort6verify12uninit_probe20cmp3_index_range_len"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 32
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "9966dbeee7ac8b6f",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 1021,
+        "dump_ok": true,
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "local_before_passes"
+      },
+      "invocation": "8614:0",
+      "kind": "mir_snapshot",
+      "seq": 33
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "instructions": 14,
+        "nonzero_ops": 0,
+        "zero_ops": 14
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_ops_summary",
+      "seq": 34
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "warmup",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "37806c4e63230639",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 1185,
+        "dump_ok": true,
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "mangled_symbol": "_RNvNtNtNtNtNtNtCs6yCX8DdYmoX_4core5slice4sort6shared9smallsort6verify12uninit_probe20cmp3_index_range_len",
+        "writer": "local_pass_5",
+        "writer_context": {
+          "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+          "stage": "warmup",
+          "unit": 0
+        }
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache_writer",
+      "seq": 35
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "ordinal": 0
+      },
+      "invocation": "8614:0",
+      "kind": "codegen_order",
+      "seq": 37
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::ops::index_range::IndexRange::len",
+        "mangled_symbol": "_RNvMNtNtCs6yCX8DdYmoX_4core3ops11index_rangeNtB2_10IndexRange3lenB6_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 39
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "instance": "core::ops::index_range::IndexRange::len",
+        "instructions": 8,
+        "nonzero_ops": 0,
+        "zero_ops": 8
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_ops_summary",
+      "seq": 40
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "details": "CheckRef { operand: Copy(((*_1).1: usize)) }",
+        "instance": "core::ops::index_range::IndexRange::len",
+        "operation": "CheckRef",
+        "ordinal": 0,
+        "position": "before",
+        "selection_only": true,
+        "source": "Statement { idx: 1, bb: 0 }"
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_op",
+      "seq": 69
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "details": "CheckRef { operand: Copy(((*_1).0: usize)) }",
+        "instance": "core::ops::index_range::IndexRange::len",
+        "operation": "CheckRef",
+        "ordinal": 0,
+        "position": "before",
+        "selection_only": true,
+        "source": "Statement { idx: 3, bb: 0 }"
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_op",
+      "seq": 71
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "instance": "core::ops::index_range::IndexRange::len",
+        "instructions": 8,
+        "nonzero_ops": 2,
+        "zero_ops": 6
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_ops_summary",
+      "seq": 72
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "9bae019701b64b9b",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 1685,
+        "dump_ok": true,
+        "instance": "core::ops::index_range::IndexRange::len",
+        "mangled_symbol": "_RNvMNtNtCs6yCX8DdYmoX_4core3ops11index_rangeNtB2_10IndexRange3lenB6_",
+        "writer": "DelayedUbPass",
+        "writer_context": {
+          "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+          "stage": "codegen",
+          "unit": 0
+        }
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache_writer",
+      "seq": 73
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "9bae019701b64b9b",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 1685,
+        "dump_ok": true,
+        "instance": "core::ops::index_range::IndexRange::len",
+        "last_writer": {
+          "body_hash": "9bae019701b64b9b",
+          "context": {
+            "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+            "stage": "codegen",
+            "unit": 0
+          },
+          "dump_ok": true,
+          "writer": "DelayedUbPass"
+        },
+        "mangled_symbol": "_RNvMNtNtCs6yCX8DdYmoX_4core3ops11index_rangeNtB2_10IndexRange3lenB6_",
+        "phase": "before_goto_blocks"
+      },
+      "invocation": "8614:0",
+      "kind": "goto_body_consumed",
+      "seq": 77
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "ordinal": 1
+      },
+      "invocation": "8614:0",
+      "kind": "codegen_order",
+      "seq": 78
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "mangled_symbol": "_RNvNtNtNtNtNtNtCs6yCX8DdYmoX_4core5slice4sort6shared9smallsort6verify12uninit_probe30cmp3_manually_drop_unsized_len"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 80
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "eb513feae7068629",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 1009,
+        "dump_ok": true,
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "local_before_passes"
+      },
+      "invocation": "8614:0",
+      "kind": "mir_snapshot",
+      "seq": 81
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "instructions": 10,
+        "nonzero_ops": 0,
+        "zero_ops": 10
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_ops_summary",
+      "seq": 82
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "2baa0ab19a2a9844",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 1173,
+        "dump_ok": true,
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "mangled_symbol": "_RNvNtNtNtNtNtNtCs6yCX8DdYmoX_4core5slice4sort6shared9smallsort6verify12uninit_probe30cmp3_manually_drop_unsized_len",
+        "writer": "local_pass_5",
+        "writer_context": {
+          "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+          "stage": "codegen",
+          "unit": 0
+        }
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache_writer",
+      "seq": 83
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::ops::index_range::IndexRange::len",
+        "mangled_symbol": "_RNvMNtNtCs6yCX8DdYmoX_4core3ops11index_rangeNtB2_10IndexRange3lenB6_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 84
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "8e83681b4d5b4436",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 422,
+        "dump_ok": true,
+        "instance": "core::ops::index_range::IndexRange::len",
+        "stage": "local_before_passes"
+      },
+      "invocation": "8614:0",
+      "kind": "mir_snapshot",
+      "seq": 85
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "instance": "core::ops::index_range::IndexRange::len",
+        "instructions": 8,
+        "nonzero_ops": 0,
+        "zero_ops": 8
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_ops_summary",
+      "seq": 86
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "instance": "core::ops::index_range::IndexRange::len",
+        "instructions": 8,
+        "nonzero_ops": 0,
+        "zero_ops": 8
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_ops_summary",
+      "seq": 99
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "instructions": 10,
+        "nonzero_ops": 0,
+        "zero_ops": 10
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_ops_summary",
+      "seq": 113
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "absence_reason": "present",
+        "absent": false,
+        "function": "IndexRange::len",
+        "instances": [
+          {
+            "instance": "core::ops::index_range::IndexRange::len",
+            "mangled_symbol": "_RNvMNtNtCs6yCX8DdYmoX_4core3ops11index_rangeNtB2_10IndexRange3lenB6_"
+          }
+        ],
+        "phase": "final_reachable_items_before_emission",
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len"
+      },
+      "invocation": "8614:0",
+      "kind": "goto_function_presence",
+      "seq": 114
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "8e83681b4d5b4436",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 422,
+        "dump_ok": true,
+        "instance": "core::ops::index_range::IndexRange::len",
+        "last_writer": {
+          "body_hash": "9bae019701b64b9b",
+          "context": {
+            "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+            "stage": "codegen",
+            "unit": 0
+          },
+          "dump_ok": true,
+          "writer": "DelayedUbPass"
+        },
+        "mangled_symbol": "_RNvMNtNtCs6yCX8DdYmoX_4core3ops11index_rangeNtB2_10IndexRange3lenB6_",
+        "phase": "before_goto_blocks"
+      },
+      "invocation": "8614:0",
+      "kind": "goto_body_consumed",
+      "seq": 118
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "2baa0ab19a2a9844",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 1173,
+        "dump_ok": true,
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+        "last_writer": {
+          "body_hash": "2baa0ab19a2a9844",
+          "context": {
+            "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+            "stage": "codegen",
+            "unit": 0
+          },
+          "dump_ok": true,
+          "writer": "local_pass_5"
+        },
+        "mangled_symbol": "_RNvNtNtNtNtNtNtCs6yCX8DdYmoX_4core5slice4sort6shared9smallsort6verify12uninit_probe30cmp3_manually_drop_unsized_len",
+        "phase": "before_goto_blocks"
+      },
+      "invocation": "8614:0",
+      "kind": "goto_body_consumed",
+      "seq": 120
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "ordinal": 2
+      },
+      "invocation": "8614:0",
+      "kind": "codegen_order",
+      "seq": 121
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "mangled_symbol": "_RNvNtNtNtNtNtNtCs6yCX8DdYmoX_4core5slice4sort6shared9smallsort6verify12uninit_probe20cmp3_index_range_len"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 123
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "9966dbeee7ac8b6f",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 1021,
+        "dump_ok": true,
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "local_before_passes"
+      },
+      "invocation": "8614:0",
+      "kind": "mir_snapshot",
+      "seq": 124
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "instructions": 14,
+        "nonzero_ops": 0,
+        "zero_ops": 14
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_ops_summary",
+      "seq": 125
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "37806c4e63230639",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 1185,
+        "dump_ok": true,
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "mangled_symbol": "_RNvNtNtNtNtNtNtCs6yCX8DdYmoX_4core5slice4sort6shared9smallsort6verify12uninit_probe20cmp3_index_range_len",
+        "writer": "local_pass_5",
+        "writer_context": {
+          "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+          "stage": "codegen",
+          "unit": 0
+        }
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache_writer",
+      "seq": 126
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "event": "miss_creator",
+        "instance": "core::ops::index_range::IndexRange::len",
+        "mangled_symbol": "_RNvMNtNtCs6yCX8DdYmoX_4core3ops11index_rangeNtB2_10IndexRange3lenB6_"
+      },
+      "invocation": "8614:0",
+      "kind": "body_cache",
+      "seq": 127
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "instance": "core::ops::index_range::IndexRange::len",
+        "instructions": 8,
+        "nonzero_ops": 0,
+        "zero_ops": 8
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_ops_summary",
+      "seq": 128
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "instructions": 14,
+        "nonzero_ops": 0,
+        "zero_ops": 14
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_ops_summary",
+      "seq": 145
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "instance": "core::ops::index_range::IndexRange::len",
+        "instructions": 8,
+        "nonzero_ops": 0,
+        "zero_ops": 8
+      },
+      "invocation": "8614:0",
+      "kind": "memory_init_ops_summary",
+      "seq": 154
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "absence_reason": "present",
+        "absent": false,
+        "function": "IndexRange::len",
+        "instances": [
+          {
+            "instance": "core::ops::index_range::IndexRange::len",
+            "mangled_symbol": "_RNvMNtNtCs6yCX8DdYmoX_4core3ops11index_rangeNtB2_10IndexRange3lenB6_"
+          }
+        ],
+        "phase": "final_reachable_items_before_emission",
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len"
+      },
+      "invocation": "8614:0",
+      "kind": "goto_function_presence",
+      "seq": 155
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "37806c4e63230639",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 1185,
+        "dump_ok": true,
+        "instance": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "last_writer": {
+          "body_hash": "37806c4e63230639",
+          "context": {
+            "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+            "stage": "codegen",
+            "unit": 0
+          },
+          "dump_ok": true,
+          "writer": "local_pass_5"
+        },
+        "mangled_symbol": "_RNvNtNtNtNtNtNtCs6yCX8DdYmoX_4core5slice4sort6shared9smallsort6verify12uninit_probe20cmp3_index_range_len",
+        "phase": "before_goto_blocks"
+      },
+      "invocation": "8614:0",
+      "kind": "goto_body_consumed",
+      "seq": 159
+    },
+    {
+      "context": {
+        "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+        "stage": "codegen",
+        "unit": 0
+      },
+      "data": {
+        "body_hash": "8e83681b4d5b4436",
+        "body_hash_algorithm": "std-default-hasher-64",
+        "dump_bytes": 422,
+        "dump_ok": true,
+        "instance": "core::ops::index_range::IndexRange::len",
+        "last_writer": {
+          "body_hash": "9bae019701b64b9b",
+          "context": {
+            "root": "core::slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+            "stage": "codegen",
+            "unit": 0
+          },
+          "dump_ok": true,
+          "writer": "DelayedUbPass"
+        },
+        "mangled_symbol": "_RNvMNtNtCs6yCX8DdYmoX_4core3ops11index_rangeNtB2_10IndexRange3lenB6_",
+        "phase": "before_goto_blocks"
+      },
+      "invocation": "8614:0",
+      "kind": "goto_body_consumed",
+      "seq": 161
+    }
+  ],
+  "caller_comparison_vs_C2": [
+    {
+      "root": "cmp3_manually_drop_unsized_len",
+      "P_local_snapshot_seq": 81,
+      "P_local_hash": "eb513feae7068629",
+      "P_consumed_caller_seq": 120,
+      "P_consumed_caller_hash": "2baa0ab19a2a9844",
+      "C2_hashes_equal": true
+    },
+    {
+      "root": "cmp3_index_range_len",
+      "P_local_snapshot_seq": 124,
+      "P_local_hash": "9966dbeee7ac8b6f",
+      "P_consumed_caller_seq": 159,
+      "P_consumed_caller_hash": "37806c4e63230639",
+      "C2_hashes_equal": true
+    }
+  ],
+  "strict_no_foreign_last_writer": "UNKNOWN",
+  "reason": "Foreign next label has hash 9bae019701b64b9b but actual consumed bodies hash 8e83681b4d5b4436. Fresh miss_creator and 8-instruction scans support isolation; diagnostic map provenance remains unresolved.",
+  "index_local_len_snapshot": "NOT_PRESENT in emitted records; own miss_creator/scan and consumed hash observed, separate pristine local snapshot UNKNOWN",
+  "trace_state": "PARTIAL",
+  "trace_complete": false,
+  "seen": 161,
+  "emitted": 161,
+  "omitted": 0,
+  "omission_counts": {
+    "external_cache_witness_cap": 1777,
+    "external_witness_cap": 37
+  },
+  "proof_credit": "NONE"
+}

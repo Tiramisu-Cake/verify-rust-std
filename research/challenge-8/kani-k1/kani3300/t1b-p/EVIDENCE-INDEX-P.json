@@ -1,0 +1,260 @@
+{
+  "scope": "Bounded K1 summary/trace-field/status/budget receipts; Brief HTTP404 recorded; no raw logs or archives",
+  "build_id": "1c007e31-5bb6-459d-8197-9354ce20a66c",
+  "trace_identity": {
+    "actual_library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
+    "applied_tree": "b8575e61d76709951f461b3eda70726be43d3636",
+    "argv_scope": "scripts/run-kani.sh argv at lane executor boundary; internal Kani/rustc/CBMC argv unknown",
+    "argv_sha256": "b40f3c87cb4f267c8153ef77851beb99bd099e6b868cc63c04a5dc9ab21ef035",
+    "base_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "build_id": "1c007e31-5bb6-459d-8197-9354ce20a66c",
+    "cwd": "/workspace/src",
+    "effective_argv": [
+      "scripts/run-kani.sh",
+      "--path",
+      "/workspace/src",
+      "--kani-args",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "--harness",
+      "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "-Z",
+      "uninit-checks",
+      "--exact",
+      "--harness-timeout",
+      "1m",
+      "--jobs=1",
+      "--output-format=terse"
+    ],
+    "effective_env": {
+      "KANI3300_TRACE_DIR": "/workspace/src/k1-out/trace",
+      "KANI3300_TRACE_FILTER": "IndexRange::len;cmp3_index_range_len;cmp3_manually_drop_unsized_len",
+      "KANI3300_TRACE_ID": "d81b1b389cb37ab3d6ba1ef8e27f6dee1edda57a433af6096b68cee46c5fb3b1",
+      "KANI3300_TRACE_STAGE": "kani3300-t1b",
+      "RUSTFLAGS": "--cfg kani_smallsort_controls"
+    },
+    "env_sha256": "8d1dbfffcb851e596ab13b8221512c775ca7458bda28d353cfdc34131c02c5ae",
+    "expected_applied_tree": "b8575e61d76709951f461b3eda70726be43d3636",
+    "filter_sha256": "9bc435ddcd06546191ee3e0359c5aa2d8bc447ea46a00d37f3b1edb6ca58c877",
+    "filters": [
+      "IndexRange::len",
+      "cmp3_index_range_len",
+      "cmp3_manually_drop_unsized_len"
+    ],
+    "head_sha": "4301de66b941a380dfe9a54d16a5a10378fe55d1",
+    "kani_commit": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
+    "patch_sha256": "20075382fe1e7fa63a31c25adfe4b9c722ce42a86dab0bd105f96d571acdea6a",
+    "request_sha256": "d81b1b389cb37ab3d6ba1ef8e27f6dee1edda57a433af6096b68cee46c5fb3b1",
+    "tooling_sha256": {
+      ".github/workflows/kani.yml": "d51f9c59823339dfd211e0e1226e6a372f4816d2ef6c86a68cce2676dc796215",
+      "research/challenge-8/kani-k1/gcb/cloudbuild.yaml": "73b61a3573f6d1942007777e6521883fb4ba2731414fecffea80403404762d81",
+      "research/challenge-8/kani-k1/tools/diagnostic_trace.py": "8320ae6399d78ce24bec2635d0e9e59c21f82eec9d79b0b8dbb144a38ea72534",
+      "research/challenge-8/kani-k1/tools/gcb-k1.sh": "e45ccf9a2b4fddadeb78037293468f7e537865303abf7f7ec72fbe897a270246",
+      "research/challenge-8/kani-k1/tools/k1g.sh": "52612fefa011f88a42bbc3f5f7c29e6b79f6de73f72a205c1592185afadf64a2",
+      "research/challenge-8/kani-k1/tools/kani_k1.py": "9dfa7254942c8a33acdf93595d8222943bdd7b64a118204b9eaf7ce0012c8e96",
+      "scripts/run-kani.sh": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+      "tool_config/kani-version.toml": "7dca0aa5bf9467c6c4fb4323dabc12254f6372f5f01af096420583bc2b5c9ca3"
+    },
+    "trace_schema": "kani3300-trace-v1",
+    "trace_stage": "kani3300-t1b"
+  },
+  "receipts": [
+    {
+      "file": "evidence/1c007e31/brief.json",
+      "sha256": "184a5b2731c94544a7cdcd5d5cbaa8e4fdbd96af26771bbe9bb7e65083100962",
+      "command": "smallsort-brief 1c007e31-5bb6-459d-8197-9354ce20a66c",
+      "exit": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "evidence/1c007e31/budget.json",
+      "sha256": "b9d748262fe6bc83f876ccbef4569f72a4d21543dfea189be6331365e4cb8214",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh budget 1c007e31-5bb6-459d-8197-9354ce20a66c",
+      "exit": 0,
+      "stdout_sha256": "07865e2fc396816e0fe57c017be8eed9159a377d014f5e813b560a78da61715d"
+    },
+    {
+      "file": "evidence/1c007e31/coverage.json",
+      "sha256": "9c9c32fd61f153edb0393a31b6c1f5aec89a4e3e3c0079bd6035dd29e9b4b856",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh trace-field 1c007e31-5bb6-459d-8197-9354ce20a66c coverage 0 20",
+      "exit": 0,
+      "stdout_sha256": "c635a86717e28b1167a536826eb17afa78abd295a20444bdf137911c70ec4339"
+    },
+    {
+      "file": "evidence/1c007e31/errors.json",
+      "sha256": "6970f7d29565baac4f6eea852f85155dbaa0e1bc2191a3a5a7b9e2f4024b3f31",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh trace-field 1c007e31-5bb6-459d-8197-9354ce20a66c errors 0 20",
+      "exit": 0,
+      "stdout_sha256": "d259858b28f65f52c57a9ab2c91fab6cf7affddd12e292cd3b64fe98a3442465"
+    },
+    {
+      "file": "evidence/1c007e31/records-0.json",
+      "sha256": "cfeba4078c65a9dc39f7ad69b4ab6fe12090d040260f6df361a93ee3dc06c13b",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh trace-field 1c007e31-5bb6-459d-8197-9354ce20a66c records 0 20",
+      "exit": 0,
+      "stdout_sha256": "b7c2141912106c06333ccc7145060b6037f09530ba60fdded12af551ffc0b735"
+    },
+    {
+      "file": "evidence/1c007e31/records-115.json",
+      "sha256": "022626963a736ed23fa219a4c26387539779376c6f7927b91b94d25d99c7fe1a",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh trace-field 1c007e31-5bb6-459d-8197-9354ce20a66c records 115 20",
+      "exit": 0,
+      "stdout_sha256": "04308314f6b0dbf56232e95e19657521d987dfcb46cc9533b455c4d980b43336"
+    },
+    {
+      "file": "evidence/1c007e31/records-135.json",
+      "sha256": "bcd79f6c9ee94e76f7c1f1a8839124f46f754e0c19c09ce1d9b8af5563957720",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh trace-field 1c007e31-5bb6-459d-8197-9354ce20a66c records 135 20",
+      "exit": 0,
+      "stdout_sha256": "4951a64cfa5098136b04da82e059894b453943111f78c56fd9a8acd6ca969274"
+    },
+    {
+      "file": "evidence/1c007e31/records-152.json",
+      "sha256": "f987853e723ac7083aeee782358a7f6c2e17e9ece08ff43459413a05a4ea6fb4",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh trace-field 1c007e31-5bb6-459d-8197-9354ce20a66c records 152 20",
+      "exit": 0,
+      "stdout_sha256": "a4ee668431c43b33be3dcef62059533578218e34e4030e27f45a28b5f1d1b08c"
+    },
+    {
+      "file": "evidence/1c007e31/records-20.json",
+      "sha256": "a0c2d540d6b01dc4b063c829427745b72284aba4b69881e97b54647227db3956",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh trace-field 1c007e31-5bb6-459d-8197-9354ce20a66c records 20 20",
+      "exit": 0,
+      "stdout_sha256": "92316d4b395a739f2982b581ec4f9f6118b2a27b36b6662152410e37e14f2987"
+    },
+    {
+      "file": "evidence/1c007e31/records-40.json",
+      "sha256": "3b56ca7ca6cf688e3f7c357c0dc9e794c9464fe3d474379b8a23388e2d18b1f5",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh trace-field 1c007e31-5bb6-459d-8197-9354ce20a66c records 40 20",
+      "exit": 0,
+      "stdout_sha256": "af614b59e98bfa7859bfc386791606c3b3f4b772aa52b053c13f8939e9f2a636"
+    },
+    {
+      "file": "evidence/1c007e31/records-60.json",
+      "sha256": "99d1e1734da0d9ebe0809b4fa2ea225c6bea8a9442faba83b3bd7750d9b5a9e9",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh trace-field 1c007e31-5bb6-459d-8197-9354ce20a66c records 60 20",
+      "exit": 0,
+      "stdout_sha256": "dc4367c6ac411fdb7a53852f6296f1c361f0f6a56b8709de0cd0a4ab2056e8ce"
+    },
+    {
+      "file": "evidence/1c007e31/records-79.json",
+      "sha256": "203cda47bac62326a211f84d5ae0dba944341a2626ba0abc74504138650bf61d",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh trace-field 1c007e31-5bb6-459d-8197-9354ce20a66c records 79 20",
+      "exit": 0,
+      "stdout_sha256": "519907154e4929b985d8da38b892086e3d6bde2a1d9ad4d89a4a2c1ec9eb83d7"
+    },
+    {
+      "file": "evidence/1c007e31/records-99.json",
+      "sha256": "6cfd9d3d32d27f0201d68ae14591173aad2d91f4fc5e9a9389475d766a35730d",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh trace-field 1c007e31-5bb6-459d-8197-9354ce20a66c records 99 20",
+      "exit": 0,
+      "stdout_sha256": "06bac9a4803f46eb687d19232a178fec4974bf205cb6e921c1bad8a18b40f68e"
+    },
+    {
+      "file": "evidence/1c007e31/sidecars.json",
+      "sha256": "8dff91369aff7ea9acaf34878690a09a0ed2a84aa1b4a98e2cf5f68f81006a8f",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh trace-field 1c007e31-5bb6-459d-8197-9354ce20a66c sidecars 0 20",
+      "exit": 0,
+      "stdout_sha256": "f25a47d2ec91f95b8c69969e96bc158111f93fd151c635a277730ae6a9384501"
+    },
+    {
+      "file": "evidence/1c007e31/status.json",
+      "sha256": "716dc8f30fbf7c57b90e123ba0b63dff7b7b1dd441e56d7b8fb9c678288a9ffa",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh status 1c007e31-5bb6-459d-8197-9354ce20a66c",
+      "exit": 0,
+      "stdout_sha256": "11a2328aceb0d7bcd5a9bf68c0caa07276093fa2d87e106c677d9e613166cb3a"
+    },
+    {
+      "file": "evidence/1c007e31/summary-0-3.json",
+      "sha256": "be75df949b298a64d2327c33bd87c6635158ba6a6027e65b892c8e681f22bf17",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh summary 1c007e31-5bb6-459d-8197-9354ce20a66c 0 3",
+      "exit": 0,
+      "stdout_sha256": "e585f1317aed6de940abceaf66dd98bb3338f97d306447541b8ce8f4eceb1da9"
+    },
+    {
+      "file": "evidence/1c007e31/summary.json",
+      "sha256": "03150e46a4bb9745025258b086662ec59c424158a6e4b6b5505c37ebbd2eafbc",
+      "command": "bash research/challenge-8/kani-k1/tools/k1g.sh summary 1c007e31-5bb6-459d-8197-9354ce20a66c",
+      "exit": 0,
+      "stdout_sha256": "7e5b0058abb7de9ba45b94f10c194f3ce1db4b58fa59c65c8cacd097aef1df8d"
+    }
+  ],
+  "records_page_chain": [
+    {
+      "file": "evidence/1c007e31/records-0.json",
+      "start": 0,
+      "next_start": 20,
+      "count": 20,
+      "page_complete": false
+    },
+    {
+      "file": "evidence/1c007e31/records-20.json",
+      "start": 20,
+      "next_start": 40,
+      "count": 20,
+      "page_complete": false
+    },
+    {
+      "file": "evidence/1c007e31/records-40.json",
+      "start": 40,
+      "next_start": 60,
+      "count": 20,
+      "page_complete": false
+    },
+    {
+      "file": "evidence/1c007e31/records-60.json",
+      "start": 60,
+      "next_start": 79,
+      "count": 19,
+      "page_complete": false
+    },
+    {
+      "file": "evidence/1c007e31/records-79.json",
+      "start": 79,
+      "next_start": 99,
+      "count": 20,
+      "page_complete": false
+    },
+    {
+      "file": "evidence/1c007e31/records-99.json",
+      "start": 99,
+      "next_start": 115,
+      "count": 16,
+      "page_complete": false
+    },
+    {
+      "file": "evidence/1c007e31/records-115.json",
+      "start": 115,
+      "next_start": 135,
+      "count": 20,
+      "page_complete": false
+    },
+    {
+      "file": "evidence/1c007e31/records-135.json",
+      "start": 135,
+      "next_start": 152,
+      "count": 17,
+      "page_complete": false
+    },
+    {
+      "file": "evidence/1c007e31/records-152.json",
+      "start": 152,
+      "next_start": null,
+      "count": 9,
+      "page_complete": true
+    }
+  ],
+  "trace_state": "PARTIAL",
+  "trace_complete": false,
+  "sidecar": {
+    "bytes": 94251,
+    "file": "kani3300-trace-0.jsonl",
+    "sha256": "4d93b9a954ed4c3a32e8e61058c617404e34dd3c3c1ae913fec410715557d586",
+    "status": "READ"
+  },
+  "archive_inventory_integrity": "NOT_ESTABLISHED; Brief unavailable",
+  "proof_credit": "NONE"
+}

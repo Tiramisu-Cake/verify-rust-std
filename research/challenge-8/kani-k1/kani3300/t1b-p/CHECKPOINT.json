@@ -2,14 +2,14 @@
   "stage": "kani3300-t1b-pilot",
   "runtime": "Codex",
   "task_commit": "86cb3c464f341a02783c5960fef985964f65ceb2",
-  "state": "WAITING_SINGLE_PILOT_BUILD",
+  "state": "COMPLETE_SINGLE_PILOT_STRICT_ACCEPTANCE_UNKNOWN",
   "kani_commit": "94467a24484f1d57315ebbcde7f024dd27576a00",
   "request_sha256": "d81b1b389cb37ab3d6ba1ef8e27f6dee1edda57a433af6096b68cee46c5fb3b1",
   "active_inputs_changed": true,
   "phase_registered": true,
-  "dispatch_authorized": true,
+  "dispatch_authorized": false,
   "builds": 1,
-  "cloud_usd": "0.0000",
+  "cloud_usd": "0.1485",
   "static_preflight": "PREFLIGHT.json",
   "review": {
     "result": "PASS",
@@ -19,15 +19,20 @@
     "kani_candidate_commit": "94467a24484f1d57315ebbcde7f024dd27576a00"
   },
   "open": [
-    "Pilot terminal evidence pending.",
-    "Unit-scoped stale last_writer provenance must remain UNKNOWN unless independently resolved.",
-    "Calibration/native regressions and production acceptance outside P."
+    "Strict no-foreign-last_writer provenance UNKNOWN; foreign label hash mismatches actual consumed pristine hash.",
+    "Index separate local len snapshot absent; full witness coverage UNKNOWN.",
+    "Fresh calibration/native regressions and production acceptance outside this pilot."
   ],
   "proof_credit": "NONE",
-  "next_step": "Arm k1g.sh watch and end turn. On terminal wake: smallsort-brief BUILD first; if K1 Brief unavailable, record limitation and use only previously authorized bounded K1 summary/trace-field interface, never raw logs/archives. Evaluate ACCEPTANCE.md vs C2; write RESULT-KANI3300-T1B-P.md <=40 lines; settle separate pilot ledger; commit [skip ci] and push without force. No repeats.",
-  "stop_boundary": "Single authorized dispatch consumed; only terminal evidence/accounting/result permitted.",
+  "next_step": "STOP. One authorized pilot complete; no repeats or repair. New work requires separate task/authorization.",
+  "stop_boundary": "Single pilot objective and required report complete; terminal evidence/accounting settled. B1/B2/proof credit NONE.",
   "owner_authorization": "PILOT-AUTHORIZATION.json",
   "pilot_ledger": "RUN-LEDGER-P.json",
   "build_id": "1c007e31-5bb6-459d-8197-9354ce20a66c",
-  "source_sha": "4301de66b941a380dfe9a54d16a5a10378fe55d1"
+  "source_sha": "4301de66b941a380dfe9a54d16a5a10378fe55d1",
+  "build_status": "SUCCESS",
+  "result": "RESULT-KANI3300-T1B-P.md",
+  "strict_acceptance": "UNKNOWN",
+  "observed_three_verdicts": "SUCCESS",
+  "evidence_index": "EVIDENCE-INDEX-P.json"
 }

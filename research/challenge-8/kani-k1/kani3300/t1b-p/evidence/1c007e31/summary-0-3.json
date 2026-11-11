@@ -1,0 +1,7 @@
+{
+  "command": "bash research/challenge-8/kani-k1/tools/k1g.sh summary 1c007e31-5bb6-459d-8197-9354ce20a66c 0 3",
+  "exit": 0,
+  "stdout": "request_id=kani3300-t1b-pilot-20261111-01\nrequest_sha256=d81b1b389cb37ab3d6ba1ef8e27f6dee1edda57a433af6096b68cee46c5fb3b1\nbuild_id=1c007e31-5bb6-459d-8197-9354ce20a66c\nhead_sha=4301de66b941a380dfe9a54d16a5a10378fe55d1\ntotal=3\noffset=0\ncount=3\nnext_offset=done\nname\tstatus\ttime_s\tchecks\tcovers\nslice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next\tSUCCESS\t7.7685432\t0/254\t3/3\nslice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len\tSUCCESS\t0.2772845\t0/20\t1/1\nslice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len\tSUCCESS\t3.1518195\t0/84\t2/2\n",
+  "stderr": "",
+  "time_utc": "2026-11-11T21:55:12.670710+00:00"
+}
