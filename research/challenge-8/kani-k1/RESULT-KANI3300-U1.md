@@ -1,39 +1,45 @@
 # RESULT-KANI3300-U1
 
-Статус первой попытки RUNNER_ERROR на компиляции Kani; repair 1 подготовлен к PRE-BUILD review.
-Build `6f8c5b75-42e9-4b2b-bfea-95826896d247`, Cloud FAILURE, gate false, Kani exit отсутствует.
-Head `5de1d66706ccbe00a15087b2c8ace509ab6bab0e`, pin `f046b70644e113be0df9c22c2e6ea44a65a57566`.
-Request `kani3300-u1-native-20261111-02`, SHA-256 `1ebf6682dbe45c3effc81521014de0c4b8cc779dc75c8c14e4d6240c9a165ead`.
-Patch SHA-256 `0bd59c0589757fac590f1aae00147b61fcd4bcec1151c4978699787cfc79de6c`.
-Bounded summary сообщает E0599 в `check_uninit/ty_layout.rs:112` и отсутствие trait `CrateDef` для `AdtDef::def_id`.
-Native report отсутствует; build stage не создал `build.ok`, prerequisite verify stage не выполнен.
-`check-tooling` подтвердил pool, lane files и request/patch hashes; общий exit 1 из-за `tree=None`. Build tree identity не установлена.
+PASS — build `d5d15c41-1c07-4f9f-a6ff-16c25fae00e1`, COMPLETE, gate true, все 20 native selectors PASS.
+Head `7c0d8e84134d2e0c28031285aded2292cb2a4678`; Kani pin `f046b70644e113be0df9c22c2e6ea44a65a57566`.
+Request `kani3300-u1-repair1-20261111-03`, SHA-256 `69d892414672163b0d4969c13292c0141d9b5e97ada72dd7d0221c10199062cc`.
+Patch SHA-256 `306851ac5dd4f28a11778dfc49e878a5bb62fd7c35a2ad7ad0419053b9504467`; applied tree `b9c36ac5ed550e39d26e1d1d77000052e62a9bb4` совпал с preflight.
+check-tooling PASS против `c98d7cee0d509b1633ab61c9a1ae989e286c8e2a`; Kani 0.68.0, CBMC 6.11.0, nightly-2026-10-23.
 
-Семантика подготовленного патча по исходникам и локальному preflight.
 Shadow хранит один недетерминированно выбранный байт по object ID и offset.
-By-value transmute проверяет shadow источника по data-byte mask T перед формированием T, включая `ManuallyDrop<T>`.
-Raw-адрес сохраняет shadow; поле обновляет свою маску; пустой aggregate очищает весь слот.
-Целые слоты и flat arrays переносят shadow через assign/copy и обычные MIR-вызовы.
-Статический repeat поддерживает константу и отдельный локальный слот; срезы используют размер/шаг элемента.
-Маска T сохраняет различие data/padding; независимые validity checks остаются обязательными.
+By-value transmute проверяет shadow источника по data-byte mask T перед формированием T, включая путь через `ManuallyDrop<T>`.
+Raw-адрес сохраняет shadow; запись поля обновляет его маску по адресу; пустой aggregate очищает весь слот.
+Целые слоты переносят shadow через assign/copy и обычные MIR-вызовы; копирование исключает старое состояние перезаписанного назначения.
+Flat arrays, static repeat константы или отдельного локального слота и срезы используют размер/шаг элемента.
+Маска T сохраняет data/padding; validity pass сохранён. Fixtures включают `-Z uninit-checks`.
+Production 7 файлов, +548/−150; tests/golden 22 новых файла, +328. Apply-check, rustfmt и diff-check PASS; существующие golden сохранены.
 
-Diffstat production 7 файлов, +548/−150; новые tests/golden 22 файла, +328.
-Локально PASS для apply-check, tree identity, rustfmt и diff-check. Native проверка семантики ожидается.
+Все пути таблицы относительно `tests/expected/uninit/`; результаты установлены через bounded summary/native.
 
-| Группа | Selectors | Результат первой попытки |
+| Фикстура | Native | Подтверждённый результат |
 |---|---|---|
-| Новые positive, включая scratch 20 | 2, девять harnesses | NOT_RUN, prerequisite build failed |
-| Новые negative, включая scratch[1] и volatile | 9 | NOT_RUN, prerequisite build failed |
-| Существующие регрессии | 9 | NOT_RUN, prerequisite build failed |
-| fixme union/slice | Исключены | NOT_RUN по заданию |
+| `maybe-uninit-initialized/main.rs` | PASS | 8 SUCCESS, Kani exit 0 |
+| `maybe-uninit-assume-init/main.rs` | PASS | FAILED, uninit u8 |
+| `maybe-uninit-raw-read/main.rs` | PASS | FAILED, uninit *const u8 |
+| `maybe-uninit-raw-address/main.rs` | PASS | FAILED, uninit *const u8 |
+| `maybe-uninit-partial-write/main.rs` | PASS | FAILED, uninit (u8, u8) |
+| `maybe-uninit-partial-copy/main.rs` | PASS | FAILED, uninit [u8; 4] |
+| `maybe-uninit-slice-offset/main.rs` | PASS | FAILED, uninit u64 |
+| `maybe-uninit-reset-alias/main.rs` | PASS | FAILED, uninit u8 |
+| `maybe-uninit-scratch-array/main.rs` | PASS | 1 SUCCESS, Kani exit 0 |
+| `maybe-uninit-scratch-array-unwritten/main.rs` | PASS | FAILED, uninit u8 |
+| `maybe-uninit-volatile-read/main.rs` | PASS | FAILED, uninit *const u8 |
+| `unions.rs` | PASS | штатный golden, uninit u32/u16/u128 |
+| `uninhabited-union-field/uninhabited-union-field.rs` | PASS | штатный golden, uninit u64 |
+| `copy/copy_without_padding.rs` | PASS | Kani exit 0 |
+| `copy/read_after_copy.rs` | PASS | штатный golden, uninit *const u64 |
+| `copy/expose_padding_via_non_byte_copy.rs` | PASS | штатный golden, uninit *const u64 |
+| `transmute-padding/transmute_padding.rs` | PASS | штатный golden, incompatible layouts |
+| `delayed-ub/delayed-ub.rs` | PASS | штатный golden, uninit u128/u64 |
+| `access-padding-uninit/access-padding-uninit.rs` | PASS | штатный golden, uninit *const u8 |
+| `multiple-instrumentations.rs` | PASS | штатный golden, uninit u128/u64 |
 
-Чувствительность отрицательных тестов и отсутствие unexpected SUCCESS пока не установлены.
-Unsupported scope включает произвольные/вложенные union, перекрывающиеся repeat/array aggregate, typed_swap и fn-pointer calls.
-Прямой `select_unpredictable` непроверен; фикстура U7 покрывает конструирование и чтение pointer-valued слота.
-Расход первой попытки $0.0675, резерв снят; elapsed 272.948 с, ledger 5 минут.
-Repair 1 добавляет `use rustc_public::CrateDef`, остальные исходники и все тесты совпадают с первой попыткой.
-Локальный repair commit `546bcf30379b9b2894f94b1305d5277cc5b4574c`; tree `b9c36ac5ed550e39d26e1d1d77000052e62a9bb4`.
-Repair request `kani3300-u1-repair1-20261111-03`, SHA-256 `69d892414672163b0d4969c13292c0141d9b5e97ada72dd7d0221c10199062cc`.
-Repair patch SHA-256 `306851ac5dd4f28a11778dfc49e878a5bb62fd7c35a2ad7ad0419053b9504467`.
-Repair reservation $0.6750; общий максимум U1 $0.7425 при cap $0.90. Требуется GO точного repair packet.
-Черновик upstream PR находится в `kani3300/u1/UPSTREAM-PR-DRAFT.md`; native validation pending.
+Все девять новых negative дали uninit-диагностику из собственного вывода и совпали с golden; unexpected SUCCESS, TIMEOUT и ignored отсутствуют. fixme union/slice NOT_RUN.
+Произвольные/вложенные union, перекрывающиеся repeat/array aggregate, typed_swap и fn-pointer calls остаются unsupported. Прямой select_unpredictable непроверен; U7 fixture проверяет pointer-valued слот.
+Расход $0.1755 из $0.90, резерв снят — первая попытка $0.0675, repair $0.1080. Первую E0599 исправил импорт CrateDef; успешная сборка Kani заняла 244 с, compiletest 17 с.
+Черновик upstream PR находится в `kani3300/u1/UPSTREAM-PR-DRAFT.md`. Стадия завершена, пакет готов к review.

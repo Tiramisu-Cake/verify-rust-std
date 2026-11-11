@@ -1,12 +1,12 @@
-# Track initialization through MaybeUninit slots
+# Check initialization when extracting MaybeUninit values
 
-Under `-Z uninit-checks`, check the source byte state before transmuting
-`MaybeUninit<T>` to `T` or `ManuallyDrop<T>`. Use the data-byte mask of `T`.
-Preserve byte state across whole-slot copies and clear it when an empty slot
-overwrites an initialized one. Track field writes and slice offsets by address.
-Support flat arrays and constant-length repeats of slots.
+With `-Z uninit-checks`, initialized `MaybeUninit<T>` values could fail layout
+checks while raw slot and scratch-array access remained unsupported.
+Check the source byte state against T's data mask before extraction or transmute.
+Preserve shadow through copies and clear the full slot when it is reset.
+Track field writes, flat arrays, constant-length repeats, and slice offsets.
 
-The regressions cover a twenty-slot scratch array, unwritten neighbors, volatile
-reads, partial copies, alias reads after reset, padded values, and array-valued slots.
-Native validation is pending after fixing a missing trait import found by Cloud compilation.
-The direct select_unpredictable path remains unverified.
+Validated on pinned Kani with 20 native selectors, including nine new negative
+tests with uninitialized-read diagnostics and the existing regression goldens.
+The direct select_unpredictable path remains unverified; general nested unions
+and function-pointer calls remain unsupported.
