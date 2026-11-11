@@ -3,38 +3,40 @@
   "slug": "kani3300",
   "owner": "k1-merge",
   "runtime": "Codex",
-  "state": "A_SUBMITTED_ARM_WATCH_AND_END_TURN",
+  "state": "COMPLETE_A_SETUP_FAILURE_NO_PROOF",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-T1B.md",
   "task_base": "3a780c05130440340197e98eda602ee705e80d8e",
   "worktree": "/root/verify-rust-std-kani3300-t0",
   "branch": "experiment/kani-k1-kani3300t0-20261111",
   "cloud": {
-    "status": "SUBMITTED",
-    "spend_usd": "UNKNOWN_PENDING_TERMINAL_ACCOUNTING",
-    "submitted_reserve_usd": "0.7695",
+    "status": "FAILURE",
+    "spend_usd": "0.0810",
+    "submitted_reserve_usd": "0.0000",
     "A_planned_reserve_usd": "0.7695",
     "A_cap_usd": "0.80",
     "B_planned_reserve_usd": "0.5670",
     "B_requires_separate_GO": true,
     "attempts_used": 1,
-    "dispatch_authorized": true,
+    "dispatch_authorized": false,
     "combined_planned_reserve_usd": "1.3365",
     "combined_cap_usd": "1.40",
     "max_builds_after_separate_GOs": 2,
     "no_retries": true,
     "build_id": "c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c",
-    "dispatch_head": "0f399a76b758de89d9ddd60cfea1f4f22d0904c6"
+    "dispatch_head": "0f399a76b758de89d9ddd60cfea1f4f22d0904c6",
+    "summary_status": "RUNNER_ERROR",
+    "build_outcome": "failure",
+    "gate": false,
+    "kani_exit": null
   },
   "phase_activated": false,
   "proof_credit": "NONE",
   "open": [
-    "Kani compilation NOT_RUN; static review cannot establish emitted MIR/GOTO equality experimentally.",
-    "Concrete object/offset/R and runtime causality UNKNOWN.",
-    "MIR excerpts and bounded outside-function witnesses may be PARTIAL; complete required causal coverage is not promised.",
-    "Actual runner invocation/environment capture and Cloud preflight NOT_RUN; low-level compiler/rustc/CBMC argv UNKNOWN.",
-    "Prepared A/B requests are snapshots only; active lane-root request remains untouched under this task scope."
+    "Compiler diagnostic candidate requires explicit Vec<Instance> type at instances collection; not applied in this task.",
+    "No proof/trace produced. Original KANI3300 mechanism, concrete object/offset/R and runtime causality remain UNKNOWN.",
+    "Brief route HTTP404; trace-field missing outer build identity, exact complete/omitted/key records unreadable; no raw fallback."
   ],
-  "stop_boundary": "After one dispatch arm k1g.sh watch and end turn; after terminal evidence write RESULT-KANI3300-T1B-A.md and stop; no B/retries/repair.",
+  "stop_boundary": "Terminal single A attempt analyzed; proof NOT_RUN, no further build authorized.",
   "tooling_initial_candidate": "5c6c875ba43451d1a769625056170d292c4f4f60",
   "tooling_review": {
     "state": "PASS",
@@ -98,11 +100,11 @@
     "rustfmt": "PASS",
     "git_diff_check": "PASS",
     "shell_syntax": "PASS",
-    "compiler_and_D_warnings": "NOT_RUN",
+    "compiler_and_D_warnings": "Compiler FAIL E0282; complete -D warnings pass NOT_ESTABLISHED",
     "MIR_GOTO_equivalence_experiment": "NOT_RUN"
   },
   "active_lane_request_changed": true,
-  "next_step": "Arm watch, end turn. After terminal notification: Brief -> summary 0 9 -> bounded trace-field state/omitted/coverage/records using returned next_start -> budget BUILD -> <=40-line result, commit [skip ci], push. DNS/apt setup failure means proof NOT_RUN, no retry; B forbidden.",
+  "next_step": "STOP. One authorized A attempt consumed; result/accounting/evidence committed and pushed. No B/retry/repair. Any source delta or Build requires separate task/GO.",
   "request_binding_review": {
     "state": "PASS",
     "candidate": "856653a1d0099e83b6896aa3ef966ce24911a8e6",
@@ -121,14 +123,38 @@
     "reserve_usd": "0.7695",
     "retry_DNS_apt_setup_failure": false,
     "runtime": "Codex",
-    "started_at": "2026-11-11T17:48:30.876994+00:00"
+    "started_at": "2026-11-11T17:48:30.876994+00:00",
+    "consumed": true
   },
   "execution_result_path": "RESULT-KANI3300-T1B-A.md",
   "watcher": {
     "kind": "k1g.sh watch",
     "build_id": "c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c",
-    "state": "ARM_REQUESTED",
+    "state": "TERMINAL_EVENT_RECEIVED_AND_HANDLED",
     "command": "k1g.sh watch c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c",
-    "instruction": "After successful arm end turn, no status polling. On terminal notification read Brief then bounded summary/trace-field and cost; write RESULT-KANI3300-T1B-A.md <=40 lines, commit/push, stop."
-  }
+    "instruction": "After successful arm end turn, no status polling. On terminal notification read Brief then bounded summary/trace-field and cost; write RESULT-KANI3300-T1B-A.md <=40 lines, commit/push, stop.",
+    "reported_status": "FAILURE",
+    "wait_exit": 0,
+    "delivery_attempt": 1
+  },
+  "result": "RESULT-KANI3300-T1B-A.md",
+  "observations": "A-OBSERVATIONS.json",
+  "evidence": "A-EVIDENCE-INDEX.json",
+  "claims": [
+    {
+      "claim": "Cloud build failed compiling diagnostic Kani delta with E0282 at compiler_interface.rs:118, before proof/trace producer.",
+      "assurance": "Bounded source-reported compiler error; no independent proof credit",
+      "reference": "evidence/c2bec5fd/setup-excerpt.txt"
+    },
+    {
+      "claim": "Source head/request identity MATCH; no structured harness rows; all9 proof verdicts NOT_RUN due failed mandatory build.",
+      "assurance": "Bounded summary plus runner stage dependency, not no-match alone",
+      "reference": "A-OBSERVATIONS.json"
+    },
+    {
+      "claim": "trace-field rejects all attempted fields because outer Kani build identity missing; complete/omitted UNKNOWN.",
+      "assurance": "Exact bounded reader errors",
+      "reference": "A-EVIDENCE-INDEX.json"
+    }
+  ]
 }

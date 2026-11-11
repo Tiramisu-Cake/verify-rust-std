@@ -1,0 +1,121 @@
+{
+  "build_id": "c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c",
+  "captured_at_closure_utc": "2026-11-11T18:01:17.054087+00:00",
+  "assurance": "Bounded official reader outputs only; no raw logs/archives/credentials, no independent proof credit",
+  "queries": [
+    {
+      "command": "smallsort-brief c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c",
+      "exit": 1,
+      "receipt": "brief-error.txt"
+    },
+    {
+      "command": "k1g.sh summary c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c",
+      "exit": 0,
+      "receipts": [
+        "summary.md",
+        "setup-excerpt.txt"
+      ]
+    },
+    {
+      "command": "k1g.sh summary c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c 0 9",
+      "exit": 0,
+      "receipt": "rows.txt"
+    },
+    {
+      "command": "k1g.sh budget c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c",
+      "exit": 0,
+      "receipt": "budget.txt"
+    },
+    {
+      "command": "k1g.sh trace-field c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c state 0 1",
+      "exit": 2,
+      "receipt": "trace-state.txt"
+    },
+    {
+      "command": "k1g.sh trace-field c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c complete 0 1",
+      "exit": 2,
+      "receipt": [
+        "trace-complete.stdout.txt",
+        "trace-complete.stderr.txt"
+      ]
+    },
+    {
+      "command": "k1g.sh trace-field c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c omitted 0 1",
+      "exit": 2,
+      "receipt": [
+        "trace-omitted.stdout.txt",
+        "trace-omitted.stderr.txt"
+      ]
+    },
+    {
+      "command": "k1g.sh trace-field c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c records 0 20",
+      "exit": 2,
+      "receipt": [
+        "trace-records.stdout.txt",
+        "trace-records.stderr.txt"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "evidence/c2bec5fd/brief-error.txt",
+      "bytes": 72,
+      "sha256": "7fea6ca116e6536b4a7557d51944a5e1e3deeba9dab5acc981e93ca37224e84b"
+    },
+    {
+      "path": "evidence/c2bec5fd/budget.txt",
+      "bytes": 16,
+      "sha256": "bd29def596023c3236e1878956e1b2264cf997b0ae298704f5d96cd109652332"
+    },
+    {
+      "path": "evidence/c2bec5fd/rows.txt",
+      "bytes": 289,
+      "sha256": "b427ccc37f306c0a3c866c50dad5adbb7010d0c8fa386bf6719bc783490d70ec"
+    },
+    {
+      "path": "evidence/c2bec5fd/setup-excerpt.txt",
+      "bytes": 1606,
+      "sha256": "716cd2310e9cb74f846146f2434561c9d5f17c6387a0383ea73acbba7387f730"
+    },
+    {
+      "path": "evidence/c2bec5fd/summary.md",
+      "bytes": 1896,
+      "sha256": "09808048a708e80b275157e75e5e7b9b56466d326547ce7f9f591fa1cfffde31"
+    },
+    {
+      "path": "evidence/c2bec5fd/trace-complete.stderr.txt",
+      "bytes": 52,
+      "sha256": "8f1ba708174ccbb2670c037ee6c0a027b354937665e0d9676d5056f554c2bb88"
+    },
+    {
+      "path": "evidence/c2bec5fd/trace-complete.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/c2bec5fd/trace-omitted.stderr.txt",
+      "bytes": 52,
+      "sha256": "8f1ba708174ccbb2670c037ee6c0a027b354937665e0d9676d5056f554c2bb88"
+    },
+    {
+      "path": "evidence/c2bec5fd/trace-omitted.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/c2bec5fd/trace-records.stderr.txt",
+      "bytes": 52,
+      "sha256": "8f1ba708174ccbb2670c037ee6c0a027b354937665e0d9676d5056f554c2bb88"
+    },
+    {
+      "path": "evidence/c2bec5fd/trace-records.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/c2bec5fd/trace-state.txt",
+      "bytes": 52,
+      "sha256": "8f1ba708174ccbb2670c037ee6c0a027b354937665e0d9676d5056f554c2bb88"
+    }
+  ]
+}

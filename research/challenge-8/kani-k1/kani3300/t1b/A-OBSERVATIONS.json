@@ -1,0 +1,138 @@
+{
+  "build_id": "c2bec5fd-c0dd-4749-bdb0-99ac0c81a59c",
+  "cloud_status": "FAILURE",
+  "cloud_status_source": "k1g watch terminal notification, wait exit0, delivery attempt1",
+  "dispatch_head": "0f399a76b758de89d9ddd60cfea1f4f22d0904c6",
+  "request_sha256": "b4bdf24b8808c48c366974bd0acb3740f129f21c4fb209c9ea5dc4177dc54398",
+  "request_id": "kani3300-t1b-a-20261111-01",
+  "summary_status": "RUNNER_ERROR",
+  "gate": false,
+  "build_outcome": "failure",
+  "kani_exit": null,
+  "structured_harness_rows": 0,
+  "classification": "SETUP_COMPILER_E0282_PROOF_NOT_RUN",
+  "error": {
+    "code": "E0282",
+    "message": "type annotations needed",
+    "file": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+    "line": 118,
+    "column": 13,
+    "binding": "let instances = items",
+    "new_use_line": 135,
+    "compiler_help": "let instances: Vec<_> = items",
+    "source": "Bounded k1g summary setup excerpt; no raw logs read"
+  },
+  "roots": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "expect": "SUCCESS",
+      "verdict": "NOT_RUN",
+      "assurance": "Mandatory compiler build failed before verify; no structured harness results (summary total=0). Not inferred merely from a search no-match.",
+      "checks": null,
+      "covers": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_sized_len",
+      "expect": "SUCCESS",
+      "verdict": "NOT_RUN",
+      "assurance": "Mandatory compiler build failed before verify; no structured harness results (summary total=0). Not inferred merely from a search no-match.",
+      "checks": null,
+      "covers": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_unsized_len",
+      "expect": "SUCCESS",
+      "verdict": "NOT_RUN",
+      "assurance": "Mandatory compiler build failed before verify; no structured harness results (summary total=0). Not inferred merely from a search no-match.",
+      "checks": null,
+      "covers": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "expect": "SUCCESS",
+      "verdict": "NOT_RUN",
+      "assurance": "Mandatory compiler build failed before verify; no structured harness results (summary total=0). Not inferred merely from a search no-match.",
+      "checks": null,
+      "covers": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_len",
+      "expect": "SUCCESS",
+      "verdict": "NOT_RUN",
+      "assurance": "Mandatory compiler build failed before verify; no structured harness results (summary total=0). Not inferred merely from a search no-match.",
+      "checks": null,
+      "covers": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+      "expect": "SUCCESS",
+      "verdict": "NOT_RUN",
+      "assurance": "Mandatory compiler build failed before verify; no structured harness results (summary total=0). Not inferred merely from a search no-match.",
+      "checks": null,
+      "covers": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4",
+      "expect": "SUCCESS",
+      "verdict": "NOT_RUN",
+      "assurance": "Mandatory compiler build failed before verify; no structured harness results (summary total=0). Not inferred merely from a search no-match.",
+      "checks": null,
+      "covers": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "expect": "FAILED",
+      "verdict": "NOT_RUN",
+      "assurance": "Mandatory compiler build failed before verify; no structured harness results (summary total=0). Not inferred merely from a search no-match.",
+      "checks": null,
+      "covers": null
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+      "expect": "SUCCESS",
+      "verdict": "NOT_RUN",
+      "assurance": "Mandatory compiler build failed before verify; no structured harness results (summary total=0). Not inferred merely from a search no-match.",
+      "checks": null,
+      "covers": null
+    }
+  ],
+  "diagnostic_trace": {
+    "state": "UNKNOWN_UNREADABLE",
+    "producer": "NOT_RUN (compiler build failed before verify)",
+    "complete": null,
+    "omitted": null,
+    "key_records": null,
+    "reader_exit": 2,
+    "reader_error": "page-trace-field: outer Kani build identity missing",
+    "attempted_paths": [
+      "state",
+      "complete",
+      "omitted",
+      "records"
+    ],
+    "unknown_reason": "Reader identity guard rejects all field queries; no bypass/raw fallback"
+  },
+  "identities": {
+    "source_head_and_request": "MATCH via bounded summary and harness-page metadata",
+    "kani_pin_reported": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+    "actual_applied_tree": "UNKNOWN (no successful build identity exposed)",
+    "actual_runner_argv_env": "NOT_RUN (verify never invoked)"
+  },
+  "cost": {
+    "builds": 1,
+    "spent_usd": "0.0810",
+    "reserved_usd": "0.0000",
+    "planned_reserve_usd": "0.7695",
+    "cap_usd": "0.80",
+    "source": "k1g.sh budget BUILD; coordinator priced/rounded pool ledger, not independent billing audit"
+  },
+  "brief": {
+    "exit": 1,
+    "error": "Reader report or query route is unavailable (HTTP 404)"
+  },
+  "no_retry": true,
+  "B_run": false,
+  "repair_applied": false,
+  "proof_credit": "NONE",
+  "runtime_object_offset_R_causality": "UNKNOWN"
+}
