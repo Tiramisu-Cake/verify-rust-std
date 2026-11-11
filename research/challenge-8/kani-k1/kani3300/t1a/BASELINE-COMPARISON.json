@@ -1,0 +1,109 @@
+{
+  "baseline_usable": "YES, as source-reported bounded diagnostic only",
+  "B_build_id": "d137507f-c7de-432a-85dc-62fa03d1adaf",
+  "B_head": "c8967c5a44e8f95b19f31761e55313d8488faea5",
+  "library_tree_A_and_B": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "toolchain": "nightly-2026-10-23",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "patch_sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4",
+  "applied_tree_B_reported_and_A_expected": "d356238999ab436ddc1dd7ffa845b0db214aa53e",
+  "B_request_sha256": "e23db232f257a8977e1d90b15260de6295da02898e612c60333fbe19c97abd51",
+  "A_request_sha256": "0a5300eb89b52b0e26714b7ce5b749cc66239ef2630dd3e0de5eb2e7fce0156c",
+  "recipe": "diagnostic, uninit/controls on, inventory off, standard4/jobs1, 3m; unchanged KT2 runner and RUSTFLAGS",
+  "differences": [
+    "Original nine CMP3 selectors/expectations instead of four CMP4 selectors; request_id and purpose"
+  ],
+  "B_roots": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "status": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 20,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "unreachable": 0,
+      "failed_checks": []
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp4_index_range_len_runtime",
+      "status": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 26,
+      "covers_satisfied": 1,
+      "covers_total": 1,
+      "unreachable": 0,
+      "failed_checks": []
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "status": "SUCCESS",
+      "checks_failed": 0,
+      "checks_total": 84,
+      "covers_satisfied": 2,
+      "covers_total": 2,
+      "unreachable": 0,
+      "failed_checks": []
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "status": "FAILED",
+      "checks_failed": 1,
+      "checks_total": 30,
+      "covers_satisfied": 3,
+      "covers_total": 3,
+      "unreachable": 0,
+      "failed_checks": [
+        {
+          "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "location": "/workspace/src/library/core/src/mem/mod.rs:1283"
+        }
+      ]
+    }
+  ],
+  "receipts": [
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/cmp4/evidence/d137507f/brief-error.txt",
+      "sha256": "7fea6ca116e6536b4a7557d51944a5e1e3deeba9dab5acc981e93ca37224e84b",
+      "bytes": 72
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/cmp4/evidence/d137507f/check-tooling.txt",
+      "sha256": "ba6ec02ebaa0d3676ad97d126f68cfe689aeacd3c1cd5c15831740a613531e3e",
+      "bytes": 1309
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/cmp4/evidence/d137507f/native-error.txt",
+      "sha256": "88332bdcda05fe374078181012ce25267a824af69b42fcbdb4f24a505efb09df",
+      "bytes": 42
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/cmp4/evidence/d137507f/rows.txt",
+      "sha256": "9bce109a46b1425ad2f2fa2b4f2e770ded941ec05583f795e4623f816d2c7ed9",
+      "bytes": 735
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/cmp4/evidence/d137507f/stage-budget.txt",
+      "sha256": "41924bbe4d93a7b62f91d2c302c856cad3340536dd2b28ebc81a3e44e8b6aede",
+      "bytes": 16
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/cmp4/evidence/d137507f/status.json",
+      "sha256": "5eb5361607c367128ba245035ef822fbf13aa753ef439c6cce97a22075283fd1",
+      "bytes": 366
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/cmp4/evidence/d137507f/summary.md",
+      "sha256": "ab32fa7bcb452169f989755d6fed61ab76d8dafa1ffad88a0d8269d5a1fb66e1",
+      "bytes": 4616
+    }
+  ],
+  "limitations": [
+    "Preserved bounded receipts, checked against committed bytes and recorded hashes; no new Cloud query performed.",
+    "B native report unavailable; Brief HTTP404. Actual argv and MIR remain UNKNOWN.",
+    "A actual applied tree/argv/results NOT_RUN; verify terminal bindings before classification.",
+    "No same-library observation yet; selected root order does not establish codegen order.",
+    "No independent B1/B2 proof credit; no mechanism or deterministic root-set-only causality established."
+  ],
+  "proof_credit": "NONE"
+}

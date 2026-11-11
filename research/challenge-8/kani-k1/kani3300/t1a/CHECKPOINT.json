@@ -1,0 +1,62 @@
+{
+  "stage": "kani3300-t1a",
+  "slug": "kani3300",
+  "owner": "k1-merge",
+  "runtime": "Codex",
+  "state": "PREPARED_AWAITING_INDEPENDENT_REVIEW_AND_COORDINATOR_GO",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-T1A.md",
+  "worktree": "/root/verify-rust-std-kani3300-t0",
+  "branch": "experiment/kani-k1-kani3300t0-20261111",
+  "task_base": "2cc5c79ea5d2aeb5b131e11a0fb895b3086d7aac",
+  "library_tree": "919cc3e2dc5fb19ea6e7f7be761914b949160a41",
+  "planner": "PLANNER-T0-REVIEW-ANSWER.md",
+  "planner_sha256": "35813f923261933c1fae816dd1f6660ed24518be78f050066546fd230e5cbba7",
+  "request": {
+    "path": "research/challenge-8/kani-k1/kani3300/t1a/RUN-REQUEST.json",
+    "active_path": "research/challenge-8/kani-k1/RUN-REQUEST.json",
+    "id": "kani3300-t1a-uninit-20261111-01",
+    "sha256": "0a5300eb89b52b0e26714b7ce5b749cc66239ef2630dd3e0de5eb2e7fce0156c"
+  },
+  "baseline": {
+    "build_id": "d137507f-c7de-432a-85dc-62fa03d1adaf",
+    "head": "c8967c5a44e8f95b19f31761e55313d8488faea5",
+    "usable": "source-reported bounded diagnostic only",
+    "comparison": "BASELINE-COMPARISON.json"
+  },
+  "cloud": {
+    "status": "NOT_RUN",
+    "cap_usd": "0.80",
+    "planned_reserve_usd": "0.7695",
+    "timeout_minutes": 57,
+    "spend_usd": "0",
+    "submitted_reserve_usd": "0",
+    "attempts_allowed": 1,
+    "attempts_used": 0,
+    "build_id": null
+  },
+  "independent_review": {
+    "state": "PENDING"
+  },
+  "coordinator_go": null,
+  "phase_activated": false,
+  "claims": [
+    {
+      "claim": "Original nine CMP3 roots/expectations and exact generated argv; A/B library and fixed tool/recipe identities match.",
+      "assurance": "static only",
+      "reference": "static-check.json"
+    },
+    {
+      "claim": "B three positives SUCCESS; U1 expected uninit FAILED.",
+      "assurance": "source-reported bounded diagnostic; independent credit NONE",
+      "reference": "BASELINE-COMPARISON.json"
+    }
+  ],
+  "open": [
+    "A results and actual applied-tree/argv bindings NOT_RUN.",
+    "B native report unavailable and Brief HTTP404; actual argv/MIR UNKNOWN.",
+    "Mechanism and codegen order UNKNOWN; no deterministic root-set-only inference."
+  ],
+  "proof_credit": "NONE",
+  "next_step": "Independent static review; publish exact packet, stop at PRE-BUILD REVIEW full SHA until coordinator GO. After GO only: one dispatch, k1g.sh watch BUILD, end turn.",
+  "stop_boundary": "Exact-packet PRE-BUILD REVIEW, awaiting coordinator GO; no phase activation/reservation/Build now. No repair, repeat B, retries or T1b execution."
+}
