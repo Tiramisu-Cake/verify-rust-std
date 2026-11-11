@@ -1,6 +1,6 @@
 {
   "stage": "kani3300-t1b-r",
-  "state": "AUTHORIZED_A2_INSTALLED_PREFLIGHT_PASS",
+  "state": "A2_SUBMITTED_WAITING",
   "task_base": "5b1dc4d73262bca86913e43d1fcac7f3a3561d6d",
   "task": "research/challenge-8/kani-k1/TASK-KANI3300-T1B-R.md",
   "runtime": "Codex",
@@ -13,11 +13,11 @@
   "compilation": "NOT_RUN",
   "D_warnings": "NOT_RUN",
   "proof_credit": "NONE",
-  "cloud_this_stage_usd": "0",
+  "cloud_this_stage_usd": "PENDING_TERMINAL_ACCOUNTING",
   "prior_A_spend_usd": "0.081",
   "remaining_cap_usd": "0.719",
   "A2_planned_reserve_usd": "0.648",
-  "dispatch_authorized": true,
+  "dispatch_authorized": false,
   "phase_activated": false,
   "Kani_push": false,
   "B_changed": false,
@@ -37,6 +37,19 @@
     "attempts_allowed": 1,
     "B_allowed": false,
     "retry_allowed": false,
-    "started_at": "2026-11-11T18:18:49.617176+00:00"
-  }
+    "started_at": "2026-11-11T18:18:49.617176+00:00",
+    "consumed": true
+  },
+  "build_id": "cbf4045a-cf4b-4ac7-8495-dfafcf57f6fb",
+  "dispatch_head": "bddfa044cbb4e884f9140b51c0cc0b9dfc464e58",
+  "attempts_used": 1,
+  "submitted_reserve_usd": "0.648",
+  "watcher": {
+    "kind": "k1g.sh watch",
+    "build_id": "cbf4045a-cf4b-4ac7-8495-dfafcf57f6fb",
+    "state": "START_AFTER_RECEIPT_PUSH_THEN_END_TURN",
+    "status_polling": false,
+    "next_step": "On terminal event read smallsort-brief, bounded summary/trace-field and cost; write RESULT-KANI3300-T1B-A2.md <=40 lines, commit [skip ci] and push; no B/retry."
+  },
+  "result_path": "RESULT-KANI3300-T1B-A2.md"
 }
