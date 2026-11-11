@@ -31,3 +31,7 @@ Source-only audit downloads came from `raw.githubusercontent.com/rust-lang/rust/
 | `compiler/rustc_const_eval/src/interpret/step.rs` | `670ae45119b9dd184b4ae0cbe7f4ccb079440dac4ab8e5515c2821264fff204c` |
 | `library/core/src/intrinsics/mir.rs` | `929437ae1ab07fb008b2bbf3a00f30a1c4c1c8a2eded81c04184633cd3b95821` |
 | `src/tools/miri/src/machine.rs` | `74a73ede337dadc6ac4d81538f5e22bce29c326881099b03027d01d6e758ebd4` |
+
+The exact review `diff.patch` contains single-space empty context lines by patch design;
+publication whitespace checking excludes that immutable packet member. Candidate source/docs and
+publication metadata pass `git diff --check`; packet bytes were preserved, not whitespace-normalized.
