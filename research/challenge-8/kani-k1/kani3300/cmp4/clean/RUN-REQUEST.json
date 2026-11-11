@@ -1,0 +1,32 @@
+{
+  "schema": "kani-k1-run-request-v1",
+  "agent": "k1-merge",
+  "kind": "diagnostic",
+  "runner": "gcb-e2-standard-4",
+  "harness_timeout_minutes": 3,
+  "kani_jobs": 1,
+  "controls": true,
+  "uninit_checks": true,
+  "inventory": false,
+  "request_id": "kani3300-cmp4-clean-20261111-01",
+  "purpose": "KANI3300 CMP4 clean: differential IndexRange literal/runtime len diagnosis; same four roots and std fixture; no repair, one attempt, exact-packet coordinator GO required.",
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp4_index_range_len_runtime",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "expect": "SUCCESS"
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "expect": "FAILED",
+      "expect_check": "Reading from an uninitialized"
+    }
+  ]
+}

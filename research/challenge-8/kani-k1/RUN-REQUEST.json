@@ -1,26 +1,22 @@
 {
   "schema": "kani-k1-run-request-v1",
-  "request_id": "kani3300-cmp3-uninit-20261111-01",
   "agent": "k1-merge",
   "kind": "diagnostic",
-  "purpose": "KANI3300 CMP3: diagnostic step localization of IndexRange len on the actual core array IntoIter path, with unchanged U8 integration probe and U1/U2 uninit calibration; exact-packet coordinator GO required.",
   "runner": "gcb-e2-standard-4",
   "harness_timeout_minutes": 3,
   "kani_jobs": 1,
   "controls": true,
   "uninit_checks": true,
   "inventory": false,
+  "request_id": "kani3300-cmp4-clean-20261111-01",
+  "purpose": "KANI3300 CMP4 clean: differential IndexRange literal/runtime len diagnosis; same four roots and std fixture; no repair, one attempt, exact-packet coordinator GO required.",
   "harnesses": [
     {
       "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_sized_len",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_unsized_len",
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp4_index_range_len_runtime",
       "expect": "SUCCESS"
     },
     {
@@ -28,29 +24,9 @@
       "expect": "SUCCESS"
     },
     {
-      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_len",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
-      "expect": "SUCCESS"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4",
-      "expect": "SUCCESS"
-    },
-    {
       "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
       "expect": "FAILED",
       "expect_check": "Reading from an uninitialized"
-    },
-    {
-      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
-      "expect": "SUCCESS"
     }
-  ],
-  "kani_patch": {
-    "path": "research/challenge-8/kani-k1/kani3300/u4/kani-uninit.patch",
-    "sha256": "46ad585f769143200634e2c2ddf3c16e4b5f33955985791c0962ac446cf354e4"
-  }
+  ]
 }

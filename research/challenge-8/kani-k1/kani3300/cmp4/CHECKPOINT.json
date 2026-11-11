@@ -1,0 +1,48 @@
+{
+  "stage": "kani3300-cmp4",
+  "state": "PREPARED_CLEAN_REVIEW_PENDING_GO",
+  "runtime": "Codex",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-CMP4.md",
+  "worktree": "/root/verify-rust-std-kani3300-cmp4",
+  "branch": "experiment/kani-k1-kani3300cmp4-20261111",
+  "baseline": "2f0c922464772be8f917b17eba7c58f030b60455",
+  "library_commit": "2121ff2d08d50d412c834760af925b202a1d8c01",
+  "active_variant": "clean",
+  "requests": {
+    "clean": {
+      "path": "research/challenge-8/kani-k1/kani3300/cmp4/clean/RUN-REQUEST.json",
+      "sha256": "9ab5f113371d3d360ae7592e42bee058d7c1b4a936b93a128dc7a26afc4ca6a3",
+      "cloud": "NOT_RUN",
+      "attempts_allowed": 1,
+      "attempts_used": 0
+    },
+    "cmp2": {
+      "path": "research/challenge-8/kani-k1/kani3300/cmp4/cmp2/RUN-REQUEST.json",
+      "sha256": "e23db232f257a8977e1d90b15260de6295da02898e612c60333fbe19c97abd51",
+      "cloud": "NOT_RUN",
+      "attempts_allowed": 1,
+      "attempts_used": 0
+    }
+  },
+  "cloud": {
+    "cap_usd": "1.20",
+    "planned_reserve_each_usd": "0.5670",
+    "planned_total_usd": "1.1340",
+    "spend_usd": "0",
+    "submitted_reserve_usd": "0"
+  },
+  "claims": [
+    {
+      "claim": "One appended runtime root; unchanged existing roots/adapters and KT2 tooling; identical four-root request settings",
+      "assurance": "static only",
+      "reference": "static-check.json"
+    }
+  ],
+  "open": [
+    "Actual MIR assignments and instrumentation cause UNKNOWN.",
+    "Independent review and exact-packet coordinator GO required; no Build submitted."
+  ],
+  "proof_credit": "NONE",
+  "next_step": "Independent review, publish exact clean packet, PRE-BUILD REVIEW and stop until coordinator GO.",
+  "stop_boundary": "Each Build requires a separate exact-head PRE-BUILD review/GO. No retries or production repair."
+}

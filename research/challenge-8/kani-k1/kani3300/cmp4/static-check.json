@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "assurance": "static only; no compiler or verifier execution",
+  "baseline": "2f0c922464772be8f917b17eba7c58f030b60455",
+  "library_commit": "2121ff2d08d50d412c834760af925b202a1d8c01",
+  "checks": {
+    "library_diff_only_append_runtime_root": true,
+    "all_existing_roots_and_adapters_preserved": true,
+    "identical_four_roots": true,
+    "clean_no_kani_patch": true,
+    "cmp2_immutable_patch": true,
+    "only_request_variant_purpose_patch_differ": true,
+    "no_new_pre_len_raw_read_or_address_of": true,
+    "protected_lane_paths_equal_KT2": true,
+    "root_request_matches_clean_snapshot": true,
+    "controls_and_timeout_flags": true,
+    "generated_flags_identical": true,
+    "request_validate_both": true,
+    "diff_whitespace": true,
+    "budget": true
+  },
+  "request_sha256": {
+    "clean": "9ab5f113371d3d360ae7592e42bee058d7c1b4a936b93a128dc7a26afc4ca6a3",
+    "cmp2": "e23db232f257a8977e1d90b15260de6295da02898e612c60333fbe19c97abd51"
+  },
+  "kani_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "toolchain": "nightly-2026-10-23",
+  "tooling_base": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+  "planned_reserve_each_usd": "0.5670",
+  "planned_reserve_total_usd": "1.1340",
+  "cap_usd": "1.20",
+  "cloud": "NOT_RUN",
+  "proof_credit": "NONE",
+  "actual_mir_assignment": "UNKNOWN"
+}
