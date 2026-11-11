@@ -1,0 +1,190 @@
+{
+  "build_id": "35308c57-41d6-4057-943d-c55eb28642ad",
+  "dispatch_head": "f2990957c8199fea4600b6123ebaeb0a917df775",
+  "request_sha256": "5b82ada544e8eced4e72a10e4e22c8b71eef892bde4aed34f9309d74e9a414bd",
+  "cloud_status": "FAILURE",
+  "cloud_status_source": "k1g watch terminal notification, delivery attempt1",
+  "classification": "PROOF_EXECUTED_ORIGINAL_FAILURE_REPRODUCED_TRACE_OVERSIZED",
+  "kani_build": "SUCCESS",
+  "kani_build_seconds": 245,
+  "kani_exit": 1,
+  "gate": false,
+  "roots": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len",
+      "status": "FAILED",
+      "time_s": 0.23366857,
+      "checks_failed": 2,
+      "checks_total": 28,
+      "covers_satisfied": 1,
+      "covers_total": 1
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_sized_len",
+      "status": "FAILED",
+      "time_s": 1.7712691,
+      "checks_failed": 2,
+      "checks_total": 142,
+      "covers_satisfied": 2,
+      "covers_total": 2
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_unsized_len",
+      "status": "FAILED",
+      "time_s": 1.747391,
+      "checks_failed": 2,
+      "checks_total": 142,
+      "covers_satisfied": 2,
+      "covers_total": 2
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_manually_drop_unsized_len",
+      "status": "SUCCESS",
+      "time_s": 1.5994918,
+      "checks_failed": 0,
+      "checks_total": 92,
+      "covers_satisfied": 2,
+      "covers_total": 2
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_len",
+      "status": "SUCCESS",
+      "time_s": 1.1554402,
+      "checks_failed": 0,
+      "checks_total": 149,
+      "covers_satisfied": 1,
+      "covers_total": 1
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next",
+      "status": "SUCCESS",
+      "time_s": 3.0188863,
+      "checks_failed": 0,
+      "checks_total": 254,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4",
+      "status": "SUCCESS",
+      "time_s": 31.792118,
+      "checks_failed": 0,
+      "checks_total": 550,
+      "covers_satisfied": 1,
+      "covers_total": 1
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8",
+      "status": "FAILED",
+      "time_s": 0.54733515,
+      "checks_failed": 1,
+      "checks_total": 30,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    },
+    {
+      "name": "slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_init_read_u8",
+      "status": "SUCCESS",
+      "time_s": 0.59083694,
+      "checks_failed": 0,
+      "checks_total": 31,
+      "covers_satisfied": 3,
+      "covers_total": 3
+    }
+  ],
+  "A2_verdict_check_cover_counts_match": true,
+  "trace": {
+    "state": "OVERSIZED",
+    "complete": false,
+    "coverage": {
+      "analysis_targets": 9,
+      "body_cache": 41,
+      "body_cache_writer": 9,
+      "codegen_root": 4,
+      "codegen_unit": 2,
+      "memory_init_op": 17,
+      "memory_init_ops": 129,
+      "mir_snapshot": 84,
+      "relevance": 41,
+      "target_origin": 16,
+      "target_origin_summary": 4,
+      "unit_root": 9,
+      "unit_stub": 1,
+      "warmup_root": 8
+    },
+    "emitted": 374,
+    "invocation": "8611:0",
+    "omission_counts": {
+      "external_cache_witness_cap": 6951,
+      "external_witness_cap": 189,
+      "mir_excerpt_bytes": 208884,
+      "mir_selected_lines": 248,
+      "oversized_records": 555
+    },
+    "omitted": 555,
+    "seen": 929,
+    "sidecar": {
+      "bytes": 254788,
+      "file": "kani3300-trace-0.jsonl",
+      "sha256": "d6046f88c19e54f9efdaf329648c6cdcc5da36045bd8bbb7be3caf910fbb46e4",
+      "status": "READ"
+    },
+    "footer_observation": {
+      "data": {
+        "bytes_before_footer": 253931,
+        "coverage": {
+          "analysis_targets": 9,
+          "body_cache": 41,
+          "body_cache_writer": 9,
+          "codegen_root": 4,
+          "codegen_unit": 2,
+          "memory_init_op": 17,
+          "memory_init_ops": 129,
+          "mir_snapshot": 84,
+          "relevance": 41,
+          "target_origin": 16,
+          "target_origin_summary": 4,
+          "unit_root": 9,
+          "unit_stub": 1,
+          "warmup_root": 8
+        },
+        "emitted_records": 374,
+        "omission_counts": {
+          "external_cache_witness_cap": 6951,
+          "external_witness_cap": 189,
+          "mir_excerpt_bytes": 208884,
+          "mir_selected_lines": 248,
+          "oversized_records": 555
+        },
+        "omitted_records": 555,
+        "seen_records": 929,
+        "state": "OVERSIZED"
+      },
+      "file": "kani3300-trace-0.jsonl",
+      "line_sha256": "3caa730cb9c5a703c84b2199791c327fda0b00e620fb0870bf3d03412a606eac",
+      "malformed_fields": [],
+      "sidecar_sha256": "d6046f88c19e54f9efdaf329648c6cdcc5da36045bd8bbb7be3caf910fbb46e4",
+      "status": "UNVALIDATED"
+    },
+    "validator_errors": [],
+    "key_codegen_comparison": "UNKNOWN; omitted555; no function_presence records retained"
+  },
+  "cost": {
+    "A3_usd": "0.1215",
+    "terminal_reserved_usd": "0.0000",
+    "initial_reserve_usd": "0.5265",
+    "cumulative_A_A2_A3_usd": "0.3240",
+    "cap_usd": "0.80",
+    "remaining_usd": "0.4760",
+    "source": "k1g.sh rounded pool ledger; not independent billing audit"
+  },
+  "brief": {
+    "exit": 1,
+    "reason": "Reader report/query route unavailable HTTP404"
+  },
+  "assurance": "Bounded source-reported diagnostics; archive/index integrity and independent B1/B2 credit not established",
+  "runtime_causality": "UNKNOWN",
+  "proof_credit": "NONE",
+  "retry": false,
+  "B_run": false
+}

@@ -1,0 +1,94 @@
+# K-1 run `kani3300-t1b-a3-20261111-01`: COMPLETE
+
+- head `f2990957c8199fea4600b6123ebaeb0a917df775`, Kani `f046b70644e113be0df9c22c2e6ea44a65a57566`, request sha256 `5b82ada544e8eced4e72a10e4e22c8b71eef892bde4aed34f9309d74e9a414bd`
+- run 35308c57-41d6-4057-943d-c55eb28642ad attempt None, image Ubuntu 24.04.5 LTS 4 CPU Intel(R) Xeon(R) CPU @ 2.20GHz, 15.6 GiB (container view; pool per Cloud Build record), build success
+- agent `k1-merge`, kind `diagnostic`, runner `gcb-e2-standard-4`, per-harness timeout 1 min, harnesses in parallel 1, uninit checks on, valid-value checks off, controls cfg on
+- gate: False; expectation met: False; measurement ok: None; Kani exit 1
+- whole run, including compilation: max RSS 1763324 KiB, wall 1:55.45 (PARSED)
+- verify memory cap: MACHINE (no cgroup cap; the machine's memory 15.63 GiB is the limit), swap off
+- Kani applied tree `53927d9bc0ccbff8183aa91ffb6c29d1c8a74465`, patch `0e1dd370789a196cf7f7eadad4fe850910f83fd38cbf6e306394c6c247588298`, version `Kani Rust Verifier 0.68.0 (standalone); CBMC 6.11.0`
+- Kani build 245 s; compiletest build 0 s
+- patch diffstat: .../codegen_cprover_gotoc/compiler_interface.rs    |  86 ++-
+ kani-compiler/src/kani_middle/codegen_order.rs     |   7 +
+ kani-compiler/src/kani_middle/mod.rs               |   1 +
+ kani-compiler/src/kani_middle/trace.rs             | 508 +++++++++++++++
+ .../delayed_ub/initial_target_visitor.rs           |  53 +-
+ .../delayed_ub/instrumentation_visitor.rs          | 102 ++-
+ .../transform/check_uninit/delayed_ub/mod.rs       |  69 ++-
+ .../src/kani_middle/transform/check_uninit/mod.rs  | 305 ++++++++-
+ .../transform/check_uninit/ptr_uninit/mod.rs       |   3 +-
+ .../check_uninit/ptr_uninit/uninit_visitor.rs      | 689 +++++++++++++++++----
+ .../transform/check_uninit/relevant_instruction.rs |  68 +-
+ .../transform/check_uninit/ty_layout.rs            | 343 +++++++++-
+ kani-compiler/src/kani_middle/transform/mod.rs     |  93 ++-
+ library/kani_core/src/mem_init.rs                  | 110 +++-
+ 14 files changed, 2201 insertions(+), 236 deletions(-)
+- memory peaks PARSED: sampled every 2 s, 59 samples, largest sampled sum of RSS 2.10 GiB at 58 s; per command (kernel VmHWM; 13 GiB = CircleCI cap, 16 GB = organizers' runner). RSS is process resident memory, not physical RAM use:
+  - `kani-compiler` 1.68 GiB (≤13 GiB), seen 2–66 s, peak sample 60 s
+  - `kani-driver` 0.83 GiB (≤13 GiB), seen 2–114 s, peak sample 114 s
+  - `cbmc` 0.34 GiB (≤13 GiB), seen 70–114 s, peak sample 96 s
+  - `goto-cc` 0.04 GiB (≤13 GiB), seen 68–68 s, peak sample 68 s
+  - `cargo` 0.03 GiB (≤13 GiB), seen 2–66 s, peak sample 4 s
+  - `python3` 0.03 GiB (≤13 GiB), seen 0–0 s, peak sample 0 s
+  - `goto-instrument` 0.02 GiB (≤13 GiB), seen 72–72 s, peak sample 72 s
+  - `bash` 0.00 GiB (≤13 GiB), seen 0–115 s, peak sample 2 s
+  - `run-kani.sh` 0.00 GiB (≤13 GiB), seen 2–114 s, peak sample 2 s
+  - `time` 0.00 GiB (≤13 GiB), seen 2–114 s, peak sample 2 s
+  - `gcc` 0.00 GiB (≤13 GiB), seen 78–78 s, peak sample 78 s
+  - `tee` 0.00 GiB (≤13 GiB), seen 0–115 s, peak sample 2 s
+  - …only the 12 largest commands listed
+  - simultaneous cbmc RSS 0.34 GiB at 96 s
+  - simultaneous driver RSS 0.61 GiB at 114 s
+  - cbmc PID 8918: 0.34 GiB peak at 96 s; active `T0:uninit_probe::small_sort_general_with_scratch_u8_n4`
+  - cbmc PID 8766: 0.07 GiB peak at 70 s; active ``
+  - cbmc PID 8816: 0.03 GiB peak at 74 s; active ``
+  - cbmc PID 8841: 0.02 GiB peak at 76 s; active `T0:uninit_probe::cmp3_manually_drop_unsized_len`
+  - cbmc PID 8943: 0.02 GiB peak at 114 s; active `T0:uninit_probe::small_sort_general_with_scratch_u8_n4`
+  - cbmc PID 8891: 0.02 GiB peak at 80 s; active `T0:uninit_probe::cmp3_polymorphic_sized_len`
+  - dmesg OOM scan: `none_seen`
+
+| harness | expect | status | time s | failed/total checks | unreachable | covers |
+|---|---|---|---|---|---|---|
+| uninit_probe::cmp3_index_range_len | SUCCESS | FAILED | 0.23366857 | 2/28 | 0 | 1/1 |
+| uninit_probe::cmp3_polymorphic_sized_len | SUCCESS | FAILED | 1.7712691 | 2/142 | 6 | 2/2 |
+| uninit_probe::cmp3_polymorphic_unsized_len | SUCCESS | FAILED | 1.747391 | 2/142 | 6 | 2/2 |
+| uninit_probe::cmp3_manually_drop_unsized_len | SUCCESS | SUCCESS | 1.5994918 | 0/92 | 0 | 2/2 |
+| uninit_probe::cmp3_into_iter_len | SUCCESS | SUCCESS | 1.1554402 | 0/149 | 11 | 1/1 |
+| uninit_probe::cmp3_into_iter_next | SUCCESS | SUCCESS | 3.0188863 | 0/254 | 12 | 3/3 |
+| uninit_probe::small_sort_general_with_scratch_u8_n4 | SUCCESS | SUCCESS | 31.792118 | 0/550 | 19 | 1/1 |
+| uninit_probe::pincheck_calibration_uninit_read_u8 | FAILED | FAILED | 0.54733515 | 1/30 | 0 | 3/3 |
+| uninit_probe::pincheck_calibration_init_read_u8 | SUCCESS | SUCCESS | 0.59083694 | 0/31 | 0 | 3/3 |
+
+Failed checks of `slice::sort::shared::smallsort::verify::uninit_probe::cmp3_index_range_len`:
+- Undefined Behavior: Reading from an uninitialized pointer of type `usize` @ /workspace/src/library/core/src/ops/index_range.rs:57
+- Undefined Behavior: Reading from an uninitialized pointer of type `usize` @ /workspace/src/library/core/src/ops/index_range.rs:57
+
+Failed checks of `slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_sized_len`:
+- Undefined Behavior: Reading from an uninitialized pointer of type `usize` @ /workspace/src/library/core/src/ops/index_range.rs:57
+- Undefined Behavior: Reading from an uninitialized pointer of type `usize` @ /workspace/src/library/core/src/ops/index_range.rs:57
+
+Failed checks of `slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_unsized_len`:
+- Undefined Behavior: Reading from an uninitialized pointer of type `usize` @ /workspace/src/library/core/src/ops/index_range.rs:57
+- Undefined Behavior: Reading from an uninitialized pointer of type `usize` @ /workspace/src/library/core/src/ops/index_range.rs:57
+
+Failed checks of `slice::sort::shared::smallsort::verify::uninit_probe::pincheck_calibration_uninit_read_u8`:
+- Undefined Behavior: Reading from an uninitialized pointer of type `u8` @ /workspace/src/library/core/src/mem/mod.rs:1283
+
+Tooling SHA-256 at the run commit:
+- `.github/workflows/kani.yml` d51f9c59823339dfd211e0e1226e6a372f4816d2ef6c86a68cce2676dc796215
+- `research/challenge-8/kani-k1/gcb/cloudbuild.yaml` 73b61a3573f6d1942007777e6521883fb4ba2731414fecffea80403404762d81
+- `research/challenge-8/kani-k1/tools/diagnostic_trace.py` 8320ae6399d78ce24bec2635d0e9e59c21f82eec9d79b0b8dbb144a38ea72534
+- `research/challenge-8/kani-k1/tools/gcb-k1.sh` e45ccf9a2b4fddadeb78037293468f7e537865303abf7f7ec72fbe897a270246
+- `research/challenge-8/kani-k1/tools/k1g.sh` 52612fefa011f88a42bbc3f5f7c29e6b79f6de73f72a205c1592185afadf64a2
+- `research/challenge-8/kani-k1/tools/kani_k1.py` 707a8ca8ddcbcfd3127598a7c4b30ccde72b3454d6e1526bbd16c4bacce4b573
+- `scripts/run-kani.sh` 28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1
+- `tool_config/kani-version.toml` 7dca0aa5bf9467c6c4fb4323dabc12254f6372f5f01af096420583bc2b5c9ca3
+
+Notes:
+- --cfg kani_smallsort_controls on: opt-in control/mutant harnesses compiled, outside the CI set
+- -Z uninit-checks on: not in the organizers' CI flags, evidence outside CI
+- 6 unreachable check(s) in slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_sized_len
+- 6 unreachable check(s) in slice::sort::shared::smallsort::verify::uninit_probe::cmp3_polymorphic_unsized_len
+- 11 unreachable check(s) in slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_len
+- 12 unreachable check(s) in slice::sort::shared::smallsort::verify::uninit_probe::cmp3_into_iter_next
+- 19 unreachable check(s) in slice::sort::shared::smallsort::verify::uninit_probe::small_sort_general_with_scratch_u8_n4
