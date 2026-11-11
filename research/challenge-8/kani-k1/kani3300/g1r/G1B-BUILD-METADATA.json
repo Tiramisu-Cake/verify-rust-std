@@ -1,0 +1,54 @@
+{
+  "createTime": "2026-11-11T15:03:27.392639721Z",
+  "finishTime": "2026-11-11T15:05:32.475933Z",
+  "id": "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0",
+  "options": {
+    "pool": {
+      "name": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4",
+      "workerRelease": "legacy"
+    }
+  },
+  "startTime": "2026-11-11T15:04:22.911381334Z",
+  "status": "FAILURE",
+  "substitutions": {
+    "_BRANCH": "experiment/kani-k1-kani3300g0-20261111",
+    "_BUCKET": "smallsort-k1-k1-runs",
+    "_SHA": "6ec78732cea6f1a80b8c02574ee348f20b0563ec"
+  },
+  "timeout": "3540s",
+  "steps": [
+    {
+      "id": "checkout",
+      "status": "SUCCESS",
+      "timing": {
+        "endTime": "2026-11-11T15:04:30.049731449Z",
+        "startTime": "2026-11-11T15:04:24.958739692Z"
+      }
+    },
+    {
+      "id": "k1",
+      "status": "SUCCESS",
+      "timing": {
+        "endTime": "2026-11-11T15:04:56.751210614Z",
+        "startTime": "2026-11-11T15:04:30.050063788Z"
+      }
+    },
+    {
+      "id": "upload",
+      "status": "SUCCESS",
+      "timing": {
+        "endTime": "2026-11-11T15:05:22.287053492Z",
+        "startTime": "2026-11-11T15:04:56.751477695Z"
+      }
+    },
+    {
+      "exitCode": 1,
+      "id": "gate",
+      "status": "FAILURE",
+      "timing": {
+        "endTime": "2026-11-11T15:05:22.940709125Z",
+        "startTime": "2026-11-11T15:05:22.287249655Z"
+      }
+    }
+  ]
+}

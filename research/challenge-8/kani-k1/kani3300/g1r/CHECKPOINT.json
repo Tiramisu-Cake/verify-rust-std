@@ -8,7 +8,7 @@
   "kani_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
   "kani_branch": "fix/kani-3300-g1",
   "kani_pushed": false,
-  "status": "G1B_SUBMITTED_WATCH_NEXT",
+  "status": "G1B_TERMINAL_SETUP_FAILURE_NOT_RUN",
   "static_checks": "STATIC-CHECKS.json",
   "compile_sweep": "COMPILE-SWEEP.md",
   "packages": [
@@ -48,16 +48,16 @@
       "work_minutes": 29,
       "overhead_minutes": 30,
       "reservation_usd": "0.7965",
-      "native_outcome": "SUBMITTED; UNKNOWN pending terminal bounded report"
+      "native_outcome": "NOT_RUN (all 20; source-inferred validate setup DNS failure); see RESULT-KANI3300-G1B.md"
     }
   ],
   "cloud_this_stage": {
     "builds": [
       "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0"
     ],
-    "spent_usd": "0",
-    "reserved_usd": "0.7965",
-    "dispatch": "B attempt 1/1 submitted; no repair/retry/negative changes"
+    "spent_usd": "0.0270",
+    "reserved_usd": "0.0000",
+    "dispatch": "B attempt 1/1 terminal setup failure; no repair/retry; negative untouched"
   },
   "prior_G1A_spent_usd": "0.0675",
   "claims": [
@@ -68,14 +68,18 @@
     {
       "claim": "A gate failed:15 PASS,5 ERROR; four fixture compile failures and one golden mismatch",
       "assurance": "SOURCE_REPORTED; independent B1/B2 credit NONE"
+    },
+    {
+      "claim": "B build failed at validate setup (Ubuntu archive DNS resolution); no summary/native outcomes. All 20 native selectors NOT_RUN by bounded-diagnostic plus pinned-runner-gate inference; B spend $0.0270.",
+      "assurance": "SOURCE_BOUND_METADATA_AND_SETUP_DIAGNOSTIC; source inference for NOT_RUN; independent B1/B2 NONE"
     }
   ],
   "open": [
-    "B native outcomes NOT_RUN; exactly one authorized attempt, no repair.",
-    "A3 aggregate negative diagnosis remains outside B; no negative source/golden or prior evidence edits authorized.",
-    "Inherited P1/full-regression limitations remain; source-reported native evidence does not establish independent B1/B2 proof credit."
+    "B native acceptance unestablished; current attempt failed during setup, no repair/retry authorized.",
+    "No runtime applied tree/build/binary/summary/native/Failed Checks/compiletest expected-output line available.",
+    "A3 aggregate negative diagnosis and inherited P1/full-regression limitations remain outside B; history unchanged."
   ],
-  "next": "k1g.sh watch BUILD then END TURN. On wake: Evidence Brief first; authorized bounded summary/native/native-field; no raw fallback. Write g1r/RESULT-KANI3300-G1B.md: all 20 selectors PASS/FAIL and wall seconds, exact identities and actual B spend (separate cap $0.80); for FAIL retain Failed Checks and, if bounded interface supplies it, compiletest expected output to contain line. No repair/retry or negative edits. Commit/push [skip ci]; REVIEW REQUEST <full research sha>.",
+  "next": "STOP. Coordinator review of setup/DNS failure; no repair, retry, negative edits or further build authorized.",
   "review": {
     "model": "gpt-6-luna",
     "reasoning_effort": "high",
@@ -88,27 +92,30 @@
   },
   "latest_stage": "kani3300-g1b",
   "latest_authorization": "G1B-AUTHORIZATION.json",
-  "active_build_id": "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0",
+  "active_build_id": null,
   "T0": "2026-11-11T15:00:20+00:00",
   "main_deadline": "2026-11-11T17:00:20+00:00",
   "absolute_deadline": "2026-11-11T17:30:20+00:00",
   "active_handoff": "G1B-HANDOFF.json",
-  "closure_reason": null,
+  "closure_reason": "Single authorized B attempt terminal at setup. Bounded stage diagnostic, Cloud metadata, source-gated NOT_RUN statuses for all 20 selectors and final accounting recorded. No native outcomes or raw fallback.",
   "previous_stage_checkpoint": "G1B-ENTRY-CHECKPOINT.json preserves prior G1RA view; historical evidence/accounts unchanged",
   "B_budget": {
     "cap_usd": "0.80",
     "scope": "SEPARATE_B",
     "prior_spent_usd": "0",
     "reservation_proposal_usd": "0.7965",
-    "B_ceiling_usd": "0.7965"
+    "B_ceiling_usd": "0.7965",
+    "actual_spent_usd": "0.0270",
+    "actual_reserved_usd": "0.0000",
+    "final_ledger": "1 0.0270 0.0000"
   },
   "prior_A_family_latest_actual_spent_usd": "0.4860",
   "previous_terminal_build_id": "8b32494f-c7bb-415c-acd6-8e64575fc447",
-  "terminal_build_id": null,
+  "terminal_build_id": "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0",
   "previous_result": "RESULT-KANI3300-G1RA.md",
-  "latest_result": null,
+  "latest_result": "RESULT-KANI3300-G1B.md",
   "previous_evidence": "G1RA-OBSERVATIONS.json",
-  "latest_evidence": null,
+  "latest_evidence": "G1B-OBSERVATIONS.json",
   "historical_G1RA_cumulative_spent_usd": "0.1755",
   "historical_claims_stage": "G1RA; preserved in G1B-ENTRY-CHECKPOINT.json",
   "proof_credit": "NONE",

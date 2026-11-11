@@ -1,0 +1,47 @@
+{
+  "schema": "kani3300-g1b-bounded-setup-receipt-v1",
+  "build_id": "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0",
+  "brief": {
+    "command": [
+      "smallsort-brief",
+      "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0"
+    ],
+    "exit": 1,
+    "response": "smallsort-brief: Reader report or query route is unavailable (HTTP 404)"
+  },
+  "summary": {
+    "command": [
+      "research/challenge-8/kani-k1/tools/k1g.sh",
+      "summary",
+      "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0"
+    ],
+    "exit": 2,
+    "first_failed_stage": "validate",
+    "selected_exact_setup_excerpt": [
+      "E: Failed to fetch http://archive.ubuntu.com/ubuntu/pool/main/m/media-types/media-types_10.1.0_all.deb  Could not resolve 'archive.ubuntu.com'",
+      "E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?"
+    ],
+    "terminal_response": "k1g.sh: build 8e7a82cb-3dfd-46dc-9b61-43eddf773aa0 has no summary: treat as RUNNER_ERROR (timeout, cancel or setup failure)",
+    "summary_present": false,
+    "summary_sha256": null,
+    "source": "Authorized bounded summary helper setup diagnostic (at most 41 lines, 300 chars/line); no raw logs/archives read"
+  },
+  "budget": {
+    "command": [
+      "research/challenge-8/kani-k1/tools/k1g.sh",
+      "budget",
+      "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0"
+    ],
+    "exit": 0,
+    "response": "1 0.0270 0.0000"
+  },
+  "source_inference": {
+    "outcome": "Kani preparation/build, compiletest build and all native invocations NOT_RUN",
+    "basis": "Pinned gcb-k1.sh validate:46–52 installs python3/git via apt before validation/valid marker; apt install error exits that stage under set -e. Subsequent prepare/deps/build/verify stages require valid/build.ok and cannot invoke native verification. No summary artifact was produced.",
+    "assurance": "SOURCE_REPORTED_SETUP_DIAGNOSTIC_PLUS_PINNED_RUNNER_GATES; not an observed native report"
+  },
+  "limits": [
+    "Cloud step k1 SUCCESS is wrapper exit success for upload, not Kani/compiletest success.",
+    "No runtime applied-tree/build/binary/tooling-bound hash report or native PASS/FAIL/Failed Checks/compiletest expectation line is available."
+  ]
+}

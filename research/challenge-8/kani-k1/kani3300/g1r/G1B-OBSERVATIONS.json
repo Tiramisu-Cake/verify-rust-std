@@ -1,0 +1,395 @@
+{
+  "schema": "kani3300-g1b-observations-v1",
+  "recorded_at": "2026-11-11T15:09:15.544533+00:00",
+  "build_id": "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0",
+  "metadata": {
+    "createTime": "2026-11-11T15:03:27.392639721Z",
+    "finishTime": "2026-11-11T15:05:32.475933Z",
+    "id": "8e7a82cb-3dfd-46dc-9b61-43eddf773aa0",
+    "options": {
+      "pool": {
+        "name": "projects/smallsort-k1/locations/us-central1/workerPools/k1-standard4",
+        "workerRelease": "legacy"
+      }
+    },
+    "startTime": "2026-11-11T15:04:22.911381334Z",
+    "status": "FAILURE",
+    "substitutions": {
+      "_BRANCH": "experiment/kani-k1-kani3300g0-20261111",
+      "_BUCKET": "smallsort-k1-k1-runs",
+      "_SHA": "6ec78732cea6f1a80b8c02574ee348f20b0563ec"
+    },
+    "timeout": "3540s",
+    "steps": [
+      {
+        "id": "checkout",
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-11-11T15:04:30.049731449Z",
+          "startTime": "2026-11-11T15:04:24.958739692Z"
+        }
+      },
+      {
+        "id": "k1",
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-11-11T15:04:56.751210614Z",
+          "startTime": "2026-11-11T15:04:30.050063788Z"
+        }
+      },
+      {
+        "id": "upload",
+        "status": "SUCCESS",
+        "timing": {
+          "endTime": "2026-11-11T15:05:22.287053492Z",
+          "startTime": "2026-11-11T15:04:56.751477695Z"
+        }
+      },
+      {
+        "exitCode": 1,
+        "id": "gate",
+        "status": "FAILURE",
+        "timing": {
+          "endTime": "2026-11-11T15:05:22.940709125Z",
+          "startTime": "2026-11-11T15:05:22.287249655Z"
+        }
+      }
+    ]
+  },
+  "request_sha256": "faefa40aa4777ecd13a9813f26bd91d7b44b75bf35195523da254674176f45a8",
+  "patch_sha256": "c9ddce47cae76e9b9f462e8bcac94c73f70c0e8c32438f35f9ff1d7539117767",
+  "published_source": "6ec78732cea6f1a80b8c02574ee348f20b0563ec",
+  "production_candidate": "3d085249c9c6c49a9c2e5747e2167d629748fb70",
+  "native_pin": "f046b70644e113be0df9c22c2e6ea44a65a57566",
+  "preflight_applied_tree": "8f152bac27f8ff1d7fba45f57dc6a0ebeb348867",
+  "runtime_applied_tree": null,
+  "summary_present": false,
+  "summary_sha256": null,
+  "helper_classification": "RUNNER_ERROR_SETUP",
+  "native_report_present": false,
+  "reported_kani_build": null,
+  "reported_compiletest_build": null,
+  "compiletest_invocation": "NOT_RUN_SOURCE_INFERENCE",
+  "native_invocations": "NOT_RUN_SOURCE_INFERENCE",
+  "gate": {
+    "cloud_step": "FAILURE",
+    "exitCode": 1,
+    "native_gate": null
+  },
+  "tooling": {
+    "expected_pin": "3bb5445d2ac46b4ae6dedf30e835a81b3a44f44c",
+    "published_lane_git_equal": true,
+    "independently_checked_scope": "Local Git lane files at published Cloud source equal KT2",
+    "runtime_bound_hash_check": "UNAVAILABLE_NO_SUMMARY"
+  },
+  "selectors": [
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_bodyless_return/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_foreign_mutation_erased/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/g1-union-pointee-unsupported-reject_forget_union_array/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-transmute/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": true,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-transfers/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": true,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-initialized/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": true,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-transmute-padding/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-transmute-source-read/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-argument-buffer/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-contract-clause/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-contract-frame/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-partial-copy/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-reset-alias/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-argument-return/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-overwrite-copy/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-overlap-copy/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-repeat-local/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/maybe-uninit-reset-zst/main.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/unions.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    },
+    {
+      "file": "uninit/uninhabited-union-field/uninhabited-union-field.rs",
+      "suite": "expected",
+      "mode": "expected",
+      "require_success": false,
+      "expected_native": "PASS",
+      "outcome": "NOT_RUN",
+      "native_reporter_status": null,
+      "native_status": null,
+      "exit_code": null,
+      "wall_s": null,
+      "basis": "Inferred from bounded validate setup failure and source-pinned runner valid/build gates; no native report"
+    }
+  ],
+  "counts": {
+    "observed_native_PASS": 0,
+    "observed_native_FAIL": 0,
+    "NOT_RUN_source_inferred": 20
+  },
+  "failure": {
+    "stage": "validate",
+    "class_": "SETUP_DNS_APT_FETCH",
+    "host": "archive.ubuntu.com",
+    "diagnostic": "Could not resolve 'archive.ubuntu.com'",
+    "failed_checks": null,
+    "compiletest_expected_output_to_contain": null,
+    "diagnostic_scope": "Bounded setup diagnostic; not Kani failure output"
+  },
+  "timing": {
+    "build_wall_s": 69.564552,
+    "queue_s": 55.518742,
+    "native_wall_s": null
+  },
+  "cost": {
+    "ledger": "1 0.0270 0.0000",
+    "charged_rounded_minutes": 2,
+    "price_per_minute_usd": "0.0135",
+    "B_spent_usd": "0.0270",
+    "B_reserved_usd": "0.0000",
+    "B_cap_usd": "0.80",
+    "B_cap_scope": "SEPARATE_FROM_A_FAMILY",
+    "B_unspent_cap_usd": "0.7730",
+    "prior_A_family_actual_spent_usd": "0.4860",
+    "A_family_unchanged": true
+  },
+  "receipts": {
+    "G1B-BUILD-METADATA.json": {
+      "sha256": "9ff758f4af9438b9fc8dd756a0725312886ec92fba41ef4ee1884df47455f3e7",
+      "bytes": 1391
+    },
+    "G1B-BOUNDED-SETUP-RECEIPT.json": {
+      "sha256": "0327bcfb5d02a8fc85ddec7f78da5760d6b32558cef2e1e31decad81253ce261",
+      "bytes": 2163
+    }
+  },
+  "assurance": "Source-bound Cloud metadata and bounded setup diagnostic; NOT_RUN derived from source-pinned runner gates; no native outcomes or proof credit.",
+  "proof_credit": "NONE",
+  "attempt": "1/1 terminal",
+  "repairs": 0,
+  "retries": 0,
+  "negative": "NOT_MODIFIED; NOT_SELECTED; historical A3 evidence unchanged",
+  "next": "STOP for coordinator review; no repair/retry authorized."
+}
