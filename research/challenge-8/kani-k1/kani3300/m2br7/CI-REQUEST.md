@@ -9,8 +9,11 @@ Exact source SHA/tree, patch/dependency hashes and composition are in SOURCE/TES
 
 B0 c614dba9ca7388e098f606231dde7af4b23a06b5 (current full chain + exact bootstrap skip).
 B1 b4eb8294b74f3b6448ccccacbc87bdea71d67510 (B0 + separate snapshot / scalar private targets).
-Neither is the old R1 control or CI-only filtered tree. Apply only the exact reviewed worker14
-new-path test delta to BOTH endpoints; never replace either production tree with the test base.
+Neither is the old R1 control or CI-only filtered tree. Exact reviewed worker14 new-path delta
+is now composed locally on both endpoints: B0 ce5d0a8d18e98d9acbc0f49d46488fdf9a5ab27c,
+B1 8e01eb2aff5183c53403e1d1e73e573ce28d3095. Shared full tests tree
+f7e3cff5b460b8024524a0bb6b1cfc1c31a592cb. Only four new test files; production subtrees unchanged.
+Use these composed commits for matched G1; never replace production with the test base.
 Record source commit/tree, full test tree, composed CI tree, wrapper/workflow commit and actual
 tool/binary identities separately. Preserve all existing fixtures/goldens, including heavy pair.
 Actual effective argv/env/host/target/sysroot/toolchain/object widths/CBMC/solver/inlining/slicing/

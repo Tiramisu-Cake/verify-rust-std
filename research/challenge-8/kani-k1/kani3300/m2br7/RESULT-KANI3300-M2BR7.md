@@ -11,10 +11,13 @@
 - All existing tests/goldens, public routing, M1 finalizer/registry/seed epoch and caller/model signatures preserved; hashes in SOURCE-MANIFEST.
 - One bounded Luna High source review: NO_SOURCE_BOUNDARY_FINDINGS, exact candidate/spec/packet in REVIEW.md; no nested delegation.
 - Worker14 test-only fe36afc4a8de2709f00524b2d3fbd6da17919728/tree1f1ef86a7fb78fdc853862e6deca303458a05138 identified; only4 new files/2selectors.
-- Composition REQUESTED, not performed while worker14 review pending: apply only exact new-path delta to BOTH B0/B1; SHA256 a935f53ec2965349888343866ec9f4d85215e7a6c513a95fd30323cbc6d8c39e.
+- Worker14 Luna High review completed during closeout: no static input/golden blocker; exact new-path delta SHA256 a935f53ec2965349888343866ec9f4d85215e7a6c513a95fd30323cbc6d8c39e.
+- COMPOSED B0 ce5d0a8d18e98d9acbc0f49d46488fdf9a5ab27c/tree201c75566da7d2ec01cc5c1c230859f826635ab7.
+- COMPOSED B1/READY 8e01eb2aff5183c53403e1d1e73e573ce28d3095/tree8554b019e0eb8d2daf09e5ab70bc0c0d09917de1.
+- Matched tests tree f7e3cff5b460b8024524a0bb6b1cfc1c31a592cb; only4 new test files on each source endpoint, original tests and production subtrees preserved.
 - Existing P2/legal-pair remain in source tree; TEST-MANIFEST binds unchanged controls and separate mixed16 composition request.
 - G1 NOT_RUN: coordinator build/fmt/clippy, matched P1B0/B1, then P2/lawful/frame/clause/false controls; emitted path/targets/write scopes mandatory.
 - G2 NOT_RUN: after G1, full Uninit Quick incl BOTH heavy fixtures +unit5/kani Uninit/expected/ui/mem-init-reinstrumentation; historical restricted135/0 is not G2.
 - Cost benefit UNKNOWN; choose B0 if it closes gates; heavy B1 or aggregate/padding write => actual DFCC size/use handoff, no pointer fallback/bisect.
 - No local cargo/rustc/Kani/CBMC/Miri/build, CI/Cloud dispatch, source push, workflow/runner change, raw evidence, reset/stash; Cloud$0, proof credit0.
-- SOURCE_READY/NOT_COMPILED; STOP after reviewed source/composition request package. M3 HELD pending accepted G1/G2.
+- SOURCE_READY/NOT_COMPILED; STOP after reviewed source/composition package. M3 HELD pending accepted G1/G2.

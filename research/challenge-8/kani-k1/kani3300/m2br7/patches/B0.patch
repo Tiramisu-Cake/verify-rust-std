@@ -2,22 +2,10 @@ diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs b/kani-
 index a0d6614f0b5a1a3ff6d2452507ae93e7977436b6..9a303d5b4cd80c7e2eade98e77eaf8fbe9eb3da6 100644
 --- a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
 +++ b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
-@@ -58,6 +58,10 @@ pub trait TargetFinder {
-     KaniFunction::Model(KaniModel::BeginArgumentTransfer);
- const KANI_LOAD_ARGUMENT: KaniFunction = KaniFunction::Model(KaniModel::LoadArgument);
- const KANI_STORE_ARGUMENT: KaniFunction = KaniFunction::Model(KaniModel::StoreArgument);
+@@ -60,0 +61,4 @@ pub trait TargetFinder {
 +// Bootstrap only verifier-owned state without instrumenting its own reset writes.
 +// The harness-entry call and the initializer's runtime assignments still execute.
 +const KANI_INITIALIZE_MEMORY_INITIALIZATION_STATE: KaniFunction =
 +    KaniFunction::Model(KaniModel::InitializeMemoryInitializationState);
- // The contract-clause-depth functions access the `CONTRACT_CLAUSE_DEPTH`
- // static. Instrumenting that access would inject memory-initialization shadow
- // writes that CBMC's contract write-set check then flags as illegal side
-@@ -87,6 +91,7 @@ pub trait TargetFinder {
-     KANI_BEGIN_ARGUMENT_TRANSFER,
-     KANI_LOAD_ARGUMENT,
-     KANI_STORE_ARGUMENT,
+@@ -89,0 +94 @@ pub trait TargetFinder {
 +    KANI_INITIALIZE_MEMORY_INITIALIZATION_STATE,
-     KANI_ENTER_CONTRACT_CLAUSE,
-     KANI_EXIT_CONTRACT_CLAUSE,
-     KANI_IN_CONTRACT_CLAUSE,

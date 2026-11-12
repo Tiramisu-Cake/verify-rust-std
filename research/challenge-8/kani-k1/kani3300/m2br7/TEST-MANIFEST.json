@@ -1,6 +1,6 @@
 {
   "schema": "kani3300-m2br7-tests-v1",
-  "status": "EXACT_TEST_DELTA_IDENTIFIED_REVIEW_PENDING_COMPOSITION_REQUESTED",
+  "status": "REVIEWED_NEW_TEST_DELTA_COMPOSED_ON_B0_AND_B1_NOT_COMPILED",
   "base": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
   "source_configs": {
     "B0": "c614dba9ca7388e098f606231dde7af4b23a06b5",
@@ -42,14 +42,63 @@
       "sha256": "a935f53ec2965349888343866ec9f4d85215e7a6c513a95fd30323cbc6d8c39e",
       "bytes": 3608
     },
-    "review": "PENDING_OTHER_WORKER",
+    "review": {
+      "verdict": "NO_STATIC_INPUT_VALIDITY_OR_GOLDEN_BLOCKER",
+      "reviewer": "gpt-6-luna HIGH fork_turns=none",
+      "research_commit": "cce5d635654107f252a5647b29ddf18f8217d7b2",
+      "path": "../m2br7c/REVIEW.md",
+      "sha256": "26edd483ef23434e2edff97fda428f8e2a0bfc76ed27d1c54aee0f9089a9b785",
+      "packet_sha256": "af0d075d4d053423fb0513eebd7c0bababa0c255d3f91e86bc0ae338bf736de4",
+      "canonical_spec_sha256": "931c0f723a566b4a70f5ad6e44867e5809a5bf80e311c00e020828b7ff5e9d6d",
+      "compilation": "NOT_RUN"
+    },
     "exact_new_path_only_diff_verified": true
   },
   "composition": {
-    "state": "REQUESTED_IF_REVIEW_NOT_READY_AT_STOP",
-    "B0_composed_commit": "NOT_CREATED",
-    "B1_composed_commit": "NOT_CREATED",
-    "request": "After worker14 exact reviewed verdict, import only the four added private-transfer-frame files from fe36afc onto both B0 and B1. Preserve production source at each endpoint, existing tests/goldens and identical test delta/flags/tools. Do not import the test base."
+    "state": "COMPOSED_NEW_PATH_ONLY",
+    "candidates": [
+      {
+        "id": "B0",
+        "source_commit": "c614dba9ca7388e098f606231dde7af4b23a06b5",
+        "composed_commit": "ce5d0a8d18e98d9acbc0f49d46488fdf9a5ab27c",
+        "tree": "201c75566da7d2ec01cc5c1c230859f826635ab7",
+        "full_tests_tree": "f7e3cff5b460b8024524a0bb6b1cfc1c31a592cb",
+        "test_delta_sha256": "a935f53ec2965349888343866ec9f4d85215e7a6c513a95fd30323cbc6d8c39e",
+        "only_four_new_test_files": true,
+        "production_subtrees_unchanged": true,
+        "author_committer": [
+          "Tiramisu-Cake <igkharin@gmail.com>",
+          "Tiramisu-Cake <igkharin@gmail.com>"
+        ],
+        "pushed": false,
+        "compilation": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN"
+      },
+      {
+        "id": "B1",
+        "source_commit": "b4eb8294b74f3b6448ccccacbc87bdea71d67510",
+        "composed_commit": "8e01eb2aff5183c53403e1d1e73e573ce28d3095",
+        "tree": "8554b019e0eb8d2daf09e5ab70bc0c0d09917de1",
+        "full_tests_tree": "f7e3cff5b460b8024524a0bb6b1cfc1c31a592cb",
+        "test_delta_sha256": "a935f53ec2965349888343866ec9f4d85215e7a6c513a95fd30323cbc6d8c39e",
+        "only_four_new_test_files": true,
+        "production_subtrees_unchanged": true,
+        "author_committer": [
+          "Tiramisu-Cake <igkharin@gmail.com>",
+          "Tiramisu-Cake <igkharin@gmail.com>"
+        ],
+        "pushed": false,
+        "compilation": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN"
+      }
+    ],
+    "same_test_delta": true,
+    "full_tests_tree": "f7e3cff5b460b8024524a0bb6b1cfc1c31a592cb",
+    "existing_fixture_changes": [],
+    "all_original_tests_preserved": true,
+    "mixed16": "SEPARATE_EXACT_COMPOSITION_REQUEST_NOT_IMPORTED"
   },
   "reused_controls": [
     {
@@ -474,5 +523,27 @@
   "actual_wrapper_flags_tools": "UNKNOWN_NOT_RUN",
   "G1": "NOT_RUN",
   "G2": "NOT_RUN",
-  "proof_credit": 0
+  "proof_credit": 0,
+  "worker14_package": [
+    {
+      "path": "../m2br7c/REVIEW.md",
+      "sha256": "26edd483ef23434e2edff97fda428f8e2a0bfc76ed27d1c54aee0f9089a9b785"
+    },
+    {
+      "path": "../m2br7c/TEST-MANIFEST.json",
+      "sha256": "74fc161ef82fb4be117122288ea655c944c926c26c916db13af0401b8b378273"
+    },
+    {
+      "path": "../m2br7c/CONTROL-MAP.md",
+      "sha256": "1ef53ffcc607b74cbd939ecb341f3a6a96ffe261275ad16600b11ba17c2ed90b"
+    },
+    {
+      "path": "../m2br7c/TYPE-AUDIT.md",
+      "sha256": "9fa14f4920180b0ae80c353cbbb1119792a450db0bd188a53148df93a6995157"
+    },
+    {
+      "path": "../m2br7c/CI-REQUEST.md",
+      "sha256": "594f2e90ad628c7133aad6a344858130b62ace67a4b1715e4685235a403e58b7"
+    }
+  ]
 }

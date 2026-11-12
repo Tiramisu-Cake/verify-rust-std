@@ -18,8 +18,9 @@
       ],
       "patch": {
         "path": "patches/B0.patch",
-        "sha256": "997e3a61dba443cf6f7834ba8c297f9a208426786eb257b99efb8253769b1afb",
-        "bytes": 1458
+        "sha256": "d7189ad76d17f750978ead22a98b7fad365ea5a80543af9b794031dbb57144a6",
+        "bytes": 806,
+        "format": "git diff --binary --full-index --unified=0; apply with --unidiff-zero"
       },
       "changed_files": [
         {
@@ -46,8 +47,9 @@
       ],
       "patch": {
         "path": "patches/B1.patch",
-        "sha256": "dede033196f91672e30d63ed165147a3723ee4c80319c7af7e83865e7ebf4b56",
-        "bytes": 19945
+        "sha256": "e3445ca78a012a592054fb1a2ed8a448582d0f6847b88e57a088f21fc537a26c",
+        "bytes": 17793,
+        "format": "git diff --binary --full-index --unified=0; apply with --unidiff-zero"
       },
       "changed_files": [
         {
@@ -236,5 +238,44 @@
     },
     "actual_emitted_identities": "UNKNOWN"
   },
-  "proof_credit": 0
+  "proof_credit": 0,
+  "composed_candidates": [
+    {
+      "id": "B0",
+      "source_commit": "c614dba9ca7388e098f606231dde7af4b23a06b5",
+      "composed_commit": "ce5d0a8d18e98d9acbc0f49d46488fdf9a5ab27c",
+      "tree": "201c75566da7d2ec01cc5c1c230859f826635ab7",
+      "full_tests_tree": "f7e3cff5b460b8024524a0bb6b1cfc1c31a592cb",
+      "test_delta_sha256": "a935f53ec2965349888343866ec9f4d85215e7a6c513a95fd30323cbc6d8c39e",
+      "only_four_new_test_files": true,
+      "production_subtrees_unchanged": true,
+      "author_committer": [
+        "Tiramisu-Cake <igkharin@gmail.com>",
+        "Tiramisu-Cake <igkharin@gmail.com>"
+      ],
+      "pushed": false,
+      "compilation": "NOT_RUN",
+      "G1": "NOT_RUN",
+      "G2": "NOT_RUN"
+    },
+    {
+      "id": "B1",
+      "source_commit": "b4eb8294b74f3b6448ccccacbc87bdea71d67510",
+      "composed_commit": "8e01eb2aff5183c53403e1d1e73e573ce28d3095",
+      "tree": "8554b019e0eb8d2daf09e5ab70bc0c0d09917de1",
+      "full_tests_tree": "f7e3cff5b460b8024524a0bb6b1cfc1c31a592cb",
+      "test_delta_sha256": "a935f53ec2965349888343866ec9f4d85215e7a6c513a95fd30323cbc6d8c39e",
+      "only_four_new_test_files": true,
+      "production_subtrees_unchanged": true,
+      "author_committer": [
+        "Tiramisu-Cake <igkharin@gmail.com>",
+        "Tiramisu-Cake <igkharin@gmail.com>"
+      ],
+      "pushed": false,
+      "compilation": "NOT_RUN",
+      "G1": "NOT_RUN",
+      "G2": "NOT_RUN"
+    }
+  ],
+  "final_READY_candidate": "8e01eb2aff5183c53403e1d1e73e573ce28d3095"
 }

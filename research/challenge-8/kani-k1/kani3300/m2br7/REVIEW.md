@@ -19,3 +19,7 @@ B0 c614dba9ca7388e098f606231dde7af4b23a06b5 is included in the exact baseline-to
 ## Not run / limits
 
 `NOT_COMPILED`: no Rust compiler was run. `NOT_RUN`: no Kani/CBMC, Miri, build, CI, emitted-goto binding check, semantic equivalence check, or resource comparison was run. Thus emitted static identity/layout and actual CBMC field-target acceptance remain unverified; fieldwise cost benefit is unknown. This review grants no proof credit and does not authorize admission. Any emitted aggregate/padding write or missing field coverage must be resolved before relying on this source-level frame analysis.
+
+Post-review composition: the separately reviewed worker14 fe36afc test-only delta was applied
+unchanged to B0 and B1 in two local test-only child commits (SOURCE/TEST-MANIFEST). Production
+subtrees and the reviewed source delta are unchanged; no additional semantic source review.
