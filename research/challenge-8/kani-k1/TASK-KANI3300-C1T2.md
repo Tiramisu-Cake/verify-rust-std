@@ -4,6 +4,10 @@
 Существующий Uninit Quick запускает координатор; никаких новых runner/framework/diagnostic adapters.
 Это верификация корректности, не security-работа.
 
+**Пакет уже подготовлен:** local test c2d607d9d5fafdc44a6c5fa3d981f760e522a05a, research10b5800a8e.
+Создание fixtures повторно не выполнять. Coordinator CI — по kani3300/c1t2/CI-REQUEST.md;
+следующий анализ — TASK-KANI3300-C1T2A.md после нового baseline/M1 handoff, не по старым агрегатам.
+
 ## Вход и новые наблюдения
 
 Прочитать `TASK-KANI3300-C1T.md`, `TASK-KANI3300-M1.md`, `M1-NOTICE-C1T2.md`,
@@ -13,6 +17,13 @@ workflow-only checkout **172a7cfdbc02bd784873cfb4410d9b08fe51a9f1**: expected un
 единственный FAIL — existing maybe-uninit-initialized; все 6 C1-T selectors совпали с goldens уже до M1.
 Legal SUCCESS и hole FAILURE **не объясняют** механизм checks и не являются reproducer/qualification D0 immutable RHS.
 Что фактически promoted, какие checks emitted/reached и где возник hole failure — ещё не привязано.
+
+**Уточнение старта после M1 Quick:** M1 **5abdcf982da6aff65662e198af27a9c776830a89** (production 254ae69662),
+run **43222702257**, CI **05024a2112b77da6d86d29f3d272bbc74ad5df98**: по координатору fmt/build/clippy PASS,
+unit immutable_allocations 5/0, kani 22/0, expected 130/0/2 ignored, ui 14/0, script 1/0; unchanged D0 legal теперь PASS.
+Все immutable-masks 4 и C1-T 6 matched; для C1-T это regression, не differential. Выполнять C1-T2 сейчас:
+test-only base остаётся 28e684cbae, coordinator сравнивает baseline и **этот exact M1 + тот же новый test delta**.
+Не переименовывать baseline в M1 и не исправлять model/новые M2 files; воркер 14 параллельно ведёт M2 от M1.
 
 В `/root/kani-fix-3300-c1t` проверить clean branch/source HEAD выше; создать новую ветку
 **tests/kani-3300-mixed-promoted-controls** от 28e684cbae, старую ветку/шесть fixtures не менять.
@@ -84,7 +95,7 @@ diff только восемь новых .rs/.expected. Kani не пушить.
 В g0 `research/challenge-8/kani-k1/kani3300/c1t2/`: `CI-OBSERVATIONS.md`, `NOTES.md` (≤35 строк), `TEST-MANIFEST.json`,
 `BINDING-QUESTIONS.md`, `CI-REQUEST.md`, `REVIEW.md`, `RESULT-KANI3300-C1T2.md` (≤20 строк).
 Manifest разделяет semantic expected, reported aggregate и новый NOT_RUN; фиксирует exact source/test hashes и == hole boundary.
-CI request: unchanged C1-T + mixed + original D0, baseline и M1+те же tests; наблюдения/repair — следующая сессия.
+CI request: unchanged C1-T + mixed + original D0, baseline и exact M1+те же tests; наблюдения/repair — следующая сессия.
 Research commit [skip ci], тот же author/committer, stage только kani3300/c1t2/, push g0 без force; concurrent changes →
 handoff координатору без reset/stash/force/чужих m1 files. Подготовить exact commit для read-only импорта M1 owner.
 Локальные cargo/rustc/Kani/CBMC/Miri, builds/Actions/Cloud dispatch/workflow/runner edits, raw archives/full logs/credentials,
