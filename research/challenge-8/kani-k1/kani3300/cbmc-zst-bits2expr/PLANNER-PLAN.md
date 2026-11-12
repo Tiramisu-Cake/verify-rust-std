@@ -1,7 +1,9 @@
 # CBMC ZST bits2expr — исходники, план и границы
 
-2026-11-13. Это верификация корректности, не security-работа. **GO на подготовку source/tests**, не на fork/CI/публикацию.
+2026-11-13, дополнено после создания форка. Это верификация корректности, не security-работа.
+**GO на подготовку source/tests и отдельного CI-only workflow**, не на worker push/запуски или issue/PR публикацию.
 G-SC/PFC-resource остаётся на паузе до аудита; этот B3 backend-трек независим. Cloud $0, локальные CBMC builds запрещены.
+Форк владельца **https://github.com/Tiramisu-Cake/cbmc** создан, default develop, Actions включены; CI запускает координатор.
 
 ## Факты и pinned source
 
@@ -39,12 +41,14 @@ subtype через произвольный initializer. Если recursion не
 
 ## Порядок и трудоёмкость
 
-1. **Worker15, одна source-only сессия:** exact develop clone, минимальный array fix, регрессии в том же коммите,
+1. **Worker15, одна сессия подготовки:** exact develop clone, минимальный array fix, регрессии в том же source-коммите,
    focused util unit tests для empty conversion/roundtrip при подходящем API, clang-format/static review. Ничего не собирать.
-2. **STOP для решения владельца:** нужен ли его fork diffblue/cbmc и где выполнять CI. Пока форка нет; автоматически не создавать.
-   До решения — локальный source commit и CI-REQUEST, без push/dispatch. Cloud не нужен при fork Actions, Actions quota отдельно.
-3. **Координатор, после разрешения:** один paired CI baseline-develop + те же tests против fix; затем соседние regressions/unit.
-   Старый6.11 repro использовать как известный baseline, не обещать новый develop crash до CI. Не нужен полный CBMC matrix в первом probe.
+2. **Worker15:** отдельный CI-only commit поверх clean source; удалить все inherited .github/workflows и оставить ровно один наш
+   workflow ubuntu-24.04. Подготовить CMake build cbmc + selected new/neighbour byte-ops/arrays/struct tests, C repro и Kani-like C case.
+   CI branch push-trigger ограничить prefix; intermediate source HEAD с upstream workflows не пушить. Commit/manifest/recipe — локально.
+3. **Координатор:** пушит CI-only HEAD и запускает один paired CI baseline-develop + те же tests против fix; затем выбранные соседи/unit.
+   Старый6.11 repro — известный baseline, не новый develop crash. Kani-like C — не actual Kani replay. Полная upstream matrix не запускается.
+   Cloud не нужен при fork Actions, Actions quota отдельно. Нового решения владельца о создании форка больше не требуется.
 4. **Владелец:** после подтверждения develop repro сначала issue с минимальным C/версией/exit134 и корректной связью Kani#5085/B3;
    затем один PR в develop: fix+tests, subject+body, CI и scope. Подготовку patch не нужно задерживать ожиданием issue comment.
    Если develop уже не воспроизводит путь, STOP и минимизация текущего pipeline; старый invariant сам по себе не новый runtime verdict.
@@ -59,7 +63,8 @@ Baseline + exact same C tests должен показать invariant для р�
 memcpy positive проходит в обеих версиях. Нужен negative assertion companion с правильным FAILED, чтобы не принять удалённые checks.
 Unit cases: typed empty result/count и roundtrip на supported subtypes; nonzero/endian behavior не меняется, unknown-width support не добавляется.
 Подготовленный source не compiled/proved; Kani B3 workaround не откатывается до отдельного обновления backend и Kani regression.
-Никаких issue/PR публикаций, fork creation, push, builds или CI этой стадией не выполнено.
+Форк создал владелец/координатор; source/CI пакет сам по себе не запускает Actions. Никаких issue/PR публикаций,
+worker push, builds или CI этой подготовкой не выполнено. Workflow deletions не включаются в будущий upstream source PR.
 
 Политика: [AGENTS](https://github.com/diffblue/cbmc/blob/107a1e504cd69a2f3483717c8bcfcfa59814c557/AGENTS.md),
 [CODING_STANDARD](https://github.com/diffblue/cbmc/blob/107a1e504cd69a2f3483717c8bcfcfa59814c557/CODING_STANDARD.md),
