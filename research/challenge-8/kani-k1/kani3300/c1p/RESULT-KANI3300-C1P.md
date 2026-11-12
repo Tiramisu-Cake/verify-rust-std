@@ -1,0 +1,13 @@
+# KANI3300 C1-P — PREPARED / UNVERIFIED
+- Source read-only `6134e42dd1c65dc980336e7d9455aba02d423edf`, clean; diff от `dc5f5a406749a73f1c3192e0b5338441e79508bb` только tests.
+- Research вход `adc8ecab690cdfdd72ebb905c69dbdd5b1912373`; выполнены fetch и ff-only.
+- CONTROL-MATRIX.json: 25 obligations, 62 inputs; observed/expected раздельны, pinned fixture/golden SHA-256, новые inputs NOT_RUN.
+- 9 research-only harness drafts: promoted direct/helper legal и left/right holes; whole-array-copy legal и left/right holes.
+- Переиспользованы existing raw_eq, typed/padding, Item-return, reset/overlap и frame/clause controls; остальные формы — точные specs.
+- COMPILER-CONTROLS.md уточняет четыре B1IA gaps и DST/ordinary-union constant/backend-hook boundaries; legal-MIR ограничения UNKNOWN.
+- Статика: JSON/schema-contract, inventory/ссылки/хэши, pinned source API review, scope и git diff --check.
+- Rustfmt не запускался; drafts форматированы вручную. Компиляция/lowering/runtime binding NOT_RUN, compile-ready не заявляется.
+- Quick 43199156872 сохранён как aggregate coordinator-reported claim, known raw_eq legal FAIL; не whole-Quick PASS/ABI coverage.
+- Нет source edits/Kani commits, active suite/workflow changes, d0 edits, локальных compiler/verifier/build запусков или CI/Cloud dispatch; Cloud $0.
+- Proof credit не присвоен; historical evidence/results не изменены. Решение B и release blockers сохранены.
+- HANDOFF-M0.md передаёт requirements/очерёдность; STOP до D0-A/M0 и отдельного задания C1.

@@ -1,0 +1,1714 @@
+{
+  "schema": "kani3300-c1p-control-matrix-v1",
+  "schema_contract": {
+    "required_row_fields": [
+      "id",
+      "obligation",
+      "inputs",
+      "observed",
+      "expected",
+      "required_binding",
+      "lowering_risk_or_unknown",
+      "stage_owner"
+    ],
+    "input_kinds": [
+      "EXISTING_PINNED_HARNESS",
+      "RESEARCH_DRAFT",
+      "NONEXECUTED_SPECIFICATION"
+    ],
+    "new_input_execution": "NOT_RUN",
+    "unique_ids": true,
+    "referential_integrity": true,
+    "sha256": "lowercase 64 hex; bytes of pinned file"
+  },
+  "stage": "C1-P / PREPARED_UNVERIFIED",
+  "source": {
+    "path": "/root/kani-fix-3300-p1b1",
+    "commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+    "clean_observed": true,
+    "production_identical_to": "dc5f5a406749a73f1c3192e0b5338441e79508bb",
+    "production_diff_checked": [
+      "Full git diff --name-only dc5f5a406749a73f1c3192e0b5338441e79508bb..6134e42dd1c65dc980336e7d9455aba02d423edf: all 21 paths under tests/expected/uninit/unresolved-calls/; no production path changed."
+    ],
+    "research_start": "adc8ecab690cdfdd72ebb905c69dbdd5b1912373",
+    "cloud_spend_usd": 0,
+    "runtime_dispatch": "NONE"
+  },
+  "planning_inputs": [
+    {
+      "commit": "124a45e373ac2299d426b33d4bc1d30d98de748b",
+      "path": "research/challenge-8/kani-k1/AUDIT-REPORT-KANI3300-PART1-R2-RU.md",
+      "sha256": "1eed44bf575edd7ba43edbe2d2a3944d488d4a4ed241341ea8c11673434544fb"
+    },
+    {
+      "commit": "8ad13e016ed8728419c2980307be7cce80714fd2",
+      "path": "research/challenge-8/kani-k1/kani3300/r0/NOTES.md",
+      "sha256": "fe8b8302f3f1600b5b7d9789c92e6a39de83b63ac5fc06c24afb0efd276ac6d6"
+    },
+    {
+      "commit": "8ad13e016ed8728419c2980307be7cce80714fd2",
+      "path": "research/challenge-8/kani-k1/kani3300/r0/GUARD-DESIGN.md",
+      "sha256": "05016ee09b1bad5bc6a49c31eccd489390956c2fef68ddf67bb59e42bda31437"
+    },
+    {
+      "commit": "8ad13e016ed8728419c2980307be7cce80714fd2",
+      "path": "research/challenge-8/kani-k1/kani3300/r0/RESULT-KANI3300-R0.md",
+      "sha256": "a7c033979311534f2b515b6b1721e77a13395ee125d2834a76eb3c6941876339"
+    },
+    {
+      "commit": "e3e1125988026a3dd3dbca55f4a00a1e19d19bed",
+      "path": "research/challenge-8/kani-k1/kani3300/b1ia/TEST-MANIFEST.json",
+      "sha256": "625724c410523a8571d8652edf841dd873b5e9fab6c51c9b906f80d1e349e129"
+    },
+    {
+      "commit": "e3e1125988026a3dd3dbca55f4a00a1e19d19bed",
+      "path": "research/challenge-8/kani-k1/kani3300/b1ia/COVERAGE-GAPS.md",
+      "sha256": "9d1c24e028e6158a67d304f9c6442361cf5207b95ae1c7f1b903562d6a4bfe45"
+    },
+    {
+      "commit": "e3e1125988026a3dd3dbca55f4a00a1e19d19bed",
+      "path": "research/challenge-8/kani-k1/kani3300/b1ia/RESULT-KANI3300-B1IA.md",
+      "sha256": "1ba8d4b7b6ff18df8e076ea02348f54eb53753f0bbf8c430fff5e8bd2dded128"
+    },
+    {
+      "commit": "adc8ecab690cdfdd72ebb905c69dbdd5b1912373",
+      "path": "research/challenge-8/kani-k1/PLAN-KANI3300-PART1-B.md",
+      "sha256": "d1570818c961ef46292513905c95dbbb1364a71a067ff6d97bd819d7617d9e16"
+    },
+    {
+      "commit": "adc8ecab690cdfdd72ebb905c69dbdd5b1912373",
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-C1P.md",
+      "sha256": "15e7153f698bf82c07f2046a7f2f5cf0942cb1d25ded1c427fb40ebc1eb783aa"
+    }
+  ],
+  "observations": [
+    {
+      "id": "source-inventory",
+      "assurance": "STATIC_PINNED_SOURCE_READ_ONLY",
+      "run": null,
+      "claim": "Only source spelling, hashes and declarations inspected; runtime/MIR bindings UNKNOWN."
+    },
+    {
+      "id": "c1p-drafts-specs",
+      "assurance": "PREPARED_NOT_RUN",
+      "run": null,
+      "claim": "Nine research-only drafts and future specs; no compilation, execution or compile-ready claim."
+    },
+    {
+      "id": "quick-coordinator-claim",
+      "assurance": "COORDINATOR_SOURCE_REPORTED_AGGREGATE_ONLY",
+      "provenance": "TASK-KANI3300-C1P.md and PLAN-KANI3300-PART1-B.md at research_start",
+      "source": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "ci_checkout": "fcba2fe76883c3441182bb6c7506ca8565c62797",
+      "run": "43199156872",
+      "claim": {
+        "fmt_build_clippy": "PASS reported",
+        "kani_Uninit": [
+          22,
+          0
+        ],
+        "expected_uninit": {
+          "passed": 119,
+          "failed": 1,
+          "ignored": 2
+        },
+        "ui": [
+          14,
+          0
+        ],
+        "script": [
+          1,
+          0
+        ],
+        "known_failure": "maybe-uninit-initialized raw_eq legal failure"
+      },
+      "per_harness_properties": "UNKNOWN",
+      "whole_quick_pass": false,
+      "independent_credit": false
+    }
+  ],
+  "evidence_requirements": [
+    "All new inputs NOT_RUN; existing bodies reused, not copied. Aggregate Quick observation cannot satisfy a row.",
+    "Retained raw_eq, Instance kind/body, branch reachability, AllocId and missing setters require actual compiler/runtime evidence. Never infer them from source spelling.",
+    "Bind exact compiler/toolchain/source/target/layout/flags/solver/limits; JSON property ID+class+source span+status+reachability per harness.",
+    "Bind original operand -> MIR Instance/ConstOperand -> points-to/relevance -> AllocId/local -> runtime object/offset/extent -> selected witness -> last setter/snapshot/transfer.",
+    "Immutable masks use actual Some/None bytes, not backend zero-fill/reference type. Coalescing and both operand mappings remain explicit.",
+    "Unknown origin/effects: supported proof or reached pre-effect Unsupported, otherwise block release. No assumed initializedness, blanket should_panic or check disable.",
+    "G1 future matched base bf9c58e662fd65c64381ef2ac97a6397ffc0693a / R1 1cd96e354ec45346b61c245554a50a8af8cb5ce7 / R2 a0a2386001a15fecfe2facc2f6cd87f3dee13b60 / final candidate with identical fixture bytes. Old raw_eq skip earns no new failure credit.",
+    "Nonempty hole required; empty/ZST source shape does not prove byte coverage or protocol. Preserve B1 bounded/B2 full proof/source claims distinctions; no proof credit in C1-P."
+  ],
+  "inputs": {
+    "promoted_direct_legal": {
+      "kind": "RESEARCH_DRAFT",
+      "path": "fixtures/promoted_direct_legal.rs",
+      "harness": "promoted_direct_legal",
+      "sha256": "932f47ff68eab1f2d4f0c0f61410e23058d962fbc1fc46ccac46a5875e508e6f",
+      "execution": "NOT_RUN",
+      "compile_ready": false
+    },
+    "promoted_direct_left_hole": {
+      "kind": "RESEARCH_DRAFT",
+      "path": "fixtures/promoted_direct_left_hole.rs",
+      "harness": "promoted_direct_left_hole",
+      "sha256": "df26990752db809ad6f91fc57c7b102ca190651d0c00b6143dec7b8d9bc5ce09",
+      "execution": "NOT_RUN",
+      "compile_ready": false
+    },
+    "promoted_direct_right_hole": {
+      "kind": "RESEARCH_DRAFT",
+      "path": "fixtures/promoted_direct_right_hole.rs",
+      "harness": "promoted_direct_right_hole",
+      "sha256": "68594a224811905181898c542726affce859ed83006582cb070b76da90718fdb",
+      "execution": "NOT_RUN",
+      "compile_ready": false
+    },
+    "promoted_helper_legal": {
+      "kind": "RESEARCH_DRAFT",
+      "path": "fixtures/promoted_helper_legal.rs",
+      "harness": "promoted_helper_legal",
+      "sha256": "ee499590033417ab97eb43e3c57d57f205dac2148b92051fd2d1f90b4c7279f6",
+      "execution": "NOT_RUN",
+      "compile_ready": false
+    },
+    "promoted_helper_left_hole": {
+      "kind": "RESEARCH_DRAFT",
+      "path": "fixtures/promoted_helper_left_hole.rs",
+      "harness": "promoted_helper_left_hole",
+      "sha256": "98f85b4aa74910cf0e1d82dd180c54b5258702d3c8c5b96061df8795c02f8882",
+      "execution": "NOT_RUN",
+      "compile_ready": false
+    },
+    "promoted_helper_right_hole": {
+      "kind": "RESEARCH_DRAFT",
+      "path": "fixtures/promoted_helper_right_hole.rs",
+      "harness": "promoted_helper_right_hole",
+      "sha256": "df1ec216706fa18684797aac6d7adedc3ba72a49fa8ab3e9c02835a124633233",
+      "execution": "NOT_RUN",
+      "compile_ready": false
+    },
+    "spec:dynamic-choice": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "After M0: two independent nondeterministic booleans select promoted versus local &[MU<u8>;3] for left/right. Use full/full positive and separate left/right hole negatives; keep same compare specialization. No assume initializedness.",
+      "execution": "NOT_RUN"
+    },
+    "spec:coalesced-offset": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "After M0: borrow equal full promoted [MU<u8>;6] referents; compare in-bounds &[MU<u8>;3] views at offsets 0/3 via raw casts, then distinct mask-hole variants on left/right. Positive byte values 7; separate negatives with None inside selected view. Never assume distinct addresses or derive ownership from address equality.",
+      "execution": "NOT_RUN"
+    },
+    "flat_whole_copy_legal": {
+      "kind": "RESEARCH_DRAFT",
+      "path": "fixtures/flat_whole_copy_legal.rs",
+      "harness": "flat_whole_copy_legal",
+      "sha256": "68eb8d7221183d253ad8787c4922cfcc086489fa50513e415e0c704ec93d05d1",
+      "execution": "NOT_RUN",
+      "compile_ready": false
+    },
+    "flat_whole_copy_left_hole": {
+      "kind": "RESEARCH_DRAFT",
+      "path": "fixtures/flat_whole_copy_left_hole.rs",
+      "harness": "flat_whole_copy_left_hole",
+      "sha256": "7483295a8a577d3573a57f8c64eb707994b9c3643ff1b2a014d185c2b14948d2",
+      "execution": "NOT_RUN",
+      "compile_ready": false
+    },
+    "flat_whole_copy_right_hole": {
+      "kind": "RESEARCH_DRAFT",
+      "path": "fixtures/flat_whole_copy_right_hole.rs",
+      "harness": "flat_whole_copy_right_hole",
+      "sha256": "9ba6289e7fa8225e05b7eb82212cba9d3f99c12c70033669a4032aea1041f104",
+      "execution": "NOT_RUN",
+      "compile_ready": false
+    },
+    "raw-eq-uninit::raw_eq_initialized_arrays": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/raw-eq-uninit/main.rs",
+      "harness": "raw_eq_initialized_arrays",
+      "line": 14,
+      "sha256": "a0f781ed9650af8fe8b49460b9b3af2fb051de670931a2691eaf3561f784cd52",
+      "golden": {
+        "path": "tests/expected/uninit/raw-eq-uninit/expected",
+        "sha256": "7e342d3b17850f60ba204828dcfb431d6dfd44ec11aab6c1ec44ce51b6ca7698"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "raw-eq-uninit::raw_eq_initialized_array_references": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/raw-eq-uninit/main.rs",
+      "harness": "raw_eq_initialized_array_references",
+      "line": 28,
+      "sha256": "a0f781ed9650af8fe8b49460b9b3af2fb051de670931a2691eaf3561f784cd52",
+      "golden": {
+        "path": "tests/expected/uninit/raw-eq-uninit/expected",
+        "sha256": "7e342d3b17850f60ba204828dcfb431d6dfd44ec11aab6c1ec44ce51b6ca7698"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "raw-eq-uninit::raw_eq_initialized_storage": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/raw-eq-uninit/main.rs",
+      "harness": "raw_eq_initialized_storage",
+      "line": 45,
+      "sha256": "a0f781ed9650af8fe8b49460b9b3af2fb051de670931a2691eaf3561f784cd52",
+      "golden": {
+        "path": "tests/expected/uninit/raw-eq-uninit/expected",
+        "sha256": "7e342d3b17850f60ba204828dcfb431d6dfd44ec11aab6c1ec44ce51b6ca7698"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "raw-eq-uninit::raw_eq_left_uninitialized_byte": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/raw-eq-uninit/main.rs",
+      "harness": "raw_eq_left_uninitialized_byte",
+      "line": 52,
+      "sha256": "a0f781ed9650af8fe8b49460b9b3af2fb051de670931a2691eaf3561f784cd52",
+      "golden": {
+        "path": "tests/expected/uninit/raw-eq-uninit/expected",
+        "sha256": "7e342d3b17850f60ba204828dcfb431d6dfd44ec11aab6c1ec44ce51b6ca7698"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "raw-eq-uninit::raw_eq_right_uninitialized_byte": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/raw-eq-uninit/main.rs",
+      "harness": "raw_eq_right_uninitialized_byte",
+      "line": 78,
+      "sha256": "a0f781ed9650af8fe8b49460b9b3af2fb051de670931a2691eaf3561f784cd52",
+      "golden": {
+        "path": "tests/expected/uninit/raw-eq-uninit/expected",
+        "sha256": "7e342d3b17850f60ba204828dcfb431d6dfd44ec11aab6c1ec44ce51b6ca7698"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "raw-eq-uninit::raw_eq_padding_is_uninitialized": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/raw-eq-uninit/main.rs",
+      "harness": "raw_eq_padding_is_uninitialized",
+      "line": 67,
+      "sha256": "a0f781ed9650af8fe8b49460b9b3af2fb051de670931a2691eaf3561f784cd52",
+      "golden": {
+        "path": "tests/expected/uninit/raw-eq-uninit/expected",
+        "sha256": "7e342d3b17850f60ba204828dcfb431d6dfd44ec11aab6c1ec44ce51b6ca7698"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-initialized::array_value_as_used_by_merge_output": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "harness": "array_value_as_used_by_merge_output",
+      "line": 76,
+      "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+        "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-initialized::partial_copy_preserves_written_byte": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "harness": "partial_copy_preserves_written_byte",
+      "line": 51,
+      "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+        "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-initialized::slice_offset_and_reinitialization": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "harness": "slice_offset_and_reinitialization",
+      "line": 63,
+      "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+        "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "spec:slice-offset-pair": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "After M0: [MU<u8>;5] -> &mut [MU<u8>] subrange 1..4; copy two slots from source offset 1 to destination offset 2 in distinct arrays. Positive scalar 7/7; independent negative source hole in each copied position with initialized non-read companion. Verify outside sentinels unchanged; no array equality.",
+      "execution": "NOT_RUN"
+    },
+    "maybe-uninit-transfers::overwrite_copy_written_byte": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-transfers/main.rs",
+      "harness": "overwrite_copy_written_byte",
+      "line": 12,
+      "sha256": "5587fdcd7436a63ccfed41747fc5c9ebc18ec74f46ef988d35c2e0877dba33d9",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-transfers/expected",
+        "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-overwrite-copy::overwrite_copy": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-overwrite-copy/main.rs",
+      "harness": "overwrite_copy",
+      "line": 7,
+      "sha256": "bc70b2eb653f02193eabc7a4085fabc1dbaf04270ee54519affe5afdd0dc888c",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-overwrite-copy/expected",
+        "sha256": "c62ca7df25c2f41a53541c08d6ce84d00d9a36504dff15c8c21f2b8e1ea0cce5"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-transfers::reset_after_zst_then_initialize": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-transfers/main.rs",
+      "harness": "reset_after_zst_then_initialize",
+      "line": 57,
+      "sha256": "5587fdcd7436a63ccfed41747fc5c9ebc18ec74f46ef988d35c2e0877dba33d9",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-transfers/expected",
+        "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-reset-zst::reset_after_zst": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-reset-zst/main.rs",
+      "harness": "reset_after_zst",
+      "line": 7,
+      "sha256": "c3c15670264f0c3289f482ddf547dbd5a104d8550209247d82c0057c57ea6002",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-reset-zst/expected",
+        "sha256": "ac269e35cc2f27d800c96740d82127dfd8ef3120b3beb90b25e3855cb9521d7e"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-reset-alias::reset_through_another_alias": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-reset-alias/main.rs",
+      "harness": "reset_through_another_alias",
+      "line": 15,
+      "sha256": "718713896e97f3a29c26c708b6816fdebfafff6d0884c241f466009564060b07",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-reset-alias/expected",
+        "sha256": "6f67fe0887ebe8d7ea7e1f7365b6c3c1cc03db1f24fcfdb5adc3855593165041"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-transfers::overlap_copy_left_written_slot": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-transfers/main.rs",
+      "harness": "overlap_copy_left_written_slot",
+      "line": 35,
+      "sha256": "5587fdcd7436a63ccfed41747fc5c9ebc18ec74f46ef988d35c2e0877dba33d9",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-transfers/expected",
+        "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-transfers::overlap_copy_right_written_slot": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-transfers/main.rs",
+      "harness": "overlap_copy_right_written_slot",
+      "line": 24,
+      "sha256": "5587fdcd7436a63ccfed41747fc5c9ebc18ec74f46ef988d35c2e0877dba33d9",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-transfers/expected",
+        "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-overlap-copy::overlap_copy_left": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-overlap-copy/main.rs",
+      "harness": "overlap_copy_left",
+      "line": 19,
+      "sha256": "ba454420efd8f9cb540b0af42040472e25fe0857acc95ec0cb5838c4007bc692",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-overlap-copy/expected",
+        "sha256": "8f2812a0e767a3ab340b51bbe37e7cf30772865970525d33b274487827ecb59d"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-overlap-copy::overlap_copy_right": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-overlap-copy/main.rs",
+      "harness": "overlap_copy_right",
+      "line": 9,
+      "sha256": "ba454420efd8f9cb540b0af42040472e25fe0857acc95ec0cb5838c4007bc692",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-overlap-copy/expected",
+        "sha256": "8f2812a0e767a3ab340b51bbe37e7cf30772865970525d33b274487827ecb59d"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-typed-transfer-data::raw_nonoverlapping_copy_preserves_padding": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+      "harness": "raw_nonoverlapping_copy_preserves_padding",
+      "line": 23,
+      "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+        "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-typed-transfer-data::raw_copy_preserves_padding": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+      "harness": "raw_copy_preserves_padding",
+      "line": 35,
+      "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+        "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-typed-transfer-data::typed_assignment_preserves_data": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+      "harness": "typed_assignment_preserves_data",
+      "line": 47,
+      "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+        "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-typed-transfer-data::typed_argument_return_preserves_data": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+      "harness": "typed_argument_return_preserves_data",
+      "line": 65,
+      "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+        "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-typed-transfer-data::typed_array_preserves_data": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+      "harness": "typed_array_preserves_data",
+      "line": 77,
+      "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+        "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-typed-transfer-data::raw_array_copy_preserves_second_slot_padding": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+      "harness": "raw_array_copy_preserves_second_slot_padding",
+      "line": 98,
+      "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+        "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-typed-return-padding::typed_return_discards_written_padding": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-typed-return-padding/main.rs",
+      "harness": "typed_return_discards_written_padding",
+      "line": 31,
+      "sha256": "f19f8e2bc02f0281e657d4141a034bbc555c03fe2269c98a45e6d9f5ad025282",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-return-padding/expected",
+        "sha256": "c1597735af5a52d4758072b0c27736bbdf1688023fc0d64347cf206e1fb6f0d7"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-typed-array-partial-data::typed_array_preserves_second_slot_unwritten_data": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-typed-array-partial-data/main.rs",
+      "harness": "typed_array_preserves_second_slot_unwritten_data",
+      "line": 23,
+      "sha256": "305f8ed325072dd0b38a248545f537c232305d4c1c51faece5a4d996c70d67de",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-array-partial-data/expected",
+        "sha256": "2617ae16f7ebf312962f17c4865f34488d877fa20fad1295f2d015b8c7780e8c"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-initialized::raw_read_after_write": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "harness": "raw_read_after_write",
+      "line": 28,
+      "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+        "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-transfers::complete_padded_transmute": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-transfers/main.rs",
+      "harness": "complete_padded_transmute",
+      "line": 78,
+      "sha256": "5587fdcd7436a63ccfed41747fc5c9ebc18ec74f46ef988d35c2e0877dba33d9",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-transfers/expected",
+        "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "spec:ordinary-normal-return": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "After D0-A/M0: noinline fn produce()->[u8;3] returning [7;3], caller stores normal destination then performs scalar reads and retained raw_eq against full promoted reference. Distinct abnormal-edge spec must not bless destination on unwind/abort.",
+      "execution": "NOT_RUN"
+    },
+    "item-return-initialized-plain::item_return_preserves_initialized_value": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.rs",
+      "harness": "item_return_preserves_initialized_value",
+      "sha256": "aa5357e8045efafb8bb243929df8b3bd31ed5a908e99d0317dd6b25c813dd698",
+      "golden": {
+        "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.expected",
+        "sha256": "01b4090216f499e81ff422a226fc38567d4e416d2aa098ec8f7116404b158b02"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "item-return-initialized-seeded::item_return_preserves_initialized_value": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.rs",
+      "harness": "item_return_preserves_initialized_value",
+      "sha256": "fbe6805e726adbade11a4537cd5323427bbf62defda35b3aaf885d1b6f40578a",
+      "golden": {
+        "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.expected",
+        "sha256": "01b4090216f499e81ff422a226fc38567d4e416d2aa098ec8f7116404b158b02"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "item-return-uninit-plain::item_return_preserves_uninitialized_read": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.rs",
+      "harness": "item_return_preserves_uninitialized_read",
+      "sha256": "bf506c1957000f30aa2df2e7b3aa100c413ef8637bfa859abdcb65a81c9fbceb",
+      "golden": {
+        "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.expected",
+        "sha256": "d1f1033878992e7bf97a7757032b911073b7fa0101aaad6d1e2f128e17176105"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "item-return-uninit-seeded::item_return_preserves_uninitialized_read": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.rs",
+      "harness": "item_return_preserves_uninitialized_read",
+      "sha256": "33d68b3dda4f5334733f5244cd07e7c27862e4a6019ecca9655c2ea090071cc6",
+      "golden": {
+        "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.expected",
+        "sha256": "d1f1033878992e7bf97a7757032b911073b7fa0101aaad6d1e2f128e17176105"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "spec:abnormal-return": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "After M0: actual reachable ordinary call with normal and abnormal MIR successors under supported panic strategy; normal destination is initialized only on normal successor. Assert no after-return setter or LoadArgument(return0) on unwind/abort. If panic=abort removes unwind, keep unwind UNKNOWN rather than fabricate an edge.",
+      "execution": "NOT_RUN"
+    },
+    "raw-eq-uninit::raw_eq_zero_sized": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/raw-eq-uninit/main.rs",
+      "harness": "raw_eq_zero_sized",
+      "line": 87,
+      "sha256": "a0f781ed9650af8fe8b49460b9b3af2fb051de670931a2691eaf3561f784cd52",
+      "golden": {
+        "path": "tests/expected/uninit/raw-eq-uninit/expected",
+        "sha256": "7e342d3b17850f60ba204828dcfb431d6dfd44ec11aab6c1ec44ce51b6ca7698"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "spec:zst-protocol": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "After M0: noinline sized MU<()> and [MU<()>;3] copy/reset/by-value argument/return plus [MU<u8>;0]. Scalar sentinel after ZST operation; retain argument/count/return0 pairing even when byte extent=0. Pair with nonempty hole; no arbitrary-union ZST-arm claim.",
+      "execution": "NOT_RUN"
+    },
+    "maybe-uninit-transfers::argument_return_both_initialized": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-transfers/main.rs",
+      "harness": "argument_return_both_initialized",
+      "line": 96,
+      "sha256": "5587fdcd7436a63ccfed41747fc5c9ebc18ec74f46ef988d35c2e0877dba33d9",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-transfers/expected",
+        "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "spec:legal-pfc": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "After M0: reuse no-contract select/relay MU<u16> scalar roundtrip; legal PFC variant with modifies(out), writes only *out=relay(new(7)).assume_init(), ensures scalar 7. Compare identical flags/base/candidate; generated DFCC roots and private shadow effects must be bound. Do not duplicate old negative bodies.",
+      "execution": "NOT_RUN"
+    },
+    "maybe-uninit-contract-frame::frame_negative": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+      "harness": "frame_negative",
+      "line": 27,
+      "sha256": "f5c45585e405fe570d88eddb69b76b6299a04ebaba168cc08e2b36bb3bbb09c2",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+        "sha256": "778925cfde695f7899091ebab25513e7d755784dcbbd1ea92d844432bc8263ba"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-contract-clause::clause_pfc_negative": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+      "harness": "clause_pfc_negative",
+      "line": 28,
+      "sha256": "5fc89460489e7ac8dafe69f0ad722ae5d4d3a31776f945c0f78beda15aa38ad9",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+        "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-call-pairing::initialized_argument_return_control": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+      "harness": "initialized_argument_return_control",
+      "line": 69,
+      "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "maybe-uninit-call-pairing::nested_same_size_calls_preserve_selected_uninit": {
+      "kind": "EXISTING_PINNED_HARNESS",
+      "repository": "/root/kani-fix-3300-p1b1",
+      "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+      "harness": "nested_same_size_calls_preserve_selected_uninit",
+      "line": 58,
+      "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+      },
+      "execution": "NO_PER_HARNESS_EVIDENCE_READ"
+    },
+    "spec:root-order": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "After D0-A/M0: run same legal/hole compare specialization roots separately and jointly AB/BA, exact same MIR inputs/options. Also preserve D0 AB/BA jobs without editing its two harnesses. Compare per-root JSON properties and transformed body/cache identity.",
+      "execution": "NOT_RUN"
+    },
+    "spec:fn-def-resolution-err-empty-entry": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "COMPILER-CONTROLS.md#fn-def-resolution-err-empty-entry",
+      "execution": "NOT_RUN"
+    },
+    "spec:bodyless-shim-and-llvm": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "COMPILER-CONTROLS.md#bodyless-shim-and-llvm",
+      "execution": "NOT_RUN"
+    },
+    "spec:bodyful-shim-direct-shadow-argument-only": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "COMPILER-CONTROLS.md#bodyful-shim-direct-shadow-argument-only",
+      "execution": "NOT_RUN"
+    },
+    "spec:bodyful-shim-shadow-return-only": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "COMPILER-CONTROLS.md#bodyful-shim-shadow-return-only",
+      "execution": "NOT_RUN"
+    },
+    "spec:by-value-dst": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "COMPILER-CONTROLS.md#by-value-dst",
+      "execution": "NOT_RUN"
+    },
+    "spec:ordinary-union-constant": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "COMPILER-CONTROLS.md#ordinary-union-constant",
+      "execution": "NOT_RUN"
+    },
+    "spec:backend-hook-return": {
+      "kind": "NONEXECUTED_SPECIFICATION",
+      "spec": "COMPILER-CONTROLS.md#backend-hook-return",
+      "execution": "NOT_RUN"
+    }
+  },
+  "controls": [
+    {
+      "id": "promoted-direct",
+      "obligation": "Anonymous immutable referent: complete mask and None holes on each raw_eq operand; direct references",
+      "inputs": [
+        "promoted_direct_legal",
+        "promoted_direct_left_hole",
+        "promoted_direct_right_hole"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Legal: both full byte extents initialized, reached checks SUCCESS and equality true.",
+          "Left/right negatives: reached uninit byte-read failure at offset 0/2 on respective operand; valid MU references before read."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Actual promoted/anonymous ConstOperand and referent AllocId; byte Some/None mask, mutability and relocation data.",
+        "Direct operands -> runtime object/offset=0/extent=3 -> witness byte and preceding state origin."
+      ],
+      "lowering_risk_or_unknown": [
+        "Promotion and None mask are hypotheses; actual allocation bytes required.",
+        "Equal full references may coalesce; two source expressions do not prove distinct objects.",
+        "Retained raw_eq/CheckAs operand order and IDs UNKNOWN despite three-byte shape."
+      ],
+      "stage_owner": "M0/M1 model owner 14; C1 controls owner 15"
+    },
+    {
+      "id": "promoted-helper",
+      "obligation": "Anonymous immutable referent: complete mask and None holes on each raw_eq operand; helper references",
+      "inputs": [
+        "promoted_helper_legal",
+        "promoted_helper_left_hole",
+        "promoted_helper_right_hole"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Legal: both full byte extents initialized, reached checks SUCCESS and equality true.",
+          "Left/right negatives: reached uninit byte-read failure at offset 0/2 on respective operand; valid MU references before read."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Actual promoted/anonymous ConstOperand and referent AllocId; byte Some/None mask, mutability and relocation data.",
+        "Caller reference -> helper formal -> raw_eq operand -> runtime object/offset=0/extent=3 -> witness byte and preceding state origin."
+      ],
+      "lowering_risk_or_unknown": [
+        "Promotion and None mask are hypotheses; actual allocation bytes required.",
+        "Equal full references may coalesce; two source expressions do not prove distinct objects.",
+        "Retained raw_eq/CheckAs operand order and IDs UNKNOWN despite three-byte shape."
+      ],
+      "stage_owner": "M0/M1 model owner 14; C1 controls owner 15"
+    },
+    {
+      "id": "dynamic-selection",
+      "obligation": "Dynamic promoted/local referent choice for both operands",
+      "inputs": [
+        "spec:dynamic-choice"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Reach all four object pairs; legal equality true. Each hole is detected on the chosen operand; no blessing by reference type."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Selection MIR branches, points-to alternatives and reachability covers for each boolean pair.",
+        "Per alternative AllocId/local identity -> runtime object/offset/extent; selected witness and mask."
+      ],
+      "lowering_risk_or_unknown": [
+        "A whole-object points-to edge does not prove referent offset or branch coverage.",
+        "Source condition may simplify; runtime choice and required raw_eq must survive."
+      ],
+      "stage_owner": "M1/M3 owner 14; C1 owner 15"
+    },
+    {
+      "id": "coalescing-alias-offset",
+      "obligation": "Coalesced anonymous allocations, aliased views and nonzero offsets on both operands",
+      "inputs": [
+        "spec:coalesced-offset"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Legal views compare true; holes inside each selected extent fail. A hole outside extent does not cause failure."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "AllocId coalescing equivalence, parent object identity, offset composition and bounds 0..6.",
+        "Both operand mappings, raw_eq extent=3 and witness at view-relative offset."
+      ],
+      "lowering_risk_or_unknown": [
+        "Compiler may merge equal constants; runtime pointer equality is not init/provenance evidence.",
+        "Cast, subrange lowering and retained intrinsic UNKNOWN."
+      ],
+      "stage_owner": "M0/M1/M3 owner 14; C1 owner 15"
+    },
+    {
+      "id": "flat-whole-array-copy",
+      "obligation": "Bytewise copy through pointer to entire [MU<u8>;3], initialized and unwritten companions",
+      "inputs": [
+        "flat_whole_copy_legal",
+        "flat_whole_copy_left_hole",
+        "flat_whole_copy_right_hole"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Positive scalar reads each copied byte as 7 and retained raw_eq equality true.",
+          "Negative copies one unwritten byte over previously initialized destination; respective left/right raw_eq byte check fails."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "copy_nonoverlapping::<[MU<u8>;3]>, count=1, original pointer types retained; no conversion to unrelated slot-only test.",
+        "source/destination different live allocations, offset=0 extent=3; raw snapshot transfers false as well as true; destination view binds each raw_eq operand."
+      ],
+      "lowering_risk_or_unknown": [
+        "Three-byte raw_eq is intended to resist InstSimplify, retention NOT_RUN.",
+        "Array aggregate or copy simplification may erase required path; reject misbound control rather than credit it."
+      ],
+      "stage_owner": "M0/M2/M3 owner 14; C1 owner 15"
+    },
+    {
+      "id": "existing-local-raw-eq",
+      "obligation": "Reuse retained raw_eq local/reference/storage legal and independent left/right/padding negatives",
+      "inputs": [
+        "raw-eq-uninit::raw_eq_initialized_arrays",
+        "raw-eq-uninit::raw_eq_initialized_array_references",
+        "raw-eq-uninit::raw_eq_initialized_storage",
+        "raw-eq-uninit::raw_eq_left_uninitialized_byte",
+        "raw-eq-uninit::raw_eq_right_uninitialized_byte",
+        "raw-eq-uninit::raw_eq_padding_is_uninitialized"
+      ],
+      "observed": {
+        "status": "STATIC_SOURCE_ONLY",
+        "provenance": "source-inventory",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Legal comparisons true/false follow scalar bytes. Holes fail on respective operand; padded 12-byte payload fails on padding."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Each actual raw_eq instance and operand -> object/offset/extent; per-harness JSON ID, class and reached status.",
+        "Padding target layout size=12 offset(value)=4 and typed mask; no numeric property ID inferred."
+      ],
+      "lowering_risk_or_unknown": [
+        "Existing source shapes are not new runtime evidence.",
+        "Scalar fixture can simplify; 3/12 byte inputs still require retained MIR binding."
+      ],
+      "stage_owner": "C1/G1 owner 15; M1-M3 owner 14"
+    },
+    {
+      "id": "ordinary-array-equality",
+      "obligation": "Keep both original legal equality regressions without touching D0",
+      "inputs": [
+        "maybe-uninit-initialized::array_value_as_used_by_merge_output",
+        "maybe-uninit-initialized::partial_copy_preserves_written_byte"
+      ],
+      "observed": {
+        "status": "STATIC_SOURCE_ONLY",
+        "provenance": "source-inventory",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Both legal equality harnesses must pass on corrected candidate; required equality properties reached."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "D0-A exact MIR/SpecArrayEq instance, both references, promotion/local allocation mapping, selected witness and last setter/transfer.",
+        "Bind any normal-edge call destination to same object later consumed by equality."
+      ],
+      "lowering_risk_or_unknown": [
+        "Coordinator reports known selector failure; exact source/run property mapping not read here.",
+        "No claim that right operand caused failure, setter is absent, or root order caused it."
+      ],
+      "stage_owner": "D0-A/M0/M1/M2 owner 14; G1 owner 15"
+    },
+    {
+      "id": "flat-slice-subrange",
+      "obligation": "Flat slice/subrange source and destination offset, legal and independent hole companions",
+      "inputs": [
+        "maybe-uninit-initialized::slice_offset_and_reinitialization",
+        "maybe-uninit-initialized::partial_copy_preserves_written_byte",
+        "spec:slice-offset-pair"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Written bytes retain scalar values; hole reaches own u8 read after copy; adjacent/outside bytes unchanged."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Fat-pointer metadata/length, base object + slice start + slot offset, copy range and nonoverlap.",
+        "Transferred false/true state and witness in second source/destination slot; checks reached."
+      ],
+      "lowering_risk_or_unknown": [
+        "Existing partial_copy legal equality remains known failing; not a standalone clean pair.",
+        "New nonzero-offset spec NOT_RUN, existing slot-copy is not whole-array-pointer coverage."
+      ],
+      "stage_owner": "M2/M3 owner 14; C1 owner 15"
+    },
+    {
+      "id": "overwrite-reset",
+      "obligation": "Overwrite/reset true->false and false->true; preserve written-byte companion",
+      "inputs": [
+        "maybe-uninit-transfers::overwrite_copy_written_byte",
+        "maybe-uninit-overwrite-copy::overwrite_copy",
+        "maybe-uninit-transfers::reset_after_zst_then_initialize",
+        "maybe-uninit-reset-zst::reset_after_zst",
+        "maybe-uninit-reset-alias::reset_through_another_alias"
+      ],
+      "observed": {
+        "status": "STATIC_SOURCE_ONLY",
+        "provenance": "source-inventory",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Initialized prefix retains 7; copied unwritten tail fails. Reinitialized scalar 7 passes; reset alias read fails."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Last state update before each read, object identity and offset/extent; snapshot-before-overwrite order.",
+        "Positive and independent negative harness JSON properties; no stale true survives reset."
+      ],
+      "lowering_risk_or_unknown": [
+        "Direct MU and flat storage paths differ; existing pair does not settle all flat aliases.",
+        "Alias validity must be independently established; alias model error cannot count as desired uninit failure."
+      ],
+      "stage_owner": "M2/M3 owner 14; C1 owner 15"
+    },
+    {
+      "id": "overlap",
+      "obligation": "Both memmove directions with initialized and hole companions",
+      "inputs": [
+        "maybe-uninit-transfers::overlap_copy_left_written_slot",
+        "maybe-uninit-transfers::overlap_copy_right_written_slot",
+        "maybe-uninit-overlap-copy::overlap_copy_left",
+        "maybe-uninit-overlap-copy::overlap_copy_right"
+      ],
+      "observed": {
+        "status": "STATIC_SOURCE_ONLY",
+        "provenance": "source-inventory",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Written slot reads 3/1 respectively; copied hole fails on destination 0/2."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "One allocation, source/destination offset, extent=2 slots, snapshot state before mutation and selected witness."
+      ],
+      "lowering_risk_or_unknown": [
+        "Iteration order or in-place shadow update must not corrupt memmove semantics.",
+        "Each independent negative must reach intended read without earlier Unsupported."
+      ],
+      "stage_owner": "M3 owner 14; C1 owner 15"
+    },
+    {
+      "id": "typed-versus-raw",
+      "obligation": "Typed D(T) mask versus bytewise full raw extent including padding",
+      "inputs": [
+        "maybe-uninit-typed-transfer-data::raw_nonoverlapping_copy_preserves_padding",
+        "maybe-uninit-typed-transfer-data::raw_copy_preserves_padding",
+        "maybe-uninit-typed-transfer-data::typed_assignment_preserves_data",
+        "maybe-uninit-typed-transfer-data::typed_argument_return_preserves_data",
+        "maybe-uninit-typed-transfer-data::typed_array_preserves_data",
+        "maybe-uninit-typed-transfer-data::raw_array_copy_preserves_second_slot_padding",
+        "maybe-uninit-typed-return-padding::typed_return_discards_written_padding",
+        "maybe-uninit-typed-array-partial-data::typed_array_preserves_second_slot_unwritten_data"
+      ],
+      "observed": {
+        "status": "STATIC_SOURCE_ONLY",
+        "provenance": "source-inventory",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Raw copy preserves written padding 0x5a; typed data survives but padding becomes false; false data remains false."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Target layout/stride, D(T) field mask and whole extent; second-slot offset and payload offset composed once.",
+        "Typed transfers/return0 protocol and raw snapshot distinguished in actual MIR and byte witness."
+      ],
+      "lowering_risk_or_unknown": [
+        "No full-true return setter may overwrite false/padding.",
+        "Architecture-specific layout assertions must bind actual target; raw_eq padded test alone does not cover typed path."
+      ],
+      "stage_owner": "M0/M2 owner 14; C1 owner 15"
+    },
+    {
+      "id": "ordinary-call-normal-edge",
+      "obligation": "Ordinary bodyful Item normal call destination initialization",
+      "inputs": [
+        "maybe-uninit-initialized::raw_read_after_write",
+        "maybe-uninit-transfers::complete_padded_transmute",
+        "spec:ordinary-normal-return"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Only proved typed data initialization on normal edge; equality legal, padding not blessed."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Actual Item+Some body and ABI; normal target block destination identity -> reference consumed by raw_eq.",
+        "Relevance/last existing setter or transfer including complete trace; do not assume missing setter from temporary spelling."
+      ],
+      "lowering_risk_or_unknown": [
+        "Existing raw_read_after_write carries shadow MU; it does not close ordinary T return destination gap.",
+        "New ordinary produce spec NOT_RUN; depends on D0 evidence."
+      ],
+      "stage_owner": "D0-A/M0/M2 owner 14; C1 owner 15"
+    },
+    {
+      "id": "shadow-return-false",
+      "obligation": "Supported Item return0 preserves true and false",
+      "inputs": [
+        "item-return-initialized-plain::item_return_preserves_initialized_value",
+        "item-return-initialized-seeded::item_return_preserves_initialized_value",
+        "item-return-uninit-plain::item_return_preserves_uninitialized_read",
+        "item-return-uninit-seeded::item_return_preserves_uninitialized_read"
+      ],
+      "observed": {
+        "status": "STATIC_SOURCE_ONLY",
+        "provenance": "source-inventory",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Initialized scalar 7 reaches successful read; uninit u16 read fails, no spurious shadow-protocol Unsupported."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Actual Item/body/ABI from generic closure route, caller stores/entry loads/return0 store/load signature,count,index,size.",
+        "Plain/seeded target set, points-to/relevance, witness false and every reached protocol assertion."
+      ],
+      "lowering_risk_or_unknown": [
+        "Source FnOnce spelling does not prove Shim kind.",
+        "Aggregate Quick does not establish named property outcomes or seed activation."
+      ],
+      "stage_owner": "M2 owner 14; C1/G1 owner 15"
+    },
+    {
+      "id": "unwind-abort",
+      "obligation": "Unwind/abort is not normal return",
+      "inputs": [
+        "spec:abnormal-return"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "No shadow initialization or return0 consumption on abnormal edge; legal normal companion still passes."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Terminator unwind kind and target blocks under actual flags; call reachability before abort, normal-edge-only insertions and protocol completion."
+      ],
+      "lowering_risk_or_unknown": [
+        "panic=abort may make unwind form unavailable; ordinary Rust source alone cannot prove both edges."
+      ],
+      "stage_owner": "M2 owner 14; C1 owner 15"
+    },
+    {
+      "id": "zero-nonzero-zst",
+      "obligation": "Nonempty negative plus proven empty and canonical MU ZST lifecycle",
+      "inputs": [
+        "raw-eq-uninit::raw_eq_zero_sized",
+        "raw-eq-uninit::raw_eq_left_uninitialized_byte",
+        "maybe-uninit-transfers::reset_after_zst_then_initialize",
+        "maybe-uninit-reset-zst::reset_after_zst",
+        "spec:zst-protocol"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Proven empty raw comparison true; zero operations do not suppress later nonempty failure or reset. ZST ABI pairing valid."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Actual zero/nonzero extent, target size/stride, body/ABI and retained protocol count/index.",
+        "Do not require nonexistent byte witness for extent 0; nonempty hole must have reached byte failure."
+      ],
+      "lowering_risk_or_unknown": [
+        "Empty control cannot substitute for nonempty negative; zero count may still evaluate pointer object/offset.",
+        "Ordinary padded-union zero arms require separate dependency, not canonical MU proof."
+      ],
+      "stage_owner": "M0/M3 owner 14; C1 owner 15"
+    },
+    {
+      "id": "legal-pfc-modifies",
+      "obligation": "Legal no-contract/PFC/DFCC and modifies controls",
+      "inputs": [
+        "maybe-uninit-transfers::argument_return_both_initialized",
+        "spec:legal-pfc"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "All three legal modes pass, reached scalar 7; private shadow updates do not trigger false frame violation."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Actual transformed PFC roots/contract wrappers, callable Instance/ABI and DFCC allowed static set.",
+        "Reached frame/property statuses, protocol pair identity and source/tool/solver/bounds/time/memory identities."
+      ],
+      "lowering_risk_or_unknown": [
+        "No pinned legal modifies/PFC MU fixture found in source search; exact spec remains NOT_RUN.",
+        "Base PASS/candidate OOM is resource regression; aggregate script PASS does not prove this."
+      ],
+      "stage_owner": "C1/G2 owner 15; DFCC/model coordination owner 14"
+    },
+    {
+      "id": "frame-clause-negatives",
+      "obligation": "Frame and clause failures must stay distinct",
+      "inputs": [
+        "maybe-uninit-contract-frame::frame_negative",
+        "maybe-uninit-contract-clause::clause_pfc_negative"
+      ],
+      "observed": {
+        "status": "STATIC_SOURCE_ONLY",
+        "provenance": "source-inventory",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Out-of-modifies user write fails frame property. Clause reading uninit u16 fails uninit property; no false frame from private shadow."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Actual rewritten roots, call/return shadow pairing, property class/source span and per-harness reached status."
+      ],
+      "lowering_risk_or_unknown": [
+        "Generic FAILED cannot distinguish intended frame/clause failure from early Unsupported, ICE, timeout or unreachability."
+      ],
+      "stage_owner": "C1/G2 owner 15"
+    },
+    {
+      "id": "shared-specialization-root-order",
+      "obligation": "Same monomorphization in singleton, AB and BA roots",
+      "inputs": [
+        "raw-eq-uninit::raw_eq_initialized_array_references",
+        "maybe-uninit-call-pairing::initialized_argument_return_control",
+        "maybe-uninit-call-pairing::nested_same_size_calls_preserve_selected_uninit",
+        "spec:root-order"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Each root retains same required properties/outcome/ordering independent of root order. Legal and negative outcomes remain distinct."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Shared Instance generic arguments, BodyTransformation cache pre/post entries, root iteration order and exact transformed MIR per root.",
+        "Match named JSON properties semantically; do not assume numeric property IDs stable across root order."
+      ],
+      "lowering_risk_or_unknown": [
+        "Shared cache mechanism is static fact; causal order-dependent verdict remains UNKNOWN.",
+        "No separate tests copied from D0 or implementation of K0 here."
+      ],
+      "stage_owner": "D0-A/K0 owner 14 if causal evidence; C1/G1 owner 15"
+    },
+    {
+      "id": "fn-def-resolution-err-empty-entry",
+      "obligation": "Genuine FnDef resolver Err",
+      "inputs": [
+        "spec:fn-def-resolution-err-empty-entry"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Support / Unsupported / UNKNOWN must be separated; no impossible Instance accepted as coverage.",
+          "For reachable unsupported form: earlier entry loads and operand checks retained, exactly one appropriate Unsupported before effects, no resolver/body unwrap ICE.",
+          "For unavailable legal MIR form: record constraint and UNKNOWN; specification is not executed compiler test."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Actual caller/callee kind, body availability, ABI and operand/destination types.",
+        "Measured initial seed targets, prior graph and local visitor path; normal/abnormal edge, ordered load/check/Unsupported properties.",
+        "See corresponding compiler specification for API feasibility constraints."
+      ],
+      "lowering_risk_or_unknown": [
+        "B1IA FnPtr/tuple/Item controls do not establish Shim/resolver Err.",
+        "No framework/visitor mock or new ABI/guard support is implemented."
+      ],
+      "stage_owner": "C1 owner 15 after M0; shared production boundary model owner 14"
+    },
+    {
+      "id": "bodyless-shim-and-llvm",
+      "obligation": "Generated/bodyless Shim, LlvmIntrinsic and Item separately",
+      "inputs": [
+        "spec:bodyless-shim-and-llvm"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Support / Unsupported / UNKNOWN must be separated; no impossible Instance accepted as coverage.",
+          "For reachable unsupported form: earlier entry loads and operand checks retained, exactly one appropriate Unsupported before effects, no resolver/body unwrap ICE.",
+          "For unavailable legal MIR form: record constraint and UNKNOWN; specification is not executed compiler test."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Actual caller/callee kind, body availability, ABI and operand/destination types.",
+        "Measured initial seed targets, prior graph and local visitor path; normal/abnormal edge, ordered load/check/Unsupported properties.",
+        "See corresponding compiler specification for API feasibility constraints."
+      ],
+      "lowering_risk_or_unknown": [
+        "B1IA FnPtr/tuple/Item controls do not establish Shim/resolver Err.",
+        "No framework/visitor mock or new ABI/guard support is implemented."
+      ],
+      "stage_owner": "C1 owner 15 after M0; shared production boundary model owner 14"
+    },
+    {
+      "id": "bodyful-shim-direct-shadow-argument-only",
+      "obligation": "Bodyful Shim direct shadow argument only",
+      "inputs": [
+        "spec:bodyful-shim-direct-shadow-argument-only"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Support / Unsupported / UNKNOWN must be separated; no impossible Instance accepted as coverage.",
+          "For reachable unsupported form: earlier entry loads and operand checks retained, exactly one appropriate Unsupported before effects, no resolver/body unwrap ICE.",
+          "For unavailable legal MIR form: record constraint and UNKNOWN; specification is not executed compiler test."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Actual caller/callee kind, body availability, ABI and operand/destination types.",
+        "Measured initial seed targets, prior graph and local visitor path; normal/abnormal edge, ordered load/check/Unsupported properties.",
+        "See corresponding compiler specification for API feasibility constraints."
+      ],
+      "lowering_risk_or_unknown": [
+        "B1IA FnPtr/tuple/Item controls do not establish Shim/resolver Err.",
+        "No framework/visitor mock or new ABI/guard support is implemented."
+      ],
+      "stage_owner": "C1 owner 15 after M0; shared production boundary model owner 14"
+    },
+    {
+      "id": "bodyful-shim-shadow-return-only",
+      "obligation": "Bodyful Shim shadow return only",
+      "inputs": [
+        "spec:bodyful-shim-shadow-return-only"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Support / Unsupported / UNKNOWN must be separated; no impossible Instance accepted as coverage.",
+          "For reachable unsupported form: earlier entry loads and operand checks retained, exactly one appropriate Unsupported before effects, no resolver/body unwrap ICE.",
+          "For unavailable legal MIR form: record constraint and UNKNOWN; specification is not executed compiler test."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Actual caller/callee kind, body availability, ABI and operand/destination types.",
+        "Measured initial seed targets, prior graph and local visitor path; normal/abnormal edge, ordered load/check/Unsupported properties.",
+        "See corresponding compiler specification for API feasibility constraints."
+      ],
+      "lowering_risk_or_unknown": [
+        "B1IA FnPtr/tuple/Item controls do not establish Shim/resolver Err.",
+        "No framework/visitor mock or new ABI/guard support is implemented."
+      ],
+      "stage_owner": "C1 owner 15 after M0; shared production boundary model owner 14"
+    },
+    {
+      "id": "by-value-dst",
+      "obligation": "By-value DST boundary, not pointer/slice-reference support",
+      "inputs": [
+        "spec:by-value-dst"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Support / Unsupported / UNKNOWN must be separated; no impossible Instance accepted as coverage.",
+          "For reachable unsupported form: earlier entry loads and operand checks retained, exactly one appropriate Unsupported before effects, no resolver/body unwrap ICE.",
+          "For unavailable legal MIR form: record constraint and UNKNOWN; specification is not executed compiler test."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Actual caller/callee kind, body availability, ABI and operand/destination types.",
+        "Measured initial seed targets, prior graph and local visitor path; normal/abnormal edge, ordered load/check/Unsupported properties.",
+        "See corresponding compiler specification for API feasibility constraints."
+      ],
+      "lowering_risk_or_unknown": [
+        "B1IA FnPtr/tuple/Item controls do not establish Shim/resolver Err.",
+        "No framework/visitor mock or new ABI/guard support is implemented."
+      ],
+      "stage_owner": "C1 owner 15 after M0; shared production boundary model owner 14"
+    },
+    {
+      "id": "ordinary-union-constant",
+      "obligation": "Retained ordinary-union constant operand",
+      "inputs": [
+        "spec:ordinary-union-constant"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Support / Unsupported / UNKNOWN must be separated; no impossible Instance accepted as coverage.",
+          "For reachable unsupported form: earlier entry loads and operand checks retained, exactly one appropriate Unsupported before effects, no resolver/body unwrap ICE.",
+          "For unavailable legal MIR form: record constraint and UNKNOWN; specification is not executed compiler test."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Actual caller/callee kind, body availability, ABI and operand/destination types.",
+        "Measured initial seed targets, prior graph and local visitor path; normal/abnormal edge, ordered load/check/Unsupported properties.",
+        "See corresponding compiler specification for API feasibility constraints."
+      ],
+      "lowering_risk_or_unknown": [
+        "B1IA FnPtr/tuple/Item controls do not establish Shim/resolver Err.",
+        "No framework/visitor mock or new ABI/guard support is implemented."
+      ],
+      "stage_owner": "C1 owner 15 after M0; shared production boundary model owner 14"
+    },
+    {
+      "id": "backend-hook-return",
+      "obligation": "Backend-hook intercepted shadow return / DFCC",
+      "inputs": [
+        "spec:backend-hook-return"
+      ],
+      "observed": {
+        "status": "NOT_RUN",
+        "provenance": "c1p-drafts-specs",
+        "source_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+        "run": null,
+        "property_ids": "UNKNOWN",
+        "retained_raw_eq": "UNKNOWN",
+        "actual_kind_body": "UNKNOWN",
+        "reachability": "UNKNOWN",
+        "missing_setter": "UNKNOWN"
+      },
+      "expected": {
+        "semantic_properties": [
+          "Support / Unsupported / UNKNOWN must be separated; no impossible Instance accepted as coverage.",
+          "For reachable unsupported form: earlier entry loads and operand checks retained, exactly one appropriate Unsupported before effects, no resolver/body unwrap ICE.",
+          "For unavailable legal MIR form: record constraint and UNKNOWN; specification is not executed compiler test."
+        ],
+        "acceptance": "Requirements only; no measured outcome, no golden invented."
+      },
+      "required_binding": [
+        "Actual caller/callee kind, body availability, ABI and operand/destination types.",
+        "Measured initial seed targets, prior graph and local visitor path; normal/abnormal edge, ordered load/check/Unsupported properties.",
+        "See corresponding compiler specification for API feasibility constraints."
+      ],
+      "lowering_risk_or_unknown": [
+        "B1IA FnPtr/tuple/Item controls do not establish Shim/resolver Err.",
+        "No framework/visitor mock or new ABI/guard support is implemented."
+      ],
+      "stage_owner": "C1 owner 15 after M0; shared production boundary model owner 14"
+    }
+  ],
+  "inventory": {
+    "new_draft_files": 9,
+    "new_draft_harnesses": 9,
+    "control_rows": 25,
+    "input_records": 62
+  },
+  "stop": "STOP before D0-A/M0 design gate, C1 implementation/CI only by separate task. Decision B retained; no model/guard/source/workflow activation."
+}
