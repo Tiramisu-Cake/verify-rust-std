@@ -4,6 +4,9 @@
 Fork CI запускает только координатор. Это верификация корректности, не security-работа.
 Worker15 владеет source/integration; worker14 параллельно делает test-only TASK-KANI3300-M2BR7-CONTROLS.md.
 
+**Новый handoff:** B0/B1 probes43283061769/43283068930 оба P1/P2 heavy. TASK-KANI3300-M2BR8.md (15),
+TASK-KANI3300-M2BR8-CONTROLS.md (14); R7-C reuse unchanged. Historical m2br7 records не менять, R7 не resource fix.
+
 ## Вход, accepted base и смысл результата R6b
 
 Base **4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c**, tree **af28e22ec446b254cfa3a28b2882eafa58d5a458**,

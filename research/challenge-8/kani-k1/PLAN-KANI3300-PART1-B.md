@@ -5,7 +5,13 @@ Direct-MU-only экспорт отклонён. Полная для заявле
 type-only skip, default true и потеря negative checks не являются вариантом. Runtime Codex; Cloud $0, CI только координатора.
 Это верификация корректности, не security-работа.
 
-**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR7.md (4f64 full chain: bootstrap B0 + separate current
+**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR8.md (pointer-carried relative snapshot + captured value),
+14 → TASK-KANI3300-M2BR8-CONTROLS.md (до2 nonzero-offset NoCopy Move/return controls). Base8e01 уже содержит R7-Cfe36.
+R7 B0/B1 runs43283061769/43283068930 оба P1/P2 cutoff; split/scalar assigns не сняли ресурсный gate.
+R8 сохраняет A3 snapshot до Move, source payload/shadow поздно не читает; metadata lemma/version/bounds и private-cell targets
+обязательны. Сам POINTER_OBJECT/OFFSET в CBMC BV — extraction, compound conversion mechanism ещё не установлен. M3 HELD.
+
+**Предыдущий handoff R7:** 15 → TASK-KANI3300-M2BR7.md (4f64 full chain: bootstrap B0 + separate current
 snapshot/fieldwise-private assigns B1), 14 → TASK-KANI3300-M2BR7-CONTROLS.md (test-only P1/lawful positive + reuse P2/frame/false).
 R6-02b43276309576 решаем50s/1.95GB, но assignable frameFAIL; matched R1+skip43276317655 cutoff>6.71GiB.
 Текущий A3 transport хранит false-capable snapshot до Move/return, старый raw-pointer buffer не release fix.
