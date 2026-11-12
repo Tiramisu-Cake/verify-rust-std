@@ -1,0 +1,396 @@
+{
+  "schema": "kani3300-c1l-output-contract/v1",
+  "role": "Specification for coordinator curation, NOT an extractor and NOT an observed report",
+  "files": {
+    "shared/setup-identities.json": {
+      "required": [
+        "source_commit",
+        "source_tree",
+        "diagnostic_parent",
+        "baseline",
+        "adapter_patch_sha256",
+        "global_config_sha256",
+        "rustc_vV",
+        "rustc_commit",
+        "target",
+        "target_spec_sha256",
+        "data_layout",
+        "rust_sysroot_manifest_sha256",
+        "effective_kani_sysroot_manifest_sha256",
+        "binaries",
+        "build_recipe",
+        "build_exit",
+        "build_signal",
+        "cpu_affinity",
+        "export_workers",
+        "limits"
+      ],
+      "types": "hashes=64 lowercase hex; sources=40 lowercase hex; data_layout/nonempty paths=str; byte counts=int>=0; no null after successful setup",
+      "binaries": "for each required tool: path, SHA256, bytes, source/build origin; verify before/after each case",
+      "availability": "missing immutable pin or unfilled binary/layout pin => SETUP_FAIL before any compiler invocation"
+    },
+    "CASE/manifest.json": {
+      "required": [
+        "case",
+        "fixture_commit",
+        "fixture_path",
+        "fixture_sha256",
+        "setup_identities_sha256",
+        "case_config_sha256",
+        "expanded_argv",
+        "allowed_environment",
+        "phases",
+        "errors"
+      ],
+      "phases": "setup/build/compiler/linker/driver/curation separate status, exit, signal, timed_out; compiler child PID and actual argv/wait receipt; NOT_RUN requires exit=null, not invented0",
+      "original_input": "exact pinned bytes, no substitutions"
+    },
+    "CASE/roots.json": {
+      "required": [
+        "mode",
+        "units",
+        "cache",
+        "pretty_name",
+        "mangled_name",
+        "metadata_path",
+        "metadata_sha256",
+        "compiler_pid",
+        "source_commit",
+        "fixture_sha256",
+        "symtab_path",
+        "symtab_sha256",
+        "linked_goto_path",
+        "linked_goto_sha256",
+        "normal_order",
+        "actual_order",
+        "stubs",
+        "test_roots",
+        "automatic"
+      ],
+      "mode": "Harnesses; units=1, cache=0 process-qualified; one row for exact case, no stubs/test/automatic roots; linked GOTO may be NOT_RUN on compiler/linker failure"
+    },
+    "CASE/compiler-process.json": {
+      "required": [
+        "case",
+        "actual_compiler_executable_sha256",
+        "actual_compiler_argv",
+        "pid",
+        "state",
+        "exit",
+        "signal",
+        "timed_out"
+      ],
+      "state": "NOT_RUN | COMPLETE | TIMEOUT | INTERRUPTED | UNKNOWN; preserve actual wait status; codegen_completed alone is insufficient"
+    },
+    "CASE/driver-process.json": {
+      "required": [
+        "case",
+        "argv",
+        "pid",
+        "state",
+        "exit",
+        "signal",
+        "timed_out",
+        "linker_executions",
+        "solver_executions",
+        "execution_receipt_sha256"
+      ],
+      "linker_executions": "each goto-cc path/SHA/argv/exit/signal separately; no solver/inventory probe",
+      "solver_executions": "must equal []; missing execution coverage is UNKNOWN/STOP, not zero by assumption"
+    },
+    "CASE/report.json": {
+      "required": [
+        "schema",
+        "case",
+        "identities",
+        "compilation",
+        "lowering_suitability",
+        "coverage",
+        "snapshots",
+        "raw_eq",
+        "caller_helper",
+        "operands",
+        "full_byte_checks",
+        "delayed_activation",
+        "artifacts",
+        "runtime"
+      ],
+      "details": "see field_contract below"
+    },
+    "CASE/compiler/PID-coverage.json": {
+      "required": [
+        "schema",
+        "case",
+        "pid",
+        "codegen_completed",
+        "counts",
+        "required_phase_coverage"
+      ],
+      "schema": "kani3300-c1l/v1",
+      "counts": "emitted/dropped/filtered maps str->int>=0; bytes/attempted int>=0; filter and limits; reconcile all files/PIDs; preserve CI_MUST_VALIDATE until independently checked; no rewritten observer claims"
+    },
+    "CASE/compiler/PID-SEQUENCE-STAGE.json": {
+      "required": [
+        "schema",
+        "case",
+        "pid",
+        "unit",
+        "cache",
+        "root",
+        "phase",
+        "sequence",
+        "stage",
+        "instance",
+        "symbol",
+        "instance_data",
+        "payload_fingerprint",
+        "cache_writer",
+        "payload_encoding",
+        "payload",
+        "runtime_binding"
+      ],
+      "schema": "kani3300-c1l/v1",
+      "payload": "exact compiler-produced string, not command text; JSON MIR snapshots use matching compiler serde crate",
+      "runtime_binding": "NOT_RUN; never upgrade it after compile success",
+      "integrity": "per-file SHA256+bytes in artifact index; FNV fingerprint is structural only, not integrity",
+      "instance_data": "compiler-serde encoded Instance(kind/def indices), or null for unscoped records; tie helper/root kind and def identity without Debug/body queries"
+    }
+  },
+  "field_contract": {
+    "schema": "kani3300-c1l-report/v1",
+    "identities": "full source/tree/diagnostic/base, input+config SHA, setup SHA, case/PID/unit/cache/root, target/sysroot/layout/binary identities and source-stage-target match",
+    "compilation": {
+      "status_enum": [
+        "NOT_RUN",
+        "SETUP_FAIL",
+        "COMPILE_FAIL",
+        "UNSUPPORTED",
+        "INCOMPLETE_REPORT",
+        "CODEGEN_SUCCESS"
+      ],
+      "required": [
+        "status",
+        "setup_exit",
+        "build_exit",
+        "compiler_exit",
+        "compiler_signal",
+        "linker_exits",
+        "driver_exit",
+        "curation_exit",
+        "timeout",
+        "errors"
+      ],
+      "exit_rule": "int or explicit null with phase status/reason; preserve independent original nonzero exits, never normalize to0"
+    },
+    "lowering_suitability": {
+      "enum": [
+        "UNKNOWN",
+        "LOWERING_MISMATCH",
+        "IMMUTABLE_ALLOCATION_BOUND"
+      ],
+      "rule": "independent of compiler success; IMMUTABLE_ALLOCATION_BOUND is compiler observation only, no verification PASS"
+    },
+    "coverage": {
+      "required": [
+        "complete",
+        "required_fields",
+        "missing",
+        "dropped",
+        "filtered",
+        "emitted",
+        "artifact_index_complete",
+        "identities_match",
+        "roots_match",
+        "stage_bindings",
+        "solver_exec_count",
+        "solver_exec_receipt_complete"
+      ],
+      "required_fields": "map of every requirement to PRESENT/ABSENT_WITH_COMPLETE_BINDING/NOT_ACTIVATED/NOT_APPLICABLE/UNKNOWN, reason and anchors; missing/null/wrong-type/partial/wrong-stage/identity fields are not complete",
+      "complete_rule": "all required joins positively bound; dropped={} (or all0); hashes and file counts reconciled; solver_exec_count=0 with execution receipt; no unknown required fields",
+      "scope_rule": "filtered stages intentionally outside root/compare/operand scope remain listed; required filtered fields cannot be relabeled N/A"
+    },
+    "snapshots": {
+      "required_per_instance": [
+        "instance_name",
+        "instance_kind",
+        "mangled_symbol",
+        "source_span",
+        "original",
+        "local_transformed",
+        "consumed"
+      ],
+      "instances": "exact root plus compare for helper; direct helper field explicitly NOT_APPLICABLE",
+      "snapshot": "record ID, SHA256, compiler phase/root/Instance, JSON pointer to body; original emitted MIR file/range/hash if available; absent original emitted MIR is explicit UNKNOWN, no substituted source text"
+    },
+    "raw_eq": {
+      "required": [
+        "state",
+        "owner_instance",
+        "source_span",
+        "mir_location",
+        "callee",
+        "specialization",
+        "operand_indices",
+        "original_anchor",
+        "consumed_anchor",
+        "goto_anchor"
+      ],
+      "state_enum": [
+        "RETAINED",
+        "ELIMINATED",
+        "UNSUPPORTED",
+        "UNKNOWN"
+      ],
+      "required_specialization": "[MaybeUninit<u8>;3], actual type/layout binding; no inferred SpecArrayEq<u8,4> or synthetic retained call"
+    },
+    "caller_helper": {
+      "required": [
+        "state",
+        "caller_instance",
+        "callee_instance",
+        "call_location",
+        "arguments",
+        "formal_mapping",
+        "anchors"
+      ],
+      "helper_mapping": "actual argument0->left formal and argument1->right formal, MIR types/projections/offsets/GOTO symbols; inlining if present explicit with complete join or UNKNOWN",
+      "direct_case": "state=NOT_APPLICABLE; preserve reason, other fields null"
+    },
+    "operands": {
+      "cardinality": 2,
+      "indices": [
+        0,
+        1
+      ],
+      "required_per_operand": [
+        "index",
+        "origin",
+        "mir_operand",
+        "source_span",
+        "caller_chain",
+        "helper_formal",
+        "pointer_offset_bytes",
+        "selected_extent_bytes",
+        "allocation",
+        "goto_symbol",
+        "reuse",
+        "coalescing",
+        "coverage",
+        "anchors"
+      ],
+      "origin_enum": [
+        "ImmutableAllocation",
+        "MutableAllocation",
+        "Stack",
+        "Aggregate",
+        "Other",
+        "UNKNOWN"
+      ],
+      "allocation_required_if_present": [
+        "alloc_id",
+        "global_alloc_kind",
+        "mutability",
+        "alignment_bytes",
+        "allocation_extent_bytes",
+        "original_bytes",
+        "some_mask",
+        "relocations",
+        "selected_byte_range",
+        "symbol"
+      ],
+      "original_bytes": "array of byte integer0..255 for Some(value), null for None; Some masks bool array; immutable expected masks are hypotheses until measured",
+      "relocations": "array (possibly empty after full allocation provenance coverage) of offset, width, end_exclusive, target compiler AllocId/kind; width from actual target layout, not host guess",
+      "stack_or_aggregate": "allocation=null only with complete actual stack/aggregate mapping and reason; no immutable mask synthesized from source or GOTO initializer",
+      "reuse": "actual requested symbol, existing alloc_map match, resulting symbol; both operand joins retained even for shared symbol/AllocId",
+      "runtime_objects": "no runtime object ID field; compiler opaque IDs are process-local"
+    },
+    "full_byte_checks": {
+      "cardinality": 2,
+      "required_per_check": [
+        "operand_index",
+        "raw_eq_location",
+        "operation_record",
+        "operation_kind",
+        "layout_anchor",
+        "check_type",
+        "size_bytes",
+        "mask",
+        "consumed_get_callee",
+        "consumed_get_location",
+        "pointer_operand",
+        "result_local",
+        "assertion_location",
+        "goto_pointer_argument",
+        "goto_get_symbol",
+        "goto_assertion_anchor",
+        "coverage"
+      ],
+      "expected": "both actual CheckAs full-byte type[u8;3]/size3/mask[true,true,true]; expression/CFG pairing, no suffix-number or source-label assumptions",
+      "unsupported_or_absent": "explicit status/reason+complete positive site binding; otherwise incomplete. No runtime/reached status filled"
+    },
+    "delayed_activation": {
+      "required": [
+        "record_id",
+        "record_sha256",
+        "case",
+        "pid",
+        "root",
+        "phase",
+        "targets_count",
+        "starting_items_count",
+        "instances_count",
+        "status",
+        "graph_status",
+        "instrumentation_phase_status",
+        "anchors"
+      ],
+      "status": "targets_count=0 -> EMPTY/NOT_ACTIVATED; >0 -> ACTIVATED; absent event -> UNKNOWN",
+      "empty": "graph_status and instrumentation_phase_status=NOT_ACTIVATED for this invocation only; no claim of absence of all writes/setters",
+      "nonempty": "graph_status=FILTERED_OUT_OF_SCOPE; no graph/callee bodies requested; compiler body checks separately bound"
+    },
+    "artifacts": "array of path, bytes, SHA256, case/PID/stage/root, retained ranges and required-field coverage; include exact/complete flags for fragments; no full/raw log/archive handoff",
+    "runtime": {
+      "solver": "NOT_RUN",
+      "initializedness": "NOT_RUN",
+      "reached_property_status": "NOT_RUN",
+      "runtime_witness": "NOT_RUN",
+      "verification": "NOT_RUN",
+      "proof_credit": false
+    }
+  },
+  "anchors": {
+    "required": [
+      "artifact_sha256",
+      "record_id",
+      "stage",
+      "case",
+      "pid",
+      "root",
+      "instance_or_scope",
+      "coordinate"
+    ],
+    "coordinate": "JSON pointer for structured payload; otherwise explicit byte range or line+column with encoding; path/name alone does not prove operand or causal binding",
+    "integrity": "verify each exact file/SHA/config/source/target/phase before joining; process-qualified IDs only"
+  },
+  "failure_policy": {
+    "STOP_AFFECTED_CASE": [
+      "missing/capped/dropped required data",
+      "wrong hash/source/fixture/config/target/sysroot/binary identity",
+      "extra/missing roots or mode/unit/stubs mismatch",
+      "solver execution or missing execution receipt",
+      "required operand/helper/check binding filtered or incomplete",
+      "compiler wait status missing",
+      "case/metadata/packet cap exceeded"
+    ],
+    "preservation": "persist original exits/errors and bounded incomplete report; unknown fields stay UNKNOWN/null with reason; later stages explicitly NOT_RUN on setup fail; no retry",
+    "prelaunch_cap_failure": "STOP before launch; concrete narrower filter/package revision required, no cap growth"
+  },
+  "limits_bytes": {
+    "case": 524288,
+    "observer": 458752,
+    "observer_payload": 65536,
+    "shared_metadata": 1048576,
+    "curated_packet": 5242880
+  },
+  "reporting": "No CI PASS, runtime witness, measured negative, release acceptance, B1/B2 or independent proof credit from compile-only reports."
+}

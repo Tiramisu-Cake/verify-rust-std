@@ -1,0 +1,80 @@
+{
+  "mode": "COMPILE_ONLY",
+  "reachability": "Harnesses",
+  "one_case_one_input_one_process": true,
+  "crate_name": "c1l_input",
+  "argv_template": [
+    "${KANI}",
+    "${FIXTURE}",
+    "--crate-name",
+    "c1l_input",
+    "-Z",
+    "uninit-checks",
+    "-Z",
+    "unstable-options",
+    "--only-codegen",
+    "--output-format",
+    "regular",
+    "--keep-temps",
+    "--target-dir",
+    "${OUT}/${CASE}/model",
+    "--harness",
+    "${CASE}",
+    "--exact"
+  ],
+  "environment_template": {
+    "RUSTFLAGS": "--emit=mir --edition=2021 --target=x86_64-unknown-linux-gnu",
+    "KANI_C1L_CASE": "${CASE}",
+    "KANI_C1L_DIR": "${OUT}/${CASE}/compiler"
+  },
+  "forbidden_options": [
+    "--export-json",
+    "-Z export-json",
+    "--cbmc-args",
+    "--trace",
+    "--no-slice-formula",
+    "--gen-c",
+    "--no-codegen",
+    "--tests",
+    "autoharness",
+    "playback",
+    "-Z lean"
+  ],
+  "inherited_env_reject": [
+    "KANI_D0_DIR",
+    "KANI_D0_CASE",
+    "D0_CAPTURE_DIR",
+    "D0_REAL_CBMC",
+    "KANI_LOG",
+    "KANIFLAGS",
+    "KANI_FLAGS",
+    "CARGO_ENCODED_RUSTFLAGS"
+  ],
+  "build_recipe_ci_only": [
+    "cargo",
+    "build-dev",
+    "--",
+    "--release"
+  ],
+  "limits": {
+    "curated_packet_bytes": 5242880,
+    "case_bytes": 524288,
+    "shared_metadata_bytes": 1048576,
+    "observer_records": 2048,
+    "observer_bytes": 458752,
+    "observer_payload_bytes": 65536,
+    "case_timeout_seconds": 600,
+    "build_timeout_seconds": 2400,
+    "retry": false
+  },
+  "order": "native singleton; no override/reset/paired cases; normal prewarm is not activated for <2 roots",
+  "solver": {
+    "status": "NOT_RUN",
+    "required_exec_count": 0,
+    "version_probe_allowed": false,
+    "capture_shim": false
+  },
+  "runtime_initializedness": "NOT_RUN",
+  "verification": "NOT_RUN",
+  "cloud_spend_usd": 0
+}

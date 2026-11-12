@@ -1,0 +1,35 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-c1l",
+  "baseline_commit": "5eec235e3d0eeb99d7e432fcaef3a3135747b789",
+  "candidate_commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+  "defect": "Prepare six C1-L compile-only draft lowering observations and bounded coordinator request. Review delta plus research packet, not unchanged D0 semantics.",
+  "applicability": "TASK-KANI3300-C1L.md in g0 @8d0aa4f723; Cloud0, source/static only; no C1 semantic activation.",
+  "invariants": [
+    "No new MIR calls, body queries/rebuilds, runtime/model/state writes, masks/assumptions/setters or production semantics changes.",
+    "Default-off exact six singleton roots; Harnesses, one unit, no stubs remain enforced; no diagnostic ordering overrides.",
+    "Raw_eq/check/full extent, actual Some/None and allocation/offset/reuse/helper identity coverage; skipped delayed analysis is explicit, no fabricated graph/absence claim.",
+    "Required report missing/capped/filtered/wrong identity/solver run => affected case STOP; compile success grants no runtime/proof credit.",
+    "Keep source/base/diagnostic/input identities separate; no release acceptance from baseline; fixtures immutable."
+  ],
+  "controls": [
+    "No local cargo/rustc/Kani/CBMC/Miri/compilation/CI/Cloud/dispatch/push/credentials/raw evidence. Read-only source/static operations only.",
+    "No nested delegation. Return compact actionable findings; do not edit source/package.",
+    "Review /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/c1l/ and six c1p fixtures. Request/contract are preparation, not running or implementing a workflow."
+  ],
+  "dependencies": [
+    "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+    "kani-compiler/src/kani_middle/mod.rs",
+    "kani-driver/src/main.rs",
+    "kani-driver/src/project.rs",
+    "kani-driver/src/call_goto_cc.rs",
+    "kani-driver/src/call_single_file.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Actual compilation/lowering/binary/layout identities NOT_RUN; setup freeze in future coordinator CI; no local raw-input extraction."
+  ]
+}

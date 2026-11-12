@@ -1,0 +1,36 @@
+{
+  "schema": "kani3300-c1l-validation/v1",
+  "status": "STATIC_CHECKS_COMPLETE_NOT_COMPILED",
+  "candidate": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+  "checks": {
+    "source_packet_integrity": "PASS: STATIC-CHECK.py; 6 exact fixture hashes, config/file/manifest/source API/referential checks, four allowed diagnostic paths, input/base/parent identities",
+    "adapter_diff_check": "PASS: git diff --check 5eec235e3 HEAD",
+    "research_diff_check": "PASS; repeated after staging",
+    "rustfmt": "PASS: permitted rustfmt.sh --check on four modified .rs files",
+    "review_packet_integrity": "PASS: smallsort-session review check; packet/spec hashes in receipt",
+    "independent_review": "bounded Luna High; final no concrete blocker; see REVIEW.md/REVIEW-RECEIPT.json"
+  },
+  "formatter": {
+    "wrapper": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+    "wrapper_sha256": "50d6185aa821a7f6ea5aceba7cebe1bd517ea323f399a269c5a170b6ac65210d",
+    "binary_sha256": "0f8f90119220fbbd72268c10c575000334e7b89cc348c74953b1b30155338962",
+    "compiler_invocation": false
+  },
+  "extractor": "NONE; no raw CI inputs read locally; STATIC-CHECK.py validates source/research metadata only",
+  "runner_implementation_changed": false,
+  "not_run": [
+    "cargo",
+    "rustc",
+    "Kani",
+    "CBMC",
+    "Miri",
+    "compilation",
+    "CI dispatch",
+    "solver",
+    "runtime initializedness",
+    "reached properties",
+    "proof verification"
+  ],
+  "cloud_spend_usd": 0,
+  "proof_credit": false
+}

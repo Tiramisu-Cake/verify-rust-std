@@ -1,0 +1,406 @@
+{
+  "schema": "kani3300-c1l-source-audit/v1",
+  "assurance": "SOURCE_ONLY_NOT_COMPILE_PROOF",
+  "source": {
+    "baseline": "a0a2386001a15fecfe2facc2f6cd87f3dee13b60",
+    "diagnostic_parent": "5eec235e3d0eeb99d7e432fcaef3a3135747b789",
+    "diagnostic_parent_tree": "ed095daec3cd82ef024e97c0c3951a591dfd6c39",
+    "adapter_commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+    "adapter_tree": "1f74038dbedb683b2384b78bc36e020891f5e501",
+    "adapter_path": "/root/kani-fix-3300-c1l",
+    "adapter_branch": "diagnostics/kani-3300-c1l",
+    "adapter_patch_sha256": "4c7975458a3e7852e491c829400bf4e707d11641c5e4890ef86604474a259049",
+    "patch_format": "git diff --binary --unified=0 exact D0-PR..adapter; git apply --unidiff-zero",
+    "input_commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+    "release_acceptance": false,
+    "model_commits_added": [],
+    "kani_publication": "NOT_AUTHORIZED_IN_THIS_SESSION"
+  },
+  "files": [
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-driver/src/main.rs",
+      "sha256": "757eb0205da02cf3ab22a97e7c967b97d25510485f42815d106b2a170a0e6956",
+      "anchors": [
+        {
+          "literal": "fn standalone_main",
+          "lines": [
+            127
+          ]
+        },
+        {
+          "literal": "if session.args.only_codegen",
+          "lines": [
+            117,
+            169
+          ]
+        },
+        {
+          "literal": "verify_project(project, session)",
+          "lines": [
+            122,
+            174
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-driver/src/project.rs",
+      "sha256": "55bc8b60644000ede89bcb1bd43f923a5035659314b57e6f9c56884dd38b0627",
+      "anchors": [
+        {
+          "literal": "fn build(self)",
+          "lines": [
+            308
+          ]
+        },
+        {
+          "literal": "compile_single_rust_file",
+          "lines": [
+            316
+          ]
+        },
+        {
+          "literal": "Project::try_new",
+          "lines": [
+            259,
+            322,
+            376
+          ]
+        },
+        {
+          "literal": "session.link_goto_binary",
+          "lines": [
+            159
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-driver/src/call_goto_cc.rs",
+      "sha256": "15cd54e4c07a0f196801a408dbd6e39acf4cc8d6e43314e12810691a07b890d0",
+      "anchors": [
+        {
+          "literal": "pub fn link_goto_binary",
+          "lines": [
+            14
+          ]
+        },
+        {
+          "literal": "Command::new(\"goto-cc\")",
+          "lines": [
+            27,
+            42
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-driver/src/call_single_file.rs",
+      "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+      "anchors": [
+        {
+          "literal": "--reachability=",
+          "lines": [
+            65,
+            109
+          ]
+        },
+        {
+          "literal": "for harness in &self.args.harnesses",
+          "lines": [
+            180
+          ]
+        },
+        {
+          "literal": "if self.args.exact",
+          "lines": [
+            184
+          ]
+        },
+        {
+          "literal": "str.split_whitespace().map(RustcArg::from)",
+          "lines": [
+            303
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-driver/src/session.rs",
+      "sha256": "442d7e72d8ae3d30ea506d826c71e380595e8b327a51ea02b250c8945b60166c",
+      "anchors": [
+        {
+          "literal": "pub fn reachability_mode",
+          "lines": [
+            102
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-driver/src/args/mod.rs",
+      "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+      "anchors": [
+        {
+          "literal": "pub only_codegen: bool",
+          "lines": [
+            341
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-compiler/src/kani_middle/d0_diagnostics.rs",
+      "sha256": "75fd812879a1aa76854bcd7844e27e00edd5f96f2e2be00453895430159982f3",
+      "anchors": [
+        {
+          "literal": "pub const CASES",
+          "lines": [
+            16
+          ]
+        },
+        {
+          "literal": "fn relevant",
+          "lines": [
+            77
+          ]
+        },
+        {
+          "literal": "fn selected_stage",
+          "lines": [
+            85
+          ]
+        },
+        {
+          "literal": "pub fn finish",
+          "lines": [
+            203
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "sha256": "d12879c1de5e79bc86edfbcb65a469c7606788882a741fc65166f920d2056392",
+      "anchors": [
+        {
+          "literal": "ReachabilityType::Harnesses",
+          "lines": [
+            391,
+            398,
+            403,
+            562,
+            790
+          ]
+        },
+        {
+          "literal": "let mut expected = vec![d0::case()]",
+          "lines": [
+            426
+          ]
+        },
+        {
+          "literal": "stubs.is_empty",
+          "lines": [
+            430
+          ]
+        },
+        {
+          "literal": "d0::context",
+          "lines": [
+            429,
+            475,
+            487
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "sha256": "a8c91b341adb80e506e2e9d4232ba0b264381966729e61aed5e868d48811d1d7",
+      "anchors": [
+        {
+          "literal": "fn codegen_alloc_pointer",
+          "lines": [
+            443
+          ]
+        },
+        {
+          "literal": "referent-kind",
+          "lines": [
+            463,
+            472,
+            495,
+            512
+          ]
+        },
+        {
+          "literal": "allocation-before-lowering",
+          "lines": [
+            618
+          ]
+        },
+        {
+          "literal": "allocation-symbol",
+          "lines": [
+            644
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "sha256": "b4ae300745db312fa2d5982530c20be9a1a45a6b1c30e68c3b35beee242d4895",
+      "anchors": [
+        {
+          "literal": "delayed-activation",
+          "lines": [
+            95
+          ]
+        },
+        {
+          "literal": "EMPTY/NOT_ACTIVATED",
+          "lines": [
+            101
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "sha256": "644dceef228720a33b910a783a933bf29021b931e1ad387196933371af0f2e9f",
+      "anchors": [
+        {
+          "literal": "Intrinsic::RawEq",
+          "lines": [
+            563
+          ]
+        },
+        {
+          "literal": "raw-eq-operand",
+          "lines": [
+            566
+          ]
+        },
+        {
+          "literal": "MemoryInitOp::CheckAs",
+          "lines": [
+            595,
+            950
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "sha256": "576d9ddf62c83b8051dc9bd4cdb09d074fab448f8586ac285545853ceb38c13f",
+      "anchors": [
+        {
+          "literal": "shadow-operation",
+          "lines": [
+            179,
+            191
+          ]
+        },
+        {
+          "literal": "shadow-layout",
+          "lines": [
+            355
+          ]
+        },
+        {
+          "literal": "fn build_get_and_check",
+          "lines": [
+            398
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "sha256": "6a82efff02b3a66d063d59727cf4eea2321a4a25cd10403dd2d571cf9ecc806c",
+      "anchors": [
+        {
+          "literal": "mir-original",
+          "lines": [
+            161
+          ]
+        },
+        {
+          "literal": "cache-write-local",
+          "lines": [
+            185
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs",
+      "sha256": "3b5995c2c801ec40da723c567e7ecd65c48bdfbb23a6df32583d125c29ab1bfa",
+      "anchors": [
+        {
+          "literal": "codegen-consumed-mir",
+          "lines": [
+            122
+          ]
+        },
+        {
+          "literal": "goto-local",
+          "lines": [
+            78
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/block.rs",
+      "sha256": "bc8c2e673a705c5707e22f597b085e3cac4d7701d757163fc3476e5eb9cf8bfb",
+      "anchors": [
+        {
+          "literal": "goto-terminator",
+          "lines": [
+            40,
+            63
+          ]
+        }
+      ]
+    },
+    {
+      "commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+      "path": "rust-toolchain.toml",
+      "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+      "anchors": [
+        {
+          "literal": "nightly-2026-10-23",
+          "lines": [
+            5
+          ]
+        }
+      ]
+    }
+  ],
+  "compatibility": {
+    "specialization": "raw_eq visitor derives full byte type from actual pointee layout; no [u8;4] specialization guard",
+    "old_observer": "D0 A/B root assertions reject all six inputs; broad relevance omits local compare and promoted roots; diagnostic adapter required",
+    "old_runner": "D0 .github/d0/run.py, collect.py and solver supervisor/capture coupling are NOT reusable verbatim; no runner/workflow copied. Coordinator owns a compile-only recipe and actual compiler-child supervision.",
+    "only_codegen": "standalone_project compiles and Project::try_new links using goto-cc; then only_codegen returns before verify_project and CBMC/property reporting. No export-json/full trace API used.",
+    "delayed_empty": "activation event uses existing target set/start count/instance count, bound to outer case/PID/root/phase; graphs intentionally filtered; empty is not no-setters evidence",
+    "scope": "four diagnostic source files only; no MIR/state/model writes added, no additional body queries",
+    "target_flag": "standalone Kani does not expose --target; RUSTFLAGS --target=x86_64-unknown-linux-gnu passes through base_rustc_flags to actual rustc"
+  }
+}

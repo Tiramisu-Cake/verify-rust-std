@@ -1,0 +1,24 @@
+# KANI3300 C1-L — preparation only, 2026-11-12
+- Start: fetch + ff-only; clean g0 experiment/kani-k1-kani3300g0-20261111 @8d0aa4f723.
+- Inputs: c1p @d8d3e6d4ca; D0-A @ff5cabbfca; six promoted drafts unchanged, SHA256 checked.
+- D0-PR5eec235e3 is baselinea0a2386001, not B1I-A6134e42dd1 or current release acceptance.
+- D0 guards accept only A/B; relevance misses promoted roots/local compare; adapter required.
+- Separate clone /root/kani-fix-3300-c1l; diagnostics/kani-3300-c1l from exact D0-PR.
+- Local adapter6d35d2f55052762ccc7555db1e8c12e32047091d, UNPUSHED; four diagnostic files only.
+- Exact six singleton guards retain Harnesses/unit/no-stubs checks; no order override remains.
+- root/compare snapshots + byte-check/allocation bindings, default-off KANI_C1L_DIR/CASE.
+- Alloc branch kind/current-function binding; existing Some/None/mutability/reuse sidecars retained.
+- Delayed phase emits target/start/instance counts and EMPTY/NOT_ACTIVATED when applicable.
+- Runtime initialization, reached properties, compiler facts and solver outcomes are NOT_RUN.
+- --only-codegen returns before verify_project; standalone Project still invokes goto-cc linking.
+- Old D0 runner/workflow/capture supervisor cannot run this request unchanged; none copied.
+- No export-json/trace API, solver version probe, capture shim, M0/guards/model or fixture changes.
+- Source/API hashes and six case manifests pin inputs/config; binary/layout freeze is a CI setup gate.
+- Immutable D0 Rust/Kani sysroot digests retained; unavailable/mismatched artifacts STOP setup.
+- Cases≤512KiB, shared≤1MiB, curated≤5MiB; missing/capped/filtered required fields STOP affected case.
+- Promotion remains a hypothesis: complete Stack/aggregate binding => LOWERING_MISMATCH, else UNKNOWN.
+- No extractor; no local raw CI input access; only source/hash/static checks and rustfmt wrapper.
+- Independent bounded Luna High adapter/package review: REVIEW.md; no nested delegation.
+- Research stage limited to c1l/; author/committer Tiramisu-Cake via git -c; push without force.
+- Cloud $0, no local cargo/rustc/Kani/CBMC/Miri, CI dispatch, workflow publication or external messages.
+- STOP after this request; no C1 semantic activation or follow-on stage.

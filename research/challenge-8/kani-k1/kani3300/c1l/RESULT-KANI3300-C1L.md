@@ -1,0 +1,14 @@
+# KANI3300 C1-L — PREPARED_NOT_RUN / STOP
+- Six compile-only requests prepared; original drafts/fixture SHA256 unchanged.
+- CASE-MANIFEST.json + six case manifests: exact roots/argv/config/source/toolchain/sysroot pins.
+- Diagnostic adapter6d35d2f55052762ccc7555db1e8c12e32047091d from5eec235e3; local, UNPUSHED.
+- Default-off singleton/filter/allocation/empty-phase observations only; no model/MIR/state repair.
+- Driver --only-codegen skips verification/CBMC; goto-cc linking remains part of project setup.
+- Required original/consumed MIR, both111 checks and operand/AllocId/helper joins specified.
+- Bounded packet and STOP gates explicit; binary/layout hashes require coordinator setup freeze.
+- Stack/aggregate may yield LOWERING_MISMATCH; absent AllocId with incomplete coverage is UNKNOWN.
+- EXPECTED-BINDINGS separates source expectations from all NOT_RUN observed fields.
+- Static checks/review recorded in VALIDATION.json and REVIEW.md; no compilation claim.
+- Cloud $0; no local compiler/verifier, solver capture, CI dispatch or Kani publication.
+- New compile facts require coordinator CI plus a later analysis session. No CI PASS/proof credit.
+- STOP C1-L; M0/model/guards/C1 semantic activation untouched.

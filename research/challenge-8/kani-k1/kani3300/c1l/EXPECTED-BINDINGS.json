@@ -1,0 +1,430 @@
+{
+  "schema": "kani3300-c1l-expectations/v1",
+  "assurance": "STATIC_SOURCE_EXPECTATIONS_SEPARATE_FROM_OBSERVED",
+  "rule": "Some/None bytes must come from the actual referent Allocation, not these expectations or backend None-to-zero. Stack/aggregate with complete binding => LOWERING_MISMATCH; absent AllocId with incomplete coverage => UNKNOWN. Never assign a synthetic AllocId.",
+  "cases": [
+    {
+      "case": "promoted_direct_legal",
+      "semantic_expectations_only": {
+        "operand_type": "&[MaybeUninit<u8>; 3]",
+        "raw_eq_owner": "promoted_direct_legal",
+        "caller_to_helper": null,
+        "left": {
+          "source_referent_bytes_if_constant": [
+            7,
+            7,
+            7
+          ],
+          "expected_some_mask_if_immutable_allocation": [
+            true,
+            true,
+            true
+          ],
+          "expected_offset_bytes": 0,
+          "expected_extent_bytes": 3
+        },
+        "right": {
+          "source_referent_bytes_if_constant": [
+            7,
+            7,
+            7
+          ],
+          "expected_some_mask_if_immutable_allocation": [
+            true,
+            true,
+            true
+          ],
+          "expected_offset_bytes": 0,
+          "expected_extent_bytes": 3
+        },
+        "both_full_byte_checks": {
+          "count": 2,
+          "operand_indices": [
+            0,
+            1
+          ],
+          "mask": [
+            true,
+            true,
+            true
+          ],
+          "extent_bytes": 3
+        },
+        "promotion_required_for_suitability": true,
+        "allocation_ids": "not assigned in advance; aliasing/coalescing allowed if independently bound",
+        "later_semantic_test_goal": "both checks reached SUCCESS and equality true",
+        "later_semantic_test_stage": "after M0 and separate activation task"
+      },
+      "observed": {
+        "compiler": "NOT_RUN",
+        "original_mir": null,
+        "consumed_mir": null,
+        "retained_raw_eq": "UNKNOWN",
+        "left": null,
+        "right": null,
+        "caller_to_helper": null,
+        "full_byte_checks": null,
+        "delayed_activation": null,
+        "lowering_suitability": "UNKNOWN",
+        "runtime_initializedness": "NOT_RUN",
+        "reached_property_status": "NOT_RUN",
+        "proof_credit": false
+      }
+    },
+    {
+      "case": "promoted_direct_left_hole",
+      "semantic_expectations_only": {
+        "operand_type": "&[MaybeUninit<u8>; 3]",
+        "raw_eq_owner": "promoted_direct_left_hole",
+        "caller_to_helper": null,
+        "left": {
+          "source_referent_bytes_if_constant": [
+            null,
+            7,
+            7
+          ],
+          "expected_some_mask_if_immutable_allocation": [
+            false,
+            true,
+            true
+          ],
+          "expected_offset_bytes": 0,
+          "expected_extent_bytes": 3
+        },
+        "right": {
+          "source_referent_bytes_if_constant": [
+            7,
+            7,
+            7
+          ],
+          "expected_some_mask_if_immutable_allocation": [
+            true,
+            true,
+            true
+          ],
+          "expected_offset_bytes": 0,
+          "expected_extent_bytes": 3
+        },
+        "both_full_byte_checks": {
+          "count": 2,
+          "operand_indices": [
+            0,
+            1
+          ],
+          "mask": [
+            true,
+            true,
+            true
+          ],
+          "extent_bytes": 3
+        },
+        "promotion_required_for_suitability": true,
+        "allocation_ids": "not assigned in advance; aliasing/coalescing allowed if independently bound",
+        "later_semantic_test_goal": "named hole operand reaches uninitialized-byte failure without earlier UB/Unsupported",
+        "later_semantic_test_stage": "after M0 and separate activation task"
+      },
+      "observed": {
+        "compiler": "NOT_RUN",
+        "original_mir": null,
+        "consumed_mir": null,
+        "retained_raw_eq": "UNKNOWN",
+        "left": null,
+        "right": null,
+        "caller_to_helper": null,
+        "full_byte_checks": null,
+        "delayed_activation": null,
+        "lowering_suitability": "UNKNOWN",
+        "runtime_initializedness": "NOT_RUN",
+        "reached_property_status": "NOT_RUN",
+        "proof_credit": false
+      }
+    },
+    {
+      "case": "promoted_direct_right_hole",
+      "semantic_expectations_only": {
+        "operand_type": "&[MaybeUninit<u8>; 3]",
+        "raw_eq_owner": "promoted_direct_right_hole",
+        "caller_to_helper": null,
+        "left": {
+          "source_referent_bytes_if_constant": [
+            7,
+            7,
+            7
+          ],
+          "expected_some_mask_if_immutable_allocation": [
+            true,
+            true,
+            true
+          ],
+          "expected_offset_bytes": 0,
+          "expected_extent_bytes": 3
+        },
+        "right": {
+          "source_referent_bytes_if_constant": [
+            7,
+            7,
+            null
+          ],
+          "expected_some_mask_if_immutable_allocation": [
+            true,
+            true,
+            false
+          ],
+          "expected_offset_bytes": 0,
+          "expected_extent_bytes": 3
+        },
+        "both_full_byte_checks": {
+          "count": 2,
+          "operand_indices": [
+            0,
+            1
+          ],
+          "mask": [
+            true,
+            true,
+            true
+          ],
+          "extent_bytes": 3
+        },
+        "promotion_required_for_suitability": true,
+        "allocation_ids": "not assigned in advance; aliasing/coalescing allowed if independently bound",
+        "later_semantic_test_goal": "named hole operand reaches uninitialized-byte failure without earlier UB/Unsupported",
+        "later_semantic_test_stage": "after M0 and separate activation task"
+      },
+      "observed": {
+        "compiler": "NOT_RUN",
+        "original_mir": null,
+        "consumed_mir": null,
+        "retained_raw_eq": "UNKNOWN",
+        "left": null,
+        "right": null,
+        "caller_to_helper": null,
+        "full_byte_checks": null,
+        "delayed_activation": null,
+        "lowering_suitability": "UNKNOWN",
+        "runtime_initializedness": "NOT_RUN",
+        "reached_property_status": "NOT_RUN",
+        "proof_credit": false
+      }
+    },
+    {
+      "case": "promoted_helper_legal",
+      "semantic_expectations_only": {
+        "operand_type": "&[MaybeUninit<u8>; 3]",
+        "raw_eq_owner": "compare",
+        "caller_to_helper": {
+          "caller": "promoted_helper_legal",
+          "callee": "compare",
+          "left_argument_index": 0,
+          "right_argument_index": 1
+        },
+        "left": {
+          "source_referent_bytes_if_constant": [
+            7,
+            7,
+            7
+          ],
+          "expected_some_mask_if_immutable_allocation": [
+            true,
+            true,
+            true
+          ],
+          "expected_offset_bytes": 0,
+          "expected_extent_bytes": 3
+        },
+        "right": {
+          "source_referent_bytes_if_constant": [
+            7,
+            7,
+            7
+          ],
+          "expected_some_mask_if_immutable_allocation": [
+            true,
+            true,
+            true
+          ],
+          "expected_offset_bytes": 0,
+          "expected_extent_bytes": 3
+        },
+        "both_full_byte_checks": {
+          "count": 2,
+          "operand_indices": [
+            0,
+            1
+          ],
+          "mask": [
+            true,
+            true,
+            true
+          ],
+          "extent_bytes": 3
+        },
+        "promotion_required_for_suitability": true,
+        "allocation_ids": "not assigned in advance; aliasing/coalescing allowed if independently bound",
+        "later_semantic_test_goal": "both checks reached SUCCESS and equality true",
+        "later_semantic_test_stage": "after M0 and separate activation task"
+      },
+      "observed": {
+        "compiler": "NOT_RUN",
+        "original_mir": null,
+        "consumed_mir": null,
+        "retained_raw_eq": "UNKNOWN",
+        "left": null,
+        "right": null,
+        "caller_to_helper": null,
+        "full_byte_checks": null,
+        "delayed_activation": null,
+        "lowering_suitability": "UNKNOWN",
+        "runtime_initializedness": "NOT_RUN",
+        "reached_property_status": "NOT_RUN",
+        "proof_credit": false
+      }
+    },
+    {
+      "case": "promoted_helper_left_hole",
+      "semantic_expectations_only": {
+        "operand_type": "&[MaybeUninit<u8>; 3]",
+        "raw_eq_owner": "compare",
+        "caller_to_helper": {
+          "caller": "promoted_helper_left_hole",
+          "callee": "compare",
+          "left_argument_index": 0,
+          "right_argument_index": 1
+        },
+        "left": {
+          "source_referent_bytes_if_constant": [
+            null,
+            7,
+            7
+          ],
+          "expected_some_mask_if_immutable_allocation": [
+            false,
+            true,
+            true
+          ],
+          "expected_offset_bytes": 0,
+          "expected_extent_bytes": 3
+        },
+        "right": {
+          "source_referent_bytes_if_constant": [
+            7,
+            7,
+            7
+          ],
+          "expected_some_mask_if_immutable_allocation": [
+            true,
+            true,
+            true
+          ],
+          "expected_offset_bytes": 0,
+          "expected_extent_bytes": 3
+        },
+        "both_full_byte_checks": {
+          "count": 2,
+          "operand_indices": [
+            0,
+            1
+          ],
+          "mask": [
+            true,
+            true,
+            true
+          ],
+          "extent_bytes": 3
+        },
+        "promotion_required_for_suitability": true,
+        "allocation_ids": "not assigned in advance; aliasing/coalescing allowed if independently bound",
+        "later_semantic_test_goal": "named hole operand reaches uninitialized-byte failure without earlier UB/Unsupported",
+        "later_semantic_test_stage": "after M0 and separate activation task"
+      },
+      "observed": {
+        "compiler": "NOT_RUN",
+        "original_mir": null,
+        "consumed_mir": null,
+        "retained_raw_eq": "UNKNOWN",
+        "left": null,
+        "right": null,
+        "caller_to_helper": null,
+        "full_byte_checks": null,
+        "delayed_activation": null,
+        "lowering_suitability": "UNKNOWN",
+        "runtime_initializedness": "NOT_RUN",
+        "reached_property_status": "NOT_RUN",
+        "proof_credit": false
+      }
+    },
+    {
+      "case": "promoted_helper_right_hole",
+      "semantic_expectations_only": {
+        "operand_type": "&[MaybeUninit<u8>; 3]",
+        "raw_eq_owner": "compare",
+        "caller_to_helper": {
+          "caller": "promoted_helper_right_hole",
+          "callee": "compare",
+          "left_argument_index": 0,
+          "right_argument_index": 1
+        },
+        "left": {
+          "source_referent_bytes_if_constant": [
+            7,
+            7,
+            7
+          ],
+          "expected_some_mask_if_immutable_allocation": [
+            true,
+            true,
+            true
+          ],
+          "expected_offset_bytes": 0,
+          "expected_extent_bytes": 3
+        },
+        "right": {
+          "source_referent_bytes_if_constant": [
+            7,
+            7,
+            null
+          ],
+          "expected_some_mask_if_immutable_allocation": [
+            true,
+            true,
+            false
+          ],
+          "expected_offset_bytes": 0,
+          "expected_extent_bytes": 3
+        },
+        "both_full_byte_checks": {
+          "count": 2,
+          "operand_indices": [
+            0,
+            1
+          ],
+          "mask": [
+            true,
+            true,
+            true
+          ],
+          "extent_bytes": 3
+        },
+        "promotion_required_for_suitability": true,
+        "allocation_ids": "not assigned in advance; aliasing/coalescing allowed if independently bound",
+        "later_semantic_test_goal": "named hole operand reaches uninitialized-byte failure without earlier UB/Unsupported",
+        "later_semantic_test_stage": "after M0 and separate activation task"
+      },
+      "observed": {
+        "compiler": "NOT_RUN",
+        "original_mir": null,
+        "consumed_mir": null,
+        "retained_raw_eq": "UNKNOWN",
+        "left": null,
+        "right": null,
+        "caller_to_helper": null,
+        "full_byte_checks": null,
+        "delayed_activation": null,
+        "lowering_suitability": "UNKNOWN",
+        "runtime_initializedness": "NOT_RUN",
+        "reached_property_status": "NOT_RUN",
+        "proof_credit": false
+      }
+    }
+  ]
+}

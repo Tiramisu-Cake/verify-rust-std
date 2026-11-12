@@ -1,0 +1,142 @@
+{
+  "schema": "kani3300-c1l-manifest/v1",
+  "status": "PREPARED_NOT_RUN",
+  "stage": "KANI3300 C1-L",
+  "source": {
+    "baseline": "a0a2386001a15fecfe2facc2f6cd87f3dee13b60",
+    "diagnostic_parent": "5eec235e3d0eeb99d7e432fcaef3a3135747b789",
+    "diagnostic_parent_tree": "ed095daec3cd82ef024e97c0c3951a591dfd6c39",
+    "adapter_commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+    "adapter_tree": "1f74038dbedb683b2384b78bc36e020891f5e501",
+    "adapter_path": "/root/kani-fix-3300-c1l",
+    "adapter_branch": "diagnostics/kani-3300-c1l",
+    "adapter_patch_sha256": "4c7975458a3e7852e491c829400bf4e707d11641c5e4890ef86604474a259049",
+    "patch_format": "git diff --binary --unified=0 exact D0-PR..adapter; git apply --unidiff-zero",
+    "input_commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+    "release_acceptance": false,
+    "model_commits_added": [],
+    "kani_publication": "NOT_AUTHORIZED_IN_THIS_SESSION"
+  },
+  "config_file_sha256": "8b943d02d24fdbd76bc62476fdaf043d552da867511a796d1d4c4f970da912fa",
+  "configuration_canonical_sha256": "6f822d6807c104faa8633a26cba6edc2caa9612210842036560fa0b7f26891d4",
+  "pins": {
+    "toolchain_channel": "nightly-2026-10-23",
+    "rustc_commit": "7189d39d9ce936881b8132c6addeaf3e295cd455",
+    "rustc_vV_expected": "rustc 1.101.0-nightly (7189d39d9 2026-10-22)\nbinary: rustc\ncommit-hash: 7189d39d9ce936881b8132c6addeaf3e295cd455\ncommit-date: 2026-10-22\nhost: x86_64-unknown-linux-gnu\nrelease: 1.101.0-nightly\nLLVM version: 23.1.4",
+    "target": "x86_64-unknown-linux-gnu",
+    "pointer_width_bits": 64,
+    "endian": "little",
+    "relevant_referent_layout_expected": {
+      "type": "[MaybeUninit<u8>; 3]",
+      "size_bytes": 3,
+      "align_bytes": 1,
+      "full_byte_check_type": "[u8; 3]",
+      "check_mask": [
+        true,
+        true,
+        true
+      ]
+    },
+    "immutable_rust_sysroot_manifest_sha256": "77bd535e1a68187e017f2dfefaeb61b6c65ab54a59bcd2ba21e824562263eae7",
+    "immutable_effective_kani_sysroot_manifest_sha256": "5f99eb3721ae299be9e3062ed5a9b1c3d456699d5c877da85b26da236654d540",
+    "manifest_hash_provenance": "D0-A observations.json at ff5cabbfca: exact manifest-file SHA256, not an invented aggregate algorithm; coordinator checks immutable artifacts before use",
+    "target_spec_and_layout": {
+      "status": "SETUP_FREEZE_REQUIRED",
+      "data_layout": null,
+      "target_spec_sha256": null,
+      "policy": "coordinator obtains full target-spec JSON from pinned compiler in CI setup; freeze exact data-layout, JSON SHA256, compiler-vV/sysroot identities before any case; mismatch across cases STOP; unknown is not an executable pin"
+    },
+    "binaries": {
+      "status": "SETUP_FREEZE_REQUIRED",
+      "required_sha256": [
+        "kani",
+        "kani-compiler",
+        "rustc",
+        "goto-cc",
+        "kani_lib.c"
+      ],
+      "library_identity": "exact D0 immutable effective sysroot above; source library/ unchanged by adapter",
+      "policy": "record absolute paths, byte counts, source/build provenance and SHA256 before cases, then compare before/after each case; no binary hash inferred from source SHA"
+    },
+    "solver": "NOT_RUN: do not execute even version probes; goto-cc 6.11.0 linker is separate from CBMC solver"
+  },
+  "planning_inputs": [
+    {
+      "commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+      "path": "research/challenge-8/kani-k1/kani3300/c1p/HANDOFF-M0.md",
+      "sha256": "b4e9bd34f611cb3435e340e18aef7752e03ff8cd1bfe81c635507e1310f0830a"
+    },
+    {
+      "commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+      "path": "research/challenge-8/kani-k1/kani3300/c1p/CONTROL-MATRIX.json",
+      "sha256": "efff1f3f4a1635964f066ac01f437b012af68d5dfcbc9ab2494be368e66a6d0d"
+    },
+    {
+      "commit": "ff5cabbfca8b5108d21c27904c1f7b7e40ab25c1",
+      "path": "research/challenge-8/kani-k1/kani3300/d0a/RESULT.md",
+      "sha256": "6998ba9a496572ce61f9c83049a86fe5a18c90e78f7b639b7c342971675317ee"
+    },
+    {
+      "commit": "ff5cabbfca8b5108d21c27904c1f7b7e40ab25c1",
+      "path": "research/challenge-8/kani-k1/kani3300/d0a/NOTES.md",
+      "sha256": "e31992fb0320eea03d37841aad8f11e243e48499002958e7b3be994067085253"
+    },
+    {
+      "commit": "8d0aa4f723708eee20cece87310203df84f056c5",
+      "path": "research/challenge-8/kani-k1/kani3300/d0/CI-REQUEST.md",
+      "sha256": "f58f71326b78151e84f51101e39612254ca8508a0060e0dfbd946c81a1b824a6"
+    },
+    {
+      "commit": "8d0aa4f723708eee20cece87310203df84f056c5",
+      "path": "research/challenge-8/kani-k1/kani3300/d0/CI-WORKFLOW.md",
+      "sha256": "33e3528816d878fb1d2dd566bcbc4551f2058b4df720adab13dccddf01dc09a1"
+    }
+  ],
+  "cases": [
+    {
+      "case": "promoted_direct_legal",
+      "manifest": "cases/promoted_direct_legal/manifest.json",
+      "manifest_sha256": "ec621ef55ab4945710e3ff42dee782b87552cc9f352a9013d543de0a73557ccf",
+      "fixture_sha256": "932f47ff68eab1f2d4f0c0f61410e23058d962fbc1fc46ccac46a5875e508e6f"
+    },
+    {
+      "case": "promoted_direct_left_hole",
+      "manifest": "cases/promoted_direct_left_hole/manifest.json",
+      "manifest_sha256": "9e1b12bc878ab5059c35475b5de0e4b6e98d1bd61efee14e00dab04f787f729a",
+      "fixture_sha256": "df26990752db809ad6f91fc57c7b102ca190651d0c00b6143dec7b8d9bc5ce09"
+    },
+    {
+      "case": "promoted_direct_right_hole",
+      "manifest": "cases/promoted_direct_right_hole/manifest.json",
+      "manifest_sha256": "58389dfa0b200952442285dc5adf21b7dcd8b68048e660efe664c98b8b990ae8",
+      "fixture_sha256": "68594a224811905181898c542726affce859ed83006582cb070b76da90718fdb"
+    },
+    {
+      "case": "promoted_helper_legal",
+      "manifest": "cases/promoted_helper_legal/manifest.json",
+      "manifest_sha256": "edc88eeac79033ed39ccd0bb670c1ce040e23d28cd68fb7ff9d7dec9dd5a5847",
+      "fixture_sha256": "ee499590033417ab97eb43e3c57d57f205dac2148b92051fd2d1f90b4c7279f6"
+    },
+    {
+      "case": "promoted_helper_left_hole",
+      "manifest": "cases/promoted_helper_left_hole/manifest.json",
+      "manifest_sha256": "d814c978e9535daa84e2569dea3d1695127e6db45868e27598e2a6a352e4efdf",
+      "fixture_sha256": "98f85b4aa74910cf0e1d82dd180c54b5258702d3c8c5b96061df8795c02f8882"
+    },
+    {
+      "case": "promoted_helper_right_hole",
+      "manifest": "cases/promoted_helper_right_hole/manifest.json",
+      "manifest_sha256": "c11c44dcc1ebcb635eeaf15959ad96bb4cf3c02f6e95107feab1bd69f21b9153",
+      "fixture_sha256": "df1ec216706fa18684797aac6d7adedc3ba72a49fa8ab3e9c02835a124633233"
+    }
+  ],
+  "dispatch": "COORDINATOR_ONLY_FUTURE_AUTHORIZATION; no dispatch in this session",
+  "scope_exclusions": [
+    "flat_whole_copy_*",
+    "original D0 A/B legal reruns",
+    "M0/model/guards",
+    "C1 semantic activation",
+    "workflows",
+    "solver/runtime evidence"
+  ]
+}

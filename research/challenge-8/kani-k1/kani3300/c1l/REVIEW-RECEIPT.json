@@ -1,0 +1,58 @@
+{
+  "schema": "kani3300-c1l-review-receipt/v1",
+  "reviewer": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "task": "/root/c1l_review",
+    "nested_delegation": false
+  },
+  "baseline": "5eec235e3d0eeb99d7e432fcaef3a3135747b789",
+  "candidate": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+  "generated_packet_sha256": "85addef3c8c5728f5ae125dc3f7099bf3e8da75458cca659cc81db86c5490b3d",
+  "generated_spec_sha256": "5ebdf8b9d342d3eea1d2644fefee32e735ff28e6d0b99ac877befcaf1daf840b",
+  "scope": "diagnostic delta only + prepared request/contract/identities; unchanged D0 semantics not re-reviewed",
+  "findings": [
+    {
+      "issue": "standalone Kani has no --target CLI option",
+      "resolution": "target moved to RUSTFLAGS through base_rustc_flags; all six expanded config/manifest hashes refreshed; reviewer confirmed",
+      "status": "CLOSED"
+    }
+  ],
+  "verdict": "NO_CONCRETE_BLOCKER_REMAINS_STATIC_ONLY",
+  "compiler": "NOT_RUN",
+  "proof_credit": false,
+  "note": "smallsort-session review check confirms packet integrity only; PACKET_VALID_NOT_REVIEWED is not a semantic acceptance or proof result",
+  "reviewed_files": {
+    "CI-REQUEST.md": "7e532a0cd0142d4d779e30d11af7e0602df7b151bd5fa3907a635b3f8db0560c",
+    "CASE-MANIFEST.json": "49bf6aac4e854a20581545bcdc349e37e170b61cbe3de23cf7d09053f8e8fea0",
+    "CONFIG.json": "8b943d02d24fdbd76bc62476fdaf043d552da867511a796d1d4c4f970da912fa",
+    "EXPECTED-BINDINGS.json": "ccac3a5a8451baf3b9266b6b1b2e01fd42f606f51d13dd5c04cd4473b0b93c9d",
+    "OUTPUT-CONTRACT.json": "2f58008708d6b696701b1b83134aa793bec2f159edc54bc8cf04d68f2f5f3072",
+    "SOURCE-API.json": "011ce6351c30a3b97f086533c1f3c0a0291da346c6a119ee5407fb1eeb8e3d88",
+    "diagnostic-adapter.patch": "4185a1b128084ba0b52bb060401dab2f6ac98fce07ffd474ba0964fb31a0ee37",
+    "REVIEW-SPEC.json": "a21a84e2057dad4788e8b75d04cd2ea8c01473d11a7d778abe01801dde799227",
+    "cases/promoted_direct_left_hole/manifest.json": "6e3b9a2964e553896345f655460766a7580908569d85fa7de3a89ea9ea4a0019",
+    "cases/promoted_direct_legal/manifest.json": "1a2a29f7243a35e25f5a85a4a60165e09594f0c6d8d2dc2301f71854371dec3e",
+    "cases/promoted_direct_right_hole/manifest.json": "3f41d86abb80991820f1586c6a373606d00e2d5680896a978db881b073207a8b",
+    "cases/promoted_helper_left_hole/manifest.json": "a12467e8e01c27f8449cc3ac0c768e74f8bdd13ebea5ccce0cb24b4ebd36f80f",
+    "cases/promoted_helper_legal/manifest.json": "eafd9de218f9206ec5944a77ff709920e370fd11166582bb90e55d38cf33f915",
+    "cases/promoted_helper_right_hole/manifest.json": "d5425d57649e2486b0e3c2382d4ff44869c14746bc9a2a78d9962d50f8dfa88a"
+  },
+  "post_review_packaging_delta": "Changed archive patch to zero-context to avoid blank context lines triggering research git diff --check. Committed adapter identity/semantic diff unchanged; patch format/identity references and case manifest hashes refreshed. No new semantic review needed.",
+  "final_files": {
+    "CI-REQUEST.md": "96d35157e62a001655829a227afe8972e1c2d338dfd15e2113eb117d3c17c6d0",
+    "CASE-MANIFEST.json": "41c69960f6eecb6f21eaf2900171401f673e2403e13725ca01e0b574a60096a6",
+    "CONFIG.json": "8b943d02d24fdbd76bc62476fdaf043d552da867511a796d1d4c4f970da912fa",
+    "EXPECTED-BINDINGS.json": "ccac3a5a8451baf3b9266b6b1b2e01fd42f606f51d13dd5c04cd4473b0b93c9d",
+    "OUTPUT-CONTRACT.json": "2f58008708d6b696701b1b83134aa793bec2f159edc54bc8cf04d68f2f5f3072",
+    "SOURCE-API.json": "7c20b50861e326b944b59f7960e5edb6a41e88d5fc0edfcb3e3ca9a946d8abea",
+    "diagnostic-adapter.patch": "4c7975458a3e7852e491c829400bf4e707d11641c5e4890ef86604474a259049",
+    "REVIEW-SPEC.json": "a21a84e2057dad4788e8b75d04cd2ea8c01473d11a7d778abe01801dde799227",
+    "cases/promoted_direct_left_hole/manifest.json": "9e1b12bc878ab5059c35475b5de0e4b6e98d1bd61efee14e00dab04f787f729a",
+    "cases/promoted_direct_legal/manifest.json": "ec621ef55ab4945710e3ff42dee782b87552cc9f352a9013d543de0a73557ccf",
+    "cases/promoted_direct_right_hole/manifest.json": "58389dfa0b200952442285dc5adf21b7dcd8b68048e660efe664c98b8b990ae8",
+    "cases/promoted_helper_left_hole/manifest.json": "d814c978e9535daa84e2569dea3d1695127e6db45868e27598e2a6a352e4efdf",
+    "cases/promoted_helper_legal/manifest.json": "edc88eeac79033ed39ccd0bb670c1ce040e23d28cd68fb7ff9d7dec9dd5a5847",
+    "cases/promoted_helper_right_hole/manifest.json": "c11c44dcc1ebcb635eeaf15959ad96bb4cf3c02f6e95107feab1bd69f21b9153"
+  }
+}

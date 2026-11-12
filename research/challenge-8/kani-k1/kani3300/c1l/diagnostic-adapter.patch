@@ -1,0 +1,269 @@
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs b/kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs
+index 9f52806bc..910cdf573 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs
+@@ -451,5 +451,9 @@ fn codegen_alloc_pointer(
+-        crate::kani_middle::d0_diagnostics::event("referent-before-lowering", None, || {
+-            format!(
+-                "alloc_id={alloc_id:?}; offset={offset:?}; result_type={res_t:#?}; location={loc:#?}"
+-            )
+-        });
++        crate::kani_middle::d0_diagnostics::event(
++            "referent-before-lowering",
++            self.current_fn.as_ref().map(|f| f.instance_stable()),
++            || {
++                format!(
++                    "alloc_id={alloc_id:?}; offset={offset:?}; result_type={res_t:#?}; location={loc:#?}"
++                )
++            },
++        );
+@@ -457,0 +462,5 @@ fn codegen_alloc_pointer(
++                crate::kani_middle::d0_diagnostics::event(
++                    "referent-kind",
++                    self.current_fn.as_ref().map(|f| f.instance_stable()),
++                    || format!("alloc_id={alloc_id:?}; kind=Function"),
++                );
+@@ -461,0 +471,5 @@ fn codegen_alloc_pointer(
++                crate::kani_middle::d0_diagnostics::event(
++                    "referent-kind",
++                    self.current_fn.as_ref().map(|f| f.instance_stable()),
++                    || format!("alloc_id={alloc_id:?}; kind=Static"),
++                );
+@@ -463,0 +478,9 @@ fn codegen_alloc_pointer(
++                    crate::kani_middle::d0_diagnostics::event(
++                        "referent-allocation",
++                        self.current_fn.as_ref().map(|f| f.instance_stable()),
++                        || {
++                            format!(
++                                "alloc_id={alloc_id:?}; anonymous_static=true; allocation={alloc:#?}"
++                            )
++                        },
++                    );
+@@ -471,3 +494,10 @@ fn codegen_alloc_pointer(
+-                crate::kani_middle::d0_diagnostics::event("referent-allocation", None, || {
+-                    format!("alloc_id={alloc_id:?}; allocation={alloc:#?}")
+-                });
++                crate::kani_middle::d0_diagnostics::event(
++                    "referent-kind",
++                    self.current_fn.as_ref().map(|f| f.instance_stable()),
++                    || format!("alloc_id={alloc_id:?}; kind=Memory"),
++                );
++                crate::kani_middle::d0_diagnostics::event(
++                    "referent-allocation",
++                    self.current_fn.as_ref().map(|f| f.instance_stable()),
++                    || format!("alloc_id={alloc_id:?}; allocation={alloc:#?}"),
++                );
+@@ -480,0 +511,5 @@ fn codegen_alloc_pointer(
++                crate::kani_middle::d0_diagnostics::event(
++                    "referent-kind",
++                    self.current_fn.as_ref().map(|f| f.instance_stable()),
++                    || format!("alloc_id={alloc_id:?}; kind=VTable"),
++                );
+@@ -492,5 +527,9 @@ fn codegen_alloc_pointer(
+-        crate::kani_middle::d0_diagnostics::event("referent-symbol", None, || {
+-            format!(
+-                "alloc_id={alloc_id:?}; offset={offset:?}; address={base_addr:#?}; location={loc:#?}"
+-            )
+-        });
++        crate::kani_middle::d0_diagnostics::event(
++            "referent-symbol",
++            self.current_fn.as_ref().map(|f| f.instance_stable()),
++            || {
++                format!(
++                    "alloc_id={alloc_id:?}; offset={offset:?}; address={base_addr:#?}; location={loc:#?}"
++                )
++            },
++        );
+@@ -578,6 +617,10 @@ fn codegen_const_allocation(
+-        crate::kani_middle::d0_diagnostics::event("allocation-before-lowering", None, || {
+-            format!(
+-                "allocation={alloc:#?}; requested_name={name:#?}; reuse={:?}; location={loc:#?}; is_definitely_const={is_definitely_const}",
+-                self.alloc_map.get(alloc)
+-            )
+-        });
++        crate::kani_middle::d0_diagnostics::event(
++            "allocation-before-lowering",
++            self.current_fn.as_ref().map(|f| f.instance_stable()),
++            || {
++                format!(
++                    "allocation={alloc:#?}; requested_name={name:#?}; reuse={:?}; location={loc:#?}; is_definitely_const={is_definitely_const}",
++                    self.alloc_map.get(alloc)
++                )
++            },
++        );
+@@ -600,3 +643,5 @@ fn codegen_const_allocation(
+-        crate::kani_middle::d0_diagnostics::event("allocation-symbol", None, || {
+-            format!("allocation={alloc:#?}; symbol={alloc_name}")
+-        });
++        crate::kani_middle::d0_diagnostics::event(
++            "allocation-symbol",
++            self.current_fn.as_ref().map(|f| f.instance_stable()),
++            || format!("allocation={alloc:#?}; symbol={alloc_name}"),
++        );
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+index 3994ea778..d2c096917 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+@@ -426,6 +426 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+-                            let mut expected = match d0::case().as_str() {
+-                                "A" => vec![d0::A.to_string()],
+-                                "B" => vec![d0::B.to_string()],
+-                                "AB" | "BA" | "D" => vec![d0::A.to_string(), d0::B.to_string()],
+-                                _ => panic!("unknown D0 case"),
+-                            };
++                            let mut expected = vec![d0::case()];
+@@ -461,6 +455,0 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+-                            if matches!(d0::case().as_str(), "AB" | "BA" | "D") {
+-                                assert!(
+-                                    export_thread_pool.has_workers(),
+-                                    "D0 paired cases require normal prewarm workers"
+-                                );
+-                            }
+@@ -475 +464 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+-                        let mut ordered_harnesses = if export_thread_pool.has_workers() {
++                        let ordered_harnesses = if export_thread_pool.has_workers() {
+@@ -494,10 +482,0 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+-                            match d0::case().as_str() {
+-                                "AB" => ordered_harnesses.sort_by_key(|h| {
+-                                    crate::kani_middle::readable_name(**h) != d0::A
+-                                }),
+-                                "BA" => ordered_harnesses.sort_by_key(|h| {
+-                                    crate::kani_middle::readable_name(**h) != d0::B
+-                                }),
+-                                "A" | "B" | "D" => {}
+-                                _ => unreachable!(),
+-                            }
+diff --git a/kani-compiler/src/kani_middle/d0_diagnostics.rs b/kani-compiler/src/kani_middle/d0_diagnostics.rs
+index 7b1991fa3..b9ba3521a 100644
+--- a/kani-compiler/src/kani_middle/d0_diagnostics.rs
++++ b/kani-compiler/src/kani_middle/d0_diagnostics.rs
+@@ -4 +4 @@
+-//! Default-off observations for the KANI3300 D0 experiment. Never queries/changes MIR.
++//! Default-off compile-only observations for the KANI3300 C1-L experiment. Never queries/changes MIR.
+@@ -16,5 +16,12 @@
+-pub const A: &str = "array_value_as_used_by_merge_output";
+-pub const B: &str = "partial_copy_preserves_written_byte";
+-const MAX_RECORDS: u64 = 20000;
+-const MAX_BYTES: usize = 64 * 1024 * 1024;
+-const MAX_PAYLOAD: usize = 4 * 1024 * 1024;
++pub const CASES: [&str; 6] = [
++    "promoted_direct_legal",
++    "promoted_direct_left_hole",
++    "promoted_direct_right_hole",
++    "promoted_helper_legal",
++    "promoted_helper_left_hole",
++    "promoted_helper_right_hole",
++];
++const MAX_RECORDS: u64 = 2048;
++// Leave 64 KiB per case for manifest/coverage/curated bindings. No cap increase/retry.
++const MAX_BYTES: usize = 448 * 1024;
++const MAX_PAYLOAD: usize = 64 * 1024;
+@@ -51 +58 @@ pub fn enabled() -> bool {
+-    cfg!(feature = "cprover") && std::env::var_os("KANI_D0_DIR").is_some()
++    cfg!(feature = "cprover") && std::env::var_os("KANI_C1L_DIR").is_some()
+@@ -55 +62,3 @@ pub fn case() -> String {
+-    std::env::var("KANI_D0_CASE").expect("D0 requires KANI_D0_CASE")
++    let case = std::env::var("KANI_C1L_CASE").expect("C1-L requires KANI_C1L_CASE");
++    assert!(CASES.contains(&case.as_str()), "unknown C1-L case");
++    case
+@@ -69,10 +78,41 @@ fn relevant(instance: Instance) -> bool {
+-    let name = instance.name();
+-    readable_name(instance) == A
+-        || readable_name(instance) == B
+-        || name.contains("::array::")
+-        || name.contains("SpecArrayEq")
+-        || name.contains("spec_eq")
+-        || name.contains("MaybeUninit")
+-        || name.contains("::mem_init::")
+-        || name.contains("::ptr::")
+-        || name.contains("::intrinsics::")
++    let name = readable_name(instance);
++    name == case() || (case().starts_with("promoted_helper_") && name == "compare")
++}
++
++// Filter before invoking payload closures: no sysroot MIR, graphs, whole GOTO bodies,
++// repeated per-pass snapshots or solver observations. Required root/compare snapshots
++// and operand/allocation/check bindings remain available; CI must validate coverage.
++fn selected_stage(stage: &str) -> bool {
++    matches!(
++        stage,
++        "unit"
++            | "prewarm-policy"
++            | "normal-order"
++            | "actual-order"
++            | "harness-begin"
++            | "mir-original"
++            | "cache-write-local"
++            | "cache-write-delayed"
++            | "cache-read"
++            | "codegen-consumed-mir"
++            | "raw-eq-operand"
++            | "shadow-operation"
++            | "shadow-layout"
++            | "shadow-skip"
++            | "delayed-activation"
++            | "goto-local"
++            | "goto-terminator"
++            | "type-codegen"
++            | "referent-before-lowering"
++            | "referent-kind"
++            | "referent-allocation"
++            | "referent-symbol"
++            | "allocation-before-lowering"
++            | "allocation-symbol"
++    )
++}
++
++fn filtered(stage: &str) {
++    OBSERVER.with(|state| {
++        *state.borrow_mut().filtered.entry(stage.into()).or_default() += 1;
++    });
+@@ -102,4 +142,2 @@ pub fn record(
+-    if instance.is_some_and(|instance| !relevant(instance)) {
+-        OBSERVER.with(|state| {
+-            *state.borrow_mut().filtered.entry(stage.into()).or_default() += 1;
+-        });
++    if !selected_stage(stage) || instance.is_some_and(|instance| !relevant(instance)) {
++        filtered(stage);
+@@ -108,0 +147,8 @@ pub fn record(
++    if stage == "type-codegen"
++        && !["MaybeUninit", "[u8; 3]", "promoted_", "compare"]
++            .iter()
++            .any(|name| payload.contains(name))
++    {
++        filtered(stage);
++        return None;
++    }
+@@ -127 +173 @@ pub fn record(
+-            "schema": "kani3300-d0/v1", "pid": std::process::id(),
++            "schema": "kani3300-c1l/v1", "pid": std::process::id(),
+@@ -131,0 +178 @@ pub fn record(
++            "instance_data": instance.map(|instance| encoded(&instance)),
+@@ -141 +188 @@ pub fn record(
+-        let directory = PathBuf::from(std::env::var_os("KANI_D0_DIR").unwrap());
++        let directory = PathBuf::from(std::env::var_os("KANI_C1L_DIR").unwrap());
+@@ -162 +209,2 @@ pub fn finish() {
+-                "filter": "roots,array,MaybeUninit,mem_init,ptr,intrinsics",
++                "filter": "exact singleton root/compare; selected compiler stages; relevant types",
++                "limits": {"records": MAX_RECORDS, "bytes": MAX_BYTES, "payload": MAX_PAYLOAD},
+@@ -166 +214 @@ pub fn finish() {
+-        let directory = PathBuf::from(std::env::var_os("KANI_D0_DIR").unwrap());
++        let directory = PathBuf::from(std::env::var_os("KANI_C1L_DIR").unwrap());
+@@ -170 +218 @@ pub fn finish() {
+-            "schema": "kani3300-d0/v1", "case": case(), "pid": std::process::id(),
++            "schema": "kani3300-c1l/v1", "case": case(), "pid": std::process::id(),
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+index 5a6210f17..616f3076b 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+@@ -95 +95,9 @@ fn transform(
+-        d0::event("seeds", None, || format!("{targets:#?}"));
++        d0::event("delayed-activation", None, || {
++            format!(
++                "targets={}; starting_items_count={}; instances={}; status={}",
++                targets.len(),
++                starting_items.len(),
++                instances.len(),
++                if targets.is_empty() { "EMPTY/NOT_ACTIVATED" } else { "ACTIVATED" }
++            )
++        });

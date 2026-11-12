@@ -1,0 +1,100 @@
+{
+  "schema": "kani3300-c1l-input/v1",
+  "case": "promoted_helper_left_hole",
+  "input": {
+    "commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+    "path": "research/challenge-8/kani-k1/kani3300/c1p/fixtures/promoted_helper_left_hole.rs",
+    "sha256": "98f85b4aa74910cf0e1d82dd180c54b5258702d3c8c5b96061df8795c02f8882",
+    "bytes": 1223,
+    "unchanged": true,
+    "compile_ready": false
+  },
+  "source": {
+    "baseline": "a0a2386001a15fecfe2facc2f6cd87f3dee13b60",
+    "diagnostic_parent": "5eec235e3d0eeb99d7e432fcaef3a3135747b789",
+    "diagnostic_parent_tree": "ed095daec3cd82ef024e97c0c3951a591dfd6c39",
+    "adapter_commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+    "adapter_tree": "1f74038dbedb683b2384b78bc36e020891f5e501",
+    "adapter_path": "/root/kani-fix-3300-c1l",
+    "adapter_branch": "diagnostics/kani-3300-c1l",
+    "adapter_patch_sha256": "4c7975458a3e7852e491c829400bf4e707d11641c5e4890ef86604474a259049",
+    "patch_format": "git diff --binary --unified=0 exact D0-PR..adapter; git apply --unidiff-zero",
+    "input_commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+    "release_acceptance": false,
+    "model_commits_added": [],
+    "kani_publication": "NOT_AUTHORIZED_IN_THIS_SESSION"
+  },
+  "configuration": {
+    "argv": [
+      "${KANI}",
+      "${FIXTURE}",
+      "--crate-name",
+      "c1l_input",
+      "-Z",
+      "uninit-checks",
+      "-Z",
+      "unstable-options",
+      "--only-codegen",
+      "--output-format",
+      "regular",
+      "--keep-temps",
+      "--target-dir",
+      "${OUT}/promoted_helper_left_hole/model",
+      "--harness",
+      "promoted_helper_left_hole",
+      "--exact"
+    ],
+    "environment": {
+      "RUSTFLAGS": "--emit=mir --edition=2021 --target=x86_64-unknown-linux-gnu",
+      "KANI_C1L_CASE": "promoted_helper_left_hole",
+      "KANI_C1L_DIR": "${OUT}/promoted_helper_left_hole/compiler"
+    },
+    "source_commit": "6d35d2f55052762ccc7555db1e8c12e32047091d",
+    "fixture_sha256": "98f85b4aa74910cf0e1d82dd180c54b5258702d3c8c5b96061df8795c02f8882",
+    "global_config_canonical_sha256": "6f822d6807c104faa8633a26cba6edc2caa9612210842036560fa0b7f26891d4"
+  },
+  "configuration_canonical_sha256": "7edfea67974d04ce5905d383a807d232a8a4902879425114c28016607a007a6c",
+  "pins_reference": "../../CASE-MANIFEST.json#/pins",
+  "harness": {
+    "selector": "promoted_helper_left_hole",
+    "exact": true,
+    "reachability": "Harnesses",
+    "expected_root_count": 1,
+    "expected_pretty_roots": [
+      "promoted_helper_left_hole"
+    ],
+    "required_mangled_roots": "measured metadata, never guessed",
+    "units": 1,
+    "stubs": [],
+    "automatic": false,
+    "tests": false
+  },
+  "expected_observation_instances": [
+    "promoted_helper_left_hole",
+    "compare"
+  ],
+  "output": {
+    "directory": "${OUT}/promoted_helper_left_hole",
+    "manifest": "manifest.json",
+    "roots": "roots.json",
+    "sidecars": "compiler/PID-SEQUENCE-STAGE.json",
+    "coverage": "compiler/PID-coverage.json",
+    "report": "report.json",
+    "compiler_process": "compiler-process.json",
+    "driver_process": "driver-process.json",
+    "packet_case_bytes_max": 524288
+  },
+  "observed": {
+    "setup": "NOT_RUN",
+    "compiler": "NOT_RUN",
+    "driver": "NOT_RUN",
+    "linker": "NOT_RUN",
+    "curation": "NOT_RUN",
+    "compiler_exit": null,
+    "solver": "NOT_RUN",
+    "solver_exit": null,
+    "runtime_initializedness": "NOT_RUN",
+    "reached_properties": "NOT_RUN",
+    "lowering": "UNKNOWN"
+  }
+}
