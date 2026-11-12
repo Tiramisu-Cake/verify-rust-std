@@ -1,0 +1,185 @@
+{
+  "schema": "kani3300-m2br5-static-v1",
+  "compilation": "NOT_RUN",
+  "verification": "NOT_RUN",
+  "variants": [
+    {
+      "id": "R5-01",
+      "sha": "bcc1a2af3fe13599b88acabc78c33e1394407dc5",
+      "rustfmt_exit": 0,
+      "diff_check_exit": 0,
+      "reverse_patch_check_exit": 0,
+      "only_mem_init_changed": true,
+      "direct_parent_R1": true
+    },
+    {
+      "id": "R5-02",
+      "sha": "899ffb5f26b79e89cec1b7cc537d54be494ab390",
+      "rustfmt_exit": 0,
+      "diff_check_exit": 0,
+      "reverse_patch_check_exit": 0,
+      "only_mem_init_changed": true,
+      "direct_parent_R1": true
+    }
+  ],
+  "reconstruction": {
+    "R1_R1": "d565a600e34ef6199f4c6e0a799a5eb9a224ec0ed9a563ef47da2cbbe908cc06",
+    "U_U_without_GLUE": "88f260ddc5b315a32e64b0f6f396451373d2fb54f1a4898233508ebd81cd993c",
+    "V02": "88f260ddc5b315a32e64b0f6f396451373d2fb54f1a4898233508ebd81cd993c",
+    "U_U_with_GLUE": "a240b5a262e7959f0fce1dfaa1a4eb546c375d2fa7abd13a579432a9a95280be",
+    "GLUE_removed": "88f260ddc5b315a32e64b0f6f396451373d2fb54f1a4898233508ebd81cd993c"
+  },
+  "source_audit": [
+    {
+      "id": "R5-01",
+      "markers": 14,
+      "model_functions": 13,
+      "normalized_signatures_match": true,
+      "constructor_fields": [
+        "tracked_object_id",
+        "tracked_offset",
+        "value"
+      ],
+      "external_helper_references": 0,
+      "method_calls": [
+        {
+          "method": "copy_by_id",
+          "line": 110,
+          "arguments": 5,
+          "args": "from_obj, from_offset, to_obj, to_offset, num_elts"
+        },
+        {
+          "method": "bless_by_id",
+          "line": 139,
+          "arguments": 3,
+          "args": "to_obj, to_offset, num_elts"
+        },
+        {
+          "method": "bless_by_id",
+          "line": 149,
+          "arguments": 3,
+          "args": "obj, offset, num_elts"
+        },
+        {
+          "method": "copy",
+          "line": 370,
+          "arguments": 3,
+          "args": "from_ptr as *const u8,\n                    to_ptr as *const u8,\n                    num_elts"
+        },
+        {
+          "method": "bless",
+          "line": 433,
+          "arguments": 2,
+          "args": "to_ptr as *const u8, 1"
+        }
+      ]
+    },
+    {
+      "id": "R5-02",
+      "markers": 14,
+      "model_functions": 13,
+      "normalized_signatures_match": true,
+      "constructor_fields": [
+        "argument_buffer_active",
+        "argument_buffer_layout_size",
+        "argument_buffer_saved_object_id",
+        "argument_buffer_saved_offset",
+        "argument_buffer_selected_argument",
+        "tracked_object_id",
+        "tracked_offset",
+        "value"
+      ],
+      "external_helper_references": 0,
+      "method_calls": [
+        {
+          "method": "copy_by_id",
+          "line": 123,
+          "arguments": 5,
+          "args": "from_obj, from_offset, to_obj, to_offset, num_elts"
+        },
+        {
+          "method": "bless_by_id",
+          "line": 149,
+          "arguments": 3,
+          "args": "to_obj, to_offset, 1"
+        },
+        {
+          "method": "bless_by_id",
+          "line": 160,
+          "arguments": 3,
+          "args": "obj, offset, num_elts"
+        },
+        {
+          "method": "copy",
+          "line": 382,
+          "arguments": 3,
+          "args": "from_ptr as *const u8,\n                    to_ptr as *const u8,\n                    num_elts"
+        },
+        {
+          "method": "copy_by_id",
+          "line": 438,
+          "arguments": 5,
+          "args": "buffer_saved_object_id,\n                        buffer_saved_offset,\n                        to_object_id,\n                        to_offset,\n                        1"
+        },
+        {
+          "method": "bless",
+          "line": 450,
+          "arguments": 2,
+          "args": "to_ptr as *const u8, 1"
+        }
+      ]
+    }
+  ],
+  "markers_and_signatures": {
+    "KaniMemoryInitializationState": "staticmutMEM_INIT_STATE:MemoryInitializationState=MemoryInitializationState::new()",
+    "InitializeMemoryInitializationStateModel": "fninitialize_memory_initialization_state()",
+    "IsPtrInitializedModel": "fnis_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,)->bool",
+    "SetPtrInitializedModel": "fnset_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,value:bool,)",
+    "IsSliceChunkPtrInitializedModel": "fnis_slice_chunk_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,num_elts:usize,)->bool",
+    "SetSliceChunkPtrInitializedModel": "fnset_slice_chunk_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,num_elts:usize,value:bool,)",
+    "IsSlicePtrInitializedModel": "fnis_slice_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*const[T],layout:Layout<LAYOUT_SIZE>,)->bool",
+    "SetSlicePtrInitializedModel": "fnset_slice_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*const[T],layout:Layout<LAYOUT_SIZE>,value:bool,)",
+    "IsStrPtrInitializedModel": "fnis_str_ptr_initialized<constLAYOUT_SIZE:usize>(ptr:*conststr,layout:Layout<LAYOUT_SIZE>,)->bool",
+    "SetStrPtrInitializedModel": "fnset_str_ptr_initialized<constLAYOUT_SIZE:usize>(ptr:*conststr,layout:Layout<LAYOUT_SIZE>,value:bool,)",
+    "CopyInitStateModel": "fncopy_init_state<constLAYOUT_SIZE:usize,T>(from:*constT,to:*constT,num_elts:usize,)",
+    "CopyInitStateSingleModel": "fncopy_init_state_single<constLAYOUT_SIZE:usize,T>(from:*constT,to:*constT)",
+    "StoreArgumentModel": "fnstore_argument<constLAYOUT_SIZE:usize,T>(from:*constT,selected_argument:usize)",
+    "LoadArgumentModel": "fnload_argument<constLAYOUT_SIZE:usize,T>(to:*constT,selected_argument:usize)"
+  },
+  "delta_numstat": "77\t33\tlibrary/kani_core/src/mem_init.rs",
+  "proof_credit": 0,
+  "source_audit_script_sha256": "4ae95dd2999b1f419676c957b02de8d3965b7403ca3a3742d38792dd14e928bf",
+  "isolated_index_patch_reconstruction": [
+    {
+      "id": "R5-01",
+      "reconstructed_tree": "dd0a03763344b2a06a1582797323b90a894bd6f7",
+      "matches_manifest": true
+    },
+    {
+      "id": "R5-02",
+      "reconstructed_tree": "67dad348591d0f662b783efc6da3a95a0e69b9ff",
+      "matches_manifest": true
+    }
+  ],
+  "diagnostic_author_committer_and_no_skip_ci_checked": true,
+  "all_referenced_historical_and_task_files_unchanged": true,
+  "rustfmt": {
+    "wrapper": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+    "wrapper_sha256": "50d6185aa821a7f6ea5aceba7cebe1bd517ea323f399a269c5a170b6ac65210d",
+    "config_sha256": "d1886a654a790b5f5779d12c770b32c5328e4e4eaa415fc3a024c6ba9df687b1",
+    "assurance": "FORMATTING_ONLY_NOT_COMPILATION",
+    "checks": [
+      {
+        "id": "R5-01",
+        "exit": 0
+      },
+      {
+        "id": "R5-02",
+        "exit": 0
+      }
+    ]
+  },
+  "forbidden_tool_runs": 0,
+  "ci_dispatches": 0,
+  "cloud_usd": 0
+}

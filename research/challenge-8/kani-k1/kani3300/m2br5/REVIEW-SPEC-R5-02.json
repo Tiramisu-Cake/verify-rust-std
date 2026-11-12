@@ -1,0 +1,45 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-m2br5",
+  "baseline_commit": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+  "candidate_commit": "899ffb5f26b79e89cec1b7cc537d54be494ab390",
+  "applicability": "KANI3300 M2-B/R5 complementary runtime diagnostic first pair only; NOT_RELEASE_CANDIDATE; coordinator build request, no worker CI.",
+  "defect": "Reported resource growth, complementary coherent half rollbacks from exact R1; no correctness repair claimed.",
+  "invariants": [
+    "Only mem_init.rs may change; all14 existing marker declarations/13 model signatures frozen.",
+    "R5-01 exact U Hbuf + R1 Hcopy/GLUE; R5-02 exact R1 Hbuf + U policy via exact R1 GLUE.",
+    "No pointer reconstruction, new assumption, frame repair, compiler edit, check/input/solver change, release integration."
+  ],
+  "controls": [
+    "First real coordinator build validates types/-D warnings; static review is not compilation.",
+    "Full coverage/reconstruction, API/dependency/type audit and changed-obligation losses must be explicit.",
+    "Actual retained use/failure/early path binding required; absent/capped data UNKNOWN; no equivalent relief/proof claim."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "library/kani_core/src/mem_init.rs",
+    "library/kani_core/src/mem.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+    "kani-driver/src/call_cbmc.rs",
+    "kani-driver/src/args/mod.rs",
+    "kani-driver/src/call_goto_instrument.rs",
+    "rust-toolchain.toml",
+    "kani-dependencies",
+    "kani-compiler/src/kani_middle/attributes.rs",
+    "cprover_bindings/src/goto_program/symbol.rs",
+    "cprover_bindings/src/goto_program/symbol_table.rs"
+  ],
+  "known_limitations": [
+    "Source-only, no compiler/verifier/build run.",
+    "Shared GLUE factor; U/U-with-GLUE not a third candidate.",
+    "All actual R5 paths/builds/solver results unobserved; historical results coordinator-reported."
+  ],
+  "prior_reviews": []
+}
