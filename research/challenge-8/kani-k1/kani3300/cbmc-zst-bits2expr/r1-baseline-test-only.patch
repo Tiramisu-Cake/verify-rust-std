@@ -1,0 +1,790 @@
+diff --git a/regression/cbmc/zst-bits2expr-count-0/main.c b/regression/cbmc/zst-bits2expr-count-0/main.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..da2d5fd2cc1f1409662e09bf82c5de01507cc39f
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-count-0/main.c
+@@ -0,0 +1,27 @@
++// Author: Tiramisu-Cake <igkharin@gmail.com>
++// GNU C empty structs have zero size.
++#include <stddef.h>
++#include <string.h>
++
++struct E
++{
++};
++
++struct W
++{
++  struct E z[0];
++  unsigned char pad[8];
++};
++
++int main(void)
++{
++  unsigned char buf[sizeof(struct W)];
++  memset(buf, 0x5a, sizeof buf);
++  __CPROVER_assert(sizeof(struct E) == 0, "empty size");
++  __CPROVER_assert(sizeof(struct W) == 8, "wrapper size");
++  __CPROVER_assert(offsetof(struct W, pad) == 0, "pad offset");
++  struct W w = *(struct W *)buf;
++  for(unsigned i = 0; i < sizeof w.pad; ++i)
++    __CPROVER_assert(w.pad[i] == 0x5a, "all payload bytes");
++  return 0;
++}
+diff --git a/regression/cbmc/zst-bits2expr-count-0/test.desc b/regression/cbmc/zst-bits2expr-count-0/test.desc
+new file mode 100644
+index 0000000000000000000000000000000000000000..dddbff181a78291d6953372f04e0457e917ba24e
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-count-0/test.desc
+@@ -0,0 +1,10 @@
++CORE gcc-only
++main.c
++--gcc --64 --little-endian
++^VERIFICATION SUCCESSFUL$
++^EXIT=0$
++^SIGNAL=0$
++--
++Invariant check failed
++^warning: ignoring
++: FAILURE
+diff --git a/regression/cbmc/zst-bits2expr-count-1/main.c b/regression/cbmc/zst-bits2expr-count-1/main.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..63c3abe1ec4e8343b3677914c82f93015ed99f13
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-count-1/main.c
+@@ -0,0 +1,27 @@
++// Author: Tiramisu-Cake <igkharin@gmail.com>
++// GNU C empty structs have zero size.
++#include <stddef.h>
++#include <string.h>
++
++struct E
++{
++};
++
++struct W
++{
++  struct E z[1];
++  unsigned char pad[8];
++};
++
++int main(void)
++{
++  unsigned char buf[sizeof(struct W)];
++  memset(buf, 0x5a, sizeof buf);
++  __CPROVER_assert(sizeof(struct E) == 0, "empty size");
++  __CPROVER_assert(sizeof(struct W) == 8, "wrapper size");
++  __CPROVER_assert(offsetof(struct W, pad) == 0, "pad offset");
++  struct W w = *(struct W *)buf;
++  for(unsigned i = 0; i < sizeof w.pad; ++i)
++    __CPROVER_assert(w.pad[i] == 0x5a, "all payload bytes");
++  return 0;
++}
+diff --git a/regression/cbmc/zst-bits2expr-count-1/test.desc b/regression/cbmc/zst-bits2expr-count-1/test.desc
+new file mode 100644
+index 0000000000000000000000000000000000000000..dddbff181a78291d6953372f04e0457e917ba24e
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-count-1/test.desc
+@@ -0,0 +1,10 @@
++CORE gcc-only
++main.c
++--gcc --64 --little-endian
++^VERIFICATION SUCCESSFUL$
++^EXIT=0$
++^SIGNAL=0$
++--
++Invariant check failed
++^warning: ignoring
++: FAILURE
+diff --git a/regression/cbmc/zst-bits2expr-count-2/main.c b/regression/cbmc/zst-bits2expr-count-2/main.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..dbdd674b91e439049641b2dcf7dade9e30f208a5
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-count-2/main.c
+@@ -0,0 +1,27 @@
++// Author: Tiramisu-Cake <igkharin@gmail.com>
++// GNU C empty structs have zero size.
++#include <stddef.h>
++#include <string.h>
++
++struct E
++{
++};
++
++struct W
++{
++  struct E z[2];
++  unsigned char pad[8];
++};
++
++int main(void)
++{
++  unsigned char buf[sizeof(struct W)];
++  memset(buf, 0x5a, sizeof buf);
++  __CPROVER_assert(sizeof(struct E) == 0, "empty size");
++  __CPROVER_assert(sizeof(struct W) == 8, "wrapper size");
++  __CPROVER_assert(offsetof(struct W, pad) == 0, "pad offset");
++  struct W w = *(struct W *)buf;
++  for(unsigned i = 0; i < sizeof w.pad; ++i)
++    __CPROVER_assert(w.pad[i] == 0x5a, "all payload bytes");
++  return 0;
++}
+diff --git a/regression/cbmc/zst-bits2expr-count-2/test.desc b/regression/cbmc/zst-bits2expr-count-2/test.desc
+new file mode 100644
+index 0000000000000000000000000000000000000000..dddbff181a78291d6953372f04e0457e917ba24e
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-count-2/test.desc
+@@ -0,0 +1,10 @@
++CORE gcc-only
++main.c
++--gcc --64 --little-endian
++^VERIFICATION SUCCESSFUL$
++^EXIT=0$
++^SIGNAL=0$
++--
++Invariant check failed
++^warning: ignoring
++: FAILURE
+diff --git a/regression/cbmc/zst-bits2expr-deref/main.c b/regression/cbmc/zst-bits2expr-deref/main.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..dbdd674b91e439049641b2dcf7dade9e30f208a5
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-deref/main.c
+@@ -0,0 +1,27 @@
++// Author: Tiramisu-Cake <igkharin@gmail.com>
++// GNU C empty structs have zero size.
++#include <stddef.h>
++#include <string.h>
++
++struct E
++{
++};
++
++struct W
++{
++  struct E z[2];
++  unsigned char pad[8];
++};
++
++int main(void)
++{
++  unsigned char buf[sizeof(struct W)];
++  memset(buf, 0x5a, sizeof buf);
++  __CPROVER_assert(sizeof(struct E) == 0, "empty size");
++  __CPROVER_assert(sizeof(struct W) == 8, "wrapper size");
++  __CPROVER_assert(offsetof(struct W, pad) == 0, "pad offset");
++  struct W w = *(struct W *)buf;
++  for(unsigned i = 0; i < sizeof w.pad; ++i)
++    __CPROVER_assert(w.pad[i] == 0x5a, "all payload bytes");
++  return 0;
++}
+diff --git a/regression/cbmc/zst-bits2expr-deref/test.desc b/regression/cbmc/zst-bits2expr-deref/test.desc
+new file mode 100644
+index 0000000000000000000000000000000000000000..dddbff181a78291d6953372f04e0457e917ba24e
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-deref/test.desc
+@@ -0,0 +1,10 @@
++CORE gcc-only
++main.c
++--gcc --64 --little-endian
++^VERIFICATION SUCCESSFUL$
++^EXIT=0$
++^SIGNAL=0$
++--
++Invariant check failed
++^warning: ignoring
++: FAILURE
+diff --git a/regression/cbmc/zst-bits2expr-interior/main.c b/regression/cbmc/zst-bits2expr-interior/main.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..2997b7fbae13b5254a7a7894b011497aaf276a06
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-interior/main.c
+@@ -0,0 +1,35 @@
++// Author: Tiramisu-Cake <igkharin@gmail.com>
++// GNU C empty structs have zero size.
++#include <stddef.h>
++#include <string.h>
++
++struct E
++{
++};
++
++struct W
++{
++  unsigned int before;
++  struct E z[2];
++  unsigned int x;
++  unsigned char tail[4];
++};
++
++int main(void)
++{
++  union
++  {
++    struct W aligned;
++    unsigned char bytes[sizeof(struct W)];
++  } storage;
++  memset(storage.bytes, 0x5a, sizeof storage);
++  __CPROVER_assert(sizeof(unsigned int) == 4, "target int size");
++  __CPROVER_assert(sizeof(struct W) == 12, "wrapper size");
++  __CPROVER_assert(offsetof(struct W, x) == 4, "interior offset");
++  struct W w = *(struct W *)storage.bytes;
++  __CPROVER_assert(w.before == 0x5a5a5a5au, "before preserved");
++  __CPROVER_assert(w.x == 0x5a5a5a5au, "x preserved");
++  for(unsigned i = 0; i < sizeof w.tail; ++i)
++    __CPROVER_assert(w.tail[i] == 0x5a, "tail preserved");
++  return 0;
++}
+diff --git a/regression/cbmc/zst-bits2expr-interior/test.desc b/regression/cbmc/zst-bits2expr-interior/test.desc
+new file mode 100644
+index 0000000000000000000000000000000000000000..dddbff181a78291d6953372f04e0457e917ba24e
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-interior/test.desc
+@@ -0,0 +1,10 @@
++CORE gcc-only
++main.c
++--gcc --64 --little-endian
++^VERIFICATION SUCCESSFUL$
++^EXIT=0$
++^SIGNAL=0$
++--
++Invariant check failed
++^warning: ignoring
++: FAILURE
+diff --git a/regression/cbmc/zst-bits2expr-memcpy/main.c b/regression/cbmc/zst-bits2expr-memcpy/main.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd80e8bd2cfe05b468317c2c7b2aed0b437568f5
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-memcpy/main.c
+@@ -0,0 +1,28 @@
++// Author: Tiramisu-Cake <igkharin@gmail.com>
++// GNU C empty structs have zero size.
++#include <stddef.h>
++#include <string.h>
++
++struct E
++{
++};
++
++struct W
++{
++  struct E z[2];
++  unsigned char pad[8];
++};
++
++int main(void)
++{
++  unsigned char buf[sizeof(struct W)];
++  memset(buf, 0x5a, sizeof buf);
++  __CPROVER_assert(sizeof(struct E) == 0, "empty size");
++  __CPROVER_assert(sizeof(struct W) == 8, "wrapper size");
++  __CPROVER_assert(offsetof(struct W, pad) == 0, "pad offset");
++  struct W w;
++  memcpy(&w, buf, sizeof w);
++  for(unsigned i = 0; i < sizeof w.pad; ++i)
++    __CPROVER_assert(w.pad[i] == 0x5a, "all payload bytes");
++  return 0;
++}
+diff --git a/regression/cbmc/zst-bits2expr-memcpy/test.desc b/regression/cbmc/zst-bits2expr-memcpy/test.desc
+new file mode 100644
+index 0000000000000000000000000000000000000000..dddbff181a78291d6953372f04e0457e917ba24e
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-memcpy/test.desc
+@@ -0,0 +1,10 @@
++CORE gcc-only
++main.c
++--gcc --64 --little-endian
++^VERIFICATION SUCCESSFUL$
++^EXIT=0$
++^SIGNAL=0$
++--
++Invariant check failed
++^warning: ignoring
++: FAILURE
+diff --git a/regression/cbmc/zst-bits2expr-negative/main.c b/regression/cbmc/zst-bits2expr-negative/main.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..9647e26044eed74535bd0eedfef664a744e3a4fb
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-negative/main.c
+@@ -0,0 +1,28 @@
++// Author: Tiramisu-Cake <igkharin@gmail.com>
++// GNU C empty structs have zero size.
++#include <stddef.h>
++#include <string.h>
++
++struct E
++{
++};
++
++struct W
++{
++  struct E z[2];
++  unsigned char pad[8];
++};
++
++int main(void)
++{
++  unsigned char buf[sizeof(struct W)];
++  memset(buf, 0x5a, sizeof buf);
++  __CPROVER_assert(sizeof(struct E) == 0, "empty size");
++  __CPROVER_assert(sizeof(struct W) == 8, "wrapper size");
++  __CPROVER_assert(offsetof(struct W, pad) == 0, "pad offset");
++  struct W w = *(struct W *)buf;
++  for(unsigned i = 0; i < sizeof w.pad; ++i)
++    __CPROVER_assert(w.pad[i] == 0x5a, "all payload bytes");
++  __CPROVER_assert(w.pad[3] == 0, "zst-payload-negative");
++  return 0;
++}
+diff --git a/regression/cbmc/zst-bits2expr-negative/test.desc b/regression/cbmc/zst-bits2expr-negative/test.desc
+new file mode 100644
+index 0000000000000000000000000000000000000000..5761ebfc532e08805f155130cbf08e3fb4af7a84
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-negative/test.desc
+@@ -0,0 +1,10 @@
++CORE gcc-only
++main.c
++--gcc --64 --little-endian
++^VERIFICATION FAILED$
++.*zst-payload-negative.*: FAILURE$
++^EXIT=10$
++^SIGNAL=0$
++--
++Invariant check failed
++^warning: ignoring
+diff --git a/regression/cbmc/zst-bits2expr-nested/main.c b/regression/cbmc/zst-bits2expr-nested/main.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..df46944a37d7c4d6f948922d1871b6d164fb8777
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-nested/main.c
+@@ -0,0 +1,27 @@
++// Author: Tiramisu-Cake <igkharin@gmail.com>
++// GNU C empty structs have zero size.
++#include <stddef.h>
++#include <string.h>
++
++struct E
++{
++};
++
++struct W
++{
++  struct E z[2][3];
++  unsigned char pad[8];
++};
++
++int main(void)
++{
++  unsigned char buf[sizeof(struct W)];
++  memset(buf, 0x5a, sizeof buf);
++  __CPROVER_assert(sizeof(struct E) == 0, "empty size");
++  __CPROVER_assert(sizeof(struct W) == 8, "wrapper size");
++  __CPROVER_assert(offsetof(struct W, pad) == 0, "pad offset");
++  struct W w = *(struct W *)buf;
++  for(unsigned i = 0; i < sizeof w.pad; ++i)
++    __CPROVER_assert(w.pad[i] == 0x5a, "all payload bytes");
++  return 0;
++}
+diff --git a/regression/cbmc/zst-bits2expr-nested/test.desc b/regression/cbmc/zst-bits2expr-nested/test.desc
+new file mode 100644
+index 0000000000000000000000000000000000000000..dddbff181a78291d6953372f04e0457e917ba24e
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-nested/test.desc
+@@ -0,0 +1,10 @@
++CORE gcc-only
++main.c
++--gcc --64 --little-endian
++^VERIFICATION SUCCESSFUL$
++^EXIT=0$
++^SIGNAL=0$
++--
++Invariant check failed
++^warning: ignoring
++: FAILURE
+diff --git a/regression/cbmc/zst-bits2expr-position-first/main.c b/regression/cbmc/zst-bits2expr-position-first/main.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..2954f54b79f14c206aeb82dd1f52ecd7002d7616
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-position-first/main.c
+@@ -0,0 +1,29 @@
++// Author: Tiramisu-Cake <igkharin@gmail.com>
++// GNU C empty structs have zero size.
++#include <stddef.h>
++#include <string.h>
++
++struct E
++{
++};
++
++struct W
++{
++  struct E z[2];
++  unsigned char a[4];
++  unsigned char b[4];
++};
++
++int main(void)
++{
++  unsigned char buf[sizeof(struct W)];
++  memset(buf, 0x5a, sizeof buf);
++  __CPROVER_assert(sizeof(struct W) == 8, "wrapper size");
++  struct W w = *(struct W *)buf;
++  for(unsigned i = 0; i < 4; ++i)
++  {
++    __CPROVER_assert(w.a[i] == 0x5a, "a preserved");
++    __CPROVER_assert(w.b[i] == 0x5a, "b preserved");
++  }
++  return 0;
++}
+diff --git a/regression/cbmc/zst-bits2expr-position-first/test.desc b/regression/cbmc/zst-bits2expr-position-first/test.desc
+new file mode 100644
+index 0000000000000000000000000000000000000000..dddbff181a78291d6953372f04e0457e917ba24e
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-position-first/test.desc
+@@ -0,0 +1,10 @@
++CORE gcc-only
++main.c
++--gcc --64 --little-endian
++^VERIFICATION SUCCESSFUL$
++^EXIT=0$
++^SIGNAL=0$
++--
++Invariant check failed
++^warning: ignoring
++: FAILURE
+diff --git a/regression/cbmc/zst-bits2expr-position-last/main.c b/regression/cbmc/zst-bits2expr-position-last/main.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..50748c179c4bb2a785fb9bd72215d24606699ee4
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-position-last/main.c
+@@ -0,0 +1,29 @@
++// Author: Tiramisu-Cake <igkharin@gmail.com>
++// GNU C empty structs have zero size.
++#include <stddef.h>
++#include <string.h>
++
++struct E
++{
++};
++
++struct W
++{
++  unsigned char a[4];
++  unsigned char b[4];
++  struct E z[2];
++};
++
++int main(void)
++{
++  unsigned char buf[sizeof(struct W)];
++  memset(buf, 0x5a, sizeof buf);
++  __CPROVER_assert(sizeof(struct W) == 8, "wrapper size");
++  struct W w = *(struct W *)buf;
++  for(unsigned i = 0; i < 4; ++i)
++  {
++    __CPROVER_assert(w.a[i] == 0x5a, "a preserved");
++    __CPROVER_assert(w.b[i] == 0x5a, "b preserved");
++  }
++  return 0;
++}
+diff --git a/regression/cbmc/zst-bits2expr-position-last/test.desc b/regression/cbmc/zst-bits2expr-position-last/test.desc
+new file mode 100644
+index 0000000000000000000000000000000000000000..dddbff181a78291d6953372f04e0457e917ba24e
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-position-last/test.desc
+@@ -0,0 +1,10 @@
++CORE gcc-only
++main.c
++--gcc --64 --little-endian
++^VERIFICATION SUCCESSFUL$
++^EXIT=0$
++^SIGNAL=0$
++--
++Invariant check failed
++^warning: ignoring
++: FAILURE
+diff --git a/regression/cbmc/zst-bits2expr-position-middle/main.c b/regression/cbmc/zst-bits2expr-position-middle/main.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..888356c316d522757f4cd7b8ef19d38db32e2a9a
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-position-middle/main.c
+@@ -0,0 +1,29 @@
++// Author: Tiramisu-Cake <igkharin@gmail.com>
++// GNU C empty structs have zero size.
++#include <stddef.h>
++#include <string.h>
++
++struct E
++{
++};
++
++struct W
++{
++  unsigned char a[4];
++  struct E z[2];
++  unsigned char b[4];
++};
++
++int main(void)
++{
++  unsigned char buf[sizeof(struct W)];
++  memset(buf, 0x5a, sizeof buf);
++  __CPROVER_assert(sizeof(struct W) == 8, "wrapper size");
++  struct W w = *(struct W *)buf;
++  for(unsigned i = 0; i < 4; ++i)
++  {
++    __CPROVER_assert(w.a[i] == 0x5a, "a preserved");
++    __CPROVER_assert(w.b[i] == 0x5a, "b preserved");
++  }
++  return 0;
++}
+diff --git a/regression/cbmc/zst-bits2expr-position-middle/test.desc b/regression/cbmc/zst-bits2expr-position-middle/test.desc
+new file mode 100644
+index 0000000000000000000000000000000000000000..dddbff181a78291d6953372f04e0457e917ba24e
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-position-middle/test.desc
+@@ -0,0 +1,10 @@
++CORE gcc-only
++main.c
++--gcc --64 --little-endian
++^VERIFICATION SUCCESSFUL$
++^EXIT=0$
++^SIGNAL=0$
++--
++Invariant check failed
++^warning: ignoring
++: FAILURE
+diff --git a/regression/cbmc/zst-bits2expr-union/main.c b/regression/cbmc/zst-bits2expr-union/main.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..ee0b89da5ed1aac2bca5e92ffd3fff3e9cedc412
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-union/main.c
+@@ -0,0 +1,31 @@
++// Author: Tiramisu-Cake <igkharin@gmail.com>
++// GNU C empty structs have zero size.
++#include <stddef.h>
++#include <string.h>
++
++struct E
++{
++};
++
++struct W
++{
++  struct E z[2];
++  unsigned char pad[8];
++};
++
++union U
++{
++  struct W w; // First arm that can represent all eight bytes.
++  unsigned char bytes[8];
++};
++
++int main(void)
++{
++  union U storage;
++  memset(storage.bytes, 0x5a, sizeof storage);
++  __CPROVER_assert(sizeof(union U) == 8, "union size");
++  union U copied = *(union U *)storage.bytes;
++  for(unsigned i = 0; i < sizeof copied.w.pad; ++i)
++    __CPROVER_assert(copied.w.pad[i] == 0x5a, "union payload bytes");
++  return 0;
++}
+diff --git a/regression/cbmc/zst-bits2expr-union/test.desc b/regression/cbmc/zst-bits2expr-union/test.desc
+new file mode 100644
+index 0000000000000000000000000000000000000000..dddbff181a78291d6953372f04e0457e917ba24e
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-union/test.desc
+@@ -0,0 +1,10 @@
++CORE gcc-only
++main.c
++--gcc --64 --little-endian
++^VERIFICATION SUCCESSFUL$
++^EXIT=0$
++^SIGNAL=0$
++--
++Invariant check failed
++^warning: ignoring
++: FAILURE
+diff --git a/regression/cbmc/zst-bits2expr-zero-length-inner/main.c b/regression/cbmc/zst-bits2expr-zero-length-inner/main.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..5381f6d95ee539d4ef41e5c13af46e7d484f80a0
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-zero-length-inner/main.c
+@@ -0,0 +1,27 @@
++// Author: Tiramisu-Cake <igkharin@gmail.com>
++// GNU C empty structs have zero size.
++#include <stddef.h>
++#include <string.h>
++
++struct E
++{
++};
++
++struct W
++{
++  unsigned char z[2][0];
++  unsigned char pad[8];
++};
++
++int main(void)
++{
++  unsigned char buf[sizeof(struct W)];
++  memset(buf, 0x5a, sizeof buf);
++  __CPROVER_assert(sizeof(struct E) == 0, "empty size");
++  __CPROVER_assert(sizeof(struct W) == 8, "wrapper size");
++  __CPROVER_assert(offsetof(struct W, pad) == 0, "pad offset");
++  struct W w = *(struct W *)buf;
++  for(unsigned i = 0; i < sizeof w.pad; ++i)
++    __CPROVER_assert(w.pad[i] == 0x5a, "all payload bytes");
++  return 0;
++}
+diff --git a/regression/cbmc/zst-bits2expr-zero-length-inner/test.desc b/regression/cbmc/zst-bits2expr-zero-length-inner/test.desc
+new file mode 100644
+index 0000000000000000000000000000000000000000..dddbff181a78291d6953372f04e0457e917ba24e
+--- /dev/null
++++ b/regression/cbmc/zst-bits2expr-zero-length-inner/test.desc
+@@ -0,0 +1,10 @@
++CORE gcc-only
++main.c
++--gcc --64 --little-endian
++^VERIFICATION SUCCESSFUL$
++^EXIT=0$
++^SIGNAL=0$
++--
++Invariant check failed
++^warning: ignoring
++: FAILURE
+diff --git a/unit/util/zst_bits2expr.cpp b/unit/util/zst_bits2expr.cpp
+new file mode 100644
+index 0000000000000000000000000000000000000000..6da12360d83fd2224985f31f1c7fd7d4843c00a8
+--- /dev/null
++++ b/unit/util/zst_bits2expr.cpp
+@@ -0,0 +1,127 @@
++// Author: Tiramisu-Cake <igkharin@gmail.com>
++/// \file
++/// Zero-width array reconstruction and preservation of nonzero siblings.
++
++#include <util/arith_tools.h>
++#include <util/bitvector_types.h>
++#include <util/c_types.h>
++#include <util/cmdline.h>
++#include <util/config.h>
++#include <util/namespace.h>
++#include <util/simplify_utils.h>
++#include <util/std_expr.h>
++#include <util/std_types.h>
++#include <util/symbol_table.h>
++
++#include <testing-utils/empty_namespace.h>
++#include <testing-utils/use_catch.h>
++
++TEST_CASE(
++  "bits2expr reconstructs empty structs and arrays",
++  "[core][util][simplify_utils][zst-bits2expr]")
++{
++  const struct_typet empty;
++  const unsignedbv_typet count_type{64};
++  for(const bool little_endian : {false, true})
++  {
++    const auto value = bits2expr("", empty, little_endian, empty_namespace);
++    REQUIRE(value.has_value());
++    REQUIRE(*value == struct_exprt{{}, empty});
++    REQUIRE(expr2bits(*value, little_endian, empty_namespace) == "");
++
++    for(const unsigned count : {0u, 1u, 2u})
++    {
++      const array_typet type{empty, from_integer(count, count_type)};
++      const auto array = bits2expr("", type, little_endian, empty_namespace);
++      REQUIRE(array.has_value());
++      REQUIRE(array->id() == ID_array);
++      REQUIRE(array->type() == type);
++      REQUIRE(array->operands().size() == count);
++      for(const auto &element : array->operands())
++        REQUIRE(element == struct_exprt{{}, empty});
++      REQUIRE(expr2bits(*array, little_endian, empty_namespace) == "");
++      REQUIRE_FALSE(
++        bits2expr("1", type, little_endian, empty_namespace).has_value());
++    }
++  }
++}
++
++TEST_CASE(
++  "bits2expr reconstructs nested zero-width arrays",
++  "[core][util][simplify_utils][zst-bits2expr]")
++{
++  const unsignedbv_typet count_type{64};
++  const struct_typet empty;
++  const array_typet empty_inner{empty, from_integer(3, count_type)};
++  const array_typet zero_length_inner{
++    unsignedbv_typet{8}, from_integer(0, count_type)};
++  for(const bool little_endian : {false, true})
++  {
++    for(const auto &inner : {empty_inner, zero_length_inner})
++    {
++      const array_typet outer{inner, from_integer(2, count_type)};
++      const auto value = bits2expr("", outer, little_endian, empty_namespace);
++      REQUIRE(value.has_value());
++      REQUIRE(value->id() == ID_array);
++      REQUIRE(value->type() == outer);
++      REQUIRE(value->operands().size() == 2);
++      for(const auto &row : value->operands())
++      {
++        REQUIRE(row.id() == ID_array);
++        REQUIRE(row.type() == inner);
++        REQUIRE(row.operands().size() == (inner == empty_inner ? 3 : 0));
++        for(const auto &element : row.operands())
++          REQUIRE(element == struct_exprt{{}, empty});
++      }
++      REQUIRE(expr2bits(*value, little_endian, empty_namespace) == "");
++    }
++  }
++}
++
++TEST_CASE(
++  "bits2expr preserves tagged zero-width elements and nonzero siblings",
++  "[core][util][simplify_utils][zst-bits2expr]")
++{
++  const cmdlinet cmdline;
++  config.set(cmdline);
++  symbol_tablet symbol_table;
++  symbolt empty_symbol{"tag-E", struct_typet{}, ID_C};
++  empty_symbol.is_type = true;
++  REQUIRE_FALSE(symbol_table.add(empty_symbol));
++  const namespacet ns{symbol_table};
++  const struct_tag_typet empty_tag{"tag-E"};
++  const array_typet array_type{
++    empty_tag, from_integer(2, unsignedbv_typet{64})};
++  const struct_exprt empty_element{{}, empty_tag};
++  const array_exprt empty_array{{empty_element, empty_element}, array_type};
++  const unsignedbv_typet byte_type{8};
++  const unsignedbv_typet word_type{32};
++  const struct_typet wrapper{
++    {{"head", byte_type},
++     {"z", array_type},
++     {"x", word_type},
++     {"tail", byte_type}}};
++  const struct_exprt expected{
++    {from_integer(0x5a, byte_type),
++     empty_array,
++     from_integer(0x12345678, word_type),
++     from_integer(0xa5, byte_type)},
++    wrapper};
++  const union_typet union_type{{{"too_small", byte_type}, {"w", wrapper}}};
++
++  for(const bool little_endian : {false, true})
++  {
++    const auto bits = expr2bits(expected, little_endian, ns);
++    REQUIRE(bits.has_value());
++    REQUIRE(bits->size() == 48);
++    const auto restored = bits2expr(*bits, wrapper, little_endian, ns);
++    REQUIRE(restored.has_value());
++    REQUIRE(*restored == expected);
++    REQUIRE(expr2bits(*restored, little_endian, ns) == bits);
++
++    const auto restored_union = bits2expr(*bits, union_type, little_endian, ns);
++    REQUIRE(restored_union.has_value());
++    REQUIRE(*restored_union == union_exprt{"w", expected, union_type});
++    REQUIRE(expr2bits(*restored_union, little_endian, ns) == bits);
++  }
++}

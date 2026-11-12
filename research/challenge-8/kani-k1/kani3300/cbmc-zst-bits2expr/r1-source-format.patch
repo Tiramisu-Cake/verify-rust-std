@@ -1,0 +1,37 @@
+diff --git a/unit/util/zst_bits2expr.cpp b/unit/util/zst_bits2expr.cpp
+index 73635b3983..6da12360d8 100644
+--- a/unit/util/zst_bits2expr.cpp
++++ b/unit/util/zst_bits2expr.cpp
+@@ -97,14 +97,17 @@ TEST_CASE(
+   const unsignedbv_typet byte_type{8};
+   const unsignedbv_typet word_type{32};
+   const struct_typet wrapper{
+-    {{"head", byte_type}, {"z", array_type}, {"x", word_type},
++    {{"head", byte_type},
++     {"z", array_type},
++     {"x", word_type},
+      {"tail", byte_type}}};
+   const struct_exprt expected{
+-    {from_integer(0x5a, byte_type), empty_array,
+-     from_integer(0x12345678, word_type), from_integer(0xa5, byte_type)},
++    {from_integer(0x5a, byte_type),
++     empty_array,
++     from_integer(0x12345678, word_type),
++     from_integer(0xa5, byte_type)},
+     wrapper};
+-  const union_typet union_type{
+-    {{"too_small", byte_type}, {"w", wrapper}}};
++  const union_typet union_type{{{"too_small", byte_type}, {"w", wrapper}}};
+ 
+   for(const bool little_endian : {false, true})
+   {
+@@ -116,8 +119,7 @@ TEST_CASE(
+     REQUIRE(*restored == expected);
+     REQUIRE(expr2bits(*restored, little_endian, ns) == bits);
+ 
+-    const auto restored_union =
+-      bits2expr(*bits, union_type, little_endian, ns);
++    const auto restored_union = bits2expr(*bits, union_type, little_endian, ns);
+     REQUIRE(restored_union.has_value());
+     REQUIRE(*restored_union == union_exprt{"w", expected, union_type});
+     REQUIRE(expr2bits(*restored_union, little_endian, ns) == bits);

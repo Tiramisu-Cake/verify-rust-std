@@ -1,0 +1,241 @@
+{
+  "allowlist_diff": [
+    "D\t.github/workflows/README.md",
+    "D\t.github/workflows/bsd.yaml",
+    "D\t.github/workflows/build-and-test-Linux.yaml",
+    "D\t.github/workflows/build-and-test-Xen.yaml",
+    "A\t.github/workflows/cbmc-zst-bits2expr.yml",
+    "D\t.github/workflows/ci-analysis.yaml",
+    "D\t.github/workflows/codeql-analysis.yml",
+    "D\t.github/workflows/coverage.yaml",
+    "D\t.github/workflows/csmith.yaml",
+    "D\t.github/workflows/doxygen-check.yaml",
+    "D\t.github/workflows/performance.yaml",
+    "D\t.github/workflows/profiling.yaml",
+    "D\t.github/workflows/publish.yaml",
+    "D\t.github/workflows/pull-request-check-clang-format.sh",
+    "D\t.github/workflows/pull-request-check-cpplint.sh",
+    "D\t.github/workflows/pull-request-check-rust-api.yaml",
+    "D\t.github/workflows/pull-request-checks.yaml",
+    "D\t.github/workflows/regular-release.yaml",
+    "D\t.github/workflows/release-packages.yaml",
+    "D\t.github/workflows/smoke_test_assets/Test.java",
+    "D\t.github/workflows/smoke_test_assets/test.c",
+    "D\t.github/workflows/syntax-checks.yaml",
+    "A\tscripts/zst-bits2expr/CI-REQUEST.md",
+    "A\tscripts/zst-bits2expr/check_format.py",
+    "A\tscripts/zst-bits2expr/compare.py",
+    "A\tscripts/zst-bits2expr/config.json",
+    "A\tscripts/zst-bits2expr/fixtures/kani-like.c",
+    "A\tscripts/zst-bits2expr/fixtures/owner-literal.c",
+    "A\tscripts/zst-bits2expr/runner.py",
+    "A\tscripts/zst-bits2expr/test_runner.py"
+  ],
+  "baseline_overlay_vs_source_only_difference": [
+    "src/util/simplify_utils.cpp"
+  ],
+  "checks": {
+    "actual_formatter18_1_8": "NOT_RUN: binary unavailable; supplied diff applied exactly",
+    "actual_prepare_build_verification_CI": "NOT_RUN",
+    "baseline_overlay_tree": "PASS_STATIC_GIT_INDEX",
+    "full_index_cfg_patch_sha": "PASS",
+    "git_diff_check": "PASS",
+    "independent_review": "R1-REVIEW.md: Luna High, no material findings",
+    "source_delta_exact_supplied_format_patch": "PASS",
+    "source_parent_exact_develop": "PASS",
+    "synthetic_tests": {
+      "count": 7,
+      "scope": "isolated Python processes and tiny temporary Git fixture only",
+      "status": "PASS"
+    }
+  },
+  "ci_only": {
+    "branch": "ci/zst-bits2expr-20261113-r1",
+    "parent": "cd41a5c74b0c42edf4f08834b3e2808dd3344cab",
+    "sha": "33235a4ef1dc4891842473f92e500a40ee78d8fa",
+    "tree": "a42ec90b7ec157ca4a8291477e7867072bd64fa2"
+  },
+  "closure_reason": "Requested one-session harness repair and packaging complete; STOP before push/build/CI.",
+  "cloud_usd": 0,
+  "files": {
+    ".github/workflows/cbmc-zst-bits2expr.yml": {
+      "git_blob": "f4796fbdb39515dda0b048d23ecb1d03075f12ad",
+      "sha256": "384d83d7d352096047e6f8574e4b0962f2318e0fd030a1309be8d872efa6fa27"
+    },
+    "scripts/zst-bits2expr/CI-REQUEST.md": {
+      "git_blob": "645b975c248db17f1f2e15c139ab42099a581768",
+      "sha256": "2f13158448dd32e76224b30e2e4a38852a81af87ad604d1ef314a323fde961bf"
+    },
+    "scripts/zst-bits2expr/check_format.py": {
+      "git_blob": "44e341cf2b3627541c884a410a65f74cb1aeace9",
+      "sha256": "c4a9aee6f4621cb1cdb52ea247aa76b056222b110ef49db97a6324a37d50bbc4"
+    },
+    "scripts/zst-bits2expr/compare.py": {
+      "git_blob": "24364503d57f4da55938c9cb959e405d5115c614",
+      "sha256": "e6070d746473d40c5d611aa406cf1660ce342a4e5281aaefc5f4efa7a2308e94"
+    },
+    "scripts/zst-bits2expr/config.json": {
+      "git_blob": "4ee7cf049bf3ed4c7da6be65bed657ff8bab0433",
+      "sha256": "9b757d300e962c09b8479ce2ddaada0ac473de7ed1f6fec78334bd8ef15d6eb9"
+    },
+    "scripts/zst-bits2expr/fixtures/kani-like.c": {
+      "git_blob": "e11813ba6209eda82bf549ee8cb4f1eed96fbca4",
+      "sha256": "f0d9a1d096bb65837e16a3a848f49af7d83e5769b25139a2619c57a75ed88fc2"
+    },
+    "scripts/zst-bits2expr/fixtures/owner-literal.c": {
+      "git_blob": "96b8b74a4aa10d747feaa27ad436bbccff7d688e",
+      "sha256": "673c26d7e45f1bca3f509132e8b857738bebb34205609af5b29f71bfd194f637"
+    },
+    "scripts/zst-bits2expr/runner.py": {
+      "git_blob": "267dfc303e97c4530e964c392b8a61a0dba63ca6",
+      "sha256": "3da645cb4c2b59ca3d173aa09a5b665968816ae0cf823a681c10b3033c493ff8"
+    },
+    "scripts/zst-bits2expr/test_runner.py": {
+      "git_blob": "eba0b9d18e974acab92a655fbfbe3c7b0376b4e2",
+      "sha256": "1f01b4adbef0e3562a6385929f8a65f87e425bab5473e654f848b6b33bd7ed0c"
+    }
+  },
+  "format_delta_exact": true,
+  "format_delta_sha256": "71d92ea67354977b98da6869528c6cf17fa7461e4dd3ce0700478b4270683cf2",
+  "historical_manifests_unchanged": true,
+  "issue_pr": "NOT_CREATED",
+  "next_owner": "coordinator",
+  "next_step": "Coordinator-only push of new R1 CI branch HEAD, then paired baseline/fix CI; no force.",
+  "overlay_assurance": "STATIC_GIT_TEMPORARY_INDEX_ONLY; no actual runner preparation",
+  "patches": {
+    "r1-baseline-test-only.patch": {
+      "bytes": 23586,
+      "sha256": "a75767929c55785f98cc6864144bb033b2dfd0b6b05913475f16e5620f3a3deb"
+    },
+    "r1-ci-only.patch": {
+      "bytes": 185335,
+      "sha256": "8c2d1287f857c973782112ac505476a793cefae1e21232281d7b66fedc9badb4"
+    },
+    "r1-source-format.patch": {
+      "bytes": 1500,
+      "sha256": "71d92ea67354977b98da6869528c6cf17fa7461e4dd3ce0700478b4270683cf2"
+    },
+    "r1-source-tests.patch": {
+      "bytes": 24245,
+      "sha256": "5deedd94d483b3d855dfeab439cca1c6cf874ef86264cf0acb2951002bcf2646"
+    }
+  },
+  "previous_package": {
+    "assurance": "COORDINATOR_REPORTED_IN_USER_TASK",
+    "branch": "ci/zst-bits2expr-20261113",
+    "ci_only": "64a077ab6767c7a91fc9141bfac08423d5424bf7",
+    "outcome": "Both variants failed before compilation: prepare patch SHA assertion; format18.1.8 requested supplied patch.",
+    "run": "43329473713",
+    "source": "c0850c029faed04f8666de7f89045b5f04d246e1"
+  },
+  "proof_credit": false,
+  "removed_inherited_workflows": [
+    ".github/workflows/README.md",
+    ".github/workflows/bsd.yaml",
+    ".github/workflows/build-and-test-Linux.yaml",
+    ".github/workflows/build-and-test-Xen.yaml",
+    ".github/workflows/ci-analysis.yaml",
+    ".github/workflows/codeql-analysis.yml",
+    ".github/workflows/coverage.yaml",
+    ".github/workflows/csmith.yaml",
+    ".github/workflows/doxygen-check.yaml",
+    ".github/workflows/performance.yaml",
+    ".github/workflows/profiling.yaml",
+    ".github/workflows/publish.yaml",
+    ".github/workflows/pull-request-check-clang-format.sh",
+    ".github/workflows/pull-request-check-cpplint.sh",
+    ".github/workflows/pull-request-check-rust-api.yaml",
+    ".github/workflows/pull-request-checks.yaml",
+    ".github/workflows/regular-release.yaml",
+    ".github/workflows/release-packages.yaml",
+    ".github/workflows/smoke_test_assets/Test.java",
+    ".github/workflows/smoke_test_assets/test.c",
+    ".github/workflows/syntax-checks.yaml"
+  ],
+  "selected_cases_and_identity_pins": {
+    "base_sha": "107a1e504cd69a2f3483717c8bcfcfa59814c557",
+    "base_tree": "b5a15d682996f745e0a02004d813e18d08f3a068",
+    "baseline_test_overlay_tree": "5ef52ba174f95b3ae51d19805b592a468db3c432",
+    "focused": [
+      "zst-bits2expr-count-0",
+      "zst-bits2expr-count-1",
+      "zst-bits2expr-count-2",
+      "zst-bits2expr-deref",
+      "zst-bits2expr-interior",
+      "zst-bits2expr-memcpy",
+      "zst-bits2expr-negative",
+      "zst-bits2expr-nested",
+      "zst-bits2expr-position-first",
+      "zst-bits2expr-position-last",
+      "zst-bits2expr-position-middle",
+      "zst-bits2expr-union",
+      "zst-bits2expr-zero-length-inner"
+    ],
+    "neighbours": [
+      "Empty_struct1",
+      "Empty_struct2",
+      "Empty_struct3",
+      "empty_compound_type2",
+      "empty_compound_type3",
+      "empty_compound_type4",
+      "byte_extract1",
+      "Struct_Bytewise1",
+      "union-unequal-element-size1",
+      "Array_Initialization1",
+      "Array_Initialization2",
+      "Array_Propagation1",
+      "Array_Access1"
+    ],
+    "source_changed_files": [
+      "regression/cbmc/zst-bits2expr-count-0/main.c",
+      "regression/cbmc/zst-bits2expr-count-0/test.desc",
+      "regression/cbmc/zst-bits2expr-count-1/main.c",
+      "regression/cbmc/zst-bits2expr-count-1/test.desc",
+      "regression/cbmc/zst-bits2expr-count-2/main.c",
+      "regression/cbmc/zst-bits2expr-count-2/test.desc",
+      "regression/cbmc/zst-bits2expr-deref/main.c",
+      "regression/cbmc/zst-bits2expr-deref/test.desc",
+      "regression/cbmc/zst-bits2expr-interior/main.c",
+      "regression/cbmc/zst-bits2expr-interior/test.desc",
+      "regression/cbmc/zst-bits2expr-memcpy/main.c",
+      "regression/cbmc/zst-bits2expr-memcpy/test.desc",
+      "regression/cbmc/zst-bits2expr-negative/main.c",
+      "regression/cbmc/zst-bits2expr-negative/test.desc",
+      "regression/cbmc/zst-bits2expr-nested/main.c",
+      "regression/cbmc/zst-bits2expr-nested/test.desc",
+      "regression/cbmc/zst-bits2expr-position-first/main.c",
+      "regression/cbmc/zst-bits2expr-position-first/test.desc",
+      "regression/cbmc/zst-bits2expr-position-last/main.c",
+      "regression/cbmc/zst-bits2expr-position-last/test.desc",
+      "regression/cbmc/zst-bits2expr-position-middle/main.c",
+      "regression/cbmc/zst-bits2expr-position-middle/test.desc",
+      "regression/cbmc/zst-bits2expr-union/main.c",
+      "regression/cbmc/zst-bits2expr-union/test.desc",
+      "regression/cbmc/zst-bits2expr-zero-length-inner/main.c",
+      "regression/cbmc/zst-bits2expr-zero-length-inner/test.desc",
+      "src/util/simplify_utils.cpp",
+      "unit/util/zst_bits2expr.cpp"
+    ],
+    "source_sha": "cd41a5c74b0c42edf4f08834b3e2808dd3344cab",
+    "source_tree": "92c03401d6c2a6da069670260244bc021bbdba99",
+    "test_delta_sha256": "a75767929c55785f98cc6864144bb033b2dfd0b6b05913475f16e5620f3a3deb",
+    "unit_focused": [
+      "bits2expr reconstructs empty structs and arrays",
+      "bits2expr reconstructs nested zero-width arrays",
+      "bits2expr preserves tagged zero-width elements and nonzero siblings"
+    ]
+  },
+  "source": {
+    "branch": "fix/zst-bits2expr-r1",
+    "parent": "107a1e504cd69a2f3483717c8bcfcfa59814c557",
+    "sha": "cd41a5c74b0c42edf4f08834b3e2808dd3344cab",
+    "tree": "92c03401d6c2a6da069670260244bc021bbdba99"
+  },
+  "source_semantic_delta_from_previous": "NONE: supplied unit formatting only; rewritten commit body",
+  "stage": "CBMC-ZST-BITS2EXPR-R1",
+  "status": "SOURCE_AND_CI_PACKAGE_READY / NOT_COMPILED",
+  "worker_push": "NOT_RUN",
+  "workflow_inventory_remaining": [
+    ".github/workflows/cbmc-zst-bits2expr.yml"
+  ]
+}

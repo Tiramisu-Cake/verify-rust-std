@@ -18,3 +18,6 @@ Coordinator receives CI-MANIFEST.json, separate source/CI patches and CI-REQUEST
 Next: coordinator-only paired C CI; if develop does not reproduce, STOP without historical proof credit.
 No Kani#5085/case B closure; B3 workaround unchanged; planner/history preserved.
 READY c0850c029faed04f8666de7f89045b5f04d246e1
+
+R1 continuation: see [R1-HANDOFF.md](R1-HANDOFF.md) and R1-MANIFEST.json; original result above is historical.
+R1 CI-only READY 33235a4ef1dc4891842473f92e500a40ee78d8fa; source cd41a5c74b0c42edf4f08834b3e2808dd3344cab; seven synthetic checks PASS, actual builds/CI NOT_RUN.
