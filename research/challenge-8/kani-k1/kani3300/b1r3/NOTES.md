@@ -1,0 +1,23 @@
+# KANI3300 B1R3 static handoff
+- Only B1R3; Cloud $0; no runtime/build/CI dispatch; Kani remains local and unpushed.
+- t0 fetched and ff-only at `9d005d52381538b82d03c38ab3c9d14bc8b22604` before edits.
+- Source worktree was clean on old branch at `d5f072f2bcf61a04d84bb0e8b54115f3011252fc`; old branch preserved.
+- New branch `fix/kani-uninit-unresolved-call-v2`, one commit directly from base.
+- Candidate `7ef191d8dd589d5fe589d1aff164d33ae35677f0`; parent `bf9c58e662fd65c64381ef2ac97a6397ffc0693a`.
+- Tree `e8315096d962a0851430850aa225d8f32cdb6568`; full per-file inventory and API hashes: TEST-MANIFEST.json.
+- Audit file matches d1f44b300e (SHA256 7711a6cdc1ac4fa60b8df746158f72702d585262c62fa4ba905b906816f56f78).
+- Scope: Call retention, common resolver, fallible seed collection/points-to body guard, conservative Shim entry/caller admission.
+- Recursive union/unknown-storage scan is only a Shim rejection guard; legacy top-level union Item transfers unchanged.
+- References/pointers stop the by-value scan; no new shadow model, return0, masks, Move/reset, raw_eq, library/backend ABI.
+- Reachability's early FnDef unwrap remains; local diagnostic does not promise compile-time recovery.
+- UnionAsField statement flush/index defect remains outside Call scope.
+- 22 fixtures / 24 harness contracts; expected 6 successes / 18 negatives; runtime/MIR/property outcomes NOT_RUN.
+- Named pending-read and initialized/partial entry outcomes preserved; Fn-trait pair now specifies FnPtr.
+- Added non-shadow function-item and drop/closure positive controls; actual generated kind/body NOT_RUN.
+- tuple-MU and Item-MU return probes excluded with reasons; PORT-MAP.md retains separate obligations.
+- All pre-existing controls unchanged; no workflow edits. Candidate tree intentionally differs from d5f072f2b.
+- rustfmt wrapper and diff --check PASS; source imports/unused/-D warnings and pinned API audit only, compile/Clippy NOT_RUN.
+- Independent Luna High semantic review PASS (static only); same reviewer accepted API/closure delta; see REVIEW.md.
+- Historical CI counts do not validate this tree; matched base needed before any false-SUCCESS claim.
+- No force/reset/stash; foreign b3p/PR-UPSTREAM.md untouched and unstaged.
+- Stop after research publication; coordinator alone may push Kani and run exact-SHA Quick/full CI.

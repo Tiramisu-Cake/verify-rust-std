@@ -1,0 +1,12 @@
+# KANI3300 B1R3 — prepared candidate
+- Candidate `7ef191d8dd589d5fe589d1aff164d33ae35677f0` on local `fix/kani-uninit-unresolved-call-v2`.
+- Sole parent `bf9c58e662fd65c64381ef2ac97a6397ffc0693a`; tree `e8315096d962a0851430850aa225d8f32cdb6568`.
+- One fix-plus-tests commit; author/committer Tiramisu-Cake <igkharin@gmail.com>; no CI workflow changes.
+- Call retention/classification and conservative Shim caller/entry guards only; standalone legacy model preserved.
+- 22 fixture pairs / 24 harness contracts; expected 6 successes, 18 negatives; observed NOT_RUN.
+- Port map excludes incompatible MU/return probes and records compiler/MIR obligations separately.
+- rustfmt/diff static checks PASS; imports/API/source warnings audited; compiler/Clippy/runtime NOT_RUN.
+- Independent Luna High review: static PASS, no remaining semantic blocker (REVIEW.md); exact-SHA Quick, singleton JSON/MIR, matched base and full gate requested in CI-REQUEST.md.
+- Reachability early unwrap and UnionAsField statement defect remain outside claims; no measured false SUCCESS.
+- Kani unpushed; research-only commit/push; foreign b3p file untouched.
+- Cloud $0; no builds/dispatch/PR/issues/comments; no force/reset/stash. STOP after B1R3.
