@@ -1,0 +1,30 @@
+{
+  "CBMC_unit_regression": "NOT_RUN: forbidden",
+  "CI_push_dispatch": "NOT_RUN: coordinator only",
+  "C_CXX_compilation": "NOT_RUN: forbidden",
+  "assurance": "static plus isolated synthetic Python service checks only",
+  "baseline_test_overlay_tree": "b455b22c0148f87dfcd8f238e709d7ba60121ae2",
+  "baseline_test_patch_apply_cached": "PASS using isolated temporary Git index; no worktree/reset/stash",
+  "clang_format_18_1_8": "NOT_RUN: unavailable",
+  "cloud_usd": 0,
+  "git_diff_check": "PASS source and CI-only; no compiler invoked",
+  "json_parse": "PASS",
+  "only_source_tree_difference": "src/util/simplify_utils.cpp",
+  "python_ast": "PASS",
+  "synthetic_runner_tests": {
+    "count": 6,
+    "last_elapsed_seconds": 0.5,
+    "scenarios": [
+      "positive/negative assertion oracle, extra failure rejected",
+      "invariant shell exit134 and direct SIGABRT",
+      "signal/timeout/partial/missing/null/wrong-type/NOT_RUN",
+      "empty unit selection rejected",
+      "source-stage-target and paired toolchain/input mismatch rejected",
+      "isolated Python success, exit7, SIGTERM, timeout, missing executable, output limit"
+    ],
+    "status": "PASS"
+  },
+  "workflow_file_count": 1,
+  "yaml_parse": "PASS",
+  "research_patch_whitespace": "Scoped .gitattributes disables whitespace lint only for serialized *.patch artifacts, preserving upstream removed-line/context bytes. Actual source and CI commit diffs passed unmodified git diff --check."
+}

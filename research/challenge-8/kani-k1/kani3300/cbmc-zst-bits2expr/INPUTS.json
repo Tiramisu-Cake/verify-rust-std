@@ -1,0 +1,211 @@
+{
+  "assurance": "STATIC_SOURCE_ONLY / NOT_COMPILED",
+  "base": {
+    "sha": "107a1e504cd69a2f3483717c8bcfcfa59814c557",
+    "tree": "b5a15d682996f745e0a02004d813e18d08f3a068"
+  },
+  "ci_only": {
+    "parent": "c0850c029faed04f8666de7f89045b5f04d246e1",
+    "sha": "64a077ab6767c7a91fc9141bfac08423d5424bf7",
+    "tree": "9875e692a679cfa1022a0f47972a9a2c2c7ac9aa"
+  },
+  "clone": {
+    "kind": "ordinary standalone clone, shallow snapshots (develop + release); full current tree",
+    "path": "/root/cbmc-fix-zst-bits2expr",
+    "reason": "full-history clone failed ENOSPC and git removed the failed directory; retried depth1 at same pin, no user files removed"
+  },
+  "files": {
+    "develop": {
+      ".github/workflows/pull-request-checks.yaml": {
+        "bytes": 50474,
+        "git_blob": "48e36ffa817086269ffb6ca1e56a7f30aaace629",
+        "sha256": "936f60c8b558c4e654993560b99b84e0ac99ad14905a75cba63c27f54633716b"
+      },
+      ".github/workflows/syntax-checks.yaml": {
+        "bytes": 2259,
+        "git_blob": "055f4c378f3756849dac0d62a4916a6ca1a4feeb",
+        "sha256": "15ef6f72a7b69d32f669352563065099847a295a7c4bc8b12adaff8cf565a984"
+      },
+      "AGENTS.md": {
+        "bytes": 28085,
+        "git_blob": "de9550ec7395cd36b71ee24713b2de9fa85d506c",
+        "sha256": "fbe963e1489366d4842874dc8e7e6af18921241b34957a7c30cbd90c995e7bf8"
+      },
+      "CMakeLists.txt": {
+        "bytes": 10157,
+        "git_blob": "0344a94d7470af79797cdfd726941546c000cb0b",
+        "sha256": "ff9ae728154a006ea6699e0f20301e43028c35c31a1cfff8130755db1a3d0f8d"
+      },
+      "CODING_STANDARD.md": {
+        "bytes": 19327,
+        "git_blob": "3625bd15e3183bc7a7c8294d2323393b466bf06e",
+        "sha256": "039bea77d65ba6caa84de9d770010c5c85c82d2f546718306c26b274230ed2f0"
+      },
+      "COMPILING.md": {
+        "bytes": 22938,
+        "git_blob": "f803f8b418d5294fcf59c9b3ce78f6a604cfea8d",
+        "sha256": "3f695751384e3a74e0e50e491e1ecff086fae25db58464ad4b26e1bebe0cf4d9"
+      },
+      "README.md": {
+        "bytes": 5314,
+        "git_blob": "b50903f39859311085b1da9c0ef6f3c53f128887",
+        "sha256": "a5608ac082dd58c3b572bc20fc8793fbac199dbca2b4bfb3ac77a4c3d6cb87c8"
+      },
+      "regression/README.md": {
+        "bytes": 892,
+        "git_blob": "d8a758b67e97dfbc3863302a8da0b5e22bb77827",
+        "sha256": "189df9d8aeb7b4e043b17b6f713ffc7046ee2aa75606a4bec05e557e35dd2ec9"
+      },
+      "regression/cbmc/Makefile": {
+        "bytes": 1281,
+        "git_blob": "e5777ce8774bbbbda964433a9625137d5e00b2ef",
+        "sha256": "354ae6e30aee1107b315599272fdce0dd80ada88f90eab0c9b109b94df1bbfe4"
+      },
+      "regression/test.pl": {
+        "bytes": 17911,
+        "git_blob": "4a8c86b9c6825e06251b374faaf83ae3bda20540",
+        "sha256": "2592ac81b64ad8c1ad5d6c2f42b14f01329d5bce47a075f7c331a44fd551d4c1"
+      },
+      "src/ansi-c/c_preprocess.cpp": {
+        "bytes": 19580,
+        "git_blob": "f12fe32345225d574511301ef3b4bc4d02fcccd4",
+        "sha256": "ede17e9923de130ac882930c131c74eaf2563b4c193d5b4e7374cb81588a49d6"
+      },
+      "src/util/arith_tools.h": {
+        "bytes": 6269,
+        "git_blob": "3276c5b2111122116784fdf219202ccae5c44b7d",
+        "sha256": "bd3c6f2c0929834cf683fef7487b8943e81064f6bb73072c987c6dceab47b5a5"
+      },
+      "src/util/c_types.h": {
+        "bytes": 14200,
+        "git_blob": "ed3db9c0f5fac10923c38b4adbcbf9ff47ff8354",
+        "sha256": "745e62f180b9163bf19fb4ea3585c9f088e1fc31f7dde933b0526aeac972914f"
+      },
+      "src/util/config.cpp": {
+        "bytes": 44633,
+        "git_blob": "31f2427a9c5619806e99508303da4b499bbaec3e",
+        "sha256": "c2835dd2916c96c3bf85c8105e3b9311273487408983d0656be0f6794b9fb45d"
+      },
+      "src/util/endianness_map.cpp": {
+        "bytes": 3049,
+        "git_blob": "ea581ad374b3fe9533317d7bae7363665ed8c537",
+        "sha256": "772359b0d9511b1bb1a5619022a4263421eed7578b30c96c90d9085e17bf538a"
+      },
+      "src/util/mp_arith.h": {
+        "bytes": 5216,
+        "git_blob": "c670bcd370bcb014cb81c4284deb2b92a29500c4",
+        "sha256": "4e7abc1c26c9cbde984e7ddeb177a5921062d036f64a27cfa7202b1289388ac5"
+      },
+      "src/util/pointer_offset_size.cpp": {
+        "bytes": 29393,
+        "git_blob": "96d0312d691117966c0fc3f38c5ce56bbb46c3d2",
+        "sha256": "658691154d144e8b554de3d201e38e012c68b1ce11148c9218172b86f775eb3b"
+      },
+      "src/util/pointer_offset_size.h": {
+        "bytes": 2153,
+        "git_blob": "1e9a30bda561ea4cb7d01f44aa2ab24694bdb6bb",
+        "sha256": "d6ba106e5eff9e40e262f1d1cc5d4c78a7ca4819213d9da984946d09c588adde"
+      },
+      "src/util/simplify_expr.cpp": {
+        "bytes": 105207,
+        "git_blob": "eaa011b67e96df2f79f8e9beb4b3afcf6bac111e",
+        "sha256": "915460dd91ab3237bc28db7b8216783cb765bbfd49f963bd45375d3cd0b70ec8"
+      },
+      "src/util/simplify_utils.cpp": {
+        "bytes": 13570,
+        "git_blob": "d1db93db362a78c2d62049bcc903cebf2dc387ad",
+        "sha256": "774e61ae9e655bac197fd45cc9023a33233be0a59c415dd073224a9077e4fa9e"
+      },
+      "src/util/simplify_utils.h": {
+        "bytes": 1510,
+        "git_blob": "d3e40799f8743ee38eed8845f059fa13c0d519d4",
+        "sha256": "b2993348e69d5a035b517fbcf59a3f7c6f2b4f4afc0d4cea25f148904a9c023e"
+      },
+      "src/util/std_expr.h": {
+        "bytes": 91293,
+        "git_blob": "c3fe943dcf8d16c7fcc1b86d4bb027aa6f5a2ceb",
+        "sha256": "ace507c27362cda19fddaa95fd6c994e586d199b1b2e3228f83f8524ab80c5ae"
+      },
+      "src/util/std_types.h": {
+        "bytes": 26679,
+        "git_blob": "1ab4dc069bac43550a5a8f421187d7b3a249a46b",
+        "sha256": "d84bc5501e55dfca10a9d79a8a0b7e4311524441de0f7afb9c4f1e71ec1850c6"
+      },
+      "src/util/symbol.h": {
+        "bytes": 4259,
+        "git_blob": "93f5e611abb49bf45148ffe9426907cfcc249709",
+        "sha256": "58eb7d9ccf789c23b148e4f56c53255272d0d24987302bebabbc5bd22124de4d"
+      },
+      "src/util/symbol_table.h": {
+        "bytes": 3749,
+        "git_blob": "740ec9d690e05fe62fcfeb69ab89e8323dae2d09",
+        "sha256": "542886adccdc235801fe4d763c498905a98fe8392358fc199a17e96575eb5064"
+      },
+      "unit/CMakeLists.txt": {
+        "bytes": 3703,
+        "git_blob": "e1e898fe1baa9f16e1d2de492b5cc002d3ce8635",
+        "sha256": "225c736ee963d4714cd459c5d2cbf8fd15c92c22a527024d07e4077adb5b2a8a"
+      },
+      "unit/catch/catch.hpp": {
+        "bytes": 656948,
+        "git_blob": "0a2b6f2fe5ca076a18d952088558a5ac01f77c3a",
+        "sha256": "1591b8adc143345bef5b62ddf5a15edbfe1b1ab98389afe49aff92a02b3934ca"
+      },
+      "unit/util/simplify_expr.cpp": {
+        "bytes": 25117,
+        "git_blob": "02605fdd873c9880670f423381f815c7a32654b6",
+        "sha256": "4c0d3257f20447626350b7f6660a890edfc4ee6c4157e95c16394c10bce3a40b"
+      }
+    },
+    "release": {
+      "src/util/pointer_offset_size.cpp": {
+        "bytes": 29122,
+        "git_blob": "57c021ab6612f6c60db7e002b2343399b63d8a79",
+        "sha256": "86a0f4c8f631e4f273e8774f7ca67394778987f70f1ea7664113f3029fbd4463"
+      },
+      "src/util/simplify_expr.cpp": {
+        "bytes": 102046,
+        "git_blob": "6177e7bbc89d7580ffde044a078a24983bcec3c1",
+        "sha256": "9cb93885ec4fd72db7002924b6d14755194902cb5604e06222f29a5d02ac6dac"
+      },
+      "src/util/simplify_utils.cpp": {
+        "bytes": 13534,
+        "git_blob": "ce2b5f8f4a307165d87e768a529186592d39da0b",
+        "sha256": "09bb7024ab91a06baeab50c12acac99c0f4e8edb269c00db7e9ca4e351b1d3df"
+      }
+    },
+    "source": {
+      "src/util/pointer_offset_size.cpp": {
+        "bytes": 29393,
+        "git_blob": "96d0312d691117966c0fc3f38c5ce56bbb46c3d2",
+        "sha256": "658691154d144e8b554de3d201e38e012c68b1ce11148c9218172b86f775eb3b"
+      },
+      "src/util/simplify_expr.cpp": {
+        "bytes": 105207,
+        "git_blob": "eaa011b67e96df2f79f8e9beb4b3afcf6bac111e",
+        "sha256": "915460dd91ab3237bc28db7b8216783cb765bbfd49f963bd45375d3cd0b70ec8"
+      },
+      "src/util/simplify_utils.cpp": {
+        "bytes": 13571,
+        "git_blob": "c9655c02fad97bf02a3d27545db66192bf81e284",
+        "sha256": "47a4fed8fd01c8f108a4f322b2abb321cf537d4e739c22941a891ed7d20dff74"
+      }
+    }
+  },
+  "issue_drafts_t0_pin": "d377f342f49b2e39498745198df73f4d1999a593",
+  "owner_ci_fork": "https://github.com/Tiramisu-Cake/cbmc",
+  "planner_plan_sha256": "1c23f0d68cdcd9ea5912985a8b8ea122021b13614177a1b19e75c29cdbd79fdc",
+  "release_read_only": {
+    "sha": "820ff0f555b43fb78e0cd9332e498461bd14244b",
+    "tree": "f0ad812df55d12ae6da4896a28b6476043308f7f"
+  },
+  "source": {
+    "parent": "107a1e504cd69a2f3483717c8bcfcfa59814c557",
+    "sha": "c0850c029faed04f8666de7f89045b5f04d246e1",
+    "tree": "d6e5460e99591c1d084d4a662adc58dc0c345e84"
+  },
+  "task_t0_head": "cc2f5813eaa13d9b8376a44b3394f8f2819e0595",
+  "upstream": "https://github.com/diffblue/cbmc.git",
+  "upstream_develop_recheck": "107a1e504cd69a2f3483717c8bcfcfa59814c557",
+  "upstream_moved": false
+}

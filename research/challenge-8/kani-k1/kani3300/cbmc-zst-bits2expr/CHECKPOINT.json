@@ -1,0 +1,43 @@
+{
+  "stage": "CBMC-ZST-BITS2EXPR",
+  "status": "SOURCE_AND_CI_PACKAGE_READY / NOT_COMPILED",
+  "closure_reason": "Requested one preparation stage complete; mandatory STOP before coordinator push/CI.",
+  "source": {
+    "parent": "107a1e504cd69a2f3483717c8bcfcfa59814c557",
+    "sha": "c0850c029faed04f8666de7f89045b5f04d246e1",
+    "tree": "d6e5460e99591c1d084d4a662adc58dc0c345e84"
+  },
+  "ci_only": {
+    "parent": "c0850c029faed04f8666de7f89045b5f04d246e1",
+    "sha": "64a077ab6767c7a91fc9141bfac08423d5424bf7",
+    "tree": "9875e692a679cfa1022a0f47972a9a2c2c7ac9aa"
+  },
+  "review": "REVIEW.md; one bounded Luna High static review, no source revision after review",
+  "confirmed": [
+    {
+      "claim": "One-line array guard plus source regression/unit tests committed on exact pin",
+      "assurance": "STATIC_SOURCE_ONLY"
+    },
+    {
+      "claim": "CI-only commit contains one workflow and identical baseline test-only overlay",
+      "assurance": "GIT_TREE_AND_HASH_STATIC"
+    },
+    {
+      "claim": "Runner failure/timeout/partial/identity controls checked with Python-only processes",
+      "assurance": "SYNTHETIC_SERVICE_CHECKS_ONLY"
+    }
+  ],
+  "open": [
+    "Coordinator paired baseline/fix source builds and C verification; formatter18.1.8",
+    "If develop repro does not hit exact array invariant, stop and report applicability limitation",
+    "Actual Kani/Rust replay is separate, not authorized in this stage"
+  ],
+  "forbidden_not_run": [
+    "local C/C++/CBMC/cargo/rustc/Kani builds or verifier runs",
+    "worker push or CI/Cloud dispatch",
+    "issue/PR publication"
+  ],
+  "cloud_usd": 0,
+  "next_owner": "coordinator",
+  "historical_evidence_modified": false
+}

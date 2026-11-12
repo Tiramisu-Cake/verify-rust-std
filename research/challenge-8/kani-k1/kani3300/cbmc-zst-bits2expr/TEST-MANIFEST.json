@@ -1,0 +1,388 @@
+{
+  "ci_fixtures": [
+    {
+      "actual_kani_replay": false,
+      "expected_fixed": "VERIFICATION SUCCESSFUL/exit0; no invariant",
+      "name": "owner-literal",
+      "path": "scripts/zst-bits2expr/fixtures/owner-literal.c",
+      "sha256": "673c26d7e45f1bca3f509132e8b857738bebb34205609af5b29f71bfd194f637",
+      "source_commit": "64a077ab6767c7a91fc9141bfac08423d5424bf7",
+      "status": "NOT_RUN"
+    },
+    {
+      "actual_kani_replay": false,
+      "expected_fixed": "VERIFICATION SUCCESSFUL/exit0; no invariant",
+      "name": "kani-like",
+      "path": "scripts/zst-bits2expr/fixtures/kani-like.c",
+      "sha256": "f0d9a1d096bb65837e16a3a848f49af7d83e5769b25139a2619c57a75ed88fc2",
+      "source_commit": "64a077ab6767c7a91fc9141bfac08423d5424bf7",
+      "status": "NOT_RUN"
+    }
+  ],
+  "focused": [
+    {
+      "baseline": "NOT_RUN; only deref/literal must establish exact array invariant before credit",
+      "case": "zst-bits2expr-count-0",
+      "checks": "E[0]: empty outer array with zero-width element",
+      "descriptor_sha256": "167d434d330e25544c5045dff6f7f780ce5410c0b877272b01c554ab74ca0d1c",
+      "expected_fixed": {
+        "exit": 0,
+        "signal": 0,
+        "verdict": "VERIFICATION SUCCESSFUL; no failed property"
+      },
+      "invocation": "each case separately via test.pl -C -p -e; see CI-REQUEST.md",
+      "main_c_sha256": "76caa2e518da96220aa10549c910f7310a005bf88ff2ecd8ac2fe362236e19e1",
+      "source_commit": "c0850c029faed04f8666de7f89045b5f04d246e1"
+    },
+    {
+      "baseline": "NOT_RUN; only deref/literal must establish exact array invariant before credit",
+      "case": "zst-bits2expr-count-1",
+      "checks": "E[1]: one typed empty element",
+      "descriptor_sha256": "167d434d330e25544c5045dff6f7f780ce5410c0b877272b01c554ab74ca0d1c",
+      "expected_fixed": {
+        "exit": 0,
+        "signal": 0,
+        "verdict": "VERIFICATION SUCCESSFUL; no failed property"
+      },
+      "invocation": "each case separately via test.pl -C -p -e; see CI-REQUEST.md",
+      "main_c_sha256": "0a6005bbbe2dc15cf44fffc4fa97b2517c242cc1c9461c9063d830a2dab1f7f1",
+      "source_commit": "c0850c029faed04f8666de7f89045b5f04d246e1"
+    },
+    {
+      "baseline": "NOT_RUN; only deref/literal must establish exact array invariant before credit",
+      "case": "zst-bits2expr-count-2",
+      "checks": "E[2]: two typed empty elements",
+      "descriptor_sha256": "167d434d330e25544c5045dff6f7f780ce5410c0b877272b01c554ab74ca0d1c",
+      "expected_fixed": {
+        "exit": 0,
+        "signal": 0,
+        "verdict": "VERIFICATION SUCCESSFUL; no failed property"
+      },
+      "invocation": "each case separately via test.pl -C -p -e; see CI-REQUEST.md",
+      "main_c_sha256": "8ba2c9f87aaef949661ae27bdc642c9ea60ce9b1b55c4b2cc55b62713a089c2f",
+      "source_commit": "c0850c029faed04f8666de7f89045b5f04d246e1"
+    },
+    {
+      "baseline": "NOT_RUN; only deref/literal must establish exact array invariant before credit",
+      "case": "zst-bits2expr-deref",
+      "checks": "typed dereference after memset; all eight nonzero bytes",
+      "descriptor_sha256": "167d434d330e25544c5045dff6f7f780ce5410c0b877272b01c554ab74ca0d1c",
+      "expected_fixed": {
+        "exit": 0,
+        "signal": 0,
+        "verdict": "VERIFICATION SUCCESSFUL; no failed property"
+      },
+      "invocation": "each case separately via test.pl -C -p -e; see CI-REQUEST.md",
+      "main_c_sha256": "8ba2c9f87aaef949661ae27bdc642c9ea60ce9b1b55c4b2cc55b62713a089c2f",
+      "source_commit": "c0850c029faed04f8666de7f89045b5f04d246e1"
+    },
+    {
+      "baseline": "NOT_RUN; only deref/literal must establish exact array invariant before credit",
+      "case": "zst-bits2expr-interior",
+      "checks": "aligned fully written backing; int before/x plus tail; x offset4",
+      "descriptor_sha256": "167d434d330e25544c5045dff6f7f780ce5410c0b877272b01c554ab74ca0d1c",
+      "expected_fixed": {
+        "exit": 0,
+        "signal": 0,
+        "verdict": "VERIFICATION SUCCESSFUL; no failed property"
+      },
+      "invocation": "each case separately via test.pl -C -p -e; see CI-REQUEST.md",
+      "main_c_sha256": "da2bd372a7c55477247dd34829443ca36403f449ff766d7ef3bbcb8bb5667f62",
+      "source_commit": "c0850c029faed04f8666de7f89045b5f04d246e1"
+    },
+    {
+      "baseline": "NOT_RUN; only deref/literal must establish exact array invariant before credit",
+      "case": "zst-bits2expr-memcpy",
+      "checks": "positive control, same W geometry, distinct memcpy path",
+      "descriptor_sha256": "167d434d330e25544c5045dff6f7f780ce5410c0b877272b01c554ab74ca0d1c",
+      "expected_fixed": {
+        "exit": 0,
+        "signal": 0,
+        "verdict": "VERIFICATION SUCCESSFUL; no failed property"
+      },
+      "invocation": "each case separately via test.pl -C -p -e; see CI-REQUEST.md",
+      "main_c_sha256": "80d1a28daa5b03d48dfbcb862d5a150025e04068ab8e3d4e4c0620ea0d77aa99",
+      "source_commit": "c0850c029faed04f8666de7f89045b5f04d246e1"
+    },
+    {
+      "baseline": "NOT_RUN; only deref/literal must establish exact array invariant before credit",
+      "case": "zst-bits2expr-negative",
+      "checks": "typed dereference, all true payload assertions plus one intentionally false nonzero-field assertion",
+      "descriptor_sha256": "e8e047b66cb43ca13dfabccaa11232a522a26e42bc0cc5db956c4744a0a07b6e",
+      "expected_fixed": {
+        "exit": 10,
+        "signal": 0,
+        "verdict": "one zst-payload-negative assertion FAILURE only"
+      },
+      "invocation": "each case separately via test.pl -C -p -e; see CI-REQUEST.md",
+      "main_c_sha256": "94fc96305826a87a63033f5e74c30e06f86b41fdc81aa42beaa446cd82de86cd",
+      "source_commit": "c0850c029faed04f8666de7f89045b5f04d246e1"
+    },
+    {
+      "baseline": "NOT_RUN; only deref/literal must establish exact array invariant before credit",
+      "case": "zst-bits2expr-nested",
+      "checks": "E[2][3] before eight-byte payload",
+      "descriptor_sha256": "167d434d330e25544c5045dff6f7f780ce5410c0b877272b01c554ab74ca0d1c",
+      "expected_fixed": {
+        "exit": 0,
+        "signal": 0,
+        "verdict": "VERIFICATION SUCCESSFUL; no failed property"
+      },
+      "invocation": "each case separately via test.pl -C -p -e; see CI-REQUEST.md",
+      "main_c_sha256": "5d93462ce0c3844853e0efc8d7aa6aa9a657df377efc4d5756db90a02fe85c10",
+      "source_commit": "c0850c029faed04f8666de7f89045b5f04d246e1"
+    },
+    {
+      "baseline": "NOT_RUN; only deref/literal must establish exact array invariant before credit",
+      "case": "zst-bits2expr-position-first",
+      "checks": "zero-width E[2] first; preserve both four-byte arrays",
+      "descriptor_sha256": "167d434d330e25544c5045dff6f7f780ce5410c0b877272b01c554ab74ca0d1c",
+      "expected_fixed": {
+        "exit": 0,
+        "signal": 0,
+        "verdict": "VERIFICATION SUCCESSFUL; no failed property"
+      },
+      "invocation": "each case separately via test.pl -C -p -e; see CI-REQUEST.md",
+      "main_c_sha256": "6a9671d137456dac5f6a63f212dbfc6e1989bbe1aa43aac65ec09eeb3ca61996",
+      "source_commit": "c0850c029faed04f8666de7f89045b5f04d246e1"
+    },
+    {
+      "baseline": "NOT_RUN; only deref/literal must establish exact array invariant before credit",
+      "case": "zst-bits2expr-position-last",
+      "checks": "zero-width E[2] last (constant length2, not a flexible array)",
+      "descriptor_sha256": "167d434d330e25544c5045dff6f7f780ce5410c0b877272b01c554ab74ca0d1c",
+      "expected_fixed": {
+        "exit": 0,
+        "signal": 0,
+        "verdict": "VERIFICATION SUCCESSFUL; no failed property"
+      },
+      "invocation": "each case separately via test.pl -C -p -e; see CI-REQUEST.md",
+      "main_c_sha256": "7e1c8d1c3fcad642f7fb180b73ab27e404d734c0a991aa46511538be4c4d1e60",
+      "source_commit": "c0850c029faed04f8666de7f89045b5f04d246e1"
+    },
+    {
+      "baseline": "NOT_RUN; only deref/literal must establish exact array invariant before credit",
+      "case": "zst-bits2expr-position-middle",
+      "checks": "zero-width E[2] between nonzero fields",
+      "descriptor_sha256": "167d434d330e25544c5045dff6f7f780ce5410c0b877272b01c554ab74ca0d1c",
+      "expected_fixed": {
+        "exit": 0,
+        "signal": 0,
+        "verdict": "VERIFICATION SUCCESSFUL; no failed property"
+      },
+      "invocation": "each case separately via test.pl -C -p -e; see CI-REQUEST.md",
+      "main_c_sha256": "336406231e5f99623155d434c3730428ccea6f8ef3920967f2c09e1c405f6fe8",
+      "source_commit": "c0850c029faed04f8666de7f89045b5f04d246e1"
+    },
+    {
+      "baseline": "NOT_RUN; only deref/literal must establish exact array invariant before credit",
+      "case": "zst-bits2expr-union",
+      "checks": "typed union copy; W is first suitable eight-byte arm; all payload bytes",
+      "descriptor_sha256": "167d434d330e25544c5045dff6f7f780ce5410c0b877272b01c554ab74ca0d1c",
+      "expected_fixed": {
+        "exit": 0,
+        "signal": 0,
+        "verdict": "VERIFICATION SUCCESSFUL; no failed property"
+      },
+      "invocation": "each case separately via test.pl -C -p -e; see CI-REQUEST.md",
+      "main_c_sha256": "4787762ef59463cb18562c8d686fd0bcd709a1ea36d566d292d9c3297f32ef01",
+      "source_commit": "c0850c029faed04f8666de7f89045b5f04d246e1"
+    },
+    {
+      "baseline": "NOT_RUN; only deref/literal must establish exact array invariant before credit",
+      "case": "zst-bits2expr-zero-length-inner",
+      "checks": "unsigned char[2][0]: zero-length nonzero-width inner arrays",
+      "descriptor_sha256": "167d434d330e25544c5045dff6f7f780ce5410c0b877272b01c554ab74ca0d1c",
+      "expected_fixed": {
+        "exit": 0,
+        "signal": 0,
+        "verdict": "VERIFICATION SUCCESSFUL; no failed property"
+      },
+      "invocation": "each case separately via test.pl -C -p -e; see CI-REQUEST.md",
+      "main_c_sha256": "b4c270362a2579aaf266597c71e2eb69961b48058b34d2e05422ce094096092a",
+      "source_commit": "c0850c029faed04f8666de7f89045b5f04d246e1"
+    }
+  ],
+  "gcc_only": "tag excludes MSVC; actual dialect/mode supplied by argv",
+  "language": "GNU C empty-struct extension; not C++ empty class",
+  "limitations": [
+    "No local compiler or runtime evidence.",
+    "C regressions assert payload, not IR operand count; public utility tests inspect typed operands.",
+    "Utility tests exercise supported finite types only; no new unknown/negative/incomplete-width support.",
+    "Not actual Kani/Rust replay; no closure of Kani#5085/case B."
+  ],
+  "neighbours": [
+    {
+      "case": "Empty_struct1",
+      "descriptors": [
+        {
+          "path": "regression/cbmc/Empty_struct1/test.desc",
+          "sha256": "2e85b816fbe75f4ed39b31121ac77ed3464b16304954e05308d566a5e4880de6"
+        }
+      ],
+      "oracle": "existing descriptor (some intentionally exit10), no invariant/timeouts/skips",
+      "status": "NOT_RUN"
+    },
+    {
+      "case": "Empty_struct2",
+      "descriptors": [
+        {
+          "path": "regression/cbmc/Empty_struct2/test.desc",
+          "sha256": "2e85b816fbe75f4ed39b31121ac77ed3464b16304954e05308d566a5e4880de6"
+        }
+      ],
+      "oracle": "existing descriptor (some intentionally exit10), no invariant/timeouts/skips",
+      "status": "NOT_RUN"
+    },
+    {
+      "case": "Empty_struct3",
+      "descriptors": [
+        {
+          "path": "regression/cbmc/Empty_struct3/test.desc",
+          "sha256": "e6c474783ed0f0ac7b6516f53432716620ea965ed2d6156342f1843313b3d065"
+        }
+      ],
+      "oracle": "existing descriptor (some intentionally exit10), no invariant/timeouts/skips",
+      "status": "NOT_RUN"
+    },
+    {
+      "case": "empty_compound_type2",
+      "descriptors": [
+        {
+          "path": "regression/cbmc/empty_compound_type2/test.desc",
+          "sha256": "44fad27fb08e83fb06db0cb5b06590a263c7a056a4f3251d8d77412397fb8454"
+        }
+      ],
+      "oracle": "existing descriptor (some intentionally exit10), no invariant/timeouts/skips",
+      "status": "NOT_RUN"
+    },
+    {
+      "case": "empty_compound_type3",
+      "descriptors": [
+        {
+          "path": "regression/cbmc/empty_compound_type3/test.desc",
+          "sha256": "44fad27fb08e83fb06db0cb5b06590a263c7a056a4f3251d8d77412397fb8454"
+        }
+      ],
+      "oracle": "existing descriptor (some intentionally exit10), no invariant/timeouts/skips",
+      "status": "NOT_RUN"
+    },
+    {
+      "case": "empty_compound_type4",
+      "descriptors": [
+        {
+          "path": "regression/cbmc/empty_compound_type4/test.desc",
+          "sha256": "155edb1ef69f5f42db4c7f26b4b61cc5c89dd834cb6c80cbf1001bb7cb7d160a"
+        }
+      ],
+      "oracle": "existing descriptor (some intentionally exit10), no invariant/timeouts/skips",
+      "status": "NOT_RUN"
+    },
+    {
+      "case": "byte_extract1",
+      "descriptors": [
+        {
+          "path": "regression/cbmc/byte_extract1/extractbits-bitfield.desc",
+          "sha256": "ff16db0deeee8d8cbbc2c7fcfff72cb2c257453757afc3320bfd36a95d2e9de8"
+        },
+        {
+          "path": "regression/cbmc/byte_extract1/test.desc",
+          "sha256": "fa142a077fdca1862ca8bc29f289e849029c79d94860ef0ec5e9ff3f018f8c1a"
+        }
+      ],
+      "oracle": "existing descriptor (some intentionally exit10), no invariant/timeouts/skips",
+      "status": "NOT_RUN"
+    },
+    {
+      "case": "Struct_Bytewise1",
+      "descriptors": [
+        {
+          "path": "regression/cbmc/Struct_Bytewise1/test.desc",
+          "sha256": "b6168053267c43e6b048c57c23b8137ceaa68178e06c97ede63d10430a9cbd2c"
+        }
+      ],
+      "oracle": "existing descriptor (some intentionally exit10), no invariant/timeouts/skips",
+      "status": "NOT_RUN"
+    },
+    {
+      "case": "union-unequal-element-size1",
+      "descriptors": [
+        {
+          "path": "regression/cbmc/union-unequal-element-size1/test.desc",
+          "sha256": "aa1e1b15e430f07a0926a703030d5925fe79d78365bdab8455aee99fd19b3663"
+        }
+      ],
+      "oracle": "existing descriptor (some intentionally exit10), no invariant/timeouts/skips",
+      "status": "NOT_RUN"
+    },
+    {
+      "case": "Array_Initialization1",
+      "descriptors": [
+        {
+          "path": "regression/cbmc/Array_Initialization1/test.desc",
+          "sha256": "7f4bcd3c52b3b11017a7bf55160db27467495e4ae0862480480f95b8bc108c4b"
+        }
+      ],
+      "oracle": "existing descriptor (some intentionally exit10), no invariant/timeouts/skips",
+      "status": "NOT_RUN"
+    },
+    {
+      "case": "Array_Initialization2",
+      "descriptors": [
+        {
+          "path": "regression/cbmc/Array_Initialization2/test.desc",
+          "sha256": "7f4bcd3c52b3b11017a7bf55160db27467495e4ae0862480480f95b8bc108c4b"
+        }
+      ],
+      "oracle": "existing descriptor (some intentionally exit10), no invariant/timeouts/skips",
+      "status": "NOT_RUN"
+    },
+    {
+      "case": "Array_Propagation1",
+      "descriptors": [
+        {
+          "path": "regression/cbmc/Array_Propagation1/test.desc",
+          "sha256": "8a2d9895ae935a6ee7c08bd79512ff49f9b883fec36924d9566a778a593cc845"
+        }
+      ],
+      "oracle": "existing descriptor (some intentionally exit10), no invariant/timeouts/skips",
+      "status": "NOT_RUN"
+    },
+    {
+      "case": "Array_Access1",
+      "descriptors": [
+        {
+          "path": "regression/cbmc/Array_Access1/test.desc",
+          "sha256": "7f4bcd3c52b3b11017a7bf55160db27467495e4ae0862480480f95b8bc108c4b"
+        }
+      ],
+      "oracle": "existing descriptor (some intentionally exit10), no invariant/timeouts/skips",
+      "status": "NOT_RUN"
+    }
+  ],
+  "status": "NOT_RUN",
+  "target": "CBMC GCC frontend/preprocessor, C11, --64 --little-endian, x86_64 Linux, GCC13 in requested CI",
+  "unit": [
+    {
+      "expected_fixed": "Catch nonempty selection, exit0, All tests passed",
+      "name": "bits2expr reconstructs empty structs and arrays",
+      "sha256": "f0e618f2cc7cf653209144d735e2d883c593d513d985520ca7499e8a376834a6",
+      "source": "unit/util/zst_bits2expr.cpp",
+      "status": "NOT_RUN"
+    },
+    {
+      "expected_fixed": "Catch nonempty selection, exit0, All tests passed",
+      "name": "bits2expr reconstructs nested zero-width arrays",
+      "sha256": "f0e618f2cc7cf653209144d735e2d883c593d513d985520ca7499e8a376834a6",
+      "source": "unit/util/zst_bits2expr.cpp",
+      "status": "NOT_RUN"
+    },
+    {
+      "expected_fixed": "Catch nonempty selection, exit0, All tests passed",
+      "name": "bits2expr preserves tagged zero-width elements and nonzero siblings",
+      "sha256": "f0e618f2cc7cf653209144d735e2d883c593d513d985520ca7499e8a376834a6",
+      "source": "unit/util/zst_bits2expr.cpp",
+      "status": "NOT_RUN"
+    }
+  ]
+}
