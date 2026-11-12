@@ -1,0 +1,472 @@
+{
+  "schema": "kani3300-m2a-inputs-v1",
+  "status": "PREPARED/AWAITING_CI",
+  "research_base": "9226f9a9ea42bd35a69902a56ad70a2079a7e8ca",
+  "branch": "experiment/kani-k1-kani3300g0-20261111",
+  "task": {
+    "path": "research/challenge-8/kani-k1/TASK-KANI3300-M2A.md",
+    "sha256": "04264f01c88bb81c7f4fd2660ad526a111b776de28f1e13ab11cb512632e0161",
+    "bytes": 13001
+  },
+  "kani": {
+    "clone": "/root/kani-fix-3300-m2",
+    "commit": "5f7f2b7364135a0a8b7cfd86c43b4491a8911bac",
+    "tree": "b2bbb7366a9fbac33398fb01be7300f83a1d27bd",
+    "parent_m1": "5abdcf982da6aff65662e198af27a9c776830a89",
+    "production": "254ae69662b3206cd4432dae0cd44c534b1b13fb",
+    "worktree_changed": false
+  },
+  "original_inputs_goldens": [
+    {
+      "selector": "legal-pair",
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+        "sha256": "3385d702baa91965af565878f1f1d8e27a1de37a0ea52da3595cb5e609d8e363",
+        "bytes": 1452
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/legal-pair.expected",
+        "sha256": "d9efa4dfaf33963a0c5c668577ccd2e76d1e212d58d1af7767f98540ac9a8558",
+        "bytes": 202
+      },
+      "roots": [
+        "legal_ordinary_transfer",
+        "legal_pfc_transfer"
+      ]
+    },
+    {
+      "selector": "postcondition-hole",
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+        "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759",
+        "bytes": 782
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+        "sha256": "4d4ff2b6fca8cc5bc556fe159c3d9a03dfc5defd93c9cad7d8d8554c12568031",
+        "bytes": 229
+      },
+      "roots": [
+        "postcondition_reads_returned_hole"
+      ]
+    },
+    {
+      "selector": "out-pointer",
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+        "sha256": "7610c67c89302bbcdd541ebaa8d70651c5a3231a0909b28126452b233a79d280",
+        "bytes": 1131
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/out-pointer.expected",
+        "sha256": "625af5ac4e60045acd47aadd15e00b8fc4db524ebd1dd911b50761dd042f20f0",
+        "bytes": 301
+      },
+      "roots": [
+        "out_pointer_fully_written",
+        "out_pointer_preserves_middle_hole"
+      ]
+    },
+    {
+      "selector": "normal-abort",
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/normal-abort.rs",
+        "sha256": "45021f2a9ed44e1162b21a0c758decc7b879eb9c50e91dfba57f9c0736b43471",
+        "bytes": 679
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/normal-abort.expected",
+        "sha256": "c36dbee1067f87faf285206a72733ff0f13b3f434ee28d3f679083fe5f031ef8",
+        "bytes": 176
+      },
+      "roots": [
+        "normal_return_or_abort"
+      ]
+    }
+  ],
+  "reference_documents": [
+    {
+      "path": "m2/RESULT-KANI3300-M2.md",
+      "sha256": "f777b968c74af3bc701a6b199631a4d6a93047af62f9e513f8812b5f483f449e",
+      "bytes": 1524
+    },
+    {
+      "path": "m2/QUALIFICATION-MAP.json",
+      "sha256": "bd032e803854efa37e4b701f73b80c95cf0ef829513a251355f85914f99a3b1c",
+      "bytes": 64822
+    },
+    {
+      "path": "m2/CFG-BINDINGS.md",
+      "sha256": "9893585ad80eb44f065d840710f49ee08fddfd0549b5a3972106edd7381d0c7e",
+      "bytes": 8430
+    },
+    {
+      "path": "m2/CI-REQUEST.md",
+      "sha256": "41b1d423249587c88586b63016c81b3d7220f8347ccb0dadf1f1756ca4ae4c30",
+      "bytes": 7396
+    },
+    {
+      "path": "m2/TEST-MANIFEST.json",
+      "sha256": "21850ee51685bd8abfdb72b07784c5394da5c9814c1e5577a9902515de7e8ab2",
+      "bytes": 31684
+    },
+    {
+      "path": "m1/SOURCE-BINDINGS.md",
+      "sha256": "6ebfaaf00fb1cac840fa8fa93b5a56980831e6ac1f3f6239a6d43583a890e500",
+      "bytes": 9155
+    },
+    {
+      "path": "m1/TEST-MANIFEST.json",
+      "sha256": "e771993f3924ccb7e179e5c583f23bb17dd42cc2de78317cb372459878d36fd2",
+      "bytes": 67056
+    },
+    {
+      "path": "m0/MODEL-CONTRACT.md",
+      "sha256": "ccc13bf514f248bdc0e468267b17673f03c24ac1e6afccf6e196643ed62c0d9c",
+      "bytes": 10753
+    }
+  ],
+  "source_rule_files": [
+    {
+      "path": "rust-toolchain.toml",
+      "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+      "bytes": 183
+    },
+    {
+      "path": "kani-dependencies",
+      "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+      "bytes": 186
+    },
+    {
+      "path": "kani-driver/src/args/mod.rs",
+      "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+      "bytes": 59912
+    },
+    {
+      "path": "kani-driver/src/call_single_file.rs",
+      "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+      "bytes": 11863
+    },
+    {
+      "path": "kani-driver/src/main.rs",
+      "sha256": "757eb0205da02cf3ab22a97e7c967b97d25510485f42815d106b2a170a0e6956",
+      "bytes": 10807
+    },
+    {
+      "path": "kani-driver/src/project.rs",
+      "sha256": "55bc8b60644000ede89bcb1bd43f923a5035659314b57e6f9c56884dd38b0627",
+      "bytes": 19632
+    },
+    {
+      "path": "kani_metadata/src/harness.rs",
+      "sha256": "133e43a5cab35920fbbfb0d99df6ff71610ebc31e8f8d63607331e155c20d740",
+      "bytes": 6745
+    },
+    {
+      "path": "kani-compiler/src/args.rs",
+      "sha256": "cb1f451503f39856f5a2f7bf4eea1c9ee852bcb45c6012be08983ce6440495d3",
+      "bytes": 7578
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/mod.rs",
+      "sha256": "1fbfc44bee04398f057bf47335df907adc58891bc4e96a95b59839c707cb6418",
+      "bytes": 66440
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/metadata.rs",
+      "sha256": "49a5c7a234cf879fe72dc6668d9a94d7b1fa402c20a6ad5d9b67332274512174",
+      "bytes": 8511
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+      "sha256": "7fb63e49c4e141c89722b20bdfee04746df090c1db49e96a4b9520bb762719db",
+      "bytes": 73940
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+      "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+      "bytes": 39127
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/dump_mir_pass.rs",
+      "sha256": "6274d23f98174af2850e927d898837983b54a857e5d093df51dedcdd7f965a92",
+      "bytes": 2598
+    },
+    {
+      "path": "library/kani_macros/src/sysroot/contracts/assert.rs",
+      "sha256": "ec6480d46c29038b58cdac5d96ef962bd004e2d4fd16be6b9b64ee143f9cd5b4",
+      "bytes": 3762
+    },
+    {
+      "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+      "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+      "bytes": 9075
+    },
+    {
+      "path": "library/kani_macros/src/sysroot/contracts/shared.rs",
+      "sha256": "a8df9244d86742adaf1bdfd991d1b6882962a6797b764d6824306f02024360e7",
+      "bytes": 10380
+    },
+    {
+      "path": "library/kani_macros/src/sysroot/contracts/mod.rs",
+      "sha256": "f35c85f8686d47ec5f967497ff413deb177a15f81cce235ecb750da45d9a23bf",
+      "bytes": 31524
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+      "sha256": "c42871a769affb1499c55085c2c1e6b04a8cb42deddc3828aa3347cb79700518",
+      "bytes": 8172
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "sha256": "baa2013d98a84784366602ea3f9e63bbbde408816a5a947032267737014e4c5a",
+      "bytes": 54700
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "sha256": "27f1e6721b3a4f3ec4e27d19e45a481369ae3e8a8907fe50a0e189a0c044682f",
+      "bytes": 41793
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/body.rs",
+      "sha256": "930636ad1ab2290fb2b10f1970f2283f6e29c52de9a7b1696c7767c041a469d5",
+      "bytes": 26496
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "sha256": "d85c1adf759d9913e05c2a4effbb47cf66b3f35a11d2f198c12a9497d7d96dba",
+      "bytes": 4338
+    },
+    {
+      "path": "library/kani_core/src/mem_init.rs",
+      "sha256": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
+      "bytes": 25762
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "sha256": "c01ced42f97efdbc8d6a34c75f229753af59f380549518af971ecea672cd72b2",
+      "bytes": 19071
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+      "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+      "bytes": 12461
+    }
+  ],
+  "rust_api_audit": {
+    "mem/maybe_uninit.rs": {
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9/library/core/src/mem/maybe_uninit.rs",
+      "revision": "7189d39d9",
+      "sha256": "1230d267542337ee2842c29d8227cf8a58fe75c53a2a70efaee3922c4e8e25c0",
+      "declarations": [
+        {
+          "line": 406,
+          "text": "pub const fn new(val: T) -> MaybeUninit<T> {"
+        },
+        {
+          "line": 429,
+          "text": "pub const fn uninit() -> MaybeUninit<T> {"
+        },
+        {
+          "line": 659,
+          "text": "pub const fn as_mut_ptr(&mut self) -> *mut T {"
+        },
+        {
+          "line": 722,
+          "text": "pub const unsafe fn assume_init(self) -> T {"
+        },
+        {
+          "line": 794,
+          "text": "pub const unsafe fn assume_init_read(&self) -> T {"
+        }
+      ],
+      "assurance": "STATIC_SOURCE_ONLY; installed CI sysroot identity UNKNOWN"
+    },
+    "ptr/mut_ptr.rs": {
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9/library/core/src/ptr/mut_ptr.rs",
+      "revision": "7189d39d9",
+      "sha256": "7b4411dbd5ecc350396ddd7595f081ad226685315e5d1287b8317b4c1d84afb2",
+      "declarations": [
+        {
+          "line": 35,
+          "text": "pub const fn cast<U>(self) -> *mut U {"
+        },
+        {
+          "line": 935,
+          "text": "pub const unsafe fn add(self, count: usize) -> Self"
+        },
+        {
+          "line": 1240,
+          "text": "pub const unsafe fn read(self) -> T"
+        },
+        {
+          "line": 1397,
+          "text": "pub const unsafe fn write(self, val: T)"
+        }
+      ],
+      "assurance": "STATIC_SOURCE_ONLY; installed CI sysroot identity UNKNOWN"
+    },
+    "array/equality.rs": {
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9/library/core/src/array/equality.rs",
+      "revision": "7189d39d9",
+      "sha256": "8765b16c3149dcfcf531e2f5724bfc1d2e518a05742d1333d53ed7eee4f0ae78",
+      "declarations": [
+        {
+          "line": 5,
+          "text": "const impl<T, U, const N: usize> PartialEq<[U; N]> for [T; N]"
+        },
+        {
+          "line": 10,
+          "text": "fn eq(&self, other: &[U; N]) -> bool {"
+        },
+        {
+          "line": 43,
+          "text": "const impl<T, U, const N: usize> PartialEq<[U; N]> for [T]"
+        },
+        {
+          "line": 48,
+          "text": "fn eq(&self, other: &[U; N]) -> bool {"
+        },
+        {
+          "line": 81,
+          "text": "const impl<T, U, const N: usize> PartialEq<[U; N]> for &[T]"
+        },
+        {
+          "line": 86,
+          "text": "fn eq(&self, other: &[U; N]) -> bool {"
+        },
+        {
+          "line": 113,
+          "text": "const impl<T, U, const N: usize> PartialEq<[U; N]> for &mut [T]"
+        },
+        {
+          "line": 118,
+          "text": "fn eq(&self, other: &[U; N]) -> bool {"
+        },
+        {
+          "line": 137,
+          "text": "fn spec_eq(a: &[Self; N], b: &[Other; N]) -> bool;"
+        },
+        {
+          "line": 143,
+          "text": "default fn spec_eq(a: &[Self; N], b: &[Other; N]) -> bool {"
+        },
+        {
+          "line": 153,
+          "text": "fn spec_eq(a: &[T; N], b: &[U; N]) -> bool {"
+        },
+        {
+          "line": 157,
+          "text": "unsafe { crate::intrinsics::raw_eq(a, crate::mem::transmute(b)) }"
+        }
+      ],
+      "assurance": "STATIC_SOURCE_ONLY; installed CI sysroot identity UNKNOWN"
+    }
+  },
+  "existing_memprobe": {
+    "run_id": "43232249168",
+    "assurance": "COORDINATOR_REPORTED; no independent proof credit",
+    "ci_commit": "cc29c82bf1e2ed4b29e7dcc0980744074be459e9",
+    "ci_parent": "5f7f2b7364135a0a8b7cfd86c43b4491a8911bac",
+    "ci_tree": "50702a88d1eb0cb842310f119f1141d25629e26f",
+    "workflow": {
+      "path": ".github/workflows/uninit-quick.yml",
+      "sha256": "df686b3220475c8ecef9ecfc73fbeb0e9d575ab9f96308a927b9aacdad082d16",
+      "bytes": 1580,
+      "assurance": "READ_FROM_GIT_OBJECT; recipe is not an actual execution receipt"
+    },
+    "recipe": {
+      "runner": "ubuntu-24.04",
+      "job_timeout_minutes": 120,
+      "outer_timeout_seconds": 1200,
+      "RUSTFLAGS": "--edition 2021 -D warnings",
+      "root_filter": null,
+      "solver_concurrency": "driver default serial; one input per outer loop; legal-pair contains two roots",
+      "command_template": "timeout 1200 /usr/bin/time -v kani tests/expected/uninit/transfer-qualification/$t.rs -Z uninit-checks $extra --output-format=regular",
+      "extra_for_legal_and_hole": [
+        "-Z",
+        "function-contracts"
+      ],
+      "output_filter": "grep -E VERIFICATION|Failed Checks|Maximum resident|Elapsed|Checking harness|Complete -; no pipefail in workflow source",
+      "actual_kani_exit": "UNKNOWN; pipeline/filter status not authoritative"
+    },
+    "toolchain": {
+      "pinned_channel": "nightly-2026-10-23",
+      "source_revision_recorded_by_m1": "7189d39d9",
+      "declared_cbmc": "6.11.0",
+      "source_default_solver": "CaDiCaL",
+      "actual_rustc_version": null,
+      "actual_sysroot_hash": null,
+      "actual_binary_hashes": null,
+      "actual_cbmc_version": null,
+      "actual_solver": null
+    },
+    "actual_receipt": {
+      "argv": null,
+      "compiler_argv": null,
+      "cbmc_argv": null,
+      "cwd": null,
+      "selected_roots": "coordinator reports both legal_ordinary_transfer and legal_pfc_transfer; exact metadata not available",
+      "actual_contract_wrappers": null,
+      "property_ids": null,
+      "complete_failed_checks": null,
+      "runtime_witnesses": null,
+      "raw_memory_receipt": null,
+      "status": "UNKNOWN; targeted curated receipt requested in CI-REQUEST.md"
+    },
+    "observations": [
+      {
+        "selector": "out-pointer",
+        "elapsed_raw": "3.3s",
+        "rss_raw": "225MB",
+        "harness_summary": "1 SUCCESS + 1 FAILURE; matched compiletest golden reported",
+        "messages_reported": [
+          "*const u8",
+          "u8"
+        ],
+        "qualification": "UNKNOWN; all failed checks and legal endpoints/intended middle read not bound"
+      },
+      {
+        "selector": "normal-abort",
+        "elapsed_raw": "1s",
+        "rss_raw": "203MB",
+        "harness_summary": "FAILURE; matched compiletest golden reported",
+        "messages_reported": [
+          "transfer qualification abort"
+        ],
+        "qualification": "UNKNOWN; normal/abort CFG not bound"
+      },
+      {
+        "selector": "legal-pair",
+        "elapsed_raw": "14:16",
+        "rss_raw": "15.07GB",
+        "cbmc_rss_raw": "14.6GB",
+        "harness_summary": "BOTH legal_ordinary_transfer and legal_pfc_transfer FAILED uninit-read [u8;3] against SUCCESS oracle",
+        "qualification": "UNQUALIFIED_FALSE_FAIL_SOURCE_REPORTED; exact site/mode/property UNKNOWN"
+      },
+      {
+        "selector": "postcondition-hole",
+        "elapsed_raw": null,
+        "rss_raw": null,
+        "harness_summary": "OOM / runner killed",
+        "qualification": "RESOURCE_INCOMPLETE; intended property verdict UNKNOWN"
+      }
+    ],
+    "measurement_limits": "Units preserved exactly as task reports; MB/GB interpretation, RSS per-process/process-tree, sampling vs high-water and exact timings UNKNOWN. runner16GB is coordinator-reported capacity, not cap."
+  },
+  "other_coordinator_reports": {
+    "quick_43229982767": "two runner shutdown interruptions exit143 in expected uninit: INCOMPLETE, OOM unestablished, no semantic FAIL",
+    "c1_t2_a": "7f9eec41e8; baseline43230538511 expected127/7; M1 composition83ceadf048 Quick43230532195 expected138/0/2ignored; all8 mixed matched, six baseline legal falseFAIL->M1 PASS; different composition, no M2 credit"
+  },
+  "scope": {
+    "cloud_usd": 0,
+    "dispatches": 0,
+    "new_runtime_results": "NOT_RUN",
+    "M3": "HELD",
+    "historical_records_rewritten": false,
+    "raw_logs_archives_accessed": false,
+    "B1": "NONE_NEW",
+    "B2": "NONE",
+    "proof_credit": "NONE"
+  }
+}

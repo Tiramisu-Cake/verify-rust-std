@@ -1,0 +1,17 @@
+# KANI3300 M2-A — PREPARED / AWAITING_CI
+- Exact M2 5f7f2b7364135a0a8b7cfd86c43b4491a8911bac / tree b2bbb7366a9fbac33398fb01be7300f83a1d27bd inspected read-only.
+- Four original inputs/goldens hashed and unchanged; no model/ABI/setter/registry/workflow changes.
+- Established from source: ordinary default Assert, no-assert-contracts Original, genuine PFC SimpleCheck priority.
+- Six original equality sites separated with both operands; concrete MIR/CheckAs/AllocId/symbol/object/witness bindings UNKNOWN.
+- Hypotheses remain missing seed, destination update, UntrackedDeref/generated copy or other lowering; no causal repair claim.
+- Existing memprobe and Quick facts are coordinator-reported; actual argv/toolchain/property/trace/memory receipts UNKNOWN.
+- Legal pair source-reported falseFAIL remains unqualified; postcondition-hole RESOURCE_INCOMPLETE, verdict UNKNOWN.
+- Out-pointer all-failure/endpoint/middle-hole and abort normal/abnormal CFG qualifications remain OPEN.
+- Four single-root drafts; six proposed sequential configs (two non-solving inventories, four conditional solver probes).
+- Scalar PFC legal/hole are DEFERRED; hole is original scalar input byte-for-byte, first read remains in ensures.
+- All six M2 roots and 41 inherited obligations retained in ledger; reductions discharge no combined obligation.
+- Types/signatures inspected against pinned Rust source; compilation/lints/verification NOT_RUN.
+- Resource caps proposed ≤180s/≤6GiB, desired ≤60s/≤2GiB; actual existing enforcement requires coordinator receipt.
+- One bounded Luna High static review PASS; no blocking findings; receipt in REVIEW.md.
+- Cloud $0, dispatches0, local compiler/verifier runs0; no new proof credit, M3 HELD.
+- STOP after reviewed research package; coordinator owns inventory/qualification/resource admission.
