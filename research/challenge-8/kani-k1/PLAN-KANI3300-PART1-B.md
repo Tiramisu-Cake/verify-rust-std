@@ -5,7 +5,11 @@ Direct-MU-only экспорт отклонён. Полная для заявле
 type-only skip, default true и потеря negative checks не являются вариантом. Runtime Codex; Cloud $0, CI только координатора.
 Это верификация корректности, не security-работа.
 
-**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR5.md: две дополняющие runtime half rollbacks на P1,
+**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR6.md: внутри Hbuf representation/lifetime vs selection/reset,
+≤2 дополняющих P1 variants, Hcopy/GLUE frozen R1. R5-01 run43268005490 конвертируется (51M clauses),
+R5-02 run43268011610 cutoff>6.68GiB. Следующий cut в Hbuf; concrete VCC/fix ещё не established, M3 HELD.
+
+**Предыдущий handoff M2-B/R5:** 15 → TASK-KANI3300-M2BR5.md: две дополняющие runtime half rollbacks на P1,
 затем до2 по отдельному handoff. R4 A/B/C43263641666/43263648365/43263654098 buildPASS, все cutoff>6GiB;
 V02 whole-U runtime остаётся конвертируемым endpoint, single-delta sufficiency не найдена. By-ID GLUE учесть явно;
 M3 HELD, source/CI/workers boundaries прежние. Никакого release runtime rollback.
