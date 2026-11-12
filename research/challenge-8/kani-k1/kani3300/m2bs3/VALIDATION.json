@@ -1,0 +1,37 @@
+{
+  "schema": "kani3300-m2bs3-validation-v1",
+  "candidate": "58497d98d085a5144a70c358205c0e46318feeb6",
+  "static_checks": {
+    "json_parse": "PASS",
+    "artifact_sizes_sha256": "PASS",
+    "reviewed_changed_file_hashes": "PASS",
+    "original_8_M2_sources_goldens": "PASS (TEST-MANIFEST checked)",
+    "original_4_M2A_cases": "PASS (TEST-MANIFEST checked)",
+    "C03_test_byte_identical": "PASS",
+    "candidate_scope_vs_exact5f7": "PASS (2 historical docs + 2 compiler files + 6 new test files)",
+    "trace_selected_global_final_assignments_json": "PASS (50,2,FALSE), no later assignments",
+    "rendered_kani_statuses": {
+      "SUCCESS": 340,
+      "FAILURE": 1,
+      "UNREACHABLE": 11
+    },
+    "result_line_limit": "PASS",
+    "git_diff_check": "PASS",
+    "authorized_pinned_rustfmt": "PASS"
+  },
+  "NOT_RUN": [
+    "cargo",
+    "rustc",
+    "Kani",
+    "CBMC",
+    "clippy",
+    "build",
+    "CI dispatch",
+    "Cloud Build"
+  ],
+  "resource_cost": {
+    "cloud_dollars": 0,
+    "local_compiler_verifier_runs": 0
+  },
+  "assurance": "Static validation and coordinator-supplied trace binding only; no candidate compilation, semantic acceptance, or independent B1/B2 proof credit."
+}

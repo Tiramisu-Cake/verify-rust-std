@@ -1,0 +1,20 @@
+# KANI3300 M2-B/S3 — PREPARED / UNVERIFIED
+- Local reviewed Kani candidate: 58497d98d085a5144a70c358205c0e46318feeb6; not pushed.
+- Trace: coordinator run43252039413, CI4804129592, reported exact5f7 + M2-A C03.
+- .1 tests LEFT, runtime object50 base0 length3; selected witness byte is object50:2.
+- Reached body is write_initialized::{closure#3}::{closure#0}, inner contract Assert copy.
+- Last selected-byte write: reset FALSE, State1009; no later matching shadow value write/retarget.
+- Later set(FALSE) is object49:0, nonmatching; RHS immutable object20 seed is not the problem.
+- `_16` contains [1,2,3]; old inner MIR lacks normal-return `_16` and post-write out setters.
+- Actual failure is body equality; ensures/out write is later and not reached in this trace.
+- Alias analysis followed raw registration panic; codegen uses a closure-calling trampoline.
+- Narrow override restores that bridge and preserves discarded closures as unreachable.
+- No seed/model/ABI/DFCC/retarget rewrite; typed setters are existing instrumentation.
+- Added unchanged C03 regression + lawful flat-MU ensures holes in both operand directions.
+- Original M2/M2-A sources/goldens hash-unchanged; explicit source/type/signature audit complete.
+- Luna HIGH static review: no established blocking correctness/type/identity findings.
+- Cyclic clause calls remain a conditional termination/generalization gate; no cutoff/summary added.
+- JSON/hash/source/diff checks and authorized rustfmt PASS; build/clippy/solver NOT_RUN locally.
+- Coordinator must establish restored setters, full C03 PASS and precise negative/control outcomes.
+- M2-B/S semantic gate OPEN; M2-B/R resource gate separate/unresolved; M3 HELD.
+- Cloud $0; compiler/verifier0; dispatch0; no new proof credit. STOP for coordinator CI.

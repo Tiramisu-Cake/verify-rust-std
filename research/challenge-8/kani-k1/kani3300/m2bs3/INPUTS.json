@@ -1,0 +1,93 @@
+{
+  "schema": "kani3300-m2bs3-inputs-v1",
+  "stage": "KANI3300 M2-B/S3",
+  "handoff": "d2500db20b27ef30e131fd27c296357420777e54",
+  "source_base": "5f7f2b7364135a0a8b7cfd86c43b4491a8911bac",
+  "candidate": "58497d98d085a5144a70c358205c0e46318feeb6",
+  "tree": "56df2bc406106d3950f0543a4e53482e2d1ab2a4",
+  "branch": "fix/kani-3300-contract-immutable-mask",
+  "coordinator_report": {
+    "ci": "4804129592",
+    "run": "43252039413",
+    "source": "exact5f7 + unchanged M2-A cases",
+    "kani_exit": 1,
+    "cbmc_text_exit": 10,
+    "cbmc_json_exit": 10,
+    "cbmc_flags_delta": "remove --json-ui/--slice-formula; add --trace --property <failed property>; separate JSON run adds --json-ui"
+  },
+  "assurance": "User/coordinator supplied local evidence; source pin is reported, hashes verified here. No independent binary/source receipt. Old MIR/GOTO from prior run, do not infer same executable SHA.",
+  "artifacts": [
+    {
+      "path": "/root/kani3300-m2bs-c03-trace/cbmc-cmdline.txt",
+      "bytes": 339,
+      "sha256": "7604db9d6a2708a58ef5c17b30540a6f98c6d3fe41596516b260d1e93c6c81b4"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-trace/exits.txt",
+      "bytes": 353,
+      "sha256": "ec45fb4631fc933820d8e7cea97bf41083004e8501e9b893209f8239c341784a"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-trace/kani-verbose.txt",
+      "bytes": 104503,
+      "sha256": "ea45bde2033e8022cc1fc9fcf2e2c6042b04913ed8da6e3d6d6e4cad9cdc0ff3"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-trace/witness.json",
+      "bytes": 8793202,
+      "sha256": "61297527f0734e7c1be78569d2db00dfd5875d3863a6038879a428a7d644c8b3"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-trace/witness.txt",
+      "bytes": 1205402,
+      "sha256": "241224d09dee34430a405d7f57bdb45b187a83e14b0968b4a37c7f918d19a0ac"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/codegen.txt",
+      "bytes": 351,
+      "sha256": "2e766b8daaa0f19f591c72f4abe89418cea628cd337a0a3650cdbb7e7f0c1ff2"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/exits.txt",
+      "bytes": 118,
+      "sha256": "9eb2c48d24b075142cdb0977192f27884569c78785eba3a7fa802234bfb75ca5"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/files.txt",
+      "bytes": 474,
+      "sha256": "cd460433e312e5b3589033a9b07963ff5fb1dbc567d39a195b735c8a90d11226"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/goto-functions.txt",
+      "bytes": 1922421,
+      "sha256": "275b9119f4a79170207a5988ab827f5013e3a7d42c10811f80af852d19547184"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/m2a.mir",
+      "bytes": 53435,
+      "sha256": "3b79ce5c803466a774281de51099cff4ea359771db96f49f77e3aa35dce29b56"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/m2a__RNvCseoxr9queTnG_3m2a23legal_ordinary_transfer.symtab.kani.mir",
+      "bytes": 224625,
+      "sha256": "b48a11fd2a6e2de8c9d2d4aafe811e729cadc9bae3bb9c1979454e15a392c330"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/properties.json",
+      "bytes": 573795,
+      "sha256": "d288801025a36de54235805de281c3083b3c27db12dd4eb19da84efbc8cb3ff6"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/trace.txt",
+      "bytes": 97908,
+      "sha256": "de4336dfd92c0c4184f4dbd247a656ae9f37c1ee5f5f7457d5e2489c1bda0ecd"
+    }
+  ],
+  "constraints": {
+    "cloud_dollars": 0,
+    "local_cargo_rustc_kani_cbmc": 0,
+    "dispatch": 0,
+    "kani_push": false,
+    "proof_credit": false
+  }
+}

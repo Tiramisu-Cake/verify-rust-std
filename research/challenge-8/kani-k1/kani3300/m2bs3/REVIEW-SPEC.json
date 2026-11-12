@@ -1,0 +1,53 @@
+{
+  "schema": "kani3300-m2bs3-review-v1",
+  "candidate": "58497d98d085a5144a70c358205c0e46318feeb6",
+  "parent": "d2500db20b27ef30e131fd27c296357420777e54",
+  "tree": "56df2bc406106d3950f0543a4e53482e2d1ab2a4",
+  "reviewer": "/root/m2bs3_review",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "nested_delegation": false,
+  "disposition": "No established soundness/type/identity blocker for bounded candidate; cyclic clauses remain explicit termination/generalization gate.",
+  "files": [
+    {
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "bytes": 35399,
+      "sha256": "533ee2fcbb2b049944833ade3ea3dec9e5ca6c8086993956dd01fbc1f75fe4b4"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "bytes": 7661,
+      "sha256": "d116bef5bceb32cf65f344600ddeb71dca7c85eb1aaf7f0d29382b296f638ed2"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.expected",
+      "bytes": 252,
+      "sha256": "4bedbd7632f8f9775f5f07a39430cb5b2e26c623bc551896b6ce9e395a9e1467"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs",
+      "bytes": 810,
+      "sha256": "46544284daee4385c7d3a173d99ad5c2ce890584f3344fbe369bc78efd490be3"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.expected",
+      "bytes": 254,
+      "sha256": "e4c29764a41c9f1483b87dbeb5ad4268bc3b8ea952a5d6b9730326bf0c8d9b2a"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs",
+      "bytes": 812,
+      "sha256": "0ad0211f83a56cf6dc9f87a79b5010fc557f709c7a8388ba15883d62504267f7"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.expected",
+      "bytes": 137,
+      "sha256": "6fb62c8154c9248d51f319458e7caacfb13ded674d377a0e60d240f21ab31228"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs",
+      "bytes": 1270,
+      "sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4"
+    }
+  ]
+}

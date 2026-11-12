@@ -1,0 +1,300 @@
+{
+  "source": "/root/kani3300-m2bs-c03-trace/witness.txt",
+  "failure": {
+    "property": "<u8 as std::array::equality::SpecArrayEq<u8, 3>>::spec_eq.safety_check.1",
+    "failed_check": "first/LEFT CheckAs _4 at SpecArrayEq bb2, in contract Assert body copy; right _11 at bb5 is a separate operand check",
+    "witness_state": 9092,
+    "body": "m2a::write_initialized::{closure#3}::{closure#0}"
+  },
+  "selected_shadow": {
+    "global": "kani::mem_init::MEM_INIT_STATE",
+    "tracked_object_id": 50,
+    "tracked_offset": 2,
+    "selection_states": [
+      {
+        "state": 830,
+        "field": "tracked_object_id",
+        "value": 50,
+        "function": "initialize_memory_initialization_state",
+        "line": 242
+      },
+      {
+        "state": 929,
+        "field": "tracked_offset",
+        "value": 2,
+        "function": "initialize_memory_initialization_state",
+        "line": 243
+      }
+    ],
+    "conclusion": "selected global byte is object 50 offset 2; no later tracked_object_id/tracked_offset assignment occurs in this witness",
+    "selected_byte_value": false,
+    "final_selected_byte_value_assignment": {
+      "state": 1009,
+      "function": "initialize_memory_initialization_state",
+      "line": 244,
+      "value": false,
+      "witness_txt_line": 3017
+    },
+    "assignment_audit": "Text-visible assignments: once per tracked field after reset. JSON additionally includes hidden static initialization; reset is the final value assignment. No later matching selected-byte value update."
+  },
+  "chronology": [
+    {
+      "index": 0,
+      "witness_state": 830,
+      "event": "initialize/reset selected target object",
+      "field": "MEM_INIT_STATE.tracked_object_id",
+      "value": 50,
+      "source_line": 242,
+      "witness_txt_line": 2723,
+      "source_excerpt": [
+        "State 830 file library/kani_core/src/mem_init.rs function kani::mem_init::initialize_memory_initialization_state line 242 thread 0",
+        "----------------------------------------------------",
+        "  _RNvNtCs86zjduzGLhS_4kani8mem_init14MEM_INIT_STATE.tracked_object_id=50 (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00110010)"
+      ]
+    },
+    {
+      "index": 1,
+      "witness_state": 929,
+      "event": "initialize/reset selected target offset",
+      "field": "MEM_INIT_STATE.tracked_offset",
+      "value": 2,
+      "source_line": 243,
+      "witness_txt_line": 2883,
+      "source_excerpt": [
+        "State 929 file library/kani_core/src/mem_init.rs function kani::mem_init::initialize_memory_initialization_state line 243 thread 0",
+        "----------------------------------------------------",
+        "  _RNvNtCs86zjduzGLhS_4kani8mem_init14MEM_INIT_STATE.tracked_offset=2 (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000010)"
+      ]
+    },
+    {
+      "index": 2,
+      "witness_state": 1009,
+      "event": "initialize/reset selected target shadow value; final and only assignment",
+      "field": "MEM_INIT_STATE.value",
+      "value": false,
+      "source_line": 244,
+      "witness_txt_line": 3015,
+      "source_excerpt": [
+        "State 1009 file library/kani_core/src/mem_init.rs function kani::mem_init::initialize_memory_initialization_state line 244 thread 0",
+        "----------------------------------------------------",
+        "  _RNvNtCs86zjduzGLhS_4kani8mem_init14MEM_INIT_STATE.value=FALSE (00000000)"
+      ]
+    },
+    {
+      "index": 3,
+      "witness_state": 8552,
+      "event": "argument store exposes selected relative byte as uninitialized",
+      "field": "MEM_INIT_STATE.argument_buffer_value",
+      "value": false,
+      "function": "store_argument::<3, MaybeUninit<[u8;3]>>",
+      "source_line": 491,
+      "witness_txt_line": 15255,
+      "source_excerpt": [
+        "State 8552 file library/kani_core/src/mem_init.rs function kani::mem_init::store_argument::<3, std::mem::MaybeUninit<[u8; 3]>> line 491 thread 0",
+        "----------------------------------------------------",
+        "  _RNvNtCs86zjduzGLhS_4kani8mem_init14MEM_INIT_STATE.argument_buffer_value=FALSE (00000000)"
+      ]
+    },
+    {
+      "index": 4,
+      "witness_state": 8775,
+      "event": "set receives nonmatching src object",
+      "obj": 49,
+      "offset": 0,
+      "function": "MemoryInitializationState::set::<3>",
+      "source_line": 63,
+      "witness_txt_line": 15579,
+      "source_excerpt": [
+        "State 8775 file library/kani/src/lib.rs function kani::mem_init::MemoryInitializationState::set::<3> line 63 thread 0",
+        "----------------------------------------------------",
+        "  obj=49 (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00110001)"
+      ]
+    },
+    {
+      "index": 5,
+      "witness_state": 8778,
+      "event": "set input value",
+      "value": false,
+      "function": "MemoryInitializationState::set::<3>",
+      "source_line": 116,
+      "witness_txt_line": 15591,
+      "source_excerpt": [
+        "State 8778 file library/kani_core/src/mem_init.rs function kani::mem_init::MemoryInitializationState::set::<3> line 116 thread 0",
+        "----------------------------------------------------",
+        "  var_7=FALSE (00000000)"
+      ]
+    },
+    {
+      "index": 6,
+      "witness_state": 8926,
+      "event": "contract closure loaded value [1,2,3]",
+      "function": "write_initialized::{closure#3}::{closure#0}",
+      "source_line": 28,
+      "witness_txt_line": 15923,
+      "source_excerpt": [
+        "State 8926 file ordinary-singleton.rs function write_initialized::{closure#3}::{closure#0} line 28 thread 0",
+        "----------------------------------------------------",
+        "  value={ 1, 2, 3 } ({ 00000001, 00000010, 00000011 })"
+      ]
+    },
+    {
+      "index": 7,
+      "witness_state": 8931,
+      "event": "closure destination address",
+      "value": "&value!0@1 (CBMC object 50)",
+      "function": "write_initialized::{closure#3}::{closure#0}",
+      "source_line": 30,
+      "witness_txt_line": 15943,
+      "source_excerpt": [
+        "State 8931 file ordinary-singleton.rs function write_initialized::{closure#3}::{closure#0} line 30 thread 0",
+        "----------------------------------------------------",
+        "  var_20=&value!0@1 (00000000 00110010 00000000 00000000 00000000 00000000 00000000 00000000)"
+      ]
+    },
+    {
+      "index": 8,
+      "witness_state": 8935,
+      "event": "closure equality invocation frame",
+      "function": "write_initialized::{closure#3}::{closure#0}",
+      "source_line": 149,
+      "witness_txt_line": 15951,
+      "source_excerpt": [
+        "State 8935 file library/std/src/lib.rs function write_initialized::{closure#3}::{closure#0} line 149 thread 0",
+        "----------------------------------------------------",
+        "  self=&value!0@1 (00000000 00110010 00000000 00000000 00000000 00000000 00000000 00000000)"
+      ]
+    },
+    {
+      "index": 9,
+      "witness_state": 9037,
+      "event": "get query object",
+      "value": 50,
+      "witness_txt_line": 16115,
+      "source_excerpt": [
+        "State 9037 file library/kani/src/lib.rs function kani::mem_init::MemoryInitializationState::get::<3> line 63 thread 0",
+        "----------------------------------------------------",
+        "  obj=50 (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00110010)"
+      ]
+    },
+    {
+      "index": 10,
+      "witness_state": 9038,
+      "event": "get query starting offset",
+      "value": 0,
+      "witness_txt_line": 16119,
+      "source_excerpt": [
+        "State 9038 file library/kani/src/lib.rs function kani::mem_init::MemoryInitializationState::get::<3> line 63 thread 0",
+        "----------------------------------------------------",
+        "  offset=0 (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000)"
+      ]
+    },
+    {
+      "index": 11,
+      "witness_state": 9039,
+      "event": "get target object comparison input",
+      "value": 50,
+      "witness_txt_line": 16123,
+      "source_excerpt": [
+        "State 9039 file library/kani_core/src/mem_init.rs function kani::mem_init::MemoryInitializationState::get::<3> line 91 thread 0",
+        "----------------------------------------------------",
+        "  var_7=50 (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00110010)"
+      ]
+    },
+    {
+      "index": 12,
+      "witness_state": 9040,
+      "event": "object ids match",
+      "value": true,
+      "witness_txt_line": 16127,
+      "source_excerpt": [
+        "State 9040 file library/kani_core/src/mem_init.rs function kani::mem_init::MemoryInitializationState::get::<3> line 91 thread 0",
+        "----------------------------------------------------",
+        "  var_6=TRUE (00000001)"
+      ]
+    },
+    {
+      "index": 13,
+      "witness_state": 9042,
+      "event": "tracked offset for in-range check",
+      "value": 2,
+      "witness_txt_line": 16131,
+      "source_excerpt": [
+        "State 9042 file library/kani_core/src/mem_init.rs function kani::mem_init::MemoryInitializationState::get::<3> line 92 thread 0",
+        "----------------------------------------------------",
+        "  var_9=2 (00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000010)"
+      ]
+    },
+    {
+      "index": 14,
+      "witness_state": 9043,
+      "event": "tracked offset lies in queried three-byte range",
+      "value": true,
+      "witness_txt_line": 16135,
+      "source_excerpt": [
+        "State 9043 file library/kani_core/src/mem_init.rs function kani::mem_init::MemoryInitializationState::get::<3> line 92 thread 0",
+        "----------------------------------------------------",
+        "  var_8=TRUE (00000001)"
+      ]
+    },
+    {
+      "index": 15,
+      "witness_state": 9077,
+      "event": "upper-bound/range check",
+      "value": true,
+      "witness_txt_line": 16231,
+      "source_excerpt": [
+        "State 9077 file library/kani_core/src/mem_init.rs function kani::mem_init::MemoryInitializationState::get::<3> line 95 thread 0",
+        "----------------------------------------------------",
+        "  var_18=TRUE (00000001)"
+      ]
+    },
+    {
+      "index": 16,
+      "witness_state": 9084,
+      "event": "get returns selected shadow value",
+      "value": false,
+      "witness_txt_line": 16243,
+      "source_excerpt": [
+        "State 9084 file library/kani_core/src/mem_init.rs function kani::mem_init::MemoryInitializationState::get::<3> line 95 thread 0",
+        "----------------------------------------------------",
+        "  var_0=FALSE (00000000)"
+      ]
+    },
+    {
+      "index": 17,
+      "witness_state": 9092,
+      "event": "inner Assert condition",
+      "value": false,
+      "witness_txt_line": 16259,
+      "source_excerpt": [
+        "State 9092 file /home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/array/equality.rs function <u8 as std::array::equality::SpecArrayEq<u8, 3>>::spec_eq line 157 thread 0",
+        "----------------------------------------------------",
+        "  var_4=FALSE (00000000)"
+      ]
+    }
+  ],
+  "interpretation": "MEM_INIT_STATE selects byte (object 50, offset 2), whose value is initialized/reset to false at State 1009 and never rewritten. `get` for object 50 starting at offset 0 checks that target against the 3-byte query range: object match at States 9039\u201340 and in-range checks at 9042\u201343 / 9076\u201377 are true, then returns the selected false value at 9084. The later set at 8775\u201378 targets object49 offset0, so it is nonmatching and does not alter/retarget selected byte. Closure invocation evidence: States 8926, 8931, 8935, then PartialEq::eq States 8940\u201341 and spec_eq States 8958\u201359.",
+  "source_sha256": "241224d09dee34430a405d7f57bdb45b187a83e14b0968b4a37c7f918d19a0ac",
+  "json_crosscheck": {
+    "source": {
+      "path": "/root/kani3300-m2bs-c03-trace/witness.json",
+      "bytes": 8793202,
+      "sha256": "61297527f0734e7c1be78569d2db00dfd5875d3863a6038879a428a7d644c8b3"
+    },
+    "result_pointer": "/40/result/0",
+    "status": "FAILURE",
+    "trace_steps": 8615,
+    "selected_global_assignment_pointers": {
+      "tracked_object_id": "/40/result/0/trace/826",
+      "tracked_offset": "/40/result/0/trace/922",
+      "value": "/40/result/0/trace/999"
+    },
+    "hidden_static_initialization_indices": [
+      8,
+      9,
+      19
+    ],
+    "failure_pointer": "/40/result/0/trace/8614",
+    "scope": "Separate CBMC invocation, same selected (50,2); coordinates are zero-based JSON array indices, NOT textual State numbers."
+  }
+}

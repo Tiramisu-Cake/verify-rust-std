@@ -1,0 +1,120 @@
+{
+  "schema": "kani3300-m2bs3-tests-v1",
+  "candidate": "58497d98d085a5144a70c358205c0e46318feeb6",
+  "new_selectors": [
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.expected",
+      "bytes": 252,
+      "sha256": "4bedbd7632f8f9775f5f07a39430cb5b2e26c623bc551896b6ce9e395a9e1467"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs",
+      "bytes": 810,
+      "sha256": "46544284daee4385c7d3a173d99ad5c2ce890584f3344fbe369bc78efd490be3"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.expected",
+      "bytes": 254,
+      "sha256": "e4c29764a41c9f1483b87dbeb5ad4268bc3b8ea952a5d6b9730326bf0c8d9b2a"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs",
+      "bytes": 812,
+      "sha256": "0ad0211f83a56cf6dc9f87a79b5010fc557f709c7a8388ba15883d62504267f7"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.expected",
+      "bytes": 137,
+      "sha256": "6fb62c8154c9248d51f319458e7caacfb13ded674d377a0e60d240f21ab31228"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs",
+      "bytes": 1270,
+      "sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4"
+    }
+  ],
+  "reason": "Trace binds uninitialized shadow of typed normal-return local in Assert body; test keeps exact C03 and adds both lawful ensures hole directions.",
+  "original_M2_inputs_goldens_verified_unchanged": [
+    {
+      "path": "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+      "sha256": "3385d702baa91965af565878f1f1d8e27a1de37a0ea52da3595cb5e609d8e363",
+      "bytes": 1452
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/legal-pair.expected",
+      "sha256": "d9efa4dfaf33963a0c5c668577ccd2e76d1e212d58d1af7767f98540ac9a8558",
+      "bytes": 202
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759",
+      "bytes": 782
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+      "sha256": "4d4ff2b6fca8cc5bc556fe159c3d9a03dfc5defd93c9cad7d8d8554c12568031",
+      "bytes": 229
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+      "sha256": "7610c67c89302bbcdd541ebaa8d70651c5a3231a0909b28126452b233a79d280",
+      "bytes": 1131
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/out-pointer.expected",
+      "sha256": "625af5ac4e60045acd47aadd15e00b8fc4db524ebd1dd911b50761dd042f20f0",
+      "bytes": 301
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/normal-abort.rs",
+      "sha256": "45021f2a9ed44e1162b21a0c758decc7b879eb9c50e91dfba57f9c0736b43471",
+      "bytes": 679
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/normal-abort.expected",
+      "sha256": "c36dbee1067f87faf285206a72733ff0f13b3f434ee28d3f679083fe5f031ef8",
+      "bytes": 176
+    }
+  ],
+  "M2A_cases_verified_unchanged": [
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2a/cases/ordinary-singleton.rs",
+      "bytes": 1270,
+      "sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2a/cases/scalar-pfc-hole.rs",
+      "bytes": 782,
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2a/cases/scalar-pfc-legal.rs",
+      "bytes": 774,
+      "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2a/cases/undecorated-singleton.rs",
+      "bytes": 1159,
+      "sha256": "f40a3bac0cb2847bd7e17b3cb747210efe0b437b7e3bcf8977e8e39721e9a715"
+    }
+  ],
+  "acceptance": "Coordinator-only reviewed candidate request; gates remain OPEN until CI. Reuse unchanged m2bs/CI-REQUEST section B D0/promoted/immutable/mixed/unit5 controls; original PFC/resource/full Quick remain deferred.",
+  "new_roots": [
+    {
+      "file": "ordinary-singleton.rs",
+      "root": "legal_ordinary_transfer",
+      "oracle": "SUCCESS",
+      "source_byte_identical_to_M2A_C03": true
+    },
+    {
+      "file": "ensures-left-hole.rs",
+      "root": "ensures_left_hole",
+      "oracle": "left raw_eq initialization check FAILURE; lawful right companion SUCCESS; no extra failure"
+    },
+    {
+      "file": "ensures-right-hole.rs",
+      "root": "ensures_right_hole",
+      "oracle": "right raw_eq initialization check FAILURE; lawful left companion SUCCESS; no extra failure"
+    }
+  ]
+}
