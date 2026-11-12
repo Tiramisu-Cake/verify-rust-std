@@ -1,0 +1,246 @@
+{
+  "schema": "kani3300-c1t-draft-port-map/v1",
+  "base_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+  "base_tree": "8ac9dcc3f692ef740e82fff6de8e2a44a667d969",
+  "test_commit": "28e684cbae348130d559b87e030536d8f8a3c1ff",
+  "test_tree": "9e6645a470702d774ccf874074cbac325fa46371",
+  "clone": "/root/kani-fix-3300-c1t",
+  "branch": "tests/kani-3300-promoted-controls",
+  "kani_push": "NOT_PERFORMED",
+  "ports": [
+    {
+      "draft_commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+      "draft_path": "research/challenge-8/kani-k1/kani3300/c1p/fixtures/promoted_direct_legal.rs",
+      "draft_sha256": "932f47ff68eab1f2d4f0c0f61410e23058d962fbc1fc46ccac46a5875e508e6f",
+      "selector": "tests/expected/uninit/promoted-allocations/direct-legal.rs",
+      "harness": "promoted_direct_legal",
+      "source_sha256": "391ead9f771980d47e2534b9a109dd24373bffc46e3c1211e0cd59c6a48cefa3",
+      "golden": "tests/expected/uninit/promoted-allocations/direct-legal.expected",
+      "golden_sha256": "a536c9302c2c380c013d5d3160e4fd91e2573895fe0765edec3bcea942ccb926",
+      "changes": [
+        {
+          "change": "Per-selector destination/name and .expected peer",
+          "reason": "Activate one harness per expected input; preserve harness name."
+        },
+        {
+          "change": "Replace Proposed flags with compile-flags --edition 2021 -D warnings and kani-flags -Z uninit-checks --output-format=regular",
+          "reason": "Existing raw-eq-uninit invocation convention plus required warning gate."
+        },
+        {
+          "change": "Replace research-draft/lowering-hypothesis commentary with neutral required binding comments",
+          "reason": "Activation must not assert unobserved promotion/check success."
+        },
+        {
+          "change": "rustfmt with authorized wrapper and repository rustfmt.toml",
+          "reason": "Whitespace and optional trailing commas only; executable behavior unchanged."
+        },
+        {
+          "change": "Add corrected-model semantic golden; negative uses existing diagnostic prefix without inferred type/property ID",
+          "reason": "No observed type spelling/IDs; golden substring alone cannot establish operand binding."
+        }
+      ],
+      "executable_token_sequence": "IDENTICAL_EXCEPT_OPTIONAL_TRAILING_COMMAS",
+      "promotion_or_retained_read_mismatch": {
+        "status": "NOT_RUN",
+        "observed_mismatch": null,
+        "proposed_repair": null,
+        "on_future_mismatch": "Record exact mismatch and proposed repair separately; return fixture changes to C1-T owner through coordinator; do not claim this source bound."
+      }
+    },
+    {
+      "draft_commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+      "draft_path": "research/challenge-8/kani-k1/kani3300/c1p/fixtures/promoted_direct_left_hole.rs",
+      "draft_sha256": "df26990752db809ad6f91fc57c7b102ca190651d0c00b6143dec7b8d9bc5ce09",
+      "selector": "tests/expected/uninit/promoted-allocations/direct-left-hole.rs",
+      "harness": "promoted_direct_left_hole",
+      "source_sha256": "5726e676c370a02a49f8938250dd7ac1ba98f3bed68f150d515b040291701e7a",
+      "golden": "tests/expected/uninit/promoted-allocations/direct-left-hole.expected",
+      "golden_sha256": "6c395d5ffeb21764bf0fea7ca059aa9e6f2712e38cd4b7657de39b794a1ab77b",
+      "changes": [
+        {
+          "change": "Per-selector destination/name and .expected peer",
+          "reason": "Activate one harness per expected input; preserve harness name."
+        },
+        {
+          "change": "Replace Proposed flags with compile-flags --edition 2021 -D warnings and kani-flags -Z uninit-checks --output-format=regular",
+          "reason": "Existing raw-eq-uninit invocation convention plus required warning gate."
+        },
+        {
+          "change": "Replace research-draft/lowering-hypothesis commentary with neutral required binding comments",
+          "reason": "Activation must not assert unobserved promotion/check success."
+        },
+        {
+          "change": "rustfmt with authorized wrapper and repository rustfmt.toml",
+          "reason": "Whitespace and optional trailing commas only; executable behavior unchanged."
+        },
+        {
+          "change": "Add corrected-model semantic golden; negative uses existing diagnostic prefix without inferred type/property ID",
+          "reason": "No observed type spelling/IDs; golden substring alone cannot establish operand binding."
+        }
+      ],
+      "executable_token_sequence": "IDENTICAL_EXCEPT_OPTIONAL_TRAILING_COMMAS",
+      "promotion_or_retained_read_mismatch": {
+        "status": "NOT_RUN",
+        "observed_mismatch": null,
+        "proposed_repair": null,
+        "on_future_mismatch": "Record exact mismatch and proposed repair separately; return fixture changes to C1-T owner through coordinator; do not claim this source bound."
+      }
+    },
+    {
+      "draft_commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+      "draft_path": "research/challenge-8/kani-k1/kani3300/c1p/fixtures/promoted_direct_right_hole.rs",
+      "draft_sha256": "68594a224811905181898c542726affce859ed83006582cb070b76da90718fdb",
+      "selector": "tests/expected/uninit/promoted-allocations/direct-right-hole.rs",
+      "harness": "promoted_direct_right_hole",
+      "source_sha256": "9624498706d5339c68cf320eb451d17806e6b441c352bcd5b454dde038abdbf9",
+      "golden": "tests/expected/uninit/promoted-allocations/direct-right-hole.expected",
+      "golden_sha256": "55e4530c1c249ebc9317228c0406b25d8003864d9d49b4bf9e26bbc5698fa045",
+      "changes": [
+        {
+          "change": "Per-selector destination/name and .expected peer",
+          "reason": "Activate one harness per expected input; preserve harness name."
+        },
+        {
+          "change": "Replace Proposed flags with compile-flags --edition 2021 -D warnings and kani-flags -Z uninit-checks --output-format=regular",
+          "reason": "Existing raw-eq-uninit invocation convention plus required warning gate."
+        },
+        {
+          "change": "Replace research-draft/lowering-hypothesis commentary with neutral required binding comments",
+          "reason": "Activation must not assert unobserved promotion/check success."
+        },
+        {
+          "change": "rustfmt with authorized wrapper and repository rustfmt.toml",
+          "reason": "Whitespace and optional trailing commas only; executable behavior unchanged."
+        },
+        {
+          "change": "Add corrected-model semantic golden; negative uses existing diagnostic prefix without inferred type/property ID",
+          "reason": "No observed type spelling/IDs; golden substring alone cannot establish operand binding."
+        }
+      ],
+      "executable_token_sequence": "IDENTICAL_EXCEPT_OPTIONAL_TRAILING_COMMAS",
+      "promotion_or_retained_read_mismatch": {
+        "status": "NOT_RUN",
+        "observed_mismatch": null,
+        "proposed_repair": null,
+        "on_future_mismatch": "Record exact mismatch and proposed repair separately; return fixture changes to C1-T owner through coordinator; do not claim this source bound."
+      }
+    },
+    {
+      "draft_commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+      "draft_path": "research/challenge-8/kani-k1/kani3300/c1p/fixtures/promoted_helper_legal.rs",
+      "draft_sha256": "ee499590033417ab97eb43e3c57d57f205dac2148b92051fd2d1f90b4c7279f6",
+      "selector": "tests/expected/uninit/promoted-allocations/helper-legal.rs",
+      "harness": "promoted_helper_legal",
+      "source_sha256": "2fcffcc8d0d8eca19fb699fd4e8e3696e0f297f34842f186fc9901a5fbc54e93",
+      "golden": "tests/expected/uninit/promoted-allocations/helper-legal.expected",
+      "golden_sha256": "d3f9838927c4bf0dce1d403cbee5f9575309115b2ee59ddb9b2e7d93c345d35b",
+      "changes": [
+        {
+          "change": "Per-selector destination/name and .expected peer",
+          "reason": "Activate one harness per expected input; preserve harness name."
+        },
+        {
+          "change": "Replace Proposed flags with compile-flags --edition 2021 -D warnings and kani-flags -Z uninit-checks --output-format=regular",
+          "reason": "Existing raw-eq-uninit invocation convention plus required warning gate."
+        },
+        {
+          "change": "Replace research-draft/lowering-hypothesis commentary with neutral required binding comments",
+          "reason": "Activation must not assert unobserved promotion/check success."
+        },
+        {
+          "change": "rustfmt with authorized wrapper and repository rustfmt.toml",
+          "reason": "Whitespace and optional trailing commas only; executable behavior unchanged."
+        },
+        {
+          "change": "Add corrected-model semantic golden; negative uses existing diagnostic prefix without inferred type/property ID",
+          "reason": "No observed type spelling/IDs; golden substring alone cannot establish operand binding."
+        }
+      ],
+      "executable_token_sequence": "IDENTICAL_EXCEPT_OPTIONAL_TRAILING_COMMAS",
+      "promotion_or_retained_read_mismatch": {
+        "status": "NOT_RUN",
+        "observed_mismatch": null,
+        "proposed_repair": null,
+        "on_future_mismatch": "Record exact mismatch and proposed repair separately; return fixture changes to C1-T owner through coordinator; do not claim this source bound."
+      }
+    },
+    {
+      "draft_commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+      "draft_path": "research/challenge-8/kani-k1/kani3300/c1p/fixtures/promoted_helper_left_hole.rs",
+      "draft_sha256": "98f85b4aa74910cf0e1d82dd180c54b5258702d3c8c5b96061df8795c02f8882",
+      "selector": "tests/expected/uninit/promoted-allocations/helper-left-hole.rs",
+      "harness": "promoted_helper_left_hole",
+      "source_sha256": "71d3218e87ec001df69e60ca0d517e9e0faec3d3d777656b0b2fda0b404f3eb5",
+      "golden": "tests/expected/uninit/promoted-allocations/helper-left-hole.expected",
+      "golden_sha256": "d7f4ab714af0e4c392bfa7f4ab58e366140a36968f56fd1ccc0a314375e21017",
+      "changes": [
+        {
+          "change": "Per-selector destination/name and .expected peer",
+          "reason": "Activate one harness per expected input; preserve harness name."
+        },
+        {
+          "change": "Replace Proposed flags with compile-flags --edition 2021 -D warnings and kani-flags -Z uninit-checks --output-format=regular",
+          "reason": "Existing raw-eq-uninit invocation convention plus required warning gate."
+        },
+        {
+          "change": "Replace research-draft/lowering-hypothesis commentary with neutral required binding comments",
+          "reason": "Activation must not assert unobserved promotion/check success."
+        },
+        {
+          "change": "rustfmt with authorized wrapper and repository rustfmt.toml",
+          "reason": "Whitespace and optional trailing commas only; executable behavior unchanged."
+        },
+        {
+          "change": "Add corrected-model semantic golden; negative uses existing diagnostic prefix without inferred type/property ID",
+          "reason": "No observed type spelling/IDs; golden substring alone cannot establish operand binding."
+        }
+      ],
+      "executable_token_sequence": "IDENTICAL_EXCEPT_OPTIONAL_TRAILING_COMMAS",
+      "promotion_or_retained_read_mismatch": {
+        "status": "NOT_RUN",
+        "observed_mismatch": null,
+        "proposed_repair": null,
+        "on_future_mismatch": "Record exact mismatch and proposed repair separately; return fixture changes to C1-T owner through coordinator; do not claim this source bound."
+      }
+    },
+    {
+      "draft_commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+      "draft_path": "research/challenge-8/kani-k1/kani3300/c1p/fixtures/promoted_helper_right_hole.rs",
+      "draft_sha256": "df1ec216706fa18684797aac6d7adedc3ba72a49fa8ab3e9c02835a124633233",
+      "selector": "tests/expected/uninit/promoted-allocations/helper-right-hole.rs",
+      "harness": "promoted_helper_right_hole",
+      "source_sha256": "ceb13861d49dc17c57dc8781d61ae718e820d69ca12932da8a26f62a267e9d7b",
+      "golden": "tests/expected/uninit/promoted-allocations/helper-right-hole.expected",
+      "golden_sha256": "108b5b5a877aeacc3f83fcfdc647943f00dce943f8487e5a5bfb6947f6ec63b6",
+      "changes": [
+        {
+          "change": "Per-selector destination/name and .expected peer",
+          "reason": "Activate one harness per expected input; preserve harness name."
+        },
+        {
+          "change": "Replace Proposed flags with compile-flags --edition 2021 -D warnings and kani-flags -Z uninit-checks --output-format=regular",
+          "reason": "Existing raw-eq-uninit invocation convention plus required warning gate."
+        },
+        {
+          "change": "Replace research-draft/lowering-hypothesis commentary with neutral required binding comments",
+          "reason": "Activation must not assert unobserved promotion/check success."
+        },
+        {
+          "change": "rustfmt with authorized wrapper and repository rustfmt.toml",
+          "reason": "Whitespace and optional trailing commas only; executable behavior unchanged."
+        },
+        {
+          "change": "Add corrected-model semantic golden; negative uses existing diagnostic prefix without inferred type/property ID",
+          "reason": "No observed type spelling/IDs; golden substring alone cannot establish operand binding."
+        }
+      ],
+      "executable_token_sequence": "IDENTICAL_EXCEPT_OPTIONAL_TRAILING_COMMAS",
+      "promotion_or_retained_read_mismatch": {
+        "status": "NOT_RUN",
+        "observed_mismatch": null,
+        "proposed_repair": null,
+        "on_future_mismatch": "Record exact mismatch and proposed repair separately; return fixture changes to C1-T owner through coordinator; do not claim this source bound."
+      }
+    }
+  ]
+}

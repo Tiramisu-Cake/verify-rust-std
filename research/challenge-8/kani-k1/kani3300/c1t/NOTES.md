@@ -1,0 +1,20 @@
+# KANI3300 C1-T
+- Scope: six promoted expected inputs only; baseline/M1 share identical corrected-model goldens.
+- g0 start: 5214379fca90b2dfc58ab4750b8d2e4845ba5278, fetch + ff-only completed cleanly.
+- Read-only source/base: 6134e42dd1c65dc980336e7d9455aba02d423edf; separate clone /root/kani-fix-3300-c1t.
+- Base tree: 8ac9dcc3f692ef740e82fff6de8e2a44a667d969.
+- Test branch: tests/kani-3300-promoted-controls; test commit: 28e684cbae348130d559b87e030536d8f8a3c1ff.
+- Test tree: 9e6645a470702d774ccf874074cbac325fa46371; exactly 6 .rs + 6 .expected, no production/pins/existing controls changed.
+- Draft source: d8d3e6d4ca675c9734d6ce140890bc478daf0b43; M0 contract: 742c77fa03949f0839cca333f7c174904154f429.
+- Imports/unused/-D warnings source audit: no unused import/helper; _equal is intentional; internal_features allowance matches existing control.
+- Source executable tokens match each draft except optional trailing commas; references are valid MaybeUninit borrows, holes are actual uninitialized byte storage.
+- Authorized rustfmt wrapper and --check, git diff --check, static inventory/hash/parent/tree/flags audit passed.
+- Goldens use existing raw-eq-uninit verdict/diagnostic conventions without invented type suffix or property IDs.
+- Substring/overall FAIL cannot distinguish wrong operand or extra failures; CI-REQUEST requires both checks and all extras.
+- Promotion, retained raw_eq, actual Some/None/symbol/helper binding: NOT_RUN. No observed mismatch or repair yet.
+- Setup/compiler/solver/harness/golden checks: NOT_RUN; no verification/proof credit.
+- C1-L cancelled, a8f6b7196a historical; no adapter/runner implementation.
+- Cloud $0; no local compiler/verifier/build/CI dispatch or wait.
+- Worker 14 handoff: import exact local test commit unchanged; hashes/inventory in TEST-MANIFEST.json.
+- Kani commit remains local, no push; only g0 c1t research package is published.
+- STOP after C1-T package; later baseline/M1 CI belongs to coordinator.

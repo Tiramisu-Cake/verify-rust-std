@@ -1,0 +1,286 @@
+{
+  "schema": "kani3300-c1t-test-manifest/v1",
+  "base_commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+  "base_tree": "8ac9dcc3f692ef740e82fff6de8e2a44a667d969",
+  "test_commit": "28e684cbae348130d559b87e030536d8f8a3c1ff",
+  "test_tree": "9e6645a470702d774ccf874074cbac325fa46371",
+  "clone": "/root/kani-fix-3300-c1t",
+  "branch": "tests/kani-3300-promoted-controls",
+  "kani_push": "NOT_PERFORMED",
+  "contract_commit": "742c77fa03949f0839cca333f7c174904154f429",
+  "same_files_and_goldens_for_baseline_and_M1": true,
+  "proof_credit": "NONE",
+  "cloud_cost_usd": 0,
+  "tests": [
+    {
+      "selector": "tests/expected/uninit/promoted-allocations/direct-legal.rs",
+      "harness": "promoted_direct_legal",
+      "source_sha256": "391ead9f771980d47e2534b9a109dd24373bffc46e3c1211e0cd59c6a48cefa3",
+      "golden": "tests/expected/uninit/promoted-allocations/direct-legal.expected",
+      "golden_sha256": "a536c9302c2c380c013d5d3160e4fd91e2573895fe0765edec3bcea942ccb926",
+      "route": "direct",
+      "case": "legal",
+      "semantic_expected": {
+        "verdict": "SUCCESSFUL",
+        "equality": true,
+        "left_byte_check": "reached SUCCESS",
+        "right_byte_check": "reached SUCCESS",
+        "other_failures_allowed": false
+      },
+      "required_binding": {
+        "status": "NOT_RUN",
+        "retained_operation": "raw_eq over [MaybeUninit<u8>; 3], both operands, full byte extent 3",
+        "left_required_mask": [
+          true,
+          true,
+          true
+        ],
+        "right_required_mask": [
+          true,
+          true,
+          true
+        ],
+        "mask_evidence_required": "Actual referent GlobalAlloc Some/None before zero fill; carrier provenance/addend, immutable referent identity, offset/extent, canonical emitted symbol and coalescing/alias mapping for BOTH operands. Some(0)/None/coalescing cannot be inferred from GOTO zero initializer.",
+        "helper_boundary": "No helper in source; actual lowering NOT_RUN",
+        "property_ids": null,
+        "extra_failures": "Must enumerate all safety/Unsupported failures; fully initialized operand must have reached successful byte check; do not infer side from overall FAILURE."
+      },
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "solver": "NOT_RUN",
+        "harness": "NOT_RUN",
+        "golden": "NOT_RUN",
+        "MIR": "NOT_RUN",
+        "runtime_binding": "NOT_RUN"
+      },
+      "golden_scope": "Ordered output substrings using raw-eq-uninit conventions. Negative diagnostic type suffix omitted until observed. Does not exclude extra failures or identify operand; external targeted property inspection required."
+    },
+    {
+      "selector": "tests/expected/uninit/promoted-allocations/direct-left-hole.rs",
+      "harness": "promoted_direct_left_hole",
+      "source_sha256": "5726e676c370a02a49f8938250dd7ac1ba98f3bed68f150d515b040291701e7a",
+      "golden": "tests/expected/uninit/promoted-allocations/direct-left-hole.expected",
+      "golden_sha256": "6c395d5ffeb21764bf0fea7ca059aa9e6f2712e38cd4b7657de39b794a1ab77b",
+      "route": "direct",
+      "case": "left_hole",
+      "semantic_expected": {
+        "verdict": "FAILED",
+        "equality": "No claim after invalid read",
+        "left_byte_check": "FAILURE uninitialized byte at offset 0",
+        "right_byte_check": "reached SUCCESS",
+        "other_failures_allowed": false
+      },
+      "required_binding": {
+        "status": "NOT_RUN",
+        "retained_operation": "raw_eq over [MaybeUninit<u8>; 3], both operands, full byte extent 3",
+        "left_required_mask": [
+          false,
+          true,
+          true
+        ],
+        "right_required_mask": [
+          true,
+          true,
+          true
+        ],
+        "mask_evidence_required": "Actual referent GlobalAlloc Some/None before zero fill; carrier provenance/addend, immutable referent identity, offset/extent, canonical emitted symbol and coalescing/alias mapping for BOTH operands. Some(0)/None/coalescing cannot be inferred from GOTO zero initializer.",
+        "helper_boundary": "No helper in source; actual lowering NOT_RUN",
+        "property_ids": null,
+        "extra_failures": "Must enumerate all safety/Unsupported failures; fully initialized operand must have reached successful byte check; do not infer side from overall FAILURE."
+      },
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "solver": "NOT_RUN",
+        "harness": "NOT_RUN",
+        "golden": "NOT_RUN",
+        "MIR": "NOT_RUN",
+        "runtime_binding": "NOT_RUN"
+      },
+      "golden_scope": "Ordered output substrings using raw-eq-uninit conventions. Negative diagnostic type suffix omitted until observed. Does not exclude extra failures or identify operand; external targeted property inspection required."
+    },
+    {
+      "selector": "tests/expected/uninit/promoted-allocations/direct-right-hole.rs",
+      "harness": "promoted_direct_right_hole",
+      "source_sha256": "9624498706d5339c68cf320eb451d17806e6b441c352bcd5b454dde038abdbf9",
+      "golden": "tests/expected/uninit/promoted-allocations/direct-right-hole.expected",
+      "golden_sha256": "55e4530c1c249ebc9317228c0406b25d8003864d9d49b4bf9e26bbc5698fa045",
+      "route": "direct",
+      "case": "right_hole",
+      "semantic_expected": {
+        "verdict": "FAILED",
+        "equality": "No claim after invalid read",
+        "left_byte_check": "reached SUCCESS",
+        "right_byte_check": "FAILURE uninitialized byte at offset 2",
+        "other_failures_allowed": false
+      },
+      "required_binding": {
+        "status": "NOT_RUN",
+        "retained_operation": "raw_eq over [MaybeUninit<u8>; 3], both operands, full byte extent 3",
+        "left_required_mask": [
+          true,
+          true,
+          true
+        ],
+        "right_required_mask": [
+          true,
+          true,
+          false
+        ],
+        "mask_evidence_required": "Actual referent GlobalAlloc Some/None before zero fill; carrier provenance/addend, immutable referent identity, offset/extent, canonical emitted symbol and coalescing/alias mapping for BOTH operands. Some(0)/None/coalescing cannot be inferred from GOTO zero initializer.",
+        "helper_boundary": "No helper in source; actual lowering NOT_RUN",
+        "property_ids": null,
+        "extra_failures": "Must enumerate all safety/Unsupported failures; fully initialized operand must have reached successful byte check; do not infer side from overall FAILURE."
+      },
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "solver": "NOT_RUN",
+        "harness": "NOT_RUN",
+        "golden": "NOT_RUN",
+        "MIR": "NOT_RUN",
+        "runtime_binding": "NOT_RUN"
+      },
+      "golden_scope": "Ordered output substrings using raw-eq-uninit conventions. Negative diagnostic type suffix omitted until observed. Does not exclude extra failures or identify operand; external targeted property inspection required."
+    },
+    {
+      "selector": "tests/expected/uninit/promoted-allocations/helper-legal.rs",
+      "harness": "promoted_helper_legal",
+      "source_sha256": "2fcffcc8d0d8eca19fb699fd4e8e3696e0f297f34842f186fc9901a5fbc54e93",
+      "golden": "tests/expected/uninit/promoted-allocations/helper-legal.expected",
+      "golden_sha256": "d3f9838927c4bf0dce1d403cbee5f9575309115b2ee59ddb9b2e7d93c345d35b",
+      "route": "helper",
+      "case": "legal",
+      "semantic_expected": {
+        "verdict": "SUCCESSFUL",
+        "equality": true,
+        "left_byte_check": "reached SUCCESS",
+        "right_byte_check": "reached SUCCESS",
+        "other_failures_allowed": false
+      },
+      "required_binding": {
+        "status": "NOT_RUN",
+        "retained_operation": "raw_eq over [MaybeUninit<u8>; 3], both operands, full byte extent 3",
+        "left_required_mask": [
+          true,
+          true,
+          true
+        ],
+        "right_required_mask": [
+          true,
+          true,
+          true
+        ],
+        "mask_evidence_required": "Actual referent GlobalAlloc Some/None before zero fill; carrier provenance/addend, immutable referent identity, offset/extent, canonical emitted symbol and coalescing/alias mapping for BOTH operands. Some(0)/None/coalescing cannot be inferred from GOTO zero initializer.",
+        "helper_boundary": "Required caller arguments to compare and callee raw_eq operand mapping; actual lowering NOT_RUN",
+        "property_ids": null,
+        "extra_failures": "Must enumerate all safety/Unsupported failures; fully initialized operand must have reached successful byte check; do not infer side from overall FAILURE."
+      },
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "solver": "NOT_RUN",
+        "harness": "NOT_RUN",
+        "golden": "NOT_RUN",
+        "MIR": "NOT_RUN",
+        "runtime_binding": "NOT_RUN"
+      },
+      "golden_scope": "Ordered output substrings using raw-eq-uninit conventions. Negative diagnostic type suffix omitted until observed. Does not exclude extra failures or identify operand; external targeted property inspection required."
+    },
+    {
+      "selector": "tests/expected/uninit/promoted-allocations/helper-left-hole.rs",
+      "harness": "promoted_helper_left_hole",
+      "source_sha256": "71d3218e87ec001df69e60ca0d517e9e0faec3d3d777656b0b2fda0b404f3eb5",
+      "golden": "tests/expected/uninit/promoted-allocations/helper-left-hole.expected",
+      "golden_sha256": "d7f4ab714af0e4c392bfa7f4ab58e366140a36968f56fd1ccc0a314375e21017",
+      "route": "helper",
+      "case": "left_hole",
+      "semantic_expected": {
+        "verdict": "FAILED",
+        "equality": "No claim after invalid read",
+        "left_byte_check": "FAILURE uninitialized byte at offset 0",
+        "right_byte_check": "reached SUCCESS",
+        "other_failures_allowed": false
+      },
+      "required_binding": {
+        "status": "NOT_RUN",
+        "retained_operation": "raw_eq over [MaybeUninit<u8>; 3], both operands, full byte extent 3",
+        "left_required_mask": [
+          false,
+          true,
+          true
+        ],
+        "right_required_mask": [
+          true,
+          true,
+          true
+        ],
+        "mask_evidence_required": "Actual referent GlobalAlloc Some/None before zero fill; carrier provenance/addend, immutable referent identity, offset/extent, canonical emitted symbol and coalescing/alias mapping for BOTH operands. Some(0)/None/coalescing cannot be inferred from GOTO zero initializer.",
+        "helper_boundary": "Required caller arguments to compare and callee raw_eq operand mapping; actual lowering NOT_RUN",
+        "property_ids": null,
+        "extra_failures": "Must enumerate all safety/Unsupported failures; fully initialized operand must have reached successful byte check; do not infer side from overall FAILURE."
+      },
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "solver": "NOT_RUN",
+        "harness": "NOT_RUN",
+        "golden": "NOT_RUN",
+        "MIR": "NOT_RUN",
+        "runtime_binding": "NOT_RUN"
+      },
+      "golden_scope": "Ordered output substrings using raw-eq-uninit conventions. Negative diagnostic type suffix omitted until observed. Does not exclude extra failures or identify operand; external targeted property inspection required."
+    },
+    {
+      "selector": "tests/expected/uninit/promoted-allocations/helper-right-hole.rs",
+      "harness": "promoted_helper_right_hole",
+      "source_sha256": "ceb13861d49dc17c57dc8781d61ae718e820d69ca12932da8a26f62a267e9d7b",
+      "golden": "tests/expected/uninit/promoted-allocations/helper-right-hole.expected",
+      "golden_sha256": "108b5b5a877aeacc3f83fcfdc647943f00dce943f8487e5a5bfb6947f6ec63b6",
+      "route": "helper",
+      "case": "right_hole",
+      "semantic_expected": {
+        "verdict": "FAILED",
+        "equality": "No claim after invalid read",
+        "left_byte_check": "reached SUCCESS",
+        "right_byte_check": "FAILURE uninitialized byte at offset 2",
+        "other_failures_allowed": false
+      },
+      "required_binding": {
+        "status": "NOT_RUN",
+        "retained_operation": "raw_eq over [MaybeUninit<u8>; 3], both operands, full byte extent 3",
+        "left_required_mask": [
+          true,
+          true,
+          true
+        ],
+        "right_required_mask": [
+          true,
+          true,
+          false
+        ],
+        "mask_evidence_required": "Actual referent GlobalAlloc Some/None before zero fill; carrier provenance/addend, immutable referent identity, offset/extent, canonical emitted symbol and coalescing/alias mapping for BOTH operands. Some(0)/None/coalescing cannot be inferred from GOTO zero initializer.",
+        "helper_boundary": "Required caller arguments to compare and callee raw_eq operand mapping; actual lowering NOT_RUN",
+        "property_ids": null,
+        "extra_failures": "Must enumerate all safety/Unsupported failures; fully initialized operand must have reached successful byte check; do not infer side from overall FAILURE."
+      },
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "solver": "NOT_RUN",
+        "harness": "NOT_RUN",
+        "golden": "NOT_RUN",
+        "MIR": "NOT_RUN",
+        "runtime_binding": "NOT_RUN"
+      },
+      "golden_scope": "Ordered output substrings using raw-eq-uninit conventions. Negative diagnostic type suffix omitted until observed. Does not exclude extra failures or identify operand; external targeted property inspection required."
+    }
+  ],
+  "static_audit": {
+    "imports": "Both imports used in each source; helper compare used; _equal intentionally unused; allow(internal_features) matches existing controls. No other lint suppression added.",
+    "reference_validity": "MaybeUninit<u8> permits arbitrary/uninitialized bytes. Shared array borrows valid through raw_eq; no assume_init, invalid u8 reference or write to constant storage.",
+    "semantics": "Executable token sequence identical to each pinned draft except rustfmt optional trailing commas; left hole offset 0 and right hole offset 2; other bytes Some(7) required, actual allocation binding NOT_RUN.",
+    "format": "Authorized wrapper completed; --check recorded separately in NOTES."
+  }
+}

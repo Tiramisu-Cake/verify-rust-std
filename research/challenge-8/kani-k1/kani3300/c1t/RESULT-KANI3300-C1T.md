@@ -1,0 +1,13 @@
+# KANI3300 C1-T — PREPARED, STOP
+- Base: 6134e42dd1c65dc980336e7d9455aba02d423edf; base tree: 8ac9dcc3f692ef740e82fff6de8e2a44a667d969.
+- Local test-only Kani commit: 28e684cbae348130d559b87e030536d8f8a3c1ff; tree: 9e6645a470702d774ccf874074cbac325fa46371.
+- Clone: /root/kani-fix-3300-c1t; branch: tests/kani-3300-promoted-controls; Kani not pushed.
+- Exact inventory: TEST-MANIFEST.json, 6 source + 6 golden files in tests/expected/uninit/promoted-allocations/.
+- Draft hashes/port changes: DRAFT-PORT-MAP.json; executable bodies/helper boundaries preserved apart from formatting.
+- Semantic goldens: legal SUCCESS/equality true; holes intended-side uninit failure and other-side success; identical baseline/M1.
+- Observed setup/compiler/solver/harness/golden/MIR/runtime bindings: NOT_RUN. No property IDs or allocation binding claimed.
+- Static diff/format/hash/scope/source audit passed; bounded independent Luna High review PASS, no actionable findings.
+- Worker 14 handoff: import exact test commit unchanged, verify twelve hashes; CI findings return to fixture owner through coordinator.
+- CI request: existing Quick baseline+C1-T then M1+same files; both checks/extra failures required, no baseline whole-Quick PASS claim.
+- C1-L remains cancelled/historical; no adapter/runner implemented. Cloud $0; no CI dispatched or awaited, no proof credit.
+- C1-T complete as preparation only; STOP before coordinator CI or any M1 implementation.
