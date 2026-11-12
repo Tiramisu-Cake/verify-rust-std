@@ -1,0 +1,73 @@
+diff --git a/.github/d0/README.md b/.github/d0/README.md
+index bc49a5e81..65c1eb25f 100644
+--- a/.github/d0/README.md
++++ b/.github/d0/README.md
+@@ -3 +3 @@
+-Source inputs: candidate `955cd015649aa79be511fe1732d48fdc8535741f`, baseline
++Source inputs: candidate `5eec235e3d0eeb99d7e432fcaef3a3135747b789`, baseline
+diff --git a/.github/d0/run.py b/.github/d0/run.py
+old mode 100755
+new mode 100644
+index 244e9c1be..9b29c7194
+--- a/.github/d0/run.py
++++ b/.github/d0/run.py
+@@ -17 +17 @@ import sys
+-CANDIDATE = "955cd015649aa79be511fe1732d48fdc8535741f"
++CANDIDATE = "5eec235e3d0eeb99d7e432fcaef3a3135747b789"
+@@ -105 +105 @@ def preflight(repo, source):
+-        assert text_command(["git", "rev-parse", "HEAD^{tree}"], repo) == "1c724bf33763251340efbdf9a8486a6278cafdc4", "candidate tree"
++        assert text_command(["git", "rev-parse", "HEAD^{tree}"], repo) == "ed095daec3cd82ef024e97c0c3951a591dfd6c39", "candidate tree"
+diff --git a/.github/d0/test_run.py b/.github/d0/test_run.py
+index d8464ff11..bf32393c2 100644
+--- a/.github/d0/test_run.py
++++ b/.github/d0/test_run.py
+@@ -16,0 +17,42 @@ class RunnerTests(unittest.TestCase):
++    def test_layout_gate_accepts_numeric_or_string_64_and_rejects_other_layouts(self):
++        # Every external command is mocked: no compiler/build/verifier is run.
++        spec = {}
++
++        def fake_text(argv, cwd):
++            if argv == ["git", "rev-parse", "HEAD"]:
++                return run.BASELINE
++            if argv == ["git", "rev-parse", "HEAD^{tree}"]:
++                return "fake-baseline-tree"
++            if argv[:2] in (["git", "status"], ["git", "diff"]):
++                return ""
++            if argv[-1] == "-vV":
++                return "7189d39d9ce936881b8132c6addeaf3e295cd455\nhost: x86_64-unknown-linux-gnu"
++            if argv[-1] == "--version":
++                return "4.0.1" if argv[0].endswith("kissat") else "6.11.0"
++            if argv[-1] == "sysroot":
++                return "/fake/sysroot"
++            if "target-spec-json" in argv:
++                return json.dumps(spec)
++            raise AssertionError("unexpected synthetic command: " + repr(argv))
++
++        with patch.dict(os.environ, {}, clear=True), \
++                patch.object(run, "text_command", side_effect=fake_text), \
++                patch.object(run, "digest", return_value=run.FIXTURE_SHA), \
++                patch.object(run, "manifest_tree", return_value=[]), \
++                patch.object(run.os, "sched_getaffinity", return_value={0, 1}), \
++                patch.object(run.shutil, "which", side_effect=lambda name: "/fake/" + name), \
++                patch.object(run.subprocess, "check_output", return_value=b"fake diff"), \
++                patch.object(Path, "read_text", return_value="fake memory"):
++            for width in (64, "64"):
++                with self.subTest(width=width):
++                    spec = {"target-pointer-width": width, "data-layout": "e-fake"}
++                    self.assertEqual(run.preflight(Path("/fake/repo"), "baseline")["target_spec"], spec)
++            for width in (32, "32", None, True, [], {}, 64.0):
++                with self.subTest(width=width):
++                    spec = {"target-pointer-width": width, "data-layout": "e-fake"}
++                    with self.assertRaisesRegex(AssertionError, "layout"):
++                        run.preflight(Path("/fake/repo"), "baseline")
++            spec = {"target-pointer-width": 64, "data-layout": "E-fake"}
++            with self.assertRaisesRegex(AssertionError, "layout"):
++                run.preflight(Path("/fake/repo"), "baseline")
++
+diff --git a/.github/workflows/d0-diagnostics.yml b/.github/workflows/d0-diagnostics.yml
+index 82034fd54..5a81ae92d 100644
+--- a/.github/workflows/d0-diagnostics.yml
++++ b/.github/workflows/d0-diagnostics.yml
+@@ -28 +28 @@ jobs:
+-          ref: 955cd015649aa79be511fe1732d48fdc8535741f
++          ref: 5eec235e3d0eeb99d7e432fcaef3a3135747b789

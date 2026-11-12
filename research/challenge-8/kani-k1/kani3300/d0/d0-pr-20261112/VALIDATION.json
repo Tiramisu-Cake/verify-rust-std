@@ -1,0 +1,68 @@
+{
+  "stage": "KANI3300 D0-PR",
+  "baseline": "a0a2386001a15fecfe2facc2f6cd87f3dee13b60",
+  "old_diagnostic": "955cd015649aa79be511fe1732d48fdc8535741f",
+  "candidate": "5eec235e3d0eeb99d7e432fcaef3a3135747b789",
+  "candidate_tree": "ed095daec3cd82ef024e97c0c3951a591dfd6c39",
+  "diagnostic_branch": "diagnostics/kani-3300-d0-pr",
+  "ci_commit": "8f6d3f45eb644772369a99ddc79466c6c24c1b54",
+  "ci_tree": "12e6baed52ed83c9a6db53dfb7371a285b68583f",
+  "ci_branch": "ci/d0-diagnostics-r3",
+  "lineage": "955cd0156 -> 5eec235e3 -> 8f6d3f45e; exactly one CI-only commit",
+  "patch_sha256": {
+    "diagnostic-repair.patch": "db792ded2d3efb5939f2d3ddac0f149a3cc6257b4e483713c1d26e281e19420b",
+    "ci-refresh.patch": "e593e94ef638fada8313a57166692d1b319b5ea9336b97252d4dc3b00f4fcc19"
+  },
+  "static": {
+    "git_diff_check": "PASS: baseline..CI and staged research files",
+    "rustfmt": "PASS: all 18 Rust files in baseline..candidate",
+    "rustfmt_wrapper": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+    "rustfmt_args": [
+      "--config-path",
+      "rustfmt.toml",
+      "--config",
+      "skip_children=true",
+      "--check"
+    ],
+    "field_variant_audit": "PASS: STATIC-CHECK.py; five implementations, full fields/indices/order",
+    "lineage_pins_scope_fixture": "PASS",
+    "cargo_toml_and_python_syntax": "PASS",
+    "unchanged_library_fixture_lockfile": "PASS",
+    "ci_only_delta_scope": ".github/ only",
+    "run_py_mode": "100644",
+    "actionlint": "PASS: /tmp/kani3300-d0-ci-tools/actionlint -shellcheck= .github/workflows/d0-diagnostics.yml",
+    "synthetic_python_tests": "PASS: 48 tests, python3 -m unittest discover -s .github/d0 -p test_*.py",
+    "layout_regression": "64 and string 64 accepted; 32/string32/null/bool/list/object/64.0/big endian rejected; all external commands mocked",
+    "review": "Luna High; no concrete blocker; REVIEW.md"
+  },
+  "execution": {
+    "local_compiler": "NOT_RUN",
+    "local_kani": "NOT_RUN",
+    "local_cbmc": "NOT_RUN",
+    "new_ci": "NOT_RUN",
+    "model_equivalence": "NOT_RUN",
+    "proof_credit": "NONE",
+    "cloud_spend": 0
+  },
+  "publication": {
+    "kani": "LOCAL_ONLY; not pushed",
+    "research": "Only this new d0-pr-20261112 directory; ordinary non-force push"
+  },
+  "prior_failures": [
+    {
+      "assurance": "coordinator-supplied facts, no artifact download",
+      "run": "43206193762",
+      "ci": "34c0848da",
+      "result": "both builds blocked by numeric width vs string layout gate"
+    },
+    {
+      "assurance": "coordinator-supplied facts, no artifact download",
+      "run": "43206693260",
+      "ci": "c670c5a24",
+      "baseline_build_exit": 0,
+      "candidate_build_exit": 1,
+      "candidate": "955cd015649aa79be511fe1732d48fdc8535741f",
+      "result": "57 E0277 Cargo serde_core 1.0.229 vs sysroot 1.0.228; no other error kinds reported"
+    }
+  ]
+}

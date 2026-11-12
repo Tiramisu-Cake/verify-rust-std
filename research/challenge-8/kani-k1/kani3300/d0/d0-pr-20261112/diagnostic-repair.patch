@@ -1,0 +1,160 @@
+diff --git a/kani-compiler/Cargo.toml b/kani-compiler/Cargo.toml
+index 50c41da6c..f73e41059 100644
+--- a/kani-compiler/Cargo.toml
++++ b/kani-compiler/Cargo.toml
+@@ -17,0 +18 @@ kani_metadata = { path = "../kani_metadata" }
++kani_serde_json = { package = "serde_json", version = "1" }
+@@ -23 +23,0 @@ serde = { version = "1", optional = true }
+-serde_json = "1"
+diff --git a/kani-compiler/src/kani_middle/d0_diagnostics.rs b/kani-compiler/src/kani_middle/d0_diagnostics.rs
+index ed9dedb66..7b1991fa3 100644
+--- a/kani-compiler/src/kani_middle/d0_diagnostics.rs
++++ b/kani-compiler/src/kani_middle/d0_diagnostics.rs
+@@ -37,0 +38,2 @@ struct Observer {
++// rustc_public implements the sysroot serde_core trait. Cargo's trait is a
++// different crate identity even when its API/version happens to match.
+@@ -39,2 +41,2 @@ struct Observer {
+-pub fn encoded(value: &impl serde::Serialize) -> String {
+-    serde_json::to_string(value).expect("D0 serialization")
++pub fn encoded(value: &impl rustc_serde_core::Serialize) -> String {
++    rustc_serde_json::to_string(value).expect("D0 serialization")
+@@ -175,0 +178,56 @@ pub fn finish() {
++
++// These field-only implementations deliberately avoid Debug, type expansion,
++// body reconstruction and compiler queries. Do not use Cargo's derive macro:
++// its generated private paths are tied to Cargo's serde version as well.
++#[cfg(feature = "cprover")]
++macro_rules! serialize_struct {
++    ($ty:ident { $($field:ident),+ $(,)? }) => {
++        impl rustc_serde_core::Serialize for $ty {
++            fn serialize<S: rustc_serde_core::Serializer>(
++                &self,
++                serializer: S,
++            ) -> Result<S::Ok, S::Error> {
++                use rustc_serde_core::ser::SerializeStruct;
++                let mut state = serializer.serialize_struct(
++                    stringify!($ty), [$(stringify!($field)),+].len(),
++                )?;
++                $(state.serialize_field(stringify!($field), &self.$field)?;)+
++                state.end()
++            }
++        }
++    };
++}
++
++#[cfg(feature = "cprover")]
++macro_rules! serialize_enum {
++    ($ty:ident { $($index:literal => $variant:ident $( { $($field:ident),+ } )?),+ $(,)? }) => {
++        impl rustc_serde_core::Serialize for $ty {
++            fn serialize<S: rustc_serde_core::Serializer>(
++                &self,
++                serializer: S,
++            ) -> Result<S::Ok, S::Error> {
++                match self {
++                    $(Self::$variant $( { $($field),+ } )? => {
++                        $crate::kani_middle::d0_diagnostics::serialize_enum!(
++                            @variant serializer, $ty, $index, $variant $( { $($field),+ } )?
++                        )
++                    }),+
++                }
++            }
++        }
++    };
++    (@variant $serializer:ident, $ty:ident, $index:literal, $variant:ident) => {
++        $serializer.serialize_unit_variant(stringify!($ty), $index, stringify!($variant))
++    };
++    (@variant $serializer:ident, $ty:ident, $index:literal, $variant:ident { $($field:ident),+ }) => {{
++        use rustc_serde_core::ser::SerializeStructVariant;
++        let mut state = $serializer.serialize_struct_variant(
++            stringify!($ty), $index, stringify!($variant), [$(stringify!($field)),+].len(),
++        )?;
++        $(state.serialize_field(stringify!($field), $field)?;)+
++        state.end()
++    }};
++}
++
++#[cfg(feature = "cprover")]
++pub(crate) use {serialize_enum, serialize_struct};
+diff --git a/kani-compiler/src/kani_middle/transform/body.rs b/kani-compiler/src/kani_middle/transform/body.rs
+index 805f81d60..11105c3ac 100644
+--- a/kani-compiler/src/kani_middle/transform/body.rs
++++ b/kani-compiler/src/kani_middle/transform/body.rs
+@@ -25 +24,0 @@ pub fn synthetic_source_info(span: Span) -> SourceInfo {
+-#[cfg_attr(feature = "cprover", derive(serde::Serialize))]
+@@ -54 +52,0 @@ pub struct MutableBody {
+-#[cfg_attr(feature = "cprover", derive(serde::Serialize))]
+@@ -524 +521,0 @@ pub fn new_unsupported_check_assert_assume_false(queries: &QueryDb) -> CheckType
+-#[cfg_attr(feature = "cprover", derive(serde::Serialize))]
+@@ -687,0 +685,22 @@ fn get_mut_target_ref(terminator: &mut Terminator) -> &mut BasicBlockIdx {
++
++#[cfg(feature = "cprover")]
++crate::kani_middle::d0_diagnostics::serialize_struct!(MutableBody {
++    blocks,
++    locals,
++    arg_count,
++    var_debug_info,
++    spread_arg,
++    span,
++});
++
++#[cfg(feature = "cprover")]
++crate::kani_middle::d0_diagnostics::serialize_enum!(InsertPosition {
++    0 => Before,
++    1 => After,
++});
++
++#[cfg(feature = "cprover")]
++crate::kani_middle::d0_diagnostics::serialize_enum!(SourceInstruction {
++    0 => Statement { idx, bb },
++    1 => Terminator { bb },
++});
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+index 3abae2c40..0341590bf 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+@@ -20 +19,0 @@
+-#[cfg_attr(feature = "cprover", derive(serde::Serialize))]
+@@ -289 +287,0 @@ pub fn expect_argument_no(&self) -> usize {
+-#[cfg_attr(feature = "cprover", derive(serde::Serialize))]
+@@ -378,0 +377,28 @@ fn mk_ref(
++
++#[cfg(feature = "cprover")]
++crate::kani_middle::d0_diagnostics::serialize_enum!(MemoryInitOp {
++    0 => Check { operand },
++    1 => CheckAs { operand, pointee_ty },
++    2 => Set { operand, value, position },
++    3 => CheckSliceChunk { operand, count },
++    4 => SetSliceChunk { operand, count, value, position },
++    5 => CheckRef { operand },
++    6 => CheckRefAs { operand, pointee_ty },
++    7 => SetRef { operand, value, position },
++    8 => SetStorage { operand, initialized, position },
++    9 => Unsupported { reason },
++    10 => TriviallyUnsafe { reason },
++    11 => Copy { from, to, count },
++    12 => AssignUnion { lvalue, rvalue, position },
++    13 => CreateUnion { operand, field },
++    14 => BeginArgumentTransfer { function, argument_count },
++    15 => LoadArgument { operand, argument_no, function, argument_count, position },
++    16 => StoreArgument { operand, argument_no, function },
++});
++
++#[cfg(feature = "cprover")]
++crate::kani_middle::d0_diagnostics::serialize_struct!(InitRelevantInstruction {
++    source,
++    before_instruction,
++    after_instruction,
++});
+diff --git a/kani-compiler/src/main.rs b/kani-compiler/src/main.rs
+index 7c157288f..a620495f4 100644
+--- a/kani-compiler/src/main.rs
++++ b/kani-compiler/src/main.rs
+@@ -20,0 +21,8 @@
++// Keep Cargo JSON for Kani metadata; D0 MIR serialization must use rustc's
++// matching serde_core/serde_json from the pinned sysroot.
++extern crate kani_serde_json as serde_json;
++#[cfg(feature = "cprover")]
++extern crate serde_core as rustc_serde_core;
++#[cfg(feature = "cprover")]
++extern crate serde_json as rustc_serde_json;
++
