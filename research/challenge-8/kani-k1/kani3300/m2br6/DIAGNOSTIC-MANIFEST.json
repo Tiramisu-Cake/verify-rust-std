@@ -1,0 +1,58 @@
+{
+  "schema": "kani3300-m2br6-diagnostics-v1",
+  "base_sha": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+  "base_tree": "c194aa39eb345316483406a4549755e29a3580e7",
+  "U": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+  "R5_01_template": "bcc1a2af3fe13599b88acabc78c33e1394407dc5",
+  "clone": "/root/kani-fix-3300-m2br6",
+  "root_branch": "experiment/kani-3300-m2br6",
+  "variants": [
+    {
+      "id": "R6-01",
+      "classification": "NOT_RELEASE_CANDIDATE",
+      "status": "SOURCE_READY_NOT_COMPILED",
+      "sha": "25197eb23e9d4b0d6b69d69ff21c2de135bdda7c",
+      "tree": "075e7f06a5ab1ab3a2cac36e866d4413045308f3",
+      "parent": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+      "branch": "experiment/kani-3300-m2br6-epoch-u",
+      "changed_paths": [
+        "library/kani_core/src/mem_init.rs"
+      ],
+      "patch": "patches/R6-01.patch",
+      "patch_sha256": "437bd6ea64fd15b8797f986902c5af870ae9f0e4ed0772af87611f22bb36246f",
+      "patch_bytes": 1223,
+      "runtime_blob": "239bd24d90faf07d0b1590c8b9f145981d45da04",
+      "runtime_sha256": "0f4b167dacf196c3ea689904f33f35f0a43d1d5bb039d5305686ad2c519e9d06",
+      "pushed": false,
+      "build": "NOT_RUN",
+      "solver": "NOT_RUN",
+      "actual_retained_delta": "UNKNOWN"
+    },
+    {
+      "id": "R6-02",
+      "classification": "NOT_RELEASE_CANDIDATE",
+      "status": "SOURCE_READY_NOT_COMPILED",
+      "sha": "258d6af1ea44411ec3f3aa0a4921c05c3700d6f9",
+      "tree": "4d7d4757bf276f68060c335ebac80922ba00e41f",
+      "parent": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+      "branch": "experiment/kani-3300-m2br6-repr-u",
+      "changed_paths": [
+        "library/kani_core/src/mem_init.rs"
+      ],
+      "patch": "patches/R6-02.patch",
+      "patch_sha256": "108250ae9e93db36a31c584eee851e64095da0d08409c3636201316f576c5636",
+      "patch_bytes": 6663,
+      "runtime_blob": "24f324d1f0d778970f4b7cde2734de7732c60b0c",
+      "runtime_sha256": "725522c2c896b338a737119a352a8ac5abae6fc898f1eee426c0e17e9b9df549",
+      "pushed": false,
+      "build": "NOT_RUN",
+      "solver": "NOT_RUN",
+      "actual_retained_delta": "UNKNOWN"
+    }
+  ],
+  "cloud_usd": 0,
+  "dispatches": 0,
+  "proof_credit": 0,
+  "M3": "HELD",
+  "P2": "HELD"
+}

@@ -1,0 +1,285 @@
+{
+  "schema": "kani3300-m2br6-static-v1",
+  "candidates": [
+    {
+      "id": "R6-01",
+      "sha": "25197eb23e9d4b0d6b69d69ff21c2de135bdda7c",
+      "tree": "075e7f06a5ab1ab3a2cac36e866d4413045308f3",
+      "markers": 14,
+      "model_functions": 13,
+      "normalized_all_signatures_match": true,
+      "exact_R1_Hcopy_GLUE_sha256": "aaaf31026f5b3be6ebdca675d01954d2e36e5fcfd7c76e2f3b9ba523cc6d34ee",
+      "inverse_Hepoch_restores_commit": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+      "inverse_runtime_sha256": "d565a600e34ef6199f4c6e0a799a5eb9a224ec0ed9a563ef47da2cbbe908cc06",
+      "constructor_fields": [
+        "argument_buffer_active",
+        "argument_buffer_layout_size",
+        "argument_buffer_saved_object_id",
+        "argument_buffer_saved_offset",
+        "argument_buffer_selected_argument",
+        "tracked_object_id",
+        "tracked_offset",
+        "value"
+      ],
+      "external_helper_references": 0,
+      "method_calls": [
+        {
+          "method": "copy_by_id",
+          "arguments": 5,
+          "args": "from_obj, from_offset, to_obj, to_offset, num_elts"
+        },
+        {
+          "method": "bless_by_id",
+          "arguments": 3,
+          "args": "to_obj, to_offset, num_elts"
+        },
+        {
+          "method": "bless_by_id",
+          "arguments": 3,
+          "args": "obj, offset, num_elts"
+        },
+        {
+          "method": "copy",
+          "arguments": 3,
+          "args": "from_ptr as *const u8,\n                    to_ptr as *const u8,\n                    num_elts"
+        },
+        {
+          "method": "copy_by_id",
+          "arguments": 5,
+          "args": "buffer_saved_object_id,\n                        buffer_saved_offset,\n                        to_object_id,\n                        to_offset,\n                        1"
+        },
+        {
+          "method": "bless",
+          "arguments": 2,
+          "args": "to_ptr as *const u8, 1"
+        }
+      ],
+      "source_sites": [
+        {
+          "line": 40,
+          "source": "pub argument_buffer_active: bool,"
+        },
+        {
+          "line": 41,
+          "source": "pub argument_buffer_selected_argument: usize,"
+        },
+        {
+          "line": 42,
+          "source": "pub argument_buffer_saved_object_id: usize,"
+        },
+        {
+          "line": 43,
+          "source": "pub argument_buffer_saved_offset: usize,"
+        },
+        {
+          "line": 44,
+          "source": "pub argument_buffer_layout_size: usize,"
+        },
+        {
+          "line": 55,
+          "source": "argument_buffer_active: false,"
+        },
+        {
+          "line": 56,
+          "source": "argument_buffer_selected_argument: 0,"
+        },
+        {
+          "line": 57,
+          "source": "argument_buffer_saved_object_id: 0,"
+        },
+        {
+          "line": 58,
+          "source": "argument_buffer_saved_offset: 0,"
+        },
+        {
+          "line": 59,
+          "source": "argument_buffer_layout_size: 0,"
+        },
+        {
+          "line": 408,
+          "source": "if super::any() {"
+        },
+        {
+          "line": 410,
+          "source": "MEM_INIT_STATE.argument_buffer_selected_argument = selected_argument;"
+        },
+        {
+          "line": 411,
+          "source": "MEM_INIT_STATE.argument_buffer_saved_object_id = saved_object_id;"
+        },
+        {
+          "line": 412,
+          "source": "MEM_INIT_STATE.argument_buffer_saved_offset = saved_offset;"
+        },
+        {
+          "line": 413,
+          "source": "MEM_INIT_STATE.argument_buffer_layout_size = LAYOUT_SIZE;"
+        },
+        {
+          "line": 414,
+          "source": "MEM_INIT_STATE.argument_buffer_active = true;"
+        },
+        {
+          "line": 428,
+          "source": "MEM_INIT_STATE.argument_buffer_active"
+        },
+        {
+          "line": 429,
+          "source": "&& MEM_INIT_STATE.argument_buffer_selected_argument == selected_argument"
+        },
+        {
+          "line": 431,
+          "source": "let buffer_layout_size = unsafe { MEM_INIT_STATE.argument_buffer_layout_size };"
+        },
+        {
+          "line": 434,
+          "source": "unsafe { MEM_INIT_STATE.argument_buffer_saved_object_id };"
+        },
+        {
+          "line": 435,
+          "source": "let buffer_saved_offset = unsafe { MEM_INIT_STATE.argument_buffer_saved_offset };"
+        },
+        {
+          "line": 446,
+          "source": "MEM_INIT_STATE.argument_buffer_active = false;"
+        }
+      ],
+      "exact_patch_tree_reconstruction": true,
+      "diff_check": "PASSED"
+    },
+    {
+      "id": "R6-02",
+      "sha": "258d6af1ea44411ec3f3aa0a4921c05c3700d6f9",
+      "tree": "4d7d4757bf276f68060c335ebac80922ba00e41f",
+      "markers": 14,
+      "model_functions": 13,
+      "normalized_all_signatures_match": true,
+      "exact_R1_Hcopy_GLUE_sha256": "aaaf31026f5b3be6ebdca675d01954d2e36e5fcfd7c76e2f3b9ba523cc6d34ee",
+      "inverse_Hepoch_restores_commit": "bcc1a2af3fe13599b88acabc78c33e1394407dc5",
+      "inverse_runtime_sha256": "80347d5fdb087d19075b7bb81d87fe355e2ca958b3bb3b8ddbdfc1bd07d0e57a",
+      "constructor_fields": [
+        "tracked_object_id",
+        "tracked_offset",
+        "value"
+      ],
+      "external_helper_references": 0,
+      "method_calls": [
+        {
+          "method": "copy_by_id",
+          "arguments": 5,
+          "args": "from_obj, from_offset, to_obj, to_offset, num_elts"
+        },
+        {
+          "method": "bless_by_id",
+          "arguments": 3,
+          "args": "to_obj, to_offset, num_elts"
+        },
+        {
+          "method": "bless_by_id",
+          "arguments": 3,
+          "args": "obj, offset, num_elts"
+        },
+        {
+          "method": "copy",
+          "arguments": 3,
+          "args": "from_ptr as *const u8,\n                    to_ptr as *const u8,\n                    num_elts"
+        },
+        {
+          "method": "bless",
+          "arguments": 2,
+          "args": "to_ptr as *const u8, 1"
+        }
+      ],
+      "source_sites": [
+        {
+          "line": 22,
+          "source": "static mut ARGUMENT_BUFFER: Option<ArgumentBuffer> = None;"
+        },
+        {
+          "line": 226,
+          "source": "ARGUMENT_BUFFER = None;"
+        },
+        {
+          "line": 403,
+          "source": "if selected_argument == 0 || super::any() {"
+        },
+        {
+          "line": 405,
+          "source": "ARGUMENT_BUFFER = Some(ArgumentBuffer {"
+        },
+        {
+          "line": 422,
+          "source": "if let Some(buffer) = unsafe { ARGUMENT_BUFFER } {"
+        },
+        {
+          "line": 427,
+          "source": "ARGUMENT_BUFFER = None;"
+        }
+      ],
+      "exact_patch_tree_reconstruction": true,
+      "diff_check": "PASSED"
+    }
+  ],
+  "markers_and_signatures": {
+    "KaniMemoryInitializationState": "staticmutMEM_INIT_STATE:MemoryInitializationState=MemoryInitializationState::new()",
+    "InitializeMemoryInitializationStateModel": "fninitialize_memory_initialization_state()",
+    "IsPtrInitializedModel": "fnis_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,)->bool",
+    "SetPtrInitializedModel": "fnset_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,value:bool,)",
+    "IsSliceChunkPtrInitializedModel": "fnis_slice_chunk_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,num_elts:usize,)->bool",
+    "SetSliceChunkPtrInitializedModel": "fnset_slice_chunk_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,num_elts:usize,value:bool,)",
+    "IsSlicePtrInitializedModel": "fnis_slice_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*const[T],layout:Layout<LAYOUT_SIZE>,)->bool",
+    "SetSlicePtrInitializedModel": "fnset_slice_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*const[T],layout:Layout<LAYOUT_SIZE>,value:bool,)",
+    "IsStrPtrInitializedModel": "fnis_str_ptr_initialized<constLAYOUT_SIZE:usize>(ptr:*conststr,layout:Layout<LAYOUT_SIZE>,)->bool",
+    "SetStrPtrInitializedModel": "fnset_str_ptr_initialized<constLAYOUT_SIZE:usize>(ptr:*conststr,layout:Layout<LAYOUT_SIZE>,value:bool,)",
+    "CopyInitStateModel": "fncopy_init_state<constLAYOUT_SIZE:usize,T>(from:*constT,to:*constT,num_elts:usize,)",
+    "CopyInitStateSingleModel": "fncopy_init_state_single<constLAYOUT_SIZE:usize,T>(from:*constT,to:*constT)",
+    "StoreArgumentModel": "fnstore_argument<constLAYOUT_SIZE:usize,T>(from:*constT,selected_argument:usize)",
+    "LoadArgumentModel": "fnload_argument<constLAYOUT_SIZE:usize,T>(to:*constT,selected_argument:usize)"
+  },
+  "internal_and_model_signatures": {
+    "new": "pubconstfnnew()->Self",
+    "get": "pubfnget<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,layout:Layout<LAYOUT_SIZE>,)->bool",
+    "set": "pubfnset<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,layout:Layout<LAYOUT_SIZE>,value:bool,)",
+    "copy": "pubfncopy<constLAYOUT_SIZE:usize>(&mutself,from_ptr:*constu8,to_ptr:*constu8,num_elts:usize,)",
+    "copy_by_id": "pubfncopy_by_id<constLAYOUT_SIZE:usize>(&mutself,from_obj:usize,from_offset:usize,to_obj:usize,to_offset:usize,num_elts:usize,)",
+    "bless": "pubfnbless<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,num_elts:usize)",
+    "bless_by_id": "pubfnbless_by_id<constLAYOUT_SIZE:usize>(&mutself,obj:usize,offset:usize,num_elts:usize,)",
+    "get_slice": "pubfnget_slice<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,layout:Layout<LAYOUT_SIZE>,num_elts:usize,)->bool",
+    "set_slice": "pubfnset_slice<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,layout:Layout<LAYOUT_SIZE>,num_elts:usize,value:bool,)",
+    "initialize_memory_initialization_state": "fninitialize_memory_initialization_state()",
+    "is_ptr_initialized": "fnis_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,)->bool",
+    "set_ptr_initialized": "fnset_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,value:bool,)",
+    "is_slice_chunk_ptr_initialized": "fnis_slice_chunk_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,num_elts:usize,)->bool",
+    "set_slice_chunk_ptr_initialized": "fnset_slice_chunk_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,num_elts:usize,value:bool,)",
+    "is_slice_ptr_initialized": "fnis_slice_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*const[T],layout:Layout<LAYOUT_SIZE>,)->bool",
+    "set_slice_ptr_initialized": "fnset_slice_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*const[T],layout:Layout<LAYOUT_SIZE>,value:bool,)",
+    "is_str_ptr_initialized": "fnis_str_ptr_initialized<constLAYOUT_SIZE:usize>(ptr:*conststr,layout:Layout<LAYOUT_SIZE>,)->bool",
+    "set_str_ptr_initialized": "fnset_str_ptr_initialized<constLAYOUT_SIZE:usize>(ptr:*conststr,layout:Layout<LAYOUT_SIZE>,value:bool,)",
+    "copy_init_state": "fncopy_init_state<constLAYOUT_SIZE:usize,T>(from:*constT,to:*constT,num_elts:usize,)",
+    "copy_init_state_single": "fncopy_init_state_single<constLAYOUT_SIZE:usize,T>(from:*constT,to:*constT)",
+    "store_argument": "fnstore_argument<constLAYOUT_SIZE:usize,T>(from:*constT,selected_argument:usize)",
+    "load_argument": "fnload_argument<constLAYOUT_SIZE:usize,T>(to:*constT,selected_argument:usize)"
+  },
+  "endpoints": {
+    "R1_R1": "d565a600e34ef6199f4c6e0a799a5eb9a224ec0ed9a563ef47da2cbbe908cc06",
+    "U_U_Hcopy_GLUE_R1": "80347d5fdb087d19075b7bb81d87fe355e2ca958b3bb3b8ddbdfc1bd07d0e57a"
+  },
+  "input_and_dependency_hashes": "PASSED",
+  "compilation": "NOT_RUN",
+  "pinned_rustfmt": {
+    "tool_files": [
+      {
+        "path": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+        "sha256": "50d6185aa821a7f6ea5aceba7cebe1bd517ea323f399a269c5a170b6ac65210d"
+      },
+      {
+        "path": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt-tc/rustfmt-nightly-x86_64-unknown-linux-gnu/rustfmt-preview/bin/rustfmt",
+        "sha256": "0f8f90119220fbbd72268c10c575000334e7b89cc348c74953b1b30155338962"
+      }
+    ],
+    "config_sha256": "d1886a654a790b5f5779d12c770b32c5328e4e4eaa415fc3a024c6ba9df687b1",
+    "result": "PASSED_NOT_COMPILATION"
+  },
+  "actual_retained_binding": "UNKNOWN",
+  "proof_credit": 0
+}

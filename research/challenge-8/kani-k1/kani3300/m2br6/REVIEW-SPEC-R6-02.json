@@ -1,0 +1,45 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-m2br6",
+  "baseline_commit": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+  "candidate_commit": "258d6af1ea44411ec3f3aa0a4921c05c3700d6f9",
+  "applicability": "KANI3300 M2-B/R6 only: bounded complementary Hrepr/Hepoch diagnostic pair; NOT_RELEASE_CANDIDATE; coordinator-only build request.",
+  "defect": "Planner-reported resource divergence at Hbuf endpoints; no correctness repair claimed.",
+  "invariants": [
+    "mem_init.rs only; R1 direct children; existing14 marker declarations/13 model functions and generic/API arities unchanged.",
+    "R6-01 exact R1 minus mandatory selection and initialize reset. R6-02 exact R5-01 plus mandatory index0 selection and Option=None epoch reset.",
+    "Hcopy/GLUE byte-identical R1. No pointer reconstruction, private marker/assigns repair, assumptions or compiler/check/input/solver changes."
+  ],
+  "controls": [
+    "Validate coherent D15 capture/selection partition and exact inverse Hepoch reconstruction to R1/R5-01.",
+    "Check types/signatures/constructors/static accesses/unsafe reset location against committed source and dependencies. No local compiler/verifier/build.",
+    "Validate decision logic: only01 converts -> joint Hepoch; only02 -> Hrepr/lifetime/private membership; both/neither -> interactions, without monotonicity or changed-obligation proof claims."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "library/kani_core/src/mem_init.rs",
+    "library/kani_core/src/mem.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+    "kani-driver/src/call_cbmc.rs",
+    "kani-driver/src/args/mod.rs",
+    "kani-driver/src/call_goto_instrument.rs",
+    "rust-toolchain.toml",
+    "kani-dependencies",
+    "kani-compiler/src/kani_middle/attributes.rs",
+    "cprover_bindings/src/goto_program/symbol.rs",
+    "cprover_bindings/src/goto_program/symbol_table.rs"
+  ],
+  "known_limitations": [
+    "Source-only audit, compilation and actual retained bindings NOT_RUN/UNKNOWN.",
+    "R6-01 stale active/mandatory return/false-transfer/epoch losses; R6-02 saved pointer lifetime and unmarked store/reset/clear frame/Unsupported/invalid-source risks.",
+    "No CI dispatch/Cloud/Kani push/release acceptance/proof credit. P2/M3/followups held."
+  ],
+  "prior_reviews": []
+}

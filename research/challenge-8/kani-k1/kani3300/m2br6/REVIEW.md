@@ -1,0 +1,17 @@
+# One bounded independent review of the R6 pair
+
+Reviewer: GPT-6 Luna HIGH, task /root/m2br6_review, fresh context, no nested delegation. One dependency/coverage/type/outcome review of both exact semantic candidates, without full seed audit, source mutation, local compiler/verifier/build or CI. Packet identities and structural check responses are in REVIEW-PACKETS.json; packet integrity alone is not review/proof.
+
+Verdict: **READY_FOR_COORDINATOR_BUILD**, diagnostic/source-only. No blocking or actionable source findings. Candidate R6-01 25197eb23e9d4b0d6b69d69ff21c2de135bdda7c/tree075e7f06a5ab1ab3a2cac36e866d4413045308f3 and R6-02 258d6af1ea44411ec3f3aa0a4921c05c3700d6f9/tree4d7d4757bf276f68060c335ebac80922ba00e41f remain unchanged after review.
+
+Reviewer independently validated both bundles against supplied candidate/spec hashes (24 files each), direct R1 parentage and mem_init.rs-only diffs. The exact required changes were confirmed: R6-01 any-only selection and removal only of initialize's active=false; R6-02 mandatory index0-or-any with bool local removed, plus Option=None in existing initialize unsafe block. D15 capture/selection split is coherent. No extra executable delta or private registration was found.
+
+Read-only STATIC-AUDIT.py passed: exact candidate/patch/tree reconstruction, inverse Hepoch to R1/R5-01,14 markers/13 model functions and normalized signatures, exact R1 Hcopy/GLUE hash, constructor/field/call/dependency/input checks and diff-check. Pinned formatter wrapper/binary/config hashes and prior passed formatting record were checked. Source type audit is plausible: any/guard bool, index/literal usize, None from Option<ArgumentBuffer>, Copy record supporting by-value Option read, thin *const () copy endpoints and existing by-ID API. This is not compilation or a new type premise.
+
+Reviewer confirmed decision logic: only R6-01 conversion points to joint Hepoch; only R6-02 points to Hrepr/lifetime/private membership; both/neither requires interaction/path/type-adapter analysis. No monotonicity or equal-obligation/causal-fix inference. Early frame/Unsupported/invalid-source failure and path loss remain separate from numerical relief.
+
+Main validation checked source types/signatures against committed sources, exact minimal template diffs, immutable historical/task/P1 hashes, commit author/committer/subjects, candidate cleanliness and root R1, JSON/document whitespace and git diff --check. No candidate semantic changes followed review; final research edits are review/result metadata only.
+
+Whitespace scope: both Rust candidate diffs pass git diff --check. Research text also passes the staged check with exact patch artifacts excluded. Unfiltered staged check reports six blank unified-diff context lines in patches as trailing spaces; these are required patch syntax and remain byte-identical to git-generated patches (manifest hashes and patch/tree reconstruction checked), not Rust source whitespace errors.
+
+Limits: compilation/build/solver NOT_RUN. Actual retained bindings, DFCC targets, frame/reset placement relative to emitted contracts and complete failure inventory UNKNOWN. Both candidates remain SOURCE_READY_NOT_COMPILED / NOT_RELEASE_CANDIDATE; Cloud$0, dispatch0, proof_credit0. No release acceptance, B1/B2 or independent verification credit. Coordinator validates real types/-D warnings and inventories paths/failures before the two requested sequential P1 solver admissions. P2/M3/integration/heavy M2 remain HELD.

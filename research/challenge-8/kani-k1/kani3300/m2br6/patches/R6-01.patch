@@ -1,0 +1,21 @@
+diff --git a/library/kani_core/src/mem_init.rs b/library/kani_core/src/mem_init.rs
+index 6f832d4c651f8770a46327beb6e4a957b06c1166..239bd24d90faf07d0b1590c8b9f145981d45da04 100644
+--- a/library/kani_core/src/mem_init.rs
++++ b/library/kani_core/src/mem_init.rs
+@@ -236,7 +236,6 @@ fn initialize_memory_initialization_state() {
+                 MEM_INIT_STATE.tracked_object_id = super::any();
+                 MEM_INIT_STATE.tracked_offset = super::any();
+                 MEM_INIT_STATE.value = false;
+-                MEM_INIT_STATE.argument_buffer_active = false;
+             }
+         }
+ 
+@@ -406,7 +405,7 @@ fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument
+             let saved_object_id = super::mem::pointer_object(from_ptr);
+             let saved_offset = super::mem::pointer_offset(from_ptr);
+             // A return has exactly one value to transfer. Arguments compete for the buffer.
+-            if selected_argument == 0 || super::any() {
++            if super::any() {
+                 unsafe {
+                     MEM_INIT_STATE.argument_buffer_selected_argument = selected_argument;
+                     MEM_INIT_STATE.argument_buffer_saved_object_id = saved_object_id;
