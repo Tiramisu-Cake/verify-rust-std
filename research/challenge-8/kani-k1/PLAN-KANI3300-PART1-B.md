@@ -33,6 +33,10 @@ type-only skip, default true и потеря negative checks не являютс
   Unchanged D0 legal теперь PASS; immutable-masks4 matched, C1-T6 matched и раньше. Не full gate/полная model qualification.
   Сейчас 14 — M2; C1-T2 уже подготовлен c2d607d9d5 @research10b5800a8e, 15 — следующий C1-T2-A после CI handoff.
   M3 подготовлен, HELD до приёмки actual M2/C1-T2 CI/bindings.
+- C1-T2 CI: по координатору baseline43225818126 expected125/9, M1 43225812282 (composition d8a39dbc00, CI2ae27bd269)
+  unit5/0 expected134/4. Четыре u8 raw/== cases baseline false FAIL→M1 PASS; четыре MU cases обеих lanes — ранний
+  Unsupported nested `MU<[MU<u8>;3]>`, не intended raw_eq failure. Выбор (a): 15 делает direct-flat test repair;
+  nested support вынесен отдельным scope question. M2/M3 не расширяют domain ради fixture setup.
 
 ## Стадии и зависимости
 
@@ -45,7 +49,7 @@ type-only skip, default true и потеря negative checks не являютс
 | **C1-L — lowering prep** | READY a8f6b7196a, CI отменён | Новый runner не строить; history сохранить, дальнейший путь — C1-T |
 | **C1-T — promoted selectors** | READY 28e684cbae; baseline matched все 6 | Regression controls, не D0 reproducer. Actual origins/instrumentation/место hole failure пока не bound; C1-T2 выясняет через обычный Quick/MIR |
 | **C1-T2 — mixed selectors** | READY c2d607d9d5 @10b5800a8e | 8 test-only selectors подготовлены; coordinator baseline/M1 CI по c1t2/CI-REQUEST.md. Не повторять реализацию |
-| **C1-T2-A — binding analysis** | 15 после нового CI handoff; TASK-KANI3300-C1T2A.md | old pure/mixed/D0 origins, checks, masks/state transitions и actual source of failures; per-case baseline/M1, UNKNOWN не становится coverage |
+| **C1-T2-A/R — анализ и test repair** | 15 сейчас; TASK-KANI3300-C1T2A.md | u8 differential сохранить, 4 MU inputs исправить на direct flat stack и передать paired rerun. Nested outer MU не поддерживать; intended MU read gate ещё закрыт |
 | **M1 — anonymous/promoted allocations** | READY5abdcf982d, Quick43222702257 PASS по координатору | D0 legal исправлены без old golden edits; own immutable-mask/unit controls matched. Уточнённые bindings и границы остаются M2/M3/C1-T2 obligations |
 | **C1 — контроли и ABI-границы** | 15 после B1I-A и M0, отдельный clone; production files не пересекаются с M1/M2 | Test-only controls; отдельными ограниченными commits — guards для by-value DST, retained ordinary-union constant, непарного hook/shim, если нужны. Не расширять ABI/union model. Если нужен общий файл/изменение интерфейса — передать владельцу модели, STOP параллельной правки |
 | **M2 — call destinations и state transfer** | 14 сейчас; TASK-KANI3300-M2.md | Existing setters/false transfers, новый legal PFC/modifies и targeted gaps; до6 новых selectors. Source repair только по конкретному gap; STOP до qualification CI |
@@ -56,7 +60,7 @@ type-only skip, default true и потеря negative checks не являютс
 
 Каждый блок реализации/анализа — одна сессия, завершается review/результатом и STOP; следующий блок выдаёт координатор.
 D0-P/D0-A/C1-P/M0 завершены; C1-L CI отменён, C1-T baseline matched, M1 Quick PASS. C1-T2 готов; M2 активен,
-C1-T2-A ждёт CI input, M3 HELD. READY не заменяет ни одного gate.
+C1-T2-A/R исправляет 4 MU fixtures после CI, M3 HELD до rerun/M2 приёмки. READY не заменяет ни одного gate.
 M1/M2 не редактировать одновременно: anonymous masks и setters используют общий relevance/shadow pipeline.
 Независимые C1 fixture/spec changes можно готовить во время D0; semantic tests/guards финализировать после M0.
 

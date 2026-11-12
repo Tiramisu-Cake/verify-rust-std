@@ -19,6 +19,13 @@ unit immutable_allocations 5/0, kani Uninit 22/0, expected 130/0/2 ignored, ui 1
 последние matched и на baseline, поэтому не являются различающим evidence M1. Это aggregate coordinator-reported facts,
 не полная source/mask/runtime-binding qualification и не full regression gate. Исторические m1 results не переписывать.
 
+**Scope update C1-T2:** baseline43225818126 → M1 43225812282: четыре u8 raw/== mixed cases различают модели,
+но четыре MU inputs обеих lanes дали ранний Unsupported у `MaybeUninit<[MaybeUninit<u8>;3]>`, до raw_eq.
+15 исправляет их на direct flat stack по TASK-C1T2A; эти четыре старых failures не засчитывать как intended negative.
+Current scope: `[MaybeUninit<T>;N]`/slices и supported `MaybeUninit<[u8;N]>`; **nested MU-of-flat не добавлять**.
+Не устранять такой fixture helper расширением layout/введением all-true mask. Контрольные target/out storage выбирать
+в поддержанной форме; nested idiom записан отдельно в SCOPE-MU-OF-FLAT.md. U8 outcomes не доказывают opaque MU/ABI branches.
+
 ## 1. Карта существующих обязательств, без копирования тестов
 
 Создать matrix existing source/harness/hash → exact semantic obligation → требуемые operand/CFG/property bindings.

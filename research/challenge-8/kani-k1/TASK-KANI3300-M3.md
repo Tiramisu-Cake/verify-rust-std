@@ -12,6 +12,10 @@
    почему old C1-T matched baseline, либо конкретно оставшиеся UNKNOWN и решение по blocking impact.
 3. Перечень source dependencies/незакрытых blockers, immutable mask/symbol/reset bridge и рамки текущего supported domain.
 
+CI update: 4 u8 mixed inputs baseline43225818126 FAIL → M1 43225812282 PASS; 4 MU inputs были ранним layout Unsupported
+на nested outer MU, а не raw_eq negative. Для MU gate нужен **исправленный direct-flat test delta и rerun** по C1-T2-A/R,
+не принятие старой FAILURE. Считать u8 подматрицу отдельно от ещё незакрытой MU подматрицы.
+
 Если этих pins/решений нет — STOP до clone/code/test changes, только сообщение о недостающем gate. Не выбирать вместо
 них старый 5abdcf982d или latest branch head. Нельзя самостоятельно превращать документ в GO/CI dispatch.
 M1 `5abdcf982da6aff65662e198af27a9c776830a89` с Quick 43222702257 — исторический accepted-input, не будущий M3 base.
@@ -26,6 +30,8 @@ C1-T2 импортировать только test-only delta с hash validation
 
 Прочитать M0 contract, M1 SOURCE-BINDINGS/review/actual CI, M2 qualification и C1-P CONTROL-MATRIX.
 Область — композиция уже принятых механизмов, не новый memory model. Flat arrays/slices остаются поддержанными.
+`MaybeUninit<[MaybeUninit<T>;N]>` — отдельный scope question, см. SCOPE-MU-OF-FLAT.md; не вводить эту форму как helper
+для array initialization в M3. Direct flat `[MU<T>;N]` и canonical `MU<[u8;N]>` не путать с этим nested layout.
 
 ## Первая bounded матрица — до восьми новых selectors, existing controls переиспользовать
 
