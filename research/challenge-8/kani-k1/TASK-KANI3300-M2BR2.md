@@ -4,6 +4,10 @@
 **Cloud $0**. Никаких локальных compiler/verifier/сборок; fork CI запускает координатор.
 Это верификация корректности, не security-работа.
 
+**Новый handoff:** M2-B/R2 @6a69089695; R1 probe43252928887 уже heavy, A1 probe43252936014 heavy,
+upstream43253856019 без watchdog. Worker15 → TASK-KANI3300-M2BR3.md: внутри единственного U→R1 commit,
+expression/VCC delta и ≤4 diagnostic variants. Старый pin batch не повторять, historical m2br2 results не менять.
+
 ## Вход и новый установленный интервал
 
 Прочитать TASK-KANI3300-M2B-RESOURCE.md и `kani3300/m2br/` @ **c90cb9466dfef600b3da36dc9703660dd97a2393**,

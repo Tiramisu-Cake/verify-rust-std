@@ -5,7 +5,12 @@ Direct-MU-only экспорт отклонён. Полная для заявле
 type-only skip, default true и потеря negative checks не являются вариантом. Runtime Codex; Cloud $0, CI только координатора.
 Это верификация корректности, не security-работа.
 
-**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR2.md: actual symtab/DFCC widths и U→R1→A1→A2R
+**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR3.md: U/R1 expression/property delta, ≤4 isolated
+diagnostic hunk variants и bounded CBMC conversion/VCC query. R1 run43252928887 уже heavy; A1 run43252936014 heavy;
+U run43253856019 без watchdog. R1 — один commit поверх U, history bisect закончен. Huge-width mechanism ещё hypothesis.
+14 и concurrent m2bs3 files не трогать; semantic/seed gate отдельно, M3 HELD, Cloud$0/CI только координатора.
+
+**Предыдущий handoff M2-B/R2:** 15 → TASK-KANI3300-M2BR2.md: actual symtab/DFCC widths и U→R1→A1→A2R
 bounded request (≤4pins), Cloud$0. A2R43249040713 и A3R43249047207 оба heavy после reported symex/postprocess;
 A3 не необходим для воспроизведения, huge-object hypothesis ещё не bound. 14 — прежний Assert/ensures binding gate
 M2-B/S @45ca2e8f71, без заявленного seed repair. M3 HELD, gates независимы.
