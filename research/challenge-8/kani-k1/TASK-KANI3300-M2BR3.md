@@ -4,6 +4,10 @@
 **Cloud $0**. Fork CI только координатора; local compiler/verifier/сборки запрещены.
 Это верификация корректности, не security-работа.
 
+**Новый handoff:** package @c70a35409b; V01 run43258912765 cutoff на conversion, V02 run43258921276
+с U runtime/R1 emission дошёл до solver (51M clauses), FAILED details capped. Worker15 → TASK-KANI3300-M2BR4.md:
+≤3 runtime variants, P1 only. Исторические m2br3 records не менять, release rollback/semantic acceptance не разрешены.
+
 ## Вход и уже измеренная граница
 
 Читать `kani3300/m2br2/` @ **6a69089695**, прежние m2br HISTORY-MAP/FRAME-BINDINGS и M2-A inputs P1/P2.

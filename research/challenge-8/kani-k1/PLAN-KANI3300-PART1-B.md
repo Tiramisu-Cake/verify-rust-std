@@ -5,7 +5,13 @@ Direct-MU-only экспорт отклонён. Полная для заявле
 type-only skip, default true и потеря negative checks не являются вариантом. Runtime Codex; Cloud $0, CI только координатора.
 Это верификация корректности, не security-работа.
 
-**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR3.md: U/R1 expression/property delta, ≤4 isolated
+**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR4.md: ≤3 runtime narrowing variants на P1.
+V01 run43258912765 всё ещё cutoff; V02 run43258921276 (U runtime/R1 emission) дошёл до solver, FAILED details capped,
+844029vars/51222776clauses против U284883/17072414. Runtime family локализована, конкретный hunk/correct fix ещё нет.
+M2-B/S3 candidate4f64cc617c restricted Quick43257528539 passed; legal-pair/postcondition-hole были исключены CI-only.
+M3 HELD до resource repair, интеграции и возврата тяжёлых selectors; Cloud$0/CI только координатора.
+
+**Предыдущий handoff M2-B/R3:** 15 → TASK-KANI3300-M2BR3.md: U/R1 expression/property delta, ≤4 isolated
 diagnostic hunk variants и bounded CBMC conversion/VCC query. R1 run43252928887 уже heavy; A1 run43252936014 heavy;
 U run43253856019 без watchdog. R1 — один commit поверх U, history bisect закончен. Huge-width mechanism ещё hypothesis.
 14 и concurrent m2bs3 files не трогать; semantic/seed gate отдельно, M3 HELD, Cloud$0/CI только координатора.
