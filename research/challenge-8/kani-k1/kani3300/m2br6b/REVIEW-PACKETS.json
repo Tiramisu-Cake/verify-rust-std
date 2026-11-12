@@ -1,0 +1,47 @@
+{
+  "schema": "kani3300-m2br6b-review-packets-v1",
+  "packets": [
+    {
+      "id": "R6-02b",
+      "candidate": "405c1f059264d8f7cedeeaa01c6d4ad6867a419e",
+      "bundle": "/tmp/kani3300-m2br6b-review-R6-02b.json",
+      "spec_file": "REVIEW-SPEC-R6-02b.json",
+      "canonical_spec_sha256": "14ca8f8f5fad132359acde6255f0165fd8d77d327a3b22559196d5833f33812e",
+      "packet_sha256": "4057da16077ff74c6394a5365b4209337f7592b155c4fbc2775b87afe59e0e63",
+      "check": {
+        "candidate_commit": "405c1f059264d8f7cedeeaa01c6d4ad6867a419e",
+        "files": 30,
+        "packet_sha256": "4057da16077ff74c6394a5365b4209337f7592b155c4fbc2775b87afe59e0e63",
+        "proof_credit": "NONE",
+        "spec_sha256": "14ca8f8f5fad132359acde6255f0165fd8d77d327a3b22559196d5833f33812e",
+        "state": "PACKET_VALID_NOT_REVIEWED"
+      }
+    },
+    {
+      "id": "R1-control",
+      "candidate": "56cbc5c4a479bc3fb25310b14fcf279d90581a02",
+      "bundle": "/tmp/kani3300-m2br6b-review-R1-control.json",
+      "spec_file": "REVIEW-SPEC-R1-control.json",
+      "canonical_spec_sha256": "996162d1681ce98af4bdb421ab9991ceddc7b2155534eea5de90d6c1ff9ef4f4",
+      "packet_sha256": "ccc5e086dcbb1fe83bda18586a1613d831056142b7a2fe930343db554c279a13",
+      "check": {
+        "candidate_commit": "56cbc5c4a479bc3fb25310b14fcf279d90581a02",
+        "files": 30,
+        "packet_sha256": "ccc5e086dcbb1fe83bda18586a1613d831056142b7a2fe930343db554c279a13",
+        "proof_credit": "NONE",
+        "spec_sha256": "996162d1681ce98af4bdb421ab9991ceddc7b2155534eea5de90d6c1ff9ef4f4",
+        "state": "PACKET_VALID_NOT_REVIEWED"
+      }
+    }
+  ],
+  "reviewer": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "fork_turns": "none",
+  "nested_delegation": false,
+  "review_task": "/root/r6b_review",
+  "semantic_review_rounds": 1,
+  "verdict": "SOURCE_READY_FOR_COORDINATOR_BUILD",
+  "compilation": "NOT_RUN",
+  "classification": "NOT_RELEASE_CANDIDATE",
+  "proof_credit": 0
+}

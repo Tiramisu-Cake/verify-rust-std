@@ -1,0 +1,118 @@
+{
+  "schema": "kani3300-m2br6b-static-v1",
+  "candidates": [
+    {
+      "id": "R6-02b",
+      "sha": "405c1f059264d8f7cedeeaa01c6d4ad6867a419e",
+      "tree": "162e8ad1e76e842b18c24a4ac2986335902834d7",
+      "exact_parent_runtime": true,
+      "only_changed_file": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "identical_function_bodies": true,
+      "added_skip_identities": [
+        "KaniModel::InitializeMemoryInitializationState"
+      ],
+      "markers": 14,
+      "normalized_runtime_signatures": {
+        "new": "pubconstfnnew()->Self",
+        "get": "pubfnget<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,layout:Layout<LAYOUT_SIZE>,)->bool",
+        "set": "pubfnset<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,layout:Layout<LAYOUT_SIZE>,value:bool,)",
+        "copy": "pubfncopy<constLAYOUT_SIZE:usize>(&mutself,from_ptr:*constu8,to_ptr:*constu8,num_elts:usize,)",
+        "copy_by_id": "pubfncopy_by_id<constLAYOUT_SIZE:usize>(&mutself,from_obj:usize,from_offset:usize,to_obj:usize,to_offset:usize,num_elts:usize,)",
+        "bless": "pubfnbless<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,num_elts:usize)",
+        "bless_by_id": "pubfnbless_by_id<constLAYOUT_SIZE:usize>(&mutself,obj:usize,offset:usize,num_elts:usize,)",
+        "get_slice": "pubfnget_slice<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,layout:Layout<LAYOUT_SIZE>,num_elts:usize,)->bool",
+        "set_slice": "pubfnset_slice<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,layout:Layout<LAYOUT_SIZE>,num_elts:usize,value:bool,)",
+        "initialize_memory_initialization_state": "fninitialize_memory_initialization_state()",
+        "is_ptr_initialized": "fnis_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,)->bool",
+        "set_ptr_initialized": "fnset_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,value:bool,)",
+        "is_slice_chunk_ptr_initialized": "fnis_slice_chunk_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,num_elts:usize,)->bool",
+        "set_slice_chunk_ptr_initialized": "fnset_slice_chunk_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,num_elts:usize,value:bool,)",
+        "is_slice_ptr_initialized": "fnis_slice_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*const[T],layout:Layout<LAYOUT_SIZE>,)->bool",
+        "set_slice_ptr_initialized": "fnset_slice_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*const[T],layout:Layout<LAYOUT_SIZE>,value:bool,)",
+        "is_str_ptr_initialized": "fnis_str_ptr_initialized<constLAYOUT_SIZE:usize>(ptr:*conststr,layout:Layout<LAYOUT_SIZE>,)->bool",
+        "set_str_ptr_initialized": "fnset_str_ptr_initialized<constLAYOUT_SIZE:usize>(ptr:*conststr,layout:Layout<LAYOUT_SIZE>,value:bool,)",
+        "copy_init_state": "fncopy_init_state<constLAYOUT_SIZE:usize,T>(from:*constT,to:*constT,num_elts:usize,)",
+        "copy_init_state_single": "fncopy_init_state_single<constLAYOUT_SIZE:usize,T>(from:*constT,to:*constT)",
+        "store_argument": "fnstore_argument<constLAYOUT_SIZE:usize,T>(from:*constT,selected_argument:usize)",
+        "load_argument": "fnload_argument<constLAYOUT_SIZE:usize,T>(to:*constT,selected_argument:usize)"
+      },
+      "initializer_source": "fn initialize_memory_initialization_state() {\n            unsafe {\n                MEM_INIT_STATE.tracked_object_id = super::any();\n                MEM_INIT_STATE.tracked_offset = super::any();\n                MEM_INIT_STATE.value = false;\n                ARGUMENT_BUFFER = None;\n            }\n        }",
+      "provider_bindings": [
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+          "sha256": "503b2c0f60762313b6f61b4308f154a90c459b3a4370aeb4ba2aa4e4a7aef6ba",
+          "unchanged": true
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+          "sha256": "dddbf5d1b29a398d79d4d2a8ad7f3e216dba4c22203bb75ade6fd6c8c8d8cc60",
+          "unchanged": true
+        }
+      ],
+      "patch_tree_reconstruction": "PASSED",
+      "identity": "PASSED",
+      "diff_check": "PASSED",
+      "pinned_rustfmt": "PASSED_NOT_COMPILATION"
+    },
+    {
+      "id": "R1+skip",
+      "sha": "56cbc5c4a479bc3fb25310b14fcf279d90581a02",
+      "tree": "a97ec3d06efd827829f550f1e7a98f29538758fe",
+      "exact_parent_runtime": true,
+      "only_changed_file": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "identical_function_bodies": true,
+      "added_skip_identities": [
+        "KaniModel::InitializeMemoryInitializationState"
+      ],
+      "markers": 14,
+      "normalized_runtime_signatures": {
+        "new": "pubconstfnnew()->Self",
+        "get": "pubfnget<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,layout:Layout<LAYOUT_SIZE>,)->bool",
+        "set": "pubfnset<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,layout:Layout<LAYOUT_SIZE>,value:bool,)",
+        "copy": "pubfncopy<constLAYOUT_SIZE:usize>(&mutself,from_ptr:*constu8,to_ptr:*constu8,num_elts:usize,)",
+        "copy_by_id": "pubfncopy_by_id<constLAYOUT_SIZE:usize>(&mutself,from_obj:usize,from_offset:usize,to_obj:usize,to_offset:usize,num_elts:usize,)",
+        "bless": "pubfnbless<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,num_elts:usize)",
+        "bless_by_id": "pubfnbless_by_id<constLAYOUT_SIZE:usize>(&mutself,obj:usize,offset:usize,num_elts:usize,)",
+        "get_slice": "pubfnget_slice<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,layout:Layout<LAYOUT_SIZE>,num_elts:usize,)->bool",
+        "set_slice": "pubfnset_slice<constLAYOUT_SIZE:usize>(&mutself,ptr:*constu8,layout:Layout<LAYOUT_SIZE>,num_elts:usize,value:bool,)",
+        "initialize_memory_initialization_state": "fninitialize_memory_initialization_state()",
+        "is_ptr_initialized": "fnis_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,)->bool",
+        "set_ptr_initialized": "fnset_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,value:bool,)",
+        "is_slice_chunk_ptr_initialized": "fnis_slice_chunk_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,num_elts:usize,)->bool",
+        "set_slice_chunk_ptr_initialized": "fnset_slice_chunk_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*constT,layout:Layout<LAYOUT_SIZE>,num_elts:usize,value:bool,)",
+        "is_slice_ptr_initialized": "fnis_slice_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*const[T],layout:Layout<LAYOUT_SIZE>,)->bool",
+        "set_slice_ptr_initialized": "fnset_slice_ptr_initialized<constLAYOUT_SIZE:usize,T>(ptr:*const[T],layout:Layout<LAYOUT_SIZE>,value:bool,)",
+        "is_str_ptr_initialized": "fnis_str_ptr_initialized<constLAYOUT_SIZE:usize>(ptr:*conststr,layout:Layout<LAYOUT_SIZE>,)->bool",
+        "set_str_ptr_initialized": "fnset_str_ptr_initialized<constLAYOUT_SIZE:usize>(ptr:*conststr,layout:Layout<LAYOUT_SIZE>,value:bool,)",
+        "copy_init_state": "fncopy_init_state<constLAYOUT_SIZE:usize,T>(from:*constT,to:*constT,num_elts:usize,)",
+        "copy_init_state_single": "fncopy_init_state_single<constLAYOUT_SIZE:usize,T>(from:*constT,to:*constT)",
+        "store_argument": "fnstore_argument<constLAYOUT_SIZE:usize,T>(from:*constT,selected_argument:usize)",
+        "load_argument": "fnload_argument<constLAYOUT_SIZE:usize,T>(to:*constT,selected_argument:usize)"
+      },
+      "initializer_source": "fn initialize_memory_initialization_state() {\n            unsafe {\n                MEM_INIT_STATE.tracked_object_id = super::any();\n                MEM_INIT_STATE.tracked_offset = super::any();\n                MEM_INIT_STATE.value = false;\n                MEM_INIT_STATE.argument_buffer_active = false;\n            }\n        }",
+      "provider_bindings": [
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+          "sha256": "503b2c0f60762313b6f61b4308f154a90c459b3a4370aeb4ba2aa4e4a7aef6ba",
+          "unchanged": true
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+          "sha256": "dddbf5d1b29a398d79d4d2a8ad7f3e216dba4c22203bb75ade6fd6c8c8d8cc60",
+          "unchanged": true
+        }
+      ],
+      "patch_tree_reconstruction": "PASSED",
+      "identity": "PASSED",
+      "diff_check": "PASSED",
+      "pinned_rustfmt": "PASSED_NOT_COMPILATION"
+    }
+  ],
+  "exact_compiler_delta_and_tree_match": true,
+  "historical_inputs_unchanged": true,
+  "P1_hash": "PASSED",
+  "frozen_dependencies": "PASSED",
+  "compilation": "NOT_RUN",
+  "emitted_path_bindings": "UNKNOWN",
+  "proof_credit": 0
+}

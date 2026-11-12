@@ -1,0 +1,51 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-m2br6b",
+  "baseline_commit": "258d6af1ea44411ec3f3aa0a4921c05c3700d6f9",
+  "candidate_commit": "405c1f059264d8f7cedeeaa01c6d4ad6867a419e",
+  "applicability": "KANI3300 M2-B/R6b only; one bounded source review of repaired candidate and matched control; NOT_RELEASE_CANDIDATE.",
+  "defect": "Coordinator reports early Enum Unsupported on initializer self-instrumentation, making prior R6-02 NON_COMPARABLE.",
+  "invariants": [
+    "Only existing InitializeMemoryInitializationState model identity added to shared SKIPPED_ITEMS, no wildcard or new marker.",
+    "Runtime byte-identical parent; initializer call, nondet any and all reset assignments retained; user bodies/normal calls/CFG and other passes unchanged.",
+    "R6-02b and R1+skip compiler delta/file identical; no assigns/private registration changes."
+  ],
+  "controls": [
+    "Audit entire initializer trust boundary against pinned source, including any::<usize> specialization, checks/setters removed from both providers and remaining user checks.",
+    "Audit type/signature/arity/import closure and exact patch reconstruction; no compilation claim.",
+    "Check CI path gate before Hrepr/resource attribution, early failures non-comparable, no production acceptance or proof credit."
+  ],
+  "dependencies": [
+    "cprover_bindings/src/goto_program/symbol.rs",
+    "cprover_bindings/src/goto_program/symbol_table.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+    "kani-compiler/src/kani_middle/attributes.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-dependencies",
+    "kani-driver/src/args/mod.rs",
+    "kani-driver/src/call_cbmc.rs",
+    "kani-driver/src/call_goto_instrument.rs",
+    "library/kani/src/lib.rs",
+    "library/kani_core/src/arbitrary.rs",
+    "library/kani_core/src/lib.rs",
+    "library/kani_core/src/mem.rs",
+    "library/kani_core/src/mem_init.rs",
+    "rust-toolchain.toml",
+    "rustfmt.toml"
+  ],
+  "known_limitations": [
+    "Static source audit only; compilation and emitted path/feasibility bindings UNKNOWN.",
+    "Unmarked ARGUMENT_BUFFER remains outside automatic frame registration; pointer lifetime and early frame/invalid-source boundaries remain observable.",
+    "Both-convert outcome can implicate initializer self-instrumentation; matched control cannot establish general soundness."
+  ],
+  "prior_reviews": []
+}

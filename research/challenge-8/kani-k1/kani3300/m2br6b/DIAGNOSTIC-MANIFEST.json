@@ -1,0 +1,78 @@
+{
+  "schema": "kani3300-m2br6b-diagnostics-v1",
+  "clone": "/root/kani-fix-3300-m2br6b",
+  "source_read_only": "/root/kani-fix-3300-m2br6",
+  "variants": [
+    {
+      "id": "R6-02b",
+      "branch": "experiment/kani-3300-m2br6b",
+      "parent": "258d6af1ea44411ec3f3aa0a4921c05c3700d6f9",
+      "parent_tree": "4d7d4757bf276f68060c335ebac80922ba00e41f",
+      "sha": "405c1f059264d8f7cedeeaa01c6d4ad6867a419e",
+      "tree": "162e8ad1e76e842b18c24a4ac2986335902834d7",
+      "patch": "patches/R6-02b.patch",
+      "patch_sha256": "0688e33906f4489a4dc310384cfad0417a9dec4ba103da020eda82eea2afae78",
+      "compiler_tree": "b2644584ad2fa76535d29c1b8c479ec6b8829ec1",
+      "runtime": {
+        "path": "library/kani_core/src/mem_init.rs",
+        "blob": "24f324d1f0d778970f4b7cde2734de7732c60b0c",
+        "sha256": "725522c2c896b338a737119a352a8ac5abae6fc898f1eee426c0e17e9b9df549",
+        "parent_sha256": "725522c2c896b338a737119a352a8ac5abae6fc898f1eee426c0e17e9b9df549"
+      },
+      "compiler": {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "blob": "b3a65e128de4428b1bc5791113937071e6d74c96",
+        "sha256": "e59ab3679603c16881c76701d6dfe46112e9174794a62417c0bae70a1c88f75c",
+        "parent_sha256": "47b1063398159a376fd4edcecee4d28ac24f54b2e86a930d836b354023cd8ed0"
+      },
+      "readiness": "SOURCE_READY/NOT_COMPILED",
+      "classification": "NOT_RELEASE_CANDIDATE",
+      "build": "NOT_RUN",
+      "solver": "NOT_RUN",
+      "observed_path_bindings": "UNKNOWN",
+      "proof_credit": 0
+    },
+    {
+      "id": "R1+skip",
+      "branch": "experiment/kani-3300-m2br6b-r1-control",
+      "parent": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+      "parent_tree": "c194aa39eb345316483406a4549755e29a3580e7",
+      "sha": "56cbc5c4a479bc3fb25310b14fcf279d90581a02",
+      "tree": "a97ec3d06efd827829f550f1e7a98f29538758fe",
+      "patch": "patches/R1-control.patch",
+      "patch_sha256": "0688e33906f4489a4dc310384cfad0417a9dec4ba103da020eda82eea2afae78",
+      "compiler_tree": "b2644584ad2fa76535d29c1b8c479ec6b8829ec1",
+      "runtime": {
+        "path": "library/kani_core/src/mem_init.rs",
+        "blob": "6f832d4c651f8770a46327beb6e4a957b06c1166",
+        "sha256": "d565a600e34ef6199f4c6e0a799a5eb9a224ec0ed9a563ef47da2cbbe908cc06",
+        "parent_sha256": "d565a600e34ef6199f4c6e0a799a5eb9a224ec0ed9a563ef47da2cbbe908cc06"
+      },
+      "compiler": {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "blob": "b3a65e128de4428b1bc5791113937071e6d74c96",
+        "sha256": "e59ab3679603c16881c76701d6dfe46112e9174794a62417c0bae70a1c88f75c",
+        "parent_sha256": "47b1063398159a376fd4edcecee4d28ac24f54b2e86a930d836b354023cd8ed0"
+      },
+      "readiness": "SOURCE_READY/NOT_COMPILED",
+      "classification": "NOT_RELEASE_CANDIDATE",
+      "build": "NOT_RUN",
+      "solver": "NOT_RUN",
+      "observed_path_bindings": "UNKNOWN",
+      "proof_credit": 0
+    }
+  ],
+  "diagnostics_pushed": false,
+  "cloud_usd": 0,
+  "dispatches": 0,
+  "local_builds": 0,
+  "proof_credit": 0,
+  "review": {
+    "path": "REVIEW.md",
+    "verdict": "SOURCE_READY_FOR_COORDINATOR_BUILD",
+    "model": "gpt-6-luna",
+    "effort": "high",
+    "source_only": true,
+    "proof_credit": 0
+  }
+}
