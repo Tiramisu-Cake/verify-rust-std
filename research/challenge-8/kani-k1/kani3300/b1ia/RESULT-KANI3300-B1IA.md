@@ -1,0 +1,14 @@
+# KANI3300 B1I-A result
+- Local Kani test-fix: `6134e42dd1c65dc980336e7d9455aba02d423edf`; tree `8ac9dcc3f692ef740e82fff6de8e2a44a667d969`.
+- Parent source: `dc5f5a406749a73f1c3192e0b5338441e79508bb`; production parent `cdb439b0a4c36e9e595019895ab803230f332941`.
+- Stage diff is tests-only under unresolved-calls; production unchanged. Kani not pushed.
+- Six negatives rebound: FnPtr, exact tuple-layout Unsupported, genuine Item-return uninit-read.
+- Two initialized Item-return companions preserve scalar 7 through the same generic/closure route.
+- Static diff/check, permitted rustfmt, hashes/inventory, body-preservation and source -D warnings audit passed; compilation NOT_RUN.
+- Bounded independent Luna HIGH review: no blockers; REVIEW.md records limits.
+- Inventory: 26 selectors (4 expected SUCCESS, 22 negatives), 33 unchanged existing harness controls, 4 unexecuted compiler-input specifications.
+- Historical Quick `43196180814` observations remain coordinator-reported with old source/path/harness/hashes; no status transferred.
+- All changed/new candidates NOT_RUN; actual MIR/properties/seed activation require coordinator targeted checks and exact-SHA Quick.
+- Genuine Shim argument/return/bodyless and resolver-Err branches remain gaps; no new proof credit.
+- Raw_eq legal blocker remains open; flat storage retained, full model required; Part 1 BLOCKED.
+- Cloud $0; no CI/local verifier/build execution. Handoff is ready; STOP until coordinator rerun.

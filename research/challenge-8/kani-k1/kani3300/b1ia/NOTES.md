@@ -1,0 +1,20 @@
+# KANI3300 B1I-A static handoff
+- Scope: only six fixture/golden rebindings and two initialized Item-return companions; production unchanged.
+- Research start `9615ca8e1a03e35057864a19ea79fa88cccdcdb9`; fetched and ff-only before edits.
+- Source parent `dc5f5a406749a73f1c3192e0b5338441e79508bb`; historical tree `085bea5cda2df66a5cb4f72410fe124aa816c90b`.
+- Production parent `cdb439b0a4c36e9e595019895ab803230f332941`; B1I production diff preserved.
+- Candidate `6134e42dd1c65dc980336e7d9455aba02d423edf`; Kani remains local, unpushed.
+- Fn-trait-pointer pair requires FnPtr Unsupported and preserves scalar 42 source result.
+- Tuple pair requires the precise compound tuple Unsupported prefix, source-derived; original full diagnostic UNKNOWN.
+- Uninit Item-return pair retains uninit plus reached assume_init read; no negative removed.
+- Initialized Item companions use the same noinline generic closure call, MU::new(7u16), scalar read ==7.
+- Ordinary-byte copy seeds and plain/seeded distinctions preserved, without raw_eq; actual activation UNKNOWN.
+- Inventory: 26 source/golden pairs, 4 expected SUCCESS / 22 negative; 33 unchanged existing harness controls.
+- Four compiler-input specifications preserved as NOT_RUN; no new shim/Err coverage.
+- Old observed paths/harnesses/hashes remain separate from new NOT_RUN candidates in manifest.
+- Historical Quick counts/diagnostics are coordinator-reported, not independently verified execution evidence.
+- Static rustfmt, diff/check, hashes/inventory and source -D warnings audit only; compilation NOT_RUN.
+- Bounded Luna HIGH review: see REVIEW.md; no nested delegation or production semantic re-review.
+- No local cargo/rustc/Kani/CBMC/Miri/build, CI dispatch, workflow edit or Cloud spend.
+- Decision B unchanged: flat storage retained, full raw_eq model is release dependency; Part 1 BLOCKED.
+- Next: coordinator targeted/JSON/MIR checks, then exact-SHA Uninit Quick. STOP after handoff.
