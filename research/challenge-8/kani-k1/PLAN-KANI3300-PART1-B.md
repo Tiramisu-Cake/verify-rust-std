@@ -19,7 +19,10 @@ type-only skip, default true и потеря negative checks не являютс
 - D0-A `ff5cabbfca`: .2 — immutable promoted RHS (A AllocId9 / B AllocId5, Some×4), selected byte false после init;
   left temporary SetRef/normal edge работает, get TRUE на .2 paths. 12 captures capped, 4 полных target fragments;
   extent static/mask-derived, runtime OBJECT_SIZE UNKNOWN. Причина этого отказа не требует K0; inventory order delta остаётся.
-- C1-P `d8d3e6d4ca` подготовлен. Worker 14 начинает M0; worker 15 — compile-only C1-L подготовку без model/guards.
+- M0 `742c77fa03` принят: exact immutable mask после witness reset; registry lifetime уточнён как один exported
+  GotocCtx/model, не общий compiler CodegenUnit. Действующий left setter сохраняется.
+- C1-L `a8f6b7196a` подготовлен, отдельный compile-only CI/runner отменён координатором. Вместо него C1-T через обычный Quick.
+- C1-P `d8d3e6d4ca` подготовлен. Worker 14 начинает M1; worker 15 — 6 test-only promoted selectors C1-T от того же 6134e42dd1.
   Достаточно **двух** воркеров: model/интеграция у одного владельца,
   B1I/контроли/ограничения ABI у другого. Третий постоянный исполнитель не нужен; bounded Luna High review — по semantic gate.
 
@@ -30,9 +33,10 @@ type-only skip, default true и потеря negative checks не являютс
 | **D0-P → CI → D0-A** | Диагноз передан @ ff5cabbfca | Immutable RHS не имеет shadow init; left setter исправен. Fragment/capture limitations сохранены; runtime extent UNKNOWN, general cache independence не заявлена |
 | **B1I-A** | 15 параллельно D0; TASK-KANI3300-B1IA.md | Перепривязать шесть fixtures: FnPtr, tuple-layout Unsupported, Item-return uninit; сохранить negative и добавить initialized Item companions. Production неизменен. Настоящие shim/Err branches остаются gaps; после test review STOP до targeted/Quick rerun координатора |
 | **C1-P — подготовка** | 15 сейчас; TASK-KANI3300-C1P.md, параллельно D0 | Матрица/research-only drafts и compiler-input specs без production, Kani-suite activation и запусков. Переиспользовать existing controls; STOP до D0-A/M0 |
-| **M0 — контракт модели** | 14 сейчас; TASK-KANI3300-M0.md | Контракт immutable anonymous identity/mask после witness reset, coalescing/mutability/offset и композиция с false transfers; существующий left setter сохранить. Review → STOP design gate до реализации |
-| **C1-L — lowering prep** | 15 параллельно M0; TASK-KANI3300-C1L.md | 6 promoted drafts: compile-only request на diagnostic baseline, без solver traces/model. CI координатора и последующий анализ отдельно; M0 этот пакет не ждёт |
-| **M1 — anonymous/promoted allocations** | 14 после M0; 15 параллельно C1 ниже | Протянуть referent AllocId, смещение, фактические Some/None bytes до seed/points-to/relevance и init model; учесть coalescing равных allocations. Нельзя выводить initializedness из backend zero-fill или из &T. Targeted legal + false-mask negative → STOP/review/CI |
+| **M0 — контракт модели** | Принят @ 742c77fa03 | Reviewed design, не proof. Пер-GOTO-model registry finalize после producer passes, до split/export; immutable seed после reset |
+| **C1-L — lowering prep** | READY a8f6b7196a, CI отменён | Новый runner не строить; history сохранить, дальнейший путь — C1-T |
+| **C1-T — promoted selectors** | 15 сейчас; TASK-KANI3300-C1T.md | 6 ordinary expected tests от 6134e42dd1, test-only commit; semantic goldens baseline/M1 одинаковы, operand binding отдельно. Quick запускает координатор |
+| **M1 — anonymous/promoted allocations** | 14 сейчас; TASK-KANI3300-M1.md | Immutable Some/None mask, compatible symbol registry и post-reset seed по M0; интеграция точного C1-T test commit. Static review → STOP до targeted/Quick координатора; без нового runner |
 | **C1 — контроли и ABI-границы** | 15 после B1I-A и M0, отдельный clone; production files не пересекаются с M1/M2 | Test-only controls; отдельными ограниченными commits — guards для by-value DST, retained ordinary-union constant, непарного hook/shim, если нужны. Не расширять ABI/union model. Если нужен общий файл/изменение интерфейса — передать владельцу модели, STOP параллельной правки |
 | **M2 — call destinations и state transfer** | Тот же model owner, последовательно после M1 | Coverage/qualification существующих normal-return setters и false transfers. D0 left setter не чинить; новый setter только по отдельному достигнутому gap. Не bless padding/false, не менять unwind/abort edge; review + reached controls → STOP |
 | **M3 — композиция и интеграция** | 14 после принятых M1/M2/C1 и B1I; 15 проверяет матрицу/property binding | Aliases/offsets/subranges, overwrite/reset/reuse и cross-call effects; promotion↔local dynamic choice, оба raw_eq operands, flat arrays/slices, zero extent. Неизвестные эффекты — честный guard, не скрытое расширение heap/foreign/realloc. Targeted gate до полного CI |
@@ -41,7 +45,7 @@ type-only skip, default true и потеря negative checks не являютс
 | **G2 — полный gate и экспорт** | После G1, неизменённый source/test SHA; один интегратор | Все штатные ordinary/opt-in regression jobs, Linux x86_64/AArch64 и platform statuses; PFC legal/frame/clause, B1, layout/ZST/flat/overwrite и multi-root controls. Затем source/test-only export и актуальный PR. Упаковка с тем же tree сохраняет только same-tree связь со старыми runs, не новый PASS |
 
 Каждый блок реализации/анализа — одна сессия, завершается review/результатом и STOP; следующий блок выдаёт координатор.
-D0-P/D0-A и C1-P завершены; выданы M0 и C1-L. Реализация M1/C1 activation — отдельные задания после design gate.
+D0-P/D0-A/C1-P/M0 завершены; C1-L подготовлен без dispatch и его CI отменён. Выданы M1 и C1-T.
 M1/M2 не редактировать одновременно: anonymous masks и setters используют общий relevance/shadow pipeline.
 Независимые C1 fixture/spec changes можно готовить во время D0; semantic tests/guards финализировать после M0.
 
