@@ -1,0 +1,925 @@
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/codegen/block.rs b/kani-compiler/src/codegen_cprover_gotoc/codegen/block.rs
+index 56c3ba063..1f4559332 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/codegen/block.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/codegen/block.rs
+@@ -36,6 +36,16 @@ pub fn codegen_block(&mut self, bb: BasicBlockIdx, bbd: &BasicBlock) {
+             0 => {
+                 let term = &bbd.terminator;
+                 let tcode = self.codegen_terminator(term);
++                crate::kani_middle::d0_diagnostics::event(
++                    "goto-terminator",
++                    Some(self.current_fn().instance_stable()),
++                    || {
++                        format!(
++                            "bb={bb}; mir={}\ngoto={tcode:#?}",
++                            crate::kani_middle::d0_diagnostics::encoded(term)
++                        )
++                    },
++                );
+                 self.current_fn_mut().push_onto_block(tcode.with_label(label));
+             }
+             _ => {
+@@ -49,6 +59,16 @@ pub fn codegen_block(&mut self, bb: BasicBlockIdx, bbd: &BasicBlock) {
+                 }
+                 let term = &bbd.terminator;
+                 let tcode = self.codegen_terminator(term);
++                crate::kani_middle::d0_diagnostics::event(
++                    "goto-terminator",
++                    Some(self.current_fn().instance_stable()),
++                    || {
++                        format!(
++                            "bb={bb}; mir={}\ngoto={tcode:#?}",
++                            crate::kani_middle::d0_diagnostics::encoded(term)
++                        )
++                    },
++                );
+                 self.current_fn_mut().push_onto_block(tcode);
+             }
+         }
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs b/kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs
+index 1873b4339..30af1ae4e 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs
+@@ -74,6 +74,16 @@ fn codegen_declare_variables(&mut self, body: &Body, function_name: InternedStri
+             .with_is_hidden(!self.is_user_variable(&lc))
+             .with_is_parameter((lc > 0 && lc <= num_args) && !self.is_zst_stable(ldata.ty));
+             let sym_e = sym.to_expr();
++            crate::kani_middle::d0_diagnostics::event(
++                "goto-local",
++                Some(self.current_fn().instance_stable()),
++                || {
++                    format!(
++                        "local={lc}; mir_decl={}; goto_symbol={sym:#?}",
++                        crate::kani_middle::d0_diagnostics::encoded(&ldata)
++                    )
++                },
++            );
+             self.symbol_table.insert(sym);
+ 
+             // Store the parameter symbols of the function, which will be used for function
+@@ -108,6 +118,11 @@ pub fn codegen_function(&mut self, instance: Instance) {
+                 return;
+             }
+             let body = self.transformer.body(self.tcx, instance);
++            crate::kani_middle::d0_diagnostics::event(
++                "codegen-consumed-mir",
++                Some(instance),
++                || crate::kani_middle::d0_diagnostics::encoded(&body),
++            );
+             self.set_current_fn(instance, &body);
+             self.print_instance(instance, &body);
+             self.codegen_function_prelude(&body);
+@@ -135,6 +150,9 @@ pub fn codegen_function(&mut self, instance: Instance) {
+             let loc = self.codegen_span_stable(instance.def.span());
+             let stmts = self.current_fn_mut().extract_block();
+             let goto_body = Stmt::block(stmts, loc);
++            crate::kani_middle::d0_diagnostics::event("goto-body", Some(instance), || {
++                format!("{goto_body:#?}")
++            });
+             self.symbol_table.update_fn_declaration_with_definition(&name, goto_body);
+             self.reset_current_fn();
+         }
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs b/kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs
+index 98b1bb60a..9f52806bc 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs
+@@ -448,6 +448,11 @@ fn codegen_alloc_pointer(
+         loc: Location,
+     ) -> Expr {
+         debug!(?res_t, ?alloc_id, "codegen_alloc_pointer");
++        crate::kani_middle::d0_diagnostics::event("referent-before-lowering", None, || {
++            format!(
++                "alloc_id={alloc_id:?}; offset={offset:?}; result_type={res_t:#?}; location={loc:#?}"
++            )
++        });
+         let base_addr = match GlobalAlloc::from(alloc_id) {
+             GlobalAlloc::Function(instance) => {
+                 // We want to return the function pointer (not to be confused with function item)
+@@ -463,6 +468,9 @@ fn codegen_alloc_pointer(
+                 }
+             }
+             GlobalAlloc::Memory(alloc) => {
++                crate::kani_middle::d0_diagnostics::event("referent-allocation", None, || {
++                    format!("alloc_id={alloc_id:?}; allocation={alloc:#?}")
++                });
+                 // Full (mangled) crate name added so that allocations from different
+                 // crates do not conflict. The name alone is insufficient because Rust
+                 // allows different versions of the same crate to be used.
+@@ -481,6 +489,11 @@ fn codegen_alloc_pointer(
+             }
+             GlobalAlloc::TypeId { ty: _ } => todo!(),
+         };
++        crate::kani_middle::d0_diagnostics::event("referent-symbol", None, || {
++            format!(
++                "alloc_id={alloc_id:?}; offset={offset:?}; address={base_addr:#?}; location={loc:#?}"
++            )
++        });
+         assert!(res_t.is_pointer() || res_t.is_transparent_type(&self.symbol_table));
+         let offset_addr = base_addr
+             .cast_to(Type::unsigned_int(8).to_pointer())
+@@ -562,6 +575,12 @@ fn codegen_const_allocation(
+         is_definitely_const: bool,
+     ) -> Expr {
+         debug!(?name, ?alloc, "codegen_const_allocation");
++        crate::kani_middle::d0_diagnostics::event("allocation-before-lowering", None, || {
++            format!(
++                "allocation={alloc:#?}; requested_name={name:#?}; reuse={:?}; location={loc:#?}; is_definitely_const={is_definitely_const}",
++                self.alloc_map.get(alloc)
++            )
++        });
+         let alloc_name = match self.alloc_map.get(alloc) {
+             None => {
+                 let alloc_name = if let Some(name) = name { name } else { self.next_global_name() };
+@@ -578,6 +597,9 @@ fn codegen_const_allocation(
+             Some(name) => name.clone(),
+         };
+ 
++        crate::kani_middle::d0_diagnostics::event("allocation-symbol", None, || {
++            format!("allocation={alloc:#?}; symbol={alloc_name}")
++        });
+         let mem_place = self.symbol_table.lookup(alloc_name).unwrap().to_expr();
+         mem_place.address_of()
+     }
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/codegen/ty_stable.rs b/kani-compiler/src/codegen_cprover_gotoc/codegen/ty_stable.rs
+index 076a29f22..1faf2b4b3 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/codegen/ty_stable.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/codegen/ty_stable.rs
+@@ -22,8 +22,17 @@ pub fn place_ty_stable(&self, place: &Place) -> Ty {
+     }
+ 
+     pub fn codegen_ty_stable(&mut self, ty: Ty) -> Type {
+-        cache_entry::<Type>(ty)
+-            .or_insert_with(|| self.codegen_ty(rustc_internal::internal(self.tcx, ty)))
++        cache_entry::<Type>(ty).or_insert_with(|| {
++            let internal_ty = rustc_internal::internal(self.tcx, ty);
++            let result = self.codegen_ty(internal_ty);
++            crate::kani_middle::d0_diagnostics::event("type-codegen", None, || {
++                format!(
++                    "stable_ty_id={}; rust_type={internal_ty}; goto={result:#?}",
++                    crate::kani_middle::d0_diagnostics::encoded(&ty)
++                )
++            });
++            result
++        })
+     }
+ 
+     pub fn codegen_ty_ref_stable(&mut self, ty: Ty) -> Type {
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+index 9c65098f2..3994ea778 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+@@ -12,6 +12,7 @@
+ use crate::kani_middle::check_reachable_items;
+ use crate::kani_middle::codegen_order::{MostReachableItems, order_harnesses};
+ use crate::kani_middle::codegen_units::{CodegenUnit, CodegenUnits};
++use crate::kani_middle::d0_diagnostics as d0;
+ use crate::kani_middle::provide;
+ use crate::kani_middle::reachability::{collect_reachable_items, filter_crate_items};
+ use crate::kani_middle::transform::{BodyTransformation, GlobalPasses};
+@@ -386,6 +387,9 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+                 return codegen_results();
+             }
+ 
++            if d0::enabled() {
++                assert_eq!(reachability, ReachabilityType::Harnesses, "D0 requires Harnesses");
++            }
+             // Create an empty thread pool. We will set the size later once we
+             // concretely know the # of harnesses we need to analyze.
+             let mut export_thread_pool = ThreadPool::empty();
+@@ -393,6 +397,14 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+             match reachability {
+                 ReachabilityType::AllFns | ReachabilityType::Harnesses => {
+                     let mut units = CodegenUnits::new(&queries, tcx);
++                    if d0::enabled() {
++                        assert_eq!(
++                            reachability,
++                            ReachabilityType::Harnesses,
++                            "D0 requires Harnesses"
++                        );
++                        assert_eq!(units.iter().count(), 1, "D0 requires exactly one unit");
++                    }
+                     let mut modifies_instances = vec![];
+                     let mut loop_contracts_instances = vec![];
+ 
+@@ -404,6 +416,31 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+ 
+                     // Cross-crate collecting of all items that are reachable from the crate harnesses.
+                     for unit in units.iter() {
++                        if d0::enabled() {
++                            let mut roots: Vec<_> = unit
++                                .harnesses
++                                .iter()
++                                .map(|harness| crate::kani_middle::readable_name(*harness))
++                                .collect();
++                            roots.sort();
++                            let mut expected = match d0::case().as_str() {
++                                "A" => vec![d0::A.to_string()],
++                                "B" => vec![d0::B.to_string()],
++                                "AB" | "BA" | "D" => vec![d0::A.to_string(), d0::B.to_string()],
++                                _ => panic!("unknown D0 case"),
++                            };
++                            expected.sort();
++                            assert_eq!(roots, expected, "D0 extra/missing roots");
++                            d0::context("", "unit");
++                            assert!(unit.stubs.is_empty(), "D0 fixture must have no stubs");
++                            d0::event("unit", None, || {
++                                format!(
++                                    "roots={}; stubs=0; machine_model={:#?}",
++                                    d0::encoded(&unit.harnesses),
++                                    results.machine_model
++                                )
++                            });
++                        }
+                         // Generate a new transformer that will be shared for all harnesses within the codegen unit.
+                         // We reset the body cache between units for now because each codegen unit has different
+                         // configurations that affect how we transform the instance body.
+@@ -420,7 +457,22 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+                         // Only worth the extra reachability pass when there are export workers to
+                         // overlap with; without them exports happen synchronously on this thread,
+                         // so ordering cannot hide any latency and would only add compile time.
+-                        let ordered_harnesses = if export_thread_pool.has_workers() {
++                        if d0::enabled() {
++                            if matches!(d0::case().as_str(), "AB" | "BA" | "D") {
++                                assert!(
++                                    export_thread_pool.has_workers(),
++                                    "D0 paired cases require normal prewarm workers"
++                                );
++                            }
++                            d0::event("prewarm-policy", None, || {
++                                format!(
++                                    "workers={}; roots={}; normal-policy=workers-and-at-least-two-roots",
++                                    export_thread_pool.has_workers(),
++                                    unit.harnesses.len()
++                                )
++                            });
++                        }
++                        let mut ordered_harnesses = if export_thread_pool.has_workers() {
+                             order_harnesses::<MostReachableItems>(
+                                 &unit.harnesses,
+                                 tcx,
+@@ -430,7 +482,32 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+                             unit.harnesses.iter().collect()
+                         };
+ 
++                        if d0::enabled() {
++                            d0::context("", "order");
++                            d0::event("normal-order", None, || {
++                                format!(
++                                    "workers={} order={}",
++                                    export_thread_pool.has_workers(),
++                                    d0::encoded(&ordered_harnesses)
++                                )
++                            });
++                            match d0::case().as_str() {
++                                "AB" => ordered_harnesses.sort_by_key(|h| {
++                                    crate::kani_middle::readable_name(**h) != d0::A
++                                }),
++                                "BA" => ordered_harnesses.sort_by_key(|h| {
++                                    crate::kani_middle::readable_name(**h) != d0::B
++                                }),
++                                "A" | "B" | "D" => {}
++                                _ => unreachable!(),
++                            }
++                            d0::event("actual-order", None, || d0::encoded(&ordered_harnesses));
++                        }
+                         for harness in ordered_harnesses {
++                            if d0::enabled() {
++                                d0::context(&harness.mangled_name(), "codegen");
++                                d0::event("harness-begin", None, || d0::encoded(harness));
++                            }
+                             clear_codegen_cache();
+ 
+                             let model_path = units.harness_model_path(*harness).unwrap();
+@@ -497,6 +574,7 @@ fn codegen_crate<'tcx>(&self, tcx: TyCtxt<'tcx>) -> Box<dyn Any> {
+             // Join all the worker threads in the pool to ensure all goto files have been written before
+             // moving on to verification.
+             export_thread_pool.join_all();
++            d0::finish();
+ 
+             if reachability != ReachabilityType::None {
+                 // Print compilation report.
+diff --git a/kani-compiler/src/kani_middle/codegen_order.rs b/kani-compiler/src/kani_middle/codegen_order.rs
+index 6ba2b3a6e..38be6390f 100644
+--- a/kani-compiler/src/kani_middle/codegen_order.rs
++++ b/kani-compiler/src/kani_middle/codegen_order.rs
+@@ -63,8 +63,21 @@ pub fn order_harnesses<'a, H: CodegenHeuristic>(
+     let mut rated: Vec<(&Harness, usize)> = harnesses
+         .iter()
+         .map(|harness| {
++            if crate::kani_middle::d0_diagnostics::enabled() {
++                crate::kani_middle::d0_diagnostics::context(&harness.mangled_name(), "prewarm");
++                crate::kani_middle::d0_diagnostics::event("prewarm-begin", None, || {
++                    crate::kani_middle::d0_diagnostics::encoded(harness)
++                });
++            }
+             let (reachable, _call_graph) =
+                 collect_reachable_items(tcx, transformer, &[MonoItem::Fn(*harness)]);
++            crate::kani_middle::d0_diagnostics::event("prewarm-end", None, || {
++                format!(
++                    "root={}; reachable={}",
++                    crate::kani_middle::d0_diagnostics::encoded(harness),
++                    reachable.len()
++                )
++            });
+             (harness, H::rate(&reachable))
+         })
+         .collect();
+diff --git a/kani-compiler/src/kani_middle/d0_diagnostics.rs b/kani-compiler/src/kani_middle/d0_diagnostics.rs
+new file mode 100644
+index 000000000..ed9dedb66
+--- /dev/null
++++ b/kani-compiler/src/kani_middle/d0_diagnostics.rs
+@@ -0,0 +1,175 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++//! Default-off observations for the KANI3300 D0 experiment. Never queries/changes MIR.
++//! MIR snapshots serialize existing indices without expanding Ty::Debug/type queries.
++//! Payloads are compiler data, not runtime identities or evidence of execution.
++
++use crate::kani_middle::readable_name;
++use rustc_public::mir::mono::Instance;
++use std::cell::RefCell;
++use std::collections::BTreeMap;
++use std::fs::OpenOptions;
++use std::io::Write;
++use std::path::PathBuf;
++
++pub const A: &str = "array_value_as_used_by_merge_output";
++pub const B: &str = "partial_copy_preserves_written_byte";
++const MAX_RECORDS: u64 = 20000;
++const MAX_BYTES: usize = 64 * 1024 * 1024;
++const MAX_PAYLOAD: usize = 4 * 1024 * 1024;
++
++#[derive(Default)]
++struct Observer {
++    root: String,
++    phase: String,
++    sequence: u64,
++    bytes: usize,
++    emitted: BTreeMap<String, u64>,
++    dropped: BTreeMap<String, u64>,
++    filtered: BTreeMap<String, u64>,
++    versions: BTreeMap<String, (u64, String, String)>,
++}
++
++thread_local! {
++    static OBSERVER: RefCell<Observer> = RefCell::new(Observer::default());
++}
++
++#[cfg(feature = "cprover")]
++pub fn encoded(value: &impl serde::Serialize) -> String {
++    serde_json::to_string(value).expect("D0 serialization")
++}
++
++#[cfg(not(feature = "cprover"))]
++pub fn encoded<T: ?Sized>(_value: &T) -> String {
++    unreachable!("D0 diagnostics require the CProver backend")
++}
++
++pub fn enabled() -> bool {
++    cfg!(feature = "cprover") && std::env::var_os("KANI_D0_DIR").is_some()
++}
++
++pub fn case() -> String {
++    std::env::var("KANI_D0_CASE").expect("D0 requires KANI_D0_CASE")
++}
++
++pub fn context(root: &str, phase: &str) {
++    if enabled() {
++        OBSERVER.with(|state| {
++            let mut state = state.borrow_mut();
++            state.root = root.into();
++            state.phase = phase.into();
++        });
++    }
++}
++
++fn relevant(instance: Instance) -> bool {
++    let name = instance.name();
++    readable_name(instance) == A
++        || readable_name(instance) == B
++        || name.contains("::array::")
++        || name.contains("SpecArrayEq")
++        || name.contains("spec_eq")
++        || name.contains("MaybeUninit")
++        || name.contains("::mem_init::")
++        || name.contains("::ptr::")
++        || name.contains("::intrinsics::")
++}
++
++/// A noncryptographic structural fingerprint; CI also SHA256-hashes each exact sidecar.
++/// Numeric compiler IDs are process-local. Compare normalized MIR as well across processes.
++fn fingerprint(bytes: &[u8]) -> String {
++    let hash = bytes.iter().fold(0xcbf29ce484222325u64, |hash, byte| {
++        (hash ^ u64::from(*byte)).wrapping_mul(0x100000001b3)
++    });
++    format!("fnv1a64:{hash:016x}")
++}
++
++pub fn event(stage: &str, instance: Option<Instance>, payload: impl FnOnce() -> String) {
++    let _ = record(stage, instance, payload);
++}
++
++pub fn record(
++    stage: &str,
++    instance: Option<Instance>,
++    payload: impl FnOnce() -> String,
++) -> Option<u64> {
++    if !enabled() {
++        return None;
++    }
++    if instance.is_some_and(|instance| !relevant(instance)) {
++        OBSERVER.with(|state| {
++            *state.borrow_mut().filtered.entry(stage.into()).or_default() += 1;
++        });
++        return None;
++    }
++    let payload = payload();
++    OBSERVER.with(|state| {
++        let mut state = state.borrow_mut();
++        state.sequence += 1;
++        let sequence = state.sequence;
++        if sequence > MAX_RECORDS || payload.len() > MAX_PAYLOAD {
++            *state.dropped.entry(stage.into()).or_default() += 1;
++            return None;
++        }
++        let symbol = instance.map(|instance| instance.mangled_name());
++        let body_hash = fingerprint(payload.as_bytes());
++        if stage == "cache-write-local" || stage == "cache-write-delayed" {
++            let key = symbol.clone().unwrap();
++            let version = state.versions.get(&key).map_or(1, |previous| previous.0 + 1);
++            let root = state.root.clone();
++            state.versions.insert(key, (version, root, body_hash.clone()));
++        }
++        let writer = symbol.as_ref().and_then(|symbol| state.versions.get(symbol));
++        let record = serde_json::json!({
++            "schema": "kani3300-d0/v1", "pid": std::process::id(),
++            "case": case(), "unit": 0, "cache": 0,
++            "root": state.root, "phase": state.phase,
++            "sequence": sequence, "stage": stage,
++            "instance": instance.map(|instance| instance.name()), "symbol": symbol,
++            "payload_fingerprint": body_hash, "cache_writer": writer,
++            "payload_encoding": "text-with-serde-mir-and-goto-debug", "payload": payload,
++            "runtime_binding": "NOT_RUN"
++        });
++        let bytes = serde_json::to_vec_pretty(&record).unwrap();
++        if state.bytes + bytes.len() > MAX_BYTES {
++            *state.dropped.entry(stage.into()).or_default() += 1;
++            return None;
++        }
++        let directory = PathBuf::from(std::env::var_os("KANI_D0_DIR").unwrap());
++        std::fs::create_dir_all(&directory).expect("D0 sidecar directory");
++        let path = directory.join(format!("{}-{sequence:06}-{stage}.json", std::process::id()));
++        let mut file = OpenOptions::new()
++            .write(true)
++            .create_new(true)
++            .open(path)
++            .expect("D0 sidecar must not overwrite another observation");
++        file.write_all(&bytes).expect("D0 sidecar write");
++        state.bytes += bytes.len();
++        *state.emitted.entry(stage.into()).or_default() += 1;
++        Some(sequence)
++    })
++}
++
++pub fn finish() {
++    if enabled() {
++        let counts = OBSERVER.with(|state| {
++            let state = state.borrow();
++            serde_json::json!({"emitted": state.emitted, "dropped": state.dropped,
++                "filtered": state.filtered, "bytes": state.bytes, "attempted": state.sequence,
++                "filter": "roots,array,MaybeUninit,mem_init,ptr,intrinsics",
++                "missing_or_capped": "UNKNOWN"})
++        });
++        // Coverage must survive an exhausted event budget.
++        let directory = PathBuf::from(std::env::var_os("KANI_D0_DIR").unwrap());
++        let path = directory.join(format!("{}-coverage.json", std::process::id()));
++        let mut file = OpenOptions::new().write(true).create_new(true).open(path).unwrap();
++        let bytes = serde_json::to_vec_pretty(&serde_json::json!({
++            "schema": "kani3300-d0/v1", "case": case(), "pid": std::process::id(),
++            "codegen_completed": true, "counts": counts,
++            "required_phase_coverage": "CI_MUST_VALIDATE"
++        }))
++        .unwrap();
++        file.write_all(&bytes).unwrap();
++    }
++}
+diff --git a/kani-compiler/src/kani_middle/mod.rs b/kani-compiler/src/kani_middle/mod.rs
+index a47846064..66efaa0ef 100644
+--- a/kani-compiler/src/kani_middle/mod.rs
++++ b/kani-compiler/src/kani_middle/mod.rs
+@@ -69,6 +69,7 @@ pub fn strip_local_crate_prefix(name: String) -> String {
+ pub mod codegen_order;
+ pub mod codegen_units;
+ pub mod coercion;
++pub(crate) mod d0_diagnostics;
+ mod intrinsics;
+ pub mod kani_functions;
+ pub mod metadata;
+diff --git a/kani-compiler/src/kani_middle/transform/body.rs b/kani-compiler/src/kani_middle/transform/body.rs
+index ae984c26e..805f81d60 100644
+--- a/kani-compiler/src/kani_middle/transform/body.rs
++++ b/kani-compiler/src/kani_middle/transform/body.rs
+@@ -22,6 +22,7 @@ pub fn synthetic_source_info(span: Span) -> SourceInfo {
+     SourceInfo { span, scope: 0 }
+ }
+ 
++#[cfg_attr(feature = "cprover", derive(serde::Serialize))]
+ #[derive(Debug)]
+ /// This structure mimics a Body that can actually be modified.
+ pub struct MutableBody {
+@@ -50,6 +51,7 @@ pub struct MutableBody {
+ }
+ 
+ /// Denotes whether instrumentation should be inserted before or after the statement.
++#[cfg_attr(feature = "cprover", derive(serde::Serialize))]
+ #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+ pub enum InsertPosition {
+     Before,
+@@ -519,6 +521,7 @@ pub fn new_unsupported_check_assert_assume_false(queries: &QueryDb) -> CheckType
+ }
+ 
+ /// We store the index of an instruction to avoid borrow checker issues and unnecessary copies.
++#[cfg_attr(feature = "cprover", derive(serde::Serialize))]
+ #[derive(Copy, Clone, Debug, PartialEq, Eq)]
+ pub enum SourceInstruction {
+     Statement { idx: usize, bb: BasicBlockIdx },
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+index 0d7037172..a70d09ae1 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+@@ -50,7 +50,16 @@ pub fn push_operand(&mut self, operand: &Operand) {
+                 // Extract the static from the constant.
+                 if let ConstantKind::Allocated(allocation) = constant.const_.kind() {
+                     for (_, prov) in &allocation.provenance.ptrs {
+-                        if let GlobalAlloc::Static(static_def) = GlobalAlloc::from(prov.0) {
++                        let referent = GlobalAlloc::from(prov.0);
++                        crate::kani_middle::d0_diagnostics::event("seed-provenance", None, || {
++                            format!(
++                                "operand={}; alloc_id={:?}; referent={}; selection=only-Static-is-a-seed",
++                                crate::kani_middle::d0_diagnostics::encoded(operand),
++                                prov.0,
++                                crate::kani_middle::d0_diagnostics::encoded(&referent)
++                            )
++                        });
++                        if let GlobalAlloc::Static(static_def) = referent {
+                             self.targets.push(AnalysisTarget::Static(static_def));
+                         };
+                     }
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
+index 719832acf..45d2c2fde 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
+@@ -195,6 +195,13 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+             has_common_ancestor
+         };
+ 
++        crate::kani_middle::d0_diagnostics::event("relevance", Some(self.current_instance), || {
++            format!(
++                "location={location:#?}; place={}; context={ptx:#?}; needs_get={needs_get}; needs_set={needs_set}; mutating={}; rule=get:resolved-intersection,set:common-ancestor; rejected when corresponding predicate false",
++                crate::kani_middle::d0_diagnostics::encoded(place),
++                ptx.is_mutating()
++            )
++        });
+         // If we are mutating the place, initialize it.
+         if ptx.is_mutating() && needs_set {
+             self.push_target(MemoryInitOp::SetRef {
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+index 67a822dc4..5a6210f17 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+@@ -7,6 +7,7 @@
+ use std::collections::HashSet;
+ 
+ use crate::args::ExtraChecks;
++use crate::kani_middle::d0_diagnostics as d0;
+ use crate::kani_middle::kani_functions::KaniFunction;
+ use crate::kani_middle::{
+     points_to::{MemLoc, PointsToGraph, run_points_to_analysis},
+@@ -74,20 +75,24 @@ fn transform(
+             .flat_map(|instance| {
+                 let body = instance.body().unwrap();
+                 let mut visitor = InitialTargetVisitor::new(body.clone());
++                d0::event("seed-body", Some(*instance), || d0::encoded(&body));
+                 visitor.visit_body(&body);
+                 // Convert all places into the format of aliasing graph for later comparison.
+                 visitor.into_targets().into_iter().map(move |analysis_target| match analysis_target
+                 {
+                     AnalysisTarget::Place(place) => {
++                        d0::event("seed-place", Some(*instance), || d0::encoded(&place));
+                         MemLoc::from_stable_stack_allocation(*instance, place, tcx)
+                     }
+                     AnalysisTarget::Static(static_def) => {
++                        d0::event("seed-static", Some(*instance), || d0::encoded(&static_def));
+                         MemLoc::from_stable_static_allocation(static_def, tcx)
+                     }
+                 })
+             })
+             .collect();
+ 
++        d0::event("seeds", None, || format!("{targets:#?}"));
+         // Only perform this analysis if there is something to analyze.
+         if !targets.is_empty() {
+             let mut analysis_targets = HashSet::new();
+@@ -106,12 +111,20 @@ fn transform(
+                 if let Some(instance) = entry_fn {
+                     let body = instance.body().unwrap();
+                     let results = run_points_to_analysis(&body, tcx, instance, call_graph);
++                    d0::event("points-to-root-before-join", None, || {
++                        format!("root={}\n{results:#?}", d0::encoded(&instance))
++                    });
+                     global_points_to_graph.join(&results);
+                 }
+             }
+ 
+             // Since analysis targets are *pointers*, need to get its successors for instrumentation.
+             analysis_targets.extend(global_points_to_graph.successors(&targets));
++            d0::event("points-to-joined", None, || {
++                format!(
++                    "graph={global_points_to_graph:#?}\nseeds={targets:#?}\nsuccessors={analysis_targets:#?}"
++                )
++            });
+ 
+             // If we are generating MIR, generate the points-to graph as well.
+             if tcx.sess.opts.output_types.contains_key(&OutputType::Mir) {
+@@ -122,6 +135,7 @@ fn transform(
+             for instance in instances {
+                 // Retrieve the body with all local instrumentation passes applied.
+                 let body = transformer.body(tcx, instance);
++                d0::event("delayed-before", Some(instance), || d0::encoded(&body));
+                 // Instrument for delayed UB.
+                 let target_finder = InstrumentationVisitor::new(
+                     &global_points_to_graph,
+@@ -139,9 +153,13 @@ fn transform(
+                     target_finder,
+                 );
+                 // If some instrumentation has been performed, update the cached body in the local transformer.
++                d0::event("delayed-after", Some(instance), || {
++                    format!("changed={instrumentation_added}\n{}", d0::encoded(&body))
++                });
+                 if instrumentation_added {
+                     modified = true;
+                     transformer.cache.entry(instance).and_modify(|transformation_result| {
++                        d0::event("cache-write-delayed", Some(instance), || d0::encoded(&body));
+                         *transformation_result = TransformationResult(body, true);
+                     });
+                 }
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+index 477e637ee..2d38a0ff8 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+@@ -96,6 +96,7 @@ pub trait TargetFinder {
+ /// Instruments the code with checks for uninitialized memory, agnostic to the source of targets.
+ pub struct UninitInstrumenter<'a, 'tcx> {
+     tcx: TyCtxt<'tcx>,
++    diagnostic_instance: Instance,
+     safety_check_type: CheckType,
+     unsupported_check_type: CheckType,
+     /// Used to cache FnDef lookups of injected memory initialization functions.
+@@ -113,8 +114,13 @@ pub(crate) fn run(
+         mem_init_fn_cache: &'a mut HashMap<KaniFunction, FnDef>,
+         target_finder: impl TargetFinder,
+     ) -> (bool, Body) {
+-        let mut instrumenter =
+-            Self { tcx, safety_check_type, unsupported_check_type, mem_init_fn_cache };
++        let mut instrumenter = Self {
++            tcx,
++            diagnostic_instance: instance,
++            safety_check_type,
++            unsupported_check_type,
++            mem_init_fn_cache,
++        };
+         let body = MutableBody::from(body);
+         let (changed, new_body) = instrumenter.instrument(body, instance, target_finder);
+         (changed, new_body.into())
+@@ -149,6 +155,11 @@ fn build_check_for_instruction(
+         instruction: InitRelevantInstruction,
+         mut source: SourceInstruction,
+     ) {
++        crate::kani_middle::d0_diagnostics::event(
++            "source-operations",
++            Some(self.diagnostic_instance),
++            || crate::kani_middle::d0_diagnostics::encoded(&instruction),
++        );
+         for operation in instruction.before_instruction {
+             self.build_check_for_operation(body, &mut source, operation);
+         }
+@@ -159,6 +170,36 @@ fn build_check_for_instruction(
+ 
+     /// Inject memory initialization check for an operation.
+     fn build_check_for_operation(
++        &mut self,
++        body: &mut MutableBody,
++        source: &mut SourceInstruction,
++        operation: MemoryInitOp,
++    ) {
++        let op_id = crate::kani_middle::d0_diagnostics::record(
++            "shadow-operation",
++            Some(self.diagnostic_instance),
++            || {
++                format!(
++                    "source={source:#?}; operation={}; blocks_before={}",
++                    crate::kani_middle::d0_diagnostics::encoded(&operation),
++                    body.blocks().len()
++                )
++            },
++        );
++        self.build_check_for_operation_inner(body, source, operation);
++        crate::kani_middle::d0_diagnostics::event(
++            "shadow-operation-result",
++            Some(self.diagnostic_instance),
++            || {
++                format!(
++                    "op_id={op_id:?}; source_after={source:#?}\n{}",
++                    crate::kani_middle::d0_diagnostics::encoded(body)
++                )
++            },
++        );
++    }
++
++    fn build_check_for_operation_inner(
+         &mut self,
+         body: &mut MutableBody,
+         source: &mut SourceInstruction,
+@@ -253,13 +294,37 @@ fn build_check_for_operation(
+                     | MemoryInitOp::CheckAs { .. }
+                     | MemoryInitOp::CheckSliceChunk { .. } => {
+                         match PointeeInfo::for_storage(self.tcx, pointee_ty) {
+-                            Ok(_) => return,
++                            Ok(_) => {
++                                crate::kani_middle::d0_diagnostics::event(
++                                    "shadow-skip",
++                                    Some(self.diagnostic_instance),
++                                    || {
++                                        format!(
++                                            "source={source:?}; operation={}; reason=storage-read-exempt",
++                                            crate::kani_middle::d0_diagnostics::encoded(&operation)
++                                        )
++                                    },
++                                );
++                                return;
++                            }
+                             Err(reason) => Err(reason),
+                         }
+                     }
+                     // The pointer visitor handles writes to this storage, including transfers.
+                     // A generic set from delayed UB instrumentation would erase that state.
+-                    MemoryInitOp::SetRef { .. } => return,
++                    MemoryInitOp::SetRef { .. } => {
++                        crate::kani_middle::d0_diagnostics::event(
++                            "shadow-skip",
++                            Some(self.diagnostic_instance),
++                            || {
++                                format!(
++                                    "source={source:?}; operation={}; reason=storage-pointer-visitor-owns-write",
++                                    crate::kani_middle::d0_diagnostics::encoded(&operation)
++                                )
++                            },
++                        );
++                        return;
++                    }
+                     MemoryInitOp::SetStorage { .. }
+                     | MemoryInitOp::AssignUnion { .. }
+                     | MemoryInitOp::StoreArgument { .. }
+@@ -286,6 +351,18 @@ fn build_check_for_operation(
+             }
+         };
+ 
++        crate::kani_middle::d0_diagnostics::event(
++            "shadow-layout",
++            Some(self.diagnostic_instance),
++            || {
++                format!(
++                    "source={source:#?}; operation={}; pointee_ty_id={}; layout={:?}",
++                    crate::kani_middle::d0_diagnostics::encoded(&operation),
++                    crate::kani_middle::d0_diagnostics::encoded(pointee_info.ty()),
++                    pointee_info.layout()
++                )
++            },
++        );
+         match &operation {
+             MemoryInitOp::CheckSliceChunk { .. }
+             | MemoryInitOp::Check { .. }
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 497c69552..330dc3b66 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -561,7 +561,20 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                                 self.push_target(MemoryInitOp::Check { operand: args[0].clone() });
+                             }
+                             Intrinsic::RawEq => {
+-                                for operand in args {
++                                for (operand_index, operand) in args.iter().enumerate() {
++                                    crate::kani_middle::d0_diagnostics::event(
++                                        "raw-eq-operand",
++                                        Some(self.instance),
++                                        || {
++                                            format!(
++                                                "location={location:#?}; index={operand_index}; operand={}; term={}",
++                                                crate::kani_middle::d0_diagnostics::encoded(
++                                                    operand
++                                                ),
++                                                crate::kani_middle::d0_diagnostics::encoded(term)
++                                            )
++                                        },
++                                    );
+                                     let TyKind::RigidTy(RigidTy::Ref(_, pointee_ty, _)) =
+                                         operand.ty(&self.locals).unwrap().kind()
+                                     else {
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+index 88414a040..3abae2c40 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+@@ -17,6 +17,7 @@
+ use strum_macros::AsRefStr;
+ 
+ /// Memory initialization operations: set or get memory initialization state for a given pointer.
++#[cfg_attr(feature = "cprover", derive(serde::Serialize))]
+ #[derive(AsRefStr, Clone, Debug)]
+ pub enum MemoryInitOp {
+     /// Check memory initialization of data bytes in a memory region starting from the pointer
+@@ -285,6 +286,7 @@ pub fn expect_argument_no(&self) -> usize {
+ /// Represents an instruction in the source code together with all memory initialization checks/sets
+ /// that are connected to the memory used in this instruction and whether they should be inserted
+ /// before or after the instruction.
++#[cfg_attr(feature = "cprover", derive(serde::Serialize))]
+ #[derive(Clone, Debug)]
+ pub struct InitRelevantInstruction {
+     /// The instruction that affects the state of the memory.
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+index feab87884..2ff174ce3 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+@@ -43,6 +43,7 @@ fn generate_byte_mask(size_in_bytes: usize, data_chunks: Vec<DataBytes>) -> Vec<
+ 
+ // Depending on whether the type is statically or dynamically sized,
+ // the layout of the element or the layout of the actual type is returned.
++#[derive(Debug)]
+ pub enum PointeeLayout {
+     /// Layout of sized objects.
+     Sized { layout: Layout },
+diff --git a/kani-compiler/src/kani_middle/transform/mod.rs b/kani-compiler/src/kani_middle/transform/mod.rs
+index d86ae417a..f01cde766 100644
+--- a/kani-compiler/src/kani_middle/transform/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/mod.rs
+@@ -17,6 +17,7 @@
+ //! For all instrumentation passes, always use exhaustive matches to ensure soundness in case a new
+ //! case is added.
+ use crate::kani_middle::codegen_units::CodegenUnit;
++use crate::kani_middle::d0_diagnostics as d0;
+ use crate::kani_middle::reachability::CallGraph;
+ use crate::kani_middle::transform::body::CheckType;
+ use crate::kani_middle::transform::check_uninit::{DelayedUbPass, UninitPass};
+@@ -150,18 +151,25 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {
+ 
+     /// Equivalent to `body()`, but avoids cloning the returned `Body`.
+     pub fn body_ref(&mut self, tcx: TyCtxt, instance: Instance) -> &Body {
+-        &self
++        let result = &self
+             .cache
+             .entry(instance)
+             .or_insert_with(|| {
+                 // Transform and add to the cache if there's no existing entry.
+                 let mut body = instance.body().unwrap_or_else(|| build_missing_body(tcx, instance));
+ 
++                d0::event("mir-original", Some(instance), || d0::encoded(&body));
+                 let mut modified = false;
+                 for pass in self.stub_passes.iter_mut().chain(self.inst_passes.iter_mut()) {
++                    d0::event("local-pass-before", Some(instance), || {
++                        format!("pass={}\n{}", pass.diagnostic_name(), d0::encoded(&body))
++                    });
+                     let result = pass.transform(tcx, body, instance);
+                     modified |= result.0;
+                     body = result.1;
++                    d0::event("local-pass-after", Some(instance), || {
++                        format!("pass={}\n{}", pass.diagnostic_name(), d0::encoded(&body))
++                    });
+                     self.generated_loop_modifies.extend(
+                         pass.take_generated_loop_modifies()
+                             .into_iter()
+@@ -174,9 +182,12 @@ pub fn body_ref(&mut self, tcx: TyCtxt, instance: Instance) -> &Body {
+                     );
+                 }
+ 
++                d0::event("cache-write-local", Some(instance), || d0::encoded(&body));
+                 TransformationResult(body, modified)
+             })
+-            .0
++            .0;
++        d0::event("cache-read", Some(instance), || d0::encoded(result));
++        result
+     }
+ 
+     /// The locals of the transformed body of `instance` that codegen adds to the loop modifies
+@@ -223,6 +234,10 @@ pub(crate) enum TransformationType {
+ 
+ /// A trait to represent transformation passes that can be used to modify the body of a function.
+ pub(crate) trait TransformPass: Debug {
++    fn diagnostic_name(&self) -> &'static str {
++        std::any::type_name::<Self>()
++    }
++
+     /// The type of transformation that this pass implements.
+     fn transformation_type() -> TransformationType
+     where

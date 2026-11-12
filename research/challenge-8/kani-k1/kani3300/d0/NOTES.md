@@ -1,0 +1,29 @@
+# KANI3300 D0-P — static preparation only
+- Research start: clean `81c1cabffd315abd73165d5807afdea688fdeeb6`, fetch + ff-only completed.
+- Baseline (read-only a1): `a0a2386001a15fecfe2facc2f6cd87f3dee13b60`; no B1I diff included.
+- Isolated local clone `/root/kani-fix-3300-d0`, branch `diagnostics/kani-3300-raweq-d0`.
+- Diagnostic candidate `955cd015649aa79be511fe1732d48fdc8535741f`; tree `1c724bf33763251340efbdf9a8486a6278cafdc4`; not pushed.
+- Full `diagnostic.patch` SHA256 `027634fa0c0f84c8b7d39d69904f0c032e6c9984dac63a78a90b955f7f65972b`.
+- Original fixture retained in clone and `fixture-main.rs`, SHA256 `df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c`.
+- Task/Part1-B/R2 audit @124a45e373 and R0 @8ad13e016e read; rejected A not reopened.
+- Baseline source clone clean/unchanged. B1I current read-only HEAD `6134e42dd1c65dc980336e7d9455aba02d423edf`; no outcome inferred.
+- A/B singleton compiler processes; AB/BA exact same selectors/options in one unit and shared transformer.
+- AB/BA change only the already-computed actual harness loop order, after normal prewarm.
+- Paired AB/BA/D require export workers; actual prewarm sequences must match or stop matched-order comparison.
+- Existing HashMap grouping can vary root enumeration across processes: CLI/source order is not evidence.
+- D is a diagnostic duplicate with the same pair and no order override; compare to unmodified baseline.
+- Observations only: original/local/delayed/consumed MIR, ops/results/masks, relevance, graphs, allocations, GOTO bindings.
+- MIR snapshots use serde opaque IDs; no recursive Ty::Debug before transformation. Codegen maps already-used types.
+- Cache writer version/fingerprint is compiler provenance, distinct from the last executed shadow transition.
+- Compiler sidecars are filtered/capped, versioned by PID/sequence/root/phase. Any required omission means UNKNOWN.
+- Runtime operand/property/AllocId/GOTO/object/offset/extent/witness chain remains NOT_RUN.
+- Prior .2 FAILURE/.1 SUCCESS is reference observation only; no operand guessed from numbering.
+- Original CBMC stdout is captured only in CI, curated by exact property/source/LHS binding, never playback.
+- Capture completeness/exit/signal/hash gates precede curation; raw traces stay private in CI.
+- No runtime changes, fixes, new state writes/assumes/setters, cache resets, fresh transformers or harness edits.
+- Permitted rustfmt wrapper and pinned API/hash/source audits only; compiler/model equivalence NOT_RUN.
+- Synthetic curator/capture validation and independent Luna High review are recorded in VALIDATION.json/REVIEW.md.
+- Cloud $0; no local cargo/rustc/Kani/CBMC/Miri, CI/workflow/dispatch or diagnostic publication.
+- Coordinator publishes exact local diagnostic SHA and runs CI-REQUEST; D0-A requires a new task/report.
+- Concurrent g0 HEAD advanced to `adc8ecab69`; per task publication STOP, isolated local research handoff against assigned 81c1.
+- No g0 push; coordinator owns adoption/publication. READY is preparation, not diagnosis, verification PASS or proof credit.

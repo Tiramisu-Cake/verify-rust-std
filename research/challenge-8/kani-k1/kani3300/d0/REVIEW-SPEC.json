@@ -1,0 +1,44 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-d0",
+  "baseline_commit": "a0a2386001a15fecfe2facc2f6cd87f3dee13b60",
+  "candidate_commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+  "defect": "D0-P: prepare source-bound diagnostics and matched post-prewarm order experiments for two raw_eq legal failures.",
+  "applicability": "Only TASK-KANI3300-D0.md at research 81c1cabffd315abd73165d5807afdea688fdeeb6; compiler observations opt-in/default-off, no model repair. Independently inspect without assuming author conclusions.",
+  "invariants": [
+    "No model/check/operand/mask/state/CFG/runtime-call changes, no extra mutating body queries or transformed body rebuild for logging.",
+    "AB/BA actual compiler loop order override only AFTER unchanged MostReachableItems prewarm; same unit/shared transformer/cache lifetime, exact roots A/B; no harness body/name/literal changes.",
+    "Body hashes/version/writer and consumer root bound to observed cache content; runtime last shadow transition distinct from compiler last writer. No guessed .1/.2 operand binding.",
+    "Read-only allocation Some/None/provenance/offset and alloc_map reuse, MIR phase snapshots, graph seeds/per-root prejoin/final successor/relevance get/set decisions, selected masks/op-to-result/GOTO mappings.",
+    "Diagnostic cap/truncation/filtered phases UNKNOWN; no disappearance implies missing setter. Audit API signatures/borrows/imports/clippy warnings from sources only.",
+    "MIR observations must serialize Ty/Span/Instance IDs without recursive Ty::Debug or extra .kind() queries; no change to model signature tokens from diagnostic type expansion.",
+    "Opaque serde Ty/Span serialization verified at pinned ty/tys.rs serialize_index_impl (lines 1322-1333). Type dictionary observes the internal_ty/result already produced by normal codegen_ty_stable cache-miss closure, without another conversion/query.",
+    "All new stable Instance/root records serialize kind/def indices, avoiding Instance::Debug args() expansion; unit projection records exact root vector and requires no stubs for unchanged fixture."
+  ],
+  "controls": [
+    "NO cargo/rustc/Kani/CBMC/Miri/build/CI/Cloud/dispatch/push/credentials/raw logs or archives. Python static/synthetic and permitted rustfmt only.",
+    "No nested delegation. Do not edit compiler implementation or Python. Write only research/challenge-8/kani-k1/kani3300/d0/REVIEW.md in g0. Findings compact actionable, no proof credit.",
+    "Pinned API sources /tmp/kani3300-g1r-api; all 11 hashes in g1r/API-SOURCES.json match. Compiler candidate static only."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/codegen_units.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+    "kani-driver/src/call_single_file.rs",
+    "kani-driver/src/call_cbmc.rs",
+    "kani-driver/src/cbmc_output_parser.rs",
+    "library/kani_core/src/mem_init.rs",
+    "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+    "rust-toolchain.toml",
+    "kani-dependencies",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/ty_stable.rs",
+    "kani-compiler/Cargo.toml"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Compilation/model equivalence/actual ordering/runtime bindings NOT_RUN; coordinator only CI; no release/proof credit."
+  ]
+}

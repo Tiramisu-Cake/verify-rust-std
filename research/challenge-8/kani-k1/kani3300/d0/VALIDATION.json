@@ -1,0 +1,69 @@
+{
+  "schema": "kani3300-d0-static-validation-v1",
+  "candidate": "955cd015649aa79be511fe1732d48fdc8535741f",
+  "baseline": "a0a2386001a15fecfe2facc2f6cd87f3dee13b60",
+  "diagnostic_tree": "1c724bf33763251340efbdf9a8486a6278cafdc4",
+  "diff_check": "PASS",
+  "rustfmt": {
+    "result": "PASS",
+    "wrapper": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+    "args": [
+      "--config-path",
+      "rustfmt.toml",
+      "--check"
+    ],
+    "files": [
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/block.rs",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/ty_stable.rs",
+      "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "kani-compiler/src/kani_middle/codegen_order.rs",
+      "kani-compiler/src/kani_middle/d0_diagnostics.rs",
+      "kani-compiler/src/kani_middle/mod.rs",
+      "kani-compiler/src/kani_middle/transform/body.rs",
+      "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+      "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "kani-compiler/src/kani_middle/transform/mod.rs"
+    ],
+    "stderr": ""
+  },
+  "source_API_hashes": {
+    "result": "PASS",
+    "rust_files": 11,
+    "extra_sources": 3
+  },
+  "fixture_SHA256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+  "baseline_clean_unchanged": true,
+  "candidate_clean": true,
+  "patch_and_all_anchors": "PASS",
+  "docs_limits_JSON_and_shell_syntax": "PASS",
+  "compiler_execution": "NOT_RUN",
+  "actual_model_equivalence": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "cloud_spend": 0,
+  "synthetic_tests": {
+    "command": "python -m unittest -v test_curate_cbmc_trace.py test_capture_cbmc.py",
+    "result": "PASS",
+    "tests": 23,
+    "inputs": "only generated fake processes and synthetic JSON; no real compiler/verifier inputs"
+  },
+  "script_sha256": {
+    "capture_cbmc.py": "f9f896dc06fa55921d5743fd4b1b3b11e931cc4cbc2f183a81fe389cd5b464c9",
+    "curate_cbmc_trace.py": "7f446c7c44152caaf168afa4086c17bf891d12a87422dd43c920b27a27892f5f",
+    "test_capture_cbmc.py": "824c4441801fb4e75f2ddd32dc805aa796d054890e8da6da6ae74c2f5bc8f3e0",
+    "test_curate_cbmc_trace.py": "4f71667f9537927f4149271add69bdd0763266fcbeaa067cbcfea4d302e4035f"
+  },
+  "research_publication": {
+    "state": "CONCURRENT_HANDOFF_NO_PUSH",
+    "assigned": "81c1cabffd315abd73165d5807afdea688fdeeb6",
+    "observed": "adc8ecab690cdfdd72ebb905c69dbdd5b1912373",
+    "foreign_files": "preserved; not staged or read for this task",
+    "local_commit_parent": "81c1cabffd315abd73165d5807afdea688fdeeb6"
+  }
+}

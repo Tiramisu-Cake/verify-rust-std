@@ -1,0 +1,95 @@
+{
+  "toolchain": "nightly-2026-10-23",
+  "rust_commit": "7189d39d9ce936881b8132c6addeaf3e295cd455",
+  "manifest_url": "https://static.rust-lang.org/dist/2026-10-23/channel-rust-nightly.toml",
+  "local_source_root": "/tmp/kani3300-g1r-api",
+  "sources": [
+    {
+      "path": "abi.rs",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_public/src/abi.rs",
+      "sha256": "a14373ba8fa730b978d833eb867d2dbf6f72f8dfa9ce14c36f6163968232e4cf",
+      "bytes": 24065
+    },
+    {
+      "path": "crate_def.rs",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_public/src/crate_def.rs",
+      "sha256": "55c4942b4c1b6437b4b845cb7e5e340b2d770cf5a4d30ada51adfdaced2eab1a",
+      "bytes": 5921
+    },
+    {
+      "path": "lib.rs",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_public/src/lib.rs",
+      "sha256": "bb9dc035be02cb036cc07eae1af9869888c26a278109fed7845d7db39cb879ca",
+      "bytes": 14621
+    },
+    {
+      "path": "mir/body.rs",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_public/src/mir/body.rs",
+      "sha256": "e18ec25e0f154bd0781b818e996bbf3c7a8077420ea286d429c78679ea3a6b27",
+      "bytes": 42009
+    },
+    {
+      "path": "mir/mono.rs",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_public/src/mir/mono.rs",
+      "sha256": "c9e882e0ca83c126a60af9b23d01b4305d561c2c5f5c5ba1fd7ec0e980d57eef",
+      "bytes": 10722
+    },
+    {
+      "path": "mir/visit.rs",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_public/src/mir/visit.rs",
+      "sha256": "be13b963212993fc87ce619bc59ceaa6f19dccda141cbfff401e39abcfb66a79",
+      "bytes": 24369
+    },
+    {
+      "path": "mir.rs",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_public/src/mir.rs",
+      "sha256": "ec2d384d6448782aa5684299689e45499b6ea5213c66457be17daa22917b31fa",
+      "bytes": 132
+    },
+    {
+      "path": "target.rs",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_public/src/target.rs",
+      "sha256": "3909a2a93a7cc28af7bffe058e1a6005866fc219c3f2d2955a57e6cc452b773f",
+      "bytes": 1347
+    },
+    {
+      "path": "ty/def.rs",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_public/src/ty/def.rs",
+      "sha256": "b21f9034ef485a313319b0db3e024503f724988f98d3129e9c1b4641ccdf3c44",
+      "bytes": 8306
+    },
+    {
+      "path": "ty/tys.rs",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_public/src/ty/tys.rs",
+      "sha256": "ff2d1a84f315033cd50e7add63c853ec7704041cbffcd63b33453ad74c3140f4",
+      "bytes": 38464
+    },
+    {
+      "path": "ty.rs",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_public/src/ty.rs",
+      "sha256": "019bfd6aa002ce3d0e74e2dc6c3287c9b63c72a88ce8cf16d3b8c3b93a1a54f9",
+      "bytes": 50
+    }
+  ],
+  "purpose": "Static read-only API audit only; no compiler executed",
+  "extra_sources": [
+    {
+      "path": "/tmp/kani3300-d0-api/rustc-public-alloc.rs",
+      "url": "https://raw.githubusercontent.com/rust-lang/rust/7189d39d9ce936881b8132c6addeaf3e295cd455/compiler/rustc_public/src/mir/alloc.rs",
+      "sha256": "3885efd7298235de12b866ceacd978c83833c4602942870f0a9417d88b895ca6",
+      "bytes": 3103
+    },
+    {
+      "path": "/tmp/kani3300-d0-api/cbmc_parse_options.cpp",
+      "url": "https://raw.githubusercontent.com/diffblue/cbmc/cbmc-6.11.0/src/cbmc/cbmc_parse_options.cpp",
+      "sha256": "11b9d57238c70ec00f3ba2832e4a914a855be0d6478b5e1b3e01d384547df4e8",
+      "bytes": 33503
+    },
+    {
+      "path": "/tmp/kani3300-d0-api/goto_instrument_parse_options.cpp",
+      "url": "https://raw.githubusercontent.com/diffblue/cbmc/cbmc-6.11.0/src/goto-instrument/goto_instrument_parse_options.cpp",
+      "sha256": "99f91f53a59e5b3702fa1a7a17f49cb85a9d0448f30d474383a6fb825165c322",
+      "bytes": 64193
+    }
+  ]
+}

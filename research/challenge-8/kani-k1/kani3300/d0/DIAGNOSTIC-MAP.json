@@ -1,0 +1,875 @@
+{
+  "schema": "kani3300-d0-diagnostic-map-v1",
+  "state": "PREPARED_NOT_RUN",
+  "research_start": "81c1cabffd315abd73165d5807afdea688fdeeb6",
+  "baseline": "a0a2386001a15fecfe2facc2f6cd87f3dee13b60",
+  "diagnostic": "955cd015649aa79be511fe1732d48fdc8535741f",
+  "diagnostic_tree": "1c724bf33763251340efbdf9a8486a6278cafdc4",
+  "diagnostic_patch_sha256": "027634fa0c0f84c8b7d39d69904f0c032e6c9984dac63a78a90b955f7f65972b",
+  "fixture": {
+    "baseline_path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+    "archival_copy": "fixture-main.rs",
+    "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+    "bytes": 2904,
+    "unchanged": true
+  },
+  "pins": {
+    "rust_toolchain": "nightly-2026-10-23",
+    "rust_commit": "7189d39d9ce936881b8132c6addeaf3e295cd455",
+    "CBMC": "6.11.0",
+    "Kissat": "4.0.1",
+    "target": "x86_64-unknown-linux-gnu",
+    "pointer_width": 64,
+    "endian": "little",
+    "sysroot_binary_manifest": "NOT_RUN_REQUIRED_CI",
+    "actual_data_layout": "NOT_RUN_REQUIRED_CI",
+    "tool_binary_hashes": "NOT_RUN_REQUIRED_CI"
+  },
+  "sidecar_schema": {
+    "schema": "kani3300-d0/v1",
+    "pid": "compiler process ID; qualified by run/case/source",
+    "case": "A|B|AB|BA|D",
+    "unit": "0; exactly one validated unit",
+    "cache": "0; exactly one shared transformer in this validated unit",
+    "root": "current prewarm or codegen root mangled name",
+    "phase": "unit|prewarm|order|codegen",
+    "sequence": "monotone process-local observation ID; gaps may mean dropped records",
+    "stage": "hook stage",
+    "instance": "specialized readable compiler name or null for global records",
+    "symbol": "mangled compiler/GOTO instance symbol or null",
+    "payload_fingerprint": "FNV1a64 of exact payload; structural/NOT cryptographic; hash whole sidecar with SHA256",
+    "cache_writer": "[body_version,writer_root,body_payload_fingerprint] or null; compile-time only",
+    "payload_encoding": "text-with-serde-mir-and-goto-debug",
+    "payload": "opaque-ID serde MIR / source instruction ops / internal points-to graph / GOTO Debug as documented by stage",
+    "runtime_binding": "NOT_RUN"
+  },
+  "hook_anchors": [
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/block.rs",
+        "line": 40,
+        "file_sha256": "bc8c2e673a705c5707e22f597b085e3cac4d7701d757163fc3476e5eb9cf8bfb"
+      },
+      "field_or_stage": "\"goto-terminator\",",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/block.rs",
+        "line": 63,
+        "file_sha256": "bc8c2e673a705c5707e22f597b085e3cac4d7701d757163fc3476e5eb9cf8bfb"
+      },
+      "field_or_stage": "\"goto-terminator\",",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs",
+        "line": 78,
+        "file_sha256": "3b5995c2c801ec40da723c567e7ecd65c48bdfbb23a6df32583d125c29ab1bfa"
+      },
+      "field_or_stage": "\"goto-local\",",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs",
+        "line": 122,
+        "file_sha256": "3b5995c2c801ec40da723c567e7ecd65c48bdfbb23a6df32583d125c29ab1bfa"
+      },
+      "field_or_stage": "\"codegen-consumed-mir\",",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs",
+        "line": 153,
+        "file_sha256": "3b5995c2c801ec40da723c567e7ecd65c48bdfbb23a6df32583d125c29ab1bfa"
+      },
+      "field_or_stage": "crate::kani_middle::d0_diagnostics::event(\"goto-body\", Some(instance), || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+        "line": 451,
+        "file_sha256": "a0770cdf3b72d61979839e33bdb0b6c1ce8caa2d072c402e1decf0af2acb6afc"
+      },
+      "field_or_stage": "crate::kani_middle::d0_diagnostics::event(\"referent-before-lowering\", None, || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+        "line": 471,
+        "file_sha256": "a0770cdf3b72d61979839e33bdb0b6c1ce8caa2d072c402e1decf0af2acb6afc"
+      },
+      "field_or_stage": "crate::kani_middle::d0_diagnostics::event(\"referent-allocation\", None, || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+        "line": 492,
+        "file_sha256": "a0770cdf3b72d61979839e33bdb0b6c1ce8caa2d072c402e1decf0af2acb6afc"
+      },
+      "field_or_stage": "crate::kani_middle::d0_diagnostics::event(\"referent-symbol\", None, || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+        "line": 578,
+        "file_sha256": "a0770cdf3b72d61979839e33bdb0b6c1ce8caa2d072c402e1decf0af2acb6afc"
+      },
+      "field_or_stage": "crate::kani_middle::d0_diagnostics::event(\"allocation-before-lowering\", None, || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+        "line": 600,
+        "file_sha256": "a0770cdf3b72d61979839e33bdb0b6c1ce8caa2d072c402e1decf0af2acb6afc"
+      },
+      "field_or_stage": "crate::kani_middle::d0_diagnostics::event(\"allocation-symbol\", None, || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/ty_stable.rs",
+        "line": 28,
+        "file_sha256": "8c7d765a2491b17a01f8d2832639f55d7d5733febb5e86080b603070dfc108a5"
+      },
+      "field_or_stage": "crate::kani_middle::d0_diagnostics::event(\"type-codegen\", None, || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 434,
+        "file_sha256": "2dfc242a6f357ecd4292e7999a42d072154873e3ea0a4188e2098c3f4b321dbb"
+      },
+      "field_or_stage": "d0::context(\"\", \"unit\");",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 436,
+        "file_sha256": "2dfc242a6f357ecd4292e7999a42d072154873e3ea0a4188e2098c3f4b321dbb"
+      },
+      "field_or_stage": "d0::event(\"unit\", None, || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 467,
+        "file_sha256": "2dfc242a6f357ecd4292e7999a42d072154873e3ea0a4188e2098c3f4b321dbb"
+      },
+      "field_or_stage": "d0::event(\"prewarm-policy\", None, || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 504,
+        "file_sha256": "2dfc242a6f357ecd4292e7999a42d072154873e3ea0a4188e2098c3f4b321dbb"
+      },
+      "field_or_stage": "d0::event(\"actual-order\", None, || d0::encoded(&ordered_harnesses));",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/codegen_order.rs",
+        "line": 68,
+        "file_sha256": "d405a8f0b188c3718e665313cda4d0416d6fc54472d0013e9eb15f9204d6faba"
+      },
+      "field_or_stage": "crate::kani_middle::d0_diagnostics::event(\"prewarm-begin\", None, || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/codegen_order.rs",
+        "line": 74,
+        "file_sha256": "d405a8f0b188c3718e665313cda4d0416d6fc54472d0013e9eb15f9204d6faba"
+      },
+      "field_or_stage": "crate::kani_middle::d0_diagnostics::event(\"prewarm-end\", None, || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/d0_diagnostics.rs",
+        "line": 117,
+        "file_sha256": "3ab782f9e3799c2bb481b164d2462eac0cae54b879ba456fc8cf8643a535a4ec"
+      },
+      "field_or_stage": "if stage == \"cache-write-local\" || stage == \"cache-write-delayed\" {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/d0_diagnostics.rs",
+        "line": 126,
+        "file_sha256": "3ab782f9e3799c2bb481b164d2462eac0cae54b879ba456fc8cf8643a535a4ec"
+      },
+      "field_or_stage": "\"case\": case(), \"unit\": 0, \"cache\": 0,",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "line": 54,
+        "file_sha256": "de5eb5686061713d707277e8f6af27d82a3f96d91f23ea6e805a61124b75e163"
+      },
+      "field_or_stage": "crate::kani_middle::d0_diagnostics::event(\"seed-provenance\", None, || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+        "line": 198,
+        "file_sha256": "74e2c74afe28fce8b9df547c2106075f789ddeb1f596758329b8a2adcce118b3"
+      },
+      "field_or_stage": "crate::kani_middle::d0_diagnostics::event(\"relevance\", Some(self.current_instance), || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 95,
+        "file_sha256": "13693b2a3065ce6012b2a2f015e78676d30d77559956708144d62f30d06da866"
+      },
+      "field_or_stage": "d0::event(\"seeds\", None, || format!(\"{targets:#?}\"));",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 114,
+        "file_sha256": "13693b2a3065ce6012b2a2f015e78676d30d77559956708144d62f30d06da866"
+      },
+      "field_or_stage": "d0::event(\"points-to-root-before-join\", None, || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 123,
+        "file_sha256": "13693b2a3065ce6012b2a2f015e78676d30d77559956708144d62f30d06da866"
+      },
+      "field_or_stage": "d0::event(\"points-to-joined\", None, || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 138,
+        "file_sha256": "13693b2a3065ce6012b2a2f015e78676d30d77559956708144d62f30d06da866"
+      },
+      "field_or_stage": "d0::event(\"delayed-before\", Some(instance), || d0::encoded(&body));",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 156,
+        "file_sha256": "13693b2a3065ce6012b2a2f015e78676d30d77559956708144d62f30d06da866"
+      },
+      "field_or_stage": "d0::event(\"delayed-after\", Some(instance), || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 162,
+        "file_sha256": "13693b2a3065ce6012b2a2f015e78676d30d77559956708144d62f30d06da866"
+      },
+      "field_or_stage": "d0::event(\"cache-write-delayed\", Some(instance), || d0::encoded(&body));",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 159,
+        "file_sha256": "576d9ddf62c83b8051dc9bd4cdb09d074fab448f8586ac285545853ceb38c13f"
+      },
+      "field_or_stage": "\"source-operations\",",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 179,
+        "file_sha256": "576d9ddf62c83b8051dc9bd4cdb09d074fab448f8586ac285545853ceb38c13f"
+      },
+      "field_or_stage": "\"shadow-operation\",",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 191,
+        "file_sha256": "576d9ddf62c83b8051dc9bd4cdb09d074fab448f8586ac285545853ceb38c13f"
+      },
+      "field_or_stage": "\"shadow-operation-result\",",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 299,
+        "file_sha256": "576d9ddf62c83b8051dc9bd4cdb09d074fab448f8586ac285545853ceb38c13f"
+      },
+      "field_or_stage": "\"shadow-skip\",",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 317,
+        "file_sha256": "576d9ddf62c83b8051dc9bd4cdb09d074fab448f8586ac285545853ceb38c13f"
+      },
+      "field_or_stage": "\"shadow-skip\",",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 355,
+        "file_sha256": "576d9ddf62c83b8051dc9bd4cdb09d074fab448f8586ac285545853ceb38c13f"
+      },
+      "field_or_stage": "\"shadow-layout\",",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 566,
+        "file_sha256": "644dceef228720a33b910a783a933bf29021b931e1ad387196933371af0f2e9f"
+      },
+      "field_or_stage": "\"raw-eq-operand\",",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 161,
+        "file_sha256": "6a82efff02b3a66d063d59727cf4eea2321a4a25cd10403dd2d571cf9ecc806c"
+      },
+      "field_or_stage": "d0::event(\"mir-original\", Some(instance), || d0::encoded(&body));",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 164,
+        "file_sha256": "6a82efff02b3a66d063d59727cf4eea2321a4a25cd10403dd2d571cf9ecc806c"
+      },
+      "field_or_stage": "d0::event(\"local-pass-before\", Some(instance), || {",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 185,
+        "file_sha256": "6a82efff02b3a66d063d59727cf4eea2321a4a25cd10403dd2d571cf9ecc806c"
+      },
+      "field_or_stage": "d0::event(\"cache-write-local\", Some(instance), || d0::encoded(&body));",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    },
+    {
+      "source": {
+        "commit": "955cd015649aa79be511fe1732d48fdc8535741f",
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 189,
+        "file_sha256": "6a82efff02b3a66d063d59727cf4eea2321a4a25cd10403dd2d571cf9ecc806c"
+      },
+      "field_or_stage": "d0::event(\"cache-read\", Some(instance), || d0::encoded(result));",
+      "artifact": "cases/CASE/compiler/PID-SEQUENCE-STAGE.json",
+      "binding_status": "NOT_RUN"
+    }
+  ],
+  "body_encoding": {
+    "MIR": "derived serde serializes existing Ty/Span/Instance IDs without kind/body queries",
+    "mapping": "type-codegen observes existing backend conversion/result; source spans through standard emitted MIR and GOTO",
+    "cache_body_fingerprint": "same opaque body serialization for local writer, delayed writer, read, consumed body",
+    "normalization": "only proven alpha-renaming/path differences; no semantic rewriting"
+  },
+  "coverage": {
+    "compiler_limits": {
+      "attempts": 20000,
+      "payload_bytes": 4194304,
+      "total_serialized_bytes": 67108864
+    },
+    "required": "per-root/pass/unit/Instance/property counts, dropped/filtered counts, exact identities; absent/capped phase UNKNOWN",
+    "filter": "roots,array,SpecArrayEq/spec_eq,MaybeUninit,mem_init,ptr,intrinsics plus global graph/alloc/type records",
+    "coverage_marker": "codegen_completed only; actual compiler exit externally required"
+  },
+  "cases": {
+    "A": {
+      "roots": [
+        "array_value_as_used_by_merge_output"
+      ],
+      "order": [
+        "array_value_as_used_by_merge_output"
+      ]
+    },
+    "B": {
+      "roots": [
+        "partial_copy_preserves_written_byte"
+      ],
+      "order": [
+        "partial_copy_preserves_written_byte"
+      ]
+    },
+    "AB": {
+      "roots": [
+        "array_value_as_used_by_merge_output",
+        "partial_copy_preserves_written_byte"
+      ],
+      "order": [
+        "array_value_as_used_by_merge_output",
+        "partial_copy_preserves_written_byte"
+      ],
+      "prewarm": "normal unchanged; actual sequence must match BA"
+    },
+    "BA": {
+      "roots": [
+        "array_value_as_used_by_merge_output",
+        "partial_copy_preserves_written_byte"
+      ],
+      "order": [
+        "partial_copy_preserves_written_byte",
+        "array_value_as_used_by_merge_output"
+      ],
+      "prewarm": "normal unchanged; actual sequence must match AB"
+    },
+    "D": {
+      "roots": [
+        "array_value_as_used_by_merge_output",
+        "partial_copy_preserves_written_byte"
+      ],
+      "order": "normal native, no override",
+      "control": "compare property set/MIR/GOTO with exact baseline"
+    }
+  },
+  "bindings": [
+    {
+      "case": "A",
+      "root": "array_value_as_used_by_merge_output",
+      "raw_eq_argument_index": 0,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "A",
+      "root": "array_value_as_used_by_merge_output",
+      "raw_eq_argument_index": 1,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "B",
+      "root": "partial_copy_preserves_written_byte",
+      "raw_eq_argument_index": 0,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "B",
+      "root": "partial_copy_preserves_written_byte",
+      "raw_eq_argument_index": 1,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "AB",
+      "root": "array_value_as_used_by_merge_output",
+      "raw_eq_argument_index": 0,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "AB",
+      "root": "array_value_as_used_by_merge_output",
+      "raw_eq_argument_index": 1,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "AB",
+      "root": "partial_copy_preserves_written_byte",
+      "raw_eq_argument_index": 0,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "AB",
+      "root": "partial_copy_preserves_written_byte",
+      "raw_eq_argument_index": 1,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "BA",
+      "root": "array_value_as_used_by_merge_output",
+      "raw_eq_argument_index": 0,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "BA",
+      "root": "array_value_as_used_by_merge_output",
+      "raw_eq_argument_index": 1,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "BA",
+      "root": "partial_copy_preserves_written_byte",
+      "raw_eq_argument_index": 0,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "BA",
+      "root": "partial_copy_preserves_written_byte",
+      "raw_eq_argument_index": 1,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "D",
+      "root": "array_value_as_used_by_merge_output",
+      "raw_eq_argument_index": 0,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "D",
+      "root": "array_value_as_used_by_merge_output",
+      "raw_eq_argument_index": 1,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "D",
+      "root": "partial_copy_preserves_written_byte",
+      "raw_eq_argument_index": 0,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    },
+    {
+      "case": "D",
+      "root": "partial_copy_preserves_written_byte",
+      "raw_eq_argument_index": 1,
+      "exact_instance": "NOT_RUN",
+      "MIR_location_place_projection": "NOT_RUN",
+      "CheckAs_cast_destination_normal_edge": "NOT_RUN",
+      "property_id": "NOT_RUN",
+      "AllocId_or_stack_origin": "NOT_RUN",
+      "GOTO_symbol_and_PC": "NOT_RUN",
+      "runtime_object_offset_extent": "NOT_RUN",
+      "selected_witness_object_offset_value": "NOT_RUN",
+      "last_executed_transition": "NOT_RUN",
+      "compiler_cache_writer_version_fingerprint": "NOT_RUN",
+      "runtime_success_fields_policy": "N/A if bound property is SUCCESS; no successful counterexample",
+      "coverage": "NOT_RUN",
+      "causal_claim": false
+    }
+  ],
+  "solver_schema": {
+    "status": "NOT_RUN",
+    "capture": "private UUID.json / UUID.meta.json; require COMPLETE/captured_complete/dropped0/no_signal and original exits before curator",
+    "manifest_fields": [
+      "identity.source",
+      "identity.stage",
+      "identity.target",
+      "expected_trace_sha256",
+      "original_exits.solver",
+      "original_exits.verification",
+      "original_exits.cbmc_status"
+    ],
+    "binding_fields": [
+      "identity",
+      "expected_trace_sha256",
+      "properties[ID].property_id",
+      "source",
+      "stage",
+      "target",
+      "cbmc_source_location",
+      "goto_binding",
+      "trace_lhs",
+      "required_trace_lhs"
+    ],
+    "curated_fields": [
+      "original_input_sha256",
+      "identity",
+      "original_exits",
+      "curated_properties",
+      "coverage",
+      "records_emitted",
+      "records_dropped",
+      "error_count",
+      "errors",
+      "curator_status",
+      "causal_claim=false"
+    ],
+    "witness_fields": [
+      "source_operand",
+      "AllocId_or_stack_origin",
+      "GOTO_symbol_and_PC",
+      "runtime_object",
+      "runtime_offset",
+      "runtime_extent",
+      "tracked_object",
+      "tracked_offset",
+      "tracked_value",
+      "last_executed_transition",
+      "original_trace_ordinal"
+    ],
+    "unavailable_policy": "UNKNOWN + STOP causal claim; SUCCESS runtime N/A"
+  },
+  "model_equivalence": "NOT_RUN",
+  "proof_credit": "NONE",
+  "cloud_spend": 0
+}

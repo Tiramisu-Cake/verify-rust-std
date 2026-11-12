@@ -1,0 +1,15 @@
+# KANI3300 D0-P — PREPARED / NOT_RUN
+- Baseline `a0a2386001a15fecfe2facc2f6cd87f3dee13b60`; diagnostic `955cd015649aa79be511fe1732d48fdc8535741f` (local only).
+- Isolated clone/branch created; original a1 and fixture preserved; B1I not integrated.
+- Four cases A/B/AB/BA and natural-order diagnostic duplicate D are prepared in CI-REQUEST.md.
+- Compiler hooks are opt-in/default-off; AB/BA override only after unchanged normal prewarm, with worker/root/unit guards.
+- MIR/ops serialize opaque IDs; no extra recursive Ty::Debug before transformations or mutating body query.
+- Source/field/artifact schemas, exact patch and per-operand NOT_RUN chain are in DIAGNOSTIC-MAP.json.
+- Bounded CBMC capture/curation and synthetic checks prepared; original exits/statuses and incompleteness preserved.
+- Static API/hash/rustfmt/diff checks and independent Luna High review: see VALIDATION.json and REVIEW.md.
+- Compilation, actual codegen/prewarm/model equivalence, solver runs and all runtime bindings NOT_RUN; proof credit NONE.
+- Known reference .2 failure/.1 success was not remeasured and is not an operand identity or causal claim.
+- Cloud $0; no CI/workflow/dispatch, model fix, local verifier/compiler invocation or diagnostic push.
+- Coordinator owns exact-SHA diagnostic publication/CI; D0-A only after its curated report and a new task.
+- Concurrent g0 HEAD `adc8ecab69`: no push; isolated local research commit against assigned 81c1, coordinator handoff (HANDOFF.json).
+- STOP at D0-P READY. This handoff is not verification PASS or release readiness.

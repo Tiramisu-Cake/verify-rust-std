@@ -1,0 +1,19 @@
+{
+  "schema": "kani3300-d0p-concurrent-handoff-v1",
+  "assigned_research_head": "81c1cabffd315abd73165d5807afdea688fdeeb6",
+  "observed_concurrent_head": "adc8ecab690cdfdd72ebb905c69dbdd5b1912373",
+  "origin_head_at_check": "adc8ecab690cdfdd72ebb905c69dbdd5b1912373",
+  "foreign_changes_present": true,
+  "action": "STOP g0 publication; prepare isolated local research commit against assigned 81c1 baseline; coordinator owns adoption/publication",
+  "research_handoff_clone": "/root/verify-rust-std-kani3300-d0p-handoff",
+  "research_handoff_branch": "handoff/kani3300-d0p-20261112",
+  "only_changed_scope": "research/challenge-8/kani-k1/kani3300/d0/",
+  "diagnostic_candidate": "955cd015649aa79be511fe1732d48fdc8535741f",
+  "diagnostic_clone": "/root/kani-fix-3300-d0",
+  "diagnostic_pushed": false,
+  "g0_pushed": false,
+  "reset_stash_force_or_foreign_mutation": false,
+  "CI": "NOT_RUN",
+  "Cloud": 0,
+  "next": "Coordinator may inspect/adopt local research commit; no automatic D0-A or CI dispatch in this session."
+}
