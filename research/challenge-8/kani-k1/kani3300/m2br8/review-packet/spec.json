@@ -1,0 +1,51 @@
+{
+  "applicability": "KANI3300 M2-B/R8 only; bounded source representation/metadata/lifetime/false/frame-cell review. No compilation/proof/cost claim.",
+  "baseline_commit": "8e01eb2aff5183c53403e1d1e73e573ce28d3095",
+  "candidate_commit": "2bd63183d88bec2efeeccb88b450b50939d120c3",
+  "controls": [
+    "Independently inspect actual committed diff/dependency identities, required assertions and source relation. Read task and source dependencies, not an author PASS verdict.",
+    "Inspect matching protocol prefix/suffix and false value path; confirm inactive/no-witness/zero no decoding/add, captured false does decode.",
+    "No local cargo/rustc/Kani/CBMC/Miri/build/network CI. No writes to source; compact findings with paths/lines, required fixes, proof gaps. No nested delegation."
+  ],
+  "defect": "Coordinator R7 B0/B1 P1/P2 resource cutoff; R8 changes only current A3 snapshot carrier, not protocol or core witness.",
+  "dependencies": [
+    "cprover_bindings/src/goto_program/symbol.rs",
+    "cprover_bindings/src/goto_program/symbol_table.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+    "kani-compiler/src/kani_middle/attributes.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "library/kani_core/src/arbitrary.rs",
+    "library/kani_core/src/lib.rs",
+    "library/kani_core/src/mem.rs",
+    "library/kani_core/src/mem_init.rs",
+    "rust-toolchain.toml",
+    "rustfmt.toml",
+    "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+    "kani-compiler/src/args.rs",
+    "cprover_bindings/src/goto_program/expr.rs",
+    "cprover_bindings/src/goto_program/typ.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+    "cprover_bindings/src/irep/to_irep.rs"
+  ],
+  "invariants": [
+    "Preserve complete A3 protocol/ABI, demonic choice, mandatory return0, selected false and no-witness distinction, capture-before-Move, partial reset and M1 seeds.",
+    "Replace numeric relative_offset by saved_base/saved_byte:*const u8. Selected has_witness formation only. Store exact non-vacuous round-trip/same-object/range assertions, Load metadata only under original source-follow branch with same-object/range assertions. Never assume/fallback/drop on codec loss.",
+    "Audit pinned CBMC6.11 bit slices/zero-extension, offset width versus usize, wrapping_add path, valid representable extent lemma and stored globals through DEAD/pop_frame. Report real gaps; no proof claim for unbound actual backend.",
+    "DFCC field list contains 13 buffer cell lvalues plus unchanged main; correct unsigned8 pointer IR type, no saved pointee/deref/blanket range or casts to rvalue. Exact markers/emitted objects preserved.",
+    "Only two source sites; all old tests/callers/skip/instrumentation/finalizer unchanged. No new helper/assume/ABI/layout scope. Check source Rust signatures/types/macro alias/null inference/unsafe blocks."
+  ],
+  "known_limitations": [
+    "Actual compilation, emitted/reached Move/return/metadata/ensures, target address/extent/object, backend/version/binary/flags and guard outcomes await coordinator CI. R8-C test-only composition may follow without source change."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-m2br8"
+}

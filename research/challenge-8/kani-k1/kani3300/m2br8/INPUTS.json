@@ -1,0 +1,65 @@
+{
+  "schema": "kani3300-m2br8-inputs-v1",
+  "task": {
+    "path": "research/challenge-8/kani-k1/TASK-KANI3300-M2BR8.md",
+    "bytes": 13026,
+    "sha256": "c230b5a51aa3a46cf846b8f98eee812a665ecc324505378ec5ad705b5b1cd4ba"
+  },
+  "research_entry_commit": "71844647d1957069771978693c4e65f54405a3a3",
+  "research_branch": "experiment/kani-k1-kani3300g0-20261111",
+  "entry": "git fetch origin; git merge --ff-only origin/experiment/kani-k1-kani3300g0-20261111; clean at entry",
+  "runtime": "Codex",
+  "scope": "Only R8; Cloud $0; coordinator-only CI; STOP after reviewed candidate/composition",
+  "base": {
+    "commit": "8e01eb2aff5183c53403e1d1e73e573ce28d3095",
+    "tree": "8554b019e0eb8d2daf09e5ab70bc0c0d09917de1"
+  },
+  "read_only_base_worktree": "/root/kani-fix-3300-m2br7",
+  "destination_created_fresh": "/root/kani-fix-3300-m2br8",
+  "source_candidate": "2bd63183d88bec2efeeccb88b450b50939d120c3",
+  "r7c_in_base": {
+    "commit": "fe36afc4a8de2709f00524b2d3fbd6da17919728",
+    "status": "4 files/2 selectors already present; not cherry-picked again"
+  },
+  "coordinator_reported_baselines": [
+    {
+      "id": "R7 B0",
+      "commit": "c614dba9ca7388e098f606231dde7af4b23a06b5",
+      "run": "43283061769",
+      "properties": 292,
+      "steps": 11700,
+      "vcc_before": 841,
+      "vcc_after": 147,
+      "RSS_GiB_lower_bound": 6.39,
+      "verdict": "KILLED_RESOURCE_CUTOFF_INCOMPLETE",
+      "P1_P2": "both heavy per coordinator"
+    },
+    {
+      "id": "R7 B1",
+      "commit": "b4eb8294b74f3b6448ccccacbc87bdea71d67510",
+      "run": "43283068930",
+      "properties": 292,
+      "steps": 18099,
+      "vcc_before": 877,
+      "vcc_after": 147,
+      "RSS_GiB_lower_bound": 7.24,
+      "verdict": "KILLED_RESOURCE_CUTOFF_INCOMPLETE",
+      "P1_P2": "both heavy per coordinator"
+    },
+    {
+      "id": "R6-02b",
+      "commit": "405c1f059264d8f7cedeeaa01c6d4ad6867a419e",
+      "seconds": 50,
+      "RSS_GB": 1.95,
+      "verdict": "frameFAIL, no acceptance",
+      "qualification": "empirical representation discriminator; not cost causality"
+    }
+  ],
+  "evidence_assurance": "user/task/coordinator-reported; no independent Brief or actual tool/binary binding acquired in this source-only stage",
+  "cloud_spend": 0,
+  "compilation": "NOT_RUN",
+  "proof_credit": 0,
+  "M3": "HELD",
+  "READY": "0ab62c7b0cdecd880064b0628f995c5a5b3de9ab",
+  "r8c_composed": "e588fa6437e7904a6d10e05a983b3c381f9b52c5"
+}

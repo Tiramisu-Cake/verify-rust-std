@@ -1,0 +1,22 @@
+# KANI3300 M2-B/R8 — reviewed candidate, STOP
+
+- Entry71844647d1957069771978693c4e65f54405a3a3; git fetch + ff-only completed before edits.
+- Exact base8e01eb2aff5183c53403e1d1e73e573ce28d3095/tree8554b019e0eb8d2daf09e5ab70bc0c0d09917de1; R7-C already included.
+- Fresh /root/kani-fix-3300-m2br8, fix/kani-3300-pointer-transfer-carrier; clean local commits, no Kani push.
+- Reviewed source2bd63183d88bec2efeeccb88b450b50939d120c3/treef827cc9a6235eb5cc28ec03f2f719085fcbb1dcd.
+- Only mem_init.rs/contract.rs source delta: saved_base/saved_byte:*const u8 replace numeric relative; 13 buffer cell targets.
+- Store captures live witness/value before new calls, asserts same-object/nonwrap/exact round-trip; Load metadata only, live-destination retarget.
+- Preserved A3 protocol/ABI, false snapshots, no-witness distinction, mandatory return0, demonic choice, main witness, M1 seeds/reset/finalizer.
+- CARRIER-LEMMA records CBMC6.11 bit slices/width and DEAD/pop_frame argument; actual backend/binary/paths remain UNKNOWN.
+- Rust API/signature/null/macro/IR source audit, pinned rustfmt, diff/hash/field/protocol checks PASS_NOT_COMPILATION; 14805 small algebra sanity cases are not proof.
+- One bounded independent Luna HIGH source review: no source-level correctness blockers; no nested delegation; source unchanged.
+- Exact separately reviewed R8-C e588fa6437e7904a6d10e05a983b3c381f9b52c5 imported only4 added test paths/2selectors; no old source import.
+- READY0ab62c7b0cdecd880064b0628f995c5a5b3de9ab/tree4a6de5d458cf4cde1c54c8c3a7aba2469af7fa04; testsb887d2a2074e158368a6b1f04f5c971f48c69bdd.
+- P1/P2 unchanged hashes; all old tests/goldens preserved; source/test patches/manifests and reviewed test provenance recorded.
+- Coordinator reports R7 B0/B1 P1/P2 >6.39/>7.24GiB; R6-02b50s/1.95GB frameFAIL; no independent evidence or causal-cost claim here.
+- G1 NOT_RUN: build/fmt/clippy→unchanged P1 resource gate→P2/R8-C/all mapped controls, actual Move/death/metadata/ensures and pointer-cell binding required.
+- Heavy P1 or carrier guard/private frame/path loss STOP; no assumptions, fallback, hidden narrowing or golden weakening.
+- G2 NOT_RUN: full Uninit Quick incl legal-pair/postcondition-hole +unit5/kani Uninit/expected/ui/reinstrumentation; mixed16 exact test composition request retained.
+- SOURCE_READY/NOT_COMPILED, cost UNKNOWN, proof credit0, M3 HELD until accepted G1/G2; no next stage.
+- No local cargo/rustc/Kani/CBMC/Miri/build, worker CI/Actions/Cloud dispatch, reset/stash, raw evidence, credentials, workflow/runner changes; Cloud$0.
+- Research only staged under m2br8/ and pushed without force; concurrent worker changes preserved.

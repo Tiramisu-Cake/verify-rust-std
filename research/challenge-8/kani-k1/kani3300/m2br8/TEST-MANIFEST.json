@@ -1,0 +1,607 @@
+{
+  "schema": "kani3300-m2br8-tests-v1",
+  "source_commit": "0ab62c7b0cdecd880064b0628f995c5a5b3de9ab",
+  "base_commit": "8e01eb2aff5183c53403e1d1e73e573ce28d3095",
+  "source_tests_delta": [],
+  "tests_tree": "b887d2a2074e158368a6b1f04f5c971f48c69bdd",
+  "base_tests_tree": "f7e3cff5b460b8024524a0bb6b1cfc1c31a592cb",
+  "unchanged_existing_tests": [
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.expected",
+      "bytes": 252,
+      "sha256": "4bedbd7632f8f9775f5f07a39430cb5b2e26c623bc551896b6ce9e395a9e1467"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs",
+      "bytes": 947,
+      "sha256": "47e48e69bff71f92f9f098acbea449cb44ce40034d9bea6eb6f3818bc6b3838f"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.expected",
+      "bytes": 254,
+      "sha256": "e4c29764a41c9f1483b87dbeb5ad4268bc3b8ea952a5d6b9730326bf0c8d9b2a"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs",
+      "bytes": 949,
+      "sha256": "6e0cb23853ca8954b1824adb5375df8c141da6fc2653f89c75eb96e0b9f10bda"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.expected",
+      "bytes": 137,
+      "sha256": "6fb62c8154c9248d51f319458e7caacfb13ded674d377a0e60d240f21ab31228"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs",
+      "bytes": 1270,
+      "sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/copy-hole.expected",
+      "bytes": 304,
+      "sha256": "1285983a1932a9032df9f01c52ffaf2990feb0ea7ef6f9a074ad9da9339f82f1"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/copy-hole.rs",
+      "bytes": 911,
+      "sha256": "e95bac37b8e6c26c05adef935f45741489752acfb7b286b85c389e684fac47b3"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/empty.expected",
+      "bytes": 136,
+      "sha256": "ad6767a2682d28b9d5fe7371c07f6b9a7a7c8050bf3ce52e0e738f062fd43326"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/empty.rs",
+      "bytes": 553,
+      "sha256": "1bf8317f916902caa504eae259e334a762328a307c845b087d13e8a7666bd84d"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/zero-byte-hole.expected",
+      "bytes": 288,
+      "sha256": "10b32d8779c1d4e595cca3c7f0cc0813d936bbb18f3b8a183df7586c27511777"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/zero-byte-hole.rs",
+      "bytes": 661,
+      "sha256": "8a76ef0263178378aed8f8a13db647808f70facefbe6323132752fc128d25a58"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/zero-bytes-legal.expected",
+      "bytes": 136,
+      "sha256": "9103bf718de45e6e4e94a735a6d6e7466a26c0b52fce247aa4e9c49ea88e7868"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/zero-bytes-legal.rs",
+      "bytes": 599,
+      "sha256": "763c1a3537988d888438e152157ba9212f185277255e1fb208d9db2ba063f7f8"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-buffer/expected",
+      "bytes": 176,
+      "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+      "bytes": 673,
+      "sha256": "09e5dd454f0cfcfeed1d9df436507c7d705270e85ee11592347113d58f9f1f55"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-return/expected",
+      "bytes": 212,
+      "sha256": "a9ed8039903d8bd6f56d7c563703e213d99020d235038e5107a1395a264a807c"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+      "bytes": 499,
+      "sha256": "345db788d839c5f40fae3454d7ec8d1a8b805a208554a8fcad04ee53027ff9b9"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+      "bytes": 2221,
+      "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "bytes": 11146,
+      "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+      "bytes": 1185,
+      "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+      "bytes": 2420,
+      "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+      "bytes": 176,
+      "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+      "bytes": 740,
+      "sha256": "5fc89460489e7ac8dafe69f0ad722ae5d4d3a31776f945c0f78beda15aa38ad9"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+      "bytes": 366,
+      "sha256": "778925cfde695f7899091ebab25513e7d755784dcbbd1ea92d844432bc8263ba"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+      "bytes": 816,
+      "sha256": "f5c45585e405fe570d88eddb69b76b6299a04ebaba168cc08e2b36bb3bbb09c2"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+      "bytes": 67,
+      "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "bytes": 2904,
+      "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c"
+    },
+    {
+      "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.expected",
+      "bytes": 147,
+      "sha256": "64e9a385fbf40b7d572da1b5fb544af0d89694122e9be96ce8c8d56042ed79eb"
+    },
+    {
+      "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs",
+      "bytes": 1016,
+      "sha256": "f629b795969f197ef289061c88ebc26e08c8fe969a6f82f643897451bfbdf90f"
+    },
+    {
+      "path": "tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.expected",
+      "bytes": 152,
+      "sha256": "b996003766966f34c555121649c98e690735d65f9c5e1171f63a89cd6efa9f9b"
+    },
+    {
+      "path": "tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.rs",
+      "bytes": 774,
+      "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b"
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/direct-left-hole.expected",
+      "bytes": 268,
+      "sha256": "6c395d5ffeb21764bf0fea7ca059aa9e6f2712e38cd4b7657de39b794a1ab77b"
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/direct-left-hole.rs",
+      "bytes": 1005,
+      "sha256": "5726e676c370a02a49f8938250dd7ac1ba98f3bed68f150d515b040291701e7a"
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/direct-legal.expected",
+      "bytes": 135,
+      "sha256": "a536c9302c2c380c013d5d3160e4fd91e2573895fe0765edec3bcea942ccb926"
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/direct-legal.rs",
+      "bytes": 841,
+      "sha256": "391ead9f771980d47e2534b9a109dd24373bffc46e3c1211e0cd59c6a48cefa3"
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/direct-right-hole.expected",
+      "bytes": 270,
+      "sha256": "55e4530c1c249ebc9317228c0406b25d8003864d9d49b4bf9e26bbc5698fa045"
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/direct-right-hole.rs",
+      "bytes": 1007,
+      "sha256": "9624498706d5339c68cf320eb451d17806e6b441c352bcd5b454dde038abdbf9"
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/helper-left-hole.expected",
+      "bytes": 268,
+      "sha256": "d7f4ab714af0e4c392bfa7f4ab58e366140a36968f56fd1ccc0a314375e21017"
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/helper-left-hole.rs",
+      "bytes": 1130,
+      "sha256": "71d3218e87ec001df69e60ca0d517e9e0faec3d3d777656b0b2fda0b404f3eb5"
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/helper-legal.expected",
+      "bytes": 135,
+      "sha256": "d3f9838927c4bf0dce1d403cbee5f9575309115b2ee59ddb9b2e7d93c345d35b"
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/helper-legal.rs",
+      "bytes": 966,
+      "sha256": "2fcffcc8d0d8eca19fb699fd4e8e3696e0f297f34842f186fc9901a5fbc54e93"
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/helper-right-hole.expected",
+      "bytes": 270,
+      "sha256": "108b5b5a877aeacc3f83fcfdc647943f00dce943f8487e5a5bfb6947f6ec63b6"
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/helper-right-hole.rs",
+      "bytes": 1132,
+      "sha256": "ceb13861d49dc17c57dc8781d61ae718e820d69ca12932da8a26f62a267e9d7b"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/legal-pair.expected",
+      "bytes": 202,
+      "sha256": "d9efa4dfaf33963a0c5c668577ccd2e76d1e212d58d1af7767f98540ac9a8558"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+      "bytes": 1452,
+      "sha256": "3385d702baa91965af565878f1f1d8e27a1de37a0ea52da3595cb5e609d8e363"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/normal-abort.expected",
+      "bytes": 176,
+      "sha256": "c36dbee1067f87faf285206a72733ff0f13b3f434ee28d3f679083fe5f031ef8"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/normal-abort.rs",
+      "bytes": 679,
+      "sha256": "45021f2a9ed44e1162b21a0c758decc7b879eb9c50e91dfba57f9c0736b43471"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/out-pointer.expected",
+      "bytes": 301,
+      "sha256": "625af5ac4e60045acd47aadd15e00b8fc4db524ebd1dd911b50761dd042f20f0"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+      "bytes": 1131,
+      "sha256": "7610c67c89302bbcdd541ebaa8d70651c5a3231a0909b28126452b233a79d280"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+      "bytes": 229,
+      "sha256": "4d4ff2b6fca8cc5bc556fe159c3d9a03dfc5defd93c9cad7d8d8554c12568031"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+      "bytes": 782,
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759"
+    },
+    {
+      "path": "tests/script-based-pre/mem-init-reinstrumentation/alloc-zeroed.rs",
+      "bytes": 661,
+      "sha256": "9d9e02548f7ecffe932041ef54af27ebaa203a52cd0053dc051443063e070b8e"
+    },
+    {
+      "path": "tests/script-based-pre/mem-init-reinstrumentation/config.yml",
+      "bytes": 159,
+      "sha256": "1cc575840c1fcb8139632768e9f078fe9ce8be38ca92e59e7e77c7fe53a2a543"
+    },
+    {
+      "path": "tests/script-based-pre/mem-init-reinstrumentation/mem-init-reinstrumentation.expected",
+      "bytes": 78,
+      "sha256": "0fe18a67c82249bea27e39ea5064449dad051ac7e97c84985af217e3dd60f8bc"
+    },
+    {
+      "path": "tests/script-based-pre/mem-init-reinstrumentation/mem-init-reinstrumentation.sh",
+      "bytes": 619,
+      "sha256": "94c7f6a7ec900fecc70714c292f9aeb27ec58db9c5a98c04b5bc3486b4de35a8"
+    }
+  ],
+  "reuse_packages": [
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br7/TEST-MANIFEST.json",
+      "bytes": 20941,
+      "sha256": "12e47de4b88e68929dc3dc38016722bb8af6ba40a61cf6a2c820f4362a9c6e6b"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br7c/TEST-MANIFEST.json",
+      "bytes": 79460,
+      "sha256": "74fc161ef82fb4be117122288ea655c944c926c26c916db13af0401b8b378273"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br7c/CONTROL-MAP.md",
+      "bytes": 32338,
+      "sha256": "1ef53ffcc607b74cbd939ecb341f3a6a96ffe261275ad16600b11ba17c2ed90b"
+    }
+  ],
+  "P1": {
+    "path": "tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.rs",
+    "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b"
+  },
+  "P2": {
+    "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+    "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759"
+  },
+  "r8c_composition": {
+    "state": "EXACT_REVIEWED_NEW_PATH_ONLY_DELTA_COMPOSED",
+    "original_test_commit": "e588fa6437e7904a6d10e05a983b3c381f9b52c5",
+    "original_parent": "8e01eb2aff5183c53403e1d1e73e573ce28d3095",
+    "original_tree": "8578755e39ac80fb15f7d304a5aa784e335940b9",
+    "composed_commit": "0ab62c7b0cdecd880064b0628f995c5a5b3de9ab",
+    "composed_tree": "4a6de5d458cf4cde1c54c8c3a7aba2469af7fa04",
+    "patch": {
+      "command": "git diff --binary --full-index 8e01eb2aff5183c53403e1d1e73e573ce28d3095 e588fa6437e7904a6d10e05a983b3c381f9b52c5 -- tests/expected/uninit/private-transfer-pointer/",
+      "bytes": 4064,
+      "sha256": "9c8693997682e7be48230fabcf0d01f29c41f93d298bfa06898682d090efb2f2",
+      "import_boundary": "Only four added paths; never import old source from the base."
+    },
+    "new_files": [
+      {
+        "path": "tests/expected/uninit/private-transfer-pointer/hole.expected",
+        "bytes": 227,
+        "sha256": "966521cc4795b4d35a81980331d1962ead15c6831b82eea6794b257b10fdd4a3",
+        "blob": "1e5c7ac8ecc7ccfaf290d3ea7349ac8a8a3df23c"
+      },
+      {
+        "path": "tests/expected/uninit/private-transfer-pointer/hole.rs",
+        "bytes": 1176,
+        "sha256": "83ed638eda5c099ffdfb472484afa737b9eb4b6f9083a9b346879a5394c79b19",
+        "blob": "869cdd48b1f5adbd85274d640705e41539baba7a"
+      },
+      {
+        "path": "tests/expected/uninit/private-transfer-pointer/legal.expected",
+        "bytes": 146,
+        "sha256": "8d915192b32717fd451fab95ec5db1e99330e6f3a8cad4dec6cf05e00127f0d8",
+        "blob": "c603387f0e9599ce58fdfc5bede6d9d2ea375dbd"
+      },
+      {
+        "path": "tests/expected/uninit/private-transfer-pointer/legal.rs",
+        "bytes": 1081,
+        "sha256": "1d46f5d0f50494a012b266fe2332dc88241f5d50bb25bb35ff78d657c4b584b9",
+        "blob": "2939389c07112c1cc05e44d174fee643ef669f61"
+      }
+    ],
+    "new_controls": [
+      {
+        "source": {
+          "path": "tests/expected/uninit/private-transfer-pointer/legal.rs",
+          "bytes": 1081,
+          "sha256": "1d46f5d0f50494a012b266fe2332dc88241f5d50bb25bb35ff78d657c4b584b9"
+        },
+        "golden": {
+          "path": "tests/expected/uninit/private-transfer-pointer/legal.expected",
+          "bytes": 146,
+          "sha256": "8d915192b32717fd451fab95ec5db1e99330e6f3a8cad4dec6cf05e00127f0d8"
+        },
+        "source_root": "nonzero_offset_move_return_legal",
+        "mode": "ordinary",
+        "semantic_expected": "SUCCESS",
+        "expected_failure_line": null,
+        "declared_payload": {
+          "repr": "C",
+          "fields": [
+            [
+              "first",
+              "u8"
+            ],
+            [
+              "second",
+              "u8"
+            ],
+            [
+              "third",
+              "u8"
+            ]
+          ],
+          "source_expected_offsets": [
+            0,
+            1,
+            2
+          ],
+          "source_expected_extent_bytes": 3,
+          "Copy": false,
+          "Clone": false,
+          "Drop": false
+        },
+        "requested_selected_relative_offset": 2,
+        "requested_argument_index": 1,
+        "requested_argument_count": 1,
+        "requested_return_index": 0,
+        "observed_mir_move": "UNKNOWN",
+        "observed_offset_and_extent": "UNKNOWN",
+        "actual_emitted_root": "UNKNOWN",
+        "actual_property_ids": null,
+        "outcome": "NOT_RUN"
+      },
+      {
+        "source": {
+          "path": "tests/expected/uninit/private-transfer-pointer/hole.rs",
+          "bytes": 1176,
+          "sha256": "83ed638eda5c099ffdfb472484afa737b9eb4b6f9083a9b346879a5394c79b19"
+        },
+        "golden": {
+          "path": "tests/expected/uninit/private-transfer-pointer/hole.expected",
+          "bytes": 227,
+          "sha256": "966521cc4795b4d35a81980331d1962ead15c6831b82eea6794b257b10fdd4a3"
+        },
+        "source_root": "nonzero_offset_move_return_hole",
+        "mode": "ordinary",
+        "semantic_expected": "FAILURE:intended third-field u8 uninitialized read",
+        "expected_failure_line": 38,
+        "declared_payload": {
+          "repr": "C",
+          "fields": [
+            [
+              "first",
+              "u8"
+            ],
+            [
+              "second",
+              "u8"
+            ],
+            [
+              "third",
+              "u8"
+            ]
+          ],
+          "source_expected_offsets": [
+            0,
+            1,
+            2
+          ],
+          "source_expected_extent_bytes": 3,
+          "Copy": false,
+          "Clone": false,
+          "Drop": false
+        },
+        "requested_selected_relative_offset": 2,
+        "requested_argument_index": 1,
+        "requested_argument_count": 1,
+        "requested_return_index": 0,
+        "observed_mir_move": "UNKNOWN",
+        "observed_offset_and_extent": "UNKNOWN",
+        "actual_emitted_root": "UNKNOWN",
+        "actual_property_ids": null,
+        "outcome": "NOT_RUN"
+      }
+    ],
+    "reused_rows_count": 46,
+    "unit5": {
+      "source": {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "bytes": 19071,
+        "sha256": "c01ced42f97efdbc8d6a34c75f229753af59f380549518af971ecea672cd72b2"
+      },
+      "module": "codegen_cprover_gotoc::context::immutable_allocations::tests",
+      "names": [
+        "zero_is_initialized_hole_is_not",
+        "compatible_reuse_and_conflict_preserve_first_descriptor",
+        "mutable_or_unqualified_is_not_admitted",
+        "seed_preserves_labeled_reset_completion_and_original_edges",
+        "empty_mask_has_no_seed_index_or_object_query"
+      ],
+      "outcome": "NOT_RUN",
+      "synthetic_conflict_is_rust_source_repro": false
+    },
+    "review": {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br8c/REVIEW.md",
+      "bytes": 2447,
+      "sha256": "a0d883c68b9f364316c0b980226b82d0ddfa13bdae6bd1b7e1c6317745d1917e"
+    },
+    "manifest": {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br8c/TEST-MANIFEST.json",
+      "bytes": 83515,
+      "sha256": "751f7f9893131c7bf841e9e3a0bd735b9de416d72515483428add10593a83ad7"
+    },
+    "control_map": {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br8c/CONTROL-MAP.md",
+      "bytes": 4206,
+      "sha256": "364da62bf23adf3614027d153bf0b60bf43fc8fb256fee34eab2c21b15939497"
+    },
+    "CI_request": {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br8c/CI-REQUEST.md",
+      "bytes": 3742,
+      "sha256": "d983df56445d25236e02e278bccd16434b8a9e5ad6bc9f64f6313097838f8e8c"
+    },
+    "actual_move_death_nonzero_binding": "UNKNOWN_NOT_RUN"
+  },
+  "external_mixed16": {
+    "state": "ABSENT_FROM_BASE_REUSE_EXACT_EXTERNAL_TEST_PACKAGE",
+    "commit": "83ceadf0485f30548c92b77c87b3c08a53f0b019",
+    "tree": "15d3d3ecb5d353da3ae1c51567d9b0d04cc9f5fb",
+    "files": [
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.expected",
+        "bytes": 136,
+        "sha256": "34a83e4fb931adf473f240c924f37c210dc4574605e84fa454d192c06fb80d56"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs",
+        "bytes": 853,
+        "sha256": "78cbf7c6cad3268db4598620cb7fb877cc648982fa5704f5054e4a2c93e089e1",
+        "source_root": "mixed_eq_u8_stack_left",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.expected",
+        "bytes": 137,
+        "sha256": "bfeca32984e9c7c10257f813ec9491fed0c76a821c04bb04a234e843ff13ee6a"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs",
+        "bytes": 854,
+        "sha256": "fe1ce854568472102fb57a3ab8e5be691051355abeac8d3833846402b681f872",
+        "source_root": "mixed_eq_u8_stack_right",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.expected",
+        "bytes": 280,
+        "sha256": "b42c2a6f2c4b61f0a916de4f1d093bf88d479706f54c677c78c9b64d6383faf3"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.rs",
+        "bytes": 1317,
+        "sha256": "03466bf9e0f3f0921164bbc1249cdaa5d3f28d0993b2429118945f2fb1835da5",
+        "source_root": "mixed_raw_mu_promoted_left_hole",
+        "semantic_expected": "FAILURE:intended promoted operand uninit; stack companion SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.expected",
+        "bytes": 282,
+        "sha256": "7e27e5a614eeb94728cbabfd16278ea4719ea2cb53a6f3ded6e97899ecaca7df"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.rs",
+        "bytes": 1319,
+        "sha256": "0345b28961c76c1094f25863efe013c4c95f6cd69aa604bbcc311c06376a564c",
+        "source_root": "mixed_raw_mu_promoted_right_hole",
+        "semantic_expected": "FAILURE:intended promoted operand uninit; stack companion SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.expected",
+        "bytes": 143,
+        "sha256": "693e5ea90dfbfe670ad86cf807ae8b65096607e2c9f0549695c837891fc00a2d"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.rs",
+        "bytes": 1149,
+        "sha256": "6220ce629edad8d7be324d3f9909174edccbb69b44db108c7b252c6508c8f3c7",
+        "source_root": "mixed_raw_mu_stack_left_legal",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.expected",
+        "bytes": 144,
+        "sha256": "e0c928674b94ba8edd9867b2bfa7e12aab3b8781fbb90e5110853b92c0db20d7"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.rs",
+        "bytes": 1150,
+        "sha256": "1f1f4886873c70f3b16e208bd09e37393432f63dec72f0d9e12328e3bfd07c8e",
+        "source_root": "mixed_raw_mu_stack_right_legal",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.expected",
+        "bytes": 137,
+        "sha256": "b53ebbe34962fa209fef3d7cf841505223d3c4c654f15022f81e8fd667865fb8"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs",
+        "bytes": 946,
+        "sha256": "b3457824bba62c091adceaf32b266e578aef3fe4ad18237037a84721bd65ab2d",
+        "source_root": "mixed_raw_u8_stack_left",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.expected",
+        "bytes": 138,
+        "sha256": "1b8633a39c51c1cb0c9780924c978666b12ec8b4dcb6225019f87217aa1b1325"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs",
+        "bytes": 947,
+        "sha256": "a79cb15f62475e99ea82e598ac2917194dedbcdf817c4590075c0368d3c80850",
+        "source_root": "mixed_raw_u8_stack_right",
+        "semantic_expected": "SUCCESS"
+      }
+    ],
+    "request": "Separate exact test-only composition at coordinator G2; absent accepted base; no old production import or new PASS claim."
+  },
+  "actual_CI_tree": "UNKNOWN_NOT_RUN",
+  "compilation": "NOT_RUN",
+  "G1": "NOT_RUN",
+  "G2": "NOT_RUN",
+  "proof_credit": 0
+}

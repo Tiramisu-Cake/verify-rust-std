@@ -1,0 +1,32 @@
+{
+  "status": "PASS_SOURCE_ONLY_NOT_COMPILATION",
+  "base": "8e01eb2aff5183c53403e1d1e73e573ce28d3095",
+  "changed_files": [
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+    "library/kani_core/src/mem_init.rs",
+    "tests/expected/uninit/private-transfer-pointer/hole.expected",
+    "tests/expected/uninit/private-transfer-pointer/hole.rs",
+    "tests/expected/uninit/private-transfer-pointer/legal.expected",
+    "tests/expected/uninit/private-transfer-pointer/legal.rs"
+  ],
+  "fields": {
+    "active": "bool",
+    "selected_argument": "usize",
+    "signature": "usize",
+    "count": "usize",
+    "written": "usize",
+    "remaining": "usize",
+    "last_stored": "usize",
+    "last_loaded": "usize",
+    "has_witness": "bool",
+    "value": "bool",
+    "saved_base": "*const u8",
+    "saved_byte": "*const u8",
+    "layout_size": "usize"
+  },
+  "base_tests_tree": "f7e3cff5b460b8024524a0bb6b1cfc1c31a592cb",
+  "composed_tests_tree": "b887d2a2074e158368a6b1f04f5c971f48c69bdd",
+  "new_controls_patch_sha256": "9c8693997682e7be48230fabcf0d01f29c41f93d298bfa06898682d090efb2f2",
+  "arithmetic_sanity_cases": 14805,
+  "proof_credit": 0
+}

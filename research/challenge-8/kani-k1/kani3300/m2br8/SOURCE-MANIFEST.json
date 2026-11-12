@@ -1,0 +1,288 @@
+{
+  "schema": "kani3300-m2br8-source-v1",
+  "worktree": "/root/kani-fix-3300-m2br8",
+  "branch": "fix/kani-3300-pointer-transfer-carrier",
+  "base": {
+    "commit": "8e01eb2aff5183c53403e1d1e73e573ce28d3095",
+    "tree": "8554b019e0eb8d2daf09e5ab70bc0c0d09917de1"
+  },
+  "source_candidate": {
+    "commit": "2bd63183d88bec2efeeccb88b450b50939d120c3",
+    "parent": "8e01eb2aff5183c53403e1d1e73e573ce28d3095",
+    "tree": "f827cc9a6235eb5cc28ec03f2f719085fcbb1dcd",
+    "author_committer": [
+      "Tiramisu-Cake <igkharin@gmail.com>",
+      "Tiramisu-Cake <igkharin@gmail.com>"
+    ],
+    "changed_files": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+        "bytes": 14438,
+        "sha256": "20042aa1631620ed3fd546bdd1d86ee449563d805565be19c9bc2a7ceb999787"
+      },
+      {
+        "path": "library/kani_core/src/mem_init.rs",
+        "bytes": 27151,
+        "sha256": "dd391c4b160c24d34ca2b314cd519b350553dadbc8e79e7868c9dc47bbdbfb56"
+      }
+    ],
+    "patch": {
+      "path": "SOURCE.patch",
+      "bytes": 6482,
+      "sha256": "27750c941d4fac0e4b4a4824b6e84960f88f2798ec6a8cb6bf30d9684db79679"
+    }
+  },
+  "dependencies": [
+    {
+      "path": "cprover_bindings/src/goto_program/symbol.rs",
+      "bytes": 14503,
+      "sha256": "882b95e3fc299c871f7db2665ef11e1fee22d40e1c273b92bbeb06418331c5e4",
+      "blob": "bb40ed9ed9d9cc7ebe368a4bccaa5f33ad86a0de"
+    },
+    {
+      "path": "cprover_bindings/src/goto_program/symbol_table.rs",
+      "bytes": 5098,
+      "sha256": "26e5e72c0014aafc640897f65e0b380186da4ca3aa86bdd49717cf74260aac77",
+      "blob": "783e9ac49debcbf108e473efaec81740f3ff6159"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+      "bytes": 14438,
+      "sha256": "20042aa1631620ed3fd546bdd1d86ee449563d805565be19c9bc2a7ceb999787",
+      "blob": "dec161951591eb6bd542640df3467dbe9d10741e"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+      "bytes": 2231,
+      "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+      "blob": "fa74a01b24b7316cad234662fd54868bb1a0dab2"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/attributes.rs",
+      "bytes": 59344,
+      "sha256": "0b7cfe3b74e1958770b94a763fc89bc5b8156a1d120a69e8bdac67ada630078e",
+      "blob": "ec2d5f8d691876b0f0f22a05cd9b6e3a27dc3ba1"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/kani_functions.rs",
+      "bytes": 15079,
+      "sha256": "c991f53c452f162f153880e178f728394e679d80b3175c226baec34f57b31773",
+      "blob": "19378aea343f3e34bd2626109b3b6f5d36a8486d"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "bytes": 7661,
+      "sha256": "d116bef5bceb32cf65f344600ddeb71dca7c85eb1aaf7f0d29382b296f638ed2",
+      "blob": "b8688becf1dcb3d10f5e35b537ccdd4357ea035c"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "bytes": 42147,
+      "sha256": "3e63dff930116bb80cbcbb8cac122a8941b27a0e6b1ddc18ff146a4cc45b170f",
+      "blob": "9a303d5b4cd80c7e2eade98e77eaf8fbe9eb3da6"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "bytes": 4338,
+      "sha256": "d85c1adf759d9913e05c2a4effbb47cf66b3f35a11d2f198c12a9497d7d96dba",
+      "blob": "6cf42f45128b84f3090ccda9665e59c5daefb75d"
+    },
+    {
+      "path": "library/kani_core/src/arbitrary.rs",
+      "bytes": 25210,
+      "sha256": "cdd7aa7e5c4cf7f1e977b965b9551cb2a5fdd2fe340e83051cf8df6a6ad53070",
+      "blob": "99bcbdd2fbcd21bde0c8550a03b3366d846768f7"
+    },
+    {
+      "path": "library/kani_core/src/lib.rs",
+      "bytes": 42281,
+      "sha256": "bb77d147b03f64586bb38a31edafaddc0c99e3cc3fb65a5c5c541b4fc0198649",
+      "blob": "5d44f231c310a88e2fe7ffb539503e6dd3a0e313"
+    },
+    {
+      "path": "library/kani_core/src/mem.rs",
+      "bytes": 13512,
+      "sha256": "598428730a32f2c4034091688b50dde5a44deb69e2e3c61e08a0d394a5e42844",
+      "blob": "42875177f699d98360a67bb1e050efdbb8296df7"
+    },
+    {
+      "path": "library/kani_core/src/mem_init.rs",
+      "bytes": 27151,
+      "sha256": "dd391c4b160c24d34ca2b314cd519b350553dadbc8e79e7868c9dc47bbdbfb56",
+      "blob": "dabdbe972212329a47f13f5e7ee5fe27a69996de"
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "bytes": 183,
+      "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+      "blob": "4edc84573b03d2b923d584f5df144274c435f693"
+    },
+    {
+      "path": "rustfmt.toml",
+      "bytes": 238,
+      "sha256": "d1886a654a790b5f5779d12c770b32c5328e4e4eaa415fc3a024c6ba9df687b1",
+      "blob": "d77b82e0cf51e3324e899faafec367830d3a24c1"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "bytes": 19071,
+      "sha256": "c01ced42f97efdbc8d6a34c75f229753af59f380549518af971ecea672cd72b2",
+      "blob": "8835f39b1a595f9c26200010ca246286b5968b06"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "bytes": 41718,
+      "sha256": "b90b5b19d9fdaedae2657e8fc42f52912063f47fb734c157e2d72413054c3087",
+      "blob": "690e3b7e5d27a8341dd52dab11c444cfd149d1ae"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+      "bytes": 63027,
+      "sha256": "cf0433855bf460b679d6202effbece3dcdd4d2f920cff274b53e359cfeb21957",
+      "blob": "001e482a3653dff92c4c5bc1b5682e3c7c797d63"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+      "bytes": 94826,
+      "sha256": "c367bc4da9cc250b839f2860508788973b87bf1c6246f012e5988c83668fa02d",
+      "blob": "dc2cbd09ec10f7b716538285217655d740e68cd2"
+    },
+    {
+      "path": "kani-compiler/src/args.rs",
+      "bytes": 7578,
+      "sha256": "cb1f451503f39856f5a2f7bf4eea1c9ee852bcb45c6012be08983ce6440495d3",
+      "blob": "ad05c194e364a147cd365b96d6ccd761786440c6"
+    },
+    {
+      "path": "cprover_bindings/src/goto_program/expr.rs",
+      "bytes": 78760,
+      "sha256": "acf2baf0f67dc32868b55b4fa92757628b5c219951a631390b91b0ecc0701780",
+      "blob": "ecf1e43e65db29ed0f101f291cd647084350d386"
+    },
+    {
+      "path": "cprover_bindings/src/goto_program/typ.rs",
+      "bytes": 52225,
+      "sha256": "ade325a1e884f3d6a648a64fe668c8f5e821c0ba42fcff419d4b2f9532b33871",
+      "blob": "01148089e7d5091e5a9b7de8e870766895b78fad"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+      "bytes": 66660,
+      "sha256": "ad73c82580f8f9ba3528ce9b6b371c6a4f717443e31a86b1fad6bad0a2c80d64",
+      "blob": "cf5feb8a4191c99ecbfc6d52897b7459a64ae9f9"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+      "bytes": 97638,
+      "sha256": "bc0f72b9efb456a1d39a4c2ce19aaa62c675303ef80fc9a5323074a69ca5d6d1",
+      "blob": "3d874360d7812acff609a6e86d6869c227add585"
+    },
+    {
+      "path": "cprover_bindings/src/irep/to_irep.rs",
+      "bytes": 42906,
+      "sha256": "bda4f823aafe43d547476d540cf264e62293dc8693df861c65864566413d7b0c",
+      "blob": "5ae646571ecd76fe4e82189773e4713b2975cd21"
+    }
+  ],
+  "primary_cbmc_sources": [
+    {
+      "path": "src/solvers/flattening/bv_pointers.cpp",
+      "url": "https://github.com/diffblue/cbmc/blob/cbmc-6.11.0/src/solvers/flattening/bv_pointers.cpp",
+      "raw_url": "https://raw.githubusercontent.com/diffblue/cbmc/cbmc-6.11.0/src/solvers/flattening/bv_pointers.cpp",
+      "bytes": 32551,
+      "sha256": "aa2b9394b437617bebf3a1064788f7f199d312ddd3739948920937b75f53811f",
+      "actual_ci_binary_binding": "UNKNOWN_NOT_RUN"
+    },
+    {
+      "path": "src/solvers/flattening/bv_pointers.h",
+      "url": "https://github.com/diffblue/cbmc/blob/cbmc-6.11.0/src/solvers/flattening/bv_pointers.h",
+      "raw_url": "https://raw.githubusercontent.com/diffblue/cbmc/cbmc-6.11.0/src/solvers/flattening/bv_pointers.h",
+      "bytes": 3809,
+      "sha256": "e6b74213618bfbd9fa8fb5b7a10744d30e9904f367059ede151e896e75d967e0",
+      "actual_ci_binary_binding": "UNKNOWN_NOT_RUN"
+    },
+    {
+      "path": "src/goto-symex/symex_dead.cpp",
+      "url": "https://github.com/diffblue/cbmc/blob/cbmc-6.11.0/src/goto-symex/symex_dead.cpp",
+      "raw_url": "https://raw.githubusercontent.com/diffblue/cbmc/cbmc-6.11.0/src/goto-symex/symex_dead.cpp",
+      "bytes": 2441,
+      "sha256": "e85c0f048d54686d503e6cbbb8de38b223a63333116141c6d4f73456e543ac46",
+      "actual_ci_binary_binding": "UNKNOWN_NOT_RUN"
+    },
+    {
+      "path": "src/goto-symex/symex_function_call.cpp",
+      "url": "https://github.com/diffblue/cbmc/blob/cbmc-6.11.0/src/goto-symex/symex_function_call.cpp",
+      "raw_url": "https://raw.githubusercontent.com/diffblue/cbmc/cbmc-6.11.0/src/goto-symex/symex_function_call.cpp",
+      "bytes": 15145,
+      "sha256": "312b94053430aa8c3ac1c7426333f39604bd609b205ebf4fb6c618f1b115eb5f",
+      "actual_ci_binary_binding": "UNKNOWN_NOT_RUN"
+    }
+  ],
+  "rust_api_snapshot": {
+    "worktree": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/wt-ci-kani-array-select-repro-20261101",
+    "commit": "10d329311243aacf87b5d1aabf0453d549b8a694",
+    "actual_ci_sysroot": "UNKNOWN_NOT_RUN",
+    "files": [
+      {
+        "path": "library/core/src/ptr/const_ptr.rs",
+        "bytes": 116259,
+        "sha256": "6ace4c013849ef9f32ea5c1941ad68cc92eb98be92089f5952d85de3ad8ddc45"
+      },
+      {
+        "path": "library/core/src/ptr/mod.rs",
+        "bytes": 130865,
+        "sha256": "5f70e87f1d2d8becf475ff88c48fb4c718895d3249ed7b45a0cddf68c2e663f8"
+      },
+      {
+        "path": "library/core/src/num/uint_macros.rs",
+        "bytes": 193243,
+        "sha256": "450207c51e804eb3e182e6ce8d7e76fa58e950739ad09fbc6c68b888e4c83110"
+      }
+    ]
+  },
+  "full_tests_tree": "b887d2a2074e158368a6b1f04f5c971f48c69bdd",
+  "compilation": "NOT_RUN",
+  "G1": "NOT_RUN",
+  "G2": "NOT_RUN",
+  "source_pushed": false,
+  "proof_credit": 0,
+  "composition": {
+    "commit": "0ab62c7b0cdecd880064b0628f995c5a5b3de9ab",
+    "parent": "2bd63183d88bec2efeeccb88b450b50939d120c3",
+    "tree": "4a6de5d458cf4cde1c54c8c3a7aba2469af7fa04",
+    "test_only_delta": [
+      {
+        "path": "tests/expected/uninit/private-transfer-pointer/hole.expected",
+        "bytes": 227,
+        "sha256": "966521cc4795b4d35a81980331d1962ead15c6831b82eea6794b257b10fdd4a3",
+        "blob": "1e5c7ac8ecc7ccfaf290d3ea7349ac8a8a3df23c"
+      },
+      {
+        "path": "tests/expected/uninit/private-transfer-pointer/hole.rs",
+        "bytes": 1176,
+        "sha256": "83ed638eda5c099ffdfb472484afa737b9eb4b6f9083a9b346879a5394c79b19",
+        "blob": "869cdd48b1f5adbd85274d640705e41539baba7a"
+      },
+      {
+        "path": "tests/expected/uninit/private-transfer-pointer/legal.expected",
+        "bytes": 146,
+        "sha256": "8d915192b32717fd451fab95ec5db1e99330e6f3a8cad4dec6cf05e00127f0d8",
+        "blob": "c603387f0e9599ce58fdfc5bede6d9d2ea375dbd"
+      },
+      {
+        "path": "tests/expected/uninit/private-transfer-pointer/legal.rs",
+        "bytes": 1081,
+        "sha256": "1d46f5d0f50494a012b266fe2332dc88241f5d50bb25bb35ff78d657c4b584b9",
+        "blob": "2939389c07112c1cc05e44d174fee643ef669f61"
+      }
+    ],
+    "reviewed_test_commit": "e588fa6437e7904a6d10e05a983b3c381f9b52c5",
+    "patch_sha256": "9c8693997682e7be48230fabcf0d01f29c41f93d298bfa06898682d090efb2f2",
+    "unchanged_production_from_reviewed_source": true,
+    "author_committer": [
+      "Tiramisu-Cake <igkharin@gmail.com>",
+      "Tiramisu-Cake <igkharin@gmail.com>"
+    ]
+  },
+  "READY": "0ab62c7b0cdecd880064b0628f995c5a5b3de9ab"
+}
