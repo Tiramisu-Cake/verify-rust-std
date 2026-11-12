@@ -41,4 +41,4 @@ CI on this commit in my fork: [Kani CI](https://github.com/Tiramisu-Cake/kani/ac
 
 By submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 and MIT licenses.
 
-*Disclosure: this change and description were prepared with AI assistance.*
+*Disclosure: this change and description were prepared with the help of AI assistants.*
