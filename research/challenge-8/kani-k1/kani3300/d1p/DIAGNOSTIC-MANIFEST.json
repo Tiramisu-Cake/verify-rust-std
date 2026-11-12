@@ -1,0 +1,324 @@
+{
+  "ci_dispatched": false,
+  "cloud_usd": 0,
+  "kani_pushed": false,
+  "local_builds": 0,
+  "overlay_bytes_equal": true,
+  "overlay_files": {
+    ".github/workflows/kani3300-d1p.yml": {
+      "blob": "0aa0b352bc8ec55842cad8a74fa1bb83583a95fd",
+      "bytes": 4523,
+      "sha256": "b08962b69d04da8a4591732f692e28c3063323c3fd4303d5768f46263841ee28"
+    },
+    "diagnostics/kani3300-d1p/README.md": {
+      "blob": "96fad0f99e61abd89bc99d230ead8c50b15445da",
+      "bytes": 5080,
+      "sha256": "82a44fa2e50cdc96b20e61e34e4d04a018701350a904c839a0761424a08daf50"
+    },
+    "diagnostics/kani3300-d1p/analyze.py": {
+      "blob": "96049222a16f3e8d95c782f2f38227fcf1fb4a2d",
+      "bytes": 11456,
+      "sha256": "a9791e5d3658cce43d8830c2c5c50b8a90894a0fcd0a43d8dbbe72328313262f"
+    },
+    "diagnostics/kani3300-d1p/capture.py": {
+      "blob": "3c62e1f6a96c2c6ff1f4e88bbf1a1bf4587ba551",
+      "bytes": 13389,
+      "sha256": "1c6e6e0cede10ff66819827e75d8017be1817c5f3c56fea48dd05912811543ab"
+    },
+    "diagnostics/kani3300-d1p/inputs/scalar-pfc-hole.rs": {
+      "blob": "f1e9757e2f7901d37b5cd43ef83c2408e538217d",
+      "bytes": 782,
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759"
+    },
+    "diagnostics/kani3300-d1p/inputs/scalar-pfc-legal.rs": {
+      "blob": "04d119ac043aeda0bc701555c5514d1ddf7097b2",
+      "bytes": 774,
+      "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b"
+    },
+    "diagnostics/kani3300-d1p/runner.py": {
+      "blob": "358465009d02aa91f3f39fec5ed1e0c83b50f429",
+      "bytes": 13342,
+      "sha256": "6027bb61481cd685aaf59d316c82cbdf9622d2f52197a9a65abe0514adf1f17f"
+    },
+    "diagnostics/kani3300-d1p/test_synthetic.py": {
+      "blob": "6bbc09a28b991e054011c2a675e6a0e9900316e1",
+      "bytes": 13681,
+      "sha256": "442f3864defb2fac25db4c6d9c3dddf1eb0da1faffc4abc91ca9cf9cc3dbdfe0"
+    },
+    "diagnostics/kani3300-d1p/test_workflow.py": {
+      "blob": "e23af4784b8a41f592c537c698b349ca30964c69",
+      "bytes": 2603,
+      "sha256": "8fcab7b32d4d978e320ddf47e006e1aa039dd6590e8bb483425fcef15b6a809e"
+    },
+    "diagnostics/kani3300-d1p/wrapper.py": {
+      "blob": "68447b9f0698de546904f5e942595dd448012d32",
+      "bytes": 4117,
+      "sha256": "751d985e0369afff7cbcd3711e9b3000ace3360a22626941e2e91e799cdf5b37"
+    }
+  },
+  "proof_credit": 0,
+  "review": "REVIEW.md",
+  "schema": "kani3300-d1p-preparation-v1",
+  "variants": [
+    {
+      "all_existing_files_unchanged": true,
+      "allowlist_diff": [
+        "A\t.github/workflows/kani3300-d1p.yml",
+        "A\tdiagnostics/kani3300-d1p/README.md",
+        "A\tdiagnostics/kani3300-d1p/analyze.py",
+        "A\tdiagnostics/kani3300-d1p/capture.py",
+        "A\tdiagnostics/kani3300-d1p/inputs/scalar-pfc-hole.rs",
+        "A\tdiagnostics/kani3300-d1p/inputs/scalar-pfc-legal.rs",
+        "A\tdiagnostics/kani3300-d1p/runner.py",
+        "A\tdiagnostics/kani3300-d1p/test_synthetic.py",
+        "A\tdiagnostics/kani3300-d1p/test_workflow.py",
+        "A\tdiagnostics/kani3300-d1p/wrapper.py"
+      ],
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com> / Tiramisu-Cake <igkharin@gmail.com>",
+      "branch": "diagnostics/kani-3300-d1p-r1-skip",
+      "ci_commit": "1d0f1d30bfcf8ce64d63716a31a0a9bd3e06c7a0",
+      "ci_tree": "702a150836245d35b257665d4c91e73314cd4511",
+      "id": "r1-skip",
+      "observed_bindings": "UNKNOWN",
+      "overlay_files": {
+        ".github/workflows/kani3300-d1p.yml": {
+          "blob": "0aa0b352bc8ec55842cad8a74fa1bb83583a95fd",
+          "bytes": 4523,
+          "sha256": "b08962b69d04da8a4591732f692e28c3063323c3fd4303d5768f46263841ee28"
+        },
+        "diagnostics/kani3300-d1p/README.md": {
+          "blob": "96fad0f99e61abd89bc99d230ead8c50b15445da",
+          "bytes": 5080,
+          "sha256": "82a44fa2e50cdc96b20e61e34e4d04a018701350a904c839a0761424a08daf50"
+        },
+        "diagnostics/kani3300-d1p/analyze.py": {
+          "blob": "96049222a16f3e8d95c782f2f38227fcf1fb4a2d",
+          "bytes": 11456,
+          "sha256": "a9791e5d3658cce43d8830c2c5c50b8a90894a0fcd0a43d8dbbe72328313262f"
+        },
+        "diagnostics/kani3300-d1p/capture.py": {
+          "blob": "3c62e1f6a96c2c6ff1f4e88bbf1a1bf4587ba551",
+          "bytes": 13389,
+          "sha256": "1c6e6e0cede10ff66819827e75d8017be1817c5f3c56fea48dd05912811543ab"
+        },
+        "diagnostics/kani3300-d1p/inputs/scalar-pfc-hole.rs": {
+          "blob": "f1e9757e2f7901d37b5cd43ef83c2408e538217d",
+          "bytes": 782,
+          "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759"
+        },
+        "diagnostics/kani3300-d1p/inputs/scalar-pfc-legal.rs": {
+          "blob": "04d119ac043aeda0bc701555c5514d1ddf7097b2",
+          "bytes": 774,
+          "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b"
+        },
+        "diagnostics/kani3300-d1p/runner.py": {
+          "blob": "358465009d02aa91f3f39fec5ed1e0c83b50f429",
+          "bytes": 13342,
+          "sha256": "6027bb61481cd685aaf59d316c82cbdf9622d2f52197a9a65abe0514adf1f17f"
+        },
+        "diagnostics/kani3300-d1p/test_synthetic.py": {
+          "blob": "6bbc09a28b991e054011c2a675e6a0e9900316e1",
+          "bytes": 13681,
+          "sha256": "442f3864defb2fac25db4c6d9c3dddf1eb0da1faffc4abc91ca9cf9cc3dbdfe0"
+        },
+        "diagnostics/kani3300-d1p/test_workflow.py": {
+          "blob": "e23af4784b8a41f592c537c698b349ca30964c69",
+          "bytes": 2603,
+          "sha256": "8fcab7b32d4d978e320ddf47e006e1aa039dd6590e8bb483425fcef15b6a809e"
+        },
+        "diagnostics/kani3300-d1p/wrapper.py": {
+          "blob": "68447b9f0698de546904f5e942595dd448012d32",
+          "bytes": 4117,
+          "sha256": "751d985e0369afff7cbcd3711e9b3000ace3360a22626941e2e91e799cdf5b37"
+        }
+      },
+      "parent": "56cbc5c4a479bc3fb25310b14fcf279d90581a02",
+      "parent_tree": "a97ec3d06efd827829f550f1e7a98f29538758fe",
+      "patch": "patches/r1-skip.patch",
+      "patch_sha256": "64957c9fecf1cc11239c83d74986b91424b2782a199f3d016c95e52157fbfa13",
+      "proof_credit": 0,
+      "readiness": "SOURCE_READY/NOT_COMPILED",
+      "unchanged_production": {
+        "cprover_bindings": {
+          "ci_tree": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
+          "sha256_git_ls_tree_r_z": "d58d6eb66d5da8032cc94a2a85c6071e8ebfe49af3c93cd7869095ce6e30ed87",
+          "source_tree": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
+          "unchanged": true
+        },
+        "kani-compiler": {
+          "ci_tree": "b2644584ad2fa76535d29c1b8c479ec6b8829ec1",
+          "sha256_git_ls_tree_r_z": "20283facd04b5a129dcf04516f13f1f8128d66247ea81ca68589ae7d97135366",
+          "source_tree": "b2644584ad2fa76535d29c1b8c479ec6b8829ec1",
+          "unchanged": true
+        },
+        "kani-driver": {
+          "ci_tree": "c214b9ff3402e7d6b14f874b1ff5279a56075207",
+          "sha256_git_ls_tree_r_z": "4e87adb2caf58e7f3f339b30aed2af39a162d739af06c52cf7cd5e22a2d87c7a",
+          "source_tree": "c214b9ff3402e7d6b14f874b1ff5279a56075207",
+          "unchanged": true
+        },
+        "kani_metadata": {
+          "ci_tree": "c0a35fc0cb2c570be9fd1c96a914642150f611b2",
+          "sha256_git_ls_tree_r_z": "db05d5d398969893e24e21a74cdd3703ea375183130b41e34b019a9dfb3f791d",
+          "source_tree": "c0a35fc0cb2c570be9fd1c96a914642150f611b2",
+          "unchanged": true
+        },
+        "library": {
+          "ci_tree": "8a60659dac4ed31660331581dc12af825d3b5a2d",
+          "sha256_git_ls_tree_r_z": "0ba930c29c43b79cacfe22b5beb5f7eb946c2b510a97bad0f3eabd08ed8d31e7",
+          "source_tree": "8a60659dac4ed31660331581dc12af825d3b5a2d",
+          "unchanged": true
+        },
+        "scripts": {
+          "ci_tree": "7d1c75c2a5ba49102a2efa7e6d9facc47675efd2",
+          "sha256_git_ls_tree_r_z": "ee9bd42b167f6112935a4b8194c85141fffdf546a882bf26399465ccb0a81a8c",
+          "source_tree": "7d1c75c2a5ba49102a2efa7e6d9facc47675efd2",
+          "unchanged": true
+        },
+        "tests": {
+          "ci_tree": "c496b05f0249393946644fadadac33015e839aba",
+          "sha256_git_ls_tree_r_z": "ca7d98f009b4939c2c60c54295189db81d6a3ee6aabba3fb2b4c4deb28461a45",
+          "source_tree": "c496b05f0249393946644fadadac33015e839aba",
+          "unchanged": true
+        },
+        "tools": {
+          "ci_tree": "685b2c10e086ab6552aef098e2424d1ee1224653",
+          "sha256_git_ls_tree_r_z": "aa99a95079cc9dbfcafd755b30c7e74ba92230f6be09dd66037e8b2c08bbc9e7",
+          "source_tree": "685b2c10e086ab6552aef098e2424d1ee1224653",
+          "unchanged": true
+        }
+      },
+      "verification": "NOT_RUN"
+    },
+    {
+      "all_existing_files_unchanged": true,
+      "allowlist_diff": [
+        "A\t.github/workflows/kani3300-d1p.yml",
+        "A\tdiagnostics/kani3300-d1p/README.md",
+        "A\tdiagnostics/kani3300-d1p/analyze.py",
+        "A\tdiagnostics/kani3300-d1p/capture.py",
+        "A\tdiagnostics/kani3300-d1p/inputs/scalar-pfc-hole.rs",
+        "A\tdiagnostics/kani3300-d1p/inputs/scalar-pfc-legal.rs",
+        "A\tdiagnostics/kani3300-d1p/runner.py",
+        "A\tdiagnostics/kani3300-d1p/test_synthetic.py",
+        "A\tdiagnostics/kani3300-d1p/test_workflow.py",
+        "A\tdiagnostics/kani3300-d1p/wrapper.py"
+      ],
+      "author_committer": "Tiramisu-Cake <igkharin@gmail.com> / Tiramisu-Cake <igkharin@gmail.com>",
+      "branch": "diagnostics/kani-3300-d1p-r6b",
+      "ci_commit": "86f9b171513de7a11eec7587bead1edc6877d950",
+      "ci_tree": "6b030412a13f240cd52ceaabc97b6987be613be5",
+      "id": "r6b",
+      "observed_bindings": "UNKNOWN",
+      "overlay_files": {
+        ".github/workflows/kani3300-d1p.yml": {
+          "blob": "0aa0b352bc8ec55842cad8a74fa1bb83583a95fd",
+          "bytes": 4523,
+          "sha256": "b08962b69d04da8a4591732f692e28c3063323c3fd4303d5768f46263841ee28"
+        },
+        "diagnostics/kani3300-d1p/README.md": {
+          "blob": "96fad0f99e61abd89bc99d230ead8c50b15445da",
+          "bytes": 5080,
+          "sha256": "82a44fa2e50cdc96b20e61e34e4d04a018701350a904c839a0761424a08daf50"
+        },
+        "diagnostics/kani3300-d1p/analyze.py": {
+          "blob": "96049222a16f3e8d95c782f2f38227fcf1fb4a2d",
+          "bytes": 11456,
+          "sha256": "a9791e5d3658cce43d8830c2c5c50b8a90894a0fcd0a43d8dbbe72328313262f"
+        },
+        "diagnostics/kani3300-d1p/capture.py": {
+          "blob": "3c62e1f6a96c2c6ff1f4e88bbf1a1bf4587ba551",
+          "bytes": 13389,
+          "sha256": "1c6e6e0cede10ff66819827e75d8017be1817c5f3c56fea48dd05912811543ab"
+        },
+        "diagnostics/kani3300-d1p/inputs/scalar-pfc-hole.rs": {
+          "blob": "f1e9757e2f7901d37b5cd43ef83c2408e538217d",
+          "bytes": 782,
+          "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759"
+        },
+        "diagnostics/kani3300-d1p/inputs/scalar-pfc-legal.rs": {
+          "blob": "04d119ac043aeda0bc701555c5514d1ddf7097b2",
+          "bytes": 774,
+          "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b"
+        },
+        "diagnostics/kani3300-d1p/runner.py": {
+          "blob": "358465009d02aa91f3f39fec5ed1e0c83b50f429",
+          "bytes": 13342,
+          "sha256": "6027bb61481cd685aaf59d316c82cbdf9622d2f52197a9a65abe0514adf1f17f"
+        },
+        "diagnostics/kani3300-d1p/test_synthetic.py": {
+          "blob": "6bbc09a28b991e054011c2a675e6a0e9900316e1",
+          "bytes": 13681,
+          "sha256": "442f3864defb2fac25db4c6d9c3dddf1eb0da1faffc4abc91ca9cf9cc3dbdfe0"
+        },
+        "diagnostics/kani3300-d1p/test_workflow.py": {
+          "blob": "e23af4784b8a41f592c537c698b349ca30964c69",
+          "bytes": 2603,
+          "sha256": "8fcab7b32d4d978e320ddf47e006e1aa039dd6590e8bb483425fcef15b6a809e"
+        },
+        "diagnostics/kani3300-d1p/wrapper.py": {
+          "blob": "68447b9f0698de546904f5e942595dd448012d32",
+          "bytes": 4117,
+          "sha256": "751d985e0369afff7cbcd3711e9b3000ace3360a22626941e2e91e799cdf5b37"
+        }
+      },
+      "parent": "405c1f059264d8f7cedeeaa01c6d4ad6867a419e",
+      "parent_tree": "162e8ad1e76e842b18c24a4ac2986335902834d7",
+      "patch": "patches/r6b.patch",
+      "patch_sha256": "64957c9fecf1cc11239c83d74986b91424b2782a199f3d016c95e52157fbfa13",
+      "proof_credit": 0,
+      "readiness": "SOURCE_READY/NOT_COMPILED",
+      "unchanged_production": {
+        "cprover_bindings": {
+          "ci_tree": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
+          "sha256_git_ls_tree_r_z": "d58d6eb66d5da8032cc94a2a85c6071e8ebfe49af3c93cd7869095ce6e30ed87",
+          "source_tree": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
+          "unchanged": true
+        },
+        "kani-compiler": {
+          "ci_tree": "b2644584ad2fa76535d29c1b8c479ec6b8829ec1",
+          "sha256_git_ls_tree_r_z": "20283facd04b5a129dcf04516f13f1f8128d66247ea81ca68589ae7d97135366",
+          "source_tree": "b2644584ad2fa76535d29c1b8c479ec6b8829ec1",
+          "unchanged": true
+        },
+        "kani-driver": {
+          "ci_tree": "c214b9ff3402e7d6b14f874b1ff5279a56075207",
+          "sha256_git_ls_tree_r_z": "4e87adb2caf58e7f3f339b30aed2af39a162d739af06c52cf7cd5e22a2d87c7a",
+          "source_tree": "c214b9ff3402e7d6b14f874b1ff5279a56075207",
+          "unchanged": true
+        },
+        "kani_metadata": {
+          "ci_tree": "c0a35fc0cb2c570be9fd1c96a914642150f611b2",
+          "sha256_git_ls_tree_r_z": "db05d5d398969893e24e21a74cdd3703ea375183130b41e34b019a9dfb3f791d",
+          "source_tree": "c0a35fc0cb2c570be9fd1c96a914642150f611b2",
+          "unchanged": true
+        },
+        "library": {
+          "ci_tree": "7cdc8c35f89100429453365d95aa3bf298ec2558",
+          "sha256_git_ls_tree_r_z": "6f121d21c4ab9a26f7b2317b27580bd12776b60080e7edd9872487a2f81aa94a",
+          "source_tree": "7cdc8c35f89100429453365d95aa3bf298ec2558",
+          "unchanged": true
+        },
+        "scripts": {
+          "ci_tree": "7d1c75c2a5ba49102a2efa7e6d9facc47675efd2",
+          "sha256_git_ls_tree_r_z": "ee9bd42b167f6112935a4b8194c85141fffdf546a882bf26399465ccb0a81a8c",
+          "source_tree": "7d1c75c2a5ba49102a2efa7e6d9facc47675efd2",
+          "unchanged": true
+        },
+        "tests": {
+          "ci_tree": "c496b05f0249393946644fadadac33015e839aba",
+          "sha256_git_ls_tree_r_z": "ca7d98f009b4939c2c60c54295189db81d6a3ee6aabba3fb2b4c4deb28461a45",
+          "source_tree": "c496b05f0249393946644fadadac33015e839aba",
+          "unchanged": true
+        },
+        "tools": {
+          "ci_tree": "685b2c10e086ab6552aef098e2424d1ee1224653",
+          "sha256_git_ls_tree_r_z": "aa99a95079cc9dbfcafd755b30c7e74ba92230f6be09dd66037e8b2c08bbc9e7",
+          "source_tree": "685b2c10e086ab6552aef098e2424d1ee1224653",
+          "unchanged": true
+        }
+      },
+      "verification": "NOT_RUN"
+    }
+  ]
+}

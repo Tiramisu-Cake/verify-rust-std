@@ -1,0 +1,128 @@
+{
+  "$defs": {
+    "failureInventory": {
+      "properties": {
+        "complete": {
+          "const": false
+        },
+        "failures": {
+          "type": "array"
+        },
+        "records_parsed": {
+          "type": "integer"
+        },
+        "status": {
+          "enum": [
+            "NOT_RUN",
+            "UNKNOWN"
+          ]
+        },
+        "total_failed_properties": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "status",
+        "complete",
+        "failures",
+        "records_parsed"
+      ],
+      "type": "object"
+    },
+    "ssaSummary": {
+      "properties": {
+        "semantic_verdict_complete": {
+          "const": false
+        },
+        "top30_roots_by_exact_width": {
+          "const": "UNKNOWN"
+        }
+      },
+      "required": [
+        "parser_complete",
+        "stream_complete",
+        "semantic_verdict_complete",
+        "gaps"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "argv": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "collector_status": {
+      "enum": [
+        "RUNNING",
+        "COMPLETE",
+        "ERROR"
+      ]
+    },
+    "cwd": {
+      "type": "string"
+    },
+    "finished": {
+      "type": "string"
+    },
+    "original_rc": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "original_signal": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "pgid": {
+      "type": "integer"
+    },
+    "pid": {
+      "type": "integer"
+    },
+    "sampled_max_rss_kib": {
+      "type": "integer"
+    },
+    "started": {
+      "type": "string"
+    },
+    "stream_complete": {
+      "type": "boolean"
+    },
+    "streams": {
+      "type": "object"
+    },
+    "time_v_maxrss_kib": {
+      "type": "null"
+    },
+    "verification": {
+      "const": "NOT_RUN"
+    },
+    "wait4_maxrss_kib": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "argv",
+    "cwd",
+    "started",
+    "finished",
+    "original_rc",
+    "original_signal",
+    "collector_status",
+    "stream_complete",
+    "verification"
+  ],
+  "title": "D1-P process receipt",
+  "type": "object",
+  "x-artifact-contract": "See CI-REQUEST.md and exact overlay README.md for paths, caps, missing/error states and parser coverage."
+}

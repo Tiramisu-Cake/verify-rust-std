@@ -1,0 +1,1495 @@
+diff --git a/.github/workflows/kani3300-d1p.yml b/.github/workflows/kani3300-d1p.yml
+new file mode 100644
+index 0000000000000000000000000000000000000000..0aa0b352bc8ec55842cad8a74fa1bb83583a95fd
+--- /dev/null
++++ b/.github/workflows/kani3300-d1p.yml
+@@ -0,0 +1,136 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++name: KANI3300 D1-P diagnostic (no SAT)
++'on':
++  workflow_dispatch:
++    inputs:
++      r1_ci:
++        description: Exact D1-P CI-only commit above R1+skip
++        type: string
++        required: true
++      r6b_ci:
++        description: Exact D1-P CI-only commit above R6-02b
++        type: string
++        required: true
++concurrency:
++  group: kani3300-d1p-one-real-cbmc
++  cancel-in-progress: false
++jobs:
++  r1-skip:
++    runs-on: ubuntu-24.04
++    timeout-minutes: 120
++    permissions:
++      contents: read
++    steps:
++    - name: Checkout exact CI-only commit
++      uses: actions/checkout@v6
++      with:
++        ref: ${{ inputs.r1_ci }}
++        fetch-depth: 2
++    - name: Identity and allowlist
++      id: identity
++      run: python3 diagnostics/kani3300-d1p/runner.py identity --pin r1-skip
++    - name: Bounded existing setup recipe
++      id: setup
++      run: python3 diagnostics/kani3300-d1p/runner.py setup --pin r1-skip
++    - name: Bounded build
++      id: build
++      run: python3 diagnostics/kani3300-d1p/runner.py build --pin r1-skip
++    - name: P1 DFCC and symex only
++      id: capture
++      run: python3 diagnostics/kani3300-d1p/runner.py cases --pin r1-skip
++    - name: Artifact manifest and phase status
++      if: ${{ always() }}
++      id: manifest
++      env:
++        D1P_SETUP: ${{ steps.setup.outcome }}
++        D1P_BUILD: ${{ steps.build.outcome }}
++        D1P_CAPTURE: ${{ steps.capture.outcome }}
++      run: python3 diagnostics/kani3300-d1p/runner.py finalize --pin r1-skip
++    - name: Upload bounded evidence
++      if: ${{ always() }}
++      id: upload
++      uses: actions/upload-artifact@v4
++      with:
++        name: d1p-r1-skip-${{ github.run_id }}-${{ github.run_attempt }}
++        path: d1p-artifacts/
++        if-no-files-found: error
++        retention-days: 14
++    - name: Record upload outcome
++      if: ${{ always() }}
++      env:
++        D1P_UPLOAD: ${{ steps.upload.outcome }}
++      run: |-
++        python3 - <<'PY'
++        import json, os
++        from pathlib import Path
++        Path('d1p-upload.json').write_text(json.dumps({'upload':os.environ['D1P_UPLOAD'], 'verification':'NOT_RUN'})+'\n')
++        PY
++    - name: Upload outcome receipt
++      if: ${{ always() }}
++      uses: actions/upload-artifact@v4
++      with:
++        name: d1p-r1-skip-upload-status-${{ github.run_id }}-${{ github.run_attempt }}
++        path: d1p-upload.json
++        if-no-files-found: error
++        retention-days: 14
++  r6b:
++    runs-on: ubuntu-24.04
++    timeout-minutes: 120
++    permissions:
++      contents: read
++    steps:
++    - name: Checkout exact CI-only commit
++      uses: actions/checkout@v6
++      with:
++        ref: ${{ inputs.r6b_ci }}
++        fetch-depth: 2
++    - name: Identity and allowlist
++      id: identity
++      run: python3 diagnostics/kani3300-d1p/runner.py identity --pin r6b
++    - name: Bounded existing setup recipe
++      id: setup
++      run: python3 diagnostics/kani3300-d1p/runner.py setup --pin r6b
++    - name: Bounded build
++      id: build
++      run: python3 diagnostics/kani3300-d1p/runner.py build --pin r6b
++    - name: P1 DFCC and symex only
++      id: capture
++      run: python3 diagnostics/kani3300-d1p/runner.py cases --pin r6b
++    - name: Artifact manifest and phase status
++      if: ${{ always() }}
++      id: manifest
++      env:
++        D1P_SETUP: ${{ steps.setup.outcome }}
++        D1P_BUILD: ${{ steps.build.outcome }}
++        D1P_CAPTURE: ${{ steps.capture.outcome }}
++      run: python3 diagnostics/kani3300-d1p/runner.py finalize --pin r6b
++    - name: Upload bounded evidence
++      if: ${{ always() }}
++      id: upload
++      uses: actions/upload-artifact@v4
++      with:
++        name: d1p-r6b-${{ github.run_id }}-${{ github.run_attempt }}
++        path: d1p-artifacts/
++        if-no-files-found: error
++        retention-days: 14
++    - name: Record upload outcome
++      if: ${{ always() }}
++      env:
++        D1P_UPLOAD: ${{ steps.upload.outcome }}
++      run: |-
++        python3 - <<'PY'
++        import json, os
++        from pathlib import Path
++        Path('d1p-upload.json').write_text(json.dumps({'upload':os.environ['D1P_UPLOAD'], 'verification':'NOT_RUN'})+'\n')
++        PY
++    - name: Upload outcome receipt
++      if: ${{ always() }}
++      uses: actions/upload-artifact@v4
++      with:
++        name: d1p-r6b-upload-status-${{ github.run_id }}-${{ github.run_attempt }}
++        path: d1p-upload.json
++        if-no-files-found: error
++        retention-days: 14
++    needs: r1-skip
++    if: ${{ always() && !cancelled() }}
+diff --git a/diagnostics/kani3300-d1p/README.md b/diagnostics/kani3300-d1p/README.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..96fad0f99e61abd89bc99d230ead8c50b15445da
+--- /dev/null
++++ b/diagnostics/kani3300-d1p/README.md
+@@ -0,0 +1,72 @@
++# D1-P capture contract
++
++SOURCE_READY/NOT_COMPILED. Coordinator-only manual workflow; no normal SAT.
++One `--program-only` spawn per P1/pin; no second symex view, retries, P2 or solver replay.
++All unchanged model/check/solver/slicing/target/object-bit options come from the driver;
++the receipt at the wrapper is actual argv, not a reconstructed normal invocation.
++`-Z unstable-options --cbmc-args --program-only` is the sole diagnostic addition.
++
++Both pinned drivers have identical `call_goto_instrument.rs`, `harness_runner.rs`,
++`call_cbmc.rs`. `instrument_model` specializes, applies restrictions, then calls
++`instrument_contracts` with `--dfcc ROOT ... FILE FILE`. Wrapper snapshots input
++before that in-place call and output afterwards; subsequent add-library,
++undefined-function/drop-unused and backedge transformations remain unchanged.
++Actual CBMC input is captured independently at its sole actual spawn.
++Missing/duplicate/failed DFCC/CBMC capture is an error; no arbitrary file selection.
++
++Stock CBMC 6.11 `show_program.cpp` writes plain `Program constraints:` and
++`// PC source location`, `(number)` / `(sliced)` expressions even with JSON UI.
++Kani's JSON consumer may reject this stream. Bytes, backend status, Kani status,
++and offline parser status remain separate. No fabricated JSON or proof verdict.
++A frontend that cannot reach the diagnostic spawn stops with the exact boundary
++receipts. CI may fail after a complete diagnostic capture. Exit zero is no proof.
++
++Limits: binary snapshot 64 MiB (exclusive create; oversize STOP), each captured
++stdout/stderr 8 MiB, aggregate JSON failure inventory 2 MiB, selected projection
++well below 16 MiB, at most 200 selected lines and 30 term excerpts per view.
++Stock inspection views (symbol table and functions for each of three snapshots)
++are read-only, each 30s/2 GiB sampled RSS; no extra symex. Symex 60s, RLIMIT_AS
++2 GiB plus sampled descendant RSS 2 GiB; Kani case 300s/2 GiB sampled descendant
++RSS. Shared pages may be double counted in aggregate samples; peaks may occur
++between samples. CBMC address-space ceiling is hard and inherited by children.
++Existing setup scripts/submodule recipe run through bounded phase collectors
++(1200s/12 GiB per setup subphase). Build 5400s/12 GiB sampled RSS; job 120min. Watchdog interval 0.05s; old
++6291456 KiB/2s/300s is historical only. All RSS/maxrss in KiB; GiB = KiB/1048576.
++`wait4_maxrss_kib` (child plus kernel child accounting) is separate from sampled
++max and `time_v_maxrss_kib` (UNKNOWN: time-v is not run). No comparison substitutes
++one measure for another. Each subprocess has an owned session; nested owned
++sessions are discovered by /proc ancestry with a Linux child-subreaper, so
++orphaned setsid descendants remain owned and bounded. No global process-name kill.
++
++Collectors drain capped streams, retain original exits/signals, and forward
++unmodified bytes to the parent with bounded backpressure; downstream EPIPE is
++recorded and collector keeps draining. No shell eval or full environment dump.
++Logs are original bounded prefixes with exact emitted/dropped counters. Final
++outcome is in independent receipts; first100/final100 textual milestone records
++are retained independently of byte-prefix caps, never a grep/head tail. All artifacts have a
++relative path/bytes/SHA256 manifest. --keep-temps work is outside the artifact
++tree; only explicitly capped snapshots and selected views are uploaded. Upload always runs; its native failure and
++separate upload-status artifact are visible, and never green a failed step.
++
++Offline parser reads at most 8 MiB, 65536 bytes/line, 100000 records, 200000
++character-work units, 5s/view. It counts only visible show_program records;
++`sliced` means ignored. Other SSA categories, widths, full guards, type extent,
++Layout N, backing object, pointer width and metadata, target/write/property
++bindings remain explicit UNKNOWN unless established from saved model views in
++D1-A. Offsets/indices and operators are textual heuristics; no scalar P1 inference.
++Whitespace-only SHA256 fingerprints preserve SSA suffixes; they are not IREP
++DAG nodes, converter calls or cache misses. VCC prefixes are not parsed as SSA.
++Repeated equal text records remain occurrences. Unknown-width top30 is UNKNOWN.
++Coordinates/excerpt hashes bind bounded observations to the model hash, not to
++semantic feasibility. Partial/truncated output has incomplete coverage.
++
++JSON inventory retains complete property objects even from a partial enclosing
++array, under bytes/depth/objects/time budgets; failures are not capped at top30.
++This stage has no SAT: failure inventory NOT_RUN/UNKNOWN, no total failure claim,
++no semantic verdict completeness. Selected projections are an evidence index;
++absence of a selected line establishes nothing about source/model bindings.
++
++Synthetic commands (Python fake children only):
++`PYTHONDONTWRITEBYTECODE=1 python3 diagnostics/kani3300-d1p/test_synthetic.py`
++and `PYTHONDONTWRITEBYTECODE=1 python3 diagnostics/kani3300-d1p/test_workflow.py`.
++`test_workflow.py` needs PyYAML; capture/runner/parser use only stdlib in CI.
+diff --git a/diagnostics/kani3300-d1p/analyze.py b/diagnostics/kani3300-d1p/analyze.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..96049222a16f3e8d95c782f2f38227fcf1fb4a2d
+--- /dev/null
++++ b/diagnostics/kani3300-d1p/analyze.py
+@@ -0,0 +1,255 @@
++#!/usr/bin/env python3
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Narrow bounded program-only text grammar, never an IREP/converter profiler."""
++from collections import Counter
++import hashlib
++import json
++from pathlib import Path
++import re
++import time
++from capture import MIB, digest, save
++
++LINE_LIMIT = 65536
++NODE_LIMIT = 200000
++RECORD_LIMIT = 100000
++SELECT = re.compile(r'transfer|store_argument|load_argument|begin|return0|initialize|reset|Layout|ARGUMENT_BUFFER|assigns|__CPROVER|postcondition|ASSERT|Assert', re.I)
++OPS = re.compile(r'byte_extract\w*|byte_update\w*|pointer_object|pointer_offset|object_size|\bwith\b|\[[^\]\n]{1,128}\]')
++
++
++def bounded_lines(path, byte_limit=8*MIB):
++    with open(path, 'rb') as f:
++        offset = 0
++        record = 0
++        while offset < byte_limit:
++            raw = f.readline(min(LINE_LIMIT+1, byte_limit-offset))
++            if not raw:
++                return
++            record += 1
++            yield record, offset, raw, len(raw)>LINE_LIMIT or not raw.endswith(b'\n')
++            offset += len(raw)
++
++
++def program(path, model_hash, upstream_complete):
++    began = time.monotonic()
++    counts = Counter()
++    ops = Counter()
++    roots = Counter()
++    excerpts = []
++    pc, function, location = None, None, None
++    saw_header = False
++    gaps = set(['exact widths/types/backing extent/payload/pointer/shadow: UNKNOWN',
++                'DAG sharing, converter cache and workload: UNKNOWN',
++                'source owner/DFCC target/write/property binding: UNKNOWN',
++                'nonprinted SSA categories and full guard/auxiliary coverage: UNKNOWN'])
++    nodes = records = 0
++    parser_complete = True
++    for record, offset, raw, broken in bounded_lines(path):
++        records = record
++        if record>RECORD_LIMIT or nodes>NODE_LIMIT or time.monotonic()-began>5:
++            parser_complete = False
++            gaps.add('parser time/node/record budget')
++            break
++        if broken:
++            parser_complete = False
++            gaps.add('long/partial line; no inferred record')
++            continue
++        text = raw.decode('utf-8', 'replace').rstrip('\n')
++        if 'Program constraints:' == text.strip():
++            saw_header = True
++            continue
++        if not saw_header:
++            continue
++        m = re.match(r'^// (\d+) (.*)$', text)
++        if m:
++            pc, location = int(m[1]), m[2]
++            fn = re.search(r'\bfunction (.+?)(?: thread |$)', location)
++            function = fn[1] if fn else None
++            continue
++        m = re.match(r'^\((sliced|\d+)\) (.*)$', text)
++        if not m:
++            if text.lstrip().startswith('guard:'):
++                counts['visible_guard_lines'] += 1
++            elif text.strip():
++                counts['unparsed_lines'] += 1
++                # Only exact structural framing is recognized. Never silently
++                # discard an unknown program record while claiming COMPLETE.
++                if text.strip() not in (']', '}', ',', '],', '},'):
++                    parser_complete = False
++                    gaps.add('unclassified program content')
++            continue
++        mark, term = m.groups()
++        category = next((x for x in ['ASSERT','ASSUME','CONSTRAINT','SHARED_READ','SHARED_WRITE']
++                         if term.startswith(x+'(')), 'assignment_or_UNKNOWN')
++        counts['visible_all'] += 1
++        counts['visible_ignored' if mark=='sliced' else 'visible_retained'] += 1
++        counts[category] += 1
++        if nodes+len(term)>NODE_LIMIT:
++            parser_complete=False
++            gaps.add('parser character-work budget')
++            break
++        tokens = OPS.findall(term)
++        nodes += len(term)  # conservative character-work budget, not expression nodes
++        for op in tokens:
++            if op.startswith('['):
++                counts['constant_index_text' if re.fullmatch(r'\[\d+\]', op) else 'symbolic_or_UNKNOWN_index_text'] += 1
++                ops['index_text'] += 1
++            else:
++                ops[op] += 1
++        # Only simple flat operands are classified; nested/cast syntax is UNKNOWN.
++        offsets=re.findall(r'byte_(?:extract|update)\w*\([^,()\n]{1,128},\s*([^,()\n]{1,128})[,)]',term)
++        for offset in offsets:
++            offset=offset.strip()
++            category=('constant_offset_text' if re.fullmatch(r'-?\d+',offset) else
++                      'symbolic_offset_text' if re.fullmatch(r'[A-Za-z_][\w#!.$:]*',offset) else
++                      'UNKNOWN_offset_text')
++            counts[category] += 1
++        counts['UNKNOWN_offset_text'] += max(0,sum(op.startswith(('byte_extract','byte_update')) for op in tokens)-len(offsets))
++        normalized = re.sub(r'\s+', ' ', term).strip()
++        fingerprint = hashlib.sha256(normalized.encode()).hexdigest()
++        roots[fingerprint] += 1
++        if len(excerpts)<30 and (tokens or SELECT.search(term)):
++            excerpt = raw[:1024]
++            excerpts.append(dict(record=record, byte_offset=offset, byte_length=len(raw),
++                pc=pc, function=function, source_location=location, model_sha256=model_hash,
++                excerpt=excerpt.decode('utf-8','replace'), excerpt_sha256=hashlib.sha256(excerpt).hexdigest(),
++                textual_fingerprint=fingerprint, exact_width_bits=None, width_assurance='UNKNOWN',
++                ignore=mark=='sliced', operators=tokens[:30]))
++    if not saw_header:
++        parser_complete = False
++        gaps.add('program-only grammar header not found')
++    return dict(grammar='CBMC 6.11 show_program: // PC location; (number|sliced) expression; optional guard',
++        normalization='whitespace only; preserve SSA suffixes and constants; SHA256 UTF-8',
++        counts=dict(counts), visible_operators=dict(ops), parsed_line_records=records,
++        top30_textual_roots_by_occurrences=roots.most_common(30),
++        top30_roots_by_exact_width='UNKNOWN', excerpts=excerpts,
++        parser_complete=parser_complete, stream_complete=upstream_complete,
++        semantic_verdict_complete=False, coverage='visible printed subset; not converter workload',
++        denominator='printed program-only records only, includes sliced; no VCC prefixes counted',
++        complete=parser_complete and upstream_complete, gaps=sorted(gaps), offender='NOT_ESTABLISHED')
++
++
++def failures(path, upstream_complete, semantic_run=False, limit=2*MIB):
++    """Bounded JSON leaf traversal; preserve known failures on malformed JSON.
++
++    Streaming structural scan of complete JSON property objects; enclosing partial
++    JSON does not discard known records. No semantic outcome is inferred.
++    """
++    parsed, found = 0, []
++    size = Path(path).stat().st_size
++    if size>8*MIB:
++        return dict(status='UNKNOWN', complete=False, records_parsed=0, failures=[], reason='input cap')
++    data = Path(path).read_bytes()
++    valid = False
++    try:
++        # Full syntax check is bounded by input and depth precheck below.
++        depth = 0
++        in_string = escaped = False
++        for byte in data:
++            if escaped:
++                escaped=False
++            elif byte==92 and in_string:
++                escaped=True
++            elif byte==34:
++                in_string=not in_string
++            elif not in_string and byte in (91,123):
++                depth += 1
++                if depth>64:
++                    raise ValueError('depth budget')
++            elif not in_string and byte in (93,125):
++                depth -= 1
++        value = json.loads(data)
++        valid = isinstance(value, (list,dict))
++    except (ValueError, RecursionError, UnicodeError):
++        pass
++    # One structural scan, accepting only complete object records. A property
++    # can start with any key; nested sourceLocation is retained verbatim.
++    text = data.decode('utf-8','replace')
++    stack=[]
++    in_string=escaped=False
++    began=time.monotonic()
++    inspected=0
++    inventory_bytes=0
++    cap_hit=False
++    for position, char in enumerate(text):
++        if position % 65536 == 0 and time.monotonic()-began>5:
++            valid=False
++            break
++        if escaped:
++            escaped=False
++        elif in_string and char=='\\':
++            escaped=True
++        elif char=='"':
++            in_string=not in_string
++        elif not in_string and char=='{':
++            stack.append(position)
++            if len(stack)>64:
++                valid=False
++                break
++        elif not in_string and char=='}' and stack:
++            start=stack.pop()
++            inspected += 1
++            if inspected>100000:
++                valid=False
++                break
++            chunk=text[start:position+1]
++            if len(chunk)>2*MIB:
++                valid=False
++                continue
++            if '"property"' not in chunk or '"status"' not in chunk:
++                continue
++            try:
++                item=json.loads(chunk)
++            except (ValueError, RecursionError):
++                valid=False
++                continue
++            if not isinstance(item,dict) or 'property' not in item or 'status' not in item:
++                continue
++            parsed += 1
++            if item['status']=='FAILURE':
++                pid=item['property']
++                entry=dict(id=pid, status='FAILURE', description=item.get('description'),
++                    location=item.get('sourceLocation'),
++                    property_class=pid.rsplit('.',2)[-2] if isinstance(pid,str) and '.' in pid else None)
++                size=len(json.dumps(entry).encode())+2
++                if inventory_bytes+size>limit-2048:
++                    valid=False
++                    cap_hit=True
++                    break
++                inventory_bytes += size
++                found.append(entry)
++    return dict(status='NOT_RUN' if not semantic_run else 'OBSERVED', failures=found,
++                failure_records_observed=len(found), total_failed_properties=None,
++                records_parsed=parsed, complete=False,
++                stream_complete=bool(valid and upstream_complete), semantic_verdict_complete=False,
++                limit_bytes=limit, cap_hit=cap_hit, objects_examined=inspected, semantic_completeness='UNKNOWN')
++
++
++def projection(path, out, model_hash):
++    """Selected bounded text, with original coordinates; types stay verbatim."""
++    records=[]
++    examined=0
++    began=time.monotonic()
++    incomplete=False
++    for record, offset, raw, broken in bounded_lines(path):
++        examined=record
++        if record>100000 or time.monotonic()-began>5:
++            incomplete=True
++            break
++        if broken:
++            incomplete=True
++            continue
++        line=raw.decode('utf-8','replace')
++        if SELECT.search(line):
++            if len(records)>=200:
++                incomplete=True
++                break
++            excerpt=raw[:2048]
++            records.append(dict(record=record, byte_offset=offset, bytes=len(raw),
++                model_sha256=model_hash, excerpt=excerpt.decode('utf-8','replace'),
++                excerpt_sha256=hashlib.sha256(excerpt).hexdigest()))
++    save(out, dict(records=records, examined=examined, complete=False,
++        selection_incomplete=incomplete, coverage='selected matching lines only; surrounding type/CFG binding UNKNOWN',
++        layout_N=None, element=None, extent_bytes=None, width_bits=None,
++        associated_type_callsite=None, cell_address_extent=None, pointer_value_pointee=None,
++        symbol_target_write_guard_pc_property_binding='UNKNOWN'))
+diff --git a/diagnostics/kani3300-d1p/capture.py b/diagnostics/kani3300-d1p/capture.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..3c62e1f6a96c2c6ff1f4e88bbf1a1bf4587ba551
+--- /dev/null
++++ b/diagnostics/kani3300-d1p/capture.py
+@@ -0,0 +1,305 @@
++#!/usr/bin/env python3
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Bounded byte collector; only callers decide whether a command is admitted."""
++import datetime
++import ctypes
++import hashlib
++import json
++import os
++from pathlib import Path
++import selectors
++import resource
++import re
++from collections import deque
++import signal
++import subprocess
++import time
++
++MIB = 1048576
++
++
++def stamp():
++    return datetime.datetime.now(datetime.timezone.utc).isoformat()
++
++
++def digest(path):
++    h = hashlib.sha256()
++    with open(path, 'rb') as f:
++        for block in iter(lambda: f.read(65536), b''):
++            h.update(block)
++    return h.hexdigest()
++
++
++def save(path, data):
++    path = Path(path)
++    path.parent.mkdir(parents=True, exist_ok=True)
++    path.write_text(json.dumps(data, indent=2, sort_keys=True) + '\n')
++
++
++def snapshot(src, dst, limit=64*MIB):
++    src, dst = Path(src), Path(dst)
++    n = src.stat().st_size
++    receipt = dict(source=str(src.resolve()), bytes=n, limit_bytes=limit,
++                   complete=False, sha256=None)
++    if n > limit:
++        save(str(dst)+'.json', receipt)
++        raise RuntimeError('snapshot cap: completeness STOP')
++    # Exclusive create: a second invocation must never overwrite the first.
++    with src.open('rb') as inp, dst.open('xb') as out:
++        for block in iter(lambda: inp.read(65536), b''):
++            out.write(block)
++    receipt.update(complete=True, sha256=digest(dst))
++    save(str(dst)+'.json', receipt)
++    return receipt
++
++
++def tree_processes(root):
++    """Linux process tree, including sessions created by nested capture wrappers."""
++    table = {}
++    for path in Path('/proc').glob('[0-9]*/stat'):
++        try:
++            fields = path.read_text().rsplit(')', 1)[1].split()
++            pid = int(path.parent.name)
++            rss = int(fields[21]) * os.sysconf('SC_PAGE_SIZE') // 1024
++            table[pid] = (int(fields[1]), int(fields[2]), rss, fields[0])
++        except (OSError, ValueError, IndexError):
++            continue
++    found = {root}
++    while True:
++        more = {pid for pid, (ppid, _, _, _) in table.items() if ppid in found}
++        if more <= found:
++            break
++        found |= more
++    return {pid: table[pid] for pid in found if pid in table}
++
++
++def kill_groups(groups):
++    for pgid in groups:
++        if pgid == os.getpgrp():
++            raise RuntimeError('refuse collector/runner process group')
++        try:
++            os.killpg(pgid, signal.SIGKILL)
++        except ProcessLookupError:
++            pass
++
++
++class Milestones:
++    """First/final matching counters independent of the capped byte prefix."""
++    pattern = re.compile(rb'Generated|size of program|VCC|verification conditions|symex|Symex|Runtime|VERIFICATION|FAILURE|ERROR|clauses|variables|Convert|converting|solver')
++    def __init__(self):
++        self.buffer=bytearray()
++        self.long=False
++        self.first=[]
++        self.last=deque(maxlen=100)
++        self.seen=self.lines=self.bytes=self.long_lines=0
++    def feed(self, block):
++        # Chunk processing is bounded; a long line is discarded until newline.
++        for part in block.splitlines(keepends=True):
++            self.bytes += len(part)
++            ends=part.endswith(b'\n')
++            if not self.long:
++                if len(self.buffer)+len(part)>4096:
++                    self.buffer.clear()
++                    self.long=True
++                    self.long_lines += 1
++                else:
++                    self.buffer.extend(part)
++            if ends:
++                self.lines += 1
++                if not self.long and self.pattern.search(self.buffer):
++                    self.seen += 1
++                    entry=dict(line=self.lines,end_byte=self.bytes,text=self.buffer.decode('utf-8','replace').rstrip('\n'))
++                    if len(self.first)<100:
++                        self.first.append(entry)
++                    else:
++                        self.last.append(entry)
++                self.buffer.clear()
++                self.long=False
++    def report(self):
++        records=self.first+list(self.last)
++        return dict(records=records,limit_records=200,matched_records=self.seen,
++                    emitted_records=len(records),dropped_records=self.seen-len(records),
++                    emitted_bytes=sum(len(x['text'].encode()) for x in records),
++                    truncated=self.seen>len(records),long_lines_skipped=self.long_lines,
++                    partial_line=bool(self.buffer) or self.long,
++                    coverage='textual milestone matches; absence UNKNOWN; not semantic verdict')
++
++
++def run(argv, directory, *, cwd=None, env=None, seconds=60, rss_kib=2097152,
++        cap=8*MIB, forward=False, as_kib=None):
++    """Drain both streams after cap and after EPIPE. No shell, no output rewriting.
++
++    Child has its own session. wait4 ru_maxrss is distinct from sampled RSS and
++    from time-v (not used). Return code/signal are those of the immediate child.
++    """
++    directory = Path(directory)
++    directory.mkdir(parents=True, exist_ok=False)
++    receipt = dict(argv=list(argv), cwd=str(Path(cwd or os.getcwd()).resolve()),
++                   started=stamp(), limit_seconds=seconds, limit_rss_kib=rss_kib,
++                   rlimit_as_kib=as_kib,
++                   accounting_scope='sampled sum of live descendant RSS; shared pages may repeat',
++                   sample_interval_seconds=0.05, sampled_max_rss_kib=0,
++                   time_v_maxrss_kib=None, wait4_maxrss_kib=None,
++                   limiter_reason=None, original_rc=None, original_signal=None,
++                   collector_status='RUNNING', verification='NOT_RUN')
++    outputs = {}
++    milestones = {name: Milestones() for name in ("stdout","stderr")}
++    streams = {}
++    sel = selectors.DefaultSelector()
++    groups = set()
++    started = time.monotonic()
++    child = None
++    subreaper_prior = None
++    baseline = set()
++    owned = {}
++    pending = {1: bytearray(), 2: bytearray()}
++    fd_blocking = {}
++    interrupted = []
++    prior = {}
++    def on_signal(sig, _frame):
++        interrupted.append(sig)
++    for sig in (signal.SIGTERM, signal.SIGINT):
++        prior[sig] = signal.signal(sig, on_signal)
++    try:
++        # Adopt orphaned setsid descendants instead of losing them to PID 1.
++        libc = ctypes.CDLL(None, use_errno=True)
++        previous = ctypes.c_int()
++        if libc.prctl(37, ctypes.byref(previous), 0, 0, 0) != 0:
++            raise OSError(ctypes.get_errno(), 'PR_GET_CHILD_SUBREAPER')
++        if libc.prctl(36, 1, 0, 0, 0) != 0:
++            raise OSError(ctypes.get_errno(), 'PR_SET_CHILD_SUBREAPER')
++        subreaper_prior = previous.value
++        baseline = set(tree_processes(os.getpid()))
++        receipt['cleanup_scope'] = 'owned session descendants plus subreaper-adopted orphan sessions'
++        receipt['resolved_executable'] = str(Path(argv[0]).resolve())
++        receipt['executable_sha256'] = digest(argv[0])
++        def child_limits():
++            if as_kib is not None:
++                resource.setrlimit(resource.RLIMIT_AS, (as_kib*1024, as_kib*1024))
++        child = subprocess.Popen(argv, cwd=cwd, env=env, start_new_session=True,
++                                 preexec_fn=child_limits,
++                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++        groups.add(child.pid)
++        receipt.update(pid=child.pid, pgid=child.pid, session=child.pid)
++        save(directory/'spawn.json', receipt)
++        if forward:
++            for fd in (1, 2):
++                fd_blocking[fd] = os.get_blocking(fd)
++                os.set_blocking(fd, False)
++        for name, stream, fd in [('stdout', child.stdout, 1), ('stderr', child.stderr, 2)]:
++            outputs[name] = (directory/(name+'.bin')).open('xb')
++            streams[name] = dict(limit_bytes=cap, emitted_bytes=0, dropped_bytes=0,
++                                 total_bytes=0, records_newline=0, truncated=False,
++                                 forwarding_epipe=False)
++            sel.register(stream, selectors.EVENT_READ, (name, fd))
++        status = None
++        usage = None
++        descendants_alive = True
++        while sel.get_map() or status is None or any(pending.values()) or descendants_alive:
++            if forward:
++                for name, fd in [('stdout', 1), ('stderr', 2)]:
++                    if pending[fd]:
++                        try:
++                            n = os.write(fd, pending[fd])
++                            del pending[fd][:n]
++                        except BlockingIOError:
++                            pass
++                        except BrokenPipeError:
++                            streams[name]['forwarding_epipe'] = True
++                            pending[fd].clear()
++            live = {pid: value for pid, value in tree_processes(os.getpid()).items()
++                    if pid not in baseline}
++            owned.update(live)
++            descendants_alive = any(v[3] != 'Z' for v in live.values())
++            groups.update(pgid for _, pgid, _, _ in live.values() if pgid != os.getpgrp())
++            for pid, (_, _, _, state) in live.items():
++                if pid != child.pid and state == 'Z':
++                    try:
++                        os.waitpid(pid, os.WNOHANG)
++                    except ChildProcessError:
++                        pass
++            rss = sum(v[2] for v in live.values())
++            receipt['sampled_max_rss_kib'] = max(rss, receipt['sampled_max_rss_kib'])
++            reason = ('external_signal' if interrupted else
++                      'wall_timeout' if time.monotonic()-started > seconds else
++                      'rss_limit' if rss > rss_kib else None)
++            if reason and receipt['limiter_reason'] is None:
++                receipt.update(limiter_reason=reason, watchdog_sample_rss_kib=rss,
++                               watchdog_at=stamp(), received_signals=interrupted[:])
++                kill_groups(groups)
++                for buffer in pending.values():
++                    buffer.clear()
++            for key, _ in sel.select(0.05):
++                name, fd = key.data
++                if forward and len(pending[fd]) >= 131072:
++                    continue  # bounded pipe backpressure; watchdog keeps running
++                block = os.read(key.fileobj.fileno(), 65536)
++                if not block:
++                    sel.unregister(key.fileobj)
++                    key.fileobj.close()
++                    continue
++                milestones[name].feed(block)
++                info = streams[name]
++                info['total_bytes'] += len(block)
++                info['records_newline'] += block.count(b'\n')
++                room = max(0, cap-info['emitted_bytes'])
++                kept = block[:room]
++                outputs[name].write(kept)
++                info['emitted_bytes'] += len(kept)
++                info['dropped_bytes'] += len(block)-len(kept)
++                info['truncated'] = info['dropped_bytes'] > 0
++                if forward and not info['forwarding_epipe']:
++                    if not receipt['limiter_reason']:
++                        pending[fd].extend(block)
++            if status is None:
++                pid, value, ru = os.wait4(child.pid, os.WNOHANG)
++                if pid:
++                    status, usage = value, ru
++                    child.returncode = os.waitstatus_to_exitcode(status)
++        receipt.update(original_rc=child.returncode if child.returncode >= 0 else None,
++                       original_signal=-child.returncode if child.returncode < 0 else None,
++                       wait4_maxrss_kib=usage.ru_maxrss,
++                       collector_status='COMPLETE', streams=streams)
++    except Exception as exc:
++        receipt.update(collector_status='ERROR', error=type(exc).__name__+': '+str(exc))
++        if child:
++            kill_groups(groups)
++            rc=child.wait()
++            receipt.update(original_rc=rc if rc>=0 else None, original_signal=-rc if rc<0 else None)
++    finally:
++        if child:
++            kill_groups(groups)  # descendants may outlive immediate child
++        # Reap only owned adopted children; never wait for unrelated children.
++        for pid in owned:
++            if child and pid != child.pid:
++                try:
++                    os.waitpid(pid, os.WNOHANG)
++                except ChildProcessError:
++                    pass
++        if subreaper_prior is not None:
++            libc.prctl(36, subreaper_prior, 0, 0, 0)
++        for out in outputs.values():
++            out.close()
++        sel.close()
++        for fd, blocking in fd_blocking.items():
++            os.set_blocking(fd, blocking)
++        for sig, handler in prior.items():
++            signal.signal(sig, handler)
++        receipt.update(finished=stamp(), elapsed_seconds=time.monotonic()-started)
++        receipt['stream_complete'] = (receipt['collector_status']=='COMPLETE'
++            and not receipt['limiter_reason']
++            and all(not s['truncated'] and not s['forwarding_epipe'] for s in streams.values()))
++        save(directory/'milestones.json',{name: value.report() for name,value in milestones.items()})
++        save(directory/'receipt.json', receipt)
++    return receipt
++
++
++def exit_code(receipt):
++    if receipt['collector_status'] != 'COMPLETE':
++        return 125
++    if receipt['limiter_reason']:
++        return 124
++    if receipt['original_signal']:
++        return 128+receipt['original_signal']
++    return receipt['original_rc']
+diff --git a/diagnostics/kani3300-d1p/inputs/scalar-pfc-hole.rs b/diagnostics/kani3300-d1p/inputs/scalar-pfc-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..f1e9757e2f7901d37b5cd43ef83c2408e538217d
+--- /dev/null
++++ b/diagnostics/kani3300-d1p/inputs/scalar-pfc-hole.rs
+@@ -0,0 +1,22 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// The returned MU value is valid. Its first payload read is in the postcondition.
++#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 })]
++fn postcondition_target() -> MaybeUninit<u8> {
++    select(MaybeUninit::new(17), MaybeUninit::uninit(), false)
++}
++
++#[kani::proof_for_contract(postcondition_target)]
++fn postcondition_reads_returned_hole() {
++    let _unread = postcondition_target();
++}
+diff --git a/diagnostics/kani3300-d1p/inputs/scalar-pfc-legal.rs b/diagnostics/kani3300-d1p/inputs/scalar-pfc-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..04d119ac043aeda0bc701555c5514d1ddf7097b2
+--- /dev/null
++++ b/diagnostics/kani3300-d1p/inputs/scalar-pfc-legal.rs
+@@ -0,0 +1,22 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// The initialized MU value is first read by the useful postcondition.
++#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 })]
++fn postcondition_target() -> MaybeUninit<u8> {
++    select(MaybeUninit::new(17), MaybeUninit::uninit(), true)
++}
++
++#[kani::proof_for_contract(postcondition_target)]
++fn postcondition_reads_initialized_return() {
++    let _unread = postcondition_target();
++}
+diff --git a/diagnostics/kani3300-d1p/runner.py b/diagnostics/kani3300-d1p/runner.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..358465009d02aa91f3f39fec5ed1e0c83b50f429
+--- /dev/null
++++ b/diagnostics/kani3300-d1p/runner.py
+@@ -0,0 +1,241 @@
++#!/usr/bin/env python3
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Coordinator-dispatched CI only; local entry points are synthetic tests."""
++import argparse
++import json
++import os
++from pathlib import Path
++import shutil
++import subprocess
++import sys
++from capture import MIB, digest, exit_code, run, save
++from analyze import failures, program, projection
++
++HERE = Path(__file__).resolve().parent
++PINS = {'r1-skip':'56cbc5c4a479bc3fb25310b14fcf279d90581a02',
++        'r6b':'405c1f059264d8f7cedeeaa01c6d4ad6867a419e'}
++TREES = {'r1-skip':'a97ec3d06efd827829f550f1e7a98f29538758fe',
++         'r6b':'162e8ad1e76e842b18c24a4ac2986335902834d7'}
++FIXTURES = {'scalar-pfc-legal.rs':'fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b',
++            'scalar-pfc-hole.rs':'61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759'}
++ROOT = 'postcondition_reads_initialized_return'
++
++
++def git(*args):
++    return subprocess.check_output(['git', *args], text=True).strip()
++
++
++def identity(pin, out):
++    source = PINS[pin]
++    if git('rev-parse','HEAD^') != source or git('rev-parse',source+'^{tree}') != TREES[pin]:
++        raise RuntimeError('source parent/tree identity mismatch')
++    changed=git('diff','--name-only',source,'HEAD').splitlines()
++    if not changed or any(not (p=='.github/workflows/kani3300-d1p.yml' or
++                              p.startswith('diagnostics/kani3300-d1p/')) for p in changed):
++        raise RuntimeError('non-allowlisted commit diff')
++    if git('status','--porcelain','--untracked-files=no'):
++        raise RuntimeError('tracked checkout is dirty')
++    for name, expected in FIXTURES.items():
++        if digest(HERE/'inputs'/name) != expected:
++            raise RuntimeError('fixture identity mismatch')
++    data=dict(source_sha=source, source_tree=TREES[pin], ci_sha=git('rev-parse','HEAD'),
++        ci_tree=git('rev-parse','HEAD^{tree}'), pin=pin, fixtures=FIXTURES,
++        run_id=os.environ.get('GITHUB_RUN_ID'), run_attempt=os.environ.get('GITHUB_RUN_ATTEMPT'),
++        job=os.environ.get('GITHUB_JOB'), cwd=str(Path.cwd()), allowlist=changed,
++        effective_allowlisted_flags={'RUSTFLAGS':'--edition 2021 -D warnings --emit=mir',
++        'RUST_BACKTRACE':'1','KANI_FAIL_ON_UNEXPECTED_DESCRIPTION':'true'},
++        historical_limits=dict(rss_kib=6291456, sample_seconds=2, timeout_seconds=300),
++        production_trees={p:git('rev-parse',source+':'+p) for p in
++                          ['kani-compiler','kani-driver','library','cprover_bindings','tests']},
++        verification='NOT_RUN', observed_bindings='UNKNOWN', proof_credit=0)
++    save(out/'identity.json',data)
++    return data
++
++
++def cases(pin, out):
++    ident=identity(pin,out)
++    case=out/PINS[pin]/'P1'/ROOT
++    case.mkdir(parents=True, exist_ok=False)
++    save(case/'status.json',dict(setup='RUNNING', capture='NOT_RUN', symex_only='NOT_RUN',
++         verification='NOT_RUN', failure_inventory='NOT_RUN/UNKNOWN', parser='NOT_RUN',
++         last_completed_phase='identity', proof_credit=0))
++    tools={}
++    for name in ['cbmc','goto-instrument']:
++        binary=shutil.which(name)
++        if not binary:
++            raise RuntimeError('missing tool: '+name)
++        binary=str(Path(binary).resolve())
++        rec=run([binary,'--version'],case/(name+'-version'),seconds=10,rss_kib=2097152)
++        version=(case/(name+'-version')/'stdout.bin').read_text(errors='replace').strip()
++        if exit_code(rec) or not rec['stream_complete'] or not version.startswith('6.11.0'):
++            raise RuntimeError('tool must identify as stock 6.11.0: '+name)
++        tools[name]=dict(path=binary,sha256=digest(binary),version=version)
++    work=(Path.cwd()/'d1p-work'/PINS[pin]/'P1'/ROOT).resolve()
++    work.mkdir(parents=True, exist_ok=False)
++    wrap=work/'wrappers'
++    wrap.mkdir()
++    for name in tools:
++        (wrap/name).symlink_to(HERE/'wrapper.py')
++    config=case/'config.json'
++    save(config,dict(tools=tools,case_dir=str(case)))
++    fixture=work/'scalar-pfc-legal.rs'
++    shutil.copyfile(HERE/'inputs'/fixture.name,fixture)
++    env=os.environ.copy()
++    env.update(PATH=str(wrap)+os.pathsep+str(Path.cwd()/'scripts')+os.pathsep+env['PATH'],
++        D1P_CONFIG=str(config), D1P_CASE_DIR=str(case),
++        RUSTFLAGS='--edition 2021 -D warnings --emit=mir', RUST_BACKTRACE='1',
++        KANI_FAIL_ON_UNEXPECTED_DESCRIPTION='true')
++    # No values from the rest of the inherited environment are serialized.
++    kani=str((Path.cwd()/'scripts/kani').resolve())
++    argv=[kani,str(fixture),'--crate-name','m2br','-Z','uninit-checks',
++        '-Z','function-contracts','--output-format=regular','--harness',ROOT,'--exact',
++        '--keep-temps','-Z','unstable-options','--cbmc-args','--program-only']
++    save(case/'invocation.json',dict(actual_kani_argv=argv, identity=ident, tools=tools,
++         root=ROOT, fixture_sha256=digest(fixture), diagnostic_additions=[
++             '-Z','unstable-options','--cbmc-args','--program-only']))
++    kani_rec=run(argv,case/'frontend-dfcc-symex',cwd=work,env=env,seconds=300,rss_kib=2097152)
++    actual=case/'actual-input.json'
++    final=dict(setup='COMPLETE', capture='INCOMPLETE', symex_only='NOT_RUN',
++        verification='NOT_RUN', failure_inventory='NOT_RUN/UNKNOWN', parser='NOT_RUN',
++        last_completed_phase='setup', kani_original_rc=kani_rec['original_rc'],
++        kani_original_signal=kani_rec['original_signal'], kani_timeout='UNKNOWN',
++        diagnostic_completion='INCOMPLETE', proof_credit=0)
++    save(case/'failures.json',dict(status='NOT_RUN',complete=False,failures=[],
++         total_failed_properties=None, records_parsed=0, semantic_completeness='UNKNOWN'))
++    dfcc=list((case/'invocations').glob('goto-instrument-*/dfcc.json')) if (case/'invocations').exists() else []
++    valid_dfcc=len(dfcc)==1 and (dfcc[0].parent/'post-dfcc.goto').is_file()
++    dfcc_complete=valid_dfcc and json.loads((dfcc[0].parent/'boundary.json').read_text())['status']=='COMPLETE'
++    final['dfcc_status']='COMPLETE' if dfcc_complete else 'MISSING_DUPLICATE_FAILED_OR_INCOMPLETE'
++    if actual.is_file():
++        info=json.loads(actual.read_text())
++        slot=Path(info['invocation'])
++        cbmc_rec=json.loads((slot/'process/receipt.json').read_text())
++        binary=Path(info['snapshot'])
++        model=digest(binary)
++        final['symex_only']='COMPLETE' if exit_code(cbmc_rec)==0 and cbmc_rec['stream_complete'] else 'INCOMPLETE'
++        final['last_completed_phase']='symex-only' if final['symex_only']=='COMPLETE' else 'actual-cbmc-spawn'
++        summary=program(slot/'process/stdout.bin',model,cbmc_rec['stream_complete'])
++        save(case/'ssa-summary.json',summary)
++        lines=['D1-P visible SSA only; verification NOT_RUN; proof_credit 0',
++               'model_sha256='+model, 'counts='+json.dumps(summary['counts'],sort_keys=True),
++               'parser_complete='+str(summary['parser_complete']),
++               'stream_complete='+str(summary['stream_complete']),
++               'width/owner/semantic feasibility UNKNOWN']
++        lines += ['root '+key+' occurrences='+str(value) for key,value in summary['top30_textual_roots_by_occurrences']]
++        lines += ['gap '+gap for gap in summary['gaps']]
++        (case/'summary.txt').write_text('\n'.join(lines)+'\n')
++        save(case/'failures.json',failures(slot/'process/stdout.bin',cbmc_rec['stream_complete']))
++        final['parser']='COMPLETE' if summary['complete'] else 'INCOMPLETE'
++        invocation_dirs=[p for p in (case/'invocations').iterdir() if p.is_dir()]
++        boundaries_complete=all((p/'boundary.json').is_file() and
++            json.loads((p/'boundary.json').read_text())['status']=='COMPLETE' for p in invocation_dirs)
++        final['capture']='COMPLETE' if (dfcc_complete and boundaries_complete
++            and cbmc_rec['stream_complete'] and kani_rec['stream_complete']) else 'INCOMPLETE'
++        save(case/'snapshot-link.json',dict(actual_cbmc_sha256=model,
++            post_dfcc_sha256=digest(dfcc[0].parent/'post-dfcc.goto') if valid_dfcc else None,
++            relation='separate snapshots; intervening driver transformations; equality is not presumed'))
++        # Stock read-only views; do not rewrite original snapshots. No extra symex.
++        sources=[('actual-cbmc',binary)]
++        if valid_dfcc:
++            sources += [('pre-dfcc',dfcc[0].parent/'pre-dfcc.goto'),
++                        ('post-dfcc',dfcc[0].parent/'post-dfcc.goto')]
++        views_complete=True
++        for phase, source in sources:
++            for view in ['--show-symbol-table','--show-goto-functions']:
++                dest=case/(phase+'-'+view[2:])
++                rec=run([tools['goto-instrument']['path'],view,str(source)],dest,
++                        seconds=30,rss_kib=2097152)
++                views_complete &= exit_code(rec)==0 and rec['stream_complete']
++                projection(dest/'stdout.bin',dest/'selected.json',digest(source))
++                if digest(source) != json.loads(Path(str(source)+'.json').read_text())['sha256']:
++                    raise RuntimeError('inspection modified a snapshot')
++        final['stock_views']='COMPLETE' if views_complete else 'INCOMPLETE'
++        # Kani parser compatibility is separate: never synthesize a verdict.
++        final['kani_pipeline_status']='EXIT_ZERO' if exit_code(kani_rec)==0 else 'ERROR_OR_DIAGNOSTIC_PARSER_INCOMPATIBILITY'
++        good=(final['capture']=='COMPLETE' and final['symex_only']=='COMPLETE'
++              and final['parser']=='COMPLETE' and views_complete and not (case/'wrapper-error.json').exists())
++        final['diagnostic_completion']='CAPTURE_COMPLETE' if good else 'INCOMPLETE'
++    save(case/'status.json',final)
++    # Diagnostic output and parser errors do not become a green proof/build gate.
++    return 0 if final['diagnostic_completion']=='CAPTURE_COMPLETE' and exit_code(kani_rec)==0 else 1
++
++
++def setup(pin, out):
++    identity(pin,out)
++    shell=shutil.which('bash')
++    if not shell:
++        raise RuntimeError('missing bash')
++    env=os.environ.copy()
++    env['PATH']=str(Path.home()/'.cargo/bin')+os.pathsep+env['PATH']
++    env['GIT_LFS_SKIP_SMUDGE']='1'
++    commands=[('rustup',[shell,str(Path.cwd()/'scripts/setup/install_rustup.sh')]),
++              ('dependencies',[shell,str(Path.cwd()/'scripts/setup/ubuntu-24.04/install_deps.sh')]),
++              ('safe-directory',[shutil.which('git'),'config','--global','--add','safe.directory',str(Path.cwd())]),
++              ('submodules',[shutil.which('git'),'submodule','update','--init','--depth','1'])]
++    for phase, argv in commands:
++        rec=run(argv,out/('setup-'+phase),env=env,seconds=1200,rss_kib=12582912)
++        if exit_code(rec):
++            return exit_code(rec)
++    # Same GITHUB_PATH update as the existing composite action.
++    with open(os.environ['GITHUB_PATH'],'a') as target:
++        target.write(str(Path.home()/'.cargo/bin')+'\n')
++    return 0
++
++
++def finalize(out):
++    save(out/'workflow-status.json',dict(
++        setup=os.environ.get('D1P_SETUP','UNKNOWN'),build=os.environ.get('D1P_BUILD','NOT_RUN'),
++        capture=os.environ.get('D1P_CAPTURE','NOT_RUN'),upload=os.environ.get('D1P_UPLOAD','PENDING'),
++        verification='NOT_RUN',failure_inventory='NOT_RUN/UNKNOWN',observed_bindings='UNKNOWN',proof_credit=0))
++    entries=[]
++    for path in sorted(out.rglob('*')):
++        if path.is_file() and not path.is_symlink() and path.name!='ARTIFACT-MANIFEST.json':
++            entries.append(dict(path=str(path.relative_to(out)),bytes=path.stat().st_size,sha256=digest(path)))
++    save(out/'ARTIFACT-MANIFEST.json',dict(files=entries,coverage='bounded logs/snapshots/curated projections; receipts carry caps',
++        verification='NOT_RUN',proof_credit=0))
++
++
++def main():
++    p=argparse.ArgumentParser()
++    p.add_argument('command',choices=['identity','setup','build','cases','finalize'])
++    p.add_argument('--pin',choices=list(PINS),required=True)
++    args=p.parse_args()
++    if os.environ.get('GITHUB_ACTIONS')!='true':
++        raise RuntimeError('CI-only entry; use synthetic tests locally')
++    out=(Path.cwd()/'d1p-artifacts').resolve()
++    out.mkdir(exist_ok=True)
++    rc=0
++    if args.command=='identity':
++        identity(args.pin,out)
++    elif args.command=='setup':
++        rc=setup(args.pin,out)
++    elif args.command=='build':
++        identity(args.pin,out)
++        cargo=shutil.which('cargo')
++        if not cargo:
++            raise RuntimeError('missing cargo')
++        rec=run([cargo,'build-dev'],out/'build',seconds=5400,rss_kib=12582912)
++        rc=exit_code(rec)
++    elif args.command=='cases':
++        rc=cases(args.pin,out)
++    else:
++        finalize(out)
++    return rc
++
++
++if __name__=='__main__':
++    try:
++        raise SystemExit(main())
++    except Exception as exc:
++        out=Path.cwd()/'d1p-artifacts'
++        save(out/'runner-error.json',dict(status='ERROR',error=type(exc).__name__+': '+str(exc),verification='NOT_RUN'))
++        for path in out.glob('*/P1/*/status.json'):
++            state=json.loads(path.read_text())
++            for phase in ['setup','capture','symex_only','parser']:
++                if state.get(phase)=='RUNNING':
++                    state[phase]='ERROR'
++            state.update(diagnostic_completion='INCOMPLETE',runner_error=str(exc))
++            save(path,state)
++        print('D1P error: '+str(exc),file=sys.stderr)
++        raise SystemExit(125)
+diff --git a/diagnostics/kani3300-d1p/test_synthetic.py b/diagnostics/kani3300-d1p/test_synthetic.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..6bbc09a28b991e054011c2a675e6a0e9900316e1
+--- /dev/null
++++ b/diagnostics/kani3300-d1p/test_synthetic.py
+@@ -0,0 +1,239 @@
++#!/usr/bin/env python3
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""All subprocesses here are Python fake children; no compiler or verifier."""
++import json
++import os
++from pathlib import Path
++import shutil
++import signal
++import subprocess
++import sys
++import tempfile
++import time
++import unittest
++from unittest.mock import patch
++
++from capture import Milestones, digest, exit_code, run, save, snapshot
++from analyze import failures, program, projection
++import runner
++
++HERE=Path(__file__).resolve().parent
++
++
++class Synthetic(unittest.TestCase):
++    def setUp(self):
++        self.tmp=tempfile.TemporaryDirectory()
++        self.root=Path(self.tmp.name)
++    def tearDown(self):
++        self.tmp.cleanup()
++    def fake(self, code, **kwargs):
++        return run([sys.executable,'-c',code],self.root/'run',**kwargs)
++    def test_exit_and_units(self):
++        r=self.fake('print("ok"); raise SystemExit(7)')
++        self.assertEqual(r['original_rc'],7)
++        self.assertEqual(exit_code(r),7)
++        self.assertEqual(r['streams']['stdout']['total_bytes'],3)
++        self.assertIsInstance(r['sampled_max_rss_kib'],int)
++        self.assertIsInstance(r['wait4_maxrss_kib'],int)
++        self.assertIsNone(r['time_v_maxrss_kib'])
++    def test_signal(self):
++        r=self.fake('import os,signal; os.kill(os.getpid(),signal.SIGTERM)')
++        self.assertEqual(r['original_signal'],15)
++        self.assertEqual(exit_code(r),143)
++    def test_timeout_and_descendant_cleanup(self):
++        pidfile=self.root/'pid'
++        code='import subprocess,sys,time; from pathlib import Path; p=subprocess.Popen([sys.executable,"-c","import time; time.sleep(20)"]); Path(sys.argv[1]).write_text(str(p.pid)); time.sleep(20)'
++        r=run([sys.executable,'-c',code,str(pidfile)],self.root/'run',seconds=.3)
++        self.assertEqual(r['limiter_reason'],'wall_timeout')
++        self.assertEqual(r['original_signal'],9)
++        pid=int(pidfile.read_text())
++        stat=Path(f'/proc/{pid}/stat')
++        self.assertTrue(not stat.exists() or stat.read_text().rsplit(')',1)[1].split()[0]=='Z')
++    def test_orphan_setsid_cleanup(self):
++        pidfile=self.root/'pid'
++        code='import subprocess,sys; from pathlib import Path; p=subprocess.Popen([sys.executable,"-c","import time; time.sleep(20)"],start_new_session=True); Path(sys.argv[1]).write_text(str(p.pid))'
++        began=time.monotonic()
++        r=run([sys.executable,'-c',code,str(pidfile)],self.root/'run',seconds=.3)
++        self.assertLess(time.monotonic()-began,2)
++        self.assertEqual(r['limiter_reason'],'wall_timeout')
++        self.assertEqual(r['original_rc'],0)
++        pid=int(pidfile.read_text())
++        stat=Path(f'/proc/{pid}/stat')
++        self.assertTrue(not stat.exists() or stat.read_text().rsplit(')',1)[1].split()[0]=='Z')
++    def test_unknown_program_line_incomplete(self):
++        f=self.root/'unknown'
++        f.write_text('Program constraints:\n// 1 f.rs line 1 function f\n(1) x = 1\n(weird) y = 2\n')
++        r=program(f,'0'*64,True)
++        self.assertFalse(r['parser_complete'])
++        self.assertFalse(r['complete'])
++    def test_cap_continues_drain(self):
++        r=self.fake('import os; os.write(1,b"a"*200000); os.write(2,b"b"*100000)',cap=20)
++        self.assertEqual(r['original_rc'],0)
++        self.assertEqual(r['streams']['stdout']['total_bytes'],200000)
++        self.assertEqual(r['streams']['stderr']['dropped_bytes'],99980)
++        self.assertFalse(r['stream_complete'])
++    def test_missing_binary(self):
++        r=run(['/absent/d1p-tool'],self.root/'run')
++        self.assertEqual(r['collector_status'],'ERROR')
++        self.assertEqual(exit_code(r),125)
++    def test_snapshot_identity_duplicate_cap(self):
++        src=self.root/'source'; src.write_bytes(b'abc')
++        dst=self.root/'snapshot'
++        self.assertEqual(snapshot(src,dst)['sha256'],digest(src))
++        with self.assertRaises(FileExistsError): snapshot(src,dst)
++        with self.assertRaises(RuntimeError): snapshot(src,self.root/'capped',limit=2)
++        self.assertFalse((self.root/'capped').exists())
++    def test_program_unknown_widths_and_ignored(self):
++        f=self.root/'text'
++        f.write_text('Program constraints:\n// 17 file x.rs line 8 function f\n(1) x!0 = byte_extract_little_endian(a, off)\n(sliced) ASSERT(x!0[2])\n     guard: g\n')
++        r=program(f,'a'*64,True)
++        self.assertEqual(r['counts']['visible_all'],2)
++        self.assertEqual(r['counts']['visible_ignored'],1)
++        self.assertEqual(r['top30_roots_by_exact_width'],'UNKNOWN')
++        self.assertEqual(r['excerpts'][0]['pc'],17)
++        self.assertFalse(r['semantic_verdict_complete'])
++    def test_vcc_repeated_prefix_is_not_ssa(self):
++        f=self.root/'vcc'; f.write_text('VCC 1\nx = a\nVCC 2\nx = a\n')
++        r=program(f,'0'*64,True)
++        self.assertEqual(r['counts'].get('visible_all',0),0)
++        self.assertFalse(r['complete'])
++    def test_partial_empty_malformed(self):
++        for i,value in enumerate(['','[','{"garbage":','Program constraints:\n(1) abc']):
++            f=self.root/str(i);f.write_text(value)
++            self.assertFalse(program(f,'0'*64,False)['complete'])
++            self.assertFalse(failures(f,False)['complete'])
++    def test_success_failure_json_no_top30(self):
++        f=self.root/'json'
++        values=[dict(property=f'f.assigns.{i}',status='FAILURE',description='bad',sourceLocation={'file':'f.rs','line':'2'}) for i in range(40)]
++        f.write_text(json.dumps([{'result':values}]))
++        r=failures(f,True)
++        self.assertEqual(len(r['failures']),40)
++        self.assertEqual(r['records_parsed'],40)
++        self.assertEqual(r['status'],'NOT_RUN')
++        self.assertFalse(r['complete'])
++        f.write_text('[{"result":['+json.dumps(values[0])+',')
++        r=failures(f,False)
++        self.assertEqual(len(r['failures']),1)
++        self.assertFalse(r['complete'])
++        f.write_text('[{"result":[{"property":"x.assertion.1","status":"SUCCESS"}]}]')
++        self.assertEqual(failures(f,True)['failures'],[])
++    def test_quoting_argv_and_stream_identity(self):
++        arg='a b; $(touch forbidden) `env` "quoted"'
++        r=run([sys.executable,'-c','import sys; print(sys.argv[1])',arg],self.root/'run')
++        self.assertEqual(r['argv'][-1],arg)
++        self.assertEqual((self.root/'run/stdout.bin').read_text(),arg+'\n')
++    def test_source_identity_rejects(self):
++        with patch.object(runner,'git',return_value='wrong'):
++            with self.assertRaisesRegex(RuntimeError,'identity mismatch'):
++                runner.identity('r1-skip',self.root)
++    def test_wrapper_real_once_and_dfcc_inplace(self):
++        fake=self.root/'real'
++        fake.write_text('#!/usr/bin/env python3\nimport pathlib,sys\np=pathlib.Path(sys.argv[-1]); p.write_bytes(p.read_bytes()+b"post"); print("untouched stdout")\n')
++        fake.chmod(0o755)
++        model=self.root/'model';model.write_bytes(b'pre')
++        case=self.root/'case';case.mkdir()
++        config=self.root/'config'
++        save(config,{'case_dir':str(case),'tools':{'goto-instrument':{'path':str(fake),'sha256':digest(fake)}}})
++        wrapper=self.root/'goto-instrument';wrapper.symlink_to(HERE/'wrapper.py')
++        env=os.environ.copy();env.update(D1P_CONFIG=str(config),D1P_CASE_DIR=str(case))
++        r=subprocess.run([str(wrapper),'--dfcc','root',str(model),str(model)],env=env,capture_output=True)
++        self.assertEqual(r.returncode,0,r.stderr)
++        slot=case/'invocations/goto-instrument-000'
++        self.assertEqual((slot/'pre-dfcc.goto').read_bytes(),b'pre')
++        self.assertEqual((slot/'post-dfcc.goto').read_bytes(),b'prepost')
++        self.assertEqual(r.stdout,b'untouched stdout\n')
++        r=subprocess.run([str(wrapper),'--dfcc','root',str(model),str(model)],env=env,capture_output=True)
++        self.assertEqual(r.returncode,125)
++        self.assertEqual(model.read_bytes(),b'prepost')
++        self.assertTrue((case/'wrapper-error.json').is_file())
++    def test_wrapper_mismatched_binary(self):
++        import wrapper
++        conf=self.root/'config'
++        save(conf,{'case_dir':str(self.root),'tools':{'cbmc':{'path':sys.executable,'sha256':'bad'}}})
++        with patch.dict(os.environ,D1P_CONFIG=str(conf)):
++            with self.assertRaisesRegex(RuntimeError,'identity mismatch'):
++                wrapper.invoke('cbmc',['--program-only'])
++    def test_milestones_prefix_and_tail_after_cap(self):
++        r=self.fake('print("Generated 1"); print("x"*1000); print("VERIFICATION diagnostic-end")',cap=10)
++        self.assertTrue(r['streams']['stdout']['truncated'])
++        events=json.loads((self.root/'run/milestones.json').read_text())['stdout']
++        self.assertEqual(len(events['records']),2)
++        self.assertIn('diagnostic-end',events['records'][-1]['text'])
++        parser=Milestones()
++        parser.feed(b'Generated\n'*400)
++        summary=parser.report()
++        self.assertEqual(summary['emitted_records'],200)
++        self.assertEqual(summary['dropped_records'],200)
++    def test_hard_address_space_receipt(self):
++        r=self.fake('import resource; print(resource.getrlimit(resource.RLIMIT_AS)[0])',as_kib=262144)
++        self.assertEqual(r['rlimit_as_kib'],262144)
++        self.assertEqual((self.root/'run/stdout.bin').read_text().strip(),str(262144*1024))
++    def test_json_order_wrong_types_and_depth(self):
++        f=self.root/'json'
++        f.write_text('[{"result":[{"sourceLocation":{"file":"x"},"status":"FAILURE","property":"f.assigns.7"}]}]')
++        r=failures(f,True)
++        self.assertEqual(len(r['failures']),1)
++        self.assertEqual(r['failures'][0]['location'],{'file':'x'})
++        for data in ['null','3','"FAILURE"','['*70+'0'+']'*70]:
++            f.write_text(data)
++            self.assertFalse(failures(f,True)['complete'])
++    def test_forward_epipe_still_drains(self):
++        capture_path=str(HERE)
++        fake_code='import os; os.write(1,b"x"*200000)'
++        code=('import sys; sys.path.insert(0,sys.argv[1]); from capture import run; '
++              'r=run([sys.executable,"-c",'+repr(fake_code)+'],sys.argv[2],forward=True); '
++              'sys.exit(0 if r["streams"]["stdout"]["total_bytes"]==200000 else 1)')
++        child=subprocess.Popen([sys.executable,'-c',code,capture_path,str(self.root/'forward')],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
++        child.stdout.close()
++        stderr=child.stderr.read();child.stderr.close()
++        self.assertEqual(child.wait(timeout=5),0,stderr)
++        result=json.loads((self.root/'forward/receipt.json').read_text())
++        self.assertTrue(result['streams']['stdout']['forwarding_epipe'])
++        self.assertFalse(result['stream_complete'])
++    def test_cases_end_to_end_fake_only(self):
++        # All binaries in this fixture are Python children, never installed tools.
++        tools=self.root/'tools';tools.mkdir()
++        fake=tools/'cbmc'
++        fake.write_text('#!/usr/bin/env python3\nimport sys\nif sys.argv[1:]==["--version"]: print("6.11.0 fake")\nelse: print("Program constraints:\\n// 17 file f.rs line 1 function f\\n(1) x!0 = byte_extract_little_endian(a, off)")\n')
++        fake.chmod(0o755)
++        gi=tools/'goto-instrument'
++        gi.write_text('#!/usr/bin/env python3\nimport sys,pathlib\nif sys.argv[1:]==["--version"]: print("6.11.0 fake")\nelif "--dfcc" in sys.argv: p=pathlib.Path(sys.argv[-1]); p.write_bytes(p.read_bytes()+b"post")\nelse: print("Layout UNKNOWN transfer ASSERT")\n')
++        gi.chmod(0o755)
++        scripts=self.root/'scripts';scripts.mkdir()
++        kani=scripts/'kani'
++        kani.write_text('#!/usr/bin/env python3\nimport pathlib,subprocess\np=pathlib.Path("model.out");p.write_bytes(b"pre")\nsubprocess.run(["goto-instrument","--dfcc","root",str(p),str(p)],check=True)\np.write_bytes(p.read_bytes()+b"later")\nsubprocess.run(["cbmc","--program-only","--object-bits","16","--slice-formula",str(p),"--json-ui"],check=True)\nraise SystemExit(7)\n')
++        kani.chmod(0o755)
++        out=self.root/'artifacts';out.mkdir()
++        old=Path.cwd()
++        try:
++            os.chdir(self.root)
++            real_which=shutil.which
++            def which(name):
++                return str(tools/name) if name in ('cbmc','goto-instrument') else real_which(name)
++            with patch.object(runner,'identity',return_value={'source':'synthetic'}),patch.object(runner.shutil,'which',side_effect=which):
++                rc=runner.cases('r1-skip',out)
++            case=out/runner.PINS['r1-skip']/'P1'/runner.ROOT
++            status=json.loads((case/'status.json').read_text())
++            self.assertEqual(rc,1)  # original fake Kani failure never becomes PASS
++            self.assertEqual(status['symex_only'],'COMPLETE')
++            self.assertEqual(status['verification'],'NOT_RUN')
++            self.assertEqual(status['diagnostic_completion'],'CAPTURE_COMPLETE')
++            info=json.loads((case/'actual-input.json').read_text())
++            self.assertEqual(Path(info['snapshot']).read_bytes(),b'prepostlater')
++            self.assertFalse((case/'work').exists())
++            self.assertEqual((case/'invocations/goto-instrument-000/pre-dfcc.goto').read_bytes(),b'pre')
++            self.assertEqual((case/'invocations/goto-instrument-000/post-dfcc.goto').read_bytes(),b'prepost')
++        finally:
++            os.chdir(old)
++    def test_projection_limits(self):
++        f=self.root/'text'; f.write_text('Layout UNKNOWN\n'*400)
++        projection(f,self.root/'selected.json','a'*64)
++        r=json.loads((self.root/'selected.json').read_text())
++        self.assertEqual(len(r['records']),200)
++        self.assertFalse(r['complete'])
++        self.assertTrue(r['selection_incomplete'])
++
++
++if __name__=='__main__':
++    unittest.main()
+diff --git a/diagnostics/kani3300-d1p/test_workflow.py b/diagnostics/kani3300-d1p/test_workflow.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..e23af4784b8a41f592c537c698b349ca30964c69
+--- /dev/null
++++ b/diagnostics/kani3300-d1p/test_workflow.py
+@@ -0,0 +1,58 @@
++#!/usr/bin/env python3
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""YAML fixture tests and shell syntax only; never execute workflow commands."""
++from pathlib import Path
++import subprocess
++import unittest
++import yaml
++
++WORKFLOW=Path(__file__).resolve().parents[2]/'.github/workflows/kani3300-d1p.yml'
++
++
++def validate(wf):
++    if set(wf.get('on',{}))!={'workflow_dispatch'}:
++        raise ValueError('manual trigger only')
++    if wf['concurrency']['cancel-in-progress'] is not False:
++        raise ValueError('no cancellation/retry')
++    jobs=wf['jobs']
++    if set(jobs)!={'r1-skip','r6b'} or jobs['r6b'].get('needs')!='r1-skip':
++        raise ValueError('sequential pins')
++    for name,job in jobs.items():
++        if 'strategy' in job or job['permissions']!={'contents':'read'}:
++            raise ValueError('no matrix/write permission')
++        steps=job['steps']
++        ids={s.get('id'):s for s in steps if s.get('id')}
++        if ids['upload']['if']!='${{ always() }}' or ids['manifest']['if']!='${{ always() }}':
++            raise ValueError('always upload')
++        if any(s.get('continue-on-error') for s in steps):
++            raise ValueError('visible failures required')
++        if ids['upload']['with']['if-no-files-found']!='error':
++            raise ValueError('missing artifact must fail')
++        for step in steps:
++            if 'run' in step:
++                checked=subprocess.run(['bash','-n'],input=step['run'],text=True,capture_output=True)
++                if checked.returncode:
++                    raise ValueError('shell syntax: '+checked.stderr)
++
++
++class WorkflowTests(unittest.TestCase):
++    def fixture(self):
++        return yaml.safe_load(WORKFLOW.read_text())
++    def test_current_and_shell_syntax(self):
++        validate(self.fixture())
++    def test_push_rejected(self):
++        value=self.fixture();value['on']['push']={}
++        with self.assertRaisesRegex(ValueError,'manual'): validate(value)
++    def test_parallel_rejected(self):
++        value=self.fixture();value['jobs']['r6b'].pop('needs')
++        with self.assertRaisesRegex(ValueError,'sequential'): validate(value)
++    def test_hidden_failure_rejected(self):
++        value=self.fixture();value['jobs']['r1-skip']['steps'][4]['continue-on-error']=True
++        with self.assertRaisesRegex(ValueError,'visible'): validate(value)
++    def test_upload_condition_rejected(self):
++        value=self.fixture();value['jobs']['r1-skip']['steps'][6]['if']='${{ success() }}'
++        with self.assertRaisesRegex(ValueError,'always'): validate(value)
++
++
++if __name__=='__main__': unittest.main()
+diff --git a/diagnostics/kani3300-d1p/wrapper.py b/diagnostics/kani3300-d1p/wrapper.py
+new file mode 100755
+index 0000000000000000000000000000000000000000..68447b9f0698de546904f5e942595dd448012d32
+--- /dev/null
++++ b/diagnostics/kani3300-d1p/wrapper.py
+@@ -0,0 +1,85 @@
++#!/usr/bin/env python3
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++import json
++import os
++from pathlib import Path
++import signal
++import sys
++
++from capture import digest, exit_code, run, save, snapshot
++
++
++def invoke(tool, args):
++    config = json.loads(Path(os.environ['D1P_CONFIG']).read_text())
++    spec = config['tools'][tool]
++    real = Path(spec['path']).resolve(strict=True)
++    if real == Path(sys.argv[0]).resolve() or digest(real) != spec['sha256']:
++        raise RuntimeError('tool identity mismatch or PATH recursion')
++    root = Path(config['case_dir'])
++    # Every actual invocation, including driver version probes, gets a receipt.
++    base = root/'invocations'
++    base.mkdir(exist_ok=True)
++    for number in range(100):
++        slot = base/f'{tool}-{number:03d}'
++        try:
++            slot.mkdir()
++            break
++        except FileExistsError:
++            continue
++    else:
++        raise RuntimeError('invocation count cap')
++    dfcc = tool == 'goto-instrument' and '--dfcc' in args
++    version = args == ['--version']
++    if dfcc:
++        (root/'dfcc-once').mkdir()  # duplicate is an error, never select an arbitrary one
++        if len(args) < 3 or not Path(args[-2]).is_file():
++            raise RuntimeError('unknown DFCC input/output grammar')
++        save(slot/'dfcc.json', dict(root=args[args.index('--dfcc')+1], argv=args,
++             modes=[a for a in args if a.startswith('--')],
++             input=str(Path(args[-2]).resolve()), output=str(Path(args[-1]).resolve())))
++        snapshot(args[-2], slot/'pre-dfcc.goto')
++    if tool == 'cbmc' and not version:
++        (root/'cbmc-once').mkdir()
++        if args.count('--program-only') != 1:
++            raise RuntimeError('refuse non-symex invocation')
++        prohibited = ['--show-vcc', '--show-byte-ops', '--full-slice', '--property',
++                      '--dimacs', '--arrays-uf-always', '--arrays-uf-never',
++                      '--write-solver-stats-to']
++        if any(a.split('=')[0] in prohibited for a in args):
++            raise RuntimeError('unexpected diagnostic/scope option')
++        files = [(i, a) for i, a in enumerate(args) if Path(a).is_file()]
++        if len(files) != 1:
++            raise RuntimeError('ambiguous actual CBMC input')
++        index, source = files[0]
++        snap = snapshot(source, slot/'actual-cbmc.goto')
++        save(root/'actual-input.json', dict(invocation=str(slot), input_index=index,
++             source=source, snapshot=str(slot/'actual-cbmc.goto'), model=snap,
++             actual_argv=[str(real)]+args, diagnostic_option='--program-only',
++             normal_invocation='NOT_RUN', solver='unchanged driver selection; see actual argv',
++             property_set='unchanged', checks='unchanged', defaults='stock 6.11.0'))
++    # stdout/stderr are forwarded unchanged, outside receipt files. Once only.
++    receipt = run([str(real)]+args, slot/'process', seconds=60 if tool=='cbmc' else 300,
++                  rss_kib=2097152, forward=True,
++                  as_kib=2097152 if tool=='cbmc' and not version else None)
++    if dfcc and receipt['original_rc'] == 0 and not receipt['limiter_reason']:
++        snapshot(args[-1], slot/'post-dfcc.goto')
++    save(slot/'boundary.json', dict(tool=tool, dfcc=dfcc, version_probe=version,
++         status='COMPLETE' if exit_code(receipt)==0 and receipt['stream_complete'] else 'INCOMPLETE'))
++    if receipt['original_signal'] and not receipt['limiter_reason']:
++        signal.signal(receipt['original_signal'], signal.SIG_DFL)
++        os.kill(os.getpid(), receipt['original_signal'])
++    return exit_code(receipt)
++
++
++if __name__ == '__main__':
++    try:
++        raise SystemExit(invoke(Path(sys.argv[0]).name, sys.argv[1:]))
++    except Exception as exc:
++        # No fabricated backend output: errors go to stderr and a separate receipt.
++        try:
++            save(Path(os.environ['D1P_CASE_DIR'])/'wrapper-error.json',
++                 dict(status='CAPTURE_ERROR', error=type(exc).__name__+': '+str(exc)))
++        finally:
++            print('D1P capture error: '+str(exc), file=sys.stderr)
++        raise SystemExit(125)

@@ -1,0 +1,61 @@
+{
+  "checks": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 diagnostics/kani3300-d1p/test_synthetic.py",
+      "result": "PASS",
+      "subprocesses": "Python fake children only",
+      "tests": 22
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 diagnostics/kani3300-d1p/test_workflow.py",
+      "includes": "manual/serial/failure/upload negative fixtures; bash -n all run blocks",
+      "result": "PASS",
+      "tests": 5
+    },
+    {
+      "check": "Python ast.parse all overlay Python files",
+      "result": "PASS"
+    },
+    {
+      "check": "jsonschema.Draft202012Validator.check_schema(ARTIFACT-SCHEMA.json)",
+      "result": "PASS"
+    },
+    {
+      "check": "git diff --check",
+      "result": "PASS"
+    },
+    {
+      "check": "exact parent/tree; all existing files unchanged; both overlay bytes equal; fixture SHA256",
+      "result": "PASS"
+    },
+    {
+      "check": "actionlint",
+      "reason": "not installed; no dependencies installed",
+      "result": "NOT_RUN"
+    }
+  ],
+  "cloud_usd": 0,
+  "dispatches": 0,
+  "exact_overlay_scripts": "DIAGNOSTIC-MANIFEST.json#/overlay_files",
+  "local_builds": 0,
+  "local_cargo_rustc_kani_cbmc_miri_runs": 0,
+  "proof_credit": 0,
+  "source_readiness": "SOURCE_READY/NOT_COMPILED",
+  "status": "PASS_STATIC_ONLY",
+  "synthetic_coverage": [
+    "exit success/failure and SIGTERM",
+    "timeout/sampled RSS units and hard RLIMIT_AS",
+    "fake descendants and orphan setsid cleanup",
+    "cap with continued stdout/stderr drain",
+    "downstream EPIPE with continued drain",
+    "binary missing/identity mismatch",
+    "duplicate and capped snapshots",
+    "unknown widths/ignored steps/unrecognized grammar",
+    "malformed/partial/empty/null/wrong-type/depth JSON",
+    "40 failures retained beyond top30 and partial enclosing JSON",
+    "VCC repeated prefixes do not become new SSA steps",
+    "argv quoting/no shell eval",
+    "counter prefix/final independent of raw cap",
+    "end-to-end fake pre-DFCC/post-DFCC/later actual input; original Kani rc7 stays failure"
+  ]
+}
