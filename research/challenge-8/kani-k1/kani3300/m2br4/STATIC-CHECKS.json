@@ -1,0 +1,53 @@
+{
+  "A": {
+    "nonchanged_runtime_functions_equal": true,
+    "all_nonconstructor_A_functions_equal_after_field_map": true,
+    "identity": "Tiramisu-Cake <igkharin@gmail.com>|Tiramisu-Cake <igkharin@gmail.com>|Diagnose split private argument buffer with explicit assigns targets",
+    "source_parent_patch_reconstruction_and_dependency_hash_checks": "PASS"
+  },
+  "B": {
+    "nonchanged_runtime_functions_equal": true,
+    "identity": "Tiramisu-Cake <igkharin@gmail.com>|Tiramisu-Cake <igkharin@gmail.com>|Diagnose legacy offset arithmetic association",
+    "source_parent_patch_reconstruction_and_dependency_hash_checks": "PASS"
+  },
+  "C": {
+    "nonchanged_runtime_functions_equal": true,
+    "identity": "Tiramisu-Cake <igkharin@gmail.com>|Tiramisu-Cake <igkharin@gmail.com>|Diagnose nonmatching source single element fallback",
+    "source_parent_patch_reconstruction_and_dependency_hash_checks": "PASS"
+  },
+  "immutable_P1_sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b",
+  "dependency_files_per_pin": 19,
+  "existing_marker_signature_count": 14,
+  "patch_apply_check": "PASS",
+  "reconstructed_tree_check": "PASS",
+  "rustfmt": {
+    "wrapper": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+    "wrapper_sha256": "50d6185aa821a7f6ea5aceba7cebe1bd517ea323f399a269c5a170b6ac65210d",
+    "config_sha256": "d1886a654a790b5f5779d12c770b32c5328e4e4eaa415fc3a024c6ba9df687b1",
+    "results": [
+      {
+        "variant": "A",
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+        "exit": 0
+      },
+      {
+        "variant": "A",
+        "path": "library/kani_core/src/mem_init.rs",
+        "exit": 0
+      },
+      {
+        "variant": "B",
+        "path": "library/kani_core/src/mem_init.rs",
+        "exit": 0
+      },
+      {
+        "variant": "C",
+        "path": "library/kani_core/src/mem_init.rs",
+        "exit": 0
+      }
+    ],
+    "assurance": "FORMATTING_ONLY_NOT_COMPILATION"
+  },
+  "forbidden_tool_runs": 0,
+  "proof_credit": 0
+}

@@ -1,0 +1,118 @@
+{
+  "schema": "kani3300-m2br4-diagnostics-v1",
+  "base_sha": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+  "base_tree": "c194aa39eb345316483406a4549755e29a3580e7",
+  "clone": "/root/kani-fix-3300-m2br4",
+  "root_branch": "experiment/kani-3300-m2br4",
+  "variants": [
+    {
+      "id": "A",
+      "classification": "NOT_RELEASE_CANDIDATE",
+      "status": "SOURCE_READY_NOT_COMPILED",
+      "sha": "75090c4986016d872976c52ed85a472fab354d44",
+      "tree": "7adcf2f2bbd9745ca50adcf2f71b01d5475aceda",
+      "parent": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+      "branch": "experiment/kani-3300-m2br4-a",
+      "changed_paths": [
+        "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+        "library/kani_core/src/mem_init.rs"
+      ],
+      "hunks": {
+        "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs": [
+          "@@ -139,35 +139,45 @@ fn codegen_modifies_contract("
+        ],
+        "library/kani_core/src/mem_init.rs": [
+          "@@ -18,6 +18,10 @@ macro_rules! kani_mem_init {",
+          "@@ -35,29 +39,34 @@ struct MemoryInitializationState {",
+          "@@ -236,7 +245,7 @@ fn initialize_memory_initialization_state() {",
+          "@@ -408,11 +417,11 @@ fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument",
+          "@@ -426,14 +435,12 @@ fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument",
+          "@@ -444,7 +451,7 @@ fn load_argument<const LAYOUT_SIZE: usize, T>(to: *const T, selected_argument: u"
+        ]
+      },
+      "patch": "patches/A.patch",
+      "patch_sha256": "41ed29271420323b56b192c3c6a36b62dee698ff7da7986233bfc5df7aafba76",
+      "patch_bytes": 9693,
+      "runtime_sha256": "53eb55489a4d6f7be2991a624375a18f794b5b9d52dd30b47147fffd8f7c8d52",
+      "contract_sha256": "684a429d844707ecb135ff8ec27292b0bda0cfb1c51c1d1aed287fe7e04dc7a2",
+      "runtime_delta": "37\t30\tlibrary/kani_core/src/mem_init.rs",
+      "ancillary_delta": "30\t20\tkani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+      "pushed": false,
+      "build": "NOT_RUN",
+      "solver": "NOT_RUN",
+      "actual_retained_delta": "UNKNOWN",
+      "initial_admission": "BUILD/INVENTORY; solver conditional on closure"
+    },
+    {
+      "id": "B",
+      "classification": "NOT_RELEASE_CANDIDATE",
+      "status": "SOURCE_READY_NOT_COMPILED",
+      "sha": "2983edc2a05d95e56889c597ccf0eb1c3c23a0d0",
+      "tree": "effe17963e218b4e75a7a4ceb63ad440d941e15d",
+      "parent": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+      "branch": "experiment/kani-3300-m2br4-b",
+      "changed_paths": [
+        "library/kani_core/src/mem_init.rs"
+      ],
+      "hunks": {
+        "library/kani_core/src/mem_init.rs": [
+          "@@ -142,7 +142,7 @@ pub fn copy_by_id<const LAYOUT_SIZE: usize>("
+        ]
+      },
+      "patch": "patches/B.patch",
+      "patch_sha256": "aac555d111bca9afe11101f9c3d554f76eeba99100e3851f851f47a4577983ec",
+      "patch_bytes": 770,
+      "runtime_sha256": "575b21dd80fcfae10632a4993b71b3547d60bf1f6c4a680cd7e6bc5d8e6f56c6",
+      "contract_sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+      "runtime_delta": "1\t1\tlibrary/kani_core/src/mem_init.rs",
+      "ancillary_delta": "NONE",
+      "pushed": false,
+      "build": "NOT_RUN",
+      "solver": "NOT_RUN",
+      "actual_retained_delta": "UNKNOWN",
+      "initial_admission": "BUILD/INVENTORY; solver conditional on closure"
+    },
+    {
+      "id": "C",
+      "classification": "NOT_RELEASE_CANDIDATE",
+      "status": "SOURCE_READY_APPLICABILITY_PENDING_NOT_COMPILED",
+      "sha": "8ebc167850b4f4ff11a940c1bceeb21daff1fa84",
+      "tree": "d5ff9a4af8f6112517c5475a3e9c3c2992e7bfaf",
+      "parent": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+      "branch": "experiment/kani-3300-m2br4-c",
+      "changed_paths": [
+        "library/kani_core/src/mem_init.rs"
+      ],
+      "hunks": {
+        "library/kani_core/src/mem_init.rs": [
+          "@@ -146,10 +146,10 @@ pub fn copy_by_id<const LAYOUT_SIZE: usize>("
+        ]
+      },
+      "patch": "patches/C.patch",
+      "patch_sha256": "f302b69ca2193f2eb0bb42ec10f7a09d27d2532d8a943a3bfbda7b2c9fd7890f",
+      "patch_bytes": 1052,
+      "runtime_sha256": "6bfa8b4f213e362bb0a7e2ff5c218e673a5af7aa7a897a9ef851e709865d2b1a",
+      "contract_sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+      "runtime_delta": "3\t3\tlibrary/kani_core/src/mem_init.rs",
+      "ancillary_delta": "NONE",
+      "pushed": false,
+      "build": "NOT_RUN",
+      "solver": "NOT_RUN",
+      "actual_retained_delta": "UNKNOWN",
+      "initial_admission": "NO SOLVER SLOT until retained hunk applicability confirmed"
+    }
+  ],
+  "max_variants": 3,
+  "initial_solver_candidates": [
+    "A/P1",
+    "B/P1"
+  ],
+  "conditional_only": [
+    "C/P1"
+  ],
+  "P2": "HELD",
+  "compiled": false,
+  "release_candidate": false,
+  "proof_credit": 0,
+  "M3": "HELD"
+}

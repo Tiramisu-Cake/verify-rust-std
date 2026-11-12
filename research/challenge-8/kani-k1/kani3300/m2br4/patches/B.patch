@@ -1,0 +1,13 @@
+diff --git a/library/kani_core/src/mem_init.rs b/library/kani_core/src/mem_init.rs
+index 6f832d4c651f8770a46327beb6e4a957b06c1166..16e4a62aff31d9e0b6d513b64a9cd6ef5faeca2b 100644
+--- a/library/kani_core/src/mem_init.rs
++++ b/library/kani_core/src/mem_init.rs
+@@ -142,7 +142,7 @@ pub fn copy_by_id<const LAYOUT_SIZE: usize>(
+                     let should_reset: bool = super::any();
+                     if should_reset {
+                         self.tracked_object_id = to_obj;
+-                        self.tracked_offset = to_offset + (self.tracked_offset - from_offset);
++                        self.tracked_offset += to_offset - from_offset;
+                         // Note that this preserves the value.
+                         return;
+                     }

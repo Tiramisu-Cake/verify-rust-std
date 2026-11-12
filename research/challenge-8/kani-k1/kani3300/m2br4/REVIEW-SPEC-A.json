@@ -1,0 +1,44 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-m2br4",
+  "baseline_commit": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+  "candidate_commit": "75090c4986016d872976c52ed85a472fab354d44",
+  "applicability": "M2-B/R4 isolated diagnostic A/P1 only, NOT_RELEASE_CANDIDATE; no worker CI; C solver requires retained applicability.",
+  "defect": "Reported conversion resource growth; discriminate runtime shape/arithmetic/fallback without release acceptance.",
+  "invariants": [
+    "Direct sibling from exact R1; frozen Uninit emission and existing model function ABI/markers.",
+    "No new assumptions, user-memory exemption, solver/check/bounds changes or release integration.",
+    "A requires both unique private static assigns targets; B/C losses must be explicit."
+  ],
+  "controls": [
+    "Coordinator build/type validation and inventory before any solver.",
+    "Actual retained delta, guards/types and complete bounded failures must be bound; missing projection stays UNKNOWN.",
+    "C no solver slot when both differences unreachable/equally simplified, or projection unavailable."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "library/kani_core/src/mem_init.rs",
+    "library/kani_core/src/mem.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+    "kani-driver/src/call_cbmc.rs",
+    "kani-driver/src/args/mod.rs",
+    "kani-driver/src/call_goto_instrument.rs",
+    "rust-toolchain.toml",
+    "kani-dependencies",
+    "kani-compiler/src/kani_middle/attributes.rs",
+    "cprover_bindings/src/goto_program/symbol.rs",
+    "cprover_bindings/src/goto_program/symbol_table.rs"
+  ],
+  "known_limitations": [
+    "No local compilation/verifier/build; source review and rustfmt do not establish emission or proof.",
+    "All actual retained widths/VCC/lambda targets remain unknown pending coordinator."
+  ],
+  "prior_reviews": []
+}

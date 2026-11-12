@@ -1,0 +1,92 @@
+{
+  "run_id": 43258921276,
+  "repo": "Tiramisu-Cake/kani",
+  "interface": "existing GitHub connector: bounded artifact metadata and job/step summaries only",
+  "artifacts": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "artifacts": []
+      },
+      "isError": false
+    }
+  },
+  "jobs": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "jobs": [
+          {
+            "id": 131324595645,
+            "name": "uninit",
+            "status": "completed",
+            "conclusion": "success",
+            "run_id": 43258921276,
+            "logs_url": null,
+            "steps": [
+              {
+                "name": "Set up job",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 1
+              },
+              {
+                "name": "Checkout Kani",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 2
+              },
+              {
+                "name": "Setup Kani Dependencies",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 3
+              },
+              {
+                "name": "Build Kani",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 4
+              },
+              {
+                "name": "P1 and P2 inventory and solver",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 5
+              },
+              {
+                "name": "Post Checkout Kani",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 10
+              },
+              {
+                "name": "Complete job",
+                "status": "completed",
+                "conclusion": "success",
+                "number": 11
+              }
+            ]
+          }
+        ]
+      },
+      "isError": false
+    }
+  },
+  "coverage": "first page, no full failure/VCC/type projection exposed by these methods",
+  "full_failed_check_inventory": "UNKNOWN",
+  "phase_receipt": "step summaries only; ConvertSSA/SAT entry/peakRSS UNKNOWN through queried interface",
+  "raw_logs_or_archives_read": false
+}
