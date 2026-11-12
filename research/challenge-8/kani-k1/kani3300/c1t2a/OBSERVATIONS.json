@@ -1,0 +1,404 @@
+{
+  "schema": "kani3300-c1t2a-observations/v1",
+  "assurance": "CI facts COORDINATOR_REPORTED via task/user; no reports/MIR independently inspected; static hashes locally observed only",
+  "old_test_commit": "c2d607d9d5fafdc44a6c5fa3d981f760e522a05a",
+  "old_runs": {
+    "baseline": {
+      "run": "43225818126",
+      "ci": "3c081335020e9e3d483c9ffa2e9f10da3630af47",
+      "expected_uninit": {
+        "passed": 125,
+        "failed": 9
+      },
+      "failures": "eight mixed and known maybe-uninit-initialized"
+    },
+    "M1": {
+      "run": "43225812282",
+      "composition": "d8a39dbc00d765aeef5f6ee583d0a0fa5d0f8bd6",
+      "ci": "2ae27bd269a0f531c9a6dabe6df15814f2b86e89",
+      "unit": {
+        "passed": 5,
+        "failed": 0
+      },
+      "expected_uninit": {
+        "passed": 134,
+        "failed": 4
+      },
+      "failures": "four MU only"
+    }
+  },
+  "cases": [
+    {
+      "selector": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs",
+      "harness": "mixed_eq_u8_stack_left",
+      "old_source_sha256": "78cbf7c6cad3268db4598620cb7fb877cc648982fa5704f5054e4a2c93e089e1",
+      "baseline": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "FAIL_COORDINATOR_REPORTED",
+        "failed_check": "Reading from an uninitialized pointer of type [u8; 3]",
+        "site": "SpecArrayEq<u8,3>::spec_eq equality.rs:157",
+        "intended_operation": "specialization reported",
+        "operand": "UNKNOWN",
+        "extra_failures": "UNKNOWN_NOT_ENUMERATED",
+        "conclusion": "reported differential control; causal bridge UNBOUND"
+      },
+      "M1": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "PASS_COORDINATOR_REPORTED",
+        "harness": "SUCCESS_COORDINATOR_REPORTED",
+        "both_reached_byte_checks": "UNAVAILABLE",
+        "equality": "SUCCESS_REPORTED; exact property unavailable",
+        "conclusion": "reported differential control; causal bridge UNBOUND"
+      },
+      "new_source_sha256": "78cbf7c6cad3268db4598620cb7fb877cc648982fa5704f5054e4a2c93e089e1",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN",
+      "binding_status": "PARTIAL_REPORTED; exact check/operand binding UNAVAILABLE"
+    },
+    {
+      "selector": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs",
+      "harness": "mixed_eq_u8_stack_right",
+      "old_source_sha256": "fe1ce854568472102fb57a3ab8e5be691051355abeac8d3833846402b681f872",
+      "baseline": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "FAIL_COORDINATOR_REPORTED",
+        "failed_check": "Reading from an uninitialized pointer of type [u8; 3]",
+        "site": "SpecArrayEq<u8,3>::spec_eq equality.rs:157",
+        "intended_operation": "specialization reported",
+        "operand": "UNKNOWN",
+        "extra_failures": "UNKNOWN_NOT_ENUMERATED",
+        "conclusion": "reported differential control; causal bridge UNBOUND"
+      },
+      "M1": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "PASS_COORDINATOR_REPORTED",
+        "harness": "SUCCESS_COORDINATOR_REPORTED",
+        "both_reached_byte_checks": "UNAVAILABLE",
+        "equality": "SUCCESS_REPORTED; exact property unavailable",
+        "conclusion": "reported differential control; causal bridge UNBOUND"
+      },
+      "new_source_sha256": "fe1ce854568472102fb57a3ab8e5be691051355abeac8d3833846402b681f872",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN",
+      "binding_status": "PARTIAL_REPORTED; exact check/operand binding UNAVAILABLE"
+    },
+    {
+      "selector": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.rs",
+      "harness": "mixed_raw_mu_promoted_left_hole",
+      "old_source_sha256": "fd14656cf18a20483e8df1a7c8162d9070eb22dd7b51d9fe46ad31558f315c4b",
+      "baseline": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "FAIL_COORDINATOR_REPORTED",
+        "harness": "FAILED_WITH_UNSUPPORTED_COORDINATOR_REPORTED",
+        "only_failed_check": "Kani currently doesnt support checking memory initialization for pointers to MaybeUninit<[MaybeUninit<u8>; 3]> ... contains union",
+        "site": "maybe_uninit.rs:430 (outer as_mut_ptr/assume_init setup)",
+        "intended_raw_eq": "CHECK_NOT_REACHED_COORDINATOR_REPORTED",
+        "conclusion": "EARLIER_FAILURE; not payload false-propagation or promotion-mask evidence"
+      },
+      "M1": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "FAIL_COORDINATOR_REPORTED",
+        "harness": "FAILED_WITH_UNSUPPORTED_COORDINATOR_REPORTED",
+        "only_failed_check": "Kani currently doesnt support checking memory initialization for pointers to MaybeUninit<[MaybeUninit<u8>; 3]> ... contains union",
+        "site": "maybe_uninit.rs:430 (outer as_mut_ptr/assume_init setup)",
+        "intended_raw_eq": "CHECK_NOT_REACHED_COORDINATOR_REPORTED",
+        "conclusion": "EARLIER_FAILURE; not payload false-propagation or promotion-mask evidence"
+      },
+      "new_source_sha256": "03466bf9e0f3f0921164bbc1249cdaa5d3f28d0993b2429118945f2fb1835da5",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN",
+      "binding_status": "AWAITING_RERUN"
+    },
+    {
+      "selector": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.rs",
+      "harness": "mixed_raw_mu_promoted_right_hole",
+      "old_source_sha256": "4ecb3a43c3544375c0dd45e8d53d2f03c332b590a1460977cc374f6f0c94da37",
+      "baseline": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "FAIL_COORDINATOR_REPORTED",
+        "harness": "FAILED_WITH_UNSUPPORTED_COORDINATOR_REPORTED",
+        "only_failed_check": "Kani currently doesnt support checking memory initialization for pointers to MaybeUninit<[MaybeUninit<u8>; 3]> ... contains union",
+        "site": "maybe_uninit.rs:430 (outer as_mut_ptr/assume_init setup)",
+        "intended_raw_eq": "CHECK_NOT_REACHED_COORDINATOR_REPORTED",
+        "conclusion": "EARLIER_FAILURE; not payload false-propagation or promotion-mask evidence"
+      },
+      "M1": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "FAIL_COORDINATOR_REPORTED",
+        "harness": "FAILED_WITH_UNSUPPORTED_COORDINATOR_REPORTED",
+        "only_failed_check": "Kani currently doesnt support checking memory initialization for pointers to MaybeUninit<[MaybeUninit<u8>; 3]> ... contains union",
+        "site": "maybe_uninit.rs:430 (outer as_mut_ptr/assume_init setup)",
+        "intended_raw_eq": "CHECK_NOT_REACHED_COORDINATOR_REPORTED",
+        "conclusion": "EARLIER_FAILURE; not payload false-propagation or promotion-mask evidence"
+      },
+      "new_source_sha256": "0345b28961c76c1094f25863efe013c4c95f6cd69aa604bbcc311c06376a564c",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN",
+      "binding_status": "AWAITING_RERUN"
+    },
+    {
+      "selector": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.rs",
+      "harness": "mixed_raw_mu_stack_left_legal",
+      "old_source_sha256": "8e8f12614d040139d65396bdcc11e5c6849b86059a1580dbf7d93f4b854e2bc4",
+      "baseline": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "FAIL_COORDINATOR_REPORTED",
+        "harness": "FAILED_WITH_UNSUPPORTED_COORDINATOR_REPORTED",
+        "only_failed_check": "Kani currently doesnt support checking memory initialization for pointers to MaybeUninit<[MaybeUninit<u8>; 3]> ... contains union",
+        "site": "maybe_uninit.rs:430 (outer as_mut_ptr/assume_init setup)",
+        "intended_raw_eq": "CHECK_NOT_REACHED_COORDINATOR_REPORTED",
+        "conclusion": "EARLIER_FAILURE; not payload false-propagation or promotion-mask evidence"
+      },
+      "M1": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "FAIL_COORDINATOR_REPORTED",
+        "harness": "FAILED_WITH_UNSUPPORTED_COORDINATOR_REPORTED",
+        "only_failed_check": "Kani currently doesnt support checking memory initialization for pointers to MaybeUninit<[MaybeUninit<u8>; 3]> ... contains union",
+        "site": "maybe_uninit.rs:430 (outer as_mut_ptr/assume_init setup)",
+        "intended_raw_eq": "CHECK_NOT_REACHED_COORDINATOR_REPORTED",
+        "conclusion": "EARLIER_FAILURE; not payload false-propagation or promotion-mask evidence"
+      },
+      "new_source_sha256": "6220ce629edad8d7be324d3f9909174edccbb69b44db108c7b252c6508c8f3c7",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN",
+      "binding_status": "AWAITING_RERUN"
+    },
+    {
+      "selector": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.rs",
+      "harness": "mixed_raw_mu_stack_right_legal",
+      "old_source_sha256": "d50044e762efe96fcfed27412f54dc95a038768aaead27d2e6968fa608756c95",
+      "baseline": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "FAIL_COORDINATOR_REPORTED",
+        "harness": "FAILED_WITH_UNSUPPORTED_COORDINATOR_REPORTED",
+        "only_failed_check": "Kani currently doesnt support checking memory initialization for pointers to MaybeUninit<[MaybeUninit<u8>; 3]> ... contains union",
+        "site": "maybe_uninit.rs:430 (outer as_mut_ptr/assume_init setup)",
+        "intended_raw_eq": "CHECK_NOT_REACHED_COORDINATOR_REPORTED",
+        "conclusion": "EARLIER_FAILURE; not payload false-propagation or promotion-mask evidence"
+      },
+      "M1": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "FAIL_COORDINATOR_REPORTED",
+        "harness": "FAILED_WITH_UNSUPPORTED_COORDINATOR_REPORTED",
+        "only_failed_check": "Kani currently doesnt support checking memory initialization for pointers to MaybeUninit<[MaybeUninit<u8>; 3]> ... contains union",
+        "site": "maybe_uninit.rs:430 (outer as_mut_ptr/assume_init setup)",
+        "intended_raw_eq": "CHECK_NOT_REACHED_COORDINATOR_REPORTED",
+        "conclusion": "EARLIER_FAILURE; not payload false-propagation or promotion-mask evidence"
+      },
+      "new_source_sha256": "1f1f4886873c70f3b16e208bd09e37393432f63dec72f0d9e12328e3bfd07c8e",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN",
+      "binding_status": "AWAITING_RERUN"
+    },
+    {
+      "selector": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs",
+      "harness": "mixed_raw_u8_stack_left",
+      "old_source_sha256": "b3457824bba62c091adceaf32b266e578aef3fe4ad18237037a84721bd65ab2d",
+      "baseline": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "FAIL_COORDINATOR_REPORTED",
+        "failed_check": "Reading from an uninitialized pointer of type [u8; 3]",
+        "site": "raw_eq in harness",
+        "intended_operation": "raw_eq site reported",
+        "operand": "UNKNOWN",
+        "extra_failures": "UNKNOWN_NOT_ENUMERATED",
+        "conclusion": "reported differential control; causal bridge UNBOUND"
+      },
+      "M1": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "PASS_COORDINATOR_REPORTED",
+        "harness": "SUCCESS_COORDINATOR_REPORTED",
+        "both_reached_byte_checks": "UNAVAILABLE",
+        "equality": "SUCCESS_REPORTED; exact property unavailable",
+        "conclusion": "reported differential control; causal bridge UNBOUND"
+      },
+      "new_source_sha256": "b3457824bba62c091adceaf32b266e578aef3fe4ad18237037a84721bd65ab2d",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN",
+      "binding_status": "PARTIAL_REPORTED; exact check/operand binding UNAVAILABLE"
+    },
+    {
+      "selector": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs",
+      "harness": "mixed_raw_u8_stack_right",
+      "old_source_sha256": "a79cb15f62475e99ea82e598ac2917194dedbcdf817c4590075c0368d3c80850",
+      "baseline": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "FAIL_COORDINATOR_REPORTED",
+        "failed_check": "Reading from an uninitialized pointer of type [u8; 3]",
+        "site": "raw_eq in harness",
+        "intended_operation": "raw_eq site reported",
+        "operand": "UNKNOWN",
+        "extra_failures": "UNKNOWN_NOT_ENUMERATED",
+        "conclusion": "reported differential control; causal bridge UNBOUND"
+      },
+      "M1": {
+        "setup": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "compiler": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "solver": "UNKNOWN_NOT_SEPARATELY_REPORTED",
+        "property_ids": "UNAVAILABLE",
+        "actual_masks_symbols_origins": "UNAVAILABLE",
+        "golden": "PASS_COORDINATOR_REPORTED",
+        "harness": "SUCCESS_COORDINATOR_REPORTED",
+        "both_reached_byte_checks": "UNAVAILABLE",
+        "equality": "SUCCESS_REPORTED; exact property unavailable",
+        "conclusion": "reported differential control; causal bridge UNBOUND"
+      },
+      "new_source_sha256": "a79cb15f62475e99ea82e598ac2917194dedbcdf817c4590075c0368d3c80850",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN",
+      "binding_status": "PARTIAL_REPORTED; exact check/operand binding UNAVAILABLE"
+    },
+    {
+      "selector": "tests/expected/uninit/promoted-allocations/direct-legal.rs",
+      "harness": "promoted_direct_legal",
+      "source_sha256": "391ead9f771980d47e2534b9a109dd24373bffc46e3c1211e0cd59c6a48cefa3",
+      "baseline_new_pair": "UNKNOWN_NOT_CASE_REPORTED",
+      "M1_new_pair": "UNKNOWN_NOT_CASE_REPORTED",
+      "historical_only": "43219870063/43222702257 reportedly matched goldens; neither ran mixed inputs",
+      "checks_origins_causal_initializing_event": "UNKNOWN",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/promoted-allocations/direct-left-hole.rs",
+      "harness": "promoted_direct_left_hole",
+      "source_sha256": "5726e676c370a02a49f8938250dd7ac1ba98f3bed68f150d515b040291701e7a",
+      "baseline_new_pair": "UNKNOWN_NOT_CASE_REPORTED",
+      "M1_new_pair": "UNKNOWN_NOT_CASE_REPORTED",
+      "historical_only": "43219870063/43222702257 reportedly matched goldens; neither ran mixed inputs",
+      "checks_origins_causal_initializing_event": "UNKNOWN",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/promoted-allocations/direct-right-hole.rs",
+      "harness": "promoted_direct_right_hole",
+      "source_sha256": "9624498706d5339c68cf320eb451d17806e6b441c352bcd5b454dde038abdbf9",
+      "baseline_new_pair": "UNKNOWN_NOT_CASE_REPORTED",
+      "M1_new_pair": "UNKNOWN_NOT_CASE_REPORTED",
+      "historical_only": "43219870063/43222702257 reportedly matched goldens; neither ran mixed inputs",
+      "checks_origins_causal_initializing_event": "UNKNOWN",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/promoted-allocations/helper-legal.rs",
+      "harness": "promoted_helper_legal",
+      "source_sha256": "2fcffcc8d0d8eca19fb699fd4e8e3696e0f297f34842f186fc9901a5fbc54e93",
+      "baseline_new_pair": "UNKNOWN_NOT_CASE_REPORTED",
+      "M1_new_pair": "UNKNOWN_NOT_CASE_REPORTED",
+      "historical_only": "43219870063/43222702257 reportedly matched goldens; neither ran mixed inputs",
+      "checks_origins_causal_initializing_event": "UNKNOWN",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/promoted-allocations/helper-left-hole.rs",
+      "harness": "promoted_helper_left_hole",
+      "source_sha256": "71d3218e87ec001df69e60ca0d517e9e0faec3d3d777656b0b2fda0b404f3eb5",
+      "baseline_new_pair": "UNKNOWN_NOT_CASE_REPORTED",
+      "M1_new_pair": "UNKNOWN_NOT_CASE_REPORTED",
+      "historical_only": "43219870063/43222702257 reportedly matched goldens; neither ran mixed inputs",
+      "checks_origins_causal_initializing_event": "UNKNOWN",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/promoted-allocations/helper-right-hole.rs",
+      "harness": "promoted_helper_right_hole",
+      "source_sha256": "ceb13861d49dc17c57dc8781d61ae718e820d69ca12932da8a26f62a267e9d7b",
+      "baseline_new_pair": "UNKNOWN_NOT_CASE_REPORTED",
+      "M1_new_pair": "UNKNOWN_NOT_CASE_REPORTED",
+      "historical_only": "43219870063/43222702257 reportedly matched goldens; neither ran mixed inputs",
+      "checks_origins_causal_initializing_event": "UNKNOWN",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "harness": "array_value_as_used_by_merge_output",
+      "source_sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+      "baseline_new_pair": "containing maybe-uninit-initialized test FAIL reported; per-harness verdict UNAVAILABLE",
+      "M1_new_pair": "four MU tests are sole suite failures reported; per-harness verdict/properties UNAVAILABLE",
+      "both_byte_checks_masks_symbols": "UNAVAILABLE",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "harness": "partial_copy_preserves_written_byte",
+      "source_sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+      "baseline_new_pair": "containing maybe-uninit-initialized test FAIL reported; per-harness verdict UNAVAILABLE",
+      "M1_new_pair": "four MU tests are sole suite failures reported; per-harness verdict/properties UNAVAILABLE",
+      "both_byte_checks_masks_symbols": "UNAVAILABLE",
+      "new_baseline_outcome": "NOT_RUN",
+      "new_M1_outcome": "NOT_RUN"
+    }
+  ],
+  "native_eq_hole": "NOT_APPLICABLE; typed [u8;3] reference over a hole is invalid before equality",
+  "new_repair": "7f9eec41e892dad0ca64673dab3de88d17d010af",
+  "new_results": "NOT_RUN; no historical result transferred to new source hashes",
+  "binding_status": "PARTIAL / AWAITING_RERUN; causal analysis incomplete",
+  "M3_gate": "CLOSED; READY is handoff only",
+  "proof_credit": "NONE"
+}

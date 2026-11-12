@@ -1,0 +1,14 @@
+# KANI3300 C1-T2-A — static repair complete / STOP
+- Binding status: PARTIAL / AWAITING_RERUN; new outcomes NOT_RUN.
+- Local test-fix: 7f9eec41e892dad0ca64673dab3de88d17d010af; tree d4a6145537dcdbbde46e091851ff69890967b7b0.
+- Parent: c2d607d9d5fafdc44a6c5fa3d981f760e522a05a; Kani not pushed.
+- Exactly four raw-mu sources use direct flat stack arrays; writes, P/hole offsets, directions/raw_eq preserved.
+- Four u8 sources, all goldens, six C1-T, original D0 and production unchanged; 30 source/golden hashes checked.
+- Old baseline 43225818126 125/9; M1 43225812282 unit5/0, expected134/4: coordinator reports only.
+- Four u8 differential controls retained; old four MU stop before raw_eq at nested layout Unsupported.
+- Old causal C1-T and exact runtime mask/reset/operand properties remain UNKNOWN; no proof credit.
+- Source/invariant/whitespace/hash checks passed; rustfmt unavailable, compilation/verifiers not run.
+- Bounded independent Luna High review complete: no blocking static source finding; see REVIEW.md.
+- Updated CI-REQUEST requires identical repair on both lanes and unchanged controls; coordinator only.
+- Cloud $0; no dispatch; M3 gate closed; STOP after research handoff.
+- Research SHA: this document's containing research commit (resolved at handoff).
