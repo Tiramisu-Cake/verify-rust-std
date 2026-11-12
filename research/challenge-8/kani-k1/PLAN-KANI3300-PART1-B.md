@@ -9,8 +9,10 @@ type-only skip, default true и потеря negative checks не являютс
 
 - Аудит R2 `124a45e373`, особенно блокеры §1–2, ответы 2–5 и 11–13; R0 `8ad13e016e`, `kani3300/r0/` — статическая карта, не proof.
 - Аудированный source `a0a2386001a15fecfe2facc2f6cd87f3dee13b60` — baseline D0, сохраняется неизменным.
-- B1I `dc5f5a406749a73f1c3192e0b5338441e79508bb`, research `54b7b7fbc4`; Uninit Quick `43196180814`
-  **идёт по сообщению координатора**, результата этот план не устанавливает. READY означает static handoff.
+- B1I `dc5f5a406749a73f1c3192e0b5338441e79508bb`, research `54b7b7fbc4`; Uninit Quick `43196180814`, workflow-only
+  `b5f87a7e92105965b719b71bb2f4741c14f0816c`: по сообщению координатора fmt/build/clippy PASS, expected 111/7/2 ignored,
+  kani 22/0, ui 14/0, script 1/0. Семь failed selectors — known raw_eq legal и шесть неверно bound новых fixtures;
+  прочие existing controls прошли, production-регрессий по этим данным не выявлено. Это не Quick PASS и не shim coverage.
 - Worker 14 начинает D0; worker 15 завершает анализ B1I. Достаточно **двух** воркеров: model/интеграция у одного владельца,
   B1I/контроли/ограничения ABI у другого. Третий постоянный исполнитель не нужен; bounded Luna High review — по semantic gate.
 
@@ -19,7 +21,7 @@ type-only skip, default true и потеря negative checks не являютс
 | Стадия | Владелец и порядок | Результат / STOP |
 |---|---|---|
 | **D0-P → CI → D0-A** | 14 сейчас; TASK-KANI3300-D0.md. Подготовка, запуск координатором, анализ в следующей сессии | Два legal harness по одному и вместе AB/BA: actual MIR/points-to/relevance, runtime witness и allocation mapping. STOP до достаточных данных, без исправления модели |
-| **B1I-A** | 15 параллельно D0, после terminal Quick | Проверить named operand/entry properties, plain/seeded, фактический shim/Err lowering; исправления только отдельной review-стадией. Known raw_eq legal failures не считать новыми B1I-регрессиями; другие FAIL/ICE — STOP интеграции B1I |
+| **B1I-A** | 15 параллельно D0; TASK-KANI3300-B1IA.md | Перепривязать шесть fixtures: FnPtr, tuple-layout Unsupported, Item-return uninit; сохранить negative и добавить initialized Item companions. Production неизменен. Настоящие shim/Err branches остаются gaps; после test review STOP до targeted/Quick rerun координатора |
 | **M0 — контракт модели** | 14 после D0-A; 15 готовит тестовую матрицу по R0 и аудитам | Зафиксировать allocation identity/offset/extent, immutable init masks, runtime shadow lifecycle/false, supported writes/normal returns и Unknown→Unsupported. Каждую гипотезу связать с D0; missing setter не предполагать по типу temporary. Review → STOP design gate до реализации |
 | **M1 — anonymous/promoted allocations** | 14 после M0; 15 параллельно C1 ниже | Протянуть referent AllocId, смещение, фактические Some/None bytes до seed/points-to/relevance и init model; учесть coalescing равных allocations. Нельзя выводить initializedness из backend zero-fill или из &T. Targeted legal + false-mask negative → STOP/review/CI |
 | **C1 — контроли и ABI-границы** | 15 после B1I-A и M0, отдельный clone; production files не пересекаются с M1/M2 | Test-only controls; отдельными ограниченными commits — guards для by-value DST, retained ordinary-union constant, непарного hook/shim, если нужны. Не расширять ABI/union model. Если нужен общий файл/изменение интерфейса — передать владельцу модели, STOP параллельной правки |
@@ -30,7 +32,7 @@ type-only skip, default true и потеря negative checks не являютс
 | **G2 — полный gate и экспорт** | После G1, неизменённый source/test SHA; один интегратор | Все штатные ordinary/opt-in regression jobs, Linux x86_64/AArch64 и platform statuses; PFC legal/frame/clause, B1, layout/ZST/flat/overwrite и multi-root controls. Затем source/test-only export и актуальный PR. Упаковка с тем же tree сохраняет только same-tree связь со старыми runs, не новый PASS |
 
 Каждый блок реализации/анализа — одна сессия, завершается review/результатом и STOP; следующий блок выдаёт координатор.
-D0-P и D0-A — две сессии вокруг CI, не ожидание/автоматический переход к model fix. Сейчас выдано только D0-P.
+D0-P и D0-A — две сессии вокруг CI, не ожидание/автоматический переход к model fix. Выданы D0-P и B1I-A.
 M1/M2 не редактировать одновременно: anonymous masks и setters используют общий relevance/shadow pipeline.
 Независимые C1 fixture/spec changes можно готовить во время D0; semantic tests/guards финализировать после M0.
 
