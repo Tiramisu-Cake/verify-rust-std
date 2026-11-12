@@ -1,0 +1,26 @@
+# KANI3300 M1 — preparation (Cloud $0)
+- Task: TASK-KANI3300-M1.md @ 5214379fca90b2dfc58ab4750b8d2e4845ba5278; only M1, then STOP.
+- g0 entry: 5214379fca90b2dfc58ab4750b8d2e4845ba5278; fetch + ff-only performed before work.
+- Base clone /root/kani-fix-3300-p1b1 remains read-only, clean at 6134e42dd1c65dc980336e7d9455aba02d423edf.
+- New clone /root/kani-fix-3300-m1, branch fix/kani-3300-immutable-mask; Kani not pushed.
+- Base: 6134e42dd1c65dc980336e7d9455aba02d423edf; M0 inputs pinned at 742c77fa03949f0839cca333f7c174904154f429.
+- Production + own controls: 254ae69662b3206cd4432dae0cd44c534b1b13fb.
+- C1-T original: 28e684cbae348130d559b87e030536d8f8a3c1ff; imported unchanged as 5abdcf982da6aff65662e198af27a9c776830a89.
+- Candidate: 5abdcf982da6aff65662e198af27a9c776830a89; tree: 960a71c70b3f890b4f5cd2b53a83f6a0f8e00951.
+- Implemented anonymous origins/side table and both points-to constant successors; prior mutable edges retained.
+- Freeze query on retained source whole-referent type is separate from actual allocation Mutability::Not.
+- Referent Option-byte mask captured before emission; carrier provenance/addend decoded separately.
+- Requested key binds to actual returned symbol on alloc_map miss/hit; full descriptors checked at model seal.
+- One registry per GotocCtx; seal after codegen/contracts/quantifiers, before snapshots/split/export.
+- Exact byte-array storage checked; nonempty mask indexed only inside object/offset bounds.
+- Seed inserted before normal reset completions, with nondet/false/buffer reset statements preserved.
+- No per-reference/runtime reseed, ABI/dependency/runner/workflow/cache-lifetime change.
+- Own inputs: Some(0)/None, source hole raw-copy to mutable target, zero extent; 5 registry/reset unit tests.
+- C1-T 12 file hashes matched original commit and published manifest; existing controls untouched.
+- Allowed rustfmt and git diff --check completed; these are not compilation/verification results.
+- Pinned source/API audit uses rust-lang/rust @7189d39d9, recorded in TEST-MANIFEST.json.
+- Bounded independent Luna HIGH review completed; no concrete soundness/API defect or repair requested.
+- Review verdict PREPARED/BLOCKER; all compiler/unit/model/golden/runtime bindings NOT_RUN.
+- Unsupported/unqualified/relocated/erased-only coverage is not inferred from lack of a seed; see SOURCE-BINDINGS.md.
+- No local compiler/verifier/builds, Actions/Cloud dispatch, raw evidence, credentials or external messages.
+- M2/M3/full gate execution excluded. CI is coordinator-only, no CI awaited here.

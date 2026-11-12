@@ -1,0 +1,27 @@
+# KANI3300 M1 coordinator-only request — NOT_RUN
+
+- Read-only base: 6134e42dd1c65dc980336e7d9455aba02d423edf. Baseline+C1-T: 28e684cbae348130d559b87e030536d8f8a3c1ff, tree 9e6645a470702d774ccf874074cbac325fa46371.
+- M1 production+own controls: 254ae69662b3206cd4432dae0cd44c534b1b13fb; composed candidate 5abdcf982da6aff65662e198af27a9c776830a89, tree 960a71c70b3f890b4f5cd2b53a83f6a0f8e00951.
+- C1-T exact original test-only commit is imported as 5abdcf982da6aff65662e198af27a9c776830a89; all twelve source/golden file hashes match its original commit and c1t/TEST-MANIFEST.json. Do not edit worker15 fixtures; return findings through coordinator.
+- Source branch fix/kani-3300-immutable-mask at /root/kani-fix-3300-m1 is LOCAL ONLY; no Kani push. Coordinator owns authorized CI source transport/dispatch. This worker spent Cloud $0 and ran no compiler/verifier/build/CI.
+
+## Existing process, ordered acceptance
+
+1. Use existing static/preflight/build checks and Uninit Quick coordinator process, including fmt/build/Clippy as appropriate. No new runner, workflow, diagnostic adapter or C1-L compile-only process. Distinguish setup/compiler/solver/harness/golden results and original exits; unreached stages remain NOT_RUN.
+2. First baseline+C1-T, then M1 with exactly the SAME six C1-T selectors, sources, harnesses and corrected-model goldens. Use c1t/CI-REQUEST.md and its exact per-operand masks/offsets/acceptance. Baseline legal false failure is repro evidence, never a weaker golden. Baseline negative FAIL may hide a false failure on the legal operand.
+3. Run both existing D0 legal harnesses in tests/expected/uninit/maybe-uninit-initialized/main.rs: array_value_as_used_by_merge_output and partial_copy_preserves_written_byte. Bind raw_eq in actual SpecArrayEq specialization and both operands; existing left normal-edge setter is unchanged. Require both legal harnesses/equality assertions to succeed on M1, with the immutable RHS seeded.
+4. Run own distinguishing inputs in tests/expected/uninit/immutable-masks/: zero-bytes-legal.rs, zero-byte-hole.rs, copy-hole.rs, empty.rs. Expected legal SUCCESS; hole intended left byte-read FAILURE and legal right byte-check reached SUCCESS. For copy-hole, bind anonymous None -> source-following raw-copy snapshot -> mutable destination false -> raw_eq left read. No prior UB/Unsupported/extra safety failure qualifies. For empty, require extent zero and no seed index/object query; no nonexistent byte witness.
+5. Run kani-compiler context::immutable_allocations::tests (5 ordinary unit controls) in authorized CI if its normal build setup supports compiler unit tests. Some(0)/None, compatible descriptor reuse vs conflict, mutable/unqualified nonadmission, labeled reset-completion edges and empty mask. Synthetic conflict is not a Rust-source repro. Preserve unit outcome NOT_RUN if this CI setup does not expose that target; report the limitation, do not add a runner.
+6. Then existing complete Uninit Quick, retaining raw-eq-uninit left/right/padding, typed/data/false, Item-return plain/seeded, mutable reset/overwrite/alias, call protocol and mem-init-reinstrumentation controls. Do not call a known baseline repro whole-Quick PASS. Full gate and M2/M3 execution are later assignments.
+
+## Exact bindings required for every admission
+
+- Exact source/production/test/tree/toolchain/target/layout/flags/solver/bounds/resource identities; original exits and property inventory. Match source/mask/symbol/reset body for this exported model, not an adjacent harness.
+- ConstOperand carrier provenance slots + initialized pointer addend width/endianness/target; actual referent AllocId, mutability, compiler Freeze and original type before erasure, extent and Option-byte mask before zero fill. Record actual values separately from required masks in manifest.
+- Every actual returned symbol on alloc_map miss/hit; compatible alias equivalence/full descriptors; emitted one-byte field offsets/sizes including padding and exact extent. AllocId is never the CBMC runtime object number.
+- Retained raw_eq/copy and both operand pointers, object/offset/extent/range/bounds; helper propagation and all alternatives. Actual property IDs/class/source/status/reachability are UNKNOWN until observed; do not fabricate IDs in initial goldens.
+- Per-model closed registry after all producer/contract/quantifier passes, before metadata/export; every reset completion after original nondet object/offset/false/buffer resets, then exact matching seed, then first user effect/read. Check ordinary and actual transformed/private-state scope; no per-reference/call/copy reseed.
+- Bind witness Some byte -> true and None byte -> false; unmatched/mutable/unqualified/out-of-range witness unchanged. Negative acceptance requires intended read to fail with legal other operand reached SUCCESS and no extra new failures. Overall FAILURE/substring match is insufficient.
+- Unsupported/erased-only/partial/relocated/unknown watched paths stay release-blocked until a complete tracked-history binding or reachable pre-effect Unsupported exists. No implicit positive coverage from a missing seed/record. Keep source claims, bounded evidence and independent proof credit separate.
+
+Report through the existing authorized evidence interface; no raw fallback. No CI was dispatched or awaited by this stage. STOP after this reviewed candidate; no full-gate/M2/M3 execution here.
