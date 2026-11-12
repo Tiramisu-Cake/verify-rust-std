@@ -5,7 +5,13 @@ Direct-MU-only экспорт отклонён. Полная для заявле
 type-only skip, default true и потеря negative checks не являются вариантом. Runtime Codex; Cloud $0, CI только координатора.
 Это верификация корректности, не security-работа.
 
-**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR6.md: внутри Hbuf representation/lifetime vs selection/reset,
+**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR6B.md: narrow initializer self-instrumentation repair,
+R6-02b и R1+same-skip control на unchanged P1. R6-01 run43271948094 cutoff; R6-02 run43271955539
+ранний Option-reset Enum Unsupported (1049steps/28→19VCC), NON_COMPARABLE. Hrepr attribution пока односторонняя.
+Source-supported путь — exact initializer model identity в existing SKIPPED_ITEMS; pointer attribute уже стоит и недостаточен.
+Runtime reset/ensures path сохранить, bootstrap guard не расширять на user code. M3 HELD.
+
+**Предыдущий handoff M2-B/R6:** 15 → TASK-KANI3300-M2BR6.md: внутри Hbuf representation/lifetime vs selection/reset,
 ≤2 дополняющих P1 variants, Hcopy/GLUE frozen R1. R5-01 run43268005490 конвертируется (51M clauses),
 R5-02 run43268011610 cutoff>6.68GiB. Следующий cut в Hbuf; concrete VCC/fix ещё не established, M3 HELD.
 

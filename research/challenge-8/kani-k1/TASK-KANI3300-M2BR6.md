@@ -4,6 +4,9 @@
 Fork CI только координатора; local compiler/verifier/builds запрещены. Это верификация корректности, не security-работа.
 Следуем R5 decision tree: ≤2 дополняющих варианта внутри Hbuf, тот же P1, без нового history/одиночного перебора.
 
+**Новый handoff:** package @54252f16e4; R6-01 run43271948094 heavy, R6-02 run43271955539 ранний
+Enum Unsupported на Option reset, NON_COMPARABLE. Worker15 → TASK-KANI3300-M2BR6B.md, historical m2br6 не менять.
+
 ## Вход и новые outcomes
 
 Читать `kani3300/m2br5/` @ **c114b13fb4bfc08502529d78c45344ec724d56f2**, HUNK-MAP/STATIC-AUDIT.py,
