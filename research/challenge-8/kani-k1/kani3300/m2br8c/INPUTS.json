@@ -1,0 +1,130 @@
+{
+  "schema": "kani3300-m2br8c-inputs-v1",
+  "g0_entry": "71844647d1957069771978693c4e65f54405a3a3",
+  "runtime": "Codex",
+  "worker": 14,
+  "stage": "M2-B/R8-C",
+  "base_commit": "8e01eb2aff5183c53403e1d1e73e573ce28d3095",
+  "base_tree": "8554b019e0eb8d2daf09e5ab70bc0c0d09917de1",
+  "seed_read_only": "/root/kani-fix-3300-m2br7",
+  "references": [
+    {
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-M2BR8-CONTROLS.md",
+      "bytes": 6613,
+      "sha256": "eb18d1790b518b1f35595c8d5f2057edb0291fc245f0fb17dbc768b6f38ce16d"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-M2BR8.md",
+      "bytes": 13026,
+      "sha256": "c230b5a51aa3a46cf846b8f98eee812a665ecc324505378ec5ad705b5b1cd4ba"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-M1.md",
+      "bytes": 11778,
+      "sha256": "b8a4a5704d1249056d75f7f1df21e576954d00f129a01969f1b63bfb37186947"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br7c/CONTROL-MAP.md",
+      "bytes": 32338,
+      "sha256": "1ef53ffcc607b74cbd939ecb341f3a6a96ffe261275ad16600b11ba17c2ed90b"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br7c/TEST-MANIFEST.json",
+      "bytes": 79460,
+      "sha256": "74fc161ef82fb4be117122288ea655c944c926c26c916db13af0401b8b378273"
+    }
+  ],
+  "std_api_reference": {
+    "repository": "/root/verify-rust-std-kani3300-g0",
+    "revision": "71844647d1957069771978693c4e65f54405a3a3",
+    "qualification": "Local source audit only; actual compiled nightly-2026-10-23 sysroot binding required from coordinator",
+    "files": [
+      {
+        "path": "library/core/src/mem/maybe_uninit.rs",
+        "bytes": 66146,
+        "sha256": "1230d267542337ee2842c29d8227cf8a58fe75c53a2a70efaee3922c4e8e25c0"
+      },
+      {
+        "path": "library/core/src/ptr/mod.rs",
+        "bytes": 131500,
+        "sha256": "cc17237f8e88211f0d082f8c8d88b6fd55f905c7baaa3c32cd75632269c03ff2"
+      },
+      {
+        "path": "library/core/src/ptr/const_ptr.rs",
+        "bytes": 116259,
+        "sha256": "6ace4c013849ef9f32ea5c1941ad68cc92eb98be92089f5952d85de3ad8ddc45"
+      },
+      {
+        "path": "library/core/src/ptr/mut_ptr.rs",
+        "bytes": 133744,
+        "sha256": "30da13c016a3621022db56e3b370f6a1f753b6511f612115b0b45987b5794d2a"
+      }
+    ]
+  },
+  "unchanged_kani_dependencies": [
+    {
+      "path": "rust-toolchain.toml",
+      "bytes": 183,
+      "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df"
+    },
+    {
+      "path": "rustfmt.toml",
+      "bytes": 238,
+      "sha256": "d1886a654a790b5f5779d12c770b32c5328e4e4eaa415fc3a024c6ba9df687b1"
+    },
+    {
+      "path": "tools/compiletest/src/runtest.rs",
+      "bytes": 29487,
+      "sha256": "dad67ded3379bcf7d3cce0e4e500159fa0c25ee513ba515f13647d5c688e394f"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "bytes": 54700,
+      "sha256": "baa2013d98a84784366602ea3f9e63bbbde408816a5a947032267737014e4c5a"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "bytes": 26149,
+      "sha256": "b4b1edf5242be38a8079fdd5657356181dbc76eb5ba63889f72b56f72ccea52a"
+    }
+  ],
+  "formatting": [
+    {
+      "path": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+      "bytes": 312,
+      "sha256": "50d6185aa821a7f6ea5aceba7cebe1bd517ea323f399a269c5a170b6ac65210d"
+    },
+    {
+      "path": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt-tc/rustfmt-nightly-x86_64-unknown-linux-gnu/rustfmt-preview/bin/rustfmt",
+      "bytes": 5421328,
+      "sha256": "0f8f90119220fbbd72268c10c575000334e7b89cc348c74953b1b30155338962"
+    }
+  ],
+  "coordinator_reported_baselines": {
+    "assurance": "User/coordinator report; no fresh evidence read or independent proof credit",
+    "R7_B0": {
+      "commit": "c614dba9ca",
+      "run": "43283061769",
+      "cbmc_rss": ">6.4 GiB"
+    },
+    "R7_B1": {
+      "commit": "b4eb8294b7",
+      "run": "43283068930",
+      "cbmc_rss": ">7.2 GiB"
+    },
+    "R6_02b": {
+      "encoding": "pointer in separate static",
+      "elapsed_seconds": 50,
+      "rss": "1.95 GB",
+      "limitation": "frameFAIL diagnostic, not accepted proof or established operator-level cause"
+    }
+  },
+  "boundaries": [
+    "Only new private-transfer-pointer/ and m2br8c/",
+    "No local cargo/rustc/Kani/CBMC/Miri/builds",
+    "No worker CI/Actions/Cloud dispatch; Cloud $0",
+    "No production/existing test/golden/worker15 edits",
+    "Local test commit not pushed; research only push without force",
+    "M3 HELD; STOP after reviewed package"
+  ]
+}

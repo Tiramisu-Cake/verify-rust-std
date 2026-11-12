@@ -1,0 +1,18 @@
+# Coordinator-only CI qualification request — no dispatch by worker14
+
+SOURCE_READY / NOT_COMPILED; solver NOT_RUN, runtime bindings UNKNOWN, proof credit0, Cloud$0. No M3 activation. Exact local test-only commit/parent/tree and four added-file/full-index-diff hashes are in TEST-MANIFEST.json; it is available in /root/kani-fix-3300-m2br8-controls, branch experiment/kani-3300-pointer-transfer-controls, not pushed. Owner15 imports only `tests/expected/uninit/private-transfer-pointer/` from that exact delta into the R8 source candidate, never this base's old source; no duplicated R7-C import. Confirm all four hashes, test-only diff, resulting source/tool/test/config identities, and unchanged R7-C/existing fixtures. Do not wait for worker14 source code or redefine carrier for these tests.
+
+Keep existing toolchain/flags/binary/runner identities,300s solver cutoff and RSS watchdog>6GiB, same solver and one root at a time. Coordinator performs build/fmt/clippy/-Dwarnings first; exact sysroot nightly-2026-10-23 must be bound. Existing matched R7 B0/B1 resource receipts are reused as coordinator-reported baselines (INPUTS.json), no historical rerun or new variant. R6-02b50s/1.95GB remains a frameFAIL diagnostic, not proof or established operator-level cause.
+
+After owner15 R8 unchanged P1 resource gate passes, run two new ordinary selectors separately:
+
+1. private-transfer-pointer/legal.rs — nonzero_offset_move_return_legal: all SUCCESS, useful field values11/22/33.
+2. private-transfer-pointer/hole.rs — nonzero_offset_move_return_hole: only intended third u8 read at38 fails; first two assertions/read checks and every model/carrier/protocol guard SUCCESS.
+
+If P1 remains heavy, STOP per R8 source-owner gate; do not spend budget on controls before that gate. Controls do not replace existing P2/lawful/frame/clause/call-pairing/move/false controls. G2 only after accepted G1: full Uninit Quick plus unit5/kani Uninit/expected/ui/reinstrumentation; retain legal-pair AND postcondition-hole and mixed composition request. Existing goldens remain unchanged.
+
+Acceptance requires CONTROL-MAP's matched actual type/layout/MIR Item Call(Move), source slot and extent3, selected witness relative2, capture before Move clear, callee load1, return0/store0 and source frame/DEAD cleanup, then normal live-destination load0 and bound third-field read. Record actual data masks/ABI/signatures, root/source/property/guard IDs, source/tool/argv/config identities and full bounded failure inventory. No emitted/observed binding is supplied by this source-only package. If optimizer removes source death, Move or offset distinction, mark missing qualification, not proof credit.
+
+Require no Unsupported, earlier invalid typed value, unexpected pointer/overflow check, protocol/carrier invariant or private assigns failure. For R8 saved_base/saved_byte assignments, emitted frame target must be address/extent/object of the pointer CELL in ARGUMENT_BUFFER, never saved pointee or user allocation. Bind main/buffer markers to distinct globals and all13 buffer field cells. Preserve original lawful modifies/user outside-frame/clause distinctions; a private write failure does not cover the user frame negative.
+
+Record actual exits and per-case elapsed/steps/VCC/conversion/vars/clauses/RSS incl raw units, sampling/overshoot and cutoff. Timeout/watchdog=INCOMPLETE, setup failure=NOT_RUN solver; parser/job exit alone is not proof. Missing/capped data UNKNOWN. Read only existing curated Evidence Brief interface/precise bounded queries; no raw logs/archives/full formula or new CI dispatch from this worker. Resource comparison, false-transfer qualification and independent proof credit remain open until actual coordinator evidence.
