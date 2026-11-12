@@ -1,0 +1,1149 @@
+{
+  "schema": "kani3300-m0-control-map-v1",
+  "stage": "M0_DESIGN_ONLY",
+  "research_entry": "8d0aa4f723708eee20cece87310203df84f056c5",
+  "source": {
+    "path": "/root/kani-fix-3300-p1b1",
+    "commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+    "production_equivalent": "dc5f5a406749a73f1c3192e0b5338441e79508bb",
+    "read_only": true,
+    "files": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "sha256": "775b43c73d1350994de789dd30847e6c0339ee6ddc4ec91d9261cb2346c027d2"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "sha256": "2ddda690dbfbd57fad47a29ac86a940ca268feb809a1f4aca812d1ff578b6f45"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "sha256": "be0335143c68812418e549441fed1ac782c85592359d37083076c70c7be80dd5"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "sha256": "dddbf5d1b29a398d79d4d2a8ad7f3e216dba4c22203bb75ade6fd6c8c8d8cc60"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+        "sha256": "d85c1adf759d9913e05c2a4effbb47cf66b3f35a11d2f198c12a9497d7d96dba"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+        "sha256": "c0a2b93a624cf4d5310f9fd61561bb1c3b92c1260da9fd6cf7ef9a363f009f8b"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "sha256": "c6866a138950f347533bf7cd34c2b2f1a4a2009b08f463f26b0ed0d68fff346d"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "sha256": "3a4b584feccedd843d492521ccc343195d8bb824fe7470be63c26234427e2594"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "sha256": "032d419dc4afa01ebac75b7807781c1fa7d051a7523b57a764d63f1d4b44c921"
+      },
+      {
+        "path": "library/kani_core/src/mem_init.rs",
+        "sha256": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150"
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "commit": "8d0aa4f723708eee20cece87310203df84f056c5",
+      "path": "research/challenge-8/kani-k1/PLAN-KANI3300-PART1-B.md",
+      "sha256": "e6fe4fd238bdbf45ba21f87a9bcfc39ee359a43b69fc4e00332559a54a195509"
+    },
+    {
+      "commit": "8d0aa4f723708eee20cece87310203df84f056c5",
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-M0.md",
+      "sha256": "a0471aacd1a9d78cea0fc146e1baddaa252ee6ee0b94ace3791b9fd3c5ebde9d"
+    },
+    {
+      "commit": "124a45e373ac2299d426b33d4bc1d30d98de748b",
+      "path": "research/challenge-8/kani-k1/AUDIT-REPORT-KANI3300-PART1-R2-RU.md",
+      "sha256": "1eed44bf575edd7ba43edbe2d2a3944d488d4a4ed241341ea8c11673434544fb"
+    },
+    {
+      "commit": "ff5cabbfca8b5108d21c27904c1f7b7e40ab25c1",
+      "path": "research/challenge-8/kani-k1/kani3300/d0a/RESULT.md",
+      "sha256": "6998ba9a496572ce61f9c83049a86fe5a18c90e78f7b639b7c342971675317ee"
+    },
+    {
+      "commit": "ff5cabbfca8b5108d21c27904c1f7b7e40ab25c1",
+      "path": "research/challenge-8/kani-k1/kani3300/d0a/NOTES.md",
+      "sha256": "e31992fb0320eea03d37841aad8f11e243e48499002958e7b3be994067085253"
+    },
+    {
+      "commit": "ff5cabbfca8b5108d21c27904c1f7b7e40ab25c1",
+      "path": "research/challenge-8/kani-k1/kani3300/d0a/REVIEW.md",
+      "sha256": "2c7d41630d6e6f34cf3ed5f6da51bd78bcc8be2dbbf38ee232d33bfde7b8c995"
+    },
+    {
+      "commit": "ff5cabbfca8b5108d21c27904c1f7b7e40ab25c1",
+      "path": "research/challenge-8/kani-k1/kani3300/d0a/bridge.json",
+      "sha256": "e2cbd416dd045784029d1409e79a603fcb609b6048efa23fb50f6993e09425db"
+    },
+    {
+      "commit": "ff5cabbfca8b5108d21c27904c1f7b7e40ab25c1",
+      "path": "research/challenge-8/kani-k1/kani3300/d0a/runtime.json",
+      "sha256": "90d0651319ef3fdbca7835dcc7e012e13a5b39292bdb9bfa275d357c77f0625d"
+    },
+    {
+      "commit": "ff5cabbfca8b5108d21c27904c1f7b7e40ab25c1",
+      "path": "research/challenge-8/kani-k1/kani3300/d0a/observations.json",
+      "sha256": "6b26207a2c301eb88d9caff0cd52a2f59fa1bcf73b955d47a34028664e00370d"
+    },
+    {
+      "commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+      "path": "research/challenge-8/kani-k1/kani3300/c1p/HANDOFF-M0.md",
+      "sha256": "b4e9bd34f611cb3435e340e18aef7752e03ff8cd1bfe81c635507e1310f0830a"
+    },
+    {
+      "commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+      "path": "research/challenge-8/kani-k1/kani3300/c1p/CONTROL-MATRIX.json",
+      "sha256": "efff1f3f4a1635964f066ac01f437b012af68d5dfcbc9ab2494be368e66a6d0d"
+    },
+    {
+      "commit": "e3e1125988026a3dd3dbca55f4a00a1e19d19bed",
+      "path": "research/challenge-8/kani-k1/kani3300/b1ia/COVERAGE-GAPS.md",
+      "sha256": "9d1c24e028e6158a67d304f9c6442361cf5207b95ae1c7f1b903562d6a4bfe45"
+    }
+  ],
+  "c1p_reference": {
+    "commit": "d8d3e6d4ca675c9734d6ce140890bc478daf0b43",
+    "path": "research/challenge-8/kani-k1/kani3300/c1p/CONTROL-MATRIX.json",
+    "sha256": "efff1f3f4a1635964f066ac01f437b012af68d5dfcbc9ab2494be368e66a6d0d"
+  },
+  "c1p_input_ids": [
+    "promoted_direct_legal",
+    "promoted_direct_left_hole",
+    "promoted_direct_right_hole",
+    "promoted_helper_legal",
+    "promoted_helper_left_hole",
+    "promoted_helper_right_hole",
+    "spec:dynamic-choice",
+    "spec:coalesced-offset",
+    "flat_whole_copy_legal",
+    "flat_whole_copy_left_hole",
+    "flat_whole_copy_right_hole",
+    "raw-eq-uninit::raw_eq_initialized_arrays",
+    "raw-eq-uninit::raw_eq_initialized_array_references",
+    "raw-eq-uninit::raw_eq_initialized_storage",
+    "raw-eq-uninit::raw_eq_left_uninitialized_byte",
+    "raw-eq-uninit::raw_eq_right_uninitialized_byte",
+    "raw-eq-uninit::raw_eq_padding_is_uninitialized",
+    "maybe-uninit-initialized::array_value_as_used_by_merge_output",
+    "maybe-uninit-initialized::partial_copy_preserves_written_byte",
+    "maybe-uninit-initialized::slice_offset_and_reinitialization",
+    "spec:slice-offset-pair",
+    "maybe-uninit-transfers::overwrite_copy_written_byte",
+    "maybe-uninit-overwrite-copy::overwrite_copy",
+    "maybe-uninit-transfers::reset_after_zst_then_initialize",
+    "maybe-uninit-reset-zst::reset_after_zst",
+    "maybe-uninit-reset-alias::reset_through_another_alias",
+    "maybe-uninit-transfers::overlap_copy_left_written_slot",
+    "maybe-uninit-transfers::overlap_copy_right_written_slot",
+    "maybe-uninit-overlap-copy::overlap_copy_left",
+    "maybe-uninit-overlap-copy::overlap_copy_right",
+    "maybe-uninit-typed-transfer-data::raw_nonoverlapping_copy_preserves_padding",
+    "maybe-uninit-typed-transfer-data::raw_copy_preserves_padding",
+    "maybe-uninit-typed-transfer-data::typed_assignment_preserves_data",
+    "maybe-uninit-typed-transfer-data::typed_argument_return_preserves_data",
+    "maybe-uninit-typed-transfer-data::typed_array_preserves_data",
+    "maybe-uninit-typed-transfer-data::raw_array_copy_preserves_second_slot_padding",
+    "maybe-uninit-typed-return-padding::typed_return_discards_written_padding",
+    "maybe-uninit-typed-array-partial-data::typed_array_preserves_second_slot_unwritten_data",
+    "maybe-uninit-initialized::raw_read_after_write",
+    "maybe-uninit-transfers::complete_padded_transmute",
+    "spec:ordinary-normal-return",
+    "item-return-initialized-plain::item_return_preserves_initialized_value",
+    "item-return-initialized-seeded::item_return_preserves_initialized_value",
+    "item-return-uninit-plain::item_return_preserves_uninitialized_read",
+    "item-return-uninit-seeded::item_return_preserves_uninitialized_read",
+    "spec:abnormal-return",
+    "raw-eq-uninit::raw_eq_zero_sized",
+    "spec:zst-protocol",
+    "maybe-uninit-transfers::argument_return_both_initialized",
+    "spec:legal-pfc",
+    "maybe-uninit-contract-frame::frame_negative",
+    "maybe-uninit-contract-clause::clause_pfc_negative",
+    "maybe-uninit-call-pairing::initialized_argument_return_control",
+    "maybe-uninit-call-pairing::nested_same_size_calls_preserve_selected_uninit",
+    "spec:root-order",
+    "spec:fn-def-resolution-err-empty-entry",
+    "spec:bodyless-shim-and-llvm",
+    "spec:bodyful-shim-direct-shadow-argument-only",
+    "spec:bodyful-shim-shadow-return-only",
+    "spec:by-value-dst",
+    "spec:ordinary-union-constant",
+    "spec:backend-hook-return"
+  ],
+  "binding_requirements_common": [
+    "Exact source/toolchain/target/layout/flags/solver/bounds/resource limits; original compiler/solver exits.",
+    "Retained MIR Instance/ConstOperand/call CFG and each raw_eq operand -> origin set/relevance -> emitted GOTO symbol/expression -> runtime object/offset/extent.",
+    "Property ID/class/source span/status/reachability; selected witness and last reset/seed/setter/snapshot/transfer. No invented IDs.",
+    "New model-candidate outcome NOT_RUN; baseline D0 failures/source claims do not establish a candidate negative or proof PASS."
+  ],
+  "invariants": {
+    "I1": "state categories",
+    "I2": "complete coverage",
+    "I3": "false and unknown preserved",
+    "I4": "compiler/runtime identity bridge",
+    "I5": "range and typed/raw semantics",
+    "I6": "post-reset seed lifecycle",
+    "I7": "compatible coalescing and immutability",
+    "I8": "all origins/relevance/effects",
+    "I9": "call edges and private protocol",
+    "I10": "source-bound evidence"
+  },
+  "controls": [
+    {
+      "id": "promoted-direct",
+      "c1p_control": "promoted-direct",
+      "inputs": [
+        "promoted_direct_legal",
+        "promoted_direct_left_hole",
+        "promoted_direct_right_hole"
+      ],
+      "invariants": [
+        "I1",
+        "I2",
+        "I3",
+        "I4",
+        "I6"
+      ],
+      "semantic_expected": [
+        "Legal: both full byte extents initialized, reached checks SUCCESS and equality true.",
+        "Left/right negatives: reached uninit byte-read failure at offset 0/2 on respective operand; valid MU references before read."
+      ],
+      "required_binding": [
+        "Actual promoted/anonymous ConstOperand and referent AllocId; byte Some/None mask, mutability and relocation data.",
+        "Direct operands -> runtime object/offset=0/extent=3 -> witness byte and preceding state origin."
+      ],
+      "lowering_unknowns": [
+        "Promotion and None mask are hypotheses; actual allocation bytes required.",
+        "Equal full references may coalesce; two source expressions do not prove distinct objects.",
+        "Retained raw_eq/CheckAs operand order and IDs UNKNOWN despite three-byte shape."
+      ],
+      "falsifies_design": "A retained direct promoted None read succeeds, or legal Some bytes fail after exact seed.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M0/M1 model owner 14; C1 controls owner 15"
+    },
+    {
+      "id": "promoted-helper",
+      "c1p_control": "promoted-helper",
+      "inputs": [
+        "promoted_helper_legal",
+        "promoted_helper_left_hole",
+        "promoted_helper_right_hole"
+      ],
+      "invariants": [
+        "I2",
+        "I3",
+        "I4",
+        "I8"
+      ],
+      "semantic_expected": [
+        "Legal: both full byte extents initialized, reached checks SUCCESS and equality true.",
+        "Left/right negatives: reached uninit byte-read failure at offset 0/2 on respective operand; valid MU references before read."
+      ],
+      "required_binding": [
+        "Actual promoted/anonymous ConstOperand and referent AllocId; byte Some/None mask, mutability and relocation data.",
+        "Caller reference -> helper formal -> raw_eq operand -> runtime object/offset=0/extent=3 -> witness byte and preceding state origin."
+      ],
+      "lowering_unknowns": [
+        "Promotion and None mask are hypotheses; actual allocation bytes required.",
+        "Equal full references may coalesce; two source expressions do not prove distinct objects.",
+        "Retained raw_eq/CheckAs operand order and IDs UNKNOWN despite three-byte shape."
+      ],
+      "falsifies_design": "Helper loses an origin/offset or its selected None byte succeeds.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M0/M1 model owner 14; C1 controls owner 15"
+    },
+    {
+      "id": "dynamic-selection",
+      "c1p_control": "dynamic-selection",
+      "inputs": [
+        "spec:dynamic-choice"
+      ],
+      "invariants": [
+        "I2",
+        "I3",
+        "I4",
+        "I8"
+      ],
+      "semantic_expected": [
+        "Reach all four object pairs; legal equality true. Each hole is detected on the chosen operand; no blessing by reference type."
+      ],
+      "required_binding": [
+        "Selection MIR branches, points-to alternatives and reachability covers for each boolean pair.",
+        "Per alternative AllocId/local identity -> runtime object/offset/extent; selected witness and mask."
+      ],
+      "lowering_unknowns": [
+        "A whole-object points-to edge does not prove referent offset or branch coverage.",
+        "Source condition may simplify; runtime choice and required raw_eq must survive."
+      ],
+      "falsifies_design": "Any of four reached origin pairs loses its local hole or treats a local as immutable.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M1/M3 owner 14; C1 owner 15"
+    },
+    {
+      "id": "coalescing-alias-offset",
+      "c1p_control": "coalescing-alias-offset",
+      "inputs": [
+        "spec:coalesced-offset"
+      ],
+      "invariants": [
+        "I4",
+        "I5",
+        "I7"
+      ],
+      "semantic_expected": [
+        "Legal views compare true; holes inside each selected extent fail. A hole outside extent does not cause failure."
+      ],
+      "required_binding": [
+        "AllocId coalescing equivalence, parent object identity, offset composition and bounds 0..6.",
+        "Both operand mappings, raw_eq extent=3 and witness at view-relative offset."
+      ],
+      "lowering_unknowns": [
+        "Compiler may merge equal constants; runtime pointer equality is not init/provenance evidence.",
+        "Cast, subrange lowering and retained intrinsic UNKNOWN."
+      ],
+      "falsifies_design": "Reuse joins incompatible masks, shifted hole passes, or outside-range hole falsely fails.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M0/M1/M3 owner 14; C1 owner 15"
+    },
+    {
+      "id": "flat-whole-array-copy",
+      "c1p_control": "flat-whole-array-copy",
+      "inputs": [
+        "flat_whole_copy_legal",
+        "flat_whole_copy_left_hole",
+        "flat_whole_copy_right_hole"
+      ],
+      "invariants": [
+        "I2",
+        "I3",
+        "I5",
+        "I9"
+      ],
+      "semantic_expected": [
+        "Positive scalar reads each copied byte as 7 and retained raw_eq equality true.",
+        "Negative copies one unwritten byte over previously initialized destination; respective left/right raw_eq byte check fails."
+      ],
+      "required_binding": [
+        "copy_nonoverlapping::<[MU<u8>;3]>, count=1, original pointer types retained; no conversion to unrelated slot-only test.",
+        "source/destination different live allocations, offset=0 extent=3; raw snapshot transfers false as well as true; destination view binds each raw_eq operand."
+      ],
+      "lowering_unknowns": [
+        "Three-byte raw_eq is intended to resist InstSimplify, retention NOT_RUN.",
+        "Array aggregate or copy simplification may erase required path; reject misbound control rather than credit it."
+      ],
+      "falsifies_design": "Raw array-pointer copy drops false/padding, or no source-following counterexample survives.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M0/M2/M3 owner 14; C1 owner 15"
+    },
+    {
+      "id": "existing-local-raw-eq",
+      "c1p_control": "existing-local-raw-eq",
+      "inputs": [
+        "raw-eq-uninit::raw_eq_initialized_arrays",
+        "raw-eq-uninit::raw_eq_initialized_array_references",
+        "raw-eq-uninit::raw_eq_initialized_storage",
+        "raw-eq-uninit::raw_eq_left_uninitialized_byte",
+        "raw-eq-uninit::raw_eq_right_uninitialized_byte",
+        "raw-eq-uninit::raw_eq_padding_is_uninitialized"
+      ],
+      "invariants": [
+        "I2",
+        "I3",
+        "I5"
+      ],
+      "semantic_expected": [
+        "Legal comparisons true/false follow scalar bytes. Holes fail on respective operand; padded 12-byte payload fails on padding."
+      ],
+      "required_binding": [
+        "Each actual raw_eq instance and operand -> object/offset/extent; per-harness JSON ID, class and reached status.",
+        "Padding target layout size=12 offset(value)=4 and typed mask; no numeric property ID inferred."
+      ],
+      "lowering_unknowns": [
+        "Existing source shapes are not new runtime evidence.",
+        "Scalar fixture can simplify; 3/12 byte inputs still require retained MIR binding."
+      ],
+      "falsifies_design": "A left/right/padding read negative disappears, or required local legal check fails.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "C1/G1 owner 15; M1-M3 owner 14"
+    },
+    {
+      "id": "ordinary-array-equality",
+      "c1p_control": "ordinary-array-equality",
+      "inputs": [
+        "maybe-uninit-initialized::array_value_as_used_by_merge_output",
+        "maybe-uninit-initialized::partial_copy_preserves_written_byte"
+      ],
+      "invariants": [
+        "I2",
+        "I4",
+        "I6",
+        "I9"
+      ],
+      "semantic_expected": [
+        "Both legal equality harnesses must pass on corrected candidate; required equality properties reached."
+      ],
+      "required_binding": [
+        "D0-A exact MIR/SpecArrayEq instance, both references, promotion/local allocation mapping, selected witness and last setter/transfer.",
+        "Bind any normal-edge call destination to same object later consumed by equality."
+      ],
+      "lowering_unknowns": [
+        "Coordinator reports known selector failure; exact source/run property mapping not read here.",
+        "No claim that right operand caused failure, setter is absent, or root order caused it."
+      ],
+      "falsifies_design": "Either D0 legal .2 remains false after matched seed, or existing left normal setter is lost.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "D0-A/M0/M1/M2 owner 14; G1 owner 15"
+    },
+    {
+      "id": "flat-slice-subrange",
+      "c1p_control": "flat-slice-subrange",
+      "inputs": [
+        "maybe-uninit-initialized::slice_offset_and_reinitialization",
+        "maybe-uninit-initialized::partial_copy_preserves_written_byte",
+        "spec:slice-offset-pair"
+      ],
+      "invariants": [
+        "I3",
+        "I4",
+        "I5",
+        "I8"
+      ],
+      "semantic_expected": [
+        "Written bytes retain scalar values; hole reaches own u8 read after copy; adjacent/outside bytes unchanged."
+      ],
+      "required_binding": [
+        "Fat-pointer metadata/length, base object + slice start + slot offset, copy range and nonoverlap.",
+        "Transferred false/true state and witness in second source/destination slot; checks reached."
+      ],
+      "lowering_unknowns": [
+        "Existing partial_copy legal equality remains known failing; not a standalone clean pair.",
+        "New nonzero-offset spec NOT_RUN, existing slot-copy is not whole-array-pointer coverage."
+      ],
+      "falsifies_design": "Composed slice/slot offset selects wrong byte or writes outside destination extent.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M2/M3 owner 14; C1 owner 15"
+    },
+    {
+      "id": "overwrite-reset",
+      "c1p_control": "overwrite-reset",
+      "inputs": [
+        "maybe-uninit-transfers::overwrite_copy_written_byte",
+        "maybe-uninit-overwrite-copy::overwrite_copy",
+        "maybe-uninit-transfers::reset_after_zst_then_initialize",
+        "maybe-uninit-reset-zst::reset_after_zst",
+        "maybe-uninit-reset-alias::reset_through_another_alias"
+      ],
+      "invariants": [
+        "I3",
+        "I5",
+        "I6"
+      ],
+      "semantic_expected": [
+        "Initialized prefix retains 7; copied unwritten tail fails. Reinitialized scalar 7 passes; reset alias read fails."
+      ],
+      "required_binding": [
+        "Last state update before each read, object identity and offset/extent; snapshot-before-overwrite order.",
+        "Positive and independent negative harness JSON properties; no stale true survives reset."
+      ],
+      "lowering_unknowns": [
+        "Direct MU and flat storage paths differ; existing pair does not settle all flat aliases.",
+        "Alias validity must be independently established; alias model error cannot count as desired uninit failure."
+      ],
+      "falsifies_design": "Reference use reseeds overwritten/reset mutable storage or true survives a required false source transfer.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M2/M3 owner 14; C1 owner 15"
+    },
+    {
+      "id": "overlap",
+      "c1p_control": "overlap",
+      "inputs": [
+        "maybe-uninit-transfers::overlap_copy_left_written_slot",
+        "maybe-uninit-transfers::overlap_copy_right_written_slot",
+        "maybe-uninit-overlap-copy::overlap_copy_left",
+        "maybe-uninit-overlap-copy::overlap_copy_right"
+      ],
+      "invariants": [
+        "I3",
+        "I5"
+      ],
+      "semantic_expected": [
+        "Written slot reads 3/1 respectively; copied hole fails on destination 0/2."
+      ],
+      "required_binding": [
+        "One allocation, source/destination offset, extent=2 slots, snapshot state before mutation and selected witness."
+      ],
+      "lowering_unknowns": [
+        "Iteration order or in-place shadow update must not corrupt memmove semantics.",
+        "Each independent negative must reach intended read without earlier Unsupported."
+      ],
+      "falsifies_design": "Either direction reads post-write shadow instead of the source snapshot or loses hole history.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M3 owner 14; C1 owner 15"
+    },
+    {
+      "id": "typed-versus-raw",
+      "c1p_control": "typed-versus-raw",
+      "inputs": [
+        "maybe-uninit-typed-transfer-data::raw_nonoverlapping_copy_preserves_padding",
+        "maybe-uninit-typed-transfer-data::raw_copy_preserves_padding",
+        "maybe-uninit-typed-transfer-data::typed_assignment_preserves_data",
+        "maybe-uninit-typed-transfer-data::typed_argument_return_preserves_data",
+        "maybe-uninit-typed-transfer-data::typed_array_preserves_data",
+        "maybe-uninit-typed-transfer-data::raw_array_copy_preserves_second_slot_padding",
+        "maybe-uninit-typed-return-padding::typed_return_discards_written_padding",
+        "maybe-uninit-typed-array-partial-data::typed_array_preserves_second_slot_unwritten_data"
+      ],
+      "invariants": [
+        "I3",
+        "I5",
+        "I9"
+      ],
+      "semantic_expected": [
+        "Raw copy preserves written padding 0x5a; typed data survives but padding becomes false; false data remains false."
+      ],
+      "required_binding": [
+        "Target layout/stride, D(T) field mask and whole extent; second-slot offset and payload offset composed once.",
+        "Typed transfers/return0 protocol and raw snapshot distinguished in actual MIR and byte witness."
+      ],
+      "lowering_unknowns": [
+        "No full-true return setter may overwrite false/padding.",
+        "Architecture-specific layout assertions must bind actual target; raw_eq padded test alone does not cover typed path."
+      ],
+      "falsifies_design": "Typed transfer initializes false data/padding or raw copy clears initialized padding.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M0/M2 owner 14; C1 owner 15"
+    },
+    {
+      "id": "ordinary-call-normal-edge",
+      "c1p_control": "ordinary-call-normal-edge",
+      "inputs": [
+        "maybe-uninit-initialized::raw_read_after_write",
+        "maybe-uninit-transfers::complete_padded_transmute",
+        "spec:ordinary-normal-return"
+      ],
+      "invariants": [
+        "I4",
+        "I5",
+        "I9"
+      ],
+      "semantic_expected": [
+        "Only proved typed data initialization on normal edge; equality legal, padding not blessed."
+      ],
+      "required_binding": [
+        "Actual Item+Some body and ABI; normal target block destination identity -> reference consumed by raw_eq.",
+        "Relevance/last existing setter or transfer including complete trace; do not assume missing setter from temporary spelling."
+      ],
+      "lowering_unknowns": [
+        "Existing raw_read_after_write carries shadow MU; it does not close ordinary T return destination gap.",
+        "New ordinary produce spec NOT_RUN; depends on D0 evidence."
+      ],
+      "falsifies_design": "Setter targets different destination/range, blesses padding, or runs without proved typed initialization.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "D0-A/M0/M2 owner 14; C1 owner 15"
+    },
+    {
+      "id": "shadow-return-false",
+      "c1p_control": "shadow-return-false",
+      "inputs": [
+        "item-return-initialized-plain::item_return_preserves_initialized_value",
+        "item-return-initialized-seeded::item_return_preserves_initialized_value",
+        "item-return-uninit-plain::item_return_preserves_uninitialized_read",
+        "item-return-uninit-seeded::item_return_preserves_uninitialized_read"
+      ],
+      "invariants": [
+        "I3",
+        "I5",
+        "I9"
+      ],
+      "semantic_expected": [
+        "Initialized scalar 7 reaches successful read; uninit u16 read fails, no spurious shadow-protocol Unsupported."
+      ],
+      "required_binding": [
+        "Actual Item/body/ABI from generic closure route, caller stores/entry loads/return0 store/load signature,count,index,size.",
+        "Plain/seeded target set, points-to/relevance, witness false and every reached protocol assertion."
+      ],
+      "lowering_unknowns": [
+        "Source FnOnce spelling does not prove Shim kind.",
+        "Aggregate Quick does not establish named property outcomes or seed activation."
+      ],
+      "falsifies_design": "Item false return becomes true, true return falsely fails, or plain/seeded entry load is missing.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M2 owner 14; C1/G1 owner 15"
+    },
+    {
+      "id": "unwind-abort",
+      "c1p_control": "unwind-abort",
+      "inputs": [
+        "spec:abnormal-return"
+      ],
+      "invariants": [
+        "I6",
+        "I9"
+      ],
+      "semantic_expected": [
+        "No shadow initialization or return0 consumption on abnormal edge; legal normal companion still passes."
+      ],
+      "required_binding": [
+        "Terminator unwind kind and target blocks under actual flags; call reachability before abort, normal-edge-only insertions and protocol completion."
+      ],
+      "lowering_unknowns": [
+        "panic=abort may make unwind form unavailable; ordinary Rust source alone cannot prove both edges."
+      ],
+      "falsifies_design": "Normal destination setter or return0 consumption executes on unwind/abort.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M2 owner 14; C1 owner 15"
+    },
+    {
+      "id": "zero-nonzero-zst",
+      "c1p_control": "zero-nonzero-zst",
+      "inputs": [
+        "raw-eq-uninit::raw_eq_zero_sized",
+        "raw-eq-uninit::raw_eq_left_uninitialized_byte",
+        "maybe-uninit-transfers::reset_after_zst_then_initialize",
+        "maybe-uninit-reset-zst::reset_after_zst",
+        "spec:zst-protocol"
+      ],
+      "invariants": [
+        "I4",
+        "I5",
+        "I9"
+      ],
+      "semantic_expected": [
+        "Proven empty raw comparison true; zero operations do not suppress later nonempty failure or reset. ZST ABI pairing valid."
+      ],
+      "required_binding": [
+        "Actual zero/nonzero extent, target size/stride, body/ABI and retained protocol count/index.",
+        "Do not require nonexistent byte witness for extent 0; nonempty hole must have reached byte failure."
+      ],
+      "lowering_unknowns": [
+        "Empty control cannot substitute for nonempty negative; zero count may still evaluate pointer object/offset.",
+        "Ordinary padded-union zero arms require separate dependency, not canonical MU proof."
+      ],
+      "falsifies_design": "Zero extent indexes a mask, corrupts count/index pairing, or suppresses later nonempty failure.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M0/M3 owner 14; C1 owner 15"
+    },
+    {
+      "id": "legal-pfc-modifies",
+      "c1p_control": "legal-pfc-modifies",
+      "inputs": [
+        "maybe-uninit-transfers::argument_return_both_initialized",
+        "spec:legal-pfc"
+      ],
+      "invariants": [
+        "I6",
+        "I9",
+        "I10"
+      ],
+      "semantic_expected": [
+        "All three legal modes pass, reached scalar 7; private shadow updates do not trigger false frame violation."
+      ],
+      "required_binding": [
+        "Actual transformed PFC roots/contract wrappers, callable Instance/ABI and DFCC allowed static set.",
+        "Reached frame/property statuses, protocol pair identity and source/tool/solver/bounds/time/memory identities."
+      ],
+      "lowering_unknowns": [
+        "No pinned legal modifies/PFC MU fixture found in source search; exact spec remains NOT_RUN.",
+        "Base PASS/candidate OOM is resource regression; aggregate script PASS does not prove this."
+      ],
+      "falsifies_design": "Legal roundtrip fails on private seed/frame state or transformed root omits reset/seed.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "C1/G2 owner 15; DFCC/model coordination owner 14"
+    },
+    {
+      "id": "frame-clause-negatives",
+      "c1p_control": "frame-clause-negatives",
+      "inputs": [
+        "maybe-uninit-contract-frame::frame_negative",
+        "maybe-uninit-contract-clause::clause_pfc_negative"
+      ],
+      "invariants": [
+        "I3",
+        "I9",
+        "I10"
+      ],
+      "semantic_expected": [
+        "Out-of-modifies user write fails frame property. Clause reading uninit u16 fails uninit property; no false frame from private shadow."
+      ],
+      "required_binding": [
+        "Actual rewritten roots, call/return shadow pairing, property class/source span and per-harness reached status."
+      ],
+      "lowering_unknowns": [
+        "Generic FAILED cannot distinguish intended frame/clause failure from early Unsupported, ICE, timeout or unreachability."
+      ],
+      "falsifies_design": "User frame violation passes or clause hole is hidden by seed/private-state exemption.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "C1/G2 owner 15"
+    },
+    {
+      "id": "shared-specialization-root-order",
+      "c1p_control": "shared-specialization-root-order",
+      "inputs": [
+        "raw-eq-uninit::raw_eq_initialized_array_references",
+        "maybe-uninit-call-pairing::initialized_argument_return_control",
+        "maybe-uninit-call-pairing::nested_same_size_calls_preserve_selected_uninit",
+        "spec:root-order"
+      ],
+      "invariants": [
+        "I6",
+        "I7",
+        "I8",
+        "I10"
+      ],
+      "semantic_expected": [
+        "Each root retains same required properties/outcome/ordering independent of root order. Legal and negative outcomes remain distinct."
+      ],
+      "required_binding": [
+        "Shared Instance generic arguments, BodyTransformation cache pre/post entries, root iteration order and exact transformed MIR per root.",
+        "Match named JSON properties semantically; do not assume numeric property IDs stable across root order."
+      ],
+      "lowering_unknowns": [
+        "Shared cache mechanism is static fact; causal order-dependent verdict remains UNKNOWN.",
+        "No separate tests copied from D0 or implementation of K0 here."
+      ],
+      "falsifies_design": "Root order changes descriptor closure, required checks, source-following paths or semantic outcomes.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "D0-A/K0 owner 14 if causal evidence; C1/G1 owner 15"
+    },
+    {
+      "id": "fn-def-resolution-err-empty-entry",
+      "c1p_control": "fn-def-resolution-err-empty-entry",
+      "inputs": [
+        "spec:fn-def-resolution-err-empty-entry"
+      ],
+      "invariants": [
+        "I3",
+        "I8",
+        "I9"
+      ],
+      "semantic_expected": [
+        "Support / Unsupported / UNKNOWN must be separated; no impossible Instance accepted as coverage.",
+        "For reachable unsupported form: earlier entry loads and operand checks retained, exactly one appropriate Unsupported before effects, no resolver/body unwrap ICE.",
+        "For unavailable legal MIR form: record constraint and UNKNOWN; specification is not executed compiler test."
+      ],
+      "required_binding": [
+        "Actual caller/callee kind, body availability, ABI and operand/destination types.",
+        "Measured initial seed targets, prior graph and local visitor path; normal/abnormal edge, ordered load/check/Unsupported properties.",
+        "See corresponding compiler specification for API feasibility constraints."
+      ],
+      "lowering_unknowns": [
+        "B1IA FnPtr/tuple/Item controls do not establish Shim/resolver Err.",
+        "No framework/visitor mock or new ABI/guard support is implemented."
+      ],
+      "falsifies_design": "Resolver failure loses prior loads/checks/targets or causes unwrap ICE before reached Unsupported.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "C1 owner 15 after M0; shared production boundary model owner 14"
+    },
+    {
+      "id": "bodyless-shim-and-llvm",
+      "c1p_control": "bodyless-shim-and-llvm",
+      "inputs": [
+        "spec:bodyless-shim-and-llvm"
+      ],
+      "invariants": [
+        "I3",
+        "I8",
+        "I9"
+      ],
+      "semantic_expected": [
+        "Support / Unsupported / UNKNOWN must be separated; no impossible Instance accepted as coverage.",
+        "For reachable unsupported form: earlier entry loads and operand checks retained, exactly one appropriate Unsupported before effects, no resolver/body unwrap ICE.",
+        "For unavailable legal MIR form: record constraint and UNKNOWN; specification is not executed compiler test."
+      ],
+      "required_binding": [
+        "Actual caller/callee kind, body availability, ABI and operand/destination types.",
+        "Measured initial seed targets, prior graph and local visitor path; normal/abnormal edge, ordered load/check/Unsupported properties.",
+        "See corresponding compiler specification for API feasibility constraints."
+      ],
+      "lowering_unknowns": [
+        "B1IA FnPtr/tuple/Item controls do not establish Shim/resolver Err.",
+        "No framework/visitor mock or new ABI/guard support is implemented."
+      ],
+      "falsifies_design": "Bodyless route enters body unwrap or effects without a qualified model/reached guard.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "C1 owner 15 after M0; shared production boundary model owner 14"
+    },
+    {
+      "id": "bodyful-shim-direct-shadow-argument-only",
+      "c1p_control": "bodyful-shim-direct-shadow-argument-only",
+      "inputs": [
+        "spec:bodyful-shim-direct-shadow-argument-only"
+      ],
+      "invariants": [
+        "I3",
+        "I9"
+      ],
+      "semantic_expected": [
+        "Support / Unsupported / UNKNOWN must be separated; no impossible Instance accepted as coverage.",
+        "For reachable unsupported form: earlier entry loads and operand checks retained, exactly one appropriate Unsupported before effects, no resolver/body unwrap ICE.",
+        "For unavailable legal MIR form: record constraint and UNKNOWN; specification is not executed compiler test."
+      ],
+      "required_binding": [
+        "Actual caller/callee kind, body availability, ABI and operand/destination types.",
+        "Measured initial seed targets, prior graph and local visitor path; normal/abnormal edge, ordered load/check/Unsupported properties.",
+        "See corresponding compiler specification for API feasibility constraints."
+      ],
+      "lowering_unknowns": [
+        "B1IA FnPtr/tuple/Item controls do not establish Shim/resolver Err.",
+        "No framework/visitor mock or new ABI/guard support is implemented."
+      ],
+      "falsifies_design": "Unpaired argument-only call starts transfer or escapes exact Unsupported.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "C1 owner 15 after M0; shared production boundary model owner 14"
+    },
+    {
+      "id": "bodyful-shim-shadow-return-only",
+      "c1p_control": "bodyful-shim-shadow-return-only",
+      "inputs": [
+        "spec:bodyful-shim-shadow-return-only"
+      ],
+      "invariants": [
+        "I3",
+        "I9"
+      ],
+      "semantic_expected": [
+        "Support / Unsupported / UNKNOWN must be separated; no impossible Instance accepted as coverage.",
+        "For reachable unsupported form: earlier entry loads and operand checks retained, exactly one appropriate Unsupported before effects, no resolver/body unwrap ICE.",
+        "For unavailable legal MIR form: record constraint and UNKNOWN; specification is not executed compiler test."
+      ],
+      "required_binding": [
+        "Actual caller/callee kind, body availability, ABI and operand/destination types.",
+        "Measured initial seed targets, prior graph and local visitor path; normal/abnormal edge, ordered load/check/Unsupported properties.",
+        "See corresponding compiler specification for API feasibility constraints."
+      ],
+      "lowering_unknowns": [
+        "B1IA FnPtr/tuple/Item controls do not establish Shim/resolver Err.",
+        "No framework/visitor mock or new ABI/guard support is implemented."
+      ],
+      "falsifies_design": "Unpaired return-only call blesses destination or consumes return0.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "C1 owner 15 after M0; shared production boundary model owner 14"
+    },
+    {
+      "id": "by-value-dst",
+      "c1p_control": "by-value-dst",
+      "inputs": [
+        "spec:by-value-dst"
+      ],
+      "invariants": [
+        "I4",
+        "I5",
+        "I9"
+      ],
+      "semantic_expected": [
+        "Support / Unsupported / UNKNOWN must be separated; no impossible Instance accepted as coverage.",
+        "For reachable unsupported form: earlier entry loads and operand checks retained, exactly one appropriate Unsupported before effects, no resolver/body unwrap ICE.",
+        "For unavailable legal MIR form: record constraint and UNKNOWN; specification is not executed compiler test."
+      ],
+      "required_binding": [
+        "Actual caller/callee kind, body availability, ABI and operand/destination types.",
+        "Measured initial seed targets, prior graph and local visitor path; normal/abnormal edge, ordered load/check/Unsupported properties.",
+        "See corresponding compiler specification for API feasibility constraints."
+      ],
+      "lowering_unknowns": [
+        "B1IA FnPtr/tuple/Item controls do not establish Shim/resolver Err.",
+        "No framework/visitor mock or new ABI/guard support is implemented."
+      ],
+      "falsifies_design": "Sized helpers are instantiated for by-value DST before a guard, or metadata is dropped.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "C1 owner 15 after M0; shared production boundary model owner 14"
+    },
+    {
+      "id": "ordinary-union-constant",
+      "c1p_control": "ordinary-union-constant",
+      "inputs": [
+        "spec:ordinary-union-constant"
+      ],
+      "invariants": [
+        "I3",
+        "I5",
+        "I9"
+      ],
+      "semantic_expected": [
+        "Support / Unsupported / UNKNOWN must be separated; no impossible Instance accepted as coverage.",
+        "For reachable unsupported form: earlier entry loads and operand checks retained, exactly one appropriate Unsupported before effects, no resolver/body unwrap ICE.",
+        "For unavailable legal MIR form: record constraint and UNKNOWN; specification is not executed compiler test."
+      ],
+      "required_binding": [
+        "Actual caller/callee kind, body availability, ABI and operand/destination types.",
+        "Measured initial seed targets, prior graph and local visitor path; normal/abnormal edge, ordered load/check/Unsupported properties.",
+        "See corresponding compiler specification for API feasibility constraints."
+      ],
+      "lowering_unknowns": [
+        "B1IA FnPtr/tuple/Item controls do not establish Shim/resolver Err.",
+        "No framework/visitor mock or new ABI/guard support is implemented."
+      ],
+      "falsifies_design": "Retained union constant reaches operand place unwrap or gains unqualified padding semantics.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "C1 owner 15 after M0; shared production boundary model owner 14"
+    },
+    {
+      "id": "backend-hook-return",
+      "c1p_control": "backend-hook-return",
+      "inputs": [
+        "spec:backend-hook-return"
+      ],
+      "invariants": [
+        "I3",
+        "I6",
+        "I9"
+      ],
+      "semantic_expected": [
+        "Support / Unsupported / UNKNOWN must be separated; no impossible Instance accepted as coverage.",
+        "For reachable unsupported form: earlier entry loads and operand checks retained, exactly one appropriate Unsupported before effects, no resolver/body unwrap ICE.",
+        "For unavailable legal MIR form: record constraint and UNKNOWN; specification is not executed compiler test."
+      ],
+      "required_binding": [
+        "Actual caller/callee kind, body availability, ABI and operand/destination types.",
+        "Measured initial seed targets, prior graph and local visitor path; normal/abnormal edge, ordered load/check/Unsupported properties.",
+        "See corresponding compiler specification for API feasibility constraints."
+      ],
+      "lowering_unknowns": [
+        "B1IA FnPtr/tuple/Item controls do not establish Shim/resolver Err.",
+        "No framework/visitor mock or new ABI/guard support is implemented."
+      ],
+      "falsifies_design": "Backend interception skips required false return/seed protocol without reached Unsupported.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "C1 owner 15 after M0; shared production boundary model owner 14"
+    },
+    {
+      "id": "actual-some-none-mask",
+      "c1p_control": null,
+      "inputs": [
+        {
+          "kind": "NONEXECUTED_SPECIFICATION",
+          "execution": "NOT_RUN",
+          "description": "actual-some-none-mask"
+        }
+      ],
+      "invariants": [
+        "I1",
+        "I2",
+        "I3",
+        "I6"
+      ],
+      "semantic_expected": [
+        "Some(0) and Some(nonzero) seed true; None remains false, including None backend-filled as zero.",
+        "Legal all-Some passes; interior None on either operand fails intended byte check."
+      ],
+      "required_binding": [
+        "Actual referent bytes before unwrap_or(0), freeze/mutability and offset; emitted field byte mapping; post-reset selected witness for Some and None."
+      ],
+      "lowering_unknowns": [
+        "Future control must be retained/reachable; M0 adds no fixture or compiler input."
+      ],
+      "falsifies_design": "Mask follows byte value, D(T), zero-fill or reference type rather than Option bytes.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M1/M3 owner 14, C1 controls owner 15 on separate assignment"
+    },
+    {
+      "id": "coalescing-incompatible-descriptor",
+      "c1p_control": null,
+      "inputs": [
+        {
+          "kind": "NONEXECUTED_SPECIFICATION",
+          "execution": "NOT_RUN",
+          "description": "coalescing-incompatible-descriptor"
+        }
+      ],
+      "invariants": [
+        "I4",
+        "I7"
+      ],
+      "semantic_expected": [
+        "Identical descriptors share one seed; deliberately conflicting registry binding stops emission."
+      ],
+      "required_binding": [
+        "alloc_map miss/hit requested AllocIds -> canonical returned symbol; full masks/extents/mutability/relocations and diagnostic."
+      ],
+      "lowering_unknowns": [
+        "Future control must be retained/reachable; M0 adds no fixture or compiler input."
+      ],
+      "falsifies_design": "Conflicting descriptors are silently merged, overwritten or accepted; valid reuse duplicates incompatible seed.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M1/M3 owner 14, C1 controls owner 15 on separate assignment"
+    },
+    {
+      "id": "reset-registry-closure",
+      "c1p_control": null,
+      "inputs": [
+        {
+          "kind": "NONEXECUTED_SPECIFICATION",
+          "execution": "NOT_RUN",
+          "description": "reset-registry-closure"
+        }
+      ],
+      "invariants": [
+        "I2",
+        "I4",
+        "I6",
+        "I7"
+      ],
+      "semantic_expected": [
+        "Each reset completion applies immutable seed before user effects; unmatched mutable witness remains false.",
+        "Repeated aliases do not reseed; singleton/AB/BA roots have compatible closure and preserve required inventory."
+      ],
+      "required_binding": [
+        "All marked ordinary/PFC reset call sites and finalized GOTO reset body; static materialization order; last reset/seed relative to first transfer/read."
+      ],
+      "lowering_unknowns": [
+        "Future control must be retained/reachable; M0 adds no fixture or compiler input."
+      ],
+      "falsifies_design": "Late symbol or transformed root misses seed, reference use seeds again, or prior false transfer is overwritten.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M1/M3 owner 14, C1 controls owner 15 on separate assignment"
+    },
+    {
+      "id": "named-static-and-unsafecell",
+      "c1p_control": null,
+      "inputs": [
+        {
+          "kind": "NONEXECUTED_SPECIFICATION",
+          "execution": "NOT_RUN",
+          "description": "named-static-and-unsafecell"
+        }
+      ],
+      "invariants": [
+        "I1",
+        "I3",
+        "I7",
+        "I8"
+      ],
+      "semantic_expected": [
+        "Named static follows qualified existing initialization history; mutable/UnsafeCell storage never receives immutable seed.",
+        "No positive admission through erased &T/cast, even if backend hardcodes const; missing tracked coverage diagnoses."
+      ],
+      "required_binding": [
+        "Actual source allocation mutability/freeze/UnsafeCell metadata through casts; aliases/write sites; named static path and any alloc_map reuse."
+      ],
+      "lowering_unknowns": [
+        "Future control must be retained/reachable; M0 adds no fixture or compiler input."
+      ],
+      "falsifies_design": "Reference type/backend const flag admits mutable state or seed hides a legal false reset.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M1/M3 owner 14, C1 controls owner 15 on separate assignment"
+    },
+    {
+      "id": "carrier-and-referent-relocations",
+      "c1p_control": null,
+      "inputs": [
+        {
+          "kind": "NONEXECUTED_SPECIFICATION",
+          "execution": "NOT_RUN",
+          "description": "carrier-and-referent-relocations"
+        }
+      ],
+      "invariants": [
+        "I3",
+        "I4",
+        "I5"
+      ],
+      "semantic_expected": [
+        "Exact pointer carrier provenance/addend decodes supported referent; bounds/width/target mismatches reject.",
+        "Relocation-bearing referent is pre-effect Unsupported until byte-exact pointer interval support is separately qualified."
+      ],
+      "required_binding": [
+        "Target pointer width/endianness; carrier initialized addend interval and relocation target; referent mask read independently; reached guard before read/copy."
+      ],
+      "lowering_unknowns": [
+        "Future control must be retained/reachable; M0 adds no fixture or compiler input."
+      ],
+      "falsifies_design": "Carrier mask substitutes for target mask, offset is lost, relocation interval None becomes true, or guard occurs after effect.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M1/M3 owner 14, C1 controls owner 15 on separate assignment"
+    },
+    {
+      "id": "unknown-origin-extent-effects",
+      "c1p_control": null,
+      "inputs": [
+        {
+          "kind": "NONEXECUTED_SPECIFICATION",
+          "execution": "NOT_RUN",
+          "description": "unknown-origin-extent-effects"
+        }
+      ],
+      "invariants": [
+        "I2",
+        "I3",
+        "I8"
+      ],
+      "semantic_expected": [
+        "Unknown branch alternative or heap/foreign/realloc tracked effect reaches guard before effect, preserving earlier loads/checks.",
+        "Required flat stack arrays/slices remain supported; unknown coverage blocks release instead of silent exclusion."
+      ],
+      "required_binding": [
+        "Finite origin alternatives including Unknown; CFG reachability, pointee writes/copy and guard ordering; no missing branch or checked byte."
+      ],
+      "lowering_unknowns": [
+        "Future control must be retained/reachable; M0 adds no fixture or compiler input."
+      ],
+      "falsifies_design": "Empty graph/no-match becomes initialized, or unsupported boundary exists only in prose.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M1/M3 owner 14, C1 controls owner 15 on separate assignment"
+    },
+    {
+      "id": "seed-idempotence-byte-layout",
+      "c1p_control": null,
+      "inputs": [
+        {
+          "kind": "NONEXECUTED_SPECIFICATION",
+          "execution": "NOT_RUN",
+          "description": "seed-idempotence-byte-layout"
+        }
+      ],
+      "invariants": [
+        "I4",
+        "I6",
+        "I7"
+      ],
+      "semantic_expected": [
+        "Repeated seed in the seed phase is equivalent for all witness offsets; no mutable state changed.",
+        "A byte-exact emitted object map is required; implicit padding/size mismatch rejects admission."
+      ],
+      "required_binding": [
+        "Generated guarded assignment F and exact mask/source/emitted layout; symbolic case partition unmatched/Some/None/out-of-range; live object disjointness/reuse equality."
+      ],
+      "lowering_unknowns": [
+        "Future control must be retained/reachable; M0 adds no fixture or compiler input."
+      ],
+      "falsifies_design": "F(F(S)) differs in seed phase, seed order changes state, or emitted padding shifts the source mask.",
+      "model_candidate_outcome": "NOT_RUN",
+      "stage_owner": "M1/M3 owner 14, C1 controls owner 15 on separate assignment"
+    }
+  ],
+  "d0_observation_scope": {
+    "run": "43209338134",
+    "harness_results": 12,
+    "property_2": "FAILURE in all 12 results",
+    "property_1": "SUCCESS, no independent successful witness",
+    "captures_capped": 12,
+    "complete_target_fragments": 4,
+    "other_target_fragments": "8 UNAVAILABLE",
+    "runtime_object_size": "UNKNOWN; extent 4 mask/type-derived",
+    "cache": "singleton reproduces .2; +2 ptr::write checks on second codegen root remain separate inventory delta",
+    "candidate_credit": false
+  },
+  "acceptance": {
+    "design_only": true,
+    "proof_credit": false,
+    "B1_bounded_evidence": "not newly established",
+    "B2_full_proof": "NOT_RUN",
+    "new_controls": "NOT_RUN",
+    "model_candidate": "NOT_RUN",
+    "small_sort_actual_scratch_replay": "NOT_RUN; separate source/toolchain bound legal+negative replay required",
+    "stop": "Reviewed M0 only; M1/C1 activation require separate assignment",
+    "cloud_usd": 0,
+    "dispatches": 0
+  }
+}

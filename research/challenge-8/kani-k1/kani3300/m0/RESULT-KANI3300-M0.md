@@ -1,0 +1,13 @@
+# KANI3300 M0 — REVIEWED DESIGN / STOP
+- Selected source-bound immutable-mask seeding after every completed nondet witness reset, before user effects.
+- Contract covers compiler/runtime identities, byte masks, coalescing, offsets, mutability, source-following false transfers and finite boundaries.
+- Flat arrays/slices remain required; D0 left normal-return setter is retained. M2 is qualification, not a presumed missing-setter fix.
+- Implementation plan orders M1 → M2 → M3; B1I-A dependencies and unresolved ABI/guard obligations remain explicit.
+- CONTROL-MAP.json: all 25 C1 obligations / 62 input references plus seven falsification obligations (32 rows).
+- Independent Luna High review: no concrete soundness finding; exact candidate/spec/packet identities in REVIEW.md.
+- Static checks PASS: JSON/references, pinned input/source SHA256, source clone clean, line limits, reviewed semantic bytes and diff whitespace.
+- D0 limits retained: 12 capped captures, four complete target fragments, eight unavailable; runtime OBJECT_SIZE UNKNOWN.
+- New model/control outcomes NOT_RUN; no new B1/B2 proof credit or general cache-independence claim.
+- Only five M0 research files changed; production/tests/diagnostics/workflows and historical evidence untouched.
+- Cloud $0; no local compiler/verifier, builds/Actions/Cloud dispatch, raw artifacts or external publication beyond authorized g0 push.
+- STOP: M0 design gate complete; M1/C1 activation require separate assignments. No implementation or CI acceptance claimed.
