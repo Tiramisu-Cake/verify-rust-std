@@ -55,3 +55,7 @@ All other model functions, main constructor, Begin/reset/finalizer/skip/provider
 caller instrumentation, registry and old tests are byte- or token-compared to base.
 Pinned TASK-M1 rustfmt formats/checks only the two source files; diff --check and
 bounded Python audit check field coverage, capture/guard placement and unchanged code.
+
+Research container diff --check reports only the one-space context line at SOURCE.patch:37
+and identical review-packet/diff.patch:37. These are immutable patch data, not source
+whitespace defects; patch hashes are preserved. Actual source diff --check passes.

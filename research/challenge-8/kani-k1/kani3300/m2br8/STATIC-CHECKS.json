@@ -28,5 +28,15 @@
   "composed_tests_tree": "b887d2a2074e158368a6b1f04f5c971f48c69bdd",
   "new_controls_patch_sha256": "9c8693997682e7be48230fabcf0d01f29c41f93d298bfa06898682d090efb2f2",
   "arithmetic_sanity_cases": 14805,
-  "proof_credit": 0
+  "proof_credit": 0,
+  "source_git_diff_check": "PASS",
+  "pinned_rustfmt_check": "PASS_NOT_COMPILATION",
+  "research_container_diff_check": {
+    "status": "PATCH_CONTEXT_WARNING",
+    "paths": [
+      "SOURCE.patch:37",
+      "review-packet/diff.patch:37"
+    ],
+    "reason": "Literal full-index git patch has a context-only empty source line represented by one ASCII space. git diff --cached --check reports that data line as trailing whitespace. Actual Kani source git diff --check passes; immutable reviewed patch bytes/hashes retained."
+  }
 }
