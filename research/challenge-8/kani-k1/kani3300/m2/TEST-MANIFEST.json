@@ -1,0 +1,693 @@
+{
+  "schema": "kani3300-m2-test-manifest-v1",
+  "status": "PREPARED_NOT_RUN_BINDINGS_UNKNOWN",
+  "kind": "pure qualification; no model repair",
+  "clone": "/root/kani-fix-3300-m2",
+  "branch": "experiment/kani-3300-m2-qualification",
+  "base_commit": "5abdcf982da6aff65662e198af27a9c776830a89",
+  "base_tree": "960a71c70b3f890b4f5cd2b53a83f6a0f8e00951",
+  "m1_production_commit": "254ae69662b3206cd4432dae0cd44c534b1b13fb",
+  "candidate_commit": "5f7f2b7364135a0a8b7cfd86c43b4491a8911bac",
+  "candidate_tree": "b2bbb7366a9fbac33398fb01be7300f83a1d27bd",
+  "test_delta": ".../transfer-qualification/legal-pair.expected     |  5 +++\n .../uninit/transfer-qualification/legal-pair.rs    | 47 ++++++++++++++++++++++\n .../transfer-qualification/normal-abort.expected   |  4 ++\n .../uninit/transfer-qualification/normal-abort.rs  | 22 ++++++++++\n .../transfer-qualification/out-pointer.expected    |  6 +++\n .../uninit/transfer-qualification/out-pointer.rs   | 40 ++++++++++++++++++\n .../postcondition-hole.expected                    |  4 ++\n .../transfer-qualification/postcondition-hole.rs   | 22 ++++++++++\n 8 files changed, 150 insertions(+)",
+  "source_delta": [],
+  "changed_files": [
+    {
+      "path": "tests/expected/uninit/transfer-qualification/legal-pair.expected",
+      "sha256": "d9efa4dfaf33963a0c5c668577ccd2e76d1e212d58d1af7767f98540ac9a8558"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+      "sha256": "3385d702baa91965af565878f1f1d8e27a1de37a0ea52da3595cb5e609d8e363"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/normal-abort.expected",
+      "sha256": "c36dbee1067f87faf285206a72733ff0f13b3f434ee28d3f679083fe5f031ef8"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/normal-abort.rs",
+      "sha256": "45021f2a9ed44e1162b21a0c758decc7b879eb9c50e91dfba57f9c0736b43471"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/out-pointer.expected",
+      "sha256": "625af5ac4e60045acd47aadd15e00b8fc4db524ebd1dd911b50761dd042f20f0"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+      "sha256": "7610c67c89302bbcdd541ebaa8d70651c5a3231a0909b28126452b233a79d280"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+      "sha256": "4d4ff2b6fca8cc5bc556fe159c3d9a03dfc5defd93c9cad7d8d8554c12568031"
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759"
+    }
+  ],
+  "new_harness_count": 6,
+  "new_rs_selectors": 4,
+  "new_controls": [
+    {
+      "selector": "legal-pair::legal_ordinary_transfer",
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+        "sha256": "3385d702baa91965af565878f1f1d8e27a1de37a0ea52da3595cb5e609d8e363"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/legal-pair.expected",
+        "sha256": "d9efa4dfaf33963a0c5c668577ccd2e76d1e212d58d1af7767f98540ac9a8558"
+      },
+      "harness": "legal_ordinary_transfer",
+      "semantic_expected": "SUCCESS",
+      "obligation": "Same target initializes its own data without assume/requires; true-arm scalar read7, explicitly written [1,2,3] ordinary normal destination and immutable RHS comparison. Ordinary proof calls original target body without PFC/verified stub; contracts not used as assumptions.",
+      "binding_profiles": [
+        "normal-destination",
+        "item-protocol",
+        "immutable-reset"
+      ],
+      "source_protocol": {
+        "select": {
+          "function": "select",
+          "signature": "(MU<u8>,MU<u8>,bool)->MU<u8>",
+          "shadow_parameter_indices": [
+            1,
+            2
+          ],
+          "ordinary_indices": [
+            3
+          ],
+          "shadow_count": 2,
+          "normal_return_index": 0,
+          "normal_return_count": 0,
+          "numeric_signature": "UNKNOWN; must match actual monomorphic Ty::to_index at store/load",
+          "selected_source": "true arm index1 value7; false unselected index2; no credit for false arm from legal pair"
+        },
+        "write_initialized": {
+          "signature": "(&mut [u8;3])->u8",
+          "shadow_parameter_indices": [],
+          "shadow_count": 0,
+          "normal_return": "ordinary u8; no shadow return0",
+          "modifies": "out only"
+        }
+      },
+      "target_sites": [
+        "select true arm -> assume_init at legal-pair.rs:18 -> assertion:19",
+        "MU<[u8;3]> byte writes:24..26 -> assume_init normal destination:28 -> array equality:30 -> out assignment:31",
+        "PFC ensures:14; harness read/assertions:38..39 or45..46"
+      ],
+      "observed": {
+        "compile": "NOT_RUN",
+        "runtime": "NOT_RUN",
+        "property_ids": null,
+        "operand_cfg_binding": "UNKNOWN",
+        "golden_match": "NOT_RUN"
+      },
+      "early_failure_policy": "Unsupported, prior validity UB, frame masking, lost check or extra failure blocks acceptance; overall verdict/golden substring alone insufficient."
+    },
+    {
+      "selector": "legal-pair::legal_pfc_transfer",
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+        "sha256": "3385d702baa91965af565878f1f1d8e27a1de37a0ea52da3595cb5e609d8e363"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/legal-pair.expected",
+        "sha256": "d9efa4dfaf33963a0c5c668577ccd2e76d1e212d58d1af7767f98540ac9a8558"
+      },
+      "harness": "legal_pfc_transfer",
+      "semantic_expected": "SUCCESS",
+      "obligation": "Same target initializes its own data without assume/requires; true-arm scalar read7, explicitly written [1,2,3] ordinary normal destination and immutable RHS comparison. PFC useful ensures and user frame all succeed; private witness/buffer exempt only.",
+      "binding_profiles": [
+        "normal-destination",
+        "item-protocol",
+        "immutable-reset",
+        "contract-private"
+      ],
+      "source_protocol": {
+        "select": {
+          "function": "select",
+          "signature": "(MU<u8>,MU<u8>,bool)->MU<u8>",
+          "shadow_parameter_indices": [
+            1,
+            2
+          ],
+          "ordinary_indices": [
+            3
+          ],
+          "shadow_count": 2,
+          "normal_return_index": 0,
+          "normal_return_count": 0,
+          "numeric_signature": "UNKNOWN; must match actual monomorphic Ty::to_index at store/load",
+          "selected_source": "true arm index1 value7; false unselected index2; no credit for false arm from legal pair"
+        },
+        "write_initialized": {
+          "signature": "(&mut [u8;3])->u8",
+          "shadow_parameter_indices": [],
+          "shadow_count": 0,
+          "normal_return": "ordinary u8; no shadow return0",
+          "modifies": "out only"
+        }
+      },
+      "target_sites": [
+        "select true arm -> assume_init at legal-pair.rs:18 -> assertion:19",
+        "MU<[u8;3]> byte writes:24..26 -> assume_init normal destination:28 -> array equality:30 -> out assignment:31",
+        "PFC ensures:14; harness read/assertions:38..39 or45..46"
+      ],
+      "observed": {
+        "compile": "NOT_RUN",
+        "runtime": "NOT_RUN",
+        "property_ids": null,
+        "operand_cfg_binding": "UNKNOWN",
+        "golden_match": "NOT_RUN"
+      },
+      "early_failure_policy": "Unsupported, prior validity UB, frame masking, lost check or extra failure blocks acceptance; overall verdict/golden substring alone insufficient."
+    },
+    {
+      "selector": "postcondition-hole::postcondition_reads_returned_hole",
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+        "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+        "sha256": "4d4ff2b6fca8cc5bc556fe159c3d9a03dfc5defd93c9cad7d8d8554c12568031"
+      },
+      "harness": "postcondition_reads_returned_hole",
+      "semantic_expected": "FAILURE:intended postcondition uninit u8",
+      "obligation": "Scalar MU false selected on false branch, no typed u8 until ensures read. Body returns valid MU; no requires, frame write or earlier uninit read.",
+      "binding_profiles": [
+        "item-protocol",
+        "contract-private"
+      ],
+      "source_protocol": {
+        "select": {
+          "function": "select",
+          "signature": "(MU<u8>,MU<u8>,bool)->MU<u8>",
+          "shadow_parameter_indices": [
+            1,
+            2
+          ],
+          "ordinary_indices": [
+            3
+          ],
+          "shadow_count": 2,
+          "normal_return_index": 0,
+          "normal_return_count": 0,
+          "numeric_signature": "UNKNOWN; must match actual monomorphic Ty::to_index at store/load",
+          "selected_source": "false arm index2 has false payload; true arg initialized17"
+        },
+        "postcondition_target": {
+          "signature": "()->MU<u8>",
+          "shadow_parameter_indices": [],
+          "shadow_count": 0,
+          "normal_return_index": 0,
+          "normal_return_count": 0,
+          "numeric_signature": "UNKNOWN; actual generated target/clause instances must bind"
+        }
+      },
+      "target_sites": [
+        "select false source:16 -> return0 through target/generated PFC -> ensures assume_init_read:14",
+        "harness:21 keeps result unread; reached property must bind postcondition clause/helper, not caller or earlier conversion"
+      ],
+      "observed": {
+        "compile": "NOT_RUN",
+        "runtime": "NOT_RUN",
+        "property_ids": null,
+        "operand_cfg_binding": "UNKNOWN",
+        "golden_match": "NOT_RUN"
+      },
+      "early_failure_policy": "Unsupported, prior validity UB, frame masking, lost check or extra failure blocks acceptance; overall verdict/golden substring alone insufficient."
+    },
+    {
+      "selector": "out-pointer::out_pointer_fully_written",
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+        "sha256": "7610c67c89302bbcdd541ebaa8d70651c5a3231a0909b28126452b233a79d280"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/out-pointer.expected",
+        "sha256": "625af5ac4e60045acd47aadd15e00b8fc4db524ebd1dd911b50761dd042f20f0"
+      },
+      "harness": "out_pointer_fully_written",
+      "semantic_expected": "SUCCESS",
+      "obligation": "MU<[u8;3]> remains valid storage; ordinary Item write_bytes writes offsets0,2 and optionally1. Full=true initializes all data before legal assume_init and three useful assertions.",
+      "binding_profiles": [
+        "normal-destination",
+        "item-protocol"
+      ],
+      "source_protocol": {
+        "write_bytes": {
+          "signature": "unsafe (*mut u8,bool)->()",
+          "shadow_parameter_indices": [],
+          "shadow_count": 0,
+          "normal_return": "unit; no shadow return0",
+          "pointee_range": "3 bytes; explicit writes0,2; write1 only if full; pointer initialization must not bless pointee"
+        }
+      },
+      "target_sites": [
+        "fully: caller22 normal return -> assume_init23 -> useful checks24..26",
+        "hole: call34 normal return -> initialized reads35..36 -> only intended hole raw read38"
+      ],
+      "observed": {
+        "compile": "NOT_RUN",
+        "runtime": "NOT_RUN",
+        "property_ids": null,
+        "operand_cfg_binding": "UNKNOWN",
+        "golden_match": "NOT_RUN"
+      },
+      "early_failure_policy": "Unsupported, prior validity UB, frame masking, lost check or extra failure blocks acceptance; overall verdict/golden substring alone insufficient."
+    },
+    {
+      "selector": "out-pointer::out_pointer_preserves_middle_hole",
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+        "sha256": "7610c67c89302bbcdd541ebaa8d70651c5a3231a0909b28126452b233a79d280"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/out-pointer.expected",
+        "sha256": "625af5ac4e60045acd47aadd15e00b8fc4db524ebd1dd911b50761dd042f20f0"
+      },
+      "harness": "out_pointer_preserves_middle_hole",
+      "semantic_expected": "FAILURE:intended middle u8 read",
+      "obligation": "MU<[u8;3]> remains valid storage; ordinary Item write_bytes writes offsets0,2 and optionally1. Full=false preserves byte1=false at normal return; written neighbor reads succeed, final raw byte1 read fails; no assume_init or typed u8 reference to hole.",
+      "binding_profiles": [
+        "normal-destination",
+        "item-protocol"
+      ],
+      "source_protocol": {
+        "write_bytes": {
+          "signature": "unsafe (*mut u8,bool)->()",
+          "shadow_parameter_indices": [],
+          "shadow_count": 0,
+          "normal_return": "unit; no shadow return0",
+          "pointee_range": "3 bytes; explicit writes0,2; write1 only if full; pointer initialization must not bless pointee"
+        }
+      },
+      "target_sites": [
+        "fully: caller22 normal return -> assume_init23 -> useful checks24..26",
+        "hole: call34 normal return -> initialized reads35..36 -> only intended hole raw read38"
+      ],
+      "observed": {
+        "compile": "NOT_RUN",
+        "runtime": "NOT_RUN",
+        "property_ids": null,
+        "operand_cfg_binding": "UNKNOWN",
+        "golden_match": "NOT_RUN"
+      },
+      "early_failure_policy": "Unsupported, prior validity UB, frame masking, lost check or extra failure blocks acceptance; overall verdict/golden substring alone insufficient."
+    },
+    {
+      "selector": "normal-abort::normal_return_or_abort",
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/normal-abort.rs",
+        "sha256": "45021f2a9ed44e1162b21a0c758decc7b879eb9c50e91dfba57f9c0736b43471"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/normal-abort.expected",
+        "sha256": "c36dbee1067f87faf285206a72733ff0f13b3f434ee28d3f679083fe5f031ef8"
+      },
+      "harness": "normal_return_or_abort",
+      "semantic_expected": "FAILURE:panic only",
+      "obligation": "Same ordinary Item has true panic=abort path and false initialized normal return7. Actual abnormal edge must execute no return0/normal destination update; normal useful read succeeds.",
+      "binding_profiles": [
+        "item-protocol",
+        "normal-abnormal"
+      ],
+      "source_protocol": {
+        "return_or_abort": {
+          "signature": "(bool)->MU<u8>",
+          "shadow_parameter_indices": [],
+          "shadow_count": 0,
+          "normal_return_index": 0,
+          "normal_return_count": 0,
+          "numeric_signature": "UNKNOWN",
+          "abnormal": "panic branch line11 diverges; no Return/return0 store on that path; caller normal target not executed"
+        }
+      },
+      "target_sites": [
+        "arbitrary bool caller20 -> abort=true panic property:11",
+        "abort=false new7:13 -> return0 normal destination -> assume_init and assert:21"
+      ],
+      "observed": {
+        "compile": "NOT_RUN",
+        "runtime": "NOT_RUN",
+        "property_ids": null,
+        "operand_cfg_binding": "UNKNOWN",
+        "golden_match": "NOT_RUN"
+      },
+      "early_failure_policy": "Unsupported, prior validity UB, frame masking, lost check or extra failure blocks acceptance; overall verdict/golden substring alone insufficient."
+    }
+  ],
+  "unchanged_existing_files": [
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-buffer/expected",
+      "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+      "sha256": "09e5dd454f0cfcfeed1d9df436507c7d705270e85ee11592347113d58f9f1f55",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-return/expected",
+      "sha256": "a9ed8039903d8bd6f56d7c563703e213d99020d235038e5107a1395a264a807c",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+      "sha256": "345db788d839c5f40fae3454d7ec8d1a8b805a208554a8fcad04ee53027ff9b9",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+      "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+      "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+      "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+      "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+      "sha256": "5fc89460489e7ac8dafe69f0ad722ae5d4d3a31776f945c0f78beda15aa38ad9",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+      "sha256": "778925cfde695f7899091ebab25513e7d755784dcbbd1ea92d844432bc8263ba",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+      "sha256": "f5c45585e405fe570d88eddb69b76b6299a04ebaba168cc08e2b36bb3bbb09c2",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+      "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-argument-padding/expected",
+      "sha256": "e83aa826b29d95fb0bc06ed4a29305fddcd83013b731632080057c99e25f1ebf",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-argument-padding/main.rs",
+      "sha256": "b72b3f4808b58061054d143ee568c044aea48671910e4f5ca33be41dc36ed069",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-array-padding/expected",
+      "sha256": "8449105fe45ea1e2d85f086560fb455a50cacc89829786769e6a7933c802e2a3",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-array-padding/main.rs",
+      "sha256": "a3c0904fd8767b90f1874ed545e3044ea4e37b5469182a7a1f3e99186e156f7c",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-array-partial-data/expected",
+      "sha256": "2617ae16f7ebf312962f17c4865f34488d877fa20fad1295f2d015b8c7780e8c",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-array-partial-data/main.rs",
+      "sha256": "305f8ed325072dd0b38a248545f537c232305d4c1c51faece5a4d996c70d67de",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-assignment-padding/expected",
+      "sha256": "c94be9f0da890e6794c6acfecb309d79f28afe249d43b525176e79a82b41b5f2",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-assignment-padding/main.rs",
+      "sha256": "cdd1a6b0dd8c30f24445763d259321b764ba96b56080ff1aeae1bd068b12cd49",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-partial-data/expected",
+      "sha256": "d26d98dece9be35bb33e29a176415c0f17eec3ce785da7dd39b44932d43b62b3",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-partial-data/main.rs",
+      "sha256": "c18b33e1162acee6a333ed99e50972271e401ce0c5ddfade9869f7bd24b66e84",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-return-padding/expected",
+      "sha256": "c1597735af5a52d4758072b0c27736bbdf1688023fc0d64347cf206e1fb6f0d7",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-return-padding/main.rs",
+      "sha256": "f19f8e2bc02f0281e657d4141a034bbc555c03fe2269c98a45e6d9f5ad025282",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+      "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+      "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.expected",
+      "sha256": "01b4090216f499e81ff422a226fc38567d4e416d2aa098ec8f7116404b158b02",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.rs",
+      "sha256": "aa5357e8045efafb8bb243929df8b3bd31ed5a908e99d0317dd6b25c813dd698",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.expected",
+      "sha256": "01b4090216f499e81ff422a226fc38567d4e416d2aa098ec8f7116404b158b02",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.rs",
+      "sha256": "fbe6805e726adbade11a4537cd5323427bbf62defda35b3aaf885d1b6f40578a",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.expected",
+      "sha256": "d1f1033878992e7bf97a7757032b911073b7fa0101aaad6d1e2f128e17176105",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.rs",
+      "sha256": "bf506c1957000f30aa2df2e7b3aa100c413ef8637bfa859abdcb65a81c9fbceb",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.expected",
+      "sha256": "d1f1033878992e7bf97a7757032b911073b7fa0101aaad6d1e2f128e17176105",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.rs",
+      "sha256": "33d68b3dda4f5334733f5244cd07e7c27862e4a6019ecca9655c2ea090071cc6",
+      "unchanged_from_base": true
+    }
+  ],
+  "unchanged_source_dependencies": [
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "sha256": "baa2013d98a84784366602ea3f9e63bbbde408816a5a947032267737014e4c5a",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "sha256": "d85c1adf759d9913e05c2a4effbb47cf66b3f35a11d2f198c12a9497d7d96dba",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+      "sha256": "c42871a769affb1499c55085c2c1e6b04a8cb42deddc3828aa3347cb79700518",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "sha256": "ecc52ea5051460be8be2bdfbff17e94d0f62fa0f7e292854c1e8ce21e3764970",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "sha256": "213fae0a8faf44a50b7c4e0a1e3d4498fcc5de3a94368be6a592cedd78745abe",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "sha256": "27f1e6721b3a4f3ec4e27d19e45a481369ae3e8a8907fe50a0e189a0c044682f",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "sha256": "e888310d3f46c1bdbfc39a091ddeebd29c9173694da25db0132f654cbf775d37",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "sha256": "b4b1edf5242be38a8079fdd5657356181dbc76eb5ba63889f72b56f72ccea52a",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/body.rs",
+      "sha256": "930636ad1ab2290fb2b10f1970f2283f6e29c52de9a7b1696c7767c041a469d5",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+      "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+      "sha256": "cf0433855bf460b679d6202effbece3dcdd4d2f920cff274b53e359cfeb21957",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "sha256": "c01ced42f97efdbc8d6a34c75f229753af59f380549518af971ecea672cd72b2",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "sha256": "b90b5b19d9fdaedae2657e8fc42f52912063f47fb734c157e2d72413054c3087",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+      "sha256": "f2623f1e067bf223d50896085944d51eecab8ea41f13cc87c80e737cd41ce6d9",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "library/kani_core/src/mem_init.rs",
+      "sha256": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "library/kani_core/src/lib.rs",
+      "sha256": "bb77d147b03f64586bb38a31edafaddc0c99e3cc3fb65a5c5c541b4fc0198649",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "library/kani_macros/src/sysroot/contracts/mod.rs",
+      "sha256": "f35c85f8686d47ec5f967497ff413deb177a15f81cce235ecb750da45d9a23bf",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "kani-compiler/src/kani_compiler.rs",
+      "sha256": "7e6d3e1b08ae7b5efc0954c41079db0e515dad62b0072b9f7136ec3f6b9cc956",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
+      "unchanged_from_base": true
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "984ef4cea51f0ad74124311f5cd09fca6d9c8c37bdbb9a8f29dd87cce842fadb",
+      "unchanged_from_base": true
+    }
+  ],
+  "toolchain": "nightly-2026-10-23; rust-lang/rust@7189d39d9 per pinned M1 source audit",
+  "target_layout": "actual CI target/solver/bounds UNKNOWN; Padded fixtures assert offset value4 size8 stride8; new scalar/3-byte cases architecture-small",
+  "coordinator_reported_history": [
+    {
+      "source": "5abdcf982da6aff65662e198af27a9c776830a89",
+      "quick": "43222702257",
+      "ci_commit": "05024a2112b77da6d86d29f3d272bbc74ad5df98",
+      "claims": "fmt/build/clippy PASS; immutable_allocations5/0; kani22/0; expected130/0/2ignored; ui14/0; script1/0; unchanged D0 legal PASS; immutable-masks4 and C1-T6 matched",
+      "assurance": "coordinator-reported aggregate; not independent property binding"
+    },
+    {
+      "test_commit_prefix": "c2d607d9d5",
+      "model": "baseline",
+      "quick": "43225818126",
+      "claims": "4 u8 mixed false FAIL [u8;3]; 4 nested MU cases Unsupported contains union before raw_eq",
+      "assurance": "user/coordinator-reported; no raw evidence inspected"
+    },
+    {
+      "source_prefix": "d8a39dbc00",
+      "model": "M1+same mixed",
+      "quick": "43225812282",
+      "claims": "4 u8 PASS; 4 nested MU cases same Unsupported MaybeUninit<[MaybeUninit<u8>;3]> contains union before raw_eq",
+      "assurance": "user/coordinator-reported; MU cases not reached raw_eq qualification"
+    }
+  ],
+  "deferred": [
+    "Actual true unwind/cleanup: NOT_COVERED on panic=abort pin; no simulation.",
+    "Both initialized conditional arms as separate positives: true arm selected here, existing arbitrary-bool negative binds false only; no both-arm claim from one FAILURE.",
+    "Adjacent byte outside three-byte storage not probed separately; partial middle-hole tests non-blessing of in-object unwritten neighbor.",
+    "Nested MU-array C1-T2 Unsupported repair/qualification belongs to separate coordinator task; no framework/ABI/source repair here.",
+    "M3 offsets/aliases/reuse/general cache and full gate are outside this stage."
+  ],
+  "local_checks": {
+    "diff_check": "PASS_STATIC_ONLY",
+    "rustfmt_wrapper": "PASS_FORMAT_ONLY",
+    "imports_api_D_warnings": "STATIC_AUDIT_ONLY; compilation NOT_RUN",
+    "hash_inventory": "PASS_STATIC_ONLY",
+    "compilation": "NOT_RUN",
+    "runtime": "NOT_RUN",
+    "property_inventory": "NOT_RUN",
+    "golden_matching": "NOT_RUN"
+  },
+  "review": {
+    "status": "COMPLETED_STATIC",
+    "reviewer": "/root/m2_review",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "candidate_commit": "5f7f2b7364135a0a8b7cfd86c43b4491a8911bac",
+    "candidate_tree": "b2bbb7366a9fbac33398fb01be7300f83a1d27bd",
+    "normalized_spec_sha256": "3b4e661761cd48b1e45fbb9be9dc17a01cc50a45a1cdb9a4e35d0010ee6ea02f",
+    "packet_sha256": "7dd95aa580cb2652c30bf56130d1bbe0c95a1f82befdb3c6c5c63b42a3aab70d",
+    "report_sha256": "3fd41d38559a3daecbefd565850cea64e9f125da3633bb33f9296cb7e901eece",
+    "verdict": "No concrete source-level test contract/input validity/masking/CFG defect; conditional static pass only; runtime acceptance NOT_RUN",
+    "nested_delegation": false
+  },
+  "cloud_usd": 0,
+  "ci_dispatches": 0,
+  "kani_push": false,
+  "B1": "no new evidence",
+  "B2": "NOT_RUN",
+  "proof_credit": "NONE",
+  "acceptance": "BLOCKED pending exact reached properties/operand/CFG/protocol/reset bindings; READY means reviewed candidate availability only."
+}

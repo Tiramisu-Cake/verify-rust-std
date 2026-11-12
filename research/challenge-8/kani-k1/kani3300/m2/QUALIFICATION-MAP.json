@@ -1,0 +1,1434 @@
+{
+  "schema": "kani3300-m2-qualification-map-v1",
+  "status": "STATIC_MAP_RUNTIME_BINDINGS_UNKNOWN",
+  "base_commit": "5abdcf982da6aff65662e198af27a9c776830a89",
+  "candidate_commit": "5f7f2b7364135a0a8b7cfd86c43b4491a8911bac",
+  "binding_profiles": {
+    "normal-destination": {
+      "source_rule": "delayed_ub/instrumentation_visitor.rs::visit_place: mutating relevant/common-ancestor destination -> SetRef(true, After). Existing D0 left normal-edge setter; not added by M2.",
+      "required": [
+        "Retain actual call, destination place/type, source and normal target. Bind typed D(T) and setter before first destination read.",
+        "After-terminator split changes only target: Some(normal); abnormal path must not execute setter.",
+        "For shadow returns, require actual LoadArgument(index0) source-following false branch as well as any ordinary destination instrumentation; no blessing claim from optimistic branch."
+      ]
+    },
+    "item-protocol": {
+      "source_rule": "ptr_uninit/uninit_visitor.rs::{find_all,visit_terminator,has_transfer_protocol}; check_uninit/mod.rs::build_argument_operation; mem_init.rs::{begin_argument_transfer,store_argument,load_argument}",
+      "signature_expression": "monomorphic function Ty::to_index() cast to target usize; concrete numeric value UNKNOWN until observed in this model",
+      "required": [
+        "Actual resolved InstanceKind::Item, !is_foreign_item, has_body, same monomorphic function/signature/size at stores and loads; ordinary argument gaps retain original one-based local indices.",
+        "Begin count is number of shadow arguments, not highest index or total argument count. Callee loads each exactly once at entry before effects/nested calls.",
+        "Store all source witnesses before ANY Move source SetRef(false), then call. Copy and ordinary temporary effects distinguished.",
+        "Source-following selected path must carry actual source false plus relative offset through load mask; optimistic destination branch is NOT concrete initialized state on all branches.",
+        "Callee Return stores index0 before leaving live return place; caller normal destination LoadArgument(index0,count0), mandatory return slot, same signature/layout. No return0 on panic/abort edge.",
+        "All protocol assertions reached SUCCESS; no missing/unpaired transfer. Record each index/count/signature/store/load/selected branch and property IDs in observed artifact."
+      ]
+    },
+    "raw-typed": {
+      "source_rule": "PointeeInfo::{for_storage,for_typed_storage,for_deinit}; check_uninit/mod.rs::{build_copy,build_assign_union,transfer_mask}; mem_init.rs::{copy_by_id,load_argument}",
+      "required": [
+        "Bind target offset/size/stride assertions and actual D(Padded)=[T,F,F,F,T,T,T,T], extent8, data0 and4..7; array stride8.",
+        "Raw copy uses full true extent; typed assignment/argument/return uses D(T), discards padding, preserves false data on source-following branch.",
+        "Both copy alternatives, snapshot before source death/reset/overlap, destination range and final intended byte property; extra/early failures reject acceptance."
+      ],
+      "applicability": "Padded mask/stride assertions apply only to Padded fixtures. D0 raw extent4 and flat byte cases bind their own actual extent/mask separately."
+    },
+    "contract-private": {
+      "source_rule": "contract.rs::codegen_modifies_contract; library/kani_macros/src/sysroot/contracts/mod.rs::proof_for_contract; UninitPass; immutable_allocations.rs::finalize_immutable_allocations",
+      "required": [
+        "Bind actual transformed PFC root and target/clauses, reset completion -> seed -> first effect; clause-depth reset before init_contracts and first dispatch.",
+        "MEM_INIT_STATE is verifier-private assigns object incl argument-buffer fields; user outside write remains frame failure. CONTRACT_CLAUSE_DEPTH internal marker/prefix and skipped helpers preserve clause effects.",
+        "Distinguish frame property from uninit in requires/ensures. Legal useful assertions/ensures and frame checks all SUCCESS, no private-state false frame; uninit negative reached at designated clause only."
+      ]
+    },
+    "immutable-reset": {
+      "source_rule": "immutable_allocations.rs::{prepare_immutable_allocations,finalize_immutable_allocations,seed_returns}; compiler_interface.rs::codegen_items",
+      "required": [
+        "Actual source Some/None mask before zero-fill, qualification/freeze/mutability, emitted canonical symbol/byte offsets, runtime object and range for BOTH raw_eq operands.",
+        "Per-GotocCtx registry closes after items/contracts/quantifiers before export. Every actual reset normal completion retains original nondet object/offset, false/buffer reset then seed before first user effect; no use/call-return reseed.",
+        "Retained std specialization/raw_eq CheckAs<[u8;N]>, both operand properties emitted/reached SUCCESS for legal RHS and tracked initialized LHS; disappearance/lowering mismatch is not coverage."
+      ]
+    },
+    "normal-abnormal": {
+      "source_rule": "body.rs::{split_bb_after,get_mut_target_ref}; ptr_uninit/uninit_visitor.rs::visit_terminator",
+      "required": [
+        "panic=abort pinned configuration; actual branch true reaches panic property, diverging call has no normal runtime continuation.",
+        "normal false path returns initialized value, stores/loads return0 with same signature at caller normal target and reaches successful useful read.",
+        "No executed return0 store/load or normal destination setter on abnormal path; static CFG plus reached panic trace needed, not generic FAIL.",
+        "True unwind semantics NOT_COVERED; do not insert synthetic unwind or infer cleanup behavior."
+      ],
+      "applicability": "Reached panic and true/false branch requirements apply to new normal-abort only. Existing call-move binds normal snapshots/edges only and must retain NOT_COVERED unwind; it contains no required panic experiment."
+    }
+  },
+  "existing_controls": [
+    {
+      "id": "maybe-uninit-initialized::partial_copy_preserves_written_byte",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+        "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c"
+      },
+      "harness": "partial_copy_preserves_written_byte",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+        "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "Raw extent4 copy preserves initialized byte0 and holes of copied slot; read only written byte; independent second [9;4] legal equality RHS. No claim copied slot is fully initialized.",
+      "binding_profiles": [
+        "normal-destination",
+        "immutable-reset",
+        "raw-typed"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN"
+    },
+    {
+      "id": "maybe-uninit-initialized::array_value_as_used_by_merge_output",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+        "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c"
+      },
+      "harness": "array_value_as_used_by_merge_output",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+        "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "All four explicit stack byte writes survive assume_init normal destination; native [u8;4] equality RHS immutable seed; no new setter.",
+      "binding_profiles": [
+        "normal-destination",
+        "immutable-reset",
+        "raw-typed"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN"
+    },
+    {
+      "id": "maybe-uninit-call-pairing::selected_first_argument_reads_uninit",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3"
+      },
+      "harness": "selected_first_argument_reads_uninit",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended u16 read",
+      "obligation": "select(which0) returns source first false, other two true; selected index1 false survives return0.",
+      "binding_profiles": [
+        "item-protocol",
+        "normal-destination"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "functions": [
+          "select",
+          "nested_select"
+        ],
+        "select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>,u8)->MU<u16>",
+        "nested_select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          3,
+          5
+        ],
+        "count": 3,
+        "ordinary_gap_indices": [
+          2,
+          4
+        ],
+        "select_ordinary_discriminant_index": 6,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN; require same actual monomorphic Ty::to_index per pair"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-pairing::selected_middle_argument_reads_uninit",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3"
+      },
+      "harness": "selected_middle_argument_reads_uninit",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended u16 read",
+      "obligation": "select(which1) returns source second false, other two true; selected index3 false survives gaps and return0.",
+      "binding_profiles": [
+        "item-protocol",
+        "normal-destination"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "functions": [
+          "select",
+          "nested_select"
+        ],
+        "select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>,u8)->MU<u16>",
+        "nested_select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          3,
+          5
+        ],
+        "count": 3,
+        "ordinary_gap_indices": [
+          2,
+          4
+        ],
+        "select_ordinary_discriminant_index": 6,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN; require same actual monomorphic Ty::to_index per pair"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-pairing::selected_last_argument_reads_uninit",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3"
+      },
+      "harness": "selected_last_argument_reads_uninit",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended u16 read",
+      "obligation": "select(which2) returns source third false, other two true; selected index5 false survives gaps and return0.",
+      "binding_profiles": [
+        "item-protocol",
+        "normal-destination"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "functions": [
+          "select",
+          "nested_select"
+        ],
+        "select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>,u8)->MU<u16>",
+        "nested_select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          3,
+          5
+        ],
+        "count": 3,
+        "ordinary_gap_indices": [
+          2,
+          4
+        ],
+        "select_ordinary_discriminant_index": 6,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN; require same actual monomorphic Ty::to_index per pair"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-pairing::nested_same_size_calls_preserve_selected_uninit",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3"
+      },
+      "harness": "nested_same_size_calls_preserve_selected_uninit",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended second u16 read",
+      "obligation": "First nested third=31 read SUCCESS, second nested third=false final read FAILURE; every nested and outer boundary consumes own protocol.",
+      "binding_profiles": [
+        "item-protocol",
+        "normal-destination"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "functions": [
+          "select",
+          "nested_select"
+        ],
+        "select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>,u8)->MU<u16>",
+        "nested_select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          3,
+          5
+        ],
+        "count": 3,
+        "ordinary_gap_indices": [
+          2,
+          4
+        ],
+        "select_ordinary_discriminant_index": 6,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN; require same actual monomorphic Ty::to_index per pair"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-pairing::initialized_argument_return_control",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3"
+      },
+      "harness": "initialized_argument_return_control",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "select(which0) reads11; false unselected second must not contaminate selected first.",
+      "binding_profiles": [
+        "item-protocol",
+        "normal-destination"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "functions": [
+          "select",
+          "nested_select"
+        ],
+        "select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>,u8)->MU<u16>",
+        "nested_select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          3,
+          5
+        ],
+        "count": 3,
+        "ordinary_gap_indices": [
+          2,
+          4
+        ],
+        "select_ordinary_discriminant_index": 6,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN; require same actual monomorphic Ty::to_index per pair"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-pairing::repeated_call_unread_uninit_then_initialized_return",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3"
+      },
+      "harness": "repeated_call_unread_uninit_then_initialized_return",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "Unread false first result must not leave active/stale return protocol; next selected third61 read succeeds.",
+      "binding_profiles": [
+        "item-protocol",
+        "normal-destination"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "functions": [
+          "select",
+          "nested_select"
+        ],
+        "select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>,u8)->MU<u16>",
+        "nested_select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          3,
+          5
+        ],
+        "count": 3,
+        "ordinary_gap_indices": [
+          2,
+          4
+        ],
+        "select_ordinary_discriminant_index": 6,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN; require same actual monomorphic Ty::to_index per pair"
+      }
+    },
+    {
+      "id": "maybe-uninit-argument-return::argument_return",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+        "sha256": "345db788d839c5f40fae3454d7ec8d1a8b805a208554a8fcad04ee53027ff9b9"
+      },
+      "harness": "argument_return",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-argument-return/expected",
+        "sha256": "a9ed8039903d8bd6f56d7c563703e213d99020d235038e5107a1395a264a807c"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended u16 read",
+      "obligation": "arbitrary bool first=true returns initialized9, first=false returns hole; one FAILURE credits only false arm, true arm positive added in M2.",
+      "binding_profiles": [
+        "item-protocol"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "function": "select",
+        "signature": "(MU<u16>,MU<u16>,bool)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          2
+        ],
+        "count": 2,
+        "ordinary_indices": [
+          3
+        ],
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN"
+      }
+    },
+    {
+      "id": "maybe-uninit-argument-buffer::nested_two_argument_return_reads_uninit",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+        "sha256": "09e5dd454f0cfcfeed1d9df436507c7d705270e85ee11592347113d58f9f1f55"
+      },
+      "harness": "nested_two_argument_return_reads_uninit",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-argument-buffer/expected",
+        "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended u16 read",
+      "obligation": "nested_return -> return_second -> false second argument, uninit u16 at caller only; entry loads precede nested begin.",
+      "binding_profiles": [
+        "item-protocol"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "functions": [
+          "nested_return",
+          "return_second"
+        ],
+        "signature": "(MU<u16>,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          2
+        ],
+        "count": 2,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN per function; do not equate nested signatures"
+      }
+    },
+    {
+      "id": "item-return-initialized-plain::item_return_preserves_initialized_value",
+      "source": {
+        "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.rs",
+        "sha256": "aa5357e8045efafb8bb243929df8b3bd31ed5a908e99d0317dd6b25c813dd698"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.expected",
+        "sha256": "01b4090216f499e81ff422a226fc38567d4e416d2aa098ec8f7116404b158b02"
+      },
+      "harness": "item_return_preserves_initialized_value",
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "plain generic invoke_once/closure Item return retains true7 through return0; this is NOT Shim coverage.",
+      "binding_profiles": [
+        "item-protocol"
+      ],
+      "source_protocol": {
+        "invoke_once_signature": "captureless F: FnOnce()->MU<u16>; function(F)->MU<u16>",
+        "invoke_once_shadow_parameter_indices": [],
+        "invoke_once_shadow_count": 0,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "closure_actual_signature_indices_kind": "UNKNOWN until retained MIR resolves actual Item; do not infer Shim from FnOnce syntax",
+        "numeric_signature": "UNKNOWN per monomorphic instance"
+      },
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "seed_difference": "no explicit ordinary copy seed"
+    },
+    {
+      "id": "item-return-initialized-seeded::item_return_preserves_initialized_value",
+      "source": {
+        "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.rs",
+        "sha256": "fbe6805e726adbade11a4537cd5323427bbf62defda35b3aaf885d1b6f40578a"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.expected",
+        "sha256": "01b4090216f499e81ff422a226fc38567d4e416d2aa098ec8f7116404b158b02"
+      },
+      "harness": "item_return_preserves_initialized_value",
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "seeded generic invoke_once/closure Item return retains true7 through return0; this is NOT Shim coverage.",
+      "binding_profiles": [
+        "item-protocol"
+      ],
+      "source_protocol": {
+        "invoke_once_signature": "captureless F: FnOnce()->MU<u16>; function(F)->MU<u16>",
+        "invoke_once_shadow_parameter_indices": [],
+        "invoke_once_shadow_count": 0,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "closure_actual_signature_indices_kind": "UNKNOWN until retained MIR resolves actual Item; do not infer Shim from FnOnce syntax",
+        "numeric_signature": "UNKNOWN per monomorphic instance"
+      },
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "seed_difference": "ordinary u8 copy seeds delayed analysis"
+    },
+    {
+      "id": "item-return-uninit-plain::item_return_preserves_uninitialized_read",
+      "source": {
+        "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.rs",
+        "sha256": "bf506c1957000f30aa2df2e7b3aa100c413ef8637bfa859abdcb65a81c9fbceb"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.expected",
+        "sha256": "d1f1033878992e7bf97a7757032b911073b7fa0101aaad6d1e2f128e17176105"
+      },
+      "harness": "item_return_preserves_uninitialized_read",
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended u16 read",
+      "obligation": "plain generic invoke_once/closure Item return retains false through return0; this is NOT Shim coverage.",
+      "binding_profiles": [
+        "item-protocol"
+      ],
+      "source_protocol": {
+        "invoke_once_signature": "captureless F: FnOnce()->MU<u16>; function(F)->MU<u16>",
+        "invoke_once_shadow_parameter_indices": [],
+        "invoke_once_shadow_count": 0,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "closure_actual_signature_indices_kind": "UNKNOWN until retained MIR resolves actual Item; do not infer Shim from FnOnce syntax",
+        "numeric_signature": "UNKNOWN per monomorphic instance"
+      },
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "seed_difference": "no explicit ordinary copy seed"
+    },
+    {
+      "id": "item-return-uninit-seeded::item_return_preserves_uninitialized_read",
+      "source": {
+        "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.rs",
+        "sha256": "33d68b3dda4f5334733f5244cd07e7c27862e4a6019ecca9655c2ea090071cc6"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.expected",
+        "sha256": "d1f1033878992e7bf97a7757032b911073b7fa0101aaad6d1e2f128e17176105"
+      },
+      "harness": "item_return_preserves_uninitialized_read",
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended u16 read",
+      "obligation": "seeded generic invoke_once/closure Item return retains false through return0; this is NOT Shim coverage.",
+      "binding_profiles": [
+        "item-protocol"
+      ],
+      "source_protocol": {
+        "invoke_once_signature": "captureless F: FnOnce()->MU<u16>; function(F)->MU<u16>",
+        "invoke_once_shadow_parameter_indices": [],
+        "invoke_once_shadow_count": 0,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "closure_actual_signature_indices_kind": "UNKNOWN until retained MIR resolves actual Item; do not infer Shim from FnOnce syntax",
+        "numeric_signature": "UNKNOWN per monomorphic instance"
+      },
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "seed_difference": "ordinary u8 copy seeds delayed analysis"
+    },
+    {
+      "id": "maybe-uninit-contract-frame::frame_negative",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+        "sha256": "f5c45585e405fe570d88eddb69b76b6299a04ebaba168cc08e2b36bb3bbb09c2"
+      },
+      "harness": "frame_negative",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+        "sha256": "778925cfde695f7899091ebab25513e7d755784dcbbd1ea92d844432bc8263ba"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:assigns user outside write",
+      "obligation": "relay/choose initialized29 transfer/read succeeds; write outside modifies(out) fails user frame; private shadow writes must not be failure site.",
+      "binding_profiles": [
+        "item-protocol",
+        "contract-private"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "functions": [
+          "relay",
+          "choose"
+        ],
+        "signature": "(MU<u16>,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          2
+        ],
+        "count": 2,
+        "selected_source_index": 2,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN"
+      }
+    },
+    {
+      "id": "maybe-uninit-contract-clause::clause_pfc_negative",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+        "sha256": "5fc89460489e7ac8dafe69f0ad722ae5d4d3a31776f945c0f78beda15aa38ad9"
+      },
+      "harness": "clause_pfc_negative",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+        "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:requires-clause uninit u16",
+      "obligation": "requires(clause_helper) reaches relay(input,input) false payload read; not ensures coverage and not a substitute for new postcondition negative.",
+      "binding_profiles": [
+        "item-protocol",
+        "contract-private"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "functions": [
+          "relay",
+          "choose"
+        ],
+        "signature": "(MU<u16>,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          2
+        ],
+        "count": 2,
+        "selected_source_index": 2,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN"
+      }
+    },
+    {
+      "id": "maybe-uninit-typed-transfer-data::raw_nonoverlapping_copy_preserves_padding",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+        "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41"
+      },
+      "harness": "raw_nonoverlapping_copy_preserves_padding",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+        "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "Raw nonoverlapping extent8 copies initialized padding byte1=0x5a.",
+      "binding_profiles": [
+        "raw-typed",
+        "item-protocol"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN"
+    },
+    {
+      "id": "maybe-uninit-typed-transfer-data::raw_copy_preserves_padding",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+        "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41"
+      },
+      "harness": "raw_copy_preserves_padding",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+        "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "Raw copy extent8 preserves padding byte3=0x5a.",
+      "binding_profiles": [
+        "raw-typed",
+        "item-protocol"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN"
+    },
+    {
+      "id": "maybe-uninit-typed-transfer-data::typed_assignment_preserves_data",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+        "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41"
+      },
+      "harness": "typed_assignment_preserves_data",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+        "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "Typed assignment keeps tag0 and value4..7; does not claim padding.",
+      "binding_profiles": [
+        "raw-typed",
+        "item-protocol"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN"
+    },
+    {
+      "id": "maybe-uninit-typed-transfer-data::typed_argument_return_preserves_data",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+        "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41"
+      },
+      "harness": "typed_argument_return_preserves_data",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+        "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "roundtrip checks value in callee; typed argument and return0 keep data bytes.",
+      "binding_profiles": [
+        "raw-typed",
+        "item-protocol"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "function": "roundtrip",
+        "signature": "(MU<Padded>)->MU<Padded>",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN"
+      }
+    },
+    {
+      "id": "maybe-uninit-typed-transfer-data::typed_array_preserves_data",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+        "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41"
+      },
+      "harness": "typed_array_preserves_data",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+        "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "Typed array assignment keeps both payloads at rustc stride8.",
+      "binding_profiles": [
+        "raw-typed",
+        "item-protocol"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN"
+    },
+    {
+      "id": "maybe-uninit-typed-transfer-data::raw_array_copy_preserves_second_slot_padding",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+        "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41"
+      },
+      "harness": "raw_array_copy_preserves_second_slot_padding",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+        "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "Raw extent16 copy preserves byte1 of both slots, second absolute9.",
+      "binding_profiles": [
+        "raw-typed",
+        "item-protocol"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN"
+    },
+    {
+      "id": "maybe-uninit-typed-assignment-padding::typed_assignment_discards_written_padding",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-assignment-padding/main.rs",
+        "sha256": "cdd1a6b0dd8c30f24445763d259321b764ba96b56080ff1aeae1bd068b12cd49"
+      },
+      "harness": "typed_assignment_discards_written_padding",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-assignment-padding/expected",
+        "sha256": "c94be9f0da890e6794c6acfecb309d79f28afe249d43b525176e79a82b41b5f2"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended u8 read",
+      "obligation": "Typed assignment discards source and prior destination initialized padding; destination byte1 false.",
+      "binding_profiles": [
+        "raw-typed",
+        "item-protocol"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN"
+    },
+    {
+      "id": "maybe-uninit-typed-argument-padding::typed_argument_discards_written_padding",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-argument-padding/main.rs",
+        "sha256": "b72b3f4808b58061054d143ee568c044aea48671910e4f5ca33be41dc36ed069"
+      },
+      "harness": "typed_argument_discards_written_padding",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-argument-padding/expected",
+        "sha256": "e83aa826b29d95fb0bc06ed4a29305fddcd83013b731632080057c99e25f1ebf"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended u8 read",
+      "obligation": "Source byte1 pre-read SUCCESS; callee typed argument byte1 false.",
+      "binding_profiles": [
+        "raw-typed",
+        "item-protocol"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "function": "read_argument",
+        "signature": "(MU<Padded>)->u8",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "normal_return": "ordinary u8; no shadow return0",
+        "numeric_signature": "UNKNOWN"
+      }
+    },
+    {
+      "id": "maybe-uninit-typed-return-padding::typed_return_discards_written_padding",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-return-padding/main.rs",
+        "sha256": "f19f8e2bc02f0281e657d4141a034bbc555c03fe2269c98a45e6d9f5ad025282"
+      },
+      "harness": "typed_return_discards_written_padding",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-return-padding/expected",
+        "sha256": "c1597735af5a52d4758072b0c27736bbdf1688023fc0d64347cf206e1fb6f0d7"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended u8 read",
+      "obligation": "Callee source padding byte1 pre-read SUCCESS; return0 typed load discards it; caller byte1 false.",
+      "binding_profiles": [
+        "raw-typed",
+        "item-protocol"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "function": "return_slot",
+        "signature": "()->MU<Padded>",
+        "shadow_parameter_indices": [],
+        "count": 0,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN"
+      }
+    },
+    {
+      "id": "maybe-uninit-typed-array-padding::typed_array_discards_second_slot_padding",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-array-padding/main.rs",
+        "sha256": "a3c0904fd8767b90f1874ed545e3044ea4e37b5469182a7a1f3e99186e156f7c"
+      },
+      "harness": "typed_array_discards_second_slot_padding",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-array-padding/expected",
+        "sha256": "8449105fe45ea1e2d85f086560fb455a50cacc89829786769e6a7933c802e2a3"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended u8 read",
+      "obligation": "Both payload value reads SUCCESS; second slot padding absolute9 false after typed array assignment.",
+      "binding_profiles": [
+        "raw-typed",
+        "item-protocol"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN"
+    },
+    {
+      "id": "maybe-uninit-typed-partial-data::typed_assignment_preserves_unwritten_data",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-partial-data/main.rs",
+        "sha256": "c18b33e1162acee6a333ed99e50972271e401ce0c5ddfade9869f7bd24b66e84"
+      },
+      "harness": "typed_assignment_preserves_unwritten_data",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-partial-data/expected",
+        "sha256": "d26d98dece9be35bb33e29a176415c0f17eec3ce785da7dd39b44932d43b62b3"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended u8 read",
+      "obligation": "Source bytes0..6 written, data7 false survives typed assignment; tag0 read SUCCESS.",
+      "binding_profiles": [
+        "raw-typed",
+        "item-protocol"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN"
+    },
+    {
+      "id": "maybe-uninit-typed-array-partial-data::typed_array_preserves_second_slot_unwritten_data",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-array-partial-data/main.rs",
+        "sha256": "305f8ed325072dd0b38a248545f537c232305d4c1c51faece5a4d996c70d67de"
+      },
+      "harness": "typed_array_preserves_second_slot_unwritten_data",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-typed-array-partial-data/expected",
+        "sha256": "2617ae16f7ebf312962f17c4865f34488d877fa20fad1295f2d015b8c7780e8c"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended u8 read",
+      "obligation": "Source bytes0..14 written; final data absolute15 false survives typed array assignment; first value/second tag SUCCESS.",
+      "binding_profiles": [
+        "raw-typed",
+        "item-protocol"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN"
+    },
+    {
+      "id": "maybe-uninit-call-move::in_place_move_reads_initialized_callee_then_uninit_source",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "harness": "in_place_move_reads_initialized_callee_then_uninit_source",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:source u8 read",
+      "obligation": "Snapshot true arg BEFORE in-place Move deinit; callee read succeeds, caller retained pointer source read fails.",
+      "binding_profiles": [
+        "item-protocol",
+        "raw-typed",
+        "normal-abnormal"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-move::in_place_move_still_checks_uninitialized_callee_payload",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "harness": "in_place_move_still_checks_uninitialized_callee_payload",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:callee u8 read",
+      "obligation": "Snapshot false before Move reset remains false at callee.",
+      "binding_profiles": [
+        "item-protocol",
+        "raw-typed",
+        "normal-abnormal"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-move::in_place_move_delivers_initialized_payload_to_callee",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "harness": "in_place_move_delivers_initialized_payload_to_callee",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "Initialized snapshot survives caller Move clearing; callee returns0x51.",
+      "binding_profiles": [
+        "item-protocol",
+        "raw-typed",
+        "normal-abnormal"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-move::in_place_move_write_still_deinitializes_source",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "harness": "in_place_move_write_still_deinitializes_source",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:source u8 read",
+      "obligation": "Callee writes own parameter0xA7; original moved storage stays false.",
+      "binding_profiles": [
+        "item-protocol",
+        "raw-typed",
+        "normal-abnormal"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-move::in_place_copy_preserves_source",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "harness": "in_place_copy_preserves_source",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "Copy operand passes value0x51 and preserves original source.",
+      "binding_profiles": [
+        "item-protocol",
+        "raw-typed",
+        "normal-abnormal"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-move::in_place_copy_write_changes_parameter_only",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "harness": "in_place_copy_write_changes_parameter_only",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "Callee writes0xA7 to its parameter; Copy source still0x51.",
+      "binding_profiles": [
+        "item-protocol",
+        "raw-typed",
+        "normal-abnormal"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-move::ordinary_by_value_temporary_preserves_original_source",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "harness": "ordinary_by_value_temporary_preserves_original_source",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "NonCopy temporary is moved, address-taken original source remains initialized; distinguish in-place custom Move.",
+      "binding_profiles": [
+        "item-protocol",
+        "raw-typed",
+        "normal-abnormal"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-move::union_in_place_move_deinitializes_source",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "harness": "union_in_place_move_deinitializes_source",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:source u8 read",
+      "obligation": "Ordinary union custom Move resets all source storage after snapshot.",
+      "binding_profiles": [
+        "item-protocol",
+        "raw-typed",
+        "normal-abnormal"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-move::union_in_place_copy_preserves_source",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "harness": "union_in_place_copy_preserves_source",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "Ordinary union custom Copy retains source byte.",
+      "binding_profiles": [
+        "item-protocol",
+        "raw-typed",
+        "normal-abnormal"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-move::union_normal_return_preserves_initialized_byte",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "harness": "union_normal_return_preserves_initialized_byte",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "Ordinary union argument/return0 transfers true byte.",
+      "binding_profiles": [
+        "item-protocol",
+        "raw-typed",
+        "normal-abnormal"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-move::union_normal_return_preserves_uninitialized_byte",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "harness": "union_normal_return_preserves_uninitialized_byte",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:intended u8 read",
+      "obligation": "Ordinary union argument/return0 preserves false byte; not blanket true.",
+      "binding_profiles": [
+        "item-protocol",
+        "raw-typed",
+        "normal-abnormal"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-move::padded_custom_move_deinitializes_source_padding",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "harness": "padded_custom_move_deinitializes_source_padding",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "FAILURE:source padding u8 read",
+      "obligation": "Callee tag read succeeds; in-place Move clears entire original storage including written padding.",
+      "binding_profiles": [
+        "item-protocol",
+        "raw-typed",
+        "normal-abnormal"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      }
+    },
+    {
+      "id": "maybe-uninit-call-move::padded_custom_copy_preserves_source_padding",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "harness": "padded_custom_copy_preserves_source_padding",
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "unchanged_from_m1": true,
+      "semantic_expected": "SUCCESS",
+      "obligation": "Typed callee parameter discards padding but Copy original source padding remains initialized.",
+      "binding_profiles": [
+        "item-protocol",
+        "raw-typed",
+        "normal-abnormal"
+      ],
+      "candidate_outcome": "NOT_RUN",
+      "actual_property_ids": null,
+      "actual_operand_cfg_binding": "UNKNOWN",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      }
+    }
+  ],
+  "existing_file_count": 36,
+  "existing_harness_count": 41,
+  "new_selector_refs": [
+    "legal-pair::legal_ordinary_transfer",
+    "legal-pair::legal_pfc_transfer",
+    "postcondition-hole::postcondition_reads_returned_hole",
+    "out-pointer::out_pointer_fully_written",
+    "out-pointer::out_pointer_preserves_middle_hole",
+    "normal-abort::normal_return_or_abort"
+  ],
+  "numeric_signature_and_property_ids": "UNKNOWN until coordinator observes exact exported model",
+  "acceptance": "Missing/partial binding UNKNOWN; new failure, lost mandatory check or unpaired transfer STOP acceptance; no proof credit."
+}

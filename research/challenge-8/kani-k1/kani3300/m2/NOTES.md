@@ -1,0 +1,27 @@
+# KANI3300 M2 — pure qualification, NOT_RUN
+- Base M1: 5abdcf982da6aff65662e198af27a9c776830a89; tree 960a71c70b3f890b4f5cd2b53a83f6a0f8e00951.
+- Production M1: 254ae69662b3206cd4432dae0cd44c534b1b13fb; unchanged.
+- Candidate: 5f7f2b7364135a0a8b7cfd86c43b4491a8911bac; tree b2bbb7366a9fbac33398fb01be7300f83a1d27bd.
+- Clone /root/kani-fix-3300-m2; branch experiment/kani-3300-m2-qualification; Kani not pushed.
+- Eight added test files, four sources, six harnesses; no source repair/new setter/ABI or framework.
+- Map reuses 41 existing harnesses/36 source+golden files with exact SHA256; no copied legacy tests.
+- Legal ordinary/PFC pair shares actual initialized target, legal modifies(out), useful ensures, anonymous RHS candidate.
+- True-arm conditional initialized control is combined in legal pair; existing arbitrary-bool false negative reused.
+- Scalar MU return negative reads payload only in ensures; requires-clause negative remains separate.
+- Full/partial out-pointer pair uses valid MU<[u8;3]> storage; partial raw read targets middle hole after legal endpoint reads.
+- Normal/abort selector combines initialized normal return with panic=abort; actual unwind NOT_COVERED.
+- All concrete MIR/operand/property IDs/numeric protocol signatures UNKNOWN pending coordinator inspection.
+- Source audit preserves existing D0 left normal setter, false source-following alternatives and D(T)/raw distinction.
+- Optimistic destination branch is not exact initialized state on every model path.
+- Audited ordinary/PFC/generated entry sources, private shadow/clause state, reset→seed→effect and registry closure.
+- Actual generated-root/reset/runtime completeness is unproved; no source-presence credit.
+- Coordinator Quick43222702257 M1 aggregate PASS is historical reported fact, not a new M2 outcome.
+- Mixed baseline Quick43225818126: four u8 false FAIL; M1+mixed43225812282: four u8 PASS (reported).
+- Four nested MU mixed cases on both models: Unsupported contains union before raw_eq; no intended-read qualification.
+- Nested MU construction avoided here; C1-T2 owner15 files untouched and not imported.
+- Deferred: true unwind; second initialized conditional arm; outside-object neighbor; M3 reuse/offsets/full gate.
+- Diff --check and allowed full-path rustfmt wrapper PASS; pinned API/import/-D warnings source audit only.
+- Bounded Luna High static review found no concrete defect; no compiler/runtime/property acceptance.
+- New compilation/runtime/property/golden outcomes NOT_RUN; Cloud $0; CI dispatches0; no proof/B1/B2 credit.
+- CI-REQUEST specifies targeted legal/PFC/frame/requires/ensures/false/normal-abnormal controls, then existing Quick.
+- STOP after reviewed handoff; M3 only after coordinator acceptance, not READY.
