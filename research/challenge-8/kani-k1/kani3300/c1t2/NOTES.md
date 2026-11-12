@@ -1,0 +1,26 @@
+# KANI3300 C1-T2
+- Stage: test-only and analysis preparation; Cloud $0; coordinator-only later CI.
+- g0 start: clean 1c19dc7b1b4c1a9412c76a6f62f25fb38d0919c7; git fetch + ff-only completed.
+- Kani source was clean on 28e684cbae348130d559b87e030536d8f8a3c1ff, branch tests/kani-3300-promoted-controls.
+- New branch: tests/kani-3300-mixed-promoted-controls; parent preserved, no reset/stash.
+- Production base: 6134e42dd1c65dc980336e7d9455aba02d423edf; no production/M1 worktree edits.
+- Local test commit: c2d607d9d5fafdc44a6c5fa3d981f760e522a05a; tree c98ecfb2bd4d68532337fdbe88e49d8a4ea48446.
+- Exactly eight .rs plus eight .expected added; old six C1-T and both D0 harnesses unchanged.
+- S: three byte writes into addressable MaybeUninit storage and borrowed legal assume_init temporary.
+- P-u8: literal static-lifetime borrow; P-MU: const-item static-lifetime borrow, never named static.
+- Mixed legal values [7,0,9]; MU holes P-left offset0 / P-right offset2; S always fully initialized.
+- Goldens corrected-model and identical for baseline/M1; no guessed property IDs or observed negative type suffix.
+- Native == hole: NOT_APPLICABLE/validity boundary; MU has no PartialEq, typed-hole conversion would precede read with UB.
+- Actual promotion/storage/masks/retained read/order/checks/seed binding NOT_RUN; syntax is only a requirement.
+- Baseline 43219870063: coordinator reports 125/1/2 ignored and six C1-T golden matches before M1.
+- M1 43222702257 at 5abdcf982da6aff65662e198af27a9c776830a89: coordinator reports 130/0, maybe-uninit-initialized, four masks, six promoted PASS.
+- Reports are separate aggregates; no causal inference or independent proof credit.
+- Source RawEq visitor builds CheckAs<[u8;size]> for each reference; original MU type alone does not explain baseline PASS.
+- CI request covers 14 C1-T/mixed selectors, both original D0 [u8;4] harnesses and legacy controls on baseline/M1.
+- Per-input questions bind both operands, InitialTargets/points-to/relevance, delayed phase, setters/reset/get and all properties.
+- Lowering mismatch and unavailable/incomplete artifacts stay explicit; no full/raw logs or new infrastructure.
+- Static rustfmt wrapper/check, diff --check and imports/unused/-D warnings audit passed; compilation/verification NOT_RUN.
+- Hash inventory and byte-for-byte inherited C1-T/D0 checks passed; no new B1/B2 credit.
+- Bounded Luna High review completed: no blocking static findings; REVIEW.md records identities and limitations.
+- Kani commit stays local; exact import requested from M1 owner, not performed here.
+- Publish only this g0 c1t2 package; observe/repair next session; STOP after preparation.

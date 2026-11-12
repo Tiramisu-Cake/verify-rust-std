@@ -1,0 +1,11 @@
+# KANI3300 C1-T2 — PREPARED / STOP
+- Local test-only Kani commit: c2d607d9d5fafdc44a6c5fa3d981f760e522a05a; tree c98ecfb2bd4d68532337fdbe88e49d8a4ea48446.
+- Parent 28e684cbae348130d559b87e030536d8f8a3c1ff; production 6134e42dd1c65dc980336e7d9455aba02d423edf unchanged.
+- Eight mixed selectors (16 files), old C1-T/D0 unchanged; Kani not pushed, M1 worktree untouched.
+- Identical corrected-model goldens for baseline/M1; native == hole NOT_APPLICABLE/validity boundary.
+- Compile/solver/MIR/retained reads/origins/masks/properties for mixed inputs NOT_RUN.
+- Baseline and M1 Quick aggregates recorded separately as coordinator reports, not mechanism/proof credit.
+- CI request includes all six C1-T, eight mixed, both original D0 and preserved legacy/M1 controls.
+- Source/format/hash checks and bounded Luna High review completed without blocking static findings.
+- No local compiler/verifier/build/dispatch, Cloud $0, no new B1/B2/proof credit.
+- Exact read-only import for M1 owner is the test commit above; subsequent CI/repair belongs to coordinator/next session.
