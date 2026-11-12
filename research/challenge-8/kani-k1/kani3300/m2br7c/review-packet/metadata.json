@@ -1,0 +1,172 @@
+{
+  "baseline_commit": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+  "candidate_commit": "fe36afc4a8de2709f00524b2d3fbd6da17919728",
+  "candidate_tree": "1f1ef86a7fb78fdc853862e6deca303458a05138",
+  "changed_files": [
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "ed0621c25a57e8751daea9ba0c9a129b78cbd2b2",
+        "mode": "100644",
+        "sha256": "64e9a385fbf40b7d572da1b5fb544af0d89694122e9be96ce8c8d56042ed79eb"
+      },
+      "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "bff763be11c8392f29f433e474b8f46716fe200f",
+        "mode": "100644",
+        "sha256": "f629b795969f197ef289061c88ebc26e08c8fe969a6f82f643897451bfbdf90f"
+      },
+      "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "b93f888f6e1d6f7d8b4bccb296e9f4a5fd3d5c4b",
+        "mode": "100644",
+        "sha256": "b996003766966f34c555121649c98e690735d65f9c5e1171f63a89cd6efa9f9b"
+      },
+      "path": "tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "04d119ac043aeda0bc701555c5514d1ddf7097b2",
+        "mode": "100644",
+        "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b"
+      },
+      "path": "tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.rs",
+      "status": "added"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "59f3e587c0645764cad4d48369f7bddf82a6d26e",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "library/kani_core/src/mem_init.rs",
+      "sha256": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
+      "size": 25762
+    },
+    {
+      "blob": "365627d101b5c66d853628dca59a2fef842cbff2",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+      "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+      "size": 9075
+    },
+    {
+      "blob": "7171806b571de45d5cdf17218b01494a1141c93c",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "library/kani_macros/src/sysroot/contracts/shared.rs",
+      "sha256": "a8df9244d86742adaf1bdfd991d1b6882962a6797b764d6824306f02024360e7",
+      "size": 10380
+    },
+    {
+      "blob": "4edc84573b03d2b923d584f5df144274c435f693",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "rust-toolchain.toml",
+      "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+      "size": 183
+    },
+    {
+      "blob": "d77b82e0cf51e3324e899faafec367830d3a24c1",
+      "member": "dependencies/0004.bin",
+      "mode": "100644",
+      "path": "rustfmt.toml",
+      "sha256": "d1886a654a790b5f5779d12c770b32c5328e4e4eaa415fc3a024c6ba9df687b1",
+      "size": 238
+    },
+    {
+      "blob": "875d867a25b36066ee8dc42b40eecbc0e17b74b6",
+      "member": "dependencies/0005.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+      "sha256": "09e5dd454f0cfcfeed1d9df436507c7d705270e85ee11592347113d58f9f1f55",
+      "size": 673
+    },
+    {
+      "blob": "c0c3d2010b6f82b0adf0a5e0f0e7bd5320459ada",
+      "member": "dependencies/0006.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+      "sha256": "345db788d839c5f40fae3454d7ec8d1a8b805a208554a8fcad04ee53027ff9b9",
+      "size": 499
+    },
+    {
+      "blob": "fa61fb1631af0ed07f27735d07892cbbcb38abf9",
+      "member": "dependencies/0007.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec",
+      "size": 11146
+    },
+    {
+      "blob": "14a32d4143365cb7c907605d197c57e4650e995f",
+      "member": "dependencies/0008.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+      "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3",
+      "size": 2420
+    },
+    {
+      "blob": "8017b0d16c2ad456b6e91c4a6c9ba852fc6db8e2",
+      "member": "dependencies/0009.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+      "sha256": "5fc89460489e7ac8dafe69f0ad722ae5d4d3a31776f945c0f78beda15aa38ad9",
+      "size": 740
+    },
+    {
+      "blob": "e979779e07bb6636fc72eca5622c99e61d5c752b",
+      "member": "dependencies/0010.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+      "sha256": "778925cfde695f7899091ebab25513e7d755784dcbbd1ea92d844432bc8263ba",
+      "size": 366
+    },
+    {
+      "blob": "94faef80f7e3084cb7f9511d968e0aa28630cc5f",
+      "member": "dependencies/0011.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+      "sha256": "f5c45585e405fe570d88eddb69b76b6299a04ebaba168cc08e2b36bb3bbb09c2",
+      "size": 816
+    },
+    {
+      "blob": "f1e9757e2f7901d37b5cd43ef83c2408e538217d",
+      "member": "dependencies/0012.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759",
+      "size": 782
+    },
+    {
+      "blob": "82526b5d3e4560bf80fad2423cc013b6b8de7a6f",
+      "member": "dependencies/0013.bin",
+      "mode": "100644",
+      "path": "tools/compiletest/src/runtest.rs",
+      "sha256": "dad67ded3379bcf7d3cce0e4e500159fa0c25ee513ba515f13647d5c688e394f",
+      "size": 29487
+    }
+  ],
+  "diff_sha256": "a935f53ec2965349888343866ec9f4d85215e7a6c513a95fd30323cbc6d8c39e",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "931c0f723a566b4a70f5ad6e44867e5809a5bf80e311c00e020828b7ff5e9d6d",
+  "worktree": "/root/kani-fix-3300-m2br7-controls"
+}

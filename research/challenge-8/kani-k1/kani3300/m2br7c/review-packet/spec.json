@@ -1,0 +1,40 @@
+{
+  "applicability": "Only KANI3300 M2-B/R7-C input-validity/golden/coverage review; two new test selectors, no source changes.",
+  "baseline_commit": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+  "candidate_commit": "fe36afc4a8de2709f00524b2d3fbd6da17919728",
+  "controls": [
+    "Review new lawful initialized transfer, scalar ensures and unchanged outside; Rust types/signatures/borrows and -Dwarnings",
+    "Check reuse P2, outside-negative, clause-negative, false-state/protocol/move and M1/S3 coverage against task",
+    "Compilation/runtime/root/property bindings remain NOT_RUN/UNKNOWN; no semantic proof from summary/golden"
+  ],
+  "defect": "Need discriminating P1/P2/private frame controls for coordinator qualification of separate private snapshot.",
+  "dependencies": [
+    "library/kani_core/src/mem_init.rs",
+    "library/kani_macros/src/sysroot/contracts/check.rs",
+    "library/kani_macros/src/sysroot/contracts/shared.rs",
+    "rust-toolchain.toml",
+    "rustfmt.toml",
+    "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+    "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+    "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+    "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+    "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+    "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+    "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+    "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+    "tools/compiletest/src/runtest.rs"
+  ],
+  "invariants": [
+    "P1 byte-identical fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b",
+    "Exactly four added files below private-transfer-frame; no existing controls weakened",
+    "Inputs valid until intended read/write; semantic goldens independent of buggy base behavior; no guessed property IDs"
+  ],
+  "known_limitations": [
+    "No local compiler/verifier; actual sysroot and macro expansion checked by coordinator CI",
+    "Mixed16 fixed fixtures absent accepted base, exact existing test-only composition requested",
+    "Existing frame var_N golden unchanged; owner updates only after actual outside-write binding"
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-m2br7-controls"
+}

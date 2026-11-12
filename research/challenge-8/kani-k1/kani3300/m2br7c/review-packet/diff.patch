@@ -1,0 +1,87 @@
+diff --git a/tests/expected/uninit/private-transfer-frame/lawful-modifies.expected b/tests/expected/uninit/private-transfer-frame/lawful-modifies.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ed0621c25a57e8751daea9ba0c9a129b78cbd2b2
+--- /dev/null
++++ b/tests/expected/uninit/private-transfer-frame/lawful-modifies.expected
+@@ -0,0 +1,3 @@
++Checking harness lawful_modifies_preserves_outside...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/private-transfer-frame/lawful-modifies.rs b/tests/expected/uninit/private-transfer-frame/lawful-modifies.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..bff763be11c8392f29f433e474b8f46716fe200f
+--- /dev/null
++++ b/tests/expected/uninit/private-transfer-frame/lawful-modifies.rs
+@@ -0,0 +1,35 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn choose(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    let _first_argument = a;
++    b
++}
++
++#[inline(never)]
++fn relay(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    choose(a, b)
++}
++
++#[kani::modifies(out)]
++#[kani::ensures(|result: &u16| *result == 29 && *out == 29)]
++fn frame_target(out: &mut u16, outside: &mut u16) -> u16 {
++    let value = relay(MaybeUninit::new(*outside), MaybeUninit::new(29));
++    let scalar = unsafe { value.assume_init() };
++    *out = scalar;
++    scalar
++}
++
++#[kani::proof_for_contract(frame_target)]
++fn lawful_modifies_preserves_outside() {
++    let mut out = 0u16;
++    let mut outside = 41u16;
++    assert_eq!(frame_target(&mut out, &mut outside), 29);
++    assert_eq!(out, 29);
++    assert_eq!(outside, 41);
++}
+diff --git a/tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.expected b/tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..b93f888f6e1d6f7d8b4bccb296e9f4a5fd3d5c4b
+--- /dev/null
++++ b/tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness postcondition_reads_initialized_return...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.rs b/tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..04d119ac043aeda0bc701555c5514d1ddf7097b2
+--- /dev/null
++++ b/tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.rs
+@@ -0,0 +1,22 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// The initialized MU value is first read by the useful postcondition.
++#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 })]
++fn postcondition_target() -> MaybeUninit<u8> {
++    select(MaybeUninit::new(17), MaybeUninit::uninit(), true)
++}
++
++#[kani::proof_for_contract(postcondition_target)]
++fn postcondition_reads_initialized_return() {
++    let _unread = postcondition_target();
++}

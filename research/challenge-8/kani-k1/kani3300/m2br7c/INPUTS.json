@@ -1,0 +1,192 @@
+{
+  "schema": "kani3300-m2br7c-inputs-v1",
+  "g0_entry": "94e584388cd04067403bdde249917c4afd9e430d",
+  "task": "TASK-KANI3300-M2BR7-CONTROLS.md",
+  "runtime": "Codex",
+  "worker": 14,
+  "stage": "M2-B/R7-C",
+  "base_commit": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+  "base_tree": "af28e22ec446b254cfa3a28b2882eafa58d5a458",
+  "seed_read_only": "/root/kani-fix-3300-m2b-seed",
+  "references": [
+    {
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-M2BR7-CONTROLS.md",
+      "bytes": 7398,
+      "sha256": "a9995d723d40b078f4ccb65f88ffbd428c565968a9d5acfdc75444cfb4323fd9"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-M2BR7.md",
+      "bytes": 13352,
+      "sha256": "01af8b38c5933d2c858a196019de2d90746db096aef532b0031a85aa39bf0e58"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-M1.md",
+      "bytes": 11778,
+      "sha256": "b8a4a5704d1249056d75f7f1df21e576954d00f129a01969f1b63bfb37186947"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2/QUALIFICATION-MAP.json",
+      "bytes": 64822,
+      "sha256": "bd032e803854efa37e4b701f73b80c95cf0ef829513a251355f85914f99a3b1c"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2/TEST-MANIFEST.json",
+      "bytes": 31684,
+      "sha256": "21850ee51685bd8abfdb72b07784c5394da5c9814c1e5577a9902515de7e8ab2"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2a/cases/scalar-pfc-legal.rs",
+      "bytes": 774,
+      "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2bs/TEST-MANIFEST.json",
+      "bytes": 17027,
+      "sha256": "41b5156672e2d9d52e080eb0da3aa604639b487d56347a1d7d278bfd89150c61"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2bs3/CI-REQUEST.md",
+      "bytes": 4724,
+      "sha256": "b6783555eea32c7d0c218fe148394be4e02f7ca68dd836b433edbc6d3924156a"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br6b/CI-REQUEST.md",
+      "bytes": 7651,
+      "sha256": "41b92d167f8d92e3f5fc2b36ab12b8334e5b8836a3bfbac9f972c7130a9d4c3c"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br6b/DIAGNOSTIC-MANIFEST.json",
+      "bytes": 3280,
+      "sha256": "a648d31bd457d4289e9870289f6513cd4195f9198e1d2c52ac9f9036c3452437"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br6b/INPUTS.json",
+      "bytes": 14831,
+      "sha256": "ef1019983e07eae561c1e28ba13d520a9e7b3d9ca7c6c3120cd76f2615a717b3"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br6b/REPAIR-BINDINGS.md",
+      "bytes": 7873,
+      "sha256": "52f5321293c8e2cbf65e83ee3bf7ffaf7a64a4d33f8a96642b70ea76a95eaf57"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br6b/RESULT-KANI3300-M2BR6B.md",
+      "bytes": 2211,
+      "sha256": "8ba8174e0ff642bc689aa631aeae45ad4f6efd47ffbe4d6876ec44761e2c9191"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br6b/REVIEW-PACKETS.json",
+      "bytes": 1952,
+      "sha256": "1cf544643f5f1aea7a686405bea1548ffba6adceec454dbf340abed058015edc"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br6b/REVIEW-SPEC-R1-control.json",
+      "bytes": 3131,
+      "sha256": "799e358dd8682d063eecb25d10143fbd17008320db15de001855c7b640bf35ed"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br6b/REVIEW-SPEC-R6-02b.json",
+      "bytes": 3131,
+      "sha256": "724ab776477593cc3be1e58e0df7b22637080336b558ce0d59920f45a0d9e21d"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br6b/REVIEW.md",
+      "bytes": 3431,
+      "sha256": "c192e8444c2f15f5281d08aa9bf472b91dd6c354b40a9fa6c9d03cfd54cf32b1"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br6b/STATIC-AUDIT.py",
+      "bytes": 8616,
+      "sha256": "d1ff6ef1c363a804f96b154e6d5e2637c2418717e9ac591493ae2f0105b2f5eb"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br6b/STATIC-CHECKS.json",
+      "bytes": 8705,
+      "sha256": "74d39d5f14001ce19e08a2330411874b785d6370fc84ce45dfd91541aadfcf71"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br6b/TYPE-AUDIT.md",
+      "bytes": 4273,
+      "sha256": "cc37b586a2dcf99a7f50d4ba41c1d689d2269d976e030b4cad1f57c4dee6263a"
+    }
+  ],
+  "unchanged_kani_dependencies": [
+    {
+      "path": "rust-toolchain.toml",
+      "bytes": 183,
+      "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df"
+    },
+    {
+      "path": "rustfmt.toml",
+      "bytes": 238,
+      "sha256": "d1886a654a790b5f5779d12c770b32c5328e4e4eaa415fc3a024c6ba9df687b1"
+    },
+    {
+      "path": "library/kani_core/src/mem_init.rs",
+      "bytes": 25762,
+      "sha256": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150"
+    },
+    {
+      "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+      "bytes": 9075,
+      "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f"
+    },
+    {
+      "path": "library/kani_macros/src/sysroot/contracts/shared.rs",
+      "bytes": 10380,
+      "sha256": "a8df9244d86742adaf1bdfd991d1b6882962a6797b764d6824306f02024360e7"
+    },
+    {
+      "path": "library/kani_macros/src/sysroot/contracts/mod.rs",
+      "bytes": 31524,
+      "sha256": "f35c85f8686d47ec5f967497ff413deb177a15f81cce235ecb750da45d9a23bf"
+    },
+    {
+      "path": "tools/compiletest/src/runtest.rs",
+      "bytes": 29487,
+      "sha256": "dad67ded3379bcf7d3cce0e4e500159fa0c25ee513ba515f13647d5c688e394f"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+      "bytes": 12461,
+      "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "bytes": 19071,
+      "sha256": "c01ced42f97efdbc8d6a34c75f229753af59f380549518af971ecea672cd72b2"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "bytes": 54700,
+      "sha256": "baa2013d98a84784366602ea3f9e63bbbde408816a5a947032267737014e4c5a"
+    }
+  ],
+  "std_api_reference": {
+    "path": "library/core/src/mem/maybe_uninit.rs",
+    "bytes": 66146,
+    "sha256": "1230d267542337ee2842c29d8227cf8a58fe75c53a2a70efaee3922c4e8e25c0",
+    "repository": "/root/verify-rust-std-kani3300-g0",
+    "revision": "94e584388cd04067403bdde249917c4afd9e430d",
+    "qualification": "Local Rust source reference, NOT evidence of compiled sysroot identity; coordinator must bind actual nightly-2026-10-23 sysroot"
+  },
+  "formatting": [
+    {
+      "path": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+      "bytes": 312,
+      "sha256": "50d6185aa821a7f6ea5aceba7cebe1bd517ea323f399a269c5a170b6ac65210d"
+    },
+    {
+      "path": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt-tc/rustfmt-nightly-x86_64-unknown-linux-gnu/rustfmt-preview/bin/rustfmt",
+      "bytes": 5421328,
+      "sha256": "0f8f90119220fbbd72268c10c575000334e7b89cc348c74953b1b30155338962"
+    }
+  ],
+  "boundaries": [
+    "only private-transfer-frame/ and m2br7c/",
+    "no local cargo/rustc/Kani/CBMC/Miri/builds",
+    "no worker CI/Cloud/Actions dispatch; Cloud $0",
+    "no production/existing fixture/golden edits; no Kani push",
+    "M3 HELD; STOP after reviewed package"
+  ]
+}

@@ -1,0 +1,1752 @@
+{
+  "schema": "kani3300-m2br7c-test-manifest-v1",
+  "status": "REVIEWED_TEST_PACKAGE_NOT_COMPILED",
+  "clone": "/root/kani-fix-3300-m2br7-controls",
+  "branch": "experiment/kani-3300-private-transfer-controls",
+  "base_commit": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+  "base_tree": "af28e22ec446b254cfa3a28b2882eafa58d5a458",
+  "candidate_commit": "fe36afc4a8de2709f00524b2d3fbd6da17919728",
+  "parent": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+  "candidate_tree": "1f1ef86a7fb78fdc853862e6deca303458a05138",
+  "changed_files": [
+    {
+      "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.expected",
+      "bytes": 147,
+      "sha256": "64e9a385fbf40b7d572da1b5fb544af0d89694122e9be96ce8c8d56042ed79eb"
+    },
+    {
+      "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs",
+      "bytes": 1016,
+      "sha256": "f629b795969f197ef289061c88ebc26e08c8fe969a6f82f643897451bfbdf90f"
+    },
+    {
+      "path": "tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.expected",
+      "bytes": 152,
+      "sha256": "b996003766966f34c555121649c98e690735d65f9c5e1171f63a89cd6efa9f9b"
+    },
+    {
+      "path": "tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.rs",
+      "bytes": 774,
+      "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b"
+    }
+  ],
+  "patch": {
+    "path": "TEST-DELTA.patch",
+    "bytes": 3608,
+    "sha256": "a935f53ec2965349888343866ec9f4d85215e7a6c513a95fd30323cbc6d8c39e",
+    "format": "git diff --binary --full-index BASE TEST_SHA -- tests/expected/uninit/private-transfer-frame/"
+  },
+  "new_selector_count": 2,
+  "new_controls": [
+    {
+      "source": {
+        "path": "tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.rs",
+        "bytes": 774,
+        "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.expected",
+        "bytes": 152,
+        "sha256": "b996003766966f34c555121649c98e690735d65f9c5e1171f63a89cd6efa9f9b"
+      },
+      "source_root": "postcondition_reads_initialized_return",
+      "mode": "PFC",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Exact P1 bytes; select(MU.new(17),MU.uninit(),true), first payload u8 read in ensures ==17; all private/protocol/frame and useful postcondition checks SUCCESS.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs",
+        "bytes": 1016,
+        "sha256": "f629b795969f197ef289061c88ebc26e08c8fe969a6f82f643897451bfbdf90f"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.expected",
+        "bytes": 147,
+        "sha256": "64e9a385fbf40b7d572da1b5fb544af0d89694122e9be96ce8c8d56042ed79eb"
+      },
+      "source_root": "lawful_modifies_preserves_outside",
+      "mode": "PFC",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "frame_target(&mut u16,&mut u16)->u16; initialized MU arguments/returns through relay/choose; only *out=29 written, scalar result29/out29 ensures and outside41 harness assertion SUCCESS; every private write allowed.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    }
+  ],
+  "reused_controls": [
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+        "bytes": 2904,
+        "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+        "bytes": 67,
+        "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e"
+      },
+      "source_root": "partial_copy_preserves_written_byte",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Raw extent4 copy preserves initialized byte0 and holes of copied slot; read only written byte; independent second [9;4] legal equality RHS. No claim copied slot is fully initialized.",
+      "source_protocol": null,
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+        "bytes": 2904,
+        "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+        "bytes": 67,
+        "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e"
+      },
+      "source_root": "array_value_as_used_by_merge_output",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "All four explicit stack byte writes survive assume_init normal destination; native [u8;4] equality RHS immutable seed; no new setter.",
+      "source_protocol": null,
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "bytes": 2420,
+        "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "bytes": 1185,
+        "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+      },
+      "source_root": "selected_first_argument_reads_uninit",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:intended u16 read",
+      "required_binding": "select(which0) returns source first false, other two true; selected index1 false survives return0.",
+      "source_protocol": {
+        "functions": [
+          "select",
+          "nested_select"
+        ],
+        "select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>,u8)->MU<u16>",
+        "nested_select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          3,
+          5
+        ],
+        "count": 3,
+        "ordinary_gap_indices": [
+          2,
+          4
+        ],
+        "select_ordinary_discriminant_index": 6,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN; require same actual monomorphic Ty::to_index per pair"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "line": 40,
+        "expression": "let _read = unsafe { value.assume_init() };",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "bytes": 2420,
+        "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "bytes": 1185,
+        "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+      },
+      "source_root": "selected_middle_argument_reads_uninit",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:intended u16 read",
+      "required_binding": "select(which1) returns source second false, other two true; selected index3 false survives gaps and return0.",
+      "source_protocol": {
+        "functions": [
+          "select",
+          "nested_select"
+        ],
+        "select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>,u8)->MU<u16>",
+        "nested_select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          3,
+          5
+        ],
+        "count": 3,
+        "ordinary_gap_indices": [
+          2,
+          4
+        ],
+        "select_ordinary_discriminant_index": 6,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN; require same actual monomorphic Ty::to_index per pair"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "line": 47,
+        "expression": "let _read = unsafe { value.assume_init() };",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "bytes": 2420,
+        "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "bytes": 1185,
+        "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+      },
+      "source_root": "selected_last_argument_reads_uninit",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:intended u16 read",
+      "required_binding": "select(which2) returns source third false, other two true; selected index5 false survives gaps and return0.",
+      "source_protocol": {
+        "functions": [
+          "select",
+          "nested_select"
+        ],
+        "select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>,u8)->MU<u16>",
+        "nested_select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          3,
+          5
+        ],
+        "count": 3,
+        "ordinary_gap_indices": [
+          2,
+          4
+        ],
+        "select_ordinary_discriminant_index": 6,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN; require same actual monomorphic Ty::to_index per pair"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "line": 54,
+        "expression": "let _read = unsafe { value.assume_init() };",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "bytes": 2420,
+        "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "bytes": 1185,
+        "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+      },
+      "source_root": "nested_same_size_calls_preserve_selected_uninit",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:intended second u16 read",
+      "required_binding": "First nested third=31 read SUCCESS, second nested third=false final read FAILURE; every nested and outer boundary consumes own protocol.",
+      "source_protocol": {
+        "functions": [
+          "select",
+          "nested_select"
+        ],
+        "select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>,u8)->MU<u16>",
+        "nested_select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          3,
+          5
+        ],
+        "count": 3,
+        "ordinary_gap_indices": [
+          2,
+          4
+        ],
+        "select_ordinary_discriminant_index": 6,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN; require same actual monomorphic Ty::to_index per pair"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "line": 65,
+        "expression": "let _read = unsafe { uninitialized.assume_init() };",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "bytes": 2420,
+        "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "bytes": 1185,
+        "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+      },
+      "source_root": "initialized_argument_return_control",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "select(which0) reads11; false unselected second must not contaminate selected first.",
+      "source_protocol": {
+        "functions": [
+          "select",
+          "nested_select"
+        ],
+        "select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>,u8)->MU<u16>",
+        "nested_select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          3,
+          5
+        ],
+        "count": 3,
+        "ordinary_gap_indices": [
+          2,
+          4
+        ],
+        "select_ordinary_discriminant_index": 6,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN; require same actual monomorphic Ty::to_index per pair"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+        "bytes": 2420,
+        "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "bytes": 1185,
+        "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+      },
+      "source_root": "repeated_call_unread_uninit_then_initialized_return",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Unread false first result must not leave active/stale return protocol; next selected third61 read succeeds.",
+      "source_protocol": {
+        "functions": [
+          "select",
+          "nested_select"
+        ],
+        "select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>,u8)->MU<u16>",
+        "nested_select_signature": "(MU<u16>,u32,MU<u16>,u64,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          3,
+          5
+        ],
+        "count": 3,
+        "ordinary_gap_indices": [
+          2,
+          4
+        ],
+        "select_ordinary_discriminant_index": 6,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN; require same actual monomorphic Ty::to_index per pair"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+        "bytes": 499,
+        "sha256": "345db788d839c5f40fae3454d7ec8d1a8b805a208554a8fcad04ee53027ff9b9"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-argument-return/expected",
+        "bytes": 212,
+        "sha256": "a9ed8039903d8bd6f56d7c563703e213d99020d235038e5107a1395a264a807c"
+      },
+      "source_root": "argument_return",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:intended u16 read",
+      "required_binding": "arbitrary bool first=true returns initialized9, first=false returns hole; one FAILURE credits only false arm, true arm positive added in M2.",
+      "source_protocol": {
+        "function": "select",
+        "signature": "(MU<u16>,MU<u16>,bool)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          2
+        ],
+        "count": 2,
+        "ordinary_indices": [
+          3
+        ],
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+        "line": 13,
+        "expression": "let _value = unsafe { value.assume_init() };",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+        "bytes": 673,
+        "sha256": "09e5dd454f0cfcfeed1d9df436507c7d705270e85ee11592347113d58f9f1f55"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-argument-buffer/expected",
+        "bytes": 176,
+        "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29"
+      },
+      "source_root": "nested_two_argument_return_reads_uninit",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:intended u16 read",
+      "required_binding": "nested_return -> return_second -> false second argument, uninit u16 at caller only; entry loads precede nested begin.",
+      "source_protocol": {
+        "functions": [
+          "nested_return",
+          "return_second"
+        ],
+        "signature": "(MU<u16>,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          2
+        ],
+        "count": 2,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN per function; do not equate nested signatures"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+        "line": 22,
+        "expression": "let _read = unsafe { value.assume_init() };",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+        "bytes": 816,
+        "sha256": "f5c45585e405fe570d88eddb69b76b6299a04ebaba168cc08e2b36bb3bbb09c2"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+        "bytes": 366,
+        "sha256": "778925cfde695f7899091ebab25513e7d755784dcbbd1ea92d844432bc8263ba"
+      },
+      "source_root": "frame_negative",
+      "mode": "PFC",
+      "semantic_expected": "FAILURE:assigns user outside write",
+      "required_binding": "relay/choose initialized29 transfer/read succeeds; write outside modifies(out) fails user frame; private shadow writes must not be failure site.",
+      "source_protocol": {
+        "functions": [
+          "relay",
+          "choose"
+        ],
+        "signature": "(MU<u16>,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          2
+        ],
+        "count": 2,
+        "selected_source_index": 2,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+        "line": 22,
+        "expression": "*outside = unsafe { value.assume_init() };",
+        "property_class": "assigns"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+        "bytes": 740,
+        "sha256": "5fc89460489e7ac8dafe69f0ad722ae5d4d3a31776f945c0f78beda15aa38ad9"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+        "bytes": 176,
+        "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29"
+      },
+      "source_root": "clause_pfc_negative",
+      "mode": "PFC",
+      "semantic_expected": "FAILURE:requires-clause uninit u16",
+      "required_binding": "requires(clause_helper) reaches relay(input,input) false payload read; not ensures coverage and not a substitute for new postcondition negative.",
+      "source_protocol": {
+        "functions": [
+          "relay",
+          "choose"
+        ],
+        "signature": "(MU<u16>,MU<u16>)->MU<u16>",
+        "shadow_parameter_indices": [
+          1,
+          2
+        ],
+        "count": 2,
+        "selected_source_index": 2,
+        "normal_return_index": 0,
+        "normal_return_count": 0,
+        "numeric_signature": "UNKNOWN"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+        "line": 21,
+        "expression": "unsafe { relay(input, input).assume_init() == 17 }",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "bytes": 11146,
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "bytes": 2221,
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "source_root": "in_place_move_reads_initialized_callee_then_uninit_source",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:source u8 read",
+      "required_binding": "Snapshot true arg BEFORE in-place Move deinit; callee read succeeds, caller retained pointer source read fails.",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "line": 24,
+        "expression": "unsafe { (*pointer).assume_init() }",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "bytes": 11146,
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "bytes": 2221,
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "source_root": "in_place_move_still_checks_uninitialized_callee_payload",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:callee u8 read",
+      "required_binding": "Snapshot false before Move reset remains false at callee.",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "line": 13,
+        "expression": "unsafe { value.assume_init() }",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "bytes": 11146,
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "bytes": 2221,
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "source_root": "in_place_move_delivers_initialized_payload_to_callee",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Initialized snapshot survives caller Move clearing; callee returns0x51.",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "bytes": 11146,
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "bytes": 2221,
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "source_root": "in_place_move_write_still_deinitializes_source",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:source u8 read",
+      "required_binding": "Callee writes own parameter0xA7; original moved storage stays false.",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "line": 24,
+        "expression": "unsafe { (*pointer).assume_init() }",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "bytes": 11146,
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "bytes": 2221,
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "source_root": "in_place_copy_preserves_source",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Copy operand passes value0x51 and preserves original source.",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "bytes": 11146,
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "bytes": 2221,
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "source_root": "in_place_copy_write_changes_parameter_only",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Callee writes0xA7 to its parameter; Copy source still0x51.",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "bytes": 11146,
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "bytes": 2221,
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "source_root": "ordinary_by_value_temporary_preserves_original_source",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "NonCopy temporary is moved, address-taken original source remains initialized; distinguish in-place custom Move.",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "bytes": 11146,
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "bytes": 2221,
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "source_root": "union_in_place_move_deinitializes_source",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:source u8 read",
+      "required_binding": "Ordinary union custom Move resets all source storage after snapshot.",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "line": 321,
+        "expression": "unsafe { std::ptr::read_volatile(pointer) }",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "bytes": 11146,
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "bytes": 2221,
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "source_root": "union_in_place_copy_preserves_source",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Ordinary union custom Copy retains source byte.",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "bytes": 11146,
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "bytes": 2221,
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "source_root": "union_normal_return_preserves_initialized_byte",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Ordinary union argument/return0 transfers true byte.",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "bytes": 11146,
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "bytes": 2221,
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "source_root": "union_normal_return_preserves_uninitialized_byte",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:intended u8 read",
+      "required_binding": "Ordinary union argument/return0 preserves false byte; not blanket true.",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "line": 397,
+        "expression": "let _read = unsafe { value.byte };",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "bytes": 11146,
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "bytes": 2221,
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "source_root": "padded_custom_move_deinitializes_source_padding",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:source padding u8 read",
+      "required_binding": "Callee tag read succeeds; in-place Move clears entire original storage including written padding.",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "line": 186,
+        "expression": "unsafe { std::ptr::read_volatile(pointer.cast::<u8>().add(1)) }",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "bytes": 11146,
+        "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "bytes": 2221,
+        "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+      },
+      "source_root": "padded_custom_copy_preserves_source_padding",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Typed callee parameter discards padding but Copy original source padding remains initialized.",
+      "source_protocol": {
+        "consume_functions": "consume/consume_and_write/consume_noncopy/consume_union/consume_padded",
+        "shadow_parameter_indices": [
+          1
+        ],
+        "count": 1,
+        "consume_return": "ordinary u8; no shadow return0",
+        "roundtrip_functions": "union_roundtrip: Byte->Byte; custom wrappers take MU/Byte and return ordinary scalar/tuple",
+        "union_roundtrip_return_index": 0,
+        "union_roundtrip_return_count": 0,
+        "pointer_helpers": "read_payload/read_union/read_padded_padding/initialize_padded take ordinary pointers; no by-value shadow args; pointee not blessed by pointer return",
+        "numeric_signature": "UNKNOWN per actual Item",
+        "custom_unwind": "UnwindUnreachable under required panic=abort; NOT unwind qualification"
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+        "bytes": 1452,
+        "sha256": "3385d702baa91965af565878f1f1d8e27a1de37a0ea52da3595cb5e609d8e363"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/legal-pair.expected",
+        "bytes": 202,
+        "sha256": "d9efa4dfaf33963a0c5c668577ccd2e76d1e212d58d1af7767f98540ac9a8558"
+      },
+      "source_root": "legal_ordinary_transfer",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Same target initializes its own data without assume/requires; true-arm scalar read7, explicitly written [1,2,3] ordinary normal destination and immutable RHS comparison. Ordinary proof calls original target body without PFC/verified stub; contracts not used as assumptions.",
+      "source_protocol": {
+        "select": {
+          "function": "select",
+          "signature": "(MU<u8>,MU<u8>,bool)->MU<u8>",
+          "shadow_parameter_indices": [
+            1,
+            2
+          ],
+          "ordinary_indices": [
+            3
+          ],
+          "shadow_count": 2,
+          "normal_return_index": 0,
+          "normal_return_count": 0,
+          "numeric_signature": "UNKNOWN; must match actual monomorphic Ty::to_index at store/load",
+          "selected_source": "true arm index1 value7; false unselected index2; no credit for false arm from legal pair"
+        },
+        "write_initialized": {
+          "signature": "(&mut [u8;3])->u8",
+          "shadow_parameter_indices": [],
+          "shadow_count": 0,
+          "normal_return": "ordinary u8; no shadow return0",
+          "modifies": "out only"
+        }
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+        "bytes": 1452,
+        "sha256": "3385d702baa91965af565878f1f1d8e27a1de37a0ea52da3595cb5e609d8e363"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/legal-pair.expected",
+        "bytes": 202,
+        "sha256": "d9efa4dfaf33963a0c5c668577ccd2e76d1e212d58d1af7767f98540ac9a8558"
+      },
+      "source_root": "legal_pfc_transfer",
+      "mode": "PFC",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Same target initializes its own data without assume/requires; true-arm scalar read7, explicitly written [1,2,3] ordinary normal destination and immutable RHS comparison. PFC useful ensures and user frame all succeed; private witness/buffer exempt only.",
+      "source_protocol": {
+        "select": {
+          "function": "select",
+          "signature": "(MU<u8>,MU<u8>,bool)->MU<u8>",
+          "shadow_parameter_indices": [
+            1,
+            2
+          ],
+          "ordinary_indices": [
+            3
+          ],
+          "shadow_count": 2,
+          "normal_return_index": 0,
+          "normal_return_count": 0,
+          "numeric_signature": "UNKNOWN; must match actual monomorphic Ty::to_index at store/load",
+          "selected_source": "true arm index1 value7; false unselected index2; no credit for false arm from legal pair"
+        },
+        "write_initialized": {
+          "signature": "(&mut [u8;3])->u8",
+          "shadow_parameter_indices": [],
+          "shadow_count": 0,
+          "normal_return": "ordinary u8; no shadow return0",
+          "modifies": "out only"
+        }
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+        "bytes": 782,
+        "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+        "bytes": 229,
+        "sha256": "4d4ff2b6fca8cc5bc556fe159c3d9a03dfc5defd93c9cad7d8d8554c12568031"
+      },
+      "source_root": "postcondition_reads_returned_hole",
+      "mode": "PFC",
+      "semantic_expected": "FAILURE:intended postcondition uninit u8",
+      "required_binding": "Scalar MU false selected on false branch, no typed u8 until ensures read. Body returns valid MU; no requires, frame write or earlier uninit read.",
+      "source_protocol": {
+        "select": {
+          "function": "select",
+          "signature": "(MU<u8>,MU<u8>,bool)->MU<u8>",
+          "shadow_parameter_indices": [
+            1,
+            2
+          ],
+          "ordinary_indices": [
+            3
+          ],
+          "shadow_count": 2,
+          "normal_return_index": 0,
+          "normal_return_count": 0,
+          "numeric_signature": "UNKNOWN; must match actual monomorphic Ty::to_index at store/load",
+          "selected_source": "false arm index2 has false payload; true arg initialized17"
+        },
+        "postcondition_target": {
+          "signature": "()->MU<u8>",
+          "shadow_parameter_indices": [],
+          "shadow_count": 0,
+          "normal_return_index": 0,
+          "normal_return_count": 0,
+          "numeric_signature": "UNKNOWN; actual generated target/clause instances must bind"
+        }
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+        "line": 14,
+        "expression": "#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 })]",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+        "bytes": 1131,
+        "sha256": "7610c67c89302bbcdd541ebaa8d70651c5a3231a0909b28126452b233a79d280"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/out-pointer.expected",
+        "bytes": 301,
+        "sha256": "625af5ac4e60045acd47aadd15e00b8fc4db524ebd1dd911b50761dd042f20f0"
+      },
+      "source_root": "out_pointer_fully_written",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "MU<[u8;3]> remains valid storage; ordinary Item write_bytes writes offsets0,2 and optionally1. Full=true initializes all data before legal assume_init and three useful assertions.",
+      "source_protocol": {
+        "write_bytes": {
+          "signature": "unsafe (*mut u8,bool)->()",
+          "shadow_parameter_indices": [],
+          "shadow_count": 0,
+          "normal_return": "unit; no shadow return0",
+          "pointee_range": "3 bytes; explicit writes0,2; write1 only if full; pointer initialization must not bless pointee"
+        }
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+        "bytes": 1131,
+        "sha256": "7610c67c89302bbcdd541ebaa8d70651c5a3231a0909b28126452b233a79d280"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/out-pointer.expected",
+        "bytes": 301,
+        "sha256": "625af5ac4e60045acd47aadd15e00b8fc4db524ebd1dd911b50761dd042f20f0"
+      },
+      "source_root": "out_pointer_preserves_middle_hole",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:intended middle u8 read",
+      "required_binding": "MU<[u8;3]> remains valid storage; ordinary Item write_bytes writes offsets0,2 and optionally1. Full=false preserves byte1=false at normal return; written neighbor reads succeed, final raw byte1 read fails; no assume_init or typed u8 reference to hole.",
+      "source_protocol": {
+        "write_bytes": {
+          "signature": "unsafe (*mut u8,bool)->()",
+          "shadow_parameter_indices": [],
+          "shadow_count": 0,
+          "normal_return": "unit; no shadow return0",
+          "pointee_range": "3 bytes; explicit writes0,2; write1 only if full; pointer initialization must not bless pointee"
+        }
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+        "line": 38,
+        "expression": "let _hole = data.add(1).read();",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/normal-abort.rs",
+        "bytes": 679,
+        "sha256": "45021f2a9ed44e1162b21a0c758decc7b879eb9c50e91dfba57f9c0736b43471"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/normal-abort.expected",
+        "bytes": 176,
+        "sha256": "c36dbee1067f87faf285206a72733ff0f13b3f434ee28d3f679083fe5f031ef8"
+      },
+      "source_root": "normal_return_or_abort",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:panic only",
+      "required_binding": "Same ordinary Item has true panic=abort path and false initialized normal return7. Actual abnormal edge must execute no return0/normal destination update; normal useful read succeeds.",
+      "source_protocol": {
+        "return_or_abort": {
+          "signature": "(bool)->MU<u8>",
+          "shadow_parameter_indices": [],
+          "shadow_count": 0,
+          "normal_return_index": 0,
+          "normal_return_count": 0,
+          "numeric_signature": "UNKNOWN",
+          "abnormal": "panic branch line11 diverges; no Return/return0 store on that path; caller normal target not executed"
+        }
+      },
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/transfer-qualification/normal-abort.rs",
+        "line": 11,
+        "expression": "panic!(\"transfer qualification abort\");",
+        "property_class": "panic assertion"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs",
+        "bytes": 947,
+        "sha256": "47e48e69bff71f92f9f098acbea449cb44ce40034d9bea6eb6f3818bc6b3838f"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.expected",
+        "bytes": 252,
+        "sha256": "4bedbd7632f8f9775f5f07a39430cb5b2e26c623bc551896b6ce9e395a9e1467"
+      },
+      "source_root": "ensures_left_hole",
+      "mode": "ordinary Assert",
+      "semantic_expected": "FAILURE:intended operand uninit read; companion SUCCESS",
+      "required_binding": "Original typed origin/Some-None mask -> immutable canonical symbol -> completed reset/seed -> first effect -> BOTH retained raw_eq operands; source-following false for copy-hole. None is not Some(0); no reseed or extra failures.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs",
+        "line": 15,
+        "expression": "raw_eq(*result, &[MaybeUninit::new(7u8); 3])",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs",
+        "bytes": 949,
+        "sha256": "6e0cb23853ca8954b1824adb5375df8c141da6fc2653f89c75eb96e0b9f10bda"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.expected",
+        "bytes": 254,
+        "sha256": "e4c29764a41c9f1483b87dbeb5ad4268bc3b8ea952a5d6b9730326bf0c8d9b2a"
+      },
+      "source_root": "ensures_right_hole",
+      "mode": "ordinary Assert",
+      "semantic_expected": "FAILURE:intended operand uninit read; companion SUCCESS",
+      "required_binding": "Original typed origin/Some-None mask -> immutable canonical symbol -> completed reset/seed -> first effect -> BOTH retained raw_eq operands; source-following false for copy-hole. None is not Some(0); no reseed or extra failures.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs",
+        "line": 15,
+        "expression": "raw_eq(&[MaybeUninit::new(7u8); 3], *result)",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs",
+        "bytes": 1270,
+        "sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.expected",
+        "bytes": 137,
+        "sha256": "6fb62c8154c9248d51f319458e7caacfb13ded674d377a0e60d240f21ab31228"
+      },
+      "source_root": "legal_ordinary_transfer",
+      "mode": "ordinary Assert",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Original typed origin/Some-None mask -> immutable canonical symbol -> completed reset/seed -> first effect -> BOTH retained raw_eq operands; source-following false for copy-hole. None is not Some(0); no reseed or extra failures.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/immutable-masks/copy-hole.rs",
+        "bytes": 911,
+        "sha256": "e95bac37b8e6c26c05adef935f45741489752acfb7b286b85c389e684fac47b3"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/immutable-masks/copy-hole.expected",
+        "bytes": 304,
+        "sha256": "1285983a1932a9032df9f01c52ffaf2990feb0ea7ef6f9a074ad9da9339f82f1"
+      },
+      "source_root": "copied_immutable_hole_remains_uninitialized",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:intended operand uninit read; companion SUCCESS",
+      "required_binding": "Original typed origin/Some-None mask -> immutable canonical symbol -> completed reset/seed -> first effect -> BOTH retained raw_eq operands; source-following false for copy-hole. None is not Some(0); no reseed or extra failures.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/immutable-masks/copy-hole.rs",
+        "line": 23,
+        "expression": "let _equal = unsafe { raw_eq(&target, right) };",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/immutable-masks/empty.rs",
+        "bytes": 553,
+        "sha256": "1bf8317f916902caa504eae259e334a762328a307c845b087d13e8a7666bd84d"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/immutable-masks/empty.expected",
+        "bytes": 136,
+        "sha256": "ad6767a2682d28b9d5fe7371c07f6b9a7a7c8050bf3ce52e0e738f062fd43326"
+      },
+      "source_root": "empty_immutable_arrays",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Original typed origin/Some-None mask -> immutable canonical symbol -> completed reset/seed -> first effect -> BOTH retained raw_eq operands; source-following false for copy-hole. None is not Some(0); no reseed or extra failures.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/immutable-masks/zero-byte-hole.rs",
+        "bytes": 661,
+        "sha256": "8a76ef0263178378aed8f8a13db647808f70facefbe6323132752fc128d25a58"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/immutable-masks/zero-byte-hole.expected",
+        "bytes": 288,
+        "sha256": "10b32d8779c1d4e595cca3c7f0cc0813d936bbb18f3b8a183df7586c27511777"
+      },
+      "source_root": "zero_and_uninitialized_are_distinct",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:intended operand uninit read; companion SUCCESS",
+      "required_binding": "Original typed origin/Some-None mask -> immutable canonical symbol -> completed reset/seed -> first effect -> BOTH retained raw_eq operands; source-following false for copy-hole. None is not Some(0); no reseed or extra failures.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/immutable-masks/zero-byte-hole.rs",
+        "line": 18,
+        "expression": "let _equal = unsafe { raw_eq(left, right) };",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/immutable-masks/zero-bytes-legal.rs",
+        "bytes": 599,
+        "sha256": "763c1a3537988d888438e152157ba9212f185277255e1fb208d9db2ba063f7f8"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/immutable-masks/zero-bytes-legal.expected",
+        "bytes": 136,
+        "sha256": "9103bf718de45e6e4e94a735a6d6e7466a26c0b52fce247aa4e9c49ea88e7868"
+      },
+      "source_root": "initialized_zero_bytes",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Original typed origin/Some-None mask -> immutable canonical symbol -> completed reset/seed -> first effect -> BOTH retained raw_eq operands; source-following false for copy-hole. None is not Some(0); no reseed or extra failures.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/promoted-allocations/direct-left-hole.rs",
+        "bytes": 1005,
+        "sha256": "5726e676c370a02a49f8938250dd7ac1ba98f3bed68f150d515b040291701e7a"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/promoted-allocations/direct-left-hole.expected",
+        "bytes": 268,
+        "sha256": "6c395d5ffeb21764bf0fea7ca059aa9e6f2712e38cd4b7657de39b794a1ab77b"
+      },
+      "source_root": "promoted_direct_left_hole",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:intended operand uninit read; companion SUCCESS",
+      "required_binding": "Original typed origin/Some-None mask -> immutable canonical symbol -> completed reset/seed -> first effect -> BOTH retained raw_eq operands; source-following false for copy-hole. None is not Some(0); no reseed or extra failures.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/promoted-allocations/direct-left-hole.rs",
+        "line": 22,
+        "expression": "let _equal = unsafe { raw_eq(left, right) };",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/promoted-allocations/direct-legal.rs",
+        "bytes": 841,
+        "sha256": "391ead9f771980d47e2534b9a109dd24373bffc46e3c1211e0cd59c6a48cefa3"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/promoted-allocations/direct-legal.expected",
+        "bytes": 135,
+        "sha256": "a536c9302c2c380c013d5d3160e4fd91e2573895fe0765edec3bcea942ccb926"
+      },
+      "source_root": "promoted_direct_legal",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Original typed origin/Some-None mask -> immutable canonical symbol -> completed reset/seed -> first effect -> BOTH retained raw_eq operands; source-following false for copy-hole. None is not Some(0); no reseed or extra failures.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/promoted-allocations/direct-right-hole.rs",
+        "bytes": 1007,
+        "sha256": "9624498706d5339c68cf320eb451d17806e6b441c352bcd5b454dde038abdbf9"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/promoted-allocations/direct-right-hole.expected",
+        "bytes": 270,
+        "sha256": "55e4530c1c249ebc9317228c0406b25d8003864d9d49b4bf9e26bbc5698fa045"
+      },
+      "source_root": "promoted_direct_right_hole",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:intended operand uninit read; companion SUCCESS",
+      "required_binding": "Original typed origin/Some-None mask -> immutable canonical symbol -> completed reset/seed -> first effect -> BOTH retained raw_eq operands; source-following false for copy-hole. None is not Some(0); no reseed or extra failures.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/promoted-allocations/direct-right-hole.rs",
+        "line": 22,
+        "expression": "let _equal = unsafe { raw_eq(left, right) };",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/promoted-allocations/helper-left-hole.rs",
+        "bytes": 1130,
+        "sha256": "71d3218e87ec001df69e60ca0d517e9e0faec3d3d777656b0b2fda0b404f3eb5"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/promoted-allocations/helper-left-hole.expected",
+        "bytes": 268,
+        "sha256": "d7f4ab714af0e4c392bfa7f4ab58e366140a36968f56fd1ccc0a314375e21017"
+      },
+      "source_root": "promoted_helper_left_hole",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:intended operand uninit read; companion SUCCESS",
+      "required_binding": "Original typed origin/Some-None mask -> immutable canonical symbol -> completed reset/seed -> first effect -> BOTH retained raw_eq operands; source-following false for copy-hole. None is not Some(0); no reseed or extra failures.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/promoted-allocations/helper-left-hole.rs",
+        "line": 14,
+        "expression": "unsafe { raw_eq(left, right) }",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/promoted-allocations/helper-legal.rs",
+        "bytes": 966,
+        "sha256": "2fcffcc8d0d8eca19fb699fd4e8e3696e0f297f34842f186fc9901a5fbc54e93"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/promoted-allocations/helper-legal.expected",
+        "bytes": 135,
+        "sha256": "d3f9838927c4bf0dce1d403cbee5f9575309115b2ee59ddb9b2e7d93c345d35b"
+      },
+      "source_root": "promoted_helper_legal",
+      "mode": "ordinary",
+      "semantic_expected": "SUCCESS",
+      "required_binding": "Original typed origin/Some-None mask -> immutable canonical symbol -> completed reset/seed -> first effect -> BOTH retained raw_eq operands; source-following false for copy-hole. None is not Some(0); no reseed or extra failures.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null
+    },
+    {
+      "source": {
+        "path": "tests/expected/uninit/promoted-allocations/helper-right-hole.rs",
+        "bytes": 1132,
+        "sha256": "ceb13861d49dc17c57dc8781d61ae718e820d69ca12932da8a26f62a267e9d7b"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/promoted-allocations/helper-right-hole.expected",
+        "bytes": 270,
+        "sha256": "108b5b5a877aeacc3f83fcfdc647943f00dce943f8487e5a5bfb6947f6ec63b6"
+      },
+      "source_root": "promoted_helper_right_hole",
+      "mode": "ordinary",
+      "semantic_expected": "FAILURE:intended operand uninit read; companion SUCCESS",
+      "required_binding": "Original typed origin/Some-None mask -> immutable canonical symbol -> completed reset/seed -> first effect -> BOTH retained raw_eq operands; source-following false for copy-hole. None is not Some(0); no reseed or extra failures.",
+      "outcome": "NOT_RUN",
+      "actual_emitted_root": "UNKNOWN",
+      "actual_property_ids": null,
+      "expected_failure_site": {
+        "path": "tests/expected/uninit/promoted-allocations/helper-right-hole.rs",
+        "line": 14,
+        "expression": "unsafe { raw_eq(left, right) }",
+        "property_class": "uninitialized payload read"
+      },
+      "legal_companion": "CONTROL-MAP.md negative-prefix/companion table; independently reached positive controls, never inferred from negative outcome",
+      "extra_failures_allowed": false
+    }
+  ],
+  "mixed_composition": {
+    "status": "ABSENT_FROM_BASE_REUSE_EXACT_EXTERNAL_TEST_PACKAGE",
+    "source_repo": "/root/kani-fix-3300-m1",
+    "commit": "83ceadf0485f30548c92b77c87b3c08a53f0b019",
+    "tree": "15d3d3ecb5d353da3ae1c51567d9b0d04cc9f5fb",
+    "files": [
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.expected",
+        "bytes": 136,
+        "sha256": "34a83e4fb931adf473f240c924f37c210dc4574605e84fa454d192c06fb80d56"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs",
+        "bytes": 853,
+        "sha256": "78cbf7c6cad3268db4598620cb7fb877cc648982fa5704f5054e4a2c93e089e1",
+        "source_root": "mixed_eq_u8_stack_left",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.expected",
+        "bytes": 137,
+        "sha256": "bfeca32984e9c7c10257f813ec9491fed0c76a821c04bb04a234e843ff13ee6a"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs",
+        "bytes": 854,
+        "sha256": "fe1ce854568472102fb57a3ab8e5be691051355abeac8d3833846402b681f872",
+        "source_root": "mixed_eq_u8_stack_right",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.expected",
+        "bytes": 280,
+        "sha256": "b42c2a6f2c4b61f0a916de4f1d093bf88d479706f54c677c78c9b64d6383faf3"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.rs",
+        "bytes": 1317,
+        "sha256": "03466bf9e0f3f0921164bbc1249cdaa5d3f28d0993b2429118945f2fb1835da5",
+        "source_root": "mixed_raw_mu_promoted_left_hole",
+        "semantic_expected": "FAILURE:intended promoted operand uninit; stack companion SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.expected",
+        "bytes": 282,
+        "sha256": "7e27e5a614eeb94728cbabfd16278ea4719ea2cb53a6f3ded6e97899ecaca7df"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.rs",
+        "bytes": 1319,
+        "sha256": "0345b28961c76c1094f25863efe013c4c95f6cd69aa604bbcc311c06376a564c",
+        "source_root": "mixed_raw_mu_promoted_right_hole",
+        "semantic_expected": "FAILURE:intended promoted operand uninit; stack companion SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.expected",
+        "bytes": 143,
+        "sha256": "693e5ea90dfbfe670ad86cf807ae8b65096607e2c9f0549695c837891fc00a2d"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.rs",
+        "bytes": 1149,
+        "sha256": "6220ce629edad8d7be324d3f9909174edccbb69b44db108c7b252c6508c8f3c7",
+        "source_root": "mixed_raw_mu_stack_left_legal",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.expected",
+        "bytes": 144,
+        "sha256": "e0c928674b94ba8edd9867b2bfa7e12aab3b8781fbb90e5110853b92c0db20d7"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.rs",
+        "bytes": 1150,
+        "sha256": "1f1f4886873c70f3b16e208bd09e37393432f63dec72f0d9e12328e3bfd07c8e",
+        "source_root": "mixed_raw_mu_stack_right_legal",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.expected",
+        "bytes": 137,
+        "sha256": "b53ebbe34962fa209fef3d7cf841505223d3c4c654f15022f81e8fd667865fb8"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs",
+        "bytes": 946,
+        "sha256": "b3457824bba62c091adceaf32b266e578aef3fe4ad18237037a84721bd65ab2d",
+        "source_root": "mixed_raw_u8_stack_left",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.expected",
+        "bytes": 138,
+        "sha256": "1b8633a39c51c1cb0c9780924c978666b12ec8b4dcb6225019f87217aa1b1325"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs",
+        "bytes": 947,
+        "sha256": "a79cb15f62475e99ea82e598ac2917194dedbcdf817c4590075c0368d3c80850",
+        "source_root": "mixed_raw_u8_stack_right",
+        "semantic_expected": "SUCCESS"
+      }
+    ],
+    "import_policy": "Coordinator/owner15 test-only composition; never import production from this commit; not part of R7-C delta",
+    "source_access": "Read-only Git object bytes: git show COMMIT:path; files absent current worktree/base; do not checkout"
+  },
+  "unit5": {
+    "source": {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "bytes": 19071,
+      "sha256": "c01ced42f97efdbc8d6a34c75f229753af59f380549518af971ecea672cd72b2"
+    },
+    "module": "codegen_cprover_gotoc::context::immutable_allocations::tests",
+    "names": [
+      "zero_is_initialized_hole_is_not",
+      "compatible_reuse_and_conflict_preserve_first_descriptor",
+      "mutable_or_unqualified_is_not_admitted",
+      "seed_preserves_labeled_reset_completion_and_original_edges",
+      "empty_mask_has_no_seed_index_or_object_query"
+    ],
+    "outcome": "NOT_RUN",
+    "synthetic_conflict_is_rust_source_repro": false
+  },
+  "static_checks": {
+    "exact_base": true,
+    "only_four_added_test_files": true,
+    "P1_bytes": true,
+    "P2_hash": true,
+    "existing_controls_unchanged": true,
+    "mixed_fixed_hashes_match": true,
+    "pinned_rustfmt": "PASS_NOT_COMPILATION",
+    "diff_check": "PASS"
+  },
+  "compilation": "NOT_RUN",
+  "solver": "NOT_RUN",
+  "runtime_bindings": "UNKNOWN",
+  "cloud_usd": 0,
+  "dispatches": 0,
+  "proof_credit": 0,
+  "kani_push": false,
+  "review": {
+    "reviewer": "/root/r7c_review",
+    "model": "gpt-6-luna",
+    "effort": "high",
+    "nested_delegation": false,
+    "verdict": "NO_STATIC_INPUT_VALIDITY_OR_GOLDEN_BLOCKER",
+    "packet_sha256": "af0d075d4d053423fb0513eebd7c0bababa0c255d3f91e86bc0ae338bf736de4",
+    "spec_sha256": "931c0f723a566b4a70f5ad6e44867e5809a5bf80e311c00e020828b7ff5e9d6d",
+    "test_code_changed_after_review": false,
+    "mixed_git_object_hashes_independently_verified": true
+  }
+}
