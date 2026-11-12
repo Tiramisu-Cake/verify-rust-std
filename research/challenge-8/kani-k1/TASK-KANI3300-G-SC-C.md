@@ -1,93 +1,68 @@
-# KANI3300 G-SC-C — boundary controls и SmallSort scratch map, worker 14
+# KANI3300 G-SC-C — read-only инвентарь SmallSort, worker 14
 
-**Выдано координатором 2026-11-13.** Runtime Codex, одна сессия test-only подготовки, **Cloud $0**.
-Это верификация корректности, не security-работа. Production guard — owner15 по TASK-KANI3300-G-SC.md.
-Fork CI запускает координатор; локальные compiler/verifier/builds запрещены. Второй аудит параллельно.
+**Выдано координатором 2026-11-13; заменяет прежнее задание на controls.** Runtime Codex, одна сессия, **Cloud $0**.
+Это верификация корректности, не security-работа.
+**Без кода:** никаких guard implementation, новых fixtures/goldens, source branches, workflow/runner changes или запусков.
+G-SC worker15 **HELD / NOT ISSUED** до ответа второго аудитора. На сужении scope не настаиваем: инвентарь нужен для выбора.
 
-## База, импорт и разделение файлов
+## Цель и вход
 
-Прочитать TASK-KANI3300-G-SC.md, аудит @ab75098224 §5–8, `kani3300/d1a/` @15276d5723,
-`kani3300/m2br7c/{CONTROL-MAP.md,TEST-MANIFEST.json}` и m2br8c counterparts.
-Создать `/root/kani-fix-3300-gsc-controls`, branch `tests/kani-3300-pfc-scope-controls` от
-**4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c**, tree af28e22ec446b254cfa3a28b2882eafa58d5a458.
-Existing/dirty destination → STOP без reset/stash; production/чужие clones только read-only.
-Все integration .rs/.expected, включая scope oracle changes, принадлежат worker14. Owner15 не меняет их параллельно.
+Установить по нашим материалам, какие **SmallSort Select/Merge roots** используют proof_for_contract,
+stub_verified, обычные contract Assert/Original и uninit-checks; какие реальные вызовы могут переносить shadow state.
+Разделить существующие profile/флаги/результаты и желаемую будущую проверку partially initialized scratch.
+Читать AUDIT-BRIEF-KANI3300-PART1-R3.md, аудит PFC-resource @ab75098224 §5 и d1a/ @15276d5723.
+Kani semantic reference **4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c**; SmallSort refs фиксировать отдельно.
+Не смешивать Kani Part1 с названиями стадий/публикаций SmallSort и не считать разные source trees одним run.
 
-Импортировать только path-filtered test deltas (никаких source ancestors/cherry-pick R7/R8 production):
-- R7-C **fe36afc4a8de2709f00524b2d3fbd6da17919728** от4f64: private-transfer-frame/{scalar-pfc-legal,lawful-modifies}.{rs,expected}.
-- R8-C **e588fa6437e7904a6d10e05a983b3c381f9b52c5** от8e01eb2aff5183c53403e1d1e73e573ce28d3095:
-  private-transfer-pointer/{legal,hole}.{rs,expected}; hashes и exact prefixes брать из manifest.
-Эти пакеты source-ready, не доказанные результаты. R8 ordinary legal/hole смысл/источники/goldens сохранить;
-R7 PFC oracle обновляется явно под новый scope. Старый тест/его исходный смысл не удалять.
-Работа только в tests/expected/uninit/ (и нужной stock test directory для mixed-order/mode fixtures);
-никаких runtime/compiler/library/workflow changes. Разрешён отдельный минимальный test-only .rs для SmallSort-shaped replay.
+## 1. Инвентарь roots и profiles
 
-## 1. Матрица scope controls
+Начать с source/docs в g0, /root/verify-rust-std-kani-directbounds и актуальных Select/Merge worktrees;
+актуальный repo/ref/task/status установить по их короткому workflow guide, читать большие истории только по нужным разделам.
+Найти literal и macro-generated proof_for_contract/stub_verified/ordinary roots, cfg activation и mode-selected callees.
+Матрица ROOTS: subsystem/repo/full ref/file:line/root selector, contract target, Check/RecursiveCheck/Replace/Assert/Original,
+flags и откуда они взяты (runner/request/fixture), uninit on/off/UNKNOWN, active/experimental/historical, reported evidence.
+Положительный grep не доказывает activation; отсутствие flag в одном скрипте не доказывает отсутствие во всех profiles.
+Отделить Kani roots от Select/Merge профилей других инструментов: Kani flags к ним неприменимы, не записывать их как uninit-off.
 
-CONTROL-MAP: root/source hash, selected mode, uninit flags, expected effect, expected result/property и обязательный binding.
-Новые boundary tests не должны опираться на массивное N, сложную сортировку или скрытое расширение MU-of-flat scope.
-Source oracle пока predicted; actual property IDs и parser-matcher правятся только после CI, не выдумывать observed PASS.
+Минимальные известные ориентиры, проверить identities по фактическим файлам:
+- RESULT-DIRECT.md: Merge scratch48 PFC, включая merge_scratch48_contract_u8_n9; uninit **off**.
+- RESULT-SPECDIAG.md G2: uninit_tail_actual_pfc / uninit_sort4_actual_pfc с uninit **on**, Unsupported до target reads.
+- tools/kani_k1.py и scripts/run-kani.sh: штатные флаги и opt-in diagnostic опции; отдельные requests могут их менять.
+- verify/{merge,network,helper_contracts*,forwarding_contracts*,insert_tail_contracts*}: реальные annotations и wrappers.
+Это начальные ссылки, не исчерпывающий инвентарь и не новая proof credit.
 
-| Обязательство | Controls / oracle |
-|---|---|
-| P1/P2 | Frozen scalar-pfc-legal и transfer-qualification/postcondition-hole .rs неизменны; оба explicit Unsupported scope, без semantic proof credit |
-| ordinary/PFC одного тела | Legal ordinary/Assert SUCCESS, hole ordinary intended uninit FAILURE; PFC transfer Unsupported; при uninit off прежний contract смысл отдельно |
-| PFC без transfer | SimpleCheck legal SUCCESS + настоящий contract/frame negative; новый ban не срабатывает |
-| return-only/entry-only | Нет MU args, но MU return0; отдельно discard/unit-return с MU arg; PFC Unsupported, ordinary смысл сохранён |
-| скрытые эффекты | Transfer только в helper, requires и ensures/old/generated closure — разные cases, PFC Unsupported |
-| recursion/generic | RecursiveCheck и generic monomorphization отдельно от обычных nested calls; transfer Unsupported, no-transfer positive |
-| неизвестное ребро | UNKNOWN reachability не становится NO_TRANSFER; scope Unsupported, существующий B1 diagnostic/check не теряется |
-| dead/unreachable путь | Зафиксировать консервативную политику: оставшийся transformed transfer может отклоняться; удалённый путь не создавать искусственно |
-| Replace/stub_verified | Отдельные no-transfer/uninit-off и shadow-transfer cases, отдельная mode квалификация; Check-guard не выдаётся за Replace proof |
-| multi-harness cache | Singleton ordinary/PFC + один unit ordinary→PFC/PFC→ordinary по actual codegen order; ordinary outcome неизменен |
-| ordinary перенос | R8-C offset2/Move/death/false и A3 pairing/return/repeated/nested/data-padding positives/negatives остаются исходными |
-| M1/S3 | raw_eq promoted/stack mixed, immutable masks и ordinary Assert ensures controls вне PFC не становятся Unsupported |
+## 2. Source call/effect map для scratch
 
-Не называть m2a ordinary-singleton «PFC no-transfer» — это другой mode. Не считать nested calls RecursiveCheck.
-Для Replace не задавать SUCCESS по одному наличию source contract: если shadow replacement семантика не установлена,
-вернуть UNQUALIFIED/STOP release claim с конкретным gap. Нельзя использовать отклонённый PFC как доказанный verified stub.
-PFC transfer negative теперь проверяет границу, не прежний payload/frame failure; добавить соответствующий negative
-в оставленном ordinary/Assert или no-transfer PFC режиме, чтобы сохранить проверку настоящего user violation.
-Невакуумность supported cases: useful read/write/contract site достижим, cover/observed binding не заменён ранним guard.
-Unsupported cases: причина/selected context/effect связаны, отказ до Begin/Store/Move-reset/entry load/return0 и до тяжёлого пути.
-Goldens не должны принимать любой FAILED/assignable/Unsupported; нужны отличимые reason/class и intended source binding.
-ORACLE-CHANGES: old→new expectation, почему scope decision, сохранённый original .rs hash и companion supported control.
-В legal-pair отдельно квалифицировать оба roots: aggregate FAILED от PFC не доказывает ordinary SUCCESS.
+Для найденных roots проследить выбранный body → constructors/setup → helpers/clauses → call/return boundary.
+Использовать тот же критерий shadow-carrying union/MaybeUninit, что инструментер на4f64; source signature-only недостаточно.
+Для каждого edge: caller/callee monomorphization и source site, mode, типы аргументов/return, предполагаемый Begin/Store/entry Load/
+Store0/normal Load0, что известно из source, что требует actual MIR/GOTO. Не выдавать predicted effect за emitted/исполненный.
+Проверить transfer только в requires/ensures/old/helper/generated closure, generic/dynamic/unresolved edges и recursive contexts;
+unknown edge отметить UNKNOWN с причиной, не NO_TRANSFER. Полноту обхода/границы inspected graph указать явно.
 
-## 2. Проверка практической цели SmallSort — source map, затем CI-request
+Отдельно backing geometry: stable flat [MaybeUninit<T>;48], general MaybeUninit<[T;48]>, raw pointer/slice views,
+initialized prefix, uninit tail, ownership/lifetime/frame, частичные записи и helper returns. Ничего не переписывать ради модели.
+MaybeUninit<[MaybeUninit<T>;N]> и compound/G1 формы — отдельный scope gap, не молчаливое расширение Part1.
+Разделить scratch constructor outside Check и operation inside selected Check; whole-harness admission шире path/context guard.
+Для каждого root дать влияние **кандидатных** границ: effect-based Check/RecursiveCheck cut, whole-PFC-harness admission,
+ordinary-only экспорт; no-transfer доказан source map / возможный transfer / UNKNOWN. Ни одна граница здесь не выбрана.
+Replace/stub квалифицировать отдельно; Unsupported PFC не является доказанным контрактом для verified stub.
 
-Читать текущие `library/core/src/slice/sort/shared/smallsort.rs` и verify/{merge,network,helper_contracts*} и exact refs.
-История: RESULT-DIRECT.md (K-1 Merge scratch48 PFC, **uninit off**), RESULT-SPECDIAG.md G2
-(PFC+uninit был, но Unsupported до reads; не положительное доказательство), tools/kani_k1.py и scripts/run-kani.sh.
-Доступные материалы есть в `/root/verify-rust-std-kani-directbounds` и g0; не подменять их новым Kani pin молча.
-Составить SCRATCH-ROOTS: exact repo/ref/root/file, ordinary/PFC/Replace/Assert, flags/profile, backing/prefix/tail,
-constructors/returns/helpers/clauses, predicted guard reason или NO_TRANSFER completeness; current/distorical evidence отдельно.
-Включить merge_scratch48_contract_u8_n9 и родственные DIRECT roots, ordinary route callers и SPECDIAG actual PFC cases;
-для Select перечислить реально найденные roots/профили либо конкретный пробел, не универсальное «PFC не используется».
-Учесть stable flat `[MaybeUninit<T>;48]`, general `MaybeUninit<[T;48]>`, raw/slice view constructors, helper calls/returns;
-scratch tail остаётся uninit, initialized prefix читается законно, invalid whole-array assume_init ради replay запрещён.
-Вложенный `MaybeUninit<[MaybeUninit<T>;N]>` — отдельный прежний scope gap, не расширять им этот этап.
+## 3. Вывод для аудитора
 
-Подготовить маленькие ordinary/PFC matched scratch-shaped legal/hole fixtures и source correspondence к реальным paths;
-не переносить весь std sorter в standalone input и не называть маленькую модель proof реального SmallSort.
-CI-REQUEST разделяет дешёвые model controls и replay exact real SmallSort roots на guard-кандидате:
-разные trees/пины std library требуют явного composition recipe, data/model/scope predictions не PASS.
-Где direct replay на Kani4f64 невозможен без новой std build инфраструктуры, вернуть точный gap/NOT_RUN, не строить новый runner.
-Если guard режет нужный PFC scratch root — это явное сокращение практической цели для решения владельца,
-не причина незаметно сделать exemption или заявить, что «существующий uninit-off CI сохранился → цель выполнена».
+Какие существующие uninit-off результаты сохраняются отдельно от вопроса, какие желаемые PFC+uninit scratch proofs потеряем?
+Какие exact roots могут проверить практическую цель ordinary storage, а какие требуют compositional contracts/Replace?
+Дать короткие сценарии legal initialized prefix и hole, но **только описания**, не код/fixtures/CI-request на dispatch.
+Если exact call graph/флаги/selected mode неизвестны, перечислить минимальные недостающие MIR/GOTO/profile сведения.
+Не запускать compilers/verifiers/inventory Builds ради этих пробелов и не выводить полное покрытие из нескольких roots.
 
-## Результат, review, STOP
+## Результат и STOP
 
-Разрешены Git/hash/diff/Python static checks и pinned rustfmt; нет local cargo/rustc/Kani/CBMC/Miri/builds/CI/Cloud dispatch.
-Статика типов/unsafe/атрибутов/compiletest directives обязательна; source review не compilation, учесть B3 урок.
-Один bounded Luna High review матрицы/oracles/невакуумности/тестовой изоляции, без nested delegation.
-В g0 **kani3300/gscc/**: INPUTS.json, CONTROL-MAP.md, ORACLE-CHANGES.md, SCRATCH-ROOTS.md,
-TEST-MANIFEST.json (test-only patch/full parents/hashes), REVIEW.md, CI-REQUEST.md и RESULT-KANI3300-G-SC-C.md (≤30 строк).
-Обозначить exact test composition для owner15; без ожидания его implementation закончить source-ready controls и handoff.
-До CI NOT_COMPILED/NOT_RUN/UNKNOWN, proof credit0. Worker15/координатор применяет test-only patch на финальный guard source;
-контроли проверяются на **этой** композиции, не на базовом4f64 с прежними ореклами. M3/full gate не закрываются source review.
-Local test commit(s) без [skip ci], author/committer Tiramisu-Cake <igkharin@gmail.com>, **не push**.
-Research [skip ci], тот же author/committer, stage только gscc/, push g0 без force; concurrency → handoff без reset/stash.
-Без raw archives/full logs/credentials, PR/issues/сторонних PR links; scripts/workflow/запуски — координатор.
-Во всех будущих PR: *Disclosure: this change and description were prepared with the help of AI assistants.*
-После reviewed test-only package STOP. Последняя строка: `READY <sha локального G-SC-C test-коммита>`.
+В g0 **kani3300/gscc/**: INPUTS.json (repos/refs/read coverage), ROOTS.md или ROOTS.json,
+CALL-EFFECT-MAP.md, SCOPE-IMPACT.md, RESULT-KANI3300-G-SC-C.md (≤30 строк).
+Только Markdown/JSON evidence inventory; Git/rg и точечная Python-обработка существующих source/research допустимы.
+Никаких source/test commits в Kani, code files, local cargo/rustc/Kani/CBMC/Miri/builds/CI/Cloud dispatch,
+raw archives/full logs/GCS/credentials, PR/issues или сторонних PR links. Reported/source-derived/UNKNOWN раздельно, proof credit0.
+Research [skip ci], author/committer Tiramisu-Cake <igkharin@gmail.com>, stage только gscc/, push g0 без force;
+concurrency → handoff без reset/stash/чужих файлов. Никаких будущих implementation задач до решения координатора после аудита.
+После инвентаря STOP. Последняя строка: READY <sha research-коммита G-SC-C>.

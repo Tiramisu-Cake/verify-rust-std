@@ -1,9 +1,12 @@
 # KANI3300 G-SC — fail-closed PFC scope, worker 15
 
-**Выдано координатором 2026-11-13.** Runtime Codex, одна сессия реализации/review, **Cloud $0**.
+**HELD / NOT ISSUED — коррекция владельца 2026-11-13. Реализацию НЕ выдавать до ответа второго аудитора.**
+Ниже сохранён неутверждённый implementation draft; он не разрешает создавать source-кандидат или начинать кодирование.
+Runtime Codex, предполагаемая одна сессия реализации/review, **Cloud $0** — только после нового поручения координатора.
 Это верификация корректности, не security-работа. Local compiler/verifier/builds запрещены; fork CI запускает координатор.
-Владелец принял scope cut сейчас; второй узкий аудит идёт параллельно, подготовки source не задерживает.
-Worker15 владеет production; worker14 по TASK-KANI3300-G-SC-C.md — всеми integration fixtures/goldens и scratch map.
+Владелец приостановил решение о реализации: scope cut и альтернативы открыты для независимой оценки.
+Worker15 не получает implementation stage. Worker14 по TASK-KANI3300-G-SC-C.md готовит только read-only инвентарь.
+Все нижеследующие implementation/CI/oracle инструкции — исторический draft, не действующее разрешение.
 
 ## Вход и точная база
 
