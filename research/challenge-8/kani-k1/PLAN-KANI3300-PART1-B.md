@@ -5,8 +5,13 @@ Direct-MU-only экспорт отклонён. Полная для заявле
 type-only skip, default true и потеря negative checks не являются вариантом. Runtime Codex; Cloud $0, CI только координатора.
 Это верификация корректности, не security-работа.
 
-**Текущий handoff 2026-11-12:** 14 → TASK-KANI3300-M2B.md (Assert/ensures immutable-mask repair);
-15 после B3-CI → TASK-KANI3300-M2B-RESOURCE.md (read-only/diagnostic resource+private-frame localization). M3 HELD.
+**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR2.md: actual symtab/DFCC widths и U→R1→A1→A2R
+bounded request (≤4pins), Cloud$0. A2R43249040713 и A3R43249047207 оба heavy после reported symex/postprocess;
+A3 не необходим для воспроизведения, huge-object hypothesis ещё не bound. 14 — прежний Assert/ensures binding gate
+M2-B/S @45ca2e8f71, без заявленного seed repair. M3 HELD, gates независимы.
+
+**Предыдущий handoff M2-B:** 14 → TASK-KANI3300-M2B.md (Assert/ensures immutable-mask repair);
+15 после B3-CI → TASK-KANI3300-M2B-RESOURCE.md (resource+private-frame localization).
 M2-Aea0fbb5931 probes: M1 run43243491671 C03 Assert falseFAIL `[u8;3]`, C04–C06 PASS;
 baseline6134 run43244391200 C03–C06 falseFAIL. Scalar PFC P1/P2 обеих lanes resource cutoff >6GiB;
 upstreambf9 run43244395728 дешевле, но frameFAIL/store_argument и Unsupported, не proof baseline.

@@ -4,6 +4,10 @@
 **Cloud $0**, без локальных compiler/verifier запусков; fork CI только координатора.
 Это верификация корректности, не security-работа.
 
+**Новый handoff:** M2-B/R @c90cb9466d; R01–R04 probes A2R43249040713/A3R43249047207 оба heavy
+после reported symex/postprocess. Worker15 переходит к TASK-KANI3300-M2BR2.md: actual widths/DFCC use и early-Part1
+bisect ≤4pins; прежнюю очередь не повторять. Release repair/seed gate не открыты, historical m2br results не менять.
+
 ## Вход и цель
 
 Прочитать TASK-KANI3300-M2B.md (таблица трёх runs — coordinator-reported facts), M2-A @
