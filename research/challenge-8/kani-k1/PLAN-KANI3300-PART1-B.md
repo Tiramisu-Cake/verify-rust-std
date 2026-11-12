@@ -22,9 +22,12 @@ type-only skip, default true и потеря negative checks не являютс
 - M0 `742c77fa03` принят: exact immutable mask после witness reset; registry lifetime уточнён как один exported
   GotocCtx/model, не общий compiler CodegenUnit. Действующий left setter сохраняется.
 - C1-L `a8f6b7196a` подготовлен, отдельный compile-only CI/runner отменён координатором. Вместо него C1-T через обычный Quick.
-- C1-P `d8d3e6d4ca` подготовлен. Worker 14 начинает M1; worker 15 — 6 test-only promoted selectors C1-T от того же 6134e42dd1.
+- C1-P `d8d3e6d4ca` подготовлен. Worker 14 ведёт M1; worker 15 после C1-T готовит C1-T2 от того же production 6134e42dd1.
   Достаточно **двух** воркеров: model/интеграция у одного владельца,
   B1I/контроли/ограничения ABI у другого. Третий постоянный исполнитель не нужен; bounded Luna High review — по semantic gate.
+- C1-T `28e684cbae`, research `51b86a5214`: по координатору Quick `43219870063` (CI `172a7cfdbc`) expected 125/1/2 ignored;
+  все 6 C1-T matched уже на baseline, known D0 legal FAIL остаётся. Механизм/actual origins/место hole failure не установлены.
+  Worker 15 — C1-T2 mixed inputs и запрос bindings; worker 14 уведомлён файлом M1-NOTICE-C1T2.md, без смены model base.
 
 ## Стадии и зависимости
 
@@ -35,7 +38,8 @@ type-only skip, default true и потеря negative checks не являютс
 | **C1-P — подготовка** | 15 сейчас; TASK-KANI3300-C1P.md, параллельно D0 | Матрица/research-only drafts и compiler-input specs без production, Kani-suite activation и запусков. Переиспользовать existing controls; STOP до D0-A/M0 |
 | **M0 — контракт модели** | Принят @ 742c77fa03 | Reviewed design, не proof. Пер-GOTO-model registry finalize после producer passes, до split/export; immutable seed после reset |
 | **C1-L — lowering prep** | READY a8f6b7196a, CI отменён | Новый runner не строить; history сохранить, дальнейший путь — C1-T |
-| **C1-T — promoted selectors** | 15 сейчас; TASK-KANI3300-C1T.md | 6 ordinary expected tests от 6134e42dd1, test-only commit; semantic goldens baseline/M1 одинаковы, operand binding отдельно. Quick запускает координатор |
+| **C1-T — promoted selectors** | READY 28e684cbae; baseline matched все 6 | Regression controls, не D0 reproducer. Actual origins/instrumentation/место hole failure пока не bound; C1-T2 выясняет через обычный Quick/MIR |
+| **C1-T2 — mixed selectors** | 15 сейчас; TASK-KANI3300-C1T2.md | tracked S/promoted P в обоих порядках, raw_eq и std == legal, valid raw_eq MU-hole; выяснить actual origin/check/seed/ранний failure у unchanged C1-T. Без нового runner |
 | **M1 — anonymous/promoted allocations** | 14 сейчас; TASK-KANI3300-M1.md | Immutable Some/None mask, compatible symbol registry и post-reset seed по M0; интеграция точного C1-T test commit. Static review → STOP до targeted/Quick координатора; без нового runner |
 | **C1 — контроли и ABI-границы** | 15 после B1I-A и M0, отдельный clone; production files не пересекаются с M1/M2 | Test-only controls; отдельными ограниченными commits — guards для by-value DST, retained ordinary-union constant, непарного hook/shim, если нужны. Не расширять ABI/union model. Если нужен общий файл/изменение интерфейса — передать владельцу модели, STOP параллельной правки |
 | **M2 — call destinations и state transfer** | Тот же model owner, последовательно после M1 | Coverage/qualification существующих normal-return setters и false transfers. D0 left setter не чинить; новый setter только по отдельному достигнутому gap. Не bless padding/false, не менять unwind/abort edge; review + reached controls → STOP |

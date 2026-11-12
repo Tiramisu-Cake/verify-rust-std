@@ -5,6 +5,10 @@
 
 ## Вход, ветка и выбранная модель
 
+**Обновление после C1-T Quick:** прочитать `M1-NOTICE-C1T2.md` и `TASK-KANI3300-C1T2.md`.
+Шесть C1-T уже проходят на baseline; они не воспроизводят D0 и пока не доказывают promoted mask path.
+Требование двух исходных D0 legal и mixed controls с actual operand binding остаётся обязательным.
+
 Прочитать `kani3300/m0/{MODEL-CONTRACT.md,IMPLEMENTATION-PLAN.md,CONTROL-MAP.json,REVIEW.md}` @ **`742c77fa03`**,
 `kani3300/d0a/{RESULT.md,NOTES.md}` @ `ff5cabbfca` и `TASK-KANI3300-C1T.md`.
 Чистый base **`6134e42dd1c65dc980336e7d9455aba02d423edf`** в `/root/kani-fix-3300-p1b1` — read-only.
@@ -55,7 +59,8 @@ producer codegen/contract/quantifier post-passes данного model, до meta
 
 ## Тесты и разделение владения
 
-- Шесть promoted direct/helper legal/left-hole/right-hole selectors готовит **15 по C1-T** в отдельной ветке от того же base.
+- Шесть promoted direct/helper selectors готовы в C1-T **28e684cbae**; все matched уже на baseline, это пока regression inputs,
+  не D0 reproducer/immutable-mask qualification. Воркер **15 готовит C1-T2** mixed controls и binding request.
   Не редактировать его files параллельно. Перед final M1 package импортировать точный test-only commit без source changes
   (проверить diff/path/hash), либо передать координатору точный composition request, если commit ещё не готов; не дублировать fixtures.
   Эти semantic goldens остаются одинаковыми на baseline/M1: legal SUCCESS, hole — intended operand uninit FAILURE.
@@ -80,7 +85,7 @@ producer codegen/contract/quantifier post-passes данного model, до meta
 В g0 `research/challenge-8/kani-k1/kani3300/m1/`: `NOTES.md` (≤40 строк), `SOURCE-BINDINGS.md`, `TEST-MANIFEST.json`,
 `REVIEW.md`, `CI-REQUEST.md`, `RESULT-KANI3300-M1.md` (≤20 строк). Full base/candidate/tree, production/tests/dependencies
 и exact C1-T composition SHA отдельно. Локальные проверки не называть compilation/verification PASS.
-Request координатору: baseline+C1-T и M1+те же tests, два D0 legal, distinguishing controls, затем existing Uninit Quick;
+Request координатору: baseline и M1+те же C1-T/C1-T2 tests, два unchanged D0 legal, distinguishing controls, затем existing Uninit Quick;
 проверить reset→seed→first-effect placement и exact named outcomes. Full gate и M2/M3 позже, не включать их исполнение сюда.
 Если source/mask/layout/freeze/epoch bridge не установлен, вернуть PREPARED/BLOCKER с точным gap, а не complete model.
 
