@@ -1,0 +1,25 @@
+# KANI3300 B3R2
+- Runtime: Codex; date: 2026-11-12; Cloud budget/spend: $0/$0; no dispatch.
+- Task: TASK-KANI3300-B3R2.md; external audit e6fb9eb7ec read completely.
+- t0 started clean at ff28eb804b1d43ac112e021b2b00fd6fd2d5e059; fetch + ff-only: up to date.
+- Kani started clean on fix/zst-union-codegen-v2 @ 83a413f9be2d57389c991d9f5d1250b4e4386203.
+- v2 tree: c9b9bafdeca616fac235574f33dad477c25ad90b; old branch preserved.
+- New branch: fix/zst-union-codegen-v3, created from bf9c58e662fd65c64381ef2ac97a6397ffc0693a.
+- Local candidate: 495614a5ee331398fde83b6db7684ff201a62c39; one fix-plus-tests commit, sole parent base.
+- New tree: f92c801ad9a23aabaf70e2f422e0f0aa987d6351; old v2 CI is not evidence for this tree.
+- A: padded payload choice uses rustc-derived padding == union_size, no GOTO sizeof walk.
+- Logical union arm type, padding, nonzero payload and no-padding/all-ZST branches retained.
+- A: isolated Node and Node2 graphs use black_box with inferred null casts.
+- Node-first source root is intentional; actual retained order/v2 ICE remain NOT_RUN.
+- C: five isolated controls, ZST first; nested arrays, aligned array and struct wrapper.
+- Each new active harness has a distinct desired SATISFIED cover and correctness assertions.
+- Old seven harnesses, assertions and expected are byte-identical to v2.
+- B: three research-only probes (Tail bytes-first/first-arm, tuple first); expected SUCCESS.
+- ASSESSMENT-B.md bounds the unchanged nonzero/no-padding paths and possible extension.
+- No general struct/ZST elision or representation contract added.
+- Exact inputs/expected hashes and test-only patches are in TEST-MANIFEST.json.
+- Test patches statically applied with temporary indexes; production/old branches unchanged.
+- Allowed rustfmt wrapper and git diff --check pass; source-only warning/API audit performed.
+- No local cargo/rustc/Kani/CBMC/builds/tests, Kani push, CI dispatch or workflow edits.
+- Compile/golden/solver/cover/exit/exception outcomes: NOT_RUN; proof credit: NONE.
+- Final boundary: reviewed local candidate handed to coordinator; STOP before CI.

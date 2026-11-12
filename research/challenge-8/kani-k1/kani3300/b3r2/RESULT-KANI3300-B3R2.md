@@ -1,0 +1,18 @@
+# KANI3300 B3R2 — local reviewed handoff
+- Local v3: 495614a5ee331398fde83b6db7684ff201a62c39 (fix/zst-union-codegen-v3).
+- Sole parent: bf9c58e662fd65c64381ef2ac97a6397ffc0693a; count: 1 commit.
+- Tree: f92c801ad9a23aabaf70e2f422e0f0aa987d6351; author/committer Tiramisu-Cake <igkharin@gmail.com>.
+- A: rustc layout decision; no GOTO sizeof walk; logical types/padding retained.
+- A: two isolated recursive default-check success fixtures, Node/Node2 roots.
+- C: five isolated first-arm/nested controls with distinct desired SATISFIED covers.
+- Original seven harness/assertions/expected preserved byte-for-byte from v2.
+- B: three executable research probes; static assessment; semantic expected SUCCESS.
+- Manifest records exact source/expected hashes, source shapes and NOT_RUN outcomes.
+- Exact base/v2 test-only patches pass static apply checks via temporary indexes.
+- Allowed rustfmt, git diff --check, source warning/API audit, parent/tree/diff checks: PASS.
+- Bounded independent Luna HIGH review: no concrete blocker; REVIEW.md has identities.
+- No local cargo/rustc/Kani/CBMC/builds/tests, Kani push, CI or workflow changes.
+- Cloud spend $0; all new runtime/proof/cover/golden outcomes NOT_RUN; credit NONE.
+- CI-REQUEST.md hands identical inputs and required follow-up jobs to coordinator.
+- PR drafts untouched; no external issue/PR/comment publication.
+- B follow-up requires a new result-driven session; STOP before coordinator CI.

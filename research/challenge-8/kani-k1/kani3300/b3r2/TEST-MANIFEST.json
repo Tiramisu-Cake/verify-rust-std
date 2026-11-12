@@ -1,0 +1,473 @@
+{
+  "schema": "kani3300-b3r2-test-manifest-v1",
+  "scope": "default checks only; no local compilation or verification",
+  "base": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+  "v2": "83a413f9be2d57389c991d9f5d1250b4e4386203",
+  "v3": "495614a5ee331398fde83b6db7684ff201a62c39",
+  "v3_tree": "f92c801ad9a23aabaf70e2f422e0f0aa987d6351",
+  "active": [
+    {
+      "fixture": "tests/expected/zst-union-arm",
+      "category": "preserved_control",
+      "source_shape": "Original seven v2 default controls, assertions and expected byte-identical.",
+      "inputs": [
+        {
+          "path": "tests/expected/zst-union-arm/expected",
+          "sha256": "994b01bceeaabaf3b99bf4b3b78cc81240e53648a96e316f887c04914752759f",
+          "git_blob": "45e7d6da197ca1bf27390ed6a53e6fae407e83ea"
+        },
+        {
+          "path": "tests/expected/zst-union-arm/main.rs",
+          "sha256": "152372c88000ecddd7ecdb5e60f265a385f791b0658306fb5a8484dc7c97ae12",
+          "git_blob": "27ab160bd4573f1fc9386119b1461487d3e6b13f"
+        }
+      ],
+      "harnesses": [
+        "array_typed_copy",
+        "padded_typed_copy_c",
+        "padded_typed_copy_rust",
+        "aligned_zst_typed_copy",
+        "zst_arm_at_nonzero_offset",
+        "all_zst_union",
+        "zst_array_indexing"
+      ],
+      "semantic_expected": "SUCCESS",
+      "cover_expected": [],
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "cbmc": "NOT_RUN",
+        "verdict": "NOT_RUN",
+        "cover": "NOT_RUN",
+        "exit": "NOT_RUN",
+        "exception": "NOT_RUN"
+      },
+      "golden_status": "unchanged from v2"
+    },
+    {
+      "fixture": "tests/expected/zst-union-edge-aligned-array",
+      "category": "C_control",
+      "source_shape": "repr(C) Edge fields zst:[Z;2], bytes:[u8;16]; repr(align(8)) Copy Z.",
+      "inputs": [
+        {
+          "path": "tests/expected/zst-union-edge-aligned-array/expected",
+          "sha256": "258d4c10cb643b4964d02d73c82c01824e7e94305ed2ca3f435ac9160c98c948",
+          "git_blob": "4e1f6276e6c2eaf108728cd9d13bfd974d416a8e"
+        },
+        {
+          "path": "tests/expected/zst-union-edge-aligned-array/main.rs",
+          "sha256": "3e4d0c5a780a4ef59c2154772bc23ceacc0d815578f775011e9e902554ffb322",
+          "git_blob": "d0d4578e3062e857a66d3e1a4ae0c8b91c403e3f"
+        }
+      ],
+      "harnesses": [
+        "copy_aligned_array"
+      ],
+      "semantic_expected": "SUCCESS",
+      "cover_expected": [
+        {
+          "harness": "copy_aligned_array",
+          "description": "copy_aligned_array post-copy data and projection",
+          "status": "SATISFIED"
+        }
+      ],
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "cbmc": "NOT_RUN",
+        "verdict": "NOT_RUN",
+        "cover": "NOT_RUN",
+        "exit": "NOT_RUN",
+        "exception": "NOT_RUN"
+      },
+      "golden_status": "desired convention-based patterns; compile/golden output NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/zst-union-edge-array-first",
+      "category": "C_control",
+      "source_shape": "repr(C) Edge fields zst:[();2], bytes:[u8;16].",
+      "inputs": [
+        {
+          "path": "tests/expected/zst-union-edge-array-first/expected",
+          "sha256": "d7509d819ce0cfa69bd03b74d0924ef6cdc0600ba0a48ea24657dfb787e44b08",
+          "git_blob": "15113be79041baaead1bedd8141863254d689133"
+        },
+        {
+          "path": "tests/expected/zst-union-edge-array-first/main.rs",
+          "sha256": "6162844305ae0d23b96e16306f296666708f2c50e0cd95c836fe5a5f81cd7161",
+          "git_blob": "a4f4b04c2ff92c0cb9be22ef41e529a543c97a41"
+        }
+      ],
+      "harnesses": [
+        "copy_array_first"
+      ],
+      "semantic_expected": "SUCCESS",
+      "cover_expected": [
+        {
+          "harness": "copy_array_first",
+          "description": "copy_array_first post-copy data and projection",
+          "status": "SATISFIED"
+        }
+      ],
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "cbmc": "NOT_RUN",
+        "verdict": "NOT_RUN",
+        "cover": "NOT_RUN",
+        "exit": "NOT_RUN",
+        "exception": "NOT_RUN"
+      },
+      "golden_status": "desired convention-based patterns; compile/golden output NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/zst-union-edge-nested-empty-byte-array",
+      "category": "C_control",
+      "source_shape": "repr(C) Edge fields zst:[[u8;0];2], bytes:[u8;16].",
+      "inputs": [
+        {
+          "path": "tests/expected/zst-union-edge-nested-empty-byte-array/expected",
+          "sha256": "ed5f5b855424fcd04fc06fe43965b01b825e34b0ace2c7846dcf2c6da3493729",
+          "git_blob": "36be197b6d8e83a71d1c8208b83ccbdc92b59751"
+        },
+        {
+          "path": "tests/expected/zst-union-edge-nested-empty-byte-array/main.rs",
+          "sha256": "2d4357ea5edabaffe6d3f43eefb26fe535d2fbb4dd4ed4ca499aa6653d85a2b6",
+          "git_blob": "b9356e59b86ab47bcef8b973d8d153ba484ba1bc"
+        }
+      ],
+      "harnesses": [
+        "copy_nested_empty_byte_array"
+      ],
+      "semantic_expected": "SUCCESS",
+      "cover_expected": [
+        {
+          "harness": "copy_nested_empty_byte_array",
+          "description": "copy_nested_empty_byte_array post-copy data and projection",
+          "status": "SATISFIED"
+        }
+      ],
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "cbmc": "NOT_RUN",
+        "verdict": "NOT_RUN",
+        "cover": "NOT_RUN",
+        "exit": "NOT_RUN",
+        "exception": "NOT_RUN"
+      },
+      "golden_status": "desired convention-based patterns; compile/golden output NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/zst-union-edge-nested-unit-array",
+      "category": "C_control",
+      "source_shape": "repr(C) Edge fields zst:[[();2];3], bytes:[u8;16].",
+      "inputs": [
+        {
+          "path": "tests/expected/zst-union-edge-nested-unit-array/expected",
+          "sha256": "f37c49980207adfe36bfbf7dfb9a282cea6318646b80665ee17e28c761496ce9",
+          "git_blob": "a57e005612d3733ca58513f9dbe4e194331dc46d"
+        },
+        {
+          "path": "tests/expected/zst-union-edge-nested-unit-array/main.rs",
+          "sha256": "ed0de04c56b99e88c74fb644417164689faf57754b4ee9a7a5c8f203a05cbfc0",
+          "git_blob": "4bc648372bb2976e248b71dca6291450ea4a84a9"
+        }
+      ],
+      "harnesses": [
+        "copy_nested_unit_array"
+      ],
+      "semantic_expected": "SUCCESS",
+      "cover_expected": [
+        {
+          "harness": "copy_nested_unit_array",
+          "description": "copy_nested_unit_array post-copy data and projection",
+          "status": "SATISFIED"
+        }
+      ],
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "cbmc": "NOT_RUN",
+        "verdict": "NOT_RUN",
+        "cover": "NOT_RUN",
+        "exit": "NOT_RUN",
+        "exception": "NOT_RUN"
+      },
+      "golden_status": "desired convention-based patterns; compile/golden output NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/zst-union-edge-struct-array",
+      "category": "C_control",
+      "source_shape": "repr(C) Edge fields zst:Wrapped, bytes:[u8;16]; Copy Wrapped {array:[();2]}.",
+      "inputs": [
+        {
+          "path": "tests/expected/zst-union-edge-struct-array/expected",
+          "sha256": "c5bce1c69b77db2d7e3e73d62b7d0a604540b6b4a3e34e93374cdf12d6e08a0c",
+          "git_blob": "f3b51ebb0036fc0e12aadc0a655968e5db8974fb"
+        },
+        {
+          "path": "tests/expected/zst-union-edge-struct-array/main.rs",
+          "sha256": "29b668e3db82e87a96478a987739fabc80e5cfc939acb2f39134f7d981426efd",
+          "git_blob": "3bd9c28c15ab05f4dd4758c8c50b5119267d274e"
+        }
+      ],
+      "harnesses": [
+        "copy_struct_array"
+      ],
+      "semantic_expected": "SUCCESS",
+      "cover_expected": [
+        {
+          "harness": "copy_struct_array",
+          "description": "copy_struct_array post-copy data and projection",
+          "status": "SATISFIED"
+        }
+      ],
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "cbmc": "NOT_RUN",
+        "verdict": "NOT_RUN",
+        "cover": "NOT_RUN",
+        "exit": "NOT_RUN",
+        "exception": "NOT_RUN"
+      },
+      "golden_status": "desired convention-based patterns; compile/golden output NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/zst-union-recursive-arm",
+      "category": "A_regression",
+      "source_shape": "Node {next:*const U}; U fields big:[u8;16], small:Node; Node-first black_box root; expected pointer arm width < 128 bits (64-bit CI: 64-bit padding).",
+      "inputs": [
+        {
+          "path": "tests/expected/zst-union-recursive-arm/expected",
+          "sha256": "db248bbdc90d4769b4939f6b8b163d7e3825fb28492d4f6a428587d5940202b2",
+          "git_blob": "652f535467f7a114ccf7730c1529657d624bd3bc"
+        },
+        {
+          "path": "tests/expected/zst-union-recursive-arm/main.rs",
+          "sha256": "92ca83fa4bd03a47aaaa352d857cd0d6eafefef1bd2e15f91cf51b57a5cb5876",
+          "git_blob": "ad6a59dec66873345b2fc2d7b1e2207ec149fe8a"
+        }
+      ],
+      "harnesses": [
+        "recursive_arm"
+      ],
+      "semantic_expected": "SUCCESS",
+      "cover_expected": [
+        {
+          "harness": "recursive_arm",
+          "description": "recursive_arm retained null root",
+          "status": "SATISFIED"
+        }
+      ],
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "cbmc": "NOT_RUN",
+        "verdict": "NOT_RUN",
+        "cover": "NOT_RUN",
+        "exit": "NOT_RUN",
+        "exception": "NOT_RUN"
+      },
+      "golden_status": "desired convention-based patterns; compile/golden output NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/zst-union-recursive-zst-arm",
+      "category": "A_regression",
+      "source_shape": "repr(C) Node2 {next:*const Link}; Link fields bytes:[u8;8], marker:[Node2;0]; Node2-first black_box root; marker width 0, padding 64 bits.",
+      "inputs": [
+        {
+          "path": "tests/expected/zst-union-recursive-zst-arm/expected",
+          "sha256": "b5b62265928c27d26bdc7ecdc81d395a03b0360af46d54261286f931fd8d5fb5",
+          "git_blob": "4e133729f11846d56c289314eabcf2b20a228412"
+        },
+        {
+          "path": "tests/expected/zst-union-recursive-zst-arm/main.rs",
+          "sha256": "b7885523eda9eb516af65ea70532b219d595a2df2b478740aa61525794e1c884",
+          "git_blob": "7db0bb423648aa77d6304274a296c14486d8220c"
+        }
+      ],
+      "harnesses": [
+        "recursive_zst_arm"
+      ],
+      "semantic_expected": "SUCCESS",
+      "cover_expected": [
+        {
+          "harness": "recursive_zst_arm",
+          "description": "recursive_zst_arm retained null root",
+          "status": "SATISFIED"
+        }
+      ],
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "cbmc": "NOT_RUN",
+        "verdict": "NOT_RUN",
+        "cover": "NOT_RUN",
+        "exit": "NOT_RUN",
+        "exception": "NOT_RUN"
+      },
+      "golden_status": "desired convention-based patterns; compile/golden output NOT_RUN"
+    }
+  ],
+  "probe": [
+    {
+      "input": "probes/tail_bytes_first.rs",
+      "comparison_patch_path": "b3r2-probes/tail_bytes_first.rs",
+      "sha256": "4ee6ef9eb8fe4958a9d3e0856cbf12b9f3bba52e1df0f9bc415fb2ef24951cef",
+      "harness": "tail_bytes_first",
+      "source_shape": "repr(C) Copy Tail {b:u8,z:[();2]}; union fields bytes, tail",
+      "rustc_sizes_asserted_bytes": {
+        "union": 8,
+        "arm": 1
+      },
+      "wrapper_padding_bits": 56,
+      "nested_zst": "retained logical [();2]",
+      "write_copy_read": "full 8-byte src write_bytes -> typed ptr::read/ptr::write -> dst Tail.b or pair.0 plus nested array index/length; no padding data read",
+      "semantic_expected": "SUCCESS",
+      "cover_expected": {
+        "description": "tail_bytes_first post-copy data",
+        "status": "SATISFIED"
+      },
+      "active_suite": false,
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "cbmc": "NOT_RUN",
+        "verdict": "NOT_RUN",
+        "cover": "NOT_RUN",
+        "exit": "NOT_RUN",
+        "exception": "NOT_RUN"
+      }
+    },
+    {
+      "input": "probes/tail_first.rs",
+      "comparison_patch_path": "b3r2-probes/tail_first.rs",
+      "sha256": "322433462b8605244add721ac6b385cb602f43a429fa8d5e438073fe9d6c1771",
+      "harness": "tail_first",
+      "source_shape": "repr(C) Copy Tail {b:u8,z:[();2]}; union fields tail, bytes",
+      "rustc_sizes_asserted_bytes": {
+        "union": 8,
+        "arm": 1
+      },
+      "wrapper_padding_bits": 56,
+      "nested_zst": "retained logical [();2]",
+      "write_copy_read": "full 8-byte src write_bytes -> typed ptr::read/ptr::write -> dst Tail.b or pair.0 plus nested array index/length; no padding data read",
+      "semantic_expected": "SUCCESS",
+      "cover_expected": {
+        "description": "tail_first post-copy data",
+        "status": "SATISFIED"
+      },
+      "active_suite": false,
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "cbmc": "NOT_RUN",
+        "verdict": "NOT_RUN",
+        "cover": "NOT_RUN",
+        "exit": "NOT_RUN",
+        "exception": "NOT_RUN"
+      }
+    },
+    {
+      "input": "probes/tuple_first.rs",
+      "comparison_patch_path": "b3r2-probes/tuple_first.rs",
+      "sha256": "214fcbccdd4ba511286104b9b3a32999f571f1f787e47a6c33fabe7137accb31",
+      "harness": "tuple_first",
+      "source_shape": "repr(C) union fields pair:(u64,[();2]), bytes:[u8;8]; pair first",
+      "rustc_sizes_asserted_bytes": {
+        "union": 8,
+        "arm": 8
+      },
+      "wrapper_padding_bits": 0,
+      "nested_zst": "retained logical [();2]",
+      "write_copy_read": "full 8-byte src write_bytes -> typed ptr::read/ptr::write -> dst Tail.b or pair.0 plus nested array index/length; no padding data read",
+      "semantic_expected": "SUCCESS",
+      "cover_expected": {
+        "description": "tuple_first post-copy data",
+        "status": "SATISFIED"
+      },
+      "active_suite": false,
+      "observed": {
+        "setup": "NOT_RUN",
+        "compiler": "NOT_RUN",
+        "cbmc": "NOT_RUN",
+        "verdict": "NOT_RUN",
+        "cover": "NOT_RUN",
+        "exit": "NOT_RUN",
+        "exception": "NOT_RUN"
+      }
+    }
+  ],
+  "deferred": [
+    {
+      "item": "B probes active-suite promotion or representation repair",
+      "reason": "Requires coordinator base/v2/v3 measured outcomes; separate session/stage."
+    },
+    {
+      "item": "general struct/ZST elision, no-padding representation contract, uninit-checks panic",
+      "reason": "Outside B3R2 scope; no implementation or proof claim."
+    }
+  ],
+  "comparison_patches": [
+    {
+      "path": "tests-on-base.patch",
+      "sha256": "7165c7861a36f34e45415bad263c6bf53092cf87f5eb09740df80f6a553278d6",
+      "on_commit": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+      "test_only_tree": "a7eafafc6e7856148d814e817a946951edf5c6b9",
+      "changed_paths": [
+        "b3r2-probes/tail_bytes_first.rs",
+        "b3r2-probes/tail_first.rs",
+        "b3r2-probes/tuple_first.rs",
+        "tests/expected/zst-union-arm/expected",
+        "tests/expected/zst-union-arm/main.rs",
+        "tests/expected/zst-union-edge-aligned-array/expected",
+        "tests/expected/zst-union-edge-aligned-array/main.rs",
+        "tests/expected/zst-union-edge-array-first/expected",
+        "tests/expected/zst-union-edge-array-first/main.rs",
+        "tests/expected/zst-union-edge-nested-empty-byte-array/expected",
+        "tests/expected/zst-union-edge-nested-empty-byte-array/main.rs",
+        "tests/expected/zst-union-edge-nested-unit-array/expected",
+        "tests/expected/zst-union-edge-nested-unit-array/main.rs",
+        "tests/expected/zst-union-edge-struct-array/expected",
+        "tests/expected/zst-union-edge-struct-array/main.rs",
+        "tests/expected/zst-union-recursive-arm/expected",
+        "tests/expected/zst-union-recursive-arm/main.rs",
+        "tests/expected/zst-union-recursive-zst-arm/expected",
+        "tests/expected/zst-union-recursive-zst-arm/main.rs"
+      ],
+      "static_apply": "PASS (temporary index only)",
+      "runtime_observed": "NOT_RUN"
+    },
+    {
+      "path": "tests-on-v2.patch",
+      "sha256": "435d7e6287e78443bddc01227aa474b3e0c6b2ed458e93312496bd4f144fe397",
+      "on_commit": "83a413f9be2d57389c991d9f5d1250b4e4386203",
+      "test_only_tree": "f5bc6d523b3f4cfb1b783fe8969d06e47b467958",
+      "changed_paths": [
+        "b3r2-probes/tail_bytes_first.rs",
+        "b3r2-probes/tail_first.rs",
+        "b3r2-probes/tuple_first.rs",
+        "tests/expected/zst-union-edge-aligned-array/expected",
+        "tests/expected/zst-union-edge-aligned-array/main.rs",
+        "tests/expected/zst-union-edge-array-first/expected",
+        "tests/expected/zst-union-edge-array-first/main.rs",
+        "tests/expected/zst-union-edge-nested-empty-byte-array/expected",
+        "tests/expected/zst-union-edge-nested-empty-byte-array/main.rs",
+        "tests/expected/zst-union-edge-nested-unit-array/expected",
+        "tests/expected/zst-union-edge-nested-unit-array/main.rs",
+        "tests/expected/zst-union-edge-struct-array/expected",
+        "tests/expected/zst-union-edge-struct-array/main.rs",
+        "tests/expected/zst-union-recursive-arm/expected",
+        "tests/expected/zst-union-recursive-arm/main.rs",
+        "tests/expected/zst-union-recursive-zst-arm/expected",
+        "tests/expected/zst-union-recursive-zst-arm/main.rs"
+      ],
+      "static_apply": "PASS (temporary index only)",
+      "runtime_observed": "NOT_RUN"
+    }
+  ],
+  "all_new_runtime_outcomes": "NOT_RUN",
+  "proof_credit": "NONE"
+}

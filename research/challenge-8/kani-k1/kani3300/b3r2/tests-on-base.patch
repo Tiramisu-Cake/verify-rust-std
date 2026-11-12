@@ -1,0 +1,640 @@
+diff --git a/tests/expected/zst-union-arm/expected b/tests/expected/zst-union-arm/expected
+new file mode 100644
+index 000000000..45e7d6da1
+--- /dev/null
++++ b/tests/expected/zst-union-arm/expected
+@@ -0,0 +1 @@
++Complete - 7 successfully verified harnesses, 0 failures, 7 total.
+diff --git a/tests/expected/zst-union-arm/main.rs b/tests/expected/zst-union-arm/main.rs
+new file mode 100644
+index 000000000..27ab160bd
+--- /dev/null
++++ b/tests/expected/zst-union-arm/main.rs
+@@ -0,0 +1,172 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++//! Regression tests for zero-sized union fields, padded layouts, and typed copies.
++
++use std::mem::{align_of, offset_of, size_of, size_of_val};
++use std::ptr;
++
++#[repr(C)]
++union ArrayUnion {
++    bytes: [u8; 8],
++    zst_array: [(); 2],
++}
++
++#[repr(C)]
++#[derive(Clone, Copy)]
++struct Padded {
++    byte: u8,
++    word: u32,
++}
++
++#[repr(C)]
++union PaddedUnionC {
++    padded: Padded,
++    zst_array: [(); 2],
++}
++
++union PaddedUnionRust {
++    padded: Padded,
++    zst_array: [(); 2],
++}
++
++#[repr(align(8))]
++#[derive(Clone, Copy)]
++struct Z;
++
++#[repr(C)]
++union AlignedUnion {
++    bytes: [u8; 8],
++    zst: Z,
++}
++
++#[repr(C)]
++struct AtOffset {
++    prefix: u64,
++    value: ArrayUnion,
++}
++
++#[repr(C)]
++union AllZst {
++    aligned: Z,
++    unit: (),
++    zst_array: [(); 2],
++}
++
++#[kani::proof]
++fn array_typed_copy() {
++    let mut src = ArrayUnion { zst_array: [(); 2] };
++    let mut dst = ArrayUnion { zst_array: [(); 2] };
++    unsafe {
++        ptr::write_bytes((&mut src as *mut ArrayUnion).cast::<u8>(), 0x5a, size_of::<ArrayUnion>());
++        ptr::write(&mut dst, ptr::read(&src));
++        assert_eq!(size_of_val(&dst.zst_array[1]), 0);
++        // This union's byte arm covers every byte: there is no padding to read.
++        assert_eq!(dst.bytes, [0x5a; 8]);
++    }
++}
++
++// Exercise a padded payload without reading its padding after the typed copy.
++#[kani::proof]
++fn padded_typed_copy_c() {
++    let mut src = PaddedUnionC { padded: Padded { byte: 4, word: 5 } };
++    let mut dst = PaddedUnionC { zst_array: [(); 2] };
++    unsafe {
++        ptr::write_bytes(
++            (&mut src as *mut PaddedUnionC).cast::<u8>(),
++            0x5a,
++            size_of::<PaddedUnionC>(),
++        );
++        ptr::write(&mut dst, ptr::read(&src));
++        assert_eq!(size_of_val(&dst.zst_array[1]), 0);
++        assert_eq!(dst.padded.byte, 0x5a);
++        assert_eq!(dst.padded.word, 0x5a5a5a5a);
++    }
++}
++
++#[kani::proof]
++fn padded_typed_copy_rust() {
++    let mut src = PaddedUnionRust { padded: Padded { byte: 4, word: 5 } };
++    let mut dst = PaddedUnionRust { zst_array: [(); 2] };
++    unsafe {
++        ptr::write_bytes(
++            (&mut src as *mut PaddedUnionRust).cast::<u8>(),
++            0x5a,
++            size_of::<PaddedUnionRust>(),
++        );
++        ptr::write(&mut dst, ptr::read(&src));
++        assert_eq!(size_of_val(&dst.zst_array[1]), 0);
++        assert_eq!(dst.padded.byte, 0x5a);
++        assert_eq!(dst.padded.word, 0x5a5a5a5a);
++    }
++}
++
++#[kani::proof]
++fn aligned_zst_typed_copy() {
++    let mut src = AlignedUnion { zst: Z };
++    let mut dst = AlignedUnion { zst: Z };
++    unsafe {
++        ptr::write_bytes(
++            (&mut src as *mut AlignedUnion).cast::<u8>(),
++            0x5a,
++            size_of::<AlignedUnion>(),
++        );
++        ptr::write(&mut dst, ptr::read(&src));
++        let z = dst.zst;
++        assert_eq!(size_of_val(&z), 0);
++        assert_eq!(align_of::<AlignedUnion>(), 8);
++        assert_eq!(dst.bytes, [0x5a; 8]);
++    }
++}
++
++#[kani::proof]
++fn zst_arm_at_nonzero_offset() {
++    // Union arms themselves start at zero; place the containing union at offset 8.
++    let mut src = AtOffset { prefix: 17, value: ArrayUnion { zst_array: [(); 2] } };
++    let mut dst = AtOffset { prefix: 23, value: ArrayUnion { zst_array: [(); 2] } };
++    assert_eq!(offset_of!(AtOffset, value), 8);
++    unsafe {
++        ptr::write_bytes(
++            (&mut src.value as *mut ArrayUnion).cast::<u8>(),
++            0x5a,
++            size_of::<ArrayUnion>(),
++        );
++        ptr::write(&mut dst.value, ptr::read(&src.value));
++        assert_eq!(size_of_val(&dst.value.zst_array[1]), 0);
++        assert_eq!(dst.value.bytes, [0x5a; 8]);
++    }
++    assert_eq!(src.prefix, 17);
++    assert_eq!(dst.prefix, 23);
++}
++
++#[kani::proof]
++fn all_zst_union() {
++    let mut src = AllZst { unit: () };
++    let mut dst = AllZst { aligned: Z };
++    assert_eq!(size_of::<AllZst>(), 0);
++    assert_eq!(align_of::<AllZst>(), 8);
++    unsafe {
++        // Even with count zero, the pointer is valid and sufficiently aligned.
++        ptr::write_bytes((&mut src as *mut AllZst).cast::<u8>(), 0x5a, size_of::<AllZst>());
++        ptr::write(&mut dst, ptr::read(&src));
++        assert_eq!(size_of_val(&dst.unit), 0);
++        assert_eq!(size_of_val(&dst.zst_array[1]), 0);
++        let z = dst.aligned;
++        assert_eq!(size_of_val(&z), 0);
++    }
++}
++
++#[kani::proof]
++fn zst_array_indexing() {
++    let mut value = ArrayUnion { zst_array: [(); 2] };
++    let index: usize = kani::any();
++    kani::assume(index < 2);
++    unsafe {
++        let array = value.zst_array;
++        assert_eq!(size_of_val(&array[index]), 0);
++        value.zst_array[index] = ();
++        let element = &value.zst_array[index];
++        assert_eq!(size_of_val(element), 0);
++        assert_eq!(value.zst_array.len(), 2);
++    }
++}
+diff --git a/tests/expected/zst-union-edge-aligned-array/expected b/tests/expected/zst-union-edge-aligned-array/expected
+new file mode 100644
+index 000000000..4e1f6276e
+--- /dev/null
++++ b/tests/expected/zst-union-edge-aligned-array/expected
+@@ -0,0 +1,4 @@
++Status: SATISFIED\
++Description: "copy_aligned_array post-copy data and projection"
++
++VERIFICATION:- SUCCESSFUL
+diff --git a/tests/expected/zst-union-edge-aligned-array/main.rs b/tests/expected/zst-union-edge-aligned-array/main.rs
+new file mode 100644
+index 000000000..d0d4578e3
+--- /dev/null
++++ b/tests/expected/zst-union-edge-aligned-array/main.rs
+@@ -0,0 +1,38 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++use std::mem::{align_of, size_of, size_of_val};
++use std::ptr;
++
++#[repr(align(8))]
++#[derive(Clone, Copy)]
++struct Z;
++
++// The ZST arm is deliberately first, including for the nested shapes.
++#[repr(C)]
++union Edge {
++    zst: [Z; 2],
++    bytes: [u8; 16],
++}
++
++#[kani::proof]
++fn copy_aligned_array() {
++    let mut src = Edge { zst: [Z; 2] };
++    let mut dst = Edge { zst: [Z; 2] };
++    assert_eq!(size_of::<[Z; 2]>(), 0);
++    assert_eq!(size_of::<Edge>(), 16);
++    unsafe {
++        ptr::write_bytes((&mut src as *mut Edge).cast::<u8>(), 0x5a, size_of::<Edge>());
++        ptr::write(&mut dst, ptr::read(&src));
++        assert_eq!(dst.zst.len(), 2);
++        assert_eq!(size_of_val(&dst.zst[1]), 0);
++        assert_eq!(align_of::<[Z; 2]>(), 8);
++        assert_eq!(align_of::<Edge>(), 8);
++        // The byte arm spans the full extent; these are initialized data bytes.
++        assert_eq!(dst.bytes, [0x5a; 16]);
++        kani::cover!(
++            dst.bytes[15] == 0x5a && dst.zst.len() == 2,
++            "copy_aligned_array post-copy data and projection"
++        );
++    }
++}
+diff --git a/tests/expected/zst-union-edge-array-first/expected b/tests/expected/zst-union-edge-array-first/expected
+new file mode 100644
+index 000000000..15113be79
+--- /dev/null
++++ b/tests/expected/zst-union-edge-array-first/expected
+@@ -0,0 +1,4 @@
++Status: SATISFIED\
++Description: "copy_array_first post-copy data and projection"
++
++VERIFICATION:- SUCCESSFUL
+diff --git a/tests/expected/zst-union-edge-array-first/main.rs b/tests/expected/zst-union-edge-array-first/main.rs
+new file mode 100644
+index 000000000..a4f4b04c2
+--- /dev/null
++++ b/tests/expected/zst-union-edge-array-first/main.rs
+@@ -0,0 +1,33 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++use std::mem::{size_of, size_of_val};
++use std::ptr;
++
++// The ZST arm is deliberately first, including for the nested shapes.
++#[repr(C)]
++union Edge {
++    zst: [(); 2],
++    bytes: [u8; 16],
++}
++
++#[kani::proof]
++fn copy_array_first() {
++    let mut src = Edge { zst: [(); 2] };
++    let mut dst = Edge { zst: [(); 2] };
++    assert_eq!(size_of::<[(); 2]>(), 0);
++    assert_eq!(size_of::<Edge>(), 16);
++    unsafe {
++        ptr::write_bytes((&mut src as *mut Edge).cast::<u8>(), 0x5a, size_of::<Edge>());
++        ptr::write(&mut dst, ptr::read(&src));
++        assert_eq!(dst.zst.len(), 2);
++        assert_eq!(size_of_val(&dst.zst[1]), 0);
++
++        // The byte arm spans the full extent; these are initialized data bytes.
++        assert_eq!(dst.bytes, [0x5a; 16]);
++        kani::cover!(
++            dst.bytes[15] == 0x5a && dst.zst.len() == 2,
++            "copy_array_first post-copy data and projection"
++        );
++    }
++}
+diff --git a/tests/expected/zst-union-edge-nested-empty-byte-array/expected b/tests/expected/zst-union-edge-nested-empty-byte-array/expected
+new file mode 100644
+index 000000000..36be197b6
+--- /dev/null
++++ b/tests/expected/zst-union-edge-nested-empty-byte-array/expected
+@@ -0,0 +1,4 @@
++Status: SATISFIED\
++Description: "copy_nested_empty_byte_array post-copy data and projection"
++
++VERIFICATION:- SUCCESSFUL
+diff --git a/tests/expected/zst-union-edge-nested-empty-byte-array/main.rs b/tests/expected/zst-union-edge-nested-empty-byte-array/main.rs
+new file mode 100644
+index 000000000..b9356e59b
+--- /dev/null
++++ b/tests/expected/zst-union-edge-nested-empty-byte-array/main.rs
+@@ -0,0 +1,33 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++use std::mem::{size_of, size_of_val};
++use std::ptr;
++
++// The ZST arm is deliberately first, including for the nested shapes.
++#[repr(C)]
++union Edge {
++    zst: [[u8; 0]; 2],
++    bytes: [u8; 16],
++}
++
++#[kani::proof]
++fn copy_nested_empty_byte_array() {
++    let mut src = Edge { zst: [[0u8; 0]; 2] };
++    let mut dst = Edge { zst: [[0u8; 0]; 2] };
++    assert_eq!(size_of::<[[u8; 0]; 2]>(), 0);
++    assert_eq!(size_of::<Edge>(), 16);
++    unsafe {
++        ptr::write_bytes((&mut src as *mut Edge).cast::<u8>(), 0x5a, size_of::<Edge>());
++        ptr::write(&mut dst, ptr::read(&src));
++        assert_eq!(dst.zst.len(), 2);
++        assert_eq!(size_of_val(&dst.zst[1]), 0);
++        assert_eq!(dst.zst[1].len(), 0);
++        // The byte arm spans the full extent; these are initialized data bytes.
++        assert_eq!(dst.bytes, [0x5a; 16]);
++        kani::cover!(
++            dst.bytes[15] == 0x5a && dst.zst.len() == 2,
++            "copy_nested_empty_byte_array post-copy data and projection"
++        );
++    }
++}
+diff --git a/tests/expected/zst-union-edge-nested-unit-array/expected b/tests/expected/zst-union-edge-nested-unit-array/expected
+new file mode 100644
+index 000000000..a57e00561
+--- /dev/null
++++ b/tests/expected/zst-union-edge-nested-unit-array/expected
+@@ -0,0 +1,4 @@
++Status: SATISFIED\
++Description: "copy_nested_unit_array post-copy data and projection"
++
++VERIFICATION:- SUCCESSFUL
+diff --git a/tests/expected/zst-union-edge-nested-unit-array/main.rs b/tests/expected/zst-union-edge-nested-unit-array/main.rs
+new file mode 100644
+index 000000000..4bc648372
+--- /dev/null
++++ b/tests/expected/zst-union-edge-nested-unit-array/main.rs
+@@ -0,0 +1,33 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++use std::mem::{size_of, size_of_val};
++use std::ptr;
++
++// The ZST arm is deliberately first, including for the nested shapes.
++#[repr(C)]
++union Edge {
++    zst: [[(); 2]; 3],
++    bytes: [u8; 16],
++}
++
++#[kani::proof]
++fn copy_nested_unit_array() {
++    let mut src = Edge { zst: [[(); 2]; 3] };
++    let mut dst = Edge { zst: [[(); 2]; 3] };
++    assert_eq!(size_of::<[[(); 2]; 3]>(), 0);
++    assert_eq!(size_of::<Edge>(), 16);
++    unsafe {
++        ptr::write_bytes((&mut src as *mut Edge).cast::<u8>(), 0x5a, size_of::<Edge>());
++        ptr::write(&mut dst, ptr::read(&src));
++        assert_eq!(dst.zst[2].len(), 2);
++        assert_eq!(size_of_val(&dst.zst[2][1]), 0);
++        assert_eq!(dst.zst.len(), 3);
++        // The byte arm spans the full extent; these are initialized data bytes.
++        assert_eq!(dst.bytes, [0x5a; 16]);
++        kani::cover!(
++            dst.bytes[15] == 0x5a && dst.zst[2].len() == 2,
++            "copy_nested_unit_array post-copy data and projection"
++        );
++    }
++}
+diff --git a/tests/expected/zst-union-edge-struct-array/expected b/tests/expected/zst-union-edge-struct-array/expected
+new file mode 100644
+index 000000000..f3b51ebb0
+--- /dev/null
++++ b/tests/expected/zst-union-edge-struct-array/expected
+@@ -0,0 +1,4 @@
++Status: SATISFIED\
++Description: "copy_struct_array post-copy data and projection"
++
++VERIFICATION:- SUCCESSFUL
+diff --git a/tests/expected/zst-union-edge-struct-array/main.rs b/tests/expected/zst-union-edge-struct-array/main.rs
+new file mode 100644
+index 000000000..3bd9c28c1
+--- /dev/null
++++ b/tests/expected/zst-union-edge-struct-array/main.rs
+@@ -0,0 +1,38 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++use std::mem::{size_of, size_of_val};
++use std::ptr;
++
++#[derive(Clone, Copy)]
++struct Wrapped {
++    array: [(); 2],
++}
++
++// The ZST arm is deliberately first, including for the nested shapes.
++#[repr(C)]
++union Edge {
++    zst: Wrapped,
++    bytes: [u8; 16],
++}
++
++#[kani::proof]
++fn copy_struct_array() {
++    let mut src = Edge { zst: Wrapped { array: [(); 2] } };
++    let mut dst = Edge { zst: Wrapped { array: [(); 2] } };
++    assert_eq!(size_of::<Wrapped>(), 0);
++    assert_eq!(size_of::<Edge>(), 16);
++    unsafe {
++        ptr::write_bytes((&mut src as *mut Edge).cast::<u8>(), 0x5a, size_of::<Edge>());
++        ptr::write(&mut dst, ptr::read(&src));
++        assert_eq!(dst.zst.array.len(), 2);
++        assert_eq!(size_of_val(&dst.zst.array[1]), 0);
++
++        // The byte arm spans the full extent; these are initialized data bytes.
++        assert_eq!(dst.bytes, [0x5a; 16]);
++        kani::cover!(
++            dst.bytes[15] == 0x5a && dst.zst.array.len() == 2,
++            "copy_struct_array post-copy data and projection"
++        );
++    }
++}
+diff --git a/tests/expected/zst-union-recursive-arm/expected b/tests/expected/zst-union-recursive-arm/expected
+new file mode 100644
+index 000000000..652f53546
+--- /dev/null
++++ b/tests/expected/zst-union-recursive-arm/expected
+@@ -0,0 +1,4 @@
++Status: SATISFIED\
++Description: "recursive_arm retained null root"
++
++VERIFICATION:- SUCCESSFUL
+diff --git a/tests/expected/zst-union-recursive-arm/main.rs b/tests/expected/zst-union-recursive-arm/main.rs
+new file mode 100644
+index 000000000..ad6a59dec
+--- /dev/null
++++ b/tests/expected/zst-union-recursive-arm/main.rs
+@@ -0,0 +1,23 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++#[derive(Clone, Copy)]
++struct Node {
++    next: *const U,
++}
++
++// Only the pointer graph should retain this union; reading it would change the root.
++#[allow(dead_code)]
++union U {
++    big: [u8; 16],
++    small: Node,
++}
++
++#[kani::proof]
++fn recursive_arm() {
++    // Inferred cast avoids a separately monomorphized union-typed null helper.
++    let node = Node { next: 0usize as *const _ };
++    let retained = std::hint::black_box(node);
++    assert!(retained.next.is_null());
++    kani::cover!(retained.next.is_null(), "recursive_arm retained null root");
++}
+diff --git a/tests/expected/zst-union-recursive-zst-arm/expected b/tests/expected/zst-union-recursive-zst-arm/expected
+new file mode 100644
+index 000000000..4e133729f
+--- /dev/null
++++ b/tests/expected/zst-union-recursive-zst-arm/expected
+@@ -0,0 +1,4 @@
++Status: SATISFIED\
++Description: "recursive_zst_arm retained null root"
++
++VERIFICATION:- SUCCESSFUL
+diff --git a/tests/expected/zst-union-recursive-zst-arm/main.rs b/tests/expected/zst-union-recursive-zst-arm/main.rs
+new file mode 100644
+index 000000000..7db0bb423
+--- /dev/null
++++ b/tests/expected/zst-union-recursive-zst-arm/main.rs
+@@ -0,0 +1,25 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++#[repr(C)]
++#[derive(Clone, Copy)]
++struct Node2 {
++    next: *const Link,
++}
++
++// Only the pointer graph should retain this union; reading it would change the root.
++#[allow(dead_code)]
++#[repr(C)]
++union Link {
++    bytes: [u8; 8],
++    marker: [Node2; 0],
++}
++
++#[kani::proof]
++fn recursive_zst_arm() {
++    // Inferred cast avoids a separately monomorphized union-typed null helper.
++    let node = Node2 { next: 0usize as *const _ };
++    let retained = std::hint::black_box(node);
++    assert!(retained.next.is_null());
++    kani::cover!(retained.next.is_null(), "recursive_zst_arm retained null root");
++}
+diff --git a/b3r2-probes/tail_bytes_first.rs b/b3r2-probes/tail_bytes_first.rs
+new file mode 100644
+--- /dev/null
++++ b/b3r2-probes/tail_bytes_first.rs
+@@ -0,0 +1,39 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++use std::mem::{offset_of, size_of};
++use std::ptr;
++
++#[repr(C)]
++#[derive(Clone, Copy)]
++struct Tail {
++    b: u8,
++    z: [(); 2],
++}
++
++#[repr(C)]
++union Probe {
++    bytes: [u8; 8],
++    tail: Tail,
++}
++
++#[kani::proof]
++fn tail_bytes_first() {
++    assert_eq!(size_of::<Tail>(), 1);
++    assert_eq!(size_of::<Probe>(), 8);
++    assert_eq!(offset_of!(Tail, b), 0);
++    assert_eq!(offset_of!(Tail, z), 1);
++    let mut src = Probe { bytes: [0; 8] };
++    let mut dst = Probe { bytes: [0; 8] };
++    unsafe {
++        ptr::write_bytes((&mut src as *mut Probe).cast::<u8>(), 0x5a, size_of::<Probe>());
++        ptr::write(&mut dst, ptr::read(&src));
++        assert_eq!(dst.tail.b, 0x5a);
++        assert_eq!(dst.tail.z.len(), 2);
++        assert_eq!(std::mem::size_of_val(&dst.tail.z[1]), 0);
++        kani::cover!(
++            dst.tail.b == 0x5a && dst.tail.z.len() == 2,
++            "tail_bytes_first post-copy data"
++        );
++    }
++}
+diff --git a/b3r2-probes/tail_first.rs b/b3r2-probes/tail_first.rs
+new file mode 100644
+--- /dev/null
++++ b/b3r2-probes/tail_first.rs
+@@ -0,0 +1,36 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++use std::mem::{offset_of, size_of};
++use std::ptr;
++
++#[repr(C)]
++#[derive(Clone, Copy)]
++struct Tail {
++    b: u8,
++    z: [(); 2],
++}
++
++#[repr(C)]
++union Probe {
++    tail: Tail,
++    bytes: [u8; 8],
++}
++
++#[kani::proof]
++fn tail_first() {
++    assert_eq!(size_of::<Tail>(), 1);
++    assert_eq!(size_of::<Probe>(), 8);
++    assert_eq!(offset_of!(Tail, b), 0);
++    assert_eq!(offset_of!(Tail, z), 1);
++    let mut src = Probe { bytes: [0; 8] };
++    let mut dst = Probe { bytes: [0; 8] };
++    unsafe {
++        ptr::write_bytes((&mut src as *mut Probe).cast::<u8>(), 0x5a, size_of::<Probe>());
++        ptr::write(&mut dst, ptr::read(&src));
++        assert_eq!(dst.tail.b, 0x5a);
++        assert_eq!(dst.tail.z.len(), 2);
++        assert_eq!(std::mem::size_of_val(&dst.tail.z[1]), 0);
++        kani::cover!(dst.tail.b == 0x5a && dst.tail.z.len() == 2, "tail_first post-copy data");
++    }
++}
+diff --git a/b3r2-probes/tuple_first.rs b/b3r2-probes/tuple_first.rs
+new file mode 100644
+--- /dev/null
++++ b/b3r2-probes/tuple_first.rs
+@@ -0,0 +1,30 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++use std::mem::{size_of, size_of_val};
++use std::ptr;
++
++#[repr(C)]
++union Probe {
++    pair: (u64, [(); 2]),
++    bytes: [u8; 8],
++}
++
++#[kani::proof]
++fn tuple_first() {
++    assert_eq!(size_of::<(u64, [(); 2])>(), 8);
++    assert_eq!(size_of::<Probe>(), 8);
++    let mut src = Probe { bytes: [0; 8] };
++    let mut dst = Probe { bytes: [0; 8] };
++    unsafe {
++        ptr::write_bytes((&mut src as *mut Probe).cast::<u8>(), 0x5a, size_of::<Probe>());
++        ptr::write(&mut dst, ptr::read(&src));
++        assert_eq!(dst.pair.0, 0x5a5a5a5a5a5a5a5a);
++        assert_eq!(dst.pair.1.len(), 2);
++        assert_eq!(size_of_val(&dst.pair.1[1]), 0);
++        kani::cover!(
++            dst.pair.0 == 0x5a5a5a5a5a5a5a5a && dst.pair.1.len() == 2,
++            "tuple_first post-copy data"
++        );
++    }
++}
