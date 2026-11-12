@@ -1,0 +1,71 @@
+{
+  "schema": "kani3300-m2br3-diagnostics-v1",
+  "base_sha": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+  "base_tree": "c194aa39eb345316483406a4549755e29a3580e7",
+  "clone": "/root/kani-fix-3300-m2br3",
+  "variants": [
+    {
+      "id": "V01",
+      "status": "SOURCE_READY_NOT_COMPILED",
+      "classification": "ISOLATED_DIAGNOSTIC_NOT_RELEASE_CANDIDATE",
+      "sha": "51fe0993de670a2c3b582ebff41f8344eca5a2b0",
+      "tree": "4de5e01df8e81f8a64d7405b28ff54d6bb1a919a",
+      "parent": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+      "branch": "experiment/kani-3300-m2br3-v01",
+      "purpose": "mandatory return0 selection discriminator",
+      "patch": "research/challenge-8/kani-k1/kani3300/m2br3/patches/V01.patch",
+      "patch_sha256": "dce3d87d9f0322a372ebc2130e494931c6f01ba6f02cb3b2e81a6e76cb9247bc",
+      "patch_bytes": 974,
+      "changed_paths": [
+        "library/kani_core/src/mem_init.rs"
+      ],
+      "runtime_sha256": "00d1cb40d01becfdb91379443af977de0668131cca056d95367141aed1351239",
+      "initial_queue": "P1 inventory/build then conditional solver; coordinator only",
+      "pushed": false
+    },
+    {
+      "id": "V02",
+      "status": "SOURCE_READY_NOT_COMPILED",
+      "classification": "ISOLATED_DIAGNOSTIC_NOT_RELEASE_CANDIDATE",
+      "sha": "48d10f9ff2a78ab0ee35e9b9c58cc28bc304ae7d",
+      "tree": "ef0ca6bea90072ea8f205a1185bcaa4d9ef888ac",
+      "parent": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+      "branch": "experiment/kani-3300-m2br3-v02",
+      "purpose": "coherent runtime group discriminator; R1 emission unchanged",
+      "patch": "research/challenge-8/kani-k1/kani3300/m2br3/patches/V02.patch",
+      "patch_sha256": "2799c0ce1b8245c745a9dbcffc66321d831843743821069c4df6d30c2f6131ae",
+      "patch_bytes": 9837,
+      "changed_paths": [
+        "library/kani_core/src/mem_init.rs"
+      ],
+      "runtime_sha256": "88f260ddc5b315a32e64b0f6f396451373d2fb54f1a4898233508ebd81cd993c",
+      "initial_queue": "P1 inventory/build then conditional solver; coordinator only",
+      "pushed": false
+    }
+  ],
+  "max_modified_variants": 4,
+  "prepared_modified_variants": 2,
+  "deferred": [
+    {
+      "id": "V03",
+      "family": "return emission/scope",
+      "status": "DEFERRED_NO_PATCH",
+      "reason": "actual caller/callee/continuation binding absent; cannot select reached coherent producer/consumer subset"
+    },
+    {
+      "id": "V04",
+      "family": "storage/read effects OR replacement frame-only calibration",
+      "status": "DEFERRED_NO_PATCH",
+      "reason": "no reached SetStorage/CheckRefAs/DFCC projection; do not combine clusters or create fifth variant"
+    }
+  ],
+  "initial_batch": [
+    "V01/P1",
+    "V02/P1"
+  ],
+  "P2": "HELD pending separate handoff/admission",
+  "build_status": "NOT_RUN",
+  "solver_status": "NOT_RUN",
+  "compiled": false,
+  "release_cherry_pick": false
+}

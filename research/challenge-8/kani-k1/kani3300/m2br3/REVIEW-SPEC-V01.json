@@ -1,0 +1,42 @@
+{
+  "applicability": "Isolated NOT_RELEASE_CANDIDATE V01 only; unchanged P1 then separately admitted P2; no CI by worker.",
+  "baseline_commit": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+  "candidate_commit": "51fe0993de670a2c3b582ebff41f8344eca5a2b0",
+  "controls": [
+    "Validate marker/API compatibility and all lost transfer/frame obligations.",
+    "First coordinator build checks Rust types; formatting is not compilation.",
+    "Early frame/Unsupported/changed path is non-comparable, no proof credit."
+  ],
+  "defect": "Nonlinear resource growth already reported at R1; diagnose a hunk group without claiming a repair.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "library/kani_core/src/mem_init.rs",
+    "library/kani_core/src/mem.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+    "kani-driver/src/call_cbmc.rs",
+    "kani-driver/src/args/mod.rs",
+    "kani-driver/src/call_goto_instrument.rs",
+    "rust-toolchain.toml",
+    "kani-dependencies"
+  ],
+  "invariants": [
+    "Only mem_init.rs changes; R1 compiler emission remains byte-identical.",
+    "No added assume/bless, goldens or public modifies changes; no release cherry-pick.",
+    "Variants are sibling commits from exact R1, never cumulative."
+  ],
+  "known_limitations": [
+    "V01 loses mandatory return0 selection; non-selected load may bless or use stale matching buffer. No automatic false preservation claim.",
+    "V02 restores U pointer buffer outside marked state, legacy copy arithmetic/fallback; return lifetime and frame regressions expected.",
+    "Actual emitted/retained bindings, widths and solver outcomes UNKNOWN."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-m2br3"
+}
