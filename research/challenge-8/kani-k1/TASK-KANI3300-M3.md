@@ -3,6 +3,11 @@
 **Подготовлено координатором 2026-11-12. Сейчас НЕ активировано.** Runtime **Codex**, одна будущая стадия,
 **Cloud $0**; model/integration owner 14, worker 15 возвращает findings по своим tests. Это верификация корректности, не security-работа.
 
+**Новый blocking handoff:** TASK-KANI3300-M2B.md (C03 Assert/ensures falseFAIL при C04–C06 PASS на M1)
+и TASK-KANI3300-M2B-RESOURCE.md (PFC resource regression уже без M1, плюс private-state/frame interaction).
+M2-A probes43243491671/43244391200/43244395728 не закрыли ни M2 semantic gate, ни PFC resource/frame gate.
+Upstream Unsupported/frameFAIL не baseline proof PASS. M3 остаётся HELD до приёмки обоих треков.
+
 ## Условия старта — не подменять READY результатом CI
 
 Начинать только после отдельного activation/handoff координатора, содержащего:

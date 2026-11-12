@@ -6,7 +6,8 @@
 
 **CI update 2026-11-12:** M2 READY5f7f2b7364, но qualification не принята. Quick43229982767 дважды shutdown/exit143;
 memprobe43232249168 (CIcc29c82bf1) выявил legal ordinary+PFC uninit `[u8;3]` falseFAIL и postcondition-hole OOM.
-Worker14 переходит к TASK-KANI3300-M2A.md: mode/site binding, singleton probes и resource minimization, без model repair.
+M2-Aea0fbb5931 probes готовы; новый handoff: TASK-KANI3300-M2B.md (14, Assert/ensures seed repair),
+TASK-KANI3300-M2B-RESOURCE.md (15 после B3-CI, resource/frame diagnosis). M2 semantic/resource gates остаются открыты.
 Ordinary вызывает contract-decorated target в default Assert mode; название root не является no-contract control.
 Original inputs/goldens и исторические m2 results не переписывать. M3 HELD.
 

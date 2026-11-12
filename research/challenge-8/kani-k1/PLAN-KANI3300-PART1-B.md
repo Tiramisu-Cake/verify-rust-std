@@ -5,7 +5,14 @@ Direct-MU-only экспорт отклонён. Полная для заявле
 type-only skip, default true и потеря negative checks не являются вариантом. Runtime Codex; Cloud $0, CI только координатора.
 Это верификация корректности, не security-работа.
 
-**Текущий handoff 2026-11-12:** 14 → TASK-KANI3300-M2A.md, 15 → независимый B3R2 (t0); M3 HELD.
+**Текущий handoff 2026-11-12:** 14 → TASK-KANI3300-M2B.md (Assert/ensures immutable-mask repair);
+15 после B3-CI → TASK-KANI3300-M2B-RESOURCE.md (read-only/diagnostic resource+private-frame localization). M3 HELD.
+M2-Aea0fbb5931 probes: M1 run43243491671 C03 Assert falseFAIL `[u8;3]`, C04–C06 PASS;
+baseline6134 run43244391200 C03–C06 falseFAIL. Scalar PFC P1/P2 обеих lanes resource cutoff >6GiB;
+upstreambf9 run43244395728 дешевле, но frameFAIL/store_argument и Unsupported, не proof baseline.
+Первый трек сохраняет M0 admission/epochs, второй не меняет release source; интеграция только после отдельных receipts.
+
+**Предыдущий handoff M2-A:** 14 → TASK-KANI3300-M2A.md, 15 → независимый B3R2 (t0); M3 HELD.
 C1-T2-A7f9eec41e8: baseline Quick43230538511 expected127/7; M1 composition83ceadf048 Quick43230532195
 expected138/0/2ignored, все8 mixed matched; шесть legal baseline falseFAIL→M1 PASS. Старые nested MU fixtures не gate.
 M2 5f7f2b7364: Quick43229982767 дважды shutdown/exit143; memprobe43232249168 (CIcc29c82bf1) —
