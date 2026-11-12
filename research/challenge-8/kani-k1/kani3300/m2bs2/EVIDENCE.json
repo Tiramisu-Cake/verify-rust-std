@@ -1,0 +1,175 @@
+{
+  "schema": "kani3300-m2bs2-evidence-v1",
+  "receipt_kind": "Local coordinator-supplied excerpts/inventory; no step trace",
+  "properties_inventory": {
+    "count": 489,
+    "classes": {
+      "reachability_check": 65,
+      "assertion": 113,
+      "arithmetic_overflow": 5,
+      "array bounds": 43,
+      "safety_check": 37,
+      "pointer primitives": 76,
+      "pointer dereference": 144,
+      "unreachable": 4,
+      "sanity_check": 1,
+      "unsupported_construct": 1
+    },
+    "comparison_properties": [
+      {
+        "class": "safety_check",
+        "description": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 3]`",
+        "expression": "var_4 != FALSE",
+        "name": "<u8 as std::array::equality::SpecArrayEq<u8, 3>>::spec_eq.safety_check.1",
+        "sourceLocation": {
+          "column": "18",
+          "comment": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 3]`",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/array/equality.rs",
+          "function": "<u8 as std::array::equality::SpecArrayEq<u8, 3>>::spec_eq",
+          "line": "157",
+          "pragma": [
+            "checked:bounds-check",
+            "checked:pointer-check",
+            "checked:div-by-zero-check",
+            "checked:signed-overflow-check",
+            "checked:undefined-shift-check",
+            "checked:pointer-primitive-check"
+          ],
+          "propertyClass": "safety_check",
+          "propertyId": "<u8 as std::array::equality::SpecArrayEq<u8, 3>>::spec_eq.safety_check.1"
+        }
+      },
+      {
+        "class": "safety_check",
+        "description": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 3]`",
+        "expression": "var_11 != FALSE",
+        "name": "<u8 as std::array::equality::SpecArrayEq<u8, 3>>::spec_eq.safety_check.2",
+        "sourceLocation": {
+          "column": "18",
+          "comment": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 3]`",
+          "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/array/equality.rs",
+          "function": "<u8 as std::array::equality::SpecArrayEq<u8, 3>>::spec_eq",
+          "line": "157",
+          "pragma": [
+            "checked:bounds-check",
+            "checked:pointer-check",
+            "checked:div-by-zero-check",
+            "checked:signed-overflow-check",
+            "checked:undefined-shift-check",
+            "checked:pointer-primitive-check"
+          ],
+          "propertyClass": "safety_check",
+          "propertyId": "<u8 as std::array::equality::SpecArrayEq<u8, 3>>::spec_eq.safety_check.2"
+        }
+      }
+    ]
+  },
+  "rendered_results": {
+    "count": 352,
+    "counts": {
+      "SUCCESS": 340,
+      "FAILURE": 1,
+      "UNREACHABLE": 11
+    },
+    "non_success": [
+      {
+        "check": 49,
+        "property": "<u8 as std::array::equality::SpecArrayEq<u8, 3>>::spec_eq.safety_check.1",
+        "status": "FAILURE"
+      },
+      {
+        "check": 61,
+        "property": "std::fmt::Arguments::<'_>::from_str.assertion.1",
+        "status": "UNREACHABLE"
+      },
+      {
+        "check": 73,
+        "property": "write_initialized.assertion.1",
+        "status": "UNREACHABLE"
+      },
+      {
+        "check": 74,
+        "property": "write_initialized.assertion.2",
+        "status": "UNREACHABLE"
+      },
+      {
+        "check": 101,
+        "property": "kani::mem_init::MemoryInitializationState::set::<0>.assertion.1",
+        "status": "UNREACHABLE"
+      },
+      {
+        "check": 102,
+        "property": "kani::mem_init::MemoryInitializationState::set::<0>.assertion.2",
+        "status": "UNREACHABLE"
+      },
+      {
+        "check": 103,
+        "property": "kani::mem_init::MemoryInitializationState::set::<0>.assertion.3",
+        "status": "UNREACHABLE"
+      },
+      {
+        "check": 142,
+        "property": "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.1",
+        "status": "UNREACHABLE"
+      },
+      {
+        "check": 143,
+        "property": "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.2",
+        "status": "UNREACHABLE"
+      },
+      {
+        "check": 144,
+        "property": "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.3",
+        "status": "UNREACHABLE"
+      },
+      {
+        "check": 145,
+        "property": "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.4",
+        "status": "UNREACHABLE"
+      },
+      {
+        "check": 147,
+        "property": "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.5",
+        "status": "UNREACHABLE"
+      }
+    ],
+    "extra_failures": [],
+    "unsupported_rendered_failure": false,
+    "warning": "Inventory has unsupported_construct class; its presence alone does not establish execution or failure."
+  },
+  "step_trace": {
+    "available": false,
+    "state_step_markers": 0,
+    "json_trace_member": false,
+    "witness_history": "UNKNOWN"
+  },
+  "rhs_static_seed": {
+    "object_symbol": "m2a.a7ad3e73aae47d8a::m2a::AllocId(1, ThreadLocalIndex)",
+    "goto_file_lines": [
+      15214,
+      15216
+    ],
+    "instructions": [
+      6940,
+      6941
+    ],
+    "offset": 0,
+    "extent": 3,
+    "mask": [
+      true,
+      true,
+      true
+    ],
+    "guard": "tracked_object_id == pointer_object(address_of(symbol)) && pointer_offset(address)==0 && tracked_offset<3",
+    "runtime_taken": "UNKNOWN",
+    "source_AllocId_mask_freeze_descriptor": "No registry snapshot supplied; symbol spelling is not a runtime object number or original MIR alloc-label binding."
+  },
+  "exits": [
+    "codegen exit=0",
+    "goto=./m2a__RNvCseoxr9queTnG_3m2a23legal_ordinary_transfer.out",
+    "props exit=0",
+    "gotofn exit=0",
+    "trace exit=1"
+  ],
+  "local_validation": "hash/source/JSON/diff only; no compiler/verifier execution"
+}

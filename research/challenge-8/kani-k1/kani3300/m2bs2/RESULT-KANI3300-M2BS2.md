@@ -1,0 +1,16 @@
+# KANI3300 M2-B/S2 — PREPARED/BLOCKER
+- Local Kani handoff d2500db20b27ef30e131fd27c296357420777e54 is documentation-only; Rust/model/tests unchanged.
+- Coordinator reports exact5f7+M2-A C03, CI4804129592, runs43248579074/43249480111.
+- Established: failed SpecArrayEq safety_check.1 is LEFT raw_eq CheckAs, not right .2 (SUCCESS).
+- Established statically: body left=_16 assume_init result; ensures left=captured out referent; root left=out.
+- All three RHS point to one emitted AllocId(1, ThreadLocalIndex) symbol + offset0, extent3.
+- Reset GOTO6940–6941 already guards that symbol and seeds [true,true,true]; missing RHS seed not established.
+- trace.txt has 340 SUCCESS/1 FAILURE/11 UNREACHABLE, no counterexample steps or witness values.
+- UNKNOWN: failing invocation, runtime object/offset, actual seed branch and last setter/copy/retarget.
+- Inner Assert body lacks normal _16/out setters found in outer Original; causal attribution remains UNKNOWN.
+- No speculative repair or new selector; exact C03 and original M2 inputs/goldens preserved.
+- Next request: same C03, old output + CBMC --json-ui --trace, curated failed-property witness history.
+- Explicit type/signature source audit, hashes/JSON/diff validation; compile/clippy/solver NOT_RUN locally.
+- M2-B/S semantic gate BLOCKED; M2-B/R resource gate separate, unresolved; M3 HELD.
+- Cloud $0; local compiler/verifier0; dispatch0; Kani not pushed; no new proof credit.
+- Research stages only m2bs2/; concurrent external task/plan changes untouched; STOP after handoff.

@@ -1,0 +1,90 @@
+{
+  "schema": "kani3300-m2bs2-tests-v1",
+  "candidate": "d2500db20b27ef30e131fd27c296357420777e54",
+  "new_selectors": [],
+  "reason": "No causal runtime binding; no semantic fix. C03-shaped suite addition remains gated on established gap.",
+  "original_M2_inputs_goldens_verified_unchanged": [
+    {
+      "path": "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+      "sha256": "3385d702baa91965af565878f1f1d8e27a1de37a0ea52da3595cb5e609d8e363",
+      "bytes": 1452
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/legal-pair.expected",
+      "sha256": "d9efa4dfaf33963a0c5c668577ccd2e76d1e212d58d1af7767f98540ac9a8558",
+      "bytes": 202
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759",
+      "bytes": 782
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+      "sha256": "4d4ff2b6fca8cc5bc556fe159c3d9a03dfc5defd93c9cad7d8d8554c12568031",
+      "bytes": 229
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+      "sha256": "7610c67c89302bbcdd541ebaa8d70651c5a3231a0909b28126452b233a79d280",
+      "bytes": 1131
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/out-pointer.expected",
+      "sha256": "625af5ac4e60045acd47aadd15e00b8fc4db524ebd1dd911b50761dd042f20f0",
+      "bytes": 301
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/normal-abort.rs",
+      "sha256": "45021f2a9ed44e1162b21a0c758decc7b879eb9c50e91dfba57f9c0736b43471",
+      "bytes": 679
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/normal-abort.expected",
+      "sha256": "c36dbee1067f87faf285206a72733ff0f13b3f434ee28d3f679083fe5f031ef8",
+      "bytes": 176
+    }
+  ],
+  "M2A_cases_verified_unchanged": [
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2a/cases/ordinary-singleton.rs",
+      "bytes": 1270,
+      "sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2a/cases/scalar-pfc-hole.rs",
+      "bytes": 782,
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2a/cases/scalar-pfc-legal.rs",
+      "bytes": 774,
+      "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2a/cases/undecorated-singleton.rs",
+      "bytes": 1159,
+      "sha256": "f40a3bac0cb2847bd7e17b3cb747210efe0b437b7e3bcf8977e8e39721e9a715"
+    }
+  ],
+  "next_diagnostic": {
+    "case": "research/challenge-8/kani-k1/kani3300/m2a/cases/ordinary-singleton.rs",
+    "root": "legal_ordinary_transfer",
+    "mode": "default Assert",
+    "flags": [
+      "-Z",
+      "uninit-checks",
+      "-Z",
+      "function-contracts"
+    ],
+    "compile_flags": [
+      "--edition",
+      "2021",
+      "-D",
+      "warnings"
+    ],
+    "output_route": "old + CBMC --json-ui --trace, no renderer",
+    "limits": "Reuse existing timeout300s and CBMC RSS>6GiB sampling watchdog; actual enforcement must be recorded"
+  },
+  "acceptance": "All original M2-B/S CI-REQUEST section B controls stay HELD. PFC/resource and full Quick not activated."
+}

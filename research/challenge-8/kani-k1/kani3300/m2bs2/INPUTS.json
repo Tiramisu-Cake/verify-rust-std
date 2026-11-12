@@ -1,0 +1,103 @@
+{
+  "schema": "kani3300-m2bs2-inputs-v1",
+  "status": "PREPARED/BLOCKER",
+  "authority": "User continuation TASK-KANI3300-M2B.md; Cloud $0, coordinator CI only, local compiler/verifier forbidden",
+  "research_start": "c90cb9466dfef600b3da36dc9703660dd97a2393",
+  "previous_research": "45ca2e8f71",
+  "previous_kani": "35fab624af19b8c724ddc9c80a7cc79289541459",
+  "kani": {
+    "base": "5f7f2b7364135a0a8b7cfd86c43b4491a8911bac",
+    "production": "254ae69662b3206cd4432dae0cd44c534b1b13fb",
+    "branch": "fix/kani-3300-contract-immutable-mask",
+    "candidate": "d2500db20b27ef30e131fd27c296357420777e54",
+    "kind": "DOCUMENTATION_ONLY_NO_REPAIR",
+    "rust_delta": [],
+    "pushed": false
+  },
+  "coordinator_reported": {
+    "ci": "4804129592",
+    "runs": [
+      "43248579074",
+      "43249480111"
+    ],
+    "source": "5f7f2b7364135a0a8b7cfd86c43b4491a8911bac + unchanged M2-A C03",
+    "argv_complete": "NOT_SUPPLIED",
+    "source_artifact_hash_receipt": "NOT_SUPPLIED",
+    "actual_target_toolchain_sysroot_binary_hashes": "NOT_SUPPLIED"
+  },
+  "artifacts": [
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/codegen.txt",
+      "bytes": 351,
+      "sha256": "2e766b8daaa0f19f591c72f4abe89418cea628cd337a0a3650cdbb7e7f0c1ff2"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/exits.txt",
+      "bytes": 118,
+      "sha256": "9eb2c48d24b075142cdb0977192f27884569c78785eba3a7fa802234bfb75ca5"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/files.txt",
+      "bytes": 474,
+      "sha256": "cd460433e312e5b3589033a9b07963ff5fb1dbc567d39a195b735c8a90d11226"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/goto-functions.txt",
+      "bytes": 1922421,
+      "sha256": "275b9119f4a79170207a5988ab827f5013e3a7d42c10811f80af852d19547184"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/m2a.mir",
+      "bytes": 53435,
+      "sha256": "3b79ce5c803466a774281de51099cff4ea359771db96f49f77e3aa35dce29b56"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/m2a__RNvCseoxr9queTnG_3m2a23legal_ordinary_transfer.symtab.kani.mir",
+      "bytes": 224625,
+      "sha256": "b48a11fd2a6e2de8c9d2d4aafe811e729cadc9bae3bb9c1979454e15a392c330"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/properties.json",
+      "bytes": 573795,
+      "sha256": "d288801025a36de54235805de281c3083b3c27db12dd4eb19da84efbc8cb3ff6"
+    },
+    {
+      "path": "/root/kani3300-m2bs-c03-r2/trace.txt",
+      "bytes": 97908,
+      "sha256": "de4336dfd92c0c4184f4dbd247a656ae9f37c1ee5f5f7457d5e2489c1bda0ecd"
+    }
+  ],
+  "source_anchors": [
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "bytes": 54700,
+      "sha256": "baa2013d98a84784366602ea3f9e63bbbde408816a5a947032267737014e4c5a"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "bytes": 19071,
+      "sha256": "c01ced42f97efdbc8d6a34c75f229753af59f380549518af971ecea672cd72b2"
+    },
+    {
+      "path": "kani-driver/src/call_cbmc.rs",
+      "bytes": 52425,
+      "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343"
+    },
+    {
+      "path": "kani-driver/src/cbmc_property_renderer.rs",
+      "bytes": 34717,
+      "sha256": "20b95bbc09cd7a7342e3cc9ebf14f7a6f173b7bdbf8726bd13d6de40c9aab175"
+    },
+    {
+      "path": "kani-driver/src/args/mod.rs",
+      "bytes": 59912,
+      "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e"
+    }
+  ],
+  "external_dirty_paths_observed": [
+    "research/challenge-8/kani-k1/PLAN-KANI3300-PART1-B.md",
+    "research/challenge-8/kani-k1/TASK-KANI3300-M2B-RESOURCE.md",
+    "research/challenge-8/kani-k1/TASK-KANI3300-M2BR2.md"
+  ],
+  "external_dirty_policy": "Untouched, excluded from staging; no reset/stash"
+}
