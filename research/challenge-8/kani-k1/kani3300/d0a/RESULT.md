@@ -1,0 +1,16 @@
+# KANI3300 D0-A — ANALYZED / STOP
+- Run43209338134, CI8f6d3f45e; diagnostic5eec235e3, baselinea0a2386001; exact pins в observations.json.
+- 8 invocations / 12 harness results: `.2` FAILURE, `.1` SUCCESS. Workflow success не verification PASS; curator exit2 сохранён.
+- В обрезанных 64MiB captures восстановлены 4 целых target fragments: baseline pair/A; candidate BA/A, D/A, AB/B.
+- `.1` → formal a/local1 → assume_init temporary; `.2` → formal b/local2→local3 → promoted RHS, подтверждено MIR/GOTO/property expressions.
+- A/.2: literal [1,2,3,4] → AllocId9 immutable Some×4 → GOTO AllocId9 symbol → BA object9@0, extent4 → selected9@0=false.
+- B/.2: literal [9;4] → AllocId5 immutable Some×4 → GOTO AllocId5 symbol → AB object14@0, extent4 → selected14@0=false.
+- Last selected-byte state write: initialize_memory_initialization_state(false), A trace872 / B1077, mem_init.rs:244; последующие setters/copies не попадают в literal byte.
+- Пробел: отсутствующее shadow initialization для фактической Some-mask anonymous/promoted allocation; relevance/points-to не представляют anonymous AllocId.
+- Missing left temporary setter отвергнут для этих paths: setters true есть и исполнены; `.1` get TRUE на .2 traces (A object8/B13). Независимый runtime witness .1 N/A.
+- Literal pointer text UNKNOWN; object/offset привязаны через executed get и operand dataflow. Extent4 static/mask-derived, runtime OBJECT_SIZE UNKNOWN; числовые AllocIds ≠ object IDs.
+- Singleton failures доказывают, что order/cache не необходим для .2. AB/BA prewarm B→A совпадает; D prewarm другой.
+- Общая cache independence НЕ заявлена: у второго harness +2 ptr::write safety checks (+4 pointer_primitives в raw inventory), одинаковый verdict; точный delta сохранён.
+- Complete full solver JSON/inventory/global curation остаются INCOMPLETE; 8 других target fragments UNAVAILABLE. Нет нового PASS/proof credit.
+- Validation: 10 synthetic checks PASS, bounded Luna High review завершён, 12 input hashes/root bindings проверены; только curated JSON и локальный extractor.
+- STOP после research publication. M0 получает конкретный allocation-mask/relevance gap; модель и tests не исправлялись.

@@ -1,0 +1,2789 @@
+{
+  "schema": "kani3300-d0a-static-bridge-v1",
+  "private_base": "/root/kani3300-d0-ci-r3/private",
+  "source": "5eec235e3d0eeb99d7e432fcaef3a3135747b789",
+  "coordinate_convention": "payload JSON pointers; inventory zero-based indices; source one-based inclusive lines",
+  "bindings": {
+    "property_1": {
+      "expression": "var_4 != FALSE",
+      "formal": "a/local1",
+      "checked_place": "local1.Deref",
+      "check_ptr": "local5 -> local6"
+    },
+    "property_2": {
+      "expression": "var_11 != FALSE",
+      "formal": "b/local2 -> transmute local3",
+      "checked_place": "local3.Deref",
+      "check_ptr": "local12 -> local13"
+    },
+    "A": {
+      "origin_1": "caller local14=&local15 (assume_init normal-return destination)",
+      "goto_stack_symbol": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output::1::var_15",
+      "origin_2": "caller local17; promoted AllocId(9), offset0, extent4",
+      "goto_referent_symbol": "main.32c9e3ca9ef51005::main::AllocId(9, ThreadLocalIndex)",
+      "bytes": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "initialized_mask": "1111",
+      "immutable": true,
+      "reuse": null,
+      "runtime_witness": "candidate/BA: .1 object8@0; .2 object9@0; tracked9@0=false"
+    },
+    "B": {
+      "origin_1": "caller local30=&local31 (to[1].assume_init normal-return destination)",
+      "goto_stack_symbol": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte::1::var_31",
+      "origin_2": "caller local35; promoted AllocId(5), offset0, extent4",
+      "goto_referent_symbol": "main.32c9e3ca9ef51005::main::AllocId(5, ThreadLocalIndex)",
+      "bytes": [
+        9,
+        9,
+        9,
+        9
+      ],
+      "initialized_mask": "1111",
+      "immutable": true,
+      "reuse": null,
+      "runtime_witness": "candidate/AB: .1 object13@0; .2 object14@0; tracked14@0=false"
+    },
+    "join": "MIR operand -> emitted GOTO expression -> property expression/trace call -> executed get.obj and get.offset. Numeric AllocIds and runtime object IDs are distinct namespaces. Literal pointer text is unknown in CBMC; the runtime numeric binding is indirect via checked operand dataflow, not a printed symbol-to-number table.",
+    "extent": "4 bytes from retained [u8;4] type/allocation and get::<4> mask; not an independently printed runtime OBJECT_SIZE",
+    "property_1_runtime": "N/A as independent successful counterexample; get returns TRUE only as an earlier operation on the selected .2 counterexample path"
+  },
+  "sidecar_selections": [
+    {
+      "file": "candidate/cases/BA/compiler/12450-001910-mir-original.json",
+      "sha256": "59a3aeeb96351abd39130c10248fea4fd45555e8471b0d3daed3b00ff0ebe344",
+      "identity": {
+        "pid": 12450,
+        "case": "BA",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "phase": "prewarm",
+        "sequence": 1910,
+        "stage": "mir-original",
+        "instance": "main::array_value_as_used_by_merge_output",
+        "symbol": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "cache_writer": null,
+        "payload_fingerprint": "fnv1a64:388df1ebc83a8f12",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "864fc0433ccdcd6479669356f3a08c0133c47dd3aecbcf63070f62c455474258",
+      "payload_json_pointer": "/blocks/11",
+      "selection": {
+        "statements": [
+          {
+            "kind": {
+              "Assign": [
+                {
+                  "local": 14,
+                  "projection": []
+                },
+                {
+                  "Ref": [
+                    {
+                      "kind": "ReErased"
+                    },
+                    "Shared",
+                    {
+                      "local": 15,
+                      "projection": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "source_info": {
+              "span": 361,
+              "scope": 2
+            }
+          },
+          {
+            "kind": {
+              "StorageDead": 16
+            },
+            "source_info": {
+              "span": 365,
+              "scope": 2
+            }
+          },
+          {
+            "kind": {
+              "StorageLive": 17
+            },
+            "source_info": {
+              "span": 366,
+              "scope": 2
+            }
+          },
+          {
+            "kind": {
+              "Assign": [
+                {
+                  "local": 17,
+                  "projection": []
+                },
+                {
+                  "Use": [
+                    {
+                      "Constant": {
+                        "span": 366,
+                        "user_ty": null,
+                        "const_": {
+                          "kind": {
+                            "Allocated": {
+                              "bytes": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                              ],
+                              "provenance": {
+                                "ptrs": [
+                                  [
+                                    0,
+                                    9
+                                  ]
+                                ]
+                              },
+                              "align": 8,
+                              "mutability": "Mut"
+                            }
+                          },
+                          "ty": 50,
+                          "id": 54
+                        }
+                      }
+                    },
+                    "Yes"
+                  ]
+                }
+              ]
+            },
+            "source_info": {
+              "span": 366,
+              "scope": 2
+            }
+          }
+        ],
+        "terminator": {
+          "kind": {
+            "Call": {
+              "func": {
+                "Constant": {
+                  "span": 363,
+                  "user_ty": null,
+                  "const_": {
+                    "kind": "ZeroSized",
+                    "ty": 49,
+                    "id": 37
+                  }
+                }
+              },
+              "args": [
+                {
+                  "Move": {
+                    "local": 14,
+                    "projection": []
+                  }
+                },
+                {
+                  "Move": {
+                    "local": 17,
+                    "projection": []
+                  }
+                }
+              ],
+              "destination": {
+                "local": 13,
+                "projection": []
+              },
+              "target": 12,
+              "unwind": "Unreachable"
+            }
+          },
+          "source_info": {
+            "span": 363,
+            "scope": 2
+          }
+        }
+      }
+    },
+    {
+      "file": "candidate/cases/BA/compiler/12450-001910-mir-original.json",
+      "sha256": "59a3aeeb96351abd39130c10248fea4fd45555e8471b0d3daed3b00ff0ebe344",
+      "identity": {
+        "pid": 12450,
+        "case": "BA",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "phase": "prewarm",
+        "sequence": 1910,
+        "stage": "mir-original",
+        "instance": "main::array_value_as_used_by_merge_output",
+        "symbol": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "cache_writer": null,
+        "payload_fingerprint": "fnv1a64:388df1ebc83a8f12",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "864fc0433ccdcd6479669356f3a08c0133c47dd3aecbcf63070f62c455474258",
+      "payload_json_pointer": "/blocks/12",
+      "selection": {
+        "statements": [
+          {
+            "kind": {
+              "StorageDead": 17
+            },
+            "source_info": {
+              "span": 370,
+              "scope": 2
+            }
+          },
+          {
+            "kind": {
+              "StorageDead": 14
+            },
+            "source_info": {
+              "span": 370,
+              "scope": 2
+            }
+          }
+        ],
+        "terminator": {
+          "kind": {
+            "Call": {
+              "func": {
+                "Constant": {
+                  "span": 367,
+                  "user_ty": null,
+                  "const_": {
+                    "kind": "ZeroSized",
+                    "ty": 4,
+                    "id": 4
+                  }
+                }
+              },
+              "args": [
+                {
+                  "Move": {
+                    "local": 13,
+                    "projection": []
+                  }
+                },
+                {
+                  "Constant": {
+                    "span": 368,
+                    "user_ty": null,
+                    "const_": {
+                      "kind": {
+                        "Allocated": {
+                          "bytes": [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            52,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                          ],
+                          "provenance": {
+                            "ptrs": [
+                              [
+                                0,
+                                10
+                              ]
+                            ]
+                          },
+                          "align": 8,
+                          "mutability": "Mut"
+                        }
+                      },
+                      "ty": 5,
+                      "id": 55
+                    }
+                  }
+                }
+              ],
+              "destination": {
+                "local": 12,
+                "projection": []
+              },
+              "target": 13,
+              "unwind": "Unreachable"
+            }
+          },
+          "source_info": {
+            "span": 369,
+            "scope": 2
+          }
+        }
+      }
+    },
+    {
+      "file": "candidate/cases/AB/compiler/12364-000004-mir-original.json",
+      "sha256": "a876b222732029f01713efaf86e480c85c2fed659f5b9018a59740ca41f68e05",
+      "identity": {
+        "pid": 12364,
+        "case": "AB",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "phase": "prewarm",
+        "sequence": 4,
+        "stage": "mir-original",
+        "instance": "main::partial_copy_preserves_written_byte",
+        "symbol": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "cache_writer": null,
+        "payload_fingerprint": "fnv1a64:11664bab41ccb816",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "3536a06f4f2fdf449fae18d393129c03770d8b2dfb4267cc38d738158a07ce36",
+      "payload_json_pointer": "/blocks/17",
+      "selection": {
+        "statements": [
+          {
+            "kind": {
+              "Assign": [
+                {
+                  "local": 30,
+                  "projection": []
+                },
+                {
+                  "Ref": [
+                    {
+                      "kind": "ReErased"
+                    },
+                    "Shared",
+                    {
+                      "local": 31,
+                      "projection": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "source_info": {
+              "span": 255,
+              "scope": 2
+            }
+          },
+          {
+            "kind": {
+              "StorageDead": 32
+            },
+            "source_info": {
+              "span": 258,
+              "scope": 2
+            }
+          },
+          {
+            "kind": {
+              "StorageLive": 35
+            },
+            "source_info": {
+              "span": 259,
+              "scope": 2
+            }
+          },
+          {
+            "kind": {
+              "Assign": [
+                {
+                  "local": 35,
+                  "projection": []
+                },
+                {
+                  "Use": [
+                    {
+                      "Constant": {
+                        "span": 259,
+                        "user_ty": null,
+                        "const_": {
+                          "kind": {
+                            "Allocated": {
+                              "bytes": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                              ],
+                              "provenance": {
+                                "ptrs": [
+                                  [
+                                    0,
+                                    5
+                                  ]
+                                ]
+                              },
+                              "align": 8,
+                              "mutability": "Mut"
+                            }
+                          },
+                          "ty": 50,
+                          "id": 38
+                        }
+                      }
+                    },
+                    "Yes"
+                  ]
+                }
+              ]
+            },
+            "source_info": {
+              "span": 259,
+              "scope": 2
+            }
+          }
+        ],
+        "terminator": {
+          "kind": {
+            "Call": {
+              "func": {
+                "Constant": {
+                  "span": 254,
+                  "user_ty": null,
+                  "const_": {
+                    "kind": "ZeroSized",
+                    "ty": 49,
+                    "id": 37
+                  }
+                }
+              },
+              "args": [
+                {
+                  "Move": {
+                    "local": 30,
+                    "projection": []
+                  }
+                },
+                {
+                  "Move": {
+                    "local": 35,
+                    "projection": []
+                  }
+                }
+              ],
+              "destination": {
+                "local": 29,
+                "projection": []
+              },
+              "target": 18,
+              "unwind": "Unreachable"
+            }
+          },
+          "source_info": {
+            "span": 254,
+            "scope": 2
+          }
+        }
+      }
+    },
+    {
+      "file": "candidate/cases/AB/compiler/12364-000004-mir-original.json",
+      "sha256": "a876b222732029f01713efaf86e480c85c2fed659f5b9018a59740ca41f68e05",
+      "identity": {
+        "pid": 12364,
+        "case": "AB",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "phase": "prewarm",
+        "sequence": 4,
+        "stage": "mir-original",
+        "instance": "main::partial_copy_preserves_written_byte",
+        "symbol": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "cache_writer": null,
+        "payload_fingerprint": "fnv1a64:11664bab41ccb816",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "3536a06f4f2fdf449fae18d393129c03770d8b2dfb4267cc38d738158a07ce36",
+      "payload_json_pointer": "/blocks/18",
+      "selection": {
+        "statements": [
+          {
+            "kind": {
+              "StorageDead": 35
+            },
+            "source_info": {
+              "span": 263,
+              "scope": 2
+            }
+          },
+          {
+            "kind": {
+              "StorageDead": 30
+            },
+            "source_info": {
+              "span": 263,
+              "scope": 2
+            }
+          }
+        ],
+        "terminator": {
+          "kind": {
+            "Call": {
+              "func": {
+                "Constant": {
+                  "span": 260,
+                  "user_ty": null,
+                  "const_": {
+                    "kind": "ZeroSized",
+                    "ty": 4,
+                    "id": 4
+                  }
+                }
+              },
+              "args": [
+                {
+                  "Move": {
+                    "local": 29,
+                    "projection": []
+                  }
+                },
+                {
+                  "Constant": {
+                    "span": 261,
+                    "user_ty": null,
+                    "const_": {
+                      "kind": {
+                        "Allocated": {
+                          "bytes": [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            47,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                          ],
+                          "provenance": {
+                            "ptrs": [
+                              [
+                                0,
+                                6
+                              ]
+                            ]
+                          },
+                          "align": 8,
+                          "mutability": "Mut"
+                        }
+                      },
+                      "ty": 5,
+                      "id": 39
+                    }
+                  }
+                }
+              ],
+              "destination": {
+                "local": 28,
+                "projection": []
+              },
+              "target": 19,
+              "unwind": "Unreachable"
+            }
+          },
+          "source_info": {
+            "span": 262,
+            "scope": 2
+          }
+        }
+      }
+    },
+    {
+      "file": "candidate/cases/AB/compiler/12364-004867-codegen-consumed-mir.json",
+      "sha256": "652eec433391384e47fe0d69363670605e5b8856a5053dd2c086fa2f2be0ffeb",
+      "identity": {
+        "pid": 12364,
+        "case": "AB",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "phase": "codegen",
+        "sequence": 4867,
+        "stage": "codegen-consumed-mir",
+        "instance": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq",
+        "symbol": "_RNvXs7_NtNtCseOU9pHvofFg_4core5array8equalityhINtB5_11SpecArrayEqhKj4_E7spec_eqCst1UZ8ufgP2_3std",
+        "cache_writer": [
+          1,
+          "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+          "fnv1a64:d854f71987137d9d"
+        ],
+        "payload_fingerprint": "fnv1a64:d854f71987137d9d",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "294fdfab4db9c9ddb21ae2e1f7e710b353e6e253da8b909e5bbc4667e3e3f8e9",
+      "payload_json_pointer": "/blocks/0",
+      "selection": {
+        "statements": [
+          {
+            "kind": {
+              "StorageLive": 3
+            },
+            "source_info": {
+              "span": 1957,
+              "scope": 0
+            }
+          },
+          {
+            "kind": {
+              "Assign": [
+                {
+                  "local": 3,
+                  "projection": []
+                },
+                {
+                  "Cast": [
+                    "Transmute",
+                    {
+                      "Copy": {
+                        "local": 2,
+                        "projection": []
+                      }
+                    },
+                    50
+                  ]
+                }
+              ]
+            },
+            "source_info": {
+              "span": 1957,
+              "scope": 0
+            }
+          }
+        ],
+        "terminator": {
+          "kind": {
+            "Goto": {
+              "target": 3
+            }
+          },
+          "source_info": {
+            "span": 1956,
+            "scope": 0
+          }
+        }
+      }
+    },
+    {
+      "file": "candidate/cases/AB/compiler/12364-004867-codegen-consumed-mir.json",
+      "sha256": "652eec433391384e47fe0d69363670605e5b8856a5053dd2c086fa2f2be0ffeb",
+      "identity": {
+        "pid": 12364,
+        "case": "AB",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "phase": "codegen",
+        "sequence": 4867,
+        "stage": "codegen-consumed-mir",
+        "instance": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq",
+        "symbol": "_RNvXs7_NtNtCseOU9pHvofFg_4core5array8equalityhINtB5_11SpecArrayEqhKj4_E7spec_eqCst1UZ8ufgP2_3std",
+        "cache_writer": [
+          1,
+          "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+          "fnv1a64:d854f71987137d9d"
+        ],
+        "payload_fingerprint": "fnv1a64:d854f71987137d9d",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "294fdfab4db9c9ddb21ae2e1f7e710b353e6e253da8b909e5bbc4667e3e3f8e9",
+      "payload_json_pointer": "/blocks/3",
+      "selection": {
+        "statements": [
+          {
+            "kind": {
+              "Assign": [
+                {
+                  "local": 5,
+                  "projection": []
+                },
+                {
+                  "AddressOf": [
+                    "Const",
+                    {
+                      "local": 1,
+                      "projection": [
+                        "Deref"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "source_info": {
+              "span": 1956,
+              "scope": 0
+            }
+          },
+          {
+            "kind": {
+              "Assign": [
+                {
+                  "local": 6,
+                  "projection": []
+                },
+                {
+                  "Cast": [
+                    "PtrToPtr",
+                    {
+                      "Copy": {
+                        "local": 5,
+                        "projection": []
+                      }
+                    },
+                    61
+                  ]
+                }
+              ]
+            },
+            "source_info": {
+              "span": 1956,
+              "scope": 0
+            }
+          },
+          {
+            "kind": {
+              "Assign": [
+                {
+                  "local": 7,
+                  "projection": []
+                },
+                {
+                  "Aggregate": [
+                    {
+                      "Array": 10
+                    },
+                    [
+                      {
+                        "Constant": {
+                          "span": 1956,
+                          "user_ty": null,
+                          "const_": {
+                            "kind": {
+                              "Allocated": {
+                                "bytes": [
+                                  1
+                                ],
+                                "provenance": {
+                                  "ptrs": []
+                                },
+                                "align": 1,
+                                "mutability": "Mut"
+                              }
+                            },
+                            "ty": 10,
+                            "id": 64
+                          }
+                        }
+                      },
+                      {
+                        "Constant": {
+                          "span": 1956,
+                          "user_ty": null,
+                          "const_": {
+                            "kind": {
+                              "Allocated": {
+                                "bytes": [
+                                  1
+                                ],
+                                "provenance": {
+                                  "ptrs": []
+                                },
+                                "align": 1,
+                                "mutability": "Mut"
+                              }
+                            },
+                            "ty": 10,
+                            "id": 64
+                          }
+                        }
+                      },
+                      {
+                        "Constant": {
+                          "span": 1956,
+                          "user_ty": null,
+                          "const_": {
+                            "kind": {
+                              "Allocated": {
+                                "bytes": [
+                                  1
+                                ],
+                                "provenance": {
+                                  "ptrs": []
+                                },
+                                "align": 1,
+                                "mutability": "Mut"
+                              }
+                            },
+                            "ty": 10,
+                            "id": 64
+                          }
+                        }
+                      },
+                      {
+                        "Constant": {
+                          "span": 1956,
+                          "user_ty": null,
+                          "const_": {
+                            "kind": {
+                              "Allocated": {
+                                "bytes": [
+                                  1
+                                ],
+                                "provenance": {
+                                  "ptrs": []
+                                },
+                                "align": 1,
+                                "mutability": "Mut"
+                              }
+                            },
+                            "ty": 10,
+                            "id": 64
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                }
+              ]
+            },
+            "source_info": {
+              "span": 1956,
+              "scope": 0
+            }
+          }
+        ],
+        "terminator": {
+          "kind": {
+            "Call": {
+              "func": {
+                "Copy": {
+                  "local": 8,
+                  "projection": []
+                }
+              },
+              "args": [
+                {
+                  "Copy": {
+                    "local": 6,
+                    "projection": []
+                  }
+                },
+                {
+                  "Move": {
+                    "local": 7,
+                    "projection": []
+                  }
+                }
+              ],
+              "destination": {
+                "local": 4,
+                "projection": []
+              },
+              "target": 2,
+              "unwind": "Terminate"
+            }
+          },
+          "source_info": {
+            "span": 1956,
+            "scope": 0
+          }
+        }
+      }
+    },
+    {
+      "file": "candidate/cases/AB/compiler/12364-004867-codegen-consumed-mir.json",
+      "sha256": "652eec433391384e47fe0d69363670605e5b8856a5053dd2c086fa2f2be0ffeb",
+      "identity": {
+        "pid": 12364,
+        "case": "AB",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "phase": "codegen",
+        "sequence": 4867,
+        "stage": "codegen-consumed-mir",
+        "instance": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq",
+        "symbol": "_RNvXs7_NtNtCseOU9pHvofFg_4core5array8equalityhINtB5_11SpecArrayEqhKj4_E7spec_eqCst1UZ8ufgP2_3std",
+        "cache_writer": [
+          1,
+          "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+          "fnv1a64:d854f71987137d9d"
+        ],
+        "payload_fingerprint": "fnv1a64:d854f71987137d9d",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "294fdfab4db9c9ddb21ae2e1f7e710b353e6e253da8b909e5bbc4667e3e3f8e9",
+      "payload_json_pointer": "/blocks/6",
+      "selection": {
+        "statements": [
+          {
+            "kind": {
+              "Assign": [
+                {
+                  "local": 12,
+                  "projection": []
+                },
+                {
+                  "AddressOf": [
+                    "Const",
+                    {
+                      "local": 3,
+                      "projection": [
+                        "Deref"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "source_info": {
+              "span": 1956,
+              "scope": 0
+            }
+          },
+          {
+            "kind": {
+              "Assign": [
+                {
+                  "local": 13,
+                  "projection": []
+                },
+                {
+                  "Cast": [
+                    "PtrToPtr",
+                    {
+                      "Copy": {
+                        "local": 12,
+                        "projection": []
+                      }
+                    },
+                    61
+                  ]
+                }
+              ]
+            },
+            "source_info": {
+              "span": 1956,
+              "scope": 0
+            }
+          },
+          {
+            "kind": {
+              "Assign": [
+                {
+                  "local": 14,
+                  "projection": []
+                },
+                {
+                  "Aggregate": [
+                    {
+                      "Array": 10
+                    },
+                    [
+                      {
+                        "Constant": {
+                          "span": 1956,
+                          "user_ty": null,
+                          "const_": {
+                            "kind": {
+                              "Allocated": {
+                                "bytes": [
+                                  1
+                                ],
+                                "provenance": {
+                                  "ptrs": []
+                                },
+                                "align": 1,
+                                "mutability": "Mut"
+                              }
+                            },
+                            "ty": 10,
+                            "id": 64
+                          }
+                        }
+                      },
+                      {
+                        "Constant": {
+                          "span": 1956,
+                          "user_ty": null,
+                          "const_": {
+                            "kind": {
+                              "Allocated": {
+                                "bytes": [
+                                  1
+                                ],
+                                "provenance": {
+                                  "ptrs": []
+                                },
+                                "align": 1,
+                                "mutability": "Mut"
+                              }
+                            },
+                            "ty": 10,
+                            "id": 64
+                          }
+                        }
+                      },
+                      {
+                        "Constant": {
+                          "span": 1956,
+                          "user_ty": null,
+                          "const_": {
+                            "kind": {
+                              "Allocated": {
+                                "bytes": [
+                                  1
+                                ],
+                                "provenance": {
+                                  "ptrs": []
+                                },
+                                "align": 1,
+                                "mutability": "Mut"
+                              }
+                            },
+                            "ty": 10,
+                            "id": 64
+                          }
+                        }
+                      },
+                      {
+                        "Constant": {
+                          "span": 1956,
+                          "user_ty": null,
+                          "const_": {
+                            "kind": {
+                              "Allocated": {
+                                "bytes": [
+                                  1
+                                ],
+                                "provenance": {
+                                  "ptrs": []
+                                },
+                                "align": 1,
+                                "mutability": "Mut"
+                              }
+                            },
+                            "ty": 10,
+                            "id": 64
+                          }
+                        }
+                      }
+                    ]
+                  ]
+                }
+              ]
+            },
+            "source_info": {
+              "span": 1956,
+              "scope": 0
+            }
+          }
+        ],
+        "terminator": {
+          "kind": {
+            "Call": {
+              "func": {
+                "Copy": {
+                  "local": 15,
+                  "projection": []
+                }
+              },
+              "args": [
+                {
+                  "Copy": {
+                    "local": 13,
+                    "projection": []
+                  }
+                },
+                {
+                  "Move": {
+                    "local": 14,
+                    "projection": []
+                  }
+                }
+              ],
+              "destination": {
+                "local": 11,
+                "projection": []
+              },
+              "target": 5,
+              "unwind": "Terminate"
+            }
+          },
+          "source_info": {
+            "span": 1956,
+            "scope": 0
+          }
+        }
+      }
+    },
+    {
+      "file": "candidate/cases/AB/compiler/12364-004867-codegen-consumed-mir.json",
+      "sha256": "652eec433391384e47fe0d69363670605e5b8856a5053dd2c086fa2f2be0ffeb",
+      "identity": {
+        "pid": 12364,
+        "case": "AB",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "phase": "codegen",
+        "sequence": 4867,
+        "stage": "codegen-consumed-mir",
+        "instance": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq",
+        "symbol": "_RNvXs7_NtNtCseOU9pHvofFg_4core5array8equalityhINtB5_11SpecArrayEqhKj4_E7spec_eqCst1UZ8ufgP2_3std",
+        "cache_writer": [
+          1,
+          "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+          "fnv1a64:d854f71987137d9d"
+        ],
+        "payload_fingerprint": "fnv1a64:d854f71987137d9d",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "294fdfab4db9c9ddb21ae2e1f7e710b353e6e253da8b909e5bbc4667e3e3f8e9",
+      "payload_json_pointer": "/blocks/7",
+      "selection": {
+        "statements": [],
+        "terminator": {
+          "kind": {
+            "Call": {
+              "func": {
+                "Constant": {
+                  "span": 1955,
+                  "user_ty": null,
+                  "const_": {
+                    "kind": "ZeroSized",
+                    "ty": 268,
+                    "id": 221
+                  }
+                }
+              },
+              "args": [
+                {
+                  "Copy": {
+                    "local": 1,
+                    "projection": []
+                  }
+                },
+                {
+                  "Move": {
+                    "local": 3,
+                    "projection": []
+                  }
+                }
+              ],
+              "destination": {
+                "local": 0,
+                "projection": []
+              },
+              "target": 1,
+              "unwind": "Unreachable"
+            }
+          },
+          "source_info": {
+            "span": 1956,
+            "scope": 0
+          }
+        }
+      }
+    },
+    {
+      "file": "candidate/cases/BA/compiler/12450-009970-referent-before-lowering.json",
+      "sha256": "9cbb30005a5a403970a01dff6131e62020cfdb7173ffc849afadd5e837169bda",
+      "identity": {
+        "pid": 12450,
+        "case": "BA",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "phase": "codegen",
+        "sequence": 9970,
+        "stage": "referent-before-lowering",
+        "instance": null,
+        "symbol": null,
+        "cache_writer": null,
+        "payload_fingerprint": "fnv1a64:a2b243e5723d6505",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "5b6d3a7cf91a9e57e173ce3ade3740599dc21b75d8e6207a111f9f4a71713fc7",
+      "selection": "alloc_id=AllocId(9, ThreadLocalIndex); offset=0; result_type=Pointer {\n    typ: Array {\n        typ: Unsignedbv {\n            width: 8,\n        },\n        size: 4,\n    },\n}; location=Loc {\n    file: \"tests/expected/uninit/maybe-uninit-initialized/main.rs\",\n    function: Some(\n        \"array_value_as_used_by_merge_output\",\n    ),\n    start_line: 84,\n    start_col: Some(\n        40,\n    ),\n    end_line: 84,\n    end_col: Some(\n        52,\n    ),\n    pragmas: [],\n}"
+    },
+    {
+      "file": "candidate/cases/BA/compiler/12450-009972-allocation-before-lowering.json",
+      "sha256": "e6f9a8e48cfeaef80bf28e55fa3bdbb4520ee0c5ba9e5b293aeac9af7a372dce",
+      "identity": {
+        "pid": 12450,
+        "case": "BA",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "phase": "codegen",
+        "sequence": 9972,
+        "stage": "allocation-before-lowering",
+        "instance": null,
+        "symbol": null,
+        "cache_writer": null,
+        "payload_fingerprint": "fnv1a64:f05f468b4c58ea34",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "d000f85c9a96420c4f8e61cc31b3202648a28c3fc43ff29d8115f1d37650b4b5",
+      "selection": "allocation=Allocation {\n    bytes: [\n        Some(\n            1,\n        ),\n        Some(\n            2,\n        ),\n        Some(\n            3,\n        ),\n        Some(\n            4,\n        ),\n    ],\n    provenance: ProvenanceMap {\n        ptrs: [],\n    },\n    align: 1,\n    mutability: Not,\n}; requested_name=Some(\n    \"main.32c9e3ca9ef51005::main::AllocId(9, ThreadLocalIndex)\",\n); reuse=None; location=Loc {\n    file: \"tests/expected/uninit/maybe-uninit-initialized/main.rs\",\n    function: Some(\n        \"array_value_as_used_by_merge_output\",\n    ),\n    start_line: 84,\n    start_col: Some(\n        40,\n    ),\n    end_line: 84,\n    end_col: Some(\n        52,\n    ),\n    pragmas: [],\n}; is_definitely_const=false"
+    },
+    {
+      "file": "candidate/cases/BA/compiler/12450-009973-allocation-symbol.json",
+      "sha256": "6766376b036f59a802e09b72b6391e8447a2e6b47810f5272dccf2364c5147af",
+      "identity": {
+        "pid": 12450,
+        "case": "BA",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "phase": "codegen",
+        "sequence": 9973,
+        "stage": "allocation-symbol",
+        "instance": null,
+        "symbol": null,
+        "cache_writer": null,
+        "payload_fingerprint": "fnv1a64:a8d7af645466cd0c",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "f28d2167dc691eee2250a5bd1373b72e410aeafe687c75fa5ed4034798f4348d",
+      "selection": "allocation=Allocation {\n    bytes: [\n        Some(\n            1,\n        ),\n        Some(\n            2,\n        ),\n        Some(\n            3,\n        ),\n        Some(\n            4,\n        ),\n    ],\n    provenance: ProvenanceMap {\n        ptrs: [],\n    },\n    align: 1,\n    mutability: Not,\n}; symbol=main.32c9e3ca9ef51005::main::AllocId(9, ThreadLocalIndex)"
+    },
+    {
+      "file": "candidate/cases/BA/compiler/12450-009974-referent-symbol.json",
+      "sha256": "763d8534184617cf43a16980398bd180e0bc4e826e67a75c98dfe22b934edbcf",
+      "identity": {
+        "pid": 12450,
+        "case": "BA",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "phase": "codegen",
+        "sequence": 9974,
+        "stage": "referent-symbol",
+        "instance": null,
+        "symbol": null,
+        "cache_writer": null,
+        "payload_fingerprint": "fnv1a64:e53024f425f6f6f1",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "25d516fafd818b95a68b6b2cb62bdf4a31d537929dcef1dd36cf83b792b4741f",
+      "selection": "alloc_id=AllocId(9, ThreadLocalIndex); offset=0; address=Expr {\n    value: AddressOf(\n        Expr {\n            value: Symbol {\n                identifier: \"main.32c9e3ca9ef51005::main::AllocId(9, ThreadLocalIndex)\",\n            },\n            typ: StructTag(\n                \"tag-main.32c9e3ca9ef51005::main::AllocId(9, ThreadLocalIndex)::struct\",\n            ),\n            location: None,\n            size_of_annotation: None,\n        },\n    ),\n    typ: Pointer {\n        typ: StructTag(\n            \"tag-main.32c9e3ca9ef51005::main::AllocId(9, ThreadLocalIndex)::struct\",\n        ),\n    },\n    location: None,\n    size_of_annotation: None,\n}; location=Loc {\n    file: \"tests/expected/uninit/maybe-uninit-initialized/main.rs\",\n    function: Some(\n        \"array_value_as_used_by_merge_output\",\n    ),\n    start_line: 84,\n    start_col: Some(\n        40,\n    ),\n    end_line: 84,\n    end_col: Some(\n        52,\n    ),\n    pragmas: [],\n}"
+    },
+    {
+      "file": "candidate/cases/AB/compiler/12364-009148-referent-before-lowering.json",
+      "sha256": "59f4af5951aaae727c1564609deaea5a7ec7e0f8b53b16073bf6721133f039da",
+      "identity": {
+        "pid": 12364,
+        "case": "AB",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "phase": "codegen",
+        "sequence": 9148,
+        "stage": "referent-before-lowering",
+        "instance": null,
+        "symbol": null,
+        "cache_writer": null,
+        "payload_fingerprint": "fnv1a64:43bc4574320c0593",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "11ba7f9451a6e30ff510fc10dee671acd6ec739b53351ef4b891a5f5b273fc33",
+      "selection": "alloc_id=AllocId(5, ThreadLocalIndex); offset=0; result_type=Pointer {\n    typ: Array {\n        typ: Unsignedbv {\n            width: 8,\n        },\n        size: 4,\n    },\n}; location=Loc {\n    file: \"tests/expected/uninit/maybe-uninit-initialized/main.rs\",\n    function: Some(\n        \"partial_copy_preserves_written_byte\",\n    ),\n    start_line: 58,\n    start_col: Some(\n        41,\n    ),\n    end_line: 58,\n    end_col: Some(\n        47,\n    ),\n    pragmas: [],\n}"
+    },
+    {
+      "file": "candidate/cases/AB/compiler/12364-009150-allocation-before-lowering.json",
+      "sha256": "b0d64090d098b7d944d92ff00aca4902b68868d30d561658f3d83b82da0e5078",
+      "identity": {
+        "pid": 12364,
+        "case": "AB",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "phase": "codegen",
+        "sequence": 9150,
+        "stage": "allocation-before-lowering",
+        "instance": null,
+        "symbol": null,
+        "cache_writer": null,
+        "payload_fingerprint": "fnv1a64:2195922320615412",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "54d9b09a7988356e3e97325f090bd03cf2899d2ea769433811b478cae19b650b",
+      "selection": "allocation=Allocation {\n    bytes: [\n        Some(\n            9,\n        ),\n        Some(\n            9,\n        ),\n        Some(\n            9,\n        ),\n        Some(\n            9,\n        ),\n    ],\n    provenance: ProvenanceMap {\n        ptrs: [],\n    },\n    align: 1,\n    mutability: Not,\n}; requested_name=Some(\n    \"main.32c9e3ca9ef51005::main::AllocId(5, ThreadLocalIndex)\",\n); reuse=None; location=Loc {\n    file: \"tests/expected/uninit/maybe-uninit-initialized/main.rs\",\n    function: Some(\n        \"partial_copy_preserves_written_byte\",\n    ),\n    start_line: 58,\n    start_col: Some(\n        41,\n    ),\n    end_line: 58,\n    end_col: Some(\n        47,\n    ),\n    pragmas: [],\n}; is_definitely_const=false"
+    },
+    {
+      "file": "candidate/cases/AB/compiler/12364-009151-allocation-symbol.json",
+      "sha256": "d6f7cfd5c03aa77ea2db93a0a4907fe9d662049774b4d733c0bb6c9dc956728f",
+      "identity": {
+        "pid": 12364,
+        "case": "AB",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "phase": "codegen",
+        "sequence": 9151,
+        "stage": "allocation-symbol",
+        "instance": null,
+        "symbol": null,
+        "cache_writer": null,
+        "payload_fingerprint": "fnv1a64:9aff23a8ad662af8",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "b0d0231fe4ef51a36a4b8d83e13cacf6c79f2dc8ae21f2e545cef61c83f3d247",
+      "selection": "allocation=Allocation {\n    bytes: [\n        Some(\n            9,\n        ),\n        Some(\n            9,\n        ),\n        Some(\n            9,\n        ),\n        Some(\n            9,\n        ),\n    ],\n    provenance: ProvenanceMap {\n        ptrs: [],\n    },\n    align: 1,\n    mutability: Not,\n}; symbol=main.32c9e3ca9ef51005::main::AllocId(5, ThreadLocalIndex)"
+    },
+    {
+      "file": "candidate/cases/AB/compiler/12364-009152-referent-symbol.json",
+      "sha256": "bdb335edc4de7da0296a7df8f0548032a663a2fa190bd1e65a1bda6a251625e8",
+      "identity": {
+        "pid": 12364,
+        "case": "AB",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "phase": "codegen",
+        "sequence": 9152,
+        "stage": "referent-symbol",
+        "instance": null,
+        "symbol": null,
+        "cache_writer": null,
+        "payload_fingerprint": "fnv1a64:8f497b83c1bef2b3",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "7327ceac9f83fbce211413f4299202ded957829c8670ce9c5b29753397158086",
+      "selection": "alloc_id=AllocId(5, ThreadLocalIndex); offset=0; address=Expr {\n    value: AddressOf(\n        Expr {\n            value: Symbol {\n                identifier: \"main.32c9e3ca9ef51005::main::AllocId(5, ThreadLocalIndex)\",\n            },\n            typ: StructTag(\n                \"tag-main.32c9e3ca9ef51005::main::AllocId(5, ThreadLocalIndex)::struct\",\n            ),\n            location: None,\n            size_of_annotation: None,\n        },\n    ),\n    typ: Pointer {\n        typ: StructTag(\n            \"tag-main.32c9e3ca9ef51005::main::AllocId(5, ThreadLocalIndex)::struct\",\n        ),\n    },\n    location: None,\n    size_of_annotation: None,\n}; location=Loc {\n    file: \"tests/expected/uninit/maybe-uninit-initialized/main.rs\",\n    function: Some(\n        \"partial_copy_preserves_written_byte\",\n    ),\n    start_line: 58,\n    start_col: Some(\n        41,\n    ),\n    end_line: 58,\n    end_col: Some(\n        47,\n    ),\n    pragmas: [],\n}"
+    },
+    {
+      "file": "candidate/cases/BA/compiler/12450-008147-shadow-operation.json",
+      "sha256": "abc40da53b00e3222e994f0c56dd40159a5fe8c545d7ac989d3f0a2e57b2e2ff",
+      "identity": {
+        "pid": 12450,
+        "case": "BA",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "phase": "codegen",
+        "sequence": 8147,
+        "stage": "shadow-operation",
+        "instance": "main::array_value_as_used_by_merge_output",
+        "symbol": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "cache_writer": [
+          1,
+          "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+          "fnv1a64:3d20b74eae0d78c6"
+        ],
+        "payload_fingerprint": "fnv1a64:060f859f46f54eba",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "c0bd7ad33c72dde3197126d1d9f378cfb413554bcb81542d9159e60e1b0ef851",
+      "selection": "source=Terminator {\n    bb: 20,\n}; operation={\"SetRef\":{\"operand\":{\"Copy\":{\"local\":15,\"projection\":[]}},\"value\":true,\"position\":\"After\"}}; blocks_before=24"
+    },
+    {
+      "file": "candidate/cases/BA/compiler/12450-003337-shadow-operation.json",
+      "sha256": "2e021ea2caaa0da8501d6173c544eeb7e5dd754434d062cb9374572ec2904842",
+      "identity": {
+        "pid": 12450,
+        "case": "BA",
+        "unit": 0,
+        "cache": 0,
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "phase": "codegen",
+        "sequence": 3337,
+        "stage": "shadow-operation",
+        "instance": "main::partial_copy_preserves_written_byte",
+        "symbol": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "cache_writer": [
+          1,
+          "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+          "fnv1a64:5b9f90835856a889"
+        ],
+        "payload_fingerprint": "fnv1a64:cf734684bf558bc0",
+        "runtime_binding": "NOT_RUN"
+      },
+      "payload_sha256": "66103849fecad5e6b22c3ace206f7f7da4a789edd91000bb378d18885d3db7a8",
+      "selection": "source=Terminator {\n    bb: 26,\n}; operation={\"SetRef\":{\"operand\":{\"Copy\":{\"local\":31,\"projection\":[]}},\"value\":true,\"position\":\"After\"}}; blocks_before=40"
+    },
+    {
+      "file": "candidate/cases/BA/compiler/12450-009917-goto-local.json",
+      "sha256": "c840939573418fddc399582e8fcbfa79acbc04034e82dba57e692bcf635ac295",
+      "payload_sha256": "f8a7c51bd47f73b9c73c38decdbc637ae3ad14bb108f12aa52f64e3897b3d8cc",
+      "selection": "local=15; mir_decl={\"ty\":53,\"span\":361,\"mutability\":\"Not\"}; goto_symbol=Symbol {\n    name: \"_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output::1::var_15\",\n    location: Loc {\n        file: \"tests/expected/uninit/maybe-uninit-initialized/main.rs\",\n        function: Some(\n            \"array_value_as_used_by_merge_output\",\n        ),\n        start_line: 84,\n        start_col: Some(\n            20,\n        ),\n        end_line: 84,\n        end_col: Some(\n            38,\n        ),\n        pragmas: [],\n    },\n    typ: Array {\n        typ: Unsignedbv {\n            width: 8,\n        },\n        size: 4,\n    },\n    value: None,\n    contract: None,\n    base_name: Some(\n        \"var_15\",\n    ),\n    pretty_name: None,\n    module: None,\n    mode: C,\n    is_exported: false,\n    is_input: false,\n    is_macro: false,\n    is_output: false,\n    is_property: false,\n    is_state_var: true,\n    is_type: false,\n    is_auxiliary: true,\n    is_extern: false,\n    is_file_local: false,\n    is_lvalue: true,\n    is_parameter: false,\n    is_static_lifetime: false,\n    is_thread_local: true,\n    is_volatile: false,\n    is_weak: false,\n    is_static_const: false,\n}"
+    },
+    {
+      "file": "candidate/cases/AB/compiler/12364-009050-goto-local.json",
+      "sha256": "9e129a7464e21e57262fdc9cfe027f1f9084c8eddcd1cd13c518ac41a668fa7f",
+      "payload_sha256": "2e40c8f00bff163b84a794439ddcac5855565efeac340fc11636d8a6036f57fd",
+      "selection": "local=31; mir_decl={\"ty\":53,\"span\":255,\"mutability\":\"Not\"}; goto_symbol=Symbol {\n    name: \"_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte::1::var_31\",\n    location: Loc {\n        file: \"tests/expected/uninit/maybe-uninit-initialized/main.rs\",\n        function: Some(\n            \"partial_copy_preserves_written_byte\",\n        ),\n        start_line: 58,\n        start_col: Some(\n            20,\n        ),\n        end_line: 58,\n        end_col: Some(\n            39,\n        ),\n        pragmas: [],\n    },\n    typ: Array {\n        typ: Unsignedbv {\n            width: 8,\n        },\n        size: 4,\n    },\n    value: None,\n    contract: None,\n    base_name: Some(\n        \"var_31\",\n    ),\n    pretty_name: None,\n    module: None,\n    mode: C,\n    is_exported: false,\n    is_input: false,\n    is_macro: false,\n    is_output: false,\n    is_property: false,\n    is_state_var: true,\n    is_type: false,\n    is_auxiliary: true,\n    is_extern: false,\n    is_file_local: false,\n    is_lvalue: true,\n    is_parameter: false,\n    is_static_lifetime: false,\n    is_thread_local: true,\n    is_volatile: false,\n    is_weak: false,\n    is_static_const: false,\n}"
+    }
+  ],
+  "property_inventories": [
+    {
+      "file": "candidate/cases/AB/inventory/0/properties.inventory.json",
+      "sha256": "8d7f47d7d1263bf69a51125456e73489f145fb4c79db93774ad7fdbbd9cc01d4",
+      "solver_input_message": "Reading GOTO program from file /home/runner/work/kani/kani/d0-private/candidate/cases/AB/model/main__RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte.out",
+      "properties": [
+        {
+          "index": 357,
+          "value": {
+            "class": "safety_check",
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+            "expression": "var_4 != FALSE",
+            "name": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.1",
+            "sourceLocation": {
+              "column": "18",
+              "comment": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+              "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/array/equality.rs",
+              "function": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq",
+              "line": "157",
+              "pragma": [
+                "checked:bounds-check",
+                "checked:pointer-check",
+                "checked:div-by-zero-check",
+                "checked:signed-overflow-check",
+                "checked:undefined-shift-check",
+                "checked:pointer-primitive-check"
+              ],
+              "propertyClass": "safety_check",
+              "propertyId": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.1"
+            }
+          }
+        },
+        {
+          "index": 358,
+          "value": {
+            "class": "safety_check",
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+            "expression": "var_11 != FALSE",
+            "name": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.2",
+            "sourceLocation": {
+              "column": "18",
+              "comment": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+              "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/array/equality.rs",
+              "function": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq",
+              "line": "157",
+              "pragma": [
+                "checked:bounds-check",
+                "checked:pointer-check",
+                "checked:div-by-zero-check",
+                "checked:signed-overflow-check",
+                "checked:undefined-shift-check",
+                "checked:pointer-primitive-check"
+              ],
+              "propertyClass": "safety_check",
+              "propertyId": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "file": "candidate/cases/AB/inventory/1/properties.inventory.json",
+      "sha256": "5cfbed25380d7a3d8f84e0873572b1a3541fa6e06e8debd352ada9d9faf2e111",
+      "solver_input_message": "Reading GOTO program from file /home/runner/work/kani/kani/d0-private/candidate/cases/AB/model/main__RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output.out",
+      "properties": [
+        {
+          "index": 259,
+          "value": {
+            "class": "safety_check",
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+            "expression": "var_4 != FALSE",
+            "name": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.1",
+            "sourceLocation": {
+              "column": "18",
+              "comment": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+              "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/array/equality.rs",
+              "function": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq",
+              "line": "157",
+              "pragma": [
+                "checked:bounds-check",
+                "checked:pointer-check",
+                "checked:div-by-zero-check",
+                "checked:signed-overflow-check",
+                "checked:undefined-shift-check",
+                "checked:pointer-primitive-check"
+              ],
+              "propertyClass": "safety_check",
+              "propertyId": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.1"
+            }
+          }
+        },
+        {
+          "index": 260,
+          "value": {
+            "class": "safety_check",
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+            "expression": "var_11 != FALSE",
+            "name": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.2",
+            "sourceLocation": {
+              "column": "18",
+              "comment": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+              "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/array/equality.rs",
+              "function": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq",
+              "line": "157",
+              "pragma": [
+                "checked:bounds-check",
+                "checked:pointer-check",
+                "checked:div-by-zero-check",
+                "checked:signed-overflow-check",
+                "checked:undefined-shift-check",
+                "checked:pointer-primitive-check"
+              ],
+              "propertyClass": "safety_check",
+              "propertyId": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "file": "candidate/cases/BA/inventory/0/properties.inventory.json",
+      "sha256": "ce6360343dcee67dcf82aabf3dd3ef1ba921ff6551130f397f7a05268dd774a7",
+      "solver_input_message": "Reading GOTO program from file /home/runner/work/kani/kani/d0-private/candidate/cases/BA/model/main__RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte.out",
+      "properties": [
+        {
+          "index": 351,
+          "value": {
+            "class": "safety_check",
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+            "expression": "var_4 != FALSE",
+            "name": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.1",
+            "sourceLocation": {
+              "column": "18",
+              "comment": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+              "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/array/equality.rs",
+              "function": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq",
+              "line": "157",
+              "pragma": [
+                "checked:bounds-check",
+                "checked:pointer-check",
+                "checked:div-by-zero-check",
+                "checked:signed-overflow-check",
+                "checked:undefined-shift-check",
+                "checked:pointer-primitive-check"
+              ],
+              "propertyClass": "safety_check",
+              "propertyId": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.1"
+            }
+          }
+        },
+        {
+          "index": 352,
+          "value": {
+            "class": "safety_check",
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+            "expression": "var_11 != FALSE",
+            "name": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.2",
+            "sourceLocation": {
+              "column": "18",
+              "comment": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+              "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/array/equality.rs",
+              "function": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq",
+              "line": "157",
+              "pragma": [
+                "checked:bounds-check",
+                "checked:pointer-check",
+                "checked:div-by-zero-check",
+                "checked:signed-overflow-check",
+                "checked:undefined-shift-check",
+                "checked:pointer-primitive-check"
+              ],
+              "propertyClass": "safety_check",
+              "propertyId": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "file": "candidate/cases/BA/inventory/1/properties.inventory.json",
+      "sha256": "c853a435b68adeff19378f93744326cbe6ca148807ead2a2bd147889cff35a57",
+      "solver_input_message": "Reading GOTO program from file /home/runner/work/kani/kani/d0-private/candidate/cases/BA/model/main__RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output.out",
+      "properties": [
+        {
+          "index": 265,
+          "value": {
+            "class": "safety_check",
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+            "expression": "var_4 != FALSE",
+            "name": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.1",
+            "sourceLocation": {
+              "column": "18",
+              "comment": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+              "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/array/equality.rs",
+              "function": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq",
+              "line": "157",
+              "pragma": [
+                "checked:bounds-check",
+                "checked:div-by-zero-check",
+                "checked:signed-overflow-check",
+                "checked:undefined-shift-check",
+                "checked:pointer-primitive-check",
+                "checked:pointer-check"
+              ],
+              "propertyClass": "safety_check",
+              "propertyId": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.1"
+            }
+          }
+        },
+        {
+          "index": 266,
+          "value": {
+            "class": "safety_check",
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+            "expression": "var_11 != FALSE",
+            "name": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.2",
+            "sourceLocation": {
+              "column": "18",
+              "comment": "Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 4]`",
+              "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/array/equality.rs",
+              "function": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq",
+              "line": "157",
+              "pragma": [
+                "checked:bounds-check",
+                "checked:div-by-zero-check",
+                "checked:signed-overflow-check",
+                "checked:undefined-shift-check",
+                "checked:pointer-primitive-check",
+                "checked:pointer-check"
+              ],
+              "propertyClass": "safety_check",
+              "propertyId": "<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq.safety_check.2"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "compiler_coverage": [
+    {
+      "file": "candidate/cases/AB/compiler/12364-coverage.json",
+      "sha256": "8ed0b4b0e2add1217c9c6b7abb5da8e1fe49572111a59181c1ca1fe7c5727b7c",
+      "value": {
+        "schema": "kani3300-d0/v1",
+        "case": "AB",
+        "pid": 12364,
+        "codegen_completed": true,
+        "counts": {
+          "emitted": {
+            "actual-order": 1,
+            "allocation-before-lowering": 70,
+            "allocation-symbol": 70,
+            "cache-read": 902,
+            "cache-write-delayed": 5,
+            "cache-write-local": 84,
+            "codegen-consumed-mir": 130,
+            "delayed-after": 128,
+            "delayed-before": 128,
+            "goto-body": 130,
+            "goto-local": 1473,
+            "goto-terminator": 899,
+            "harness-begin": 2,
+            "local-pass-after": 336,
+            "local-pass-before": 336,
+            "mir-original": 84,
+            "normal-order": 1,
+            "points-to-joined": 2,
+            "points-to-root-before-join": 2,
+            "prewarm-begin": 2,
+            "prewarm-end": 2,
+            "prewarm-policy": 1,
+            "raw-eq-operand": 2,
+            "referent-allocation": 2,
+            "referent-before-lowering": 160,
+            "referent-symbol": 160,
+            "relevance": 1715,
+            "seed-body": 128,
+            "seed-place": 37,
+            "seeds": 2,
+            "shadow-layout": 37,
+            "shadow-operation": 49,
+            "shadow-operation-result": 49,
+            "shadow-skip": 8,
+            "source-operations": 2810,
+            "type-codegen": 146,
+            "unit": 1
+          },
+          "dropped": {},
+          "filtered": {
+            "cache-read": 721,
+            "cache-write-local": 66,
+            "codegen-consumed-mir": 103,
+            "delayed-after": 103,
+            "delayed-before": 103,
+            "goto-body": 103,
+            "goto-local": 356,
+            "goto-terminator": 288,
+            "local-pass-after": 264,
+            "local-pass-before": 264,
+            "mir-original": 66,
+            "relevance": 505,
+            "seed-body": 103,
+            "shadow-layout": 1,
+            "shadow-operation": 2,
+            "shadow-operation-result": 2,
+            "source-operations": 1009
+          },
+          "bytes": 44209497,
+          "attempted": 10094,
+          "filter": "roots,array,MaybeUninit,mem_init,ptr,intrinsics",
+          "missing_or_capped": "UNKNOWN"
+        },
+        "required_phase_coverage": "CI_MUST_VALIDATE"
+      }
+    },
+    {
+      "file": "candidate/cases/BA/compiler/12450-coverage.json",
+      "sha256": "616d3b067f7a59b354da29fab1c165f4b27cfa1d3a3fa1bca2b7ed92954a2e6c",
+      "value": {
+        "schema": "kani3300-d0/v1",
+        "case": "BA",
+        "pid": 12450,
+        "codegen_completed": true,
+        "counts": {
+          "emitted": {
+            "actual-order": 1,
+            "allocation-before-lowering": 70,
+            "allocation-symbol": 70,
+            "cache-read": 902,
+            "cache-write-delayed": 5,
+            "cache-write-local": 84,
+            "codegen-consumed-mir": 130,
+            "delayed-after": 128,
+            "delayed-before": 128,
+            "goto-body": 130,
+            "goto-local": 1473,
+            "goto-terminator": 899,
+            "harness-begin": 2,
+            "local-pass-after": 336,
+            "local-pass-before": 336,
+            "mir-original": 84,
+            "normal-order": 1,
+            "points-to-joined": 2,
+            "points-to-root-before-join": 2,
+            "prewarm-begin": 2,
+            "prewarm-end": 2,
+            "prewarm-policy": 1,
+            "raw-eq-operand": 2,
+            "referent-allocation": 2,
+            "referent-before-lowering": 160,
+            "referent-symbol": 160,
+            "relevance": 1715,
+            "seed-body": 128,
+            "seed-place": 37,
+            "seeds": 2,
+            "shadow-layout": 37,
+            "shadow-operation": 49,
+            "shadow-operation-result": 49,
+            "shadow-skip": 8,
+            "source-operations": 2810,
+            "type-codegen": 146,
+            "unit": 1
+          },
+          "dropped": {},
+          "filtered": {
+            "cache-read": 721,
+            "cache-write-local": 66,
+            "codegen-consumed-mir": 103,
+            "delayed-after": 103,
+            "delayed-before": 103,
+            "goto-body": 103,
+            "goto-local": 356,
+            "goto-terminator": 288,
+            "local-pass-after": 264,
+            "local-pass-before": 264,
+            "mir-original": 66,
+            "relevance": 505,
+            "seed-body": 103,
+            "shadow-layout": 1,
+            "shadow-operation": 2,
+            "shadow-operation-result": 2,
+            "source-operations": 1009
+          },
+          "bytes": 44209497,
+          "attempted": 10094,
+          "filter": "roots,array,MaybeUninit,mem_init,ptr,intrinsics",
+          "missing_or_capped": "UNKNOWN"
+        },
+        "required_phase_coverage": "CI_MUST_VALIDATE"
+      }
+    }
+  ],
+  "orders": {
+    "AB": [
+      {
+        "file": "candidate/cases/AB/compiler/12364-000001-unit.json",
+        "sha256": "2bde814813d7978ad2bf2f279879c8261524f9cdb3ee1458ac514281844281f3",
+        "sequence": 1,
+        "stage": "unit",
+        "root": "",
+        "pid": 12364,
+        "unit": 0,
+        "cache": 0,
+        "payload": "roots=[{\"kind\":\"Item\",\"def\":4},{\"kind\":\"Item\",\"def\":6}]; stubs=0; machine_model=MachineModel {\n    alignment: 1,\n    architecture: \"x86_64\",\n    bool_width: 8,\n    char_is_unsigned: false,\n    char_width: 8,\n    double_width: 64,\n    float_width: 32,\n    int_width: 32,\n    is_big_endian: false,\n    long_double_width: 128,\n    long_int_width: 64,\n    long_long_int_width: 64,\n    memory_operand_size: 4,\n    null_is_zero: true,\n    pointer_width: 64,\n    rounding_mode: ToNearest,\n    short_int_width: 16,\n    single_width: 32,\n    wchar_t_is_unsigned: false,\n    wchar_t_width: 32,\n    word_size: 32,\n}"
+      },
+      {
+        "file": "candidate/cases/AB/compiler/12364-000002-prewarm-policy.json",
+        "sha256": "001a44f83d32266f245939aadf6c4536d75214bb92ca0232403d586e299d9c9b",
+        "sequence": 2,
+        "stage": "prewarm-policy",
+        "root": "",
+        "pid": 12364,
+        "unit": 0,
+        "cache": 0,
+        "payload": "workers=true; roots=2; normal-policy=workers-and-at-least-two-roots"
+      },
+      {
+        "file": "candidate/cases/AB/compiler/12364-000003-prewarm-begin.json",
+        "sha256": "1a4f8d6cbdd93617e3e97e4e40c324cdd2564952bbfaf1390aca843a95f3f775",
+        "sequence": 3,
+        "stage": "prewarm-begin",
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "pid": 12364,
+        "unit": 0,
+        "cache": 0,
+        "payload": "{\"kind\":\"Item\",\"def\":4}"
+      },
+      {
+        "file": "candidate/cases/AB/compiler/12364-001908-prewarm-end.json",
+        "sha256": "8d189d505d7bf4e49f660c08df73c56d56cd9904af3167e7d42afe0edb086e7e",
+        "sequence": 1908,
+        "stage": "prewarm-end",
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "pid": 12364,
+        "unit": 0,
+        "cache": 0,
+        "payload": "root={\"kind\":\"Item\",\"def\":4}; reachable=139"
+      },
+      {
+        "file": "candidate/cases/AB/compiler/12364-001909-prewarm-begin.json",
+        "sha256": "6b0a155a9c938d8015c752d2e38d4e64219d5a708e40bcf5bb4cc931950f9ee2",
+        "sequence": 1909,
+        "stage": "prewarm-begin",
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "pid": 12364,
+        "unit": 0,
+        "cache": 0,
+        "payload": "{\"kind\":\"Item\",\"def\":6}"
+      },
+      {
+        "file": "candidate/cases/AB/compiler/12364-002101-prewarm-end.json",
+        "sha256": "e9764060259d9ddc7239cb7bb9603af31e753d306d943cacc0c19922f05d97bb",
+        "sequence": 2101,
+        "stage": "prewarm-end",
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "pid": 12364,
+        "unit": 0,
+        "cache": 0,
+        "payload": "root={\"kind\":\"Item\",\"def\":6}; reachable=94"
+      },
+      {
+        "file": "candidate/cases/AB/compiler/12364-002102-normal-order.json",
+        "sha256": "3f897068d0b8fd798fbedfddf03f09a1f27c71783187c34027142b7946099039",
+        "sequence": 2102,
+        "stage": "normal-order",
+        "root": "",
+        "pid": 12364,
+        "unit": 0,
+        "cache": 0,
+        "payload": "workers=true order=[{\"kind\":\"Item\",\"def\":4},{\"kind\":\"Item\",\"def\":6}]"
+      },
+      {
+        "file": "candidate/cases/AB/compiler/12364-002103-actual-order.json",
+        "sha256": "eed8db77bb4fefb41f6d3eb58234ffae8f6b458561b5a53d86321e67353bb49f",
+        "sequence": 2103,
+        "stage": "actual-order",
+        "root": "",
+        "pid": 12364,
+        "unit": 0,
+        "cache": 0,
+        "payload": "[{\"kind\":\"Item\",\"def\":6},{\"kind\":\"Item\",\"def\":4}]"
+      },
+      {
+        "file": "candidate/cases/AB/compiler/12364-002104-harness-begin.json",
+        "sha256": "23ce3031f287eab4604f7ead9c56e09d4bd0fafc64f50311c68068f6a741fbc5",
+        "sequence": 2104,
+        "stage": "harness-begin",
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "pid": 12364,
+        "unit": 0,
+        "cache": 0,
+        "payload": "{\"kind\":\"Item\",\"def\":6}"
+      },
+      {
+        "file": "candidate/cases/AB/compiler/12364-005397-harness-begin.json",
+        "sha256": "d23ff8e4f475d515be47ba1f075598500cbbd5d18d4aa5b073eee86b42ead4da",
+        "sequence": 5397,
+        "stage": "harness-begin",
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "pid": 12364,
+        "unit": 0,
+        "cache": 0,
+        "payload": "{\"kind\":\"Item\",\"def\":4}"
+      }
+    ],
+    "BA": [
+      {
+        "file": "candidate/cases/BA/compiler/12450-000001-unit.json",
+        "sha256": "08c74eb5aff57fa8acd2057418dc87a79760498ff3a380850e126ca32a499012",
+        "sequence": 1,
+        "stage": "unit",
+        "root": "",
+        "pid": 12450,
+        "unit": 0,
+        "cache": 0,
+        "payload": "roots=[{\"kind\":\"Item\",\"def\":4},{\"kind\":\"Item\",\"def\":6}]; stubs=0; machine_model=MachineModel {\n    alignment: 1,\n    architecture: \"x86_64\",\n    bool_width: 8,\n    char_is_unsigned: false,\n    char_width: 8,\n    double_width: 64,\n    float_width: 32,\n    int_width: 32,\n    is_big_endian: false,\n    long_double_width: 128,\n    long_int_width: 64,\n    long_long_int_width: 64,\n    memory_operand_size: 4,\n    null_is_zero: true,\n    pointer_width: 64,\n    rounding_mode: ToNearest,\n    short_int_width: 16,\n    single_width: 32,\n    wchar_t_is_unsigned: false,\n    wchar_t_width: 32,\n    word_size: 32,\n}"
+      },
+      {
+        "file": "candidate/cases/BA/compiler/12450-000002-prewarm-policy.json",
+        "sha256": "5269a6179f4faaa8ed49028e7514020206a62ec590d0078dfd198220d0e642df",
+        "sequence": 2,
+        "stage": "prewarm-policy",
+        "root": "",
+        "pid": 12450,
+        "unit": 0,
+        "cache": 0,
+        "payload": "workers=true; roots=2; normal-policy=workers-and-at-least-two-roots"
+      },
+      {
+        "file": "candidate/cases/BA/compiler/12450-000003-prewarm-begin.json",
+        "sha256": "fb06f3ccb789013637c610495ce8cad3e97e2804b38c3505e9c4c12acb863077",
+        "sequence": 3,
+        "stage": "prewarm-begin",
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "pid": 12450,
+        "unit": 0,
+        "cache": 0,
+        "payload": "{\"kind\":\"Item\",\"def\":4}"
+      },
+      {
+        "file": "candidate/cases/BA/compiler/12450-001908-prewarm-end.json",
+        "sha256": "962a12d90eea0146822c39199dd67bf2a8bef747101b7edb46ed3d8f59466a2a",
+        "sequence": 1908,
+        "stage": "prewarm-end",
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "pid": 12450,
+        "unit": 0,
+        "cache": 0,
+        "payload": "root={\"kind\":\"Item\",\"def\":4}; reachable=139"
+      },
+      {
+        "file": "candidate/cases/BA/compiler/12450-001909-prewarm-begin.json",
+        "sha256": "d7e518517731c7dea3f191d84919a83ca001f1a2e455438c4e98378777d37572",
+        "sequence": 1909,
+        "stage": "prewarm-begin",
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "pid": 12450,
+        "unit": 0,
+        "cache": 0,
+        "payload": "{\"kind\":\"Item\",\"def\":6}"
+      },
+      {
+        "file": "candidate/cases/BA/compiler/12450-002101-prewarm-end.json",
+        "sha256": "ca13edca5d3dc1287501b5c37c142aa26ef361acea7786ec021aa43bc56a5249",
+        "sequence": 2101,
+        "stage": "prewarm-end",
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "pid": 12450,
+        "unit": 0,
+        "cache": 0,
+        "payload": "root={\"kind\":\"Item\",\"def\":6}; reachable=94"
+      },
+      {
+        "file": "candidate/cases/BA/compiler/12450-002102-normal-order.json",
+        "sha256": "8cba41b376fe09925f7d024810460a28ce711d1a22e3f4d97ee73f7466df7a97",
+        "sequence": 2102,
+        "stage": "normal-order",
+        "root": "",
+        "pid": 12450,
+        "unit": 0,
+        "cache": 0,
+        "payload": "workers=true order=[{\"kind\":\"Item\",\"def\":4},{\"kind\":\"Item\",\"def\":6}]"
+      },
+      {
+        "file": "candidate/cases/BA/compiler/12450-002103-actual-order.json",
+        "sha256": "0f1640e16fa0a2a0de7dfd0eea403bcee53d3dd0ef53082a15701dddad84c62c",
+        "sequence": 2103,
+        "stage": "actual-order",
+        "root": "",
+        "pid": 12450,
+        "unit": 0,
+        "cache": 0,
+        "payload": "[{\"kind\":\"Item\",\"def\":4},{\"kind\":\"Item\",\"def\":6}]"
+      },
+      {
+        "file": "candidate/cases/BA/compiler/12450-002104-harness-begin.json",
+        "sha256": "7b0dd66f7afd0b64d98d93dda411f80b109dba03954065f4418896b7874cdd09",
+        "sequence": 2104,
+        "stage": "harness-begin",
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "pid": 12450,
+        "unit": 0,
+        "cache": 0,
+        "payload": "{\"kind\":\"Item\",\"def\":4}"
+      },
+      {
+        "file": "candidate/cases/BA/compiler/12450-006796-harness-begin.json",
+        "sha256": "6fb47548bb7cb4d7972dcdb998ea85cba4922c659e8d1f142fddca05cf439c20",
+        "sequence": 6796,
+        "stage": "harness-begin",
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "pid": 12450,
+        "unit": 0,
+        "cache": 0,
+        "payload": "{\"kind\":\"Item\",\"def\":6}"
+      }
+    ],
+    "D": [
+      {
+        "file": "candidate/cases/D/compiler/12538-000001-unit.json",
+        "sha256": "10f67be311825181d5da5f1a95d631f03e89628f63d22e8e3c5b910f5c8385f9",
+        "sequence": 1,
+        "stage": "unit",
+        "root": "",
+        "pid": 12538,
+        "unit": 0,
+        "cache": 0,
+        "payload": "roots=[{\"kind\":\"Item\",\"def\":6},{\"kind\":\"Item\",\"def\":4}]; stubs=0; machine_model=MachineModel {\n    alignment: 1,\n    architecture: \"x86_64\",\n    bool_width: 8,\n    char_is_unsigned: false,\n    char_width: 8,\n    double_width: 64,\n    float_width: 32,\n    int_width: 32,\n    is_big_endian: false,\n    long_double_width: 128,\n    long_int_width: 64,\n    long_long_int_width: 64,\n    memory_operand_size: 4,\n    null_is_zero: true,\n    pointer_width: 64,\n    rounding_mode: ToNearest,\n    short_int_width: 16,\n    single_width: 32,\n    wchar_t_is_unsigned: false,\n    wchar_t_width: 32,\n    word_size: 32,\n}"
+      },
+      {
+        "file": "candidate/cases/D/compiler/12538-000002-prewarm-policy.json",
+        "sha256": "c1a38bac878000775a1a1d8b150b21e67dd30f7c31d1990a6e44f16c521552e0",
+        "sequence": 2,
+        "stage": "prewarm-policy",
+        "root": "",
+        "pid": 12538,
+        "unit": 0,
+        "cache": 0,
+        "payload": "workers=true; roots=2; normal-policy=workers-and-at-least-two-roots"
+      },
+      {
+        "file": "candidate/cases/D/compiler/12538-000003-prewarm-begin.json",
+        "sha256": "5901068ed091c544f0a0931f98cca7a9f7709b6dc689963363e7bd403562d894",
+        "sequence": 3,
+        "stage": "prewarm-begin",
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "pid": 12538,
+        "unit": 0,
+        "cache": 0,
+        "payload": "{\"kind\":\"Item\",\"def\":6}"
+      },
+      {
+        "file": "candidate/cases/D/compiler/12538-001269-prewarm-end.json",
+        "sha256": "87ff0197081702a9904b6857ca12f50f47c63645794334d5452a0e170519d4f3",
+        "sequence": 1269,
+        "stage": "prewarm-end",
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "pid": 12538,
+        "unit": 0,
+        "cache": 0,
+        "payload": "root={\"kind\":\"Item\",\"def\":6}; reachable=94"
+      },
+      {
+        "file": "candidate/cases/D/compiler/12538-001270-prewarm-begin.json",
+        "sha256": "096ab1876a12c1619b74d66bc025a3bce5e3ec9487132a85eac65e29b9ea3c82",
+        "sequence": 1270,
+        "stage": "prewarm-begin",
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "pid": 12538,
+        "unit": 0,
+        "cache": 0,
+        "payload": "{\"kind\":\"Item\",\"def\":4}"
+      },
+      {
+        "file": "candidate/cases/D/compiler/12538-002101-prewarm-end.json",
+        "sha256": "9d904c9e822ebf5805d04894ffabd2a6add7c97601d502b2c6eda11737626643",
+        "sequence": 2101,
+        "stage": "prewarm-end",
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "pid": 12538,
+        "unit": 0,
+        "cache": 0,
+        "payload": "root={\"kind\":\"Item\",\"def\":4}; reachable=139"
+      },
+      {
+        "file": "candidate/cases/D/compiler/12538-002102-normal-order.json",
+        "sha256": "526cfa7551fbd75d2836b55f1c96a17e50f9857e0307e2a1fe2148ab2944e4b1",
+        "sequence": 2102,
+        "stage": "normal-order",
+        "root": "",
+        "pid": 12538,
+        "unit": 0,
+        "cache": 0,
+        "payload": "workers=true order=[{\"kind\":\"Item\",\"def\":4},{\"kind\":\"Item\",\"def\":6}]"
+      },
+      {
+        "file": "candidate/cases/D/compiler/12538-002103-actual-order.json",
+        "sha256": "4f50b05adc18e6ec891dcf4dc6add6c8551dd80a34dd3e0d96d3969427dfc50f",
+        "sequence": 2103,
+        "stage": "actual-order",
+        "root": "",
+        "pid": 12538,
+        "unit": 0,
+        "cache": 0,
+        "payload": "[{\"kind\":\"Item\",\"def\":4},{\"kind\":\"Item\",\"def\":6}]"
+      },
+      {
+        "file": "candidate/cases/D/compiler/12538-002104-harness-begin.json",
+        "sha256": "c359cca719ebe47bdb9c3a4b0e7e356534f5d0fa8c310ef481ebb1c24037068a",
+        "sequence": 2104,
+        "stage": "harness-begin",
+        "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "pid": 12538,
+        "unit": 0,
+        "cache": 0,
+        "payload": "{\"kind\":\"Item\",\"def\":4}"
+      },
+      {
+        "file": "candidate/cases/D/compiler/12538-006796-harness-begin.json",
+        "sha256": "28da5d747d69fc4bf069506970e0571bc20c4914fb3d3c246c4737a42c3579a5",
+        "sequence": 6796,
+        "stage": "harness-begin",
+        "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+        "pid": 12538,
+        "unit": 0,
+        "cache": 0,
+        "payload": "{\"kind\":\"Item\",\"def\":6}"
+      }
+    ]
+  },
+  "order_property_deltas": {
+    "A": {
+      "AB_only": [],
+      "BA_only": [
+        {
+          "class": "pointer primitives",
+          "description": "pointer invalid in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+          "expression": "!(sizeof(unsigned char) /*1*/  == 0) ==> __CPROVER_POINTER_OBJECT(NULL) == __CPROVER_POINTER_OBJECT(dst) || !IS_INVALID_POINTER(dst)",
+          "name": "std::ptr::write::<u8>.pointer_primitives.5",
+          "sourceLocation": {
+            "column": "41",
+            "comment": "pointer invalid in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+            "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs",
+            "function": "std::ptr::write::<u8>",
+            "line": "1962",
+            "pragma": [
+              "checked:bounds-check",
+              "checked:div-by-zero-check",
+              "checked:signed-overflow-check",
+              "checked:undefined-shift-check",
+              "checked:pointer-primitive-check",
+              "checked:pointer-check",
+              "checked:memory-leak-check",
+              "checked:memory-cleanup-check",
+              "checked:float-div-by-zero-check",
+              "checked:enum-range-check",
+              "checked:unsigned-overflow-check",
+              "checked:pointer-overflow-check",
+              "checked:conversion-check",
+              "checked:float-overflow-check",
+              "checked:nan-check"
+            ],
+            "propertyClass": "pointer primitives",
+            "propertyId": "std::ptr::write::<u8>.pointer_primitives.5"
+          }
+        },
+        {
+          "class": "pointer primitives",
+          "description": "deallocated dynamic object in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+          "expression": "!(sizeof(unsigned char) /*1*/  == 0) ==> __CPROVER_POINTER_OBJECT(NULL) == __CPROVER_POINTER_OBJECT(dst) || !(__CPROVER_POINTER_OBJECT(dst) == __CPROVER_POINTER_OBJECT(__CPROVER_deallocated))",
+          "name": "std::ptr::write::<u8>.pointer_primitives.6",
+          "sourceLocation": {
+            "column": "41",
+            "comment": "deallocated dynamic object in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+            "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs",
+            "function": "std::ptr::write::<u8>",
+            "line": "1962",
+            "pragma": [
+              "checked:bounds-check",
+              "checked:div-by-zero-check",
+              "checked:signed-overflow-check",
+              "checked:undefined-shift-check",
+              "checked:pointer-primitive-check",
+              "checked:pointer-check",
+              "checked:memory-leak-check",
+              "checked:memory-cleanup-check",
+              "checked:float-div-by-zero-check",
+              "checked:enum-range-check",
+              "checked:unsigned-overflow-check",
+              "checked:pointer-overflow-check",
+              "checked:conversion-check",
+              "checked:float-overflow-check",
+              "checked:nan-check"
+            ],
+            "propertyClass": "pointer primitives",
+            "propertyId": "std::ptr::write::<u8>.pointer_primitives.6"
+          }
+        },
+        {
+          "class": "pointer primitives",
+          "description": "dead object in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+          "expression": "!(sizeof(unsigned char) /*1*/  == 0) ==> __CPROVER_POINTER_OBJECT(NULL) == __CPROVER_POINTER_OBJECT(dst) || !(__CPROVER_POINTER_OBJECT(dst) == __CPROVER_POINTER_OBJECT(__CPROVER_dead_object))",
+          "name": "std::ptr::write::<u8>.pointer_primitives.7",
+          "sourceLocation": {
+            "column": "41",
+            "comment": "dead object in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+            "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs",
+            "function": "std::ptr::write::<u8>",
+            "line": "1962",
+            "pragma": [
+              "checked:bounds-check",
+              "checked:div-by-zero-check",
+              "checked:signed-overflow-check",
+              "checked:undefined-shift-check",
+              "checked:pointer-primitive-check",
+              "checked:pointer-check",
+              "checked:memory-leak-check",
+              "checked:memory-cleanup-check",
+              "checked:float-div-by-zero-check",
+              "checked:enum-range-check",
+              "checked:unsigned-overflow-check",
+              "checked:pointer-overflow-check",
+              "checked:conversion-check",
+              "checked:float-overflow-check",
+              "checked:nan-check"
+            ],
+            "propertyClass": "pointer primitives",
+            "propertyId": "std::ptr::write::<u8>.pointer_primitives.7"
+          }
+        },
+        {
+          "class": "pointer primitives",
+          "description": "pointer outside object bounds in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+          "expression": "!(sizeof(unsigned char) /*1*/  == 0) ==> __CPROVER_POINTER_OBJECT(NULL) == __CPROVER_POINTER_OBJECT(dst) || (unsigned __CPROVER_bitvector[65])__CPROVER_OBJECT_SIZE(dst) >= (unsigned __CPROVER_bitvector[65])__CPROVER_POINTER_OFFSET(dst)",
+          "name": "std::ptr::write::<u8>.pointer_primitives.8",
+          "sourceLocation": {
+            "column": "41",
+            "comment": "pointer outside object bounds in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+            "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs",
+            "function": "std::ptr::write::<u8>",
+            "line": "1962",
+            "pragma": [
+              "checked:bounds-check",
+              "checked:div-by-zero-check",
+              "checked:signed-overflow-check",
+              "checked:undefined-shift-check",
+              "checked:pointer-primitive-check",
+              "checked:pointer-check",
+              "checked:memory-leak-check",
+              "checked:memory-cleanup-check",
+              "checked:float-div-by-zero-check",
+              "checked:enum-range-check",
+              "checked:unsigned-overflow-check",
+              "checked:pointer-overflow-check",
+              "checked:conversion-check",
+              "checked:float-overflow-check",
+              "checked:nan-check"
+            ],
+            "propertyClass": "pointer primitives",
+            "propertyId": "std::ptr::write::<u8>.pointer_primitives.8"
+          }
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "expression": "(unsigned long int)dst % 1 == 0",
+          "name": "std::ptr::write::<u8>.safety_check.3",
+          "sourceLocation": {
+            "column": "41",
+            "comment": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+            "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs",
+            "function": "std::ptr::write::<u8>",
+            "line": "1962",
+            "pragma": [
+              "checked:bounds-check",
+              "checked:div-by-zero-check",
+              "checked:signed-overflow-check",
+              "checked:undefined-shift-check",
+              "checked:pointer-primitive-check",
+              "checked:pointer-check"
+            ],
+            "propertyClass": "safety_check",
+            "propertyId": "std::ptr::write::<u8>.safety_check.3"
+          }
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "expression": "sizeof(unsigned char) /*1*/  == 0 || R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+          "name": "std::ptr::write::<u8>.safety_check.4",
+          "sourceLocation": {
+            "column": "41",
+            "comment": "dereference failure: pointer invalid",
+            "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs",
+            "function": "std::ptr::write::<u8>",
+            "line": "1962",
+            "pragma": [
+              "checked:bounds-check",
+              "checked:div-by-zero-check",
+              "checked:signed-overflow-check",
+              "checked:undefined-shift-check",
+              "checked:pointer-primitive-check",
+              "checked:pointer-check"
+            ],
+            "propertyClass": "safety_check",
+            "propertyId": "std::ptr::write::<u8>.safety_check.4"
+          }
+        }
+      ]
+    },
+    "B": {
+      "AB_only": [
+        {
+          "class": "pointer primitives",
+          "description": "pointer invalid in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+          "expression": "!(sizeof(unsigned char) /*1*/  == 0) ==> __CPROVER_POINTER_OBJECT(NULL) == __CPROVER_POINTER_OBJECT(dst) || !IS_INVALID_POINTER(dst)",
+          "name": "std::ptr::write::<u8>.pointer_primitives.5",
+          "sourceLocation": {
+            "column": "41",
+            "comment": "pointer invalid in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+            "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs",
+            "function": "std::ptr::write::<u8>",
+            "line": "1962",
+            "pragma": [
+              "checked:bounds-check",
+              "checked:pointer-check",
+              "checked:div-by-zero-check",
+              "checked:signed-overflow-check",
+              "checked:undefined-shift-check",
+              "checked:pointer-primitive-check",
+              "checked:memory-leak-check",
+              "checked:memory-cleanup-check",
+              "checked:float-div-by-zero-check",
+              "checked:enum-range-check",
+              "checked:unsigned-overflow-check",
+              "checked:pointer-overflow-check",
+              "checked:conversion-check",
+              "checked:float-overflow-check",
+              "checked:nan-check"
+            ],
+            "propertyClass": "pointer primitives",
+            "propertyId": "std::ptr::write::<u8>.pointer_primitives.5"
+          }
+        },
+        {
+          "class": "pointer primitives",
+          "description": "deallocated dynamic object in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+          "expression": "!(sizeof(unsigned char) /*1*/  == 0) ==> __CPROVER_POINTER_OBJECT(NULL) == __CPROVER_POINTER_OBJECT(dst) || !(__CPROVER_POINTER_OBJECT(dst) == __CPROVER_POINTER_OBJECT(__CPROVER_deallocated))",
+          "name": "std::ptr::write::<u8>.pointer_primitives.6",
+          "sourceLocation": {
+            "column": "41",
+            "comment": "deallocated dynamic object in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+            "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs",
+            "function": "std::ptr::write::<u8>",
+            "line": "1962",
+            "pragma": [
+              "checked:bounds-check",
+              "checked:pointer-check",
+              "checked:div-by-zero-check",
+              "checked:signed-overflow-check",
+              "checked:undefined-shift-check",
+              "checked:pointer-primitive-check",
+              "checked:memory-leak-check",
+              "checked:memory-cleanup-check",
+              "checked:float-div-by-zero-check",
+              "checked:enum-range-check",
+              "checked:unsigned-overflow-check",
+              "checked:pointer-overflow-check",
+              "checked:conversion-check",
+              "checked:float-overflow-check",
+              "checked:nan-check"
+            ],
+            "propertyClass": "pointer primitives",
+            "propertyId": "std::ptr::write::<u8>.pointer_primitives.6"
+          }
+        },
+        {
+          "class": "pointer primitives",
+          "description": "dead object in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+          "expression": "!(sizeof(unsigned char) /*1*/  == 0) ==> __CPROVER_POINTER_OBJECT(NULL) == __CPROVER_POINTER_OBJECT(dst) || !(__CPROVER_POINTER_OBJECT(dst) == __CPROVER_POINTER_OBJECT(__CPROVER_dead_object))",
+          "name": "std::ptr::write::<u8>.pointer_primitives.7",
+          "sourceLocation": {
+            "column": "41",
+            "comment": "dead object in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+            "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs",
+            "function": "std::ptr::write::<u8>",
+            "line": "1962",
+            "pragma": [
+              "checked:bounds-check",
+              "checked:pointer-check",
+              "checked:div-by-zero-check",
+              "checked:signed-overflow-check",
+              "checked:undefined-shift-check",
+              "checked:pointer-primitive-check",
+              "checked:memory-leak-check",
+              "checked:memory-cleanup-check",
+              "checked:float-div-by-zero-check",
+              "checked:enum-range-check",
+              "checked:unsigned-overflow-check",
+              "checked:pointer-overflow-check",
+              "checked:conversion-check",
+              "checked:float-overflow-check",
+              "checked:nan-check"
+            ],
+            "propertyClass": "pointer primitives",
+            "propertyId": "std::ptr::write::<u8>.pointer_primitives.7"
+          }
+        },
+        {
+          "class": "pointer primitives",
+          "description": "pointer outside object bounds in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+          "expression": "!(sizeof(unsigned char) /*1*/  == 0) ==> __CPROVER_POINTER_OBJECT(NULL) == __CPROVER_POINTER_OBJECT(dst) || (unsigned __CPROVER_bitvector[65])__CPROVER_OBJECT_SIZE(dst) >= (unsigned __CPROVER_bitvector[65])__CPROVER_POINTER_OFFSET(dst)",
+          "name": "std::ptr::write::<u8>.pointer_primitives.8",
+          "sourceLocation": {
+            "column": "41",
+            "comment": "pointer outside object bounds in R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+            "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs",
+            "function": "std::ptr::write::<u8>",
+            "line": "1962",
+            "pragma": [
+              "checked:bounds-check",
+              "checked:pointer-check",
+              "checked:div-by-zero-check",
+              "checked:signed-overflow-check",
+              "checked:undefined-shift-check",
+              "checked:pointer-primitive-check",
+              "checked:memory-leak-check",
+              "checked:memory-cleanup-check",
+              "checked:float-div-by-zero-check",
+              "checked:enum-range-check",
+              "checked:unsigned-overflow-check",
+              "checked:pointer-overflow-check",
+              "checked:conversion-check",
+              "checked:float-overflow-check",
+              "checked:nan-check"
+            ],
+            "propertyClass": "pointer primitives",
+            "propertyId": "std::ptr::write::<u8>.pointer_primitives.8"
+          }
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "expression": "(unsigned long int)dst % 1 == 0",
+          "name": "std::ptr::write::<u8>.safety_check.3",
+          "sourceLocation": {
+            "column": "41",
+            "comment": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+            "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs",
+            "function": "std::ptr::write::<u8>",
+            "line": "1962",
+            "pragma": [
+              "checked:bounds-check",
+              "checked:pointer-check",
+              "checked:div-by-zero-check",
+              "checked:signed-overflow-check",
+              "checked:undefined-shift-check",
+              "checked:pointer-primitive-check"
+            ],
+            "propertyClass": "safety_check",
+            "propertyId": "std::ptr::write::<u8>.safety_check.3"
+          }
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "expression": "sizeof(unsigned char) /*1*/  == 0 || R_OK((void *)dst, sizeof(unsigned char) /*1*/ )",
+          "name": "std::ptr::write::<u8>.safety_check.4",
+          "sourceLocation": {
+            "column": "41",
+            "comment": "dereference failure: pointer invalid",
+            "file": "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs",
+            "function": "std::ptr::write::<u8>",
+            "line": "1962",
+            "pragma": [
+              "checked:bounds-check",
+              "checked:pointer-check",
+              "checked:div-by-zero-check",
+              "checked:signed-overflow-check",
+              "checked:undefined-shift-check",
+              "checked:pointer-primitive-check"
+            ],
+            "propertyClass": "safety_check",
+            "propertyId": "std::ptr::write::<u8>.safety_check.4"
+          }
+        }
+      ],
+      "BA_only": []
+    }
+  },
+  "source_selections": [
+    {
+      "commit": "5eec235e3d0eeb99d7e432fcaef3a3135747b789",
+      "path": "library/kani_core/src/mem_init.rs",
+      "file_sha256": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
+      "lines_inclusive": [
+        86,
+        115
+      ],
+      "selection": [
+        "                ptr: *const u8,",
+        "                layout: Layout<LAYOUT_SIZE>,",
+        "            ) -> bool {",
+        "                let obj = super::mem::pointer_object(ptr);",
+        "                let offset = super::mem::pointer_offset(ptr);",
+        "                if self.tracked_object_id == obj",
+        "                    && self.tracked_offset >= offset",
+        "                    && self.tracked_offset < offset + LAYOUT_SIZE",
+        "                {",
+        "                    !layout[self.tracked_offset - offset] || self.value",
+        "                } else {",
+        "                    true",
+        "                }",
+        "            }",
+        "",
+        "            /// Set currently tracked memory initialization state if `ptr` points to the currently tracked",
+        "            /// object and the tracked offset lies within `LAYOUT_SIZE` bytes of `ptr`. Do nothing",
+        "            /// otherwise.",
+        "            ///",
+        "            /// Such definition is necessary since both tracked object and tracked offset are chosen",
+        "            /// non-deterministically.",
+        "            #[kanitool::disable_checks(pointer)]",
+        "            pub fn set<const LAYOUT_SIZE: usize>(",
+        "                &mut self,",
+        "                ptr: *const u8,",
+        "                layout: Layout<LAYOUT_SIZE>,",
+        "                value: bool,",
+        "            ) {",
+        "                let obj = super::mem::pointer_object(ptr);",
+        "                let offset = super::mem::pointer_offset(ptr);"
+      ]
+    },
+    {
+      "commit": "5eec235e3d0eeb99d7e432fcaef3a3135747b789",
+      "path": "library/kani_core/src/mem_init.rs",
+      "file_sha256": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
+      "lines_inclusive": [
+        237,
+        263
+      ],
+      "selection": [
+        "        /// Set tracked object and tracked offset to a non-deterministic value.",
+        "        #[kanitool::disable_checks(pointer)]",
+        "        #[kanitool::fn_marker = \"InitializeMemoryInitializationStateModel\"]",
+        "        fn initialize_memory_initialization_state() {",
+        "            unsafe {",
+        "                MEM_INIT_STATE.tracked_object_id = super::any();",
+        "                MEM_INIT_STATE.tracked_offset = super::any();",
+        "                MEM_INIT_STATE.value = false;",
+        "                MEM_INIT_STATE.argument_buffer_active = false;",
+        "                MEM_INIT_STATE.argument_buffer_selected_argument = usize::MAX;",
+        "                MEM_INIT_STATE.argument_buffer_has_witness = false;",
+        "            }",
+        "        }",
+        "",
+        "        /// Get initialization state of `num_elts` items laid out according to the `layout` starting at address `ptr`.",
+        "        #[kanitool::disable_checks(pointer)]",
+        "        #[kanitool::fn_marker = \"IsPtrInitializedModel\"]",
+        "        fn is_ptr_initialized<const LAYOUT_SIZE: usize, T>(",
+        "            ptr: *const T,",
+        "            layout: Layout<LAYOUT_SIZE>,",
+        "        ) -> bool {",
+        "            if LAYOUT_SIZE == 0 {",
+        "                return true;",
+        "            }",
+        "            let (ptr, _) = ptr.to_raw_parts();",
+        "            unsafe { MEM_INIT_STATE.get(ptr as *const u8, layout) }",
+        "        }"
+      ]
+    },
+    {
+      "commit": "5eec235e3d0eeb99d7e432fcaef3a3135747b789",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "file_sha256": "9f78de44ceffa0436de11ff3a4bf789c5d9909fe8425c7de543f84cd6c37fd91",
+      "lines_inclusive": [
+        400,
+        446
+      ],
+      "selection": [
+        "    fn successors_for_operand(",
+        "        &self,",
+        "        state: &mut PointsToGraph<'tcx>,",
+        "        operand: Operand<'tcx>,",
+        "    ) -> HashSet<MemLoc<'tcx>> {",
+        "        match operand {",
+        "            Operand::Copy(place) | Operand::Move(place) => {",
+        "                // Find all places which are pointed to by the place.",
+        "                state.successors(&state.resolve_place(place, self.instance))",
+        "            }",
+        "            Operand::Constant(const_operand) => {",
+        "                // Constants could point to a static, so need to check for that.",
+        "                if let Some(static_def_id) = const_operand.check_static_ptr(self.tcx) {",
+        "                    HashSet::from([MemLoc::new_static_allocation(static_def_id)])",
+        "                } else {",
+        "                    HashSet::new()",
+        "                }",
+        "            }",
+        "            // Runtime-check operands (rust-lang/rust#148766) reference no place or static.",
+        "            Operand::RuntimeChecks(..) => HashSet::new(),",
+        "        }",
+        "    }",
+        "",
+        "    /// Find all places where the deref of the operand could point to at the current stage of the program.",
+        "    fn successors_for_deref(",
+        "        &self,",
+        "        state: &mut PointsToGraph<'tcx>,",
+        "        operand: Operand<'tcx>,",
+        "    ) -> HashSet<MemLoc<'tcx>> {",
+        "        match operand {",
+        "            Operand::Copy(place) | Operand::Move(place) => state.resolve_place(",
+        "                place.project_deeper(&[ProjectionElem::Deref], self.tcx),",
+        "                self.instance,",
+        "            ),",
+        "            Operand::Constant(const_operand) => {",
+        "                // Constants could point to a static, so need to check for that.",
+        "                if let Some(static_def_id) = const_operand.check_static_ptr(self.tcx) {",
+        "                    HashSet::from([MemLoc::new_static_allocation(static_def_id)])",
+        "                } else {",
+        "                    HashSet::new()",
+        "                }",
+        "            }",
+        "            // Runtime-check operands (rust-lang/rust#148766) reference no place or static.",
+        "            Operand::RuntimeChecks(..) => HashSet::new(),",
+        "        }",
+        "    }",
+        ""
+      ]
+    },
+    {
+      "commit": "5eec235e3d0eeb99d7e432fcaef3a3135747b789",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+      "file_sha256": "775b43c73d1350994de789dd30847e6c0339ee6ddc4ec91d9261cb2346c027d2",
+      "lines_inclusive": [
+        19,
+        32
+      ],
+      "selection": [
+        "/// A node in the points-to graph, which could be a place on the stack, a heap allocation, or a static.",
+        "#[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]",
+        "pub enum MemLoc<'tcx> {",
+        "    /// Notice that the type of `Place` here is not restricted to references or pointers. For",
+        "    /// example, we propagate aliasing information for values derived from casting a pointer to a",
+        "    /// usize in order to ensure soundness, as it could later be casted back to a pointer.",
+        "    Stack(Instance<'tcx>, Place<'tcx>),",
+        "    /// Using a combination of the instance of the function where the allocation took place and the",
+        "    /// location of the allocation inside this function implements allocation-site abstraction.",
+        "    Heap(Instance<'tcx>, Location),",
+        "    Static(DefId),",
+        "}",
+        "",
+        "impl<'tcx> MemLoc<'tcx> {"
+      ]
+    },
+    {
+      "commit": "5eec235e3d0eeb99d7e432fcaef3a3135747b789",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "file_sha256": "de5eb5686061713d707277e8f6af27d82a3f96d91f23ea6e805a61124b75e163",
+      "lines_inclusive": [
+        47,
+        69
+      ],
+      "selection": [
+        "                self.targets.push(AnalysisTarget::Place(place.clone()));",
+        "            }",
+        "            Operand::Constant(constant) => {",
+        "                // Extract the static from the constant.",
+        "                if let ConstantKind::Allocated(allocation) = constant.const_.kind() {",
+        "                    for (_, prov) in &allocation.provenance.ptrs {",
+        "                        let referent = GlobalAlloc::from(prov.0);",
+        "                        crate::kani_middle::d0_diagnostics::event(\"seed-provenance\", None, || {",
+        "                            format!(",
+        "                                \"operand={}; alloc_id={:?}; referent={}; selection=only-Static-is-a-seed\",",
+        "                                crate::kani_middle::d0_diagnostics::encoded(operand),",
+        "                                prov.0,",
+        "                                crate::kani_middle::d0_diagnostics::encoded(&referent)",
+        "                            )",
+        "                        });",
+        "                        if let GlobalAlloc::Static(static_def) = referent {",
+        "                            self.targets.push(AnalysisTarget::Static(static_def));",
+        "                        };",
+        "                    }",
+        "                }",
+        "            }",
+        "            // Runtime-check operands (rust-lang/rust#148766) carry no place or static.",
+        "            Operand::RuntimeChecks(_) => {}"
+      ]
+    }
+  ],
+  "shared_specialization_cache_receipts": [
+    {
+      "file": "candidate/cases/AB/compiler/12364-004867-codegen-consumed-mir.json",
+      "sha256": "652eec433391384e47fe0d69363670605e5b8856a5053dd2c086fa2f2be0ffeb",
+      "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+      "symbol": "_RNvXs7_NtNtCseOU9pHvofFg_4core5array8equalityhINtB5_11SpecArrayEqhKj4_E7spec_eqCst1UZ8ufgP2_3std",
+      "cache_writer": [
+        1,
+        "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "fnv1a64:d854f71987137d9d"
+      ],
+      "payload_fingerprint": "fnv1a64:d854f71987137d9d"
+    },
+    {
+      "file": "candidate/cases/AB/compiler/12364-009417-codegen-consumed-mir.json",
+      "sha256": "55b43eaf2f811c9ff5e1042283f9e6247561e6c00e5e68c6403039fd3664058a",
+      "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+      "symbol": "_RNvXs7_NtNtCseOU9pHvofFg_4core5array8equalityhINtB5_11SpecArrayEqhKj4_E7spec_eqCst1UZ8ufgP2_3std",
+      "cache_writer": [
+        1,
+        "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "fnv1a64:d854f71987137d9d"
+      ],
+      "payload_fingerprint": "fnv1a64:d854f71987137d9d"
+    },
+    {
+      "file": "candidate/cases/BA/compiler/12450-006124-codegen-consumed-mir.json",
+      "sha256": "3d8187f9b8a92de379c71a46f1ba70f488b08072ae2dab46c9360a941a619a0d",
+      "root": "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+      "symbol": "_RNvXs7_NtNtCseOU9pHvofFg_4core5array8equalityhINtB5_11SpecArrayEqhKj4_E7spec_eqCst1UZ8ufgP2_3std",
+      "cache_writer": [
+        1,
+        "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "fnv1a64:d854f71987137d9d"
+      ],
+      "payload_fingerprint": "fnv1a64:d854f71987137d9d"
+    },
+    {
+      "file": "candidate/cases/BA/compiler/12450-009559-codegen-consumed-mir.json",
+      "sha256": "cb5ff30f9f44e01359b42fd59451eac3af67c95decc973ac400ef0327b01fec3",
+      "root": "_RNvCs4mluHxTdfxx_4main35array_value_as_used_by_merge_output",
+      "symbol": "_RNvXs7_NtNtCseOU9pHvofFg_4core5array8equalityhINtB5_11SpecArrayEqhKj4_E7spec_eqCst1UZ8ufgP2_3std",
+      "cache_writer": [
+        1,
+        "_RNvCs4mluHxTdfxx_4main35partial_copy_preserves_written_byte",
+        "fnv1a64:d854f71987137d9d"
+      ],
+      "payload_fingerprint": "fnv1a64:d854f71987137d9d"
+    }
+  ]
+}

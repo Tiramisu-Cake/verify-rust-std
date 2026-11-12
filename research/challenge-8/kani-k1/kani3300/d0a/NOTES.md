@@ -1,0 +1,51 @@
+# KANI3300 D0-A — наблюдаемые bindings, 2026-11-12
+- Scope: одна аналитическая сессия; TASK D0-A / Part1-B; M0 и исправление модели не выполнялись.
+- g0 start: clean `b98d523b8b664e913ec262904942217547c37e38`; source clones a1/d0 clean, без изменений.
+- Run `43209338134`, CI `8f6d3f45e` (координатор), diagnostic `5eec235e3d0eeb99d7e432fcaef3a3135747b789`.
+- Baseline `a0a2386001a15fecfe2facc2f6cd87f3dee13b60`; fixture SHA256 `df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c`.
+- Rustc `1.101.0-nightly (7189d39d9 2026-10-22)` / nightly-2026-10-23, CBMC 6.11.0, x86_64; pins/flags в observations.json.
+- Явное поручение разрешило точечное чтение private и curated-local-16MiB; обычный запрет raw этим поручением ограниченно заменён.
+- 8 case invocations / 12 harness results: каждый имеет ровно один FAILURE `.spec_eq.safety_check.2`; `.1` SUCCESS по точечным log records.
+- Зелёные workflow steps не означают verification PASS: solver exit10, verification1; curator exit2, 21 ошибка сохранены.
+- CI packet 7.27MB >5MiB — сообщение координатора; local 16MiB rerun не исправил capture/sidecar/inventory incompleteness.
+- ВСЕ 12 solver captures обрезаны на 67,108,864 bytes; dropped_bytes >0; full stdout SHA declared ≠ retained-prefix SHA.
+- Новый extractor не чинит исторический inventory: он выделяет только целый property-result внутри неполного JSON-prefix.
+- Recovered `.1`/`.2` result fragments: baseline pair/A; candidate AB/B, BA/A, D/A. Прочие 8 target results UNAVAILABLE, не NOT_RUN.
+- runtime.json хранит byte ranges/SHA fragment/prefix/meta/model/roots, exits, trace indices, все shadow calls и state-field writes.
+- Solver argv input точно совпадает с roots.json; локальный .out SHA перепроверен. Declared full stdout integrity остаётся UNKNOWN.
+- Fragment traces содержат initialization prefix, согласованный call stack, конечный failure .2; не восстановлены весь solver document/глобальный status.
+- bridge.json: исходные MIR block JSON pointers, property inventory indices, hashes sidecars, source lines; compiler-side NOT_RUN labels не переписаны.
+- Точная специализация: `<u8 as std::array::equality::SpecArrayEq<u8, 4>>::spec_eq`, retained raw_eq → memcmp.
+- Property inventory: `.1` = `var_4 != FALSE`, `.2` = `var_11 != FALSE`, equality.rs:157:18.
+- Consumed MIR: a=local1 → AddressOf(local1.Deref) → local5/6 → get → local4; b=local2 → Transmute local3 → AddressOf(local3.Deref) → local12/13 → get → local11.
+- Это binding по выражениям MIR/GOTO/inventory, не предположение по номеру свойства; обе masks для get::<4> равны 1111.
+- A/.1: fixture84, caller local14=&local15, assume_init normal-return temporary → GOTO root::1::var_15 → BA object8@0, 4 bytes.
+- A/.1 setter уже есть: BA `12450-008147-shadow-operation.json`, SetRef(local15,true,After), normal edge; runtime set indices5100–5130, obj8@0,true.
+- A/.1 get indices5214–5244 возвращает TRUE на пути контрпримера .2. Независимый «успешный counterexample .1» N/A.
+- A/.2: fixture84 RHS [1,2,3,4], caller local17 → promoted AllocId(9), offset0, immutable extent4, Some(1,2,3,4), no relocations/reuse.
+- A/.2 GOTO symbol `main.32c9e3ca9ef51005::main::AllocId(9, ThreadLocalIndex)` → BA get indices5302–5369: object9@0, FALSE; failure5374.
+- A/.2 witness: tracked_object_id=9 (index703), tracked_offset=0 (797); последняя запись value=FALSE — init index872, mem_init.rs:244.
+- B/.1: fixture58, caller local30=&local31, to[1].assume_init normal-return temporary → GOTO root::1::var_31 → AB object13@0, extent4.
+- B/.1 setter уже есть: BA `12450-003337-shadow-operation.json`, SetRef(local31,true,After); AB runtime set5491–5521 obj13@0,true; get5605–5635 TRUE.
+- B/.2: fixture58 RHS [9;4], caller local35 → promoted AllocId(5), offset0, immutable extent4, Some(9)×4, no relocations/reuse.
+- B/.2 GOTO symbol `main.32c9e3ca9ef51005::main::AllocId(5, ThreadLocalIndex)` → AB get5693–5760: object14@0, FALSE; failure5765.
+- B/.2 witness: tracked_object_id=14 (908), offset=0 (1002); последняя запись value=FALSE — init1077, mem_init.rs:244.
+- Сохранённые traces полностью просмотрены по writes/calls: subsequent setters/copies не затрагивают выбранный literal byte; value после init не меняется.
+- Последний setter перед equality — setter левого temporary, не setter literal. Последний изменивший выбранный shadow-byte переход — initialization(false).
+- AllocId и runtime object — разные пространства; совпадение числа9 для A не использовалось. B показывает AllocId5 → runtime object14.
+- Pointer text literal = unknown в CBMC; numeric object/offset получены исполненным get для привязанного operand. Полный printed address UNKNOWN.
+- Extent4 установлен allocation/type/get::<4>/mask; независимого runtime OBJECT_SIZE в выбранном trace нет. Выбран witness offset0, не утверждение о всех offsets/путях.
+- Диагноз для M0: отсутствует shadow initialization mask для anonymous/promoted immutable allocation с фактически Some bytes; оба legal отказа этим объясняются.
+- Structural relevance gap подтверждён source: MemLoc только Stack/Heap/Static; constant successors только check_static_ptr, иначе empty; constant seeds только GlobalAlloc::Static.
+- Missing temporary setter не является причиной этих .2: normal-return setters и runtime get(TRUE) у левых temporaries есть. Ошибка адреса здесь не обнаружена: проверяется RHS referent, offset0.
+- Compiler coverage AB/BA: dropped={}, но filtered records и required_phase_coverage=CI_MUST_VALIDATE сохранены; отсутствие arbitrary record не считается отсутствием операции.
+- Private order events восстановлены: AB/BA prewarm B→A, codegen соответственно A→B/B→A; D prewarm A→B, codegen B→A. У D нет matched-prewarm equivalence.
+- Spec_eq consumed fingerprint во всех AB/BA consumers `fnv1a64:d854f71987137d9d`, writer generation1/B; runtime last writer — отдельное понятие.
+- Отказ .2 воспроизводится singleton и baseline, порядок не необходим для него; универсальная cache independence НЕ установлена.
+- Order delta: у второго codegen harness +2 SUCCESS safety checks ptr::write::<u8> (.3 alignment, .4 R_OK), +4 raw pointer_primitives inventory entries; bridge.json сохраняет точный delta.
+- Counts: A187/B227 singleton; AB A187/B229; BA/D/baseline pair A189/B227. Это отдельное наблюдение для M0/K0 границы, не принятый cache fix.
+- Baseline pair/A recovered trace: тот же selected9@0=false и init-last pattern, 5375 entries; это не доказательство полной эквивалентности diagnostic/baseline.
+- Validation: 10 synthetic extractor checks PASS; 12 captures examined, 4 complete target fragments; JSON bounds/schema/bindings и git diff --check PASS.
+- Bounded Luna High static investigation/review: REVIEW.md; findings исправлены, final review без оставшихся concrete defects.
+- No local cargo/rustc/Kani/CBMC, CI/dispatch, production changes, сырого trace/archive в Git, download_verified или proof credit.
+- STOP D0-A: данные о конкретном пробеле переданы для M0; дизайн/реализация/новые model tasks требуют следующей стадии.
