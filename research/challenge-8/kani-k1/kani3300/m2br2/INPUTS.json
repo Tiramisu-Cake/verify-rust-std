@@ -1,0 +1,1031 @@
+{
+  "schema": "kani3300-m2br2-inputs-v1",
+  "status": "PREPARED/AWAITING_CI",
+  "research_base": "ecc9620425c0174a5a5d194decc63c48273beb4d",
+  "research_branch": "experiment/kani-k1-kani3300g0-20261111",
+  "scope": {
+    "cloud_usd": 0,
+    "dispatches": 0,
+    "local_compiler_verifier_runs": 0,
+    "rust_edits": false,
+    "new_proof_credit": 0,
+    "M3": "HELD"
+  },
+  "source_repository": {
+    "path": "/root/kani-fix-3300-m2",
+    "head": "5f7f2b7364135a0a8b7cfd86c43b4491a8911bac",
+    "status_porcelain": "",
+    "read_only": true
+  },
+  "references": [
+    {
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-M2BR2.md",
+      "revision": "ecc9620425c0174a5a5d194decc63c48273beb4d",
+      "sha256": "4e03bc444a640a9f4b98a3437ad8b6a846e12a70593fa015142b483ef3e8f680"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br/HISTORY-MAP.md",
+      "revision": "c90cb9466dfef600b3da36dc9703660dd97a2393",
+      "sha256": "d2038c55db9763c80a25e2a7760b5393223c65103058dda666f06c47e85be321"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br/FRAME-BINDINGS.md",
+      "revision": "c90cb9466dfef600b3da36dc9703660dd97a2393",
+      "sha256": "f1484cc1eb65ad9328250441852def216be069ab439859b3b3ea911b0354bd71"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br/DIAGNOSTIC-MANIFEST.json",
+      "revision": "c90cb9466dfef600b3da36dc9703660dd97a2393",
+      "sha256": "b7ebefcd3b4e0799f2d36ea4378d6fdfd6385b5286e3b24bf3b8c44a54cbb72f"
+    },
+    {
+      "path": "research/challenge-8/kani-k1/kani3300/m2br/CI-REQUEST.md",
+      "revision": "c90cb9466dfef600b3da36dc9703660dd97a2393",
+      "sha256": "e23c12915f94dda8aadc4bc68e40f9fc882be1a533caa86bfc4b3ae8352d7a57"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "P1",
+      "path": "research/challenge-8/kani-k1/kani3300/m2a/cases/scalar-pfc-legal.rs",
+      "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b",
+      "bytes": 774,
+      "root": "postcondition_reads_initialized_return",
+      "same_as_m2a_ea0fbb5931": true,
+      "actual_mode": "UNKNOWN; source requests proof_for_contract"
+    },
+    {
+      "id": "P2",
+      "path": "research/challenge-8/kani-k1/kani3300/m2a/cases/scalar-pfc-hole.rs",
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759",
+      "bytes": 782,
+      "root": "postcondition_reads_returned_hole",
+      "same_as_m2a_ea0fbb5931": true,
+      "actual_mode": "UNKNOWN; source requests proof_for_contract"
+    }
+  ],
+  "pins": [
+    {
+      "id": "U",
+      "sha": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+      "tree": "22641d9be125b05846c0e3fc21c09fc230f57076",
+      "parents": [
+        "cfa7932373a7a5e6346f90c017ae8c889c94a66b"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "88f260ddc5b315a32e64b0f6f396451373d2fb54f1a4898233508ebd81cd993c",
+          "bytes": 17920,
+          "anchors": [
+            {
+              "line": 19,
+              "text": "static mut MEM_INIT_STATE: MemoryInitializationState = MemoryInitializationState::new();"
+            },
+            {
+              "line": 22,
+              "text": "static mut ARGUMENT_BUFFER: Option<ArgumentBuffer> = None;"
+            },
+            {
+              "line": 34,
+              "text": "type Layout<const LAYOUT_SIZE: usize> = [bool; LAYOUT_SIZE];"
+            },
+            {
+              "line": 37,
+              "text": "struct MemoryInitializationState {"
+            },
+            {
+              "line": 365,
+              "text": "struct ArgumentBuffer {"
+            },
+            {
+              "line": 375,
+              "text": "fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument: usize) {"
+            },
+            {
+              "line": 395,
+              "text": "fn load_argument<const LAYOUT_SIZE: usize, T>(to: *const T, selected_argument: usize) {"
+            }
+          ]
+        },
+        {
+          "path": "cprover_bindings/src/irep/serialize.rs",
+          "sha256": "b556eb233c43f02c4d47c62cb732c6e8d20ba9f6d44fec0f3993d8a410be2495",
+          "bytes": 10479,
+          "anchors": [
+            {
+              "line": 9,
+              "text": "impl Serialize for Irep {"
+            },
+            {
+              "line": 26,
+              "text": "impl Serialize for IrepId {"
+            },
+            {
+              "line": 35,
+              "text": "impl Serialize for SymbolTable {"
+            }
+          ]
+        },
+        {
+          "path": "cprover_bindings/src/irep/to_irep.rs",
+          "sha256": "bda4f823aafe43d547476d540cf264e62293dc8693df861c65864566413d7b0c",
+          "bytes": 42906,
+          "anchors": [
+            {
+              "line": 781,
+              "text": "impl ToIrep for Type {"
+            },
+            {
+              "line": 941,
+              "text": "Type::StructTag(name) => Irep {"
+            },
+            {
+              "line": 949,
+              "text": "Type::TypeDef { name, typ } => typ"
+            }
+          ]
+        },
+        {
+          "path": "cprover_bindings/src/goto_program/typ.rs",
+          "sha256": "ade325a1e884f3d6a648a64fe668c8f5e821c0ba42fcff419d4b2f9532b33871",
+          "bytes": 52225,
+          "anchors": []
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "anchors": [
+            {
+              "line": 129,
+              "text": "fn codegen_modifies_contract("
+            },
+            {
+              "line": 146,
+              "text": "let shadow_memory_assign = {"
+            }
+          ]
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "anchors": []
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "487138ede144c9cea764b1da8562a90525cfdcab7ba110e044d46a3b75ce502e",
+          "bytes": 33518,
+          "anchors": [
+            {
+              "line": 737,
+              "text": "pub fn resolve_mem_init_fn(fn_def: FnDef, layout_size: usize, associated_type: Ty) -> Instance {"
+            }
+          ]
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "anchors": [
+            {
+              "line": 485,
+              "text": "ContractMode::SimpleCheck | ContractMode::RecursiveCheck | ContractMode::Assert"
+            },
+            {
+              "line": 576,
+              "text": "ContractMode::SimpleCheck"
+            },
+            {
+              "line": 680,
+              "text": "ContractMode::SimpleCheck => {"
+            }
+          ]
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "anchors": [
+            {
+              "line": 46,
+              "text": "split_for_remembers(&body_stmts[..], ContractMode::SimpleCheck);"
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "anchors": []
+        },
+        {
+          "path": "kani-driver/src/main.rs",
+          "sha256": "757eb0205da02cf3ab22a97e7c967b97d25510485f42815d106b2a170a0e6956",
+          "bytes": 10807,
+          "anchors": [
+            {
+              "line": 117,
+              "text": "if session.args.only_codegen {"
+            },
+            {
+              "line": 169,
+              "text": "if session.args.only_codegen {"
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "anchors": [
+            {
+              "line": 173,
+              "text": "pub fn instrument_contracts("
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "anchors": [
+            {
+              "line": 258,
+              "text": "pub fn cbmc_flags("
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "anchors": []
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "anchors": []
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "anchors": []
+        }
+      ],
+      "source_only_private_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "id": "R1",
+      "sha": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+      "tree": "c194aa39eb345316483406a4549755e29a3580e7",
+      "parents": [
+        "bf9c58e662fd65c64381ef2ac97a6397ffc0693a"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "d565a600e34ef6199f4c6e0a799a5eb9a224ec0ed9a563ef47da2cbbe908cc06",
+          "bytes": 20667,
+          "anchors": [
+            {
+              "line": 19,
+              "text": "static mut MEM_INIT_STATE: MemoryInitializationState = MemoryInitializationState::new();"
+            },
+            {
+              "line": 31,
+              "text": "type Layout<const LAYOUT_SIZE: usize> = [bool; LAYOUT_SIZE];"
+            },
+            {
+              "line": 34,
+              "text": "struct MemoryInitializationState {"
+            },
+            {
+              "line": 404,
+              "text": "fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument: usize) {"
+            },
+            {
+              "line": 426,
+              "text": "fn load_argument<const LAYOUT_SIZE: usize, T>(to: *const T, selected_argument: usize) {"
+            }
+          ]
+        },
+        {
+          "path": "cprover_bindings/src/irep/serialize.rs",
+          "sha256": "b556eb233c43f02c4d47c62cb732c6e8d20ba9f6d44fec0f3993d8a410be2495",
+          "bytes": 10479,
+          "anchors": [
+            {
+              "line": 9,
+              "text": "impl Serialize for Irep {"
+            },
+            {
+              "line": 26,
+              "text": "impl Serialize for IrepId {"
+            },
+            {
+              "line": 35,
+              "text": "impl Serialize for SymbolTable {"
+            }
+          ]
+        },
+        {
+          "path": "cprover_bindings/src/irep/to_irep.rs",
+          "sha256": "bda4f823aafe43d547476d540cf264e62293dc8693df861c65864566413d7b0c",
+          "bytes": 42906,
+          "anchors": [
+            {
+              "line": 781,
+              "text": "impl ToIrep for Type {"
+            },
+            {
+              "line": 941,
+              "text": "Type::StructTag(name) => Irep {"
+            },
+            {
+              "line": 949,
+              "text": "Type::TypeDef { name, typ } => typ"
+            }
+          ]
+        },
+        {
+          "path": "cprover_bindings/src/goto_program/typ.rs",
+          "sha256": "ade325a1e884f3d6a648a64fe668c8f5e821c0ba42fcff419d4b2f9532b33871",
+          "bytes": 52225,
+          "anchors": []
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "anchors": [
+            {
+              "line": 129,
+              "text": "fn codegen_modifies_contract("
+            },
+            {
+              "line": 146,
+              "text": "let shadow_memory_assign = {"
+            }
+          ]
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "anchors": []
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "47b1063398159a376fd4edcecee4d28ac24f54b2e86a930d836b354023cd8ed0",
+          "bytes": 37413,
+          "anchors": [
+            {
+              "line": 821,
+              "text": "pub fn resolve_mem_init_fn(fn_def: FnDef, layout_size: usize, associated_type: Ty) -> Instance {"
+            }
+          ]
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "anchors": [
+            {
+              "line": 485,
+              "text": "ContractMode::SimpleCheck | ContractMode::RecursiveCheck | ContractMode::Assert"
+            },
+            {
+              "line": 576,
+              "text": "ContractMode::SimpleCheck"
+            },
+            {
+              "line": 680,
+              "text": "ContractMode::SimpleCheck => {"
+            }
+          ]
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "anchors": [
+            {
+              "line": 46,
+              "text": "split_for_remembers(&body_stmts[..], ContractMode::SimpleCheck);"
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "anchors": []
+        },
+        {
+          "path": "kani-driver/src/main.rs",
+          "sha256": "757eb0205da02cf3ab22a97e7c967b97d25510485f42815d106b2a170a0e6956",
+          "bytes": 10807,
+          "anchors": [
+            {
+              "line": 117,
+              "text": "if session.args.only_codegen {"
+            },
+            {
+              "line": 169,
+              "text": "if session.args.only_codegen {"
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "anchors": [
+            {
+              "line": 173,
+              "text": "pub fn instrument_contracts("
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "anchors": [
+            {
+              "line": 258,
+              "text": "pub fn cbmc_flags("
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "anchors": []
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "anchors": []
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "anchors": []
+        }
+      ],
+      "source_only_private_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_active",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_selected_argument",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_saved_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_saved_offset",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_layout_size",
+          "type": "usize"
+        }
+      ]
+    },
+    {
+      "id": "A1",
+      "sha": "613c188313e34e51e6a69d2c62bbd6ded2511819",
+      "tree": "c37ec4b9e9a8e795d144dc48cbb72b44b8fbf78b",
+      "parents": [
+        "5fd713a200aea3ba85edcc341f48a0a20331fce2"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "9ff043b57ff6aed633815bc35a185c7cdf1a94d24356c95bb74679438081c0ce",
+          "bytes": 20877,
+          "anchors": [
+            {
+              "line": 19,
+              "text": "static mut MEM_INIT_STATE: MemoryInitializationState = MemoryInitializationState::new();"
+            },
+            {
+              "line": 31,
+              "text": "type Layout<const LAYOUT_SIZE: usize> = [bool; LAYOUT_SIZE];"
+            },
+            {
+              "line": 34,
+              "text": "struct MemoryInitializationState {"
+            },
+            {
+              "line": 413,
+              "text": "fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument: usize) {"
+            },
+            {
+              "line": 436,
+              "text": "fn load_argument<const LAYOUT_SIZE: usize, T>("
+            }
+          ]
+        },
+        {
+          "path": "cprover_bindings/src/irep/serialize.rs",
+          "sha256": "b556eb233c43f02c4d47c62cb732c6e8d20ba9f6d44fec0f3993d8a410be2495",
+          "bytes": 10479,
+          "anchors": [
+            {
+              "line": 9,
+              "text": "impl Serialize for Irep {"
+            },
+            {
+              "line": 26,
+              "text": "impl Serialize for IrepId {"
+            },
+            {
+              "line": 35,
+              "text": "impl Serialize for SymbolTable {"
+            }
+          ]
+        },
+        {
+          "path": "cprover_bindings/src/irep/to_irep.rs",
+          "sha256": "bda4f823aafe43d547476d540cf264e62293dc8693df861c65864566413d7b0c",
+          "bytes": 42906,
+          "anchors": [
+            {
+              "line": 781,
+              "text": "impl ToIrep for Type {"
+            },
+            {
+              "line": 941,
+              "text": "Type::StructTag(name) => Irep {"
+            },
+            {
+              "line": 949,
+              "text": "Type::TypeDef { name, typ } => typ"
+            }
+          ]
+        },
+        {
+          "path": "cprover_bindings/src/goto_program/typ.rs",
+          "sha256": "ade325a1e884f3d6a648a64fe668c8f5e821c0ba42fcff419d4b2f9532b33871",
+          "bytes": 52225,
+          "anchors": []
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "anchors": [
+            {
+              "line": 129,
+              "text": "fn codegen_modifies_contract("
+            },
+            {
+              "line": 146,
+              "text": "let shadow_memory_assign = {"
+            }
+          ]
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "anchors": []
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "f7ace04066f08093822061f24568a0688e1d373b4e75bd5248e86f0667eac68e",
+          "bytes": 38827,
+          "anchors": [
+            {
+              "line": 847,
+              "text": "pub fn resolve_mem_init_fn(fn_def: FnDef, layout_size: usize, associated_type: Ty) -> Instance {"
+            }
+          ]
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "anchors": [
+            {
+              "line": 485,
+              "text": "ContractMode::SimpleCheck | ContractMode::RecursiveCheck | ContractMode::Assert"
+            },
+            {
+              "line": 576,
+              "text": "ContractMode::SimpleCheck"
+            },
+            {
+              "line": 680,
+              "text": "ContractMode::SimpleCheck => {"
+            }
+          ]
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "anchors": [
+            {
+              "line": 46,
+              "text": "split_for_remembers(&body_stmts[..], ContractMode::SimpleCheck);"
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "anchors": []
+        },
+        {
+          "path": "kani-driver/src/main.rs",
+          "sha256": "757eb0205da02cf3ab22a97e7c967b97d25510485f42815d106b2a170a0e6956",
+          "bytes": 10807,
+          "anchors": [
+            {
+              "line": 117,
+              "text": "if session.args.only_codegen {"
+            },
+            {
+              "line": 169,
+              "text": "if session.args.only_codegen {"
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "anchors": [
+            {
+              "line": 173,
+              "text": "pub fn instrument_contracts("
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "anchors": [
+            {
+              "line": 258,
+              "text": "pub fn cbmc_flags("
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "anchors": []
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "anchors": []
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "anchors": []
+        }
+      ],
+      "source_only_private_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_active",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_selected_argument",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_saved_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_saved_offset",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_layout_size",
+          "type": "usize"
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "sha": "b207847932da34ac19886c1337f5b69ace0b0843",
+      "tree": "3cdfc7e4ee0551211554f40968d391e3d404e27d",
+      "parents": [
+        "85fc5cd2ca770cdc5ae1bb514c27b6da7b6d9b18"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "9ff043b57ff6aed633815bc35a185c7cdf1a94d24356c95bb74679438081c0ce",
+          "bytes": 20877,
+          "anchors": [
+            {
+              "line": 19,
+              "text": "static mut MEM_INIT_STATE: MemoryInitializationState = MemoryInitializationState::new();"
+            },
+            {
+              "line": 31,
+              "text": "type Layout<const LAYOUT_SIZE: usize> = [bool; LAYOUT_SIZE];"
+            },
+            {
+              "line": 34,
+              "text": "struct MemoryInitializationState {"
+            },
+            {
+              "line": 413,
+              "text": "fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument: usize) {"
+            },
+            {
+              "line": 436,
+              "text": "fn load_argument<const LAYOUT_SIZE: usize, T>("
+            }
+          ]
+        },
+        {
+          "path": "cprover_bindings/src/irep/serialize.rs",
+          "sha256": "b556eb233c43f02c4d47c62cb732c6e8d20ba9f6d44fec0f3993d8a410be2495",
+          "bytes": 10479,
+          "anchors": [
+            {
+              "line": 9,
+              "text": "impl Serialize for Irep {"
+            },
+            {
+              "line": 26,
+              "text": "impl Serialize for IrepId {"
+            },
+            {
+              "line": 35,
+              "text": "impl Serialize for SymbolTable {"
+            }
+          ]
+        },
+        {
+          "path": "cprover_bindings/src/irep/to_irep.rs",
+          "sha256": "bda4f823aafe43d547476d540cf264e62293dc8693df861c65864566413d7b0c",
+          "bytes": 42906,
+          "anchors": [
+            {
+              "line": 781,
+              "text": "impl ToIrep for Type {"
+            },
+            {
+              "line": 941,
+              "text": "Type::StructTag(name) => Irep {"
+            },
+            {
+              "line": 949,
+              "text": "Type::TypeDef { name, typ } => typ"
+            }
+          ]
+        },
+        {
+          "path": "cprover_bindings/src/goto_program/typ.rs",
+          "sha256": "ade325a1e884f3d6a648a64fe668c8f5e821c0ba42fcff419d4b2f9532b33871",
+          "bytes": 52225,
+          "anchors": []
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "anchors": [
+            {
+              "line": 129,
+              "text": "fn codegen_modifies_contract("
+            },
+            {
+              "line": 146,
+              "text": "let shadow_memory_assign = {"
+            }
+          ]
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "anchors": []
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "f7ace04066f08093822061f24568a0688e1d373b4e75bd5248e86f0667eac68e",
+          "bytes": 38827,
+          "anchors": [
+            {
+              "line": 847,
+              "text": "pub fn resolve_mem_init_fn(fn_def: FnDef, layout_size: usize, associated_type: Ty) -> Instance {"
+            }
+          ]
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "anchors": [
+            {
+              "line": 485,
+              "text": "ContractMode::SimpleCheck | ContractMode::RecursiveCheck | ContractMode::Assert"
+            },
+            {
+              "line": 576,
+              "text": "ContractMode::SimpleCheck"
+            },
+            {
+              "line": 680,
+              "text": "ContractMode::SimpleCheck => {"
+            }
+          ]
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "anchors": [
+            {
+              "line": 46,
+              "text": "split_for_remembers(&body_stmts[..], ContractMode::SimpleCheck);"
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "anchors": []
+        },
+        {
+          "path": "kani-driver/src/main.rs",
+          "sha256": "757eb0205da02cf3ab22a97e7c967b97d25510485f42815d106b2a170a0e6956",
+          "bytes": 10807,
+          "anchors": [
+            {
+              "line": 117,
+              "text": "if session.args.only_codegen {"
+            },
+            {
+              "line": 169,
+              "text": "if session.args.only_codegen {"
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "anchors": [
+            {
+              "line": 173,
+              "text": "pub fn instrument_contracts("
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "anchors": [
+            {
+              "line": 258,
+              "text": "pub fn cbmc_flags("
+            }
+          ]
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "anchors": []
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "anchors": []
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "anchors": []
+        }
+      ],
+      "source_only_private_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_active",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_selected_argument",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_saved_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_saved_offset",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_layout_size",
+          "type": "usize"
+        }
+      ]
+    }
+  ],
+  "actual_pre_dfcc_artifact": null,
+  "actual_post_dfcc_artifact": null,
+  "actual_ssa_inventory": null,
+  "artifact_identity_status": "UNKNOWN; no curated file ID/hash/stage receipt returned",
+  "limits": {
+    "inventory_source_pins": [
+      "U",
+      "R1",
+      "A1",
+      "E"
+    ],
+    "new_solver_invocations_max": 4,
+    "initial_solver_pairs": [
+      "R1/P1",
+      "A1/P1"
+    ],
+    "conditional_P2": "R1/A1 only after results and separate coordinator admission",
+    "sequential": true,
+    "retries": false,
+    "timeout_seconds": 300,
+    "watchdog_reported": "RSS >6 GiB; coverage/sampling/overshoot/units/PID/tree UNKNOWN"
+  }
+}

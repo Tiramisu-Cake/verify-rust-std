@@ -1,0 +1,28 @@
+{
+  "schema": "kani3300-m2br2-artifact-access-v1",
+  "interface": "connected GitHub fetch_workflow_run_artifacts; metadata only",
+  "repository": "Tiramisu-Cake/kani",
+  "requests": [
+    {
+      "pin": "U",
+      "run_id": 43244395728,
+      "response": {
+        "artifacts": []
+      },
+      "coverage": "first page only; no curated file IDs returned"
+    },
+    {
+      "pin": "E",
+      "run_id": 43249040713,
+      "response": {
+        "artifacts": []
+      },
+      "coverage": "first page only; no curated file IDs returned"
+    }
+  ],
+  "actual_projection_interface": "UNKNOWN; coordinator must identify existing authorized curated file IDs/path",
+  "cloud_build_uuid": null,
+  "smallsort_brief": "NOT_APPLICABLE to numeric GitHub run IDs; no Cloud Build UUID supplied",
+  "raw_access": false,
+  "conclusion": "Available metadata does not expose requested type/use projections. Absence of artifacts/types/paths is not established; exact missing projections Q0-Q4 in QUERY-RECIPE.md remain AWAITING_CI."
+}
