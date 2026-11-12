@@ -4,6 +4,10 @@
 **Cloud $0**. Fork CI только координатора; local compiler/verifier/builds запрещены.
 Это верификация корректности, не security-работа.
 
+**Новый handoff:** package @df374dfdaa; builds A/B/C прошли, runs43263641666/43263648365/43263654098
+все cutoff на conversion. Worker15 → TASK-KANI3300-M2BR5.md: dependency-complete binary runtime halves,
+две сборки, затем до2 по новому handoff. Исторические m2br4 records не менять, production rollback не разрешён.
+
 ## Вход и интерпретация предыдущего опыта
 
 Прочитать `kani3300/m2br3/` @ **c70a35409b5c6447cf8c16a354157e9565edcecc**, особенно ABLATION-PLAN,

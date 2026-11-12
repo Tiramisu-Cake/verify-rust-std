@@ -5,7 +5,12 @@ Direct-MU-only экспорт отклонён. Полная для заявле
 type-only skip, default true и потеря negative checks не являются вариантом. Runtime Codex; Cloud $0, CI только координатора.
 Это верификация корректности, не security-работа.
 
-**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR4.md: ≤3 runtime narrowing variants на P1.
+**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR5.md: две дополняющие runtime half rollbacks на P1,
+затем до2 по отдельному handoff. R4 A/B/C43263641666/43263648365/43263654098 buildPASS, все cutoff>6GiB;
+V02 whole-U runtime остаётся конвертируемым endpoint, single-delta sufficiency не найдена. By-ID GLUE учесть явно;
+M3 HELD, source/CI/workers boundaries прежние. Никакого release runtime rollback.
+
+**Предыдущий handoff M2-B/R4:** 15 → TASK-KANI3300-M2BR4.md: ≤3 runtime narrowing variants на P1.
 V01 run43258912765 всё ещё cutoff; V02 run43258921276 (U runtime/R1 emission) дошёл до solver, FAILED details capped,
 844029vars/51222776clauses против U284883/17072414. Runtime family локализована, конкретный hunk/correct fix ещё нет.
 M2-B/S3 candidate4f64cc617c restricted Quick43257528539 passed; legal-pair/postcondition-hole были исключены CI-only.
