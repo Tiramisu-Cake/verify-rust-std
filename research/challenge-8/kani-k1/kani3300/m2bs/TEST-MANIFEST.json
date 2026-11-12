@@ -1,0 +1,426 @@
+{
+  "schema": "kani3300-m2bs-tests-v1",
+  "status": "PREPARED/BLOCKER",
+  "candidate": "35fab624af19b8c724ddc9c80a7cc79289541459",
+  "kind": "documentation only; semantic repair deferred until C03 binding",
+  "new_selectors": [],
+  "original_M2_inputs_goldens": [
+    {
+      "path": "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+      "sha256": "3385d702baa91965af565878f1f1d8e27a1de37a0ea52da3595cb5e609d8e363",
+      "bytes": 1452
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/legal-pair.expected",
+      "sha256": "d9efa4dfaf33963a0c5c668577ccd2e76d1e212d58d1af7767f98540ac9a8558",
+      "bytes": 202
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759",
+      "bytes": 782
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+      "sha256": "4d4ff2b6fca8cc5bc556fe159c3d9a03dfc5defd93c9cad7d8d8554c12568031",
+      "bytes": 229
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+      "sha256": "7610c67c89302bbcdd541ebaa8d70651c5a3231a0909b28126452b233a79d280",
+      "bytes": 1131
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/out-pointer.expected",
+      "sha256": "625af5ac4e60045acd47aadd15e00b8fc4db524ebd1dd911b50761dd042f20f0",
+      "bytes": 301
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/normal-abort.rs",
+      "sha256": "45021f2a9ed44e1162b21a0c758decc7b879eb9c50e91dfba57f9c0736b43471",
+      "bytes": 679
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/normal-abort.expected",
+      "sha256": "c36dbee1067f87faf285206a72733ff0f13b3f434ee28d3f679083fe5f031ef8",
+      "bytes": 176
+    }
+  ],
+  "C03_C06": [
+    {
+      "id": "C03",
+      "source": "research/challenge-8/kani-k1/kani3300/m2a/cases/ordinary-singleton.rs",
+      "source_sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4",
+      "root": "legal_ordinary_transfer",
+      "exact_filter_namespace": "crate-relative metadata.pretty_name; local crate prefix is stripped",
+      "phase": "SOLVER_AFTER_INVENTORY_AND_RESOURCE_GATE",
+      "source_predicted_mode": "Assert",
+      "argv": [
+        "kani",
+        "cases/ordinary-singleton.rs",
+        "--crate-name",
+        "m2a",
+        "-Z",
+        "uninit-checks",
+        "-Z",
+        "function-contracts",
+        "--output-format=regular",
+        "--harness",
+        "legal_ordinary_transfer",
+        "--exact",
+        "--keep-temps"
+      ],
+      "env": {
+        "RUSTFLAGS": "--edition 2021 -D warnings"
+      },
+      "jobs_flag": "OMITTED; sequential by driver default",
+      "all_existing_checks": "RETAINED; no check/bound disabling or reduction",
+      "semantic_oracle": "SUCCESS for all retained checks; reductions do not close original combined obligation",
+      "status": "PROPOSED_NOT_DISPATCHED",
+      "actual_argv": null,
+      "actual_mode": null,
+      "property_ids": null,
+      "elapsed_raw": null,
+      "rss_raw": null,
+      "execution": "COORDINATOR_ONLY; inventory first; solver rerun conditional"
+    },
+    {
+      "id": "C04",
+      "source": "research/challenge-8/kani-k1/kani3300/m2a/cases/ordinary-singleton.rs",
+      "source_sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4",
+      "root": "legal_ordinary_transfer",
+      "exact_filter_namespace": "crate-relative metadata.pretty_name; local crate prefix is stripped",
+      "phase": "SOLVER_AFTER_INVENTORY_AND_RESOURCE_GATE",
+      "source_predicted_mode": "Original",
+      "argv": [
+        "kani",
+        "cases/ordinary-singleton.rs",
+        "--crate-name",
+        "m2a",
+        "-Z",
+        "uninit-checks",
+        "-Z",
+        "function-contracts",
+        "--no-assert-contracts",
+        "--output-format=regular",
+        "--harness",
+        "legal_ordinary_transfer",
+        "--exact",
+        "--keep-temps"
+      ],
+      "env": {
+        "RUSTFLAGS": "--edition 2021 -D warnings"
+      },
+      "jobs_flag": "OMITTED; sequential by driver default",
+      "all_existing_checks": "RETAINED; no check/bound disabling or reduction",
+      "semantic_oracle": "SUCCESS for all retained checks; reductions do not close original combined obligation",
+      "status": "PROPOSED_NOT_DISPATCHED",
+      "actual_argv": null,
+      "actual_mode": null,
+      "property_ids": null,
+      "elapsed_raw": null,
+      "rss_raw": null,
+      "execution": "COORDINATOR_ONLY; inventory first; solver rerun conditional"
+    },
+    {
+      "id": "C05",
+      "source": "research/challenge-8/kani-k1/kani3300/m2a/cases/undecorated-singleton.rs",
+      "source_sha256": "f40a3bac0cb2847bd7e17b3cb747210efe0b437b7e3bcf8977e8e39721e9a715",
+      "root": "legal_ordinary_transfer",
+      "exact_filter_namespace": "crate-relative metadata.pretty_name; local crate prefix is stripped",
+      "phase": "SOLVER_AFTER_INVENTORY_AND_RESOURCE_GATE",
+      "source_predicted_mode": "undecorated",
+      "argv": [
+        "kani",
+        "cases/undecorated-singleton.rs",
+        "--crate-name",
+        "m2a",
+        "-Z",
+        "uninit-checks",
+        "--output-format=regular",
+        "--harness",
+        "legal_ordinary_transfer",
+        "--exact",
+        "--keep-temps"
+      ],
+      "env": {
+        "RUSTFLAGS": "--edition 2021 -D warnings"
+      },
+      "jobs_flag": "OMITTED; sequential by driver default",
+      "all_existing_checks": "RETAINED; no check/bound disabling or reduction",
+      "semantic_oracle": "SUCCESS for all retained checks; reductions do not close original combined obligation",
+      "status": "PROPOSED_NOT_DISPATCHED",
+      "actual_argv": null,
+      "actual_mode": null,
+      "property_ids": null,
+      "elapsed_raw": null,
+      "rss_raw": null,
+      "execution": "COORDINATOR_ONLY; inventory first; solver rerun conditional"
+    },
+    {
+      "id": "C06",
+      "source": "research/challenge-8/kani-k1/kani3300/m2a/cases/undecorated-singleton.rs",
+      "source_sha256": "f40a3bac0cb2847bd7e17b3cb747210efe0b437b7e3bcf8977e8e39721e9a715",
+      "root": "legal_ordinary_transfer",
+      "exact_filter_namespace": "crate-relative metadata.pretty_name; local crate prefix is stripped",
+      "phase": "SOLVER_AFTER_INVENTORY_AND_RESOURCE_GATE",
+      "source_predicted_mode": "undecorated",
+      "argv": [
+        "kani",
+        "cases/undecorated-singleton.rs",
+        "--crate-name",
+        "m2a",
+        "-Z",
+        "uninit-checks",
+        "-Z",
+        "function-contracts",
+        "--output-format=regular",
+        "--harness",
+        "legal_ordinary_transfer",
+        "--exact",
+        "--keep-temps"
+      ],
+      "env": {
+        "RUSTFLAGS": "--edition 2021 -D warnings"
+      },
+      "jobs_flag": "OMITTED; sequential by driver default",
+      "all_existing_checks": "RETAINED; no check/bound disabling or reduction",
+      "semantic_oracle": "SUCCESS for all retained checks; reductions do not close original combined obligation",
+      "status": "PROPOSED_NOT_DISPATCHED",
+      "actual_argv": null,
+      "actual_mode": null,
+      "property_ids": null,
+      "elapsed_raw": null,
+      "rss_raw": null,
+      "execution": "COORDINATOR_ONLY; inventory first; solver rerun conditional"
+    }
+  ],
+  "reused_controls": [
+    {
+      "path": "tests/expected/uninit/immutable-masks/copy-hole.expected",
+      "sha256": "1285983a1932a9032df9f01c52ffaf2990feb0ea7ef6f9a074ad9da9339f82f1",
+      "bytes": 304
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/copy-hole.rs",
+      "sha256": "e95bac37b8e6c26c05adef935f45741489752acfb7b286b85c389e684fac47b3",
+      "bytes": 911
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/empty.expected",
+      "sha256": "ad6767a2682d28b9d5fe7371c07f6b9a7a7c8050bf3ce52e0e738f062fd43326",
+      "bytes": 136
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/empty.rs",
+      "sha256": "1bf8317f916902caa504eae259e334a762328a307c845b087d13e8a7666bd84d",
+      "bytes": 553
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/zero-byte-hole.expected",
+      "sha256": "10b32d8779c1d4e595cca3c7f0cc0813d936bbb18f3b8a183df7586c27511777",
+      "bytes": 288
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/zero-byte-hole.rs",
+      "sha256": "8a76ef0263178378aed8f8a13db647808f70facefbe6323132752fc128d25a58",
+      "bytes": 661
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/zero-bytes-legal.expected",
+      "sha256": "9103bf718de45e6e4e94a735a6d6e7466a26c0b52fce247aa4e9c49ea88e7868",
+      "bytes": 136
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/zero-bytes-legal.rs",
+      "sha256": "763c1a3537988d888438e152157ba9212f185277255e1fb208d9db2ba063f7f8",
+      "bytes": 599
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/direct-left-hole.expected",
+      "sha256": "6c395d5ffeb21764bf0fea7ca059aa9e6f2712e38cd4b7657de39b794a1ab77b",
+      "bytes": 268
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/direct-left-hole.rs",
+      "sha256": "5726e676c370a02a49f8938250dd7ac1ba98f3bed68f150d515b040291701e7a",
+      "bytes": 1005
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/direct-legal.expected",
+      "sha256": "a536c9302c2c380c013d5d3160e4fd91e2573895fe0765edec3bcea942ccb926",
+      "bytes": 135
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/direct-legal.rs",
+      "sha256": "391ead9f771980d47e2534b9a109dd24373bffc46e3c1211e0cd59c6a48cefa3",
+      "bytes": 841
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/direct-right-hole.expected",
+      "sha256": "55e4530c1c249ebc9317228c0406b25d8003864d9d49b4bf9e26bbc5698fa045",
+      "bytes": 270
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/direct-right-hole.rs",
+      "sha256": "9624498706d5339c68cf320eb451d17806e6b441c352bcd5b454dde038abdbf9",
+      "bytes": 1007
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/helper-left-hole.expected",
+      "sha256": "d7f4ab714af0e4c392bfa7f4ab58e366140a36968f56fd1ccc0a314375e21017",
+      "bytes": 268
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/helper-left-hole.rs",
+      "sha256": "71d3218e87ec001df69e60ca0d517e9e0faec3d3d777656b0b2fda0b404f3eb5",
+      "bytes": 1130
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/helper-legal.expected",
+      "sha256": "d3f9838927c4bf0dce1d403cbee5f9575309115b2ee59ddb9b2e7d93c345d35b",
+      "bytes": 135
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/helper-legal.rs",
+      "sha256": "2fcffcc8d0d8eca19fb699fd4e8e3696e0f297f34842f186fc9901a5fbc54e93",
+      "bytes": 966
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/helper-right-hole.expected",
+      "sha256": "108b5b5a877aeacc3f83fcfdc647943f00dce943f8487e5a5bfb6947f6ec63b6",
+      "bytes": 270
+    },
+    {
+      "path": "tests/expected/uninit/promoted-allocations/helper-right-hole.rs",
+      "sha256": "ceb13861d49dc17c57dc8781d61ae718e820d69ca12932da8a26f62a267e9d7b",
+      "bytes": 1132
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+      "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e",
+      "bytes": 67
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c",
+      "bytes": 2904
+    }
+  ],
+  "unit5": {
+    "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+    "module": "context::immutable_allocations::tests",
+    "tests": [
+      "zero_is_initialized_hole_is_not",
+      "compatible_reuse_and_conflict_preserve_first_descriptor",
+      "mutable_or_unqualified_is_not_admitted",
+      "seed_preserves_labeled_reset_completion_and_original_edges",
+      "empty_mask_has_no_seed_index_or_object_query"
+    ],
+    "status": "NOT_RUN; ordinary unit controls, not contract qualification"
+  },
+  "mixed_composition": {
+    "request": "SEPARATE_AFTER_SEMANTIC_FIX; coordinator materializes exact16 fixtures only on reviewed M2-B/S source",
+    "fixture_commit": "83ceadf0485f30548c92b77c87b3c08a53f0b019",
+    "fixture_tree": "15d3d3ecb5d353da3ae1c51567d9b0d04cc9f5fb",
+    "fixture_source_repo": "/root/kani-fix-3300-m1",
+    "fixed_C1T2A": "7f9eec41e892dad0ca64673dab3de88d17d010af",
+    "files": [
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.expected",
+        "sha256": "34a83e4fb931adf473f240c924f37c210dc4574605e84fa454d192c06fb80d56",
+        "bytes": 136
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs",
+        "sha256": "78cbf7c6cad3268db4598620cb7fb877cc648982fa5704f5054e4a2c93e089e1",
+        "bytes": 853
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.expected",
+        "sha256": "bfeca32984e9c7c10257f813ec9491fed0c76a821c04bb04a234e843ff13ee6a",
+        "bytes": 137
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs",
+        "sha256": "fe1ce854568472102fb57a3ab8e5be691051355abeac8d3833846402b681f872",
+        "bytes": 854
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.expected",
+        "sha256": "b42c2a6f2c4b61f0a916de4f1d093bf88d479706f54c677c78c9b64d6383faf3",
+        "bytes": 280
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.rs",
+        "sha256": "03466bf9e0f3f0921164bbc1249cdaa5d3f28d0993b2429118945f2fb1835da5",
+        "bytes": 1317
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.expected",
+        "sha256": "7e27e5a614eeb94728cbabfd16278ea4719ea2cb53a6f3ded6e97899ecaca7df",
+        "bytes": 282
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.rs",
+        "sha256": "0345b28961c76c1094f25863efe013c4c95f6cd69aa604bbcc311c06376a564c",
+        "bytes": 1319
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.expected",
+        "sha256": "693e5ea90dfbfe670ad86cf807ae8b65096607e2c9f0549695c837891fc00a2d",
+        "bytes": 143
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.rs",
+        "sha256": "6220ce629edad8d7be324d3f9909174edccbb69b44db108c7b252c6508c8f3c7",
+        "bytes": 1149
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.expected",
+        "sha256": "e0c928674b94ba8edd9867b2bfa7e12aab3b8781fbb90e5110853b92c0db20d7",
+        "bytes": 144
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.rs",
+        "sha256": "1f1f4886873c70f3b16e208bd09e37393432f63dec72f0d9e12328e3bfd07c8e",
+        "bytes": 1150
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.expected",
+        "sha256": "b53ebbe34962fa209fef3d7cf841505223d3c4c654f15022f81e8fd667865fb8",
+        "bytes": 137
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs",
+        "sha256": "b3457824bba62c091adceaf32b266e578aef3fe4ad18237037a84721bd65ab2d",
+        "bytes": 946
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.expected",
+        "sha256": "1b8633a39c51c1cb0c9780924c978666b12ec8b4dcb6225019f87217aa1b1325",
+        "bytes": 138
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs",
+        "sha256": "a79cb15f62475e99ea82e598ac2917194dedbcdf817c4590075c0368d3c80850",
+        "bytes": 947
+      }
+    ],
+    "local_candidate_contains_mixed": false,
+    "production_import": false
+  },
+  "conditional_new_controls": [
+    "Reuse unchanged C03 for legal Assert array3/ensures; reverse operand only if established gap needs it.",
+    "After binding, up to four new selectors total under tests/expected/uninit/contract-immutable-masks/: legal reversed if needed; direct flat MU promoted None negative in each operand direction, each with reached lawful other operand.",
+    "First hole payload read in ensures via lawful MU/raw_eq; do not construct an invalid [u8] reference or bless None; intended property and all extra failures must be bound."
+  ],
+  "validation": {
+    "source_hashes": "PASS",
+    "m2a_cases_match_ea0": "PASS",
+    "mixed_exact16_match_fixed_manifest": "PASS",
+    "rust_delta_empty": "PASS",
+    "compile_fmt_clippy": "NOT_RUN",
+    "verification": "NOT_RUN"
+  }
+}

@@ -1,0 +1,16 @@
+# KANI3300 M2-B/S — PREPARED/BLOCKER
+- Entry fetch + ff-only completed at research57559c72ac; exact5f7 source/tree validated and left unchanged.
+- Separate local clone/branch created; local candidate35fab624af19b8c724ddc9c80a7cc79289541459 is documentation-only.
+- No Rust/model/tests/ABI/relevance/setter/reset/DFCC/workflow change; no semantic repair is claimed.
+- Established statically: original-body prepare versus emitted-constant observation; insertion/reuse binding; finalizer placement.
+- UNKNOWN: actual C03 site/operand, carrier/mask/symbol/object/range, reset/seed and last effect before read.
+- Supplied task reports C03 SpecArrayEq array3 falseFAIL; that report does not identify the operand or seed defect.
+- Per task, missing curated binding requires BLOCKER before implementation; CI-REQUEST stage A is the precise request.
+- Original four M2 inputs/goldens and M2-A cases preserved byte-for-byte; exact16 mixed fixture hashes qualified statically.
+- TYPE-AUDIT: changed Rust expressions/APIs/imports none; existing width boundaries inspected; compile/clippy NOT_RUN.
+- One bounded Luna High review recorded in REVIEW.md; static checks do not establish emitted/runtime bindings.
+- M2-B/S semantic gate BLOCKED; M2-B/R resource gate separate, unresolved; no causal attribution or new proof credit.
+- PFC resource cutoffs are INCOMPLETE; upstream Unsupported/frame failure is not semantic baseline PASS.
+- No new selectors before gap binding; existing positives/None/false/overwrite controls retained in conditional request.
+- Cloud $0; local compiler/verifier/build runs0; dispatches0; Kani not pushed; no raw artifact access.
+- STOP at task-required missing-binding boundary; M3 HELD; READY identifies prepared handoff, not a repair.
