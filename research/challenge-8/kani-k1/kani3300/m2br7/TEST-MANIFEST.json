@@ -1,0 +1,478 @@
+{
+  "schema": "kani3300-m2br7-tests-v1",
+  "status": "EXACT_TEST_DELTA_IDENTIFIED_REVIEW_PENDING_COMPOSITION_REQUESTED",
+  "base": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+  "source_configs": {
+    "B0": "c614dba9ca7388e098f606231dde7af4b23a06b5",
+    "B1": "b4eb8294b74f3b6448ccccacbc87bdea71d67510"
+  },
+  "base_full_tests_tree": "2b0f3cf308b870b58aadff02077079906b158eef",
+  "source_config_tests_unchanged": true,
+  "source_full_tests_tree": "2b0f3cf308b870b58aadff02077079906b158eef",
+  "test_only": {
+    "worktree": "/root/kani-fix-3300-m2br7-controls",
+    "commit": "fe36afc4a8de2709f00524b2d3fbd6da17919728",
+    "parent": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+    "tree": "1f1ef86a7fb78fdc853862e6deca303458a05138",
+    "new_files": [
+      {
+        "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.expected",
+        "bytes": 147,
+        "sha256": "64e9a385fbf40b7d572da1b5fb544af0d89694122e9be96ce8c8d56042ed79eb"
+      },
+      {
+        "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs",
+        "bytes": 1016,
+        "sha256": "f629b795969f197ef289061c88ebc26e08c8fe969a6f82f643897451bfbdf90f"
+      },
+      {
+        "path": "tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.expected",
+        "bytes": 152,
+        "sha256": "b996003766966f34c555121649c98e690735d65f9c5e1171f63a89cd6efa9f9b"
+      },
+      {
+        "path": "tests/expected/uninit/private-transfer-frame/scalar-pfc-legal.rs",
+        "bytes": 774,
+        "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b"
+      }
+    ],
+    "new_selector_count": 2,
+    "patch": {
+      "path": "../m2br7c/TEST-DELTA.patch",
+      "sha256": "a935f53ec2965349888343866ec9f4d85215e7a6c513a95fd30323cbc6d8c39e",
+      "bytes": 3608
+    },
+    "review": "PENDING_OTHER_WORKER",
+    "exact_new_path_only_diff_verified": true
+  },
+  "composition": {
+    "state": "REQUESTED_IF_REVIEW_NOT_READY_AT_STOP",
+    "B0_composed_commit": "NOT_CREATED",
+    "B1_composed_commit": "NOT_CREATED",
+    "request": "After worker14 exact reviewed verdict, import only the four added private-transfer-frame files from fe36afc onto both B0 and B1. Preserve production source at each endpoint, existing tests/goldens and identical test delta/flags/tools. Do not import the test base."
+  },
+  "reused_controls": [
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.expected",
+      "sha256": "4bedbd7632f8f9775f5f07a39430cb5b2e26c623bc551896b6ce9e395a9e1467",
+      "bytes": 252,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs",
+      "sha256": "47e48e69bff71f92f9f098acbea449cb44ce40034d9bea6eb6f3818bc6b3838f",
+      "bytes": 947,
+      "source_roots": [
+        "promoted_hole",
+        "ensures_left_hole"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.expected",
+      "sha256": "e4c29764a41c9f1483b87dbeb5ad4268bc3b8ea952a5d6b9730326bf0c8d9b2a",
+      "bytes": 254,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs",
+      "sha256": "6e0cb23853ca8954b1824adb5375df8c141da6fc2653f89c75eb96e0b9f10bda",
+      "bytes": 949,
+      "source_roots": [
+        "promoted_hole",
+        "ensures_right_hole"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.expected",
+      "sha256": "6fb62c8154c9248d51f319458e7caacfb13ded674d377a0e60d240f21ab31228",
+      "bytes": 137,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs",
+      "sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4",
+      "bytes": 1270,
+      "source_roots": [
+        "select",
+        "write_initialized",
+        "legal_ordinary_transfer"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/copy-hole.expected",
+      "sha256": "1285983a1932a9032df9f01c52ffaf2990feb0ea7ef6f9a074ad9da9339f82f1",
+      "bytes": 304,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/copy-hole.rs",
+      "sha256": "e95bac37b8e6c26c05adef935f45741489752acfb7b286b85c389e684fac47b3",
+      "bytes": 911,
+      "source_roots": [
+        "copied_immutable_hole_remains_uninitialized"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/empty.expected",
+      "sha256": "ad6767a2682d28b9d5fe7371c07f6b9a7a7c8050bf3ce52e0e738f062fd43326",
+      "bytes": 136,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/empty.rs",
+      "sha256": "1bf8317f916902caa504eae259e334a762328a307c845b087d13e8a7666bd84d",
+      "bytes": 553,
+      "source_roots": [
+        "empty_immutable_arrays"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/zero-byte-hole.expected",
+      "sha256": "10b32d8779c1d4e595cca3c7f0cc0813d936bbb18f3b8a183df7586c27511777",
+      "bytes": 288,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/zero-byte-hole.rs",
+      "sha256": "8a76ef0263178378aed8f8a13db647808f70facefbe6323132752fc128d25a58",
+      "bytes": 661,
+      "source_roots": [
+        "zero_and_uninitialized_are_distinct"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/zero-bytes-legal.expected",
+      "sha256": "9103bf718de45e6e4e94a735a6d6e7466a26c0b52fce247aa4e9c49ea88e7868",
+      "bytes": 136,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/zero-bytes-legal.rs",
+      "sha256": "763c1a3537988d888438e152157ba9212f185277255e1fb208d9db2ba063f7f8",
+      "bytes": 599,
+      "source_roots": [
+        "initialized_zero_bytes"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-buffer/expected",
+      "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29",
+      "bytes": 176,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+      "sha256": "09e5dd454f0cfcfeed1d9df436507c7d705270e85ee11592347113d58f9f1f55",
+      "bytes": 673,
+      "source_roots": [
+        "return_second",
+        "nested_return",
+        "nested_two_argument_return_reads_uninit"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-return/expected",
+      "sha256": "a9ed8039903d8bd6f56d7c563703e213d99020d235038e5107a1395a264a807c",
+      "bytes": 212,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+      "sha256": "345db788d839c5f40fae3454d7ec8d1a8b805a208554a8fcad04ee53027ff9b9",
+      "bytes": 499,
+      "source_roots": [
+        "select",
+        "argument_return"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+      "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31",
+      "bytes": 2221,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec",
+      "bytes": 11146,
+      "source_roots": [
+        "consume",
+        "consume_and_write",
+        "consume_padded",
+        "in_place_move_reads_initialized_callee_then_uninit_source",
+        "in_place_move_still_checks_uninitialized_callee_payload",
+        "in_place_move_delivers_initialized_payload_to_callee",
+        "in_place_move_write_still_deinitializes_source",
+        "in_place_copy_preserves_source",
+        "in_place_copy_write_changes_parameter_only",
+        "consume_noncopy",
+        "ordinary_by_value_temporary_preserves_original_source",
+        "union_roundtrip",
+        "consume_union",
+        "union_in_place_move_deinitializes_source",
+        "union_in_place_copy_preserves_source",
+        "union_normal_return_preserves_initialized_byte",
+        "union_normal_return_preserves_uninitialized_byte",
+        "assert_padded_layout",
+        "padded_custom_move_deinitializes_source_padding",
+        "padded_custom_copy_preserves_source_padding"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+      "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f",
+      "bytes": 1185,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+      "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3",
+      "bytes": 2420,
+      "source_roots": [
+        "select",
+        "nested_select",
+        "selected_first_argument_reads_uninit",
+        "selected_middle_argument_reads_uninit",
+        "selected_last_argument_reads_uninit",
+        "nested_same_size_calls_preserve_selected_uninit",
+        "initialized_argument_return_control",
+        "repeated_call_unread_uninit_then_initialized_return"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+      "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29",
+      "bytes": 176,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+      "sha256": "5fc89460489e7ac8dafe69f0ad722ae5d4d3a31776f945c0f78beda15aa38ad9",
+      "bytes": 740,
+      "source_roots": [
+        "choose",
+        "relay",
+        "clause_helper",
+        "clause_target",
+        "clause_pfc_negative"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+      "sha256": "778925cfde695f7899091ebab25513e7d755784dcbbd1ea92d844432bc8263ba",
+      "bytes": 366,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+      "sha256": "f5c45585e405fe570d88eddb69b76b6299a04ebaba168cc08e2b36bb3bbb09c2",
+      "bytes": 816,
+      "source_roots": [
+        "choose",
+        "relay",
+        "frame_target",
+        "frame_negative"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/legal-pair.expected",
+      "sha256": "d9efa4dfaf33963a0c5c668577ccd2e76d1e212d58d1af7767f98540ac9a8558",
+      "bytes": 202,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+      "sha256": "3385d702baa91965af565878f1f1d8e27a1de37a0ea52da3595cb5e609d8e363",
+      "bytes": 1452,
+      "source_roots": [
+        "select",
+        "write_initialized",
+        "legal_ordinary_transfer",
+        "legal_pfc_transfer"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/normal-abort.expected",
+      "sha256": "c36dbee1067f87faf285206a72733ff0f13b3f434ee28d3f679083fe5f031ef8",
+      "bytes": 176,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/normal-abort.rs",
+      "sha256": "45021f2a9ed44e1162b21a0c758decc7b879eb9c50e91dfba57f9c0736b43471",
+      "bytes": 679,
+      "source_roots": [
+        "return_or_abort",
+        "normal_return_or_abort"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/out-pointer.expected",
+      "sha256": "625af5ac4e60045acd47aadd15e00b8fc4db524ebd1dd911b50761dd042f20f0",
+      "bytes": 301,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+      "sha256": "7610c67c89302bbcdd541ebaa8d70651c5a3231a0909b28126452b233a79d280",
+      "bytes": 1131,
+      "source_roots": [
+        "out_pointer_fully_written",
+        "out_pointer_preserves_middle_hole"
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+      "sha256": "4d4ff2b6fca8cc5bc556fe159c3d9a03dfc5defd93c9cad7d8d8554c12568031",
+      "bytes": 229,
+      "source_roots": []
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759",
+      "bytes": 782,
+      "source_roots": [
+        "select",
+        "postcondition_target",
+        "postcondition_reads_returned_hole"
+      ]
+    },
+    {
+      "path": "tests/script-based-pre/mem-init-reinstrumentation/alloc-zeroed.rs",
+      "sha256": "9d9e02548f7ecffe932041ef54af27ebaa203a52cd0053dc051443063e070b8e",
+      "bytes": 661,
+      "source_roots": [
+        "alloc_zeroed_to_slice"
+      ]
+    },
+    {
+      "path": "tests/script-based-pre/mem-init-reinstrumentation/config.yml",
+      "sha256": "1cc575840c1fcb8139632768e9f078fe9ce8be38ca92e59e7e77c7fe53a2a543",
+      "bytes": 159,
+      "source_roots": []
+    },
+    {
+      "path": "tests/script-based-pre/mem-init-reinstrumentation/mem-init-reinstrumentation.expected",
+      "sha256": "0fe18a67c82249bea27e39ea5064449dad051ac7e97c84985af217e3dd60f8bc",
+      "bytes": 78,
+      "source_roots": []
+    },
+    {
+      "path": "tests/script-based-pre/mem-init-reinstrumentation/mem-init-reinstrumentation.sh",
+      "sha256": "94c7f6a7ec900fecc70714c292f9aeb27ec58db9c5a98c04b5bc3486b4de35a8",
+      "bytes": 619,
+      "source_roots": []
+    }
+  ],
+  "P1_sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b",
+  "P2_sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759",
+  "mixed16_composition": {
+    "state": "ABSENT_FROM_BASE_REUSE_EXACT_EXTERNAL_TEST_PACKAGE",
+    "commit": "83ceadf0485f30548c92b77c87b3c08a53f0b019",
+    "tree": "15d3d3ecb5d353da3ae1c51567d9b0d04cc9f5fb",
+    "files": [
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.expected",
+        "bytes": 136,
+        "sha256": "34a83e4fb931adf473f240c924f37c210dc4574605e84fa454d192c06fb80d56"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs",
+        "bytes": 853,
+        "sha256": "78cbf7c6cad3268db4598620cb7fb877cc648982fa5704f5054e4a2c93e089e1",
+        "source_root": "mixed_eq_u8_stack_left",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.expected",
+        "bytes": 137,
+        "sha256": "bfeca32984e9c7c10257f813ec9491fed0c76a821c04bb04a234e843ff13ee6a"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs",
+        "bytes": 854,
+        "sha256": "fe1ce854568472102fb57a3ab8e5be691051355abeac8d3833846402b681f872",
+        "source_root": "mixed_eq_u8_stack_right",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.expected",
+        "bytes": 280,
+        "sha256": "b42c2a6f2c4b61f0a916de4f1d093bf88d479706f54c677c78c9b64d6383faf3"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.rs",
+        "bytes": 1317,
+        "sha256": "03466bf9e0f3f0921164bbc1249cdaa5d3f28d0993b2429118945f2fb1835da5",
+        "source_root": "mixed_raw_mu_promoted_left_hole",
+        "semantic_expected": "FAILURE:intended promoted operand uninit; stack companion SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.expected",
+        "bytes": 282,
+        "sha256": "7e27e5a614eeb94728cbabfd16278ea4719ea2cb53a6f3ded6e97899ecaca7df"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.rs",
+        "bytes": 1319,
+        "sha256": "0345b28961c76c1094f25863efe013c4c95f6cd69aa604bbcc311c06376a564c",
+        "source_root": "mixed_raw_mu_promoted_right_hole",
+        "semantic_expected": "FAILURE:intended promoted operand uninit; stack companion SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.expected",
+        "bytes": 143,
+        "sha256": "693e5ea90dfbfe670ad86cf807ae8b65096607e2c9f0549695c837891fc00a2d"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.rs",
+        "bytes": 1149,
+        "sha256": "6220ce629edad8d7be324d3f9909174edccbb69b44db108c7b252c6508c8f3c7",
+        "source_root": "mixed_raw_mu_stack_left_legal",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.expected",
+        "bytes": 144,
+        "sha256": "e0c928674b94ba8edd9867b2bfa7e12aab3b8781fbb90e5110853b92c0db20d7"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.rs",
+        "bytes": 1150,
+        "sha256": "1f1f4886873c70f3b16e208bd09e37393432f63dec72f0d9e12328e3bfd07c8e",
+        "source_root": "mixed_raw_mu_stack_right_legal",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.expected",
+        "bytes": 137,
+        "sha256": "b53ebbe34962fa209fef3d7cf841505223d3c4c654f15022f81e8fd667865fb8"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs",
+        "bytes": 946,
+        "sha256": "b3457824bba62c091adceaf32b266e578aef3fe4ad18237037a84721bd65ab2d",
+        "source_root": "mixed_raw_u8_stack_left",
+        "semantic_expected": "SUCCESS"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.expected",
+        "bytes": 138,
+        "sha256": "1b8633a39c51c1cb0c9780924c978666b12ec8b4dcb6225019f87217aa1b1325"
+      },
+      {
+        "path": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs",
+        "bytes": 947,
+        "sha256": "a79cb15f62475e99ea82e598ac2917194dedbcdf817c4590075c0368d3c80850",
+        "source_root": "mixed_raw_u8_stack_right",
+        "semantic_expected": "SUCCESS"
+      }
+    ],
+    "request": "Separate exact test-only composition at coordinator G2; absent accepted base; no old production import or new PASS claim."
+  },
+  "actual_CI_tree": "UNKNOWN_NOT_RUN",
+  "actual_wrapper_flags_tools": "UNKNOWN_NOT_RUN",
+  "G1": "NOT_RUN",
+  "G2": "NOT_RUN",
+  "proof_credit": 0
+}

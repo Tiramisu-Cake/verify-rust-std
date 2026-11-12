@@ -1,0 +1,49 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-m2br7",
+  "baseline_commit": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+  "candidate_commit": "b4eb8294b74f3b6448ccccacbc87bdea71d67510",
+  "applicability": "Only KANI3300 M2-B/R7 source B0+B1; one bounded model/frame/trust-boundary review. No compilation or proof credit.",
+  "defect": "Coordinator reports prior candidates stop at private frame writes or resource cutoff; candidate separates current A3 snapshot and uses fieldwise transfer assigns without changing runtime protocol.",
+  "invariants": [
+    "B0 only exact initializer identity in shared skip; existing entries and source chain preserved. Audit fixed zero-input initializer trust boundary and both providers.",
+    "B1 moves all twelve current argument_buffer fields one-to-one; main marker/three fields unchanged. Constructors/partial reset and Begin/store/load algorithms identical after field access normalization.",
+    "Preserve selected false snapshot, live-source-before-Move, no source reread, demonic argument competition including none, mandatory return0, signatures/count/order/layout validation and all assertions.",
+    "DFCC only exact two distinct marked StaticDef->Instance->actual emitted identities; main whole target unchanged, transfer twelve scalar member targets only, no whole-buffer/user/padding target.",
+    "Missing target with required uninit/PFC explicit error, no-uninit/no objects allowed, no broad irrelevant-model compile failure. M1 finalizer/registry/seed epoch, public routing, tests and other model/caller code unchanged."
+  ],
+  "controls": [
+    "Independently inspect actual committed diff, field read/write footprint and constructor closure; no runtime whole-record/byte writes may be covered by implicit exemption.",
+    "Audit Rust types/signatures/iterator/lambda Vec/unsafe statics and inputs, exact field expression set rather than total lambda count. No local compiler/verifier/build.",
+    "Check source admission for no-uninit/target missing and both providers. Report concrete findings with file/line and required fix; no redesign or nested delegation."
+  ],
+  "dependencies": [
+    "cprover_bindings/src/goto_program/symbol.rs",
+    "cprover_bindings/src/goto_program/symbol_table.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+    "kani-compiler/src/kani_middle/attributes.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "library/kani_core/src/arbitrary.rs",
+    "library/kani_core/src/lib.rs",
+    "library/kani_core/src/mem.rs",
+    "library/kani_core/src/mem_init.rs",
+    "rust-toolchain.toml",
+    "rustfmt.toml",
+    "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+    "kani-compiler/src/args.rs",
+    "cprover_bindings/src/goto_program/expr.rs",
+    "cprover_bindings/src/goto_program/typ.rs"
+  ],
+  "known_limitations": [
+    "Static source review only, not compiler. Every build/emitted binding/semantic/resource gate NOT_RUN. Fieldwise cost benefit unknown.",
+    "Actual emitted aggregate/padding write or missing field coverage is STOP for design clarification, no whole-buffer fallback. Coordinator G1 compares B0/B1 with identical reviewed test delta; full G2 retains heavy fixtures."
+  ],
+  "prior_reviews": []
+}

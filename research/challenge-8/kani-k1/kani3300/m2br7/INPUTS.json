@@ -1,0 +1,125 @@
+{
+  "schema": "kani3300-m2br7-inputs-v1",
+  "task_revision": "94e584388cd04067403bdde249917c4afd9e430d",
+  "worker": 15,
+  "stage": "M2-B/R7",
+  "runtime": "Codex",
+  "cloud_usd": 0,
+  "CI_dispatches": 0,
+  "research_worktree": "/root/verify-rust-std-kani3300-g0",
+  "source_worktree": "/root/kani-fix-3300-m2br7",
+  "seed_read_only": "/root/kani-fix-3300-m2b-seed",
+  "base": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+  "base_tree": "af28e22ec446b254cfa3a28b2882eafa58d5a458",
+  "references": [
+    {
+      "revision": "94e584388cd04067403bdde249917c4afd9e430d",
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-M2BR7.md",
+      "sha256": "01af8b38c5933d2c858a196019de2d90746db096aef532b0031a85aa39bf0e58",
+      "bytes": 13352,
+      "blob": "e64e42f97cf829bfe7c931e9fd7d8ac1e865a47b"
+    },
+    {
+      "revision": "13eb2c6310aed34a95f01cb3729bbec14af1dbeb",
+      "path": "research/challenge-8/kani-k1/kani3300/m2br6b/REPAIR-BINDINGS.md",
+      "sha256": "52f5321293c8e2cbf65e83ee3bf7ffaf7a64a4d33f8a96642b70ea76a95eaf57",
+      "bytes": 7873,
+      "blob": "dff7127340af8d893733b6c88fb6848268da078e"
+    },
+    {
+      "revision": "13eb2c6310aed34a95f01cb3729bbec14af1dbeb",
+      "path": "research/challenge-8/kani-k1/kani3300/m2br6b/patches/R1-control.patch",
+      "sha256": "0688e33906f4489a4dc310384cfad0417a9dec4ba103da020eda82eea2afae78",
+      "bytes": 1455,
+      "blob": "d608d47358113f49fc48e8acc50536e9f8194e98"
+    },
+    {
+      "revision": "94e584388cd04067403bdde249917c4afd9e430d",
+      "path": "research/challenge-8/kani-k1/kani3300/m0/MODEL-CONTRACT.md",
+      "sha256": "ccc13bf514f248bdc0e468267b17673f03c24ac1e6afccf6e196643ed62c0d9c",
+      "bytes": 10753,
+      "blob": "d3a33ed6d668fe6ed5fc9a927e4ce4f83ab18c15"
+    },
+    {
+      "revision": "94e584388cd04067403bdde249917c4afd9e430d",
+      "path": "research/challenge-8/kani-k1/kani3300/m1/SOURCE-BINDINGS.md",
+      "sha256": "6ebfaaf00fb1cac840fa8fa93b5a56980831e6ac1f3f6239a6d43583a890e500",
+      "bytes": 9155,
+      "blob": "4e571a4e925ac7fe8258c8782b21be437575689a"
+    },
+    {
+      "revision": "94e584388cd04067403bdde249917c4afd9e430d",
+      "path": "research/challenge-8/kani-k1/kani3300/m2bs3/SOURCE-BINDINGS.md",
+      "sha256": "4900dc67c04a4c4c8bca8b1e2fc494d37eb4af689391f43d24e7b6877c3582e9",
+      "bytes": 4393,
+      "blob": "deea8b44a26b97e18f7539fcf2941b7d6273f848"
+    },
+    {
+      "revision": "94e584388cd04067403bdde249917c4afd9e430d",
+      "path": "research/challenge-8/kani-k1/kani3300/m2br4/patches/A.patch",
+      "sha256": "41ed29271420323b56b192c3c6a36b62dee698ff7da7986233bfc5df7aafba76",
+      "bytes": 9693,
+      "blob": "8441b3513c8c8d0fd2df0fcc3aa37a0f12a48031"
+    }
+  ],
+  "formatting": {
+    "files": [
+      {
+        "path": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+        "sha256": "50d6185aa821a7f6ea5aceba7cebe1bd517ea323f399a269c5a170b6ac65210d"
+      },
+      {
+        "path": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt-tc/rustfmt-nightly-x86_64-unknown-linux-gnu/rustfmt-preview/bin/rustfmt",
+        "sha256": "0f8f90119220fbbd72268c10c575000334e7b89cc348c74953b1b30155338962"
+      }
+    ],
+    "config": {
+      "path": "rustfmt.toml",
+      "sha256": "d1886a654a790b5f5779d12c770b32c5328e4e4eaa415fc3a024c6ba9df687b1",
+      "bytes": 238,
+      "blob": "d77b82e0cf51e3324e899faafec367830d3a24c1"
+    },
+    "result": "PASS_NOT_COMPILATION"
+  },
+  "static_audit": {
+    "script_sha256": "bfd3c4ff993cd810903174729491edd7048cc99419f39882fa99144e2ed4d4f8",
+    "result_sha256": "dae360e4b35a74005628ed557b0e25258e486d81e49c9fcaaaa2f9eff38a9ad0",
+    "status": "PASS_NOT_COMPILATION"
+  },
+  "scope": {
+    "source_push": false,
+    "CI_Cloud": "COORDINATOR_ONLY_NOT_RUN",
+    "M3": "HELD",
+    "proof_credit": 0
+  },
+  "historical_claims": {
+    "assurance": "COORDINATOR_REPORTED_IN_TASK_NOT_INDEPENDENTLY_OBSERVED",
+    "R6_02b_P1": {
+      "run": "43276309576",
+      "properties": 132,
+      "steps": 9340,
+      "VCC": [
+        381,
+        115
+      ],
+      "variables": 829958,
+      "clauses": 51173785,
+      "seconds": 50,
+      "peak_GiB": 1.95,
+      "solver": "FAILED assignable *var_17/*var_9"
+    },
+    "R1_same_skip": {
+      "run": "43276317655",
+      "properties": 131,
+      "steps": 8672,
+      "VCC": [
+        473,
+        96
+      ],
+      "peak_GiB": ">6.71",
+      "seconds": 9.7,
+      "solver": "killed"
+    },
+    "inference_limit": "No exact DFCC operator/width cause or pointer semantic PASS established"
+  }
+}

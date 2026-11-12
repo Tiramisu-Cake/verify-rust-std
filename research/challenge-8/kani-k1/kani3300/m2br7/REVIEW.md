@@ -1,0 +1,21 @@
+Reviewer: gpt-6-luna, HIGH, fork_turns=none; task /root/r7_source_review, no nested delegation.
+One bounded semantic source review, no fixes requested. Candidate/spec packet was statically checked.
+Packet SHA256 f3fa15cbd4a857d90d1365f0d0167f1bb1ba04351bfc864ee91d296f21abef3e.
+Canonical spec SHA256 034edfc2e88b741a4283a3a476b9f381f2911bf057a3301ff58d964882e1f9d1.
+B0 c614dba9ca7388e098f606231dde7af4b23a06b5 is included in the exact baseline-to-B1 review.
+
+# KANI3300 M2-B/R7 source review
+
+**Verdict: no source-boundary findings in the reviewed candidate.** Scope is limited to baseline `4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c` → candidate `b4eb8294b74f3b6448ccccacbc87bdea71d67510`, tree `8c9e3429646ff83db3c829875314e6f50d60bd7f`. The worktree was clean and the committed diff contains only `contract.rs`, `check_uninit/mod.rs`, and `mem_init.rs`.
+
+## Checked
+
+- `library/kani_core/src/mem_init.rs`: the prior twelve `argument_buffer_*` fields map one-to-one to `ArgumentBuffer` fields (`active`, `selected_argument`, `signature`, `count`, `written`, `remaining`, `last_stored`, `last_loaded`, `has_witness`, `value`, `relative_offset`, `layout_size`). Main state remains `tracked_object_id`, `tracked_offset`, and `value`. Constructors preserve zero defaults. Reset still havocs the two main coordinates, clears main `value`, and resets only buffer `active`, `selected_argument`, and `has_witness`; other buffer members remain inert until protocol writes. Begin/store/load field accesses are consistently relocated. The false-snapshot path remains conditional on `selected_argument == 0 || any()`, source object/offset and tracked value are captured by store before caller move, load does not reread source, return index zero remains mandatory, and argument competition still permits no argument to be selected.
+- `contract.rs:142-199`: marked statics are resolved by exact marker, converted through `Instance::from(def).mangled_name()`, and looked up in the emitted symbol table. Duplicate markers assert; two emitted symbols must have distinct names. The contract keeps the main static whole-object target and adds exactly twelve named buffer-member targets, each with a `bool`/`size_t` type assertion. No buffer whole-object target or padding target is added. The declared binding sources expose the APIs used here (`StaticDef` instance/mangled identity, `SymbolTable::lookup`, `Expr::member`, `Expr::typ`, `Type::c_bool/size_t`, and `Lambda::as_contract_for` over the `Code` signature). Rust-side collection and mapping use a `Vec` and array map with inferred `[Option<Symbol>; 2]`; the lambda receives the cloned annotated function `Code` type.
+- `mem_init.rs:246-257` and `check_uninit/mod.rs:61-99`: bootstrap is the exact zero-argument `InitializeMemoryInitializationState` model, resolved/injected at harness entry (`ptr_uninit/mod.rs:100-138`). Only that model identity is newly added to shared `SKIPPED_ITEMS`; its reset body still runs. Both target providers use the same `UninitInstrumenter` and therefore the same exact skip (`ptr_uninit/mod.rs:67-75`, `delayed_ub/mod.rs:155-169`). This preserves the intended verifier-private bootstrap boundary without creating an input-controlled initializer.
+- `contract.rs:169-178`: when Uninit is disabled and neither private symbol is emitted, the shadow frame is empty. Otherwise, a missing main or buffer symbol is an explicit error. No broad missing-symbol fallback is introduced for an enabled uninit model.
+- Runtime source writes to `ARGUMENT_BUFFER` are scalar member writes; the only whole-record value is the static's `const` initializer. I found no protocol whole-record assignment or bytewise write that would need implicit frame exemption. M1 finalizer/registry/seed epoch and caller/test source are outside the changed paths.
+
+## Not run / limits
+
+`NOT_COMPILED`: no Rust compiler was run. `NOT_RUN`: no Kani/CBMC, Miri, build, CI, emitted-goto binding check, semantic equivalence check, or resource comparison was run. Thus emitted static identity/layout and actual CBMC field-target acceptance remain unverified; fieldwise cost benefit is unknown. This review grants no proof credit and does not authorize admission. Any emitted aggregate/padding write or missing field coverage must be resolved before relying on this source-level frame analysis.

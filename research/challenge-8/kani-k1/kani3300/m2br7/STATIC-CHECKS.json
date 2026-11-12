@@ -1,0 +1,218 @@
+{
+  "status": "STATIC_PASS_NOT_COMPILATION",
+  "base": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+  "B0": "c614dba9ca7388e098f606231dde7af4b23a06b5",
+  "B1": "b4eb8294b74f3b6448ccccacbc87bdea71d67510",
+  "normalized_function_sha256": {
+    "get": "0acc4b59722d2a51a102fe492bd250b71677445f1ed37ce4050c65928a49f1ea",
+    "set": "3407e776269190260e140b28d78519bbce6326fb5345ff7aff0eb8c5aacd69ed",
+    "copy": "a7f09fc49ae23709c132958576f2378968120bbef1655e350beb703c7bd02843",
+    "copy_by_id": "cd479dd65c0212ca5b8db8efd6324a5891c8408394187742bf0ad6baabab3ba5",
+    "get_slice": "f35896dd66efe53e88288389759fc9ef7985dda3d1387c457376b59875f06544",
+    "set_slice": "a727a4508b28d62402352cd0e5a6e0d7b6523088e514aad4a1cb7f3e45ce40b4",
+    "initialize_memory_initialization_state": "ff8353fa5f0a453516489af567f1fc31d91a936b01fcd7cd6542db7e24077871",
+    "is_ptr_initialized": "25a288c2f10c3c7a752e14b33ac85a611dde2d67ce5f894c7598d98cef6bf9a4",
+    "set_ptr_initialized": "1c3b3888457f1475195c5dec66ad8bef5479908c29738b521d3949bc065d5864",
+    "is_slice_chunk_ptr_initialized": "8ace86e0c79e94e876e63164bc8bf72d36bcd5a72124f0a9b86483d9aaee0c59",
+    "set_slice_chunk_ptr_initialized": "4546ddde4cd5d008b0a48917d804dafc69201df78d8b9b4dcd4a235eafe35a73",
+    "is_slice_ptr_initialized": "3a191667ad6b1aaab96e65cce1fe2d91fce47efdd334b0a332f7f25a30c31209",
+    "set_slice_ptr_initialized": "3cfea201ff635606ec8bd2d3176470abdf91b2dd602fa6f10d1ec6e80d0b8fb0",
+    "is_str_ptr_initialized": "3f6852b0d80dde9c600c22131ca9cf9b2879179d15968d21177db4034705d342",
+    "set_str_ptr_initialized": "bae32ff1cd13f6b06a179146800eebaffcace5afe5be5bde368ae3cc6c4f9cbb",
+    "copy_init_state": "155da49797f968057a0e6b5d2eb8022183666a9e5e630f30f862d511d63c1af1",
+    "copy_init_state_single": "1e980c359f08cb66c0b394c9e5c40a54a67d9b37b0a723980bde355d6e6712c4",
+    "begin_argument_transfer": "b45f4f7c28f15f5217e02a7e98658901ee75e7a9abc759fe49d799c4c5ea0e19",
+    "store_argument": "a5a33434b75534ffe703cb58a6785a0e0ed0359b3ac7c4443fd8fe508f3f1f14",
+    "load_argument": "22545d21e420fd47af6c43f96edb85384f29c34d1928df142e567303f274e187"
+  },
+  "fields": {
+    "active": "bool",
+    "selected_argument": "usize",
+    "signature": "usize",
+    "count": "usize",
+    "written": "usize",
+    "remaining": "usize",
+    "last_stored": "usize",
+    "last_loaded": "usize",
+    "has_witness": "bool",
+    "value": "bool",
+    "relative_offset": "usize",
+    "layout_size": "usize"
+  },
+  "operations": {
+    "active": {
+      "initialize_memory_initialization_state": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "begin_argument_transfer": {
+        "writes": 1,
+        "non_lhs_uses": 1
+      },
+      "store_argument": {
+        "writes": 1,
+        "non_lhs_uses": 2
+      },
+      "load_argument": {
+        "writes": 1,
+        "non_lhs_uses": 1
+      }
+    },
+    "selected_argument": {
+      "initialize_memory_initialization_state": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "begin_argument_transfer": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "store_argument": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "load_argument": {
+        "writes": 1,
+        "non_lhs_uses": 3
+      }
+    },
+    "signature": {
+      "begin_argument_transfer": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "store_argument": {
+        "writes": 1,
+        "non_lhs_uses": 1
+      },
+      "load_argument": {
+        "writes": 0,
+        "non_lhs_uses": 1
+      }
+    },
+    "count": {
+      "begin_argument_transfer": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "store_argument": {
+        "writes": 1,
+        "non_lhs_uses": 2
+      },
+      "load_argument": {
+        "writes": 0,
+        "non_lhs_uses": 1
+      }
+    },
+    "written": {
+      "begin_argument_transfer": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "store_argument": {
+        "writes": 2,
+        "non_lhs_uses": 1
+      },
+      "load_argument": {
+        "writes": 0,
+        "non_lhs_uses": 2
+      }
+    },
+    "remaining": {
+      "begin_argument_transfer": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "store_argument": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "load_argument": {
+        "writes": 1,
+        "non_lhs_uses": 2
+      }
+    },
+    "last_stored": {
+      "begin_argument_transfer": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "store_argument": {
+        "writes": 1,
+        "non_lhs_uses": 1
+      }
+    },
+    "last_loaded": {
+      "begin_argument_transfer": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "store_argument": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "load_argument": {
+        "writes": 1,
+        "non_lhs_uses": 1
+      }
+    },
+    "has_witness": {
+      "initialize_memory_initialization_state": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "begin_argument_transfer": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "store_argument": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "load_argument": {
+        "writes": 1,
+        "non_lhs_uses": 1
+      }
+    },
+    "value": {
+      "store_argument": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "load_argument": {
+        "writes": 0,
+        "non_lhs_uses": 1
+      }
+    },
+    "relative_offset": {
+      "store_argument": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "load_argument": {
+        "writes": 0,
+        "non_lhs_uses": 1
+      }
+    },
+    "layout_size": {
+      "store_argument": {
+        "writes": 1,
+        "non_lhs_uses": 0
+      },
+      "load_argument": {
+        "writes": 0,
+        "non_lhs_uses": 1
+      }
+    }
+  },
+  "unchanged_sha256": {
+    "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs": "c01ced42f97efdbc8d6a34c75f229753af59f380549518af971ecea672cd72b2",
+    "kani-compiler/src/kani_middle/anonymous_allocations.rs": "daacc82f429cbf3d21e877731ddbb34c55e21ef788e05d177da8656b22baeea8",
+    "kani-compiler/src/kani_middle/kani_functions.rs": "c991f53c452f162f153880e178f728394e679d80b3175c226baec34f57b31773",
+    "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs": "b90b5b19d9fdaedae2657e8fc42f52912063f47fb734c157e2d72413054c3087",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc"
+  },
+  "compilation": "NOT_RUN",
+  "G1": "NOT_RUN",
+  "G2": "NOT_RUN"
+}
