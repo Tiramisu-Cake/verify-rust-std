@@ -1,0 +1,1609 @@
+{
+  "schema": "kani3300-b1i-test-manifest-v1",
+  "purpose": "Part 1 fixture draft; all new integrated outcomes are NOT_RUN.",
+  "source": {
+    "repository": "Tiramisu-Cake/kani",
+    "standalone_commit": "d5f072f2bcf61a04d84bb0e8b54115f3011252fc",
+    "standalone_base": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+    "working_start": "a0a2386001a15fecfe2facc2f6cd87f3dee13b60",
+    "production_commit": "cdb439b0a4c36e9e595019895ab803230f332941",
+    "candidate_commit": "dc5f5a406749a73f1c3192e0b5338441e79508bb",
+    "candidate_tree": "085bea5cda2df66a5cb4f72410fe124aa816c90b",
+    "test_commit_parent": "cdb439b0a4c36e9e595019895ab803230f332941"
+  },
+  "pinned_api": {
+    "toolchain": "nightly-2026-10-23",
+    "custom_mir": "runtime optimized API: #[custom_mir(dialect = \"runtime\", phase = \"optimized\")], mir! Call(..., ReturnTo(...), UnwindUnreachable())",
+    "panic": "Kani injects -Cpanic=abort; custom MIR controls use UnwindUnreachable. No compiler run was performed.",
+    "source_paths": [
+      "/root/kani-fix-3300-p1b1/rust-toolchain.toml",
+      "/root/kani-fix-3300-p1b1/kani-compiler/src/kani_compiler.rs",
+      "/tmp/kani3300-b2b-source/library/core/src/intrinsics/mir.rs",
+      "/tmp/kani3300-g1r-api and g0/.../kani3300/g1r/API-SOURCES.json"
+    ],
+    "rust_commit": "7189d39d9ce936881b8132c6addeaf3e295cd455",
+    "api_source_hash_check": "11/11 SHA256 hashes match API-SOURCES.json (static)",
+    "custom_mir_sha256": "929437ae1ab07fb008b2bbf3a00f30a1c4c1c8a2eded81c04184633cd3b95821"
+  },
+  "fixtures": [
+    {
+      "id": "direct-plain",
+      "source": "tests/expected/uninit/unresolved-calls/direct-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/direct-plain.expected",
+      "harness": "check",
+      "mode": "plain",
+      "flags": {
+        "compile": [
+          "-D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "ordinary Item call with no shadow transfers remains successful"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- SUCCESSFUL"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "c3bd9c4154a15bf0c243403de5b35c120c4fbc9030587d4d7ab3571ff7ff6f45",
+      "golden_sha256": "b0936f39b1372ce308ec0efba323e602cd03e36cada34138dcb3d37f68af7fed",
+      "expected_property_descriptions": [],
+      "expected_status_from_candidate_golden": "SUCCESSFUL",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "direct-seeded",
+      "source": "tests/expected/uninit/unresolved-calls/direct-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/direct-seeded.expected",
+      "harness": "check",
+      "mode": "seeded",
+      "flags": {
+        "compile": [
+          "-D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "ordinary Item call with no shadow transfers remains successful"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- SUCCESSFUL"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "77842a4aefeb1976156dfd52d316035821898462bfaad2ffcf670a2c9ce4b6f6",
+      "golden_sha256": "b0936f39b1372ce308ec0efba323e602cd03e36cada34138dcb3d37f68af7fed",
+      "expected_property_descriptions": [],
+      "expected_status_from_candidate_golden": "SUCCESSFUL",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "entry-initialized-plain",
+      "source": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.expected",
+      "harness": "check",
+      "mode": "plain",
+      "flags": {
+        "compile": [
+          "--edition 2021 -D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "first terminator is unresolved FnPtr Call in empty bb0",
+        "entry LoadArgument for Word union is present",
+        "u32 union-field operand Check is present and succeeds on runtime initialized bytes",
+        "exactly one local FnPtr Unsupported is emitted",
+        "one Call target only"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "property_identity": "harness + source path + Call terminator site; no numeric IDs assumed",
+      "source_lowering_constraint": "runtime kani::any aggregate (fully initialized case) or runtime single-byte aggregate (partial case); ordinary union constants excluded; MIR aggregate/Move lowering is NOT_RUN",
+      "target_count": "exactly one target for this Call",
+      "order": [
+        "entry LoadArgument",
+        "u32 operand read Check",
+        "local Unsupported"
+      ],
+      "fixture_sha256": "10c185f4b43db1f57b443599f9d9e85e7314596bc7a1cc7b1bc6429a306be88a",
+      "golden_sha256": "aecbd2939d8717cf0ec3e6a44d44cd833f7bc855f8335d1cd64fcf65e0bc81a5",
+      "expected_property_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+        "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "pairing_checks": {
+        "site": "library/kani_core/src/mem_init.rs::load_argument (entry of indirect)",
+        "expected": "SUCCESS/reached",
+        "assertions": [
+          "missing shadow transfer protocol",
+          "argument_buffer_signature == signature",
+          "argument_buffer_count == argument_count",
+          "argument_buffer_remaining > 0",
+          "argument_buffer_written == argument_count",
+          "argument_buffer_last_loaded < selected_argument",
+          "argument_buffer_layout_size == LAYOUT_SIZE (selected witness)"
+        ]
+      },
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "entry-initialized-seeded",
+      "source": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.expected",
+      "harness": "check",
+      "mode": "seeded",
+      "flags": {
+        "compile": [
+          "--edition 2021 -D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "first terminator is unresolved FnPtr Call in empty bb0",
+        "entry LoadArgument for Word union is present",
+        "u32 union-field operand Check is present and succeeds on runtime initialized bytes",
+        "exactly one local FnPtr Unsupported is emitted",
+        "one Call target only"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "property_identity": "harness + source path + Call terminator site; no numeric IDs assumed",
+      "source_lowering_constraint": "runtime kani::any aggregate (fully initialized case) or runtime single-byte aggregate (partial case); ordinary union constants excluded; MIR aggregate/Move lowering is NOT_RUN",
+      "target_count": "exactly one target for this Call",
+      "order": [
+        "entry LoadArgument",
+        "u32 operand read Check",
+        "local Unsupported"
+      ],
+      "fixture_sha256": "9e6e9066c6bfa8feeb0d935604dd872b90caee33b102911a56bb6972956299c9",
+      "golden_sha256": "aecbd2939d8717cf0ec3e6a44d44cd833f7bc855f8335d1cd64fcf65e0bc81a5",
+      "expected_property_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+        "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "pairing_checks": {
+        "site": "library/kani_core/src/mem_init.rs::load_argument (entry of indirect)",
+        "expected": "SUCCESS/reached",
+        "assertions": [
+          "missing shadow transfer protocol",
+          "argument_buffer_signature == signature",
+          "argument_buffer_count == argument_count",
+          "argument_buffer_remaining > 0",
+          "argument_buffer_written == argument_count",
+          "argument_buffer_last_loaded < selected_argument",
+          "argument_buffer_layout_size == LAYOUT_SIZE (selected witness)"
+        ]
+      },
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "entry-partial-plain",
+      "source": "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/entry-partial-plain.expected",
+      "harness": "check",
+      "mode": "plain",
+      "flags": {
+        "compile": [
+          "--edition 2021 -D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "first terminator is unresolved FnPtr Call in empty bb0",
+        "entry LoadArgument for Word union is present",
+        "u32 union-field operand Check is present and fails on bytes beyond the runtime initialized byte",
+        "exactly one local FnPtr Unsupported is emitted",
+        "one Call target only"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "property_identity": "harness + source path + Call terminator site; no numeric IDs assumed",
+      "source_lowering_constraint": "runtime kani::any aggregate (fully initialized case) or runtime single-byte aggregate (partial case); ordinary union constants excluded; MIR aggregate/Move lowering is NOT_RUN",
+      "target_count": "exactly one target for this Call",
+      "order": [
+        "entry LoadArgument",
+        "u32 operand read Check",
+        "local Unsupported"
+      ],
+      "fixture_sha256": "8e77e79c87d3cab4496ba7e205d70b72a2e26c08054a41e19c10e546e4a18130",
+      "golden_sha256": "fe9d12488a16d7ade2cbbfd07bb36e9db6fa9e13185b32ef8dcb361faf990cef",
+      "expected_property_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+        "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "pairing_checks": {
+        "site": "library/kani_core/src/mem_init.rs::load_argument (entry of indirect)",
+        "expected": "SUCCESS/reached",
+        "assertions": [
+          "missing shadow transfer protocol",
+          "argument_buffer_signature == signature",
+          "argument_buffer_count == argument_count",
+          "argument_buffer_remaining > 0",
+          "argument_buffer_written == argument_count",
+          "argument_buffer_last_loaded < selected_argument",
+          "argument_buffer_layout_size == LAYOUT_SIZE (selected witness)"
+        ]
+      },
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "entry-partial-seeded",
+      "source": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.expected",
+      "harness": "check",
+      "mode": "seeded",
+      "flags": {
+        "compile": [
+          "--edition 2021 -D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "first terminator is unresolved FnPtr Call in empty bb0",
+        "entry LoadArgument for Word union is present",
+        "u32 union-field operand Check is present and fails on bytes beyond the runtime initialized byte",
+        "exactly one local FnPtr Unsupported is emitted",
+        "one Call target only"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "property_identity": "harness + source path + Call terminator site; no numeric IDs assumed",
+      "source_lowering_constraint": "runtime kani::any aggregate (fully initialized case) or runtime single-byte aggregate (partial case); ordinary union constants excluded; MIR aggregate/Move lowering is NOT_RUN",
+      "target_count": "exactly one target for this Call",
+      "order": [
+        "entry LoadArgument",
+        "u32 operand read Check",
+        "local Unsupported"
+      ],
+      "fixture_sha256": "6e1c69b18a8d0236b569cb841e68a14e6db087fe757d99f53d0ace5eefbc0cee",
+      "golden_sha256": "fe9d12488a16d7ade2cbbfd07bb36e9db6fa9e13185b32ef8dcb361faf990cef",
+      "expected_property_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u32`",
+        "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "pairing_checks": {
+        "site": "library/kani_core/src/mem_init.rs::load_argument (entry of indirect)",
+        "expected": "SUCCESS/reached",
+        "assertions": [
+          "missing shadow transfer protocol",
+          "argument_buffer_signature == signature",
+          "argument_buffer_count == argument_count",
+          "argument_buffer_remaining > 0",
+          "argument_buffer_written == argument_count",
+          "argument_buffer_last_loaded < selected_argument",
+          "argument_buffer_layout_size == LAYOUT_SIZE (selected witness)"
+        ]
+      },
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "erased-pointer-plain",
+      "source": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.expected",
+      "harness": "check",
+      "mode": "plain",
+      "flags": {
+        "compile": [
+          "-D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "erased c_void argument does not gate local FnPtr Unsupported"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "18ca59996e418ca3e16c946f1e16145b21a9305656e591b5f25fa362ee40e192",
+      "golden_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_property_descriptions": [
+        "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "erased-pointer-seeded",
+      "source": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.expected",
+      "harness": "check",
+      "mode": "seeded",
+      "flags": {
+        "compile": [
+          "-D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "erased c_void argument does not gate local FnPtr Unsupported"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "9424076cf9724f468eee16826ad5036661411fa12cc2ec57fb6a7cd2af7e2220",
+      "golden_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_property_descriptions": [
+        "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "fn-pointer-plain",
+      "source": "tests/expected/uninit/unresolved-calls/fn-pointer-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/fn-pointer-plain.expected",
+      "harness": "check",
+      "mode": "plain",
+      "flags": {
+        "compile": [
+          "-D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "local FnPtr Unsupported is emitted regardless of delayed-pass execution",
+        "no duplicate call target"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "00a2ebef7f380f7d3b157e36eff2a5a6303a44d89e1b13a4dd92933f7e08387c",
+      "golden_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_property_descriptions": [
+        "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "fn-pointer-seeded",
+      "source": "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.expected",
+      "harness": "check",
+      "mode": "seeded",
+      "flags": {
+        "compile": [
+          "-D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "local FnPtr Unsupported is emitted regardless of delayed-pass execution",
+        "no duplicate call target"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "23b85bc82e9dba8e4a9fe8bb9ce1aa53a529c091a29e1d2a789cf55156106447",
+      "golden_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_property_descriptions": [
+        "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "global-escaped-plain",
+      "source": "tests/expected/uninit/unresolved-calls/global-escaped-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/global-escaped-plain.expected",
+      "harness": "check",
+      "mode": "plain",
+      "flags": {
+        "compile": [
+          "-D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "escaped global pointer does not gate local FnPtr Unsupported"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "a82d6c7d12de3a840ccc56c6b5f919d74edd164aac7e82d0deb378efd6b91672",
+      "golden_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_property_descriptions": [
+        "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "global-escaped-seeded",
+      "source": "tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/global-escaped-seeded.expected",
+      "harness": "check",
+      "mode": "seeded",
+      "flags": {
+        "compile": [
+          "-D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "escaped global pointer does not gate local FnPtr Unsupported"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "492a14704d782c353ed7239641ce5289ab3303f84e2566f33664dc23756e4305",
+      "golden_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_property_descriptions": [
+        "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "pending-ops-plain",
+      "source": "tests/expected/uninit/unresolved-calls/pending-ops-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/pending-ops-plain.expected",
+      "harness": "check",
+      "mode": "plain",
+      "flags": {
+        "compile": [
+          "--edition 2021 -D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "the u8 dereference Check is emitted before local FnPtr Unsupported",
+        "exactly one unresolved Call target"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "property_identity": "harness + source path + Call terminator/dereference site; no numeric IDs assumed",
+      "target_count": "exactly one target for this Call",
+      "order": [
+        "u8 dereference Check",
+        "local Unsupported"
+      ],
+      "fixture_sha256": "5388ff710af209a8dc44db340070a083c880d022011461b8b98925ceb69d7f4c",
+      "golden_sha256": "a98cba93c04805a857c52b571a41e93a9fb459dc3ba606dba7d91153258cc01c",
+      "expected_property_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+        "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "pending-ops-seeded",
+      "source": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected",
+      "harness": "check",
+      "mode": "seeded",
+      "flags": {
+        "compile": [
+          "--edition 2021 -D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "the u8 dereference Check is emitted before local FnPtr Unsupported",
+        "exactly one unresolved Call target"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "property_identity": "harness + source path + Call terminator/dereference site; no numeric IDs assumed",
+      "target_count": "exactly one target for this Call",
+      "order": [
+        "u8 dereference Check",
+        "local Unsupported"
+      ],
+      "fixture_sha256": "ccb824901ab025c2e4095b09bd1996c9556c214d5c0e26fa8e6f6ca5e24b42cc",
+      "golden_sha256": "a98cba93c04805a857c52b571a41e93a9fb459dc3ba606dba7d91153258cc01c",
+      "expected_property_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+        "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "shim-plain",
+      "source": "tests/expected/uninit/unresolved-calls/shim-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/shim-plain.expected",
+      "harness": "check",
+      "mode": "plain",
+      "flags": {
+        "compile": [
+          "-D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "fail closed through bodyless Shim diagnostic if pinned lowered instance is a bodyless Shim; otherwise bodyful Shim is traversed and its inner unresolved FnPtr is rejected locally"
+      ],
+      "expected_output_markers": [
+        "Failed Checks: Kani does not support memory initialization checks across calls to bodyless Shim instances. For more information about planned support, see https://github.com/model-checking/kani/issues/3300.",
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "3f951b2ef6c585631fb6e749714506c581a8f3dda491a18c933304ff641a0a5b",
+      "golden_sha256": "4b9a54d810e6e337c746d8f0b614100cdba64c8efd32e3e37116bf1c3efe5f73",
+      "expected_property_descriptions": [
+        "Kani does not support memory initialization checks across calls to bodyless Shim instances. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "shim-seeded",
+      "source": "tests/expected/uninit/unresolved-calls/shim-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/shim-seeded.expected",
+      "harness": "check",
+      "mode": "seeded",
+      "flags": {
+        "compile": [
+          "-D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "fail closed through bodyless Shim diagnostic if pinned lowered instance is a bodyless Shim; otherwise bodyful Shim is traversed and its inner unresolved FnPtr is rejected locally"
+      ],
+      "expected_output_markers": [
+        "Failed Checks: Kani does not support memory initialization checks across calls to bodyless Shim instances. For more information about planned support, see https://github.com/model-checking/kani/issues/3300.",
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "a9cfbcbd85f5e2ea8ff21323cd5966491559d78de24d07adbeeb138c0d133b57",
+      "golden_sha256": "4b9a54d810e6e337c746d8f0b614100cdba64c8efd32e3e37116bf1c3efe5f73",
+      "expected_property_descriptions": [
+        "Kani does not support memory initialization checks across calls to bodyless Shim instances. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "shim-shadow-argument-only-plain",
+      "source": "tests/expected/uninit/unresolved-calls/shim-shadow-argument-only-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/shim-shadow-argument-only-plain.expected",
+      "harness": "bodyful_shim_shadow_argument_only_is_unsupported",
+      "mode": "plain",
+      "flags": {
+        "compile": [
+          "--edition 2021 -D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "FnOnce shim source call carries MaybeUninit<u16> argument and returns unit",
+        "source is only a lowering probe; guard reachability is not established",
+        "required guard coverage needs a compiler-level visitor control if pinned MIR argument is tuple-wrapped"
+      ],
+      "expected_output_markers": [
+        "Failed Checks: Kani does not support shadow transfers without a paired argument/return protocol.",
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "tuple_boundary_note": "FnOnce explicit arguments use a tuple at source-call boundary; direct shadow argument in pinned visitor is not established. The source wrapper returns unit to keep this control argument-only. CI must inspect actual shim args; if only tuple-wrapped, require compiler-level synthetic direct-arg visitor control.",
+      "fixture_sha256": "d22aa7d33a6ab929dc1b7e8b1903da7a530cbbf2065863bd92baf50086aea02d",
+      "golden_sha256": "633f7496f2b201ca3ba77006b9846340898b605bce36648b175e9513dd9d9847",
+      "expected_property_descriptions": [
+        "Kani does not support shadow transfers without a paired argument/return protocol."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "coverage_class": "SOURCE_LOWERING_PROBE_ONLY",
+      "golden_status": "PROVISIONAL_GUARD_CONTRACT; not proof the source reaches this guard; see compiler_visitor_controls",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "shim-shadow-argument-only-seeded",
+      "source": "tests/expected/uninit/unresolved-calls/shim-shadow-argument-only-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/shim-shadow-argument-only-seeded.expected",
+      "harness": "bodyful_shim_shadow_argument_only_is_unsupported",
+      "mode": "seeded",
+      "flags": {
+        "compile": [
+          "--edition 2021 -D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "FnOnce shim source call carries MaybeUninit<u16> argument and returns unit",
+        "source is only a lowering probe; guard reachability is not established",
+        "required guard coverage needs a compiler-level visitor control if pinned MIR argument is tuple-wrapped"
+      ],
+      "expected_output_markers": [
+        "Failed Checks: Kani does not support shadow transfers without a paired argument/return protocol.",
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "tuple_boundary_note": "FnOnce explicit arguments use a tuple at source-call boundary; direct shadow argument in pinned visitor is not established. The source wrapper returns unit to keep this control argument-only. CI must inspect actual shim args; if only tuple-wrapped, require compiler-level synthetic direct-arg visitor control.",
+      "fixture_sha256": "0ea5736f9d57cb5da6cc6a1b06fdd4e3e4da2255811de2bad7331858b947cc27",
+      "golden_sha256": "633f7496f2b201ca3ba77006b9846340898b605bce36648b175e9513dd9d9847",
+      "expected_property_descriptions": [
+        "Kani does not support shadow transfers without a paired argument/return protocol."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "coverage_class": "SOURCE_LOWERING_PROBE_ONLY",
+      "golden_status": "PROVISIONAL_GUARD_CONTRACT; not proof the source reaches this guard; see compiler_visitor_controls",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "shim-shadow-return-only-seeded",
+      "source": "tests/expected/uninit/unresolved-calls/shim-shadow-return-only-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/shim-shadow-return-only-seeded.expected",
+      "harness": "bodyful_shim_shadow_return_only_is_unsupported",
+      "mode": "seeded",
+      "flags": {
+        "compile": [
+          "--edition 2021 -D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "the shim has no shadow argument and returns MaybeUninit<u16>",
+        "the return-only shadow guard is reached before return transfer"
+      ],
+      "expected_output_markers": [
+        "Failed Checks: Kani does not support shadow transfers without a paired argument/return protocol.",
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "3dd2c97c4008e09c5685315cf5958cf98cfb0c1c9d5e0a2e6a7986dc4b6afa29",
+      "golden_sha256": "a0519428edea733bc5b130f751753e7941a7e421a9474b9194d2fbd2f4e98e59",
+      "expected_property_descriptions": [
+        "Kani does not support shadow transfers without a paired argument/return protocol."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "shim-shadow-return-only-plain",
+      "source": "tests/expected/uninit/unresolved-calls/shim-shadow-return-only.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/shim-shadow-return-only.expected",
+      "harness": "bodyful_shim_shadow_return_only_is_unsupported",
+      "mode": "plain",
+      "flags": {
+        "compile": [
+          "--edition 2021 -D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "the shim has no shadow argument and returns MaybeUninit<u16>",
+        "the return-only shadow guard is reached before return transfer"
+      ],
+      "expected_output_markers": [
+        "Failed Checks: Kani does not support shadow transfers without a paired argument/return protocol.",
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "d866265d75c292d354d0058ca99d1bb474fff8d2ff55ccb696b172a7eafcb8d9",
+      "golden_sha256": "a0519428edea733bc5b130f751753e7941a7e421a9474b9194d2fbd2f4e98e59",
+      "expected_property_descriptions": [
+        "Kani does not support shadow transfers without a paired argument/return protocol."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "virtual-plain",
+      "source": "tests/expected/uninit/unresolved-calls/virtual-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/virtual-plain.expected",
+      "harness": "check",
+      "mode": "plain",
+      "flags": {
+        "compile": [
+          "-D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "local Unsupported for trait-object method call"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "d60b379a68acb2bfaba88c9273b240f6450f3c164960133bbba1b35292159b29",
+      "golden_sha256": "7f159f37bda578496904e263508101f8894d9130c37a061d5ae6e6773fd3bc25",
+      "expected_property_descriptions": [
+        "Kani does not support memory initialization checks across trait object method calls. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "virtual-seeded",
+      "source": "tests/expected/uninit/unresolved-calls/virtual-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/virtual-seeded.expected",
+      "harness": "check",
+      "mode": "seeded",
+      "flags": {
+        "compile": [
+          "-D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "local Unsupported for trait-object method call"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "e7a4066924c4c7d6f973d0de26460d547614d9cd84a6ed31e46d3edf695ddee4",
+      "golden_sha256": "7f159f37bda578496904e263508101f8894d9130c37a061d5ae6e6773fd3bc25",
+      "expected_property_descriptions": [
+        "Kani does not support memory initialization checks across trait object method calls. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "wrapped-pointer-plain",
+      "source": "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.expected",
+      "harness": "check",
+      "mode": "plain",
+      "flags": {
+        "compile": [
+          "-D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "wrapped raw pointer does not gate local FnPtr Unsupported"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "b11e9b84dc0377527fb2967a5323aa9ff7e8ef4f8ba20d12c51efc3b23bc8370",
+      "golden_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_property_descriptions": [
+        "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    },
+    {
+      "id": "wrapped-pointer-seeded",
+      "source": "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs",
+      "expected": "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.expected",
+      "harness": "check",
+      "mode": "seeded",
+      "flags": {
+        "compile": [
+          "-D warnings"
+        ],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "wrapped raw pointer does not gate local FnPtr Unsupported"
+      ],
+      "expected_output_markers": [
+        "VERIFICATION:- FAILED"
+      ],
+      "state": "NOT_RUN",
+      "fixture_sha256": "b0a9bc2c6ca4cd843f498c8d9f9be4d3f8c38391f9ee8193831313022224ccee",
+      "golden_sha256": "f356040f627d39060dc13e6f4f360a1df7cc667062c1c47a6809701b4351239b",
+      "expected_property_descriptions": [
+        "Kani does not support memory initialization checks across calls through function pointers. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+      ],
+      "expected_status_from_candidate_golden": "FAILED",
+      "per_harness_evidence_required": "Run singleton check (or exact named harness), export JSON properties and inspect actual MIR/GOTO; assert each named property status and diagnostic count at its source site. Instrumentation target count/order requires visitor/MIR evidence, not output substring matching."
+    }
+  ],
+  "diagnostic_texts": {
+    "FnPtr": "Kani does not support memory initialization checks across calls through function pointers.",
+    "Virtual": "Kani does not support memory initialization checks across trait object method calls.",
+    "bodyless_Shim": "Kani does not support memory initialization checks across calls to bodyless Shim instances.",
+    "resolution_failure": "Kani could not resolve function item <lowered instance> for memory initialization checks: <resolver reason>.",
+    "shadow_guard": "Kani does not support shadow transfers without a paired argument/return protocol."
+  },
+  "known_gaps_and_source_controls": [
+    {
+      "control": "FnDef resolution Err distinct from FnPtr",
+      "status": "NOT_COVERED_SOURCE_CONTROL_REQUIRED",
+      "fact": "fn-pointer, entry, and pending-ops controls exercise FnPtr resolution failure, not Err resolving a statically known FnDef. A valid monomorphic Rust FnDef normally supplies a resolvable definition; no source fixture is asserted for an artificial FnDef resolver Err. If code-level resolution Err needs coverage, add a compiler-level resolver/visitor unit control."
+    },
+    {
+      "control": "bodyless Shim classification",
+      "status": "NOT_RUN_LOWERING_CONFIRMATION_REQUIRED",
+      "fact": "shim-plain/shim-seeded are copied Fn::call source controls whose standalone golden reports bodyless Shim. The neutralized source comments no longer claim bodyful/bodyless classification. Pinned Part 1 CI must inspect actual resolved InstanceKind/body; if bodyful, assert inner unresolved FnPtr is locally rejected."
+    },
+    {
+      "control": "bodyful Shim shadow-argument-only",
+      "status": "NOT_RUN_DIRECT_ARGUMENT_UNCONFIRMED",
+      "fact": "Separate plain/seeded FnOnce(MaybeUninit<u16>) -> () sources are lowering probes only; wrapper and shim source return unit. Rust FnOnce call arguments are tuple-wrapped, and visitor transfers_shadow recognizes direct MaybeUninit/union Ty, so CI must prove a direct shadow arg reaches the guard. If not, these source probes do not establish guard coverage and a compiler-level visitor fixture with synthetic direct shadow arg is required."
+    },
+    {
+      "control": "bodyful Shim shadow-return-only",
+      "status": "NOT_RUN_SOURCE_CONTROL",
+      "fact": "Separate plain/seeded FnOnce() -> MaybeUninit<u16> controls provide no shadow argument and a shadow return; CI must establish bodyful Shim lowering and guard reachability."
+    },
+    {
+      "control": "resolution Err at first empty entry terminator",
+      "status": "FnPtr_CONTROLS_ONLY",
+      "fact": "entry-initialized/partial plain+seeded controls cover FnPtr resolution Err at empty bb0, not FnDef resolution Err. Require JSON/property evidence for target/LoadArgument/Check/Unsupported/order as listed; exact lowering stays NOT_RUN."
+    }
+  ],
+  "ordering_contract": [
+    "entry LoadArgument",
+    "operand read Check",
+    "one local Unsupported"
+  ],
+  "seed_policy": "Seeded variants use standalone supported std::ptr::copy_nonoverlapping over ordinary initialized bytes; no raw_eq seed dependency.",
+  "coordinator_ci": {
+    "state": "NOT_RUN",
+    "plan": "Run each plain and seeded harness separately. Inspect machine-readable instrumentation/safety properties by harness + source path + terminator site (not invented numeric IDs). For entry controls establish exactly one target, LoadArgument presence, u32 Check status and exactly one local FnPtr diagnostic; for pending-ops establish Check-before-Unsupported. Do not infer multiple checks from one substring golden. Expected Complete footer counts are runner formatting only, not evidence or assumed integrated outcomes.",
+    "gate": "Existing coordinator fork Uninit Quick only; executor does not dispatch",
+    "required": [
+      "fmt",
+      "build",
+      "clippy with -D warnings",
+      "all existing uninit suites and new 24 fixtures",
+      "singleton/JSON properties plus instrumented MIR for guard/source identity, counts, reaching and before-call order"
+    ],
+    "suite_scope": [
+      "tests/expected/uninit",
+      "tests/kani/Uninit",
+      "tests/ui/quantifier-safety-checks uninit selectors",
+      "tests/script-based-pre/mem-init-reinstrumentation",
+      "other existing uninit-checks selectors including verify-std setup as in coordinator Quick"
+    ],
+    "json_flags": "Use supported -Z export-json --export-json <artifact> with singleton --harness and --exact where applicable; preserve fixture compile/Kani flags. Do not use nonexistent output-format=json.",
+    "order_evidence": "Verify inserted MIR/GOTO call execution order: entry loads then operand reads then local Unsupported. JSON output enumeration order does not prove execution order.",
+    "full_part1_gate": "NOT_CLOSED; later stage",
+    "on_failed_lowering_or_missing_property": "Report blocker; CI result analysis/repair is a separate stage. Do not weaken old goldens or infer coverage from generic FAILURE."
+  },
+  "all_execution_and_lowering": "NOT_RUN",
+  "property_identity_policy": "Descriptions/source expressions below identify required properties, not invented CBMC property IDs; resolve IDs from singleton harness export and instrumented source site. Property display order alone is not execution order.",
+  "existing_controls": [
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+      "harness": "initialized_argument_return_control",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [],
+      "expected_status_per_unchanged_golden": "SUCCESSFUL",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+      "harness": "nested_same_size_calls_preserve_selected_uninit",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+      "harness": "repeated_call_unread_uninit_then_initialized_return",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [],
+      "expected_status_per_unchanged_golden": "SUCCESSFUL",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+      "harness": "selected_first_argument_reads_uninit",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+      "harness": "selected_last_argument_reads_uninit",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+      "harness": "selected_middle_argument_reads_uninit",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/main.rs",
+      "harness": "bodyless_foreign_argument_and_return_are_unsupported",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Kani does not support shadow transfers without a paired argument/return protocol."
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/main.rs",
+      "harness": "fn_once_shim_argument_and_return_are_unsupported",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Kani does not support shadow transfers without a paired argument/return protocol."
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "harness": "in_place_copy_preserves_source",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [],
+      "expected_status_per_unchanged_golden": "SUCCESSFUL",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "harness": "in_place_copy_write_changes_parameter_only",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [],
+      "expected_status_per_unchanged_golden": "SUCCESSFUL",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "harness": "in_place_move_delivers_initialized_payload_to_callee",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [],
+      "expected_status_per_unchanged_golden": "SUCCESSFUL",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "harness": "in_place_move_reads_initialized_callee_then_uninit_source",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "harness": "in_place_move_still_checks_uninitialized_callee_payload",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "harness": "in_place_move_write_still_deinitializes_source",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "harness": "ordinary_by_value_temporary_preserves_original_source",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [],
+      "expected_status_per_unchanged_golden": "SUCCESSFUL",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "harness": "padded_custom_copy_preserves_source_padding",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [],
+      "expected_status_per_unchanged_golden": "SUCCESSFUL",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "harness": "padded_custom_move_deinitializes_source_padding",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "harness": "union_in_place_copy_preserves_source",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [],
+      "expected_status_per_unchanged_golden": "SUCCESSFUL",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "harness": "union_in_place_move_deinitializes_source",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "harness": "union_normal_return_preserves_initialized_byte",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [],
+      "expected_status_per_unchanged_golden": "SUCCESSFUL",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "harness": "union_normal_return_preserves_uninitialized_byte",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+      "harness": "argument_return",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-typed-argument-padding/main.rs",
+      "harness": "typed_argument_discards_written_padding",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-typed-return-padding/main.rs",
+      "harness": "typed_return_discards_written_padding",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-typed-partial-data/main.rs",
+      "harness": "typed_assignment_preserves_unwritten_data",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-typed-array-partial-data/main.rs",
+      "harness": "typed_array_preserves_second_slot_unwritten_data",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/nested-pat-padding/main.rs",
+      "harness": "nested_pat_does_not_initialize_prefix_padding",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/nested-enum-same-padding/main.rs",
+      "harness": "nested_enum_equal_layouts_preserve_data",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [],
+      "expected_status_per_unchanged_golden": "SUCCESSFUL",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/nested-enum-different-padding/main.rs",
+      "harness": "nested_enum_different_padding_is_unsupported",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-array-reverse-unsupported/main.rs",
+      "harness": "initialized_array_reverse_is_unsupported",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Kani does not support checking memory initialization of transmute from [MaybeUninit<T>; N] to [T; N]."
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/maybe-uninit-array-reverse-unsupported/main.rs",
+      "harness": "partial_array_reverse_is_unsupported",
+      "flags": {
+        "compile": [
+          "--edition 2021"
+        ],
+        "kani": [
+          "-Z uninit-checks --output-format=regular"
+        ]
+      },
+      "expected_named_properties": [
+        "Kani does not support checking memory initialization of transmute from [MaybeUninit<T>; N] to [T; N]."
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/delayed-ub-unsupported-call/main.rs",
+      "harness": "check_fn_ptr_call",
+      "flags": {
+        "compile": [],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "Kani does not support memory initialization checks across calls through function pointers."
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    },
+    {
+      "fixture": "tests/expected/uninit/delayed-ub-unsupported-call/main.rs",
+      "harness": "check_dyn_call",
+      "flags": {
+        "compile": [],
+        "kani": [
+          "-Z uninit-checks"
+        ]
+      },
+      "expected_named_properties": [
+        "Kani does not support memory initialization checks across trait object method calls."
+      ],
+      "expected_status_per_unchanged_golden": "FAILED",
+      "expected": "preserve each existing property and outcome; no additional Unsupported on supported Item paths",
+      "state": "NOT_RUN"
+    }
+  ],
+  "compiler_visitor_controls": [
+    {
+      "id": "fn-def-resolution-err-empty-entry",
+      "kind": "NONEXECUTED_COMPILER_INPUT_SPECIFICATION",
+      "source_harness_available": false,
+      "mode": [
+        "plain",
+        "seeded ordinary-byte-copy target"
+      ],
+      "setup": {
+        "caller": "bodyful nonforeign Item",
+        "entry_statements": [],
+        "shadow_formal": "one direct MaybeUninit<u32> formal; protocol count=1",
+        "call": "FnDef callee; resolver context returns Err; include a raw-pointer dereference operand read"
+      },
+      "expected_before_operations": [
+        "LoadArgument(formal index, unchanged function identity/count)",
+        "one Check for operand read",
+        "one Unsupported with could-not-resolve function item reason"
+      ],
+      "expected_target_count": 1,
+      "seed_resolution": "skip this call as non-intrinsic seed, keep prior targets",
+      "points_to": "reject before effects; retain prior graph; no expect_resolve/unwrap",
+      "state": "NOT_RUN",
+      "remaining": "requires coordinator compiler resolver/visitor fixture executor; source FnPtr tests do not establish this branch"
+    },
+    {
+      "id": "bodyless-shim-and-llvm",
+      "kind": "NONEXECUTED_COMPILER_INPUT_SPECIFICATION",
+      "mode": [
+        "plain",
+        "seeded ordinary-byte-copy target"
+      ],
+      "setup": {
+        "callee_cases": [
+          {
+            "kind": "Shim",
+            "body": null
+          },
+          {
+            "kind": "LlvmIntrinsic",
+            "body": null
+          },
+          {
+            "kind": "nonforeign Item",
+            "body": null
+          }
+        ],
+        "prior_targets_and_edges": "nonempty sentinel entries; operand read pending"
+      },
+      "expected": "local exact bodyless kind / LlvmIntrinsic Unsupported after pending reads; points-to skips only this call with prior graph intact; no body unwrap",
+      "state": "NOT_RUN",
+      "remaining": "shim source probes require actual body availability classification from pinned CI"
+    },
+    {
+      "id": "bodyful-shim-direct-shadow-argument-only",
+      "kind": "NONEXECUTED_COMPILER_INPUT_SPECIFICATION",
+      "mode": [
+        "plain",
+        "seeded ordinary-byte-copy target"
+      ],
+      "setup": {
+        "callee_kind": "Shim",
+        "callee_body": "Some(MIR)",
+        "args": [
+          "direct MaybeUninit<u16> local, not tuple"
+        ],
+        "destination": "()",
+        "shadow_args": true,
+        "shadow_return": false
+      },
+      "expected": "one local shadow-transfer Unsupported; no BeginArgumentTransfer/StoreArgument/LoadArgument/Move reset for this call; caller/callee Item-only predicate stays false for Shim",
+      "state": "NOT_RUN",
+      "remaining": "required direct-argument guard control; FnOnce tuple source probe alone is insufficient"
+    },
+    {
+      "id": "bodyful-shim-shadow-return-only",
+      "kind": "NONEXECUTED_COMPILER_INPUT_SPECIFICATION",
+      "mode": [
+        "plain",
+        "seeded ordinary-byte-copy target"
+      ],
+      "setup": {
+        "callee_kind": "Shim",
+        "callee_body": "Some(MIR)",
+        "args": [
+          "ordinary nonshadow closure and empty tuple"
+        ],
+        "destination": "MaybeUninit<u16>",
+        "shadow_args": false,
+        "shadow_return": true
+      },
+      "expected": "one local shadow-transfer Unsupported before return0 LoadArgument; no transfer operations",
+      "state": "NOT_RUN",
+      "remaining": "source controls supplied; confirm actual shim kind/body and absence of shadow arguments independently in CI"
+    }
+  ],
+  "plain_policy": "Plain means no deliberate ordinary-byte seed in the source. Confirm the actual initial target set/absence of a delayed pass in CI; source labels alone do not measure this.",
+  "known_input_blockers": [
+    {
+      "source": "a0a2386001a15fecfe2facc2f6cd87f3dee13b60",
+      "case": "maybe-uninit-initialized legal array equality uses raw_eq",
+      "state": "OPEN_SOURCE_REPORTED_INPUT_FAILURE",
+      "instruction": "Goldens remain unchanged. Do not claim B1I repairs raw_eq or closes Uninit Quick/Part 1 gate from static checks."
+    },
+    {
+      "source": "a0a2386001a15fecfe2facc2f6cd87f3dee13b60",
+      "case": "opaque nonshadow foreign effects/realloc; points-to unknown intrinsic and recursion limits",
+      "state": "OPEN_ADJACENT_LIMITATIONS",
+      "instruction": "Separate owner-scoped model/export decision required; no new support claim."
+    }
+  ]
+}

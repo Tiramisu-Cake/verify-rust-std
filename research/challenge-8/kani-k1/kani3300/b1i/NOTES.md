@@ -1,0 +1,27 @@
+# KANI3300 B1I — static integration candidate
+- Task read in full at research `2abd5b1669b64336e6802dac86ba7c5a007d470e`; audit read at `124a45e373` (§2, answers 8, 10–12).
+- Start: clean `fix/kani-3300-p1-b1`, `a0a2386001a15fecfe2facc2f6cd87f3dee13b60`; no reset/stash, no Kani push.
+- Production `cdb439b0a4c36e9e595019895ab803230f332941`; test/tip `dc5f5a406749a73f1c3192e0b5338441e79508bb`; tip tree `085bea5cda2df66a5cb4f72410fe124aa816c90b`.
+- Upstream base: `bf9c58e662fd65c64381ef2ac97a6397ffc0693a`; standalone source tip: `d5f072f2bcf61a04d84bb0e8b54115f3011252fc` (read-only Git objects).
+- One local Call operand walk, one common target flush, including resolution Err and A3 shadow guard exits.
+- Before-call order: entry LoadArgument → operand read checks → local Unsupported. Existing insert-before source advancement preserves this vector order.
+- Shared `points_to::resolve_call` classifies FnPtr, Virtual, resolution Err, bodyless nonforeign Item/Shim and LlvmIntrinsic; local visitor alone emits their call diagnostic.
+- Initial-target resolution failure skips only a non-intrinsic seed, retaining earlier targets; points-to rejects the same calls without discarding accumulated edges.
+- Body availability uses actual `Instance::body()` Option, avoiding an assumption that definition-level `has_body()` always implies generated shim MIR.
+- Nonshadow MIR-backed shims remain analyzable/instrumented. A3 pairing remains exactly bodyful nonforeign Item; shims carrying shadow args OR return are rejected before any transfer.
+- Signature/count/index/size checks, mandatory return0, snapshots before Call(Move) resets, false transfer, typed D(T), mem_init ABI/fallback remain unchanged.
+- `751603f96fde4e7d2b9462331380f6204ffe9ce4`: adapted flush/resolver/local diagnostic ownership; added shared classification rather than copying an independent policy.
+- `835cb4a09c4e94ac6b531d20e68f9deee7262ce1`: adapted standalone plain/seeded controls to Part 1; their historical outcomes are not inherited.
+- `500eae8aa28b373fd9a6ff7827257002a039fa5a`: only nonshadow MIR-following effect retained; standalone bodyful-Shim shadow-transfer policy NOT transferred (would break A3 pairing).
+- `29bde289d60d9f6f36c16310f6bce697338f7641`: retained editions/abort-compatible custom MIR and shim call control, with integrated lowering still NOT_RUN.
+- `d5f072f2bcf61a04d84bb0e8b54115f3011252fc`: retained pending-read fixture correction and candidate bodyless-shim expected diagnostic; no integrated PASS claim.
+- No commits were cherry-picked mechanically. The seed resolver and bodyless points-to guards are integration-specific additions.
+- Legacy delayed-ub-unsupported-call golden is unchanged: its same FnPtr/Virtual diagnostic now has unconditional local ownership; deleting the delayed duplicate removes no accepted path.
+- Seeded fixtures copy/cast initialized ordinary bytes; no raw_eq seed dependency. Substring goldens require singleton/JSON property validation and MIR checks from coordinator.
+- `Instance::resolve`→Result, `body`→Option, operand typing and all InstanceKind variants checked in pinned rustc_public sources, Rust `7189d39d9ce936881b8132c6addeaf3e295cd455`; all 11 API-SOURCES hashes match.
+- Builds, Clippy/-D warnings execution, Kani, CBMC, actual lowering and outcomes: NOT_RUN. Only permitted rustfmt and static checks are performed here.
+- Adjacent pre-existing limitation: opaque nonshadow foreign effects and realloc remain at input `a0a2386001`, `points_to/points_to_analysis.rs::apply_primary_terminator_effect` and `ptr_uninit/uninit_visitor.rs::visit_terminator`; next step is owner-scoped B4/model or export guard. Foreign policy unchanged here.
+- Adjacent input limitation: `a0a2386001`, `points_to/points_to_analysis.rs::apply_primary_terminator_effect` can abort on unknown intrinsics and recursive analysis has no new support; next step is separate scoped intrinsic/recursion work, not a silent skip here.
+- Source probes and compiler input specs do not complete direct-shadow Shim argument or genuine FnDef resolver-Err coverage; these remain explicit coordinator instrumentation/lowering obligations.
+- Known raw_eq legal regression at input `a0a2386001` remains open. No raw_eq/layout/flat/Move/ABI/export-scope, B3/B4/G1/T1b, workflow or CI dispatch changes.
+- READY means statically reviewed candidate for coordinator Uninit Quick; it grants neither CI PASS, full Part 1 gate, proof credit nor publication readiness. Stop after handoff.
