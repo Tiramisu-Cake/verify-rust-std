@@ -1,0 +1,18 @@
+# KANI3300 M2-B/R — PREPARED/AWAITING_CI
+- Выполнена только M2-B/R; B3-CI/worker14 source не затронуты; Cloud$0, dispatch0.
+- P1/P2 побайтно сохранены от M2-Aea0fbb5931; hashes и source pins/trees/parents закреплены в INPUTS.json.
+- Git подтверждает линейную историю upstream→Part1→A1→A2/A2R→A3→A2R2→A3R→B1I→M1/M2.
+- Tests/workflow отделены от production;6134 — test-only поверх B1I.
+- По координатору6134 и M1+M2 имеют cutoff; M1 не необходим для наблюдения.
+- Curated phase/process/size receipt отсутствует; точная стадия роста и source delta UNKNOWN.
+- Upstream frame/Unsupported — несопоставимый baseline, не semantic PASS/доказанный speedup.
+- Source gap: upstream store_argument пишет отдельный ARGUMENT_BUFFER вне marker-selected private assigns.
+- Part1 переносит buffer в MEM_INIT_STATE; A3 добавляет snapshot/protocol/checks. Actual *var_8/object/range ещё UNKNOWN.
+- GitHub metadata: jobs success, первые страницы artifacts пусты; proof/process credit из этого не выводится.
+- Следующий эксперимент: unchanged P1 на pre-A3b207 и A3Ra0, сначала inventories, затем допустимые solver stages.
+- Максимум4 configurations; P2 только после различающего сопоставимого результата; следующий batch — отдельный handoff.
+- Source ablation/repair не создавались; lost obligations0; release candidate отсутствует.
+- Rust delta нет; compilation/clippy/Kani/CBMC/Miri NOT_RUN; static hashes/ancestry/diff checks не proof.
+- Независимое bounded Luna HIGH review: REVIEW.md; без nested delegation/seed audit.
+- CI только координатор; raw logs/archives не читались; user modifies/checks не расширялись/ослаблялись.
+- M3 HELD; semantic и resource/frame gates OPEN. STOP после research commit/push.

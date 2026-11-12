@@ -1,0 +1,64 @@
+{
+  "schema": "kani3300-m2br-diagnostic-v1",
+  "status": "PREPARED/AWAITING_CI",
+  "release_candidate": false,
+  "diagnostic_source_commit": null,
+  "diagnostic_clone": null,
+  "clone_created": false,
+  "decision": "No ablation: exact historical source objects are available and no phase/source culprit is bound. Prepare inventories and two fixed P1 pin comparisons first. No technical evidence yet makes cheap historical comparison impossible.",
+  "reserved_if_needed": {
+    "clone": "/root/kani-fix-3300-m2b-resource",
+    "branch": "experiment/kani-3300-m2b-resource",
+    "base": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+    "existing_or_dirty_destination": "STOP",
+    "publish_kani": false,
+    "classification": "NOT_RELEASE_CANDIDATE",
+    "activation": "Only after historical comparison is shown technically unavailable and a narrow source-bound candidate can be named; no permission to widen this completed stage."
+  },
+  "inputs_reference": "INPUTS.json / inputs",
+  "source_pins_reference": "INPUTS.json / pins",
+  "configuration_flags": [
+    "-Z",
+    "uninit-checks",
+    "-Z",
+    "function-contracts",
+    "--output-format=regular",
+    "--harness",
+    "<exact root>",
+    "--exact",
+    "--crate-name",
+    "m2br",
+    "--keep-temps"
+  ],
+  "inventory_addition": [
+    "--only-codegen"
+  ],
+  "environment": {
+    "RUSTFLAGS": "--edition 2021 -D warnings --emit=mir"
+  },
+  "solver_policy": "Keep installed solver/checks/unwind/defaults/object-bits unchanged between sides; record actual values. One root/process configuration at a time; existing timeout300s and watchdogRSS>6GiB with sampled overshoot.",
+  "hypotheses": [
+    "H-A3 protocol/check/private-state work",
+    "H-early MU relevance/masks/private frame migration",
+    "H-B1I actual retained calls",
+    "H-layout/DFCC generated model expansion",
+    "H-M1 additional, not necessary"
+  ],
+  "source_hunks": [],
+  "lost_obligations": [],
+  "removed_obligations": [],
+  "unchanged_obligations": [
+    "actual proof_for_contract",
+    "useful ensures first payload read",
+    "P1 initialized and P2 false source selection",
+    "all initialization/frame/protocol assertions",
+    "demonic argument selection and mandatory return0",
+    "source snapshot before Move reset",
+    "ordinary/false/typed masks"
+  ],
+  "forbidden_positive_credit": "Removing transfer/private state/PFC/checks/seed, no-assert or smaller unwind would create only a negative diagnostic control and cannot establish semantic PASS, release fix or resource improvement.",
+  "new_configuration_limit": 4,
+  "batch_handoff_after_results": true,
+  "new_executions": "NOT_RUN",
+  "proof_credit": "NONE"
+}

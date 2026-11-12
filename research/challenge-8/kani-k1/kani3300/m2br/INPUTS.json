@@ -1,0 +1,2489 @@
+{
+  "schema": "kani3300-m2br-inputs-v1",
+  "status": "PREPARED/AWAITING_CI",
+  "research_base": "57559c72ac5e3a986d9ac77b6379cf818a37434a",
+  "research_branch": "experiment/kani-k1-kani3300g0-20261111",
+  "authorization": "User coordinator handoff: B3R2 closed; B3-CI owned by coordinator; start M2-B/R now. Overrides task queue timing only.",
+  "scope": {
+    "cloud_usd": 0,
+    "dispatches": 0,
+    "compiler_verifier_runs": 0,
+    "rust_delta": false,
+    "diagnostic_clone_created": false,
+    "proof_credit": "NONE",
+    "M3": "HELD"
+  },
+  "source_repository": {
+    "path": "/root/kani-fix-3300-m2",
+    "head": "5f7f2b7364135a0a8b7cfd86c43b4491a8911bac",
+    "tree": "b2bbb7366a9fbac33398fb01be7300f83a1d27bd",
+    "status_porcelain": "",
+    "read_only": true
+  },
+  "inputs": [
+    {
+      "id": "P1",
+      "path": "kani3300/m2a/cases/scalar-pfc-legal.rs",
+      "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b",
+      "bytes": 774,
+      "root": "postcondition_reads_initialized_return",
+      "root_count_source": 1,
+      "same_as_m2a_ea0fbb5931": true,
+      "actual_contract_mode": "UNKNOWN; predicted SimpleCheck",
+      "oracle": "All retained checks/ensures/frame SUCCESS",
+      "code_changed": false
+    },
+    {
+      "id": "P2",
+      "path": "kani3300/m2a/cases/scalar-pfc-hole.rs",
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759",
+      "bytes": 782,
+      "root": "postcondition_reads_returned_hole",
+      "root_count_source": 1,
+      "same_as_m2a_ea0fbb5931": true,
+      "actual_contract_mode": "UNKNOWN; predicted SimpleCheck",
+      "oracle": "Intended first payload read in ensures uninit FAILURE; all unrelated/frame checks SUCCESS",
+      "code_changed": false
+    }
+  ],
+  "reference_documents": [
+    {
+      "path": "TASK-KANI3300-M2B-RESOURCE.md",
+      "sha256": "c5bbbcb277cdc711e63911fe16d867931b12c5526bca2590143acedaffa8f6f1",
+      "bytes": 10272
+    },
+    {
+      "path": "TASK-KANI3300-M2B.md",
+      "sha256": "65dcd4d913baf1cba6653f3b60f17102d58ddc953ae9a096ab942b529f71b447",
+      "bytes": 10261
+    },
+    {
+      "path": "kani3300/m2a/INPUTS.json",
+      "sha256": "13335baeeecb58d45fd87097472e963e7aa82e54dd1f58b532e92d7d08bd2300",
+      "bytes": 16822
+    },
+    {
+      "path": "kani3300/m2a/SITE-MAP.md",
+      "sha256": "1aa80f58ccc44b6833f03ee6eaa6a6d4eca64513d006f3b8ce15114602b59438",
+      "bytes": 8625
+    },
+    {
+      "path": "kani3300/m2a/TEST-MANIFEST.json",
+      "sha256": "369a31c2ad447dac21b094be091b203b1e3dcc0dfb7377e757cf1b66b41a8ee3",
+      "bytes": 11054
+    },
+    {
+      "path": "kani3300/m2/QUALIFICATION-MAP.json",
+      "sha256": "bd032e803854efa37e4b701f73b80c95cf0ef829513a251355f85914f99a3b1c",
+      "bytes": 64822
+    },
+    {
+      "path": "kani3300/a1/RESULT-KANI3300-A1.md",
+      "sha256": "72bf9787f6ef7e8a4faead39e29b43690db87ea5dc09d660f8bf024fce09c2fd",
+      "bytes": 1452
+    },
+    {
+      "path": "kani3300/a2/RESULT-KANI3300-A2.md",
+      "sha256": "cf123fe50a7c48fbbe406c8789f4ea51c894d745fde5ea85adf81a46dc5dc348",
+      "bytes": 1254
+    },
+    {
+      "path": "kani3300/a2r/RESULT-KANI3300-A2R.md",
+      "sha256": "b52158b93e6b7794e70a52afbc27006d7f1830cd25c0bad4f8c31ad118b9f603",
+      "bytes": 1425
+    },
+    {
+      "path": "kani3300/a3/RESULT-KANI3300-A3.md",
+      "sha256": "4368682d331f8d846aed57e732382439b3c4fdaf75b3df3f7ae97c00b5cf69d0",
+      "bytes": 1296
+    },
+    {
+      "path": "kani3300/a2r2/RESULT-KANI3300-A2R2.md",
+      "sha256": "41026aa2b845f074dfc3cc022f9e4662b47580e6f18db55da90da71ea802a612",
+      "bytes": 1052
+    },
+    {
+      "path": "kani3300/a3r/RESULT-KANI3300-A3R.md",
+      "sha256": "8df742bac8e979ad04ab7e50233713521cd8b78ac787fda873149a2482de8629",
+      "bytes": 1572
+    },
+    {
+      "path": "kani3300/b1i/RESULT-KANI3300-B1I.md",
+      "sha256": "a13aaa6fa7f6e2ad11618f12477ddcb42068460a5b9e13be15b9978bdeb894b1",
+      "bytes": 2588
+    }
+  ],
+  "pins": {
+    "bf9c58e662": {
+      "commit": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+      "tree": "22641d9be125b05846c0e3fc21c09fc230f57076",
+      "parents": [
+        "cfa7932373a7a5e6346f90c017ae8c889c94a66b"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "88f260ddc5b315a32e64b0f6f396451373d2fb54f1a4898233508ebd81cd993c",
+          "bytes": 17920,
+          "git_blob": "37b9da8d674afb814f5024a20b77350ad5f82fd8"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+          "sha256": "82c9036308e984c2da6aeeda68186dbe36f99c1f3c74b151b176dfb2b992c2f7",
+          "bytes": 35487,
+          "git_blob": "84b0e70c837c96cded53ee6f03a971f3fd052e0d"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "487138ede144c9cea764b1da8562a90525cfdcab7ba110e044d46a3b75ce502e",
+          "bytes": 33518,
+          "git_blob": "5326c704e544bb85167b6e721e6706d0a908343a"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+          "sha256": "acd93cd4351eaff1ba8365ccc2298b560854aa9c95311204203a3c3485afa971",
+          "bytes": 4308,
+          "git_blob": "ad43d696568370539327776669b1bc6830e0f9bd"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "git_blob": "a47dad9458283c11393f1c8661b43a5aa94222d9"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "git_blob": "fa74a01b24b7316cad234662fd54868bb1a0dab2"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "git_blob": "59baadbab4e653a68ce0b1296975bee8be79eb9a"
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "git_blob": "365627d101b5c66d853628dca59a2fef842cbff2"
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "git_blob": "f5d437f5b7afd20e6a723af87de6e3c664f81186"
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "git_blob": "d89471545d8d9b7d6e10ba5e2f75e734c9bf88a6"
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "git_blob": "ebf620d9edc467760e96372cbf13ec28bc60763e"
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "git_blob": "86dda556cca727cc11e4619a5e0d4b8cf9813d53"
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "git_blob": "4edc84573b03d2b923d584f5df144274c435f693"
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "git_blob": "177eb685db5011ad9066f5891b74146d38d40a72"
+        }
+      ],
+      "private_state_source_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        }
+      ],
+      "private_state_field_counts": {
+        "bool": 1,
+        "usize": 2
+      },
+      "actual_emitted_layout_bytes": null
+    },
+    "1cd96e354": {
+      "commit": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+      "tree": "c194aa39eb345316483406a4549755e29a3580e7",
+      "parents": [
+        "bf9c58e662fd65c64381ef2ac97a6397ffc0693a"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "d565a600e34ef6199f4c6e0a799a5eb9a224ec0ed9a563ef47da2cbbe908cc06",
+          "bytes": 20667,
+          "git_blob": "6f832d4c651f8770a46327beb6e4a957b06c1166"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+          "sha256": "6a4d519b9261a2a3e479b6b143a8f6702273ddcaeee734fa513187fc4df92723",
+          "bytes": 49324,
+          "git_blob": "3f7ea62044fe27297cc74c7ba01b70647751fd50"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "47b1063398159a376fd4edcecee4d28ac24f54b2e86a930d836b354023cd8ed0",
+          "bytes": 37413,
+          "git_blob": "117b2311ae045d08b21e71e2af972058bc77ae02"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+          "sha256": "503b2c0f60762313b6f61b4308f154a90c459b3a4370aeb4ba2aa4e4a7aef6ba",
+          "bytes": 4328,
+          "git_blob": "8f30704f0b03cdf6ca8d9593358bcbfcbdba8a09"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "git_blob": "a47dad9458283c11393f1c8661b43a5aa94222d9"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "git_blob": "fa74a01b24b7316cad234662fd54868bb1a0dab2"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "git_blob": "59baadbab4e653a68ce0b1296975bee8be79eb9a"
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "git_blob": "365627d101b5c66d853628dca59a2fef842cbff2"
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "git_blob": "f5d437f5b7afd20e6a723af87de6e3c664f81186"
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "git_blob": "d89471545d8d9b7d6e10ba5e2f75e734c9bf88a6"
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "git_blob": "ebf620d9edc467760e96372cbf13ec28bc60763e"
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "git_blob": "86dda556cca727cc11e4619a5e0d4b8cf9813d53"
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "git_blob": "4edc84573b03d2b923d584f5df144274c435f693"
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "git_blob": "177eb685db5011ad9066f5891b74146d38d40a72"
+        }
+      ],
+      "private_state_source_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_active",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_selected_argument",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_saved_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_saved_offset",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_layout_size",
+          "type": "usize"
+        }
+      ],
+      "private_state_field_counts": {
+        "bool": 2,
+        "usize": 6
+      },
+      "actual_emitted_layout_bytes": null
+    },
+    "613c188313": {
+      "commit": "613c188313e34e51e6a69d2c62bbd6ded2511819",
+      "tree": "c37ec4b9e9a8e795d144dc48cbb72b44b8fbf78b",
+      "parents": [
+        "5fd713a200aea3ba85edcc341f48a0a20331fce2"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "9ff043b57ff6aed633815bc35a185c7cdf1a94d24356c95bb74679438081c0ce",
+          "bytes": 20877,
+          "git_blob": "48333aede5942db5ea176a589762dbcbc27714af"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+          "sha256": "6a4d519b9261a2a3e479b6b143a8f6702273ddcaeee734fa513187fc4df92723",
+          "bytes": 49324,
+          "git_blob": "3f7ea62044fe27297cc74c7ba01b70647751fd50"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "f7ace04066f08093822061f24568a0688e1d373b4e75bd5248e86f0667eac68e",
+          "bytes": 38827,
+          "git_blob": "b9562622f702793ca28105d8acb676c86f57f437"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+          "sha256": "503b2c0f60762313b6f61b4308f154a90c459b3a4370aeb4ba2aa4e4a7aef6ba",
+          "bytes": 4328,
+          "git_blob": "8f30704f0b03cdf6ca8d9593358bcbfcbdba8a09"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "git_blob": "a47dad9458283c11393f1c8661b43a5aa94222d9"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "git_blob": "fa74a01b24b7316cad234662fd54868bb1a0dab2"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "git_blob": "59baadbab4e653a68ce0b1296975bee8be79eb9a"
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "git_blob": "365627d101b5c66d853628dca59a2fef842cbff2"
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "git_blob": "f5d437f5b7afd20e6a723af87de6e3c664f81186"
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "git_blob": "d89471545d8d9b7d6e10ba5e2f75e734c9bf88a6"
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "git_blob": "ebf620d9edc467760e96372cbf13ec28bc60763e"
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "git_blob": "86dda556cca727cc11e4619a5e0d4b8cf9813d53"
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "git_blob": "4edc84573b03d2b923d584f5df144274c435f693"
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "git_blob": "177eb685db5011ad9066f5891b74146d38d40a72"
+        }
+      ],
+      "private_state_source_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_active",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_selected_argument",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_saved_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_saved_offset",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_layout_size",
+          "type": "usize"
+        }
+      ],
+      "private_state_field_counts": {
+        "bool": 2,
+        "usize": 6
+      },
+      "actual_emitted_layout_bytes": null
+    },
+    "b207847932": {
+      "commit": "b207847932da34ac19886c1337f5b69ace0b0843",
+      "tree": "3cdfc7e4ee0551211554f40968d391e3d404e27d",
+      "parents": [
+        "85fc5cd2ca770cdc5ae1bb514c27b6da7b6d9b18"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "9ff043b57ff6aed633815bc35a185c7cdf1a94d24356c95bb74679438081c0ce",
+          "bytes": 20877,
+          "git_blob": "48333aede5942db5ea176a589762dbcbc27714af"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+          "sha256": "0a351bf31991931407c9ed4c4427713bcf94db14b5735ad17c0a0789686168e8",
+          "bytes": 51993,
+          "git_blob": "5b560133bdab1da7e01c7b0f9d93693533518211"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "f7ace04066f08093822061f24568a0688e1d373b4e75bd5248e86f0667eac68e",
+          "bytes": 38827,
+          "git_blob": "b9562622f702793ca28105d8acb676c86f57f437"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+          "sha256": "503b2c0f60762313b6f61b4308f154a90c459b3a4370aeb4ba2aa4e4a7aef6ba",
+          "bytes": 4328,
+          "git_blob": "8f30704f0b03cdf6ca8d9593358bcbfcbdba8a09"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "git_blob": "a47dad9458283c11393f1c8661b43a5aa94222d9"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "git_blob": "fa74a01b24b7316cad234662fd54868bb1a0dab2"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "git_blob": "59baadbab4e653a68ce0b1296975bee8be79eb9a"
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "git_blob": "365627d101b5c66d853628dca59a2fef842cbff2"
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "git_blob": "f5d437f5b7afd20e6a723af87de6e3c664f81186"
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "git_blob": "d89471545d8d9b7d6e10ba5e2f75e734c9bf88a6"
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "git_blob": "ebf620d9edc467760e96372cbf13ec28bc60763e"
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "git_blob": "86dda556cca727cc11e4619a5e0d4b8cf9813d53"
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "git_blob": "4edc84573b03d2b923d584f5df144274c435f693"
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "git_blob": "177eb685db5011ad9066f5891b74146d38d40a72"
+        }
+      ],
+      "private_state_source_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_active",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_selected_argument",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_saved_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_saved_offset",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_layout_size",
+          "type": "usize"
+        }
+      ],
+      "private_state_field_counts": {
+        "bool": 2,
+        "usize": 6
+      },
+      "actual_emitted_layout_bytes": null
+    },
+    "0b1d68ac69": {
+      "commit": "0b1d68ac691cac7e03dbe73f4aec139bb5389059",
+      "tree": "7b249e34038812fb2ad22027ae1201345653c125",
+      "parents": [
+        "14c0a3c95b6ece62b01f96f663b455f8c5e155dc"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "6ecd75e2497e3b43b059c5acb83ea593c8a917b6391971ce70e38d3132a16d46",
+          "bytes": 25691,
+          "git_blob": "0bf0f36293c46275d09951068ce3580856a99350"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+          "sha256": "d391ef37e2ba51a4b867881cb7f80f638a41daaf214de9452fda005ed724f6be",
+          "bytes": 54047,
+          "git_blob": "ba29bebd81cc2fe9765f58e3bbcad188b725da9c"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "46214010ffc67f498e6c175d700aac8b4f042c6747eca9eb1e782bba981c56f1",
+          "bytes": 40935,
+          "git_blob": "0a67b715a19fbd27c6e2066308dbe9ee79c45a49"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+          "sha256": "d85c1adf759d9913e05c2a4effbb47cf66b3f35a11d2f198c12a9497d7d96dba",
+          "bytes": 4338,
+          "git_blob": "6cf42f45128b84f3090ccda9665e59c5daefb75d"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "git_blob": "a47dad9458283c11393f1c8661b43a5aa94222d9"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "git_blob": "fa74a01b24b7316cad234662fd54868bb1a0dab2"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "git_blob": "59baadbab4e653a68ce0b1296975bee8be79eb9a"
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "git_blob": "365627d101b5c66d853628dca59a2fef842cbff2"
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "git_blob": "f5d437f5b7afd20e6a723af87de6e3c664f81186"
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "git_blob": "d89471545d8d9b7d6e10ba5e2f75e734c9bf88a6"
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "git_blob": "ebf620d9edc467760e96372cbf13ec28bc60763e"
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "git_blob": "86dda556cca727cc11e4619a5e0d4b8cf9813d53"
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "git_blob": "4edc84573b03d2b923d584f5df144274c435f693"
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "git_blob": "177eb685db5011ad9066f5891b74146d38d40a72"
+        }
+      ],
+      "private_state_source_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_active",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_selected_argument",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_signature",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_count",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_written",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_remaining",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_stored",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_loaded",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_has_witness",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_relative_offset",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_layout_size",
+          "type": "usize"
+        }
+      ],
+      "private_state_field_counts": {
+        "bool": 4,
+        "usize": 11
+      },
+      "actual_emitted_layout_bytes": null
+    },
+    "585c93b2ff": {
+      "commit": "585c93b2ff366f5723611a7ca944328ef62f40b5",
+      "tree": "15315ec46854fcb639d8c823a026090ea84a843d",
+      "parents": [
+        "0b1d68ac691cac7e03dbe73f4aec139bb5389059"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "6ecd75e2497e3b43b059c5acb83ea593c8a917b6391971ce70e38d3132a16d46",
+          "bytes": 25691,
+          "git_blob": "0bf0f36293c46275d09951068ce3580856a99350"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+          "sha256": "2a3f8ab01afbc966c009052a0ec774972d9d8c0d9c500b958a18965baec4d0cc",
+          "bytes": 54145,
+          "git_blob": "114551a4766b6c486436dc96cfb9914cc360d4bd"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "a9d700b10177225031d89bf3a813a1bd073fb0f05500bec00ee538874178308e",
+          "bytes": 41122,
+          "git_blob": "477e637ee5843317ed8c01043edb2e627bc6a25f"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+          "sha256": "d85c1adf759d9913e05c2a4effbb47cf66b3f35a11d2f198c12a9497d7d96dba",
+          "bytes": 4338,
+          "git_blob": "6cf42f45128b84f3090ccda9665e59c5daefb75d"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "git_blob": "a47dad9458283c11393f1c8661b43a5aa94222d9"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "git_blob": "fa74a01b24b7316cad234662fd54868bb1a0dab2"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "git_blob": "59baadbab4e653a68ce0b1296975bee8be79eb9a"
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "git_blob": "365627d101b5c66d853628dca59a2fef842cbff2"
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "git_blob": "f5d437f5b7afd20e6a723af87de6e3c664f81186"
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "git_blob": "d89471545d8d9b7d6e10ba5e2f75e734c9bf88a6"
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "git_blob": "ebf620d9edc467760e96372cbf13ec28bc60763e"
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "git_blob": "86dda556cca727cc11e4619a5e0d4b8cf9813d53"
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "git_blob": "4edc84573b03d2b923d584f5df144274c435f693"
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "git_blob": "177eb685db5011ad9066f5891b74146d38d40a72"
+        }
+      ],
+      "private_state_source_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_active",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_selected_argument",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_signature",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_count",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_written",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_remaining",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_stored",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_loaded",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_has_witness",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_relative_offset",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_layout_size",
+          "type": "usize"
+        }
+      ],
+      "private_state_field_counts": {
+        "bool": 4,
+        "usize": 11
+      },
+      "actual_emitted_layout_bytes": null
+    },
+    "a0a2386001": {
+      "commit": "a0a2386001a15fecfe2facc2f6cd87f3dee13b60",
+      "tree": "72baa2f044301ce104ab9cffa52553339f51c4c4",
+      "parents": [
+        "c57314d4cf8aed4721c3170827827c6c9b9cd429"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
+          "bytes": 25762,
+          "git_blob": "59f3e587c0645764cad4d48369f7bddf82a6d26e"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+          "sha256": "046c024834f35b83db62d4a14bb78164521e0ec69d905109d1b19bbd753ea100",
+          "bytes": 54789,
+          "git_blob": "497c695521438d241368ef83f07b194d2ec0201f"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "a9d700b10177225031d89bf3a813a1bd073fb0f05500bec00ee538874178308e",
+          "bytes": 41122,
+          "git_blob": "477e637ee5843317ed8c01043edb2e627bc6a25f"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+          "sha256": "d85c1adf759d9913e05c2a4effbb47cf66b3f35a11d2f198c12a9497d7d96dba",
+          "bytes": 4338,
+          "git_blob": "6cf42f45128b84f3090ccda9665e59c5daefb75d"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "git_blob": "a47dad9458283c11393f1c8661b43a5aa94222d9"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "git_blob": "fa74a01b24b7316cad234662fd54868bb1a0dab2"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "git_blob": "59baadbab4e653a68ce0b1296975bee8be79eb9a"
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "git_blob": "365627d101b5c66d853628dca59a2fef842cbff2"
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "git_blob": "f5d437f5b7afd20e6a723af87de6e3c664f81186"
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "git_blob": "d89471545d8d9b7d6e10ba5e2f75e734c9bf88a6"
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "git_blob": "ebf620d9edc467760e96372cbf13ec28bc60763e"
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "git_blob": "86dda556cca727cc11e4619a5e0d4b8cf9813d53"
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "git_blob": "4edc84573b03d2b923d584f5df144274c435f693"
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "git_blob": "177eb685db5011ad9066f5891b74146d38d40a72"
+        }
+      ],
+      "private_state_source_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_active",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_selected_argument",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_signature",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_count",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_written",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_remaining",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_stored",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_loaded",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_has_witness",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_relative_offset",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_layout_size",
+          "type": "usize"
+        }
+      ],
+      "private_state_field_counts": {
+        "bool": 4,
+        "usize": 11
+      },
+      "actual_emitted_layout_bytes": null
+    },
+    "cdb439b0a4": {
+      "commit": "cdb439b0a4c36e9e595019895ab803230f332941",
+      "tree": "f9a4b441fca1749b8cf6c70d6f22eeb2275fc390",
+      "parents": [
+        "a0a2386001a15fecfe2facc2f6cd87f3dee13b60"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
+          "bytes": 25762,
+          "git_blob": "59f3e587c0645764cad4d48369f7bddf82a6d26e"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+          "sha256": "baa2013d98a84784366602ea3f9e63bbbde408816a5a947032267737014e4c5a",
+          "bytes": 54700,
+          "git_blob": "8fd4cf0cc7d3c01d8b978192ad42014eeb6f1959"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "a9d700b10177225031d89bf3a813a1bd073fb0f05500bec00ee538874178308e",
+          "bytes": 41122,
+          "git_blob": "477e637ee5843317ed8c01043edb2e627bc6a25f"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+          "sha256": "d85c1adf759d9913e05c2a4effbb47cf66b3f35a11d2f198c12a9497d7d96dba",
+          "bytes": 4338,
+          "git_blob": "6cf42f45128b84f3090ccda9665e59c5daefb75d"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "git_blob": "a47dad9458283c11393f1c8661b43a5aa94222d9"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "git_blob": "fa74a01b24b7316cad234662fd54868bb1a0dab2"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "git_blob": "59baadbab4e653a68ce0b1296975bee8be79eb9a"
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "git_blob": "365627d101b5c66d853628dca59a2fef842cbff2"
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "git_blob": "f5d437f5b7afd20e6a723af87de6e3c664f81186"
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "git_blob": "d89471545d8d9b7d6e10ba5e2f75e734c9bf88a6"
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "git_blob": "ebf620d9edc467760e96372cbf13ec28bc60763e"
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "git_blob": "86dda556cca727cc11e4619a5e0d4b8cf9813d53"
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "git_blob": "4edc84573b03d2b923d584f5df144274c435f693"
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "git_blob": "177eb685db5011ad9066f5891b74146d38d40a72"
+        }
+      ],
+      "private_state_source_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_active",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_selected_argument",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_signature",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_count",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_written",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_remaining",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_stored",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_loaded",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_has_witness",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_relative_offset",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_layout_size",
+          "type": "usize"
+        }
+      ],
+      "private_state_field_counts": {
+        "bool": 4,
+        "usize": 11
+      },
+      "actual_emitted_layout_bytes": null
+    },
+    "dc5f5a4067": {
+      "commit": "dc5f5a406749a73f1c3192e0b5338441e79508bb",
+      "tree": "085bea5cda2df66a5cb4f72410fe124aa816c90b",
+      "parents": [
+        "cdb439b0a4c36e9e595019895ab803230f332941"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
+          "bytes": 25762,
+          "git_blob": "59f3e587c0645764cad4d48369f7bddf82a6d26e"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+          "sha256": "baa2013d98a84784366602ea3f9e63bbbde408816a5a947032267737014e4c5a",
+          "bytes": 54700,
+          "git_blob": "8fd4cf0cc7d3c01d8b978192ad42014eeb6f1959"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "a9d700b10177225031d89bf3a813a1bd073fb0f05500bec00ee538874178308e",
+          "bytes": 41122,
+          "git_blob": "477e637ee5843317ed8c01043edb2e627bc6a25f"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+          "sha256": "d85c1adf759d9913e05c2a4effbb47cf66b3f35a11d2f198c12a9497d7d96dba",
+          "bytes": 4338,
+          "git_blob": "6cf42f45128b84f3090ccda9665e59c5daefb75d"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "git_blob": "a47dad9458283c11393f1c8661b43a5aa94222d9"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "git_blob": "fa74a01b24b7316cad234662fd54868bb1a0dab2"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "git_blob": "59baadbab4e653a68ce0b1296975bee8be79eb9a"
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "git_blob": "365627d101b5c66d853628dca59a2fef842cbff2"
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "git_blob": "f5d437f5b7afd20e6a723af87de6e3c664f81186"
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "git_blob": "d89471545d8d9b7d6e10ba5e2f75e734c9bf88a6"
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "git_blob": "ebf620d9edc467760e96372cbf13ec28bc60763e"
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "git_blob": "86dda556cca727cc11e4619a5e0d4b8cf9813d53"
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "git_blob": "4edc84573b03d2b923d584f5df144274c435f693"
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "git_blob": "177eb685db5011ad9066f5891b74146d38d40a72"
+        }
+      ],
+      "private_state_source_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_active",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_selected_argument",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_signature",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_count",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_written",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_remaining",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_stored",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_loaded",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_has_witness",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_relative_offset",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_layout_size",
+          "type": "usize"
+        }
+      ],
+      "private_state_field_counts": {
+        "bool": 4,
+        "usize": 11
+      },
+      "actual_emitted_layout_bytes": null
+    },
+    "6134e42dd1": {
+      "commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "tree": "8ac9dcc3f692ef740e82fff6de8e2a44a667d969",
+      "parents": [
+        "dc5f5a406749a73f1c3192e0b5338441e79508bb"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
+          "bytes": 25762,
+          "git_blob": "59f3e587c0645764cad4d48369f7bddf82a6d26e"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+          "sha256": "baa2013d98a84784366602ea3f9e63bbbde408816a5a947032267737014e4c5a",
+          "bytes": 54700,
+          "git_blob": "8fd4cf0cc7d3c01d8b978192ad42014eeb6f1959"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "a9d700b10177225031d89bf3a813a1bd073fb0f05500bec00ee538874178308e",
+          "bytes": 41122,
+          "git_blob": "477e637ee5843317ed8c01043edb2e627bc6a25f"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+          "sha256": "d85c1adf759d9913e05c2a4effbb47cf66b3f35a11d2f198c12a9497d7d96dba",
+          "bytes": 4338,
+          "git_blob": "6cf42f45128b84f3090ccda9665e59c5daefb75d"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "git_blob": "a47dad9458283c11393f1c8661b43a5aa94222d9"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "git_blob": "fa74a01b24b7316cad234662fd54868bb1a0dab2"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "git_blob": "59baadbab4e653a68ce0b1296975bee8be79eb9a"
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "git_blob": "365627d101b5c66d853628dca59a2fef842cbff2"
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "git_blob": "f5d437f5b7afd20e6a723af87de6e3c664f81186"
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "git_blob": "d89471545d8d9b7d6e10ba5e2f75e734c9bf88a6"
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "git_blob": "ebf620d9edc467760e96372cbf13ec28bc60763e"
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "git_blob": "86dda556cca727cc11e4619a5e0d4b8cf9813d53"
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "git_blob": "4edc84573b03d2b923d584f5df144274c435f693"
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "git_blob": "177eb685db5011ad9066f5891b74146d38d40a72"
+        }
+      ],
+      "private_state_source_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_active",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_selected_argument",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_signature",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_count",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_written",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_remaining",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_stored",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_loaded",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_has_witness",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_relative_offset",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_layout_size",
+          "type": "usize"
+        }
+      ],
+      "private_state_field_counts": {
+        "bool": 4,
+        "usize": 11
+      },
+      "actual_emitted_layout_bytes": null
+    },
+    "254ae69662": {
+      "commit": "254ae69662b3206cd4432dae0cd44c534b1b13fb",
+      "tree": "4ac525384777b26d82e77e9e4c3cc4f8087aa374",
+      "parents": [
+        "6134e42dd1c65dc980336e7d9455aba02d423edf"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
+          "bytes": 25762,
+          "git_blob": "59f3e587c0645764cad4d48369f7bddf82a6d26e"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+          "sha256": "baa2013d98a84784366602ea3f9e63bbbde408816a5a947032267737014e4c5a",
+          "bytes": 54700,
+          "git_blob": "8fd4cf0cc7d3c01d8b978192ad42014eeb6f1959"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "27f1e6721b3a4f3ec4e27d19e45a481369ae3e8a8907fe50a0e189a0c044682f",
+          "bytes": 41793,
+          "git_blob": "a0d6614f0b5a1a3ff6d2452507ae93e7977436b6"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+          "sha256": "d85c1adf759d9913e05c2a4effbb47cf66b3f35a11d2f198c12a9497d7d96dba",
+          "bytes": 4338,
+          "git_blob": "6cf42f45128b84f3090ccda9665e59c5daefb75d"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "git_blob": "a47dad9458283c11393f1c8661b43a5aa94222d9"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "git_blob": "fa74a01b24b7316cad234662fd54868bb1a0dab2"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "git_blob": "59baadbab4e653a68ce0b1296975bee8be79eb9a"
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "git_blob": "365627d101b5c66d853628dca59a2fef842cbff2"
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "git_blob": "f5d437f5b7afd20e6a723af87de6e3c664f81186"
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "git_blob": "d89471545d8d9b7d6e10ba5e2f75e734c9bf88a6"
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "git_blob": "ebf620d9edc467760e96372cbf13ec28bc60763e"
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "git_blob": "86dda556cca727cc11e4619a5e0d4b8cf9813d53"
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "git_blob": "4edc84573b03d2b923d584f5df144274c435f693"
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "git_blob": "177eb685db5011ad9066f5891b74146d38d40a72"
+        }
+      ],
+      "private_state_source_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_active",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_selected_argument",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_signature",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_count",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_written",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_remaining",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_stored",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_loaded",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_has_witness",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_relative_offset",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_layout_size",
+          "type": "usize"
+        }
+      ],
+      "private_state_field_counts": {
+        "bool": 4,
+        "usize": 11
+      },
+      "actual_emitted_layout_bytes": null
+    },
+    "5f7f2b7364": {
+      "commit": "5f7f2b7364135a0a8b7cfd86c43b4491a8911bac",
+      "tree": "b2bbb7366a9fbac33398fb01be7300f83a1d27bd",
+      "parents": [
+        "5abdcf982da6aff65662e198af27a9c776830a89"
+      ],
+      "source_files": [
+        {
+          "path": "library/kani_core/src/mem_init.rs",
+          "sha256": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
+          "bytes": 25762,
+          "git_blob": "59f3e587c0645764cad4d48369f7bddf82a6d26e"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+          "sha256": "baa2013d98a84784366602ea3f9e63bbbde408816a5a947032267737014e4c5a",
+          "bytes": 54700,
+          "git_blob": "8fd4cf0cc7d3c01d8b978192ad42014eeb6f1959"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+          "sha256": "27f1e6721b3a4f3ec4e27d19e45a481369ae3e8a8907fe50a0e189a0c044682f",
+          "bytes": 41793,
+          "git_blob": "a0d6614f0b5a1a3ff6d2452507ae93e7977436b6"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+          "sha256": "d85c1adf759d9913e05c2a4effbb47cf66b3f35a11d2f198c12a9497d7d96dba",
+          "bytes": 4338,
+          "git_blob": "6cf42f45128b84f3090ccda9665e59c5daefb75d"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+          "sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+          "bytes": 12461,
+          "git_blob": "a47dad9458283c11393f1c8661b43a5aa94222d9"
+        },
+        {
+          "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+          "sha256": "e96373714350b1cced3a0c3d9732ab8d9fbbad04273121f41af9bd96351f93fc",
+          "bytes": 2231,
+          "git_blob": "fa74a01b24b7316cad234662fd54868bb1a0dab2"
+        },
+        {
+          "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+          "sha256": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+          "bytes": 39127,
+          "git_blob": "59baadbab4e653a68ce0b1296975bee8be79eb9a"
+        },
+        {
+          "path": "library/kani_macros/src/sysroot/contracts/check.rs",
+          "sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+          "bytes": 9075,
+          "git_blob": "365627d101b5c66d853628dca59a2fef842cbff2"
+        },
+        {
+          "path": "kani-driver/src/call_goto_instrument.rs",
+          "sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+          "bytes": 9804,
+          "git_blob": "f5d437f5b7afd20e6a723af87de6e3c664f81186"
+        },
+        {
+          "path": "kani-driver/src/call_cbmc.rs",
+          "sha256": "a0432cfd67358b23815e1f4659623d964d2d6c1818dc78ef779b1954ca341343",
+          "bytes": 52425,
+          "git_blob": "d89471545d8d9b7d6e10ba5e2f75e734c9bf88a6"
+        },
+        {
+          "path": "kani-driver/src/args/mod.rs",
+          "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+          "bytes": 59912,
+          "git_blob": "ebf620d9edc467760e96372cbf13ec28bc60763e"
+        },
+        {
+          "path": "kani-driver/src/call_single_file.rs",
+          "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+          "bytes": 11863,
+          "git_blob": "86dda556cca727cc11e4619a5e0d4b8cf9813d53"
+        },
+        {
+          "path": "rust-toolchain.toml",
+          "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+          "bytes": 183,
+          "git_blob": "4edc84573b03d2b923d584f5df144274c435f693"
+        },
+        {
+          "path": "kani-dependencies",
+          "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+          "bytes": 186,
+          "git_blob": "177eb685db5011ad9066f5891b74146d38d40a72"
+        }
+      ],
+      "private_state_source_fields": [
+        {
+          "name": "tracked_object_id",
+          "type": "usize"
+        },
+        {
+          "name": "tracked_offset",
+          "type": "usize"
+        },
+        {
+          "name": "value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_active",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_selected_argument",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_signature",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_count",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_written",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_remaining",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_stored",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_last_loaded",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_has_witness",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_value",
+          "type": "bool"
+        },
+        {
+          "name": "argument_buffer_relative_offset",
+          "type": "usize"
+        },
+        {
+          "name": "argument_buffer_layout_size",
+          "type": "usize"
+        }
+      ],
+      "private_state_field_counts": {
+        "bool": 4,
+        "usize": 11
+      },
+      "actual_emitted_layout_bytes": null
+    }
+  },
+  "history_direct_parent_chain_verified": true,
+  "history": [
+    {
+      "commit": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+      "tree": "22641d9be125b05846c0e3fc21c09fc230f57076",
+      "parents": [
+        "cfa7932373a7a5e6346f90c017ae8c889c94a66b"
+      ],
+      "stage": "Upstream",
+      "classification": "BASELINE",
+      "production_paths": [],
+      "test_paths": [],
+      "other_paths": [
+        ".github/workflows/z3-update.yml",
+        "kani-dependencies",
+        "scripts/setup/macos/install_deps.sh"
+      ]
+    },
+    {
+      "commit": "1cd96e354ec45346b61c245554a50a8af8cb5ce7",
+      "tree": "c194aa39eb345316483406a4549755e29a3580e7",
+      "parents": [
+        "bf9c58e662fd65c64381ef2ac97a6397ffc0693a"
+      ],
+      "stage": "Part1",
+      "classification": "PRODUCTION_AND_TESTS",
+      "production_paths": [
+        "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "library/kani_core/src/mem_init.rs"
+      ],
+      "test_paths": [
+        "tests/expected/uninit/maybe-uninit-argument-buffer/expected",
+        "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+        "tests/expected/uninit/maybe-uninit-argument-return/expected",
+        "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+        "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+        "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+        "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+        "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+        "tests/expected/uninit/maybe-uninit-initialized/expected",
+        "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+        "tests/expected/uninit/maybe-uninit-overlap-copy/expected",
+        "tests/expected/uninit/maybe-uninit-overlap-copy/main.rs",
+        "tests/expected/uninit/maybe-uninit-overwrite-copy/expected",
+        "tests/expected/uninit/maybe-uninit-overwrite-copy/main.rs",
+        "tests/expected/uninit/maybe-uninit-partial-copy/expected",
+        "tests/expected/uninit/maybe-uninit-partial-copy/main.rs",
+        "tests/expected/uninit/maybe-uninit-repeat-local/expected",
+        "tests/expected/uninit/maybe-uninit-repeat-local/main.rs",
+        "tests/expected/uninit/maybe-uninit-reset-alias/expected",
+        "tests/expected/uninit/maybe-uninit-reset-alias/main.rs",
+        "tests/expected/uninit/maybe-uninit-reset-zst/expected",
+        "tests/expected/uninit/maybe-uninit-reset-zst/main.rs",
+        "tests/expected/uninit/maybe-uninit-transfers/expected",
+        "tests/expected/uninit/maybe-uninit-transfers/main.rs",
+        "tests/expected/uninit/maybe-uninit-transmute-padding/expected",
+        "tests/expected/uninit/maybe-uninit-transmute-padding/main.rs",
+        "tests/expected/uninit/maybe-uninit-transmute-source-read/expected",
+        "tests/expected/uninit/maybe-uninit-transmute-source-read/main.rs",
+        "tests/expected/uninit/maybe-uninit-transmute/expected",
+        "tests/expected/uninit/maybe-uninit-transmute/main.rs"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "fc37f9021d4cdb0e7c66e96c8a9f45aa99e85652",
+      "tree": "c78c1c50e808aeb313d716f4ed39e36719c21cbd",
+      "parents": [
+        "1cd96e354ec45346b61c245554a50a8af8cb5ce7"
+      ],
+      "stage": "A1 production",
+      "classification": "PRODUCTION",
+      "production_paths": [
+        "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "library/kani_core/src/mem_init.rs"
+      ],
+      "test_paths": [],
+      "other_paths": []
+    },
+    {
+      "commit": "5fd713a200aea3ba85edcc341f48a0a20331fce2",
+      "tree": "a98ce921792aeebf873acd57a586e92321816e05",
+      "parents": [
+        "fc37f9021d4cdb0e7c66e96c8a9f45aa99e85652"
+      ],
+      "stage": "A1 tests",
+      "classification": "TEST_ONLY",
+      "production_paths": [],
+      "test_paths": [
+        "tests/expected/uninit/maybe-uninit-typed-argument-padding/expected",
+        "tests/expected/uninit/maybe-uninit-typed-argument-padding/main.rs",
+        "tests/expected/uninit/maybe-uninit-typed-array-padding/expected",
+        "tests/expected/uninit/maybe-uninit-typed-array-padding/main.rs",
+        "tests/expected/uninit/maybe-uninit-typed-array-partial-data/expected",
+        "tests/expected/uninit/maybe-uninit-typed-array-partial-data/main.rs",
+        "tests/expected/uninit/maybe-uninit-typed-assignment-padding/expected",
+        "tests/expected/uninit/maybe-uninit-typed-assignment-padding/main.rs",
+        "tests/expected/uninit/maybe-uninit-typed-partial-data/expected",
+        "tests/expected/uninit/maybe-uninit-typed-partial-data/main.rs",
+        "tests/expected/uninit/maybe-uninit-typed-return-padding/expected",
+        "tests/expected/uninit/maybe-uninit-typed-return-padding/main.rs",
+        "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+        "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "613c188313e34e51e6a69d2c62bbd6ded2511819",
+      "tree": "c37ec4b9e9a8e795d144dc48cbb72b44b8fbf78b",
+      "parents": [
+        "5fd713a200aea3ba85edcc341f48a0a20331fce2"
+      ],
+      "stage": "A1 final / ZST repair",
+      "classification": "PRODUCTION",
+      "production_paths": [
+        "library/kani_core/src/mem_init.rs"
+      ],
+      "test_paths": [],
+      "other_paths": []
+    },
+    {
+      "commit": "1f91626a305161ac6b9ba6c79ae66daa22af9c54",
+      "tree": "89fd61c128477168428ad4839990e42625ea3517",
+      "parents": [
+        "613c188313e34e51e6a69d2c62bbd6ded2511819"
+      ],
+      "stage": "A2 production",
+      "classification": "PRODUCTION",
+      "production_paths": [
+        "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs"
+      ],
+      "test_paths": [],
+      "other_paths": []
+    },
+    {
+      "commit": "1dc99da6bf3c6387d8f69d9a44ffa8a8e0419139",
+      "tree": "b5ae9ea9b93eb0c7f030d969151d472b8e01c73d",
+      "parents": [
+        "1f91626a305161ac6b9ba6c79ae66daa22af9c54"
+      ],
+      "stage": "A2 tests",
+      "classification": "TEST_ONLY",
+      "production_paths": [],
+      "test_paths": [
+        "tests/expected/uninit/maybe-uninit-array-reverse-unsupported/expected",
+        "tests/expected/uninit/maybe-uninit-array-reverse-unsupported/main.rs",
+        "tests/expected/uninit/nested-enum-different-padding/expected",
+        "tests/expected/uninit/nested-enum-different-padding/main.rs",
+        "tests/expected/uninit/nested-enum-same-padding/expected",
+        "tests/expected/uninit/nested-enum-same-padding/main.rs",
+        "tests/expected/uninit/nested-pat-data/expected",
+        "tests/expected/uninit/nested-pat-data/main.rs",
+        "tests/expected/uninit/nested-pat-padding/expected",
+        "tests/expected/uninit/nested-pat-padding/main.rs",
+        "tests/expected/uninit/raw-eq-uninit-unsupported/expected",
+        "tests/expected/uninit/raw-eq-uninit-unsupported/main.rs"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "b8c0d00ac3ab00eefaa22396274af4e9d2b15450",
+      "tree": "84d000bffab31216aa31cef40befdf266f047d3f",
+      "parents": [
+        "1dc99da6bf3c6387d8f69d9a44ffa8a8e0419139"
+      ],
+      "stage": "A2 golden",
+      "classification": "TEST_ONLY",
+      "production_paths": [],
+      "test_paths": [
+        "tests/expected/uninit/maybe-uninit-array-reverse-unsupported/expected",
+        "tests/expected/uninit/nested-enum-different-padding/expected",
+        "tests/expected/uninit/nested-enum-same-padding/expected",
+        "tests/expected/uninit/nested-pat-data/expected",
+        "tests/expected/uninit/nested-pat-padding/expected",
+        "tests/expected/uninit/raw-eq-uninit-unsupported/expected"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "3dc0227cee87d85bed32678a2209353ebdb9d2fa",
+      "tree": "6e32e075432994b45a180c7da27750ba7de0526a",
+      "parents": [
+        "b8c0d00ac3ab00eefaa22396274af4e9d2b15450"
+      ],
+      "stage": "A2 test repair",
+      "classification": "TEST_ONLY",
+      "production_paths": [],
+      "test_paths": [
+        "tests/expected/uninit/maybe-uninit-array-reverse-unsupported/main.rs",
+        "tests/expected/uninit/nested-enum-same-padding/main.rs"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "85fc5cd2ca770cdc5ae1bb514c27b6da7b6d9b18",
+      "tree": "d178157e35b45f84afd17b86027e667716c17344",
+      "parents": [
+        "3dc0227cee87d85bed32678a2209353ebdb9d2fa"
+      ],
+      "stage": "A2R production + tests",
+      "classification": "PRODUCTION_AND_TESTS",
+      "production_paths": [
+        "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs"
+      ],
+      "test_paths": [
+        "tests/expected/uninit/raw-eq-uninit-unsupported/expected",
+        "tests/expected/uninit/raw-eq-uninit-unsupported/main.rs",
+        "tests/expected/uninit/raw-eq-uninit/expected",
+        "tests/expected/uninit/raw-eq-uninit/main.rs"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "b207847932da34ac19886c1337f5b69ace0b0843",
+      "tree": "3cdfc7e4ee0551211554f40968d391e3d404e27d",
+      "parents": [
+        "85fc5cd2ca770cdc5ae1bb514c27b6da7b6d9b18"
+      ],
+      "stage": "A2R final / pre-A3",
+      "classification": "TEST_ONLY",
+      "production_paths": [],
+      "test_paths": [
+        "tests/expected/uninit/raw-eq-uninit/expected"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "e3c529a0d5a501987a36c1481bb7e8a48c80dc73",
+      "tree": "520f75b9df2be108f598b3c62f956666752bdfc5",
+      "parents": [
+        "b207847932da34ac19886c1337f5b69ace0b0843"
+      ],
+      "stage": "A3 production",
+      "classification": "PRODUCTION",
+      "production_paths": [
+        "kani-compiler/src/kani_middle/kani_functions.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "library/kani_core/src/mem_init.rs"
+      ],
+      "test_paths": [],
+      "other_paths": []
+    },
+    {
+      "commit": "55d704a56dbd5864ffb75e3d861a544c281f8ebd",
+      "tree": "f8c059aed34acbc2305651e361236854e51521a7",
+      "parents": [
+        "e3c529a0d5a501987a36c1481bb7e8a48c80dc73"
+      ],
+      "stage": "A3 tests",
+      "classification": "TEST_ONLY",
+      "production_paths": [],
+      "test_paths": [
+        "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+        "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/expected",
+        "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/main.rs",
+        "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+        "tests/expected/uninit/maybe-uninit-call-pairing/main.rs"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "14c0a3c95b6ece62b01f96f663b455f8c5e155dc",
+      "tree": "8af499c3fb6c1108614e57c6ba446f66435c7d34",
+      "parents": [
+        "55d704a56dbd5864ffb75e3d861a544c281f8ebd"
+      ],
+      "stage": "A3 test repair",
+      "classification": "TEST_ONLY",
+      "production_paths": [],
+      "test_paths": [
+        "tests/expected/uninit/maybe-uninit-call-move/main.rs"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "0b1d68ac691cac7e03dbe73f4aec139bb5389059",
+      "tree": "7b249e34038812fb2ad22027ae1201345653c125",
+      "parents": [
+        "14c0a3c95b6ece62b01f96f663b455f8c5e155dc"
+      ],
+      "stage": "A3 final / coverage tests",
+      "classification": "TEST_ONLY",
+      "production_paths": [],
+      "test_paths": [
+        "tests/expected/uninit/maybe-uninit-call-move/expected",
+        "tests/expected/uninit/maybe-uninit-call-move/main.rs"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "585c93b2ff366f5723611a7ca944328ef62f40b5",
+      "tree": "15315ec46854fcb639d8c823a026090ea84a843d",
+      "parents": [
+        "0b1d68ac691cac7e03dbe73f4aec139bb5389059"
+      ],
+      "stage": "A2R2 production + tests",
+      "classification": "PRODUCTION_AND_TESTS",
+      "production_paths": [
+        "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs"
+      ],
+      "test_paths": [
+        "tests/expected/uninit/raw-eq-uninit/expected",
+        "tests/expected/uninit/raw-eq-uninit/main.rs"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "c57314d4cf8aed4721c3170827827c6c9b9cd429",
+      "tree": "1985bfcdc80f2f864b56a8983ebc7e63652a1c55",
+      "parents": [
+        "585c93b2ff366f5723611a7ca944328ef62f40b5"
+      ],
+      "stage": "A3R production + fixture repair",
+      "classification": "PRODUCTION_AND_TESTS",
+      "production_paths": [
+        "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "library/kani_core/src/mem_init.rs"
+      ],
+      "test_paths": [
+        "tests/expected/uninit/maybe-uninit-call-move/main.rs"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "a0a2386001a15fecfe2facc2f6cd87f3dee13b60",
+      "tree": "72baa2f044301ce104ab9cffa52553339f51c4c4",
+      "parents": [
+        "c57314d4cf8aed4721c3170827827c6c9b9cd429"
+      ],
+      "stage": "A3R final / intrinsic repair",
+      "classification": "PRODUCTION",
+      "production_paths": [
+        "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs"
+      ],
+      "test_paths": [],
+      "other_paths": []
+    },
+    {
+      "commit": "cdb439b0a4c36e9e595019895ab803230f332941",
+      "tree": "f9a4b441fca1749b8cf6c70d6f22eeb2275fc390",
+      "parents": [
+        "a0a2386001a15fecfe2facc2f6cd87f3dee13b60"
+      ],
+      "stage": "B1I production",
+      "classification": "PRODUCTION",
+      "production_paths": [
+        "kani-compiler/src/kani_middle/points_to/mod.rs",
+        "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs"
+      ],
+      "test_paths": [],
+      "other_paths": []
+    },
+    {
+      "commit": "dc5f5a406749a73f1c3192e0b5338441e79508bb",
+      "tree": "085bea5cda2df66a5cb4f72410fe124aa816c90b",
+      "parents": [
+        "cdb439b0a4c36e9e595019895ab803230f332941"
+      ],
+      "stage": "B1I tests",
+      "classification": "TEST_ONLY",
+      "production_paths": [],
+      "test_paths": [
+        "tests/expected/uninit/unresolved-calls/direct-plain.expected",
+        "tests/expected/uninit/unresolved-calls/direct-plain.rs",
+        "tests/expected/uninit/unresolved-calls/direct-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/direct-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/entry-initialized-plain.expected",
+        "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs",
+        "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/entry-partial-plain.expected",
+        "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs",
+        "tests/expected/uninit/unresolved-calls/entry-partial-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/erased-pointer-plain.expected",
+        "tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs",
+        "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/fn-pointer-plain.expected",
+        "tests/expected/uninit/unresolved-calls/fn-pointer-plain.rs",
+        "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/global-escaped-plain.expected",
+        "tests/expected/uninit/unresolved-calls/global-escaped-plain.rs",
+        "tests/expected/uninit/unresolved-calls/global-escaped-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/pending-ops-plain.expected",
+        "tests/expected/uninit/unresolved-calls/pending-ops-plain.rs",
+        "tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/shim-plain.expected",
+        "tests/expected/uninit/unresolved-calls/shim-plain.rs",
+        "tests/expected/uninit/unresolved-calls/shim-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/shim-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-argument-only-plain.expected",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-argument-only-plain.rs",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-argument-only-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-argument-only-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-return-only-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-return-only-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-return-only.expected",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-return-only.rs",
+        "tests/expected/uninit/unresolved-calls/virtual-plain.expected",
+        "tests/expected/uninit/unresolved-calls/virtual-plain.rs",
+        "tests/expected/uninit/unresolved-calls/virtual-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/virtual-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.expected",
+        "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.rs",
+        "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "tree": "8ac9dcc3f692ef740e82fff6de8e2a44a667d969",
+      "parents": [
+        "dc5f5a406749a73f1c3192e0b5338441e79508bb"
+      ],
+      "stage": "B1I-A tests",
+      "classification": "TEST_ONLY",
+      "production_paths": [],
+      "test_paths": [
+        "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.expected",
+        "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.rs",
+        "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.expected",
+        "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.rs",
+        "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.expected",
+        "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.rs",
+        "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/shim-plain.expected",
+        "tests/expected/uninit/unresolved-calls/shim-plain.rs",
+        "tests/expected/uninit/unresolved-calls/shim-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/shim-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-argument-only-plain.expected",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-argument-only-plain.rs",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-argument-only-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-argument-only-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-return-only-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-return-only-seeded.rs",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-return-only.expected",
+        "tests/expected/uninit/unresolved-calls/shim-shadow-return-only.rs",
+        "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.expected",
+        "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.rs",
+        "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.expected",
+        "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.rs"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "254ae69662b3206cd4432dae0cd44c534b1b13fb",
+      "tree": "4ac525384777b26d82e77e9e4c3cc4f8087aa374",
+      "parents": [
+        "6134e42dd1c65dc980336e7d9455aba02d423edf"
+      ],
+      "stage": "M1 production + tests",
+      "classification": "PRODUCTION_AND_TESTS",
+      "production_paths": [
+        "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+        "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "kani-compiler/src/codegen_cprover_gotoc/context/mod.rs",
+        "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+        "kani-compiler/src/kani_middle/mod.rs",
+        "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "kani-compiler/src/kani_middle/transform/mod.rs"
+      ],
+      "test_paths": [
+        "tests/expected/uninit/immutable-masks/copy-hole.expected",
+        "tests/expected/uninit/immutable-masks/copy-hole.rs",
+        "tests/expected/uninit/immutable-masks/empty.expected",
+        "tests/expected/uninit/immutable-masks/empty.rs",
+        "tests/expected/uninit/immutable-masks/zero-byte-hole.expected",
+        "tests/expected/uninit/immutable-masks/zero-byte-hole.rs",
+        "tests/expected/uninit/immutable-masks/zero-bytes-legal.expected",
+        "tests/expected/uninit/immutable-masks/zero-bytes-legal.rs"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "5abdcf982da6aff65662e198af27a9c776830a89",
+      "tree": "960a71c70b3f890b4f5cd2b53a83f6a0f8e00951",
+      "parents": [
+        "254ae69662b3206cd4432dae0cd44c534b1b13fb"
+      ],
+      "stage": "M1 tests",
+      "classification": "TEST_ONLY",
+      "production_paths": [],
+      "test_paths": [
+        "tests/expected/uninit/promoted-allocations/direct-left-hole.expected",
+        "tests/expected/uninit/promoted-allocations/direct-left-hole.rs",
+        "tests/expected/uninit/promoted-allocations/direct-legal.expected",
+        "tests/expected/uninit/promoted-allocations/direct-legal.rs",
+        "tests/expected/uninit/promoted-allocations/direct-right-hole.expected",
+        "tests/expected/uninit/promoted-allocations/direct-right-hole.rs",
+        "tests/expected/uninit/promoted-allocations/helper-left-hole.expected",
+        "tests/expected/uninit/promoted-allocations/helper-left-hole.rs",
+        "tests/expected/uninit/promoted-allocations/helper-legal.expected",
+        "tests/expected/uninit/promoted-allocations/helper-legal.rs",
+        "tests/expected/uninit/promoted-allocations/helper-right-hole.expected",
+        "tests/expected/uninit/promoted-allocations/helper-right-hole.rs"
+      ],
+      "other_paths": []
+    },
+    {
+      "commit": "5f7f2b7364135a0a8b7cfd86c43b4491a8911bac",
+      "tree": "b2bbb7366a9fbac33398fb01be7300f83a1d27bd",
+      "parents": [
+        "5abdcf982da6aff65662e198af27a9c776830a89"
+      ],
+      "stage": "M2 tests",
+      "classification": "TEST_ONLY",
+      "production_paths": [],
+      "test_paths": [
+        "tests/expected/uninit/transfer-qualification/legal-pair.expected",
+        "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+        "tests/expected/uninit/transfer-qualification/normal-abort.expected",
+        "tests/expected/uninit/transfer-qualification/normal-abort.rs",
+        "tests/expected/uninit/transfer-qualification/out-pointer.expected",
+        "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+        "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+        "tests/expected/uninit/transfer-qualification/postcondition-hole.rs"
+      ],
+      "other_paths": []
+    }
+  ],
+  "coordinator_reported_runs": [
+    {
+      "source": "5f7f2b7364135a0a8b7cfd86c43b4491a8911bac",
+      "run_id": "43243491671",
+      "P1_P2": "RESOURCE_INCOMPLETE; >6.4/8.0GiB in 10\u201312s; mapping/timing/units scope not independently bound"
+    },
+    {
+      "source": "6134e42dd1c65dc980336e7d9455aba02d423edf",
+      "run_id": "43244391200",
+      "P1_P2": "RESOURCE_INCOMPLETE; reported same watchdog cutoff; individual exact RSS/elapsed UNKNOWN"
+    },
+    {
+      "source": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+      "run_id": "43244395728",
+      "P1_P2": "reported 46s/1.4GB; frame in store_argument; load_argument unreachable; Unsupported; not semantic baseline PASS"
+    }
+  ],
+  "metadata_receipt": {
+    "path": "kani3300/m2br/CI-METADATA.json",
+    "sha256": "d98767f6e947f0ca87d68cbb6ee11b119b6037b55434b8b70c563fd2ee1d7098",
+    "bytes": 5433
+  },
+  "receipt_limits": "GitHub first-page job/artifact summaries only; no curated per-process phases/argv/property lvalue/object/range supplied. Raw logs/archives not accessed. No Cloud Build UUID supplied; run numbers are not Build UUIDs.",
+  "declared_toolchain": {
+    "channel": "nightly-2026-10-23",
+    "cbmc": "6.11.0",
+    "actual_compiler_sysroot_cbmc_solver_hashes": null
+  },
+  "source_assertion": "Source hashes/ancestry/field counts are static facts; emitted model sizes and numeric signatures are UNKNOWN."
+}
