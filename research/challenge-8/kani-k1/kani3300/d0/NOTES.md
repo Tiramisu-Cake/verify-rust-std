@@ -3,7 +3,7 @@
 - Baseline (read-only a1): `a0a2386001a15fecfe2facc2f6cd87f3dee13b60`; no B1I diff included.
 - Isolated local clone `/root/kani-fix-3300-d0`, branch `diagnostics/kani-3300-raweq-d0`.
 - Diagnostic candidate `955cd015649aa79be511fe1732d48fdc8535741f`; tree `1c724bf33763251340efbdf9a8486a6278cafdc4`; not pushed.
-- Full `diagnostic.patch` SHA256 `027634fa0c0f84c8b7d39d69904f0c032e6c9984dac63a78a90b955f7f65972b`.
+- Full `diagnostic.patch` SHA256 `7ca0d69dac54da293fc82321a7e2d9bcb4ac91a85dab396234692b5a8b2528c0`.
 - Original fixture retained in clone and `fixture-main.rs`, SHA256 `df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c`.
 - Task/Part1-B/R2 audit @124a45e373 and R0 @8ad13e016e read; rejected A not reopened.
 - Baseline source clone clean/unchanged. B1I current read-only HEAD `6134e42dd1c65dc980336e7d9455aba02d423edf`; no outcome inferred.

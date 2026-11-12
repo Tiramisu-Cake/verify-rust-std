@@ -65,5 +65,12 @@
     "observed": "adc8ecab690cdfdd72ebb905c69dbdd5b1912373",
     "foreign_files": "preserved; not staged or read for this task",
     "local_commit_parent": "81c1cabffd315abd73165d5807afdea688fdeeb6"
+  },
+  "research_patch_packaging": {
+    "format": "git diff --binary --unified=0",
+    "sha256": "7ca0d69dac54da293fc82321a7e2d9bcb4ac91a85dab396234692b5a8b2528c0",
+    "reason": "Avoid trailing-space context lines in tracked patch text; source diff/candidate/review unchanged",
+    "original_staged_check": "failed on whitespace-only patch context; corrected before final handoff",
+    "final_diff_check": "PASS"
   }
 }

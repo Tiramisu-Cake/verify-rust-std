@@ -5,7 +5,7 @@ Local candidate `/root/kani-fix-3300-d0`, branch `diagnostics/kani-3300-raweq-d0
 Only the coordinator may publish this exact SHA to its Kani fork and start the existing fork workflow.
 Research publication stopped on concurrent g0 HEAD `adc8ecab69`; see HANDOFF.json for the isolated local research commit destination.
 No workflow/source/model repair is included. Cloud budget is $0. No command below was executed here.
-Full diff: `diagnostic.patch`, SHA256 `027634fa0c0f84c8b7d39d69904f0c032e6c9984dac63a78a90b955f7f65972b`. Publication must preserve the candidate commit identity;
+Full diff: `diagnostic.patch` (zero context, `git diff --binary --unified=0`; if applying, require exact baseline and `git apply --unidiff-zero`), SHA256 `7ca0d69dac54da293fc82321a7e2d9bcb4ac91a85dab396234692b5a8b2528c0`. Publication must preserve the candidate commit identity;
 coordinator can read the local clone directly. Reapplying a patch with a different commit is a new identity, requiring rebinding.
 
 ## Fixed inputs and setup gates
