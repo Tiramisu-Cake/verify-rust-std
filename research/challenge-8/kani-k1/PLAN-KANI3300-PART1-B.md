@@ -5,6 +5,14 @@ Direct-MU-only экспорт отклонён. Полная для заявле
 type-only skip, default true и потеря negative checks не являются вариантом. Runtime Codex; Cloud $0, CI только координатора.
 Это верификация корректности, не security-работа.
 
+**Текущий handoff 2026-11-12:** 14 → TASK-KANI3300-M2A.md, 15 → независимый B3R2 (t0); M3 HELD.
+C1-T2-A7f9eec41e8: baseline Quick43230538511 expected127/7; M1 composition83ceadf048 Quick43230532195
+expected138/0/2ignored, все8 mixed matched; шесть legal baseline falseFAIL→M1 PASS. Старые nested MU fixtures не gate.
+M2 5f7f2b7364: Quick43229982767 дважды shutdown/exit143; memprobe43232249168 (CIcc29c82bf1) —
+legal ordinary/PFC falseFAIL uninit `[u8;3]` при peakRSS15.07GB, postcondition-hole OOM. M2 не принята.
+Ordinary вызывает decorated target в default Assert mode; нужен отдельный no-contract control и source/property binding.
+M2-A — анализ/минимизация/targeted CI request, без production repair и запуска CI. Ниже — история стадий до этого handoff.
+
 ## Исходное состояние
 
 - Аудит R2 `124a45e373`, особенно блокеры §1–2, ответы 2–5 и 11–13; R0 `8ad13e016e`, `kani3300/r0/` — статическая карта, не proof.

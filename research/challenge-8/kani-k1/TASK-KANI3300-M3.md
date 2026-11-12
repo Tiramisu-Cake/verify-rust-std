@@ -12,9 +12,11 @@
    почему old C1-T matched baseline, либо конкретно оставшиеся UNKNOWN и решение по blocking impact.
 3. Перечень source dependencies/незакрытых blockers, immutable mask/symbol/reset bridge и рамки текущего supported domain.
 
-CI update: 4 u8 mixed inputs baseline43225818126 FAIL → M1 43225812282 PASS; 4 MU inputs были ранним layout Unsupported
-на nested outer MU, а не raw_eq negative. Для MU gate нужен **исправленный direct-flat test delta и rerun** по C1-T2-A/R,
-не принятие старой FAILURE. Считать u8 подматрицу отдельно от ещё незакрытой MU подматрицы.
+CI update 2026-11-12: corrected C1-T2-A7f9eec41e8 rerun baseline43230538511 expected127/7 →
+M1 composition83ceadf048 Quick43230532195 expected138/0/2ignored: все8 mixed matched, шесть legal различают модели.
+Это не M2 gate: M2 legal ordinary/PFC оба falseFAIL uninit `[u8;3]` (memprobe43232249168), postcondition-hole OOM;
+Quick43229982767 прерван дважды shutdown/exit143. **M3 HELD**, worker14 сначала TASK-KANI3300-M2A.md.
+Matched mixed goldens не заменяют required operand/CFG bindings или legal/PFC/false/postcondition qualification M2.
 
 Если этих pins/решений нет — STOP до clone/code/test changes, только сообщение о недостающем gate. Не выбирать вместо
 них старый 5abdcf982d или latest branch head. Нельзя самостоятельно превращать документ в GO/CI dispatch.

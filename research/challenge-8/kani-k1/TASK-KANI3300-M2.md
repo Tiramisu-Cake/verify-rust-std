@@ -4,6 +4,12 @@
 Цель — квалификация существующих setters/transfers после M1, не предполагаемая новая setter-модель.
 Это верификация корректности, не security-работа.
 
+**CI update 2026-11-12:** M2 READY5f7f2b7364, но qualification не принята. Quick43229982767 дважды shutdown/exit143;
+memprobe43232249168 (CIcc29c82bf1) выявил legal ordinary+PFC uninit `[u8;3]` falseFAIL и postcondition-hole OOM.
+Worker14 переходит к TASK-KANI3300-M2A.md: mode/site binding, singleton probes и resource minimization, без model repair.
+Ordinary вызывает contract-decorated target в default Assert mode; название root не является no-contract control.
+Original inputs/goldens и исторические m2 results не переписывать. M3 HELD.
+
 ## Вход и pins
 
 Прочитать M0 @ `742c77fa03`, `kani3300/m1/{SOURCE-BINDINGS.md,TEST-MANIFEST.json,REVIEW.md,CI-REQUEST.md}` @
