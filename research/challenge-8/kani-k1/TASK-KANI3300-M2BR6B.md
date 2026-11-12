@@ -4,6 +4,10 @@
 Fork CI только координатора, local compiler/verifier/builds запрещены. Это верификация корректности, не security-работа.
 Ремонтируем несопоставимый diagnostic input, не продолжаем Hrepr bisect до восстановления пути к ensures.
 
+**Новый handoff:** package @13eb2c6310; repaired R6-02b/run43276309576 решаем, но private-buffer frameFAIL;
+R1+same-skip/run43276317655 heavy. R7 на текущей4f64 цепочке: TASK-KANI3300-M2BR7.md (15) и
+TASK-KANI3300-M2BR7-CONTROLS.md (14). Historical m2br6b не менять; старый pointer-runtime не переносить в release.
+
 ## Вход и статус предыдущей пары
 
 Прочитать `kani3300/m2br6/` @ **54252f16e48bf5e08f4eaad2fc36ee07a75c4325**, patches/HBUF-MAP/TYPE-AUDIT.

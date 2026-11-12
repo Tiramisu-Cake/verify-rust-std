@@ -5,7 +5,13 @@ Direct-MU-only экспорт отклонён. Полная для заявле
 type-only skip, default true и потеря negative checks не являются вариантом. Runtime Codex; Cloud $0, CI только координатора.
 Это верификация корректности, не security-работа.
 
-**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR6B.md: narrow initializer self-instrumentation repair,
+**Текущий handoff 2026-11-12:** 15 → TASK-KANI3300-M2BR7.md (4f64 full chain: bootstrap B0 + separate current
+snapshot/fieldwise-private assigns B1), 14 → TASK-KANI3300-M2BR7-CONTROLS.md (test-only P1/lawful positive + reuse P2/frame/false).
+R6-02b43276309576 решаем50s/1.95GB, но assignable frameFAIL; matched R1+skip43276317655 cutoff>6.71GiB.
+Текущий A3 transport хранит false-capable snapshot до Move/return, старый raw-pointer buffer не release fix.
+G1 correctness+resource, затем full Quick с возвратом2 heavy selectors; M3 пока HELD. B0-alone effect проверить на новом base.
+
+**Предыдущий handoff M2-B/R6b:** 15 → TASK-KANI3300-M2BR6B.md: narrow initializer self-instrumentation repair,
 R6-02b и R1+same-skip control на unchanged P1. R6-01 run43271948094 cutoff; R6-02 run43271955539
 ранний Option-reset Enum Unsupported (1049steps/28→19VCC), NON_COMPARABLE. Hrepr attribution пока односторонняя.
 Source-supported путь — exact initializer model identity в existing SKIPPED_ITEMS; pointer attribute уже стоит и недостаточен.
