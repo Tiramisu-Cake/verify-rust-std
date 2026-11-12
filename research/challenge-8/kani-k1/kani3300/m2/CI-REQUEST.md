@@ -7,6 +7,11 @@ M1 production unchanged `254ae69662b3206cd4432dae0cd44c534b1b13fb`; test delta i
 four sources/six harness selectors under tests/expected/uninit/transfer-qualification/. Exact SHA256 in TEST-MANIFEST.json.
 No workflow, runner, source model, contract ABI, dependency or check-setting change. Worker Cloud $0; no dispatch/wait.
 
+Scope update @6fa8fbf979 / SCOPE-MU-OF-FLAT.md: direct flat MU arrays/slices remain required, and
+MaybeUninit<[u8;N]> remains supported. Nested MaybeUninit<[MaybeUninit<T>;N]> is outside Part1 scope.
+Owner15 repairs MU-controls to direct flat storage; no layout expansion/all-true mask workaround.
+The M2 candidate already uses supported forms and is unchanged; old nested Unsupported earns no intended-negative credit.
+
 ## Ordered request using existing authorized Quick process
 
 1. Existing static/preflight/fmt/build/clippy, keeping original exits. All new files request --edition2021 and -D warnings.

@@ -8,6 +8,7 @@
 - Diff/format/hash checks PASS static only; one Luna High review found no concrete test/CFG defect.
 - New compile/runtime/property outcomes NOT_RUN; concrete bindings UNKNOWN; semantic acceptance remains BLOCKED.
 - Mixed u8 differential and early MU Unsupported kept as separate coordinator-reported facts; no raw_eq credit for MU.
+- Scope update @6fa8fbf979 incorporated: nested MU-of-flat outside Part1; owner15 repairs flat controls; M2 candidate unchanged.
 - True unwind NOT_COVERED; M3/full gate not started. Cloud $0, dispatches0, Kani not pushed, proof credit NONE.
 - Research handoff is limited to kani3300/m2/; READY denotes local reviewed candidate availability only.
 - STOP: coordinator owns subsequent targeted inspection and existing Quick acceptance.

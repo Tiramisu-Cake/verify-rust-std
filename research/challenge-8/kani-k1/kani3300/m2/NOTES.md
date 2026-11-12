@@ -18,7 +18,8 @@
 - Coordinator Quick43222702257 M1 aggregate PASS is historical reported fact, not a new M2 outcome.
 - Mixed baseline Quick43225818126: four u8 false FAIL; M1+mixed43225812282: four u8 PASS (reported).
 - Four nested MU mixed cases on both models: Unsupported contains union before raw_eq; no intended-read qualification.
-- Nested MU construction avoided here; C1-T2 owner15 files untouched and not imported.
+- Scope @6fa8fbf979: flat MU arrays/slices and supported MU<[u8;N]> retained; nested MU-of-flat excluded.
+- Owner15 repairs MU-controls to direct flat storage; M2 candidate unchanged, C1-T2 files untouched/not imported.
 - Deferred: true unwind; second initialized conditional arm; outside-object neighbor; M3 reuse/offsets/full gate.
 - Diff --check and allowed full-path rustfmt wrapper PASS; pinned API/import/-D warnings source audit only.
 - Bounded Luna High static review found no concrete defect; no compiler/runtime/property acceptance.

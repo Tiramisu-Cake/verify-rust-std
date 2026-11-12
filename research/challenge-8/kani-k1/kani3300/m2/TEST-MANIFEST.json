@@ -657,7 +657,7 @@
     "Actual true unwind/cleanup: NOT_COVERED on panic=abort pin; no simulation.",
     "Both initialized conditional arms as separate positives: true arm selected here, existing arbitrary-bool negative binds false only; no both-arm claim from one FAILURE.",
     "Adjacent byte outside three-byte storage not probed separately; partial middle-hole tests non-blessing of in-object unwritten neighbor.",
-    "Nested MU-array C1-T2 Unsupported repair/qualification belongs to separate coordinator task; no framework/ABI/source repair here.",
+    "Nested MU-of-flat support is outside Part1 scope per SCOPE-MU-OF-FLAT.md; owner15 repairs C1-T2 fixtures using direct flat storage, without layout expansion.",
     "M3 offsets/aliases/reuse/general cache and full gate are outside this stage."
   ],
   "local_checks": {
@@ -689,5 +689,19 @@
   "B1": "no new evidence",
   "B2": "NOT_RUN",
   "proof_credit": "NONE",
-  "acceptance": "BLOCKED pending exact reached properties/operand/CFG/protocol/reset bindings; READY means reviewed candidate availability only."
+  "acceptance": "BLOCKED pending exact reached properties/operand/CFG/protocol/reset bindings; READY means reviewed candidate availability only.",
+  "scope_update": {
+    "research_commit": "6fa8fbf979",
+    "decision_document": "research/challenge-8/kani-k1/SCOPE-MU-OF-FLAT.md",
+    "required_flat_scope": [
+      "[MaybeUninit<T>;N]",
+      "[MaybeUninit<T>]"
+    ],
+    "supported_d0_storage": "MaybeUninit<[u8;N]>",
+    "outside_part1_scope": "MaybeUninit<[MaybeUninit<T>;N]>",
+    "control_repair_owner": 15,
+    "repair": "Build direct flat stack storage, without outer MU; no layout expansion/all-true mask workaround.",
+    "candidate_change": "NONE; existing scalar and MU<[u8;3]> controls already use supported forms",
+    "historical_outcomes": "Unchanged; early nested Unsupported is not intended raw_eq negative or Rust-idiom UB."
+  }
 }
