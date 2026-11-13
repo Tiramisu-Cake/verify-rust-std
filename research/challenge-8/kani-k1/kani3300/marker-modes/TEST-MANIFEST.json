@@ -1,0 +1,248 @@
+{
+  "status": "STOP_REQUIRED_STATE_PREDICATE",
+  "counts_are_proposals_not_approved_ci": true,
+  "lookup_and_fact_scenarios": [
+    {
+      "id": "off-absent",
+      "required_state": "OFF",
+      "marker_count": 0,
+      "symbol_candidate_count": 0,
+      "required_behavior": "NO_NEW_DIAGNOSTIC",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "not-required-marker-absent",
+      "required_state": "NOT_REQUIRED",
+      "marker_count": 0,
+      "symbol_candidate_count": 0,
+      "required_behavior": "NO_NEW_DIAGNOSTIC",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "not-required-symbol-absent",
+      "required_state": "NOT_REQUIRED",
+      "marker_count": 1,
+      "symbol_candidate_count": 0,
+      "required_behavior": "NO_NEW_DIAGNOSTIC",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "required-marker-absent",
+      "required_state": "REQUIRED",
+      "marker_count": 0,
+      "symbol_candidate_count": 0,
+      "required_behavior": "MISSING_MARKER",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "required-symbol-absent",
+      "required_state": "REQUIRED",
+      "marker_count": 1,
+      "symbol_candidate_count": 0,
+      "required_behavior": "MISSING_EMITTED_SYMBOL",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "required-marker-ambiguous",
+      "required_state": "REQUIRED",
+      "marker_count": 2,
+      "symbol_candidate_count": 2,
+      "required_behavior": "AMBIGUOUS_MARKER",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "required-symbol-ambiguous",
+      "required_state": "REQUIRED",
+      "marker_count": 1,
+      "symbol_candidate_count": 2,
+      "required_behavior": "AMBIGUOUS_SYMBOL_BINDING",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "required-binding",
+      "required_state": "REQUIRED",
+      "marker_count": 1,
+      "symbol_candidate_count": 1,
+      "required_behavior": "PRESERVE_ONE_WHOLE_STATIC_AND_USER_TARGETS",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "off-binding",
+      "required_state": "OFF",
+      "marker_count": 1,
+      "symbol_candidate_count": 1,
+      "required_behavior": "PRESERVE_EXISTING_SUCCESSFUL_LOOKUP",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "not-required-binding",
+      "required_state": "NOT_REQUIRED",
+      "marker_count": 1,
+      "symbol_candidate_count": 1,
+      "required_behavior": "PRESERVE_EXISTING_SUCCESSFUL_LOOKUP",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "unknown-absent",
+      "required_state": "UNKNOWN",
+      "marker_count": 0,
+      "symbol_candidate_count": 0,
+      "required_behavior": "UNRESOLVED_MUST_NOT_BECOME_NOT_REQUIRED",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "unknown-binding",
+      "required_state": "UNKNOWN",
+      "marker_count": 1,
+      "symbol_candidate_count": 1,
+      "required_behavior": "UNRESOLVED_FACT_SUCCESSFUL_LOOKUP_ALONE_DOES_NOT_PROVE_FACT",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "reset-only-outside-extent",
+      "required_behavior": "NOT_REQUIRED_FROM_RESET_ALONE",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "clause-only-helper",
+      "required_behavior": "NOT_REQUIRED_FROM_CLAUSE_ALONE",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "other-root-only-helper",
+      "required_behavior": "NOT_REQUIRED_FROM_OTHER_ROOT_ALONE",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "address-taken-helper",
+      "required_behavior": "NOT_REQUIRED_FROM_REACHABILITY_ALONE",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "zero-layout-setter",
+      "required_behavior": "MUST_DISTINGUISH_NO_WRITE_FROM_WRITER_HELPER_PRESENCE",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "indirect-wrapper-helper",
+      "required_behavior": "BIND_CALL_CHAIN_OR_RETAIN_UNKNOWN",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "set-copy-union-begin-store-load",
+      "required_behavior": "ACCOUNT_FOR_EACH_ACTUAL_WRITE_FAMILY",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "immutable-seed",
+      "required_behavior": "BIND_RESET_AND_SEED_TO_EXTENT_OR_EXCLUDE_OUTSIDE",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN"
+    }
+  ],
+  "integration_candidates": [
+    {
+      "id": "off-pfc",
+      "mode": "SimpleCheck",
+      "binding_status": "BINDING_PENDING",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN",
+      "completed_outcome": null,
+      "failures": null
+    },
+    {
+      "id": "on-no-shadow-pfc",
+      "mode": "SimpleCheck",
+      "binding_status": "BINDING_PENDING",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN",
+      "completed_outcome": null,
+      "failures": null
+    },
+    {
+      "id": "on-private-state-pfc",
+      "mode": "SimpleCheck",
+      "binding_status": "BINDING_PENDING",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN",
+      "completed_outcome": null,
+      "failures": null
+    },
+    {
+      "id": "replace-transfer",
+      "mode": "Replace",
+      "binding_status": "BINDING_PENDING",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN",
+      "completed_outcome": null,
+      "failures": null
+    },
+    {
+      "id": "replace-ordinary-companion",
+      "mode": "Original/Assert (needs transformed binding)",
+      "binding_status": "BINDING_PENDING",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN",
+      "completed_outcome": null,
+      "failures": null
+    },
+    {
+      "id": "replace-simple-check-companion",
+      "mode": "SimpleCheck",
+      "binding_status": "BINDING_PENDING",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN",
+      "completed_outcome": null,
+      "failures": null
+    },
+    {
+      "id": "recursive-transfer",
+      "mode": "RecursiveCheck",
+      "binding_status": "BINDING_PENDING",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN",
+      "completed_outcome": null,
+      "failures": null
+    },
+    {
+      "id": "recursive-ordinary-companion",
+      "mode": "Original/Assert (needs transformed binding)",
+      "binding_status": "BINDING_PENDING",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN",
+      "completed_outcome": null,
+      "failures": null
+    },
+    {
+      "id": "recursive-simple-check-companion",
+      "mode": "SimpleCheck (same payload contract, recursion metadata intentionally absent)",
+      "binding_status": "BINDING_PENDING",
+      "fixture_status": "NOT_PREPARED_STOP",
+      "execution_status": "NOT_RUN",
+      "completed_outcome": null,
+      "failures": null
+    }
+  ],
+  "ci_approved_root_count": null,
+  "compiler_units_implemented": false,
+  "verifier_acceptance": false
+}

@@ -1,0 +1,109 @@
+{
+  "kind": "static STOP handoff audit; not production resolver/unit/verifier tests",
+  "status": "PASS",
+  "source_head": "ee2695e5a2c4c2d8ead7a511e0f3f6f2a9a95677",
+  "checks": [
+    {
+      "name": "source fingerprint: kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+      "pass": true
+    },
+    {
+      "name": "source fingerprint: kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "pass": true
+    },
+    {
+      "name": "source fingerprint: kani-compiler/src/kani_middle/transform/mod.rs",
+      "pass": true
+    },
+    {
+      "name": "source fingerprint: kani-compiler/src/kani_middle/transform/contracts.rs",
+      "pass": true
+    },
+    {
+      "name": "source fingerprint: kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "pass": true
+    },
+    {
+      "name": "source fingerprint: kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "pass": true
+    },
+    {
+      "name": "source fingerprint: kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "pass": true
+    },
+    {
+      "name": "source fingerprint: kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "pass": true
+    },
+    {
+      "name": "source fingerprint: kani-compiler/src/kani_middle/reachability.rs",
+      "pass": true
+    },
+    {
+      "name": "source fingerprint: kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "pass": true
+    },
+    {
+      "name": "source fingerprint: library/kani_core/src/mem_init.rs",
+      "pass": true
+    },
+    {
+      "name": "source fingerprint: cprover_bindings/src/goto_program/symbol_table.rs",
+      "pass": true
+    },
+    {
+      "name": "source fingerprint: library/kani_macros/src/sysroot/contracts/replace.rs",
+      "pass": true
+    },
+    {
+      "name": "source fingerprint: docs/src/reference/experimental/contracts.md",
+      "pass": true
+    },
+    {
+      "name": "unchanged lookup fallback anchor",
+      "pass": true
+    },
+    {
+      "name": "body cache is not an effect map anchor",
+      "pass": true
+    },
+    {
+      "name": "function-pointer resolution rejection anchor",
+      "pass": true
+    },
+    {
+      "name": "reachability includes address-taken functions anchor",
+      "pass": true
+    },
+    {
+      "name": "immutable finalization follows contract attachment anchor",
+      "pass": true
+    },
+    {
+      "name": "no implementation claimed",
+      "pass": true
+    },
+    {
+      "name": "all specified scenarios explicitly not executed",
+      "pass": true
+    },
+    {
+      "name": "mode/root bindings pending",
+      "pass": true
+    },
+    {
+      "name": "unknown scenarios retained",
+      "pass": true
+    },
+    {
+      "name": "CI remains unapproved",
+      "pass": true
+    },
+    {
+      "name": "result within required 35 lines",
+      "pass": true
+    }
+  ],
+  "compiler_units": "NOT_RUN",
+  "verifier": "NOT_RUN"
+}
