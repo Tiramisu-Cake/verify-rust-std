@@ -1,0 +1,34 @@
+{
+  "schema": "kani3300-worker14-capture-t1b/v1",
+  "status": "READY_FOR_COORDINATOR_CAPTURE",
+  "source_commit": "ada5c7bd44ee33a9c9e229cc5c35bcd32464d0fb",
+  "parent_commit": "3a29b3323561c5765505ef617607cadfc91f0ce8",
+  "clone": "/root/kani-fix-3300-m3r3",
+  "capture_run": "43502450916",
+  "validation": {
+    "synthetic_tests": 41,
+    "synthetic_tests_status": "PASS",
+    "diff_check": "PASS",
+    "offline_revalidated_invocations": 8,
+    "available_mixed_root_oracle": "MISMATCH",
+    "verifier_invocations": 0,
+    "cargo_invocations": 0,
+    "pushes": 0
+  },
+  "claims": [
+    "Complete explicit capture records inventory diffs and exits 2 after all 11 invocations.",
+    "Only extra/missing benign safety rows in the explicitly allowed shared function receive T1b allowance.",
+    "Failure descriptions, Unsupported, useful checks/covers and root/target checks remain exact."
+  ],
+  "evidence": ["RESULT.md", "AUDIT-CAPTURE.py", "CAPTURE-AUDIT.json"],
+  "open": [
+    "cycle_root failure/Unsupported description contains different numeric Ty/AdtDef IDs between isolation and mixed run; exact oracle rejects this.",
+    "Missing actual all_B_then_A, cycle_then_legal and legal_then_cycle results.",
+    "T1b shared cache instrumentation mechanism remains separate upstream work."
+  ],
+  "next_step": "Coordinator-authorized full 11-invocation capture on candidate; separately decide how to stabilize cycle diagnostics without weakening exact failure comparison.",
+  "binding_status": "BINDING_PENDING",
+  "order_credit": "NOT_ESTABLISHED",
+  "proof_credit": "NONE",
+  "closure_reason": "Authorized implementation, synthetic validation and offline research complete; no new verifier or CI run authorized."
+}

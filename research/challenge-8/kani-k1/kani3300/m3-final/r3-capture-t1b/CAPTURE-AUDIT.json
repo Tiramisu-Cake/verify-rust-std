@@ -1,0 +1,653 @@
+{
+  "artifact_directory": "/root/kani3300-h1-ci/m3r3-capture-r2/kani-uninit-part1-composition-pyn9bnsb",
+  "available_mixed_root_oracle": "MISMATCH",
+  "binding_status": "BINDING_PENDING",
+  "capture_run": "43502450916",
+  "capture_status": "INCOMPLETE",
+  "comparisons": [
+    {
+      "accepted": true,
+      "differences": {
+        "checks": {
+          "added": [
+            {
+              "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+              "id": "std::ptr::read::<u8>.safety_check.5",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "std::ptr::read::<u8>.safety_check.6",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+              "id": "std::ptr::read::<u8>.safety_check.7",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+              "id": "std::ptr::read::<u8>.safety_check.8",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "std::ptr::read::<u8>.safety_check.9",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+              "id": "std::ptr::read::<u8>.safety_check.10",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            }
+          ],
+          "removed": []
+        }
+      },
+      "exact_match": false,
+      "order": "all_A_then_B",
+      "root": "immutable_legal",
+      "t1b_evidence": {
+        "added": [
+          {
+            "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+            "id": "std::ptr::read::<u8>.safety_check.5",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "dereference failure: pointer invalid",
+            "id": "std::ptr::read::<u8>.safety_check.6",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+            "id": "std::ptr::read::<u8>.safety_check.7",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+            "id": "std::ptr::read::<u8>.safety_check.8",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "dereference failure: pointer invalid",
+            "id": "std::ptr::read::<u8>.safety_check.9",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+            "id": "std::ptr::read::<u8>.safety_check.10",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          }
+        ],
+        "removed": []
+      }
+    },
+    {
+      "accepted": true,
+      "differences": {
+        "checks": {
+          "added": [
+            {
+              "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+              "id": "std::ptr::read::<u8>.safety_check.5",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "std::ptr::read::<u8>.safety_check.6",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+              "id": "std::ptr::read::<u8>.safety_check.7",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+              "id": "std::ptr::read::<u8>.safety_check.8",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "std::ptr::read::<u8>.safety_check.9",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+              "id": "std::ptr::read::<u8>.safety_check.10",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+              "id": "std::ptr::read::<u8>.safety_check.11",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "std::ptr::read::<u8>.safety_check.12",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+              "id": "std::ptr::read::<u8>.safety_check.13",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            }
+          ],
+          "removed": []
+        }
+      },
+      "exact_match": false,
+      "order": "all_A_then_B",
+      "root": "immutable_hole_negative",
+      "t1b_evidence": {
+        "added": [
+          {
+            "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+            "id": "std::ptr::read::<u8>.safety_check.5",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "dereference failure: pointer invalid",
+            "id": "std::ptr::read::<u8>.safety_check.6",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+            "id": "std::ptr::read::<u8>.safety_check.7",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+            "id": "std::ptr::read::<u8>.safety_check.8",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "dereference failure: pointer invalid",
+            "id": "std::ptr::read::<u8>.safety_check.9",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+            "id": "std::ptr::read::<u8>.safety_check.10",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+            "id": "std::ptr::read::<u8>.safety_check.11",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "dereference failure: pointer invalid",
+            "id": "std::ptr::read::<u8>.safety_check.12",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+            "id": "std::ptr::read::<u8>.safety_check.13",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          }
+        ],
+        "removed": []
+      }
+    },
+    {
+      "accepted": true,
+      "differences": {},
+      "exact_match": true,
+      "order": "all_A_then_B",
+      "root": "ordinary_ensures_legal",
+      "t1b_evidence": {
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "accepted": true,
+      "differences": {},
+      "exact_match": true,
+      "order": "all_A_then_B",
+      "root": "pfc_legal",
+      "t1b_evidence": {
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "accepted": true,
+      "differences": {},
+      "exact_match": true,
+      "order": "all_A_then_B",
+      "root": "pfc_negative",
+      "t1b_evidence": {
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "accepted": false,
+      "differences": {
+        "checks": {
+          "added": [
+            {
+              "description": "Kani delayed uninitialized-memory analysis detected an interprocedural cycle (repeats active frame 1); root/active path: AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed10cycle_root\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed10cycle_root\", provenance: Source, instance: Instance { def: Item(DefId(0:122 ~ mixed[a012]::cycle_root)), args: [] } } -> frame 1: caller=bb3[0] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:81:5: 81:47 (#0); AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", provenance: Source, instance: Instance { def: Item(DefId(0:95 ~ mixed[a012]::cycle_relay)), args: [] } } -> frame 2: caller=bb7[1] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RINvNvCsdK45VAvb9Nw_5mixed11cycle_relay22kani_register_contractINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCB2_0EB4_\", selected_origin_symbol: \"_RINvNtCs86zjduzGLhS_4kani8internal15run_contract_fnINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCNvCsdK45VAvb9Nw_5mixed11cycle_relay0EB1O_\", provenance: RegistrationOverride(Instance { kind: Item, def: \"_RINvNtCs86zjduzGLhS_4kani8internal15run_contract_fnINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCNvCsdK45VAvb9Nw_5mixed11cycle_relay0EB1O_\", args: GenericArgs([Type(Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 521, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }), Type(Ty { id: 331, kind: RigidTy(Closure(ClosureDef(DefId { id: 478, name: \"mixed::cycle_relay::{closure#0}\" }), GenericArgs([Type(Ty { id: 75, kind: RigidTy(Int(I32)) }), Type(Ty { id: 76, kind: RigidTy(FnPtr(Binder { value: FnSig { inputs_and_output: [Ty { id: 5, kind: RigidTy(Tuple([])) }, Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 521, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }], c_variadic: false, safety: Safe, abi: RustCall }, bound_vars: [] })) }), Type(Ty { id: 323, kind: RigidTy(Tuple([Ty { id: 332, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 6, kind: RigidTy(Bool) }, Not)) }, Ty { id: 1, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 521, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }, Not)) }, Ty { id: 275, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 4, kind: RigidTy(Uint(U8)) }, Not)) }])) })]))) })]) }), instance: Instance { def: Item(DefId(0:103 ~ mixed[a012]::cycle_relay::kani_register_contract)), args: [std::mem::MaybeUninit<u8>, Closure(DefId(0:107 ~ mixed[a012]::cycle_relay::{closure#0}), [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)])] } } -> frame 3: caller=bb0[0] at library/kani_core/src/lib.rs:748:17: 748:23 (#5); AnalysisKey { owner_symbol: \"_RNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0B3_\", selected_origin_symbol: \"_RNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0B3_\", provenance: Source, instance: Instance { def: Item(DefId(0:107 ~ mixed[a012]::cycle_relay::{closure#0})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)] } } -> frame 4: caller=bb5[2] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0B5_\", selected_origin_symbol: \"_RNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0B5_\", provenance: Source, instance: Instance { def: Item(DefId(0:111 ~ mixed[a012]::cycle_relay::{closure#0}::{closure#1})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)] } } -> frame 5: caller=bb11[1] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RNCNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0s_0B7_\", selected_origin_symbol: \"_RNCNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0s_0B7_\", provenance: Source, instance: Instance { def: Item(DefId(0:113 ~ mixed[a012]::cycle_relay::{closure#0}::{closure#1}::{closure#1})), args: [i32, Binder { value: extern \"RustCall\" fn(((),)) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} u8, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} bool)] } } -> repeated: caller=bb5[2] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:75:9: 75:67 (#0); AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", provenance: Source, instance: Instance { def: Item(DefId(0:95 ~ mixed[a012]::cycle_relay)), args: [] } }",
+              "id": "cycle_root.unsupported_construct.1",
+              "location": "tests/json-handler/uninit-part1-composition/mixed.rs:79:1 in function cycle_root",
+              "status": "FAILURE"
+            }
+          ],
+          "removed": [
+            {
+              "description": "Kani delayed uninitialized-memory analysis detected an interprocedural cycle (repeats active frame 1); root/active path: AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed10cycle_root\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed10cycle_root\", provenance: Source, instance: Instance { def: Item(DefId(0:122 ~ mixed[a012]::cycle_root)), args: [] } } -> frame 1: caller=bb3[0] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:81:5: 81:47 (#0); AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", provenance: Source, instance: Instance { def: Item(DefId(0:95 ~ mixed[a012]::cycle_relay)), args: [] } } -> frame 2: caller=bb7[1] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RINvNvCsdK45VAvb9Nw_5mixed11cycle_relay22kani_register_contractINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCB2_0EB4_\", selected_origin_symbol: \"_RINvNtCs86zjduzGLhS_4kani8internal15run_contract_fnINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCNvCsdK45VAvb9Nw_5mixed11cycle_relay0EB1O_\", provenance: RegistrationOverride(Instance { kind: Item, def: \"_RINvNtCs86zjduzGLhS_4kani8internal15run_contract_fnINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCNvCsdK45VAvb9Nw_5mixed11cycle_relay0EB1O_\", args: GenericArgs([Type(Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 496, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }), Type(Ty { id: 35, kind: RigidTy(Closure(ClosureDef(DefId { id: 478, name: \"mixed::cycle_relay::{closure#0}\" }), GenericArgs([Type(Ty { id: 25, kind: RigidTy(Int(I32)) }), Type(Ty { id: 26, kind: RigidTy(FnPtr(Binder { value: FnSig { inputs_and_output: [Ty { id: 5, kind: RigidTy(Tuple([])) }, Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 496, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }], c_variadic: false, safety: Safe, abi: RustCall }, bound_vars: [] })) }), Type(Ty { id: 27, kind: RigidTy(Tuple([Ty { id: 36, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 6, kind: RigidTy(Bool) }, Not)) }, Ty { id: 1, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 496, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }, Not)) }, Ty { id: 37, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 4, kind: RigidTy(Uint(U8)) }, Not)) }])) })]))) })]) }), instance: Instance { def: Item(DefId(0:103 ~ mixed[a012]::cycle_relay::kani_register_contract)), args: [std::mem::MaybeUninit<u8>, Closure(DefId(0:107 ~ mixed[a012]::cycle_relay::{closure#0}), [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)])] } } -> frame 3: caller=bb0[0] at library/kani_core/src/lib.rs:748:17: 748:23 (#5); AnalysisKey { owner_symbol: \"_RNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0B3_\", selected_origin_symbol: \"_RNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0B3_\", provenance: Source, instance: Instance { def: Item(DefId(0:107 ~ mixed[a012]::cycle_relay::{closure#0})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)] } } -> frame 4: caller=bb5[2] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0B5_\", selected_origin_symbol: \"_RNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0B5_\", provenance: Source, instance: Instance { def: Item(DefId(0:111 ~ mixed[a012]::cycle_relay::{closure#0}::{closure#1})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)] } } -> frame 5: caller=bb11[1] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RNCNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0s_0B7_\", selected_origin_symbol: \"_RNCNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0s_0B7_\", provenance: Source, instance: Instance { def: Item(DefId(0:113 ~ mixed[a012]::cycle_relay::{closure#0}::{closure#1}::{closure#1})), args: [i32, Binder { value: extern \"RustCall\" fn(((),)) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} u8, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} bool)] } } -> repeated: caller=bb5[2] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:75:9: 75:67 (#0); AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", provenance: Source, instance: Instance { def: Item(DefId(0:95 ~ mixed[a012]::cycle_relay)), args: [] } }",
+              "id": "cycle_root.unsupported_construct.1",
+              "location": "tests/json-handler/uninit-part1-composition/mixed.rs:79:1 in function cycle_root",
+              "status": "FAILURE"
+            }
+          ]
+        },
+        "failed_properties": {
+          "added": [
+            {
+              "class": "unsupported_construct",
+              "description": "Kani delayed uninitialized-memory analysis detected an interprocedural cycle (repeats active frame 1); root/active path: AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed10cycle_root\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed10cycle_root\", provenance: Source, instance: Instance { def: Item(DefId(0:122 ~ mixed[a012]::cycle_root)), args: [] } } -> frame 1: caller=bb3[0] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:81:5: 81:47 (#0); AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", provenance: Source, instance: Instance { def: Item(DefId(0:95 ~ mixed[a012]::cycle_relay)), args: [] } } -> frame 2: caller=bb7[1] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RINvNvCsdK45VAvb9Nw_5mixed11cycle_relay22kani_register_contractINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCB2_0EB4_\", selected_origin_symbol: \"_RINvNtCs86zjduzGLhS_4kani8internal15run_contract_fnINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCNvCsdK45VAvb9Nw_5mixed11cycle_relay0EB1O_\", provenance: RegistrationOverride(Instance { kind: Item, def: \"_RINvNtCs86zjduzGLhS_4kani8internal15run_contract_fnINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCNvCsdK45VAvb9Nw_5mixed11cycle_relay0EB1O_\", args: GenericArgs([Type(Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 521, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }), Type(Ty { id: 331, kind: RigidTy(Closure(ClosureDef(DefId { id: 478, name: \"mixed::cycle_relay::{closure#0}\" }), GenericArgs([Type(Ty { id: 75, kind: RigidTy(Int(I32)) }), Type(Ty { id: 76, kind: RigidTy(FnPtr(Binder { value: FnSig { inputs_and_output: [Ty { id: 5, kind: RigidTy(Tuple([])) }, Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 521, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }], c_variadic: false, safety: Safe, abi: RustCall }, bound_vars: [] })) }), Type(Ty { id: 323, kind: RigidTy(Tuple([Ty { id: 332, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 6, kind: RigidTy(Bool) }, Not)) }, Ty { id: 1, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 521, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }, Not)) }, Ty { id: 275, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 4, kind: RigidTy(Uint(U8)) }, Not)) }])) })]))) })]) }), instance: Instance { def: Item(DefId(0:103 ~ mixed[a012]::cycle_relay::kani_register_contract)), args: [std::mem::MaybeUninit<u8>, Closure(DefId(0:107 ~ mixed[a012]::cycle_relay::{closure#0}), [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)])] } } -> frame 3: caller=bb0[0] at library/kani_core/src/lib.rs:748:17: 748:23 (#5); AnalysisKey { owner_symbol: \"_RNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0B3_\", selected_origin_symbol: \"_RNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0B3_\", provenance: Source, instance: Instance { def: Item(DefId(0:107 ~ mixed[a012]::cycle_relay::{closure#0})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)] } } -> frame 4: caller=bb5[2] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0B5_\", selected_origin_symbol: \"_RNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0B5_\", provenance: Source, instance: Instance { def: Item(DefId(0:111 ~ mixed[a012]::cycle_relay::{closure#0}::{closure#1})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)] } } -> frame 5: caller=bb11[1] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RNCNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0s_0B7_\", selected_origin_symbol: \"_RNCNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0s_0B7_\", provenance: Source, instance: Instance { def: Item(DefId(0:113 ~ mixed[a012]::cycle_relay::{closure#0}::{closure#1}::{closure#1})), args: [i32, Binder { value: extern \"RustCall\" fn(((),)) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} u8, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} bool)] } } -> repeated: caller=bb5[2] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:75:9: 75:67 (#0); AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", provenance: Source, instance: Instance { def: Item(DefId(0:95 ~ mixed[a012]::cycle_relay)), args: [] } }",
+              "file": "tests/json-handler/uninit-part1-composition/mixed.rs",
+              "id": "cycle_root.unsupported_construct.1",
+              "line": "79",
+              "status": "FAILURE",
+              "trace_available": true
+            }
+          ],
+          "removed": [
+            {
+              "class": "unsupported_construct",
+              "description": "Kani delayed uninitialized-memory analysis detected an interprocedural cycle (repeats active frame 1); root/active path: AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed10cycle_root\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed10cycle_root\", provenance: Source, instance: Instance { def: Item(DefId(0:122 ~ mixed[a012]::cycle_root)), args: [] } } -> frame 1: caller=bb3[0] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:81:5: 81:47 (#0); AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", provenance: Source, instance: Instance { def: Item(DefId(0:95 ~ mixed[a012]::cycle_relay)), args: [] } } -> frame 2: caller=bb7[1] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RINvNvCsdK45VAvb9Nw_5mixed11cycle_relay22kani_register_contractINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCB2_0EB4_\", selected_origin_symbol: \"_RINvNtCs86zjduzGLhS_4kani8internal15run_contract_fnINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCNvCsdK45VAvb9Nw_5mixed11cycle_relay0EB1O_\", provenance: RegistrationOverride(Instance { kind: Item, def: \"_RINvNtCs86zjduzGLhS_4kani8internal15run_contract_fnINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCNvCsdK45VAvb9Nw_5mixed11cycle_relay0EB1O_\", args: GenericArgs([Type(Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 496, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }), Type(Ty { id: 35, kind: RigidTy(Closure(ClosureDef(DefId { id: 478, name: \"mixed::cycle_relay::{closure#0}\" }), GenericArgs([Type(Ty { id: 25, kind: RigidTy(Int(I32)) }), Type(Ty { id: 26, kind: RigidTy(FnPtr(Binder { value: FnSig { inputs_and_output: [Ty { id: 5, kind: RigidTy(Tuple([])) }, Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 496, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }], c_variadic: false, safety: Safe, abi: RustCall }, bound_vars: [] })) }), Type(Ty { id: 27, kind: RigidTy(Tuple([Ty { id: 36, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 6, kind: RigidTy(Bool) }, Not)) }, Ty { id: 1, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 496, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }, Not)) }, Ty { id: 37, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 4, kind: RigidTy(Uint(U8)) }, Not)) }])) })]))) })]) }), instance: Instance { def: Item(DefId(0:103 ~ mixed[a012]::cycle_relay::kani_register_contract)), args: [std::mem::MaybeUninit<u8>, Closure(DefId(0:107 ~ mixed[a012]::cycle_relay::{closure#0}), [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)])] } } -> frame 3: caller=bb0[0] at library/kani_core/src/lib.rs:748:17: 748:23 (#5); AnalysisKey { owner_symbol: \"_RNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0B3_\", selected_origin_symbol: \"_RNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0B3_\", provenance: Source, instance: Instance { def: Item(DefId(0:107 ~ mixed[a012]::cycle_relay::{closure#0})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)] } } -> frame 4: caller=bb5[2] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0B5_\", selected_origin_symbol: \"_RNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0B5_\", provenance: Source, instance: Instance { def: Item(DefId(0:111 ~ mixed[a012]::cycle_relay::{closure#0}::{closure#1})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)] } } -> frame 5: caller=bb11[1] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RNCNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0s_0B7_\", selected_origin_symbol: \"_RNCNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0s_0B7_\", provenance: Source, instance: Instance { def: Item(DefId(0:113 ~ mixed[a012]::cycle_relay::{closure#0}::{closure#1}::{closure#1})), args: [i32, Binder { value: extern \"RustCall\" fn(((),)) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} u8, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} bool)] } } -> repeated: caller=bb5[2] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:75:9: 75:67 (#0); AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", provenance: Source, instance: Instance { def: Item(DefId(0:95 ~ mixed[a012]::cycle_relay)), args: [] } }",
+              "file": "tests/json-handler/uninit-part1-composition/mixed.rs",
+              "id": "cycle_root.unsupported_construct.1",
+              "line": "79",
+              "status": "FAILURE",
+              "trace_available": true
+            }
+          ]
+        },
+        "unsupported_constructs": {
+          "added": [
+            {
+              "class": "unsupported_construct",
+              "description": "Kani delayed uninitialized-memory analysis detected an interprocedural cycle (repeats active frame 1); root/active path: AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed10cycle_root\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed10cycle_root\", provenance: Source, instance: Instance { def: Item(DefId(0:122 ~ mixed[a012]::cycle_root)), args: [] } } -> frame 1: caller=bb3[0] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:81:5: 81:47 (#0); AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", provenance: Source, instance: Instance { def: Item(DefId(0:95 ~ mixed[a012]::cycle_relay)), args: [] } } -> frame 2: caller=bb7[1] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RINvNvCsdK45VAvb9Nw_5mixed11cycle_relay22kani_register_contractINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCB2_0EB4_\", selected_origin_symbol: \"_RINvNtCs86zjduzGLhS_4kani8internal15run_contract_fnINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCNvCsdK45VAvb9Nw_5mixed11cycle_relay0EB1O_\", provenance: RegistrationOverride(Instance { kind: Item, def: \"_RINvNtCs86zjduzGLhS_4kani8internal15run_contract_fnINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCNvCsdK45VAvb9Nw_5mixed11cycle_relay0EB1O_\", args: GenericArgs([Type(Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 521, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }), Type(Ty { id: 331, kind: RigidTy(Closure(ClosureDef(DefId { id: 478, name: \"mixed::cycle_relay::{closure#0}\" }), GenericArgs([Type(Ty { id: 75, kind: RigidTy(Int(I32)) }), Type(Ty { id: 76, kind: RigidTy(FnPtr(Binder { value: FnSig { inputs_and_output: [Ty { id: 5, kind: RigidTy(Tuple([])) }, Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 521, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }], c_variadic: false, safety: Safe, abi: RustCall }, bound_vars: [] })) }), Type(Ty { id: 323, kind: RigidTy(Tuple([Ty { id: 332, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 6, kind: RigidTy(Bool) }, Not)) }, Ty { id: 1, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 521, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }, Not)) }, Ty { id: 275, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 4, kind: RigidTy(Uint(U8)) }, Not)) }])) })]))) })]) }), instance: Instance { def: Item(DefId(0:103 ~ mixed[a012]::cycle_relay::kani_register_contract)), args: [std::mem::MaybeUninit<u8>, Closure(DefId(0:107 ~ mixed[a012]::cycle_relay::{closure#0}), [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)])] } } -> frame 3: caller=bb0[0] at library/kani_core/src/lib.rs:748:17: 748:23 (#5); AnalysisKey { owner_symbol: \"_RNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0B3_\", selected_origin_symbol: \"_RNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0B3_\", provenance: Source, instance: Instance { def: Item(DefId(0:107 ~ mixed[a012]::cycle_relay::{closure#0})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)] } } -> frame 4: caller=bb5[2] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0B5_\", selected_origin_symbol: \"_RNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0B5_\", provenance: Source, instance: Instance { def: Item(DefId(0:111 ~ mixed[a012]::cycle_relay::{closure#0}::{closure#1})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)] } } -> frame 5: caller=bb11[1] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RNCNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0s_0B7_\", selected_origin_symbol: \"_RNCNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0s_0B7_\", provenance: Source, instance: Instance { def: Item(DefId(0:113 ~ mixed[a012]::cycle_relay::{closure#0}::{closure#1}::{closure#1})), args: [i32, Binder { value: extern \"RustCall\" fn(((),)) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} u8, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} bool)] } } -> repeated: caller=bb5[2] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:75:9: 75:67 (#0); AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", provenance: Source, instance: Instance { def: Item(DefId(0:95 ~ mixed[a012]::cycle_relay)), args: [] } }",
+              "file": "tests/json-handler/uninit-part1-composition/mixed.rs",
+              "id": "cycle_root.unsupported_construct.1",
+              "line": "79",
+              "status": "FAILURE",
+              "trace_available": true
+            }
+          ],
+          "removed": [
+            {
+              "class": "unsupported_construct",
+              "description": "Kani delayed uninitialized-memory analysis detected an interprocedural cycle (repeats active frame 1); root/active path: AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed10cycle_root\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed10cycle_root\", provenance: Source, instance: Instance { def: Item(DefId(0:122 ~ mixed[a012]::cycle_root)), args: [] } } -> frame 1: caller=bb3[0] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:81:5: 81:47 (#0); AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", provenance: Source, instance: Instance { def: Item(DefId(0:95 ~ mixed[a012]::cycle_relay)), args: [] } } -> frame 2: caller=bb7[1] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RINvNvCsdK45VAvb9Nw_5mixed11cycle_relay22kani_register_contractINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCB2_0EB4_\", selected_origin_symbol: \"_RINvNtCs86zjduzGLhS_4kani8internal15run_contract_fnINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCNvCsdK45VAvb9Nw_5mixed11cycle_relay0EB1O_\", provenance: RegistrationOverride(Instance { kind: Item, def: \"_RINvNtCs86zjduzGLhS_4kani8internal15run_contract_fnINtNtNtCseOU9pHvofFg_4core3mem12maybe_uninit11MaybeUninithENCNvCsdK45VAvb9Nw_5mixed11cycle_relay0EB1O_\", args: GenericArgs([Type(Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 496, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }), Type(Ty { id: 35, kind: RigidTy(Closure(ClosureDef(DefId { id: 478, name: \"mixed::cycle_relay::{closure#0}\" }), GenericArgs([Type(Ty { id: 25, kind: RigidTy(Int(I32)) }), Type(Ty { id: 26, kind: RigidTy(FnPtr(Binder { value: FnSig { inputs_and_output: [Ty { id: 5, kind: RigidTy(Tuple([])) }, Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 496, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }], c_variadic: false, safety: Safe, abi: RustCall }, bound_vars: [] })) }), Type(Ty { id: 27, kind: RigidTy(Tuple([Ty { id: 36, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 6, kind: RigidTy(Bool) }, Not)) }, Ty { id: 1, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 9, kind: RigidTy(Adt(AdtDef(DefId { id: 496, name: \"std::mem::MaybeUninit\" }), GenericArgs([Type(Ty { id: 4, kind: RigidTy(Uint(U8)) })]))) }, Not)) }, Ty { id: 37, kind: RigidTy(Ref(Region { kind: ReErased }, Ty { id: 4, kind: RigidTy(Uint(U8)) }, Not)) }])) })]))) })]) }), instance: Instance { def: Item(DefId(0:103 ~ mixed[a012]::cycle_relay::kani_register_contract)), args: [std::mem::MaybeUninit<u8>, Closure(DefId(0:107 ~ mixed[a012]::cycle_relay::{closure#0}), [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)])] } } -> frame 3: caller=bb0[0] at library/kani_core/src/lib.rs:748:17: 748:23 (#5); AnalysisKey { owner_symbol: \"_RNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0B3_\", selected_origin_symbol: \"_RNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0B3_\", provenance: Source, instance: Instance { def: Item(DefId(0:107 ~ mixed[a012]::cycle_relay::{closure#0})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)] } } -> frame 4: caller=bb5[2] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0B5_\", selected_origin_symbol: \"_RNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0B5_\", provenance: Source, instance: Instance { def: Item(DefId(0:111 ~ mixed[a012]::cycle_relay::{closure#0}::{closure#1})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} bool, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} u8)] } } -> frame 5: caller=bb11[1] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:67:1: 67:30 (#75); AnalysisKey { owner_symbol: \"_RNCNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0s_0B7_\", selected_origin_symbol: \"_RNCNCNCNvCsdK45VAvb9Nw_5mixed11cycle_relay0s_0s_0B7_\", provenance: Source, instance: Instance { def: Item(DefId(0:113 ~ mixed[a012]::cycle_relay::{closure#0}::{closure#1}::{closure#1})), args: [i32, Binder { value: extern \"RustCall\" fn(((),)) -> std::mem::MaybeUninit<u8>, bound_vars: [] }, (&'{erased} u8, &'{erased} std::mem::MaybeUninit<u8>, &'{erased} bool)] } } -> repeated: caller=bb5[2] at /home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:75:9: 75:67 (#0); AnalysisKey { owner_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", selected_origin_symbol: \"_RNvCsdK45VAvb9Nw_5mixed11cycle_relay\", provenance: Source, instance: Instance { def: Item(DefId(0:95 ~ mixed[a012]::cycle_relay)), args: [] } }",
+              "file": "tests/json-handler/uninit-part1-composition/mixed.rs",
+              "id": "cycle_root.unsupported_construct.1",
+              "line": "79",
+              "status": "FAILURE",
+              "trace_available": true
+            }
+          ]
+        }
+      },
+      "exact_match": false,
+      "order": "all_A_then_B",
+      "root": "cycle_root",
+      "t1b_evidence": {
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "accepted": true,
+      "differences": {
+        "checks": {
+          "added": [
+            {
+              "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+              "id": "std::ptr::read::<u8>.safety_check.5",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "dereference failure: pointer invalid",
+              "id": "std::ptr::read::<u8>.safety_check.6",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            },
+            {
+              "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+              "id": "std::ptr::read::<u8>.safety_check.7",
+              "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+              "status": "SUCCESS"
+            }
+          ],
+          "removed": []
+        }
+      },
+      "exact_match": false,
+      "order": "all_A_then_B",
+      "root": "unrelated_legal_after_cycle",
+      "t1b_evidence": {
+        "added": [
+          {
+            "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+            "id": "std::ptr::read::<u8>.safety_check.5",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "dereference failure: pointer invalid",
+            "id": "std::ptr::read::<u8>.safety_check.6",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          },
+          {
+            "description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+            "id": "std::ptr::read::<u8>.safety_check.7",
+            "location": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+            "status": "SUCCESS"
+          }
+        ],
+        "removed": []
+      }
+    }
+  ],
+  "implementation_sha256": {
+    "README.md": "40ac41c9e7a3689c4468e0ef0f88ef4ada165c2a651b1c39ac8a7c5c28d803f6",
+    "compare.py": "c6dec051cd3c39bfe532d834a02da99886d458702d1b76f15a83e5484cb8fd66",
+    "run.py": "df63ec39d3c4f1dc777ce8e709fe3c131880509eb48b71c1d763115f15e50fc6",
+    "test_compare.py": "bb3a53aa66ddf3f4fe963f603b5e5ae3a062b7576d68abfc2d671a739362ceca"
+  },
+  "job_log": "/root/kani3300-h1-ci/m3r3-capture-r2.log",
+  "job_log_sha256": "6afa3983aee1dc59f666ee920c8a8372b9b099dda1d015a7c37d4c4ddd3b0926",
+  "missing_runs": [
+    "all_B_then_A",
+    "cycle_then_legal",
+    "legal_then_cycle"
+  ],
+  "note": "Offline file integrity and runner validation only; original files unchanged.",
+  "order_credit": "NOT_ESTABLISHED",
+  "original_capture_error": "Rejected('mixed-root inventory changed: immutable_legal in all_A_then_B')",
+  "original_capture_sha256": "aab68b2974a8b5a1d675ff2ec40b8165b41685c90e44b27d6be2164064595ffd",
+  "original_capture_status": "FAIL",
+  "proof_credit": "NONE",
+  "revalidated_runs": [
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "c5b82c5518a96b2bb859bdfeb6f63cc43ea75182dabefd454d90e3a9b863b7d2",
+        "receipt.json": "8a2c429834aa39a576f2d43e42ca556a68eecee5a2d543f1f4a764332734c636",
+        "regular.out": "37e7b45c432f8a48c163e1e05430774231c69fc330cdd5ef6b5d3ebe12002d5b"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 45,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "immutable_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 46,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 2,
+          "name": "immutable_hole_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 227,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "ordinary_ensures_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "pfc_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 3,
+          "name": "pfc_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 384,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 1,
+          "name": "cycle_root",
+          "unsupported_count": 1,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 189,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "unrelated_legal_after_cycle",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "all_A_then_B"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "ecab6f169f576806df2898f1080f4d1bbb375425a4f22084377e5b226f7cafba",
+        "receipt.json": "f042f126fd11ecbf1ec3ce796535029e40bcbc0d4d478d726a2bf32393f10d4e",
+        "regular.out": "f89106e03a0ed17c64fb3c1f77ddbc3dd01f6bc6bbfeca4b8f9e50c42d7bb164"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 384,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 1,
+          "name": "cycle_root",
+          "unsupported_count": 1,
+          "verdict": "FAILURE"
+        }
+      ],
+      "run_id": "isolated-cycle_root"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "9b4417d58439dd282b0e97dbc80b006965dade4b7e2558257963ffd18966b357",
+        "receipt.json": "7b071ce472efafdb5c0a10fb6d10135801297016d1cba3883e95d4431fefa5b1",
+        "regular.out": "9347661afeac6437bf56fecea5e0329d79f177d7a71f59a8ce4626c6acf5efec"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 37,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 2,
+          "name": "immutable_hole_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        }
+      ],
+      "run_id": "isolated-immutable_hole_negative"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "9e72735ea82b7f8c436de1a266a08cf1dc3a5086e12f1a581f60a5dd775c0ada",
+        "receipt.json": "76e9809b28c36e2b052bcfc799d9f5046bcdd7713dd8058c8710075cc5a27d7d",
+        "regular.out": "a7d5646eb84396da521a6c457ffa923c43e176a9d0ecb39c496f6a427a1332ee"
+      },
+      "original_exit": 0,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 39,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "immutable_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-immutable_legal"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "1601bd039f5112b2feb23b27028aa4db0d1de451bb4fc485198cf89b3165cd8f",
+        "receipt.json": "2c941cba22dc857e66f62dbfb8a03e73cdb284b7813fdf093624caba3b1f2036",
+        "regular.out": "dffffb325f910725a42324694f0f35394d7cd768a14fecc51bc12eb86c5b27ae"
+      },
+      "original_exit": 0,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 227,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "ordinary_ensures_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-ordinary_ensures_legal"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "2934d5adae5f6fca302259880423f4ae7a6476f6846f6f616122ddc8f92f80be",
+        "receipt.json": "52836a3fc4d2874754ed0ddb6ea5a9b7e6766eaee2af9ca50ef08b6d7bf4f155",
+        "regular.out": "bd905d39c7ebf62ff5ea463836b9918ea227995063c2a7b15e570aef064e8ae0"
+      },
+      "original_exit": 0,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "pfc_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-pfc_legal"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "ab30e2a56a0e51722feb40cb615373378f2fd5bf98ef3521c758379d81072334",
+        "receipt.json": "7158cf91ddc91556ec50d0ebe39eb0369c4f594bd69d63993c0a3c53793f8cc9",
+        "regular.out": "0ceb10a4c1a068bde684d4bb5a81f1efcfd573ca0c85ceaad13ab9fab1266b2c"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 3,
+          "name": "pfc_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        }
+      ],
+      "run_id": "isolated-pfc_negative"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "b8526c900ca79211ec7b5cd261633ae137cef56912c63fafaca119c3548fffa6",
+        "receipt.json": "675fe63f9a4bd99837878612cf5b887d90a32d0ea4eea59eae83fb544be9f41a",
+        "regular.out": "ccae2c007d7c92e6d937e59dd7cef4873361c967ab9595ded030ed7e89ac60ab"
+      },
+      "original_exit": 0,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 186,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "unrelated_legal_after_cycle",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-unrelated_legal_after_cycle"
+    }
+  ],
+  "schema": "kani3300-m3-r3-capture-t1b-revalidation/v1",
+  "source_commit": "ada5c7bd44ee33a9c9e229cc5c35bcd32464d0fb",
+  "source_sha256": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970",
+  "verifier_invocations": 0
+}
