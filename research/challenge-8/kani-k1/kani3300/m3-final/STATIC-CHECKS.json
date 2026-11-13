@@ -1,0 +1,41 @@
+{
+  "scope": "PASS tests-only; existing suites/validator unchanged",
+  "import": "PASS 16 exact snapshot files; four repaired Rust sources",
+  "package_files": 41,
+  "composition_selectors": 8,
+  "composition_roots": 9,
+  "unchanged_control_files": 70,
+  "identities": "PASS",
+  "rust_typecheck": "NOT_RUN",
+  "MIR_Kani_CBMC_CI": "NOT_RUN",
+  "producer_order": "ORDER_UNCONTROLLED",
+  "proof_credit": "NONE",
+  "Python_existing_strong_oracles": {
+    "passed": 21,
+    "failed": 0
+  },
+  "Python_existing_mode_boundaries": {
+    "passed": 18,
+    "failed": 0
+  },
+  "Python_new_composition_observer": {
+    "passed": 24,
+    "failed": 0
+  },
+  "Python_static_parse": "PASS",
+  "rustfmt": "PASS authorized wrapper --edition2021 --check on 17 Rust fixtures",
+  "git_diff_cached_check": "PASS",
+  "cloud_usd": 0,
+  "CI_dispatches": 0,
+  "push": "NOT_PERFORMED",
+  "limitations": [
+    "Exact runtime property expectations BINDING_PENDING; new default suite fails closed until reviewed bindings",
+    "Unbound collector exits2; never qualified PASS",
+    "Actual source/body/mode/MIR/mask/registry binding UNKNOWN",
+    "Producer order ORDER_UNCONTROLLED; no matched-AB/BA credit",
+    "C0 Quick coordinator-reported only, not new C1 evidence"
+  ],
+  "Python_total_passed": 63,
+  "prepared_source_sha": "34d54caf145d433cdf603433f26604f573cc3868",
+  "prepared_source_tree": "e0a5ab424d383e2e06424ab3b539046ed19f8c81"
+}

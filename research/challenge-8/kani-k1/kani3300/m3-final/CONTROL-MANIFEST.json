@@ -1,0 +1,286 @@
+{
+  "purpose": "Exact unchanged C0 controls to include in coordinator qualification; not results",
+  "status": "NOT_RUN",
+  "files": [
+    {
+      "path": "tests/expected/uninit/maybe-uninit-initialized/expected",
+      "sha256": "daa81fb42a5d5da64451b030dcd284678138909fbbdca5675c5caf7d78f8d89e"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "sha256": "df6292d1fdc472cb41e6e7d707a6bc4f8b190a3f206a7f208e635a8d0b5f9e5c"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+      "sha256": "336212bb2b499b05eb202c95a67b9b8183c3e85099f316b201d055585eb7146f"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+      "sha256": "e4adfcd3369a6787421c1792ea659ab6d4e195ad063927003bbcd85c446fd9d3"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-move/expected",
+      "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+      "sha256": "499c02f042dabf068c20cfa9bc255408990d3f2c8f103072448b8f4cfce69359"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+      "sha256": "4819312ce884c348b8964b085873dea53627c27aa30f53458229858283cf7f41"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-array-partial-data/expected",
+      "sha256": "2617ae16f7ebf312962f17c4865f34488d877fa20fad1295f2d015b8c7780e8c"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-array-partial-data/main.rs",
+      "sha256": "305f8ed325072dd0b38a248545f537c232305d4c1c51faece5a4d996c70d67de"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-array-padding/expected",
+      "sha256": "8449105fe45ea1e2d85f086560fb455a50cacc89829786769e6a7933c802e2a3"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-typed-array-padding/main.rs",
+      "sha256": "a3c0904fd8767b90f1874ed545e3044ea4e37b5469182a7a1f3e99186e156f7c"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-transmute-padding/expected",
+      "sha256": "6f67fe0887ebe8d7ea7e1f7365b6c3c1cc03db1f24fcfdb5adc3855593165041"
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-transmute-padding/main.rs",
+      "sha256": "62fa7db84d1c814862e000746fef53cf64fb0faed7ec809559a42c6764ccccd7"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.expected",
+      "sha256": "4bedbd7632f8f9775f5f07a39430cb5b2e26c623bc551896b6ce9e395a9e1467"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs",
+      "sha256": "47e48e69bff71f92f9f098acbea449cb44ce40034d9bea6eb6f3818bc6b3838f"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.expected",
+      "sha256": "e4c29764a41c9f1483b87dbeb5ad4268bc3b8ea952a5d6b9730326bf0c8d9b2a"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs",
+      "sha256": "6e0cb23853ca8954b1824adb5375df8c141da6fc2653f89c75eb96e0b9f10bda"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.expected",
+      "sha256": "6fb62c8154c9248d51f319458e7caacfb13ded674d377a0e60d240f21ab31228"
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs",
+      "sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/capture-free.expected",
+      "sha256": "d0050ba6b8626c5ac3d9ae6f2ca5b54895f16079198fbb816f69219cb5301619"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/capture-free.rs",
+      "sha256": "2b785e11971bc41a8e0b351f788433c014968eb286069c262a3b87b21c95bf2a"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/dag.expected",
+      "sha256": "c2b19381a59e2250a60e0c16420ba6727a41487b661d576c7a9535a39f39d279"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/dag.rs",
+      "sha256": "7f37e26433c46a96c19298e6bc9e592aac55cbec3b336757a4c89e53e7cf74a1"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/mutual-cycle.expected",
+      "sha256": "ad7f45e85bbe6ab4d9343e8f8f22a44886aadf4a9046fd33bbe6ec95c933d6c7"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/mutual-cycle.rs",
+      "sha256": "d3215f5d42224f3fe889da4e78f4e8d15ebe6208b0171ddc8fcc03e0dded239e"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/roots-acyclic-first.expected",
+      "sha256": "6eab61b981a862164d4b922897955408e436b80b90f81b1cf16392ef4b857947"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/roots-acyclic-first.rs",
+      "sha256": "8cf937c965e9f46f0b609ae65d78aa60abb56a6d2318203cd9bc28abf3839bce"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/roots-cycle-first.expected",
+      "sha256": "6eab61b981a862164d4b922897955408e436b80b90f81b1cf16392ef4b857947"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/roots-cycle-first.rs",
+      "sha256": "9e98d899e82710a03b0da817c79457a114eacfebdddd1f658d8cd19a372d3b4c"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/self-cycle.expected",
+      "sha256": "4fb11b019f7c9a13a64eb862d8e40f32edc41624fde24b1a0c0a2229e918250f"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/self-cycle.rs",
+      "sha256": "54290ed84b8ca2f63ff664d9ec05aca7cd7644e43248400b10bf3b8f3c48f85a"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/README.md",
+      "sha256": "a99b6cf6ab5f591c4646bdd287eab2ea64e6ba382669b5bd9bc77d46a0ed4f4a"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-reference-hole.expected",
+      "sha256": "cdd525ac3da5166378981ef4a017c43e7b58b0933dbf12399dd24907296af0f4"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-reference-hole.rs",
+      "sha256": "8972d902d20ea63f3e589bc3ab9b5bcaccf6a69962fe0c33771160fe1364aeca"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-reference-legal.expected",
+      "sha256": "4f3e5ed808319b2ff1f2d48af92e7e6b9483f02a118ed0f3c63dddcaaca3a0c1"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-reference-legal.rs",
+      "sha256": "7a1d2bd4a0ea24b8dba0822cd942db7784deeb763549788586b14798d43de4d3"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-value-hole.expected",
+      "sha256": "f5043281d0bcabb678b92f2a1d9722341b923ce5d3b3a6a1e35d89e76b7abd6f"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-value-hole.rs",
+      "sha256": "db708a0636f6dc5457c073ba75686ed9469dc1a3be2c30c19a437631ec54a903"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-value-legal.expected",
+      "sha256": "e7a53016a085d40b8ac9f4951b3fe8ff733853bb8094c37a8aaac7eae93d56f1"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-value-legal.rs",
+      "sha256": "07a693c793eb9bc5053e09ad8c266fadb453962c3d3f494e2068cd342f4984a1"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-relocation-hole.expected",
+      "sha256": "5cb7c77430b65d4e08c0d8a81f3e612446faf108fb5290bef57e5e99fe0608af"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-relocation-hole.rs",
+      "sha256": "7fcd03361d492c39d6fdb5db15311083242ed6511bbc861854b106956a4c12ca"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-relocation-legal.expected",
+      "sha256": "8941c19ddbdd52676915a79ab7b26ff6ced5970747b47c5bfc94b48b0e3e06af"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-relocation-legal.rs",
+      "sha256": "04c359df6c6a9ea66136a81ac806b4fb6c72530f0d835a4a86d94c653a6f9319"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-static-hole.expected",
+      "sha256": "6d16752c626cdbc21997d9df6bbbb8e058b50891db14c0e8cd591d7191da91de"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-static-hole.rs",
+      "sha256": "fbf3cda2423e5d344033e94ff9330e0e47354035506807885d09e092e24b56ce"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-static-legal.expected",
+      "sha256": "25e514e10ad3084598cd99786bc0b7845fb6997b22dd9a75554ff92fd148e218"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-static-legal.rs",
+      "sha256": "4fa88f3e729f13fe7879a5dbedd3183023a687e0dbd5014ce45f653deed4fe32"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-subrange-hole.expected",
+      "sha256": "fa8db79c8f74fd9dd02fd319266d03751db1cb7dc422c5364c37cebaf41ea96a"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-subrange-hole.rs",
+      "sha256": "c70ec9a5fc24fb853784fc2fce7830631bcca0714c648e78a1d5fa5dfaaffa44"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-subrange-legal.expected",
+      "sha256": "f9a35db0001f8ce90931d786ae5d193f5b10b02afbf6835b2ec3e54a7a515492"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-subrange-legal.rs",
+      "sha256": "18f9e40ad4a313023b6a73f54b94d2de6cd1dcac7f537ea3a07dec56d658801f"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/raw-field-legal.expected",
+      "sha256": "2abf6c97b82d69d8259784a73230c35ffda4043e73d5a742f88768ce2cccb73f"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/raw-field-legal.rs",
+      "sha256": "4f7124c93063128e9c892b2ab7343aff917cee565db61435550546f9be5a86b6"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/raw-field-neighbor-hole.expected",
+      "sha256": "fe36f79336744df9bd1641826b95fb5b742c33e787a0bc2c90cc15d1378b5098"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/raw-field-neighbor-hole.rs",
+      "sha256": "f8664aa2f865d1d68bb25b3c411d3c7ce18014313981d6e7870dad4bdffdd14c"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/raw-field-padding-hole.expected",
+      "sha256": "cb9ce19ee6667fa9486c1e6e19d98db19b2198f45317f55f73d22fc92387180f"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/raw-field-padding-hole.rs",
+      "sha256": "887b64c75661afd8a4f1fd5d9a38c98c428d8e0f20200e65a4ce482e89892746"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-constant-hole.expected",
+      "sha256": "02d871f223d7fa520b69524080ba574d7581de38c688dddb4c5299fa3b92e7a4"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-constant-hole.rs",
+      "sha256": "3b6ffad862c16e370c47813a08d5d84a48f53710257e3ee89754b078ba646012"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-constant-legal.expected",
+      "sha256": "aa8952629e45caa9eb4c047d74f80f7950e52ce20bb44b3f6f426da8a74df369"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-constant-legal.rs",
+      "sha256": "11e01a070bcd6f50c02c8cd5bfc37e3d290105f4b6e5bc2e990b1ed6d7f372ee"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-variable-hole.expected",
+      "sha256": "5f23ad895e305b8da1c9832b3cbb0141d7d21013d74efb49a3004655b8722d9f"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-variable-hole.rs",
+      "sha256": "15b0adf99cae4e716d2ca7effa4339ab7d0ffe80ef39ceb8492d4a91c0b625bd"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-variable-legal.expected",
+      "sha256": "52832ed8bb29880ae33a4649dc36a10e04d159696b812f7b33454568ea71f1c2"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-variable-legal.rs",
+      "sha256": "9ea928d6b08fb0a2598ff31054dcbc0b573b6f03dde54bb76bcfb48bf7445cc9"
+    },
+    {
+      "path": "scripts/validate_json_export.py",
+      "sha256": "cf51e8ceeb56f5aa51855a309918843d22fa998e7be403839ef4a7124ff19850"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "sha256": "34c08a26dd508cf75d19dc80c1c17b88e0bbeb54d492a3f6da10af7ee8120d73"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+      "sha256": "e86e53af05c943c1fe4e322b98d6a3c0585d18fe89505bbc6099a95ce55c5b8f"
+    }
+  ]
+}
