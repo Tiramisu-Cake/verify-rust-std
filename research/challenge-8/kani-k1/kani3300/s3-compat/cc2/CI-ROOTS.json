@@ -1,0 +1,262 @@
+{
+  "status": "REQUEST_ONLY_NOT_AUTHORIZATION",
+  "source_sha": "9631aaf89e869624fbfc8cd22d327ce194eb779d",
+  "source_tree": "2d75492ae172087535c7a9f2723fd7a42b0d0666",
+  "source_base": "b2e1a392ad27bd21758473bc208ff66c2d7d0405",
+  "binary_entry": "CHECKOUT/scripts/kani",
+  "driver_binary": "CHECKOUT/target/kani/bin/kani-driver",
+  "compiler_binary": "CHECKOUT/target/kani/bin/kani-compiler",
+  "binary_sha256": "UNKNOWN until coordinator captures matching driver/compiler/CBMC hashes",
+  "environment": {
+    "RUSTFLAGS": "--edition 2021 -D warnings",
+    "NO_COLOR": "1"
+  },
+  "common_cli": [
+    "-Z",
+    "uninit-checks",
+    "-Z",
+    "function-contracts",
+    "-Z",
+    "stubbing",
+    "-Z",
+    "export-json",
+    "-Z",
+    "unstable-options",
+    "--default-unwind",
+    "8",
+    "--jobs",
+    "1",
+    "--harness-timeout",
+    "120",
+    "--keep-temps",
+    "--output-format=regular"
+  ],
+  "tail_cli": [
+    "--cbmc-args",
+    "--object-bits",
+    "12"
+  ],
+  "output_cli": [
+    "--target-dir",
+    "FRESH/target",
+    "--export-json",
+    "FRESH/export.json"
+  ],
+  "outer_process_timeout_s": 180,
+  "per_harness_timeout_s": 120,
+  "rss_limit_kib": 12582912,
+  "build_typecheck_timeout_s": 600,
+  "whole_request_envelope_s": 3600,
+  "invocations": [
+    {
+      "id": "scalar_parameters_true_false",
+      "file": "tests/expected/uninit/ordinary-slots/positive.rs",
+      "sha256": "599877efcbd1f8bda19ec28b954f412ab0a03fd06c470f12043206bdbcf88759",
+      "roots": [
+        "scalar_parameters_true_false"
+      ],
+      "selection": "exact-singleton",
+      "expected": "SUCCESS; first scalar reads precede local address setter; true/false covers and useful outer assertion reached"
+    },
+    {
+      "id": "reference_copy_move_return",
+      "file": "tests/expected/uninit/ordinary-slots/positive.rs",
+      "sha256": "599877efcbd1f8bda19ec28b954f412ab0a03fd06c470f12043206bdbcf88759",
+      "roots": [
+        "reference_copy_move_return"
+      ],
+      "selection": "exact-singleton",
+      "expected": "SUCCESS; reference source Copy read precedes address setter; wrapper Move/data/return and useful outer assertion reached"
+    },
+    {
+      "id": "capture_free_ordinary",
+      "file": "tests/expected/uninit/ordinary-slots/positive.rs",
+      "sha256": "599877efcbd1f8bda19ec28b954f412ab0a03fd06c470f12043206bdbcf88759",
+      "roots": [
+        "capture_free_ordinary"
+      ],
+      "selection": "exact-singleton",
+      "expected": "SUCCESS; actual zero-upvar ordinary body/ensures/outer assertions and covers reached"
+    },
+    {
+      "id": "capture_free_simple_check",
+      "file": "tests/expected/uninit/ordinary-slots/positive.rs",
+      "sha256": "599877efcbd1f8bda19ec28b954f412ab0a03fd06c470f12043206bdbcf88759",
+      "roots": [
+        "capture_free_simple_check"
+      ],
+      "selection": "exact-singleton",
+      "expected": "SUCCESS; actual zero-upvar SimpleCheck body/ensures/outer assertions and covers reached"
+    },
+    {
+      "id": "initialized_payloads",
+      "file": "tests/expected/uninit/ordinary-slots/payload.rs",
+      "sha256": "ef3f4a6d4f8edab532f712de149276f101aa0dc7ff69d818ce7e949609a167ba",
+      "roots": [
+        "initialized_payloads"
+      ],
+      "selection": "exact-singleton",
+      "expected": "SUCCESS; useful reference/raw payload42 and byte-entry assertions/covers reached"
+    },
+    {
+      "id": "reference_slot_preserves_hole",
+      "file": "tests/expected/uninit/ordinary-slots/payload.rs",
+      "sha256": "ef3f4a6d4f8edab532f712de149276f101aa0dc7ff69d818ce7e949609a167ba",
+      "roots": [
+        "reference_slot_preserves_hole"
+      ],
+      "selection": "exact-singleton",
+      "expected": "negative; cover before actual callee u8 payload read reached; only source-bound payload Check/CheckRef failures, exact IDs/multiplicity UNKNOWN until model binding"
+    },
+    {
+      "id": "raw_slot_preserves_hole",
+      "file": "tests/expected/uninit/ordinary-slots/payload.rs",
+      "sha256": "ef3f4a6d4f8edab532f712de149276f101aa0dc7ff69d818ce7e949609a167ba",
+      "roots": [
+        "raw_slot_preserves_hole"
+      ],
+      "selection": "exact-singleton",
+      "expected": "negative; cover before actual callee u8 payload read reached; only source-bound payload Check/CheckRef failures, exact IDs/multiplicity UNKNOWN until model binding"
+    },
+    {
+      "id": "entry_does_not_hide_caller_read",
+      "file": "tests/expected/uninit/ordinary-slots/payload.rs",
+      "sha256": "ef3f4a6d4f8edab532f712de149276f101aa0dc7ff69d818ce7e949609a167ba",
+      "roots": [
+        "entry_does_not_hide_caller_read"
+      ],
+      "selection": "exact-singleton",
+      "expected": "negative; only source-bound caller u8 read Check/CheckRef failures before callee entry, exact IDs/multiplicity UNKNOWN until model binding"
+    },
+    {
+      "id": "padding",
+      "file": "tests/expected/uninit/ordinary-slots/padding.rs",
+      "sha256": "52dfb43d8faf5de88aca5c8f294f1af9588c729a2daa21699709b7d79688dc52",
+      "roots": [
+        "ordinary_parameter_does_not_bless_padding"
+      ],
+      "selection": "exact-singleton",
+      "expected": "negative; actual callee padding byte1 read reached, typed field data initialized; only source-bound byte read failures"
+    },
+    {
+      "id": "original-replace_ordinary",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/replace.rs",
+      "sha256": "44b10bf2ef4d961b37b75098ec89246afe608036f4ed4cb8e3c5e70680425600",
+      "roots": [
+        "replace_ordinary"
+      ],
+      "selection": "exact-singleton",
+      "expected": "full observation; residual nonzero capture layout BLOCKED CC3; all bool/ref/layout failures retained, no unsupported-as-PASS"
+    },
+    {
+      "id": "original-replace_simple_check",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/replace.rs",
+      "sha256": "44b10bf2ef4d961b37b75098ec89246afe608036f4ed4cb8e3c5e70680425600",
+      "roots": [
+        "replace_simple_check"
+      ],
+      "selection": "exact-singleton",
+      "expected": "full observation; residual nonzero capture layout BLOCKED CC3; all bool/ref/layout failures retained, no unsupported-as-PASS"
+    },
+    {
+      "id": "original-recursive_check",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+      "sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+      "roots": [
+        "recursive_check"
+      ],
+      "selection": "exact-singleton",
+      "expected": "full observation; preserve detected-cycle root Unsupported and no crash; ordinary cycle is release BLOCKED; remaining bool/ref/layout failures retained"
+    },
+    {
+      "id": "original-recursive_ordinary",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+      "sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+      "roots": [
+        "recursive_ordinary"
+      ],
+      "selection": "exact-singleton",
+      "expected": "full observation; preserve detected-cycle root Unsupported and no crash; ordinary cycle is release BLOCKED; remaining bool/ref/layout failures retained"
+    },
+    {
+      "id": "original-recursive_simple_check",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+      "sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+      "roots": [
+        "recursive_simple_check"
+      ],
+      "selection": "exact-singleton",
+      "expected": "full observation; preserve detected-cycle root Unsupported and no crash; ordinary cycle is release BLOCKED; remaining bool/ref/layout failures retained"
+    },
+    {
+      "id": "p1",
+      "file": "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs",
+      "sha256": "439c9c9817875a0554fbf43a14eb7f871a3ab23cc038605afcead23a719ee4f0",
+      "roots": [
+        "postcondition_reads_initialized_return"
+      ],
+      "selection": "exact-singleton",
+      "expected": "existing exact P1 oracle SUCCESS with useful assertions reached and no extra failures"
+    },
+    {
+      "id": "positive-mixed",
+      "file": "tests/expected/uninit/ordinary-slots/positive.rs",
+      "sha256": "599877efcbd1f8bda19ec28b954f412ab0a03fd06c470f12043206bdbcf88759",
+      "roots": [
+        "scalar_parameters_true_false",
+        "reference_copy_move_return",
+        "capture_free_ordinary",
+        "capture_free_simple_check"
+      ],
+      "selection": "all-proof-harnesses-in-file",
+      "expected": "each complete root inventory matches singleton; actual starting_items grouping/order binding required"
+    },
+    {
+      "id": "payload-mixed",
+      "file": "tests/expected/uninit/ordinary-slots/payload.rs",
+      "sha256": "ef3f4a6d4f8edab532f712de149276f101aa0dc7ff69d818ce7e949609a167ba",
+      "roots": [
+        "initialized_payloads",
+        "reference_slot_preserves_hole",
+        "raw_slot_preserves_hole",
+        "entry_does_not_hide_caller_read"
+      ],
+      "selection": "all-proof-harnesses-in-file",
+      "expected": "initialized root SUCCESS; three bound payload/caller negatives; complete root inventories match singletons; actual grouping/order required"
+    },
+    {
+      "id": "cc1-probe-scalar_parameters_true_false",
+      "file": "tests/expected/uninit/ordinary-slots/positive.rs",
+      "sha256": "599877efcbd1f8bda19ec28b954f412ab0a03fd06c470f12043206bdbcf88759",
+      "roots": [
+        "scalar_parameters_true_false"
+      ],
+      "selection": "exact-singleton",
+      "expected": "establish matched CC1 first-read slot failure vs candidate success in actual selected MIR; if not discriminating retain UNKNOWN, do not claim reproduction",
+      "binary_source_sha": "b2e1a392ad27bd21758473bc208ff66c2d7d0405",
+      "binary_source_tree": "4dd079d7f762301450b60394123f2b0b284b140b",
+      "binary_entry": "CC1_CHECKOUT/scripts/kani",
+      "driver_binary": "CC1_CHECKOUT/target/kani/bin/kani-driver",
+      "compiler_binary": "CC1_CHECKOUT/target/kani/bin/kani-compiler",
+      "binary_sha256": "UNKNOWN; accepted CC1 binary pair must be bound by coordinator before probe"
+    },
+    {
+      "id": "cc1-probe-reference_copy_move_return",
+      "file": "tests/expected/uninit/ordinary-slots/positive.rs",
+      "sha256": "599877efcbd1f8bda19ec28b954f412ab0a03fd06c470f12043206bdbcf88759",
+      "roots": [
+        "reference_copy_move_return"
+      ],
+      "selection": "exact-singleton",
+      "expected": "establish matched CC1 first-read slot failure vs candidate success in actual selected MIR; if not discriminating retain UNKNOWN, do not claim reproduction",
+      "binary_source_sha": "b2e1a392ad27bd21758473bc208ff66c2d7d0405",
+      "binary_source_tree": "4dd079d7f762301450b60394123f2b0b284b140b",
+      "binary_entry": "CC1_CHECKOUT/scripts/kani",
+      "driver_binary": "CC1_CHECKOUT/target/kani/bin/kani-driver",
+      "compiler_binary": "CC1_CHECKOUT/target/kani/bin/kani-compiler",
+      "binary_sha256": "UNKNOWN; accepted CC1 binary pair must be bound by coordinator before probe"
+    }
+  ],
+  "invocation_count": 19,
+  "harness_result_count": 25
+}

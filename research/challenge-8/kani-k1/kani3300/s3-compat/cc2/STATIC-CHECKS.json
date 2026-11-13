@@ -1,0 +1,22 @@
+{
+  "assurance": "STATIC_ONLY",
+  "checks": {
+    "bounded_source_scope_and_existing_inputs_preserved": true,
+    "only_argument_slots_seeded": true,
+    "entry_preserved_for_empty_bb0": true,
+    "statement_checks_and_copies_unchanged": true,
+    "address_creation_read_policy_unchanged": true,
+    "source_get_and_destination_set_policy_unchanged": true,
+    "alias_walk_termination_and_both_call_sites": true,
+    "three_fixtures_nine_roots_with_per_test_bits12": true,
+    "discriminating_reads_precede_local_address_setters": true,
+    "capture_free_contract_has_no_parameters": true,
+    "paired_initialized_and_reached_payload_holes_present": true,
+    "eight_strong_oracle_inputs_hash_identical": true,
+    "git_diff_check": true
+  },
+  "status": "PASS",
+  "rust_typecheck": "NOT_RUN",
+  "kani_cbmc_ci": "NOT_RUN",
+  "selected_model_binding": "UNKNOWN"
+}

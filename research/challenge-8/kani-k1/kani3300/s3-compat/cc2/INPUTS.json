@@ -1,0 +1,43 @@
+{
+  "task": "TASK-KANI3300-S3-COMPAT-CC2.md",
+  "stage": "CC2_ONLY",
+  "worker": "worker14",
+  "date": "2026-11-13",
+  "source_base": "b2e1a392ad27bd21758473bc208ff66c2d7d0405",
+  "source_head": "9631aaf89e869624fbfc8cd22d327ce194eb779d",
+  "source_tree": "2d75492ae172087535c7a9f2723fd7a42b0d0666",
+  "source_repo": "/root/kani-fix-3300-cc2",
+  "source_branch": "fix/kani-3300-cc2",
+  "clone_origin": "/root/kani-fix-3300-cc1",
+  "reference_read_only": true,
+  "source_changed_files": {
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs": "53064d8de9417f1c2ffb33675a5679767a4e6e14052f0dfff233e38739408217",
+    "tests/expected/uninit/ordinary-slots/padding.expected": "35fdefec2995f8d441453989197983ee01181e7cab43298665e77a267a27a536",
+    "tests/expected/uninit/ordinary-slots/padding.rs": "52dfb43d8faf5de88aca5c8f294f1af9588c729a2daa21699709b7d79688dc52",
+    "tests/expected/uninit/ordinary-slots/payload.expected": "7e8f42919b3dfa2b4ce78a3aa0898614b446a28ba551c34d0d990b796829a571",
+    "tests/expected/uninit/ordinary-slots/payload.rs": "ef3f4a6d4f8edab532f712de149276f101aa0dc7ff69d818ce7e949609a167ba",
+    "tests/expected/uninit/ordinary-slots/positive.expected": "4f462c309bd7c89f204dd837a4e6df2fc577f1bf3d3034b48f51947a865d09e6",
+    "tests/expected/uninit/ordinary-slots/positive.rs": "599877efcbd1f8bda19ec28b954f412ab0a03fd06c470f12043206bdbcf88759"
+  },
+  "research_base": "775842157e035118379be2fcbeebf56af78e5ab1",
+  "research_branch": "experiment/kani-k1-kani3300g0-20261111",
+  "ci_status": "NOT_RUN",
+  "typecheck": "NOT_RUN",
+  "binding": "UNKNOWN",
+  "independent_review": "PENDING_COORDINATOR",
+  "local_validation": {
+    "static": "13/13 PASS",
+    "python_oracle_checker": "21/21 PASS",
+    "scratchpad_rustfmt": "PASS",
+    "diff_check": "PASS"
+  },
+  "rustfmt_scratch": "/tmp/kani3300-cc2-rustfmt-ogg81qso",
+  "local_execution": [
+    "Python/static",
+    "authorized scratchpad rustfmt"
+  ],
+  "push_performed": false,
+  "cloud_spend_usd": 0,
+  "cc3": "NOT_ISSUED_NOT_STARTED",
+  "coordination_note": "A read-only helper was mistakenly started then immediately interrupted; no edits/results incorporated."
+}
