@@ -1,0 +1,122 @@
+{
+  "artifact_directory": "/root/kani3300-h1-ci/m3r3-capture/kani-uninit-part1-composition-iygr48dk",
+  "binding_status": "BINDING_PENDING",
+  "capture_run": "43501001052",
+  "capture_status": "INCOMPLETE",
+  "job_log": "/root/kani3300-h1-ci/m3r3-capture.log",
+  "job_log_sha256": "73a9ae5c519ad41c5a67aa789988797f9af70f6561cd30c3c67331c25cbb411b",
+  "missing_runs": [
+    "isolated-pfc_negative",
+    "isolated-cycle_root",
+    "isolated-unrelated_legal_after_cycle",
+    "all_A_then_B",
+    "all_B_then_A",
+    "cycle_then_legal",
+    "legal_then_cycle"
+  ],
+  "note": "Offline file integrity and runner validation only. Original artifacts and receipts unchanged.",
+  "order_credit": "NOT_ESTABLISHED",
+  "original_failure": {
+    "actual_target": "pfc_contract",
+    "error": "Rejected('wrong PFC target: pfc_legal')",
+    "job_log_line": 2179,
+    "legacy_predicate_accepted": false,
+    "phase": "observation",
+    "step": "isolated-pfc_legal"
+  },
+  "proof_credit": "NONE",
+  "revalidated_runs": [
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "c48850d71449d696ed6b87d09ebf545744eecefe34fdf670c1d514796eedd6da",
+        "receipt.json": "18cf5aa13f6e016fd5a234c4590cd85e6c4291f1c34ea18b118ba451efa18c8b",
+        "regular.out": "4145475349df7300dbff506a1890ad1fd6f65c1f9937c48d53a7aa6d54b71487"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 37,
+          "failure_kind": "OTHER",
+          "n_failed": 2,
+          "name": "immutable_hole_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        }
+      ],
+      "run_id": "isolated-immutable_hole_negative"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "598aa1924006604c491893ab174aac3e0e86f75b0566b67b885253ab2ebcc9d6",
+        "receipt.json": "9a249f09adc3bfc2da691c0ee22ce4ced0495407c5a6fa3ed7877ca821bb355e",
+        "regular.out": "357f8cd268f1112662647f4a132c5e77815c5304869d85b0c513760d0bac629b"
+      },
+      "original_exit": 0,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 39,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "immutable_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-immutable_legal"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "afbad45cf2343a9b40c5a4fa516bcce9d1e93b636e1d5dafc2197c73cfbd5d71",
+        "receipt.json": "81730186ca2056aca19cb12a740cc1745675001c4e8b7b85785b87f552a3cc18",
+        "regular.out": "05ab3233f2e5e5e955671dc1d256cf656fdb878d79ef8296984f4b7d75576562"
+      },
+      "original_exit": 0,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 227,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "ordinary_ensures_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-ordinary_ensures_legal"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "f519e4afb80a18437d8dd102a944f3ce0445072ac45935337fdbff1391e817df",
+        "receipt.json": "115e658547fd8fd96cd2858faaf4a9b4018fb359844302806721e4f45188d67e",
+        "regular.out": "4917295e12917a2368a95d49a8a2dd547358d66b22e28de2beb1fe6027ceee03"
+      },
+      "original_exit": 0,
+      "original_receipt_error": "Rejected('wrong PFC target: pfc_legal')",
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 231,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "pfc_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-pfc_legal"
+    }
+  ],
+  "schema": "kani3300-m3-r3-capture-revalidation/v1",
+  "source_commit": "3a29b3323561c5765505ef617607cadfc91f0ce8",
+  "source_sha256": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970",
+  "verifier_invocations": 0
+}

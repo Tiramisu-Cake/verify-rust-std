@@ -1,0 +1,30 @@
+{
+  "binding_status": "BINDING_PENDING",
+  "capture_run": "43501001052",
+  "capture_status": "INCOMPLETE_4_OF_11_RUNS",
+  "cargo": "NOT_RUN",
+  "cause": "isolated-pfc_legal observation rejected valid bare PFC target",
+  "ci_dispatch": "NOT_PERFORMED",
+  "files_sha256": {
+    "AUDIT-CAPTURE.py": "02a72eb66414f2df9006a4cfd8f75871d1492dd4d4887d9bc36471ccdd33767b",
+    "CAPTURE-AUDIT.json": "dd2e450462d0ec98b06e7a6bf952f8615f06b440d40af5c18cefe2ae987211db",
+    "RESULT.md": "5efa610c06252de728b381e83fb01082c2925314b8adaaab042670b8db7909ca"
+  },
+  "kani": "NOT_RUN",
+  "next": "Coordinator fresh full capture on source_sha; expected exit 2 UNBOUND_CAPTURE. Binding is deferred.",
+  "offline_revalidation": "4_OF_4_AVAILABLE_RUNS_PASS",
+  "order_credit": "NOT_ESTABLISHED",
+  "parent_sha": "6c29e38c57fdf646bf07725c5c09008518d04255",
+  "proof_credit": "NONE",
+  "push": "NOT_PERFORMED",
+  "python_tests": {
+    "failed": 0,
+    "passed": 32
+  },
+  "schema": "kani3300-m3-r3-capture-fix-checkpoint/v1",
+  "source_clone": "/root/kani-fix-3300-m3r3",
+  "source_sha": "3a29b3323561c5765505ef617607cadfc91f0ce8",
+  "state": "READY_FOR_COORDINATOR",
+  "whitespace_check": "PASS",
+  "worker": "worker14"
+}
