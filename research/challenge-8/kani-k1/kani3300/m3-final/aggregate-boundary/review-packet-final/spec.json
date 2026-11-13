@@ -1,0 +1,35 @@
+{
+  "applicability": "Uninit visitor admission, user scope documentation, supported Move/return pair and isolated boundary controls only.",
+  "baseline_commit": "aac27ed95364989bc045e5cdc227f2a97448f955",
+  "candidate_commit": "a221d00cf66b723c66a5a3a928d2ab1e29e8df44",
+  "controls": [
+    "Boundary tuple/struct/array/enum/closure/ZST/foreign controls and supported flat/pointer/Forget controls.",
+    "Existing two-operand/mixed/masks, source-following false, frame/clause, eight strong oracles, CC1-CC4 unchanged."
+  ],
+  "defect": "Nested shadow carriers lack aggregate transfer at call boundaries.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/points_to/mod.rs"
+  ],
+  "invariants": [
+    "Existing flat predicates/protocol and unsized guard remain unchanged.",
+    "Reject nested argument/return before transfer effects; no new runtime/layout model.",
+    "Preserve both repaired-source23 and returned42 assertions and deliberate no-reinit hole."
+  ],
+  "known_limitations": [
+    "Static review only; no local cargo/rustc/Kani/CBMC/builds, no push.",
+    "New compile/proof results NOT_RUN; Cloud $0, CI and push coordinator only.",
+    "Check existing generated/RustCall/closure paths and exact diagnostics; do not bless broad rejection or source-panic fallback.",
+    "Delta since initial review: unresolved calls now diagnose nested actual arguments/destination before resolution Unsupported; boundary expectations also require nested-slot reason. Review only that delta against prior review."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/m3-final/aggregate-boundary/REVIEW-INITIAL.md",
+      "sha256": "15e97a77c355915cd8157a4547e81641e88992cfa080edc3c1ecbe589385f587"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-m3"
+}

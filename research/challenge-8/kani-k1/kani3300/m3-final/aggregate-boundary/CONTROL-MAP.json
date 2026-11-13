@@ -1,0 +1,118 @@
+{
+  "base": "aac27ed95364989bc045e5cdc227f2a97448f955",
+  "new_controls": [
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/tuple-return-unsupported.rs",
+      "root": "tuple_return_unsupported",
+      "expected": "Unsupported aggregate return (original legal tuple source)",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/tuple-argument-unsupported.rs",
+      "root": "tuple_argument_unsupported",
+      "expected": "Unsupported aggregate argument; nested-slot shadow transfer is not implemented",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/struct-argument-unsupported.rs",
+      "root": "struct_argument_unsupported",
+      "expected": "Unsupported aggregate argument; nested-slot shadow transfer is not implemented",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/struct-return-unsupported.rs",
+      "root": "struct_return_unsupported",
+      "expected": "Unsupported aggregate return; nested-slot shadow transfer is not implemented",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/array-tuple-unsupported.rs",
+      "root": "array_tuple_unsupported",
+      "expected": "Unsupported aggregate argument; nested-slot shadow transfer is not implemented",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/array-struct-unsupported.rs",
+      "root": "array_struct_unsupported",
+      "expected": "Unsupported aggregate argument; nested-slot shadow transfer is not implemented",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/closure-argument-unsupported.rs",
+      "root": "closure_argument_unsupported",
+      "expected": "Unsupported aggregate argument; nested-slot shadow transfer is not implemented",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/enum-inactive-unsupported.rs",
+      "root": "enum_inactive_unsupported",
+      "expected": "Unsupported aggregate argument; nested-slot shadow transfer is not implemented",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/zero-array-unsupported.rs",
+      "root": "zero_array_unsupported",
+      "expected": "Unsupported aggregate argument; nested-slot shadow transfer is not implemented",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/zst-field-unsupported.rs",
+      "root": "zst_field_unsupported",
+      "expected": "Unsupported aggregate argument; nested-slot shadow transfer is not implemented",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/union-field-unsupported.rs",
+      "root": "union_field_unsupported",
+      "expected": "Unsupported aggregate argument; nested-slot shadow transfer is not implemented",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/foreign-argument-unsupported.rs",
+      "root": "foreign_argument_unsupported",
+      "expected": "Unsupported aggregate argument; nested-slot shadow transfer is not implemented",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/foreign-return-unsupported.rs",
+      "root": "foreign_return_unsupported",
+      "expected": "Unsupported aggregate return; nested-slot shadow transfer is not implemented",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/ordinary-and-pointers-legal.rs",
+      "root": "ordinary_and_pointers_legal",
+      "expected": "SUCCESS",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/flat-carriers-legal.rs",
+      "root": "flat_carriers_legal",
+      "expected": "SUCCESS",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/forget-nested-legal.rs",
+      "root": "forget_nested_legal",
+      "expected": "SUCCESS",
+      "status": "NOT_RUN"
+    },
+    {
+      "selector": "tests/expected/uninit/aggregate-transfer-boundary/pointer-aggregate-read-known-unsupported.rs",
+      "root": "pointer_aggregate_read_known_unsupported",
+      "expected": "Existing pointee-layout Unsupported (UnionAsField), not aggregate-transfer rejection",
+      "status": "NOT_RUN"
+    }
+  ],
+  "preserved": "All pre-existing tests unchanged except move-return-reinit.rs; its expectations unchanged. Existing classification diagnostics may require coordinator review; never auto-bless.",
+  "ci_status": "NOT_RUN",
+  "preserved_git_entries_count": 363,
+  "required_unchanged_controls": [
+    "existing two-operand/mixed/masks",
+    "moved-source/normal-return/source-following false",
+    "lawful-modifies/frame/clause",
+    "eight strong JSON oracles",
+    "CC1-CC4 ordinary/SimpleCheck/cycle controls",
+    "existing closure/ZST and DST known outcomes (exact diagnostic review required)"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-m3",
+  "baseline_commit": "aac27ed95364989bc045e5cdc227f2a97448f955",
+  "candidate_commit": "30655f3060f33603d94e32f39951462434447ed0",
+  "defect": "Nested shadow carriers lack aggregate transfer at call boundaries.",
+  "applicability": "Uninit visitor admission, user scope documentation, supported Move/return pair and isolated boundary controls only.",
+  "invariants": [
+    "Existing flat predicates/protocol and unsized guard remain unchanged.",
+    "Reject nested argument/return before transfer effects; no new runtime/layout model.",
+    "Preserve both repaired-source23 and returned42 assertions and deliberate no-reinit hole."
+  ],
+  "controls": [
+    "Boundary tuple/struct/array/enum/closure/ZST/foreign controls and supported flat/pointer/Forget controls.",
+    "Existing two-operand/mixed/masks, source-following false, frame/clause, eight strong oracles, CC1-CC4 unchanged."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/points_to/mod.rs"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Static review only; no local cargo/rustc/Kani/CBMC/builds, no push.",
+    "New compile/proof results NOT_RUN; Cloud $0, CI and push coordinator only.",
+    "Check existing generated/RustCall/closure paths and exact diagnostics; do not bless broad rejection or source-panic fallback."
+  ]
+}

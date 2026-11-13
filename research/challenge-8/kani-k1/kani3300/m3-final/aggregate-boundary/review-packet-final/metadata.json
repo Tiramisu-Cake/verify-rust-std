@@ -1,0 +1,450 @@
+{
+  "baseline_commit": "aac27ed95364989bc045e5cdc227f2a97448f955",
+  "candidate_commit": "a221d00cf66b723c66a5a3a928d2ab1e29e8df44",
+  "candidate_tree": "d79bd6fe8a8e4d76ea639792c2beff8031b3c502",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "ae21eb7a6e1136a774c6bcfb0e11b6bd94e0bd3c",
+        "mode": "100644",
+        "sha256": "bc6b85c36affb50a7b1cfdb7703b77e8c424157e037d341d3dbb84d9deea0db6"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "507bad2eaaec54bf5b9f123aae2fcdeecd5114e8",
+        "mode": "100644",
+        "sha256": "20fe3cd311d2bcabc401fd13694f35b2f66f38a7967c711b68618822d4808e16"
+      },
+      "path": "docs/src/rust-feature-support.md",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "397909f7a296524ade1bc2e26024d71a332cf8d0",
+        "mode": "100644",
+        "sha256": "ce6d36be2c059a04b1718afcf3bbb174550c2416d619b20b66211fbeab138ceb"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "0fa2725f54f83c094398c6b4cd977cef4265f386",
+        "mode": "100644",
+        "sha256": "7226ad5632faaa492aefd7fb8dad952dbf47e48bf195d4f278448cdbdf7a6f7c"
+      },
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "b68065c096e39cdda00ca580f44b025a1b67757e",
+        "mode": "100644",
+        "sha256": "00f5061b828c0888e5d043c3359a28c38502c6f39766f09f2a0248d105526f03"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/array-struct-unsupported.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "1631376aab665f82c41776733dab8a96c56c3650",
+        "mode": "100644",
+        "sha256": "8b8887bde322f1dda727dd633d0bf8f6c6242f03f3a0d1bc993a7926c46b7528"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/array-struct-unsupported.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "fb28c68ba80860aaf1427d79e8720d8dbd55f87f",
+        "mode": "100644",
+        "sha256": "6dcb60c6b4929945da6faa779b0a7eed75fbac0277fe13359f17b0dc6892ca25"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/array-tuple-unsupported.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "66742a5199dce3c02dd98604e78d24c93eae2179",
+        "mode": "100644",
+        "sha256": "74b86130ba3436ce5b32e827505e5ee2baaa0acf0f4bdd6364fdc49a8698f0d1"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/array-tuple-unsupported.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "fa7c04d6dae1d9e0f4350091fcd6c01355fce789",
+        "mode": "100644",
+        "sha256": "18045e1dd6ae483180fc54fad9bc069fb6c7b221fd4988fdf6e7f151ce8f5f53"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/closure-argument-unsupported.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "aabb1e1d59e684d9923c69a06d1440d998db4d91",
+        "mode": "100644",
+        "sha256": "f0c0a56a4bdafbea47a99dfa10bff99411c53c24bea2fb3edde3c48c0aa29930"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/closure-argument-unsupported.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "80dcb0e8770efb7d533c10347c7b038202596bcc",
+        "mode": "100644",
+        "sha256": "07396a6e5f3477446f2adcb97805927069b0eb4d2e1cdaf6db27bf531a091998"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/enum-inactive-unsupported.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "217cb481b23896e29f5eca6cf9940c23fc89f8ec",
+        "mode": "100644",
+        "sha256": "f8cd9875ae8392d1f9724fabe002513b350d7bd7b81e20282fde1203ea83d324"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/enum-inactive-unsupported.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "533223805831cec811ec021744295593f6483f0d",
+        "mode": "100644",
+        "sha256": "97c2f2da59887c08f4d3e7eb7562e60941f4c3c64b15e567848a0a12a9fb38e6"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/flat-carriers-legal.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "9b32535fb6385ce65cdee014cda4e264934d5e76",
+        "mode": "100644",
+        "sha256": "7747b017b166044ea75bb4b71a6c7352f1b8f0db69c0889514c060ac9ef7fe5e"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/flat-carriers-legal.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "cf5b39e84a4b2e284dd38df27d06d8ef403d910f",
+        "mode": "100644",
+        "sha256": "7a96490e75b6e453cb6b5b5cc59ecfffa423d3906f36de148c09be3bf0d2a7ca"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/foreign-argument-unsupported.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "2d75e977fe952f227ee1c406fe181dbae5d959a8",
+        "mode": "100644",
+        "sha256": "01d29924aabddd2c293e8efefd4e582dde473ed5d94353d1bfe979dad3270c2b"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/foreign-argument-unsupported.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "c0d799f08d9fff23403fbd574d591337463c48a1",
+        "mode": "100644",
+        "sha256": "8054ff068b0120ed137fae97eccb601092d00293a2b520977ad24e5637966de1"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/foreign-return-unsupported.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "b6a68893416c17b2bb963d3a9353dc01a1003fbd",
+        "mode": "100644",
+        "sha256": "65c31121bf582ebf51278bb65b44aae50d81febc3332b11b0d161cece6b6a734"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/foreign-return-unsupported.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "613d80011bddcef8413d6834a3546badc8f1b866",
+        "mode": "100644",
+        "sha256": "ff65e0448472b45c5cc4993e13c7d3fb150d715e6bbb09da3302fb061009aec9"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/forget-nested-legal.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "fe62d66ab9b04f65e87bb11f98141488c0a6accd",
+        "mode": "100644",
+        "sha256": "7f938d5edd3112353f933254bc883a2a7f7531018da8f864b719c022f7a1b007"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/forget-nested-legal.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "6fd8bbf23260603be2d6996f5e99103c93ab6457",
+        "mode": "100644",
+        "sha256": "1525f2d8310354e75a3e94cfdfbe79f3bf7ecb1028d40515ec31142c1ff0cc77"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/ordinary-and-pointers-legal.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "7707dddce6aeec73cb5d687a312dfa62572a4777",
+        "mode": "100644",
+        "sha256": "5cda042dc5a3be0892a954f65ec7a0a760af7f1da352195e9a44386b73c83faa"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/ordinary-and-pointers-legal.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "5b635b4b54d7be096ce4114032d0a7af50cae330",
+        "mode": "100644",
+        "sha256": "72d5d944f6c87e5357d05b6562ac31af0fb57155a6295ee3545ca77c198c1a6f"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/struct-argument-unsupported.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "de9778be0c539d2e85c6351c48b040c7b20eb29d",
+        "mode": "100644",
+        "sha256": "187c6e0b2580b6d7e901e094f53ccc4522f08a61775fdaf780c7b10a47bda2f9"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/struct-argument-unsupported.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "8846e0fa22f6eb8ecb52b1c337989edf29f40701",
+        "mode": "100644",
+        "sha256": "d056b2935644ba9167152a9b6304400ef49fd66cf45f5e3ecd7ea02d3a80b6d8"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/struct-return-unsupported.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "f196ea26076de72204c8f55f61aa7f16670fdca2",
+        "mode": "100644",
+        "sha256": "2d7b66b7948712314568e10da16b946385abbfc47896eeff7b77e485102ae361"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/struct-return-unsupported.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "87479f4de05e8e34832106dc6266d57c3b78231d",
+        "mode": "100644",
+        "sha256": "0002e83b06ae82ca84e5520ff270b87b3039315c38ef3c7ba12082f948bf6d87"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/tuple-argument-unsupported.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "cd881c7dda7ab3a45c3a7751787d156a68ce48cb",
+        "mode": "100644",
+        "sha256": "8446e66b7b2e9b6c1be528b469eadc69e86b2891933b2174242182f88780be01"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/tuple-argument-unsupported.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "ada11420ab526cdee28fa4ec9ac0ebf206bec049",
+        "mode": "100644",
+        "sha256": "b747f568908f27e7781e3162620891f6b7c71934f715c0677ff6272d534ac90b"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/tuple-return-unsupported.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "9c75c653150621657811be92110942aa2a744b4b",
+        "mode": "100644",
+        "sha256": "b2c5175c0a57f081c9aee1f84a8d19c6ab7fe66aa0d2b359a2e9a1dadfebd92a"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/tuple-return-unsupported.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "25ceafa981e3f7857aabc5542d3a1dc985d0274c",
+        "mode": "100644",
+        "sha256": "830d05c54fc5020568ed743abe1a04145ac4b2e45df2cca7cfc0f7e1134b9e63"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/union-field-unsupported.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "49b5ead311a782d48541c3d8556fa3af2a159949",
+        "mode": "100644",
+        "sha256": "2f5370908188148e26c042139471d717ebc0ed319dec8c52909d2b4d1ca2a7c6"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/union-field-unsupported.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "749b702724e6c36063c2c681c97a1d07045db71a",
+        "mode": "100644",
+        "sha256": "935f6be51255a6ede3d99048152cf9f3ba0f14da85a6c3b562e9ef9f072d9988"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/zero-array-unsupported.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "492892dbc9474d9b35267a91049f1fcdcb2dbbb6",
+        "mode": "100644",
+        "sha256": "a5721fe5c70e0a40355f8d40609bd4c0a6920882e1ca61f6b8bffcc25eadbf80"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/zero-array-unsupported.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "60c9e81be50247c8cd85802b9b028dda37fcc4b7",
+        "mode": "100644",
+        "sha256": "374c976fa528de1f8e1c8c54ed1a58c8e44dc9f8ea4f8c4d52f720bef7561efe"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/zst-field-unsupported.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "729c3e4cd33761d455b5485ef4be53c929e595a0",
+        "mode": "100644",
+        "sha256": "f1ad87b022a594e9dfffce65f924b2f8eb9429693ecabc4cf06cf1eda13b87f2"
+      },
+      "path": "tests/expected/uninit/aggregate-transfer-boundary/zst-field-unsupported.rs",
+      "status": "added"
+    },
+    {
+      "baseline": {
+        "blob": "a5d08c7d541b01560579922e627b31ea3b827a94",
+        "mode": "100644",
+        "sha256": "fe4bc1939e04c49b1c7f46036a501ddd566efa8063bfbf136c9fff74c5e0c5cf"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "e29d3375849a2eafe8ffc0a438123f8d279aa3ac",
+        "mode": "100644",
+        "sha256": "d357a44ac16f84bd7296e2d2166be25a245a1a599f6fdffc280a8ada7a3ddb47"
+      },
+      "path": "tests/expected/uninit/part1-composition/move-return-reinit.rs",
+      "status": "modified"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "746baa8b50e29fb30c73e5e8125f99fb303ad214",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "sha256": "11a2ced7dc5df2e907a586018c42b4c949ca9dd86fd682aa33fa870a070a3c20",
+      "size": 29083
+    },
+    {
+      "blob": "0ab7059e422f54480dd62547df7aeed93c6bafe8",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "sha256": "1371e9059e45cff62f8be3d5323cc866ce74a4e67a6f3e69bf98372462bd3853",
+      "size": 43127
+    },
+    {
+      "blob": "88414a040a79ee34e99bc79bef8bc03317d6f76d",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "sha256": "e888310d3f46c1bdbfc39a091ddeebd29c9173694da25db0132f654cbf775d37",
+      "size": 16733
+    },
+    {
+      "blob": "0df17815f36d16ab4788e83e6ea4c6808a47e382",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/points_to/mod.rs",
+      "sha256": "d0c9169a1c1f1476f1bdd5ef6d42040ed4587b9a86bb2891a1b312568aa98128",
+      "size": 425
+    }
+  ],
+  "diff_sha256": "6ad8e26dead3af11ccb5335640426ca17bafd53f5ca8e6a42b3b42c348c98da6",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/m3-final/aggregate-boundary/REVIEW-INITIAL.md",
+      "sha256": "15e97a77c355915cd8157a4547e81641e88992cfa080edc3c1ecbe589385f587"
+    }
+  ],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "c7626a3d6a1e3d82ed617cf41b4095057bad54c50d86755ccb9df2bb820171a5",
+  "worktree": "/root/kani-fix-3300-m3"
+}

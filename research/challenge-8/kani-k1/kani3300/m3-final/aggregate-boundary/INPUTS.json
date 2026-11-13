@@ -1,0 +1,30 @@
+{
+  "worker": 14,
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-M3-AGGREGATE-BOUNDARY.md, final issuance section",
+  "source_worktree": "/root/kani-fix-3300-m3",
+  "source_branch": "fix/kani-3300-m3",
+  "base": "aac27ed95364989bc045e5cdc227f2a97448f955",
+  "candidate": "88c532d6c19d3647ea877af6222078d760c06900",
+  "candidate_tree": "57fbba832389b448229aefa9365ad00ab68657fe",
+  "g0_branch": "experiment/kani-k1-kani3300g0-20261111",
+  "research_location": "kani3300/m3-final/aggregate-boundary (issuance overrides earlier m3-aggregate-boundary location)",
+  "original_fixture": [
+    {
+      "original_source_commit": "aac27ed95364989bc045e5cdc227f2a97448f955",
+      "path": "tests/expected/uninit/part1-composition/move-return-reinit.rs",
+      "research_copy": "original-move-return-reinit.rs",
+      "sha256": "fe4bc1939e04c49b1c7f46036a501ddd566efa8063bfbf136c9fff74c5e0c5cf"
+    },
+    {
+      "original_source_commit": "aac27ed95364989bc045e5cdc227f2a97448f955",
+      "path": "tests/expected/uninit/part1-composition/move-return-reinit.expected",
+      "research_copy": "original-move-return-reinit.expected",
+      "sha256": "bd77167c7b4f636b88d929bffbed34dbfb65a92d007fe83ea43d816e17411219"
+    }
+  ],
+  "supplied_prior_evidence": "m3-final/STOP-R1.md; Quick43488479150 coordinator/source-reported only, no new raw evidence read",
+  "source_gap": "Tuple return omits paired shadow transfer under existing flat predicates; dynamic FAIL1/200 attribution UNKNOWN",
+  "cloud_budget_usd": 0,
+  "new_ci_status": "NOT_RUN",
+  "proof_credit": "NONE"
+}
