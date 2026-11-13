@@ -1,0 +1,50 @@
+{
+  "role": "worker14 E2 continuation",
+  "base": "478aad601fc5a45b142d6a8a2ae85594add9a0e6",
+  "base_tree": "41ca556b9975dd12125bdb73b256c422a7897db7",
+  "candidate": "19588e0afa9994a0e892f7f93a72534bdc061452",
+  "candidate_tree": "b16a7d8b5368d1c90a5ddad2ecb4ee4d65b8f2e5",
+  "clone": "/root/kani-fix-3300-e2",
+  "branch": "fix/kani-3300-e2",
+  "source_clone": "/root/kani-fix-3300-c0",
+  "task": "TASK-KANI3300-FINAL-EDGES.md + explicit E2 user continuation",
+  "prior_E1": "dc24745c68951effb702a4302e84481ca74bc51a",
+  "baseline_quick_run": {
+    "id": "43474396386",
+    "assurance": "USER-SUPPLIED summary and bounded failure fragment; no new run by worker14",
+    "kani": [
+      22,
+      0
+    ],
+    "ui": [
+      14,
+      0
+    ],
+    "script": [
+      1,
+      0
+    ],
+    "json": [
+      2,
+      0
+    ],
+    "expected": [
+      180,
+      5
+    ]
+  },
+  "baseline_fragment": {
+    "path": "/root/kani3300-h1-ci/c0-r1-edges-failures.log",
+    "sha256": "ac8d1004ee760ef229f56db769f7b798af8c2a7fc579f9a7e2287131fbf837a6"
+  },
+  "validation": {
+    "python_static_audit": "PASS",
+    "git_diff_check": "PASS",
+    "scratchpad_rustfmt": "PASS",
+    "rustfmt_version": "rustfmt 1.11.0-nightly (c1070d6938 2026-09-28)",
+    "independent_review": "Luna HIGH: no source-level blockers",
+    "compiler_verifier_execution": "NOT_RUN",
+    "push": "NOT_RUN",
+    "cloud_spend_usd": 0
+  }
+}

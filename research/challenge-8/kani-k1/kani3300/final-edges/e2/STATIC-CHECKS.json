@@ -1,0 +1,69 @@
+{
+  "base": "478aad601fc5a45b142d6a8a2ae85594add9a0e6",
+  "candidate": "19588e0afa9994a0e892f7f93a72534bdc061452",
+  "tree": "b16a7d8b5368d1c90a5ddad2ecb4ee4d65b8f2e5",
+  "scope": "PASS",
+  "critical_subtree_identities": "PASS",
+  "six_fixture_maps": [
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-subrange-legal.rs",
+      "root": "immutable_subrange_legal",
+      "sha256": "60fbf1a0c53bedf1cb1bdb7fce721416bc7e5cd75eab1f07727beffb7b9f1960",
+      "expected_sha256": "7933235dc2c99f57efe0c01718bb1e3567e405c4c0a9d05f62375240ee607558",
+      "actual_mir": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-subrange-hole.rs",
+      "root": "immutable_subrange_hole",
+      "sha256": "c70ec9a5fc24fb853784fc2fce7830631bcca0714c648e78a1d5fa5dfaaffa44",
+      "expected_sha256": "fa8db79c8f74fd9dd02fd319266d03751db1cb7dc422c5364c37cebaf41ea96a",
+      "actual_mir": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-relocation-legal.rs",
+      "root": "immutable_relocation_legal",
+      "sha256": "04c359df6c6a9ea66136a81ac806b4fb6c72530f0d835a4a86d94c653a6f9319",
+      "expected_sha256": "8941c19ddbdd52676915a79ab7b26ff6ced5970747b47c5bfc94b48b0e3e06af",
+      "actual_mir": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-relocation-hole.rs",
+      "root": "immutable_relocation_hole",
+      "sha256": "7fcd03361d492c39d6fdb5db15311083242ed6511bbc861854b106956a4c12ca",
+      "expected_sha256": "5cb7c77430b65d4e08c0d8a81f3e612446faf108fb5290bef57e5e99fe0608af",
+      "actual_mir": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-static-legal.rs",
+      "root": "immutable_static_legal",
+      "sha256": "4fa88f3e729f13fe7879a5dbedd3183023a687e0dbd5014ce45f653deed4fe32",
+      "expected_sha256": "25e514e10ad3084598cd99786bc0b7845fb6997b22dd9a75554ff92fd148e218",
+      "actual_mir": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/immutable-static-hole.rs",
+      "root": "immutable_static_hole",
+      "sha256": "fbf3cda2423e5d344033e94ff9330e0e47354035506807885d09e092e24b56ce",
+      "expected_sha256": "6d16752c626cdbc21997d9df6bbbb8e058b50891db14c0e8cd591d7191da91de",
+      "actual_mir": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN"
+    }
+  ],
+  "changed_paths": {
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs": "5dd5ee125b11f77fe37684e75bf1e4c155f2196c1688c6d2ba0099e43497f71b",
+    "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs": "9b295291cb48217134d91fda06e5ac8cfd2190947237aa32edb8eed5adbf2342",
+    "tests/expected/uninit/part1-edges/immutable-relocation-hole.rs": "7fcd03361d492c39d6fdb5db15311083242ed6511bbc861854b106956a4c12ca",
+    "tests/expected/uninit/part1-edges/immutable-relocation-legal.rs": "04c359df6c6a9ea66136a81ac806b4fb6c72530f0d835a4a86d94c653a6f9319",
+    "tests/expected/uninit/part1-edges/immutable-subrange-hole.rs": "c70ec9a5fc24fb853784fc2fce7830631bcca0714c648e78a1d5fa5dfaaffa44",
+    "tests/expected/uninit/part1-edges/immutable-subrange-legal.rs": "60fbf1a0c53bedf1cb1bdb7fce721416bc7e5cd75eab1f07727beffb7b9f1960"
+  },
+  "expected_files": "UNCHANGED",
+  "diff_check": "PASS",
+  "compiler_verifier_execution": "NOT_RUN",
+  "proof_credit": "NONE"
+}
