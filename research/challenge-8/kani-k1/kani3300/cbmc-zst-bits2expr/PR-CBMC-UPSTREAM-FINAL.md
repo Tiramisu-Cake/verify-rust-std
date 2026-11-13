@@ -44,9 +44,15 @@ Condition: el_size_opt.has_value() && *el_size_opt > 0
 Reason: Check return value
 ```
 
-The struct branch already accepts zero-width components. With a zero element width, the existing array loop takes empty slices and recursively builds one operand per element, retaining both the element count and the original array type. This change accepts width zero in that branch and adds one regression plus three unit cases alongside the existing bit-order case.
-
 Kani encounters the same invariant for Rust input: [model-checking/kani#5085](https://github.com/model-checking/kani/issues/5085).
+
+## Change
+
+In the array branch of `bits2expr` (`src/util/simplify_utils.cpp`), the element-width check is relaxed from `*el_size_opt > bitst{0}` to `*el_size_opt >= bitst{0}`. The requirement that the element width is known is unchanged.
+
+For a zero element width the existing loop needs no other change: each element gets an empty slice of the input bits and is reconstructed recursively, so the result keeps the element count and the original array type (in the example above, `z` becomes an array of two `struct empty` values). This matches the struct branch, which already accepts zero-width components.
+
+The example above is added as the regression test `regression/cbmc/byte_extract_empty_struct_array`, and three unit cases are added to `unit/util/simplify_expr.cpp` next to the existing bit-order case.
 
 ## Testing
 
