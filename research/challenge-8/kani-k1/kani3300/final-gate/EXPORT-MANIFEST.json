@@ -1,0 +1,56 @@
+{
+  "schema": "kani3300-export-manifest-v1",
+  "state": "NOT_RUN_C1_PENDING",
+  "baseline_only": {
+    "sha": "478aad601fc5a45b142d6a8a2ae85594add9a0e6",
+    "tree": "41ca556b9975dd12125bdb73b256c422a7897db7",
+    "clean": true,
+    "files": {
+      "scripts/kani-regression.sh": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+      ".github/workflows/kani.yml": "41799dc8b87557d2077c95dcd7cbcf26180a552aa4afd85e66abbc97843a6b48",
+      ".github/actions/setup/action.yml": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+      "rust-toolchain.toml": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+      "kani-dependencies": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+      "Cargo.lock": "984ef4cea51f0ad74124311f5cd09fca6d9c8c37bdbb9a8f29dd87cce842fadb",
+      "library/kani_core/src/mem_init.rs": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
+      "library/kani_core/src/mem.rs": "598428730a32f2c4034091688b50dde5a44deb69e2e3c61e08a0d394a5e42844",
+      "tests/json-handler/uninit-contract-oracles/oracles.json": "34c08a26dd508cf75d19dc80c1c17b88e0bbeb54d492a3f6da10af7ee8120d73",
+      "tests/json-handler/uninit-contract-mode-boundaries/roots.json": "e86e53af05c943c1fe4e322b98d6a3c0585d18fe89505bbc6099a95ce55c5b8f"
+    },
+    "subtrees": {
+      "kani-compiler": "e0b02d6288d330d415c951073a26f799b21b9572",
+      "library": "a2f83b7bc4ba161cb454c7ecde285a7b655be344",
+      "tests": "f0301f473fc96321f1af32093edd269db5518c60",
+      "kani-driver": "c214b9ff3402e7d6b14f874b1ff5279a56075207",
+      "tools": "685b2c10e086ab6552aef098e2424d1ee1224653",
+      "scripts": "7d1c75c2a5ba49102a2efa7e6d9facc47675efd2"
+    },
+    "submodules": "160000 commit 1b6df08a04fd2edaeedd4046b917253a1bf25de5\tcharon\n160000 commit cd36c699f3cb3d531289aadee26c45c1306edcfc\tfirecracker"
+  },
+  "final_export": {
+    "sha": null,
+    "tree": null,
+    "clean": null,
+    "files": null,
+    "m3_accepted": false,
+    "eight_oracles": "NOT_RUN",
+    "six_modes": "NOT_RUN",
+    "mixed_order": "NOT_RUN",
+    "binary_model_hashes": null
+  },
+  "smallsort": {
+    "sha": "70ba5befc617627073738e26cb1466bd4fb76e41",
+    "library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+    "pin_status": "SELECTED_SNAPSHOT_COORDINATOR_CONFIRMATION_PENDING",
+    "current_pr_752_head": null,
+    "files": {
+      "rust-toolchain.toml": "689c159497e53389671511fa85e200533c2a892488346620ccaae0a34ad45618",
+      "scripts/run-kani.sh": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+      "library/core/src/slice/sort/shared/smallsort.rs": "bc8f2cd12c03ac2c4a1be231bb14d7fefef269ed0fd571e35993e6d0467c7fb0",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "86bac48e888365eab2187756dfd8ffbce059d6cc2ce35b1d8ab7b39d788118ac",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "85bdd131f3a7e62106e69e98e4b1b85d2f68c91a4bfff4df629955539493748c",
+      "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "e37e6971e6458a17d858de9a6a6ea38265d7584934ef71c8243c97a487505e54",
+      "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs": "3a220d9fcd8269b253efaa8d7c18c13aa7a6e6f8cf59504ac2ec4c004b9abffe"
+    }
+  }
+}

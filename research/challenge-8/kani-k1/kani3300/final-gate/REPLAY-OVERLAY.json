@@ -1,0 +1,19 @@
+{
+  "status": "NOT_RUN_PREPARATION",
+  "clone": "/root/verify-rust-std-kani3300-replay-w15",
+  "branch": "experiment/kani3300-replay-w15-prep",
+  "base": "70ba5befc617627073738e26cb1466bd4fb76e41",
+  "sha": "3f0aebb87f325a2f07b6fa6fbcce9315ef713690",
+  "tree": "bc999547dbd98466255eb9d19b59f4cc5382110a",
+  "clean": true,
+  "files": [
+    "M\tlibrary/core/src/slice/sort/shared/smallsort/verify.rs",
+    "A\tlibrary/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs"
+  ],
+  "patch": "replay-test-only.patch",
+  "patch_sha256": "f2689c76720e95f98a88bdd17a2bf4cf13a7348d40dedcf9c009aa0b20db0df5",
+  "published": false,
+  "final_C1_bound": false,
+  "origin_note": "Local read-only source origin; coordinator must choose publication target explicitly.",
+  "library_tree": "2e7f781b35bc41d1431ea3729b888961f5c96b2f"
+}

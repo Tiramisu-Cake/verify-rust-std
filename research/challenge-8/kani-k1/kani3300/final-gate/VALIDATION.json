@@ -1,0 +1,14 @@
+{
+  "status": "STATIC_PACKAGE_OK",
+  "date": "2026-11-13",
+  "command": "python3 -B research/challenge-8/kani-k1/kani3300/final-gate/validate_package.py",
+  "python_synthetic_tests": {"passed": 11, "failed": 0},
+  "checks": ["frozen C0/std identities and hashes", "read-only inputs clean", "own overlays clean", "exact patch/commit hashes", "bounded write scopes", "ON/OFF argv and cfg parity", "YAML syntax and workflow_dispatch only", "pending C1 inputs remain unbound"],
+  "shell_runtime": "NOT_RUN",
+  "compilation": "NOT_RUN",
+  "gate_a": "NOT_RUN",
+  "gate_b": "NOT_RUN",
+  "cloud_cost_usd": 0,
+  "published": false,
+  "formal_proof_credit": "NOT_ESTABLISHED"
+}
