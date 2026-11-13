@@ -1,0 +1,3290 @@
+diff --git a/.github/workflows/bench-compiler.yml b/.github/workflows/bench-compiler.yml
+deleted file mode 100644
+index 0b30110c6..000000000
+--- a/.github/workflows/bench-compiler.yml
++++ /dev/null
+@@ -1,148 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Run performance benchmarks comparing the compiler performance of two different Kani versions.
+-name: Kani Compiler Performance Benchmarks
+-permissions:
+-  contents: read
+-on:
+-  push:
+-    branches:
+-      - 'main'
+-  workflow_call:
+-
+-jobs:
+-  compile-timer-short:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Save push event HEAD and HEAD~ to environment variables
+-        if: ${{ github.event_name == 'push' }}
+-        run: |
+-          echo "NEW_REF=${{ github.event.after}}" | tee -a "$GITHUB_ENV"
+-          echo "OLD_REF=${{ github.event.before }}" | tee -a "$GITHUB_ENV"
+-      # Note: in reusable workflows, github.event_name and github.event are
+-      # those of the caller; when invoked from bench-pr.yml this is a
+-      # pull_request event.
+-      - name: Save pull request HEAD and base to environment variables
+-        if: ${{ github.event_name == 'pull_request' }}
+-        run: |
+-          echo "OLD_REF=${{ github.event.pull_request.base.sha }}" | tee -a "$GITHUB_ENV"
+-          echo "NEW_REF=${{ github.event.pull_request.head.sha }}" | tee -a "$GITHUB_ENV"
+-      - name: Check out Kani (old variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./old
+-          ref: ${{ env.OLD_REF }}
+-          fetch-depth: 2
+-
+-      - name: Check out Kani (new variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./new
+-          ref: ${{ env.NEW_REF }}
+-          fetch-depth: 1
+-
+-      - name: Set up Kani Dependencies (old variant)
+-        uses: ./old/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: old
+-
+-      - name: Set up Kani Dependencies (new variant)
+-        uses: ./new/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: new
+-
+-      - name: Copy benchmarks from new to old
+-        run: rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/
+-
+-      - name: Build `compile-timer` in old
+-        run: cd old/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in old
+-        run: cd old && cargo build-dev --release
+-
+-      - name: Build `compile-timer` in new
+-        run: cd new/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in new
+-        run: cd new && cargo build-dev --release
+-
+-      - name: Run `compile-timer` on old
+-        run: |
+-          export PATH="${{ github.workspace }}/old/scripts:$PATH"
+-          cd old/tests/perf && ../../target/release/compile-timer --out-path compile-times-old.json --ignore kani-lib --ignore display_trait --ignore s2n-quic
+-      - name: Run `compile-timer` on new
+-        run: |
+-          export PATH="${{ github.workspace }}/new/scripts:$PATH"
+-          cd new/tests/perf && ../../target/release/compile-timer --out-path compile-times-new.json --ignore kani-lib --ignore display_trait --ignore s2n-quic
+-      - name: Run analysis between the two
+-        run: ./new/target/release/compile-analyzer --path-pre old/tests/perf/compile-times-old.json --path-post new/tests/perf/compile-times-new.json --only-markdown --suite-name short >> "$GITHUB_STEP_SUMMARY"
+-
+-  compile-timer-long:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Save push event HEAD and HEAD~ to environment variables
+-        if: ${{ github.event_name == 'push' }}
+-        run: |
+-          echo "NEW_REF=${{ github.event.after}}" | tee -a "$GITHUB_ENV"
+-          echo "OLD_REF=${{ github.event.before }}" | tee -a "$GITHUB_ENV"
+-      # Note: in reusable workflows, github.event_name and github.event are
+-      # those of the caller; when invoked from bench-pr.yml this is a
+-      # pull_request event.
+-      - name: Save pull request HEAD and base to environment variables
+-        if: ${{ github.event_name == 'pull_request' }}
+-        run: |
+-          echo "OLD_REF=${{ github.event.pull_request.base.sha }}" | tee -a "$GITHUB_ENV"
+-          echo "NEW_REF=${{ github.event.pull_request.head.sha }}" | tee -a "$GITHUB_ENV"
+-      
+-      - name: Check out Kani (old variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./old
+-          ref: ${{ env.OLD_REF }}
+-          fetch-depth: 2
+-
+-      - name: Check out Kani (new variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./new
+-          ref: ${{ env.NEW_REF }}
+-          fetch-depth: 1
+-
+-      - name: Set up Kani Dependencies (old variant)
+-        uses: ./old/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: old
+-
+-      - name: Set up Kani Dependencies (new variant)
+-        uses: ./new/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: new
+-
+-      # Ensures that a PR changing the benchmarks will have the new benchmarks run 
+-      # for both commits.
+-      - name: Copy benchmarks from new to old
+-        run: rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/
+-
+-      - name: Build `compile-timer` in old
+-        run: cd old/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in old
+-        run: cd old && cargo build-dev --release
+-
+-      - name: Build `compile-timer` in new
+-        run: cd new/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in new
+-        run: cd new && cargo build-dev --release
+-
+-      - name: Run `compile-timer` on old
+-        run: |
+-          export PATH="${{ github.workspace }}/old/scripts:$PATH"
+-          cd old/tests/perf/s2n-quic && ../../../target/release/compile-timer --out-path compile-times-old.json --also-visit quic/s2n-quic-core --also-visit quic/s2n-quic-platform --also-visit common/s2n-codec --skip-current
+-      - name: Run `compile-timer` on new
+-        run: |
+-          export PATH="${{ github.workspace }}/new/scripts:$PATH"
+-          cd new/tests/perf/s2n-quic && ../../../target/release/compile-timer --out-path compile-times-new.json --also-visit quic/s2n-quic-core --also-visit quic/s2n-quic-platform --also-visit common/s2n-codec --skip-current
+-      - name: Run analysis between the two
+-        run: ./new/target/release/compile-analyzer --path-pre old/tests/perf/s2n-quic/compile-times-old.json --path-post new/tests/perf/s2n-quic/compile-times-new.json --only-markdown --suite-name long >> "$GITHUB_STEP_SUMMARY"
+diff --git a/.github/workflows/bench-e2e.yml b/.github/workflows/bench-e2e.yml
+deleted file mode 100644
+index bc2db84b5..000000000
+--- a/.github/workflows/bench-e2e.yml
++++ /dev/null
+@@ -1,85 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Run performance benchmarks comparing two different Kani versions.
+-# This workflow takes much longer than other workflows, so we don't run it by default.
+-# This workflow will run when:
+-#  - Changes are pushed to 'main'.
+-#  - Triggered by another workflow
+-name: Kani End-To-End Performance Benchmarks
+-permissions:
+-  contents: read
+-on:
+-  push:
+-    branches:
+-      - 'main'
+-  workflow_call:
+-
+-jobs:
+-  perf-benchcomp:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Save push event HEAD and HEAD~ to environment variables
+-        if: ${{ github.event_name == 'push' }}
+-        run: |
+-          echo "NEW_REF=${{ github.event.after}}" | tee -a "$GITHUB_ENV"
+-          echo "OLD_REF=${{ github.event.before }}" | tee -a "$GITHUB_ENV"
+-
+-      # Note: in reusable workflows, github.event_name and github.event are
+-      # those of the caller; when invoked from bench-pr.yml this is a
+-      # pull_request event.
+-      - name: Save pull request HEAD and base to environment variables
+-        if: ${{ github.event_name == 'pull_request' }}
+-        run: |
+-          echo "OLD_REF=${{ github.event.pull_request.base.sha }}" | tee -a "$GITHUB_ENV"
+-          echo "NEW_REF=${{ github.event.pull_request.head.sha }}" | tee -a "$GITHUB_ENV"
+-
+-      - name: Check out Kani (old variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./old
+-          ref: ${{ env.OLD_REF }}
+-          fetch-depth: 2
+-
+-      - name: Check out Kani (new variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./new
+-          ref: ${{ env.NEW_REF }}
+-          fetch-depth: 1
+-
+-      - name: Set up Kani Dependencies (old variant)
+-        uses: ./old/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: old
+-
+-      - name: Set up Kani Dependencies (new variant)
+-        uses: ./new/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: new
+-
+-      - name: Copy benchmarks from new to old
+-        run: rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/
+-
+-      - name: Run benchcomp
+-        run: |
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            run
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            collate
+-
+-      - name: Perf Regression Results Table
+-        run: |
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            visualize --only dump_markdown_results_table >> "$GITHUB_STEP_SUMMARY"
+-
+-      - name: Run other visualizations
+-        run: |
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            visualize --except dump_markdown_results_table
+diff --git a/.github/workflows/bench-pr.yml b/.github/workflows/bench-pr.yml
+deleted file mode 100644
+index d68534a54..000000000
+--- a/.github/workflows/bench-pr.yml
++++ /dev/null
+@@ -1,40 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Run the performance benchmark workflows for pull requests that carry the
+-# corresponding Z-*BenchCI label (applied automatically by the labeler in
+-# extra_jobs.yml based on the changed files, or manually).
+-#
+-# This runs on `pull_request` (not `pull_request_target`) on purpose: the
+-# benchmark workflows build and execute the code proposed in the pull
+-# request, which must not happen in the trusted `pull_request_target`
+-# context (actions/checkout v6.1.0/v5.1.0/v4.4.0 refuse to do so; see
+-# https://github.blog/changelog/2026-06-18-safer-pull_request_target-defaults-for-github-actions-checkout/).
+-#
+-# Note on the `labeled` trigger: labels added by the auto-labeler do not
+-# re-trigger this workflow (events created with the default GITHUB_TOKEN
+-# never trigger new workflow runs), so on freshly opened pull requests the
+-# benchmarks only start with the next push to the pull request. Manually
+-# adding the label triggers them immediately.
+-
+-name: Kani Benchmarks
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-    types: [opened, synchronize, reopened, labeled]
+-
+-concurrency:
+-  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+-  cancel-in-progress: true
+-
+-jobs:
+-  end-to-end-bench:
+-    name: End-to-End Benchmarks
+-    if: ${{ contains(github.event.pull_request.labels.*.name, 'Z-EndToEndBenchCI') }}
+-    uses: ./.github/workflows/bench-e2e.yml
+-
+-  compiler-bench:
+-    name: Compiler Benchmarks
+-    if: ${{ contains(github.event.pull_request.labels.*.name, 'Z-CompilerBenchCI') }}
+-    uses: ./.github/workflows/bench-compiler.yml
+diff --git a/.github/workflows/cargo-update.yml b/.github/workflows/cargo-update.yml
+deleted file mode 100644
+index 1873a2ecd..000000000
+--- a/.github/workflows/cargo-update.yml
++++ /dev/null
+@@ -1,51 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt cargo update
+-
+-on:
+-  schedule:
+-    - cron: "30 3 * * Mon" # Run this every Monday at 03:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  pull-requests: write
+-
+-jobs:
+-  create-cargo-update-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The cargo update action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Run cargo update
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          today=$(date +%Y-%m-%d)
+-          echo "today=$today" >> $GITHUB_ENV
+-          if ! git ls-remote --exit-code origin cargo-update-$today ; then
+-            cargo update
+-            cargo build-dev
+-            git diff
+-          fi
+-      - name: Create Pull Request
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade cargo dependencies to ${{ env.today }}
+-          branch: cargo-update-${{ env.today }}
+-          delete-branch: true
+-          title: 'Automatic cargo update to ${{ env.today }}'
+-          body: >
+-            Dependency upgrade resulting from `cargo update`.
+diff --git a/.github/workflows/cbmc-latest.yml b/.github/workflows/cbmc-latest.yml
+deleted file mode 100644
+index 223ec7f96..000000000
+--- a/.github/workflows/cbmc-latest.yml
++++ /dev/null
+@@ -1,123 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# We use block scalar notation to allow us to add ":" to the workflow name.
+-name: >-
+-  Nightly: CBMC Latest
+-
+-permissions:
+-  contents: read
+-
+-on:
+-  schedule:
+-    - cron: "0 9 * * *" # Run this every day at 9 AM UTC (4 AM ET/1 AM PT)
+-  workflow_dispatch:    # Allow manual dispatching for a custom branch / tag.
+-
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  regression:
+-    runs-on: ${{ matrix.os }}
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, ubuntu-22.04, ubuntu-24.04]
+-    steps:
+-      - name: Checkout Kani under "kani"
+-        uses: actions/checkout@v6
+-        with:
+-          path: kani
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./kani/.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-          kani_dir: 'kani'
+-
+-      - name: Checkout CBMC under "cbmc"
+-        uses: actions/checkout@v6
+-        with:
+-          repository: diffblue/cbmc
+-          path: cbmc
+-
+-      - name: Build CBMC (Linux)
+-        if: ${{ startsWith(matrix.os, 'ubuntu') }}
+-        working-directory: ./cbmc
+-        run: |
+-          cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl="minisat2;cadical"
+-          cmake --build build -- -j 4
+-          # Prepend the bin directory to $PATH
+-          echo "${GITHUB_WORKSPACE}/cbmc/build/bin" >> $GITHUB_PATH
+-
+-      - name: Build CBMC (macOS)
+-        if: ${{ startsWith(matrix.os, 'macos') }}
+-        working-directory: ./cbmc
+-        run: |
+-          cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl="minisat2;cadical" -DCMAKE_CXX_COMPILER=$(which clang++)
+-          cmake --build build -- -j 4
+-          # Prepend the bin directory to $PATH
+-          echo "${GITHUB_WORKSPACE}/cbmc/build/bin" >> $GITHUB_PATH
+-
+-      - name: Execute Kani regressions
+-        working-directory: ./kani
+-        run: ./scripts/kani-regression.sh
+-
+-  perf:
+-    runs-on: ubuntu-24.04
+-    # The perf suite is memory-hungry: the s2n-quic harnesses solve large
+-    # formulas, and running them concurrently exhausts a standard runner, which
+-    # shows up as an unattributable SIGTERM (exit 143) or "the hosted runner
+-    # lost communication with the server" a few minutes into the step rather
+-    # than as a test failure. Run serially instead, as kani.yml does. That takes
+-    # ~45 min, so the 180-min step timeout leaves ample headroom, and the job
+-    # timeout sits above (step timeout) x (max_attempts) so a retry can land.
+-    timeout-minutes: 380
+-    steps:
+-      - name: Checkout Kani under "kani"
+-        uses: actions/checkout@v6
+-        with:
+-          path: kani
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./kani/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: 'kani'
+-
+-      - name: Build Kani using release mode
+-        working-directory: ./kani
+-        run: cargo build-dev -- --release
+-
+-      - name: Checkout CBMC under "cbmc"
+-        uses: actions/checkout@v6
+-        with:
+-          repository: diffblue/cbmc
+-          path: cbmc
+-
+-      - name: Build CBMC
+-        working-directory: ./cbmc
+-        run: |
+-          cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl="minisat2;cadical"
+-          cmake --build build -- -j 4
+-          # Prepend the bin directory to $PATH
+-          echo "${GITHUB_WORKSPACE}/cbmc/build/bin" >> $GITHUB_PATH
+-
+-      - name: Execute Kani performance tests
+-        # Run the suite serially and allow one retry, matching the perf job in
+-        # kani.yml. `working-directory` is not valid on a `uses` step, so the
+-        # command changes directory itself.
+-        uses: nick-fields/retry@v4
+-        with:
+-          timeout_minutes: 180
+-          max_attempts: 2
+-          command: cd kani && ./scripts/kani-perf.sh
+-        env:
+-          RUST_TEST_THREADS: 1
+-
+-      - name: Execute Kani performance ignored tests
+-        working-directory: ./kani
+-        continue-on-error: true
+-        run: cargo run -p compiletest -- --suite perf --mode cargo-kani-test ignore --ignored --no-fail-fast
+-        env:
+-          RUST_TEST_THREADS: 1
+diff --git a/.github/workflows/cbmc-update.yml b/.github/workflows/cbmc-update.yml
+deleted file mode 100644
+index 90eea8a06..000000000
+--- a/.github/workflows/cbmc-update.yml
++++ /dev/null
+@@ -1,91 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt CBMC update
+-
+-on:
+-  schedule:
+-    - cron: "30 4 * * Mon" # Run this every Monday at 04:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-cbmc-update-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The CBMC update action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Compare CBMC versions and determine next step
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          grep ^CBMC_VERSION kani-dependencies | sed 's/"//g' >> $GITHUB_ENV
+-          CBMC_LATEST=$(gh -R diffblue/cbmc release list | grep Latest | awk '{print $1}' | cut -f2 -d-)
+-          echo "CBMC_LATEST=$CBMC_LATEST" >> $GITHUB_ENV
+-          # check whether the version has changed at all
+-          if [ x$CBMC_LATEST = x$CBMC_VERSION ] ; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # check whether we already have an existing issue for a failing
+-          # upgrade
+-          elif gh issue list -S \
+-              "CBMC upgrade to $CBMC_LATEST failed" \
+-              --json number,title | grep title ; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # check whether we already have a branch (and thus: a PR) for a
+-          # successful upgrade
+-          elif ! git ls-remote --exit-code origin cbmc-$CBMC_LATEST ; then
+-            CBMC_LATEST_MAJOR=$(echo $CBMC_LATEST | cut -f1 -d.)
+-            CBMC_LATEST_MINOR=$(echo $CBMC_LATEST | cut -f2 -d.)
+-            sed -i "s/^CBMC_MAJOR=.*/CBMC_MAJOR=\"$CBMC_LATEST_MAJOR\"/" kani-dependencies
+-            sed -i "s/^CBMC_MINOR=.*/CBMC_MINOR=\"$CBMC_LATEST_MINOR\"/" kani-dependencies
+-            sed -i "s/^CBMC_VERSION=.*/CBMC_VERSION=\"$CBMC_LATEST\"/" kani-dependencies
+-            git diff
+-            # install the newer CBMC version
+-            ./scripts/setup/ubuntu/install_cbmc.sh
+-            if ! ./scripts/kani-regression.sh ; then
+-              echo "next_step=create_issue" >> $GITHUB_ENV
+-            else
+-              echo "next_step=create_pr" >> $GITHUB_ENV
+-            fi
+-          # we already have a PR, nothing to be done
+-          else
+-            echo "next_step=none" >> $GITHUB_ENV
+-          fi
+-
+-      - name: Create Pull Request
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }}
+-          branch: cbmc-${{ env.CBMC_LATEST }}
+-          delete-branch: true
+-          title: 'Automatic upgrade of CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }}'
+-          body: >
+-            Upgrade CBMC to its latest release.
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        uses: dacbd/create-issue-action@main
+-        with:
+-          token: ${{ github.token }}
+-          title: 'CBMC upgrade to ${{ env.CBMC_LATEST }} failed'
+-          body: >
+-            Updating CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }} failed.
+-
+-            The failed automated run
+-            [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+diff --git a/.github/workflows/charon-update.yml b/.github/workflows/charon-update.yml
+deleted file mode 100644
+index 70ad28901..000000000
+--- a/.github/workflows/charon-update.yml
++++ /dev/null
+@@ -1,93 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt Charon update
+-
+-on:
+-  schedule:
+-    - cron: "30 4 * * Wed" # Run this every Wednesday at 04:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-charon-update-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The Charon update action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Update the Charon pin and determine next step
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: ./scripts/charon_update.sh
+-
+-      - name: Clean untracked files
+-        run: git clean -f
+-
+-      - name: Create Pull Request
+-        id: create_pr
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade Charon from ${{ env.current_charon }} to ${{ env.next_charon }}
+-          branch: charon-${{ env.next_charon }}
+-          delete-branch: true
+-          title: 'Automatic upgrade of Charon from ${{ env.current_charon }} to ${{ env.next_charon }}'
+-          body: |
+-            Update the Charon pin (used by the LLBC backend) from ${{ env.current_charon }} to its
+-            latest tag, ${{ env.next_charon }}. Only the `charon` submodule and `Cargo.lock` change.
+-            `kani-llbc-regression.sh` passed in the
+-            [automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+-
+-            ${{ env.charon_log }}
+-
+-      - name: Point the open failure issue to the PR
+-        if: ${{ steps.create_pr.outputs.pull-request-number && env.failure_issue != '' }}
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-          PR_NUMBER: ${{ steps.create_pr.outputs.pull-request-number }}
+-        run: |
+-          gh issue comment "$failure_issue" --body \
+-            "Charon $next_charon passes the LLBC regression: see #$PR_NUMBER."
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        uses: dacbd/create-issue-action@main
+-        with:
+-          token: ${{ github.token }}
+-          # Keep in sync with `failure_title` in scripts/charon_update.sh.
+-          title: 'Automatic Charon upgrade failed'
+-          body: |
+-            Updating Charon from ${{ env.current_charon }} to ${{ env.next_charon }} requires
+-            source changes: `kani-llbc-regression.sh` failed in the
+-            [automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+-
+-            This issue stays open across Charon tags: later failing attempts add a comment here
+-            rather than filing a new issue. Close it once the pin is updated.
+-
+-            ${{ env.charon_log }}
+-
+-      - name: Comment on the open failure issue
+-        if: ${{ env.next_step == 'comment_issue' }}
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-          BODY: |
+-            Updating Charon from ${{ env.current_charon }} to ${{ env.next_charon }} failed as well:
+-            [automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+-
+-            ${{ env.charon_log }}
+-        run: gh issue comment "$failure_issue" --body "$BODY"
+diff --git a/.github/workflows/deny.yml b/.github/workflows/deny.yml
+deleted file mode 100644
+index c54ce6bbc..000000000
+--- a/.github/workflows/deny.yml
++++ /dev/null
+@@ -1,30 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# 1. Checks licenses for allowed license.
+-# 2. Checks Rust-Sec registry for security advisories.
+-
+-name: Cargo Deny
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    # Run on changes to branches but not tags.
+-    branches:
+-      - '**'
+-
+-jobs:
+-  audit:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - uses: actions/checkout@v6
+-        with:
+-          submodules: recursive
+-      - uses: EmbarkStudios/cargo-deny-action@v2
+-        env:
+-          RUSTUP_TOOLCHAIN: stable
+-        with:
+-          arguments: --all-features --workspace
+-          command-arguments: -s
+diff --git a/.github/workflows/extra_jobs.yml b/.github/workflows/extra_jobs.yml
+deleted file mode 100644
+index 157c5b2d9..000000000
+--- a/.github/workflows/extra_jobs.yml
++++ /dev/null
+@@ -1,51 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Workflow that execute jobs based on the files that were changed or some label configuration.
+-#
+-# The first job in this workflow will auto label the PR, while the following jobs will conditionally
+-# run according to the auto-label result.
+-#
+-# This workflow runs on `pull_request_target` because the labeler needs extra write permission.
+-# Thus, we keep this job minimal, and the only actions used are from the same verified publisher.
+-#
+-# Other jobs should not require extra permissions, so be careful when adding new jobs to not propagate write
+-# permissions.
+-#
+-# Note that this also means that the workflow version run is the one currently in `main`,
+-# not the one from the PR. This is only relevant if a PR is changing this workflow.
+-#
+-# See https://github.com/actions/labeler?tab=readme-ov-file#recommended-permissions for more details.
+-
+-name: Kani Extra
+-permissions:
+-  contents: read
+-on:
+-  pull_request_target:
+-  merge_group:
+-
+-jobs:
+-  # Keep this job minimal since it requires extra permission
+-  auto-label:
+-    name: Auto Label
+-    permissions:
+-      pull-requests: write
+-    outputs:
+-      all-labels: ${{ steps.labeler.outputs.all-labels }}
+-      new-labels: ${{ steps.labeler.outputs.new-labels }}
+-    runs-on: ubuntu-latest
+-    steps:
+-    - name: Checkout Kani
+-      uses: actions/checkout@v6
+-
+-    - name: Label PR
+-      id: labeler
+-      uses: actions/labeler@v7
+-      with:
+-        dot: true
+-
+-  # Note: the label-gated benchmark workflows (bench-pr.yml) used to be
+-  # invoked from here, but they build and run the code proposed in the pull
+-  # request, which must not happen in this workflow's trusted
+-  # `pull_request_target` context. They now trigger on `pull_request`
+-  # events directly.
+diff --git a/.github/workflows/format-check.yml b/.github/workflows/format-check.yml
+deleted file mode 100644
+index 9d21eeb45..000000000
+--- a/.github/workflows/format-check.yml
++++ /dev/null
+@@ -1,60 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-name: Kani Format Check
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    # Not just any push, as that includes tags.
+-    # We don't want to re-trigger this workflow when tagging an existing commit.
+-    branches:
+-      - '**'
+-
+-jobs:
+-  format-check:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Execute copyright check
+-        run: ./scripts/ci/run-copyright-check.sh
+-
+-      # Ignore failures here for now until we can pindown a version.
+-      - name: Check C code formatting
+-        continue-on-error: true
+-        run: ./scripts/run-clang-format.sh -d
+-
+-      - name: Check Python code formatting
+-        run: |
+-          pip3 install --upgrade autopep8
+-          ./scripts/run-autopep8.sh
+-
+-  clippy-check:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: 'Install jq for parsing.'
+-        run: |
+-          sudo apt-get install -y jq
+-
+-      - name: 'Run Clippy'
+-        run: |
+-          cargo clippy --workspace --tests -- -D warnings
+-          RUSTFLAGS="--cfg=kani_sysroot" cargo clippy --workspace -- -D warnings
+-
+-      - name: 'Print Clippy Statistics'
+-        run: |
+-          rm .cargo/config.toml
+-          (cargo clippy --all --message-format=json 2>/dev/null  | \
+-          jq 'select(.message!=null) | .message.code.code' | grep -v '^null$' | \
+-          sort | uniq -c) || true
+diff --git a/.github/workflows/kani.yml b/.github/workflows/kani.yml
+deleted file mode 100644
+index 67066d447..000000000
+--- a/.github/workflows/kani.yml
++++ /dev/null
+@@ -1,136 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-name: Kani CI
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    # Not just any push, as that includes tags.
+-    # We don't want to re-trigger this workflow when tagging an existing commit.
+-    branches:
+-      - '**'
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  regression:
+-    runs-on: ${{ matrix.os }}
+-    permissions:
+-      contents: read
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, ubuntu-22.04, ubuntu-24.04, macos-14, ubuntu-24.04-arm]
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-
+-      - name: Execute Kani regression
+-        run: ./scripts/kani-regression.sh
+-
+-  benchcomp-tests:
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: read
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Install benchcomp dependencies
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install -y python3-pip
+-          pushd tools/benchcomp && pip3 install -r requirements.txt
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: Build Kani using release mode
+-        run: cargo build-dev -- --release
+-
+-      - name: Run benchcomp unit and regression tests
+-        run: pushd tools/benchcomp && PATH=$(realpath ../../scripts):$PATH test/run
+-
+-  perf:
+-    runs-on: ubuntu-24.04
+-    # The full perf suite runs in ~45 min (matching main): most cases finish in
+-    # seconds; the heaviest, s2n-quic-core, runs 34 harnesses in ~1500s. The
+-    # per-test guardrail in scripts/kani-perf.sh (2400s) sits above that. The
+-    # 180-min step timeout leaves ample headroom over that realistic runtime,
+-    # and the job timeout sits above (step timeout) x (max_attempts) so a retry
+-    # can still land.
+-    timeout-minutes: 380
+-    permissions:
+-      contents: read
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: Execute Kani performance tests
+-        # Retry on infra-driven failures (spot preemption / runner shutdown).
+-        # The script itself bounds per-test wall time, so functional regressions
+-        # surface as normal test failures and are not retried indefinitely.
+-        uses: nick-fields/retry@v4
+-        with:
+-          timeout_minutes: 180
+-          max_attempts: 2
+-          command: ./scripts/kani-perf.sh
+-        env:
+-          RUST_TEST_THREADS: 1
+-
+-  llbc-regression:
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: read
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: Build Kani with Charon
+-        run: cargo build-dev -- --features cprover --features llbc
+-
+-      - name: Run tests
+-        run: ./scripts/kani-llbc-regression.sh
+-
+-  documentation:
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: write
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-        with:
+-          submodules: recursive
+-
+-      - name: Install book dependencies
+-        run: ./scripts/setup/ubuntu/install_doc_deps.sh
+-
+-      # On one OS only, build the documentation, too.
+-      - name: Build Documentation
+-        run: ./scripts/build-docs.sh
+-
+-      # When we're pushed to main branch, only then actually publish the docs.
+-      - name: Publish Documentation
+-        if: ${{ github.event_name == 'push' && startsWith('refs/heads/main', github.ref) }}
+-        uses: JamesIves/github-pages-deploy-action@v4
+-        with:
+-          branch: gh-pages
+-          folder: docs/book/
+-          single-commit: true
+diff --git a/.github/workflows/kani3300-replay.yml b/.github/workflows/kani3300-replay.yml
+new file mode 100644
+index 000000000..78f5eb4c3
+--- /dev/null
++++ b/.github/workflows/kani3300-replay.yml
+@@ -0,0 +1,117 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++name: Kani 3300 C1 replay (preparation candidate)
++
++on:
++  workflow_dispatch:
++
++permissions:
++  contents: read
++
++jobs:
++  replay:
++    # This candidate is intentionally runnable only from a fork.
++    if: ${{ github.repository == 'Tiramisu-Cake/kani' }}
++    runs-on: ubuntu-24.04
++    # 12 serial jobs × 50 minutes = the proposed 10-hour aggregate envelope;
++    # each 2400-second harness cap leaves at most 10 minutes for setup/reporting.
++    timeout-minutes: 50
++    strategy:
++      fail-fast: false
++      max-parallel: 1
++      matrix:
++        root:
++          - sort4-pfc-on
++          - sort4-pfc-off
++          - merge-profile-pfc-on
++          - merge-profile-pfc-off
++          - merge-raw-pfc-on
++          - merge-raw-pfc-off
++          - raw-legal-on
++          - raw-legal-off
++          - raw-negative-on
++          - raw-negative-off
++          - sort8-boundary-on
++          - sort8-boundary-off
++    steps:
++      - name: Checkout CI-only overlay
++        uses: actions/checkout@v6
++        with:
++          path: overlay
++          fetch-depth: 0
++
++      - name: Read exact export revision
++        id: export
++        run: |
++          python3 - <<'PY'
++          import json, os
++          req = json.load(open('overlay/scripts/kani3300-replay/request.json'))
++          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
++              out.write('sha=' + req['tool_export_sha'] + '\n')
++          PY
++
++      - name: Checkout exact frozen C1 export
++        uses: actions/checkout@v6
++        with:
++          ref: ${{ steps.export.outputs.sha }}
++          path: export
++
++      - name: Verify immutable C1 source bindings
++        run: python3 overlay/scripts/kani3300-replay/replay.py verify-source --repo export
++
++      - name: Setup pinned Kani dependencies
++        uses: ./export/.github/actions/setup
++        with:
++          os: ubuntu-24.04
++          kani_dir: export
++
++      - name: Build this exact C1 checkout
++        working-directory: export
++        run: cargo build-dev -- --release
++
++      - name: Prepare isolated selected std snapshot
++        run: >-
++          python3 overlay/scripts/kani3300-replay/replay.py prepare-std
++          --repo https://github.com/Tiramisu-Cake/verify-rust-std.git
++          --destination "$RUNNER_TEMP/kani3300-std"
++
++      - name: Execute one exact replay row
++        run: >-
++          python3 overlay/scripts/kani3300-replay/replay.py run-root
++          --repo "$GITHUB_WORKSPACE/export"
++          --std "$RUNNER_TEMP/kani3300-std"
++          --root "${{ matrix.root }}"
++          --binary "$GITHUB_WORKSPACE/export/scripts/kani"
++          --out "$RUNNER_TEMP/kani3300-receipt/${{ matrix.root }}"
++
++      - name: Materialize NOT_RUN fallback receipt
++        if: always()
++        env:
++          JOB_STATUS: ${{ job.status }}
++        run: |
++          python3 - <<'PY'
++          import json, os
++          from pathlib import Path
++          out = Path(os.environ['RUNNER_TEMP']) / 'kani3300-receipt' / '${{ matrix.root }}'
++          out.mkdir(parents=True, exist_ok=True)
++          receipt = out / 'receipt.json'
++          if not receipt.exists():
++              receipt.write_text(json.dumps({
++                  'schema': 'kani3300-replay-receipt-v1',
++                  'root_id': '${{ matrix.root }}',
++                  'outcome': 'UNKNOWN',
++                  'runtime_proof_status': 'NOT_RUN',
++                  'job_status': os.environ['JOB_STATUS'],
++                  'note': 'setup/build/preflight/runner failed before a complete root receipt; no result inferred'
++              }, indent=2, sort_keys=True) + '\n')
++          (out / 'job-status.json').write_text(json.dumps({'status': os.environ['JOB_STATUS']}) + '\n')
++          PY
++
++      - name: Upload bounded NOT_RUN receipts
++        if: always()
++        uses: actions/upload-artifact@v4
++        with:
++          name: kani3300-replay-${{ matrix.root }}
++          path: ${{ runner.temp }}/kani3300-receipt/${{ matrix.root }}/
++          if-no-files-found: error
++          retention-days: 7
+diff --git a/.github/workflows/release.yml b/.github/workflows/release.yml
+deleted file mode 100644
+index c04eb7950..000000000
+--- a/.github/workflows/release.yml
++++ /dev/null
+@@ -1,394 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# This workflow will build, and, optionally, release Kani bundles in this order.
+-#
+-# The release will create a draft release and upload the bundles to it, and it will only run when we push a new
+-# release tag (i.e.: tag named `kani-*`).
+-name: Release Bundle
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    branches:
+-      - 'main'
+-    tags:
+-      - kani-*
+-
+-env:
+-  RUST_BACKTRACE: 1
+-  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+-
+-jobs:
+-  build_bundle_macos_x86_64:
+-    name: BuildBundle-MacOs-x86_64
+-    runs-on: macos-15-intel
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: macos-15-intel
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: x86_64-apple-darwin
+-
+-  build_bundle_macos_aarch64:
+-    name: BuildBundle-MacOs-aarch64
+-    runs-on: macos-14
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: macos-14
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: aarch64-apple-darwin
+-
+-  build_bundle_linux_x86_64:
+-    name: BuildBundle-Linux-x86_64
+-    runs-on: ubuntu-22.04
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: x86_64-unknown-linux-gnu
+-
+-  build_bundle_linux_aarch64:
+-    name: BuildBundle-Linux-aarch64
+-    runs-on: ubuntu-24.04-arm
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04-arm
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: aarch64-unknown-linux-gnu
+-
+-  test-use-local-toolchain:
+-    name: TestLocalToolchain
+-    needs: [build_bundle_macos_x86_64, build_bundle_macos_aarch64, build_bundle_linux_x86_64, build_bundle_linux_aarch64]
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, macos-14, ubuntu-22.04, ubuntu-24.04, ubuntu-24.04-arm]
+-        include:
+-        - os: macos-15-intel
+-          rust_target: x86_64-apple-darwin
+-          prev_job: ${{ needs.build_bundle_macos_x86_64.outputs }}
+-        - os: macos-14
+-          rust_target: aarch64-apple-darwin
+-          prev_job: ${{ needs.build_bundle_macos_aarch64.outputs }}
+-        - os: ubuntu-22.04
+-          rust_target: x86_64-unknown-linux-gnu
+-          prev_job: ${{ needs.build_bundle_linux_x86_64.outputs }}
+-        - os: ubuntu-24.04
+-          rust_target: x86_64-unknown-linux-gnu
+-          prev_job: ${{ needs.build_bundle_linux_x86_64.outputs }}
+-        - os: ubuntu-24.04-arm
+-          rust_target: aarch64-unknown-linux-gnu
+-          prev_job: ${{ needs.build_bundle_linux_aarch64.outputs }}
+-    runs-on: ${{ matrix.os }}
+-    steps:
+-      - name: Download bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.bundle }}
+-
+-      - name: Download kani-verifier crate
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.package }}
+-
+-      - name: Check download
+-        run: |
+-          ls -lh .
+-
+-      - name: Get toolchain version used to setup kani
+-        run: |
+-          tar zxvf ${{ matrix.prev_job.bundle }}
+-          DATE=$(cat ./kani-${{ matrix.prev_job.version }}/rust-toolchain-version | cut -d'-' -f2,3,4)
+-          echo "Nightly date: $DATE"
+-          echo "DATE=$DATE" >> $GITHUB_ENV
+-
+-      - name: Install Kani from path
+-        run: |
+-          tar zxvf ${{ matrix.prev_job.package }}
+-          cargo install --locked --path kani-verifier-${{ matrix.prev_job.crate_version }}
+-
+-      - name: Create a custom toolchain directory
+-        run: mkdir -p ${{ github.workspace }}/../custom_toolchain
+-
+-      - name: Fetch the nightly tarball
+-        run: |
+-          echo "Downloading Rust toolchain from rust server."
+-          curl --proto '=https' --tlsv1.2 -O https://static.rust-lang.org/dist/$DATE/rust-nightly-${{ matrix.rust_target }}.tar.gz
+-          tar -xzf rust-nightly-${{ matrix.rust_target }}.tar.gz
+-          ./rust-nightly-${{ matrix.rust_target }}/install.sh --prefix=${{ github.workspace }}/../custom_toolchain
+-
+-      - name: Ensure installation is correct
+-        run: |
+-          cargo kani setup --use-local-bundle ./${{ matrix.prev_job.bundle }} --use-local-toolchain ${{ github.workspace }}/../custom_toolchain/
+-
+-      - name: Ensure that the rustup toolchain is not present
+-        run: |
+-          if [ ! -e "~/.rustup/toolchains/" ]; then
+-            echo "Default toolchain file does not exist. Proceeding with running tests."
+-          else
+-            echo "::error::Default toolchain exists despite not installing."
+-            exit 1
+-          fi
+-
+-      - name: Checkout tests
+-        uses: actions/checkout@v6
+-
+-      - name: Move rust-toolchain file to outside kani
+-        run: |
+-          mkdir -p ${{ github.workspace }}/../post-setup-tests
+-          cp -r tests/cargo-ui ${{ github.workspace }}/../post-setup-tests
+-          cp -r tests/kani/Assert ${{ github.workspace }}/../post-setup-tests
+-          ls ${{ github.workspace }}/../post-setup-tests
+-
+-      - name: Run cargo-kani tests after moving
+-        run: |
+-          for dir in supported-lib-types/rlib multiple-harnesses verbose; do
+-            >&2 echo "Running test $dir"
+-            pushd ${{ github.workspace }}/../post-setup-tests/cargo-ui/$dir
+-            cargo kani
+-            popd
+-          done
+-
+-      - name: Check --help and --version
+-        run: |
+-          >&2 echo "Running cargo kani --help and --version"
+-          pushd ${{ github.workspace }}/../post-setup-tests/Assert
+-          cargo kani --help && cargo kani --version
+-          popd
+-
+-      - name: Run standalone kani test
+-        run: |
+-          >&2 echo "Running test on file bool_ref"
+-          pushd ${{ github.workspace }}/../post-setup-tests/Assert
+-          kani bool_ref.rs
+-          popd
+-
+-  test_bundle:
+-    name: TestBundle
+-    needs: [build_bundle_macos_x86_64, build_bundle_macos_aarch64, build_bundle_linux_x86_64, build_bundle_linux_aarch64]
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, macos-14, ubuntu-22.04, ubuntu-24.04, ubuntu-24.04-arm]
+-        include:
+-          # Stores the output of the previous job conditional to the OS
+-          - prev_job: ${{ needs.build_bundle_linux_x86_64.outputs }}
+-          - os: macos-15-intel
+-            prev_job: ${{ needs.build_bundle_macos_x86_64.outputs }}
+-          - os: macos-14
+-            prev_job: ${{ needs.build_bundle_macos_aarch64.outputs }}
+-          - os: ubuntu-24.04-arm
+-            prev_job: ${{ needs.build_bundle_linux_aarch64.outputs }}
+-    runs-on: ${{ matrix.os }}
+-    steps:
+-      - name: Download bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.bundle }}
+-
+-      - name: Download kani-verifier crate
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.package }}
+-
+-      - name: Check download
+-        run: |
+-          ls -lh .
+-
+-      - name: Install from bundle
+-        run: |
+-          tar zxvf ${{ matrix.prev_job.package }}
+-          cargo install --locked --path kani-verifier-${{ matrix.prev_job.crate_version }}
+-          cargo kani setup --use-local-bundle ./${{ matrix.prev_job.bundle }}
+-
+-      - name: Checkout tests
+-        uses: actions/checkout@v6
+-
+-      - name: Run tests
+-        # TODO: Customize compiletest to run custom kani. For now, just run a few cargo kani tests.
+-        run: |
+-          for dir in simple-lib build-rs-works simple-kissat; do
+-            >&2 echo "Running test $dir"
+-            pushd tests/cargo-kani/$dir
+-            cargo kani
+-            popd
+-          done
+-
+-  kani_release:
+-    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/kani-') }}
+-    name: Release
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: write
+-    needs: [build_bundle_macos_x86_64, build_bundle_macos_aarch64, build_bundle_linux_x86_64, build_bundle_linux_aarch64, test_bundle]
+-    outputs:
+-      version: ${{ steps.versioning.outputs.version }}
+-      upload_url: ${{ steps.create_release.outputs.upload_url }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Get version
+-        run: |
+-          # pkgid is something like file:///home/ubuntu/kani#kani-verifier:0.1.0
+-          echo "CRATE_VERSION=$(cargo pkgid | cut -d@ -f2)" >> $GITHUB_ENV
+-          # GITHUB_REF is something like refs/tags/kani-0.1.0
+-          echo "TAG_VERSION=$(echo ${{ github.ref }} | cut -d "-" -f 2)" >> $GITHUB_ENV
+-
+-      - name: Check Version
+-        id: versioning
+-        run: |
+-          # Validate git tag & Cargo.toml are in sync on version number
+-          if [[ ${{ env.CRATE_VERSION }} != ${{ env.TAG_VERSION }} ]]; then
+-            echo "Git tag ${{env.TAG_VERSION}} did not match crate version ${{env.CRATE_VERSION}}"
+-            exit 1
+-          fi
+-          echo "version=${{ env.TAG_VERSION }}" >> $GITHUB_OUTPUT
+-
+-      - name: Download MacOS bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_macos_x86_64.outputs.bundle }}
+-
+-      - name: Download MacOS ARM bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_macos_aarch64.outputs.bundle }}
+-
+-      - name: Download Linux bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_linux_x86_64.outputs.bundle }}
+-
+-      - name: Download Linux Arm bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_linux_aarch64.outputs.bundle }}
+-
+-      - name: Create release
+-        id: create_release
+-        uses: ncipollo/release-action@v1.21.0
+-        env:
+-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+-        with:
+-          name: kani-${{ env.TAG_VERSION }}
+-          tag: kani-${{ env.TAG_VERSION }}
+-          artifacts: "${{ needs.build_bundle_linux_x86_64.outputs.bundle }},${{ needs.build_bundle_linux_aarch64.outputs.bundle }},${{ needs.build_bundle_macos_x86_64.outputs.bundle }},${{ needs.build_bundle_macos_aarch64.outputs.bundle }}"
+-          body: |
+-            Kani Rust verifier release bundle version ${{ env.TAG_VERSION }}.
+-          draft: true
+-
+-  package_docker:
+-    name: Package Docker
+-    needs: kani_release
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: write
+-      packages: write
+-    env:
+-      os: ubuntu-24.04
+-      target: x86_64-unknown-linux-gnu
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: 'Build release bundle'
+-        run: |
+-          cargo bundle
+-          cargo package -p kani-verifier
+-
+-      - name: 'Login to GitHub Container Registry'
+-        uses: docker/login-action@v4
+-        with:
+-          registry: ghcr.io
+-          username: ${{ github.repository_owner }}
+-          password: ${{ secrets.GITHUB_TOKEN }}
+-
+-      - name: 'Set lower case owner name. Needed for docker push.'
+-        run: |
+-          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+-        env:
+-          OWNER: '${{ github.repository_owner }}'
+-
+-      - name: Build and push
+-        uses: docker/build-push-action@v7
+-        with:
+-          context: .
+-          file: scripts/ci/Dockerfile.bundle-release-24-04
+-          push: true
+-          github-token: ${{ secrets.GITHUB_TOKEN }}
+-          tags: |
+-            ghcr.io/${{ env.OWNER_LC }}/kani-${{ env.os }}:${{ needs.kani_release.outputs.version }}
+-            ghcr.io/${{ env.OWNER_LC }}/kani-${{ env.os }}:latest
+-          labels: |
+-            org.opencontainers.image.source=${{ github.repositoryUrl }}
+-            org.opencontainers.image.version=${{ needs.kani_release.outputs.version }}
+-            org.opencontainers.image.licenses=Apache-2.0 OR MIT
+-
+-      # This check will not work until #1655 is completed.
+-      # - name: Check action and image is updated.
+-      #   uses: ./.
+-      #   with:
+-      #     command: |
+-      #       [[ "$(cargo kani --version)" == 'cargo-kani ${{ needs.Release.outputs.version }}' ]]
+diff --git a/.github/workflows/slow-tests.yml b/.github/workflows/slow-tests.yml
+deleted file mode 100644
+index 54952f59b..000000000
+--- a/.github/workflows/slow-tests.yml
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# We use block scalar notation to allow us to add ":" to the workflow name.
+-name: >-
+-  Nightly: Slow tests
+-
+-permissions:
+-  contents: read
+-
+-on:
+-  schedule:
+-    - cron: "30 5 * * *" # Run this every day at 05:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  regression:
+-    runs-on: ${{ matrix.os }}
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, ubuntu-22.04, ubuntu-24.04]
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-
+-      - name: Build Kani
+-        run: cargo build-dev
+-
+-      - name: Run Kani's slow tests
+-        run: ./scripts/kani-slow-tests.sh
+diff --git a/.github/workflows/toolchain-upgrade.yml b/.github/workflows/toolchain-upgrade.yml
+deleted file mode 100644
+index 55bcdda98..000000000
+--- a/.github/workflows/toolchain-upgrade.yml
++++ /dev/null
+@@ -1,93 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt toolchain update
+-
+-on:
+-  schedule:
+-    - cron: "30 2 * * *" # Run this every day at 02:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-toolchain-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The toolchain upgrade action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Update toolchain config
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          source scripts/toolchain_update.sh
+-
+-      - name: Clean untracked files
+-        run: git clean -f
+-
+-      - name: Create Pull Request
+-        id: create_pr
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade Rust toolchain to nightly-${{ env.next_toolchain_date }}
+-          branch: toolchain-${{ env.next_toolchain_date }}
+-          delete-branch: true
+-          title: 'Automatic toolchain upgrade to nightly-${{ env.next_toolchain_date }}'
+-          body: >
+-            Update Rust toolchain from nightly-${{ env.current_toolchain_date }} to
+-            nightly-${{ env.next_toolchain_date }} without any other source changes.
+-
+-      - name: Add debugging hints
+-        if: ${{ steps.create_pr.outputs.pull-request-number }}
+-        uses: actions/github-script@v9
+-        with:
+-          script: |
+-            github.rest.issues.createComment({
+-              issue_number: ${{ steps.create_pr.outputs.pull-request-number }},
+-              owner: context.repo.owner,
+-              repo: context.repo.repo,
+-              body: `This is an automatically generated pull request. If any of the CI checks fail,
+-                manual intervention is required. In such a case, review the changes at
+-                https://github.com/rust-lang/rust from
+-                https://github.com/rust-lang/rust/commit/${{ env.current_toolchain_hash }} up to
+-                https://github.com/rust-lang/rust/commit/${{ env.next_toolchain_hash }}. The log
+-                for this commit range is:
+-
+-                ` + process.env.git_log
+-            })
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        uses: dacbd/create-issue-action@main
+-        with:
+-          token: ${{ github.token }}
+-          title: 'Toolchain upgrade to nightly-${{ env.next_toolchain_date }} failed'
+-          body: >
+-            Updating Rust toolchain from nightly-${{ env.current_toolchain_date }} to
+-            nightly-${{ env.next_toolchain_date }} requires source changes.
+-
+-            The failed automated run
+-            [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+-
+-            Please review the changes at
+-            https://github.com/rust-lang/rust from
+-            https://github.com/rust-lang/rust/commit/${{ env.current_toolchain_hash }} up to
+-            https://github.com/rust-lang/rust/commit/${{ env.next_toolchain_hash }}. The log
+-            for this commit range is:
+-
+-            ${{ env.git_log }}
+diff --git a/.github/workflows/verify-std-check.yml b/.github/workflows/verify-std-check.yml
+deleted file mode 100644
+index c92a16d69..000000000
+--- a/.github/workflows/verify-std-check.yml
++++ /dev/null
+@@ -1,103 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# This workflow will try to build and run the `verify-rust-std` repository.
+-#
+-# This check should be optional, but it has been added to help provide
+-# visibility to when a PR may break the `verify-rust-std` repository.
+-#
+-# We expect toolchain updates to potentially break this workflow in cases where
+-# the version tracked in the `verify-rust-std` is not compatible with newer
+-# versions of the Rust toolchain.
+-#
+-# Changes unrelated to the toolchain should match the current status of main.
+-
+-name: Check Std Verification
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  workflow_call:
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  verify-std:
+-    runs-on: ${{ matrix.os }}
+-    strategy:
+-      matrix:
+-        # Kani does not support windows.
+-        os: [ ubuntu-22.04, macos-14 ]
+-    steps:
+-      - name: Checkout Library
+-        uses: actions/checkout@v6
+-        with:
+-          repository: model-checking/verify-rust-std
+-          path: verify-rust-std
+-          submodules: true
+-
+-      - name: Checkout `Kani`
+-        uses: actions/checkout@v6
+-        with:
+-          path: kani
+-          fetch-depth: 0
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./kani/.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-          kani_dir: kani
+-
+-      - name: Build Kani
+-        working-directory: kani
+-        run: |
+-          cargo build-dev
+-          echo "$(pwd)/scripts" >> $GITHUB_PATH
+-
+-      - name: Run verification with HEAD
+-        id: check-head
+-        working-directory: verify-rust-std
+-        continue-on-error: true
+-        run: |
+-          kani verify-std -Z unstable-options ./library --target-dir ${{ runner.temp }} -Z function-contracts \
+-            -Z mem-predicates -Z loop-contracts --cbmc-args --object-bits 12
+-
+-      # If the head failed, check if it's a new failure.
+-      - name: Checkout BASE
+-        working-directory: kani
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        run: |
+-          BASE_REF=${{ github.event.pull_request.base.sha }}
+-          git checkout ${BASE_REF}
+-
+-      - name: Setup Kani Dependencies BASE
+-        uses: ./kani/.github/actions/setup
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        with:
+-          os: ${{ matrix.os }}
+-          kani_dir: kani
+-
+-      - name: Build Kani BASE
+-        working-directory: kani
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        run: |
+-          cargo build-dev
+-
+-      - name: Run verification with BASE
+-        id: check-base
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        working-directory: verify-rust-std
+-        continue-on-error: true
+-        run: |
+-          kani verify-std -Z unstable-options ./library --target-dir ${{ runner.temp }} -Z function-contracts \
+-            -Z mem-predicates -Z loop-contracts --cbmc-args --object-bits 12
+-
+-      - name: Compare PR results
+-        if: steps.check-head.outcome != 'success' && steps.check-head.outcome != steps.check-base.outcome
+-        run: |
+-          echo "New failure introduced by this change"
+-          echo "HEAD: ${{ steps.check-head.outcome }}"
+-          echo "BASE: ${{ steps.check-base.outcome }}"
+-          exit 1
+-
+diff --git a/.github/workflows/z3-update.yml b/.github/workflows/z3-update.yml
+deleted file mode 100644
+index 486105cd0..000000000
+--- a/.github/workflows/z3-update.yml
++++ /dev/null
+@@ -1,86 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# Opens a PR that bumps `Z3_VERSION` in `kani-dependencies` when Z3 publishes a release. Only the
+-# macOS setup installs that release (Ubuntu uses the distribution's package), so the PR's macOS CI
+-# jobs are what test it; this job only checks that the release has the macOS binaries the setup
+-# script downloads.
+-name: Attempt Z3 update
+-
+-on:
+-  schedule:
+-    - cron: "45 4 * * Mon" # Run this every Monday at 04:45 UTC
+-  workflow_dispatch:
+-
+-permissions:
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-z3-update-pr:
+-    # Restricted to the main repository so that forks do not open update PRs.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Compare Z3 versions and determine next step
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          source kani-dependencies
+-          echo "Z3_VERSION=$Z3_VERSION" >> $GITHUB_ENV
+-          # The latest release that is not a pre-release (Z3 also publishes nightly builds).
+-          Z3_LATEST=$(gh release view -R Z3Prover/z3 --json tagName --jq .tagName | sed 's/^z3-//')
+-          echo "Z3_LATEST=$Z3_LATEST" >> $GITHUB_ENV
+-          assets=$(gh release view -R Z3Prover/z3 "z3-$Z3_LATEST" --json assets --jq '.assets[].name')
+-          # How many open issues already report a failed upgrade to this version. This is its own
+-          # command, not part of the `elif` below, so that a failing `gh` call fails the step
+-          # instead of reading as "no issue".
+-          failure_issues=$(gh issue list -S "Z3 upgrade to $Z3_LATEST failed" --json title --jq length)
+-          if [ "x$Z3_LATEST" = "x$Z3_VERSION" ]; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # A PR or a failure issue for this version already exists.
+-          elif git ls-remote --exit-code origin "z3-$Z3_LATEST" > /dev/null || \
+-              [ "$failure_issues" -gt 0 ]; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # `scripts/setup/macos/install_deps.sh` downloads these two archives.
+-          elif ! echo "$assets" | grep -qx "z3-$Z3_LATEST-arm64-osx-13.3.zip" || \
+-              ! echo "$assets" | grep -qx "z3-$Z3_LATEST-x64-osx-13.3.zip"; then
+-            echo "next_step=create_issue" >> $GITHUB_ENV
+-          else
+-            sed -i "s/^Z3_VERSION=.*/Z3_VERSION=\"$Z3_LATEST\"/" kani-dependencies
+-            git diff
+-            echo "next_step=create_pr" >> $GITHUB_ENV
+-          fi
+-
+-      - name: Create Pull Request
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade Z3 from ${{ env.Z3_VERSION }} to ${{ env.Z3_LATEST }}
+-          branch: z3-${{ env.Z3_LATEST }}
+-          delete-branch: true
+-          title: 'Automatic upgrade of Z3 from ${{ env.Z3_VERSION }} to ${{ env.Z3_LATEST }}'
+-          body: >
+-            Upgrade the Z3 release that the macOS CI jobs install to its latest version. The macOS
+-            regression jobs on this PR are what test it.
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        # Pinned to the commit of v2.0.0, the latest release. `main` has only README changes
+-        # since, and an unpinned third-party action could change under this token.
+-        uses: dacbd/create-issue-action@cdb57ab6ff8862aa09fee2be6ba77a59581921c2 # v2.0.0
+-        with:
+-          token: ${{ github.token }}
+-          title: 'Z3 upgrade to ${{ env.Z3_LATEST }} failed'
+-          body: >
+-            Z3 ${{ env.Z3_LATEST }} does not have the `arm64-osx-13.3` and `x64-osx-13.3` archives
+-            that `scripts/setup/macos/install_deps.sh` downloads, so the pin in `kani-dependencies`
+-            stays at ${{ env.Z3_VERSION }}. Update the asset names in that script, then bump
+-            `Z3_VERSION`.
+-
+-            The automated run
+-            [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+diff --git a/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json b/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json
+new file mode 100644
+index 000000000..a6f46b550
+--- /dev/null
++++ b/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json
+@@ -0,0 +1,67 @@
++{
++  "schema": "kani3300-replay-ci-overlay-v1",
++  "state": "PREPARATION_ONLY_REVIEW_REQUIRED",
++  "base": {
++    "c1_sha": "1658f4cadfa83139e41180ce3865e23f79d889aa",
++    "c1_tree": "bfb5eb9db13ffb91ec4585b7c7ef41ddfe0008fb",
++    "source_binding": "c1-source-binding.json",
++    "source_binding_counts": {"files": 37, "subtrees": 6}
++  },
++  "std": {
++    "source": "https://github.com/Tiramisu-Cake/verify-rust-std.git",
++    "base_commit": "70ba5befc617627073738e26cb1466bd4fb76e41",
++    "base_commit_tree": "84ab170ccdcc29fba69e55e0a46e6acdf52d9704",
++    "selected_library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
++    "test_patch": "replay-test-only.patch",
++    "test_patch_sha256": "f2689c76720e95f98a88bdd17a2bf4cf13a7348d40dedcf9c009aa0b20db0df5",
++    "applied_paths": [
++      "library/core/src/slice/sort/shared/smallsort/verify.rs",
++      "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs"
++    ],
++    "patched_file_sha256": {
++      "library/core/src/slice/sort/shared/smallsort/verify.rs": "3a8aa452408f3048c80a73dde8a4fd28f4a3b647b0a171512e186c93f99c4c33",
++      "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs": "c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39"
++    },
++    "production_source_changed": false,
++    "library_pin_confirmation": "PENDING"
++  },
++  "request": {
++    "file": "request.json",
++    "sha256": "9c0524996be2491fbb1a4ef5bb2faee9d5651cadda9053604e6cd21cb1aa38ad",
++    "root_count": 12,
++    "all_rows": "exact request argv; ON/OFF differ only by -Z uninit-checks; object-bits=12; jobs=1"
++  },
++  "workflow": {
++    "file": ".github/workflows/kani3300-replay.yml",
++    "trigger": "workflow_dispatch",
++    "repository_guard": "github.repository == 'Tiramisu-Cake/kani'",
++    "runner": "ubuntu-24.04",
++    "max_parallel": 1,
++    "fail_fast": false,
++    "root_harness_cap_seconds": 2400,
++    "job_timeout_minutes": 50,
++    "proposed_serial_envelope_seconds": 36000,
++    "aggregate_cap_note": "12 serial 50-minute job timeouts form a proposed 10-hour workflow envelope; queue/setup overhead outside job timeouts is not measured or controlled here.",
++    "build": "cargo build-dev -- --release from a separate exact C1 export checkout; overlay scripts/workflow are not built",
++    "kani_entrypoint": "export/scripts/kani wrapper (execs target/kani/bin/kani-driver with argv0 kani)",
++    "artifact": "per-root receipt.json, runtime-identities.json, export.json, stdout.log, stderr.log, job-status.json"
++  },
++  "receipt": {
++    "parser": "replay.py validates JSON parse/top-level type only; object envelopes remain UNVALIDATED_JSON_OBJECT",
++    "receipt_persistence": "atomic execution snapshot is written before fallible enrichment; enrichment errors retain the snapshot and record stage/type/message",
++    "runner_exit": "preserve positive child exit codes; return nonzero for malformed/missing exports, timeout, signals, runner errors, or incomplete postprocessing",
++    "preserves": ["original exit code", "signal", "timeout", "runner error", "stdout/stderr full files plus hashes and byte counts", "export JSON", "pinned rustc/CBMC/Kissat/Kani identities", "all target/kani file hashes", "post-run C1 and std validation"],
++    "outcome": "UNKNOWN",
++    "negative_observation": "REVIEW_REQUIRED; nonzero exit alone is never accepted as intended-read evidence",
++    "proof_status": "NOT_RUN_UNTIL_REVIEWED",
++    "generated_property_binding": null,
++    "required_review": [
++      "actual std worktree contains only the two pinned test-only patch paths",
++      "useful checks and Check body for each positive root",
++      "negative failure binds to intended live source[1] read",
++      "export identities and complete artifact coverage"
++    ]
++  },
++  "synthetic_tests": "test_replay.py covers success, failure, timeout, signal, partial, missing, null, wrong-type, wrong-source, and unbound/NOT_RUN handling; no Kani/compiler/build is invoked.",
++  "authorization": "NO_DISPATCH_NO_PROOF_BUILD"
++}
+diff --git a/scripts/kani3300-replay/c1-source-binding.json b/scripts/kani3300-replay/c1-source-binding.json
+new file mode 100644
+index 000000000..dad456af2
+--- /dev/null
++++ b/scripts/kani3300-replay/c1-source-binding.json
+@@ -0,0 +1,55 @@
++{
++  "schema": "kani3300-gate-binding-v1",
++  "state": "C1_FROZEN",
++  "m3_accepted": true,
++  "acceptance_assurance": "OWNER_FROZEN_C1; quick qualification source-reported, no independent proof credit",
++  "export_sha": "1658f4cadfa83139e41180ce3865e23f79d889aa",
++  "export_tree": "bfb5eb9db13ffb91ec4585b7c7ef41ddfe0008fb",
++  "files": {
++    ".github/actions/setup/action.yml": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
++    ".github/workflows/kani.yml": "41799dc8b87557d2077c95dcd7cbcf26180a552aa4afd85e66abbc97843a6b48",
++    "Cargo.lock": "984ef4cea51f0ad74124311f5cd09fca6d9c8c37bdbb9a8f29dd87cce842fadb",
++    "kani-dependencies": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
++    "library/kani_core/src/mem.rs": "598428730a32f2c4034091688b50dde5a44deb69e2e3c61e08a0d394a5e42844",
++    "library/kani_core/src/mem_init.rs": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
++    "rust-toolchain.toml": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
++    "scripts/kani-regression.sh": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
++    "tests/json-handler/uninit-contract-mode-boundaries/README.md": "77aee2b958e3ac0205b622a4f75d2d68814850dbfe8d844500e36536258d8b04",
++    "tests/json-handler/uninit-contract-mode-boundaries/cc4/isolated-bounded.rs": "0ec74991f5e7cf7a3ad490f153307b919402777b4305bf5cfbd430ff7f4f3dd5",
++    "tests/json-handler/uninit-contract-mode-boundaries/cc4/isolated-recursive-ordinary.rs": "84c904f19e097056bb26127a303c34fc86e4c27311a13a6bd4787762000a8d70",
++    "tests/json-handler/uninit-contract-mode-boundaries/cc4/mixed-reversed.rs": "b5537b792e7eaf250bb7a15763f36154ba3f5bc83f01d8b4bf267be7f7a48051",
++    "tests/json-handler/uninit-contract-mode-boundaries/config.yml": "18c60b89ee0a92c3d4728f4a108f8591b0d8a5209a3f40b3c4ae104802190d0c",
++    "tests/json-handler/uninit-contract-mode-boundaries/observe.py": "439ca67541d7808bbf9a2ccc2b9aaeabff3c21f1a2bb7acf6c4dbe698e07cdf5",
++    "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
++    "tests/json-handler/uninit-contract-mode-boundaries/replace.rs": "44b10bf2ef4d961b37b75098ec89246afe608036f4ed4cb8e3c5e70680425600",
++    "tests/json-handler/uninit-contract-mode-boundaries/roots.json": "e86e53af05c943c1fe4e322b98d6a3c0585d18fe89505bbc6099a95ce55c5b8f",
++    "tests/json-handler/uninit-contract-mode-boundaries/run.py": "747f6221030a9efeec7273f765f8ff8cd78aaf3f7a703b78d4e0e45e506a240b",
++    "tests/json-handler/uninit-contract-mode-boundaries/test.sh": "f1ab14eeeb2efb0a7d9d11a8beab1d7a71ba6df023cf286637caa6e56a7f1578",
++    "tests/json-handler/uninit-contract-mode-boundaries/test_observe.py": "11736af025d48b22a0f7d5adce669b560428f5286d7ecf3879773bbdc4bf3468",
++    "tests/json-handler/uninit-contract-oracles/README.md": "013bef7ef1d14726634a155e91c200a97c5918ba20c3207d5bf6ef0c0afa143d",
++    "tests/json-handler/uninit-contract-oracles/checker.py": "932779e2773a758a75c5c467a83ef445c17bfa08f7b5b6bddbc9c1dd8cf3d326",
++    "tests/json-handler/uninit-contract-oracles/config.yml": "18c60b89ee0a92c3d4728f4a108f8591b0d8a5209a3f40b3c4ae104802190d0c",
++    "tests/json-handler/uninit-contract-oracles/oracles.json": "34c08a26dd508cf75d19dc80c1c17b88e0bbeb54d492a3f6da10af7ee8120d73",
++    "tests/json-handler/uninit-contract-oracles/run.py": "eeded59a792c09af7eeef337605adbd9641675839a444f68efab958c44b0c393",
++    "tests/json-handler/uninit-contract-oracles/test.sh": "697c923f2845455502170c9849b61f33aae66095a1106c5bbaba427f44a3454a",
++    "tests/json-handler/uninit-contract-oracles/test_checker.py": "987414a0c921632f9a0072c2728edc4cc8d0c9d69a947ea658cac8d6bad8e345",
++    "tests/json-handler/uninit-part1-composition/README.md": "dfa9a87cb17643d1b8d2bd3ceed0c036860836450c77aa82a469fa685eab5817",
++    "tests/json-handler/uninit-part1-composition/ROOT-ORDER-MAP.json": "dc14a54b7c02f2fcd77c0a4578322b3b4d861e1fc5890341553d0d452b3d56ff",
++    "tests/json-handler/uninit-part1-composition/compare.py": "c6dec051cd3c39bfe532d834a02da99886d458702d1b76f15a83e5484cb8fd66",
++    "tests/json-handler/uninit-part1-composition/config.yml": "18c60b89ee0a92c3d4728f4a108f8591b0d8a5209a3f40b3c4ae104802190d0c",
++    "tests/json-handler/uninit-part1-composition/mixed.rs": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970",
++    "tests/json-handler/uninit-part1-composition/roots.json": "3dbb1230e99e6c778f7992cee3c73d58afb31fa68cb96e4fbe9c7aae98864e75",
++    "tests/json-handler/uninit-part1-composition/run.py": "df63ec39d3c4f1dc777ce8e709fe3c131880509eb48b71c1d763115f15e50fc6",
++    "tests/json-handler/uninit-part1-composition/test.sh": "b91bbf9bd37d21fe5ccab398e73ef18fe9194eca617b8fa9ec9c9d53359d3610",
++    "tests/json-handler/uninit-part1-composition/test_bindings.py": "653cd925bc8d79c84dde491ec6e2ba85492eff47e285cd697f8e3fb383892959",
++    "tests/json-handler/uninit-part1-composition/test_compare.py": "e126104d84dbe1dd3d3120ca3d90e79f6addccf38a718c5f59f72252d6d670d2"
++  },
++  "subtrees": {
++    "kani-compiler": "15d5902996e176ff37a1151af4c245eb5ce044b0",
++    "library": "a2f83b7bc4ba161cb454c7ecde285a7b655be344",
++    "tests": "572771295a193ee59adbf98093c8d2985a133ff5",
++    "kani-driver": "c214b9ff3402e7d6b14f874b1ff5279a56075207",
++    "tools": "685b2c10e086ab6552aef098e2424d1ee1224653",
++    "scripts": "7d1c75c2a5ba49102a2efa7e6d9facc47675efd2"
++  }
++}
+diff --git a/scripts/kani3300-replay/replay-test-only.patch b/scripts/kani3300-replay/replay-test-only.patch
+new file mode 100644
+index 000000000..f7c15511c
+--- /dev/null
++++ b/scripts/kani3300-replay/replay-test-only.patch
+@@ -0,0 +1,68 @@
++diff --git a/library/core/src/slice/sort/shared/smallsort/verify.rs b/library/core/src/slice/sort/shared/smallsort/verify.rs
++index 9ed9be525b..0fac2bdbf4 100644
++--- a/library/core/src/slice/sort/shared/smallsort/verify.rs
+++++ b/library/core/src/slice/sort/shared/smallsort/verify.rs
++@@ -84,6 +84,8 @@ mod merge;
++ #[cfg(kani_smallsort_controls)]
++ mod mutations;
++ mod network;
+++#[cfg(kani_smallsort_controls)]
+++mod replay_uninit_controls;
++ mod scratch_geometry;
++ mod smoke;
++ mod tag_permutation;
++diff --git a/library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs b/library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs
++new file mode 100644
++index 0000000000..890b2597c2
++--- /dev/null
+++++ b/library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs
++@@ -0,0 +1,49 @@
+++//! Opt-in raw-helper uninitialized-read controls. Preparation only; NOT_RUN.
+++//!
+++//! Run with the organizer --no-assert-contracts profile: the negative calls
+++//! the actual Original helper body and intentionally violates its source
+++//! initializedness requirement. It is a checker control, not a contract proof.
+++
+++use super::super::sort4_stable;
+++use crate::mem::MaybeUninit;
+++use crate::{kani, ptr};
+++
+++fn read_less_u64(a: &u64, b: &u64) -> bool {
+++    // The negative intentionally exercises the live read of an unwritten
+++    // source value; no initialized reference is constructed before the helper.
+++    unsafe {
+++        ptr::read_volatile(a);
+++        ptr::read_volatile(b);
+++    }
+++    kani::any()
+++}
+++
+++fn exercise_sort4_raw<const INITIALIZE_SLOT_ONE: bool>() {
+++    let mut src = [MaybeUninit::<u64>::uninit(); 4];
+++    src[0].write(kani::any());
+++    if INITIALIZE_SLOT_ONE {
+++        src[1].write(kani::any());
+++    }
+++    src[2].write(kani::any());
+++    src[3].write(kani::any());
+++    let mut dst = MaybeUninit::<[u64; 4]>::uninit();
+++    let raw = src.as_mut_ptr().cast::<u64>();
+++    kani::cover(true, "sort4 raw helper entered");
+++    // The legal instance supplies four initialized source values. The negative
+++    // leaves precisely slot 1 unwritten in the same valid MU allocation.
+++    // Both use the identical source/destination geometry and actual helper.
+++    unsafe { sort4_stable(raw, dst.as_mut_ptr().cast(), &mut read_less_u64) };
+++    kani::cover(true, "sort4 raw helper returned");
+++}
+++
+++#[kani::proof]
+++#[kani::unwind(16)]
+++fn sort4_raw_all_initialized_u64() {
+++    exercise_sort4_raw::<true>();
+++}
+++
+++#[kani::proof]
+++#[kani::unwind(16)]
+++fn sort4_raw_hole_negative_u64() {
+++    exercise_sort4_raw::<false>();
+++}
+diff --git a/scripts/kani3300-replay/replay.py b/scripts/kani3300-replay/replay.py
+new file mode 100644
+index 000000000..0e2d5aaa3
+--- /dev/null
++++ b/scripts/kani3300-replay/replay.py
+@@ -0,0 +1,394 @@
++#!/usr/bin/env python3
++"""Preparation and bounded execution receipts for the Kani 3300 replay.
++
++This file deliberately records observations without assigning proof credit.
++Every root stays UNKNOWN until a reviewer binds the useful checks and selected
++Check body (or the intended negative read) to the generated artifact.
++"""
++
++from __future__ import annotations
++
++import argparse
++import hashlib
++import json
++import os
++from pathlib import Path
++import shutil
++import signal
++import subprocess
++import sys
++import time
++from typing import Any
++
++
++HERE = Path(__file__).resolve().parent
++REQUEST = HERE / "request.json"
++SOURCE_BINDING = HERE / "c1-source-binding.json"
++PATCH = HERE / "replay-test-only.patch"
++C1_SHA = "1658f4cadfa83139e41180ce3865e23f79d889aa"
++C1_TREE = "bfb5eb9db13ffb91ec4585b7c7ef41ddfe0008fb"
++STD_SHA = "70ba5befc617627073738e26cb1466bd4fb76e41"
++STD_TREE = "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f"
++STD_COMMIT_TREE = "84ab170ccdcc29fba69e55e0a46e6acdf52d9704"
++PATCH_SHA = "f2689c76720e95f98a88bdd17a2bf4cf13a7348d40dedcf9c009aa0b20db0df5"
++REQUEST_SHA = "9c0524996be2491fbb1a4ef5bb2faee9d5651cadda9053604e6cd21cb1aa38ad"
++ROOT_CAP_SECONDS = 2400
++INVALID_EXPORT_STATES = {
++    "MISSING", "EMPTY", "INVALID_OR_PARTIAL", "NULL", "WRONG_TOP_LEVEL_TYPE",
++    "WRONG_SOURCE_OR_SELECTOR",
++}
++PATCHED_FILE_HASHES = {
++    "library/core/src/slice/sort/shared/smallsort/verify.rs": "3a8aa452408f3048c80a73dde8a4fd28f4a3b647b0a171512e186c93f99c4c33",
++    "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs": "c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39",
++}
++PINNED_RUST_TOOLCHAIN = "nightly-2026-10-23"
++
++
++def sha256(path: Path) -> str:
++    h = hashlib.sha256()
++    with path.open("rb") as f:
++        for chunk in iter(lambda: f.read(1024 * 1024), b""):
++            h.update(chunk)
++    return h.hexdigest()
++
++
++def write_json_atomic(path: Path, value: dict[str, Any]) -> None:
++    temporary = path.with_suffix(path.suffix + ".tmp")
++    temporary.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
++    os.replace(temporary, path)
++
++
++def root_exit_code(receipt: dict[str, Any]) -> int:
++    """Return the child's positive exit unchanged; never treat malformed exports as success."""
++    code = receipt.get("original_exit_code")
++    if isinstance(code, int) and code > 0:
++        return code
++    if (code is None or code < 0 or receipt.get("timed_out") or receipt.get("runner_error") or
++            receipt.get("export", {}).get("state") in INVALID_EXPORT_STATES or
++            receipt.get("postprocessing_state") != "COMPLETE"):
++        return 1
++    validation = receipt.get("post_run_validation", {})
++    source = validation.get("c1_source_valid", {})
++    if source.get("valid") is False or validation.get("std_test_only_overlay_valid") is False:
++        return 1
++    return 0
++
++
++def persist_then_postprocess(path: Path, receipt: dict[str, Any], stage: dict[str, str], postprocess) -> dict[str, Any]:
++    """Durably save execution evidence before any fallible receipt enrichment."""
++    receipt["postprocessing_state"] = "INCOMPLETE"
++    write_json_atomic(path, receipt)
++    try:
++        receipt.update(postprocess())
++        receipt["postprocessing_state"] = "COMPLETE"
++    except Exception as e:
++        receipt["postprocessing_state"] = "INCOMPLETE"
++        receipt["postprocessing_error"] = {"stage": stage["name"], "type": type(e).__name__, "message": str(e)}
++    write_json_atomic(path, receipt)
++    return receipt
++
++
++def load_request() -> dict[str, Any]:
++    if sha256(REQUEST) != REQUEST_SHA:
++        raise ValueError("embedded request SHA-256 mismatch")
++    if sha256(PATCH) != PATCH_SHA:
++        raise ValueError("embedded test patch SHA-256 mismatch")
++    req = json.loads(REQUEST.read_text())
++    if req.get("tool_export_sha") != C1_SHA or req.get("tool_export_tree") != C1_TREE:
++        raise ValueError("request does not pin the frozen C1 source")
++    if req.get("selected_library_tree") != STD_TREE or len(req.get("roots", [])) != 12:
++        raise ValueError("request library pin or exact 12-root inventory mismatch")
++    if any(r.get("status") != "NOT_RUN" or r.get("generated_property_binding") is not None for r in req["roots"]):
++        raise ValueError("request must remain NOT_RUN with unbound generated properties")
++    return req
++
++
++def git(repo: Path, *args: str) -> str:
++    p = subprocess.run(["git", "-C", str(repo), *args], check=True, text=True,
++                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++    return p.stdout.strip()
++
++
++def verify_source(repo: Path) -> dict[str, Any]:
++    """Check C1 by immutable git object IDs, even when overlay files are present."""
++    req = load_request()
++    binding = json.loads(SOURCE_BINDING.read_text())
++    if binding.get("export_sha") != C1_SHA or binding.get("export_tree") != C1_TREE:
++        raise ValueError("source binding does not identify C1")
++    if git(repo, "cat-file", "-t", C1_SHA) != "commit":
++        raise ValueError("frozen C1 commit object is unavailable")
++    if git(repo, "rev-parse", f"{C1_SHA}^{{tree}}") != C1_TREE:
++        raise ValueError("frozen C1 tree mismatch")
++    head = git(repo, "rev-parse", "HEAD")
++    if head != C1_SHA:
++        raise ValueError("build source checkout must be the exact frozen C1 commit")
++    if git(repo, "status", "--porcelain"):
++        raise ValueError("frozen C1 export checkout must be clean")
++    actual_files = {}
++    for rel, expected in binding["files"].items():
++        # git show is text-safe here but hashes must be over exact bytes.
++        data = subprocess.run(["git", "-C", str(repo), "show", f"{C1_SHA}:{rel}"],
++                              check=True, stdout=subprocess.PIPE).stdout
++        digest = hashlib.sha256(data).hexdigest()
++        if digest != expected:
++            raise ValueError(f"C1 bound source mismatch: {rel}")
++        actual_files[rel] = digest
++    for rel, expected in binding["subtrees"].items():
++        if git(repo, "rev-parse", f"{C1_SHA}:{rel}") != expected:
++            raise ValueError(f"C1 bound subtree mismatch: {rel}")
++    return {"c1_sha": C1_SHA, "c1_tree": C1_TREE, "bound_files": len(actual_files),
++            "bound_subtrees": len(binding["subtrees"]), "request_sha256": sha256(REQUEST),
++            "std_commit": STD_SHA, "std_tree": STD_TREE, "patch_sha256": sha256(PATCH),
++            "proof_status": "NOT_RUN"}
++
++
++def prepare_std(repo: Path, destination: Path) -> dict[str, Any]:
++    """Create an isolated std checkout, pin exact base, then apply only test patch."""
++    if destination.exists() and any(destination.iterdir()):
++        raise ValueError(f"refusing to reuse non-empty std checkout: {destination}")
++    destination.parent.mkdir(parents=True, exist_ok=True)
++    if not destination.exists():
++        destination.mkdir()
++    subprocess.run(["git", "clone", "--no-hardlinks", str(repo), str(destination)], check=True)
++    git(destination, "checkout", "--detach", STD_SHA)
++    if git(destination, "rev-parse", "HEAD^{tree}") != STD_COMMIT_TREE:
++        raise ValueError("selected std snapshot commit tree mismatch")
++    if git(destination, "rev-parse", "HEAD:library") != STD_TREE:
++        raise ValueError("selected std library subtree mismatch")
++    subprocess.run(["git", "-C", str(destination), "apply", "--check", str(PATCH)], check=True)
++    subprocess.run(["git", "-C", str(destination), "apply", str(PATCH)], check=True)
++    status = subprocess.run(["git", "-C", str(destination), "status", "--porcelain=v1", "-z"],
++                            check=True, stdout=subprocess.PIPE).stdout
++    changed = [entry[3:].decode() for entry in status.split(b"\0") if entry]
++    expected = ["library/core/src/slice/sort/shared/smallsort/verify.rs",
++                "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs"]
++    if sorted(changed) != sorted(expected):
++        raise ValueError(f"test overlay changed unexpected std paths: {changed}")
++    for rel, digest in PATCHED_FILE_HASHES.items():
++        if sha256(destination / rel) != digest:
++            raise ValueError(f"patched std source byte mismatch: {rel}")
++    return {"base_commit": STD_SHA, "base_commit_tree": STD_COMMIT_TREE,
++            "library_tree": STD_TREE, "patch_sha256": sha256(PATCH),
++            "changed_paths": sorted(changed), "production_source_changed": False,
++            "status": "PREPARED_NOT_RUN"}
++
++
++def parse_export(path: Path, expected_selector: str) -> dict[str, Any]:
++    """Validate export envelope only; never infer success or intended-failure credit."""
++    if not path.exists():
++        return {"state": "MISSING", "outcome": "UNKNOWN"}
++    try:
++        raw = path.read_bytes()
++        if not raw:
++            return {"state": "EMPTY", "outcome": "UNKNOWN"}
++        value = json.loads(raw)
++    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as e:
++        return {"state": "INVALID_OR_PARTIAL", "error": str(e), "outcome": "UNKNOWN"}
++    if value is None:
++        return {"state": "NULL", "outcome": "UNKNOWN"}
++    if not isinstance(value, dict):
++        return {"state": "WRONG_TOP_LEVEL_TYPE", "observed_type": type(value).__name__, "outcome": "UNKNOWN"}
++    # Export schema and harness identity vary across supported Kani builds.
++    # A missing or mismatched recognizable identity is a gap, never a pass.
++    selectors = []
++    for key in ("harness", "selector", "function", "name"):
++        v = value.get(key)
++        if isinstance(v, str):
++            selectors.append(v)
++    if selectors and expected_selector not in selectors:
++        return {"state": "WRONG_SOURCE_OR_SELECTOR", "observed": selectors, "outcome": "UNKNOWN"}
++    return {"state": "UNVALIDATED_JSON_OBJECT", "selector_identity": selectors or None,
++            "outcome": "UNKNOWN", "generated_property_binding": None,
++            "review_required": ["selected Check body", "useful checks/ensures and covers",
++                                "negative intended source[1] read, where applicable"]}
++
++
++def execute(argv: list[str], cwd: Path, env: dict[str, str], out: Path,
++            timeout_seconds: float = ROOT_CAP_SECONDS) -> dict[str, Any]:
++    """Run one exact command while retaining exit, timeout, and signal evidence."""
++    started = time.time()
++    result: dict[str, Any] = {"started_unix": started, "original_exit_code": None,
++                              "timed_out": False, "runner_error": None, "signal": None}
++    try:
++        with (out / "stdout.log").open("wb") as stdout, (out / "stderr.log").open("wb") as stderr:
++            p = subprocess.Popen(argv, cwd=cwd, env=env, stdout=stdout, stderr=stderr,
++                                 start_new_session=True)
++            try:
++                code = p.wait(timeout=timeout_seconds)
++            except subprocess.TimeoutExpired:
++                result["timed_out"] = True
++                result["runner_error"] = f"{timeout_seconds:g} second cap elapsed; process group terminated"
++                os.killpg(p.pid, signal.SIGTERM)
++                try:
++                    code = p.wait(timeout=5)
++                except subprocess.TimeoutExpired:
++                    os.killpg(p.pid, signal.SIGKILL)
++                    code = p.wait()
++            result["original_exit_code"] = code
++            if code < 0:
++                result["signal"] = -code
++    except OSError as e:
++        result["runner_error"] = f"runner_exec_error: {e}"
++    except subprocess.SubprocessError as e:
++        result["runner_error"] = f"runner_subprocess_error: {e}"
++    result["elapsed_seconds"] = round(time.time() - started, 3)
++    for name in ("stdout.log", "stderr.log"):
++        pth = out / name
++        result[name.replace(".log", "_sha256")] = sha256(pth) if pth.exists() else None
++        result[name.replace(".log", "_bytes")] = pth.stat().st_size if pth.exists() else 0
++    return result
++
++
++def runtime_inventory(repo: Path, binary: Path) -> dict[str, Any]:
++    """Capture build/runtime identities without assigning model or proof credit."""
++    def command_version(argv: list[str]) -> dict[str, Any]:
++        try:
++            p = subprocess.run(argv, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
++                               text=True, timeout=15, check=False)
++            return {"argv": argv, "exit_code": p.returncode, "output": p.stdout[:4096]}
++        except (OSError, subprocess.SubprocessError) as e:
++            return {"argv": argv, "error": str(e)}
++
++    def identity(path: Path | None) -> dict[str, Any]:
++        if path is None or not path.is_file():
++            return {"path": str(path) if path else None, "available": False}
++        return {"path": str(path), "available": True, "sha256": sha256(path), "bytes": path.stat().st_size}
++
++    driver = repo / "target/kani/bin/kani-driver"
++    tool_identities = {}
++    for name in ("cbmc", "kissat"):
++        found = shutil.which(name)
++        tool_identities[name] = {"binary": identity(Path(found) if found else None),
++                                 "version": command_version([found, "--version"]) if found else None}
++    try:
++        rustc_path = subprocess.run(["rustup", "which", "--toolchain", PINNED_RUST_TOOLCHAIN, "rustc"],
++                                    check=True, stdout=subprocess.PIPE, text=True, timeout=15).stdout.strip()
++    except (OSError, subprocess.SubprocessError):
++        rustc_path = None
++    tool_identities["rustc"] = {"binary": identity(Path(rustc_path) if rustc_path else None),
++                                 "version": command_version([rustc_path, "--version", "--verbose"]) if rustc_path else None,
++                                 "toolchain": PINNED_RUST_TOOLCHAIN}
++    kani_tree = repo / "target/kani"
++    kani_files = {}
++    total_bytes = 0
++    if kani_tree.is_dir():
++        for p in sorted(kani_tree.rglob("*")):
++            if p.is_file():
++                rel = p.relative_to(repo).as_posix()
++                kani_files[rel] = sha256(p)
++                total_bytes += p.stat().st_size
++    return {
++        "kani_wrapper": command_version([str(binary), "--version"]),
++        "kani_driver": identity(driver),
++        "dependencies_manifest": identity(repo / "kani-dependencies"),
++        "rust_toolchain_manifest": identity(repo / "rust-toolchain.toml"),
++        "tools": tool_identities,
++        "target_kani_file_hashes": kani_files,
++        "target_kani_file_count": len(kani_files),
++        "target_kani_total_bytes": total_bytes,
++        "target_kani_directory_available": kani_tree.is_dir()
++    }
++
++
++def run_root(repo: Path, std: Path, root_id: str, binary: Path, out: Path) -> dict[str, Any]:
++    req = load_request()
++    row = next((r for r in req["roots"] if r["id"] == root_id), None)
++    if row is None:
++        raise ValueError(f"root is not one of the exact request rows: {root_id}")
++    source_identity = verify_source(repo)
++    if (git(std, "rev-parse", "HEAD") != STD_SHA or
++            git(std, "rev-parse", "HEAD:library") != STD_TREE):
++        raise ValueError("std checkout is not the selected base commit")
++    status = subprocess.run(["git", "-C", str(std), "status", "--porcelain=v1", "-z"],
++                            check=True, stdout=subprocess.PIPE).stdout
++    changed_paths = [entry[3:].decode() for entry in status.split(b"\0") if entry]
++    expected_paths = ["library/core/src/slice/sort/shared/smallsort/verify.rs",
++                      "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs"]
++    if sorted(changed_paths) != sorted(expected_paths):
++        raise ValueError(f"std checkout must contain only the exact test-only overlay paths: {changed_paths}")
++    std_file_hashes = {rel: sha256(std / rel) for rel in expected_paths}
++    if std_file_hashes != PATCHED_FILE_HASHES:
++        raise ValueError("std checkout patched source bytes do not match the embedded exact test overlay")
++    if not binary.is_file() or not os.access(binary, os.X_OK):
++        raise ValueError("exact built Kani executable is missing or not executable")
++    out.mkdir(parents=True, exist_ok=False)
++    argv = [str(binary) if x == "<EXACT_C1_KANI_BINARY>" else x for x in row["argv"]]
++    argv = [x.replace("<OUTPUT_ROOT>", str(out.parent)) for x in argv]
++    env = os.environ.copy()
++    env.update(row["environment"])
++    execution = execute(argv, std, env, out)
++    export = out / "export.json"
++    receipt = {
++        "schema": "kani3300-replay-receipt-v1", "root_id": root_id,
++        "request_sha256": sha256(REQUEST), "c1_sha": C1_SHA, "c1_tree": C1_TREE,
++        "source_identity": source_identity,
++        "std_base_commit": STD_SHA, "std_base_commit_tree": STD_COMMIT_TREE,
++        "std_library_tree": STD_TREE, "test_patch_sha256": sha256(PATCH),
++        "argv": argv, "environment": {k: env.get(k) for k in row["environment"]},
++        "expected_result": row["expected_result"], "expected_mode": row["expected_mode"],
++        **execution,
++        "export": {"state": "PENDING_PARSE", "outcome": "UNKNOWN"},
++        "runtime_identity_file": "runtime-identities.json",
++        "outcome": "UNKNOWN", "generated_property_binding": None,
++        "runtime_proof_status": "NOT_RUN_UNTIL_REVIEWED",
++        "negative_observation": ("REVIEW_REQUIRED" if root_id.startswith("raw-negative") else None),
++        "postprocessing_state": "INCOMPLETE",
++    }
++    receipt_path = out / "receipt.json"
++    stage = {"name": "export-parse"}
++
++    def postprocess():
++        receipt["export"] = parse_export(export, row["selector"])
++        stage["name"] = "runtime-inventory"
++        runtime = runtime_inventory(repo, binary)
++        write_json_atomic(out / "runtime-identities.json", runtime)
++        stage["name"] = "post-run-source-validation"
++        try:
++            post_source = verify_source(repo)
++            post_source_state = {"valid": True, "identity": post_source}
++        except (OSError, ValueError, subprocess.CalledProcessError) as e:
++            post_source_state = {"valid": False, "error": str(e)}
++        stage["name"] = "post-run-std-validation"
++        post_std_status = subprocess.run(["git", "-C", str(std), "status", "--porcelain=v1", "-z"],
++                                         check=True, stdout=subprocess.PIPE).stdout
++        post_std_paths = [entry[3:].decode() for entry in post_std_status.split(b"\0") if entry]
++        post_std_hashes = {rel: sha256(std / rel) for rel in expected_paths if (std / rel).is_file()}
++        post_std_valid = sorted(post_std_paths) == sorted(expected_paths) and post_std_hashes == PATCHED_FILE_HASHES
++        return {
++            "export": receipt["export"],
++            "post_run_validation": {
++                "c1_source_valid": post_source_state,
++                "std_overlay_paths": sorted(post_std_paths),
++                "std_overlay_sha256": post_std_hashes,
++                "std_test_only_overlay_valid": post_std_valid,
++            },
++            "runtime_identity_file": "runtime-identities.json",
++        }
++
++    persist_then_postprocess(receipt_path, receipt, stage, postprocess)
++    return receipt
++
++
++def main() -> int:
++    parser = argparse.ArgumentParser()
++    sub = parser.add_subparsers(dest="command", required=True)
++    v = sub.add_parser("verify-source"); v.add_argument("--repo", type=Path, default=Path.cwd())
++    p = sub.add_parser("prepare-std"); p.add_argument("--repo", type=Path, required=True); p.add_argument("--destination", type=Path, required=True)
++    r = sub.add_parser("run-root"); r.add_argument("--repo", type=Path, required=True); r.add_argument("--std", type=Path, required=True); r.add_argument("--root", required=True); r.add_argument("--binary", type=Path, required=True); r.add_argument("--out", type=Path, required=True)
++    args = parser.parse_args()
++    try:
++        if args.command == "verify-source": result = verify_source(args.repo)
++        elif args.command == "prepare-std": result = prepare_std(args.repo, args.destination)
++        else:
++            result = run_root(args.repo, args.std, args.root, args.binary, args.out)
++            print(json.dumps(result, indent=2, sort_keys=True))
++            return root_exit_code(result)
++        print(json.dumps(result, indent=2, sort_keys=True))
++        return 0
++    except (OSError, ValueError, subprocess.CalledProcessError, json.JSONDecodeError) as e:
++        print(f"replay preparation/execution error: {e}", file=sys.stderr)
++        return 2
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/scripts/kani3300-replay/request.json b/scripts/kani3300-replay/request.json
+new file mode 100644
+index 000000000..f59df78f4
+--- /dev/null
++++ b/scripts/kani3300-replay/request.json
+@@ -0,0 +1,711 @@
++{
++  "schema": "kani3300-replay-request-v1",
++  "status": "NOT_RUN_C1_FROZEN",
++  "authorization": "PREPARATION_ONLY",
++  "phase": "UNASSIGNED",
++  "owner": "COORDINATOR_ASSIGNMENT_REQUIRED",
++  "ledger": null,
++  "lane": "EXISTING_COORDINATOR_ONLY",
++  "slot": null,
++  "preparation_cloud_cap_usd": 0,
++  "run_budget": null,
++  "tool_export_sha": "1658f4cadfa83139e41180ce3865e23f79d889aa",
++  "tool_export_tree": "bfb5eb9db13ffb91ec4585b7c7ef41ddfe0008fb",
++  "tool_binary_model_hashes": null,
++  "library_pin_confirmation": null,
++  "selected_library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
++  "test_only_library_tree": "2e7f781b35bc41d1431ea3729b888961f5c96b2f",
++  "nightly": "nightly-2026-10-23",
++  "dependencies": {
++    "cbmc": "6.11.0",
++    "kissat": "4.0.1",
++    "hash_binding": "PENDING_C1_BUILD"
++  },
++  "proposal": {
++    "max_concurrency": 1,
++    "harness_cap_seconds": 2400,
++    "aggregate_cap": "PROPOSED_ONLY_10H_INCLUDING_SETUP_AND_REPORTING",
++    "authorization": "NOT_GRANTED",
++    "aggregate_cap_seconds": 36000,
++    "runner": "gcb-e2-standard-4",
++    "runner_shape": "4 vCPU / 16 GiB; existing lane; not a new allocation"
++  },
++  "flags": {
++    "experimental_valid_value": false,
++    "coverage_requested": false,
++    "standard_checks": "DEFAULTS_ON",
++    "slicing": "DEFAULT_ON",
++    "solver": "DEFAULT_CADICAL",
++    "object_bits": 12,
++    "assertion_reachability": "DEFAULT_ON",
++    "no_assert_contracts": true,
++    "cfg_controls": true
++  },
++  "reporting_only_delta_from_organizer": [
++    "-Z export-json",
++    "--export-json <fresh-output>",
++    "--output-format=regular"
++  ],
++  "roots": [
++    {
++      "id": "sort4-pfc-on",
++      "status": "NOT_RUN",
++      "selector": "slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64",
++      "source_unwind": 16,
++      "expected_mode": "Check(sort4_stable)",
++      "expected_result": "SUCCESS",
++      "uninit": true,
++      "argv": [
++        "<EXACT_C1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/sort4-pfc-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/sort4-pfc-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "RUSTFLAGS": "--cfg kani_smallsort_controls",
++        "NO_COLOR": "1"
++      },
++      "companion": "sort4-pfc-off",
++      "generated_property_binding": null
++    },
++    {
++      "id": "sort4-pfc-off",
++      "status": "NOT_RUN",
++      "selector": "slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64",
++      "source_unwind": 16,
++      "expected_mode": "Check(sort4_stable)",
++      "expected_result": "SUCCESS",
++      "uninit": false,
++      "argv": [
++        "<EXACT_C1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/sort4-pfc-off/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/sort4-pfc-off/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "RUSTFLAGS": "--cfg kani_smallsort_controls",
++        "NO_COLOR": "1"
++      },
++      "companion": "sort4-pfc-on",
++      "generated_property_binding": null
++    },
++    {
++      "id": "merge-profile-pfc-on",
++      "status": "NOT_RUN",
++      "selector": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
++      "source_unwind": 34,
++      "expected_mode": "Check(profiles::merge_profile)",
++      "expected_result": "SUCCESS",
++      "uninit": true,
++      "argv": [
++        "<EXACT_C1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/merge-profile-pfc-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/merge-profile-pfc-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "RUSTFLAGS": "--cfg kani_smallsort_controls",
++        "NO_COLOR": "1"
++      },
++      "companion": "merge-profile-pfc-off",
++      "generated_property_binding": null
++    },
++    {
++      "id": "merge-profile-pfc-off",
++      "status": "NOT_RUN",
++      "selector": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
++      "source_unwind": 34,
++      "expected_mode": "Check(profiles::merge_profile)",
++      "expected_result": "SUCCESS",
++      "uninit": false,
++      "argv": [
++        "<EXACT_C1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/merge-profile-pfc-off/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/merge-profile-pfc-off/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "RUSTFLAGS": "--cfg kani_smallsort_controls",
++        "NO_COLOR": "1"
++      },
++      "companion": "merge-profile-pfc-on",
++      "generated_property_binding": null
++    },
++    {
++      "id": "merge-raw-pfc-on",
++      "status": "NOT_RUN",
++      "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
++      "source_unwind": 34,
++      "expected_mode": "Check(bidirectional_merge)",
++      "expected_result": "SUCCESS",
++      "uninit": true,
++      "argv": [
++        "<EXACT_C1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/merge-raw-pfc-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/merge-raw-pfc-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "RUSTFLAGS": "--cfg kani_smallsort_controls",
++        "NO_COLOR": "1"
++      },
++      "companion": "merge-raw-pfc-off",
++      "generated_property_binding": null
++    },
++    {
++      "id": "merge-raw-pfc-off",
++      "status": "NOT_RUN",
++      "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
++      "source_unwind": 34,
++      "expected_mode": "Check(bidirectional_merge)",
++      "expected_result": "SUCCESS",
++      "uninit": false,
++      "argv": [
++        "<EXACT_C1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/merge-raw-pfc-off/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/merge-raw-pfc-off/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "RUSTFLAGS": "--cfg kani_smallsort_controls",
++        "NO_COLOR": "1"
++      },
++      "companion": "merge-raw-pfc-on",
++      "generated_property_binding": null
++    },
++    {
++      "id": "raw-legal-on",
++      "status": "NOT_RUN",
++      "selector": "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_all_initialized_u64",
++      "source_unwind": 16,
++      "expected_mode": "Original(sort4_stable)",
++      "expected_result": "SUCCESS",
++      "uninit": true,
++      "argv": [
++        "<EXACT_C1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_all_initialized_u64",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/raw-legal-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/raw-legal-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "RUSTFLAGS": "--cfg kani_smallsort_controls",
++        "NO_COLOR": "1"
++      },
++      "companion": "raw-legal-off",
++      "generated_property_binding": null
++    },
++    {
++      "id": "raw-legal-off",
++      "status": "NOT_RUN",
++      "selector": "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_all_initialized_u64",
++      "source_unwind": 16,
++      "expected_mode": "Original(sort4_stable)",
++      "expected_result": "SUCCESS",
++      "uninit": false,
++      "argv": [
++        "<EXACT_C1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_all_initialized_u64",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/raw-legal-off/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/raw-legal-off/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "RUSTFLAGS": "--cfg kani_smallsort_controls",
++        "NO_COLOR": "1"
++      },
++      "companion": "raw-legal-on",
++      "generated_property_binding": null
++    },
++    {
++      "id": "raw-negative-on",
++      "status": "NOT_RUN",
++      "selector": "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_hole_negative_u64",
++      "source_unwind": 16,
++      "expected_mode": "Original(sort4_stable)",
++      "expected_result": "INTENDED_LIVE_SOURCE_READ_FAILURE",
++      "uninit": true,
++      "argv": [
++        "<EXACT_C1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_hole_negative_u64",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/raw-negative-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/raw-negative-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "RUSTFLAGS": "--cfg kani_smallsort_controls",
++        "NO_COLOR": "1"
++      },
++      "companion": "raw-negative-off",
++      "generated_property_binding": null
++    },
++    {
++      "id": "raw-negative-off",
++      "status": "NOT_RUN",
++      "selector": "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_hole_negative_u64",
++      "source_unwind": 16,
++      "expected_mode": "Original(sort4_stable)",
++      "expected_result": "OBSERVE_COMPATIBILITY_NO_PROOF",
++      "uninit": false,
++      "argv": [
++        "<EXACT_C1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_hole_negative_u64",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/raw-negative-off/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/raw-negative-off/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "RUSTFLAGS": "--cfg kani_smallsort_controls",
++        "NO_COLOR": "1"
++      },
++      "companion": "raw-negative-on",
++      "generated_property_binding": null
++    },
++    {
++      "id": "sort8-boundary-on",
++      "status": "NOT_RUN",
++      "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
++      "source_unwind": 34,
++      "expected_mode": "Original(sort8_stable)/Replace(bidirectional_merge)",
++      "expected_result": "OBSERVE_NO_PROOF",
++      "uninit": true,
++      "argv": [
++        "<EXACT_C1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::helper_contracts_wide::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/sort8-boundary-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/sort8-boundary-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "RUSTFLAGS": "--cfg kani_smallsort_controls",
++        "NO_COLOR": "1"
++      },
++      "companion": "sort8-boundary-off",
++      "generated_property_binding": null
++    },
++    {
++      "id": "sort8-boundary-off",
++      "status": "NOT_RUN",
++      "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
++      "source_unwind": 34,
++      "expected_mode": "Original(sort8_stable)/Replace(bidirectional_merge)",
++      "expected_result": "OBSERVE_NO_PROOF",
++      "uninit": false,
++      "argv": [
++        "<EXACT_C1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::helper_contracts_wide::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/sort8-boundary-off/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/sort8-boundary-off/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "RUSTFLAGS": "--cfg kani_smallsort_controls",
++        "NO_COLOR": "1"
++      },
++      "companion": "sort8-boundary-on",
++      "generated_property_binding": null
++    }
++  ]
++}
+diff --git a/scripts/kani3300-replay/test_replay.py b/scripts/kani3300-replay/test_replay.py
+new file mode 100644
+index 000000000..a6ec71ebb
+--- /dev/null
++++ b/scripts/kani3300-replay/test_replay.py
+@@ -0,0 +1,118 @@
++#!/usr/bin/env python3
++"""Synthetic receipt/parser tests; these never invoke Kani or a build."""
++
++import json
++from pathlib import Path
++import tempfile
++import unittest
++
++from replay import execute, parse_export, persist_then_postprocess, root_exit_code
++
++
++class ExportTests(unittest.TestCase):
++    def check_state(self, content, expected):
++        with tempfile.TemporaryDirectory() as td:
++            p = Path(td) / "export.json"
++            if content is not None:
++                p.write_bytes(content)
++            got = parse_export(p, "expected::root")
++            self.assertEqual(got["state"], expected)
++            self.assertEqual(got["outcome"], "UNKNOWN")
++
++    def test_parsed_success_claim_is_unvalidated_and_still_unknown(self):
++        self.check_state(b'{"result":"SUCCESS","harness":"expected::root"}', "UNVALIDATED_JSON_OBJECT")
++
++    def test_missing(self):
++        self.check_state(None, "MISSING")
++
++    def test_partial(self):
++        self.check_state(b'{"harness":', "INVALID_OR_PARTIAL")
++
++    def test_null(self):
++        self.check_state(b'null', "NULL")
++
++    def test_wrong_type(self):
++        self.check_state(b'[]', "WRONG_TOP_LEVEL_TYPE")
++
++    def test_wrong_source(self):
++        self.check_state(b'{"selector":"other::root"}', "WRONG_SOURCE_OR_SELECTOR")
++
++    def test_malformed_success_exit_is_nonzero(self):
++        for state in ("EMPTY", "INVALID_OR_PARTIAL", "NULL", "WRONG_TOP_LEVEL_TYPE",
++                      "WRONG_SOURCE_OR_SELECTOR", "MISSING"):
++            with self.subTest(state=state):
++                receipt = {"original_exit_code": 0, "timed_out": False, "runner_error": None,
++                           "export": {"state": state}, "postprocessing_state": "COMPLETE"}
++                self.assertNotEqual(root_exit_code(receipt), 0)
++
++    def test_original_child_failure_code_is_preserved(self):
++        receipt = {"original_exit_code": 7, "timed_out": False, "runner_error": None,
++                   "export": {"state": "INVALID_OR_PARTIAL"}, "postprocessing_state": "COMPLETE"}
++        self.assertEqual(root_exit_code(receipt), 7)
++
++    def test_unvalidated_object_with_zero_child_exit_remains_unknown(self):
++        receipt = {"original_exit_code": 0, "timed_out": False, "runner_error": None,
++                   "export": {"state": "UNVALIDATED_JSON_OBJECT"}, "postprocessing_state": "COMPLETE"}
++        self.assertEqual(root_exit_code(receipt), 0)
++
++
++class ExecutionTests(unittest.TestCase):
++    def run_synthetic(self, code, timeout=1.0):
++        with tempfile.TemporaryDirectory() as td:
++            out = Path(td)
++            import sys
++            receipt = execute([sys.executable, "-c", code], Path.cwd(), {}, out, timeout)
++            receipt["outcome"] = "UNKNOWN"
++            receipt["runtime_proof_status"] = "NOT_RUN_UNTIL_REVIEWED"
++            return receipt
++
++    def test_success_exit_not_proof_credit(self):
++        r = self.run_synthetic("print('synthetic success')")
++        self.assertEqual(r["original_exit_code"], 0)
++        self.assertFalse(r["timed_out"])
++        self.assertEqual(r["outcome"], "UNKNOWN")
++
++    def test_failure_exit_preserved_not_arbitrary_negative_credit(self):
++        r = self.run_synthetic("raise SystemExit(7)")
++        self.assertEqual(r["original_exit_code"], 7)
++        self.assertEqual(r["outcome"], "UNKNOWN")
++
++    def test_timeout_recorded(self):
++        r = self.run_synthetic("import time; time.sleep(10)", timeout=0.05)
++        self.assertTrue(r["timed_out"])
++        self.assertIsNotNone(r["original_exit_code"])
++        self.assertEqual(r["outcome"], "UNKNOWN")
++
++    def test_signal_preserved(self):
++        r = self.run_synthetic("import os,signal; os.kill(os.getpid(), signal.SIGTERM)")
++        self.assertEqual(r["signal"], 15)
++        self.assertLess(r["original_exit_code"], 0)
++
++    def test_postprocessing_error_keeps_atomic_partial_execution_receipt(self):
++        with tempfile.TemporaryDirectory() as td:
++            path = Path(td) / "receipt.json"
++            receipt = {"original_exit_code": 0, "timed_out": False, "signal": None,
++                       "argv": ["synthetic"], "source_identity": {"sha": "bound"},
++                       "outcome": "UNKNOWN", "postprocessing_state": "INCOMPLETE"}
++            stage = {"name": "runtime-inventory"}
++
++            def fail_postprocessing():
++                before = json.loads(path.read_text())
++                self.assertEqual(before["postprocessing_state"], "INCOMPLETE")
++                self.assertEqual(before["original_exit_code"], 0)
++                self.assertEqual(before["outcome"], "UNKNOWN")
++                raise OSError("synthetic inventory failure")
++
++            result = persist_then_postprocess(path, receipt, stage, fail_postprocessing)
++            saved = json.loads(path.read_text())
++            self.assertEqual(saved["original_exit_code"], 0)
++            self.assertEqual(saved["argv"], ["synthetic"])
++            self.assertEqual(saved["source_identity"], {"sha": "bound"})
++            self.assertEqual(saved["outcome"], "UNKNOWN")
++            self.assertEqual(saved["postprocessing_state"], "INCOMPLETE")
++            self.assertEqual(saved["postprocessing_error"]["stage"], "runtime-inventory")
++            self.assertEqual(result, saved)
++
++
++if __name__ == "__main__":
++    unittest.main()

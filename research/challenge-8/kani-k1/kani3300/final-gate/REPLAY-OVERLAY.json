@@ -1,5 +1,5 @@
 {
-  "status": "NOT_RUN_PREPARATION",
+  "status": "NOT_RUN_C1_SOURCE_BOUND_TEST_ONLY",
   "clone": "/root/verify-rust-std-kani3300-replay-w15",
   "branch": "experiment/kani3300-replay-w15-prep",
   "base": "70ba5befc617627073738e26cb1466bd4fb76e41",
@@ -13,7 +13,8 @@
   "patch": "replay-test-only.patch",
   "patch_sha256": "f2689c76720e95f98a88bdd17a2bf4cf13a7348d40dedcf9c009aa0b20db0df5",
   "published": false,
-  "final_C1_bound": false,
+  "final_C1_bound": true,
   "origin_note": "Local read-only source origin; coordinator must choose publication target explicitly.",
-  "library_tree": "2e7f781b35bc41d1431ea3729b888961f5c96b2f"
+  "library_tree": "2e7f781b35bc41d1431ea3729b888961f5c96b2f",
+  "binding_note": "This is a selected std snapshot test-only patch, not a Kani overlay. REPLAY-CI-OVERLAY.json binds its patch bytes into the separate direct-parent C1 Gate B CI overlay."
 }

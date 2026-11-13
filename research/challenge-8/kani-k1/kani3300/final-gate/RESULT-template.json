@@ -2,18 +2,83 @@
   "schema": "kani3300-final-gates-result-v1",
   "status": "NOT_RUN",
   "authorization": "PREPARATION_ONLY",
-  "final_export_sha": null,
-  "final_export_tree": null,
+  "final_export_sha": "1658f4cadfa83139e41180ce3865e23f79d889aa",
+  "final_export_tree": "bfb5eb9db13ffb91ec4585b7c7ef41ddfe0008fb",
   "final_library_tree": null,
   "tool_runtime_model_hashes": null,
-  "final_overlay_sha": null,
-  "m3_mixed_order": {"status": "NOT_RUN", "receipt": null},
-  "eight_strong_oracles": {"status": "NOT_RUN", "manifest_hash": null, "receipt": null},
-  "six_modes": {"status": "NOT_RUN", "manifest_hash": null, "receipt": null},
-  "gate_a": {"status": "NOT_RUN", "platform": null, "run_id": null, "script_exit": null, "stages": null, "counts": null, "artifact_identities": null},
-  "gate_b": {"status": "NOT_RUN", "run_id": null, "on_legal": null, "off_companion": null, "matched_negative": null, "intended_read_binding": null, "useful_checks": null, "check_body_binding": null},
-  "source_reported_claims": [],
+  "final_overlay_sha": "01ab0503392d7b25ce3732a2768313c6a50c910f",
+  "m3_mixed_order": {
+    "status": "NOT_RUN_ON_FINAL_FULLGATE",
+    "receipt": null,
+    "manifest_hash": "3dbb1230e99e6c778f7992cee3c73d58afb31fa68cb96e4fbe9c7aae98864e75",
+    "producer_order": "ORDER_UNCONTROLLED"
+  },
+  "eight_strong_oracles": {
+    "status": "NOT_RUN",
+    "manifest_hash": "34c08a26dd508cf75d19dc80c1c17b88e0bbeb54d492a3f6da10af7ee8120d73",
+    "receipt": null
+  },
+  "six_modes": {
+    "status": "NOT_RUN",
+    "manifest_hash": "e86e53af05c943c1fe4e322b98d6a3c0585d18fe89505bbc6099a95ce55c5b8f",
+    "receipt": null
+  },
+  "gate_a": {
+    "status": "NOT_RUN",
+    "platform": null,
+    "run_id": null,
+    "script_exit": null,
+    "stages": null,
+    "counts": null,
+    "artifact_identities": null
+  },
+  "gate_b": {
+    "status": "NOT_RUN",
+    "run_id": null,
+    "on_legal": null,
+    "off_companion": null,
+    "matched_negative": null,
+    "intended_read_binding": null,
+    "useful_checks": null,
+    "check_body_binding": null
+  },
+  "source_reported_claims": [
+    {
+      "run_id": "43509654772",
+      "assurance": "USER_REPORTED_NOT_INDEPENDENTLY_RETRIEVED",
+      "status": "PASS",
+      "suites": {
+        "kani": {
+          "passed": 22,
+          "failed": 0
+        },
+        "expected": {
+          "passed": 202,
+          "failed": 0
+        },
+        "ui": {
+          "passed": 14,
+          "failed": 0
+        },
+        "script": {
+          "passed": 1,
+          "failed": 0
+        },
+        "json": {
+          "passed": 3,
+          "failed": 0
+        }
+      },
+      "scope": "Quick C1 qualification; not full regression or SmallSort replay or proof credit"
+    }
+  ],
   "independent_proof_credit": "NOT_ESTABLISHED",
   "bounded_vs_full": "NO_NEW_EVIDENCE",
-  "limitations": ["C1 not frozen", "library pin unconfirmed", "no execution authorized"]
+  "limitations": [
+    "library pin unconfirmed",
+    "no execution authorized",
+    "runtime binary/model hashes await CI",
+    "replay useful-check/Check-body/negative intended-read binding NOT_RUN"
+  ],
+  "replay_ci_overlay_sha": "d58b930924d13854ba1e34c4c5669df38d5d8310"
 }

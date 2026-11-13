@@ -1,12 +1,12 @@
-# Gate A request template — NOT_RUN / C1_PENDING / NOT_AUTHORIZED
+# Gate A request — C1_FROZEN / NOT_RUN / NOT_AUTHORIZED
 
 Owner: coordinator (dispatch), worker15 (preparation). Phase: Gate-P preparation;
 future run phase/owner/slot and ledger **UNASSIGNED**. Preparation Cloud cap $0;
 future budget and run count **NOT_GRANTED**. One proposed Linux full job, no
-automatic retries. C1 freeze/review is a prerequisite, not run authorization.
+automatic retries. C1 is frozen at the exact identities in EXPORT-MANIFEST.json. This is not run authorization. See CI-REQUEST.md for publication refs and proposed limits.
 
 Run the unchanged exact-C1 `scripts/kani-regression.sh` in a separate clean
-export checkout. Upstream recipe is C0 `.github/workflows/kani.yml` → local
+export checkout. Upstream recipe is frozen C1 `.github/workflows/kani.yml` → local
 `.github/actions/setup`: OS-specific dependencies, pinned rustup/toolchain,
 submodules, dependency and solver checks. Proposed first platform ubuntu-24.04,
 one concurrent job (`kani3300-fullgate`, cancel-in-progress=false), no added

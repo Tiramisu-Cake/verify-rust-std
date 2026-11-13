@@ -1,0 +1,291 @@
+{
+  "schema": "kani3300-replay-oracles-v1",
+  "state": "STATIC_C1_BOUND_EXECUTION_NOT_RUN",
+  "tool_export_sha": "1658f4cadfa83139e41180ce3865e23f79d889aa",
+  "tool_export_tree": "bfb5eb9db13ffb91ec4585b7c7ef41ddfe0008fb",
+  "source_trace_hashes": {
+    "kani-compiler/src/kani_middle/transform/contracts.rs": "de594579b54d56c1c5a74fed4006c3431448b619ea8ca5e51acccc6f2361cee3",
+    "library/kani_core/src/mem.rs": "598428730a32f2c4034091688b50dde5a44deb69e2e3c61e08a0d394a5e42844",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs": "1371e9059e45cff62f8be3d5323cc866ce74a4e67a6f3e69bf98372462bd3853",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": "ce6d36be2c059a04b1718afcf3bbb174550c2416d619b20b66211fbeab138ceb",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs": "4dd17d145524861e69e7452c0648cf074161aaa76699827b0e237537b9619854"
+  },
+  "strong_oracles": [
+    {
+      "id": "p1",
+      "input": "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs",
+      "sha256": "439c9c9817875a0554fbf43a14eb7f871a3ab23cc038605afcead23a719ee4f0",
+      "root": "postcondition_reads_initialized_return",
+      "verdict": "SUCCESS",
+      "binding_status": "REGRESSION_BOUND"
+    },
+    {
+      "id": "ordinary",
+      "input": "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+      "sha256": "612d0b88a4afb199be544e3bae1baf3379364bcd3193823bbe94be44f6220a46",
+      "root": "legal_ordinary_transfer",
+      "verdict": "SUCCESS",
+      "binding_status": "REGRESSION_BOUND"
+    },
+    {
+      "id": "pfc",
+      "input": "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+      "sha256": "612d0b88a4afb199be544e3bae1baf3379364bcd3193823bbe94be44f6220a46",
+      "root": "legal_pfc_transfer",
+      "verdict": "SUCCESS",
+      "binding_status": "REGRESSION_BOUND"
+    },
+    {
+      "id": "lawful-modifies",
+      "input": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs",
+      "sha256": "32c1342513dd0588d0e3f5ea5991f64538b0506964fc821d4bc201bb66cc5fc0",
+      "root": "lawful_modifies_preserves_outside",
+      "verdict": "SUCCESS",
+      "binding_status": "REGRESSION_BOUND"
+    },
+    {
+      "id": "p2",
+      "input": "tests/expected/uninit/closure-zst/scalar-pfc-hole.rs",
+      "sha256": "6c7eadadb7ca5ecf36babd733a9b2878928718c0f54696bc0b1e5c7dafc902a4",
+      "root": "postcondition_reads_returned_hole",
+      "verdict": "FAILURE",
+      "binding_status": "REGRESSION_BOUND"
+    },
+    {
+      "id": "postcondition-hole",
+      "input": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+      "sha256": "92cfe76cd0e627656c9f55b3f4c7703d9cd112043d2cfb01a5a2459bb9b561b2",
+      "root": "postcondition_reads_returned_hole",
+      "verdict": "FAILURE",
+      "binding_status": "REGRESSION_BOUND"
+    },
+    {
+      "id": "frame",
+      "input": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+      "sha256": "f5c45585e405fe570d88eddb69b76b6299a04ebaba168cc08e2b36bb3bbb09c2",
+      "root": "frame_negative",
+      "verdict": "FAILURE",
+      "binding_status": "REGRESSION_BOUND"
+    },
+    {
+      "id": "clause",
+      "input": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+      "sha256": "5fc89460489e7ac8dafe69f0ad722ae5d4d3a31776f945c0f78beda15aa38ad9",
+      "root": "clause_pfc_negative",
+      "verdict": "FAILURE",
+      "binding_status": "REGRESSION_BOUND"
+    }
+  ],
+  "modes": [
+    {
+      "file": "replace.rs",
+      "harness": "replace_transfer",
+      "intended_mode": "Replace",
+      "target": "passthrough",
+      "companion": false,
+      "expected_result": "UNCLAIMED"
+    },
+    {
+      "file": "replace.rs",
+      "harness": "replace_ordinary",
+      "intended_mode": "Assert",
+      "target": "passthrough",
+      "companion": true,
+      "expected_result": "SUCCESS",
+      "required_covers": [
+        {
+          "description": "initialized return consumed",
+          "file": "replace.rs",
+          "line": 57,
+          "column": 9
+        },
+        {
+          "description": "uninitialized storage returned",
+          "file": "replace.rs",
+          "line": 60,
+          "column": 9
+        }
+      ]
+    },
+    {
+      "file": "replace.rs",
+      "harness": "replace_simple_check",
+      "intended_mode": "SimpleCheck",
+      "target": "passthrough",
+      "companion": true,
+      "expected_result": "SUCCESS",
+      "required_covers": [
+        {
+          "description": "initialized return consumed",
+          "file": "replace.rs",
+          "line": 72,
+          "column": 9
+        },
+        {
+          "description": "uninitialized storage returned",
+          "file": "replace.rs",
+          "line": 75,
+          "column": 9
+        }
+      ]
+    },
+    {
+      "file": "recursive.rs",
+      "harness": "recursive_check",
+      "intended_mode": "RecursiveCheck",
+      "target": "recursive_transfer",
+      "companion": false,
+      "expected_result": "UNSUPPORTED_INTERPROCEDURAL_CYCLE"
+    },
+    {
+      "file": "recursive.rs",
+      "harness": "recursive_ordinary",
+      "intended_mode": "Assert",
+      "target": "recursive_transfer",
+      "companion": true,
+      "expected_result": "UNSUPPORTED_INTERPROCEDURAL_CYCLE"
+    },
+    {
+      "file": "recursive.rs",
+      "harness": "recursive_simple_check",
+      "intended_mode": "SimpleCheck",
+      "target": "bounded_transfer",
+      "companion": true,
+      "expected_result": "SUCCESS",
+      "required_covers": [
+        {
+          "description": "initialized return consumed",
+          "file": "recursive.rs",
+          "line": 85,
+          "column": 9
+        },
+        {
+          "description": "uninitialized storage returned",
+          "file": "recursive.rs",
+          "line": 87,
+          "column": 9
+        },
+        {
+          "description": "base body reached",
+          "file": "recursive.rs",
+          "line": 40,
+          "column": 9
+        },
+        {
+          "description": "unrolled body edge reached",
+          "file": "recursive.rs",
+          "line": 44,
+          "column": 9
+        }
+      ]
+    }
+  ],
+  "composition": {
+    "manifest_sha256": "3dbb1230e99e6c778f7992cee3c73d58afb31fa68cb96e4fbe9c7aae98864e75",
+    "binding_evidence": {
+      "capture_run": "43504302188",
+      "capture_source_commit": "ada5c7bd44ee33a9c9e229cc5c35bcd32464d0fb",
+      "capture_sha256": "a8b13a16d208580ce8bab3f6ee08a48d41bfea690f5a5e5d0bbbad0d43f240fe",
+      "artifact": "m3r3-capture-r3/kani-uninit-part1-composition-kx3sg2st/capture.json",
+      "review": "Exact isolated inventories for six roots from r3; cycle_root is separately bound to the reviewed r4 capture in its binding_evidence. No proof or producer-order credit."
+    },
+    "roots": [
+      {
+        "name": "immutable_legal",
+        "binding": "REGRESSION_BOUND",
+        "expected_verdict": "SUCCESS",
+        "binding_evidence": {
+          "capture_run": "43504302188",
+          "capture_source_commit": "ada5c7bd44ee33a9c9e229cc5c35bcd32464d0fb",
+          "capture_sha256": "a8b13a16d208580ce8bab3f6ee08a48d41bfea690f5a5e5d0bbbad0d43f240fe",
+          "artifact": "m3r3-capture-r3/kani-uninit-part1-composition-kx3sg2st/capture.json",
+          "review": "Exact isolated inventories for six roots from r3; cycle_root is separately bound to the reviewed r4 capture in its binding_evidence. No proof or producer-order credit."
+        }
+      },
+      {
+        "name": "immutable_hole_negative",
+        "binding": "REGRESSION_BOUND",
+        "expected_verdict": "FAILURE",
+        "binding_evidence": {
+          "capture_run": "43504302188",
+          "capture_source_commit": "ada5c7bd44ee33a9c9e229cc5c35bcd32464d0fb",
+          "capture_sha256": "a8b13a16d208580ce8bab3f6ee08a48d41bfea690f5a5e5d0bbbad0d43f240fe",
+          "artifact": "m3r3-capture-r3/kani-uninit-part1-composition-kx3sg2st/capture.json",
+          "review": "Exact isolated inventories for six roots from r3; cycle_root is separately bound to the reviewed r4 capture in its binding_evidence. No proof or producer-order credit."
+        }
+      },
+      {
+        "name": "ordinary_ensures_legal",
+        "binding": "REGRESSION_BOUND",
+        "expected_verdict": "SUCCESS",
+        "binding_evidence": {
+          "capture_run": "43504302188",
+          "capture_source_commit": "ada5c7bd44ee33a9c9e229cc5c35bcd32464d0fb",
+          "capture_sha256": "a8b13a16d208580ce8bab3f6ee08a48d41bfea690f5a5e5d0bbbad0d43f240fe",
+          "artifact": "m3r3-capture-r3/kani-uninit-part1-composition-kx3sg2st/capture.json",
+          "review": "Exact isolated inventories for six roots from r3; cycle_root is separately bound to the reviewed r4 capture in its binding_evidence. No proof or producer-order credit."
+        }
+      },
+      {
+        "name": "pfc_legal",
+        "binding": "REGRESSION_BOUND",
+        "expected_verdict": "SUCCESS",
+        "binding_evidence": {
+          "capture_run": "43504302188",
+          "capture_source_commit": "ada5c7bd44ee33a9c9e229cc5c35bcd32464d0fb",
+          "capture_sha256": "a8b13a16d208580ce8bab3f6ee08a48d41bfea690f5a5e5d0bbbad0d43f240fe",
+          "artifact": "m3r3-capture-r3/kani-uninit-part1-composition-kx3sg2st/capture.json",
+          "review": "Exact isolated inventories for six roots from r3; cycle_root is separately bound to the reviewed r4 capture in its binding_evidence. No proof or producer-order credit."
+        }
+      },
+      {
+        "name": "pfc_negative",
+        "binding": "REGRESSION_BOUND",
+        "expected_verdict": "FAILURE",
+        "binding_evidence": {
+          "capture_run": "43504302188",
+          "capture_source_commit": "ada5c7bd44ee33a9c9e229cc5c35bcd32464d0fb",
+          "capture_sha256": "a8b13a16d208580ce8bab3f6ee08a48d41bfea690f5a5e5d0bbbad0d43f240fe",
+          "artifact": "m3r3-capture-r3/kani-uninit-part1-composition-kx3sg2st/capture.json",
+          "review": "Exact isolated inventories for six roots from r3; cycle_root is separately bound to the reviewed r4 capture in its binding_evidence. No proof or producer-order credit."
+        }
+      },
+      {
+        "name": "cycle_root",
+        "binding": "REGRESSION_BOUND",
+        "expected_verdict": "FAILURE",
+        "binding_evidence": {
+          "capture_run": "43506774865",
+          "capture_source_commit": "3912b8e0319754f43bbcd7f2b363ad5cbf0a80c9",
+          "capture_ci_commit": "8b2bca3bed4c643d4a0126de5dedfb2a723b9214",
+          "capture_sha256": "823091431890939ba0bd007374500a21fa272e060e19f0fd7b68d9bbe954d352",
+          "artifact": "m3r3-capture-r4/kani-uninit-part1-composition-clpox3px/capture.json",
+          "review": "Exact isolated cycle_root inventory, failure kind, complete failed-property and Unsupported metadata reviewed against r4 exports, regular output and receipts; all four mixed selections match exactly. CI wrapper differs from the source commit only in .github/workflows/. No proof or producer-order credit."
+        }
+      },
+      {
+        "name": "unrelated_legal_after_cycle",
+        "binding": "REGRESSION_BOUND",
+        "expected_verdict": "SUCCESS",
+        "binding_evidence": {
+          "capture_run": "43504302188",
+          "capture_source_commit": "ada5c7bd44ee33a9c9e229cc5c35bcd32464d0fb",
+          "capture_sha256": "a8b13a16d208580ce8bab3f6ee08a48d41bfea690f5a5e5d0bbbad0d43f240fe",
+          "artifact": "m3r3-capture-r3/kani-uninit-part1-composition-kx3sg2st/capture.json",
+          "review": "Exact isolated inventories for six roots from r3; cycle_root is separately bound to the reviewed r4 capture in its binding_evidence. No proof or producer-order credit."
+        }
+      }
+    ],
+    "producer_order": "ORDER_UNCONTROLLED",
+    "t1b": "Reviewed scoped SUCCESS/UNREACHABLE shared std::ptr::read::<u8> safety inventory allowance only; no architecture/isolation credit"
+  },
+  "replay_acceptance": {
+    "positive": "Exact selected root and Check body, useful checks/ensures reached, all required checks SUCCESS; no Unsupported/frame/runner failure. Exit0 alone insufficient.",
+    "negative": "raw-negative-on must fail at retained live source[1] read in actual sort4/callback; pointer/reference formation before read, requires, Unsupported/frame/limit failures do not satisfy. Exact generated-property/source-causality binding requires CI review.",
+    "off": "Same sources/tool/cfg/geometry/argv except uninit flag; compatibility only. Negative-OFF and sort8 boundary observational, no required SUCCESS/proof.",
+    "required_read_source": "library/core/src/slice/sort/shared/smallsort.rs:751; callback ptr::read_volatile(a/b) in test-only overlay; no initialized reference or assume_init before helper entry",
+    "unbound_generated_properties": "NOT_RUN; never learn an oracle from arbitrary FAIL",
+    "pfc_contract_mode": "C1 contracts.rs selects SimpleCheck for these nonrecursive proof_for_contract targets; logical Check(target) in request rows identifies the target, not runtime body-binding evidence."
+  },
+  "formal_proof_credit": "NOT_ESTABLISHED"
+}

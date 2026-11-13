@@ -1,14 +1,63 @@
 {
   "status": "STATIC_PACKAGE_OK",
-  "date": "2026-11-13",
+  "date": "2026-11-14",
   "command": "python3 -B research/challenge-8/kani-k1/kani3300/final-gate/validate_package.py",
-  "python_synthetic_tests": {"passed": 11, "failed": 0},
-  "checks": ["frozen C0/std identities and hashes", "read-only inputs clean", "own overlays clean", "exact patch/commit hashes", "bounded write scopes", "ON/OFF argv and cfg parity", "YAML syntax and workflow_dispatch only", "pending C1 inputs remain unbound"],
+  "python_synthetic_tests": {
+    "gate_a": {
+      "passed": 11,
+      "failed": 0
+    },
+    "gate_b": {
+      "passed": 14,
+      "failed": 0
+    },
+    "c1_strong_oracles": {
+      "passed": 21,
+      "failed": 0
+    },
+    "c1_modes": {
+      "passed": 19,
+      "failed": 0
+    },
+    "c1_composition": {
+      "passed": 51,
+      "failed": 0
+    }
+  },
+  "checks": [
+    "frozen C1 SHA/tree and 37 file hashes / six subtrees",
+    "clean read-only inputs / own committed overlays",
+    "direct C1 parent and CI-only write scope for both gates",
+    "exact std test-only patch scope/bytes",
+    "exact embedded replay request / source binding / test patch",
+    "all12 ON/OFF argv/cfg parity",
+    "8 strong / 6 mode / 7 composition frozen oracle identities",
+    "YAML syntax / workflow_dispatch-only",
+    "all executable gate outcomes remain NOT_RUN"
+  ],
+  "ci_commits": {
+    "gate_a": "01ab0503392d7b25ce3732a2768313c6a50c910f",
+    "gate_b": "d58b930924d13854ba1e34c4c5669df38d5d8310"
+  },
   "shell_runtime": "NOT_RUN",
   "compilation": "NOT_RUN",
   "gate_a": "NOT_RUN",
   "gate_b": "NOT_RUN",
   "cloud_cost_usd": 0,
   "published": false,
-  "formal_proof_credit": "NOT_ESTABLISHED"
+  "formal_proof_credit": "NOT_ESTABLISHED",
+  "independent_static_review": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "gate_a": {
+      "sha": "01ab0503392d7b25ce3732a2768313c6a50c910f",
+      "status": "APPROVED_STATIC"
+    },
+    "gate_b": {
+      "sha": "d58b930924d13854ba1e34c4c5669df38d5d8310",
+      "status": "APPROVED_STATIC_FINAL_DELTA"
+    },
+    "runtime_qualification": "NOT_RUN"
+  },
+  "python_synthetic_tests_total": 116
 }

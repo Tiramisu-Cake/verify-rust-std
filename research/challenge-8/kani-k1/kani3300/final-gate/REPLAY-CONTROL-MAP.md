@@ -1,7 +1,7 @@
 # Replay controls — NOT_RUN / preparation only
 
 Exact source identities and argv are in EXPORT-MANIFEST.json and REPLAY-REQUEST.json.
-C1 binaries/models and coordinator-confirmed library pin remain unset. Dispatch
+C1 source SHA/tree are frozen; runtime binary/model hashes await CI, and the final library pin awaits coordinator confirmation. Dispatch
 phase/owner/ledger/slot/budget are UNASSIGNED. Preparation Cloud cap $0.
 
 | Control | Exact setup | Required interpretation |
@@ -26,8 +26,8 @@ references. No initializedness assumptions. Return cover is not a claim that
 destination initializedness was proved.
 
 PFC/Assert cannot use the hole as an inside-body negative: sort4's source
-can_dereference requires calls C0 mem.rs:73-79/252-258 assert_is_initialized.
-The ordinary --no-assert-contracts route is deliberate: C0
+can_dereference requires calls C1 mem.rs:73-79/252-258 assert_is_initialized.
+The ordinary --no-assert-contracts route is deliberate: C1
 kani-compiler/src/kani_middle/transform/contracts.rs:565-585 selects Check and
 Replace first, then Assert only without that flag, otherwise Original. The
 negative intentionally violates an unsafe precondition to test instrumentation;
@@ -59,5 +59,7 @@ and cover rows, complete failures/locations, available scratch-state observation
 original exit, timeout/signal/resources, normal-return vs panic-cut boundary,
 and artifact identities through Evidence Brief. No invented generated property
 IDs or learning an oracle from arbitrary FAIL. Object-limit/timeout/OOM leaves
-the root open without changing N/backing/offset/contract. Both overlays and all
+the root open without changing N/backing/offset/contract. Both final C1 CI overlays and the separate std test-only overlay remain unexecuted; all
 proof results remain NOT_RUN. Static inventory is not MIR/ADT/Check-body binding.
+
+Final Gate B control checkout/CI commit: REPLAY-CI-OVERLAY.json. The std patch is embedded there; no std production helper is changed and no separate std push is required.

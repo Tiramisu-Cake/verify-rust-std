@@ -1,10 +1,10 @@
 {
-  "status": "NOT_RUN_PREPARATION",
-  "clone": "/root/kani-fix-3300-gate-w15",
-  "branch": "ci/kani3300-fullgate-w15-prep",
-  "base": "478aad601fc5a45b142d6a8a2ae85594add9a0e6",
-  "sha": "74fa546ab53ae49e15f44bdd2ad10053d39d34e9",
-  "tree": "6f604a069b2ea25314fe147511e474808c78bfc7",
+  "status": "NOT_RUN_C1_FROZEN",
+  "clone": "/root/kani-fix-3300-fullgate-c1-w15",
+  "branch": "ci/kani3300-fullgate-c1-w15",
+  "base": "1658f4cadfa83139e41180ce3865e23f79d889aa",
+  "sha": "01ab0503392d7b25ce3732a2768313c6a50c910f",
+  "tree": "76742a171520920ed625ca9aff6061b15a7a2411",
   "clean": true,
   "files": [
     "D\t.github/workflows/bench-compiler.yml",
@@ -29,8 +29,8 @@
     "A\tscripts/kani3300-gate/test_receipt.py"
   ],
   "patch": "ci-only-overlay.patch",
-  "patch_sha256": "ed1f0800b2c21e78774ed4ee572b0967ed8527e141dd6785bad6974447b029e4",
+  "patch_sha256": "c7c751dd636f44d159067bb7cd7191d0bde1c895a3194977d24a09a7ee1ab8e8",
   "published": false,
-  "final_C1_bound": false,
-  "origin_note": "Local read-only source origin; coordinator must choose publication target explicitly."
+  "final_C1_bound": true,
+  "origin_note": "Local read-only source origin; coordinator publication target Tiramisu-Cake/kani; no push performed."
 }

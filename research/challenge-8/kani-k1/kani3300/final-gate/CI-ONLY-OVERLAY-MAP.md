@@ -1,10 +1,10 @@
-# CI-only overlay map — preparation
+# CI-only overlays — frozen C1 / NOT_RUN
 
-Own clone `/root/kani-fix-3300-gate-w15`, branch
-`ci/kani3300-fullgate-w15-prep`, based on exact C0. C0 remains read-only.
-`CI-OVERLAY.json` and `ci-only-overlay.patch` bind the local preparation commit.
-It must be rebased/recreated on accepted C1 and reviewed before coordinator
-publication. A C0 overlay SHA is not a final export SHA.
+Gate A: `/root/kani-fix-3300-fullgate-c1-w15`,
+`ci/kani3300-fullgate-c1-w15`; exact commit in CI-OVERLAY.json.
+Gate B: separate C1 clone and commit in REPLAY-CI-OVERLAY.json.
+Both direct-parent overlays target `1658f4cadfa83139e41180ce3865e23f79d889aa`;
+all non-overlay tracked blobs remain identical to C1. Exact patches are retained.
 
 Only new files `.github/workflows/kani3300-fullgate.yml` and
 `scripts/kani3300-gate/{receipt.py,test_receipt.py,binding.json}` are added.
@@ -19,11 +19,10 @@ receipts enter the final tool source; ordinary upstream tracked workflows remain
 in C1. `git status --porcelain --untracked-files=all` must be clean before/after
 the script. Build outputs stay ignored; no cleanup/reset hides source changes.
 
-Binding template is deliberately disabled: state NOT_RUN_C1_PENDING, null
-SHA/tree, m3_accepted=false. Pre-setup guard rejects it. Future coordinator must
-record C1_FROZEN, accepted M3, exact 40-character SHA/tree and all required source
-hashes from EXPORT-MANIFEST plus final compiler/library/tests subtree hashes.
-Workflow and observer must use the same binding; no latest/main alias.
+Binding is C1_FROZEN with exact SHA/tree, owner-accepted M3 lineage,
+and required compiler/library/tests/script subtree and file hashes. The frozen
+composition manifest is included, with its R3/R4 inventory binding and T1b/
+producer-order limits. Runtime binary/model hashes remain CI outputs.
 
 The observer's BASH_ENV hook is restricted to the top-level original regression
 script. DEBUG events record command/source/suite/mode; the next top-level event
