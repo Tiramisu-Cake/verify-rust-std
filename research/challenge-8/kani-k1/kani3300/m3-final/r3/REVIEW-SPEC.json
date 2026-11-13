@@ -1,0 +1,31 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-m3r3",
+  "baseline_commit": "aac27ed95364989bc045e5cdc227f2a97448f955",
+  "candidate_commit": "6c29e38c57fdf646bf07725c5c09008518d04255",
+  "defect": "Nested aggregate shadow transfer is absent; broad M3-R2 guard must not be carried into this branch.",
+  "applicability": "Tests and user limitations only. Independent new branch directly from aac27ed95, not guard HEAD.",
+  "invariants": [
+    "Compiler, runtime, B1 unresolved-calls and closure-zst remain byte-identical to baseline.",
+    "Top-level companion retains explicit Move, normal-edge return, source repair and both value assertions, plus no-repair negative.",
+    "Existing tuple source remains intact apart from an explanatory comment. Legal failure is a known false positive, never UB detection credit.",
+    "No claim that nested aggregate paths always fail closed; no ordinary-and-pointers-legal or guard boundary fixtures imported."
+  ],
+  "controls": [
+    "Both top-level roots: legal expected SUCCESS returned=42/source=23, negative expected uninitialized u8 FAILURE.",
+    "Tuple exact property/status/description and both failing-root summaries, 0 successful/2 failed roots.",
+    "Unchanged B1, closure-zst, eight strong oracles, mode boundaries and shared validator."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "tools/compiletest/src/runtest.rs",
+    "kani-driver/src/harness_runner.rs"
+  ],
+  "known_limitations": [
+    "Only Python/static and authorized scratchpad rustfmt locally; no cargo/rustc/Kani/CBMC/push/CI.",
+    "Top-level compile/proof and full CI NOT_RUN. Golden tuple observation supplied by task and existing STOP-R1.md, no new CI evidence.",
+    "Expected-mode matcher uses unordered line groups; consecutive property/status/description and named failure summaries constrain observation but are not complete per-root inventories."
+  ],
+  "prior_reviews": []
+}

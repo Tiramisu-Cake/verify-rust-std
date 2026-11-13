@@ -1,0 +1,48 @@
+{
+  "schema": "kani3300-m3-r3-checkpoint/v1",
+  "worker": "worker14",
+  "state": "READY_FOR_COORDINATOR",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-M3-R3.md",
+  "source_clone": "/root/kani-fix-3300-m3r3",
+  "source_branch": "fix/kani-3300-m3r3",
+  "baseline_sha": "aac27ed95364989bc045e5cdc227f2a97448f955",
+  "source_sha": "6c29e38c57fdf646bf07725c5c09008518d04255",
+  "source_tree": "cdc30da3c5327e8070ee4f61a42df37c9ea30104",
+  "review": {
+    "result": "STATIC_ACCEPTANCE",
+    "reviewer": "gpt-6-luna HIGH independent",
+    "path": "REVIEW.md",
+    "sha256": "49c7c26456ef9ad59b231fe0c9cedcccd1af2c12a8f515db562e7e022889ba92",
+    "spec_sha256": "487cef2cbeb4fd94bc9cade68f9475db5d4c96d8a5bfc808f7e723f276e19615",
+    "full_local_packet": "/root/verify-rust-std/.git/worktrees/verify-rust-std-kani3300-g0/worker14-review-packets/m3r3-review-packet"
+  },
+  "claims": [
+    {
+      "claim": "Direct baseline branch excludes M3-R2 guard ancestry; production, B1 and closure-zst unchanged.",
+      "assurance": "STATIC_IDENTITIES",
+      "evidence": "INPUTS.json and STATIC-CHECKS.json"
+    },
+    {
+      "claim": "Top-level Move/repair companion retains returned=42/source=23 assertions and no-repair negative.",
+      "assurance": "STATIC_REVIEW_ONLY",
+      "evidence": "REVIEW.md"
+    },
+    {
+      "claim": "Tuple legal root is known false positive; current failure expectation is characterization, not UB detection.",
+      "assurance": "SOURCE_REPORTED_PRIOR_CI_NOT_NEW_PROOF",
+      "evidence": "issued TASK-KANI3300-M3-R3.md and ../STOP-R1.md"
+    }
+  ],
+  "open": [
+    "Coordinator publication and targeted/Quick CI on exact source identities.",
+    "Top-level compilation/proof NOT_RUN; expected outcomes require CI.",
+    "Nested aggregate shadow transfer unimplemented; paths not guaranteed fail-closed.",
+    "Existing M3 JSON per-root binding and actual producer-order receipts remain pending."
+  ],
+  "next": "CI-REQUEST.md",
+  "closure_reason": "Issued M3-R3 preparation completed; push and CI reserved to coordinator.",
+  "rustfmt": "Authorized scratchpad wrapper --edition 2021 --check: exit 0 on both Move fixtures.",
+  "CI": "NOT_RUN",
+  "push": "NOT_PERFORMED",
+  "proof_credit": "NONE"
+}

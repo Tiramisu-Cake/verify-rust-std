@@ -1,0 +1,54 @@
+{
+  "schema": "kani3300-m3-r3-inputs/v1",
+  "worker": "worker14",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-M3-R3.md",
+  "source_clone": "/root/kani-fix-3300-m3r3",
+  "source_branch": "fix/kani-3300-m3r3",
+  "baseline_sha": "aac27ed95364989bc045e5cdc227f2a97448f955",
+  "baseline_tree": "3e4fe93d41fa8efa5a088f41f6acc4c47ce37a16",
+  "source_sha": "6c29e38c57fdf646bf07725c5c09008518d04255",
+  "source_tree": "cdc30da3c5327e8070ee4f61a42df37c9ea30104",
+  "excluded_guard_commits": [
+    "30655f3060f33603d94e32f39951462434447ed0",
+    "a221d00cf66b723c66a5a3a928d2ab1e29e8df44",
+    "88c532d6c19d3647ea877af6222078d760c06900"
+  ],
+  "files": [
+    {
+      "path": "docs/src/reference/experimental/contracts.md",
+      "sha256": "b1af3e28c0d7b6cfc8983614a8e8e3bdcc5b776c0813365d9158fe8ddb5ec3d5"
+    },
+    {
+      "path": "tests/expected/uninit/part1-composition/move-return-reinit.expected",
+      "sha256": "1d82430f1f5fab7c8e0b0cfc64fe4119cf325f51dcd86ab6aa152462f7591a35"
+    },
+    {
+      "path": "tests/expected/uninit/part1-composition/move-return-reinit.rs",
+      "sha256": "df3b5073df2c89991d25eaf48a4fa68fc06878b87b21d5adf643ede6514ffe2b"
+    },
+    {
+      "path": "tests/expected/uninit/part1-composition/move-return-top-level.expected",
+      "sha256": "e3d250b293a99a4b9433062f06ee4600aaac2ff9d5c4ac73c240346c18b15bf3"
+    },
+    {
+      "path": "tests/expected/uninit/part1-composition/move-return-top-level.rs",
+      "sha256": "83d33f5c707bee9a063bab2c88e1aa1bc174c062a6785695d00a0b1b92760f48"
+    }
+  ],
+  "unchanged_trees": {
+    "kani-compiler": "b537865e8d25be05e52b5fc48dbd53b505d70e02",
+    "kani-driver": "c214b9ff3402e7d6b14f874b1ff5279a56075207",
+    "library": "a2f83b7bc4ba161cb454c7ecde285a7b655be344",
+    "scripts": "7d1c75c2a5ba49102a2efa7e6d9facc47675efd2",
+    "tests/expected/uninit/unresolved-calls": "8b139be9ac9b006ab85fb81c7a19022c3ef1f17c",
+    "tests/expected/uninit/closure-zst": "0edb8484d116e1f06bb625ad2b4160eefed705c1",
+    "tests/json-handler/uninit-contract-oracles": "fe4b2d5b40d3f5def32c6364bf0b92d9181acb59",
+    "tests/json-handler/uninit-contract-mode-boundaries": "f98b38d4d1ca0301c5ba982016a1e088ea77df2c",
+    "tests/json-handler/uninit-part1-composition": "1936145fee4b70a1dce89fdef23ccd82c7cc4fa6"
+  },
+  "rustfmt_wrapper": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+  "tuple_observation_source": "Issued task and existing m3-final/STOP-R1.md; no new verification, no dynamic causality established.",
+  "CI": "NOT_RUN",
+  "proof_credit": "NONE",
+  "push": "NOT_PERFORMED"
+}
