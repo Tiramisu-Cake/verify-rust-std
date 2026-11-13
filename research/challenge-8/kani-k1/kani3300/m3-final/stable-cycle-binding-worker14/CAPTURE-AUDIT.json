@@ -1,0 +1,560 @@
+{
+  "artifact_directory": "/root/kani3300-h1-ci/m3r3-capture-r3/kani-uninit-part1-composition-kx3sg2st",
+  "capture_run": "43504302188",
+  "capture_sha256": "a8b13a16d208580ce8bab3f6ee08a48d41bfea690f5a5e5d0bbbad0d43f240fe",
+  "comparison_counts": {
+    "accepted": 17,
+    "accepted_t1b": 6,
+    "exact": 11,
+    "total": 18
+  },
+  "comparisons": [
+    {
+      "accepted": true,
+      "difference_fields": [
+        "checks"
+      ],
+      "exact_match": false,
+      "order": "all_A_then_B",
+      "root": "immutable_legal"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [
+        "checks"
+      ],
+      "exact_match": false,
+      "order": "all_A_then_B",
+      "root": "immutable_hole_negative"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_A_then_B",
+      "root": "ordinary_ensures_legal"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_A_then_B",
+      "root": "pfc_legal"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_A_then_B",
+      "root": "pfc_negative"
+    },
+    {
+      "accepted": false,
+      "difference_fields": [
+        "checks",
+        "failed_properties",
+        "unsupported_constructs"
+      ],
+      "exact_match": false,
+      "order": "all_A_then_B",
+      "root": "cycle_root"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [
+        "checks"
+      ],
+      "exact_match": false,
+      "order": "all_A_then_B",
+      "root": "unrelated_legal_after_cycle"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [
+        "checks"
+      ],
+      "exact_match": false,
+      "order": "all_B_then_A",
+      "root": "unrelated_legal_after_cycle"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_B_then_A",
+      "root": "cycle_root"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_B_then_A",
+      "root": "pfc_negative"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_B_then_A",
+      "root": "pfc_legal"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_B_then_A",
+      "root": "ordinary_ensures_legal"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [
+        "checks"
+      ],
+      "exact_match": false,
+      "order": "all_B_then_A",
+      "root": "immutable_hole_negative"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [
+        "checks"
+      ],
+      "exact_match": false,
+      "order": "all_B_then_A",
+      "root": "immutable_legal"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "cycle_then_legal",
+      "root": "cycle_root"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "cycle_then_legal",
+      "root": "unrelated_legal_after_cycle"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "legal_then_cycle",
+      "root": "unrelated_legal_after_cycle"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "legal_then_cycle",
+      "root": "cycle_root"
+    }
+  ],
+  "job_log": "/root/kani3300-h1-ci/m3r3-capture-r3.log",
+  "job_log_sha256": "66d7cb272db13479cfa6a7dd8b300da2d06a278d760255f8849bbcdd737d2105",
+  "manifest_sha256": "8eb7c09273158513682e755f6b9bd0ebf2bd23b8fc49920879d7b0b6464e8f49",
+  "note": "Offline validation of explicitly supplied local capture files only; no runtime validation of the new compiler diagnostic; no normalization of cycle text.",
+  "order_credit": "NOT_ESTABLISHED",
+  "original_oracle": "MISMATCH",
+  "original_status": "UNBOUND_CAPTURE",
+  "pending_roots": [
+    "cycle_root"
+  ],
+  "proof_credit": "NONE",
+  "revalidated_runs": [
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "ea5c77b565fc591547df3dbc9c80fca91f360de2c85d3c1d5fd6e6075ec1c004",
+        "receipt.json": "38ce4d82701e8684fc5a410929d2fa332d76d6a3cdf00725db2a4194e7eb3ce2",
+        "regular.out": "f26bc5db373a89239627e85e0807bd69c78faba8d551fab2cf2dcda7272f8e24"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 45,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "immutable_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 46,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 2,
+          "name": "immutable_hole_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 227,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "ordinary_ensures_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "pfc_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 3,
+          "name": "pfc_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 384,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 1,
+          "name": "cycle_root",
+          "unsupported_count": 1,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 189,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "unrelated_legal_after_cycle",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "all_A_then_B"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "a3f15992cc0c49d49440878f0502b381ee6cb71b99535d9b0388642862deb41c",
+        "receipt.json": "827f5d4d8082a45d598f160e5d0cc1dd9159539d351f5e37c308275193bfcf42",
+        "regular.out": "97309a80ed5922fcee6cc79c134be263617dcdbeefa54cc4b21af8d83e018141"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 45,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "immutable_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 46,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 2,
+          "name": "immutable_hole_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 227,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "ordinary_ensures_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "pfc_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 3,
+          "name": "pfc_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 384,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 1,
+          "name": "cycle_root",
+          "unsupported_count": 1,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 189,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "unrelated_legal_after_cycle",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "all_B_then_A"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "1398793046c37dbfa334f47620a1411f5f8d188822fdb12d111dbe7c9372c541",
+        "receipt.json": "52975e065e4da8e4a041cc2b6e3880c2f1b12d77d8d0cb3ace4bc4d1bacb3336",
+        "regular.out": "bb9a70a0dfbdb92bf13649e1210c47845d8debfe7b0b38d3227e47a9354b52b0"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 384,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 1,
+          "name": "cycle_root",
+          "unsupported_count": 1,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 186,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "unrelated_legal_after_cycle",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "cycle_then_legal"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "56250f08ac7a8c86af2a73c9d6647eba2cceba08ee078c95bf135ddf724faf33",
+        "receipt.json": "e44a1a5da7f283688b478e8188d6b97751ec7f75a71de7faaab47d5a7f57d31f",
+        "regular.out": "1fe4db966db99f40fbcf80269da0fc5f53b99f8c073648ad5aea80315b9bc1f2"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 384,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 1,
+          "name": "cycle_root",
+          "unsupported_count": 1,
+          "verdict": "FAILURE"
+        }
+      ],
+      "run_id": "isolated-cycle_root"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "7d7ebd028f68c39c9966d6f52237a92a2f59ff6e18a82db31435b6fc1181dd99",
+        "receipt.json": "b1751e00490db55617376ada6dec2cbc96492ef59d638acdbc08f9cff00ffd74",
+        "regular.out": "4614e55d6dd580bf36fa5358af71ff6450a8136ef38fc4f2373e93e0f5a2e5eb"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 37,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 2,
+          "name": "immutable_hole_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        }
+      ],
+      "run_id": "isolated-immutable_hole_negative"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "819c14809f4bd1edbb30ac579ffe620cd2253e256f529fe88ac912f3378e66b3",
+        "receipt.json": "87b1564de367bf0d0f2c9de17dc6fada83e63f9812327897dcc2310f429dc0a1",
+        "regular.out": "9f2292ac9e9a902daf4be398c7b1a4138fa47690fa4582247a35df9b31a61bb8"
+      },
+      "original_exit": 0,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 39,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "immutable_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-immutable_legal"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "59afd33ff8840df3bec757728ca5a05abdb171f8a921f0b2cad529fddf1e17b7",
+        "receipt.json": "174645d81fd963eb6f8c151d0b7280df394a795806760c43a6943d185ee2b803",
+        "regular.out": "4c1a112b15b5051dbc5a39f35766345154e02caa5706d91a5831cc64ce8a66dc"
+      },
+      "original_exit": 0,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 227,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "ordinary_ensures_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-ordinary_ensures_legal"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "6d1d70f36f3b6a465b917d2cad70db418526cfa74691c2a4dc4b8c858074da07",
+        "receipt.json": "c6740120adf489c40dfa9d474d6642607d970c680edb74b651683bc0122d6bc5",
+        "regular.out": "85b8e4678544dba0b5b4867a5e56f39bac3062b811d8ac74129b9ca05c50ac02"
+      },
+      "original_exit": 0,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "pfc_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-pfc_legal"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "e91f623b4b50e2d2b2e1916f62ef9c23afb0135a72f63f137ffb31c8904986ab",
+        "receipt.json": "d58b4916deacf99cec030aafe8488bac2c1e497895b883cf05218ffbc7d7a557",
+        "regular.out": "dad4a10d46ea8a85531d93c72138c460f15c9d89dd1f5be51cd1c25c463e3c82"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 3,
+          "name": "pfc_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        }
+      ],
+      "run_id": "isolated-pfc_negative"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "a2291576504b7dd767b2f04096ddc15cd0f1d1baf12908d76ca861f23b317d3a",
+        "receipt.json": "85b75f0a067edafece9b276b380afe11ffc23e30b28925b0843d689554790b29",
+        "regular.out": "ea183077ffd343dc00999d73592b8f79945d38cfc0d2d51fd75cf95466bd546d"
+      },
+      "original_exit": 0,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 186,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "unrelated_legal_after_cycle",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-unrelated_legal_after_cycle"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "fc7c5d5d5777f52265b7897334c98093eb90d90763308052c9f4ababd9548284",
+        "receipt.json": "f7761460dd3bee855e299687ad24509a13e8ac85eb0de33d80fd2856c60cd9c5",
+        "regular.out": "127db0cd723a61bc99a4e622927188ede368c217d3ad589869e46addc830426b"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 384,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 1,
+          "name": "cycle_root",
+          "unsupported_count": 1,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 186,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "unrelated_legal_after_cycle",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "legal_then_cycle"
+    }
+  ],
+  "reviewed_roots": [
+    "immutable_legal",
+    "immutable_hole_negative",
+    "ordinary_ensures_legal",
+    "pfc_legal",
+    "pfc_negative",
+    "unrelated_legal_after_cycle"
+  ],
+  "schema": "kani3300-worker14-r3-binding-audit/v1",
+  "source_clone": "/root/kani-fix-3300-worker14",
+  "source_commit": "3912b8e0319754f43bbcd7f2b363ad5cbf0a80c9",
+  "source_sha256": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970",
+  "verifier_invocations": 0
+}

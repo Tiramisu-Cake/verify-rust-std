@@ -1,0 +1,60 @@
+{
+  "source_clone": "/root/kani-fix-3300-worker14",
+  "baseline_sha": "ada5c7bd44ee33a9c9e229cc5c35bcd32464d0fb",
+  "source_sha": "3912b8e0319754f43bbcd7f2b363ad5cbf0a80c9",
+  "source_tree": "0607c36c671e1a234d29b0c6e7c108a14ad6a6c0",
+  "files": [
+    {
+      "path": "docs/src/reference/experimental/contracts.md",
+      "sha256": "086a178a276615522c364c306c4e7184907351809c3b9aa73aa1ea9577f208e1"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "sha256": "4bac43e318a9a6b0de086ebe2649b1ddccf4bd61ac0c36def39c773ed1250e3a"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/capture-free.expected",
+      "sha256": "5c0b0828683686f67ceaff2accd66e66dbd34228cbfda4055eecf901ba083d1c"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/mutual-cycle.expected",
+      "sha256": "5532339e21ed4674015f78c4e9267231a74b26467cb268c23d3e5fe853285f82"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/roots-acyclic-first.expected",
+      "sha256": "da26a13d2092f986fb7cf7b0b1aae60486f24db723fe3d9bee00f185fa1d7eba"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/roots-cycle-first.expected",
+      "sha256": "c3b41dd139eace41a3120a53c0f66c694699d0529131f7993c5bcf62cf661d5b"
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/self-cycle.expected",
+      "sha256": "f7ae0f14a033adbe178f0da109aa36be5daa7eda7abcb8f17d3e3262797c4b93"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/README.md",
+      "sha256": "77aee2b958e3ac0205b622a4f75d2d68814850dbfe8d844500e36536258d8b04"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/observe.py",
+      "sha256": "439ca67541d7808bbf9a2ccc2b9aaeabff3c21f1a2bb7acf6c4dbe698e07cdf5"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/test_observe.py",
+      "sha256": "11736af025d48b22a0f7d5adce669b560428f5286d7ecf3879773bbdc4bf3468"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/README.md",
+      "sha256": "324e953f14098a95cf76244fcadaf7b6bdf2577721324996a4e292ada995b332"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/roots.json",
+      "sha256": "8eb7c09273158513682e755f6b9bd0ebf2bd23b8fc49920879d7b0b6464e8f49"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/test_bindings.py",
+      "sha256": "fc25954600c8a1f275962325490694a2161a0a37b22f91ed7721d8364fa680ca"
+    }
+  ]
+}
