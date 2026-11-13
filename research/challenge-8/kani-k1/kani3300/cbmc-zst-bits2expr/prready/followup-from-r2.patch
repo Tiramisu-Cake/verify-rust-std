@@ -1,0 +1,878 @@
+diff --git a/.github/workflows/cbmc-zst-bits2expr.yml b/.github/workflows/cbmc-zst-bits2expr.yml
+index f4796fbdb39515dda0b048d23ecb1d03075f12ad..dbd291da697154796df6142bdf9956e0cefa3dc5 100644
+--- a/.github/workflows/cbmc-zst-bits2expr.yml
++++ b/.github/workflows/cbmc-zst-bits2expr.yml
+@@ -1,22 +1,17 @@
+-name: CBMC ZST bits2expr paired source gate
++name: CBMC ZST environment and util follow-up
+ on:
+   push:
+-    branches: ['ci/zst-bits2expr-*']
++    branches: ['ci/zst-bits2expr-util-z3-*']
+ permissions:
+   contents: read
+ concurrency:
+-  group: cbmc-zst-${{ github.ref }}
++  group: cbmc-zst-util-${{ github.ref }}
+   cancel-in-progress: false
+ jobs:
+-  paired:
++  util:
+     if: github.repository == 'Tiramisu-Cake/cbmc'
+     runs-on: ubuntu-24.04
+     timeout-minutes: 120
+-    strategy:
+-      fail-fast: false
+-      max-parallel: 1
+-      matrix:
+-        variant: [baseline, fix]
+     env:
+       TESTPL_JOBS: '1'
+       TESTPL_COLOR_OUTPUT: '0'
+@@ -28,54 +23,39 @@ jobs:
+           fetch-depth: 0
+           persist-credentials: false
+       - name: Initialize report directory
+-        run: mkdir -p "$GITHUB_WORKSPACE/reports/${{ matrix.variant }}"
+-      - name: Install stock CMake dependencies and pinned formatter
++        run: mkdir -p "$GITHUB_WORKSPACE/reports/fix"
++      - name: Install r2 dependencies plus Z3 and pinned formatter
+         timeout-minutes: 10
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -y gcc-13 g++-13 flex bison make git curl patch cmake perl python3 python3-venv
+-          python3 -m venv "$GITHUB_WORKSPACE/format-env"
+-          "$GITHUB_WORKSPACE/format-env/bin/pip" install clang-format==18.1.8
+-          mkdir -p "$GITHUB_WORKSPACE/toolchain"
+-          ln -s /usr/bin/gcc-13 "$GITHUB_WORKSPACE/toolchain/gcc"
+-          ln -s /usr/bin/g++-13 "$GITHUB_WORKSPACE/toolchain/g++"
+-          echo "$GITHUB_WORKSPACE/toolchain" >> "$GITHUB_PATH"
+-      - name: Prepare exact source and identical test-only overlay
++        run: python3 package/scripts/zst-bits2expr/followup.py install "$GITHUB_WORKSPACE/package" "$GITHUB_WORKSPACE/model" "$GITHUB_WORKSPACE/reports/fix"
++      - name: Prepare exact unchanged fix source
+         timeout-minutes: 5
+-        run: >-
+-          python3 package/scripts/zst-bits2expr/runner.py prepare
+-          '${{ matrix.variant }}' "$GITHUB_WORKSPACE/package"
+-          "$GITHUB_WORKSPACE/model" "$GITHUB_WORKSPACE/reports/${{ matrix.variant }}"
++        run: python3 package/scripts/zst-bits2expr/followup.py prepare "$GITHUB_WORKSPACE/package" "$GITHUB_WORKSPACE/model" "$GITHUB_WORKSPACE/reports/fix"
+       - name: Runner isolated synthetic checks
+         timeout-minutes: 2
+-        run: python3 package/scripts/zst-bits2expr/test_runner.py
+-      - name: Configure and build cbmc and unit only
++        run: |
++          python3 package/scripts/zst-bits2expr/test_runner.py
++          python3 package/scripts/zst-bits2expr/test_followup.py
++      - name: Z3 package path version and check-sat preflight
++        timeout-minutes: 3
++        run: python3 package/scripts/zst-bits2expr/followup.py preflight "$GITHUB_WORKSPACE/package" "$GITHUB_WORKSPACE/model" "$GITHUB_WORKSPACE/reports/fix"
++      - name: Configure and build unit only with r2 flags
+         timeout-minutes: 58
+-        run: >-
+-          python3 package/scripts/zst-bits2expr/runner.py build
+-          '${{ matrix.variant }}' "$GITHUB_WORKSPACE/package"
+-          "$GITHUB_WORKSPACE/model" "$GITHUB_WORKSPACE/reports/${{ matrix.variant }}"
+-      - name: Focused cases then selected neighbours and util units
+-        timeout-minutes: 25
+-        run: >-
+-          python3 package/scripts/zst-bits2expr/runner.py test
+-          '${{ matrix.variant }}' "$GITHUB_WORKSPACE/package"
+-          "$GITHUB_WORKSPACE/model" "$GITHUB_WORKSPACE/reports/${{ matrix.variant }}"
+-      - name: Check source diff formatting with 18.1.8
++        run: python3 package/scripts/zst-bits2expr/followup.py build "$GITHUB_WORKSPACE/package" "$GITHUB_WORKSPACE/model" "$GITHUB_WORKSPACE/reports/fix"
++      - name: Record selection and run focused sanity then remaining util
++        timeout-minutes: 23
++        run: python3 package/scripts/zst-bits2expr/followup.py test "$GITHUB_WORKSPACE/package" "$GITHUB_WORKSPACE/model" "$GITHUB_WORKSPACE/reports/fix"
++      - name: Check unchanged source formatting with 18.1.8
+         if: always()
+         timeout-minutes: 3
+-        run: |
+-          python3 package/scripts/zst-bits2expr/check_format.py "$GITHUB_WORKSPACE/format-env/bin" "$GITHUB_WORKSPACE/reports/${{ matrix.variant }}"
++        run: python3 package/scripts/zst-bits2expr/check_format.py "$GITHUB_WORKSPACE/format-env/bin" "$GITHUB_WORKSPACE/reports/fix"
+       - name: Finalize honest partial or NOT_RUN report
+         if: always()
+-        run: >-
+-          python3 package/scripts/zst-bits2expr/runner.py finalize
+-          '${{ matrix.variant }}' "$GITHUB_WORKSPACE/package"
+-          "$GITHUB_WORKSPACE/model" "$GITHUB_WORKSPACE/reports/${{ matrix.variant }}"
++        timeout-minutes: 2
++        run: python3 package/scripts/zst-bits2expr/followup.py finalize "$GITHUB_WORKSPACE/package" "$GITHUB_WORKSPACE/model" "$GITHUB_WORKSPACE/reports/fix"
+       - uses: actions/upload-artifact@v7
+         if: always()
+         with:
+-          name: cbmc-zst-${{ matrix.variant }}-${{ github.sha }}
+-          path: reports/${{ matrix.variant }}/
++          name: cbmc-zst-util-fix-${{ github.sha }}
++          path: reports/fix/
+           if-no-files-found: error
+           retention-days: 14
+diff --git a/scripts/zst-bits2expr/CI-REQUEST.md b/scripts/zst-bits2expr/CI-REQUEST.md
+index 645b975c248db17f1f2e15c139ab42099a581768..2bb577172d37287a7f5d67cf6f7109812e013dfc 100644
+--- a/scripts/zst-bits2expr/CI-REQUEST.md
++++ b/scripts/zst-bits2expr/CI-REQUEST.md
+@@ -1,126 +1,62 @@
+-# Coordinator handoff: CBMC ZST-BITS2EXPR (NOT_COMPILED)
++# Coordinator handoff: CBMC ZST PRREADY environment/util follow-up
++
++LOCAL ONLY. Only the coordinator may push this CI-only HEAD directly to
++Tiramisu-Cake/cbmc on `ci/zst-bits2expr-util-z3-20261113-prready` and run CI.
++No worker push/dispatch, issue or PR. Cloud $0. Do not push intermediate source
++or change default develop. This branch derives from exact r2 CI-only
++91062c7dba9da7541c0e607a3735482e38d28d36, preserving both coordinator fixes.
++The clean PR head remains cd41a5c74b0c42edf4f08834b3e2808dd3344cab;
++its source/tests/base are unchanged. Workflow deletions never enter that PR.
++
++Exactly one branch-filtered push workflow, one ubuntu-24.04 fix job, 120 min;
++no matrix, baseline/repro/C regression/neighbours rerun and no paired compare.py
++oracle. Those results are REUSED_R2, explicitly linked to
++https://github.com/Tiramisu-Cake/cbmc/actions/runs/43334186094.
++Owner-literal/Kani-like C statuses remain coordinator-reported historical claims.
++No new C verification, Kani replay, Kani#5085/B3 closure or full matrix claim.
++
++No preserved r2 binary artifact with exact hash/source/config receipt was supplied.
++Use a fresh CI build from clean exact cd41 source with r2 configuration:
++CMake Release, WITH_JBMC=OFF, WITH_MEMORY_ANALYZER=OFF, sat_impl=minisat2,
++/usr/bin/gcc-13 and g++-13; build target unit only, parallel 2. Record the
++absolute binary path/hash and CMakeCache hash. Source is a detached worktree;
++CI overlay is not the compilation source. Java and other targets are excluded.
++
++Install r2 dependencies plus Ubuntu z3. Before configure/build/tests, record
++`command -v z3`, dpkg package/version/status and installed paths, binary realpath
++and SHA256, `z3 --version`, and `(check-sat)` through `z3 -in` = sat. Preflight
++failure is SETUP_FAILURE and unit states NOT_RUN. Never filter .z3 tags or edit
++piped_process source/expected values to make the selection green.
++
++Before each invocation persist exact selection, list, actual count and Catch list
++exit. Pinned Catch2 returns the list count (POSIX exit modulo256), not zero.
++The remaining util selection is exactly `[util]~[zst-bits2expr]` (r2 expected212;
++actual count is reported, not forced). Newly built unit also runs all three
++focused unit selections from unchanged r2 config.json. Invocation timeout300s.
++Reporter XML preserves case names, source/line/tags, failed expressions/expanded
++values, original process exit/signal and totals. Parsed names/counts must exactly
++match the predeclared list and totals; every selected case and assertion must
++pass. Truncation, partial XML, missing/wrong-type status and zero selection fail.
++A green job alone is not parsed completeness. If failures remain with Z3 PASS,
++STOP_UNIT_FAILURE; hand off concrete records without asserting patch unrelatedness.
++
++The r2 empty-format-diff acceptance is unchanged (clang-format18.1.8).
++No RLIMIT_FSIZE on configure/build/ar/link. Shared execution now captures stdout
++via pipe with continued drain after retained-log cap (build/install16MiB,
++units/list4MiB); stores rawKiB, retained bytes, overflow bytes, exit/signal/time,
++log hash and per-process memory cap6GiB. Overflow rejects acceptance while
++preserving the producer's actual exit; no SIGPIPE producer. Deadline kills tracked
++descendants/process group; timeout remains timeout. This is not a whole-job RAM cap.
++Install10min, prepare5, synthetic checks2, preflight3, build58, units23,
++format3, finalize2; job120 leaves upload reserve. Build configure600s/compile2700s.
++
++Finalization and bounded report upload use always(), retention14days. Partial
++states remain NOT_RUN/IN_PROGRESS; no automatic PASS on setup failure. FINAL.json
++contains source/package/workflow/runner/followup/binary identities, Z3 receipts,
++format and current states. `ENVIRONMENT_UTIL_GAP_CLOSED` is only the fresh util
++scope, with explicit C evidence reuse; no independent proof credit. Read curated
++coordinator receipts, not raw archives/full logs. Historical results/ledgers remain
++unchanged. The source-only PR checklist and upstream observation are in the
++research prready package. Next action belongs exclusively to the coordinator.
+ 
+-Owner fork: https://github.com/Tiramisu-Cake/cbmc (default develop unchanged).
+-Source base: 107a1e504cd69a2f3483717c8bcfcfa59814c557, tree b5a15d682996f745e0a02004d813e18d08f3a068.
+-Clean source + tests: cd41a5c74b0c42edf4f08834b3e2808dd3344cab, tree 92c03401d6c2a6da069670260244bc021bbdba99.
+-CI branch: ci/zst-bits2expr-20261113-r1. CI-only SHA/tree are in the research CI-MANIFEST.json;
+-this file intentionally cannot contain its own commit SHA. All commits are LOCAL ONLY.
+-
+-Only the coordinator may push the CI-only HEAD to the existing owner fork. Do not push
+-intermediate source HEAD: it inherits upstream workflows. Do not change default develop.
+-The CI-only tree removes every inherited file under .github/workflows (including helper
+-scripts/assets) and leaves exactly cbmc-zst-bits2expr.yml. Its only trigger is push on
+-ci/zst-bits2expr-*. No issue, PR, dispatch or worker push is authorized by this package.
+-Cloud budget $0; Actions quota is separate and controlled by the coordinator.
+-
+-## Recipe and identities
+-
+-One ubuntu-24.04 matrix baseline/fix, max-parallel=1, fail-fast=false, no retries.
+-Package checkout is CI-only HEAD. Execution worktrees are created separately at the
+-exact base/source SHAs. The baseline applies ONLY the regression/unit test delta;
+-its staged tree must be 5ef52ba174f95b3ae51d19805b592a468db3c432.
+-Against the fixed source tree the only difference is src/util/simplify_utils.cpp.
+-Both jobs read the same committed config.json, runner.py and fixture bytes. No old
+-release binary, local build cache or upstream workflow overlay supplies execution code.
+-config.json records test-only patch SHA256 and every source changed path. Reports bind
+-source ref/tree, actual test-overlay tree, package/workflow/scripts, test bytes,
+-compiler/preprocessor/target/configuration, argv and resolved absolute binary SHA256.
+-
+-Stock CMake recipe from pinned COMPILING.md / CMakeLists.txt / unit/CMakeLists.txt:
+-- apt packages: gcc-13 g++-13 flex bison make git curl patch cmake perl python3 python3-venv;
+-  dpkg-query, compiler versions, gcc -dumpmachine and CMake version are reported.
+-- gcc/g++ PATH links resolve to /usr/bin/gcc-13 and /usr/bin/g++-13; compiler options
+-  are explicit. The CBMC C frontend uses GCC preprocessing, GNU extensions, C11,
+-  --gcc --c11 --64 --little-endian (x86_64 Linux, 8-bit bytes, 32-bit int).
+-  gcc-only is an exclusion tag for MSVC, not a dialect flag. Layout assertions bind
+-  target-dependent assumptions; the int backing is union-aligned and fully written.
+-- cmake -S MODEL -B MODEL/build -DCMAKE_BUILD_TYPE=Release -DWITH_JBMC=OFF
+-  -DWITH_MEMORY_ANALYZER=OFF -Dsat_impl=minisat2
+-  -DCMAKE_C_COMPILER=/usr/bin/gcc-13 -DCMAKE_CXX_COMPILER=/usr/bin/g++-13
+-- cmake --build MODEL/build --target cbmc unit --parallel 2
+-- Minisat2 is the pinned source CMake recipe's downloaded dependency, not a release CBMC.
+-  Java submodule is not needed with WITH_JBMC=OFF. No new solver matrix or benchmarks.
+-
+-## Gates and outcomes
+-
+-13 new CORE cases are run independently in both jobs, plus separate literal-owner
+-and Kani-like C inputs. Full explicit lists and focused unit names are in config.json.
+-No crashing test can hide another C case: each invocation has its own output/result.
+-From MODEL/regression/cbmc the runner calls:
+-  ../test.pl -C -p -e -t 90 -s zst-ci -c "ABS_CBMC --gcc --c11 --64 --little-endian --validate-goto-model --validate-ssa-equation" CASE
+-The -e option matches EXIT/SIGNAL descriptors in pinned regression/test.pl. Actual
+-CBMC commands (including each descriptor's flags/input) are retained in testpl.log.
+-The literal and Kani-like fixtures use the same binary and global flags directly.
+-
+-Positive: exit0, signal0, VERIFICATION SUCCESSFUL, no invariant/failed property.
+-Negative: exit10, signal0, VERIFICATION FAILED, exactly one failed property named
+-zst-payload-negative, no extra failure. A crash or generic failure never satisfies it.
+-Baseline is expected to be RED as a verification suite: observed array invariant
+-on both deref and literal is recorded separately as INVARIANT_OBSERVED; it is not
+-suite PASS. Baseline memcpy must pass. If develop does not reproduce the pinned
+-array invariant (exit134 or SIGABRT), report STOP_DEVELOP_REPRO_NOT_ESTABLISHED;
+-do not transfer the historical 6.11.0 result or grant credit. The fixed matrix job
+-still executes independently; coordinator stops further work if the baseline gate fails.
+-
+-After all fixed focused C cases pass: three focused unit tests separately, then
+-13 explicit neighbour directories (14 descriptors: byte_extract1 has two) and
+-unit selection [util]~[zst-bits2expr]. Zero selection is failure. Neighbour descriptors
+-include intentional exit10 checks; their own full oracles remain authoritative.
+-No CTest/default CORE/full make test is invoked and no full suite is run twice.
+-Baseline neighbour/unit stages remain explicit NOT_RUN after its focused failure.
+-
+-The small array neighbour list is Array_Initialization1/2, Array_Propagation1,
+-Array_Access1. Other neighbours are Empty_struct1/2/3, empty_compound_type2/3/4,
+-byte_extract1, Struct_Bytewise1, union-unequal-element-size1. Selection was checked
+-against pinned files and actual descriptors; names alone are not coverage claims.
+-
+-## Limits and reports
+-
+-Job120min; install10min; prepare5min; runner self-check2min; configure600s;
+-compile2700s; combined build step58min; testing step25min; format3min. Reserve
+-remains for finalization/upload; hard job cancellation may leave reports incomplete.
+-Per C input90s; test.pl outer envelope90s*descriptor_count+60s; unit invocation300s.
+-Process address-space cap6GiB, no core dumps, compiler parallelism2, tests serial.
+-No whole-job memory guarantee is claimed; unexplained kill/OOM remains UNKNOWN,
+-with original exit/signal preserved. Tests are NOT_RUN on build failure. Stage/case
+-states are written before execution so interruption remains IN_PROGRESS, never PASS.
+-Per-case raw bytes/KiB, elapsed time, output/descriptor/input hashes, complete failed
+-properties, EXIT/SIGNAL, and original runner exit are in bounded reports. Per process
+-log caps: configure/build16MiB, test.pl4MiB, direct CBMC1MiB, unit4MiB. Any output
+-limit or timeout rejects the oracle. No grep/head acceptance or swallowed failure.
+-Synthetic Python runner checks exercise error/timeout/partial/missing/null/wrong-type,
+-NOT_RUN and source-stage-target mismatch, without executing a compiler or verifier.
+-
+-Format check uses pip clang-format==18.1.8 and git-clang-format --diff BASE SOURCE;
+-it runs without altering source. A formatting failure fails that job. Locally formatter
+-was unavailable: NOT_RUN. Actual C/C++ compilation and CBMC/unit/regression results
+-are all NOT_RUN in this worker session. Source static review is not a compiled PASS.
+-
+-Upload bounded reports with always(), retention14days, including FINAL.json and
+-per-case JSON. Finalization prints a bounded identity/status summary. Coordinator
+-compares only approved bounded reports; do not fetch raw CI/GCS archives/full logs.
+-Using the two bounded FINAL.json files, compare.py rejects source/tree/overlay/input/
+-toolchain mismatches and missing controls. Its successful label is a measured C-input
+-comparison, not independent formal proof credit. The baseline job remains red.
+-The literal input is byte-identical to the research owner-literal.c; strengthened
+-zst-bits2expr-deref checks every pad byte. Kani-like padded-union C is not actual
+-Kani/Rust replay and does not close Kani#5085/case B. Do not revert the B3 workaround.
+-
+-After paired CI the owner decides issue -> PR to upstream develop; broader regression
+-needs separate coordinator agreement. Required future PR disclosure:
+ Disclosure: this change and description were prepared with the help of AI assistants.
+-STOP here: SOURCE_AND_CI_PACKAGE_READY / NOT_COMPILED. No worker CI was run.
+-
+-## R1 preparation repair
+-
+-Coordinator reports run 43329473713 on the previous package failed both variants
+-before compilation: patch SHA mismatch, plus a source formatting diff from 18.1.8.
+-The source contains exactly the supplied formatting patch. The runner now emits
+-full 40-character index IDs and pins patch display options, retaining the patch
+-SHA, exact source parent/tree, overlay tree, changed-path and test-byte checks.
+-config.json pins the regenerated patch SHA and formatted source/overlay trees.
+-Synthetic Git fixtures exercise abbreviation/display differences, both variants
+-and rejection of wrong patch SHA, overlay/source tree and changed paths. Existing
+-process/oracle checks remain. Actual paired preparation/builds/CI remain for the
+-coordinator; this worker runs only static and isolated synthetic checks.
+-Use the new R1 branch; no force push or rewrite of the previously published branch.
+diff --git a/scripts/zst-bits2expr/followup.py b/scripts/zst-bits2expr/followup.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..328638d320022295186be3c07e5183a714e48bbf
+--- /dev/null
++++ b/scripts/zst-bits2expr/followup.py
+@@ -0,0 +1,325 @@
++#!/usr/bin/env python3
++"""Coordinator-only fix/unit follow-up; historical paired evidence is reused."""
++from collections import Counter
++import json
++import os
++from pathlib import Path
++import shutil
++import sys
++import xml.etree.ElementTree as ET
++import runner as r
++
++SELECTION = '[util]~[zst-bits2expr]'
++R2 = 'https://github.com/Tiramisu-Cake/cbmc/actions/runs/43334186094'
++
++
++def exited(record, code=0):
++    return (isinstance(record, dict) and record.get('status') == 'EXITED'
++            and type(record.get('exit')) is int and record['exit'] == code
++            and type(record.get('signal')) is int and record['signal'] == 0
++            and record.get('complete') is True)
++
++
++def load(report):
++    return json.loads((report / 'identity.json').read_text())
++
++
++def store(report, meta):
++    r.save(report / 'identity.json', meta)
++
++
++def prepare(package, model, report):
++    r.prepare(package, model, report, 'fix')
++    meta = load(report)
++    meta.update(scope='environment/util gap only', unit_focused='NOT_RUN',
++                unit_neighbours='NOT_RUN', z3_preflight='NOT_RUN',
++                result='NOT_RUN', binary_mode='NEW_BUILD_UNIT_ONLY',
++                baseline='REUSED_R2', focused='REUSED_R2', neighbours='REUSED_R2',
++                historical_evidence={'url': R2, 'ci_sha': '91062c7dba9da7541c0e607a3735482e38d28d36',
++                                     'assurance': 'coordinator-reported; not rerun here'},
++                selection=SELECTION, r2_expected_count=212,
++                followup_sha256=r.sha(r.HERE / 'followup.py'))
++    meta['case_states'] = {name: 'REUSED_R2' for name in meta['case_states']}
++    meta['fixture_states'] = {name: 'REUSED_R2' for name in meta['fixture_states']}
++    store(report, meta)
++
++
++def install(package, report):
++    workspace = package.parent
++    formatter = workspace / 'format-env'
++    stages = [('apt-update', ['sudo', 'apt-get', 'update'], 120),
++              ('apt-install', ['sudo', 'apt-get', 'install', '--no-install-recommends', '-y',
++                               'gcc-13', 'g++-13', 'flex', 'bison', 'make', 'git', 'curl',
++                               'patch', 'cmake', 'perl', 'python3', 'python3-venv', 'z3'], 300),
++              ('formatter-venv', ['python3', '-m', 'venv', str(formatter)], 30),
++              ('formatter-install', [str(formatter / 'bin/pip'), 'install', 'clang-format==18.1.8'], 90)]
++    receipt = {'status': 'IN_PROGRESS', 'stages': {name: 'NOT_RUN' for name, _, _ in stages}}
++    r.save(report / 'install-result.json', receipt)
++    for name, argv, timeout in stages:
++        receipt['stages'][name] = r.execute(argv, package, report / (name + '.log'), timeout, None)
++        if not exited(receipt['stages'][name]):
++            receipt['status'] = 'SETUP_FAILURE'
++            r.save(report / 'install-result.json', receipt)
++            return 1
++        r.save(report / 'install-result.json', receipt)
++    toolchain = workspace / 'toolchain'
++    toolchain.mkdir()
++    (toolchain / 'gcc').symlink_to('/usr/bin/gcc-13')
++    (toolchain / 'g++').symlink_to('/usr/bin/g++-13')
++    with open(os.environ['GITHUB_PATH'], 'a') as stream:
++        stream.write(str(toolchain) + '\n')
++    receipt['status'] = 'PASS'
++    r.save(report / 'install-result.json', receipt)
++    return 0
++
++
++def preflight(model, report):
++    meta = load(report)
++    meta['z3_preflight'] = 'IN_PROGRESS'
++    store(report, meta)
++    stages = [('z3-command', ['bash', '-c', 'command -v z3']),
++              ('z3-package', ['dpkg-query', '-W', '-f=${Package}\t${Version}\t${Status}\n', 'z3']),
++              ('z3-package-files', ['dpkg-query', '-L', 'z3']),
++              ('z3-version', ['z3', '--version']),
++              ('z3-check-sat', ['bash', '-o', 'pipefail', '-c', "printf '(check-sat)\\n' | z3 -in"])]
++    meta['z3_stages'] = {}
++    for name, argv in stages:
++        record = r.execute(argv, model, report / (name + '.log'), 30)
++        meta['z3_stages'][name] = record
++        text = (report / (name + '.log')).read_text().strip()
++        ok = exited(record)
++        if name == 'z3-command':
++            path = shutil.which('z3')
++            ok = ok and path is not None and text == path
++            if ok:
++                resolved = Path(path).resolve(strict=True)
++                meta['z3_binary'] = {'path': path, 'realpath': str(resolved), 'sha256': r.sha(resolved)}
++        if name == 'z3-package':
++            fields = text.split('\t')
++            ok = ok and len(fields) == 3 and fields[0] == 'z3' and bool(fields[1]) and fields[2] == 'install ok installed'
++            if ok:
++                meta['z3_package_version'] = fields[1]
++        if name == 'z3-package-files':
++            paths = text.splitlines()
++            binary = meta.get('z3_binary', {})
++            ok = ok and binary.get('path') in paths and binary.get('realpath') in paths
++        if name == 'z3-version':
++            meta['z3_version'] = text
++            ok = ok and text.startswith('Z3 version ')
++        if name == 'z3-check-sat':
++            ok = ok and text == 'sat'
++        if not ok:
++            meta.update(z3_preflight='FAILED', result='SETUP_FAILURE',
++                        unit_focused='NOT_RUN', unit_neighbours='NOT_RUN')
++            store(report, meta)
++            return 1
++        store(report, meta)
++    meta['z3_preflight'] = 'PASS'
++    store(report, meta)
++    return 0
++
++
++def build(model, report):
++    meta = load(report)
++    assert meta['z3_preflight'] == 'PASS'
++    assert Path(shutil.which('gcc')).resolve() == Path('/usr/bin/gcc-13').resolve()
++    meta['preprocessor'] = {'path': shutil.which('gcc'), 'realpath': str(Path(shutil.which('gcc')).resolve())}
++    stages = [('compiler-c', ['/usr/bin/gcc-13', '--version'], 30),
++              ('compiler-cxx', ['/usr/bin/g++-13', '--version'], 30),
++              ('preprocessor-version', ['gcc', '--version'], 30),
++              ('target', ['gcc', '-dumpmachine'], 30),
++              ('cmake-version', ['cmake', '--version'], 30),
++              ('packages', ['dpkg-query', '-W', 'gcc-13', 'g++-13', 'flex', 'bison',
++                            'cmake', 'make', 'patch', 'perl', 'python3', 'z3'], 30),
++              ('configure', ['cmake', '-S', str(model), '-B', str(model / 'build'),
++                             '-DCMAKE_BUILD_TYPE=Release', '-DWITH_JBMC=OFF',
++                             '-DWITH_MEMORY_ANALYZER=OFF', '-Dsat_impl=minisat2',
++                             '-DCMAKE_C_COMPILER=/usr/bin/gcc-13',
++                             '-DCMAKE_CXX_COMPILER=/usr/bin/g++-13'], 600),
++              ('compile', ['cmake', '--build', str(model / 'build'),
++                           '--target', 'unit', '--parallel', '2'], 2700)]
++    meta['build'] = 'IN_PROGRESS'
++    meta['build_stages'] = {name: 'NOT_RUN' for name, _, _ in stages}
++    store(report, meta)
++    for name, argv, timeout in stages:
++        meta['build_stages'][name] = {'status': 'IN_PROGRESS', 'argv': argv}
++        store(report, meta)
++        record = r.execute(argv, model, report / (name + '.log'), timeout, None)
++        meta['build_stages'][name] = record
++        if not exited(record):
++            meta.update(build='FAILED', result='SETUP_FAILURE')
++            store(report, meta)
++            return 1
++        store(report, meta)
++    binary = (model / 'build/bin/unit').resolve(strict=True)
++    meta['binaries'] = {'unit': {'path': str(binary), 'sha256': r.sha(binary)}}
++    shutil.copyfile(model / 'build/CMakeCache.txt', report / 'CMakeCache.txt')
++    meta.update(build='BUILT', cmake_cache_sha256=r.sha(report / 'CMakeCache.txt'))
++    store(report, meta)
++    return 0
++
++
++def names_from_list(record, text):
++    # Pinned Catch 2 returns the list count as its exit status, modulo 256 on POSIX.
++    names = text.splitlines()
++    if not names or any(not name.strip() for name in names) or len(set(names)) != len(names):
++        raise ValueError('missing/invalid/duplicate selected test names')
++    if not exited(record, len(names) % 256):
++        raise ValueError('incomplete list or unexpected Catch listing exit')
++    return names
++
++
++def counts_from(node):
++    if node is None:
++        raise ValueError('missing totals')
++    values = {}
++    for key in ('successes', 'failures', 'expectedFailures'):
++        text = node.attrib[key]
++        if not text or not text.isascii() or not text.isdecimal():
++            raise ValueError('invalid total: ' + key)
++        values[key] = int(text)
++    return values
++
++
++def parse_xml(text, names, execution):
++    root = ET.fromstring(text)
++    if root.tag != 'Catch':
++        raise ValueError('wrong reporter root')
++    totals = root.find('OverallResultsCases')
++    assertions = root.find('OverallResults')
++    if totals is None or assertions is None:
++        raise ValueError('missing run totals')
++    counts = counts_from(totals)
++    assertion_counts = counts_from(assertions)
++    groups = root.findall('Group')
++    if not groups:
++        raise ValueError('missing groups')
++    for tag, expected in (('OverallResults', assertion_counts), ('OverallResultsCases', counts)):
++        group_counts = [counts_from(group.find(tag)) for group in groups]
++        if any(sum(group[key] for group in group_counts) != expected[key] for key in expected):
++            raise ValueError('group totals differ from run totals')
++    cases = []
++    for case in root.findall('./Group/TestCase'):
++        outcome = case.find('OverallResult')
++        if outcome is None or outcome.get('success') not in ('true', 'false'):
++            raise ValueError('missing/wrong case outcome')
++        row = {'name': case.attrib['name'], 'source': case.attrib['filename'],
++               'line': int(case.attrib['line']), 'tags': case.attrib['tags'],
++               'passed': outcome.get('success') == 'true',
++               'execution_exit': execution.get('exit'), 'execution_signal': execution.get('signal'),
++               'failures': []}
++        for node in case.iter():
++            if (node.tag == 'Expression' and node.get('success') == 'false') or node.tag in (
++                    'Exception', 'FatalErrorCondition', 'Failure'):
++                row['failures'].append({'kind': node.tag, 'attributes': dict(node.attrib),
++                                        'text': ''.join(node.itertext()).strip()})
++        cases.append(row)
++    if Counter(row['name'] for row in cases) != Counter(names):
++        raise ValueError('parsed records differ from predeclared selection')
++    if sum(counts.values()) != len(cases):
++        raise ValueError('run totals differ from parsed records')
++    if counts['successes'] != sum(row['passed'] for row in cases):
++        raise ValueError('case outcomes and totals differ')
++    # No expected-failure bypass: all selected cases and assertions must pass.
++    ok = (exited(execution) and counts['successes'] == len(names)
++          and counts['failures'] == counts['expectedFailures'] == 0
++          and assertion_counts['failures'] == assertion_counts['expectedFailures'] == 0
++          and all(row['passed'] and not row['failures'] for row in cases))
++    return {'parsed_complete': True, 'actual_count': len(cases), 'counts': counts,
++            'assertion_counts': assertion_counts,
++            'cases': cases, 'all_selected_passed': ok}
++
++
++def run_selection(model, report, meta, selection, label):
++    binary = meta['binaries']['unit']['path']
++    listing = r.execute([binary, selection, '--list-test-names-only', '--order', 'lex'],
++                        model / 'unit', report / (label + '-list.log'), 30, 4 * r.LIMIT)
++    names = names_from_list(listing, (report / (label + '-list.log')).read_text())
++    r.save(report / (label + '-selection.json'), {'selection': selection, 'names': names,
++           'actual_count': len(names), 'r2_expected_count': 212 if selection == SELECTION else 1,
++           'listing_execution': listing, 'source_sha': meta['source_ref'],
++           'binary': meta['binaries']['unit'], 'status': 'RECORDED_BEFORE_TEST_EXECUTION'})
++    execution = r.execute([binary, selection, '--reporter', 'xml', '--order', 'lex'],
++                          model / 'unit', report / (label + '.xml'), 300, 4 * r.LIMIT)
++    result = {'selection': selection, 'execution': execution, 'parsed_complete': False,
++              'all_selected_passed': False, 'binary': meta['binaries']['unit'],
++              'source_sha': meta['source_ref'], 'package_sha': meta['package_sha']}
++    try:
++        result.update(parse_xml((report / (label + '.xml')).read_text(), names, execution))
++    except (ET.ParseError, ValueError, KeyError, TypeError) as error:
++        result['parse_error'] = str(error)
++    r.save(report / (label + '-result.json'), result)
++    return result
++
++
++def tests(model, report):
++    meta = load(report)
++    cfg = r.config()
++    assert meta['z3_preflight'] == 'PASS', 'preflight failure means tests NOT_RUN'
++    assert r.identity_ok(meta, 'fix', cfg), 'source-stage-target mismatch'
++    assert meta['source_ref_tree'] == meta['test_overlay_tree'] == cfg['source_tree']
++    assert r.git(model, 'rev-parse', 'HEAD') == cfg['source_sha']
++    assert r.git(model, 'write-tree') == cfg['source_tree']
++    assert not r.git(model, 'diff', '--name-only', 'HEAD', '--', 'src', 'unit', 'regression')
++    binary = meta['binaries']['unit']
++    assert r.sha(binary['path']) == binary['sha256']
++    meta['unit_focused'] = 'IN_PROGRESS'
++    store(report, meta)
++    focused = []
++    for index, selection in enumerate(cfg['unit_focused']):
++        meta['unit_states'][selection] = 'IN_PROGRESS'
++        store(report, meta)
++        result = run_selection(model, report, meta, selection, 'unit-focused-' + str(index))
++        focused.append(result)
++        meta['unit_states'][selection] = 'PASS' if result['all_selected_passed'] else 'FAILED'
++        store(report, meta)
++    meta['unit_focused'] = 'PASS' if all(row['all_selected_passed'] for row in focused) else 'FAILED'
++    meta['unit_neighbours'] = 'IN_PROGRESS'
++    meta['unit_states'][SELECTION] = 'IN_PROGRESS'
++    store(report, meta)
++    util = run_selection(model, report, meta, SELECTION, 'unit-util')
++    meta['unit_neighbours'] = 'PASS' if util['all_selected_passed'] else 'FAILED'
++    meta['unit_states'][SELECTION] = meta['unit_neighbours']
++    meta['util_actual_count'] = util.get('actual_count')
++    meta['util_parsed_complete'] = util['parsed_complete']
++    meta['result'] = ('ENVIRONMENT_UTIL_GAP_CLOSED' if meta['unit_focused'] ==
++                      meta['unit_neighbours'] == 'PASS' else 'STOP_UNIT_FAILURE')
++    store(report, meta)
++    return 0 if meta['result'] == 'ENVIRONMENT_UTIL_GAP_CLOSED' else 1
++
++
++def finalize(report):
++    meta = load(report) if (report / 'identity.json').exists() else {
++        'result': 'SETUP_FAILURE', 'reason': 'PREPARE_INCOMPLETE',
++        'build': 'NOT_RUN', 'z3_preflight': 'NOT_RUN',
++        'unit_focused': 'NOT_RUN', 'unit_neighbours': 'NOT_RUN'}
++    path = report / 'format-result.json'
++    meta['format'] = json.loads(path.read_text()) if path.exists() else {'oracle_met': False, 'status': 'NOT_RUN'}
++    meta['proof_credit'] = False
++    meta['note'] = 'Environment/util follow-up only; paired C evidence REUSED_R2; no Kani replay/full matrix.'
++    r.save(report / 'FINAL.json', meta)
++    summary = {key: meta.get(key) for key in ('result', 'build', 'z3_preflight',
++               'unit_focused', 'unit_neighbours', 'util_actual_count', 'util_parsed_complete',
++               'source_ref', 'package_sha', 'binaries', 'format')}
++    print(json.dumps(summary, indent=2))
++    return 0 if meta['result'] == 'ENVIRONMENT_UTIL_GAP_CLOSED' and meta['format'].get('oracle_met') is True else 1
++
++
++def main():
++    action, package_arg, model_arg, report_arg = sys.argv[1:]
++    package, model, report = map(lambda value: Path(value).resolve(), (package_arg, model_arg, report_arg))
++    report.mkdir(parents=True, exist_ok=True)
++    if action == 'prepare':
++        prepare(package, model, report)
++        return 0
++    if action == 'finalize':
++        return finalize(report)
++    if os.environ.get('GITHUB_ACTIONS') != 'true':
++        raise RuntimeError('build/preflight/test restricted to owner Actions coordinator')
++    if action == 'install':
++        return install(package, report)
++    return {'preflight': preflight, 'build': build, 'test': tests}[action](model, report)
++
++
++if __name__ == '__main__':
++    sys.exit(main())
+diff --git a/scripts/zst-bits2expr/runner.py b/scripts/zst-bits2expr/runner.py
+index f0660c20e100fa0d7b72845074b2394af6731faa..031b316313397bf309e19901e91c23c1c8de380b 100644
+--- a/scripts/zst-bits2expr/runner.py
++++ b/scripts/zst-bits2expr/runner.py
+@@ -6,6 +6,7 @@ import os
+ from pathlib import Path
+ import re
+ import resource
++import selectors
+ import shutil
+ import signal
+ import subprocess
+@@ -57,37 +58,60 @@ def execute(argv, cwd, log, seconds, output_limit=LIMIT):
+               'status': 'NOT_RUN', 'timeout_seconds': seconds,
+               'memory_limit_bytes_per_process': MEMORY,
+               'output_limit_bytes': output_limit}
++    # Drain the pipe after the retained-log cap; never kill ar/ld with RLIMIT_FSIZE.
++    # None remains the r2 build API, with a bounded 16 MiB retained log.
++    cap = output_limit if output_limit is not None else 16 * LIMIT
++    record['output_limit_bytes'] = cap
++    record['file_size_limit'] = None
+     log = Path(log)
++    raw_bytes = 0
++    stored_bytes = 0
++    timed_out = False
+     with log.open('wb') as stream:
+         try:
+-            proc = subprocess.Popen(argv, cwd=cwd, stdout=stream,
++            proc = subprocess.Popen(argv, cwd=cwd, stdout=subprocess.PIPE,
+                                     stderr=subprocess.STDOUT,
+                                     start_new_session=True,
+-                                    preexec_fn=lambda: limits(output_limit))
++                                    preexec_fn=lambda: limits(None))
+         except OSError as error:
+             record.update(status='START_ERROR', error=str(error), exit=None,
+                           signal=None)
+         else:
+-            try:
+-                rc = proc.wait(timeout=seconds)
+-                record.update(status='EXITED', exit=rc if rc >= 0 else None,
+-                              signal=-rc if rc < 0 else 0)
+-            except subprocess.TimeoutExpired:
+-                for pid in descendants(proc.pid):
+-                    try:
+-                        os.kill(pid, signal.SIGKILL)
+-                    except ProcessLookupError:
+-                        pass
+-                os.killpg(proc.pid, signal.SIGKILL)
+-                rc = proc.wait()
+-                record.update(status='TIMEOUT', exit=None,
+-                              signal=-rc if rc < 0 else 0)
++            with selectors.DefaultSelector() as selector:
++                selector.register(proc.stdout, selectors.EVENT_READ)
++                while selector.get_map() or proc.poll() is None:
++                    if not timed_out and time.monotonic() - start >= seconds:
++                        timed_out = True
++                        for pid in descendants(proc.pid):
++                            try:
++                                os.kill(pid, signal.SIGKILL)
++                            except ProcessLookupError:
++                                pass
++                        try:
++                            os.killpg(proc.pid, signal.SIGKILL)
++                        except ProcessLookupError:
++                            pass
++                    for key, _ in selector.select(.05):
++                        chunk = os.read(key.fd, 65536)
++                        if not chunk:
++                            selector.unregister(key.fileobj)
++                            continue
++                        raw_bytes += len(chunk)
++                        retained = chunk[:max(0, cap - stored_bytes)]
++                        stream.write(retained)
++                        stored_bytes += len(retained)
++            rc = proc.wait()
++            proc.stdout.close()
++            record.update(status='TIMEOUT' if timed_out else 'EXITED',
++                          exit=rc if rc >= 0 else None,
++                          signal=-rc if rc < 0 else 0)
+     record.update(seconds=time.monotonic() - start,
+-                  rawKiB=log.stat().st_size / 1024,
++                  rawKiB=raw_bytes / 1024, retained_bytes=stored_bytes,
++                  overflow_bytes=raw_bytes - stored_bytes,
+                   log_sha256=sha(log),
+                   children_maxrss_KiB=resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss)
+-    record['complete'] = output_limit is None or log.stat().st_size < output_limit
+-    if not record['complete']:
++    record['complete'] = raw_bytes <= cap
++    if not record['complete'] and record['status'] == 'EXITED':
+         record['status'] = 'OUTPUT_LIMIT'
+     save(log.with_suffix('.json'), record)
+     return record
+diff --git a/scripts/zst-bits2expr/test_followup.py b/scripts/zst-bits2expr/test_followup.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..dd43b359327be0230e919cc8257211a1f850b1e3
+--- /dev/null
++++ b/scripts/zst-bits2expr/test_followup.py
+@@ -0,0 +1,150 @@
++#!/usr/bin/env python3
++"""Synthetic runner tests only: no local compiler, Z3, or verification."""
++import copy
++import json
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++from unittest.mock import patch
++import followup as f
++import runner as r
++
++EXEC = {'status': 'EXITED', 'exit': 0, 'signal': 0, 'complete': True}
++XML = '''<Catch><Group name="unit"><TestCase name="one" filename="unit/util/test.cpp" line="7" tags="[util]">
++<OverallResult success="true"/></TestCase><OverallResults successes="1" failures="0" expectedFailures="0"/>
++<OverallResultsCases successes="1" failures="0" expectedFailures="0"/></Group>
++<OverallResults successes="1" failures="0" expectedFailures="0"/>
++<OverallResultsCases successes="1" failures="0" expectedFailures="0"/></Catch>'''
++
++
++class Followup(unittest.TestCase):
++    def test_xml_success_and_failure_details(self):
++        self.assertTrue(f.parse_xml(XML, ['one'], EXEC)['all_selected_passed'])
++        failed = XML.replace('<OverallResult success="true"/>', '''<Expression success="false" filename="unit/util/test.cpp" line="9">
++<Original>response == "sat"</Original><Expanded>"Launching" == "sat"</Expanded></Expression>
++<OverallResult success="false"/>''').replace('successes="1" failures="0"', 'successes="0" failures="1"')
++        parsed = f.parse_xml(failed, ['one'], dict(EXEC, exit=1))
++        self.assertFalse(parsed['all_selected_passed'])
++        self.assertEqual(parsed['cases'][0]['failures'][0]['attributes']['line'], '9')
++        self.assertIn('Launching', parsed['cases'][0]['failures'][0]['text'])
++        self.assertEqual(parsed['cases'][0]['execution_exit'], 1)
++
++    def test_status_partial_missing_null_wrong_type_and_counts(self):
++        for changed in ({'status': 'TIMEOUT'}, {'status': 'NOT_RUN'}, {'complete': False},
++                        {'exit': None}, {'exit': '0'}, {'exit': False}, {'signal': 9}, {'signal': '0'}):
++            self.assertFalse(f.parse_xml(XML, ['one'], dict(EXEC, **changed))['all_selected_passed'])
++        for value in (None, {}, {'status': 'NOT_RUN'}):
++            self.assertFalse(f.exited(value))
++        for text, names in ((XML, ['other']), (XML, []),
++                            (XML.replace('successes="1"', 'successes="2"'), ['one']),
++                            (XML.replace('<OverallResult success="true"/>', ''), ['one']),
++                            (XML.replace('success="true"', 'success="null"'), ['one'])):
++            with self.assertRaises((ValueError, KeyError)):
++                f.parse_xml(text, names, EXEC)
++        with self.assertRaises(f.ET.ParseError):
++            f.parse_xml(XML[:-8], ['one'], EXEC)
++
++    def test_all_assertion_totals_required_and_consistent(self):
++        for field in ('successes', 'failures', 'expectedFailures'):
++            for value in (None, 'null', 'wrong-type', '-1', '1.5', ''):
++                root = f.ET.fromstring(XML)
++                node = root.find('OverallResults')
++                if value is None:
++                    del node.attrib[field]
++                else:
++                    node.set(field, value)
++                with self.assertRaises((ValueError, KeyError)):
++                    f.parse_xml(f.ET.tostring(root, encoding='unicode'), ['one'], EXEC)
++        root = f.ET.fromstring(XML)
++        root.find('OverallResults').set('successes', '2')
++        with self.assertRaisesRegex(ValueError, 'group totals'):
++            f.parse_xml(f.ET.tostring(root, encoding='unicode'), ['one'], EXEC)
++
++    def test_list_exit_is_catch_count_not_zero(self):
++        self.assertEqual(f.names_from_list(dict(EXEC, exit=2), 'one\ntwo\n'), ['one', 'two'])
++        names = ''.join('case' + str(i) + '\n' for i in range(260))
++        self.assertEqual(len(f.names_from_list(dict(EXEC, exit=4), names)), 260)
++        for rec, text in ((EXEC, ''), (EXEC, 'one\n'), (dict(EXEC, exit=2), 'one\none\n'),
++                          (dict(EXEC, exit=1, complete=False), 'one\n')):
++            with self.assertRaises(ValueError):
++                f.names_from_list(rec, text)
++
++    def test_preflight_failure_keeps_units_not_run(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            report = Path(tmp)
++            r.save(report / 'identity.json', {'z3_preflight': 'NOT_RUN'})
++            def missing(argv, cwd, log, timeout):
++                Path(log).write_text('')
++                return dict(EXEC, exit=1)
++            with patch.object(r, 'execute', side_effect=missing):
++                self.assertEqual(f.preflight(report, report), 1)
++            meta = f.load(report)
++            self.assertEqual(meta['result'], 'SETUP_FAILURE')
++            self.assertEqual(meta['unit_neighbours'], 'NOT_RUN')
++            self.assertEqual(meta['unit_focused'], 'NOT_RUN')
++
++    def test_z3_preflight_package_binding_success_and_failure(self):
++        for scenario in ('success', 'not-installed', 'wrong-path'):
++            with tempfile.TemporaryDirectory() as tmp:
++                report = Path(tmp)
++                binary = report / 'z3'
++                binary.write_text('synthetic binary bytes, never executed')
++                r.save(report / 'identity.json', {'z3_preflight': 'NOT_RUN'})
++                outputs = {'z3-command': str(binary),
++                           'z3-package': 'z3\t4.8.12-3\tinstall ok installed',
++                           'z3-package-files': str(binary),
++                           'z3-version': 'Z3 version 4.8.12 - 64 bit',
++                           'z3-check-sat': 'sat'}
++                if scenario == 'not-installed':
++                    outputs['z3-package'] = 'z3\t4.8.12-3\tdeinstall ok config-files'
++                if scenario == 'wrong-path':
++                    outputs['z3-package-files'] = '/another/z3'
++                def execute(argv, cwd, log, timeout):
++                    Path(log).write_text(outputs[Path(log).stem] + '\n')
++                    return dict(EXEC)
++                with patch.object(r, 'execute', side_effect=execute), \
++                        patch.object(f.shutil, 'which', return_value=str(binary)):
++                    self.assertEqual(f.preflight(report, report), 0 if scenario == 'success' else 1)
++                meta = f.load(report)
++                self.assertEqual(meta['z3_preflight'], 'PASS' if scenario == 'success' else 'FAILED')
++                if scenario != 'success':
++                    self.assertEqual(meta['unit_neighbours'], 'NOT_RUN')
++
++    def test_source_stage_target_guard_before_any_test(self):
++        base = {'variant': 'fix', 'source_ref': r.config()['source_sha'],
++                'test_delta_sha256': r.config()['test_delta_sha256'],
++                'flags': r.FLAGS, 'build': 'BUILT', 'z3_preflight': 'PASS'}
++        for changed in ({'variant': 'baseline'}, {'source_ref': r.BASE},
++                        {'build': 'NOT_RUN'}, {'test_delta_sha256': None},
++                        {'flags': []}, {'z3_preflight': 'FAILED'}):
++            with tempfile.TemporaryDirectory() as tmp:
++                report = Path(tmp)
++                r.save(report / 'identity.json', dict(base, **changed))
++                with patch.object(r, 'execute') as execute:
++                    with self.assertRaises(AssertionError):
++                        f.tests(report, report)
++                    execute.assert_not_called()
++
++    def test_drain_overflow_preserves_original_exit_and_build_file_size(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            # This producer must finish even after its retained log fills.
++            code = ('from pathlib import Path; import sys; '
++                    'print("x" * 200000); Path("completed").write_text("yes"); sys.exit(7)')
++            rec = r.execute([sys.executable, '-c', code], root, root / 'overflow.log', 3, 1024)
++            self.assertEqual(rec['exit'], 7)
++            self.assertEqual(rec['status'], 'OUTPUT_LIMIT')
++            self.assertGreater(rec['overflow_bytes'], 0)
++            self.assertEqual((root / 'completed').read_text(), 'yes')
++            self.assertEqual((root / 'overflow.log').stat().st_size, 1024)
++            code = ('import resource; from pathlib import Path; '
++                    'assert resource.getrlimit(resource.RLIMIT_FSIZE)[0] == resource.RLIM_INFINITY; '
++                    'Path("library.a").write_bytes(b"a" * 200000)')
++            rec = r.execute([sys.executable, '-c', code], root, root / 'build.log', 3, None)
++            self.assertTrue(f.exited(rec))
++            self.assertIsNone(rec['file_size_limit'])
++
++
++if __name__ == '__main__':
++    unittest.main()

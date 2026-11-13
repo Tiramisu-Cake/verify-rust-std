@@ -1,0 +1,93 @@
+{
+  "stage": "CBMC-ZST-PRREADY",
+  "prepared_utc": "2026-11-13T00:55:22.829550+00:00",
+  "task": "/root/verify-rust-std-kani3300-t0/research/challenge-8/kani-k1/TASK-CBMC-ZST-PRREADY.md",
+  "task_sha256": "070e4577f78b4516a51daa51ef724e31346450191e7a61b08a85f9cd669fae89",
+  "research_branch": "experiment/kani-k1-kani3300t0-20261111",
+  "research_start_head": "25883c21a4f0961fb306efdbb645468c92ff33f8",
+  "research_after_fetch_head": "25883c21a4f0961fb306efdbb645468c92ff33f8",
+  "research_fetched_origin": "b4654d4f22573a4ab07a9ff8cfb7264e6b7fca11",
+  "research_sync": "git fetch then merge --ff-only: Already up to date; local supplied planner commit ahead1; no rebase needed",
+  "source": {
+    "sha": "cd41a5c74b0c42edf4f08834b3e2808dd3344cab",
+    "parent": "107a1e504cd69a2f3483717c8bcfcfa59814c557",
+    "tree": "92c03401d6c2a6da069670260244bc021bbdba99",
+    "commit_body_nonempty": true,
+    "delta_paths": [
+      "regression/cbmc/zst-bits2expr-count-0/main.c",
+      "regression/cbmc/zst-bits2expr-count-0/test.desc",
+      "regression/cbmc/zst-bits2expr-count-1/main.c",
+      "regression/cbmc/zst-bits2expr-count-1/test.desc",
+      "regression/cbmc/zst-bits2expr-count-2/main.c",
+      "regression/cbmc/zst-bits2expr-count-2/test.desc",
+      "regression/cbmc/zst-bits2expr-deref/main.c",
+      "regression/cbmc/zst-bits2expr-deref/test.desc",
+      "regression/cbmc/zst-bits2expr-interior/main.c",
+      "regression/cbmc/zst-bits2expr-interior/test.desc",
+      "regression/cbmc/zst-bits2expr-memcpy/main.c",
+      "regression/cbmc/zst-bits2expr-memcpy/test.desc",
+      "regression/cbmc/zst-bits2expr-negative/main.c",
+      "regression/cbmc/zst-bits2expr-negative/test.desc",
+      "regression/cbmc/zst-bits2expr-nested/main.c",
+      "regression/cbmc/zst-bits2expr-nested/test.desc",
+      "regression/cbmc/zst-bits2expr-position-first/main.c",
+      "regression/cbmc/zst-bits2expr-position-first/test.desc",
+      "regression/cbmc/zst-bits2expr-position-last/main.c",
+      "regression/cbmc/zst-bits2expr-position-last/test.desc",
+      "regression/cbmc/zst-bits2expr-position-middle/main.c",
+      "regression/cbmc/zst-bits2expr-position-middle/test.desc",
+      "regression/cbmc/zst-bits2expr-union/main.c",
+      "regression/cbmc/zst-bits2expr-union/test.desc",
+      "regression/cbmc/zst-bits2expr-zero-length-inner/main.c",
+      "regression/cbmc/zst-bits2expr-zero-length-inner/test.desc",
+      "src/util/simplify_utils.cpp",
+      "unit/util/zst_bits2expr.cpp"
+    ],
+    "test_delta_sha256": "a75767929c55785f98cc6864144bb033b2dfd0b6b05913475f16e5620f3a3deb"
+  },
+  "ci_parent": "91062c7dba9da7541c0e607a3735482e38d28d36",
+  "ci_parent_origin": "Tiramisu-Cake/cbmc ci/zst-bits2expr-20261113-r2 fetched into isolated clone",
+  "historical_receipts": {
+    "CI-RESULT-R2.md": "1934f9cbc6ea2bcb0bbec6062d393619ef799e813cef0cb9ddd8a6eef1ed5768",
+    "PR-READINESS.md": "abb4b635c4636db271fb4583e64e1b23585906f564773d51297e9d9fc608a5a8",
+    "CI-REQUEST.md": "022e536e209f762427ef1a822044f0e2c6b0e62eb9130518e789cb6f5bd90d3c",
+    "PR-CBMC-ZST-BITS2EXPR-DRAFT.md": "7f7346764f336f0ee92ab1a677f9cf59f494e761f452c77fd4a652e5cca66de5",
+    "ISSUE-CBMC-ZST-BITS2EXPR-DRAFT.md": "6015cae04375d730f4cd45a9349a9e4013253e5a548f33566ea5a1f3633a10cb"
+  },
+  "upstream_observation": {
+    "ref": "diffblue/cbmc develop",
+    "sha": "37a17adc07f29e1127f100debf1d8eea00532a24",
+    "merge_base": "107a1e504cd69a2f3483717c8bcfcfa59814c557",
+    "source_only_merge_tree": "71eff7206aed7683e649fea4e151ac2dae2f7b61",
+    "merge_tree_exit": 0,
+    "overlap_paths": [],
+    "upstream_delta_paths": [
+      "regression/cbmc/ptr_arithmetic_on_null/test.desc",
+      "regression/cbmc/void_pointer_arithmetic_type/main.c",
+      "regression/cbmc/void_pointer_arithmetic_type/test.desc",
+      "src/ansi-c/c_typecheck_expr.cpp"
+    ],
+    "source_rebased": false,
+    "new_develop_ci": "NOT_RUN",
+    "assurance": "FETCHED_GIT_ONLY_NO_CI_CREDIT"
+  },
+  "pinned_templates": {
+    ".github/pull_request_template.md": {
+      "blob": "899af4f0ed7a343ba94c925851be67c8a5c8db9f",
+      "sha256": "a48f21f9e32fc94d4998d325fd8ba26ea17bb3f38df6d717656cb0783a6055f2"
+    },
+    ".github/issue_template.md": {
+      "blob": "8368e0b7a75edc29f0ad49dcc273b688a9ff1bf1",
+      "sha256": "e4e9815798a86631efaaea0bbb65408e00d8bfef76120af1ae3a89faccefa5b0"
+    }
+  },
+  "binary_choice": {
+    "mode": "NEW_BUILD_UNIT_ONLY",
+    "reason": "No coordinator-provided preserved r2 binary with exact hash/source/config receipt supplied; no artifact retrieval attempted"
+  },
+  "local_compiler_verifier_runs": "NOT_RUN",
+  "new_ci": "NOT_RUN",
+  "cloud_usd": 0,
+  "historical_evidence_modified": false,
+  "source_unchanged_receipt": "SOURCE-UNCHANGED.json"
+}

@@ -1,0 +1,122 @@
+{
+  "stage": "CBMC-ZST-PRREADY",
+  "status": "REVIEWED_LOCAL_PACKAGE_READY / CI_NOT_RUN",
+  "fork": "https://github.com/Tiramisu-Cake/cbmc",
+  "local_clone": "/root/cbmc-zst-prready-ci",
+  "branch": "ci/zst-bits2expr-util-z3-20261113-prready",
+  "ci_sha": "b794c3c99dd2855bf99a466a59e779ee8d17d560",
+  "ci_tree": "929c522750c876cae96254e5eb7c69c340ca5609",
+  "ci_parent": "91062c7dba9da7541c0e607a3735482e38d28d36",
+  "clean_source_sha": "cd41a5c74b0c42edf4f08834b3e2808dd3344cab",
+  "clean_source_tree": "92c03401d6c2a6da069670260244bc021bbdba99",
+  "source_base": "107a1e504cd69a2f3483717c8bcfcfa59814c557",
+  "workflow_paths": [
+    ".github/workflows/cbmc-zst-bits2expr.yml"
+  ],
+  "workflow": "push branch-filtered; one fix job ubuntu-24.04; no matrix/dispatch-only trigger",
+  "runner_files": {
+    "scripts/zst-bits2expr/CI-REQUEST.md": "db77b931de049f3e6dcc0db38ea1903dd87f6c8ddcb6e6e1343fe60fe8ca2a2d",
+    "scripts/zst-bits2expr/check_format.py": "f504f8fcf5522b430e097aa6c6cf382d982de9f493591b3bc4d5244861938795",
+    "scripts/zst-bits2expr/compare.py": "e6070d746473d40c5d611aa406cf1660ce342a4e5281aaefc5f4efa7a2308e94",
+    "scripts/zst-bits2expr/config.json": "9b757d300e962c09b8479ce2ddaada0ac473de7ed1f6fec78334bd8ef15d6eb9",
+    "scripts/zst-bits2expr/fixtures/kani-like.c": "f0d9a1d096bb65837e16a3a848f49af7d83e5769b25139a2619c57a75ed88fc2",
+    "scripts/zst-bits2expr/fixtures/owner-literal.c": "673c26d7e45f1bca3f509132e8b857738bebb34205609af5b29f71bfd194f637",
+    "scripts/zst-bits2expr/followup.py": "aeb5a21e4521fb96d414621919928a8e164d801fcdd594b02cbd6bef55e8d6ae",
+    "scripts/zst-bits2expr/runner.py": "2bfd11dc9896af17d05d74e030d3acf1b90960da005432e27ab39f0898d6b32a",
+    "scripts/zst-bits2expr/test_followup.py": "114308f13ac58040581f77b6559a3583d5f56521cf1a0125790bb3cccd5df745",
+    "scripts/zst-bits2expr/test_runner.py": "1f01b4adbef0e3562a6385929f8a65f87e425bab5473e654f848b6b33bd7ed0c"
+  },
+  "workflow_sha256": "6fa440b98635859c591db884189ec9fe6726c0fc77c98b1965f2cce11084e6e0",
+  "ci_patch": {
+    "path": "ci-only.patch",
+    "base": "cd41a5c74b0c42edf4f08834b3e2808dd3344cab",
+    "sha256": "af888bf53121cb8b9c6c47a8314f7a8d5635ba82529b1da5b38e83c99ec7af75"
+  },
+  "followup_patch": {
+    "path": "followup-from-r2.patch",
+    "base": "91062c7dba9da7541c0e607a3735482e38d28d36",
+    "sha256": "e86208cdfc31ecc561f84addc98a002ec4c9923ff7d2acfd3e8fb254743e871e"
+  },
+  "limits": {
+    "job_minutes": 120,
+    "compiler_parallelism": 2,
+    "configure_seconds": 600,
+    "compile_seconds": 2700,
+    "unit_invocation_seconds": 300,
+    "retained_build_install_bytes": 16777216,
+    "retained_unit_list_bytes": 4194304,
+    "overflow": "continued drain, original exit preserved, acceptance rejected",
+    "build_RLIMIT_FSIZE": null
+  },
+  "z3": {
+    "install": "Ubuntu package z3",
+    "preflight": [
+      "command -v z3",
+      "dpkg-query -W/-L z3",
+      "binary realpath+SHA256",
+      "z3 --version",
+      "(check-sat) | z3 -in = sat"
+    ],
+    "actual_status": "NOT_RUN"
+  },
+  "selection": {
+    "util": "[util]~[zst-bits2expr]",
+    "r2_expected_count": 212,
+    "actual_count": null,
+    "actual_names": null,
+    "listing": "recorded before each test invocation; pinned Catch list exit=count modulo256",
+    "focused": [
+      "bits2expr reconstructs empty structs and arrays",
+      "bits2expr reconstructs nested zero-width arrays",
+      "bits2expr preserves tagged zero-width elements and nonzero siblings"
+    ],
+    "focused_expected_count": 3,
+    "current_status": "NOT_RUN",
+    "parsed_complete": null
+  },
+  "evidence_reuse": {
+    "baseline": "REUSED_R2",
+    "focused_C": "REUSED_R2",
+    "neighbour_C": "REUSED_R2",
+    "fixture_C": "REUSED_R2_COORDINATOR_REPORTED",
+    "r2_url": "https://github.com/Tiramisu-Cake/cbmc/actions/runs/43334186094",
+    "paired_oracle_invoked": false
+  },
+  "static_checks": {
+    "git_diff_check": "PASS",
+    "source_tree_and_hashes": "PASS",
+    "python_ast": "PASS",
+    "workflow_yaml": "PASS",
+    "shell_syntax": "PASS",
+    "synthetic_service_checks": {
+      "existing_runner": 7,
+      "followup": 8,
+      "status": "PASS",
+      "compiler_verifier_executed": false
+    }
+  },
+  "publication": {
+    "worker_push": false,
+    "worker_ci": false,
+    "issue": false,
+    "pr": false,
+    "cloud_usd": 0
+  },
+  "proof_credit": false,
+  "ci_commit_identity": {
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "committer": "Tiramisu-Cake <igkharin@gmail.com>",
+    "skip_ci": false
+  },
+  "review": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "candidate": "b794c3c99dd2855bf99a466a59e779ee8d17d560",
+    "result": "PASS_STATIC_ONLY",
+    "findings_closed": [
+      "required assertion totals and root/group consistency",
+      "Z3 installed package and binary path binding"
+    ],
+    "report": "REVIEW.md"
+  }
+}
