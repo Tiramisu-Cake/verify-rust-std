@@ -3,7 +3,8 @@ Draft only; no PR opened. Target: diffblue/cbmc develop.
 Clean source: cd41a5c74b0c42edf4f08834b3e2808dd3344cab, parent107a1e504cd69a2f3483717c8bcfcfa59814c557.
 Do not use CI-only33235a4ef1/91062c7dba as the PR head. Source has no workflow changes.
 Before publication, owner checks current develop/mergeability and fills an actual issue reference if one is filed.
-Testing below describes run43334186094. Z3 util follow-up is pending; do not mark it passed in advance.
+Testing below claims only the targeted results from run43334186094, not a complete utility-suite pass.
+The later utility follow-up remains partial; see CI-RESULT-R2.md for its two subprocess failures.
 -->
 
 **Title:** Allow bits2expr to reconstruct arrays of zero-width elements
@@ -18,7 +19,8 @@ The regression tests cover typed copies, unions, interior and first/middle/last 
 
 - [Fork CI](https://github.com/Tiramisu-Cake/cbmc/actions/runs/43334186094), Ubuntu 24.04 / GCC 13, source `cd41a5c74b`: all 13 focused regression oracles, 13 neighboring regression directories and all three focused utility cases passed. The focused set includes one intended assertion failure.
 - With identical tests on develop `107a1e504c`, 12 focused cases hit the array invariant; the `memcpy` control passed. The separate literal C reproducer and Kani-like C fixture also changed from invariant failure to successful verification.
-- The remaining utility selection passed 205/212 cases. Seven Z3-dependent subprocess tests did not pass on a runner without Z3; a rerun with Z3 is pending. Full regression, other platforms and actual Kani replay have not been run.
+
+Full regression, other platforms and actual Kani replay have not been run.
 
 ### Checklist
 

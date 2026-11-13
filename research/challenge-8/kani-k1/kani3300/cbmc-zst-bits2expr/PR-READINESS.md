@@ -1,5 +1,11 @@
 # CBMC ZST bits2expr — готовность PR-кандидата, 2026-11-13
 
+**Позднее уточнение координатора:** Z3 follow-up43341504085 (CI-onlyb794c3c99d), z3 4.8.12/preflight PASS:
+выборка212 →210 passed, семь Z3 failures устранены. Остались piped_process.cpp:72 и run.cpp:45 (subprocess error handling).
+Baseline util не запускался: pre-existing статус не установлен. Детали в [CI-RESULT-R2.md](CI-RESULT-R2.md).
+Ниже первоначальная оценка/план перед этим follow-up; повторный Z3 setup уже выполнен. Новых CI до утра координатор не запускает.
+PR Testing упрощён до focused результатов; полный util PASS не заявляется. Дальнейшее решение issue/PR — владельцу утром.
+
 **GO для показа владельцу как готового к review CBMC PR-кандидата.** Не утверждаем полный upstream CI PASS.
 Clean source **cd41a5c74b0c42edf4f08834b3e2808dd3344cab**, parent107a1e504cd69a2f3483717c8bcfcfa59814c557.
 Один production-line fix +13 regression directories +3 util test cases, обязательный commit body есть, workflows в source delta нет.
