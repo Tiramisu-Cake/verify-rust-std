@@ -1,0 +1,398 @@
+{
+  "assurance": "COORDINATOR_PROVIDED_SAVED_EXPORTS; not independent proof credit",
+  "export_source": "02ad55099ce1df1e844de5e42393d4079a1833ac",
+  "source_comparison": "git diff versus exact CC3 changes only .github/workflows/",
+  "roots": {
+    "recursive_check": {
+      "artifact_directory": "/root/kani3300-h1-ci/cc3-art/tmp.WJBbBrB7p1/mode-boundary-results/recursive_check",
+      "file_sha256": {
+        "input.json": "f44ac1ce8e57bd829c0845923c7eb2d0707acfb70e8782218b48fc4dc9e3c9ce",
+        "observation.json": "7adce9525282831d7e5635b4f3683b0bdea5bcfd22bb6c66cbfd91221a36d819",
+        "export.json": "d6e46eb80859510b4b9f6d69d71fe4230e210094fc83907cce06e7781239bfe6",
+        "recursive.rs": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0"
+      },
+      "argv": [
+        "kani",
+        "/tmp/tmp.WJBbBrB7p1/mode-boundary-results/recursive_check/recursive.rs",
+        "-Z",
+        "uninit-checks",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "stubbing",
+        "-Z",
+        "export-json",
+        "-Z",
+        "unstable-options",
+        "--exact",
+        "--harness",
+        "recursive_check",
+        "--harness-timeout",
+        "120",
+        "--keep-temps",
+        "--export-json",
+        "/tmp/tmp.WJBbBrB7p1/mode-boundary-results/recursive_check/export.json",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ],
+      "source_sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+      "kani_commit": "02ad55099ce1df1e844de5e42393d4079a1833ac",
+      "kani_commit_dirty": false,
+      "run_state": "COMPLETE",
+      "summary": {
+        "total": 1,
+        "successful": 0,
+        "failed": 1,
+        "checks_total": 384,
+        "checks_success": 339,
+        "covers_total": 6,
+        "covers_satisfied": 0
+      },
+      "outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "failure_kind": "OTHER",
+      "failed_properties": [
+        {
+          "id": "recursive_check.unsupported_construct.1",
+          "description": "Kani delayed uninitialized-memory analysis detected an interprocedural cycle (repeats active frame 1); root/active path: AnalysisKey { instance: Instance { def: Item(DefId(0:62 ~ recursive[131c]::recursive_check)), args: [] }, overridden: false } -> AnalysisKey { instance: Instance { def: Item(DefId(0:8 ~ recursive[131c]::recursive_transfer)), args: [] }, overridden: false } -> AnalysisKey { instance: Instance { def: Item(DefId(0:16 ~ recursive[131c]::recursive_transfer::kani_register_contract)), args: [std::mem::MaybeUninit<u8>, Closure(DefId(0:20 ~ recursive[131c]:... -> AnalysisKey { instance: Instance { def: Item(DefId(0:20 ~ recursive[131c]::recursive_transfer::{closure#0})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>,... -> AnalysisKey { instance: Instance { def: Item(DefId(0:24 ~ recursive[131c]::recursive_transfer::{closure#0}::{closure#1})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::May... -> AnalysisKey { instance: Instance { def: Item(DefId(0:26 ~ recursive[131c]::recursive_transfer::{closure#0}::{closure#1}::{closure#1})), args: [i32, Binder { value: extern \"RustCall\" fn(((),)) ... -> AnalysisKey { instance: Instance { def: Item(DefId(0:8 ~ recursive[131c]::recursive_transfer)), args: [] }, overridden: false }",
+          "class": "unsupported_construct",
+          "file": "/tmp/tmp.WJBbBrB7p1/mode-boundary-results/recursive_check/recursive.rs",
+          "line": "49",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "checks": {
+        "total": 384,
+        "success": 339,
+        "failure": [
+          "recursive_check.unsupported_construct.1"
+        ],
+        "unreachable": [
+          "recursive_transfer::{closure#0}::{closure#0}.assertion.1",
+          "recursive_transfer::{closure#0}::{closure#0}.assertion.2",
+          "kani::mem_init::MemoryInitializationState::set::<1>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set::<1>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::set::<1>.assertion.3",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.3",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.4",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.5",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.6",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.7",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.8",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.9",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.10",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.11",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.12",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.3",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.4",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.5",
+          "recursive_check.assertion.1",
+          "recursive_transfer.assertion.1",
+          "kani::mem_init::MemoryInitializationState::get::<1>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::get::<1>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::get::<1>.assertion.3",
+          "recursive_transfer::{closure#0}::{closure#1}::{closure#1}.assertion.1",
+          "kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.2",
+          "kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.3",
+          "kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.5",
+          "kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.6",
+          "kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.7",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.3",
+          "recursive_transfer::{closure#0}.safety_check.1",
+          "recursive_transfer::{closure#0}.safety_check.3",
+          "recursive_transfer::{closure#0}.safety_check.4",
+          "recursive_transfer::{closure#0}::{closure#1}.assertion.1",
+          "std::fmt::Arguments::<'_>::from_str.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set::<96>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set::<96>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::set::<96>.assertion.3"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "covers": {
+        "total": 6,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [
+          "recursive_check.cover.1",
+          "recursive_check.cover.2",
+          "recursive_transfer.cover.1",
+          "recursive_transfer.cover.2",
+          "recursive_transfer::{closure#0}::{closure#1}::{closure#1}.cover.1",
+          "recursive_transfer::{closure#0}::{closure#1}::{closure#1}.cover.2"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "contract": {
+        "contracted_function_name": "_RNCNCNCNvCs1DIFQBCo1I4_9recursive18recursive_transfer0s_0s_0B7_",
+        "recursion_tracker": "/tmp/tmp.WJBbBrB7p1/mode-boundary-results/recursive_check/recursive.rs:recursive_transfer::{closure#0}::REENTRY"
+      },
+      "collector_gaps": [
+        "UNSUPPORTED_PRESENT: does not establish the intended boundary",
+        "PATH_COVERS_INCOMPLETE: inspect prefix/base/recursive/return binding"
+      ],
+      "companion_pass": null,
+      "binding_status": "BINDING_PENDING",
+      "exact_selected_mir_path": "UNKNOWN; existing reason truncates generic keys and omits callsites"
+    },
+    "recursive_ordinary": {
+      "artifact_directory": "/root/kani3300-h1-ci/cc3-art/tmp.WJBbBrB7p1/mode-boundary-results/recursive_ordinary",
+      "file_sha256": {
+        "input.json": "d91fd368921fe643e2677ddee45c66597f169a269e6899723efec499cd88a8f2",
+        "observation.json": "bcafe6ac37d7b385b566bc208c5fd16fcc21607c89dd3466c12d53edd4dfca96",
+        "export.json": "4da46803c0cd1d414829db743ead1ec7739fc7d37b7000c6491a638201e87ef9",
+        "recursive.rs": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0"
+      },
+      "argv": [
+        "kani",
+        "/tmp/tmp.WJBbBrB7p1/mode-boundary-results/recursive_ordinary/recursive.rs",
+        "-Z",
+        "uninit-checks",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "stubbing",
+        "-Z",
+        "export-json",
+        "-Z",
+        "unstable-options",
+        "--exact",
+        "--harness",
+        "recursive_ordinary",
+        "--harness-timeout",
+        "120",
+        "--keep-temps",
+        "--export-json",
+        "/tmp/tmp.WJBbBrB7p1/mode-boundary-results/recursive_ordinary/export.json",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ],
+      "source_sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+      "kani_commit": "02ad55099ce1df1e844de5e42393d4079a1833ac",
+      "kani_commit_dirty": false,
+      "run_state": "COMPLETE",
+      "summary": {
+        "total": 1,
+        "successful": 0,
+        "failed": 1,
+        "checks_total": 237,
+        "checks_success": 195,
+        "covers_total": 6,
+        "covers_satisfied": 0
+      },
+      "outcome": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "failure_kind": "OTHER",
+      "failed_properties": [
+        {
+          "id": "recursive_ordinary.unsupported_construct.1",
+          "description": "Kani delayed uninitialized-memory analysis detected an interprocedural cycle (repeats active frame 1); root/active path: AnalysisKey { instance: Instance { def: Item(DefId(0:63 ~ recursive[131c]::recursive_ordinary)), args: [] }, overridden: false } -> AnalysisKey { instance: Instance { def: Item(DefId(0:8 ~ recursive[131c]::recursive_transfer)), args: [] }, overridden: false } -> AnalysisKey { instance: Instance { def: Item(DefId(0:16 ~ recursive[131c]::recursive_transfer::kani_register_contract)), args: [std::mem::MaybeUninit<u8>, Closure(DefId(0:32 ~ recursive[131c]:... -> AnalysisKey { instance: Instance { def: Item(DefId(0:32 ~ recursive[131c]::recursive_transfer::{closure#3})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::MaybeUninit<u8>,... -> AnalysisKey { instance: Instance { def: Item(DefId(0:33 ~ recursive[131c]::recursive_transfer::{closure#3}::{closure#0})), args: [i32, Binder { value: extern \"RustCall\" fn(()) -> std::mem::May... -> AnalysisKey { instance: Instance { def: Item(DefId(0:8 ~ recursive[131c]::recursive_transfer)), args: [] }, overridden: false }",
+          "class": "unsupported_construct",
+          "file": "/tmp/tmp.WJBbBrB7p1/mode-boundary-results/recursive_ordinary/recursive.rs",
+          "line": "66",
+          "trace_available": true,
+          "status": "FAILURE"
+        }
+      ],
+      "checks": {
+        "total": 237,
+        "success": 195,
+        "failure": [
+          "recursive_ordinary.unsupported_construct.1"
+        ],
+        "unreachable": [
+          "recursive_transfer::{closure#3}.assertion.1",
+          "recursive_transfer::{closure#3}.assertion.2",
+          "recursive_transfer::{closure#3}.assertion.3",
+          "kani::mem_init::MemoryInitializationState::get::<1>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::get::<1>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::get::<1>.assertion.3",
+          "kani::mem_init::MemoryInitializationState::set::<1>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set::<1>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::set::<1>.assertion.3",
+          "std::fmt::Arguments::<'_>::from_str.assertion.1",
+          "recursive_transfer.assertion.1",
+          "recursive_ordinary.assertion.1",
+          "kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.2",
+          "kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.3",
+          "kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.5",
+          "kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.6",
+          "kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.7",
+          "recursive_transfer::{closure#3}::{closure#0}.assertion.1",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.3",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.4",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.5",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.6",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.7",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.8",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.9",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.10",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.11",
+          "kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.12",
+          "kani::mem_init::MemoryInitializationState::set::<96>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set::<96>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::set::<96>.assertion.3",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.3",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.3",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.4",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.5"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "covers": {
+        "total": 6,
+        "satisfied": [],
+        "unsatisfiable": [],
+        "unreachable": [
+          "recursive_transfer.cover.1",
+          "recursive_transfer.cover.2",
+          "recursive_ordinary.cover.1",
+          "recursive_ordinary.cover.2",
+          "recursive_transfer::{closure#3}::{closure#0}.cover.1",
+          "recursive_transfer::{closure#3}::{closure#0}.cover.2"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "contract": null,
+      "collector_gaps": [
+        "UNSUPPORTED_PRESENT: does not establish the intended boundary",
+        "PATH_COVERS_INCOMPLETE: inspect prefix/base/recursive/return binding"
+      ],
+      "companion_pass": false,
+      "binding_status": "BINDING_PENDING",
+      "exact_selected_mir_path": "UNKNOWN; existing reason truncates generic keys and omits callsites"
+    },
+    "recursive_simple_check": {
+      "artifact_directory": "/root/kani3300-h1-ci/cc3-art/tmp.WJBbBrB7p1/mode-boundary-results/recursive_simple_check",
+      "file_sha256": {
+        "input.json": "413d2b07fe2ffed58d90fe0c8ff72d10449c2dd4345d4cb20df20bad965e2301",
+        "observation.json": "340c0575077448a9dc01322789358a38caa2b12f46cdea55bb4bb34f2adeeca0",
+        "export.json": "05338a9de6df15eab7e35d81f36918aafed3299ba8cef5ba4196d86e3f97b8e7",
+        "recursive.rs": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0"
+      },
+      "argv": [
+        "kani",
+        "/tmp/tmp.WJBbBrB7p1/mode-boundary-results/recursive_simple_check/recursive.rs",
+        "-Z",
+        "uninit-checks",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "stubbing",
+        "-Z",
+        "export-json",
+        "-Z",
+        "unstable-options",
+        "--exact",
+        "--harness",
+        "recursive_simple_check",
+        "--harness-timeout",
+        "120",
+        "--keep-temps",
+        "--export-json",
+        "/tmp/tmp.WJBbBrB7p1/mode-boundary-results/recursive_simple_check/export.json",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ],
+      "source_sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+      "kani_commit": "02ad55099ce1df1e844de5e42393d4079a1833ac",
+      "kani_commit_dirty": false,
+      "run_state": "COMPLETE",
+      "summary": {
+        "total": 1,
+        "successful": 1,
+        "failed": 0,
+        "checks_total": 365,
+        "checks_success": 356,
+        "covers_total": 6,
+        "covers_satisfied": 4
+      },
+      "outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "failure_kind": "NONE",
+      "failed_properties": [],
+      "checks": {
+        "total": 365,
+        "success": 356,
+        "failure": [],
+        "unreachable": [
+          "std::fmt::Arguments::<'_>::from_str.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.3",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.4",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.5",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.3"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "covers": {
+        "total": 6,
+        "satisfied": [
+          "bounded_transfer::{closure#2}::{closure#1}.cover.1",
+          "bounded_transfer::{closure#2}::{closure#1}.cover.2",
+          "recursive_simple_check.cover.1",
+          "recursive_simple_check.cover.2"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [
+          "bounded_transfer.cover.1",
+          "bounded_transfer.cover.2"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "contract": {
+        "contracted_function_name": "_RNCNCNvCs1DIFQBCo1I4_9recursive16bounded_transfers0_0s_0B5_",
+        "recursion_tracker": null
+      },
+      "collector_gaps": [
+        "PATH_COVERS_INCOMPLETE: inspect prefix/base/recursive/return binding"
+      ],
+      "companion_pass": false,
+      "binding_status": "BINDING_PENDING",
+      "exact_selected_mir_path": "NO_REPORTED_CYCLE; successful export, positive model binding still pending"
+    }
+  }
+}

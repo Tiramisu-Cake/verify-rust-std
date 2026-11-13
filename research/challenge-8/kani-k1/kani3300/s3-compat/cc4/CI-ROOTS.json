@@ -1,0 +1,364 @@
+{
+  "status": "REQUEST_ONLY_NOT_AUTHORIZATION",
+  "source_base": "76a706f8f8c5b0471bd5c8e6b48cdaf45bab9b66",
+  "toolchain": "nightly-2026-10-23",
+  "rustc_commit": "7189d39d9ce936881b8132c6addeaf3e295cd455",
+  "target": "x86_64-unknown-linux-gnu",
+  "binary_entry": "CHECKOUT/scripts/kani",
+  "driver_binary": "CHECKOUT/target/kani/bin/kani-driver",
+  "compiler_binary": "CHECKOUT/target/kani/bin/kani-compiler",
+  "cbmc": "stock 6.11.0 / existing normal cadical",
+  "binary_sha256": "UNKNOWN until coordinator binds exact source to driver/compiler/sysroot/CBMC/solver",
+  "environment": {
+    "RUSTFLAGS": "--edition 2021 -D warnings",
+    "NO_COLOR": "1"
+  },
+  "common_cli": [
+    "-Z",
+    "uninit-checks",
+    "-Z",
+    "function-contracts",
+    "-Z",
+    "stubbing",
+    "-Z",
+    "export-json",
+    "-Z",
+    "unstable-options",
+    "--default-unwind",
+    "8",
+    "--jobs",
+    "1",
+    "--harness-timeout",
+    "120",
+    "--keep-temps",
+    "--output-format=regular"
+  ],
+  "output_cli": [
+    "--target-dir",
+    "FRESH/target",
+    "--export-json",
+    "FRESH/export.json"
+  ],
+  "tail_cli": [
+    "--cbmc-args",
+    "--object-bits",
+    "12"
+  ],
+  "rss_limit_kib": 12582912,
+  "build_typecheck_timeout_s": 600,
+  "stage": "CC4_ONLY_REQUEST_NOT_DISPATCH",
+  "source_sha": "d7151a2202581cdafdab8354301aaee00ff57df7",
+  "source_tree": "0e493cc99e769ff3124ed015bdab824137266ab6",
+  "per_harness_timeout_s": 120,
+  "unit_timeout_s": 120,
+  "whole_request_envelope_s": 6600,
+  "capture_reserve_s": 300,
+  "invocations": [
+    {
+      "id": "self_cycle",
+      "file": "tests/expected/uninit/points-to-cycles/self-cycle.rs",
+      "roots": [
+        "self_cycle"
+      ],
+      "selection": "exact-singleton",
+      "expected": "targeted cycle Unsupported",
+      "sha256": "54290ed84b8ca2f63ff664d9ec05aca7cd7644e43248400b10bf3b8f3c48f85a",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "mutual_cycle",
+      "file": "tests/expected/uninit/points-to-cycles/mutual-cycle.rs",
+      "roots": [
+        "mutual_cycle"
+      ],
+      "selection": "exact-singleton",
+      "expected": "targeted cycle Unsupported",
+      "sha256": "d3215f5d42224f3fe889da4e78f4e8d15ebe6208b0171ddc8fcc03e0dded239e",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "diamond_two_inputs",
+      "file": "tests/expected/uninit/points-to-cycles/dag.rs",
+      "roots": [
+        "diamond_two_inputs"
+      ],
+      "selection": "exact-singleton",
+      "expected": "SUCCESS; useful17/29/17 assertions and cover reached; no failures",
+      "sha256": "7f37e26433c46a96c19298e6bc9e592aac55cbec3b336757a4c89e53e7cf74a1",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "repeated_callee_preserves_hole",
+      "file": "tests/expected/uninit/points-to-cycles/dag.rs",
+      "roots": [
+        "repeated_callee_preserves_hole"
+      ],
+      "selection": "exact-singleton",
+      "expected": "payload read Check/CheckRef failure; no reached Unsupported; exact set binding pending",
+      "sha256": "7f37e26433c46a96c19298e6bc9e592aac55cbec3b336757a4c89e53e7cf74a1",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_free_recursive_check",
+      "file": "tests/expected/uninit/points-to-cycles/capture-free.rs",
+      "roots": [
+        "capture_free_recursive_check"
+      ],
+      "selection": "exact-singleton",
+      "expected": "targeted cycle Unsupported; legal recursive-mode control",
+      "sha256": "2b785e11971bc41a8e0b351f788433c014968eb286069c262a3b87b21c95bf2a",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "independent-singleton",
+      "file": "tests/expected/uninit/points-to-cycles/roots-cycle-first.rs",
+      "roots": [
+        "independent_nonrecursive"
+      ],
+      "selection": "exact-singleton",
+      "expected": "SUCCESS singleton; useful assertion29 and cover reached",
+      "sha256": "9e98d899e82710a03b0da817c79457a114eacfebdddd1f658d8cd19a372d3b4c",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "original-recursive_check",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+      "roots": [
+        "recursive_check"
+      ],
+      "selection": "exact-singleton",
+      "expected": "OBSERVATION; no crash/partial graph, complete per-root inventory and exact selected-body/callsite repeated-key attribution; cycle Unsupported is not release acceptance",
+      "sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "original-recursive_ordinary",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+      "roots": [
+        "recursive_ordinary"
+      ],
+      "selection": "exact-singleton",
+      "expected": "OBSERVATION; no crash/partial graph, complete per-root inventory and exact selected-body/callsite repeated-key attribution; cycle Unsupported is not release acceptance",
+      "sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "original-recursive_simple_check",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+      "roots": [
+        "recursive_simple_check"
+      ],
+      "selection": "exact-singleton",
+      "expected": "REQUIRED LEGAL POSITIVE; SUCCESS, zero failures and actual selected body/return assertions/covers reached; saved CC3 reports no cycle; unexplained Unsupported remains BLOCKED",
+      "sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "p1",
+      "file": "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs",
+      "roots": [
+        "postcondition_reads_initialized_return"
+      ],
+      "selection": "exact-singleton",
+      "expected": "existing exact p1 oracle SUCCESS, no extra failures",
+      "sha256": "439c9c9817875a0554fbf43a14eb7f871a3ab23cc038605afcead23a719ee4f0",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "roots-cycle-first",
+      "file": "tests/expected/uninit/points-to-cycles/roots-cycle-first.rs",
+      "roots": [
+        "self_cycle",
+        "independent_nonrecursive"
+      ],
+      "selection": "all-proof-harnesses-in-file",
+      "expected": "complete per-root inventories: self_cycle targeted Unsupported; independent_nonrecursive SUCCESS matching singleton; actual root traversal order/grouping must be established",
+      "sha256": "9e98d899e82710a03b0da817c79457a114eacfebdddd1f658d8cd19a372d3b4c",
+      "outer_process_timeout_s": 300
+    },
+    {
+      "id": "roots-acyclic-first",
+      "file": "tests/expected/uninit/points-to-cycles/roots-acyclic-first.rs",
+      "roots": [
+        "self_cycle",
+        "independent_nonrecursive"
+      ],
+      "selection": "all-proof-harnesses-in-file",
+      "expected": "complete per-root inventories: self_cycle targeted Unsupported; independent_nonrecursive SUCCESS matching singleton; actual root traversal order/grouping must be established",
+      "sha256": "8cf937c965e9f46f0b609ae65d78aa60abb56a6d2318203cd9bc28abf3839bce",
+      "outer_process_timeout_s": 300
+    },
+    {
+      "id": "replace_ordinary",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/replace.rs",
+      "sha256": "44b10bf2ef4d961b37b75098ec89246afe608036f4ed4cb8e3c5e70680425600",
+      "roots": [
+        "replace_ordinary"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "REQUIRED LEGAL POSITIVE; SUCCESS, no failures, bool true/false body/return assertions reached, no extra checks lost",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "replace_simple_check",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/replace.rs",
+      "sha256": "44b10bf2ef4d961b37b75098ec89246afe608036f4ed4cb8e3c5e70680425600",
+      "roots": [
+        "replace_simple_check"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "REQUIRED LEGAL POSITIVE; SUCCESS, no failures, bool true/false body/return assertions reached, no extra checks lost",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_reference_legal",
+      "file": "tests/expected/uninit/closure-zst/capture-reference-legal.rs",
+      "sha256": "5ed5c749247eaca38e5107b0c875efb8c49a232a6840d7d78f7f01d4b90439a1",
+      "roots": [
+        "capture_reference_legal"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "BOUNDARY; exactly one UnsafeCell<MaybeUninit<u8>>::new UnionAsField unsupported_construct failure, full inventory and exact source/model binding; no capture proof credit",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_union_reference",
+      "file": "tests/expected/uninit/closure-zst/capture-union-reference.rs",
+      "sha256": "9373e13da78a5487aedee7e7abd039f42c1c2a443e23c288b65c64e2cf02fcc2",
+      "roots": [
+        "capture_union_reference"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "BOUNDARY; exactly one callback union-field-dereference unsupported_construct failure, full inventory and exact source/model binding; no payload proof credit",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "isolated-bounded",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/cc4/isolated-bounded.rs",
+      "roots": [
+        "recursive_simple_check"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "REQUIRED LEGAL POSITIVE; same predicate/captures/body; zero failures and both useful body/outer paths reached; compare original root selection",
+      "sha256": "0ec74991f5e7cf7a3ad490f153307b919402777b4305bf5cfbd430ff7f4f3dd5",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "isolated-recursive-ordinary",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/cc4/isolated-recursive-ordinary.rs",
+      "roots": [
+        "recursive_ordinary"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "OBSERVATION; actual source recursion; complete inventory and exact selected-body/callsite cycle provenance, no crash or general recursion acceptance",
+      "sha256": "84c904f19e097056bb26127a303c34fc86e4c27311a13a6bd4787762000a8d70",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "original-mixed",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+      "roots": [
+        "recursive_check",
+        "recursive_ordinary",
+        "recursive_simple_check"
+      ],
+      "selection": "whole-input",
+      "group": "candidate",
+      "expected": "Match separate singleton per-root inventories; record actual codegen units/order/mode/body selection; SimpleCheck remains required positive",
+      "sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+      "outer_process_timeout_s": 420
+    },
+    {
+      "id": "reversed-mixed",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/cc4/mixed-reversed.rs",
+      "roots": [
+        "recursive_simple_check",
+        "recursive_ordinary",
+        "recursive_check"
+      ],
+      "selection": "whole-input",
+      "group": "candidate",
+      "expected": "Same per-root requirements; actual internal order must differ before claiming both-order integration coverage",
+      "sha256": "b5537b792e7eaf250bb7a15763f36154ba3f5bc83f01d8b4bf267be7f7a48051",
+      "outer_process_timeout_s": 420
+    },
+    {
+      "id": "reversed-recursive_check",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/cc4/mixed-reversed.rs",
+      "roots": [
+        "recursive_check"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "Same requirement as original-recursive_check; compare full inventory, actual mode/body and fresh active context",
+      "sha256": "b5537b792e7eaf250bb7a15763f36154ba3f5bc83f01d8b4bf267be7f7a48051",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "reversed-recursive_ordinary",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/cc4/mixed-reversed.rs",
+      "roots": [
+        "recursive_ordinary"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "Same requirement as original-recursive_ordinary; compare full inventory, actual mode/body and fresh active context",
+      "sha256": "b5537b792e7eaf250bb7a15763f36154ba3f5bc83f01d8b4bf267be7f7a48051",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "reversed-recursive_simple_check",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/cc4/mixed-reversed.rs",
+      "roots": [
+        "recursive_simple_check"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "Same requirement as original-recursive_simple_check; compare full inventory, actual mode/body and fresh active context",
+      "sha256": "b5537b792e7eaf250bb7a15763f36154ba3f5bc83f01d8b4bf267be7f7a48051",
+      "outer_process_timeout_s": 180
+    }
+  ],
+  "invocation_count": 23,
+  "harness_result_count": 29,
+  "final_composition_gates_separate_authorization": {
+    "status": "NOT_RUN_NOT_INCLUDED_IN_TARGETED_ENVELOPE",
+    "quick": "one Quick on reviewed common CC1-CC4 composition; exact expectation boundary inventories required",
+    "strong_oracles": {
+      "manifest": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "sha256": "e6d67295543d61337163616e58f9c10dda59c731f07db336f9d386e0c08f66c8",
+      "cases": 8,
+      "runner": "tests/json-handler/uninit-contract-oracles/test.sh"
+    },
+    "s3_controls": [
+      {
+        "file": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs",
+        "sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4",
+        "roots": [
+          "legal_ordinary_transfer"
+        ]
+      },
+      {
+        "file": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs",
+        "sha256": "47e48e69bff71f92f9f098acbea449cb44ce40034d9bea6eb6f3818bc6b3838f",
+        "roots": [
+          "ensures_left_hole"
+        ]
+      },
+      {
+        "file": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs",
+        "sha256": "6e0cb23853ca8954b1824adb5375df8c141da6fc2653f89c75eb96e0b9f10bda",
+        "roots": [
+          "ensures_right_hole"
+        ]
+      }
+    ],
+    "remaining": "all inherited CC1/CC2/CC3/A3/M1/S3/private-frame/left-right-hole controls, actual two root orders, then separate M3/full/platform/SmallSort gates"
+  }
+}

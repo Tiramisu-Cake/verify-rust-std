@@ -1,0 +1,41 @@
+{
+  "task": "TASK-KANI3300-CC4.md",
+  "worker": "worker14",
+  "source_clone": "/root/kani-fix-3300-cc4",
+  "source_branch": "fix/kani-3300-cc4",
+  "source_base": "76a706f8f8c5b0471bd5c8e6b48cdaf45bab9b66",
+  "source_base_tree": "6730468d0cb9cf24752ad67ef6ebaab35be8e627",
+  "source_sha": "d7151a2202581cdafdab8354301aaee00ff57df7",
+  "source_tree": "0e493cc99e769ff3124ed015bdab824137266ab6",
+  "source_files": {
+    "docs/src/reference/experimental/contracts.md": "f3ef8892473563365f35635b68b8f43209c0f1258edc1cf82cda2c35d42acef8",
+    "kani-compiler/src/kani_middle/points_to/mod.rs": "d0c9169a1c1f1476f1bdd5ef6d42040ed4587b9a86bb2891a1b312568aa98128",
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs": "6da4da03822185f660be10714d1ac1187b5b46457fec848a4a8ae0d966239103",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs": "4dd17d145524861e69e7452c0648cf074161aaa76699827b0e237537b9619854",
+    "tests/expected/uninit/closure-zst/capture-reference-legal.expected": "62164ea9e366e5dd1ac99da27b7ff7d6b3d36c241b695c666af93a837c215a5b",
+    "tests/expected/uninit/closure-zst/capture-union-reference.expected": "65aaa9a08dd62e364c924ce9cda114a9ecfbe3fc1db382dd4f839046b230bf65",
+    "tests/json-handler/uninit-contract-mode-boundaries/cc4/isolated-bounded.rs": "0ec74991f5e7cf7a3ad490f153307b919402777b4305bf5cfbd430ff7f4f3dd5",
+    "tests/json-handler/uninit-contract-mode-boundaries/cc4/isolated-recursive-ordinary.rs": "84c904f19e097056bb26127a303c34fc86e4c27311a13a6bd4787762000a8d70",
+    "tests/json-handler/uninit-contract-mode-boundaries/cc4/mixed-reversed.rs": "b5537b792e7eaf250bb7a15763f36154ba3f5bc83f01d8b4bf267be7f7a48051"
+  },
+  "reference_clone": "/root/kani-fix-3300-cc3 read-only; clean exact base at entry",
+  "research_entry": "27a33f4f5b61365047450bb823b6ea7fe97f4aaf",
+  "task_research_reference": "5d41873ec499cd460f4c70ce080a5b4528e8a8b8; branch pulled --ff-only, newer entry contains issued task",
+  "research_branch": "experiment/kani-k1-kani3300g0-20261111",
+  "original_expectations_patch_sha256": "da87f8729e2b52eb4f3b6095cb105d10031ce70a2f18985ecccb24381d8e5415",
+  "author_committer": "Tiramisu-Cake <igkharin@gmail.com> via git -c user.name/-c user.email",
+  "local_validation": {
+    "static": "15/15 PASS",
+    "python_oracle_checker": "21/21 PASS",
+    "scratchpad_rustfmt": "PASS",
+    "diff_check": "PASS"
+  },
+  "ci_status": "NOT_RUN",
+  "rust_typecheck": "NOT_RUN",
+  "new_selected_model_binding": "UNKNOWN",
+  "two_complete_cycle_paths": "INCOMPLETE; exact typed windows requested",
+  "simple_check_saved_cc3": "COMPLETED/SUCCESS no failed properties; collector cover binding pending",
+  "independent_review": "PENDING_COORDINATOR",
+  "push_performed": false,
+  "cloud_spend_usd": 0
+}

@@ -1,0 +1,26 @@
+{
+  "assurance": "STATIC_ONLY",
+  "checks": {
+    "only_six_existing_files_changed": true,
+    "all_existing_rust_inputs_other_goldens_and_oracles_identical": true,
+    "regular_call_transfer_identical_modulo_metadata": true,
+    "dataflow_and_error_result_boundary_identical": true,
+    "fresh_per_root_context_and_join_only_ok_preserved": true,
+    "bounded_diagnostic_exact_symbols_provenance_callsites_explicit_truncation": true,
+    "override_bodies_keep_original_selection_and_origin_resolver": true,
+    "exact_extraction_isolated-bounded.rs": true,
+    "exact_extraction_isolated-recursive-ordinary.rs": true,
+    "exact_extraction_mixed-reversed.rs": true,
+    "isolated_bounded_has_no_recursive_sibling_or_new_golden": true,
+    "exact_expected_capture-reference-legal": true,
+    "exact_expected_capture-union-reference": true,
+    "original_expectation_patch_hash": true,
+    "git_diff_check": true
+  },
+  "status": "PASS",
+  "preserved_existing_test_files": 3517,
+  "rust_typecheck": "NOT_RUN",
+  "kani_cbmc_ci": "NOT_RUN",
+  "exact_selected_mir_path": "PENDING_COORDINATOR",
+  "independent_review": "PENDING_COORDINATOR"
+}
