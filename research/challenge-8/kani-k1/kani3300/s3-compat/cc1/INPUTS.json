@@ -1,0 +1,48 @@
+{
+  "task": "TASK-KANI3300-S3-COMPAT-CC1.md",
+  "worker": "worker14",
+  "date": "2026-11-13",
+  "source_base": "fef9e0f38c0c645027f20223a562c7008969d9a9",
+  "source_head": "b2e1a392ad27bd21758473bc208ff66c2d7d0405",
+  "source_tree": "4dd079d7f762301450b60394123f2b0b284b140b",
+  "source_repo": "/root/kani-fix-3300-cc1",
+  "source_branch": "fix/kani-3300-cc1",
+  "clone_origin": "/root/kani-fix-3300-compose1",
+  "reference_read_only": true,
+  "research_base": "6deeee3f945a33cdfd8628ae6d43ac0a7696e28e",
+  "research_branch": "experiment/kani-k1-kani3300g0-20261111",
+  "source_changed_files": {
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs": "e4685c8612552591c67bab42137d16df9e551b79da1f01377c7cd95850260c61",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs": "482792561644854f1fa8679c3721e69ce96ca372bff8ad309230c35352392716",
+    "tests/expected/uninit/points-to-cycles/capture-free.expected": "d0050ba6b8626c5ac3d9ae6f2ca5b54895f16079198fbb816f69219cb5301619",
+    "tests/expected/uninit/points-to-cycles/capture-free.rs": "2b785e11971bc41a8e0b351f788433c014968eb286069c262a3b87b21c95bf2a",
+    "tests/expected/uninit/points-to-cycles/dag.expected": "c2b19381a59e2250a60e0c16420ba6727a41487b661d576c7a9535a39f39d279",
+    "tests/expected/uninit/points-to-cycles/dag.rs": "7f37e26433c46a96c19298e6bc9e592aac55cbec3b336757a4c89e53e7cf74a1",
+    "tests/expected/uninit/points-to-cycles/mutual-cycle.expected": "ad7f45e85bbe6ab4d9343e8f8f22a44886aadf4a9046fd33bbe6ec95c933d6c7",
+    "tests/expected/uninit/points-to-cycles/mutual-cycle.rs": "d3215f5d42224f3fe889da4e78f4e8d15ebe6208b0171ddc8fcc03e0dded239e",
+    "tests/expected/uninit/points-to-cycles/roots-acyclic-first.expected": "6eab61b981a862164d4b922897955408e436b80b90f81b1cf16392ef4b857947",
+    "tests/expected/uninit/points-to-cycles/roots-acyclic-first.rs": "8cf937c965e9f46f0b609ae65d78aa60abb56a6d2318203cd9bc28abf3839bce",
+    "tests/expected/uninit/points-to-cycles/roots-cycle-first.expected": "6eab61b981a862164d4b922897955408e436b80b90f81b1cf16392ef4b857947",
+    "tests/expected/uninit/points-to-cycles/roots-cycle-first.rs": "9e98d899e82710a03b0da817c79457a114eacfebdddd1f658d8cd19a372d3b4c",
+    "tests/expected/uninit/points-to-cycles/self-cycle.expected": "4fb11b019f7c9a13a64eb862d8e40f32edc41624fde24b1a0c0a2229e918250f",
+    "tests/expected/uninit/points-to-cycles/self-cycle.rs": "54290ed84b8ca2f63ff664d9ec05aca7cd7644e43248400b10bf3b8f3c48f85a"
+  },
+  "ci_status": "NOT_RUN",
+  "typecheck": "NOT_RUN",
+  "rust_units": "NOT_RUN",
+  "binding": "UNKNOWN",
+  "independent_review": "PENDING_COORDINATOR; issued task forbids nested agents",
+  "local_validation": {
+    "static": "PASS",
+    "python_oracle_checker": "21/21 PASS",
+    "scratchpad_rustfmt": "PASS",
+    "diff_check": "PASS"
+  },
+  "local_execution": [
+    "Python/static",
+    "authorized scratchpad rustfmt"
+  ],
+  "push_performed": false,
+  "cloud_spend_usd": 0,
+  "cc2_cc3": "NOT_ISSUED_NOT_STARTED"
+}

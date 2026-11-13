@@ -1,0 +1,176 @@
+{
+  "status": "REQUEST_ONLY_NOT_AUTHORIZATION",
+  "source_sha": "b2e1a392ad27bd21758473bc208ff66c2d7d0405",
+  "source_tree": "4dd079d7f762301450b60394123f2b0b284b140b",
+  "binary_entry": "CHECKOUT/scripts/kani",
+  "driver_binary": "CHECKOUT/target/kani/bin/kani-driver",
+  "compiler_binary": "CHECKOUT/target/kani/bin/kani-compiler",
+  "binary_sha256": "UNKNOWN until coordinator build; record exact driver/compiler/CBMC hashes",
+  "environment": {
+    "RUSTFLAGS": "--edition 2021 -D warnings",
+    "NO_COLOR": "1"
+  },
+  "common_cli": [
+    "-Z",
+    "uninit-checks",
+    "-Z",
+    "function-contracts",
+    "-Z",
+    "stubbing",
+    "-Z",
+    "export-json",
+    "-Z",
+    "unstable-options",
+    "--default-unwind",
+    "8",
+    "--jobs",
+    "1",
+    "--harness-timeout",
+    "120",
+    "--keep-temps",
+    "--output-format=regular"
+  ],
+  "tail_cli": [
+    "--cbmc-args",
+    "--object-bits",
+    "12"
+  ],
+  "output_cli": [
+    "--target-dir",
+    "FRESH/target",
+    "--export-json",
+    "FRESH/export.json"
+  ],
+  "outer_process_timeout_s": 180,
+  "per_harness_timeout_s": 120,
+  "rss_limit_kib": 12582912,
+  "build_typecheck_timeout_s": 600,
+  "unit_timeout_s": 120,
+  "whole_request_envelope_s": 3600,
+  "invocation_count": 12,
+  "harness_result_count": 14,
+  "invocations": [
+    {
+      "id": "self_cycle",
+      "file": "tests/expected/uninit/points-to-cycles/self-cycle.rs",
+      "roots": [
+        "self_cycle"
+      ],
+      "selection": "exact-singleton",
+      "expected": "targeted cycle Unsupported",
+      "sha256": "54290ed84b8ca2f63ff664d9ec05aca7cd7644e43248400b10bf3b8f3c48f85a"
+    },
+    {
+      "id": "mutual_cycle",
+      "file": "tests/expected/uninit/points-to-cycles/mutual-cycle.rs",
+      "roots": [
+        "mutual_cycle"
+      ],
+      "selection": "exact-singleton",
+      "expected": "targeted cycle Unsupported",
+      "sha256": "d3215f5d42224f3fe889da4e78f4e8d15ebe6208b0171ddc8fcc03e0dded239e"
+    },
+    {
+      "id": "diamond_two_inputs",
+      "file": "tests/expected/uninit/points-to-cycles/dag.rs",
+      "roots": [
+        "diamond_two_inputs"
+      ],
+      "selection": "exact-singleton",
+      "expected": "SUCCESS; useful17/29/17 assertions and cover reached; no failures",
+      "sha256": "7f37e26433c46a96c19298e6bc9e592aac55cbec3b336757a4c89e53e7cf74a1"
+    },
+    {
+      "id": "repeated_callee_preserves_hole",
+      "file": "tests/expected/uninit/points-to-cycles/dag.rs",
+      "roots": [
+        "repeated_callee_preserves_hole"
+      ],
+      "selection": "exact-singleton",
+      "expected": "payload read Check/CheckRef failure; no reached Unsupported; exact set binding pending",
+      "sha256": "7f37e26433c46a96c19298e6bc9e592aac55cbec3b336757a4c89e53e7cf74a1"
+    },
+    {
+      "id": "capture_free_recursive_check",
+      "file": "tests/expected/uninit/points-to-cycles/capture-free.rs",
+      "roots": [
+        "capture_free_recursive_check"
+      ],
+      "selection": "exact-singleton",
+      "expected": "targeted cycle Unsupported; legal recursive-mode control",
+      "sha256": "2b785e11971bc41a8e0b351f788433c014968eb286069c262a3b87b21c95bf2a"
+    },
+    {
+      "id": "independent-singleton",
+      "file": "tests/expected/uninit/points-to-cycles/roots-cycle-first.rs",
+      "roots": [
+        "independent_nonrecursive"
+      ],
+      "selection": "exact-singleton",
+      "expected": "SUCCESS singleton; useful assertion29 and cover reached",
+      "sha256": "9e98d899e82710a03b0da817c79457a114eacfebdddd1f658d8cd19a372d3b4c"
+    },
+    {
+      "id": "original-recursive_check",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+      "roots": [
+        "recursive_check"
+      ],
+      "selection": "exact-singleton",
+      "expected": "complete observation; cycle reason required for cycle root; ordinary recursive Unsupported remains release BLOCKED; all bool/layout failures retained",
+      "sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0"
+    },
+    {
+      "id": "original-recursive_ordinary",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+      "roots": [
+        "recursive_ordinary"
+      ],
+      "selection": "exact-singleton",
+      "expected": "complete observation; cycle reason required for cycle root; ordinary recursive Unsupported remains release BLOCKED; all bool/layout failures retained",
+      "sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0"
+    },
+    {
+      "id": "original-recursive_simple_check",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+      "roots": [
+        "recursive_simple_check"
+      ],
+      "selection": "exact-singleton",
+      "expected": "complete observation; cycle reason required for cycle root; ordinary recursive Unsupported remains release BLOCKED; all bool/layout failures retained",
+      "sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0"
+    },
+    {
+      "id": "p1",
+      "file": "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs",
+      "roots": [
+        "postcondition_reads_initialized_return"
+      ],
+      "selection": "exact-singleton",
+      "expected": "existing exact p1 oracle SUCCESS, no extra failures",
+      "sha256": "439c9c9817875a0554fbf43a14eb7f871a3ab23cc038605afcead23a719ee4f0"
+    },
+    {
+      "id": "roots-cycle-first",
+      "file": "tests/expected/uninit/points-to-cycles/roots-cycle-first.rs",
+      "roots": [
+        "self_cycle",
+        "independent_nonrecursive"
+      ],
+      "selection": "all-proof-harnesses-in-file",
+      "expected": "complete per-root inventories: self_cycle targeted Unsupported; independent_nonrecursive SUCCESS matching singleton; actual root traversal order/grouping must be established",
+      "sha256": "9e98d899e82710a03b0da817c79457a114eacfebdddd1f658d8cd19a372d3b4c"
+    },
+    {
+      "id": "roots-acyclic-first",
+      "file": "tests/expected/uninit/points-to-cycles/roots-acyclic-first.rs",
+      "roots": [
+        "self_cycle",
+        "independent_nonrecursive"
+      ],
+      "selection": "all-proof-harnesses-in-file",
+      "expected": "complete per-root inventories: self_cycle targeted Unsupported; independent_nonrecursive SUCCESS matching singleton; actual root traversal order/grouping must be established",
+      "sha256": "8cf937c965e9f46f0b609ae65d78aa60abb56a6d2318203cd9bc28abf3839bce"
+    }
+  ]
+}
