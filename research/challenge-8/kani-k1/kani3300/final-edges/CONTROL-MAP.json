@@ -1,0 +1,286 @@
+{
+  "assurance": "semantic expectations fixed before CI; SOURCE-REPORTED / NOT_RUN",
+  "cases": [
+    {
+      "input": "tests/expected/uninit/part1-edges/dst-by-reference-hole.rs",
+      "root": "dst_by_reference_hole",
+      "sha256": "8972d902d20ea63f3e589bc3ab9b5bcaccf6a69962fe0c33771160fe1364aeca",
+      "expected_sha256": "cdd525ac3da5166378981ef4a017c43e7b58b0933dbf12399dd24907296af0f4",
+      "required_outcome": "UNINIT_READ",
+      "required_failures": [
+        "exactly one intended uninitialized-read property, no other failures"
+      ],
+      "target": "read(&mut [MU<u8>]) -> source[1].assume_init(), sized fat-pointer argument; no by-value slice transfer",
+      "matched_legal": "dst-by-reference-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": false
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/dst-by-reference-legal.rs",
+      "root": "dst_by_reference_legal",
+      "sha256": "7a1d2bd4a0ea24b8dba0822cd942db7784deeb763549788586b14798d43de4d3",
+      "expected_sha256": "4f3e5ed808319b2ff1f2d48af92e7e6b9483f02a118ed0f3c63dddcaaca3a0c1",
+      "required_outcome": "SUCCESS",
+      "required_failures": [],
+      "target": "read(&mut [MU<u8>]) -> source[1].assume_init(), sized fat-pointer argument; no by-value slice transfer",
+      "matched_legal": "dst-by-reference-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": false
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/dst-by-value-hole.rs",
+      "root": "dst_by_value_hole",
+      "sha256": "db708a0636f6dc5457c073ba75686ed9469dc1a3be2c30c19a437631ec54a903",
+      "expected_sha256": "f5043281d0bcabb678b92f2a1d9722341b923ce5d3b3a6a1e35d89e76b7abd6f",
+      "required_outcome": "UNSUPPORTED",
+      "required_failures": [
+        "unsupported_construct: Kani does not support unsized by-value shadow argument/return transfers."
+      ],
+      "target": "caller by-value slice before BeginArgumentTransfer/StoreArgument/deinit; independent callee-entry guard",
+      "matched_legal": "dst-by-value-legal",
+      "other_companions": [
+        "dst-by-reference-legal",
+        "existing maybe-uninit-transfers sized legal roots"
+      ],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": false
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/dst-by-value-legal.rs",
+      "root": "dst_by_value_legal",
+      "sha256": "07a693c793eb9bc5053e09ad8c266fadb453962c3d3f494e2068cd342f4984a1",
+      "expected_sha256": "e7a53016a085d40b8ac9f4951b3fe8ff733853bb8094c37a8aaac7eae93d56f1",
+      "required_outcome": "UNSUPPORTED",
+      "required_failures": [
+        "unsupported_construct: Kani does not support unsized by-value shadow argument/return transfers."
+      ],
+      "target": "caller by-value slice before BeginArgumentTransfer/StoreArgument/deinit; independent callee-entry guard",
+      "matched_legal": "dst-by-value-legal",
+      "other_companions": [
+        "dst-by-reference-legal",
+        "existing maybe-uninit-transfers sized legal roots"
+      ],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": false
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/immutable-relocation-hole.rs",
+      "root": "immutable_relocation_hole",
+      "sha256": "61aa3895a3dec9dc92be3402662a901f7855d4586d28fa3ccd8eab829147adca",
+      "expected_sha256": "5cb7c77430b65d4e08c0d8a81f3e612446faf108fb5290bef57e5e99fe0608af",
+      "required_outcome": "UNINIT_READ",
+      "required_failures": [
+        "exactly one intended uninitialized-read property, no other failures"
+      ],
+      "target": "raw_eq left [MU<&u8>;2], pointer relocation slot0 present in both; hole slot1 bytes; right also relocation-bearing and must be legal",
+      "matched_legal": "immutable-relocation-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": true
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/immutable-relocation-legal.rs",
+      "root": "immutable_relocation_legal",
+      "sha256": "5650feb9211dc43003b3d7bbe91a0453832a1dec73f2628306539c53da42e01f",
+      "expected_sha256": "8941c19ddbdd52676915a79ab7b26ff6ced5970747b47c5bfc94b48b0e3e06af",
+      "required_outcome": "SUCCESS",
+      "required_failures": [],
+      "target": "raw_eq left [MU<&u8>;2], pointer relocation slot0 present in both; hole slot1 bytes; right also relocation-bearing and must be legal",
+      "matched_legal": "immutable-relocation-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": true
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/immutable-static-hole.rs",
+      "root": "immutable_static_hole",
+      "sha256": "fbf3cda2423e5d344033e94ff9330e0e47354035506807885d09e092e24b56ce",
+      "expected_sha256": "6d16752c626cdbc21997d9df6bbbb8e058b50891db14c0e8cd591d7191da91de",
+      "required_outcome": "UNINIT_READ",
+      "required_failures": [
+        "exactly one intended uninitialized-read property, no other failures"
+      ],
+      "target": "raw_eq left &SOURCE named static [MU<u8>;3], hole byte1; right whole admitted anonymous [Some(0);3]",
+      "matched_legal": "immutable-static-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": true
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/immutable-static-legal.rs",
+      "root": "immutable_static_legal",
+      "sha256": "4fa88f3e729f13fe7879a5dbedd3183023a687e0dbd5014ce45f653deed4fe32",
+      "expected_sha256": "25e514e10ad3084598cd99786bc0b7845fb6997b22dd9a75554ff92fd148e218",
+      "required_outcome": "SUCCESS",
+      "required_failures": [],
+      "target": "raw_eq left &SOURCE named static [MU<u8>;3], hole byte1; right whole admitted anonymous [Some(0);3]",
+      "matched_legal": "immutable-static-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": true
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/immutable-subrange-hole.rs",
+      "root": "immutable_subrange_hole",
+      "sha256": "529016ee98fdcb926af90706409092af5261f1117f5e9e56037508c388770901",
+      "expected_sha256": "fa8db79c8f74fd9dd02fd319266d03751db1cb7dc422c5364c37cebaf41ea96a",
+      "required_outcome": "UNINIT_READ",
+      "required_failures": [
+        "exactly one intended uninitialized-read property, no other failures"
+      ],
+      "target": "raw_eq left at anonymous allocation offset1, extent2 of3; hole original byte2 => relative1; right whole admitted [Some(0),Some(0)]",
+      "matched_legal": "immutable-subrange-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": true
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/immutable-subrange-legal.rs",
+      "root": "immutable_subrange_legal",
+      "sha256": "d6fd8b20e60dfaa99937695d11ff96a1e0e66b458ce573aab57dd04a0be925b6",
+      "expected_sha256": "7933235dc2c99f57efe0c01718bb1e3567e405c4c0a9d05f62375240ee607558",
+      "required_outcome": "SUCCESS",
+      "required_failures": [],
+      "target": "raw_eq left at anonymous allocation offset1, extent2 of3; hole original byte2 => relative1; right whole admitted [Some(0),Some(0)]",
+      "matched_legal": "immutable-subrange-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": true
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/raw-field-legal.rs",
+      "root": "raw_field_legal",
+      "sha256": "4f7124c93063128e9c892b2ab7343aff917cee565db61435550546f9be5a86b6",
+      "expected_sha256": "2abf6c97b82d69d8259784a73230c35ffda4043e73d5a742f88768ce2cccb73f",
+      "required_outcome": "SUCCESS",
+      "required_failures": [],
+      "target": "store (*alias).value at offset4; read through pointer.value u32 (offset4..8)",
+      "matched_legal": "raw-field-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": false
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/raw-field-neighbor-hole.rs",
+      "root": "raw_field_neighbor_hole",
+      "sha256": "f8664aa2f865d1d68bb25b3c411d3c7ce18014313981d6e7870dad4bdffdd14c",
+      "expected_sha256": "fe36f79336744df9bd1641826b95fb5b742c33e787a0bc2c90cc15d1378b5098",
+      "required_outcome": "UNINIT_READ",
+      "required_failures": [
+        "exactly one intended uninitialized-read property, no other failures"
+      ],
+      "target": "legal value read offset4..8 then untouched tail u8 offset8",
+      "matched_legal": "raw-field-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": false
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/raw-field-padding-hole.rs",
+      "root": "raw_field_padding_hole",
+      "sha256": "887b64c75661afd8a4f1fd5d9a38c98c428d8e0f20200e65a4ce482e89892746",
+      "expected_sha256": "cb9ce19ee6667fa9486c1e6e19d98db19b2198f45317f55f73d22fc92387180f",
+      "required_outcome": "UNINIT_READ",
+      "required_failures": [
+        "exactly one intended uninitialized-read property, no other failures"
+      ],
+      "target": "legal value read offset4..8 then untouched padding u8 offset1",
+      "matched_legal": "raw-field-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": false
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/union-constant-hole.rs",
+      "root": "union_constant_hole",
+      "sha256": "3b6ffad862c16e370c47813a08d5d84a48f53710257e3ee89754b078ba646012",
+      "expected_sha256": "02d871f223d7fa520b69524080ba574d7581de38c688dddb4c5299fa3b92e7a4",
+      "required_outcome": "UNINIT_READ",
+      "required_failures": [
+        "exactly one intended uninitialized-read property, no other failures"
+      ],
+      "target": "consume(value: Byte), value.byte; caller custom MIR Operand::Constant(VALUE)",
+      "matched_legal": "union-constant-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": false
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/union-constant-legal.rs",
+      "root": "union_constant_legal",
+      "sha256": "11e01a070bcd6f50c02c8cd5bfc37e3d290105f4b6e5bc2e990b1ed6d7f372ee",
+      "expected_sha256": "aa8952629e45caa9eb4c047d74f80f7950e52ce20bb44b3f6f426da8a74df369",
+      "required_outcome": "SUCCESS",
+      "required_failures": [],
+      "target": "consume(value: Byte), value.byte; caller custom MIR Operand::Constant(VALUE)",
+      "matched_legal": "union-constant-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": false
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/union-variable-hole.rs",
+      "root": "union_variable_hole",
+      "sha256": "15b0adf99cae4e716d2ca7effa4339ab7d0ffe80ef39ceb8492d4a91c0b625bd",
+      "expected_sha256": "5f23ad895e305b8da1c9832b3cbb0141d7d21013d74efb49a3004655b8722d9f",
+      "required_outcome": "UNINIT_READ",
+      "required_failures": [
+        "exactly one intended uninitialized-read property, no other failures"
+      ],
+      "target": "consume(value: Byte), value.byte; caller custom MIR Operand::Copy(source)",
+      "matched_legal": "union-variable-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": false
+    },
+    {
+      "input": "tests/expected/uninit/part1-edges/union-variable-legal.rs",
+      "root": "union_variable_legal",
+      "sha256": "9ea928d6b08fb0a2598ff31054dcbc0b573b6f03dde54bb76bcfb48bf7445cc9",
+      "expected_sha256": "52832ed8bb29880ae33a4649dc36a10e04d159696b812f7b33454568ea71f1c2",
+      "required_outcome": "SUCCESS",
+      "required_failures": [],
+      "target": "consume(value: Byte), value.byte; caller custom MIR Operand::Copy(source)",
+      "matched_legal": "union-variable-legal",
+      "other_companions": [],
+      "actual_mir": "NOT_RUN",
+      "actual_properties": "NOT_RUN",
+      "actual_full_failure_set": "NOT_RUN",
+      "limitation_if_legal_fails": false
+    }
+  ]
+}

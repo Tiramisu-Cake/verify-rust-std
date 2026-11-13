@@ -1,0 +1,103 @@
+{
+  "candidate": "dc24745c68951effb702a4302e84481ca74bc51a",
+  "tree": "4e17cba9a9ae0bbc625f5fc6c147ff1cca17dc04",
+  "write_scope": "PASS",
+  "singleton_fixture_expected_pairing": "PASS",
+  "17_unique_roots": "PASS",
+  "critical_dependencies_unchanged": "PASS",
+  "critical_paths": [
+    "library/kani_core/src/mem_init.rs",
+    "kani-compiler/src/kani_middle/points_to",
+    "tests/json-handler/uninit-contract-oracles",
+    "tests/json-handler/uninit-contract-mode-boundaries",
+    "scripts/validate_json_export.py",
+    "kani-driver"
+  ],
+  "existing_reuse": [
+    {
+      "path": "maybe-uninit-initialized",
+      "exists": true
+    },
+    {
+      "path": "maybe-uninit-transfers",
+      "exists": true
+    },
+    {
+      "path": "maybe-uninit-call-pairing",
+      "exists": true
+    },
+    {
+      "path": "maybe-uninit-call-move",
+      "exists": true
+    },
+    {
+      "path": "promoted-allocations",
+      "exists": true
+    },
+    {
+      "path": "immutable-masks",
+      "exists": true
+    },
+    {
+      "path": "maybe-uninit-reset-alias",
+      "exists": true
+    },
+    {
+      "path": "maybe-uninit-reset-zst",
+      "exists": true
+    }
+  ],
+  "changed_compiler_files": {
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs": "1371e9059e45cff62f8be3d5323cc866ce74a4e67a6f3e69bf98372462bd3853",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": "ce6d36be2c059a04b1718afcf3bbb174550c2416d619b20b66211fbeab138ceb",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs": "11a2ced7dc5df2e907a586018c42b4c949ca9dd86fd682aa33fa870a070a3c20"
+  },
+  "all_changed_paths": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "tests/expected/uninit/part1-edges/README.md",
+    "tests/expected/uninit/part1-edges/dst-by-reference-hole.expected",
+    "tests/expected/uninit/part1-edges/dst-by-reference-hole.rs",
+    "tests/expected/uninit/part1-edges/dst-by-reference-legal.expected",
+    "tests/expected/uninit/part1-edges/dst-by-reference-legal.rs",
+    "tests/expected/uninit/part1-edges/dst-by-value-hole.expected",
+    "tests/expected/uninit/part1-edges/dst-by-value-hole.rs",
+    "tests/expected/uninit/part1-edges/dst-by-value-legal.expected",
+    "tests/expected/uninit/part1-edges/dst-by-value-legal.rs",
+    "tests/expected/uninit/part1-edges/immutable-relocation-hole.expected",
+    "tests/expected/uninit/part1-edges/immutable-relocation-hole.rs",
+    "tests/expected/uninit/part1-edges/immutable-relocation-legal.expected",
+    "tests/expected/uninit/part1-edges/immutable-relocation-legal.rs",
+    "tests/expected/uninit/part1-edges/immutable-static-hole.expected",
+    "tests/expected/uninit/part1-edges/immutable-static-hole.rs",
+    "tests/expected/uninit/part1-edges/immutable-static-legal.expected",
+    "tests/expected/uninit/part1-edges/immutable-static-legal.rs",
+    "tests/expected/uninit/part1-edges/immutable-subrange-hole.expected",
+    "tests/expected/uninit/part1-edges/immutable-subrange-hole.rs",
+    "tests/expected/uninit/part1-edges/immutable-subrange-legal.expected",
+    "tests/expected/uninit/part1-edges/immutable-subrange-legal.rs",
+    "tests/expected/uninit/part1-edges/raw-field-legal.expected",
+    "tests/expected/uninit/part1-edges/raw-field-legal.rs",
+    "tests/expected/uninit/part1-edges/raw-field-neighbor-hole.expected",
+    "tests/expected/uninit/part1-edges/raw-field-neighbor-hole.rs",
+    "tests/expected/uninit/part1-edges/raw-field-padding-hole.expected",
+    "tests/expected/uninit/part1-edges/raw-field-padding-hole.rs",
+    "tests/expected/uninit/part1-edges/union-constant-hole.expected",
+    "tests/expected/uninit/part1-edges/union-constant-hole.rs",
+    "tests/expected/uninit/part1-edges/union-constant-legal.expected",
+    "tests/expected/uninit/part1-edges/union-constant-legal.rs",
+    "tests/expected/uninit/part1-edges/union-variable-hole.expected",
+    "tests/expected/uninit/part1-edges/union-variable-hole.rs",
+    "tests/expected/uninit/part1-edges/union-variable-legal.expected",
+    "tests/expected/uninit/part1-edges/union-variable-legal.rs"
+  ],
+  "rustfmt": {
+    "status": "PASS",
+    "version": "rustfmt 1.11.0-nightly (c1070d6938 2026-09-28)",
+    "wrapper": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh"
+  },
+  "existing_python_oracle_checker": "21/21 PASS",
+  "rust_compiler_unit_and_fixture_execution": "NOT_RUN",
+  "proof_credit": "NONE"
+}

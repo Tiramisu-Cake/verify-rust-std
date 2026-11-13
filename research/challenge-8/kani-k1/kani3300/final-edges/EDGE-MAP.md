@@ -1,0 +1,17 @@
+# E1 source map before implementation
+
+All MIR descriptions below are source-derived expectations, not observed compiler output.
+Actual operands, offsets, masks and failure identities require coordinator CI on the candidate.
+Base: 94c00a8859bc9e4f0f1b7db73a95dbee88f6213a, nightly-2026-10-23.
+
+| Edge | Source → expected actual operation | Existing guard/setter → read/property | Bounded action |
+|---|---|---|---|
+| Ordinary union constant | custom runtime optimized MIR `Call(... consume(CONST))`, named `union Byte` constant → Operand::Constant; local variable companion → Copy | visitor StoreArgument → mod.rs materializes only MU → relevant_instruction::operand_ty/mk_ref unreachable; callee LoadArgument → union field CheckRef | materialize any supported constant StoreArgument with allocation Some/None mask, reject unavailable mask; preserve false storage bits; handle constant local union assignment identically |
+| Projected raw store | valid MaybeUninit<repr(C) Pair> allocation, raw Pair pointer alias, `(*alias).value = v` → Deref,Field at offset 4 | visit_ordinary_assignment only removes final Deref → misses setter; later raw value read Check | check intermediate loaded pointers, SetRef on exact destination place after store; retain neighbor and padding false |
+| Whole immutable | existing promoted `[MU<u8>;3]`, shared whole reference → allocated carrier offset Some(0), extent=allocation length | anonymous_origins frozen_origin + backend Descriptor::admitted → seed Some/None bytes after reset; raw_eq byte checks | reuse promoted-allocations and immutable-masks controls unchanged |
+| Immutable subrange | const shared reference to last two slots of three-slot anonymous allocation → carrier offset Some(1), extent 2, allocation length 3 | frozen_origin None, no M1 seed; raw_eq CheckAs → possible legal falseFAIL | preserve admission; legal expected SUCCESS, hole expected only actual-hole check; classify unsupported legal path as release limitation |
+| Immutable relocation | shared anonymous `[MU<&u8>;2]` referent with a live reference in slot 0, initialized/hole slot 1 → referent contains relocation | frozen origin may qualify type/extent, Descriptor::admitted rejects relocations; raw_eq whole-storage CheckAs | preserve admission; no new pointer initialization model; legal falseFAIL is limitation |
+| Named static | shared reference to static `[MU<u8>;3]` → GlobalAlloc::Static | excluded from anonymous origins; existing visit_operand raw-static setter and static/delayed-UB paths must be distinguished; shared reference raw_eq does not meet raw-pointer operand setter | legal/hole controls, do not assume all statics unsupported or seeded |
+| By-value DST | existing UnsizedFnParams source establishes feature syntax: trait self:[T] moved from Box<[T]>; specialize slots MU<u8> → expected Move(Deref), by-value slice callee local | transfers_shadow accepts slice; for_typed_storage returns Slice but maybe_size reports element size; monomorphized transfer needs Sized | reject whole call and callee entry before begin/load/store/deinit; defensive layout guard + compiler-side unit test; sized and by-reference legal/hole companions |
+
+The Box form is a reachability reproducer following an existing pinned-tree test, not a claim of new heap support. No actual MIR or compile-success evidence exists locally. E0277/other compilation failures or earlier unrelated Unsupported do not qualify DST or any other edge.
