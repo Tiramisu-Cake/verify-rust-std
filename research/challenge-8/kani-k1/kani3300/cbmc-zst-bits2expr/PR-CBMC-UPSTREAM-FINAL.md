@@ -1,6 +1,6 @@
 Title: Fix reconstruction of arrays with zero-width elements
 
-`bits2expr` rejects an array whose element type has zero width when reconstructing a constant inside a larger aggregate. A typed read of constant bytes into this GNU C struct exercises the array branch through byte-extract simplification:
+`bits2expr` rejects an array whose element type has zero width when reconstructing a constant inside a larger aggregate. Reading constant bytes through a pointer to this GNU C struct reaches the array branch via byte-extract simplification:
 
 ```c
 #include <string.h>
