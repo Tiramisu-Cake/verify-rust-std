@@ -1,0 +1,652 @@
+{
+  "schema": "kani3300-closure-zst-fixtures-v1",
+  "source_commit": "0ad35c0a9345d6dc460ef0f2ed2adea7b76d235b",
+  "source_tree": "9863eb935446f0f9423d57daa3d8cbe0d11bf3b1",
+  "execution": "NOT_RUN",
+  "expected_assurance": "SOURCE_ONLY, not observed output; new .expected files are framework smoke patterns, never the semantic gate",
+  "exact_replays": [
+    {
+      "id": "P1",
+      "source": "research/challenge-8/kani-k1/kani3300/m2a/cases/scalar-pfc-legal.rs",
+      "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b",
+      "root": "postcondition_reads_initialized_return",
+      "property_class": "SUCCESS",
+      "byte_identical_H1": true,
+      "execution": "NOT_RUN"
+    },
+    {
+      "id": "P2",
+      "source": "research/challenge-8/kani-k1/kani3300/m2a/cases/scalar-pfc-hole.rs",
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759",
+      "root": "postcondition_reads_returned_hole",
+      "property_class": "PAYLOAD_UNINIT",
+      "byte_identical_H1": true,
+      "execution": "NOT_RUN"
+    }
+  ],
+  "suite_fixtures": [
+    {
+      "id": "scalar-pfc-legal",
+      "source": "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs",
+      "sha256": "e90bc749efe76947b04e64d17e97adfad00497a9a2eb39afae36797c2bff1349",
+      "root": "postcondition_reads_initialized_return",
+      "group": "exact-P1-P2-suite-copy",
+      "capture_mode": "capture-free",
+      "expected_property_class": "SUCCESS",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/scalar-pfc-legal.expected",
+      "expected_sha256": "b996003766966f34c555121649c98e690735d65f9c5e1171f63a89cd6efa9f9b",
+      "original_source": "research/challenge-8/kani-k1/kani3300/m2a/cases/scalar-pfc-legal.rs",
+      "original_sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b",
+      "byte_identical_to_H1": false,
+      "delta": "comment-only: append --cbmc-args --object-bits 12 to kani-flags; exact replay uses original research bytes"
+    },
+    {
+      "id": "scalar-pfc-hole",
+      "source": "tests/expected/uninit/closure-zst/scalar-pfc-hole.rs",
+      "sha256": "f039ab6693a78bbaebc070a775b13df93d5506bb972449d6cba4168e86116c68",
+      "root": "postcondition_reads_returned_hole",
+      "group": "exact-P1-P2-suite-copy",
+      "capture_mode": "capture-free",
+      "expected_property_class": "PAYLOAD_UNINIT",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/scalar-pfc-hole.expected",
+      "expected_sha256": "cb84676e1f6ab8c991620fad5e8a50fa803f6110cecf714ae29e80c94cff2cee",
+      "original_source": "research/challenge-8/kani-k1/kani3300/m2a/cases/scalar-pfc-hole.rs",
+      "original_sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759",
+      "byte_identical_to_H1": false,
+      "delta": "comment-only: append --cbmc-args --object-bits 12 to kani-flags; exact replay uses original research bytes"
+    },
+    {
+      "id": "capture-unit-legal",
+      "source": "tests/expected/uninit/closure-zst/capture-unit-legal.rs",
+      "sha256": "28d2d225d15c82e0688c9c6649e48a5b77c9fa953c44633010cb3cef86427721",
+      "root": "capture_unit_legal",
+      "group": "zero-size-capture",
+      "capture_mode": "by-value",
+      "expected_property_class": "SUCCESS",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-unit-legal.expected",
+      "expected_sha256": "8a1572b39b750f5a26fba68dd38301a57e4bbddf9c8c7898b74b745021133b23",
+      "layout_expectation": "zero",
+      "payload_read": "argument",
+      "capture_state": "initialized",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-unit-hole",
+      "source": "tests/expected/uninit/closure-zst/capture-unit-hole.rs",
+      "sha256": "8d14fa82cdcce99e91975a84c3381be027541061690b2596eeb5ad8cc2aece52",
+      "root": "capture_unit_hole",
+      "group": "zero-size-capture",
+      "capture_mode": "by-value",
+      "expected_property_class": "PAYLOAD_UNINIT",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-unit-hole.expected",
+      "expected_sha256": "e4a557521b82386f46c2238617a4dc85f749bedaca50f325231bd60d8f2d3923",
+      "layout_expectation": "zero",
+      "payload_read": "argument",
+      "capture_state": "initialized",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-aligned-legal",
+      "source": "tests/expected/uninit/closure-zst/capture-aligned-legal.rs",
+      "sha256": "cff866ecd604e6d7f0e0764f2bdc946fcb9aea7d29c97c32d48566444fdc8b6f",
+      "root": "capture_aligned_legal",
+      "group": "zero-size-capture",
+      "capture_mode": "by-value",
+      "expected_property_class": "SUCCESS",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-aligned-legal.expected",
+      "expected_sha256": "50609c1c9ed50aaaef1bbd2f5925fbf5a0b784ee2669e3312dcf4e6fd5ccbba6",
+      "layout_expectation": "zero",
+      "payload_read": "argument",
+      "capture_state": "initialized",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-aligned-hole",
+      "source": "tests/expected/uninit/closure-zst/capture-aligned-hole.rs",
+      "sha256": "28eb5c305493edc76ad83d56a4700bee905ca944f303e800d225aa94ad61647c",
+      "root": "capture_aligned_hole",
+      "group": "zero-size-capture",
+      "capture_mode": "by-value",
+      "expected_property_class": "PAYLOAD_UNINIT",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-aligned-hole.expected",
+      "expected_sha256": "1d1f8adf5f03cce85533ad7b66ceca4db84fda4e05e95f9bed523a3dac9be32d",
+      "layout_expectation": "zero",
+      "payload_read": "argument",
+      "capture_state": "initialized",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-scalar",
+      "source": "tests/expected/uninit/closure-zst/capture-scalar.rs",
+      "sha256": "85e8b36c0106a16aa5573be5a3e341473f0db54597626a4e82749902d501474f",
+      "root": "capture_scalar",
+      "group": "nonzero-scalar-or-padded",
+      "capture_mode": "by-value",
+      "expected_property_class": "UNSUPPORTED_NONZERO_CLOSURE",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-scalar.expected",
+      "expected_sha256": "01fc21568d5c23b249313a2cfe1f4dd9832a637515033fa38f7537c4bfb731b2",
+      "layout_expectation": "nonzero",
+      "payload_read": "argument",
+      "capture_state": "initialized",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-padded",
+      "source": "tests/expected/uninit/closure-zst/capture-padded.rs",
+      "sha256": "30e3611727d32de7883d675db84ed7751346f4ce724147bbd8479940ae3d9084",
+      "root": "capture_padded",
+      "group": "nonzero-scalar-or-padded",
+      "capture_mode": "by-value",
+      "expected_property_class": "UNSUPPORTED_NONZERO_CLOSURE",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-padded.expected",
+      "expected_sha256": "bd4c345243ffa5d3608245bba5b781ef34a64da88f30e5cfb6cf03dbe31c24ea",
+      "layout_expectation": "nonzero",
+      "payload_read": "argument",
+      "capture_state": "initialized",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-reference-legal",
+      "source": "tests/expected/uninit/closure-zst/capture-reference-legal.rs",
+      "sha256": "0bece2c474d5dba7fb430e38740205cffdfc41fb9c1c4646373e0b1f4db045e3",
+      "root": "capture_reference_legal",
+      "group": "reference-or-raw-alias",
+      "capture_mode": "by-reference",
+      "expected_property_class": "UNSUPPORTED_NONZERO_CLOSURE",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-reference-legal.expected",
+      "expected_sha256": "99e24784ac38758c1ac281fd66a7bbdd28940997e667a391f6173a1a96f78dad",
+      "layout_expectation": "nonzero",
+      "payload_read": "captured pointee",
+      "capture_state": "initialized",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-reference-hole",
+      "source": "tests/expected/uninit/closure-zst/capture-reference-hole.rs",
+      "sha256": "23f0d4ecb91aa387aeacd6faa8825210d269a9edaac37d720e561703ac974f8f",
+      "root": "capture_reference_hole",
+      "group": "reference-or-raw-alias",
+      "capture_mode": "by-reference",
+      "expected_property_class": "UNSUPPORTED_NONZERO_CLOSURE",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-reference-hole.expected",
+      "expected_sha256": "2c9c83d6f46c33bc21fca9689b5b764886f8751f50f1fda5e15c81baf06364b9",
+      "layout_expectation": "nonzero",
+      "payload_read": "captured pointee",
+      "capture_state": "hole in valid MaybeUninit",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-raw-legal",
+      "source": "tests/expected/uninit/closure-zst/capture-raw-legal.rs",
+      "sha256": "402e06318539268681cf0e5d40a5cd28fda7ab2b885ad57ce7774ab33b596828",
+      "root": "capture_raw_legal",
+      "group": "reference-or-raw-alias",
+      "capture_mode": "by-value-pointer",
+      "expected_property_class": "UNSUPPORTED_NONZERO_CLOSURE",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-raw-legal.expected",
+      "expected_sha256": "f15b74407f11f9cf46145e4651de4b58e0b651f5ffe73e7d17b5d9c182d64d7d",
+      "layout_expectation": "nonzero",
+      "payload_read": "captured pointee",
+      "capture_state": "initialized",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-raw-hole",
+      "source": "tests/expected/uninit/closure-zst/capture-raw-hole.rs",
+      "sha256": "4fb54f2d60edaa8ed6e8284d9dd75d417f7ff26a1a729aeceb52622ac6b59689",
+      "root": "capture_raw_hole",
+      "group": "reference-or-raw-alias",
+      "capture_mode": "by-value-pointer",
+      "expected_property_class": "UNSUPPORTED_NONZERO_CLOSURE",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-raw-hole.expected",
+      "expected_sha256": "b887a2ccbc4adf0567476524936b62d7048e47091a9c584f2c33e18b306929ce",
+      "layout_expectation": "nonzero",
+      "payload_read": "captured pointee",
+      "capture_state": "hole in valid MaybeUninit",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-mu-value-new",
+      "source": "tests/expected/uninit/closure-zst/capture-mu-value-new.rs",
+      "sha256": "60ce6dd071f654a27f84ec40cc54801563d151a5294497f96fc24ed24ad43a00",
+      "root": "capture_mu_value_new",
+      "group": "captured-MaybeUninit",
+      "capture_mode": "by-value",
+      "expected_property_class": "UNSUPPORTED_NONZERO_CLOSURE",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-mu-value-new.expected",
+      "expected_sha256": "990624a864ba1e9ffb2c01154dc70d3e107f83b53b0e762c08047c3ac2ee5cdd",
+      "layout_expectation": "nonzero",
+      "payload_read": "captured MU payload",
+      "capture_state": "MaybeUninit::new(17)",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-mu-value-uninit",
+      "source": "tests/expected/uninit/closure-zst/capture-mu-value-uninit.rs",
+      "sha256": "a1d5388e7abdca09861204b031de8284b73ff059fc3865c17830c1c517e59934",
+      "root": "capture_mu_value_uninit",
+      "group": "captured-MaybeUninit",
+      "capture_mode": "by-value",
+      "expected_property_class": "UNSUPPORTED_NONZERO_CLOSURE",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-mu-value-uninit.expected",
+      "expected_sha256": "3b9b0f70253eaecde9a3e49b2b13b66f6f5501157c921b259b27190742236b63",
+      "layout_expectation": "nonzero",
+      "payload_read": "captured MU payload",
+      "capture_state": "MaybeUninit::uninit()",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-mu-reference-new",
+      "source": "tests/expected/uninit/closure-zst/capture-mu-reference-new.rs",
+      "sha256": "c2d43e1f09069712eb035a8e43c87a677000e1231575120c25938be4c446739e",
+      "root": "capture_mu_reference_new",
+      "group": "captured-MaybeUninit",
+      "capture_mode": "by-reference",
+      "expected_property_class": "UNSUPPORTED_NONZERO_CLOSURE",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-mu-reference-new.expected",
+      "expected_sha256": "59f1aabeaf4979f1c29d2e920fd69a2cb8068f385d0c95596ef6d889bba24ca9",
+      "layout_expectation": "nonzero",
+      "payload_read": "captured MU payload",
+      "capture_state": "MaybeUninit::new(17)",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-mu-reference-uninit",
+      "source": "tests/expected/uninit/closure-zst/capture-mu-reference-uninit.rs",
+      "sha256": "4b45580883e3d2958840d211b338539a3b30b850e16238fe9d5f23df1b2d50fa",
+      "root": "capture_mu_reference_uninit",
+      "group": "captured-MaybeUninit",
+      "capture_mode": "by-reference",
+      "expected_property_class": "UNSUPPORTED_NONZERO_CLOSURE",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-mu-reference-uninit.expected",
+      "expected_sha256": "56a143fa2c61301ffa5a0ae93f30944a1b57b14374f5b9517d21c276d972e03c",
+      "layout_expectation": "nonzero",
+      "payload_read": "captured MU payload",
+      "capture_state": "MaybeUninit::uninit()",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-union-value",
+      "source": "tests/expected/uninit/closure-zst/capture-union-value.rs",
+      "sha256": "a0b5f29d96d89ce3d89a802b8d34ea1df644234cbfcca6380b3563297ba5e277",
+      "root": "capture_union_value",
+      "group": "captured-ordinary-union",
+      "capture_mode": "by-value",
+      "expected_property_class": "UNSUPPORTED_NONZERO_CLOSURE",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-union-value.expected",
+      "expected_sha256": "728e29a4e3f12f16a88b60b5828bbe6932d599afa34a838abf8b0fa44dfef154",
+      "layout_expectation": "nonzero",
+      "payload_read": "active union byte and callback argument",
+      "capture_state": "valid union initialized through byte field; remaining storage may be uninitialized",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    },
+    {
+      "id": "capture-union-reference",
+      "source": "tests/expected/uninit/closure-zst/capture-union-reference.rs",
+      "sha256": "2f7074867ac85a98b8b71be967f0ba0087108b4acc354fc0142f90afc43b3a47",
+      "root": "capture_union_reference",
+      "group": "captured-ordinary-union",
+      "capture_mode": "by-reference",
+      "expected_property_class": "UNSUPPORTED_NONZERO_CLOSURE",
+      "execution": "NOT_RUN",
+      "closure_layout_path": "NOT_RUN; requires exact GOTO/MIR operation binding",
+      "expected_file": "tests/expected/uninit/closure-zst/capture-union-reference.expected",
+      "expected_sha256": "54872beea191c33522c717850c6fb0313f61cf39425c98da5616198c07e31eb8",
+      "layout_expectation": "nonzero",
+      "payload_read": "active union byte and callback argument",
+      "capture_state": "valid union initialized through byte field; remaining storage may be uninitialized",
+      "qualification": "SOURCE_ONLY; size assertion and raw read do not establish executed layout path"
+    }
+  ],
+  "preserved_existing_inputs": [
+    {
+      "source": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+      "sha256": "778925cfde695f7899091ebab25513e7d755784dcbbd1ea92d844432bc8263ba",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+      "sha256": "f5c45585e405fe570d88eddb69b76b6299a04ebaba168cc08e2b36bb3bbb09c2",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "frame_negative"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+      "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+      "sha256": "5fc89460489e7ac8dafe69f0ad722ae5d4d3a31776f945c0f78beda15aa38ad9",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "clause_pfc_negative"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/maybe-uninit-argument-return/expected",
+      "sha256": "a9ed8039903d8bd6f56d7c563703e213d99020d235038e5107a1395a264a807c",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+      "sha256": "345db788d839c5f40fae3454d7ec8d1a8b805a208554a8fcad04ee53027ff9b9",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "argument_return"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/maybe-uninit-argument-buffer/expected",
+      "sha256": "c492085c8f298d29717c88d9d742231b261d9e2d1797761cac1a0ba7dd9ebe29",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+      "sha256": "09e5dd454f0cfcfeed1d9df436507c7d705270e85ee11592347113d58f9f1f55",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "nested_two_argument_return_reads_uninit"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/maybe-uninit-typed-argument-padding/expected",
+      "sha256": "e83aa826b29d95fb0bc06ed4a29305fddcd83013b731632080057c99e25f1ebf",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/maybe-uninit-typed-argument-padding/main.rs",
+      "sha256": "b72b3f4808b58061054d143ee568c044aea48671910e4f5ca33be41dc36ed069",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "typed_argument_discards_written_padding"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/maybe-uninit-call-move/expected",
+      "sha256": "b8a3c48787adbbc410957036dc20491c79004581d37113c2676416c520d7aa31",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "sha256": "09d0ee03eb423f60f727bc004eb20698cc03412d3de6f104dc8b5c4735d0cbec",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "in_place_move_reads_initialized_callee_then_uninit_source",
+        "in_place_move_still_checks_uninitialized_callee_payload",
+        "in_place_move_delivers_initialized_payload_to_callee",
+        "in_place_move_write_still_deinitializes_source",
+        "in_place_copy_preserves_source",
+        "in_place_copy_write_changes_parameter_only",
+        "ordinary_by_value_temporary_preserves_original_source",
+        "union_in_place_move_deinitializes_source",
+        "union_in_place_copy_preserves_source",
+        "union_normal_return_preserves_initialized_byte",
+        "union_normal_return_preserves_uninitialized_byte",
+        "padded_custom_move_deinitializes_source_padding",
+        "padded_custom_copy_preserves_source_padding"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/immutable-masks/copy-hole.expected",
+      "sha256": "1285983a1932a9032df9f01c52ffaf2990feb0ea7ef6f9a074ad9da9339f82f1",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/immutable-masks/copy-hole.rs",
+      "sha256": "e95bac37b8e6c26c05adef935f45741489752acfb7b286b85c389e684fac47b3",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "copied_immutable_hole_remains_uninitialized"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/immutable-masks/empty.expected",
+      "sha256": "ad6767a2682d28b9d5fe7371c07f6b9a7a7c8050bf3ce52e0e738f062fd43326",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/immutable-masks/empty.rs",
+      "sha256": "1bf8317f916902caa504eae259e334a762328a307c845b087d13e8a7666bd84d",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "empty_immutable_arrays"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/immutable-masks/zero-byte-hole.expected",
+      "sha256": "10b32d8779c1d4e595cca3c7f0cc0813d936bbb18f3b8a183df7586c27511777",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/immutable-masks/zero-byte-hole.rs",
+      "sha256": "8a76ef0263178378aed8f8a13db647808f70facefbe6323132752fc128d25a58",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "zero_and_uninitialized_are_distinct"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/immutable-masks/zero-bytes-legal.expected",
+      "sha256": "9103bf718de45e6e4e94a735a6d6e7466a26c0b52fce247aa4e9c49ea88e7868",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/immutable-masks/zero-bytes-legal.rs",
+      "sha256": "763c1a3537988d888438e152157ba9212f185277255e1fb208d9db2ba063f7f8",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "initialized_zero_bytes"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.expected",
+      "sha256": "4bedbd7632f8f9775f5f07a39430cb5b2e26c623bc551896b6ce9e395a9e1467",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs",
+      "sha256": "47e48e69bff71f92f9f098acbea449cb44ce40034d9bea6eb6f3818bc6b3838f",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "ensures_left_hole"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.expected",
+      "sha256": "e4c29764a41c9f1483b87dbeb5ad4268bc3b8ea952a5d6b9730326bf0c8d9b2a",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs",
+      "sha256": "6e0cb23853ca8954b1824adb5375df8c141da6fc2653f89c75eb96e0b9f10bda",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "ensures_right_hole"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.expected",
+      "sha256": "6fb62c8154c9248d51f319458e7caacfb13ded674d377a0e60d240f21ab31228",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs",
+      "sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "legal_ordinary_transfer"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/transfer-qualification/legal-pair.expected",
+      "sha256": "d9efa4dfaf33963a0c5c668577ccd2e76d1e212d58d1af7767f98540ac9a8558",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/transfer-qualification/legal-pair.rs",
+      "sha256": "3385d702baa91965af565878f1f1d8e27a1de37a0ea52da3595cb5e609d8e363",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "legal_ordinary_transfer",
+        "legal_pfc_transfer"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/transfer-qualification/normal-abort.expected",
+      "sha256": "c36dbee1067f87faf285206a72733ff0f13b3f434ee28d3f679083fe5f031ef8",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/transfer-qualification/normal-abort.rs",
+      "sha256": "45021f2a9ed44e1162b21a0c758decc7b879eb9c50e91dfba57f9c0736b43471",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "normal_return_or_abort"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/transfer-qualification/out-pointer.expected",
+      "sha256": "625af5ac4e60045acd47aadd15e00b8fc4db524ebd1dd911b50761dd042f20f0",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+      "sha256": "7610c67c89302bbcdd541ebaa8d70651c5a3231a0909b28126452b233a79d280",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "out_pointer_fully_written",
+        "out_pointer_preserves_middle_hole"
+      ]
+    },
+    {
+      "source": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+      "sha256": "4d4ff2b6fca8cc5bc556fe159c3d9a03dfc5defd93c9cad7d8d8554c12568031",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN"
+    },
+    {
+      "source": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759",
+      "unchanged_from": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+      "execution": "NOT_RUN",
+      "roots": [
+        "postcondition_reads_returned_hole"
+      ]
+    }
+  ],
+  "semantic_oracle": {
+    "P1": {
+      "required": "lawful MU transfer; callback reads initialized17; all necessary checks SUCCESS; useful postcondition_target::{closure#2}.assertion reached SUCCESS",
+      "forbidden": [
+        "Unsupported",
+        "early frame/protocol failure",
+        "invalid typed input",
+        "assume hiding useful tail"
+      ],
+      "IDs": "bind actual generated IDs to new source/callsite; suffix UNKNOWN"
+    },
+    "P2": {
+      "required_failures": [
+        {
+          "operation": "local Check",
+          "description_type": "*const u8",
+          "meaning": "pointee initialization at first ensures payload read"
+        },
+        {
+          "operation": "delayed CheckRef",
+          "description_type": "u8",
+          "meaning": "same pointee and same source payload read"
+        }
+      ],
+      "required_failure_count": 2,
+      "require_source_operation_binding": true,
+      "other_failures_allowed": false,
+      "outer_assertion": "may be UNREACHABLE after failed-read guard",
+      "IDs": "UNKNOWN until new CI; do not borrow historical .1/.4",
+      "changed_check_count_or_class": "STOP; exact MIR/source mapping required; no deduplication"
+    }
+  },
+  "required_per_case_fields": {
+    "build_source_binary_binding": "UNKNOWN",
+    "actual_argv_and_hash": "UNKNOWN",
+    "GOTO_hash": "UNKNOWN",
+    "bounded_inventory_complete": "NOT_RUN",
+    "closure_layout_type_size_and_query_operation": "NOT_RUN",
+    "local_Check_reached": "NOT_RUN",
+    "delayed_CheckRef_reached": "NOT_RUN",
+    "useful_callback_read_reached": "NOT_RUN",
+    "outer_assertion_reached_status": "NOT_RUN",
+    "original_exit_signal_RSS_KiB": "NOT_RUN"
+  },
+  "nondiscriminating_rule": "No confirmed closure-specific layout query => nondiscriminating; an earlier Unsupported on a tuple/Cell/MU aggregate, field, or callback path is not the nonzero guard result.",
+  "nonzero_scope": "Only expected Unsupported boundary when actual closure layout queried; no captures/payload support credit. By-reference storage means pointer bytes, never pointee bytes."
+}
