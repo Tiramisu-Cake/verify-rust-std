@@ -2,24 +2,36 @@
   "task": "TASK-KANI3300-MARKER-MODES.md",
   "worker": "worker15",
   "date": "2026-11-13",
-  "status": "STOP_REQUIRED_STATE_PREDICATE",
+  "status": "PREPARED_FOR_COORDINATOR_REVIEW_AND_CI",
   "source_base": "ee2695e5a2c4c2d8ead7a511e0f3f6f2a9a95677",
-  "source_head": "ee2695e5a2c4c2d8ead7a511e0f3f6f2a9a95677",
-  "source_commit": null,
+  "source_head": "e3176488c91a4d74573a766e351379b0e2dd3713",
+  "source_commit": "e3176488c91a4d74573a766e351379b0e2dd3713",
   "source_repo": "/root/kani-fix-3300-marker-modes",
   "source_branch": "fix/kani-3300-marker-modes",
   "clone_origin": "/root/kani-fix-3300-closure-zst",
   "research_base": "be5bdb511676c0f441662528c0b88aab9c3fe007",
   "research_branch": "experiment/kani-k1-kani3300g0-20261111",
-  "source_changed_files": [],
+  "source_changed_files": [
+    "docs/src/reference/experimental/contracts.md",
+    "tests/json-handler/uninit-contract-mode-boundaries/README.md",
+    "tests/json-handler/uninit-contract-mode-boundaries/config.yml",
+    "tests/json-handler/uninit-contract-mode-boundaries/observe.py",
+    "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+    "tests/json-handler/uninit-contract-mode-boundaries/replace.rs",
+    "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+    "tests/json-handler/uninit-contract-mode-boundaries/run.py",
+    "tests/json-handler/uninit-contract-mode-boundaries/test.sh",
+    "tests/json-handler/uninit-contract-mode-boundaries/test_observe.py"
+  ],
   "local_execution_allowed": [
     "Python",
     "static/source audit",
     "scratchpad rustfmt"
   ],
   "local_execution_performed": [
-    "Python",
-    "static/source audit"
+    "Python source/static audit",
+    "13 synthetic Python observer/collector tests with mocked process invocation",
+    "scratchpad rustfmt only; no typecheck"
   ],
   "ci_status": "NOT_RUN",
   "cloud_spend_usd": 0,
@@ -38,7 +50,26 @@
     "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs": "c01ced42f97efdbc8d6a34c75f229753af59f380549518af971ecea672cd72b2",
     "library/kani_core/src/mem_init.rs": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
     "cprover_bindings/src/goto_program/symbol_table.rs": "26e5e72c0014aafc640897f65e0b380186da4ca3aa86bdd49717cf74260aac77",
-    "library/kani_macros/src/sysroot/contracts/replace.rs": "6bd51d3234c0778c5e0a465d1009d4efdee21dc2565e626b6d309f25c6791f05",
-    "docs/src/reference/experimental/contracts.md": "3a2239f46ddb82636528d008083f8a96864710af86d3a8769e891fcff471162a"
+    "library/kani_macros/src/sysroot/contracts/replace.rs": "6bd51d3234c0778c5e0a465d1009d4efdee21dc2565e626b6d309f25c6791f05"
+  },
+  "coordinator_scope_update": "2026-11-13: accepted section-2 STOP; defer marker diagnostic to separate note/issue; complete docs and mode fixtures only",
+  "marker_diagnostic": "DEFERRED; contract.rs unchanged; REQUIRED-STATE.md retains accepted STOP analysis",
+  "research_resume_base": "cee401ec22bd96e2b91733e6e2a275618b55f37e",
+  "changed_source_file_sha256": {
+    "docs/src/reference/experimental/contracts.md": "85854e5217cf79c79545d2487d8e02724b987c87eb7cf22aee2522cbc9aa9e51",
+    "tests/json-handler/uninit-contract-mode-boundaries/README.md": "2c9e35185508b6429bd3c6ed013d80c19b88c912112dcef33d42c3aad9326206",
+    "tests/json-handler/uninit-contract-mode-boundaries/config.yml": "18c60b89ee0a92c3d4728f4a108f8591b0d8a5209a3f40b3c4ae104802190d0c",
+    "tests/json-handler/uninit-contract-mode-boundaries/observe.py": "72a6a94805d0c6b1ba5aef2a815ac2c69d829293211dc7bb4ca0e059dc87d8dd",
+    "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+    "tests/json-handler/uninit-contract-mode-boundaries/replace.rs": "44b10bf2ef4d961b37b75098ec89246afe608036f4ed4cb8e3c5e70680425600",
+    "tests/json-handler/uninit-contract-mode-boundaries/roots.json": "3820ca2186db67001cae5c0ca967ebf3773f985e3b8256e02d93c4bc4a8d21e3",
+    "tests/json-handler/uninit-contract-mode-boundaries/run.py": "eb94e61ffc20b459a7349831df07dcea138ca7df7b5eadd40bbbf200bcf3f04a",
+    "tests/json-handler/uninit-contract-mode-boundaries/test.sh": "827bb9a208695861097a57d6054a1ffddccde0e1a406b29ca48f66a7540feb93",
+    "tests/json-handler/uninit-contract-mode-boundaries/test_observe.py": "bad95bc54d4c793235f219ae79c0854c368ffeadfb7050297567078b7d8ac242"
+  },
+  "rustfmt": {
+    "scratchpad": "/tmp/kani3300-marker-modes-rustfmt-d9ghvtkf",
+    "exit_code": 0,
+    "note": "First invocation failed to locate formatter shared library; rerun with formatter toolchain library path succeeded. No rustc invocation."
   }
 }

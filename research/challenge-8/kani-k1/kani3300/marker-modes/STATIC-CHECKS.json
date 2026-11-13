@@ -1,109 +1,215 @@
 {
-  "kind": "static STOP handoff audit; not production resolver/unit/verifier tests",
+  "kind": "static scope/manifest audit; not Rust/compiler/verifier acceptance",
   "status": "PASS",
-  "source_head": "ee2695e5a2c4c2d8ead7a511e0f3f6f2a9a95677",
+  "source_head": "e3176488c91a4d74573a766e351379b0e2dd3713",
   "checks": [
     {
-      "name": "source fingerprint: kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+      "name": "unchanged base source: kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
       "pass": true
     },
     {
-      "name": "source fingerprint: kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "name": "unchanged base source: kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
       "pass": true
     },
     {
-      "name": "source fingerprint: kani-compiler/src/kani_middle/transform/mod.rs",
+      "name": "unchanged base source: kani-compiler/src/kani_middle/transform/mod.rs",
       "pass": true
     },
     {
-      "name": "source fingerprint: kani-compiler/src/kani_middle/transform/contracts.rs",
+      "name": "unchanged base source: kani-compiler/src/kani_middle/transform/contracts.rs",
       "pass": true
     },
     {
-      "name": "source fingerprint: kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "name": "unchanged base source: kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
       "pass": true
     },
     {
-      "name": "source fingerprint: kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "name": "unchanged base source: kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
       "pass": true
     },
     {
-      "name": "source fingerprint: kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "name": "unchanged base source: kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
       "pass": true
     },
     {
-      "name": "source fingerprint: kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "name": "unchanged base source: kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
       "pass": true
     },
     {
-      "name": "source fingerprint: kani-compiler/src/kani_middle/reachability.rs",
+      "name": "unchanged base source: kani-compiler/src/kani_middle/reachability.rs",
       "pass": true
     },
     {
-      "name": "source fingerprint: kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "name": "unchanged base source: kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
       "pass": true
     },
     {
-      "name": "source fingerprint: library/kani_core/src/mem_init.rs",
+      "name": "unchanged base source: library/kani_core/src/mem_init.rs",
       "pass": true
     },
     {
-      "name": "source fingerprint: cprover_bindings/src/goto_program/symbol_table.rs",
+      "name": "unchanged base source: cprover_bindings/src/goto_program/symbol_table.rs",
       "pass": true
     },
     {
-      "name": "source fingerprint: library/kani_macros/src/sysroot/contracts/replace.rs",
+      "name": "unchanged base source: library/kani_macros/src/sysroot/contracts/replace.rs",
       "pass": true
     },
     {
-      "name": "source fingerprint: docs/src/reference/experimental/contracts.md",
+      "name": "prepared source fingerprint: docs/src/reference/experimental/contracts.md",
       "pass": true
     },
     {
-      "name": "unchanged lookup fallback anchor",
+      "name": "prepared source fingerprint: tests/json-handler/uninit-contract-mode-boundaries/README.md",
       "pass": true
     },
     {
-      "name": "body cache is not an effect map anchor",
+      "name": "prepared source fingerprint: tests/json-handler/uninit-contract-mode-boundaries/config.yml",
       "pass": true
     },
     {
-      "name": "function-pointer resolution rejection anchor",
+      "name": "prepared source fingerprint: tests/json-handler/uninit-contract-mode-boundaries/observe.py",
       "pass": true
     },
     {
-      "name": "reachability includes address-taken functions anchor",
+      "name": "prepared source fingerprint: tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
       "pass": true
     },
     {
-      "name": "immutable finalization follows contract attachment anchor",
+      "name": "prepared source fingerprint: tests/json-handler/uninit-contract-mode-boundaries/replace.rs",
       "pass": true
     },
     {
-      "name": "no implementation claimed",
+      "name": "prepared source fingerprint: tests/json-handler/uninit-contract-mode-boundaries/roots.json",
       "pass": true
     },
     {
-      "name": "all specified scenarios explicitly not executed",
+      "name": "prepared source fingerprint: tests/json-handler/uninit-contract-mode-boundaries/run.py",
       "pass": true
     },
     {
-      "name": "mode/root bindings pending",
+      "name": "prepared source fingerprint: tests/json-handler/uninit-contract-mode-boundaries/test.sh",
       "pass": true
     },
     {
-      "name": "unknown scenarios retained",
+      "name": "prepared source fingerprint: tests/json-handler/uninit-contract-mode-boundaries/test_observe.py",
       "pass": true
     },
     {
-      "name": "CI remains unapproved",
+      "name": "source write scope",
       "pass": true
     },
     {
-      "name": "result within required 35 lines",
+      "name": "Python syntax: observe.py",
+      "pass": true
+    },
+    {
+      "name": "Python syntax: run.py",
+      "pass": true
+    },
+    {
+      "name": "Python syntax: test_observe.py",
+      "pass": true
+    },
+    {
+      "name": "exact six proposed roots",
+      "pass": true
+    },
+    {
+      "name": "same root order/names",
+      "pass": true
+    },
+    {
+      "name": "all verifier results/bindings remain pending",
+      "pass": true
+    },
+    {
+      "name": "boundary verdicts not invented",
+      "pass": true
+    },
+    {
+      "name": "CI roots/caps unapproved",
+      "pass": true
+    },
+    {
+      "name": "no mode qualification",
+      "pass": true
+    },
+    {
+      "name": "source harness: replace_transfer",
+      "pass": true
+    },
+    {
+      "name": "valid new/uninit source: replace_transfer",
+      "pass": true
+    },
+    {
+      "name": "source harness: replace_ordinary",
+      "pass": true
+    },
+    {
+      "name": "valid new/uninit source: replace_ordinary",
+      "pass": true
+    },
+    {
+      "name": "source harness: replace_simple_check",
+      "pass": true
+    },
+    {
+      "name": "valid new/uninit source: replace_simple_check",
+      "pass": true
+    },
+    {
+      "name": "source harness: recursive_check",
+      "pass": true
+    },
+    {
+      "name": "valid new/uninit source: recursive_check",
+      "pass": true
+    },
+    {
+      "name": "source harness: recursive_ordinary",
+      "pass": true
+    },
+    {
+      "name": "valid new/uninit source: recursive_ordinary",
+      "pass": true
+    },
+    {
+      "name": "source harness: recursive_simple_check",
+      "pass": true
+    },
+    {
+      "name": "valid new/uninit source: recursive_simple_check",
+      "pass": true
+    },
+    {
+      "name": "real recursive edge",
+      "pass": true
+    },
+    {
+      "name": "SimpleCheck companion unrolls bounded step",
+      "pass": true
+    },
+    {
+      "name": "public limitation and deferral linked",
+      "pass": true
+    },
+    {
+      "name": "result at most 35 lines",
       "pass": true
     }
   ],
-  "compiler_units": "NOT_RUN",
+  "synthetic_python_tests": {
+    "count": 13,
+    "status": "PASS",
+    "invocation": "test_observe.py"
+  },
+  "scratchpad_rustfmt": {
+    "scratchpad": "/tmp/kani3300-marker-modes-rustfmt-d9ghvtkf",
+    "exit_code": 0,
+    "note": "First invocation failed to locate formatter shared library; rerun with formatter toolchain library path succeeded. No rustc invocation."
+  },
+  "compiler": "NOT_RUN",
   "verifier": "NOT_RUN"
 }

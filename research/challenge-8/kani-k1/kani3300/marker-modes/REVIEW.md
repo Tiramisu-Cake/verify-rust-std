@@ -1,39 +1,43 @@
-# Preparation review — worker15
+# Resumed preparation review — worker15
 
-Verdict: **STOP_REQUIRED_STATE_PREDICATE** under task §2; not READY for implementation/CI.
+Coordinator accepted section-2 STOP and deferred marker diagnostics to separate work on
+2026-11-13; see [REQUIRED-STATE.md](REQUIRED-STATE.md), unchanged. The remaining docs/mode
+fixtures are prepared for coordinator review/CI, not claimed verifier acceptance.
 
-Research branch was clean at `be5bdb511676c0f441662528c0b88aab9c3fe007`; `git pull --ff-only`
-reported up to date. Read-only source was clean at the required base. Isolated local clone
-`/root/kani-fix-3300-marker-modes`, branch `fix/kani-3300-marker-modes`, remains at the same base.
-No source patch/commit exists. Exact inspected source hashes are in INPUTS.json.
+Base remains `ee2695e5a2c4c2d8ead7a511e0f3f6f2a9a95677`; isolated source branch
+`fix/kani-3300-marker-modes`. Production/compiler/runtime and `contract.rs` are unchanged.
+No blanket guard/exemption, new private static/target, any_modifies/Arbitrary(MU) change,
+assert-to-assume rewrite, hook pairing, mode selection, checks or S3 change was made.
+Worker14's scopes and shared compiletest/schema were not touched.
 
-The source audit establishes available APIs and why candidate shortcut predicates lack the
-required extent binding; it does not establish a new compiler fact or emitted-model outcome.
-REQUIRED-STATE.md describes each operation family, late immutable seeding, delayed-pass updates,
-and the unresolved composition/control-flow problem. Function-pointer paths have existing
-Unsupported checks: their presence is not presented as an unguarded supported shadow path.
-No totality claim or proof of impossibility is made.
+Exact source changed files:
 
-Changed files in this preparation (research directory only):
+- docs/src/reference/experimental/contracts.md
+- tests/json-handler/uninit-contract-mode-boundaries/README.md
+- tests/json-handler/uninit-contract-mode-boundaries/config.yml
+- tests/json-handler/uninit-contract-mode-boundaries/observe.py
+- tests/json-handler/uninit-contract-mode-boundaries/recursive.rs
+- tests/json-handler/uninit-contract-mode-boundaries/replace.rs
+- tests/json-handler/uninit-contract-mode-boundaries/roots.json
+- tests/json-handler/uninit-contract-mode-boundaries/run.py
+- tests/json-handler/uninit-contract-mode-boundaries/test.sh
+- tests/json-handler/uninit-contract-mode-boundaries/test_observe.py
 
-- INPUTS.json
-- REQUIRED-STATE.md
-- LOOKUP-CONTROLS.md
-- MODE-SCOPE.md
-- TEST-MANIFEST.json
-- CI-REQUEST.md
-- REVIEW.md
-- RESULT-MARKER-MODES-PREP.md
-- STATIC-AUDIT.py
-- STATIC-CHECKS.json
+Validation: 13 synthetic Python observer/collector tests PASS, including missing export/build,
+partial/crashed/OOM/timeout, stale evidence, selection/metadata drift, status/count mismatch,
+weakened checks/profile and process-group cleanup. Invocations are mocked; no Rust/Kani/CBMC
+is executed by these tests. Python AST/static source/manifest checks PASS. Scratchpad rustfmt
+PASS for both Rust files with repository config. Initial formatter invocation lacked its shared
+library path; corrected invocation succeeded. Formatter is not a typecheck. TYPE-AUDIT.md maps
+Rust/macro/CLI/JSON APIs and safe source payload guards.
 
-Python static audit checks source hashes, source anchors and the consistency of explicit STOP /
-NOT_RUN declarations. It does not execute the proposed lookup truth table against production
-code. Rust resolver units, source fixture preparation, emitted binding, compiler typechecking,
-formatting and all verifier runs remain unperformed. No rustfmt run was needed without Rust edits.
-No negative golden, xfail or Unsupported result is treated as proof credit.
+Six verifier roots: NOT_RUN; source→transformed body/mode/transfer binding, lawful prefix and
+per-root property mapping: BINDING_PENDING. No negative golden is invented. Collector PASS means
+only complete observations plus successful legal companions; target modes remain unqualified,
+even with particular SUCCESS. Unsupported/frame/path gaps are explicit, not qualifying negatives.
 
-No blanket guard/exemption, new static, target change, any_modifies/Arbitrary(MU) rewrite,
-assert-to-assume change, hook pairing, mode selection, checks or S3 change was made.
-Worker14's files and inventories were not modified. Quick r6 is coordinator-reported history;
-the final common gate remains NOT_RUN here. No publication, push or CI was performed.
+Public docs/fixture README link the accepted note at research commit cee401ec22bd96e2b91733e6e2a275618b55f37e.
+It is a prepared cross-repository reference; publication remains coordinator-owned (no push here).
+Source/changed-file hashes are in INPUTS.json; CI-REQUEST.md proposes six roots/caps for approval.
+Quick r6 remains coordinator-reported history. Common gate, M3/platform/SmallSort: NOT_RUN here.
+No local cargo/rustc/Kani/CBMC/Miri/builds, CI, raw evidence reads or push occurred. Cloud $0.

@@ -1,21 +1,24 @@
 # MARKER-MODES preparation — worker15, 2026-11-13
-Status: STOP_REQUIRED_STATE_PREDICATE (task §2); not READY.
-Research input: be5bdb511676c0f441662528c0b88aab9c3fe007, pull --ff-only up to date.
-Source base/head: ee2695e5a2c4c2d8ead7a511e0f3f6f2a9a95677, clean.
-Clone: /root/kani-fix-3300-marker-modes, fix/kani-3300-marker-modes.
-Source patch/commit: none; source changed files: none.
-Blocker: no established total wrapper-specific required-state fact for actual
-local/delayed/transitive writes with clause/call-site/no-write/cut binding.
-Global reachability/helper presence, uninit flag and failed call resolution are insufficient.
-UNKNOWN was not converted to false or a blanket missing-state error.
-REQUIRED-STATE.md gives exact source anchors, operation coverage and design handoff.
-LOOKUP-CONTROLS.md records future resolver scenarios and read-only Rust API/type audit.
-MODE-SCOPE.md records owner decision and source mode/transfer map; public text not applied.
-No fixtures/goldens were staged after the prerequisite STOP.
-Lookup units/integrations: NOT_RUN; mode bindings: BINDING_PENDING, verification NOT_RUN.
-CI request: HOLD; exact executable roots/caps have not been approved.
-No blanket guard/exemption, private target change or semantics rewrite.
-No worker14 changes or dependency on its checker.
-Python static audit only; not a compiler/type/model/verifier result.
-No cargo/rustc/Kani/CBMC/Miri/build, CI, push or raw evidence reads; Cloud $0.
-Next: establish/review bounded effect provenance and UNKNOWN policy before implementation.
+Status: PREPARED_FOR_COORDINATOR_REVIEW_AND_CI (resumed scope).
+Coordinator accepted §2 STOP and deferred marker diagnostics to separate work.
+Design follow-up: [REQUIRED-STATE.md](REQUIRED-STATE.md), retained unchanged.
+Source base: ee2695e5a2c4c2d8ead7a511e0f3f6f2a9a95677.
+Source clone/branch: /root/kani-fix-3300-marker-modes, fix/kani-3300-marker-modes.
+Source SHA: see INPUTS.json.source_commit.
+Public docs now exclude Replace/RecursiveCheck shadow transfers from Part1 claims.
+Docs explicitly defer marker diagnostics and link the accepted design note.
+contract.rs and all compiler/runtime semantics remain unchanged.
+Prepared Replace and RecursiveCheck fixtures, each with Assert/SimpleCheck companions.
+Six roots include valid new/uninit storage, helper/return, requires/ensures paths.
+Recursive root has depth 0/1, actual self-call/reentry, explicit unwind 8 and path covers.
+No failure golden guessed; particular boundary SUCCESS is preserved without qualification.
+JSON collector retains complete outcomes/failure sets and marks transformed binding pending.
+Unsupported/frame/unreached-path gaps do not establish a semantic boundary.
+13 synthetic Python tests PASS; static scope/manifest audit PASS; scratchpad rustfmt PASS.
+Rust compile/typecheck and all six verifier roots: NOT_RUN; actual bindings: BINDING_PENDING.
+No reproduced boundary/lawful prefix/per-root emitted property mapping claimed before CI.
+Exact source changed files and read-only type/API audit: REVIEW.md / TYPE-AUDIT.md.
+CI-REQUEST.md proposes six roots, unwind 8, 120s harness/180s outer caps, b12; approval pending.
+Shared gate with worker14 and one agreed Quick/new suite remain coordinator-owned.
+No blanket guard/exemption, private-target change or semantics rewrite; worker14 untouched.
+No local cargo/rustc/Kani/CBMC/Miri/builds, push, CI or raw evidence read; Cloud $0.
