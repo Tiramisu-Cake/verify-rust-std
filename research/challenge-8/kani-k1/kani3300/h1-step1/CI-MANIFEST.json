@@ -1,0 +1,190 @@
+{
+  "schema": "kani3300-h1-step1-ci-manifest-v1",
+  "repository": "Tiramisu-Cake/kani",
+  "remote": "https://github.com/Tiramisu-Cake/kani.git",
+  "local_clone": "/root/kani-fix-3300-h1-ci",
+  "branch": "uninit-ci/h1-resource-20261113",
+  "ci_head": "a6463af9f6ddeeb050d0944481fea73b24dee31f",
+  "ci_tree": "64df77a3ba814c416989ab6246c73cd0f863a0ed",
+  "source_parent": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+  "source_tree": "af28e22ec446b254cfa3a28b2882eafa58d5a458",
+  "production_source_diff": [],
+  "allowlist": [
+    ".github/workflows/* (one own workflow; inherited removed)",
+    "ci/h1/* (helpers, manifest, exact frozen fixtures)"
+  ],
+  "overlay": [
+    {
+      "status": "D",
+      "path": ".github/workflows/bench-compiler.yml"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/bench-e2e.yml"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/bench-pr.yml"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/cargo-update.yml"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/cbmc-latest.yml"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/cbmc-update.yml"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/charon-update.yml"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/deny.yml"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/extra_jobs.yml"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/format-check.yml"
+    },
+    {
+      "status": "A",
+      "path": ".github/workflows/h1-resource.yml",
+      "sha256": "afc3d964a5d3468db3eb97725a9b4f1f4fab3786f3fe75848749f3f7bd945cf9"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/kani.yml"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/release.yml"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/slow-tests.yml"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/toolchain-upgrade.yml"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/verify-std-check.yml"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/z3-update.yml"
+    },
+    {
+      "status": "A",
+      "path": "ci/h1/cases/scalar-pfc-hole.rs",
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759"
+    },
+    {
+      "status": "A",
+      "path": "ci/h1/cases/scalar-pfc-legal.rs",
+      "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b"
+    },
+    {
+      "status": "A",
+      "path": "ci/h1/matrix.json",
+      "sha256": "5f090710e0788ee69f8827b07c3b03d7d4db0680dac60d5c468baacb22590704"
+    },
+    {
+      "status": "A",
+      "path": "ci/h1/runner.py",
+      "sha256": "e398d68e865089c2ee46536f48dcf439aa258facd0fc9ea048544729236b3443"
+    },
+    {
+      "status": "A",
+      "path": "ci/h1/setup.sh",
+      "sha256": "5c202b92da6c85706a0d68831bd07fcd448c32cb08d1d88a5ecfa62b119db5a8"
+    },
+    {
+      "status": "A",
+      "path": "ci/h1/test_runner.py",
+      "sha256": "30346b80a428f20d6290bdad1e6f17cea9924b037d603dad0485be5ed2461216"
+    }
+  ],
+  "workflow": ".github/workflows/h1-resource.yml",
+  "trigger": {
+    "event": "push",
+    "branch": "uninit-ci/h1-resource-20261113",
+    "worker_push": false,
+    "worker_dispatch": false,
+    "coordinator_final_head_only": true
+  },
+  "caps": {
+    "status": "PROPOSED; coordinator approves before final push",
+    "normal_invocations_max": 10,
+    "normal_retries": 0,
+    "normal_cbmc_wall_seconds_max": 3000,
+    "case_kani_plus_cbmc_watchdog_seconds": 300,
+    "rss_kib": 6291456,
+    "sampling_seconds": 2,
+    "kill_grace_seconds": 2,
+    "parallel_cbmc_max": 1,
+    "matrix_max_parallel": 1,
+    "matrix_fail_fast": false,
+    "kani_jobs": "NoMultithreading default1; regular output rejects explicit --jobs",
+    "build_job_minutes": 150,
+    "build_setup_seconds": 1500,
+    "build_seconds": 6600,
+    "build_remaining_minutes_for_checkout_package_capture_upload": 15,
+    "singleton_job_minutes": 25,
+    "singleton_checkout_step_minutes": 3,
+    "singleton_download_step_minutes": 3,
+    "singleton_setup_seconds": 480,
+    "singleton_setup_outer_step_minutes": 9,
+    "singleton_normal_with_capture_step_minutes": 8,
+    "singleton_upload_step_minutes": 3,
+    "read_only_projection_seconds_each": 30,
+    "read_only_projection_count_max_per_case": 2,
+    "read_only_projection_rss_kib": 1048576,
+    "ci_job_hard_envelope_minutes": 400,
+    "phase_envelopes_are_upper_bounds_not_spend_authority": true
+  },
+  "capture": {
+    "prefix_bytes_per_stream": 4194304,
+    "tail_bytes_per_stream": 1048576,
+    "json_object_bytes": 16777216,
+    "properties": 20000,
+    "phase_events": 4096,
+    "event_text_characters": 4096,
+    "goto_copy_bytes_max": 134217728,
+    "metadata_per_file_bytes_max": 16777216,
+    "metadata_total_bytes_max": 33554432,
+    "selected_projection_contexts_per_projection": 200,
+    "selected_projection_line_bytes": 2048,
+    "always_artifacts": true,
+    "hard_loss_or_cancellation": "artifact completion may be UNKNOWN",
+    "conversion_cpu_time": "UNKNOWN unless directly reported; separate timestamp observation windows"
+  },
+  "statuses": {
+    "local_synthetic": "15 PASS",
+    "source_build": "NOT_RUN",
+    "normal_verification": "NOT_RUN",
+    "actual_private_marker_assigns_writes_binding": "UNKNOWN",
+    "semantics": "UNKNOWN",
+    "proof_credit": 0
+  },
+  "author": "Tiramisu-Cake <igkharin@gmail.com>",
+  "review": {
+    "reviewer": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "nested_delegation": false,
+    "candidate": "60020ce7bf98f1f2c9a14c06882cf5ee455d30e3",
+    "delta_accepted": "ab057cfab4c1b072d6afbce118c02d49208d8648",
+    "final_metadata_only_delta": "a6463af9f6ddeeb050d0944481fea73b24dee31f",
+    "outcome": "PASS; no remaining blocker",
+    "scope": "source-only recipe/identity/oracles/caps; not actual verification"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schema": "kani3300-h1-step1-inputs-v1",
+  "worker": "worker15",
+  "preparation_only": true,
+  "research_base": "ea38ff43a21e634af02eecf70b3f18b9e0ae9f71",
+  "research_branch": "experiment/kani-k1-kani3300g0-20261111",
+  "git_pull_ff_only": "already up to date",
+  "references": {
+    "task": {
+      "path": "research/challenge-8/kani-k1/TASK-KANI3300-H1-STEP1.md",
+      "sha256": "d347c6d8eeb1419fa1ea592beeb6f47141c90bd411207176f8765e54684819b1"
+    },
+    "planner": {
+      "path": "research/challenge-8/kani-k1/PLANNER-R3-H1-REVIEW.md",
+      "sha256": "f0959adf705bc23d4de9b4aae04aa49cbcba67f93780b847f5bc6ebaf1cfcffc"
+    },
+    "report": {
+      "path": "research/challenge-8/kani-k1/AUDIT-REPORT-KANI3300-PART1-R3-RU.md",
+      "sha256": "a7051b671564642dc517d4468100723888c9a429003446827778ca2add175059",
+      "commit": "88ca9d0294f5e6f631117aa68f56ee1e3464398d"
+    }
+  },
+  "kani_source": {
+    "commit": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+    "tree": "af28e22ec446b254cfa3a28b2882eafa58d5a458",
+    "production_diff": "NONE",
+    "local_clone": "/root/kani-fix-3300-h1-ci",
+    "other_source_clones": "read-only"
+  },
+  "cbmc": {
+    "version": "6.11.0",
+    "origin": "stock release from exact source kani-dependencies ubuntu install script",
+    "solver": "cadical selected by source DEFAULT_SOLVER",
+    "binary_sha256": "UNKNOWN until CI; capture and compare across all arms",
+    "source_reference_for_derived_bound": {
+      "tag": "cbmc-6.11.0",
+      "commit": "820ff0f555b43fb78e0cd9332e498461bd14244b",
+      "path": "src/util/config.cpp",
+      "symbol": "configt::max_malloc_size",
+      "formula": "2^(64-object_bits-1)",
+      "assurance": "source formula, not backend observation"
+    }
+  },
+  "toolchain": {
+    "channel": "nightly-2026-10-23",
+    "file_sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+    "target": "x86_64-unknown-linux-gnu",
+    "actual_compiler_identity": "UNKNOWN until CI"
+  },
+  "fixtures": [
+    {
+      "root": "P1",
+      "original_path": "research/challenge-8/kani-k1/kani3300/m2a/cases/scalar-pfc-legal.rs",
+      "frozen_copy": "ci/h1/cases/scalar-pfc-legal.rs",
+      "sha256": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b",
+      "harness": "postcondition_reads_initialized_return"
+    },
+    {
+      "root": "P2",
+      "original_path": "research/challenge-8/kani-k1/kani3300/m2a/cases/scalar-pfc-hole.rs",
+      "frozen_copy": "ci/h1/cases/scalar-pfc-hole.rs",
+      "sha256": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759",
+      "harness": "postcondition_reads_returned_hole"
+    }
+  ],
+  "step0": {
+    "status": "NOT_CONSULTED; parallel task, may be absent",
+    "read_counts_4f64": "UNKNOWN",
+    "r1_r6_counts_transferable": false
+  },
+  "scope_exclusions": [
+    "Kani/CBMC source fixes",
+    "initializer skip",
+    "R7/R8 carriers or assigns",
+    "clause-policy change",
+    "G-SC",
+    "profiler/backend/solver replacement",
+    "local build/verifier",
+    "worker push/dispatch",
+    "A3/Part1/M3 soundness credit"
+  ],
+  "cloud_dollars": 0,
+  "local_actual_builds_or_verifier_invocations": 0,
+  "independent_proof_credit": 0
+}
