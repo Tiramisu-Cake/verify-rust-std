@@ -1,0 +1,198 @@
+{
+  "schema": "kani3300-h1-step1-fit-v1",
+  "model": "y = slope * 2^object_bits + intercept",
+  "method": "ordinary least squares using exact fractions; P1/P2 fitted separately; first completed conversion only, even when later verdict censored",
+  "resource_verdict": "SUPPORTED",
+  "mechanism_assurance": "compatible with slicing/free DFCC table flattening; source-based attribution remains conditional, not uniquely established",
+  "fits": {
+    "P1": {
+      "variables": {
+        "slope": 774.0,
+        "slope_exact": "774",
+        "intercept": 57916.0,
+        "intercept_exact": "57916",
+        "residuals": [
+          {
+            "case": "E8-P1",
+            "N": 256,
+            "observed": 256060,
+            "fitted": 256060.0,
+            "residual": 0.0
+          },
+          {
+            "case": "D10-P1",
+            "N": 1024,
+            "observed": 850492,
+            "fitted": 850492.0,
+            "residual": 0.0
+          },
+          {
+            "case": "C12-P1",
+            "N": 4096,
+            "observed": 3228220,
+            "fitted": 3228220.0,
+            "residual": 0.0
+          },
+          {
+            "case": "B14-P1",
+            "N": 16384,
+            "observed": 12739132,
+            "fitted": 12739132.0,
+            "residual": 0.0
+          }
+        ],
+        "max_absolute_residual": 0,
+        "extrapolated_b16": 50782780.0,
+        "uncertainty": "Exact arithmetic fit to this fixed first-CNF workload; no statistical/RSS/semantic or out-of-domain guarantee"
+      },
+      "clauses": {
+        "slope": 1926.0,
+        "slope_exact": "1926",
+        "intercept": 92735.0,
+        "intercept_exact": "92735",
+        "residuals": [
+          {
+            "case": "E8-P1",
+            "N": 256,
+            "observed": 585791,
+            "fitted": 585791.0,
+            "residual": 0.0
+          },
+          {
+            "case": "D10-P1",
+            "N": 1024,
+            "observed": 2064959,
+            "fitted": 2064959.0,
+            "residual": 0.0
+          },
+          {
+            "case": "C12-P1",
+            "N": 4096,
+            "observed": 7981631,
+            "fitted": 7981631.0,
+            "residual": 0.0
+          },
+          {
+            "case": "B14-P1",
+            "N": 16384,
+            "observed": 31648319,
+            "fitted": 31648319.0,
+            "residual": 0.0
+          }
+        ],
+        "max_absolute_residual": 0,
+        "extrapolated_b16": 126315071.0,
+        "uncertainty": "Exact arithmetic fit to this fixed first-CNF workload; no statistical/RSS/semantic or out-of-domain guarantee"
+      }
+    },
+    "P2": {
+      "variables": {
+        "slope": 774.0,
+        "slope_exact": "774",
+        "intercept": 57916.0,
+        "intercept_exact": "57916",
+        "residuals": [
+          {
+            "case": "D10-P2",
+            "N": 1024,
+            "observed": 850492,
+            "fitted": 850492.0,
+            "residual": 0.0
+          },
+          {
+            "case": "C12-P2",
+            "N": 4096,
+            "observed": 3228220,
+            "fitted": 3228220.0,
+            "residual": 0.0
+          },
+          {
+            "case": "B14-P2",
+            "N": 16384,
+            "observed": 12739132,
+            "fitted": 12739132.0,
+            "residual": 0.0
+          }
+        ],
+        "max_absolute_residual": 0,
+        "extrapolated_b16": 50782780.0,
+        "uncertainty": "Exact arithmetic fit to this fixed first-CNF workload; no statistical/RSS/semantic or out-of-domain guarantee"
+      },
+      "clauses": {
+        "slope": 1926.0,
+        "slope_exact": "1926",
+        "intercept": 92735.0,
+        "intercept_exact": "92735",
+        "residuals": [
+          {
+            "case": "D10-P2",
+            "N": 1024,
+            "observed": 2064959,
+            "fitted": 2064959.0,
+            "residual": 0.0
+          },
+          {
+            "case": "C12-P2",
+            "N": 4096,
+            "observed": 7981631,
+            "fitted": 7981631.0,
+            "residual": 0.0
+          },
+          {
+            "case": "B14-P2",
+            "N": 16384,
+            "observed": 31648319,
+            "fitted": 31648319.0,
+            "residual": 0.0
+          }
+        ],
+        "max_absolute_residual": 0,
+        "extrapolated_b16": 126315071.0,
+        "uncertainty": "Exact arithmetic fit to this fixed first-CNF workload; no statistical/RSS/semantic or out-of-domain guarantee"
+      }
+    }
+  },
+  "independent_completed_P1_points": [
+    "E8-P1",
+    "D10-P1",
+    "C12-P1"
+  ],
+  "P2_completed_verdict_points": [
+    "D10-P2",
+    "C12-P2"
+  ],
+  "B14_note": "Both first CNFs completed, but neither invocation reached a complete verification verdict; B14 is usable for first-CNF fit only",
+  "A16_note": "First CNF right-censored; null, not zero. b16 estimates extrapolated, never measured.",
+  "conditional_read_model": {
+    "clauses": "321*D + 65*Cret",
+    "variables": "64*S + 65*D + Cret",
+    "compatible_integer_solution": {
+      "D": 6,
+      "S": 6,
+      "Cret": 0
+    },
+    "assumptions": [
+      "64-bit table elements",
+      "constant-converted index",
+      "SAT has_set_to encoding",
+      "appropriate converter cache/version accounting"
+    ],
+    "not_measured": "4f64 D/S/C, exact table ownership/version/cache coverage remain UNKNOWN; STEP0 R1 proxy D=S=6 is independent historical agreement, not transferable proof"
+  },
+  "discriminators": {
+    "F12_vs_C12": {
+      "variables_ratio": 0.17991865486243191,
+      "clauses_ratio": 0.8027727666187525,
+      "rss_ratio": 0.4713365346390959,
+      "simple_slice_still_enabled": true,
+      "interpretation": "V drops by 82.0%, C by 19.7%; supports slicing-dependent free-version cost, not a unique causal explanation or semantic repair"
+    },
+    "H16_vs_extrapolated_A16": {
+      "variables_ratio": 0.4973645594037979,
+      "clauses_ratio": 0.0016087233169508333,
+      "interpretation": "UF mode reaches a failing verdict with far fewer clauses; variables remain large. A16 baseline CNF absent, so ratios use extrapolation. No universal removal of 2^b scaling or mode semantic qualification."
+    }
+  },
+  "semantic_verdict": "P1/P2 gates NOT_MET; no A3/Part1/SmallSort/general proof credit",
+  "independent_proof_credit": 0
+}

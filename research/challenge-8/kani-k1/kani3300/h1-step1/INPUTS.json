@@ -81,5 +81,91 @@
   ],
   "cloud_dollars": 0,
   "local_actual_builds_or_verifier_invocations": 0,
-  "independent_proof_credit": 0
+  "independent_proof_credit": 0,
+  "step1_analysis": {
+    "worker": "worker15",
+    "date": "2026-11-13",
+    "research_base": "047c7af09a4f396b104bcfbf6d3beac85fd98fc3",
+    "git_pull_ff_only": "already up to date",
+    "local_data_root": "/root/kani3300-h1-ci/r3",
+    "run": "43393496999",
+    "ci_only_head": "2657d2bc3a0b97cef353022e894ae10a21a4a8df",
+    "run_ci_identity_assurance": "task/coordinator attribution; not independently established by case receipt fields",
+    "prior_attempts": [
+      {
+        "run": "43392342927",
+        "failure": "python3.10 str(signal.SIGTERM) test, before CBMC",
+        "fix": "1c492f014",
+        "assurance": "task-supplied; historical attempt not rerun"
+      },
+      {
+        "run": "43392900278",
+        "failure": "strict cbmc --version check; actual 6.11.0 (cbmc-6.11.0), before CBMC",
+        "fix": "2657d2bc3",
+        "assurance": "task-supplied; existing /root/kani3300-h1-ci/r2-build is failed setup, not r3 build evidence"
+      }
+    ],
+    "production_source_unchanged": true,
+    "production_diff_check": "git diff --name-only 4f64cc617c HEAD restricted to production directories empty; overlay changes only workflows/ci/h1",
+    "source_commit": "4f64cc617cbe6ebd13e83c07cc62fcf245e0b53c",
+    "upstream_commit": "bf9c58e662fd65c64381ef2ac97a6397ffc0693a",
+    "source_clone_read_only": "/root/kani-fix-3300-h1-ci",
+    "cbmc_sha256_receipt_claim": "01ae2ae74a9dc5673631e42256f780393081650f4a22d6f4220566c0deb1643a",
+    "all_ten_binary_hash_claims_match": true,
+    "goto_bytes_hashes_locally_verified": true,
+    "source_to_binary_binding": "UNKNOWN independently; source/tree fields are constants in shim; no r3 build/identity receipt present in r3 (only 10 case directories). h1-tools not downloaded/read.",
+    "rustc_setup_report": "1.101.0-nightly (7189d39d9 2026-10-22), nightly-2026-10-23-x86_64-unknown-linux-gnu",
+    "fixture_hashes_locally_checked": {
+      "P1": "fe05e646b2ccc9188d073b78b30abecd59eb877b6298abfcdfc8a27aeb3a260b",
+      "P2": "61fc369a6830c6ff185887b04db36139ca529e4de097c0025ce7b29c8323f759"
+    },
+    "step0_consulted": true,
+    "new_downloads": 0,
+    "local_actual_builds_or_verifier_invocations": 0,
+    "new_CI_invocations": 0,
+    "independent_proof_credit": 0,
+    "analysis_reference_hashes": {
+      "research/challenge-8/kani-k1/TASK-KANI3300-H1-STEP1-ANALYSIS.md": "f3813ac9cac01120c9acc37784b46cb54911a80a88721104122b86fbd69bf008",
+      "research/challenge-8/kani-k1/PLANNER-R3-H1-REVIEW.md": "f0959adf705bc23d4de9b4aae04aa49cbcba67f93780b847f5bc6ebaf1cfcffc",
+      "research/challenge-8/kani-k1/AUDIT-REPORT-KANI3300-PART1-R3-RU.md": "a7051b671564642dc517d4468100723888c9a429003446827778ca2add175059",
+      "research/challenge-8/kani-k1/kani3300/h1-step1/ORACLES.md": "326c77d313c4d3275799c9c7a5e728b4d962f9d9b4b7844659b4bad3969d821a",
+      "research/challenge-8/kani-k1/kani3300/h1-step1/MATRIX.json": "726c80a2cf69966f4046c11abb69e539c5bea2e03d10ee2b2916b2f48d4e0241",
+      "research/challenge-8/kani-k1/kani3300/h1-step0/RESULT-H1-STEP0.md": "6b070e5639d5398bc9d998744173d28247f9b06eb76a85d219f8321a67d5c507",
+      "research/challenge-8/kani-k1/kani3300/h1-step0/READ-CENSUS.json": "57a77d965f8a8a5ad3a7e0f2e7d85fd5e1aaf17a987974978884b703a6315314"
+    },
+    "read_source_blob_hashes": {
+      "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs": {
+        "production_sha256": "b4b1edf5242be38a8079fdd5657356181dbc76eb5ba63889f72b56f72ccea52a",
+        "upstream_sha256": "c56a07b8e4e5ca07cfe0014f5d09fb34a19c3c70e9fcc0f13ba035bbbfec65ff"
+      },
+      "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs": {
+        "production_sha256": "27f1e6721b3a4f3ec4e27d19e45a481369ae3e8a8907fe50a0e189a0c044682f",
+        "upstream_sha256": "487138ede144c9cea764b1da8562a90525cfdcab7ba110e044d46a3b75ce502e"
+      },
+      "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": {
+        "production_sha256": "baa2013d98a84784366602ea3f9e63bbbde408816a5a947032267737014e4c5a",
+        "upstream_sha256": "82c9036308e984c2da6aeeda68186dbe36f99c1f3c74b151b176dfb2b992c2f7"
+      },
+      "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs": {
+        "production_sha256": "d116bef5bceb32cf65f344600ddeb71dca7c85eb1aaf7f0d29382b296f638ed2",
+        "upstream_sha256": "92b632cabff031938ffc2abf9fef276193ac68184edf6f65c0d8722ee87ae00c"
+      },
+      "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs": {
+        "production_sha256": "c42871a769affb1499c55085c2c1e6b04a8cb42deddc3828aa3347cb79700518",
+        "upstream_sha256": "354079ebb24304c7f8dc6516ba2e50dad70f0e30466f9660d17ecece01bc7277"
+      },
+      "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs": {
+        "production_sha256": "533ee2fcbb2b049944833ade3ea3dec9e5ca6c8086993956dd01fbc1f75fe4b4",
+        "upstream_sha256": "9f78de44ceffa0436de11ff3a4bf789c5d9909fe8425c7de543f84cd6c37fd91"
+      },
+      "library/kani_core/src/lib.rs": {
+        "production_sha256": "bb77d147b03f64586bb38a31edafaddc0c99e3cc3fb65a5c5c541b4fc0198649",
+        "upstream_sha256": "bb77d147b03f64586bb38a31edafaddc0c99e3cc3fb65a5c5c541b4fc0198649"
+      },
+      "library/kani_macros/src/sysroot/contracts/shared.rs": {
+        "production_sha256": "a8df9244d86742adaf1bdfd991d1b6882962a6797b764d6824306f02024360e7",
+        "upstream_sha256": "a8df9244d86742adaf1bdfd991d1b6882962a6797b764d6824306f02024360e7"
+      }
+    }
+  }
 }
