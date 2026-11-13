@@ -17,3 +17,13 @@ https://github.com/Tiramisu-Cake/cbmc/actions/runs/43334186094 (ubuntu-24.04, gc
 
 Not run: full `ctest` regression, other platforms, Kani replay, owner literal / Kani-like fixtures summary to be checked.
 No issue/PR opened.
+
+## Z3 util follow-up (2026-11-13)
+
+Run https://github.com/Tiramisu-Cake/cbmc/actions/runs/43341504085, CI-only `b794c3c99d` (parent 91062c7dba), fix-only
+build of `cd41a5c74b`, Ubuntu z3 4.8.12 installed (preflight PASS). `[util]~[zst-bits2expr]`: 212 cases, 210 passed.
+The seven z3 piped_process failures are gone. Remaining 2:
+- `Creating a sub process with a binary that doesn't exist` (unit/util/piped_process.cpp:72, expected error text not found);
+- `Scenario: run() error reporting` (unit/util/run.cpp:45, `result != 0` got 0).
+Both test subprocess error handling and do not touch bits2expr; baseline util was not run, so "pre-existing on develop"
+is NOT established (likely environment/harness: the runner executes tests under its own preexec/rlimits).
