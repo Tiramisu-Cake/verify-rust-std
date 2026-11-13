@@ -1,0 +1,7 @@
+--- fe36afc4:tests/expected/uninit/private-transfer-frame/lawful-modifies.rs
++++ 0beeb6b79efb:tests/expected/uninit/private-transfer-frame/lawful-modifies.rs
+@@ -4 +4,3 @@
+-// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular
++// This test exceeds the CI memory limit with 16 object bits because of the
++// contract write-set tables. Reducing the number of object bits to 12.
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12

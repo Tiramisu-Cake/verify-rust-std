@@ -1,0 +1,101 @@
+{
+  "schema": "kani3300-lawful-oracles-inputs-v1",
+  "worker": "worker14",
+  "date": "2026-11-13",
+  "task": {
+    "path": "research/challenge-8/kani-k1/TASK-KANI3300-LAWFUL-ORACLES.md",
+    "sha256": "1be0523da687b358caee4732726871051c4a021063d7d5d9bf0b33d6342c50b4",
+    "issued": true
+  },
+  "research": {
+    "checkout": "/root/verify-rust-std-kani3300-g0",
+    "branch": "experiment/kani-k1-kani3300g0-20261111",
+    "input_head": "cee401ec22bd96e2b91733e6e2a275618b55f37e",
+    "pull_ff_only": "up-to-date"
+  },
+  "source": {
+    "checkout": "/root/kani-fix-3300-lawful-oracles",
+    "branch": "fix/kani-3300-lawful-oracles",
+    "base": "ee2695e5a2c4c2d8ead7a511e0f3f6f2a9a95677",
+    "commit": "0beeb6b79efb72b88035e2b747aa889e9b1cb4d4",
+    "tree": "765a8ac7e208f70459480706aaeaa1abe8bd8dd5",
+    "parent": "ee2695e5a2c4c2d8ead7a511e0f3f6f2a9a95677",
+    "changes": "tests-only",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "committer": "Tiramisu-Cake <igkharin@gmail.com>"
+  },
+  "original_lawful": {
+    "commit": "fe36afc4a8de2709f00524b2d3fbd6da17919728",
+    "read_only_object_source": "/root/kani-fix-3300-m2br7-controls",
+    "sha256": "f629b795969f197ef289061c88ebc26e08c8fe969a6f82f643897451bfbdf90f",
+    "candidate_sha256": "32c1342513dd0588d0e3f5ea5991f64538b0506964fc821d4bc201bb66cc5fc0",
+    "noncomment_body_identical": true
+  },
+  "changed_files": [
+    {
+      "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.expected",
+      "sha256": "64e9a385fbf40b7d572da1b5fb544af0d89694122e9be96ce8c8d56042ed79eb",
+      "git_blob": "ed0621c25a57e8751daea9ba0c9a129b78cbd2b2"
+    },
+    {
+      "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs",
+      "sha256": "32c1342513dd0588d0e3f5ea5991f64538b0506964fc821d4bc201bb66cc5fc0",
+      "git_blob": "0a2dfa442b09a8ef813280844721b611129bdecc"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/README.md",
+      "sha256": "b09575844ba92bce6b318a1f64f42692c18cb4bfdf40007cb4267ea7c57d7bbb",
+      "git_blob": "9b31f34e50f1e337a8d10e952ddb1ead4056e76b"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/checker.py",
+      "sha256": "15dd9c1eb83cfab7b5f3f7e415c4ab7c015697e398aadd88703d706a5978b184",
+      "git_blob": "ce5b43256c6c0d35fc9217f3971a37ab97bf745d"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/config.yml",
+      "sha256": "18c60b89ee0a92c3d4728f4a108f8591b0d8a5209a3f40b3c4ae104802190d0c",
+      "git_blob": "8258439d3e3f6a4bcdf5d43e3647aadfed479749"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "sha256": "2101874063dae4624d31a6c98b4160f21bcb223303e84bf6954a98d7f9be5278",
+      "git_blob": "0e1ee35099ecf049a91758a920a5f46e19b32c8d"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/run.py",
+      "sha256": "38f4989a7c405ba32103283dcb543bbcc80e46dfab200c43ee0f7c1e58c4885b",
+      "git_blob": "4ef09a432c27ffd98b6dc841278484cff1b8a903"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/test.sh",
+      "sha256": "697c923f2845455502170c9849b61f33aae66095a1106c5bbaba427f44a3454a",
+      "git_blob": "1d331ac7ee5c25f34a5188f8fdf4670ec59f7631"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/test_checker.py",
+      "sha256": "7cd3a931c53de69976c5b117f7d0ed66d4b99ad642de2792d6d41a62347d28c5",
+      "git_blob": "aa7c120b2d1a9274deb4400170a1e36504728a58"
+    }
+  ],
+  "validation": {
+    "python_synthetic_test_methods": 15,
+    "python_synthetic_result": "PASS",
+    "python_ast_manifest_hashes": "PASS",
+    "bash_n": "PASS",
+    "git_diff_check": "PASS",
+    "scratchpad_rustfmt": "NOT_RUN: rustfmt unavailable",
+    "compiler_verifier_builds": "NOT_RUN",
+    "CI": "NOT_RUN",
+    "independent_review": "NOT_RUN: coordinator-owned; task forbids nested agents"
+  },
+  "prior_ci": {
+    "assurance": "coordinator-reported only; not independently read",
+    "narrow43403281233": "18/18 closure-zst; P1 SUCCESS b12",
+    "Quick43419217261": "expected155/0, kani22/0, ui14/0, script1/0; legal_pfc_transfer SUCCESS"
+  },
+  "actual_outcomes": "NOT_RUN",
+  "independent_proof_credit": 0,
+  "push": false,
+  "cloud_spend": 0
+}
