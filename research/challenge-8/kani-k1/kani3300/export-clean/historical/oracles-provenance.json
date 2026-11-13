@@ -1,0 +1,139 @@
+{
+  "source_commit": "94c00a8859bc9e4f0f1b7db73a95dbee88f6213a",
+  "source_path": "tests/json-handler/uninit-contract-oracles/oracles.json",
+  "source_sha256": "e6d67295543d61337163616e58f9c10dda59c731f07db336f9d386e0c08f66c8",
+  "metadata": {
+    "base": "ee2695e5a2c4c2d8ead7a511e0f3f6f2a9a95677",
+    "qualification": "Deterministic CI regression PASS/FAIL from fixed reviewed R3 export/regular/source expectations. REGRESSION_BOUND does not establish source-to-GOTO causality or independent proof credit; semantic qualification remains NOT_RUN."
+  },
+  "cases": [
+    {
+      "id": "p1",
+      "semantic_qualification": "NOT_RUN",
+      "evidence": [
+        {
+          "artifact": "43430797896/p1-4lm265nx/export.json",
+          "selector": "/harnesses/0 (complete inventories and exact failures)",
+          "sha256": "ccbed7d2cdb73c97dc076af77faa26473b59e556f1e756b32ebef37c4ef212e9"
+        },
+        {
+          "artifact": "43430797896/p1-4lm265nx/regular.out",
+          "selector": "RESULTS: complete inventory; selected IDs in required_successes/required_regular/allowed_consequences",
+          "sha256": "82aa21c07c65d6efa8be248004a26794e2ca23211674cd22ad0fb3f146f03e8e"
+        }
+      ]
+    },
+    {
+      "id": "ordinary",
+      "semantic_qualification": "NOT_RUN",
+      "evidence": [
+        {
+          "artifact": "43430797896/ordinary-2m10tm84/export.json",
+          "selector": "/harnesses/0 (complete inventories and exact failures)",
+          "sha256": "246d34d3ad2f5ffe70bcba36172b2284a238c407d9b8c5e8ae349b53e5dccf8b"
+        },
+        {
+          "artifact": "43430797896/ordinary-2m10tm84/regular.out",
+          "selector": "RESULTS: complete inventory; selected IDs in required_successes/required_regular/allowed_consequences",
+          "sha256": "66fea6b57e6e2f086fcd890b8c8cd76d78499d41ee8657be76dc0f9bb6ff54f2"
+        }
+      ]
+    },
+    {
+      "id": "pfc",
+      "semantic_qualification": "NOT_RUN",
+      "evidence": [
+        {
+          "artifact": "43430797896/pfc-u_eq4lj7/export.json",
+          "selector": "/harnesses/0 (complete inventories and exact failures)",
+          "sha256": "da34078cf1806e025eda19e8c9527b0a2c81f26c5e8056a68d0dd9e45a0000ff"
+        },
+        {
+          "artifact": "43430797896/pfc-u_eq4lj7/regular.out",
+          "selector": "RESULTS: complete inventory; selected IDs in required_successes/required_regular/allowed_consequences",
+          "sha256": "9e0541f79956d15377dba6daa8e9a7e53407d9a5725b81e593698194a98ea9f2"
+        }
+      ]
+    },
+    {
+      "id": "lawful-modifies",
+      "semantic_qualification": "NOT_RUN",
+      "evidence": [
+        {
+          "artifact": "43430797896/lawful-modifies-0wrxdiji/export.json",
+          "selector": "/harnesses/0 (complete inventories and exact failures)",
+          "sha256": "ff68c656fd82c7da06dbae2d9199f8bd262e59d46831c7fcd9304fb706408f77"
+        },
+        {
+          "artifact": "43430797896/lawful-modifies-0wrxdiji/regular.out",
+          "selector": "RESULTS: complete inventory; selected IDs in required_successes/required_regular/allowed_consequences",
+          "sha256": "858774b4c213e65a692936636bf1b2395b9d2e056c864ab7b5f0df54f81d986d"
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "semantic_qualification": "NOT_RUN",
+      "evidence": [
+        {
+          "artifact": "43430797896/p2-v2hg8yb6/export.json",
+          "selector": "/harnesses/0 (complete inventories and exact failures)",
+          "sha256": "d2c41965f4805ad529b02e754299a617420a2cc010fb78853e56cfb17537a16e"
+        },
+        {
+          "artifact": "43430797896/p2-v2hg8yb6/regular.out",
+          "selector": "RESULTS: complete inventory; selected IDs in required_successes/required_regular/allowed_consequences",
+          "sha256": "f92b021dc9f6a73f65d19bf6ca69ab03c42f3ca035ec9f7054a157784b8338fd"
+        }
+      ]
+    },
+    {
+      "id": "postcondition-hole",
+      "semantic_qualification": "NOT_RUN",
+      "evidence": [
+        {
+          "artifact": "43430797896/postcondition-hole-76dqww4s/export.json",
+          "selector": "/harnesses/0 (complete inventories and exact failures)",
+          "sha256": "12d4bb3f3a19845b1554170ffc436a74a23863f9daad85839e440dbf35aa1318"
+        },
+        {
+          "artifact": "43430797896/postcondition-hole-76dqww4s/regular.out",
+          "selector": "RESULTS: complete inventory; selected IDs in required_successes/required_regular/allowed_consequences",
+          "sha256": "468919f7cc4361e801970889128e7e1ec67241c8cd7567dbd5ab04e948f7d67b"
+        }
+      ]
+    },
+    {
+      "id": "frame",
+      "semantic_qualification": "NOT_RUN",
+      "evidence": [
+        {
+          "artifact": "43430797896/frame-9q1t1t1c/export.json",
+          "selector": "/harnesses/0 (complete inventories and exact failures)",
+          "sha256": "af435ad8d1368c1826391e2febecffd57efd390df0d45a54d13f1176de7cc1eb"
+        },
+        {
+          "artifact": "43430797896/frame-9q1t1t1c/regular.out",
+          "selector": "RESULTS: complete inventory; selected IDs in required_successes/required_regular/allowed_consequences",
+          "sha256": "a01006bdf098960db8cf58bccb8e98f805cfdb3d536728038e7a2fb514b6d054"
+        }
+      ]
+    },
+    {
+      "id": "clause",
+      "semantic_qualification": "NOT_RUN",
+      "evidence": [
+        {
+          "artifact": "43430797896/clause-a7sgdobc/export.json",
+          "selector": "/harnesses/0 (complete inventories and exact failures)",
+          "sha256": "505e4d0abe6370093e2adb5c70e8bfd0ce855226eceba32cd48ab57c1a7071b2"
+        },
+        {
+          "artifact": "43430797896/clause-a7sgdobc/regular.out",
+          "selector": "RESULTS: complete inventory; selected IDs in required_successes/required_regular/allowed_consequences",
+          "sha256": "324fa81b50312d7913c1db8ec96778989bd80e7ee6ddf9332b47f970ce186ad5"
+        }
+      ]
+    }
+  ]
+}
