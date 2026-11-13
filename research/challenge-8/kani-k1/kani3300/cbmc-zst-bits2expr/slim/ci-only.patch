@@ -1,0 +1,4112 @@
+diff --git a/.github/workflows/README.md b/.github/workflows/README.md
+deleted file mode 100644
+index 00ce5d28aaf42de0c8619e89aab0ce9d1a84d4a3..0000000000000000000000000000000000000000
+--- a/.github/workflows/README.md
++++ /dev/null
+@@ -1,50 +0,0 @@
+-# CBMC CI infrastructure
+-
+-This folder contains implementation and configuration files for
+-our CI infrastructure on top of Github Actions. Aside from CI,
+-it also contains packaging and automated release scripts.
+-
+-The files in this folder correspond to:
+-
+-* `build-and-test-Xen.yaml` -> Build Xen using CBMC tools.
+-* `csmith.yaml` -> Run 10 randomly generated CSmith tests per Pull Request.
+-* `doxygen-check.yaml` -> Build project doxygen documentation per Pull Request.
+-* `pull-request-check-cpplint.sh` -> Script that's called per Pull Request to execute
+-  `cpplint` over changes.
+-* `pull-request-check-clang-format.sh` -> Script that's called per Pull Request
+-  to execute `clang-format` over changes.
+-* `pull-request-checks.yaml` -> Configuration file for the Github Actions CI jobs
+-  for the various platforms.
+-* `regular-release.yaml` -> Configuration file for performing an automated release
+-  every time a tag of a specific form (`cbmc-x.y.z`) is pushed.
+-* `release-packages.yaml` -> Configuration file for performing building of build
+-  artifacts that are attached to release when it's being made. Invoked when a
+-  regular release is performed.
+-
+-## CI Platforms
+-
+-We are currently building and testing CBMC under the following configurations:
+-
+-* `make` * `gcc` * `linux` (ubuntu 24.04)
+-* `make` * `clang` * `linux` (ubuntu 22.04, 24.04)
+-* `cmake` * `gcc` * `linux` (ubuntu 22.04, 24.04)
+-* `cmake` * `gcc-14` * `linux` (ubuntu 24.04)
+-* `cmake` * `gcc` * `linux` (ubuntu 22.04 32-bit)
+-* `make` * `clang` * `macos` (13)
+-* `cmake` * `clang` * `macos` (14)
+-* `cmake` * `vs` * `windows` (vs2025)
+-* `make` * `vs` * `windows` (vs2022)
+-
+-Aside from the main platform builds for testing, we are also performing
+-some auxiliary builds that test packaging support to be up-to-date. We
+-do that for:
+-
+-* a `docker` image
+-* a `ubuntu-24.04` package
+-* a `windows-msi` installer package
+-
+-Last but not least, we are also performing a coverage statistics collection
+-job, which builds CBMC with coverage information on, and then runs the tests,
+-finally uploading the results to [Codecov](https://about.codecov.io) which
+-then updates pull request with coverage statistics after the job has finished
+-running.
+diff --git a/.github/workflows/bsd.yaml b/.github/workflows/bsd.yaml
+deleted file mode 100644
+index 7095d87c12a188574729e6cefd6e34155c4fbf19..0000000000000000000000000000000000000000
+--- a/.github/workflows/bsd.yaml
++++ /dev/null
+@@ -1,218 +0,0 @@
+-name: Build and Test on *BSD
+-on:
+-  push:
+-    branches: [ develop ]
+-  pull_request:
+-    branches: [ develop ]
+-
+-jobs:
+-  # This job takes approximately 6 to 26 minutes
+-  FreeBSD:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: freebsd-15.0-gmake-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            freebsd-15.0-gmake-${{ github.ref }}
+-            freebsd-15.0-gmake
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Build and Test
+-        uses: vmactions/freebsd-vm@v1
+-        with:
+-          release: "15.0"
+-          usesh: true
+-          run: |
+-            # apparently fail-on-error isn't the default here
+-            set -e -x
+-            echo "Fetch dependencies"
+-            pkg install -y bash gmake git www/p5-libwww python python3 patch flex bison ccache cvc5 z3
+-            echo "Fetch JBMC dependencies"
+-            pkg install -y openjdk8 wget maven
+-            echo "Zero ccache stats and limit in size"
+-            export CCACHE_BASEDIR=$PWD
+-            export CCACHE_DIR=$PWD/.ccache
+-            ccache -z --max-size=500M
+-            ccache -p
+-            echo "Build with gmake"
+-            # don't do JBMC as to keep the overall time in check
+-            gmake -C src minisat2-download
+-            gmake -C src -j2 CXX="ccache clang++"
+-            # gmake -C jbmc/src setup-submodules
+-            # gmake -C jbmc/src -j2 CXX="ccache clang++"
+-            # https://github.com/catchorg/Catch2/issues/2910 is an issue
+-            # specific to Clang/LLVM 19 (which is what FreeBSD 15 ships)
+-            gmake -C unit "CXX=ccache clang++" \
+-              CXXFLAGS="-Wall -pedantic -Werror -Wswitch-enum -Wno-deprecated-declarations -Wno-c++20-extensions"
+-            # gmake -C jbmc/unit "CXX=ccache clang++"
+-            echo "Print ccache stats"
+-            ccache -s
+-            echo "Checking completeness of help output"
+-            scripts/check_help.sh clang++
+-            echo "Run unit tests"
+-            gmake -C unit test
+-            # gmake -C jbmc/unit test
+-            echo "Running expected failure tests"
+-            gmake TAGS='[!shouldfail]' -C unit test
+-            # gmake TAGS='[!shouldfail]' -C jbmc/unit test
+-            echo "Run regression tests"
+-            gmake -C regression/cbmc test
+-            # gmake -C regression test-parallel JOBS=2
+-            # gmake -C regression/cbmc test-paths-lifo
+-            # env PATH=$PATH:`pwd`/src/solvers gmake -C regression/cbmc test-cprover-smt2
+-            # # gmake -C jbmc/regression test-parallel JOBS=2
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 7 to 34 minutes
+-  OpenBSD:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: openbsd-7.7-gmake-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            openbsd-7.7-gmake-${{ github.ref }}
+-            openbsd-7.7-gmake
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Build and Test
+-        uses: vmactions/openbsd-vm@v1
+-        with:
+-          release: "7.7"
+-          run: |
+-            # apparently fail-on-error isn't the default here
+-            set -e -x
+-            echo "Fetch dependencies"
+-            pkg_add -v bash gmake llvm%16 git python3 bison ccache parallel z3
+-            ln -s $(which llvm-ar-16) /usr/local/bin/llvm-ar
+-            echo "Fetch JBMC dependencies"
+-            pkg_add -v jdk%1.8 wget maven
+-            echo "Zero ccache stats and limit in size"
+-            export CCACHE_BASEDIR=$PWD
+-            export CCACHE_DIR=$PWD/.ccache
+-            ccache -z --max-size=500M
+-            ccache -p
+-            echo "Build with gmake"
+-            # don't do JBMC so as to keep the overall time in check
+-            gmake -C src minisat2-download
+-            gmake -C src -j2 CXX="ccache clang++"
+-            # gmake -C jbmc/src setup-submodules
+-            # gmake -C jbmc/src -j2 CXX="ccache clang++"
+-            gmake -C unit "CXX=ccache clang++"
+-            # gmake -C jbmc/unit "CXX=ccache clang++"
+-            echo "Print ccache stats"
+-            ccache -s
+-            echo "Checking completeness of help output"
+-            scripts/check_help.sh clang++
+-            echo "Run unit tests"
+-            gmake -C unit test
+-            # gmake -C jbmc/unit test
+-            echo "Running expected failure tests"
+-            gmake TAGS='[!shouldfail]' -C unit test
+-            # gmake TAGS='[!shouldfail]' -C jbmc/unit test
+-            echo "Run regression tests"
+-            gmake -C regression/cbmc test
+-            # gmake -C regression test-parallel JOBS=2
+-            # gmake -C regression/cbmc test-paths-lifo
+-            # env PATH=$PATH:`pwd`/src/solvers gmake -C regression/cbmc test-cprover-smt2
+-            # # gmake -C jbmc/regression test-parallel JOBS=2
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 6 to 29 minutes
+-  NetBSD:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: netbsd-10.1-gmake-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            netbsd-10.1-gmake-${{ github.ref }}
+-            netbsd-10.1-gmake
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Build and Test
+-        uses: vmactions/netbsd-vm@v1
+-        with:
+-          release: "10.1"
+-          run: |
+-            # apparently fail-on-error isn't the default here
+-            set -e -x
+-            echo "Fetch dependencies"
+-            pkg_add -u -v gmake git python311 patch flex bison ccache parallel z3 gcc10
+-            ln -s $(which python3.11) /usr/pkg/bin/python3
+-            export PATH=/usr/pkg/gcc10/bin:$PATH
+-            echo "Fetch JBMC dependencies"
+-            pkg_add -u -v openjdk8 wget apache-maven
+-            echo "Zero ccache stats and limit in size"
+-            export CCACHE_BASEDIR=$PWD
+-            export CCACHE_DIR=$PWD/.ccache
+-            ccache -z --max-size=500M
+-            ccache -p
+-            echo "Build with gmake"
+-            # don't do JBMC so as to keep the overall time in check
+-            gmake -C src minisat2-download
+-            gmake -C src -j2 CXX="ccache g++"
+-            # gmake -C jbmc/src setup-submodules
+-            # gmake -C jbmc/src -j2 CXX="ccache g++"
+-            gmake -C unit "CXX=ccache g++"
+-            # gmake -C jbmc/unit "CXX=ccache g++"
+-            echo "Print ccache stats"
+-            ccache -s
+-            echo "Checking completeness of help output"
+-            scripts/check_help.sh g++
+-            echo "Run unit tests"
+-            # TODO: unit tests are failing, requires debugging
+-            gmake -C unit test || true
+-            # gmake -C jbmc/unit test
+-            echo "Running expected failure tests"
+-            gmake TAGS='[!shouldfail]' -C unit test
+-            # gmake TAGS='[!shouldfail]' -C jbmc/unit test
+-            echo "Run regression tests"
+-            # TODO: we need to model some more library functions
+-            gmake -C regression/cbmc test || true
+-            # gmake -C regression test-parallel JOBS=2
+-            # gmake -C regression/cbmc test-paths-lifo
+-            # env PATH=$PATH:`pwd`/src/solvers gmake -C regression/cbmc test-cprover-smt2
+-            # # gmake -C jbmc/regression test-parallel JOBS=2
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+diff --git a/.github/workflows/build-and-test-Linux.yaml b/.github/workflows/build-and-test-Linux.yaml
+deleted file mode 100644
+index 7648fa45a0eae1efd9f5b0d3889b2ca68818e1ce..0000000000000000000000000000000000000000
+--- a/.github/workflows/build-and-test-Linux.yaml
++++ /dev/null
+@@ -1,61 +0,0 @@
+-name: Build Linux partially with CPROVER tools
+-
+-on:
+-  pull_request:
+-    branches:
+-      - '**'
+-
+-jobs:
+-  # This job takes approximately 18 minutes
+-  CompileLinux:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: true
+-      - name: Install Packages
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -y clang-19 clang++-19 flex bison cmake ninja-build maven jq libxml2-utils dpkg-dev ccache
+-          sudo apt-get install --no-install-recommends -y libssl-dev libelf-dev libudev-dev libpci-dev libiberty-dev autoconf
+-          sudo apt-get install --no-install-recommends -y gawk jq
+-
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-make-clang-${{ github.ref }}-${{ github.sha }}-KERNEL
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-make-clang-${{ github.ref }}
+-            ${{ runner.os }}-24.04-make-clang
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build CBMC tools
+-        run: |
+-          make -C src minisat2-download
+-          make -C src CXX='ccache /usr/bin/clang++' cbmc.dir goto-cc.dir goto-diff.dir -j4
+-      - name: Print ccache stats
+-        run: ccache -s
+-
+-      - name: Run (Docker Based) Linux Build test
+-        run: integration/linux/compile_linux.sh
+-
+-      - uses: actions/upload-artifact@v7
+-        with:
+-          name: CPROVER-faultyInput
+-          path: CPROVER/faultyInput/*
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+diff --git a/.github/workflows/build-and-test-Xen.yaml b/.github/workflows/build-and-test-Xen.yaml
+deleted file mode 100644
+index fc48176bd5a1a5b31850ed23d80a12395ee9e109..0000000000000000000000000000000000000000
+--- a/.github/workflows/build-and-test-Xen.yaml
++++ /dev/null
+@@ -1,76 +0,0 @@
+-name: Build Xen with CPROVER tools
+-
+-on:
+-  pull_request:
+-    branches: [ develop ]
+-
+-jobs:
+-  # This job takes approximately 33 minutes
+-  CompileXen:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: true
+-      - name: Install Packages
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -y build-essential git flex bison software-properties-common curl python3
+-          sudo apt-get install --no-install-recommends -y bin86 gdb bcc liblzma-dev python3-dev gettext iasl uuid-dev libncurses5-dev libncursesw5-dev pkg-config
+-          sudo apt-get install --no-install-recommends -y libgtk2.0-dev libyajl-dev time ccache clang-19 clang++-19
+-
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-make-clang-${{ github.ref }}-${{ github.sha }}-XEN
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-make-clang-${{ github.ref }}
+-            ${{ runner.os }}-24.04-make-clang
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build CBMC tools
+-        run: |
+-          make -C src minisat2-download
+-          make -C src CXX='ccache /usr/bin/clang++' cbmc.dir goto-cc.dir goto-diff.dir -j4
+-      - name: Print ccache stats
+-        run: ccache -s
+-
+-      - name: Get one-line-scan
+-        run: git clone -b path-addition https://github.com/awslabs/one-line-scan.git
+-
+-      - name: Get Xen 4.13
+-        run: git clone --branch RELEASE-4.13.0 --depth=1 https://github.com/xen-project/xen xen_4_13
+-
+-      - name: Prepare compile Xen with CBMC via one-line-scan
+-        run: |
+-          ln -s goto-cc src/goto-cc/goto-ld
+-          ln -s goto-cc src/goto-cc/goto-as
+-          ln -s goto-cc src/goto-cc/goto-g++
+-
+-      - name: Compile Xen with CBMC via one-line-scan, and check for goto-cc section
+-        run: one-line-scan/one-line-scan --add-to-path $(pwd)/src/cbmc --add-to-path $(pwd)/src/goto-diff  --add-to-path $(pwd)/src/goto-cc --no-analysis --trunc-existing --extra-cflags -Wno-error -o CPROVER -j 4 -- make -C xen_4_13 xen -j $(nproc)
+-        
+-      - name: Check for goto-cc section in xen-syms binary
+-        run: objdump -h xen_4_13/xen/xen-syms | grep "goto-cc"
+-
+-      - name: Show goto-cc properties
+-        run:  $(pwd)/src/cbmc/cbmc --show-properties xen_4_13/xen/xen-syms
+-
+-      - name: Show some goto-cc functions
+-        run:  $(pwd)/src/cbmc/cbmc --list-goto-functions xen_4_13/xen/xen-syms | grep "arch"
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+diff --git a/.github/workflows/cbmc-slim.yml b/.github/workflows/cbmc-slim.yml
+new file mode 100644
+index 0000000000000000000000000000000000000000..9b50af822b78e73ceb0546f93fc88521647f7def
+--- /dev/null
++++ b/.github/workflows/cbmc-slim.yml
+@@ -0,0 +1,59 @@
++name: Focused array constant reconstruction
++on:
++  push:
++    branches: ['ci/array-zero-width-elements-slim-*']
++permissions:
++  contents: read
++concurrency:
++  group: cbmc-slim
++  cancel-in-progress: false
++jobs:
++  focused:
++    if: github.repository == 'Tiramisu-Cake/cbmc'
++    runs-on: ubuntu-24.04
++    timeout-minutes: 210
++    env:
++      TESTPL_JOBS: '1'
++      TESTPL_COLOR_OUTPUT: '0'
++      DEBIAN_FRONTEND: noninteractive
++    steps:
++      - uses: actions/checkout@v7
++        with:
++          path: package
++          fetch-depth: 0
++          persist-credentials: false
++      - name: Install dependencies and formatter 18.1.8
++        timeout-minutes: 15
++        run: |
++          sudo apt-get update
++          sudo apt-get install --no-install-recommends -y gcc-13 g++-13 flex bison make git curl patch cmake perl python3 python3-venv z3
++          python3 -m venv "$GITHUB_WORKSPACE/format-env"
++          "$GITHUB_WORKSPACE/format-env/bin/pip" install clang-format==18.1.8
++          mkdir -p "$GITHUB_WORKSPACE/toolchain"
++          ln -s /usr/bin/gcc-13 "$GITHUB_WORKSPACE/toolchain/gcc"
++          ln -s /usr/bin/g++-13 "$GITHUB_WORKSPACE/toolchain/g++"
++          echo "$GITHUB_WORKSPACE/toolchain" >> "$GITHUB_PATH"
++          echo "$GITHUB_WORKSPACE/format-env/bin" >> "$GITHUB_PATH"
++      - name: Isolated Python service checks
++        timeout-minutes: 2
++        run: python3 package/scripts/cbmc-slim/test_runner.py
++      - name: Exact paired profiles and genuine Make and CMake unit cases
++        timeout-minutes: 190
++        run: >-
++          python3 package/scripts/cbmc-slim/runner.py run
++          "$GITHUB_WORKSPACE/package" "$GITHUB_WORKSPACE"
++          "$GITHUB_WORKSPACE/reports"
++      - name: Preserve setup failure when runner did not start
++        if: always()
++        run: |
++          mkdir -p reports
++          if [ ! -f reports/result.json ]; then
++            cp package/scripts/cbmc-slim/not-run.json reports/result.json
++          fi
++      - uses: actions/upload-artifact@v7
++        if: always()
++        with:
++          name: cbmc-slim-${{ github.sha }}
++          path: reports/
++          if-no-files-found: error
++          retention-days: 14
+diff --git a/.github/workflows/ci-analysis.yaml b/.github/workflows/ci-analysis.yaml
+deleted file mode 100644
+index 3c44b1b1d95555654c6690deb618636dc3ab4d19..0000000000000000000000000000000000000000
+--- a/.github/workflows/ci-analysis.yaml
++++ /dev/null
+@@ -1,33 +0,0 @@
+-# CI Performance Analysis
+-#
+-# Analyses the most recent successful runs of the main build-and-test
+-# workflow (pull-request-checks.yaml) and publishes a Markdown summary
+-# of the slowest jobs, test suites, and individual tests.
+-#
+-# Results are visible in the GitHub Actions UI:
+-#   1. Go to the "Actions" tab of the repository.
+-#   2. Select the "CI Performance Analysis" workflow on the left.
+-#   3. Click the most recent run, then the "analyse" job.
+-#   4. Expand the "Summary" section at the top of the job page.
+-#
+-# The underlying script is scripts/ci_analysis.py.  Run it locally with
+-# --help for additional options (e.g. --runs, --top, --log-dir).
+-name: CI Performance Analysis
+-on:
+-  push:
+-    branches: [develop]
+-
+-jobs:
+-  analyse:
+-    runs-on: ubuntu-latest
+-    permissions:
+-      actions: read
+-    steps:
+-      - uses: actions/checkout@v7
+-      - name: Analyse recent CI runs
+-        env:
+-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+-        run: |
+-          python3 scripts/ci_analysis.py \
+-            --runs 5 --top 20 --markdown --quiet \
+-            >> "$GITHUB_STEP_SUMMARY"
+diff --git a/.github/workflows/codeql-analysis.yml b/.github/workflows/codeql-analysis.yml
+deleted file mode 100644
+index 6a83ee0132276442ce168ff294d6bf69b0d000d2..0000000000000000000000000000000000000000
+--- a/.github/workflows/codeql-analysis.yml
++++ /dev/null
+@@ -1,54 +0,0 @@
+-name: "CodeQL"
+-
+-on:
+-  push:
+-    branches: [ develop ]
+-  pull_request:
+-    branches: [ develop ]
+-
+-jobs:
+-  # This job takes approximately 82 minutes
+-  analyze:
+-    name: Analyze
+-    runs-on: ubuntu-latest
+-    permissions:
+-      actions: read
+-      contents: read
+-      security-events: write
+-
+-    strategy:
+-      fail-fast: false
+-      matrix:
+-        language: [ 'cpp', 'java', 'javascript', 'python' ]
+-
+-    steps:
+-    - name: Checkout repository
+-      uses: actions/checkout@v7
+-      with:
+-        submodules: recursive
+-
+-    # Initializes the CodeQL tools for scanning.
+-    - name: Initialize CodeQL
+-      uses: github/codeql-action/init@v4
+-      with:
+-        languages: ${{ matrix.language }}
+-        # If you wish to specify custom queries, you can do so here or in a config file.
+-        # By default, queries listed here will override any specified in a config file.
+-        # Prefix the list here with "+" to use these queries and those in the config file.
+-        # queries: ./path/to/local/query, your-org/your-repo/queries@main
+-
+-    - name: Install dependencies
+-      run: |
+-        sudo apt-get update
+-        sudo apt-get install --no-install-recommends -yq maven flex bison
+-
+-    - name: Build
+-      run: |
+-        make -C src minisat2-download
+-        make -C src       -j4
+-        make -C unit      -j4
+-        make -C jbmc/src  -j4
+-        make -C jbmc/unit -j4
+-
+-    - name: Perform CodeQL Analysis
+-      uses: github/codeql-action/analyze@v4
+diff --git a/.github/workflows/coverage.yaml b/.github/workflows/coverage.yaml
+deleted file mode 100644
+index 3184b7592d5c96201dc8fb4bab49aa5bcfd3a3e5..0000000000000000000000000000000000000000
+--- a/.github/workflows/coverage.yaml
++++ /dev/null
+@@ -1,82 +0,0 @@
+-name: Codecov coverage report
+-on:
+-  push:
+-    branches: [ develop ]
+-  pull_request:
+-    branches: [ develop ]
+-env:
+-  cvc5-version: "1.3.4"
+-  linux-vcpus: 4
+-  windows-vcpus: 4
+-
+-jobs:
+-  # This job takes approximately 22 to 75 minutes
+-  Linux:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Clone repository
+-        uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Remove unnecessary software to free up disk space
+-        run: |
+-          # inspired by https://github.com/easimon/maximize-build-space/blob/master/action.yml
+-          df -h
+-          # Only remove specific toolchains: deleting all of /usr/local/lib and
+-          # /opt also removes parts of the GitHub Actions runner on current
+-          # runner images, which breaks all later steps that use a JavaScript
+-          # action.
+-          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+-          df -h
+-      - name: Download testing and coverage dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -y g++ gcc gdb binutils flex bison cmake maven jq libxml2-utils openjdk-11-jdk-headless lcov ccache z3
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-Coverage-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-Coverage-${{ github.ref }}
+-            ${{ runner.os }}-24.04-Coverage
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Configure CMake CBMC build with coverage instrumentation parameters
+-        run: cmake -S . -Bbuild -Denable_coverage=1 -Dparallel_tests=${{env.linux-vcpus}} -DCMAKE_CXX_COMPILER=/usr/bin/g++
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=7G
+-      - name: Execute CMake CBMC build
+-        run: cmake --build build -- -j${{env.linux-vcpus}}
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Run CTest and collect coverage statistics
+-        run: |
+-          echo "lcov_excl_line = UNREACHABLE" > ~/.lcovrc
+-          cmake --build build --target coverage -- -j${{env.linux-vcpus}}
+-      - name: Upload coverage statistics to Codecov
+-        uses: codecov/codecov-action@v7
+-        with:
+-          token: ${{ secrets.CODECOV_TOKEN }}
+-          files: build/html/coverage.info
+-          fail_ci_if_error: true
+-          verbose: true
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+diff --git a/.github/workflows/csmith.yaml b/.github/workflows/csmith.yaml
+deleted file mode 100644
+index 7245e7e67e322d62e3bc84ff4c0bc0692a92c353..0000000000000000000000000000000000000000
+--- a/.github/workflows/csmith.yaml
++++ /dev/null
+@@ -1,54 +0,0 @@
+-name: Run CSmith
+-
+-on:
+-  pull_request:
+-    branches: [ develop ]
+-
+-jobs:
+-  # This job takes approximately 18 minutes
+-  run-10-random-tests:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -y build-essential flex bison maven ccache clang-19 clang++-19
+-          sudo apt-get install --no-install-recommends -y csmith libcsmith-dev
+-          make -C src minisat2-download
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-make-clang-${{ github.ref }}-${{ github.sha }}-CSMITH
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-make-clang-${{ github.ref }}
+-            ${{ runner.os }}-24.04-make-clang
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build with make
+-        run: |
+-          make -C src CXX='ccache /usr/bin/clang++' cbmc.dir goto-cc.dir goto-instrument.dir -j4
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Run 10 randomly-generated CSmith tests
+-        run: |
+-          export PATH=$PWD/src/cbmc:$PWD/src/goto-cc:$PWD/src/goto-instrument:$PATH
+-          scripts/csmith.sh 10
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+diff --git a/.github/workflows/doxygen-check.yaml b/.github/workflows/doxygen-check.yaml
+deleted file mode 100644
+index a64edaaf4228658d8d213bf0c4a92e822d3e1704..0000000000000000000000000000000000000000
+--- a/.github/workflows/doxygen-check.yaml
++++ /dev/null
+@@ -1,23 +0,0 @@
+-name: Build Doxygen Documentation
+-on:
+-  pull_request:
+-    branches: [ develop ]
+-
+-jobs:
+-  # This job takes approximately 2 minutes
+-  check-doxygen:
+-    # Note that the versions used for this `check-doxygen` job should be kept in
+-    # sync with the `publish` job.
+-    runs-on: ubuntu-latest
+-    steps:
+-    - uses: actions/checkout@v7
+-    - name: Fetch dependencies
+-      env:
+-        # This is needed in addition to -yq to prevent apt-get from asking for
+-        # user input
+-        DEBIAN_FRONTEND: noninteractive
+-      run: |
+-        sudo apt-get update
+-        sudo apt-get install --no-install-recommends -yq doxygen graphviz
+-    - name: Run Doxygen
+-      run: ./scripts/run_doxygen.sh
+diff --git a/.github/workflows/performance.yaml b/.github/workflows/performance.yaml
+deleted file mode 100644
+index 95ef287652331efb8d7d1cc72243872d1a7ebc14..0000000000000000000000000000000000000000
+--- a/.github/workflows/performance.yaml
++++ /dev/null
+@@ -1,116 +0,0 @@
+-# Run performance benchmarks comparing two different CBMC versions.
+-name: Performance Benchmarking
+-on:
+-  push:
+-    branches: [ develop ]
+-  pull_request:
+-    branches: [ develop ]
+-
+-jobs:
+-  perf-benchcomp:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Save push event HEAD and HEAD~ to environment variables
+-        if: ${{ github.event_name == 'push' }}
+-        run: |
+-          echo "NEW_REF=${{ github.event.after}}" | tee -a "$GITHUB_ENV"
+-          echo "OLD_REF=${{ github.event.before }}" | tee -a "$GITHUB_ENV"
+-
+-      - name: Save pull request HEAD and base to environment variables
+-        if: ${{ contains(fromJSON('["pull_request", "pull_request_target"]'), github.event_name) }}
+-        run: |
+-          echo "OLD_REF=${{ github.event.pull_request.base.sha }}" | tee -a "$GITHUB_ENV"
+-          echo "NEW_REF=${{ github.event.pull_request.head.sha }}" | tee -a "$GITHUB_ENV"
+-
+-      - name: Check out CBMC (old variant)
+-        uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-          path: ./old
+-          ref: ${{ env.OLD_REF }}
+-          fetch-depth: 2
+-
+-      - name: Check out CBMC (new variant)
+-        uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-          path: ./new
+-          ref: ${{ env.NEW_REF }}
+-          fetch-depth: 1
+-
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq cmake ninja-build gcc g++ maven flex bison ccache
+-
+-      - name: Prepare ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-Release-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-Release-${{ github.ref }}
+-            ${{ runner.os }}-24.04-Release
+-      - name: ccache environment
+-        run: echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-
+-      - name: Configure using CMake (new variant)
+-        run: cmake -S new/ -B new/build -G Ninja -DWITH_JBMC=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -Dsat_impl="minisat2;cadical"
+-      - name: ccache environment (new variant)
+-        run: echo "CCACHE_BASEDIR=$PWD/new" >> $GITHUB_ENV
+-      - name: Build with Ninja (new variant)
+-        run: ninja -C new/build -j4
+-      - name: Print ccache stats (new variant)
+-        run: ccache -s
+-
+-      - name: Configure using CMake (old variant)
+-        run: cmake -S old/ -B old/build -G Ninja -DWITH_JBMC=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -Dsat_impl="minisat2;cadical"
+-      - name: ccache environment (old variant)
+-        run: echo "CCACHE_BASEDIR=$PWD/old" >> $GITHUB_ENV
+-      - name: Build with Ninja (old variant)
+-        run: ninja -C old/build -j4
+-      - name: Print ccache stats (old variant)
+-        run: ccache -s
+-
+-      - name: Obtain benchcomp
+-        run: git clone --depth 1 https://github.com/model-checking/kani kani.git
+-
+-      - name: Fetch benchmarks
+-        run: |
+-          git clone --depth 1 https://github.com/awslabs/aws-c-common aws-c-common.git
+-          pushd aws-c-common.git/verification/cbmc/proofs/
+-          # keep 6 proofs of each kind of data structure
+-          for c in $(ls -d aws_* | cut -f2 -d_ | uniq) ; do rm -rf $(ls -d aws_${c}_* | tail -n+7) ; done
+-          popd
+-          sudo apt-get install --no-install-recommends -yq gnuplot graphviz universal-ctags python3-pip
+-          curl -L --remote-name \
+-            https://github.com/awslabs/aws-build-accumulator/releases/download/1.29.0/litani-1.29.0.deb
+-          sudo dpkg -i litani-1.29.0.deb
+-          sudo python3 -m pip install cbmc-viewer
+-
+-      - name: Run benchcomp
+-        run: |
+-          kani.git/tools/benchcomp/bin/benchcomp \
+-            --config new/.github/performance/benchcomp-config.yaml \
+-            run
+-          kani.git/tools/benchcomp/bin/benchcomp \
+-            --config new/.github/performance/benchcomp-config.yaml \
+-            collate
+-
+-      - name: Perf Regression Results Table
+-        run: |
+-          kani.git/tools/benchcomp/bin/benchcomp \
+-            --config new/.github/performance/benchcomp-config.yaml \
+-            visualize --only dump_markdown_results_table >> "$GITHUB_STEP_SUMMARY"
+-
+-      - name: Run other visualizations
+-        run: |
+-          kani.git/tools/benchcomp/bin/benchcomp \
+-            --config new/.github/performance/benchcomp-config.yaml \
+-            visualize --except dump_markdown_results_table
+diff --git a/.github/workflows/profiling.yaml b/.github/workflows/profiling.yaml
+deleted file mode 100644
+index edaf2a66eeb0788f2ed8c2bc910c274f6c07c099..0000000000000000000000000000000000000000
+--- a/.github/workflows/profiling.yaml
++++ /dev/null
+@@ -1,291 +0,0 @@
+-# CBMC Profiling Workflow
+-#
+-# Two modes:
+-#
+-# 1. On PRs: builds both the base branch and the PR branch, profiles each,
+-#    and posts a differential comparison plus the PR's hotspot analysis to
+-#    the GitHub step summary.  Flamegraph SVGs are uploaded as artifacts.
+-#
+-# 2. On pushes to develop: profiles the current develop tip and publishes
+-#    the flamegraphs to GitHub Pages at /profiling/ so they are always
+-#    available at https://diffblue.github.io/cbmc/profiling/
+-#
+-# The benchmarks exercise different CBMC subsystems:
+-#   - linked_list: pointer analysis + symbolic execution
+-#   - array_ops:   array flattening + propositional encoding
+-#   - structs:     type checking + goto conversion
+-#
+-# Solver time is excluded (--dimacs --outfile /dev/null) so that results
+-# reflect only CBMC's own code, not the SAT solver.
+-#
+-# To run locally:
+-#   scripts/profile_cbmc.py --auto --runs 3
+-
+-name: Profiling
+-on:
+-  pull_request:
+-    branches: [ develop ]
+-  push:
+-    branches: [ develop ]
+-
+-jobs:
+-  # ── PR job: differential profiling (base vs PR) ──────────────────────
+-  profile-pr:
+-    if: github.event_name == 'pull_request'
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Check out repository
+-        uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-          fetch-depth: 0
+-
+-      - name: Install dependencies
+-        env:
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq \
+-            cmake ninja-build gcc g++ flex bison ccache libgoogle-perftools-dev \
+-            linux-tools-common linux-tools-generic
+-          PERF_REAL=$(find /usr/lib/linux-tools-*/perf -maxdepth 0 2>/dev/null | head -1)
+-          if [ -z "$PERF_REAL" ]; then
+-            echo "::error::No perf binary found under /usr/lib/linux-tools-*"
+-            exit 1
+-          fi
+-          echo "$(dirname "$PERF_REAL")" >> "$GITHUB_PATH"
+-          "$PERF_REAL" --version
+-          sudo sysctl kernel.perf_event_paranoid=-1
+-
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-Release-profile-${{ github.sha }}
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-Release-profile
+-            ${{ runner.os }}-24.04-Release
+-      - run: echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-
+-      # Build the base branch first in a worktree.  Building base before
+-      # the PR branch means the PR build gets good ccache hit rates (most
+-      # object files are shared).
+-      - name: Build and profile base branch
+-        run: |
+-          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+-          git worktree add --detach ../base-worktree "$BASE_SHA"
+-          (cd ../base-worktree && git submodule update --init)
+-          cmake -S ../base-worktree -B../base-worktree/build -G Ninja \
+-            -DWITH_JBMC=OFF -DCMAKE_BUILD_TYPE=Release \
+-            -DCMAKE_C_COMPILER=/usr/bin/gcc \
+-            -DCMAKE_CXX_COMPILER=/usr/bin/g++
+-          touch ../base-worktree/build/src/{ansi-c,cpp}/library-check.stamp
+-          ninja -C ../base-worktree/build cbmc -j$(nproc)
+-          python3 scripts/profile_cbmc.py --auto --runs 3 --timeout 120 \
+-            --build-dir ../base-worktree/build --output-dir base-results
+-
+-      - name: Build PR branch (Release)
+-        run: |
+-          cmake -S . -Bbuild -G Ninja -DWITH_JBMC=OFF \
+-            -DCMAKE_BUILD_TYPE=Release \
+-            -DCMAKE_C_COMPILER=/usr/bin/gcc \
+-            -DCMAKE_CXX_COMPILER=/usr/bin/g++
+-          touch build/src/{ansi-c,cpp}/library-check.stamp
+-          ninja -C build cbmc -j$(nproc)
+-
+-      - name: Profile PR branch (3 runs per benchmark)
+-        run: |
+-          # Run under a finite (hard) address-space limit, which the profiler
+-          # must cope with (it may only lower the soft limit).
+-          ulimit -v 25165824
+-          python3 scripts/profile_cbmc.py --auto --runs 3 --timeout 120 \
+-            --output-dir profile-results
+-
+-      - name: Generate differential summary
+-        if: always()
+-        env:
+-          # Branch names are controlled by the pull request's author: pass them
+-          # via the environment rather than expanding them into the script.
+-          BASE_REF: ${{ github.event.pull_request.base.ref }}
+-          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+-        run: |
+-          if [ -f base-results/results.json ] && [ -f profile-results/results.json ]; then
+-            python3 scripts/profile_cbmc.py \
+-              --compare base-results profile-results \
+-              --compare-labels "$BASE_REF" "$HEAD_REF" \
+-              --output-dir diff-results
+-          fi
+-
+-      - name: Post summary
+-        if: always()
+-        run: |
+-          if [ -f diff-results/diff_summary.txt ]; then
+-            echo '### Differential Profile (base → PR)' >> "$GITHUB_STEP_SUMMARY"
+-            echo '```' >> "$GITHUB_STEP_SUMMARY"
+-            cat diff-results/diff_summary.txt >> "$GITHUB_STEP_SUMMARY"
+-            echo '```' >> "$GITHUB_STEP_SUMMARY"
+-            echo '' >> "$GITHUB_STEP_SUMMARY"
+-          fi
+-          if [ -f profile-results/summary.txt ]; then
+-            echo '### PR Branch Profile' >> "$GITHUB_STEP_SUMMARY"
+-            echo '```' >> "$GITHUB_STEP_SUMMARY"
+-            cat profile-results/summary.txt >> "$GITHUB_STEP_SUMMARY"
+-            echo '```' >> "$GITHUB_STEP_SUMMARY"
+-          fi
+-          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+-          echo '' >> "$GITHUB_STEP_SUMMARY"
+-          echo '---' >> "$GITHUB_STEP_SUMMARY"
+-          echo "📊 **[Download flamegraph SVGs](${RUN_URL}#artifacts)** — open in a browser for interactive exploration." >> "$GITHUB_STEP_SUMMARY"
+-          echo "" >> "$GITHUB_STEP_SUMMARY"
+-          echo "🔥 **[Latest develop flamegraphs](https://diffblue.github.io/cbmc/profiling/)**" >> "$GITHUB_STEP_SUMMARY"
+-
+-      - name: Clean up worktree
+-        if: always()
+-        run: git worktree remove --force ../base-worktree 2>/dev/null || true
+-
+-      - name: Upload artifacts
+-        if: always()
+-        uses: actions/upload-artifact@v7
+-        with:
+-          name: profile-results
+-          path: |
+-            profile-results/**/flamegraph.svg
+-            profile-results/aggregated.svg
+-            profile-results/summary.txt
+-            profile-results/results.json
+-            base-results/results.json
+-            diff-results/diff_summary.txt
+-          retention-days: 14
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-
+-  # ── Develop job: profile and publish flamegraphs to GitHub Pages ─────
+-  profile-develop:
+-    if: github.event_name == 'push'
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Check out repository
+-        uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-
+-      - name: Install dependencies
+-        env:
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq \
+-            cmake ninja-build gcc g++ flex bison ccache libgoogle-perftools-dev \
+-            linux-tools-common linux-tools-generic
+-          PERF_REAL=$(find /usr/lib/linux-tools-*/perf -maxdepth 0 2>/dev/null | head -1)
+-          if [ -z "$PERF_REAL" ]; then
+-            echo "::error::No perf binary found under /usr/lib/linux-tools-*"
+-            exit 1
+-          fi
+-          echo "$(dirname "$PERF_REAL")" >> "$GITHUB_PATH"
+-          "$PERF_REAL" --version
+-          sudo sysctl kernel.perf_event_paranoid=-1
+-
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-Release-profile-${{ github.sha }}
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-Release-profile
+-            ${{ runner.os }}-24.04-Release
+-      - run: echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-
+-      - name: Build CBMC (Release)
+-        run: |
+-          cmake -S . -Bbuild -G Ninja -DWITH_JBMC=OFF \
+-            -DCMAKE_BUILD_TYPE=Release \
+-            -DCMAKE_C_COMPILER=/usr/bin/gcc \
+-            -DCMAKE_CXX_COMPILER=/usr/bin/g++
+-          touch build/src/{ansi-c,cpp}/library-check.stamp
+-          ninja -C build cbmc -j$(nproc)
+-
+-      - name: Profile develop (3 runs per benchmark)
+-        run: |
+-          python3 scripts/profile_cbmc.py --auto --runs 3 --timeout 120 \
+-            --output-dir profile-results
+-
+-      - name: Post summary
+-        if: always()
+-        run: |
+-          if [ -f profile-results/summary.txt ]; then
+-            echo '### develop Profile' >> "$GITHUB_STEP_SUMMARY"
+-            echo '```' >> "$GITHUB_STEP_SUMMARY"
+-            cat profile-results/summary.txt >> "$GITHUB_STEP_SUMMARY"
+-            echo '```' >> "$GITHUB_STEP_SUMMARY"
+-            echo '' >> "$GITHUB_STEP_SUMMARY"
+-            echo '---' >> "$GITHUB_STEP_SUMMARY"
+-            echo '🔥 **[Interactive flamegraphs on GitHub Pages](https://diffblue.github.io/cbmc/profiling/)**' >> "$GITHUB_STEP_SUMMARY"
+-          fi
+-
+-      - name: Prepare pages content
+-        if: always()
+-        run: |
+-          mkdir -p pages-out
+-          # Copy all flamegraph SVGs
+-          find profile-results -name 'flamegraph.svg' | while read f; do
+-            bench=$(basename "$(dirname "$f")")
+-            cp "$f" "pages-out/${bench}.svg"
+-          done
+-          [ -f profile-results/aggregated.svg ] && cp profile-results/aggregated.svg pages-out/
+-          [ -f profile-results/summary.txt ] && cp profile-results/summary.txt pages-out/
+-          [ -f profile-results/results.json ] && cp profile-results/results.json pages-out/
+-          # Generate a simple index page
+-          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-8)
+-          cat > pages-out/index.html <<'HEADER'
+-          <!DOCTYPE html>
+-          <html><head><meta charset="utf-8">
+-          <title>CBMC Profiling — develop</title>
+-          <style>
+-            body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2em auto; padding: 0 1em; }
+-            h1 { border-bottom: 2px solid #333; padding-bottom: 0.3em; }
+-            a { color: #0366d6; }
+-            .meta { color: #666; font-size: 0.9em; }
+-            ul { line-height: 1.8; }
+-            pre { background: #f6f8fa; padding: 1em; overflow-x: auto; font-size: 0.85em; }
+-          </style>
+-          </head><body>
+-          HEADER
+-          echo "<h1>CBMC Profiling — develop</h1>" >> pages-out/index.html
+-          echo "<p class='meta'>Commit: <code>${SHORT_SHA}</code> — $(date -u '+%Y-%m-%d %H:%M UTC')</p>" >> pages-out/index.html
+-          echo "<h2>Flamegraphs</h2><p>Click to open interactive SVG (searchable, zoomable):</p><ul>" >> pages-out/index.html
+-          for svg in pages-out/*.svg; do
+-            name=$(basename "$svg")
+-            echo "<li><a href=\"${name}\">${name%.svg}</a></li>" >> pages-out/index.html
+-          done
+-          echo "</ul>" >> pages-out/index.html
+-          if [ -f pages-out/summary.txt ]; then
+-            echo "<h2>Summary</h2><pre>" >> pages-out/index.html
+-            cat pages-out/summary.txt >> pages-out/index.html
+-            echo "</pre>" >> pages-out/index.html
+-          fi
+-          echo "<p><a href=\"https://github.com/${{ github.repository }}\">← Back to repository</a></p>" >> pages-out/index.html
+-          echo "</body></html>" >> pages-out/index.html
+-
+-      - name: Publish to GitHub Pages
+-        if: always()
+-        uses: JamesIves/github-pages-deploy-action@v4
+-        with:
+-          branch: gh-pages
+-          folder: pages-out
+-          target-folder: profiling
+-          clean: true
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+diff --git a/.github/workflows/publish.yaml b/.github/workflows/publish.yaml
+deleted file mode 100644
+index 0b7d82bf90a5e85114b68b5420069a48a522a877..0000000000000000000000000000000000000000
+--- a/.github/workflows/publish.yaml
++++ /dev/null
+@@ -1,37 +0,0 @@
+-name: Publish CBMC documentation
+-on: [push, pull_request]
+-
+-jobs:
+-  # This job takes approximately 3 minutes
+-  publish:
+-    # Note that the versions used for this `publish` job should be kept in sync
+-    # with the `check-doxygen` job.
+-    runs-on: ubuntu-latest
+-    steps:
+-      - name: Checkout repository
+-        uses: actions/checkout@v7
+-
+-      - name: Install doxygen
+-        run: |
+-          sudo apt update
+-          sudo apt-get install --no-install-recommends -y doxygen graphviz pandoc npm python3-git python3-pandocfilters
+-
+-      - name: Install mermaid diagram filter
+-        run: |
+-          git clone https://github.com/raghur/mermaid-filter/
+-          cd mermaid-filter
+-          npm install --loglevel verbose
+-          sudo npm link --loglevel verbose
+-          cd ..
+-
+-      - name: Build documentation
+-        run: |
+-          echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns
+-          cd doc/doxygen-root && make && touch html/.nojekyll
+-
+-      - name: Publish documentation
+-        if: ${{ github.event_name == 'push' && startsWith('refs/heads/develop', github.ref) }}
+-        uses: JamesIves/github-pages-deploy-action@v4
+-        with:
+-          branch: gh-pages
+-          folder: doc/doxygen-root/html
+diff --git a/.github/workflows/pull-request-check-clang-format.sh b/.github/workflows/pull-request-check-clang-format.sh
+deleted file mode 100755
+index f2a826d62066ae94db77b37c7cfb0d58b14a4ae5..0000000000000000000000000000000000000000
+--- a/.github/workflows/pull-request-check-clang-format.sh
++++ /dev/null
+@@ -1,38 +0,0 @@
+-#!/usr/bin/env bash
+-
+-# Stop on errors
+-set -e
+-
+-# Log information about the run of this check.
+-echo "Pull request's base branch is: ${BASE_BRANCH}"
+-echo "Pull request's merge branch is: ${MERGE_BRANCH}"
+-echo "Pull request's source branch is: ${GITHUB_HEAD_REF}"
+-clang-format-18 --version
+-
+-# The checkout action leaves us in detatched head state. The following line
+-# names the checked out commit, for simpler reference later.
+-git checkout -b ${MERGE_BRANCH}
+-
+-# Build list of files to ignore 
+-while read file ; do EXCLUDES+="':(top,exclude)$file' " ; done < .clang-format-ignore
+-
+-# Make sure we can refer to ${BASE_BRANCH} by name
+-git checkout ${BASE_BRANCH}
+-git checkout ${MERGE_BRANCH}
+-
+-# Find the commit on which the PR is based.
+-MERGE_BASE=$(git merge-base ${BASE_BRANCH} ${MERGE_BRANCH})
+-echo "Checking for formatting errors introduced since $MERGE_BASE"
+-
+-# Do the checking. "eval" is used so that quotes (as inserted into $EXCLUDES
+-# above) are not interpreted as parts of file names.
+-eval git-clang-format-18 --binary clang-format-18 $MERGE_BASE -- $EXCLUDES || true
+-git diff > formatted.diff
+-if [[ -s formatted.diff ]] ; then
+-  echo 'Formatting error! The following diff shows the required changes'
+-  echo 'Use the raw log to get a version of the diff that preserves spacing'
+-  cat formatted.diff
+-  exit 1
+-fi
+-echo 'No formatting errors found'
+-exit 0
+diff --git a/.github/workflows/pull-request-check-cpplint.sh b/.github/workflows/pull-request-check-cpplint.sh
+deleted file mode 100755
+index 3c3a251ab6236833a15ef376500d79eb88b8bb32..0000000000000000000000000000000000000000
+--- a/.github/workflows/pull-request-check-cpplint.sh
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#!/usr/bin/env bash
+-
+-# Stop on errors
+-set -e
+-
+-# Log information about the run of this check.
+-echo "Pull request's base branch is: ${BASE_BRANCH}"
+-echo "Pull request's merge branch is: ${MERGE_BRANCH}"
+-echo "Pull request's source branch is: ${GITHUB_HEAD_REF}"
+-
+-# The checkout action leaves us in detatched head state. The following line
+-# names the checked out commit, for simpler reference later.
+-git checkout -b ${MERGE_BRANCH}
+-
+-# Make sure we can refer to ${BASE_BRANCH} by name
+-git checkout ${BASE_BRANCH}
+-git checkout ${MERGE_BRANCH}
+-
+-# Find the commit on which the PR is based.
+-MERGE_BASE=$(git merge-base ${BASE_BRANCH} ${MERGE_BRANCH})
+-echo "Checking standards of code touched since $MERGE_BASE"
+-
+-# Do the checking.
+-./scripts/run_diff.sh CPPLINT $MERGE_BASE
+diff --git a/.github/workflows/pull-request-check-rust-api.yaml b/.github/workflows/pull-request-check-rust-api.yaml
+deleted file mode 100644
+index 5f5df23f56f3350bc54afc3e8728f9371654e02a..0000000000000000000000000000000000000000
+--- a/.github/workflows/pull-request-check-rust-api.yaml
++++ /dev/null
+@@ -1,123 +0,0 @@
+-name: Build and Test the Rust API
+-on:
+-  push:
+-    branches: [ develop ]
+-  pull_request:
+-    branches: [ develop ]
+-env:
+-  default_build_dir: "build/"
+-  default_solver: "minisat2"
+-  default_include_dir: "src/libcprover-cpp/"
+-
+-# For now, we support two jobs: A Linux and a MacOS based one.
+-# Both of the jobs use CMake, as we only support building the Rust
+-# API with CMake (due to dependencies on CMake plugins).
+-jobs:
+-  check-ubuntu-22_04-cmake-clang-rust:
+-    runs-on: ubuntu-22.04
+-    env:
+-      CC: "ccache /usr/bin/clang-13"
+-      CXX: "ccache /usr/bin/clang++-13"
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq clang-13 clang++-13 flex bison libxml2-utils ccache
+-      - name: Log cargo/rust version
+-        run: cargo --version
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-22.04-cmake-clang-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-22.04-cmake-clang-${{ github.ref }}
+-            ${{ runner.os }}-22.04-cmake-clang
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      # In our experiments while building this action script, the Ubuntu 22.04 build was failing with
+-      # the compiler indicating that it wanted the libraries to be built with `-fPIE` while it was
+-      # trying to link the Rust project. This was remedied by adding the `Position Independent Code`
+-      # directive during CBMC build time. It's worth mentioning that this wasn't observed on our
+-      # local experiments on the same platform, but it seems to be doing no harm to the build overall
+-      # and allows us to test the Rust API on Linux without issues.
+-      - name: Configure using CMake
+-        run: cmake -S. -B${{env.default_build_dir}} -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_C_COMPILER=/usr/bin/clang-13 -DCMAKE_CXX_COMPILER=/usr/bin/clang++-13 -DWITH_JBMC=OFF
+-      - name: Build with CMake
+-        run: cmake --build ${{env.default_build_dir}} -j4 --target cprover-api-cpp
+-      - name: Print ccache stats
+-        run: ccache -s
+-      # We won't be running any of the regular regression tests, as these are covered
+-      # by the other jobs already present in `pull-request-checks.yaml`.
+-      - name: Run Rust API tests
+-        run: |
+-          VERSION=$(cat src/config.inc | python3 -c "import sys,re;line = [line for line in sys.stdin if re.search(r'CBMC_VERSION = (\d+\.\d+\.\d+)', line)];sys.stdout.write(re.search(r'CBMC_VERSION = (\d+\.\d+\.\d+)', line[0]).group(1))")
+-          cd src/libcprover-rust;\
+-          cargo clean;\
+-          CBMC_INCLUDE_DIR=../../${{env.default_include_dir}} CBMC_LIB_DIR=../../${{env.default_build_dir}}/lib CBMC_VERSION=$VERSION cargo test -- --test-threads=1
+-
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  check-macos-15-intel-cmake-clang-rust:
+-    runs-on: macos-15-intel
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        run: brew install cmake ninja flex bison ccache
+-      - name: Log cargo/rust version
+-        run: cargo --version
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-Release-Minisat-${{ github.ref }}-${{ github.sha }}-PR-Rust-API
+-          restore-keys: |
+-            ${{ runner.os }}-Release-Minisat-${{ github.ref }}
+-            ${{ runner.os }}-Release-Minisat
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Configure using CMake
+-        run: cmake -S. -B${{env.default_build_dir}} -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DWITH_JBMC=OFF
+-      - name: Build with Ninja
+-        run: cd ${{env.default_build_dir}}; ninja -j4 cprover-api-cpp
+-      - name: Print ccache stats
+-        run: ccache -s
+-      # We won't be running any of the regular regression tests, as these are covered
+-      # by the other jobs already present in `pull-request-checks.yaml`.
+-      - name: Run Rust API tests
+-        run: |
+-          export MACOSX_DEPLOYMENT_TARGET=10.15
+-          VERSION=$(cat src/config.inc | python3 -c "import sys,re;line = [line for line in sys.stdin if re.search(r'CBMC_VERSION = (\d+\.\d+\.\d+)', line)];sys.stdout.write(re.search(r'CBMC_VERSION = (\d+\.\d+\.\d+)', line[0]).group(1))")
+-          cd src/libcprover-rust;\
+-          cargo clean;\
+-          CBMC_INCLUDE_DIR=../../${{env.default_include_dir}} CBMC_LIB_DIR=../../${{env.default_build_dir}}/lib CBMC_VERSION=$VERSION cargo test -- --test-threads=1
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+diff --git a/.github/workflows/pull-request-checks.yaml b/.github/workflows/pull-request-checks.yaml
+deleted file mode 100644
+index 48e36ffa817086269ffb6ca1e56a7f30aaace629..0000000000000000000000000000000000000000
+--- a/.github/workflows/pull-request-checks.yaml
++++ /dev/null
+@@ -1,1212 +0,0 @@
+-name: Build and Test CBMC
+-on:
+-  push:
+-    branches: [ develop ]
+-  pull_request:
+-    branches: [ develop ]
+-env:
+-  cvc5-version: "1.3.4"
+-  z3-version: "4.8.10"
+-  linux-vcpus: 4
+-  windows-vcpus: 4
+-
+-jobs:
+-  # This job takes approximately 15 to 40 minutes
+-  check-ubuntu-24_04-make-gcc:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq gcc gdb g++ maven jq flex bison libxml2-utils ccache cmake z3
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-make-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-make-${{ github.ref }}
+-            ${{ runner.os }}-24.04-make
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build with make
+-        run: |
+-          git clone https://github.com/conp-solutions/riss riss.git
+-          cmake -Hriss.git -Briss.git/release -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+-          make -C riss.git/release riss-coprocessor-lib-static -j${{env.linux-vcpus}}
+-          make -C src -j${{env.linux-vcpus}} CXX="ccache g++" LIBS="$PWD/riss.git/release/lib/libriss-coprocessor.a -lpthread" IPASIR=$PWD/riss.git/riss
+-          make -C jbmc/src -j${{env.linux-vcpus}} CXX="ccache g++" LIBS="$PWD/riss.git/release/lib/libriss-coprocessor.a -lpthread" IPASIR=$PWD/riss.git/riss
+-
+-          make -C unit -j${{env.linux-vcpus}} CXX="ccache g++" LIBS="$PWD/riss.git/release/lib/libriss-coprocessor.a -lpthread" IPASIR=$PWD/riss.git/riss
+-
+-          make -C jbmc/unit -j${{env.linux-vcpus}} CXX="ccache g++" LIBS="$PWD/riss.git/release/lib/libriss-coprocessor.a -lpthread" IPASIR=$PWD/riss.git/riss
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Checking completeness of help output
+-        run: scripts/check_help.sh g++
+-      - name: Run unit tests
+-        run: |
+-          make -C unit test IPASIR=$PWD/riss.git/riss
+-          make -C jbmc/unit test IPASIR=$PWD/riss.git/riss
+-          echo "Running expected failure tests"
+-          make TAGS="[!shouldfail]" -C unit test IPASIR=$PWD/riss.git/riss
+-          make TAGS="[!shouldfail]" -C jbmc/unit test IPASIR=$PWD/riss.git/riss
+-      - name: Run regression tests
+-        run: |
+-          export PATH=$PATH:`pwd`/src/solvers
+-          make -C regression test-parallel JOBS=${{env.linux-vcpus}} LIBS="$PWD/riss.git/release/lib/libriss-coprocessor.a -lpthread" IPASIR=$PWD/riss.git/riss
+-          make -C regression/cbmc test-paths-lifo
+-          make -C regression/cbmc test-cprover-smt2
+-          make -C jbmc/regression test-parallel JOBS=${{env.linux-vcpus}}
+-      - name: Check cleanup
+-        run: |
+-          make -C src clean IPASIR=$PWD/riss.git/riss
+-          make -C jbmc/src clean IPASIR=$PWD/riss.git/riss
+-          rm -r riss.git
+-          rm src/goto-cc/goto-ld
+-          make -C unit clean
+-          make -C regression clean
+-          make -C jbmc/unit clean
+-          make -C jbmc/regression clean
+-          if [[ $(git status --ignored --porcelain | grep -v .ccache/) ]] ; then
+-            git status --ignored
+-            exit 1
+-          fi
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 25 to 34 minutes
+-  check-ubuntu-24_04-make-clang:
+-    runs-on: ubuntu-24.04
+-    env:
+-      CC: "ccache /usr/bin/clang"
+-      CXX: "ccache /usr/bin/clang++"
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq clang-19 clang++-19 gdb maven jq flex bison libxml2-utils cpanminus ccache z3
+-          make -C src minisat2-download cadical-download
+-          cpanm Thread::Pool::Simple
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-make-clang-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-make-clang-${{ github.ref }}
+-            ${{ runner.os }}-24.04-make-clang
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build with make
+-        run: |
+-          make -C src       -j${{env.linux-vcpus}} MINISAT2=../../minisat-2.2.1 CADICAL=../../cadical
+-          make -C unit      -j${{env.linux-vcpus}}
+-          make -C jbmc/src  -j${{env.linux-vcpus}}
+-          make -C jbmc/unit -j${{env.linux-vcpus}}
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Run unit tests
+-        run: |
+-          make -C unit      test
+-          make -C jbmc/unit test
+-          make TAGS="[z3]" -C unit test
+-      - name: Run expected failure unit tests
+-        run: |
+-          make TAGS="[!shouldfail]" -C unit test
+-          make TAGS="[!shouldfail]" -C jbmc/unit test
+-      - name: Run regression tests
+-        run: |
+-          export PATH=$PATH:`pwd`/src/solvers
+-          make -C regression test-parallel JOBS=${{env.linux-vcpus}}
+-          make -C regression/cbmc test-paths-lifo
+-          make -C regression/cbmc test-cprover-smt2
+-          make -C jbmc/regression test-parallel JOBS=${{env.linux-vcpus}}
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job has been copied from the one above it, and modified to only build CBMC
+-  # and run the `regression/cbmc/` regression tests against Z3. The rest of the tests
+-  # (unit/regression) have been stripped based on the rationale that they are going
+-  # to be run by the job above, which is basically the same, but more comprehensive.
+-  # The reason we opted for a new job is that adding a `test-z3` step to the current
+-  # jobs increases the job runtime to unacceptable levels (over 2hrs).
+-  # This job takes approximately 3 to 18 minutes
+-  check-ubuntu-24_04-make-clang-smt-z3:
+-    runs-on: ubuntu-24.04
+-    env:
+-      CC: "ccache /usr/bin/clang"
+-      CXX: "ccache /usr/bin/clang++"
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        env:
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq clang-19 clang++-19 gdb maven jq flex bison libxml2-utils cpanminus ccache z3
+-          make -C src minisat2-download
+-          cpanm Thread::Pool::Simple
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-make-clang-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-make-clang-${{ github.ref }}
+-            ${{ runner.os }}-24.04-make-clang
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build with make
+-        run: make -C src -j${{env.linux-vcpus}}
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Run regression/cbmc tests with z3 as the backend
+-        run: make -C regression/cbmc test-z3
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 17 to 42 minutes
+-  check-ubuntu-24_04-cmake-gcc:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq cmake ninja-build gcc gdb g++ maven flex bison libxml2-utils dpkg-dev ccache doxygen graphviz z3
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-Release-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-Release-${{ github.ref }}
+-            ${{ runner.os }}-24.04-Release
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Configure using CMake
+-        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -Dsat_impl="minisat2;cadical"
+-      - name: Check that doc task works
+-        run: ninja -C build doc
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build with Ninja
+-        run: ninja -C build -j${{env.linux-vcpus}}
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Checking completeness of help output
+-        run: scripts/check_help.sh /usr/bin/g++ build/bin
+-      - name: Check if package building works
+-        run: |
+-          cd build
+-          ninja package
+-          ls *.deb
+-      - name: Run tests
+-        run: cd build; ctest . -V -L CORE -j${{env.linux-vcpus}}
+-      - name: Check cleanup
+-        run: |
+-          cmake --build build --target clean
+-          rm -r build
+-          find regression jbmc/regression \( -name '*.out' -o -name '*.gb' -o -name '*.dimacs' -o -name '*.obj' -o -name '*.o' -o -name '*.goto-cc-saved' \) -delete
+-          find regression -not -path 'regression/goto-bmc/invalid-files/*' -name '*.goto' -delete
+-          find regression/cbmc regression/cbmc-incr-smt2 regression/cbmc-sequentialization regression/cbmc-shadow-memory regression/book-examples regression/statement-list -name '*.smt2' -delete
+-          find regression/snapshot-harness regression/solver-hardness -name '*.json' -delete
+-          find regression/goto-harness -name '*-harness.c' -delete
+-          find regression/goto-instrument-wmm-core -mindepth 2 \( -name '*.txt' -o -name '*.dot' \) -delete
+-          rm -rf jbmc/regression/jbmc/classpath-class-incorrect-package/incorrect-classes
+-          rm -rf jbmc/regression/jbmc/classpath-class-with-one-dir/default-classes
+-          rm -rf jbmc/regression/jbmc/overlay-class/annotations jbmc/regression/jbmc/overlay-class/correct-overlay jbmc/regression/jbmc/overlay-class/ignored-method jbmc/regression/jbmc/overlay-class/unmarked-overlay
+-          rm -f jbmc/regression/jbmc/overlay-class/Test.class
+-          if [[ $(git status --ignored --porcelain | grep -v .ccache/) ]] ; then
+-            git status --ignored
+-            exit 1
+-          fi
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 20 to 38 minutes
+-  check-ubuntu-22_04-make-clang:
+-    runs-on: ubuntu-22.04
+-    env:
+-      CC: "ccache /usr/bin/clang"
+-      CXX: "ccache /usr/bin/clang++"
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq clang clang-14 gdb maven jq flex bison libxml2-utils cpanminus ccache z3
+-          make -C src minisat2-download cadical-download
+-          cpanm Thread::Pool::Simple
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-22.04-make-clang-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-22.04-make-clang-${{ github.ref }}
+-            ${{ runner.os }}-22.04-make-clang
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Perform C/C++ library syntax check
+-        run: |
+-          make -C src/ansi-c library_check
+-          make -C src/cpp library_check
+-      - name: Build with make
+-        run: |
+-          make -C src       -j${{env.linux-vcpus}} MINISAT2=../../minisat-2.2.1 CADICAL=../../cadical
+-          make -C unit      -j${{env.linux-vcpus}}
+-          make -C jbmc/src  -j${{env.linux-vcpus}}
+-          make -C jbmc/unit -j${{env.linux-vcpus}}
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Run unit tests
+-        run: |
+-          make -C unit      test
+-          make -C jbmc/unit test
+-          make TAGS="[z3]" -C unit test
+-      - name: Run expected failure unit tests
+-        run: |
+-          make TAGS="[!shouldfail]" -C unit test
+-          make TAGS="[!shouldfail]" -C jbmc/unit test
+-      - name: Run regression tests
+-        run: |
+-          export PATH=$PATH:`pwd`/src/solvers
+-          make -C regression test-parallel JOBS=${{env.linux-vcpus}}
+-          make -C regression/cbmc test-paths-lifo
+-          make -C regression/cbmc test-cprover-smt2
+-          make -C jbmc/regression test-parallel JOBS=${{env.linux-vcpus}}
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 17 to 41 minutes
+-  check-ubuntu-22_04-cmake-gcc:
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq cmake ninja-build gcc gdb g++ maven flex bison libxml2-utils dpkg-dev ccache doxygen graphviz z3
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-22.04-Release-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-22.04-Release-${{ github.ref }}
+-            ${{ runner.os }}-22.04-Release
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Configure using CMake
+-        run: cmake -S . -Bbuild -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -Dsat_impl="minisat2;cadical"
+-      - name: Check that doc task works
+-        run: ninja -C build doc
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build with Ninja
+-        run: ninja -C build -j${{env.linux-vcpus}}
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Check if package building works
+-        run: |
+-          cd build
+-          ninja package
+-          ls *.deb
+-      - name: Run tests
+-        run: cd build; ctest . -V -L CORE -j${{env.linux-vcpus}}
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 14 to 46 minutes
+-  check-ubuntu-24_04-cmake-gcc-14:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq cmake ninja-build gcc-14 gdb g++-14 maven flex bison libxml2-utils dpkg-dev ccache doxygen z3
+-          # Update symlinks so that any use of gcc (including our regression
+-          # tests) will use GCC 14.
+-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 110 \
+-            --slave /usr/bin/g++ g++ /usr/bin/g++-14 \
+-            --slave /usr/bin/gcov gcov /usr/bin/gcov-14
+-          sudo ln -sf cpp-14 /usr/bin/cpp
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-Release-gcc-14-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-Release-gcc-14-${{ github.ref }}
+-            ${{ runner.os }}-24.04-Release-gcc-14
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Configure using CMake
+-        run: cmake -S . -Bbuild -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS=-Wp,-D_GLIBCXX_ASSERTIONS
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build with Ninja
+-        run: ninja -C build -j${{env.linux-vcpus}}
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Run tests
+-        run: cd build; ctest . -V -L CORE -j${{env.linux-vcpus}}
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 17 to 41 minutes
+-  check-ubuntu-24_04-arm-cmake-gcc:
+-    runs-on: ubuntu-24.04-arm
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq cmake ninja-build gcc gdb g++ maven flex bison libxml2-utils dpkg-dev ccache doxygen graphviz z3
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-Arm-Release-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-Arm-Release-${{ github.ref }}
+-            ${{ runner.os }}-24.04-Arm-Release
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Configure using CMake
+-        run: cmake -S . -Bbuild -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -Dsat_impl="minisat2;cadical"
+-      - name: Check that doc task works
+-        run: ninja -C build doc
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build with Ninja
+-        run: ninja -C build -j${{env.linux-vcpus}}
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Check if package building works
+-        run: |
+-          cd build
+-          ninja package
+-          ls *.deb
+-      - name: Run tests
+-        run: cd build; ctest . -V -L CORE -j${{env.linux-vcpus}}
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 14 to 60 minutes
+-  check-ubuntu-22_04-cmake-gcc-32bit:
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq cmake ninja-build gcc gdb g++ maven flex bison libxml2-utils ccache doxygen z3 g++-multilib
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-22.04-Release-32-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-22.04-Release-32-${{ github.ref }}
+-            ${{ runner.os }}-22.04-Release-32
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Configure using CMake
+-        run: cmake -S . -Bbuild -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -Dsat_impl="minisat2;cadical" -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build with Ninja
+-        run: ninja -C build -j${{env.linux-vcpus}}
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Run tests
+-        run: cd build; ctest . -V -L CORE -j${{env.linux-vcpus}}
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 2 to 24 minutes
+-  check-ubuntu-24_04-cmake-gcc-KNOWNBUG:
+-    runs-on: ubuntu-24.04
+-    # Sequenced after check-ubuntu-24_04-cmake-gcc so that this job benefits
+-    # from the matching ccache produced in the same workflow run. The cmake
+-    # configure flags below must stay in sync with that job's so the compile
+-    # commands hash identically and ccache hits in full.
+-    needs: check-ubuntu-24_04-cmake-gcc
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq cmake ninja-build gcc g++ maven flex bison libxml2-utils ccache z3
+-      - name: Restore ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-Release-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-Release-${{ github.ref }}
+-            ${{ runner.os }}-24.04-Release
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Configure using CMake
+-        run: cmake -H. -Bbuild -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -Dsat_impl="minisat2;cadical"
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build with Ninja
+-        run: ninja -C build -j${{env.linux-vcpus}}
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Run tests
+-        run: |
+-          cd build
+-          ctest . -V -L KNOWNBUG -j${{env.linux-vcpus}}
+-          export PATH=$PWD/bin:$PATH
+-          cd ../regression/cbmc
+-          sed -i '1s/^CORE\(.*\)broken-smt-backend/KNOWNBUG\1broken-smt-backend/' */*.desc
+-          # the following tests fail on Windows only
+-          git checkout -- memory_allocation1 printf1 printf3 union12 va_list3
+-          ../test.pl -c "cbmc --cprover-smt2" -I broken-smt-backend -K
+-
+-      # No "Save ccache" step here: the cache is produced by
+-      # check-ubuntu-24_04-cmake-gcc, which this job depends on.
+-  # This job takes approximately 7 to 30 minutes
+-  check-ubuntu-24_04-cmake-gcc-THOROUGH:
+-    runs-on: ubuntu-24.04
+-    # Sequenced after check-ubuntu-24_04-cmake-gcc so that this job benefits
+-    # from the matching ccache produced in the same workflow run. The cmake
+-    # configure flags below must stay in sync with that job's so the compile
+-    # commands hash identically and ccache hits in full.
+-    needs: check-ubuntu-24_04-cmake-gcc
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq cmake ninja-build gcc g++ maven flex bison libxml2-utils ccache z3
+-      - name: Restore ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-Release-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-Release-${{ github.ref }}
+-            ${{ runner.os }}-24.04-Release
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Configure using CMake
+-        run: cmake -H. -Bbuild -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -Dsat_impl="minisat2;cadical"
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build with Ninja
+-        run: ninja -C build -j${{env.linux-vcpus}}
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Run tests
+-        run: cd build; ctest . -V -L THOROUGH -j${{env.linux-vcpus}}
+-
+-      # No "Save ccache" step here: the cache is produced by
+-      # check-ubuntu-24_04-cmake-gcc, which this job depends on.
+-  # This job takes approximately 39 to 69 minutes
+-  check-macos-15-intel-make-clang:
+-    runs-on: macos-15-intel
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        run: |
+-          # maven is already installed and upgrading to a newer version yields
+-          # symlink conflicts as previously reported in https://github.com/actions/runner-images/issues/4020
+-          brew install flex bison parallel ccache z3
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-make-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-make-${{ github.ref }}
+-            ${{ runner.os }}-make
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build using Make
+-        run: |
+-          make -C src minisat2-download cadical-download
+-          make -C src -j4 CXX="ccache clang++" MINISAT2=../../minisat-2.2.1 CADICAL=../../cadical
+-          make -C jbmc/src -j4 CXX="ccache clang++"
+-          make -C unit "CXX=ccache clang++"
+-          make -C jbmc/unit "CXX=ccache clang++"
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Run unit tests
+-        run: |
+-          cd unit; ./unit_tests
+-          ./unit_tests "[z3]"
+-      - name: Run JBMC unit tests
+-        run: cd jbmc/unit; ./unit_tests
+-      - name: Run regression tests
+-        run: |
+-          export PATH=$PATH:`pwd`/src/solvers
+-          make -C regression test-parallel JOBS=4
+-      - name: Run JBMC regression tests
+-        run: make -C jbmc/regression test-parallel JOBS=4
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 36 to 85 minutes
+-  check-macos-26-cmake-clang:
+-    runs-on: macos-26
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        run: brew install ninja maven flex bison ccache z3
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-26-Release-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-26-Release-${{ github.ref }}
+-            ${{ runner.os }}-26-Release
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Configure using CMake
+-        run: |
+-          mkdir build
+-          cd build
+-          cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -Dsat_impl=cadical
+-      - name: Build with Ninja
+-        run: cd build; ninja -j3
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Run CTest
+-        run: cd build; ctest -V -L CORE . -j3
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 49 to 70 minutes
+-  # Note: as of June 2026 the "windows-2025" runner label is being migrated to
+-  # the Windows Server 2025 image that ships Visual Studio 2026 (MSVC 14.5x)
+-  # instead of VS 2022/2025 (MSVC 14.4x); see actions/runner-images#14017.
+-  # During the rollout both images are served under this label, so this job may
+-  # run on either toolset.
+-  check-vs-2026-cmake-build-and-test:
+-    runs-on: windows-2025
+-    env:
+-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Setup Visual Studio environment
+-        uses: microsoft/setup-msbuild@v3
+-      - name: Get current month for cache key
+-        id: cache-key
+-        run: echo "month=$(Get-Date -Format 'yyyy-MM')" >> $env:GITHUB_OUTPUT
+-      - name: Cache Chocolatey packages
+-        uses: actions/cache@v6
+-        with:
+-          path: |
+-            C:\ProgramData\chocolatey\lib\winflexbison3
+-            C:\ProgramData\chocolatey\bin
+-          key: ${{ runner.os }}-choco-${{ steps.cache-key.outputs.month }}-winflexbison3
+-          restore-keys: |
+-            ${{ runner.os }}-choco-${{ steps.cache-key.outputs.month }}
+-      - name: Fetch dependencies
+-        run: |
+-          function Require-Tool($Name) {
+-            if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) {
+-              Write-Output "::error ::Required tool '$Name' not found in PATH after Chocolatey installation."
+-              exit 1
+-            }
+-          }
+-          if (-not (Get-Command win_flex -ErrorAction SilentlyContinue))
+-          {
+-            # Only contact the Chocolatey servers when the package is not
+-            # already present (restored from the cache above or pre-installed on
+-            # the runner).  This lets the step succeed from cache when the
+-            # Chocolatey infrastructure is unavailable.
+-            choco install -y winflexbison3
+-            if($LastExitCode -ne 0)
+-            {
+-              Write-Output "::error ::Dependency installation via Chocolatey failed."
+-              exit $LastExitCode
+-            }
+-          }
+-          else
+-          {
+-            Write-Output "winflexbison3 restored from cache; skipping Chocolatey install."
+-          }
+-          Require-Tool win_flex
+-          Require-Tool win_bison
+-          nuget install clcache -OutputDirectory "c:\tools" -ExcludeVersion -Version 4.1.0
+-          echo "c:\tools\clcache\clcache-4.1.0" >> $env:GITHUB_PATH
+-      - name: Install Z3
+-        uses: ./.github/actions/install-z3
+-        with:
+-          version: ${{ env.z3-version }}
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Confirm cvc5 solver is available and log the version installed
+-        run: cvc5 --version
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-msbuild-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-msbuild-${{ github.ref }}
+-            ${{ runner.os }}-msbuild
+-      - name: ccache environment
+-        run: |
+-          echo "CLCACHE_BASEDIR=$((Get-Item -Path '.\').FullName)" >> $env:GITHUB_ENV
+-          echo "CLCACHE_DIR=$pwd\.ccache" >> $env:GITHUB_ENV
+-      - name: Configure with cmake
+-        run: cmake -S . -B build
+-      - name: Zero ccache stats and limit in size (2 GB)
+-        run: |
+-          clcache -z
+-          clcache -M 2147483648
+-      - name: Build Release
+-        run: cmake --build build --config Release -- /p:UseMultiToolTask=true /p:CLToolExe=clcache
+-      - name: Print ccache stats
+-        run: clcache -s
+-      - uses: ilammy/msvc-dev-cmd@v1
+-      - name: Test cbmc
+-        run: |
+-          Set-Location build
+-          ctest -V -L CORE -C Release . -j${{env.windows-vcpus}}
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 65 to 84 minutes
+-  check-vs-2022-make-build-and-test:
+-    runs-on: windows-2022
+-    env:
+-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Setup MSBuild
+-        uses: microsoft/setup-msbuild@v3
+-      - name: Get current month for cache key
+-        id: cache-key
+-        run: echo "month=$(Get-Date -Format 'yyyy-MM')" >> $env:GITHUB_OUTPUT
+-      - name: Cache Chocolatey packages
+-        uses: actions/cache@v6
+-        with:
+-          path: |
+-            C:\ProgramData\chocolatey\lib\winflexbison3
+-            C:\ProgramData\chocolatey\lib\wget
+-            C:\ProgramData\chocolatey\bin
+-          key: ${{ runner.os }}-choco-${{ steps.cache-key.outputs.month }}-winflexbison3-strawberryperl-wget
+-          restore-keys: |
+-            ${{ runner.os }}-choco-${{ steps.cache-key.outputs.month }}
+-      - name: Fetch dependencies
+-        run: |
+-          function Require-Tool($Name) {
+-            if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) {
+-              Write-Output "::error ::Required tool '$Name' not found in PATH after Chocolatey installation."
+-              exit 1
+-            }
+-          }
+-          # Only contact the Chocolatey servers for packages that are not
+-          # already present (restored from the cache above or pre-installed on
+-          # the runner -- which ships Strawberry Perl).  This lets the step
+-          # succeed from cache when the Chocolatey infrastructure is unavailable.
+-          #
+-          # `perl` is only used to run regression's test.pl, so any Perl
+-          # interpreter already on PATH is sufficient; we therefore install
+-          # strawberryperl only when no perl at all is found (strawberryperl,
+-          # unlike winflexbison3/wget, is intentionally not cached).
+-          $toInstall = @()
+-          if (-not (Get-Command win_flex -ErrorAction SilentlyContinue)) { $toInstall += 'winflexbison3' }
+-          if (-not (Get-Command perl     -ErrorAction SilentlyContinue)) { $toInstall += 'strawberryperl' }
+-          if (-not (Get-Command wget.exe -ErrorAction SilentlyContinue)) { $toInstall += 'wget' }
+-          if ($toInstall.Count -gt 0)
+-          {
+-            choco install -y $toInstall
+-            if($LastExitCode -ne 0)
+-            {
+-              Write-Output "::error ::Dependency installation via Chocolatey failed."
+-              exit $LastExitCode
+-            }
+-          }
+-          else
+-          {
+-            Write-Output "All Chocolatey dependencies already present; skipping install."
+-          }
+-          Require-Tool win_flex
+-          Require-Tool win_bison
+-          Require-Tool perl
+-          Require-Tool wget.exe
+-          nuget install clcache -OutputDirectory "c:\tools" -ExcludeVersion -Version 4.1.0
+-          echo "c:\tools\clcache\clcache-4.1.0" >> $env:GITHUB_PATH
+-          echo "c:\Strawberry\" >> $env:GITHUB_PATH
+-      - name: Install Z3
+-        uses: ./.github/actions/install-z3
+-        with:
+-          version: ${{ env.z3-version }}
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Confirm cvc5 solver is available and log the version installed
+-        run: cvc5 --version
+-      - name: Initialise Developer Command Line
+-        uses: ilammy/msvc-dev-cmd@v1
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-msbuild-make-${{ github.ref }}-${{ github.sha }}-PR
+-          restore-keys: |
+-            ${{ runner.os }}-msbuild-make-${{ github.ref }}
+-            ${{ runner.os }}-msbuild-make
+-      - name: ccache environment
+-        run: |
+-          echo "CLCACHE_BASEDIR=$((Get-Item -Path '.\').FullName)" >> $env:GITHUB_ENV
+-          echo "CLCACHE_DIR=$pwd\.ccache" >> $env:GITHUB_ENV
+-      - name: Zero ccache stats and limit in size (2 GB)
+-        run: |
+-          clcache -z
+-          clcache -M 2147483648
+-      - name: Download minisat with make
+-        run: make -C src minisat2-download
+-      - name: Build CBMC with make
+-        run: |
+-          make CXX=clcache BUILD_ENV=MSVC -j${{env.windows-vcpus}} -C src
+-          echo "$pwd\src\solvers;" >> $env:GITHUB_PATH
+-      - name: Build unit tests with make
+-        run: make CXX=clcache BUILD_ENV=MSVC -j${{env.windows-vcpus}} -C unit all
+-      - name: Build jbmc with make
+-        run: |
+-          make CXX=clcache -j${{env.windows-vcpus}} -C jbmc/src setup-submodules
+-          make CXX=clcache BUILD_ENV=MSVC -j${{env.windows-vcpus}} -C jbmc/src
+-      - name: Build JBMC unit tests
+-        run: make CXX=clcache BUILD_ENV=MSVC -j${{env.windows-vcpus}} -C jbmc/unit all
+-      - name: Print ccache stats
+-        run: clcache -s
+-      - name: Run CBMC and JBMC unit tests
+-        run: |
+-          make CXX=clcache BUILD_ENV=MSVC -C unit      test
+-          make CXX=clcache BUILD_ENV=MSVC -C unit test TAGS="[z3]"
+-          make CXX=clcache BUILD_ENV=MSVC -C jbmc/unit test
+-      - name: Run CBMC regression tests
+-        run: make CXX=clcache BUILD_ENV=MSVC -j${{env.windows-vcpus}} -C regression test-parallel-jobs
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 7 to 32 minutes
+-  windows-msi-package:
+-    runs-on: windows-2025
+-    env:
+-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Setup Visual Studio environment
+-        uses: microsoft/setup-msbuild@v3
+-      - name: Get current month for cache key
+-        id: cache-key
+-        run: echo "month=$(Get-Date -Format 'yyyy-MM')" >> $env:GITHUB_OUTPUT
+-      - name: Cache Chocolatey packages
+-        uses: actions/cache@v6
+-        with:
+-          path: |
+-            C:\ProgramData\chocolatey\lib\winflexbison3
+-            C:\ProgramData\chocolatey\bin
+-          key: ${{ runner.os }}-choco-${{ steps.cache-key.outputs.month }}-winflexbison3
+-          restore-keys: |
+-            ${{ runner.os }}-choco-${{ steps.cache-key.outputs.month }}
+-      - name: Fetch dependencies
+-        run: |
+-          function Require-Tool($Name) {
+-            if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) {
+-              Write-Output "::error ::Required tool '$Name' not found in PATH after Chocolatey installation."
+-              exit 1
+-            }
+-          }
+-          if (-not (Get-Command win_flex -ErrorAction SilentlyContinue))
+-          {
+-            # Only contact the Chocolatey servers when the package is not
+-            # already present (restored from the cache above or pre-installed on
+-            # the runner).  This lets the step succeed from cache when the
+-            # Chocolatey infrastructure is unavailable.
+-            choco install -y winflexbison3
+-            if($LastExitCode -ne 0)
+-            {
+-              Write-Output "::error ::Dependency installation via Chocolatey failed."
+-              exit $LastExitCode
+-            }
+-          }
+-          else
+-          {
+-            Write-Output "winflexbison3 restored from cache; skipping Chocolatey install."
+-          }
+-          Require-Tool win_flex
+-          Require-Tool win_bison
+-          nuget install clcache -OutputDirectory "c:\tools" -ExcludeVersion -Version 4.1.0
+-          echo "c:\tools\clcache\clcache-4.1.0" >> $env:GITHUB_PATH
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-msbuild-${{ github.ref }}-${{ github.sha }}-PKG
+-          restore-keys: |
+-            ${{ runner.os }}-msbuild-${{ github.ref }}
+-            ${{ runner.os }}-msbuild
+-      - name: ccache environment
+-        run: |
+-          echo "CLCACHE_BASEDIR=$((Get-Item -Path '.\').FullName)" >> $env:GITHUB_ENV
+-          echo "CLCACHE_DIR=$pwd\.ccache" >> $env:GITHUB_ENV
+-      - name: Configure with cmake
+-        run: cmake -S . -B build
+-      - name: Build Release
+-        run: cmake --build build --config Release -- /p:UseMultiToolTask=true /p:CLToolExe=clcache
+-      - name: Print ccache stats
+-        run: clcache -s
+-      - name: Create packages
+-        id: create_packages
+-        # We need to get the path to cpack because fascinatingly,
+-        # chocolatey also includes a command called "cpack" which takes precedence
+-        run: |
+-          Set-Location build
+-          $cpack = "$(Split-Path -Parent (Get-Command cmake).Source)\cpack.exe"
+-          & $cpack . -C Release
+-          $msi_name = (Get-ChildItem -name *.msi).Name
+-          echo "msi_installer=build/$msi_name" >> $env:GITHUB_OUTPUT
+-          echo "msi_name=$msi_name" >> $env:GITHUB_OUTPUT
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  # This job takes approximately 2 to 3 minutes
+-  check-string-table:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - uses: actions/checkout@v7
+-      - name: Check for unused irep ids
+-        run: ./scripts/string_table_check.sh
+-
+-  # This job takes approximately 23 to 29 minutes
+-  check-docker-image:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Download test dependencies
+-        run: |
+-          sudo apt update
+-          sudo apt install openjdk-11-jdk-headless
+-      - name: Set up Docker Buildx
+-        id: setup-buildx
+-        uses: docker/setup-buildx-action@v4
+-      - name: Cache Docker build mounts (apt downloads + ccache)
+-        uses: actions/cache@v6
+-        id: docker-cache-mount
+-        with:
+-          path: docker-cache-mount
+-          key: docker-cache-mount-${{ github.sha }}
+-          restore-keys: |
+-            docker-cache-mount-
+-      - name: Inject build mounts into BuildKit
+-        # Docker layer caching cannot speed up the build on a source-changing
+-        # PR, because `COPY . /tmp/cbmc` invalidates the build layer.  Instead
+-        # we persist the Dockerfile's apt and ccache `--mount=type=cache`
+-        # contents across runs: this step restores them into the buildx builder
+-        # before the build and extracts them again afterwards (saved by the
+-        # actions/cache step above).  ccache then reuses objects across source
+-        # changes.  Note: on pull requests from forks the actions/cache write is
+-        # restricted, so the cache is read-only there and this gracefully
+-        # degrades to an uncached build.
+-        uses: reproducible-containers/buildkit-cache-dance@v3
+-        with:
+-          builder: ${{ steps.setup-buildx.outputs.name }}
+-          cache-dir: docker-cache-mount
+-          dockerfile: Dockerfile
+-          skip-extraction: ${{ steps.docker-cache-mount.outputs.cache-hit }}
+-      - name: Build docker image
+-        run: docker buildx build --load -t cbmc .
+-      - name: Smoke test goto-cc
+-        run: docker run -v ${PWD}/.github/workflows/smoke_test_assets:/mnt/smoke -t cbmc goto-cc -o /mnt/smoke/test.goto /mnt/smoke/test.c
+-      - name: Smoke test cbmc
+-        run: docker run -v ${PWD}/.github/workflows/smoke_test_assets:/mnt/smoke -t cbmc cbmc /mnt/smoke/test.goto
+-      - name: Smoke test jbmc
+-        run: |
+-          javac .github/workflows/smoke_test_assets/Test.java
+-          docker run -v ${PWD}/.github/workflows/smoke_test_assets:/mnt/smoke -t cbmc jbmc --classpath /mnt/smoke Test
+-      - name: Smoke test goto-analyzer
+-        run: docker run -v ${PWD}/.github/workflows/smoke_test_assets:/mnt/smoke -t cbmc goto-analyzer /mnt/smoke/test.goto --unreachable-functions
+-
+-  # This job takes approximately 22 to 41 minutes
+-  include-what-you-use:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq cmake ninja-build clang-19 clang++-19 gdb maven flex bison iwyu
+-      - name: Configure using CMake
+-        run: cmake -S . -Bbuild -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++
+-      - name: Run include-what-you-use
+-        run: |
+-          iwyu_tool -p build/compile_commands.json -j${{env.linux-vcpus}} | tee includes.txt
+-          if sed '/minisat2-src/,/^--$/d' includes.txt | grep '^- ' -B1 ; then
+-            echo "Unnecessary includes found. Use '// IWYU pragma: keep' to override this."
+-            exit 1
+-          fi
+diff --git a/.github/workflows/regular-release.yaml b/.github/workflows/regular-release.yaml
+deleted file mode 100644
+index afd267ee2ea56b0745f7339ac8fe0cd6db7cf5ad..0000000000000000000000000000000000000000
+--- a/.github/workflows/regular-release.yaml
++++ /dev/null
+@@ -1,98 +0,0 @@
+-on:
+-  push:
+-    tags:
+-      - 'cbmc-*'
+-
+-name: Create Release
+-
+-jobs:
+-  get-version-information:
+-    name: Get Version Information
+-    runs-on: ubuntu-24.04
+-    outputs:
+-      version: ${{ steps.split-version.outputs._1 }}
+-    steps:
+-      - uses: jungwinter/split@v2
+-        id: split-ref
+-        with:
+-          msg: ${{ github.ref }}
+-          separator: '/'
+-      - uses: jungwinter/split@v2
+-        id: split-version
+-        with:
+-          msg: ${{ steps.split-ref.outputs._2 }}
+-          separator: '-'
+-  perform-release:
+-    name: Perform Release
+-    runs-on: ubuntu-24.04
+-    needs: get-version-information
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v7
+-      - name: Create release
+-        uses: actions/create-release@v1
+-        env:
+-          GITHUB_TOKEN: ${{ secrets.DB_CI_CPROVER_ACCESS_TOKEN }}
+-          CBMC_VERSION: ${{ needs.get-version-information.outputs.version }}
+-        with:
+-          tag_name: cbmc-${{ env.CBMC_VERSION }}
+-          release_name: cbmc-${{ env.CBMC_VERSION }}
+-          draft: false
+-          prerelease: false
+-          body: |
+-            This is CBMC version ${{ env.CBMC_VERSION }}.
+-
+-            ## MacOS
+-
+-            On MacOS, install CBMC using [Homebrew](https://brew.sh/) with
+-
+-            ```sh
+-            brew install cbmc
+-            ```
+-
+-            or upgrade (if it's already been installed) with:
+-
+-            ```sh
+-            brew upgrade cbmc
+-            ```
+-
+-            ## Ubuntu
+-
+-            On Ubuntu, install CBMC by downloading the *.deb package below for your version of Ubuntu and install with
+-
+-            ```sh
+-            # Ubuntu 20:
+-            $ dpkg -i ubuntu-24.04-cbmc-${{ env.CBMC_VERSION }}-Linux.deb
+-            ```
+-
+-            ## Windows
+-
+-            On Windows, install CBMC by downloading the `cbmc-${{ env.CBMC_VERSION }}-win64.msi` installer below, double-clicking on the installer to run it, and adding the folder `C:\Program Files\cbmc\bin` in your `PATH` environment variable.
+-
+-            For installation from the windows command prompt, run:
+-
+-            ```sh
+-            msiexec /i cbmc-${{ env.CBMC_VERSION }}-win64.msi
+-            PATH="C:\Program Files\cbmc\bin";%PATH%
+-            ```
+-
+-            Note that we depend on the Visual C++ redistributables. You likely already have these, if not please download and run vcredist.x64.exe from Microsoft to install them prior to running cbmc, or make sure you have Visual Studio 2025 installed.
+-
+-            You can download either [Visual Studio 2025 Community Edition](https://visualstudio.microsoft.com/vs/community/) or the [Visual C++ Redistributables](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads) from Microsoft for free.
+-
+-            ## Docker
+-
+-            We are also releasing new versions as images in the [GitHub Container Registry](https://github.com/diffblue/cbmc/pkgs/container/cbmc).
+-
+-            To run the CProver suite of tools under a Docker container, make sure that
+-            [Docker](https://www.docker.com/) is already installed in your system and
+-            set up correctly, and then issue:
+-
+-            ```sh
+-            $ docker run -it ghcr.io/diffblue/cbmc:${{ env.CBMC_VERSION }}
+-            #
+-            ```
+-
+-            That will initialise an execution of the container based on the image pushed
+-            as part of this release. The CProver tools are present in the `$PATH` of the
+-            container.
+diff --git a/.github/workflows/release-packages.yaml b/.github/workflows/release-packages.yaml
+deleted file mode 100644
+index 1e883abb32291a477976a571bb00d06b86cda8ae..0000000000000000000000000000000000000000
+--- a/.github/workflows/release-packages.yaml
++++ /dev/null
+@@ -1,346 +0,0 @@
+-on:
+-  release:
+-    types: [created]
+-env:
+-  cvc5-version: "1.3.4"
+-
+-name: Upload additional release assets
+-jobs:
+-  ubuntu-24_04-package:
+-    runs-on: ubuntu-24.04
+-    env:
+-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -y g++ gdb flex bison cmake ninja-build maven jq libxml2-utils dpkg-dev ccache z3
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-Release-${{ github.ref }}-${{ github.sha }}-RELEASEPKG
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-Release-${{ github.ref }}
+-            ${{ runner.os }}-24.04-Release
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Configure CMake
+-        run: cmake -S . -Bbuild -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -Dsat_impl="minisat2;cadical"
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build using Ninja
+-        run: ninja -C build -j4
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Run CTest
+-        run: cd build; ctest . -V -L CORE -C Release -j4
+-      - name: Create packages
+-        id: create_packages
+-        run: |
+-          cd build
+-          ninja package
+-          deb_package_name="$(ls *.deb)"
+-          echo "deb_package=./build/$deb_package_name" >> $GITHUB_OUTPUT
+-          echo "deb_package_name=ubuntu-24.04-$deb_package_name" >> $GITHUB_OUTPUT
+-      - name: Rename package for release
+-        run: cp ${{ steps.create_packages.outputs.deb_package }} ${{ steps.create_packages.outputs.deb_package_name }}
+-      - name: Upload binary packages
+-        uses: softprops/action-gh-release@v3
+-        with:
+-          files: ${{ steps.create_packages.outputs.deb_package_name }}
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  ubuntu-24_04-arm-package:
+-    runs-on: ubuntu-24.04-arm
+-    env:
+-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -y g++ gdb flex bison cmake ninja-build maven jq libxml2-utils dpkg-dev ccache z3
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-24.04-Arm-Release-${{ github.ref }}-${{ github.sha }}-RELEASEPKG
+-          restore-keys: |
+-            ${{ runner.os }}-24.04-Arm-Release-${{ github.ref }}
+-            ${{ runner.os }}-24.04-Arm-Release
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Configure CMake
+-        run: cmake -S . -Bbuild -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -Dsat_impl="minisat2;cadical"
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build using Ninja
+-        run: ninja -C build -j4
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Run CTest
+-        run: cd build; ctest . -V -L CORE -C Release -j4
+-      - name: Create packages
+-        id: create_packages
+-        run: |
+-          cd build
+-          ninja package
+-          deb_package_name="$(ls *.deb)"
+-          echo "deb_package=./build/$deb_package_name" >> $GITHUB_OUTPUT
+-          echo "deb_package_name=ubuntu-24.04-arm64-$deb_package_name" >> $GITHUB_OUTPUT
+-      - name: Rename package for release
+-        run: cp ${{ steps.create_packages.outputs.deb_package }} ${{ steps.create_packages.outputs.deb_package_name }}
+-      - name: Upload binary packages
+-        uses: softprops/action-gh-release@v3
+-        with:
+-          files: ${{ steps.create_packages.outputs.deb_package_name }}
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  ubuntu-22_04-package:
+-    runs-on: ubuntu-22.04
+-    env:
+-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Fetch dependencies
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -y g++ gdb flex bison cmake ninja-build maven jq libxml2-utils dpkg-dev ccache z3
+-      - name: Confirm z3 solver is available and log the version installed
+-        run: z3 --version
+-      - name: Install cvc5
+-        uses: ./.github/actions/install-cvc5
+-        with:
+-          version: ${{ env.cvc5-version }}
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-22.04-Release-${{ github.ref }}-${{ github.sha }}-RELEASEPKG
+-          restore-keys: |
+-            ${{ runner.os }}-22.04-Release-${{ github.ref }}
+-            ${{ runner.os }}-22.04-Release
+-      - name: ccache environment
+-        run: |
+-          echo "CCACHE_BASEDIR=$PWD" >> $GITHUB_ENV
+-          echo "CCACHE_DIR=$PWD/.ccache" >> $GITHUB_ENV
+-      - name: Configure CMake
+-        run: cmake -S . -Bbuild -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -Dsat_impl="minisat2;cadical"
+-      - name: Zero ccache stats and limit in size
+-        run: ccache -z --max-size=500M
+-      - name: Build using Ninja
+-        run: ninja -C build -j4
+-      - name: Print ccache stats
+-        run: ccache -s
+-      - name: Run CTest
+-        run: cd build; ctest . -V -L CORE -C Release -j4
+-      - name: Create packages
+-        id: create_packages
+-        run: |
+-          cd build
+-          ninja package
+-          deb_package_name="$(ls *.deb)"
+-          echo "deb_package=./build/$deb_package_name" >> $GITHUB_OUTPUT
+-          echo "deb_package_name=ubuntu-22.04-$deb_package_name" >> $GITHUB_OUTPUT
+-      - name: Rename package for release
+-        run: cp ${{ steps.create_packages.outputs.deb_package }} ${{ steps.create_packages.outputs.deb_package_name }}
+-      - name: Upload binary packages
+-        uses: softprops/action-gh-release@v3
+-        with:
+-          files: ${{ steps.create_packages.outputs.deb_package_name }}
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  windows-msi-package:
+-    runs-on: windows-2025
+-    env:
+-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Setup Visual Studio environment
+-        uses: microsoft/setup-msbuild@v3
+-      - name: Get current month for cache key
+-        id: cache-key
+-        run: echo "month=$(Get-Date -Format 'yyyy-MM')" >> $env:GITHUB_OUTPUT
+-      - name: Cache Chocolatey packages
+-        uses: actions/cache@v6
+-        with:
+-          path: |
+-            C:\ProgramData\chocolatey\lib\winflexbison3
+-            C:\ProgramData\chocolatey\bin
+-          key: ${{ runner.os }}-choco-${{ steps.cache-key.outputs.month }}-winflexbison3
+-          restore-keys: |
+-            ${{ runner.os }}-choco-${{ steps.cache-key.outputs.month }}
+-      - name: Fetch dependencies
+-        run: |
+-          function Require-Tool($Name) {
+-            if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) {
+-              Write-Output "::error ::Required tool '$Name' not found in PATH after Chocolatey installation."
+-              exit 1
+-            }
+-          }
+-          if (-not (Get-Command win_flex -ErrorAction SilentlyContinue))
+-          {
+-            # Only contact the Chocolatey servers when the package is not
+-            # already present (restored from the cache above or pre-installed on
+-            # the runner).  This lets the step succeed from cache when the
+-            # Chocolatey infrastructure is unavailable.
+-            choco install -y winflexbison3
+-            if($LastExitCode -ne 0)
+-            {
+-              Write-Output "::error ::Dependency installation via Chocolatey failed."
+-              exit $LastExitCode
+-            }
+-          }
+-          else
+-          {
+-            Write-Output "winflexbison3 restored from cache; skipping Chocolatey install."
+-          }
+-          Require-Tool win_flex
+-          Require-Tool win_bison
+-          nuget install clcache -OutputDirectory "c:\tools" -ExcludeVersion -Version 4.1.0
+-          echo "c:\tools\clcache\clcache-4.1.0" >> $env:GITHUB_PATH
+-      - name: Setup code sign environment
+-        run: |
+-          dotnet tool install --global AzureSignTool --version 5.0.0
+-          echo "$(Split-Path -Path $(Get-ChildItem -Path "${env:ProgramFiles(x86)}\Windows Kits\10\App Certification Kit\signtool.exe"))" >> $env:GITHUB_PATH
+-      - name: Restore ccache
+-        id: restore-ccache
+-        uses: actions/cache/restore@v6
+-        with:
+-          path: .ccache
+-          key: ${{ runner.os }}-msbuild-${{ github.ref }}-${{ github.sha }}-RELEASEPKG
+-          restore-keys: |
+-            ${{ runner.os }}-msbuild-${{ github.ref }}
+-            ${{ runner.os }}-msbuild
+-      - name: ccache environment
+-        run: |
+-          echo "CLCACHE_BASEDIR=$((Get-Item -Path '.\').FullName)" >> $env:GITHUB_ENV
+-          echo "CLCACHE_DIR=$pwd\.ccache" >> $env:GITHUB_ENV
+-      - name: Configure with cmake
+-        run: cmake -S . -B build
+-      - name: Build Release
+-        run: cmake --build build --config Release -- /p:UseMultiToolTask=true /p:CLToolExe=clcache
+-      - name: Print ccache stats
+-        run: clcache -s
+-      - name: Create packages
+-        id: create_packages
+-        # We need to get the path to cpack because fascinatingly,
+-        # chocolatey also includes a command called "cpack" which takes precedence
+-        run: |
+-          Set-Location build
+-          $cpack = "$(Split-Path -Parent (Get-Command cmake).Source)\cpack.exe"
+-          & $cpack . -C Release
+-          $msi_name = Get-ChildItem -Filter *.msi -Name
+-          echo "msi_installer=build/$msi_name" >> $env:GITHUB_OUTPUT
+-          echo "msi_name=$msi_name" >> $env:GITHUB_OUTPUT
+-      - name: Sign the installer
+-        id: code_sign
+-        run: |
+-          $servers = @('http://ts.ssl.com', 'http://timestamp.digicert.com', 'http://timestamp.sectigo.com')
+-          foreach($ts_server in $servers)
+-          {
+-            & AzureSignTool sign `
+-            --azure-key-vault-url "${{ secrets.AZURE_KEYVAULT_URL }}" `
+-            --azure-key-vault-client-id "${{ secrets.AZURE_CLIENT_ID }}" `
+-            --azure-key-vault-tenant-id "${{ secrets.AZURE_TENANT_ID }}" `
+-            --azure-key-vault-client-secret "${{ secrets.AZURE_CLIENT_SECRET }}" `
+-            --azure-key-vault-certificate "${{ secrets.AZURE_CERTIFICATE_NAME }}" `
+-            --timestamp-rfc3161 $ts_server `
+-            --timestamp-digest sha256 `
+-            --file-digest sha256 `
+-            --verbose ${{ steps.create_packages.outputs.msi_installer }}
+-            if ($LastExitCode -eq "0")
+-            {
+-              # Stop if code-signing the binary using this server was successful.
+-              break
+-            }
+-          }
+-      - name: Verify installer signature
+-        id: verify_codesign
+-        run: |
+-          & signtool.exe verify /pa ${{ steps.create_packages.outputs.msi_installer }}
+-      - name: Upload binary packages
+-        uses: softprops/action-gh-release@v3
+-        with:
+-          files: ${{ steps.create_packages.outputs.msi_installer }}
+-
+-      - name: Save ccache
+-        if: always()
+-        uses: actions/cache/save@v6
+-        with:
+-          path: .ccache
+-          key: ${{ steps.restore-ccache.outputs.cache-primary-key }}
+-  push-docker-image-ghcr:
+-    runs-on: ubuntu-24.04
+-    # Release images are published to the GitHub Container Registry, which is free
+-    # for public packages and needs no Docker Hub credentials. Publishing requires
+-    # packages:write on the built-in GITHUB_TOKEN.
+-    permissions:
+-      contents: read
+-      packages: write
+-    steps:
+-      - name: Checkout CBMC source
+-        uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-      - name: Set Image Tag
+-        run: |
+-          # Isolate the version number from a reference to a tag, for example,
+-          # '5.20.3' from a string like 'refs/tags/cbmc-5.20.3-exp'
+-          VERSION=$(echo ${{ github.ref }} | cut -d "/" -f 3 | cut -d "-" -f 2)
+-          echo "IMAGE_TAG=ghcr.io/diffblue/cbmc:$VERSION" >> $GITHUB_ENV
+-      - name: Build docker image
+-        run: docker build -t "$IMAGE_TAG" .
+-      - name: Push docker image to GitHub Container Registry
+-        run: |
+-          # Login uses the built-in GITHUB_TOKEN via github.actor, so no secrets
+-          # are needed.
+-          echo "${{ github.token }}" | docker login ghcr.io --username "${{ github.actor }}" --password-stdin
+-          docker image push "$IMAGE_TAG"
+-          # For security reasons remove stored login credentials from
+-          # configuration file they are stored at by docker login.
+-          docker logout ghcr.io
+diff --git a/.github/workflows/smoke_test_assets/Test.java b/.github/workflows/smoke_test_assets/Test.java
+deleted file mode 100644
+index eb27c41854d0ecf2fddb04b750558fa3fcd029a9..0000000000000000000000000000000000000000
+--- a/.github/workflows/smoke_test_assets/Test.java
++++ /dev/null
+@@ -1,6 +0,0 @@
+-public class Test {
+-    public static void main(String[] args) {
+-        System.out.println("Hi");
+-        assert(1 == 1);
+-    }
+-}
+diff --git a/.github/workflows/smoke_test_assets/test.c b/.github/workflows/smoke_test_assets/test.c
+deleted file mode 100644
+index 5e32995f69206113b6ef823380603546a2becf40..0000000000000000000000000000000000000000
+--- a/.github/workflows/smoke_test_assets/test.c
++++ /dev/null
+@@ -1,9 +0,0 @@
+-#include <assert.h>
+-
+-#define return_val 0;
+-
+-int main(void)
+-{
+-  assert(1 == 1);
+-  return return_val;
+-}
+diff --git a/.github/workflows/syntax-checks.yaml b/.github/workflows/syntax-checks.yaml
+deleted file mode 100644
+index 055f4c378f3756849dac0d62a4916a6ca1a4feeb..0000000000000000000000000000000000000000
+--- a/.github/workflows/syntax-checks.yaml
++++ /dev/null
+@@ -1,64 +0,0 @@
+-name: Syntactic checks
+-on:
+-  pull_request:
+-    branches: [ develop ]
+-
+-jobs:
+-  # This job takes approximately 1 minute
+-  check-clang-format:
+-    # Ubuntu 26.04 packages clang-format-18 version 18.1.8. Do not use
+-    # ubuntu-24.04 (or ubuntu-latest, while it may still be 24.04): its
+-    # clang-format-18 is version 18.1.3, which formats some code differently.
+-    runs-on: ubuntu-26.04
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-          fetch-depth: 0
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq clang-format-18
+-      - name: Check updated lines of code match clang-format-18 style
+-        env:
+-          BASE_BRANCH: ${{ github.base_ref }}
+-          MERGE_BRANCH: ${{ github.ref }}
+-        run: ./.github/workflows/pull-request-check-clang-format.sh
+-
+-  # This job takes approximately 1 minute
+-  check-cpplint:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - uses: actions/checkout@v7
+-        with:
+-          submodules: recursive
+-          fetch-depth: 0
+-      - name: Fetch dependencies
+-        env:
+-          # This is needed in addition to -yq to prevent apt-get from asking for
+-          # user input
+-          DEBIAN_FRONTEND: noninteractive
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install --no-install-recommends -yq python3-unidiff
+-      - name: Check updated lines of code meet linting standards
+-        env:
+-          BASE_BRANCH: ${{ github.base_ref }}
+-          MERGE_BRANCH: ${{ github.ref }}
+-        run: ./.github/workflows/pull-request-check-cpplint.sh
+-
+-  # This job should take about a minute (est)
+-  check-rustfmt:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - name: Checkout CBMC repository 
+-        uses: actions/checkout@v7
+-      - name: Install latest stable Rust toolchain
+-        run: |
+-          rustup toolchain install stable --profile minimal --no-self-update -c clippy -c rustfmt
+-      - name: Run `cargo fmt` on top of Rust API project
+-        run: cd src/libcprover-rust; cargo fmt --all -- --check
+diff --git a/scripts/cbmc-slim/baseline-tests.patch b/scripts/cbmc-slim/baseline-tests.patch
+new file mode 100644
+index 0000000000000000000000000000000000000000..e06cdde2b146e537779e51981d72ca851b87b3b2
+--- /dev/null
++++ b/scripts/cbmc-slim/baseline-tests.patch
+@@ -0,0 +1,170 @@
++diff --git a/regression/cbmc/byte_extract_empty_struct_array/main.c b/regression/cbmc/byte_extract_empty_struct_array/main.c
++new file mode 100644
++index 0000000000000000000000000000000000000000..e42bc94e65c67633f9446c2f5749b4cb77f99292
++--- /dev/null
+++++ b/regression/cbmc/byte_extract_empty_struct_array/main.c
++@@ -0,0 +1,29 @@
+++#include <string.h>
+++
+++// GNU C: an empty struct, and any array of it, has size zero.
+++struct empty
+++{
+++};
+++
+++struct with_empty_structs
+++{
+++  unsigned char a[4];
+++  struct empty z[2];
+++  unsigned char b[4];
+++};
+++
+++int main(void)
+++{
+++  unsigned char buf[8];
+++  memset(buf, 0x5a, sizeof(buf));
+++
+++  struct with_empty_structs s = *(struct with_empty_structs *)buf;
+++
+++  for(unsigned i = 0; i < 4; ++i)
+++  {
+++    __CPROVER_assert(s.a[i] == 0x5a, "bytes before the empty structs");
+++    __CPROVER_assert(s.b[i] == 0x5a, "bytes after the empty structs");
+++  }
+++
+++  return 0;
+++}
++diff --git a/regression/cbmc/byte_extract_empty_struct_array/test.desc b/regression/cbmc/byte_extract_empty_struct_array/test.desc
++new file mode 100644
++index 0000000000000000000000000000000000000000..24ec8ffbe2c34a43c57e4364cc566a06906eb094
++--- /dev/null
+++++ b/regression/cbmc/byte_extract_empty_struct_array/test.desc
++@@ -0,0 +1,14 @@
+++CORE gcc-only
+++main.c
+++
+++^EXIT=0$
+++^SIGNAL=0$
+++^VERIFICATION SUCCESSFUL$
+++--
+++^warning: ignoring
+++Invariant check failed
+++--
+++bits2expr used to fail an invariant for arrays whose element type has zero
+++width, such as arrays of GNU C empty structs, although its struct branch
+++accepts zero-width components. A typed read of constant bytes reaches it via
+++byte_extract simplification.
++diff --git a/unit/util/simplify_expr.cpp b/unit/util/simplify_expr.cpp
++index 02605fdd873c9880670f423381f815c7a32654b6..18ab0a10b73135faf993fe243df84c845b87c5e9 100644
++--- a/unit/util/simplify_expr.cpp
+++++ b/unit/util/simplify_expr.cpp
++@@ -112,0 +113,110 @@ TEST_CASE("expr2bits and bits2expr respect bit order", "[core][util]")
+++TEST_CASE(
+++  "bits2expr reconstructs empty structs and arrays",
+++  "[core][util]")
+++{
+++  const struct_typet empty;
+++  const unsignedbv_typet count_type{64};
+++  for(const bool little_endian : {false, true})
+++  {
+++    const auto value = bits2expr("", empty, little_endian, empty_namespace);
+++    REQUIRE(value.has_value());
+++    REQUIRE(*value == struct_exprt{{}, empty});
+++    REQUIRE(expr2bits(*value, little_endian, empty_namespace) == "");
+++
+++    for(const unsigned count : {0u, 1u, 2u})
+++    {
+++      const array_typet type{empty, from_integer(count, count_type)};
+++      const auto array = bits2expr("", type, little_endian, empty_namespace);
+++      REQUIRE(array.has_value());
+++      REQUIRE(array->id() == ID_array);
+++      REQUIRE(array->type() == type);
+++      REQUIRE(array->operands().size() == count);
+++      for(const auto &element : array->operands())
+++        REQUIRE(element == struct_exprt{{}, empty});
+++      REQUIRE(expr2bits(*array, little_endian, empty_namespace) == "");
+++      REQUIRE_FALSE(
+++        bits2expr("1", type, little_endian, empty_namespace).has_value());
+++    }
+++  }
+++}
+++
+++TEST_CASE(
+++  "bits2expr reconstructs nested zero-width arrays",
+++  "[core][util]")
+++{
+++  const unsignedbv_typet count_type{64};
+++  const struct_typet empty;
+++  const array_typet empty_inner{empty, from_integer(3, count_type)};
+++  const array_typet zero_length_inner{
+++    unsignedbv_typet{8}, from_integer(0, count_type)};
+++  for(const bool little_endian : {false, true})
+++  {
+++    for(const auto &inner : {empty_inner, zero_length_inner})
+++    {
+++      const array_typet outer{inner, from_integer(2, count_type)};
+++      const auto value = bits2expr("", outer, little_endian, empty_namespace);
+++      REQUIRE(value.has_value());
+++      REQUIRE(value->id() == ID_array);
+++      REQUIRE(value->type() == outer);
+++      REQUIRE(value->operands().size() == 2);
+++      for(const auto &row : value->operands())
+++      {
+++        REQUIRE(row.id() == ID_array);
+++        REQUIRE(row.type() == inner);
+++        REQUIRE(row.operands().size() == (inner == empty_inner ? 3 : 0));
+++        for(const auto &element : row.operands())
+++          REQUIRE(element == struct_exprt{{}, empty});
+++      }
+++      REQUIRE(expr2bits(*value, little_endian, empty_namespace) == "");
+++    }
+++  }
+++}
+++
+++TEST_CASE(
+++  "bits2expr preserves tagged zero-width elements and nonzero siblings",
+++  "[core][util]")
+++{
+++  const cmdlinet cmdline;
+++  config.set(cmdline);
+++  symbol_tablet symbol_table;
+++  symbolt empty_symbol{"tag-E", struct_typet{}, ID_C};
+++  empty_symbol.is_type = true;
+++  REQUIRE_FALSE(symbol_table.add(empty_symbol));
+++  const namespacet ns{symbol_table};
+++  const struct_tag_typet empty_tag{"tag-E"};
+++  const array_typet array_type{
+++    empty_tag, from_integer(2, unsignedbv_typet{64})};
+++  const struct_exprt empty_element{{}, empty_tag};
+++  const array_exprt empty_array{{empty_element, empty_element}, array_type};
+++  const unsignedbv_typet byte_type{8};
+++  const unsignedbv_typet word_type{32};
+++  const struct_typet wrapper{
+++    {{"head", byte_type},
+++     {"z", array_type},
+++     {"x", word_type},
+++     {"tail", byte_type}}};
+++  const struct_exprt expected{
+++    {from_integer(0x5a, byte_type),
+++     empty_array,
+++     from_integer(0x12345678, word_type),
+++     from_integer(0xa5, byte_type)},
+++    wrapper};
+++  const union_typet union_type{{{"too_small", byte_type}, {"w", wrapper}}};
+++
+++  for(const bool little_endian : {false, true})
+++  {
+++    const auto bits = expr2bits(expected, little_endian, ns);
+++    REQUIRE(bits.has_value());
+++    REQUIRE(bits->size() == 48);
+++    const auto restored = bits2expr(*bits, wrapper, little_endian, ns);
+++    REQUIRE(restored.has_value());
+++    REQUIRE(*restored == expected);
+++    REQUIRE(expr2bits(*restored, little_endian, ns) == bits);
+++
+++    const auto restored_union = bits2expr(*bits, union_type, little_endian, ns);
+++    REQUIRE(restored_union.has_value());
+++    REQUIRE(*restored_union == union_exprt{"w", expected, union_type});
+++    REQUIRE(expr2bits(*restored_union, little_endian, ns) == bits);
+++  }
+++}
+++
+diff --git a/scripts/cbmc-slim/config.json b/scripts/cbmc-slim/config.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..52d9663e12be78170c5a1f2ab2cce8ecedfca61c
+--- /dev/null
++++ b/scripts/cbmc-slim/config.json
+@@ -0,0 +1,25 @@
++{
++  "base": "37a17adc07f29e1127f100debf1d8eea00532a24",
++  "source": "fb9c8d53d4f5e109324d8b17fd8794ed4776b43e",
++  "source_tree": "038a4b47e21ce8d5ebfcb29124d830fd38688235",
++  "baseline_tree": "73d8992542645f35d70763ac0be0b03acb0dd26d",
++  "source_allowlist": [
++    "regression/cbmc/byte_extract_empty_struct_array/main.c",
++    "regression/cbmc/byte_extract_empty_struct_array/test.desc",
++    "src/util/simplify_utils.cpp",
++    "unit/util/simplify_expr.cpp"
++  ],
++  "test_hashes": {
++    "regression/cbmc/byte_extract_empty_struct_array/main.c": "3ac1d5e0050f451b6d034d72c51a60184998275b602d07996ed15c7c1b273b22",
++    "regression/cbmc/byte_extract_empty_struct_array/test.desc": "f03240a34a9b7aa49f490fedb072ac1f28dfd9f1ee714475d7c5a3ee34870d99",
++    "unit/util/simplify_expr.cpp": "775bbd0d7dcb7b0f5ebe0eef2654c55bec7420a42ff0405c60d5cf9cd49df45d"
++  },
++  "test_patch_sha256": "c788e7bddbaf0aee957087d41ae8d657652d2bbb88acf371c47faf9759e84c90",
++  "directory": "byte_extract_empty_struct_array",
++  "units": [
++    "expr2bits and bits2expr respect bit order",
++    "bits2expr reconstructs empty structs and arrays",
++    "bits2expr reconstructs nested zero-width arrays",
++    "bits2expr preserves tagged zero-width elements and nonzero siblings"
++  ]
++}
+diff --git a/scripts/cbmc-slim/not-run.json b/scripts/cbmc-slim/not-run.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..24fd6bbb41d3e16474d08abbe469fa0fda910a73
+--- /dev/null
++++ b/scripts/cbmc-slim/not-run.json
+@@ -0,0 +1,34 @@
++{
++  "status": "SETUP_FAILURE",
++  "builds": {
++    "baseline": "NOT_RUN",
++    "fix": "NOT_RUN",
++    "make": "NOT_RUN"
++  },
++  "regressions": {
++    "baseline/sat": "NOT_RUN",
++    "baseline/paths-lifo": "NOT_RUN",
++    "baseline/cprover-smt2": "NOT_RUN",
++    "baseline/z3": "NOT_RUN",
++    "baseline/incremental": "NOT_RUN",
++    "fix/sat": "NOT_RUN",
++    "fix/paths-lifo": "NOT_RUN",
++    "fix/cprover-smt2": "NOT_RUN",
++    "fix/z3": "NOT_RUN",
++    "fix/incremental": "NOT_RUN"
++  },
++  "units": {
++    "fix/expr2bits and bits2expr respect bit order": "NOT_RUN",
++    "fix/bits2expr reconstructs empty structs and arrays": "NOT_RUN",
++    "fix/bits2expr reconstructs nested zero-width arrays": "NOT_RUN",
++    "fix/bits2expr preserves tagged zero-width elements and nonzero siblings": "NOT_RUN",
++    "make/expr2bits and bits2expr respect bit order": "NOT_RUN",
++    "make/bits2expr reconstructs empty structs and arrays": "NOT_RUN",
++    "make/bits2expr reconstructs nested zero-width arrays": "NOT_RUN",
++    "make/bits2expr preserves tagged zero-width elements and nonzero siblings": "NOT_RUN"
++  },
++  "format": "NOT_RUN",
++  "lint": "NOT_RUN",
++  "proof_credit": false,
++  "reason": "Runner did not start or did not reach its initial snapshot; see workflow setup steps."
++}
+diff --git a/scripts/cbmc-slim/runner.py b/scripts/cbmc-slim/runner.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..fc6ed519980c5b80bcf99947c737135b3a6a1d0b
+--- /dev/null
++++ b/scripts/cbmc-slim/runner.py
+@@ -0,0 +1,473 @@
++#!/usr/bin/env python3
++"""Coordinator-only focused CI. Self-tests use Python processes, never CBMC."""
++import hashlib
++import json
++import os
++from pathlib import Path
++import re
++import resource
++import selectors
++import shlex
++import shutil
++import signal
++import subprocess
++import sys
++import time
++
++HERE = Path(__file__).resolve().parent
++MIB = 1024**2
++PROFILES = {
++    'sat': (['--validate-goto-model', '--validate-ssa-equation'],
++            ['-X', 'smt-backend']),
++    'paths-lifo': (['--paths', 'lifo'], ['-X', 'thorough-paths', '-X',
++                   'smt-backend', '-X', 'paths-lifo-expected-failure',
++                   '-s', 'paths-lifo']),
++    'cprover-smt2': (['--cprover-smt2'], ['-X', 'broken-smt-backend', '-X',
++                     'thorough-smt-backend', '-X', 'broken-cprover-smt-backend',
++                     '-X', 'thorough-cprover-smt-backend', '-s', 'cprover-smt2']),
++    'z3': (['--z3'], ['-X', 'broken-smt-backend', '-X', 'thorough-smt-backend',
++                    '-X', 'broken-z3-smt-backend', '-X', 'thorough-z3-smt-backend',
++                    '-s', 'z3']),
++    'incremental': (['--incremental-smt2-solver', 'z3 --smt2 -in'],
++                    ['-X', 'no-new-smt', '-s', 'new-smt-backend']),
++}
++
++
++def sha(path):
++    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
++
++
++def save(path, obj):
++    path = Path(path)
++    temp = path.with_suffix(path.suffix + '.tmp')
++    temp.write_text(json.dumps(obj, indent=2, sort_keys=True) + '\n')
++    temp.replace(path)
++
++
++def git(root, *args):
++    return subprocess.check_output(['git', '-C', str(root), *args], text=True).strip()
++
++
++def require(condition, reason):
++    if not condition:
++        raise RuntimeError(reason)
++
++
++def limits(memory):
++    resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
++    if memory:
++        resource.setrlimit(resource.RLIMIT_AS, (memory, memory))
++    # No RLIMIT_FSIZE: build outputs must remain unrestricted.
++
++
++def descendants(pid):
++    try:
++        children = Path(f'/proc/{pid}/task/{pid}/children').read_text().split()
++    except FileNotFoundError:
++        return []
++    result = []
++    for child in children:
++        result += descendants(int(child)) + [int(child)]
++    return result
++
++
++def kill_tree(proc):
++    for pid in descendants(proc.pid):
++        try:
++            os.kill(pid, signal.SIGKILL)
++        except ProcessLookupError:
++            pass
++    try:
++        os.killpg(proc.pid, signal.SIGKILL)
++    except ProcessLookupError:
++        pass
++
++
++def rss_kib(pid):
++    total = 0
++    for child in [pid, *descendants(pid)]:
++        try:
++            match = re.search(r'^VmRSS:\s*(\d+) kB$',
++                              Path(f'/proc/{child}/status').read_text(), re.M)
++            total += int(match[1]) if match else 0
++        except FileNotFoundError:
++            pass
++    return total
++
++
++def execute(argv, cwd, log, seconds, cap=4*MIB, memory=None, input_bytes=None):
++    """Drain pipes after cap; kill groups on cap/timeout, preserve actual status."""
++    start = time.monotonic()
++    record = {'argv': list(map(str, argv)), 'cwd': str(cwd), 'status': 'NOT_RUN',
++              'exit': None, 'signal': None, 'complete': False,
++              'timeout_seconds': seconds, 'cap_bytes': cap,
++              'memory_limit_bytes_per_process': memory, 'raw_bytes': 0}
++    raw = 0
++    stored = 0
++    proc = None
++    peak_rss = 0
++    with Path(log).open('wb') as stream:
++        try:
++            proc = subprocess.Popen(record['argv'], cwd=cwd, stdout=subprocess.PIPE,
++                                    stderr=subprocess.STDOUT, start_new_session=True,
++                                    stdin=subprocess.PIPE if input_bytes is not None else None,
++                                    preexec_fn=lambda: limits(memory))
++            if input_bytes is not None:
++                proc.stdin.write(input_bytes)
++                proc.stdin.close()
++            sel = selectors.DefaultSelector()
++            sel.register(proc.stdout, selectors.EVENT_READ)
++            record['status'] = 'EXITED'
++            killed_at = None
++            while sel.get_map():
++                now = time.monotonic()
++                current_rss = rss_kib(proc.pid)
++                peak_rss = max(peak_rss, current_rss)
++                if memory and current_rss*1024 > memory and killed_at is None:
++                    record['status'] = 'MEMORY_CAP'
++                    kill_tree(proc)
++                    killed_at = now
++                if now-start > seconds and killed_at is None:
++                    record['status'] = 'TIMEOUT'
++                    kill_tree(proc)
++                    killed_at = now
++                if killed_at is not None and now-killed_at > 3:
++                    record['status'] = 'INCOMPLETE_DRAIN'
++                    break
++                for key, _ in sel.select(0.05):
++                    data = os.read(key.fileobj.fileno(), 65536)
++                    if not data:
++                        sel.unregister(key.fileobj)
++                        continue
++                    raw += len(data)
++                    chunk = data[:max(0, cap-stored)]
++                    stream.write(chunk)
++                    stored += len(chunk)
++                    if raw > cap and killed_at is None:
++                        record['status'] = 'OUTPUT_CAP'
++                        kill_tree(proc)
++                        killed_at = now
++            sel.close()
++            proc.stdout.close()
++            # Also bound a process that closes stdout before hanging.
++            try:
++                rc = proc.wait(timeout=max(0.01, seconds-(time.monotonic()-start)))
++            except subprocess.TimeoutExpired:
++                record['status'] = 'TIMEOUT'
++                kill_tree(proc)
++                rc = proc.wait()
++            record.update(exit=rc if rc >= 0 else None,
++                          signal=-rc if rc < 0 else 0)
++            record['complete'] = record['status'] == 'EXITED' and raw <= cap
++        except OSError as error:
++            record.update(status='START_ERROR', error=str(error))
++        finally:
++            if proc is not None and proc.poll() is None:
++                kill_tree(proc)
++                proc.wait()
++    record.update(raw_bytes=raw, raw_KiB=raw/1024, stored_bytes=stored,
++                  wall_seconds=time.monotonic()-start, log_sha256=sha(log),
++                  process_tree_peak_rss_KiB_sampled=peak_rss,
++                  children_maxrss_KiB_cumulative=resource.getrusage(
++                      resource.RUSAGE_CHILDREN).ru_maxrss)
++    save(Path(log).with_suffix('.json'), record)
++    return record
++
++
++def good(record):
++    return (isinstance(record, dict) and record.get('status') == 'EXITED'
++            and record.get('complete') is True and type(record.get('exit')) is int
++            and record['exit'] == 0 and type(record.get('signal')) is int
++            and record['signal'] == 0)
++
++
++def baseline_ok(record, text):
++    # The invariant normally aborts. A signal alone never establishes this result.
++    return (isinstance(record, dict) and record.get('complete') is True
++            and record.get('status') == 'EXITED'
++            and ((record.get('exit') is None and record.get('signal') == signal.SIGABRT)
++                 or (record.get('exit') == 134 and record.get('signal') == 0))
++            and 'Invariant check failed' in text
++            and re.search(r'^File:.*simplify_utils\.cpp:\d+ function: bits2expr$',
++                          text, re.M) is not None
++            and re.search(r'^Condition:.*el_size_opt\.has_value\(\)\s*&&\s*'
++                          r'\*el_size_opt\s*>\s*bitst\{0\}', text, re.M) is not None
++            and re.search(r'^File:.*simplify_utils\.cpp', text, re.M) is not None
++            and 'TIMEOUT=1' not in text)
++
++
++def fix_ok(record, text):
++    return (good(record) and re.search(r'^VERIFICATION SUCCESSFUL$', text, re.M)
++            is not None and 'Invariant check failed' not in text
++            and 'warning: ignoring' not in text and 'FAILURE' not in text)
++
++
++def selected_one(text):
++    return (len(re.findall(r'^\s*1 test found\s*$', text, re.M)) == 1
++            and len(re.findall(r'^\s*Running .*test\.desc\s+\[(?:OK|FAILED)\]',
++                               text, re.M)) == 1
++            and 'SKIPPED' not in text and 'skipped' not in text)
++
++
++def unit_ok(record, text):
++    match = re.search(r'All tests passed \((\d+) assertions? in 1 test case\)', text)
++    return good(record) and match is not None and int(match[1]) > 0
++
++
++def format_ok(record, text):
++    return good(record) and text.strip() in (
++        'no modified files to format', 'clang-format did not modify any files')
++
++
++def check_tools(find=shutil.which):
++    for name in ('z3', 'perl', 'cmake', 'make', 'gcc', 'g++', 'gcc-13', 'g++-13',
++                 'flex', 'bison', 'git', 'curl', 'patch', 'clang-format',
++                 'git-clang-format'):
++        require(find(name) is not None, 'SETUP_FAILURE: missing ' + name)
++
++
++def verify_inputs(package, cfg):
++    source, base = cfg['source'], cfg['base']
++    require(git(package, 'rev-parse', source+'^') == base, 'wrong source parent')
++    require(git(package, 'rev-parse', source+'^{tree}') == cfg['source_tree'],
++            'wrong source tree')
++    require(set(git(package, 'diff', '--name-only', base, source).splitlines())
++            == set(cfg['source_allowlist']), 'wrong source allowlist')
++    require(sha(HERE/'baseline-tests.patch') == cfg['test_patch_sha256'],
++            'wrong test patch hash')
++    for name, expected in cfg['test_hashes'].items():
++        require(sha(package/name) == expected, 'wrong test hash: '+name)
++    before = subprocess.check_output(['git', '-C', str(package), 'show',
++                                      base+':src/util/simplify_utils.cpp'])
++    after = subprocess.check_output(['git', '-C', str(package), 'show',
++                                     source+':src/util/simplify_utils.cpp'])
++    old = b'CHECK_RETURN(el_size_opt.has_value() && *el_size_opt > bitst{0});'
++    require(before.replace(old, old.replace(b' > ', b' >= '), 1) == after,
++            'wrong production delta')
++    workflows = sorted(p.name for p in (package/'.github/workflows').iterdir())
++    require(workflows == ['cbmc-slim.yml'], 'unexpected workflow')
++
++
++def profile_command(profile, binary, receipt):
++    require(profile in PROFILES, 'wrong profile')
++    flags, opts = PROFILES[profile]
++    # test.pl reparses -c with bash; shlex.join preserves the solver string.
++    command = shlex.join([sys.executable, str(HERE/'runner.py'), 'probe',
++                          str(receipt), str(binary), *flags])
++    return command, opts, [str(binary), *flags, 'main.c']
++
++
++def run_all(package, workspace, report):
++    cfg = json.loads((HERE/'config.json').read_text())
++    report.mkdir(parents=True, exist_ok=False)
++    state = {'status': 'IN_PROGRESS', 'base': cfg['base'], 'source': cfg['source'],
++             'source_tree': cfg['source_tree'], 'baseline_tree': cfg['baseline_tree'],
++             'package_sha': git(package, 'rev-parse', 'HEAD'),
++             'package_tree': git(package, 'rev-parse', 'HEAD^{tree}'),
++             'config_sha256': sha(HERE/'config.json'), 'proof_credit': False,
++             'executions': {},
++             'builds': {v: 'NOT_RUN' for v in ('baseline', 'fix', 'make')},
++             'regressions': {v+'/'+p: 'NOT_RUN' for v in ('baseline', 'fix')
++                             for p in PROFILES},
++             'units': {v+'/'+n: 'NOT_RUN' for v in ('fix', 'make')
++                       for n in cfg['units']}, 'format': 'NOT_RUN', 'lint': 'NOT_RUN'}
++    def snapshot():
++        save(report/'result.json', state)
++    def call(name, argv, cwd, seconds=90, cap=4*MIB, memory=None, input_bytes=None):
++        state['executions'][name] = {'status': 'IN_PROGRESS', 'argv': list(map(str, argv))}
++        snapshot()
++        rec = execute(argv, cwd, report/(name+'.log'), seconds, cap, memory,
++                      input_bytes)
++        state['executions'][name] = rec
++        snapshot()
++        require(good(rec), name+': '+rec['status']+' / '+str(rec['exit']))
++        return rec, (report/(name+'.log')).read_text(errors='replace')
++    snapshot()
++    try:
++        verify_inputs(package, cfg)
++        check_tools()
++        require(Path(shutil.which('gcc')).resolve() == Path('/usr/bin/gcc-13').resolve()
++                and Path(shutil.which('g++')).resolve() == Path('/usr/bin/g++-13').resolve(),
++                'wrong default compiler / preprocessor')
++        state['tools'] = {}
++        for tool in ('gcc', 'g++', 'cmake', 'make', 'perl', 'z3', 'clang-format'):
++            rec, text = call('version-'+tool, [tool, '--version'], package)
++            state['tools'][tool] = {'path': shutil.which(tool),
++                                    'sha256': sha(Path(shutil.which(tool)).resolve()),
++                                    'version': text, 'execution': rec}
++        call('compiler-target', ['gcc', '-dumpmachine'], package)
++        call('packages', ['dpkg-query', '-W', 'gcc-13', 'g++-13', 'flex', 'bison',
++                          'cmake', 'make', 'perl', 'z3', 'python3'], package)
++        _, text = call('z3-smoke', ['z3', '--smt2', '-in'], package,
++                       input_bytes=b'(check-sat)\n')
++        require(text.strip() == 'sat', 'z3 smoke failure')
++        require(re.search(r'\b18\.1\.8\b', state['tools']['clang-format']['version']),
++                'wrong formatter version')
++        state['format'] = 'IN_PROGRESS'
++        rec, text = call('format', ['git-clang-format', '--binary', 'clang-format',
++                                  '--diff', cfg['base'], cfg['source']], package)
++        require(format_ok(rec, text), 'formatter nonempty diff')
++        state['format'] = rec
++        state['lint'] = 'IN_PROGRESS'
++        state['lint'] = call('cpplint', [sys.executable, 'scripts/cpplint.py',
++                             'src/util/simplify_utils.cpp', 'unit/util/simplify_expr.cpp'],
++                             package)[0]
++        call('diff-check', ['git', 'diff', '--check', cfg['base'], cfg['source']], package)
++        snapshot()
++        for variant in ('baseline', 'fix', 'make'):
++            model = workspace/('slim-'+variant)
++            ref = cfg['base'] if variant == 'baseline' else cfg['source']
++            call(variant+'-worktree', ['git', 'worktree', 'add', '--detach', str(model), ref],
++                 package)
++            if variant == 'baseline':
++                call('baseline-overlay', ['git', 'apply', '--index', '--unidiff-zero',
++                     str(HERE/'baseline-tests.patch')], model)
++            expected_tree = cfg['baseline_tree'] if variant == 'baseline' else cfg['source_tree']
++            require(git(model, 'write-tree') == expected_tree, 'wrong model tree')
++            for name, expected in cfg['test_hashes'].items():
++                require(sha(model/name) == expected, 'test identity mismatch')
++            # No shared CMake outputs, Make .o files, or stale executables.
++            require(not list(model.rglob('*.o')), 'stale object')
++            build_start = time.monotonic()
++            state['builds'][variant] = {'status': 'IN_PROGRESS', 'ref': ref,
++                                         'tree': expected_tree, 'steps': []}
++            snapshot()
++            if variant == 'make':
++                commands = [['make', '-C', 'src', 'minisat2-download'],
++                            ['env', 'CXXFLAGS=-O2 -DNDEBUG',
++                             'make', '-C', 'unit', '-j2', 'CXX=/usr/bin/g++-13',
++                             'CC=/usr/bin/gcc-13',
++                             'WITH_MEMORY_ANALYZER=0']]
++            else:
++                commands = [['cmake', '-S', str(model), '-B', str(model/'build'),
++                             '-DCMAKE_BUILD_TYPE=Release', '-DWITH_JBMC=OFF',
++                             '-DWITH_MEMORY_ANALYZER=OFF', '-Dsat_impl=minisat2',
++                             '-DCMAKE_C_COMPILER=/usr/bin/gcc-13',
++                             '-DCMAKE_CXX_COMPILER=/usr/bin/g++-13'],
++                            ['cmake', '--build', str(model/'build'), '--target',
++                             'cbmc', 'smt2_solver', *(['unit'] if variant == 'fix' else []),
++                             '--parallel', '2']]
++            for i, command in enumerate(commands):
++                remaining = 2700-(time.monotonic()-build_start)
++                require(remaining > 0, 'configuration time cap')
++                rec, _ = call(variant+'-build-'+str(i), command, model, remaining, 16*MIB)
++                state['builds'][variant]['steps'].append(rec)
++                snapshot()
++            binaries = {'unit': model/'unit/unit_tests'} if variant == 'make' else {
++                'cbmc': model/'build/bin/cbmc', 'smt2_solver': model/'build/bin/smt2_solver'}
++            if variant == 'fix':
++                binaries['unit'] = model/'build/bin/unit'
++            binary_meta = {n: {'path': str(p), 'sha256': sha(p)} for n, p in binaries.items()}
++            state['builds'][variant].update(status='BUILT', binaries=binary_meta)
++            snapshot()
++            if variant != 'make':
++                shutil.copyfile(model/'build/CMakeCache.txt', report/(variant+'-CMakeCache.txt'))
++                call(variant+'-cbmc-version', [str(binaries['cbmc']), '--version'], model)
++                helper = str((model/'build/bin').resolve())
++                os.environ['PATH'] = helper+os.pathsep+os.environ['PATH']
++                require(Path(shutil.which('smt2_solver')).resolve() == binaries['smt2_solver'],
++                        'wrong smt2_solver')
++                _, text = call(variant+'-smt2-smoke', ['smt2_solver'], model,
++                               input_bytes=b'(check-sat)\n')
++                require(re.search(r'^sat$', text, re.M) is not None
++                        and not re.search(r'^(?:error|unknown|unsat)$', text, re.M),
++                        'smt2_solver smoke failure')
++                for profile in PROFILES:
++                    key = variant+'/'+profile
++                    state['regressions'][key] = {'status': 'IN_PROGRESS'}
++                    snapshot()
++                    folder = model/'regression/cbmc'/cfg['directory']
++                    require(sorted(p.name for p in folder.glob('*.desc')) == ['test.desc'],
++                            'zero or extra descriptors')
++                    receipt = report/(variant+'-'+profile+'-cbmc.json')
++                    command, options, expected = profile_command(profile, binaries['cbmc'], receipt)
++                    suffix = next((options[i+1] for i in range(len(options)) if options[i] == '-s'), '')
++                    out = folder/('test'+('-'+suffix if suffix else '')+'.out')
++                    require(not out.exists() and not receipt.exists(), 'stale case output')
++                    argv = ['perl', '../test.pl', '-e', '-p', '-c', command, *options,
++                            cfg['directory']]
++                    rec = execute(argv, model/'regression/cbmc',
++                                  report/(variant+'-'+profile+'-runner.log'), 135)
++                    state['regressions'][key]['runner'] = rec
++                    snapshot()
++                    text = (report/(variant+'-'+profile+'-runner.log')).read_text(errors='replace')
++                    require(selected_one(text), 'wrong descriptor selection / skip')
++                    require(out.exists() and receipt.exists(), 'missing underlying output / receipt')
++                    shutil.copyfile(out, report/(variant+'-'+profile+'-test.out'))
++                    underlying = json.loads(receipt.read_text())
++                    cbmc_log = receipt.with_suffix('.log')
++                    cbmc_text = cbmc_log.read_text(errors='replace')
++                    require(underlying['argv'] == expected and underlying['cwd'] == str(folder),
++                            'wrong underlying argv / cwd / profile')
++                    require(underlying['log_sha256'] == sha(cbmc_log), 'wrong underlying log hash')
++                    require(underlying['binary_sha256'] == binary_meta['cbmc']['sha256'],
++                            'wrong underlying binary hash')
++                    accepted = baseline_ok(underlying, cbmc_text) if variant == 'baseline' else fix_ok(underlying, cbmc_text)
++                    # Baseline test.pl fails its positive descriptor; no generic error is accepted.
++                    runner_ok = (rec['status'] == 'EXITED' and rec['complete']
++                                 and rec['signal'] == 0 and rec['exit'] == (1 if variant == 'baseline' else 0))
++                    state['regressions'][key] = {'status': 'PASS' if accepted and runner_ok else 'FAIL',
++                        'oracle_met': bool(accepted and runner_ok),
++                        'runner': rec, 'underlying': underlying,
++                        'descriptor_sha256': sha(folder/'test.desc'),
++                        'main_sha256': sha(folder/'main.c'), 'profile': profile,
++                        'solver_invocation_established': False,
++                        'selection': '1 descriptor / 0 skips'}
++                    snapshot()
++                    require(accepted and runner_ok, key+': failed differential oracle')
++            if variant != 'baseline':
++                binary = binaries['unit']
++                filters = ','.join(cfg['units'])
++                rec = execute([str(binary), filters, '--list-test-names-only'], model,
++                              report/(variant+'-unit-list.log'), 90, memory=6*1024**3)
++                names = (report/(variant+'-unit-list.log')).read_text().splitlines()
++                # Catch returns the number of listed cases (4), rather than success=0.
++                require(rec['complete'] and rec['exit'] == 4 and rec['signal'] == 0
++                        and sorted(names) == sorted(cfg['units']), 'wrong Catch listing')
++                for i, name in enumerate(cfg['units']):
++                    state['units'][variant+'/'+name] = {'status': 'IN_PROGRESS'}
++                    snapshot()
++                    rec = execute([str(binary), name], model,
++                                  report/(variant+'-unit-'+str(i)+'.log'), 90,
++                                  memory=6*1024**3)
++                    text = (report/(variant+'-unit-'+str(i)+'.log')).read_text()
++                    ok = unit_ok(rec, text)
++                    state['units'][variant+'/'+name] = {'status': 'PASS' if ok else 'FAIL',
++                                                       'oracle_met': ok, 'execution': rec,
++                                                       'binary': binary_meta['unit']}
++                    snapshot()
++                    require(ok, 'unit case failed: '+variant+'/'+name)
++        state['status'] = 'FOCUSED_CI_PASS'
++    except Exception as error:
++        state.update(status='STOP', error=repr(error))
++        for field in ('format', 'lint'):
++            if state[field] == 'IN_PROGRESS':
++                state[field] = 'STOP'
++        for field in ('builds', 'regressions', 'units', 'executions'):
++            for value in state[field].values():
++                if isinstance(value, dict) and value.get('status') == 'IN_PROGRESS':
++                    value['status'] = 'STOP'
++        raise
++    finally:
++        snapshot()
++
++
++def main():
++    if sys.argv[1] == 'probe':
++        receipt = Path(sys.argv[2])
++        argv = sys.argv[3:]
++        rec = execute(argv, Path.cwd(), receipt.with_suffix('.log'), 120,
++                      cap=MIB, memory=6*1024**3)
++        rec['binary_sha256'] = sha(argv[0])
++        save(receipt, rec)
++        sys.stdout.buffer.write(receipt.with_suffix('.log').read_bytes())
++        # test.pl receives the original normal exit or its shell signal encoding;
++        # the receipt preserves the original exit and signal separately.
++        return rec['exit'] if rec['exit'] is not None else 128+(rec['signal'] or 1)
++    require(sys.argv[1] == 'run', 'unknown mode')
++    run_all(*(Path(p).resolve() for p in sys.argv[2:]))
++    return 0
++
++
++if __name__ == '__main__':
++    sys.exit(main())
+diff --git a/scripts/cbmc-slim/test_runner.py b/scripts/cbmc-slim/test_runner.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..f58fab8572402cb0de7a8c210e6dc60078fdb491
+--- /dev/null
++++ b/scripts/cbmc-slim/test_runner.py
+@@ -0,0 +1,174 @@
++#!/usr/bin/env python3
++"""Isolated error-path checks: no compiler, solver or verifier execution."""
++import copy
++import json
++import os
++from pathlib import Path
++import shlex
++import signal
++import sys
++import tempfile
++import time
++import unittest
++from unittest.mock import patch
++
++import runner as r
++
++OK = {'status': 'EXITED', 'exit': 0, 'signal': 0, 'complete': True}
++INVARIANT = '''Invariant check failed
++File: ../util/simplify_utils.cpp:345 function: bits2expr
++Condition: el_size_opt.has_value() && *el_size_opt > bitst{0}
++Reason: Check return value
++'''
++
++
++class Checks(unittest.TestCase):
++    def test_oracles_reject_missing_partial_and_wrong_types(self):
++        self.assertTrue(r.fix_ok(OK, 'VERIFICATION SUCCESSFUL\n'))
++        self.assertTrue(r.unit_ok(OK, 'All tests passed (48 assertions in 1 test case)'))
++        for broken in (None, {}, {'status': 'NOT_RUN'},
++                       dict(OK, exit=True), dict(OK, exit='0'),
++                       dict(OK, signal=None), dict(OK, signal=False),
++                       dict(OK, signal=9), dict(OK, complete=False),
++                       dict(OK, status='TIMEOUT'), dict(OK, status='OUTPUT_CAP')):
++            self.assertFalse(r.good(broken), broken)
++        for text in ('No test cases matched', 'All tests passed (0 assertions in 1 test case)',
++                     'All tests passed (9 assertions in 2 test cases)', ''):
++            self.assertFalse(r.unit_ok(OK, text))
++        self.assertFalse(r.fix_ok(OK, 'VERIFICATION SUCCESSFUL\nwarning: ignoring option'))
++
++    def test_exact_baseline_only(self):
++        abort = dict(OK, exit=None, signal=signal.SIGABRT)
++        self.assertTrue(r.baseline_ok(abort, INVARIANT))
++        self.assertTrue(r.baseline_ok(dict(OK, exit=134), INVARIANT))
++        for rec, text in ((OK, INVARIANT), (dict(OK, exit=1), INVARIANT),
++                          (dict(abort, signal=9), INVARIANT),
++                          (dict(abort, complete=False), INVARIANT),
++                          (dict(abort, status='TIMEOUT'), INVARIANT),
++                          (abort, INVARIANT.replace('bits2expr', 'other_function')),
++                          (abort, INVARIANT.replace(' > ', ' >= ')),
++                          (abort, 'SMT2 Unsupported'), (abort, 'missing solver')):
++            self.assertFalse(r.baseline_ok(rec, text), (rec, text))
++
++    def test_selection_and_profile_quoting(self):
++        self.assertTrue(r.selected_one('  1 test found\n  Running x/test.desc  [OK] in 0 seconds\n'))
++        for text in ('0 tests found\n', '1 test found\n Running x/test.desc [SKIPPED]\n',
++                     '2 tests found\n Running x/test.desc [OK]\n', ''):
++            self.assertFalse(r.selected_one(text))
++        command, opts, expected = r.profile_command('incremental', '/tmp/binary', Path('/tmp/receipt'))
++        self.assertEqual(shlex.split(command)[-1], 'z3 --smt2 -in')
++        self.assertEqual(expected[-2:], ['z3 --smt2 -in', 'main.c'])
++        self.assertEqual(opts, ['-X', 'no-new-smt', '-s', 'new-smt-backend'])
++        with self.assertRaisesRegex(RuntimeError, 'wrong profile'):
++            r.profile_command('unexpected', '/tmp/bin', Path('/tmp/out'))
++        self.assertEqual(len(r.PROFILES), 5)
++
++    def test_missing_solver(self):
++        with self.assertRaisesRegex(RuntimeError, 'missing z3'):
++            r.check_tools(lambda name: None if name == 'z3' else '/fake/'+name)
++
++    def test_format_empty_diff(self):
++        self.assertTrue(r.format_ok(OK, 'clang-format did not modify any files\n'))
++        self.assertTrue(r.format_ok(OK, 'no modified files to format\n'))
++        self.assertFalse(r.format_ok(OK, 'diff --git a/f b/f\n'))
++        self.assertFalse(r.format_ok(dict(OK, exit=1), ''))
++
++    def test_wrong_pins_hashes_and_allowlist(self):
++        cfg = json.loads((r.HERE/'config.json').read_text())
++        package = r.HERE.parents[1]
++        r.verify_inputs(package, cfg)
++        for field, value in (('source', cfg['base']), ('source_tree', '0'*40),
++                             ('test_patch_sha256', '0'*64),
++                             ('source_allowlist', [])):
++            broken = copy.deepcopy(cfg)
++            broken[field] = value
++            with self.assertRaises((RuntimeError, r.subprocess.CalledProcessError)):
++                r.verify_inputs(package, broken)
++        broken = copy.deepcopy(cfg)
++        broken['test_hashes'][next(iter(broken['test_hashes']))] = '0'*64
++        with self.assertRaisesRegex(RuntimeError, 'wrong test hash'):
++            r.verify_inputs(package, broken)
++
++    def test_bounded_processes(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            def run(code, timeout=2, cap=4096):
++                return r.execute([sys.executable, '-c', code], root, root/'case.log',
++                                 timeout, cap)
++            rec = run('print("success")')
++            self.assertTrue(r.good(rec))
++            self.assertEqual(rec['raw_bytes'], 8)
++            self.assertEqual(run('raise SystemExit(7)')['exit'], 7)
++            rec = run('import os,signal; os.kill(os.getpid(),signal.SIGTERM)')
++            self.assertEqual(rec['signal'], signal.SIGTERM)
++            self.assertIsNone(rec['exit'])
++            rec = run('import time; time.sleep(10)', .15)
++            self.assertEqual(rec['status'], 'TIMEOUT')
++            self.assertFalse(rec['complete'])
++            rec = run('import sys; sys.stdout.write("x"*100000)')
++            self.assertEqual(rec['status'], 'OUTPUT_CAP')
++            self.assertGreater(rec['raw_bytes'], 4096)
++            self.assertEqual((root/'case.log').stat().st_size, 4096)
++            # Child in another process group must still be cleaned up.
++            code = ('import subprocess,time,sys; '
++                    'p=subprocess.Popen([sys.executable,"-c","import time; time.sleep(20)"],'
++                    'start_new_session=True); print(p.pid,flush=True); time.sleep(20)')
++            rec = run(code, .3)
++            self.assertEqual(rec['status'], 'TIMEOUT')
++            child = int((root/'case.log').read_text())
++            stat = Path(f'/proc/{child}/stat')
++            deadline = time.monotonic()+1
++            while stat.exists() and stat.read_text().split()[2] != 'Z' and time.monotonic() < deadline:
++                time.sleep(.01)
++            self.assertTrue(not stat.exists() or stat.read_text().split()[2] == 'Z')
++            rec = r.execute(['/no/such/program'], root, root/'missing.log', 1)
++            self.assertEqual(rec['status'], 'START_ERROR')
++            self.assertFalse(rec['complete'])
++            # Build-like outputs exceed capture cap without being cut by FSIZE.
++            rec = run('from pathlib import Path; Path("object").write_bytes(b"x"*100000)')
++            self.assertTrue(r.good(rec))
++            self.assertEqual((root/'object').stat().st_size, 100000)
++
++    def test_stop_retains_not_run_states_and_exception(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            with patch.object(r, 'verify_inputs', side_effect=RuntimeError('wrong pin')):
++                with self.assertRaisesRegex(RuntimeError, 'wrong pin'):
++                    r.run_all(r.HERE.parents[1], root, root/'reports')
++            state = json.loads((root/'reports/result.json').read_text())
++            self.assertEqual(state['status'], 'STOP')
++            self.assertEqual(set(state['regressions'].values()), {'NOT_RUN'})
++            self.assertEqual(len(state['regressions']), 10)
++            self.assertEqual(set(state['units'].values()), {'NOT_RUN'})
++            self.assertEqual(len(state['units']), 8)
++            self.assertIn('wrong pin', state['error'])
++
++
++    def test_started_setup_and_format_failures_keep_original_exit(self):
++        for failed_name in ('version-gcc', 'format'):
++            with self.subTest(stage=failed_name), tempfile.TemporaryDirectory() as tmp:
++                root = Path(tmp)
++                def fake_execute(argv, cwd, log, *args):
++                    text = ('sat\n' if Path(log).stem == 'z3-smoke' else
++                            'clang-format version 18.1.8\n')
++                    Path(log).write_text(text)
++                    return dict(OK, exit=7 if Path(log).stem == failed_name else 0)
++                def which(name):
++                    return '/usr/bin/'+({'gcc': 'gcc-13', 'g++': 'g++-13'}.get(name, name))
++                with patch.object(r, 'verify_inputs'), patch.object(r, 'check_tools'), \
++                     patch.object(r.shutil, 'which', side_effect=which), \
++                     patch.object(r, 'sha', return_value='fake-hash'), \
++                     patch.object(r, 'execute', side_effect=fake_execute):
++                    with self.assertRaisesRegex(RuntimeError, failed_name):
++                        r.run_all(r.HERE.parents[1], root, root/'reports')
++                state = json.loads((root/'reports/result.json').read_text())
++                self.assertEqual(state['status'], 'STOP')
++                self.assertEqual(state['executions'][failed_name]['exit'], 7)
++                self.assertEqual(state['format'], 'STOP' if failed_name == 'format' else 'NOT_RUN')
++                self.assertEqual(state['lint'], 'NOT_RUN')
++                self.assertEqual(set(state['regressions'].values()), {'NOT_RUN'})
++                self.assertEqual(set(state['units'].values()), {'NOT_RUN'})
++
++
++if __name__ == '__main__':
++    unittest.main()

@@ -1,0 +1,32 @@
+{
+  "base": "37a17adc07f29e1127f100debf1d8eea00532a24",
+  "source": "fb9c8d53d4f5e109324d8b17fd8794ed4776b43e",
+  "source_tree": "038a4b47e21ce8d5ebfcb29124d830fd38688235",
+  "baseline_tree": "73d8992542645f35d70763ac0be0b03acb0dd26d",
+  "source_allowlist": [
+    "regression/cbmc/byte_extract_empty_struct_array/main.c",
+    "regression/cbmc/byte_extract_empty_struct_array/test.desc",
+    "src/util/simplify_utils.cpp",
+    "unit/util/simplify_expr.cpp"
+  ],
+  "test_hashes": {
+    "regression/cbmc/byte_extract_empty_struct_array/main.c": "3ac1d5e0050f451b6d034d72c51a60184998275b602d07996ed15c7c1b273b22",
+    "regression/cbmc/byte_extract_empty_struct_array/test.desc": "f03240a34a9b7aa49f490fedb072ac1f28dfd9f1ee714475d7c5a3ee34870d99",
+    "unit/util/simplify_expr.cpp": "775bbd0d7dcb7b0f5ebe0eef2654c55bec7420a42ff0405c60d5cf9cd49df45d"
+  },
+  "test_patch_sha256": "c788e7bddbaf0aee957087d41ae8d657652d2bbb88acf371c47faf9759e84c90",
+  "source_branch": "fix/array-zero-width-elements-slim",
+  "source_parent": "37a17adc07f29e1127f100debf1d8eea00532a24",
+  "source_commit_count": 1,
+  "source_production_delta": "Only array CHECK_RETURN > bitst{0} becomes >= bitst{0}; has_value and vector/complex unchanged",
+  "test_only_overlay": "BASE plus exact final regression/unit bytes; patch is baseline-tests.patch",
+  "source_patch": "source.patch",
+  "author": "Tiramisu-Cake <igkharin@gmail.com>",
+  "committer": "Tiramisu-Cake <igkharin@gmail.com>",
+  "local_cpplint": "PASS / 0 errors / Python deprecation warnings",
+  "diff_check": "PASS",
+  "format18_1_8": "NOT_RUN",
+  "compilation": "NOT_RUN",
+  "upstream_ready": false,
+  "test_only_patch_apply": "git apply --index --unidiff-zero baseline-tests.patch"
+}

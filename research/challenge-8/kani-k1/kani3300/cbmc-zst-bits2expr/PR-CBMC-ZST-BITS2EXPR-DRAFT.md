@@ -1,23 +1,15 @@
-<!--
-CBMC-SLIM draft, NOT READY TO PUBLISH. Supersedes the 13-directory proposal.
-Direct PR to diffblue/cbmc develop; no separate issue and no PR inside the fork.
-Planned base: 37a17adc07f29e1127f100debf1d8eea00532a24; new clean source SHA: TBD.
-The consolidated regression and moved unit cases are NOT_RUN on this base.
-Before publication replace receipt placeholders using ONE final baseline invocation:
-same main.c bytes, exact version/commit, actual command, verbatim invariant block.
-Do not combine an old6.11/r2 version or output with a new command.
-Replace the two Testing sentences with verified results after the requested CI.
-Checklist wording is verbatim from the pinned PR template; n/a notes are separate.
--->
+# Fix reconstruction of arrays with zero-width elements
 
-**Title:** Allow bits2expr to reconstruct arrays of zero-width elements
-
-`bits2expr` fails an invariant when reconstructing an array whose element type has zero width inside a larger aggregate. For example, a typed read of constant bytes into this GNU C aggregate reaches the array conversion:
+`bits2expr` rejects an array whose element type has zero width when reconstructing a constant inside a larger aggregate. A typed read of constant bytes into this GNU C struct exercises the array branch through byte-extract simplification:
 
 ```c
 #include <string.h>
 
-struct empty {};
+// GNU C: an empty struct, and any array of it, has size zero.
+struct empty
+{
+};
+
 struct with_empty_structs
 {
   unsigned char a[4];
@@ -29,50 +21,41 @@ int main(void)
 {
   unsigned char buf[8];
   memset(buf, 0x5a, sizeof(buf));
+
   struct with_empty_structs s = *(struct with_empty_structs *)buf;
+
   for(unsigned i = 0; i < 4; ++i)
   {
     __CPROVER_assert(s.a[i] == 0x5a, "bytes before the empty structs");
     __CPROVER_assert(s.b[i] == 0x5a, "bytes after the empty structs");
   }
+
   return 0;
 }
 ```
 
-Reproduction: `<exact CBMC version and develop commit from final baseline receipt>`; command: `<actual command for the same input and invocation>`.
+Baseline source: `37a17adc07f29e1127f100debf1d8eea00532a24` (develop). The final paired invocation is pending:
 
-```text
-Invariant check failed
-File: <verbatim path and line from that invocation> function: bits2expr
-Condition: <verbatim array element-width condition from that invocation>
-Reason: <verbatim reason from that invocation>
-```
+- CBMC version: PENDING final baseline invocation.
+- Exact command and working directory: PENDING the same invocation.
+- Verbatim `Invariant check failed` block, including File/Condition/Reason: PENDING the same invocation.
 
-The struct branch already accepts zero-width components, and byte-operator lowering already admits zero-width members and zero-length arrays. With a zero element width, the existing array loop takes empty slices and still reconstructs one typed operand per element, so the change only needs to accept a known width of zero. Unknown and negative widths remain rejected.
+The struct branch already accepts zero-width components. With a zero element width, the existing array loop takes empty slices and recursively builds one operand per element, retaining both the element count and the original array type. This change accepts width zero in that branch and adds one regression plus three unit cases alongside the existing bit-order case.
 
 Kani encounters the same invariant for Rust input: [model-checking/kani#5085](https://github.com/model-checking/kani/issues/5085).
 
-### Testing
+## Testing
 
-Testing of the consolidated regression and relocated unit cases on this candidate is pending. Paired results for the five standard regression profiles and focused unit results from Make and CMake builds will be added after execution.
-
-### Checklist
+Paired baseline/fix regression runs in the five standard profiles are pending. The four focused unit cases in Make and CMake builds and final formatting checks are pending.
 
 - [ ] Each commit message has a non-empty body, explaining why the change was made.
 - [ ] Methods or procedures I have added are documented, following the guidelines provided in CODING_STANDARD.md.
-
-  n/a — no production methods or procedures are added.
-
 - [ ] The feature or user visible behaviour I have added or modified has been documented in the User Guide in doc/cprover-manual/
-
-  n/a — this internal conversion fix introduces no CLI or language construct.
-
 - [ ] Regression or unit tests are included, or existing tests cover the modified code (in this case I have detailed which ones those are in the commit message).
 - [ ] My commit message includes data points confirming performance improvements (if claimed).
-
-  n/a — no performance improvement is claimed.
-
 - [ ] My PR is restricted to a single feature or bugfix.
 - [ ] White-space or formatting changes outside the feature-related changed lines are in commits of their own.
+
+Checklist applicability: no new production methods; no new User Guide feature or interface; no performance improvement is claimed. These three items are n/a; the template wording above is retained verbatim. Source diff and test inclusion are prepared; completion of CI remains pending.
 
 *Disclosure: this change and description were prepared with the help of AI assistants.*

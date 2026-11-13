@@ -1,0 +1,125 @@
+{
+  "directory": "byte_extract_empty_struct_array",
+  "descriptors": 1,
+  "regression_invocations": 10,
+  "profiles": {
+    "sat": {
+      "cbmc_flags": [
+        "--validate-goto-model",
+        "--validate-ssa-equation"
+      ],
+      "test_pl_options": [
+        "-X",
+        "smt-backend"
+      ],
+      "baseline": "NOT_RUN",
+      "fix": "NOT_RUN"
+    },
+    "paths-lifo": {
+      "cbmc_flags": [
+        "--paths",
+        "lifo"
+      ],
+      "test_pl_options": [
+        "-X",
+        "thorough-paths",
+        "-X",
+        "smt-backend",
+        "-X",
+        "paths-lifo-expected-failure",
+        "-s",
+        "paths-lifo"
+      ],
+      "baseline": "NOT_RUN",
+      "fix": "NOT_RUN"
+    },
+    "cprover-smt2": {
+      "cbmc_flags": [
+        "--cprover-smt2"
+      ],
+      "test_pl_options": [
+        "-X",
+        "broken-smt-backend",
+        "-X",
+        "thorough-smt-backend",
+        "-X",
+        "broken-cprover-smt-backend",
+        "-X",
+        "thorough-cprover-smt-backend",
+        "-s",
+        "cprover-smt2"
+      ],
+      "baseline": "NOT_RUN",
+      "fix": "NOT_RUN"
+    },
+    "z3": {
+      "cbmc_flags": [
+        "--z3"
+      ],
+      "test_pl_options": [
+        "-X",
+        "broken-smt-backend",
+        "-X",
+        "thorough-smt-backend",
+        "-X",
+        "broken-z3-smt-backend",
+        "-X",
+        "thorough-z3-smt-backend",
+        "-s",
+        "z3"
+      ],
+      "baseline": "NOT_RUN",
+      "fix": "NOT_RUN"
+    },
+    "incremental": {
+      "cbmc_flags": [
+        "--incremental-smt2-solver",
+        "z3 --smt2 -in"
+      ],
+      "test_pl_options": [
+        "-X",
+        "no-new-smt",
+        "-s",
+        "new-smt-backend"
+      ],
+      "baseline": "NOT_RUN",
+      "fix": "NOT_RUN"
+    }
+  },
+  "unit_invocations": 8,
+  "unit_cases": {
+    "Make": {
+      "expr2bits and bits2expr respect bit order": "NOT_RUN",
+      "bits2expr reconstructs empty structs and arrays": "NOT_RUN",
+      "bits2expr reconstructs nested zero-width arrays": "NOT_RUN",
+      "bits2expr preserves tagged zero-width elements and nonzero siblings": "NOT_RUN"
+    },
+    "CMake": {
+      "expr2bits and bits2expr respect bit order": "NOT_RUN",
+      "bits2expr reconstructs empty structs and arrays": "NOT_RUN",
+      "bits2expr reconstructs nested zero-width arrays": "NOT_RUN",
+      "bits2expr preserves tagged zero-width elements and nonzero siblings": "NOT_RUN"
+    }
+  },
+  "registration": {
+    "Make": "unit/Makefile:208 explicit util/simplify_expr.cpp",
+    "CMake": "unit/CMakeLists.txt:12 GLOB_RECURSE *.cpp *.h",
+    "registration_edits": false
+  },
+  "binary_paths": {
+    "baseline_cbmc": "<workspace>/slim-baseline/build/bin/cbmc",
+    "fix_cbmc": "<workspace>/slim-fix/build/bin/cbmc",
+    "smt2_helper": "<corresponding CMake tree>/build/bin/smt2_solver",
+    "CMake_unit": "<workspace>/slim-fix/build/bin/unit",
+    "Make_unit": "<workspace>/slim-make/unit/unit_tests"
+  },
+  "Catch_reporter": "default console; listing exit4 requires exact four names; each run exact1 with assertions>0",
+  "test_hashes": {
+    "regression/cbmc/byte_extract_empty_struct_array/main.c": "3ac1d5e0050f451b6d034d72c51a60184998275b602d07996ed15c7c1b273b22",
+    "regression/cbmc/byte_extract_empty_struct_array/test.desc": "f03240a34a9b7aa49f490fedb072ac1f28dfd9f1ee714475d7c5a3ee34870d99",
+    "unit/util/simplify_expr.cpp": "775bbd0d7dcb7b0f5ebe0eef2654c55bec7420a42ff0405c60d5cf9cd49df45d"
+  },
+  "solver_path_credit": false,
+  "baseline_expected": "exact positive-width bits2expr array invariant and original abort; not generic runner failure",
+  "no_profile_exclusions_added": true
+}
