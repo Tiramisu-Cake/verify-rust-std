@@ -1,0 +1,23 @@
+{
+  "assurance": "STATIC_ONLY",
+  "checks": {
+    "bounded_changed_source_scope": true,
+    "only_nonzero_closure_arm_changed_all_other_layout_guards_identical": true,
+    "actual_upvars_own_layout_composed_offsets_error_propagation": true,
+    "existing_closure_rust_inputs_unchanged": true,
+    "original_mode_inputs_and_collector_unchanged": true,
+    "eight_strong_oracle_hashes_preserved": true,
+    "three_new_fixtures_eight_roots_bits12_and_goldens": true,
+    "actual_typed_copy_requests_and_copy_bound_present": true,
+    "bool_ref_contract_and_both_branches_preserved": true,
+    "valid_ref_payload_pair_and_reached_padding_read_present": true,
+    "negative_goldens_require_reads_and_byvalue_union_boundary": true,
+    "official_nightly_pin_and_all_api_source_hashes": true,
+    "git_diff_check": true
+  },
+  "status": "PASS",
+  "rust_typecheck": "NOT_RUN",
+  "kani_cbmc_ci": "NOT_RUN",
+  "selected_model_binding": "UNKNOWN",
+  "independent_review": "PENDING_COORDINATOR"
+}

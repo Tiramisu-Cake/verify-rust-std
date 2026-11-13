@@ -1,0 +1,53 @@
+{
+  "task": "TASK-KANI3300-S3-COMPAT-CC3.md",
+  "stage": "CC3_ONLY",
+  "worker": "worker14",
+  "date": "2026-11-13",
+  "source_base": "9631aaf89e869624fbfc8cd22d327ce194eb779d",
+  "source_head": "76a706f8f8c5b0471bd5c8e6b48cdaf45bab9b66",
+  "source_tree": "6730468d0cb9cf24752ad67ef6ebaab35be8e627",
+  "source_repo": "/root/kani-fix-3300-cc3",
+  "source_branch": "fix/kani-3300-cc3",
+  "clone_origin": "/root/kani-fix-3300-cc2",
+  "reference_read_only": true,
+  "source_changed_files": {
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs": "d78db5c13255d189f0d8aa32aadc145f9591aaf838d2a0e661d09d42e5adf11d",
+    "tests/expected/uninit/closure-upvars/holes.expected": "6a2cb7887112bf40562cf518d0c299616cc0c178244f3d0a98425b5f875e863e",
+    "tests/expected/uninit/closure-upvars/holes.rs": "6da4a03e0e5d5691cce5bd4f851da704ea275a18f50fa109fd666678182fd45a",
+    "tests/expected/uninit/closure-upvars/layout.expected": "6831eace839b67fb557d75246986db191d921e37b54f3c1f1a676af1b0d2cec3",
+    "tests/expected/uninit/closure-upvars/layout.rs": "6c2aec8a236599cb99c87fd1adf1ac53eea996583cef82c93db413ed5bb51312",
+    "tests/expected/uninit/closure-upvars/ordinary.expected": "e5f601472ef5f6423a8329c1b136a90bf818d1c0ec38636314a97d3e5954f1e0",
+    "tests/expected/uninit/closure-upvars/ordinary.rs": "eec92b312e636b9c9746266a94e4a475320b64f5a191da375e92341cc86e4bdd",
+    "tests/expected/uninit/closure-zst/capture-mu-reference-new.expected": "486487e7a8e3c4e425cdfd5ff0a80cefb891525fde4ecc34444a20a8832d46e6",
+    "tests/expected/uninit/closure-zst/capture-mu-reference-uninit.expected": "5bb65539db89d1487324617fd4bfda81f26e660b9e1d9d2af153f96114ef2f42",
+    "tests/expected/uninit/closure-zst/capture-mu-value-new.expected": "f2ae3629eb78f40f568bb7c371b601439e629001a8031218a2bc4bed1aa5a246",
+    "tests/expected/uninit/closure-zst/capture-mu-value-uninit.expected": "37bdd5c5d5aa454cec1dd4bcff275f6e08052d9be60c861f6fee6c0c965806fa",
+    "tests/expected/uninit/closure-zst/capture-padded.expected": "c07f12d4a288634ef41538885b0247dfd738e99bdf8b8f232f60f3dfe737a53f",
+    "tests/expected/uninit/closure-zst/capture-raw-hole.expected": "b384ce683b2f16142243ef5958ebef2a760215ad704d827453d8d79b7a58342f",
+    "tests/expected/uninit/closure-zst/capture-raw-legal.expected": "c4907fcc009f37229abf998fd5fe0129b53f04f24b212fd01f6c806f07d188c7",
+    "tests/expected/uninit/closure-zst/capture-reference-hole.expected": "a59acfb8885e021f2ac5573558a39326497766d21452ee24984d3b1743c59be3",
+    "tests/expected/uninit/closure-zst/capture-reference-legal.expected": "5c60fadf8714d65dd8dd4a422eee40fd38611755fb8da2736816c46117a3c4a0",
+    "tests/expected/uninit/closure-zst/capture-scalar.expected": "03b188faa7f7ae3c49205b6931f3201dd31d7b71edb9afbf480bfc50022a0c4e",
+    "tests/expected/uninit/closure-zst/capture-union-reference.expected": "15060301c4586c2801b232437701b026101749c8f5959c67b2299506dfa90b82",
+    "tests/expected/uninit/closure-zst/capture-union-value.expected": "1625e9e44b90f14416b302203a6ec2d5f952cd2d9689af3729297961741ce148"
+  },
+  "research_base": "5f0ad44f309eae64b1fa145882270c687ee58e98",
+  "research_branch": "experiment/kani-k1-kani3300g0-20261111",
+  "ci_status": "NOT_RUN",
+  "typecheck": "NOT_RUN",
+  "binding": "UNKNOWN",
+  "independent_review": "PENDING_COORDINATOR",
+  "local_validation": {
+    "static": "13/13 PASS",
+    "python_oracle_checker": "21/21 PASS",
+    "scratchpad_rustfmt": "PASS",
+    "diff_check": "PASS"
+  },
+  "rustfmt_scratch": "/tmp/kani3300-cc3-rustfmt-vm9qhfa_",
+  "local_execution": [
+    "Python/static",
+    "authorized scratchpad rustfmt"
+  ],
+  "push_performed": false,
+  "cloud_spend_usd": 0
+}

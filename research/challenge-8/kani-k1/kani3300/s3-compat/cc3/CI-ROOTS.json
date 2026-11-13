@@ -1,0 +1,517 @@
+{
+  "status": "REQUEST_ONLY_NOT_AUTHORIZATION",
+  "stage": "CC3_ONLY",
+  "source_sha": "76a706f8f8c5b0471bd5c8e6b48cdaf45bab9b66",
+  "source_tree": "6730468d0cb9cf24752ad67ef6ebaab35be8e627",
+  "source_base": "9631aaf89e869624fbfc8cd22d327ce194eb779d",
+  "toolchain": "nightly-2026-10-23",
+  "rustc_commit": "7189d39d9ce936881b8132c6addeaf3e295cd455",
+  "target": "x86_64-unknown-linux-gnu",
+  "binary_entry": "CHECKOUT/scripts/kani",
+  "driver_binary": "CHECKOUT/target/kani/bin/kani-driver",
+  "compiler_binary": "CHECKOUT/target/kani/bin/kani-compiler",
+  "cbmc": "stock 6.11.0 / existing normal cadical",
+  "binary_sha256": "UNKNOWN until coordinator binds exact source to driver/compiler/sysroot/CBMC/solver",
+  "environment": {
+    "RUSTFLAGS": "--edition 2021 -D warnings",
+    "NO_COLOR": "1"
+  },
+  "common_cli": [
+    "-Z",
+    "uninit-checks",
+    "-Z",
+    "function-contracts",
+    "-Z",
+    "stubbing",
+    "-Z",
+    "export-json",
+    "-Z",
+    "unstable-options",
+    "--default-unwind",
+    "8",
+    "--jobs",
+    "1",
+    "--harness-timeout",
+    "120",
+    "--keep-temps",
+    "--output-format=regular"
+  ],
+  "output_cli": [
+    "--target-dir",
+    "FRESH/target",
+    "--export-json",
+    "FRESH/export.json"
+  ],
+  "tail_cli": [
+    "--cbmc-args",
+    "--object-bits",
+    "12"
+  ],
+  "per_harness_timeout_s": 120,
+  "rss_limit_kib": 12582912,
+  "build_typecheck_timeout_s": 600,
+  "whole_request_envelope_s": 7800,
+  "invocation_count": 35,
+  "harness_result_count": 40,
+  "invocations": [
+    {
+      "id": "replace_ordinary",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/replace.rs",
+      "sha256": "44b10bf2ef4d961b37b75098ec89246afe608036f4ed4cb8e3c5e70680425600",
+      "roots": [
+        "replace_ordinary"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; zero failures, both initialized branches/covers and useful assertions reached; bind &bool aggregate setter and both slot/referent CheckRefs",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "replace_simple_check",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/replace.rs",
+      "sha256": "44b10bf2ef4d961b37b75098ec89246afe608036f4ed4cb8e3c5e70680425600",
+      "roots": [
+        "replace_simple_check"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; zero failures, both initialized branches/covers and useful assertions reached; bind &bool aggregate setter and both slot/referent CheckRefs",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "bool_captures_true_false",
+      "file": "tests/expected/uninit/closure-upvars/ordinary.rs",
+      "sha256": "eec92b312e636b9c9746266a94e4a475320b64f5a191da375e92341cc86e4bdd",
+      "roots": [
+        "bool_captures_true_false"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; no failures; typed copy/layout and useful body/outer assertions reached SUCCESS, relevant covers satisfied",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "ordinary_captured_contract",
+      "file": "tests/expected/uninit/closure-upvars/ordinary.rs",
+      "sha256": "eec92b312e636b9c9746266a94e4a475320b64f5a191da375e92341cc86e4bdd",
+      "roots": [
+        "ordinary_captured_contract"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; no failures; typed copy/layout and useful body/outer assertions reached SUCCESS, relevant covers satisfied",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "simple_check_captured_contract",
+      "file": "tests/expected/uninit/closure-upvars/ordinary.rs",
+      "sha256": "eec92b312e636b9c9746266a94e4a475320b64f5a191da375e92341cc86e4bdd",
+      "roots": [
+        "simple_check_captured_contract"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; no failures; typed copy/layout and useful body/outer assertions reached SUCCESS, relevant covers satisfied",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "mixed_scalar_ref_padding",
+      "file": "tests/expected/uninit/closure-upvars/layout.rs",
+      "sha256": "6c2aec8a236599cb99c87fd1adf1ac53eea996583cef82c93db413ed5bb51312",
+      "roots": [
+        "mixed_scalar_ref_padding"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; no failures; typed copy/layout and useful body/outer assertions reached SUCCESS, relevant covers satisfied",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "reordered_nested_captures",
+      "file": "tests/expected/uninit/closure-upvars/layout.rs",
+      "sha256": "6c2aec8a236599cb99c87fd1adf1ac53eea996583cef82c93db413ed5bb51312",
+      "roots": [
+        "reordered_nested_captures"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; no failures; typed copy/layout and useful body/outer assertions reached SUCCESS, relevant covers satisfied",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "two_refs_initialized",
+      "file": "tests/expected/uninit/closure-upvars/holes.rs",
+      "sha256": "6da4a03e0e5d5691cce5bd4f851da704ea275a18f50fa109fd666678182fd45a",
+      "roots": [
+        "two_refs_initialized"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; no failures; typed copy/layout and useful body/outer assertions reached SUCCESS, relevant covers satisfied",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "two_refs_preserve_hole",
+      "file": "tests/expected/uninit/closure-upvars/holes.rs",
+      "sha256": "6da4a03e0e5d5691cce5bd4f851da704ea275a18f50fa109fd666678182fd45a",
+      "roots": [
+        "two_refs_preserve_hole"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "NEGATIVE; reached target byte read and pre-read cover; exactly local Check plus delayed CheckRef for that u8 read, no slot/layout/invalid-value/frame/protocol failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_padding_stays_false",
+      "file": "tests/expected/uninit/closure-upvars/holes.rs",
+      "sha256": "6da4a03e0e5d5691cce5bd4f851da704ea275a18f50fa109fd666678182fd45a",
+      "roots": [
+        "capture_padding_stays_false"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "NEGATIVE; reached target byte read and pre-read cover; exactly local Check plus delayed CheckRef for that u8 read, no slot/layout/invalid-value/frame/protocol failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_aligned_hole",
+      "file": "tests/expected/uninit/closure-zst/capture-aligned-hole.rs",
+      "sha256": "6575e558829ccfd38c7e51416b2540e6d6d6a8419673f39801a7501768a7e919",
+      "roots": [
+        "capture_aligned_hole"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "NEGATIVE: exactly required source/read-bound u8 local Check plus delayed CheckRef; actual payload read reached, no extra slot/layout/invalid-value failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_aligned_legal",
+      "file": "tests/expected/uninit/closure-zst/capture-aligned-legal.rs",
+      "sha256": "4134d44f0b01e31532074affa6d16e18909e84f2a15d14a4cc3f4bb8fec1b724",
+      "roots": [
+        "capture_aligned_legal"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; useful callback/read/outer assertions reached; typed closure layout request and actual mask bound, no extra failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_mu_reference_new",
+      "file": "tests/expected/uninit/closure-zst/capture-mu-reference-new.rs",
+      "sha256": "79af8c65910124b0cb0b32b0aec053829706df386d4a240a9bdef820798ccc37",
+      "roots": [
+        "capture_mu_reference_new"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; useful callback/read/outer assertions reached; typed closure layout request and actual mask bound, no extra failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_mu_reference_uninit",
+      "file": "tests/expected/uninit/closure-zst/capture-mu-reference-uninit.rs",
+      "sha256": "dc7156cc3c7d73cf99eb1ba25c304edb16c52a1d62bf1ce52ff07bf1fd68d7ae",
+      "roots": [
+        "capture_mu_reference_uninit"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "NEGATIVE: exactly required source/read-bound u8 local Check plus delayed CheckRef; actual payload read reached, no extra slot/layout/invalid-value failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_mu_value_new",
+      "file": "tests/expected/uninit/closure-zst/capture-mu-value-new.rs",
+      "sha256": "64a4d95ff93a91527bacffc06ffa84143031fb36fd30b9d0eefd6a0d6abde2a4",
+      "roots": [
+        "capture_mu_value_new"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "BOUNDARY: actual reached typed closure layout request recursively returns UnionAsField for by-value MU/union; absent query or earlier unrelated Unsupported is NONDISCRIMINATING; no payload blessing",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_mu_value_uninit",
+      "file": "tests/expected/uninit/closure-zst/capture-mu-value-uninit.rs",
+      "sha256": "997d4d0b05a6eb8ede32f819a3d31109fe58fb5af7337be97a3885377c4cd45d",
+      "roots": [
+        "capture_mu_value_uninit"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "BOUNDARY: actual reached typed closure layout request recursively returns UnionAsField for by-value MU/union; absent query or earlier unrelated Unsupported is NONDISCRIMINATING; no payload blessing",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_padded",
+      "file": "tests/expected/uninit/closure-zst/capture-padded.rs",
+      "sha256": "68a6397a2ee8f9c2c1c6c928b3cbb77dfa3bbd74e8cf696fd8bf632798eb76d4",
+      "roots": [
+        "capture_padded"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; useful callback/read/outer assertions reached; typed closure layout request and actual mask bound, no extra failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_raw_hole",
+      "file": "tests/expected/uninit/closure-zst/capture-raw-hole.rs",
+      "sha256": "a5bb0b83afb23a95a2511c34513c53bb95686c5cca06e1986ab08ccbc4f5637d",
+      "roots": [
+        "capture_raw_hole"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "NEGATIVE: exactly required source/read-bound u8 local Check plus delayed CheckRef; actual payload read reached, no extra slot/layout/invalid-value failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_raw_legal",
+      "file": "tests/expected/uninit/closure-zst/capture-raw-legal.rs",
+      "sha256": "4e35e57c4b50e4d591efecf10a3b402b963045b2ed62bb08b99be23cbb9da65b",
+      "roots": [
+        "capture_raw_legal"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; useful callback/read/outer assertions reached; typed closure layout request and actual mask bound, no extra failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_reference_hole",
+      "file": "tests/expected/uninit/closure-zst/capture-reference-hole.rs",
+      "sha256": "b01315a14b6a7bac3c5846ea30e656c7f9d8712d8886e3641462a89175494bad",
+      "roots": [
+        "capture_reference_hole"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "NEGATIVE: exactly required source/read-bound u8 local Check plus delayed CheckRef; actual payload read reached, no extra slot/layout/invalid-value failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_reference_legal",
+      "file": "tests/expected/uninit/closure-zst/capture-reference-legal.rs",
+      "sha256": "5ed5c749247eaca38e5107b0c875efb8c49a232a6840d7d78f7f01d4b90439a1",
+      "roots": [
+        "capture_reference_legal"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; useful callback/read/outer assertions reached; typed closure layout request and actual mask bound, no extra failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_scalar",
+      "file": "tests/expected/uninit/closure-zst/capture-scalar.rs",
+      "sha256": "6fd868a4b0363c68d84d56efcce9da6e639f3c1e7e9e5acf16c01d0ffbf1e5c2",
+      "roots": [
+        "capture_scalar"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; useful callback/read/outer assertions reached; typed closure layout request and actual mask bound, no extra failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_union_reference",
+      "file": "tests/expected/uninit/closure-zst/capture-union-reference.rs",
+      "sha256": "9373e13da78a5487aedee7e7abd039f42c1c2a443e23c288b65c64e2cf02fcc2",
+      "roots": [
+        "capture_union_reference"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; useful callback/read/outer assertions reached; typed closure layout request and actual mask bound, no extra failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_union_value",
+      "file": "tests/expected/uninit/closure-zst/capture-union-value.rs",
+      "sha256": "a5bdf2f7f5c263b4580e7c6cd1dc765a92ceb3c3f83e181bb9b4f05f095ccef1",
+      "roots": [
+        "capture_union_value"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "BOUNDARY: actual reached typed closure layout request recursively returns UnionAsField for by-value MU/union; absent query or earlier unrelated Unsupported is NONDISCRIMINATING; no payload blessing",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_unit_hole",
+      "file": "tests/expected/uninit/closure-zst/capture-unit-hole.rs",
+      "sha256": "f4934b5d6e8b708bf65688718ac60d6bdfe8202d8757ce2b9610ad4a925989cd",
+      "roots": [
+        "capture_unit_hole"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "NEGATIVE: exactly required source/read-bound u8 local Check plus delayed CheckRef; actual payload read reached, no extra slot/layout/invalid-value failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "capture_unit_legal",
+      "file": "tests/expected/uninit/closure-zst/capture-unit-legal.rs",
+      "sha256": "62e582812a3f88a89eea98b7c2ddbf26aad8ac3f21b9c3201a88307cd700a9da",
+      "roots": [
+        "capture_unit_legal"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; useful callback/read/outer assertions reached; typed closure layout request and actual mask bound, no extra failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "postcondition_reads_returned_hole",
+      "file": "tests/expected/uninit/closure-zst/scalar-pfc-hole.rs",
+      "sha256": "6c7eadadb7ca5ecf36babd733a9b2878928718c0f54696bc0b1e5c7dafc902a4",
+      "roots": [
+        "postcondition_reads_returned_hole"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "NEGATIVE: exactly required source/read-bound u8 local Check plus delayed CheckRef; actual payload read reached, no extra slot/layout/invalid-value failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "postcondition_reads_initialized_return",
+      "file": "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs",
+      "sha256": "439c9c9817875a0554fbf43a14eb7f871a3ab23cc038605afcead23a719ee4f0",
+      "roots": [
+        "postcondition_reads_initialized_return"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "SUCCESS; useful callback/read/outer assertions reached; typed closure layout request and actual mask bound, no extra failures",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "replace_transfer",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/replace.rs",
+      "sha256": "44b10bf2ef4d961b37b75098ec89246afe608036f4ed4cb8e3c5e70680425600",
+      "roots": [
+        "replace_transfer"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "OBSERVATION ONLY; retain prior five-failure observation unchanged, report full new inventory and compare all prior properties; two havoc-result u8 checks are not presumed false; no mode qualification",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "recursive_check",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+      "sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+      "roots": [
+        "recursive_check"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "Complete separate observation; no collection crash; CC1 detected-cycle reason/path bound to root. Ordinary recursive Unsupported remains release BLOCKED, not PASS. Capture-layout/bool/ref failures must be separately reported",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "recursive_ordinary",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+      "sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+      "roots": [
+        "recursive_ordinary"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "Complete separate observation; no collection crash; CC1 detected-cycle reason/path bound to root. Ordinary recursive Unsupported remains release BLOCKED, not PASS. Capture-layout/bool/ref failures must be separately reported",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "recursive_simple_check",
+      "file": "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+      "sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+      "roots": [
+        "recursive_simple_check"
+      ],
+      "selection": "exact-singleton",
+      "group": "candidate",
+      "expected": "Complete separate observation; no collection crash; CC1 detected-cycle reason/path bound to root. Ordinary recursive Unsupported remains release BLOCKED, not PASS. Capture-layout/bool/ref failures must be separately reported",
+      "outer_process_timeout_s": 180
+    },
+    {
+      "id": "mixed-bool_captures_true_false-ordinary_captured_contract-simple_check_captured_contract",
+      "file": "tests/expected/uninit/closure-upvars/ordinary.rs",
+      "sha256": "eec92b312e636b9c9746266a94e4a475320b64f5a191da375e92341cc86e4bdd",
+      "roots": [
+        "bool_captures_true_false",
+        "ordinary_captured_contract",
+        "simple_check_captured_contract"
+      ],
+      "selection": "whole-input",
+      "group": "candidate",
+      "expected": "Match each complete singleton inventory/reachability; capture actual starting_items grouping/order, do not infer order from declaration order",
+      "outer_process_timeout_s": 420
+    },
+    {
+      "id": "mixed-mixed_scalar_ref_padding-reordered_nested_captures",
+      "file": "tests/expected/uninit/closure-upvars/layout.rs",
+      "sha256": "6c2aec8a236599cb99c87fd1adf1ac53eea996583cef82c93db413ed5bb51312",
+      "roots": [
+        "mixed_scalar_ref_padding",
+        "reordered_nested_captures"
+      ],
+      "selection": "whole-input",
+      "group": "candidate",
+      "expected": "Match each complete singleton inventory/reachability; capture actual starting_items grouping/order, do not infer order from declaration order",
+      "outer_process_timeout_s": 300
+    },
+    {
+      "id": "mixed-two_refs_initialized-two_refs_preserve_hole-capture_padding_stays_false",
+      "file": "tests/expected/uninit/closure-upvars/holes.rs",
+      "sha256": "6da4a03e0e5d5691cce5bd4f851da704ea275a18f50fa109fd666678182fd45a",
+      "roots": [
+        "two_refs_initialized",
+        "two_refs_preserve_hole",
+        "capture_padding_stays_false"
+      ],
+      "selection": "whole-input",
+      "group": "candidate",
+      "expected": "Match each complete singleton inventory/reachability; capture actual starting_items grouping/order, do not infer order from declaration order",
+      "outer_process_timeout_s": 420
+    }
+  ],
+  "final_composition_gates_separate_authorization": {
+    "status": "NOT_RUN_NOT_INCLUDED_IN_TARGETED_ENVELOPE",
+    "quick": "one existing Quick on reviewed common CC1-CC3 source, matching default policy",
+    "strong_oracles": {
+      "manifest": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "sha256": "e6d67295543d61337163616e58f9c10dda59c731f07db336f9d386e0c08f66c8",
+      "cases": 8,
+      "runner": "tests/json-handler/uninit-contract-oracles/test.sh"
+    },
+    "s3_controls": [
+      {
+        "file": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs",
+        "sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4",
+        "roots": [
+          "legal_ordinary_transfer"
+        ]
+      },
+      {
+        "file": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs",
+        "sha256": "47e48e69bff71f92f9f098acbea449cb44ce40034d9bea6eb6f3818bc6b3838f",
+        "roots": [
+          "ensures_left_hole"
+        ]
+      },
+      {
+        "file": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs",
+        "sha256": "6e0cb23853ca8954b1824adb5375df8c141da6fc2653f89c75eb96e0b9f10bda",
+        "roots": [
+          "ensures_right_hole"
+        ]
+      }
+    ],
+    "remaining": "C03 source-bound controls, all CC1/CC2 controls and actual two root orders; M3/full/platform/SmallSort gates remain separate"
+  }
+}
