@@ -1,0 +1,92 @@
+# CBMC-SLIM — focused paired CI request (DRAFT / NOT ISSUED / NOT_RUN)
+
+2026-11-13. Это верификация корректности, не security-работа. Запрос координатору, не разрешение запуска.
+Один собственный workflow в `Tiramisu-Cake/cbmc`; **PR внутри форка запрещён**, upstream issue/PR/comments тоже.
+Cloud $0. Worker готовит local CI-only commit; push/dispatch/caps — координатор после отдельного GO.
+
+## Identity и три build configurations
+
+BASE подтверждён fetch: `37a17adc07f29e1127f100debf1d8eea00532a24`; при будущем сдвиге freeze actual reviewed BASE.
+FIX/TREE/TEST-DELTA/CI-HEAD — TBD после TASK-CBMC-SLIM; без identities запуск не выдаётся.
+Directory: `regression/cbmc/byte_extract_empty_struct_array/`, один main.c и один positive test.desc.
+BASELINE = BASE + exact final regression/unit test delta FIX, не old107a/старые13 tests.
+Baseline/fix test hashes идентичны; production difference — только array-width comparison.
+CI overlay отдельно от этого сравнения/PR source; source SHA/tree и overlay SHA записать раздельно.
+
+Три clean configurations, минимальные project recipes из COMPILING и Make/CMake на BASE:
+1. Baseline CMake: cbmc + `smt2_solver`, без unit run.
+2. Fix CMake: cbmc + `smt2_solver` + `unit`.
+3. Fix Make: настоящий Make build unit/dependencies, без CMake .o/libs/binary.
+Раздельные worktrees/outputs; shared dependency downloads допустимы, stale build outputs — нет.
+Ubuntu24.04/GCC13/Release, обычный SAT backend прежнего recipe; actual compiler/config/target/versions фиксируются.
+Не принуждать descriptor к64/little-endian; normal CPP/platform defaults записать. Другие платформы не заявлять.
+
+Preflight: установленный Z3 (version/path/hash/check-sat), project `smt2_solver` из текущей сборки/PATH,
+Perl test.pl, build deps, clang-format **18.1.8**. `--cprover-smt2` запускает helper **smt2_solver**,
+не executable cprover-smt2. Missing tool → SETUP_FAILURE, зависимые verification cases NOT_RUN.
+Если профиль упрощается без solver invocation, записать: profile исполнен, actual solver path не доказан.
+
+## Пять профилей × baseline/fix —10 cases
+
+Через штатный `regression/test.pl`, cwd regression/cbmc, выбрать **только final directory**.
+Common Make runner arguments: `-e -p -c <CBMC command>` + profile options + explicit directory.
+CBMC_BIN — executable соответствующего CMake варианта; actual argv/cwd сохранить.
+`-X gcc-only` применяется только к MSVC; на Ubuntu он исключил бы наш test, поэтому не добавлять.
+
+| Profile | CBMC command | test.pl profile options |
+|---|---|---|
+| SAT + validation | `CBMC_BIN --validate-goto-model --validate-ssa-equation` | `-X smt-backend` |
+| paths-lifo | `CBMC_BIN --paths lifo` | `-X thorough-paths -X smt-backend -X paths-lifo-expected-failure -s paths-lifo` |
+| cprover-smt2 | `CBMC_BIN --cprover-smt2` | `-X broken-smt-backend -X thorough-smt-backend -X broken-cprover-smt-backend -X thorough-cprover-smt-backend -s cprover-smt2` |
+| z3 | `CBMC_BIN --z3` | `-X broken-smt-backend -X thorough-smt-backend -X broken-z3-smt-backend -X thorough-z3-smt-backend -s z3` |
+| incremental SMT2 | `CBMC_BIN --incremental-smt2-solver 'z3 --smt2 -in'` | `-X no-new-smt -s new-smt-backend` |
+
+Это профили Makefile и соответствующих CMake registrations; у CMake **нет отдельного z3 profile**.
+Solver string последней строки остаётся одним backend argument; проверить quoting/-c handling статически.
+Не запускать `make -C regression/cbmc test*`/`ctest -R cbmc-...-CORE` как focused command — они выбирают весь suite.
+Не добавлять -X tags и не менять descriptor ради обхода failure.
+
+Для каждого case: ровно1 selected descriptor,0 skips/ignores, actual command с нужными flags.
+Baseline expected — **bits2expr array invariant**, `Invariant check failed`, bits2expr, el_size_opt/positive-width condition,
+не generic nonzero/test.pl fail/SMT2 Unsupported. Положительный test.pl oracle на базе не проходит закономерно:
+только специальный baseline classifier с underlying output/exit/signal даёт ожидаемый differential result, не blanket `|| true`.
+Fix: test.pl PASS, CBMC SUCCESS, EXIT0/SIGNAL0, нет ignored warning/invariant/timeout. Все10 results раздельно.
+
+## Unit: два реальных build styles, четыре случая в каждом
+
+unit/util/simplify_expr.cpp есть в explicit unit/Makefile и CMake glob; отдельного zst_bits2expr.cpp в candidate нет.
+Проверить inclusion/list of executable tests в обеих сборках. Make path: `<fix-make-tree>/unit/unit_tests`;
+CMake: `<fix-cmake-build>/bin/unit` (CMAKE_RUNTIME_OUTPUT_DIRECTORY). Не копировать один binary под два имени.
+
+Точные Catch names, каждый запускать отдельно, default **console reporter**, без XML/JUnit:
+1. `expr2bits and bits2expr respect bit order`;
+2. `bits2expr reconstructs empty structs and arrays`;
+3. `bits2expr reconstructs nested zero-width arrays`;
+4. `bits2expr preserves tagged zero-width elements and nonzero siblings`.
+List/names preflight требует matching set4; listing exit трактовать по Catch contract, не как обычный test exit.
+Далее8 invocations: каждая matched1, assertions>0, exit0 и полный итог PASS. Ноль совпадений — FAILURE, даже при exit0.
+Оба endian проверяются внутри3 TEST_CASE; это не два hardware platforms.
+Полный212 util/весь unit/ctest/baseline util не запускать побочно. Старые2 subprocess errors не включать в PR narrative;
+их XML-reporter diagnosis не разрешает проглатывать новые failures.
+
+## Format, ограничения и receipts
+
+Final diff: clang-format18.1.8 и project cpplint; empty format diff + exit0 — clean. Unrelated reformat unit-файла не включать.
+На build steps **нет RLIMIT_FSIZE**. Existing bounded-drain capture, не head/grep-only; process-group cleanup,
+original exit/signal, raw KiB, truncated/UNKNOWN, artifacts always. Не печатать secrets/environment credentials.
+
+До GO caps утверждает координатор. Предложение: один build/solver одновременно, build jobs2, ≤45min/configuration,
+runtime case≤120s/6GiB, unit case≤90s, setup≤15min, workflow≤210min. Это upper-bound request, не прогноз/разрешение расхода.
+Cap/build error → STOP/зависимые NOT_RUN; adaptive retries/новые platforms/profiles не разрешены.
+
+Case receipts: BASE/FIX/tree/test hashes, build-style/binary hash, actual versions/argv/cwd, descriptor/profile/selection,
+underlying CBMC и runner exit/signal, bounded output outcome, wall/RSS KiB, cap/completeness.
+Unit: binary provenance, matched-case/assertion counts. Constant manifest fields не доказывают built-source binding.
+Для PR взять **из одного final baseline case** main.c, `cbmc --version`, actual argv и verbatim Invariant block;
+File/Condition/Reason/команду не смешивать с historical6.11/r2 или другими profiles.
+
+Acceptance: fix5/5 profiles, baseline5/5 именно array invariant, Make4/4 и CMake4/4 unit, final format/lint clean.
+Иначе пакет не upstream-ready; auto issue/PR нет. Старый cd41/r2 PASS не переносится на новые inputs/BASE.
+После CI result обновляет slim/RESULT и PR Testing двумя factual предложениями только на actual outcomes.
+Публикация diffblue/cbmc PR и возможный комментарий kani#5085 — отдельные действия владельца.
+Сейчас **DRAFT / NOT ISSUED / NOT_RUN**.
