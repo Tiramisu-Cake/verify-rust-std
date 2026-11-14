@@ -1,0 +1,163 @@
+{
+  "task": "KANI3300 C2-S5 strong expected fixture implementation",
+  "base": "3b382c812a1b8541946e6dc732cf04497ebcf995",
+  "scope": "Only the eight cases formerly in tests/json-handler/uninit-contract-oracles; JSON suites remain present.",
+  "matcher_audit": {
+    "source": "tools/compiletest/src/runtest.rs:528-580",
+    "rules": [
+      "Expected rows are literal substrings, not regexes.",
+      "Trailing backslash joins required adjacent output lines.",
+      "Every fixture anchors Checking harness, consecutive SUMMARY: and ** N of rows, verdict, and one-harness completion.",
+      "Property rows use function/ID prefixes followed by Status and exact Description; no ephemeral closure suffixes or std source paths/locations are pinned."
+    ],
+    "validation": "Static review only; compiletest/Kani not run."
+  },
+  "case_map": [
+    {
+      "old_pointer": "oracles.json#/cases/0",
+      "old_file_root": "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs; postcondition_reads_initialized_return line 20",
+      "operation": "Ensures line 14 reads the returned MaybeUninit payload; the return selects initialized 17.",
+      "source": "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs (reused)",
+      "golden": "tests/expected/uninit/closure-zst/scalar-pfc-legal.expected",
+      "failure_count": 0,
+      "witnesses": [
+        "postcondition_target:: + SUCCESS + exact outer ensures Description",
+        "SUMMARY ** 0 of",
+        "VERIFICATION SUCCESSFUL",
+        "one-harness completion"
+      ]
+    },
+    {
+      "old_pointer": "oracles.json#/cases/1",
+      "old_file_root": "tests/expected/uninit/transfer-qualification/legal-pair.rs; legal_ordinary_transfer lines 38-42",
+      "operation": "Ordinary body selects initialized 7, asserts byte 7 and array [1,2,3], ensures line 16, returns 7, and writes out [1,2,3].",
+      "source": "tests/expected/uninit/transfer-qualification/legal-ordinary.rs (split from existing source; helper/contract/body retained)",
+      "golden": "tests/expected/uninit/transfer-qualification/legal-ordinary.expected",
+      "failure_count": 0,
+      "witnesses": [
+        "write_initialized:: + SUCCESS + exact ensures Description",
+        "write_initialized:: body assertion byte == 7 SUCCESS",
+        "write_initialized:: body assertion value == [1,2,3] SUCCESS",
+        "legal_ordinary_transfer assertion.1/.2 SUCCESS for result and out",
+        "SUMMARY ** 0 of",
+        "VERIFICATION SUCCESSFUL",
+        "one-harness completion"
+      ]
+    },
+    {
+      "old_pointer": "oracles.json#/cases/2",
+      "old_file_root": "tests/expected/uninit/transfer-qualification/legal-pair.rs; legal_pfc_transfer old lines 45-49",
+      "operation": "PFC uses the same initialized scalar/array body and contract; selected out write at source line 33 must be allowed; root asserts result 7 and out [1,2,3].",
+      "source": "tests/expected/uninit/transfer-qualification/legal-pfc.rs (split from existing source; helper/contract/body retained)",
+      "golden": "tests/expected/uninit/transfer-qualification/legal-pfc.expected",
+      "failure_count": 0,
+      "witnesses": [
+        "write_initialized:: + SUCCESS + exact ensures Description",
+        "both body assertion SUCCESS blocks",
+        "write_initialized:: + SUCCESS + exact allowed-write Description + source line 33",
+        "legal_pfc_transfer assertion.1/.2 SUCCESS",
+        "SUMMARY ** 0 of",
+        "VERIFICATION SUCCESSFUL",
+        "one-harness completion"
+      ],
+      "limitation": "Private-write source-to-GOTO qualification is not established by the expected fixture alone. The stable function prefix, assigns Description and exact source Location identify the allowed write; generated closure path/ID suffix is deliberately not pinned."
+    },
+    {
+      "old_pointer": "oracles.json#/cases/3",
+      "old_file_root": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs; lawful_modifies_preserves_outside lines 31-37",
+      "operation": "Relay/choose selects initialized 29; ensures result/out 29; only out is written at line 26; outside remains 41.",
+      "source": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs (reused)",
+      "golden": "tests/expected/uninit/private-transfer-frame/lawful-modifies.expected",
+      "failure_count": 0,
+      "witnesses": [
+        "frame_target:: + SUCCESS + ensures result/out 29",
+        "frame_target:: + SUCCESS + exact allowed-write Description + source line 26",
+        "lawful_modifies_preserves_outside assertion.1/.2/.3 SUCCESS (result/out/outside)",
+        "SUMMARY ** 0 of",
+        "VERIFICATION SUCCESSFUL",
+        "one-harness completion"
+      ],
+      "limitation": "The stable function prefix, assigns Description and exact source Location identify the allowed out write; generated closure path/ID suffix is deliberately not pinned. Private-write source-to-GOTO qualification is not established by the expected fixture alone."
+    },
+    {
+      "old_pointer": "oracles.json#/cases/4",
+      "old_file_root": "tests/expected/uninit/closure-zst/scalar-pfc-hole.rs; postcondition_reads_returned_hole line 20",
+      "operation": "Valid MU return selects uninitialized payload; ensures line 14 reads it. Exact outer ensures is a third failure in supplied regular output.",
+      "source": "tests/expected/uninit/closure-zst/scalar-pfc-hole.rs (reused)",
+      "golden": "tests/expected/uninit/closure-zst/scalar-pfc-hole.expected",
+      "failure_count": 3,
+      "witnesses": [
+        "std::ptr::read::<u8>.safety_check.1 + FAILURE + *const u8 description",
+        "std::ptr::read::<u8>.safety_check.4 + FAILURE + u8 description",
+        "postcondition_target:: + FAILURE + exact ensures Description",
+        "Failed Checks rows for all three",
+        "SUMMARY ** 3 of",
+        "VERIFICATION FAILED",
+        "one-harness completion"
+      ],
+      "count_evidence": "Targeted supplied observation observe-43630584079/p2/regular.out: SUMMARY ** 3 of 326; exact 3 failures are two ptr::read safety checks plus the ensures assertion."
+    },
+    {
+      "old_pointer": "oracles.json#/cases/5",
+      "old_file_root": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs; postcondition_reads_returned_hole line 22",
+      "operation": "Valid MU return selects uninitialized payload; ensures line 16 reads it. Exact outer ensures is a third failure in supplied regular output.",
+      "source": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs (reused)",
+      "golden": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+      "failure_count": 3,
+      "witnesses": [
+        "std::ptr::read::<u8>.safety_check.1 + FAILURE + *const u8 description",
+        "std::ptr::read::<u8>.safety_check.4 + FAILURE + u8 description",
+        "postcondition_target:: + FAILURE + exact ensures Description",
+        "Failed Checks rows for all three",
+        "SUMMARY ** 3 of",
+        "VERIFICATION FAILED",
+        "one-harness completion"
+      ],
+      "count_evidence": "Targeted supplied observation observe-43630584079/postcondition-hole/regular.out: SUMMARY ** 3 of 326; exact 3 failures are two ptr::read safety checks plus the ensures assertion."
+    },
+    {
+      "old_pointer": "oracles.json#/cases/6",
+      "old_file_root": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs; frame_negative line 27",
+      "operation": "The line 22 user write to outside is the sole forbidden frame write; line 23 write to out is allowed.",
+      "source": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs (reused; object-bits 12 enabled)",
+      "golden": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+      "failure_count": 1,
+      "witnesses": [
+        "frame_target:: + FAILURE + exact Description + main.rs:22:5",
+        "frame_target:: + SUCCESS + exact Description + main.rs:23:5",
+        "Failed Checks for user outside write",
+        "SUMMARY ** 1 of",
+        "VERIFICATION FAILED",
+        "one-harness completion"
+      ],
+      "limitation": "The matcher cannot bind the numeric assigns suffix without pinning an ephemeral closure path. Its FAILURE/SUCCESS witnesses are bound by frame_target:: prefix, exact assigns Description, and source locations 22:5/23:5; no suffix-only pseudo-check is included."
+    },
+    {
+      "old_pointer": "oracles.json#/cases/7",
+      "old_file_root": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs; clause_pfc_negative line 28",
+      "operation": "Requires helper line 21 evaluates relay(input,input).assume_init() for uninitialized MaybeUninit<u16>.",
+      "source": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs (reused; object-bits 12 enabled)",
+      "golden": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+      "failure_count": 1,
+      "witnesses": [
+        "std::mem::transmute_neo::<std::mem::MaybeUninit<u16>, u16>.safety_check.1 + FAILURE + exact u16 uninitialized-read Description",
+        "Failed Checks exact u16 read",
+        "SUMMARY ** 1 of",
+        "VERIFICATION FAILED",
+        "one-harness completion"
+      ],
+      "limitation": "No std source location/path is pinned; future CI must confirm this is the clause read and not an early protocol/frame/Unsupported failure."
+    }
+  ],
+  "source_change_inventory": [
+    "Removed dual-harness legal-pair.rs/.expected and created legal-ordinary.rs/.expected and legal-pfc.rs/.expected, each with exactly one proof harness.",
+    "Reused the other six Rust inputs; frame and clause kani-flags now pass --object-bits 12 with regular output.",
+    "Strengthened all eight expected files with root check, exact summary failure count, verdict, and one-harness completion.",
+    "No JSON suite, shared matcher, compiler/runtime code, or research record changed."
+  ],
+  "checks": {
+    "rustfmt_wrapper": "Run on the two new Rust inputs and frame/clause inputs as specifically authorized.",
+    "git_diff_check": "PASS",
+    "build_kani_rustc_cargo_compiletest_ci": "NOT_RUN per task."
+  }
+}

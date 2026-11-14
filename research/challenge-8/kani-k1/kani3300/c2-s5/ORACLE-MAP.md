@@ -1,23 +1,33 @@
-# S5 ORACLE-MAP — STOP before deletion
+# S5 semantic oracle map
 
-Machine-readable source/JSON pointers, operations, selectors, required property descriptions/statuses,
-current S4 counts and per-row status are in ORACLE-MAP.json (21 roots/cases).
-This is the first preparation result, not a completed replacement map.
+ORACLE-MAP.json maps all 21 previous cases/roots: old source/JSON pointer/condition,
+unchanged operation/contract/mode, replacement selector, exact N and every required
+failure, useful assertion, permitted write and source cover. The map precedes deletion.
 
-Two missing evidence classes block destructive migration:
+Exact-base observations supplied by the owner at g0 d9a2a40c93, run43630584079, close
+strong p2/postcondition-hole with N=3: both read instrumentation failures (`*const u8`,
+`u8`) plus exact outer ensures17 FAILURE. Replace has N=2, only those two reads,
+no Unsupported, and both return covers SATISFIED in the original input. Hashes/argv/exit
+references are in INPUTS.json and the rows. Observed property totals326/250 do not
+become golden pins; only exact failure N is anchored to the check summary.
 
-- Strong `/cases/4` (p2) and `/cases/5` (postcondition-hole): two mandatory instrumentation failures of one read,
-  `*const u8` and `u8`; the exact outer ensures may be FAILURE or UNREACHABLE under the old oracle.
-  The old checker accepts that specific consequence; it does not establish a single total N.
-  New goldens must select exactly 2 or exactly 3 after current-output confirmation, never accept both.
-- Mode `/roots/0` replace_transfer: UNCLAIMED observation accepts either completed SUCCESS or FAILURE.
-  S4's “mode ok” therefore does not determine verdict, exact N, failed kinds or useful reached checks.
-  Historical five failures include capture/layout defects subsequently changed; importing them is invalid.
+Current S4 capture43621476331 supplies composition N: immutable legal0/hole2,
+ordinary ensures0, PFC legal0/negative3, cycle1, unrelated legal0. This is current S4,
+not the stale C1b inventory. Each portable split retains actual target/contracts,
+initialized/hole values, Move/return behavior and needed helpers. Independent existing
+expected controls remain. legal-pair is replaced by two files, one harness each.
 
-Composition counts were read from current S4 candidate per-root capture summaries, not C1b:
-immutable_legal0, immutable_hole_negative2, ordinary_ensures_legal0, pfc_legal0,
-pfc_negative3 (two reads plus exact ensures41 consequence), cycle_root1,
-unrelated_legal_after_cycle0. Paths moved into single-root files still need native CI validation.
+Useful blocks require consecutive function/root prefix, Status and exact Description.
+Prefix-only generated-function IDs avoid ephemeral closure paths; the exact own
+Description disambiguates body assertions from ensures. Frame checks retain user
+outside/write roles, not verifier-private checks. All fixtures use regular output,
+object-bits12, anchored SUMMARY + ** N of, final verdict and one-harness completion.
+No negative root or copied helper retains covers. Only pure true observation hooks
+are removed; payload reads/assertions stay. Positive mode companions retain the
+SATISFIED witnesses for initialized/uninitialized and base/unrolled paths. Nondet
+branch covers are not replaced with universally quantified assertions.
 
-All existing controls and three suites remain intact. No fixture is declared a replacement.
-Source-to-GOTO causal binding, portability on three hosts, and native candidate/sensitivity results remain NOT_RUN.
+Full inventory/mixed isolation/schema/selector-order relations are explicitly outside
+this expected representation: see MIXED-ISOLATION-DISPOSITION.md and REVIEW.md.
+Portable-candidate execution, native compiletest sensitivity and three-host portability
+remain NOT_RUN; base observations are not new independent proof credit.

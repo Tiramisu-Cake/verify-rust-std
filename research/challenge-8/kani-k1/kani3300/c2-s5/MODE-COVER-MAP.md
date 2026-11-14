@@ -2,7 +2,7 @@
 
 | Old file / root / source cover | New obligation (proposed selectors in ORACLE-MAP.json) |
 | --- | --- |
-| replace.rs / replace_transfer / 42,45 | Actual exact-base result first; Replace support UNCLAIMED. Do not invent failure golden. |
+| replace.rs / replace_transfer / 42,45 | Exact-base N=2 read failures + caller payload SUCCESS. Negative no covers. Initialized role => that own conditional SUCCESS; uninitialized role => separate same-mode false-partition companion N=0, postreturn SUCCESS + SATISFIED cover. Replace support UNCLAIMED. |
 | replace.rs / replace_ordinary / 57,60 | N=0, useful `payload_is_42(&result)` assertion + ensures SUCCESS; both initialized return consumed / uninitialized storage returned SATISFIED. |
 | replace.rs / replace_simple_check / 72,75 | Independent SimpleCheck file, same two SATISFIED source covers and useful assertion/ensures SUCCESS. |
 | recursive.rs / recursive_check / 57,59 + target28,31 | Sole cycle Unsupported, N=1; pure true cover hooks may be removed in this negative copy only. Keep conditional payload assertion and original target recursion/contracts. |
@@ -18,4 +18,4 @@ CC4 isolated-bounded/isolated-recursive-ordinary/mixed-reversed are diagnostic i
 additional exported JSON root selectors. Preserve their code/conditions in the input inventory;
 only one-harness splits become expected selectors after all map blockers close.
 Mixed source order is not observed producer order. See MIXED-ISOLATION-DISPOSITION.md.
-No covers or other source hooks were removed in this preparation.
+Only pure cover!(true, description) hooks are removed from negative Replace/recursive copies. All payload reads and assertions remain; positive copies retain required SATISFIED covers. Six old mode roots map to seven fixtures. The new false-partition companion N=0 is source-justified, native NOT_RUN.

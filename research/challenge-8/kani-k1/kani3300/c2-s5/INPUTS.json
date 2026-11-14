@@ -1,13 +1,13 @@
 {
   "task": "TASK-KANI3300-C2-S5.md",
-  "g0": "a5452f9084",
+  "g0": "d9a2a40c93142753dd76f22683872b2216883d91",
   "base": "3b382c812a1b8541946e6dc732cf04497ebcf995",
   "base_tree": "716a2446684bb56e0a03b7fbe5df26593648a1c8",
   "clone": "/root/kani-fix-3300-c2-s5",
   "branch": "fix/kani-3300-c2-s5",
-  "scope": "S5 only; STOP before deletion",
-  "source_changed": false,
-  "source_commit": null,
+  "scope": "S5 only; blockers resolved by user supplied exact-base report43630584079",
+  "source_changed": true,
+  "source_commit": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
   "allowed": "read-only/static preparation; no build/push/CI; research uncommitted",
   "input_files": [
     {
@@ -126,5 +126,50 @@
       "path": "tests/json-handler/uninit-part1-composition/test_compare.py",
       "sha256": "9a4a22f0286b28aeac75187f6c6eeaca188b873096aba34b529f2e80ee728530"
     }
-  ]
+  ],
+  "execution": "NOT_RUN: local build/push/CI forbidden",
+  "observed_cases": {
+    "p2": {
+      "run": "43630584079",
+      "N": 3,
+      "verdict": "FAILURE",
+      "source": "3b382c812a per owner; supplied observations read only",
+      "files": {
+        "observe-43630584079/p2/argv.json": "7fc18d37e772541baceaf1b9aa8c85a3666865e7bbc4db5f6f7a4b484a00cd86",
+        "observe-43630584079/p2/exit": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "observe-43630584079/p2/export.json": "09084b44a3b1aa18881afabc6ebf0e0cfe948243878d28ededa4d315c64266f9",
+        "observe-43630584079/p2/regular.out": "b0e479562c973b07bc4f718eff128feb4b4e44463e3b7c673abf605cdc078178"
+      }
+    },
+    "postcondition-hole": {
+      "run": "43630584079",
+      "N": 3,
+      "verdict": "FAILURE",
+      "source": "3b382c812a per owner; supplied observations read only",
+      "files": {
+        "observe-43630584079/postcondition-hole/argv.json": "315643ef1239870188171840a0341cbc8cc1b4b3d8f994f686e670e3b2f08e4c",
+        "observe-43630584079/postcondition-hole/exit": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "observe-43630584079/postcondition-hole/export.json": "c8ad811080c0e5e5bfa6c061bff763960901f76cf047ba7c80ba9ab13ca64925",
+        "observe-43630584079/postcondition-hole/regular.out": "ffc167a362130b8302f89d0c0f0089ed2d987dfb5c00b80a444f696079ae180a"
+      }
+    },
+    "replace_transfer": {
+      "run": "43630584079",
+      "N": 2,
+      "verdict": "FAILURE",
+      "source": "3b382c812a per owner; supplied observations read only",
+      "files": {
+        "observe-43630584079/replace_transfer/argv.json": "e5dc10b9bf9609331c7c0602ca30e056606320ff7b47835f83449379e858dc15",
+        "observe-43630584079/replace_transfer/exit": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "observe-43630584079/replace_transfer/export.json": "8718c7a121f6805cb730883711c395e600d6160d63b24ddda3aaf90ad5817af8",
+        "observe-43630584079/replace_transfer/regular.out": "2ebd6490b604975376e92027728357fab7032d7d4ad5ad257e3d745d61f1aeee",
+        "observe-43630584079/replace_transfer/replace.rs": "44b10bf2ef4d961b37b75098ec89246afe608036f4ed4cb8e3c5e70680425600"
+      }
+    }
+  },
+  "source_candidate": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
+  "source_tree": "6a8f2b2e11780445451640eaba8b6a7076686896",
+  "source_worktree_clean": true,
+  "research_commit": "NOT_CREATED",
+  "source_author": "Tiramisu-Cake <igkharin@gmail.com>"
 }

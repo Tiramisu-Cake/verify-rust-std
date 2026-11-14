@@ -13,10 +13,10 @@ not newly independently established proof credit. No historical record or downlo
 
 Single-harness expected can express per-root semantic failures/useful reached successes. It cannot
 express equality of isolated and mixed inventories, selector-order behavior or full export schema.
-Proposed eventual disposition: retain invariant/units plus reviewed unchanged S4 implementation and
+Chosen disposition for coordinator acceptance: retain invariant/units plus reviewed unchanged S4 implementation and
 research evidence; do not recreate the large JSON runner or T1b allowlist under another name.
 Residual end-to-end mixed-inventory regression coverage would decrease. This requires coordinator
 acceptance in REVIEW. Separate success of legal59/61 and cycle does not prove isolation.
 CLI labels A/B and B/A do not establish producer order; no observed producer-order claim is made.
 
-Current disposition: no suite deleted, so no regression coverage reduced yet.
+Deletion will follow completed semantic map and static review. No exported replacement for the full mixed-inventory relation is claimed.

@@ -1,19 +1,32 @@
-# Coordinator handoff — no dispatch performed
+# S5 coordinator CI request — NOT_RUN
 
-Prerequisite: obtain existing exact-base 3b382c812a per-root report for strong p2,
-postcondition-hole (total N and exact outer ensures status), and replace_transfer (completed
-verdict, total N, all failed descriptions/kinds and useful reached checks). S4 suite-level
-“ok” does not supply those facts. Prefer an existing authorized bounded report; this worker
-does not authorize or submit a build, read raw full logs/archives or change budgets.
+The owner supplied missing exact-base report43630584079 at g0 d9a2a40c93.
+Strong p2 and postcondition-hole each have exactly3 failures: both intended reads plus
+outer ensures17. Replace has exactly2 intended reads, no Unsupported; support remains
+UNCLAIMED. Original Replace covers are SATISFIED; portable negative removes pure
+cover hooks and retains both input alternatives and the useful reached assertion.
+Positive same-source ordinary/SimpleCheck companions retain both return-path covers.
 
-After those facts close the map, implement/review portable one-harness fixtures, rebase sensitivity
-patches, then delete only mapped three suites. Preserve per-fixture object-bits12 and experimental
-flags, regular output; no global skip/solver/no-check changes. Run actual discovery/matcher.
+On final source candidate (SHA in RESULT/INPUTS), build once and run fmt/build/clippy.
+Run native compiletest discovery and all22 new/reworked expected normal fixtures (21 old case/root obligations) first,
+with regular output, per-fixture object-bits12 and existing flags/checks/solver.
+Use exact selectors in DISCOVERY-INVENTORY.json. Any unexpected failure, missing
+selector, UNREACHABLE useful assertion or unsatisfied required cover stops acceptance.
+No blessing or --fix-expected, skip, solver/no-check workaround, or stale composition waiver.
 
-Final S5 coordinator CI: fmt/build/clippy; new/reworked expected normal cases first; same built
-Kani/compiletest for four independent sensitivity overlays with exact observed verdict/N/mismatch/exit;
-existing Uninit kani/expected/ui/script; S2 immutable9, S3 reset, S4 delayed_cache6/scope2 units;
-remaining upstream json-handler/schema suites; then existing Linux Quick. No known bound-composition
-waiver once that suite is actually removed. Unexpected failures/UNREACHABLE useful checks or
-missing selectors stop acceptance. Three-platform Gate A remains after S6/freeze, not claimed here.
-All these executions are NOT_RUN by this worker.
+Then use SENSITIVITY-MANIFEST.json: four independent CI-only/test-only overlays,
+same built Kani and native compiletest, original goldens unchanged except sanity overlay.
+Force rerun and separate build/output dirs; record actual native verdict/N, compiletest
+exit and precise expected mismatch. Intentional mutant-selector compiletest FAIL is
+successful sensitivity detection, not a normal test PASS. Setup/compile errors, timeout
+and unrelated Unsupported are invalid experiments. Reuse builds; no rebuild per mutant.
+
+Run existing Uninit kani/expected/ui/script, S2 immutable allocation9 units, S3 reset
+controls, S4 delayed_cache6/delayed_scope2 units, and all remaining upstream JSON-handler
+schema/export tests, then existing Linux Quick. Known bound-composition FAIL is not a
+waiver: that suite is removed after map, and replacements must pass. No new JSON runner.
+
+Mixed-inventory relation is deliberately not asserted by expected; assess the reduced
+end-to-end coverage in MIXED-ISOLATION-DISPOSITION/REVIEW. Three-platform full Gate A
+remains after S6/freeze; one Linux result cannot establish three-host portability.
+No build/push/CI dispatch was performed by this worker.
