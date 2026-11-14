@@ -1,0 +1,34 @@
+{
+  "schema": "kani3300-worker14-r4-inputs/v1",
+  "clone": "/root/kani-fix-3300-worker14",
+  "base_commit": "3912b8e0319754f43bbcd7f2b363ad5cbf0a80c9",
+  "capture_run": "43506774865",
+  "quick_run": "43506779934",
+  "quick_results_source": "user-provided; not rerun",
+  "quick_results": {
+    "kani": {
+      "passed": 22,
+      "failed": 0
+    },
+    "expected": {
+      "passed": 202,
+      "failed": 0
+    },
+    "ui": {
+      "passed": 14,
+      "failed": 0
+    },
+    "script": {
+      "passed": 1,
+      "failed": 0
+    },
+    "json_composition": "FAIL due to pending cycle binding before this change"
+  },
+  "capture_ci_commit": "8b2bca3bed4c643d4a0126de5dedfb2a723b9214",
+  "artifact_directory": "/root/kani3300-h1-ci/m3r3-capture-r4/kani-uninit-part1-composition-clpox3px",
+  "constraints": [
+    "new commit directly on base; no amend",
+    "no cargo/Kani/CI dispatch/push",
+    "do not mutate capture artifacts"
+  ]
+}

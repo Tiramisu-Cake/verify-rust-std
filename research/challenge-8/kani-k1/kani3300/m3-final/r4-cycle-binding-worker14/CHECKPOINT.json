@@ -1,0 +1,24 @@
+{
+  "schema": "kani3300-worker14-r4-checkpoint/v1",
+  "status": "READY",
+  "source_clone": "/root/kani-fix-3300-worker14",
+  "source_sha": "1658f4cadfa83139e41180ce3865e23f79d889aa",
+  "parent_sha": "3912b8e0319754f43bbcd7f2b363ad5cbf0a80c9",
+  "capture_run": "43506774865",
+  "binding_status": "REGRESSION_BOUND",
+  "pending_roots": [],
+  "offline_oracle": "PASS",
+  "mixed_root_oracle": "MATCH_WITH_T1B",
+  "comparisons": {
+    "accepted": 18,
+    "accepted_t1b": 6,
+    "exact": 12,
+    "total": 18
+  },
+  "synthetic_tests_passed": 91,
+  "source_clean": true,
+  "cargo_kani_ci_push": "NOT_RUN",
+  "order_credit": "NOT_ESTABLISHED",
+  "proof_credit": "NONE",
+  "next": "Coordinator may review and integrate this new commit; fresh qualification was not run."
+}

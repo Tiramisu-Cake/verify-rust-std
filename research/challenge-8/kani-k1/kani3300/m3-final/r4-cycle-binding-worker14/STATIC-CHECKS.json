@@ -1,0 +1,33 @@
+{
+  "schema": "kani3300-worker14-r4-static-checks/v1",
+  "base_commit": "3912b8e0319754f43bbcd7f2b363ad5cbf0a80c9",
+  "checks": {
+    "seven_roots_bound": true,
+    "pending_roots": [],
+    "six_r3_bindings_unchanged": true,
+    "fixture_source_and_modes_unchanged": true,
+    "runner_and_oracle_unchanged": true,
+    "validators_and_schemas_unchanged": true,
+    "diff_check": "PASS"
+  },
+  "changed_paths": [
+    "tests/json-handler/uninit-part1-composition/README.md",
+    "tests/json-handler/uninit-part1-composition/roots.json",
+    "tests/json-handler/uninit-part1-composition/test_bindings.py",
+    "tests/json-handler/uninit-part1-composition/test_compare.py"
+  ],
+  "synthetic_tests": {
+    "binding": 10,
+    "composition": 41,
+    "mode_boundaries": 19,
+    "strong_oracles": 21,
+    "total": 91,
+    "status": "PASS"
+  },
+  "offline_oracle": "PASS",
+  "verifier_invocations": 0,
+  "cargo_invocations": 0,
+  "ci_dispatches": 0,
+  "pushes": 0,
+  "source_commit": "1658f4cadfa83139e41180ce3865e23f79d889aa"
+}

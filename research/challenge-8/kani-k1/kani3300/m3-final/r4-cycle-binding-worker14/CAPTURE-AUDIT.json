@@ -1,0 +1,579 @@
+{
+  "artifact_directory": "/root/kani3300-h1-ci/m3r3-capture-r4/kani-uninit-part1-composition-clpox3px",
+  "binding_status": "REGRESSION_BOUND",
+  "capture_ci_commit": "8b2bca3bed4c643d4a0126de5dedfb2a723b9214",
+  "capture_run": "43506774865",
+  "capture_sha256": "823091431890939ba0bd007374500a21fa272e060e19f0fd7b68d9bbe954d352",
+  "capture_source_commit": "3912b8e0319754f43bbcd7f2b363ad5cbf0a80c9",
+  "ci_wrapper_changed_paths": [
+    ".github/workflows/bench-compiler.yml",
+    ".github/workflows/bench-e2e.yml",
+    ".github/workflows/bench-pr.yml",
+    ".github/workflows/cargo-update.yml",
+    ".github/workflows/cbmc-latest.yml",
+    ".github/workflows/cbmc-update.yml",
+    ".github/workflows/charon-update.yml",
+    ".github/workflows/deny.yml",
+    ".github/workflows/extra_jobs.yml",
+    ".github/workflows/format-check.yml",
+    ".github/workflows/kani.yml",
+    ".github/workflows/release.yml",
+    ".github/workflows/slow-tests.yml",
+    ".github/workflows/toolchain-upgrade.yml",
+    ".github/workflows/uninit-quick.yml",
+    ".github/workflows/verify-std-check.yml",
+    ".github/workflows/z3-update.yml"
+  ],
+  "comparison_counts": {
+    "accepted": 18,
+    "accepted_t1b": 6,
+    "exact": 12,
+    "total": 18
+  },
+  "comparisons": [
+    {
+      "accepted": true,
+      "difference_fields": [
+        "checks"
+      ],
+      "exact_match": false,
+      "order": "all_A_then_B",
+      "root": "immutable_legal"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [
+        "checks"
+      ],
+      "exact_match": false,
+      "order": "all_A_then_B",
+      "root": "immutable_hole_negative"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_A_then_B",
+      "root": "ordinary_ensures_legal"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_A_then_B",
+      "root": "pfc_legal"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_A_then_B",
+      "root": "pfc_negative"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_A_then_B",
+      "root": "cycle_root"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [
+        "checks"
+      ],
+      "exact_match": false,
+      "order": "all_A_then_B",
+      "root": "unrelated_legal_after_cycle"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [
+        "checks"
+      ],
+      "exact_match": false,
+      "order": "all_B_then_A",
+      "root": "unrelated_legal_after_cycle"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_B_then_A",
+      "root": "cycle_root"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_B_then_A",
+      "root": "pfc_negative"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_B_then_A",
+      "root": "pfc_legal"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "all_B_then_A",
+      "root": "ordinary_ensures_legal"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [
+        "checks"
+      ],
+      "exact_match": false,
+      "order": "all_B_then_A",
+      "root": "immutable_hole_negative"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [
+        "checks"
+      ],
+      "exact_match": false,
+      "order": "all_B_then_A",
+      "root": "immutable_legal"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "cycle_then_legal",
+      "root": "cycle_root"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "cycle_then_legal",
+      "root": "unrelated_legal_after_cycle"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "legal_then_cycle",
+      "root": "unrelated_legal_after_cycle"
+    },
+    {
+      "accepted": true,
+      "difference_fields": [],
+      "exact_match": true,
+      "order": "legal_then_cycle",
+      "root": "cycle_root"
+    }
+  ],
+  "job_log": "/root/kani3300-h1-ci/m3r3-capture-r4.log",
+  "job_log_sha256": "f348f1428454b822cf3bc76f2d144bc573bcdbe635a897bfda4719c4bdfe56b5",
+  "manifest_sha256": "3dbb1230e99e6c778f7992cee3c73d58afb31fa68cb96e4fbe9c7aae98864e75",
+  "note": "Offline validation of explicitly supplied local capture files only; r4 diagnostic validated against saved exports and regular output; no normalization of cycle text; offline replay PASS is not a fresh CI or C1 qualification.",
+  "offline_replay_exit": 0,
+  "order_credit": "NOT_ESTABLISHED",
+  "original_oracle": "MATCH_WITH_T1B",
+  "original_status": "UNBOUND_CAPTURE",
+  "pending_roots": [],
+  "proof_credit": "NONE",
+  "revalidated_runs": [
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "2b71971eb6cab455d929f89a355c550a76e8e225ac9f6ec4eab571267c5d544b",
+        "receipt.json": "6bd9a0a9436e95692aa32e769c56ce33c044021d76ce81e5716d458ca834d01b",
+        "regular.out": "4a6242394526f4698c6c9ec4178895f3e6c6bdf35c3ff21bc139ea410c21d651"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 45,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "immutable_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 46,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 2,
+          "name": "immutable_hole_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 227,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "ordinary_ensures_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "pfc_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 3,
+          "name": "pfc_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 384,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 1,
+          "name": "cycle_root",
+          "unsupported_count": 1,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 189,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "unrelated_legal_after_cycle",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "all_A_then_B"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "20e86eb6a45a57f2b81128a747456f079b2747a1f817f20ef00f61c8e5d327f6",
+        "receipt.json": "90498dd8b8f100e9d585fd17752aca2efbf810404563727dd2e3e8fc5d69a30c",
+        "regular.out": "e2ed501ee488e28d8485351eced7326fb14b5d9ecb9957b5b0469d4aa27fb97a"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 45,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "immutable_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 46,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 2,
+          "name": "immutable_hole_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 227,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "ordinary_ensures_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "pfc_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        },
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 3,
+          "name": "pfc_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 384,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 1,
+          "name": "cycle_root",
+          "unsupported_count": 1,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 189,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "unrelated_legal_after_cycle",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "all_B_then_A"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "9f4a7efbc135e34bfbefc206fd472dec91768f183f928a76327d9b14ece9c901",
+        "receipt.json": "93af6a382e68fad85b7d2b469bccd1c12047edfe0063328c610904ac62e4d97f",
+        "regular.out": "391c5bb2f6857c301d7f687ba8081ba0baad6f13cbf613a09e8df578220cb249"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 384,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 1,
+          "name": "cycle_root",
+          "unsupported_count": 1,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 186,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "unrelated_legal_after_cycle",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "cycle_then_legal"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "1f2a017f5cd9831badf3de5d2096d7bcd76a365f9cbe383f1a43052bc1211250",
+        "receipt.json": "60aec9a0b5db556f523cfb4a795c7b56f5db56a5c23de8dcf5deb76bc4e794ba",
+        "regular.out": "06ce2b78199108ea659b7ce046823c7b17ddc8f1ad776f9567b5677a09044080"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 384,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 1,
+          "name": "cycle_root",
+          "unsupported_count": 1,
+          "verdict": "FAILURE"
+        }
+      ],
+      "run_id": "isolated-cycle_root"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "a5d56693ab827597aa7137e727260678d2a8f06a82b4ac11dea8c8e0e407158e",
+        "receipt.json": "cc78bdb6c7a62b1a1f4326a2a6f052bbeb90e68974ac1acd7eb66e93a8516529",
+        "regular.out": "2e3a470c8aa123342968db507079724f1d9b4f2b12651409ee8373d824002bcc"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 37,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 2,
+          "name": "immutable_hole_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        }
+      ],
+      "run_id": "isolated-immutable_hole_negative"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "4d253ee35089d7cbf570a0f72f8dcd7b5a7599cf33e57109d80119a68ef48898",
+        "receipt.json": "0936b727ecc596ebe890a6e06fa61b25f85e6837653cc3e96adcb2e7eecc92dd",
+        "regular.out": "d2035ef6062a7f1059ee812d563a5bfd67b4616085185503978ca155a28274ee"
+      },
+      "original_exit": 0,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 39,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "immutable_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-immutable_legal"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "ab9ce318345ebb6dea1e856c262840bbd160e7e8d740ccd03d095f895895ced2",
+        "receipt.json": "28e09daeb040058b7e5a5748e41f78e27e3ca3f76af8aba627a86cdc9755a0f6",
+        "regular.out": "3e2e9b0a8ab369f5abd125f49daebc2ea850a47a2978179b13f3dd1fc6461c71"
+      },
+      "original_exit": 0,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 227,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "ordinary_ensures_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-ordinary_ensures_legal"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "8c6cdbee41ebf87251912bda3feafb5ce6b8a58cb909a6c7258b7ee9ec3c51c2",
+        "receipt.json": "f7703da93bb80c73a9b3a001293e513c73fc804a2076459aeacfc4e04480b1ca",
+        "regular.out": "c768cd399ed9051cffdc540a55b8395715eddc8568a5018505e2188493022a33"
+      },
+      "original_exit": 0,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "pfc_legal",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-pfc_legal"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "a82a38fe7b75990c98122e6399a259ecfdf2e74c112c6b7c15a5122805430666",
+        "receipt.json": "38ff9e9f229d0ae2bcab4140b07b0b8ab0312aca30ca391f0b4cf86f8379d4b1",
+        "regular.out": "c71b75b1c9a346a57692e398a66d0c06c87e55274e893e0daded5303fdcc6be3"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 231,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 3,
+          "name": "pfc_negative",
+          "unsupported_count": 0,
+          "verdict": "FAILURE"
+        }
+      ],
+      "run_id": "isolated-pfc_negative"
+    },
+    {
+      "expected_exit": 0,
+      "files_sha256": {
+        "export.json": "8cdcac70c5e810ea70de696ed50be4b22a42b0e47326a07c7dadabc7c848f9c9",
+        "receipt.json": "10c2af3b334ced4a7433f884f0d7d9821e783039790b5197ecd5a7d6eff09978",
+        "regular.out": "ce1c7eea0a9a43a67f009429fcef9f64f856da350b31b30890efcc29d20c7bd6"
+      },
+      "original_exit": 0,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 186,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "unrelated_legal_after_cycle",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "isolated-unrelated_legal_after_cycle"
+    },
+    {
+      "expected_exit": 1,
+      "files_sha256": {
+        "export.json": "eb3fee2e92caf12931c1cb4d76a153b5da21754dba34e1ea6b76f15a5e4383c4",
+        "receipt.json": "6398486efa7c723acc8d2d51d2c26685b75a5718fb1d8bbb3620a2a4d29fdfc3",
+        "regular.out": "141db67d61f371413e11b8670fcd9065d730924938ab3248d377f926d7d0a598"
+      },
+      "original_exit": 1,
+      "original_receipt_error": null,
+      "revalidation": "COMPLETE_INVENTORY_VALIDATED",
+      "roots": [
+        {
+          "checks": 384,
+          "covers": 0,
+          "failure_kind": "OTHER",
+          "n_failed": 1,
+          "name": "cycle_root",
+          "unsupported_count": 1,
+          "verdict": "FAILURE"
+        },
+        {
+          "checks": 186,
+          "covers": 0,
+          "failure_kind": "NONE",
+          "n_failed": 0,
+          "name": "unrelated_legal_after_cycle",
+          "unsupported_count": 0,
+          "verdict": "SUCCESS"
+        }
+      ],
+      "run_id": "legal_then_cycle"
+    }
+  ],
+  "reviewed_roots": [
+    "immutable_legal",
+    "immutable_hole_negative",
+    "ordinary_ensures_legal",
+    "pfc_legal",
+    "pfc_negative",
+    "cycle_root",
+    "unrelated_legal_after_cycle"
+  ],
+  "schema": "kani3300-worker14-r4-binding-audit/v1",
+  "source_clone": "/root/kani-fix-3300-worker14",
+  "source_commit": "1658f4cadfa83139e41180ce3865e23f79d889aa",
+  "source_sha256": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970",
+  "status": "PASS",
+  "verifier_invocations": 0
+}

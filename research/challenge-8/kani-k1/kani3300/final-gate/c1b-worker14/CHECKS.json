@@ -1,0 +1,36 @@
+{
+  "status": "READY",
+  "worker": "worker14",
+  "base": "1658f4cadfa83139e41180ce3865e23f79d889aa",
+  "commit": "3f2c12f46e9e32899e8d84e89c65cb6483ba685a",
+  "clone": "/root/kani-fix-3300-c1b",
+  "branch": "fix/kani-3300-c1b",
+  "python_suites": [
+    {
+      "command": "python3 -m unittest discover -s tests/json-handler/uninit-contract-oracles -p 'test_*.py'",
+      "passed": 24,
+      "failed": 0
+    },
+    {
+      "command": "python3 -m unittest discover -s tests/json-handler/uninit-part1-composition -p 'test_*.py'",
+      "passed": 53,
+      "failed": 0
+    }
+  ],
+  "git_diff_check": "PASS",
+  "changed_shell_bash_n": "PASS",
+  "local_regular_replay": "PASS",
+  "full_json_replay": "NOT_RUN",
+  "cargo": "NOT_RUN",
+  "kani": "NOT_RUN",
+  "full_gate": "NOT_RUN",
+  "push": "NOT_RUN",
+  "gate_source_run": "43514459160",
+  "log_sha256": "08d4213ec4437cd8a87e22ab17025b414c47dbb38626baa78330e807c02e4787",
+  "artifact_sha256": {
+    "audit.py": "d7998790a0fbc357ed490de8a98f0cf0316ee66501ae5e861e97aad87061db24",
+    "REPLAY.json": "22e855c3062c5ddcb54287d520aa4e632504d15811dec0a6ff103259fa9a0de9",
+    "RESULT.md": "ffcb55e198873fa8e4eda81fd1eb263ff9ab287e1b2ab5b47296a9ff7afc7031",
+    "C1B.patch": "d6134cdc805c3224c9e7bc1a10e1cd0b05a353fee31949f3229d1c58769f1588"
+  }
+}

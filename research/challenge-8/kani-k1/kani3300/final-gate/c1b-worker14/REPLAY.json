@@ -1,0 +1,79 @@
+{
+  "scope": "LOCAL_REGULAR_REPLAY_ONLY; full JSON validation and gate rerun NOT_RUN",
+  "run": "43514459160",
+  "log": "/root/kani3300-h1-ci/gateA-json-failures.log",
+  "log_sha256": "08d4213ec4437cd8a87e22ab17025b414c47dbb38626baa78330e807c02e4787",
+  "manifest_checks": [
+    {
+      "file": "uninit-contract-oracles/oracles.json",
+      "only_canonical_paths_changed": true,
+      "base_sha256": "34c08a26dd508cf75d19dc80c1c17b88e0bbeb54d492a3f6da10af7ee8120d73",
+      "fixed_sha256": "95bd9c4e554d4ae5b79ec72ad2885592f30f10cb0931c2ddeb57015b351e7cd0"
+    },
+    {
+      "file": "uninit-part1-composition/roots.json",
+      "only_canonical_paths_changed": true,
+      "base_sha256": "3dbb1230e99e6c778f7992cee3c73d58afb31fa68cb96e4fbe9c7aae98864e75",
+      "fixed_sha256": "72a8eec6cd95d9a7698869dddf94587a64d7db5628cb5601abe9fd4ee88de706"
+    }
+  ],
+  "oracle_replay": [
+    {
+      "case": "p2",
+      "original_reason": "required regular identity/location mismatch",
+      "required_regular_rows": 2,
+      "canonical_exact_match": true,
+      "original_differences": [
+        {
+          "id": "std::ptr::read::<u8>.safety_check.1",
+          "expected": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+          "actual": "../../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>"
+        },
+        {
+          "id": "std::ptr::read::<u8>.safety_check.4",
+          "expected": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+          "actual": "../../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>"
+        }
+      ]
+    },
+    {
+      "case": "postcondition-hole",
+      "original_reason": "required regular identity/location mismatch",
+      "required_regular_rows": 2,
+      "canonical_exact_match": true,
+      "original_differences": [
+        {
+          "id": "std::ptr::read::<u8>.safety_check.1",
+          "expected": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+          "actual": "../../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>"
+        },
+        {
+          "id": "std::ptr::read::<u8>.safety_check.4",
+          "expected": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>",
+          "actual": "../../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>"
+        }
+      ]
+    },
+    {
+      "case": "clause",
+      "original_reason": "required regular identity/location mismatch",
+      "required_regular_rows": 1,
+      "canonical_exact_match": true,
+      "original_differences": [
+        {
+          "id": "std::mem::transmute_neo::<std::mem::MaybeUninit<u16>, u16>.safety_check.1",
+          "expected": "../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/mod.rs:1279:14 in function std::mem::transmute_neo::<std::mem::MaybeUninit<u16>, u16>",
+          "actual": "../../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/mod.rs:1279:14 in function std::mem::transmute_neo::<std::mem::MaybeUninit<u16>, u16>"
+        }
+      ]
+    }
+  ],
+  "composition_replay": {
+    "root": "immutable_legal",
+    "actual_rows": 39,
+    "expected_rows": 39,
+    "same_ids_statuses_descriptions": true,
+    "original_location_mismatch_count": 10,
+    "canonical_exact_match": true
+  }
+}
