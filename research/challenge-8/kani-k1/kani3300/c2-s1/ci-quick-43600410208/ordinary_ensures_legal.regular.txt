@@ -1,0 +1,1193 @@
+isolated-ordinary_ensures_legal: Reading GOTO program from file /tmp/kani-uninit-part1-composition-onlfvirw/isolated-ordinary_ensures_legal/target/mixed__RNvCsdK45VAvb9Nw_5mixed22ordinary_ensures_legal.out
+isolated-ordinary_ensures_legal: Generating GOTO Program
+isolated-ordinary_ensures_legal: Adding CPROVER library (x86_64)
+isolated-ordinary_ensures_legal: Removal of function pointers and virtual functions
+isolated-ordinary_ensures_legal: Generic Property Instrumentation
+isolated-ordinary_ensures_legal: Running with 12 object bits, 52 offset bits (user-specified)
+isolated-ordinary_ensures_legal: Starting Bounded Model Checking
+isolated-ordinary_ensures_legal: aborting path on assume(false) at file library/kani/src/lib.rs line 63 column 1 function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>> thread 0
+isolated-ordinary_ensures_legal: aborting path on assume(false) at file library/kani/src/lib.rs line 63 column 1 function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>> thread 0
+isolated-ordinary_ensures_legal: Runtime Symex: 0.173304s
+isolated-ordinary_ensures_legal: size of program expression: 10931 steps
+isolated-ordinary_ensures_legal: slicing removed 7524 assignments
+isolated-ordinary_ensures_legal: Generated 639 VCC(s), 267 remaining after simplification
+isolated-ordinary_ensures_legal: Runtime Postprocess Equation: 0.00484424s
+isolated-ordinary_ensures_legal: Passing problem to propositional reduction
+isolated-ordinary_ensures_legal: converting SSA
+isolated-ordinary_ensures_legal: Runtime Convert SSA: 0.031838s
+isolated-ordinary_ensures_legal: Running propositional reduction
+isolated-ordinary_ensures_legal: Post-processing
+isolated-ordinary_ensures_legal: Runtime Post-process: 1.0746e-05s
+isolated-ordinary_ensures_legal: Solving with CaDiCaL 3.0.0
+isolated-ordinary_ensures_legal: 40180 variables, 81763 clauses
+isolated-ordinary_ensures_legal: SAT checker: instance is SATISFIABLE
+isolated-ordinary_ensures_legal: Runtime Solver: 0.00259494s
+isolated-ordinary_ensures_legal: Runtime decision procedure: 0.0352134s
+isolated-ordinary_ensures_legal: Running propositional reduction
+isolated-ordinary_ensures_legal: Solving with CaDiCaL 3.0.0
+isolated-ordinary_ensures_legal: 40181 variables, 81764 clauses
+isolated-ordinary_ensures_legal: SAT checker: instance is SATISFIABLE
+isolated-ordinary_ensures_legal: Runtime Solver: 0.0100701s
+isolated-ordinary_ensures_legal: Runtime decision procedure: 0.0105962s
+isolated-ordinary_ensures_legal: Running propositional reduction
+isolated-ordinary_ensures_legal: Solving with CaDiCaL 3.0.0
+isolated-ordinary_ensures_legal: 40182 variables, 81765 clauses
+isolated-ordinary_ensures_legal: SAT checker: instance is SATISFIABLE
+isolated-ordinary_ensures_legal: Runtime Solver: 0.00500691s
+isolated-ordinary_ensures_legal: Runtime decision procedure: 0.00550175s
+isolated-ordinary_ensures_legal: Running propositional reduction
+isolated-ordinary_ensures_legal: Solving with CaDiCaL 3.0.0
+isolated-ordinary_ensures_legal: 40183 variables, 81766 clauses
+isolated-ordinary_ensures_legal: SAT checker: instance is SATISFIABLE
+isolated-ordinary_ensures_legal: Runtime Solver: 0.00900962s
+isolated-ordinary_ensures_legal: Runtime decision procedure: 0.00951609s
+isolated-ordinary_ensures_legal: Running propositional reduction
+isolated-ordinary_ensures_legal: Solving with CaDiCaL 3.0.0
+isolated-ordinary_ensures_legal: 40184 variables, 81767 clauses
+isolated-ordinary_ensures_legal: SAT checker: instance is SATISFIABLE
+isolated-ordinary_ensures_legal: Runtime Solver: 0.00502663s
+isolated-ordinary_ensures_legal: Runtime decision procedure: 0.00542237s
+isolated-ordinary_ensures_legal: Running propositional reduction
+isolated-ordinary_ensures_legal: Solving with CaDiCaL 3.0.0
+isolated-ordinary_ensures_legal: 40185 variables, 81768 clauses
+isolated-ordinary_ensures_legal: SAT checker: instance is SATISFIABLE
+isolated-ordinary_ensures_legal: Runtime Solver: 0.0130506s
+isolated-ordinary_ensures_legal: Runtime decision procedure: 0.0135569s
+isolated-ordinary_ensures_legal: Running propositional reduction
+isolated-ordinary_ensures_legal: Solving with CaDiCaL 3.0.0
+isolated-ordinary_ensures_legal: 40186 variables, 81769 clauses
+isolated-ordinary_ensures_legal: SAT checker: instance is SATISFIABLE
+isolated-ordinary_ensures_legal: Runtime Solver: 0.00992642s
+isolated-ordinary_ensures_legal: Runtime decision procedure: 0.010428s
+isolated-ordinary_ensures_legal: Running propositional reduction
+isolated-ordinary_ensures_legal: Solving with CaDiCaL 3.0.0
+isolated-ordinary_ensures_legal: 40187 variables, 81770 clauses
+isolated-ordinary_ensures_legal: SAT checker: instance is UNSATISFIABLE
+isolated-ordinary_ensures_legal: Runtime Solver: 0.0429405s
+isolated-ordinary_ensures_legal: Runtime decision procedure: 0.0433402s
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: RESULTS:
+isolated-ordinary_ensures_legal: Check 1: kani::mem_init::MemoryInitializationState::set::<8>.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to add with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 2: kani::mem_init::MemoryInitializationState::set::<8>.assertion.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to subtract with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 3: kani::mem_init::MemoryInitializationState::set::<8>.assertion.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 4: ordinary_contract::{closure#3}.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 23 }"
+isolated-ordinary_ensures_legal: 	 - Location: tests/json-handler/uninit-part1-composition/mixed.rs:27:1 in function ordinary_contract::{closure#3}
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 5: std::ptr::read::<u8>.safety_check.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+isolated-ordinary_ensures_legal: 	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 6: std::ptr::read::<u8>.safety_check.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+isolated-ordinary_ensures_legal: 	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 7: std::ptr::read::<u8>.safety_check.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 8: std::ptr::read::<u8>.safety_check.4
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+isolated-ordinary_ensures_legal: 	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 9: ordinary_contract::{closure#0}.unreachable.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "unreachable code"
+isolated-ordinary_ensures_legal: 	 - Location: tests/json-handler/uninit-part1-composition/mixed.rs:27:1 in function ordinary_contract::{closure#0}
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 10: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: UNREACHABLE
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to multiply with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:230:55 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 11: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.2
+isolated-ordinary_ensures_legal: 	 - Status: UNREACHABLE
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to add with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:230:46 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 12: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.3
+isolated-ordinary_ensures_legal: 	 - Status: UNREACHABLE
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to subtract with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 13: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.4
+isolated-ordinary_ensures_legal: 	 - Status: UNREACHABLE
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to calculate the remainder with a divisor of zero"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 14: kani::mem_init::MemoryInitializationState::set_slice::<1>.arithmetic_overflow.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to calculate the remainder with a divisor of zero"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 15: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.5
+isolated-ordinary_ensures_legal: 	 - Status: UNREACHABLE
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:232:34 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 16: kani::mem_init::MemoryInitializationState::set::<0>.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: UNREACHABLE
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to add with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<0>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 17: kani::mem_init::MemoryInitializationState::set::<0>.assertion.2
+isolated-ordinary_ensures_legal: 	 - Status: UNREACHABLE
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to subtract with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<0>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 18: kani::mem_init::MemoryInitializationState::set::<0>.assertion.3
+isolated-ordinary_ensures_legal: 	 - Status: UNREACHABLE
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<0>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 19: kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 20: kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 21: kani::mem_init::MemoryInitializationState::set::<1>.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to add with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 22: kani::mem_init::MemoryInitializationState::set::<1>.assertion.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to subtract with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 23: kani::mem_init::MemoryInitializationState::set::<1>.assertion.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 24: kani::internal::enter_contract_clause.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to add with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:835:49 in function kani::internal::enter_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 25: ordinary_ensures_legal.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: unsafe { result.assume_init_read() } == 23"
+isolated-ordinary_ensures_legal: 	 - Location: tests/json-handler/uninit-part1-composition/mixed.rs:35:5 in function ordinary_ensures_legal
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 26: kani::mem_init::set_ptr_initialized::<1, bool>.safety_check.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, bool>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 27: kani::mem_init::set_ptr_initialized::<1, bool>.safety_check.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, bool>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 28: ordinary_contract::{closure#2}.unreachable.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "unreachable code"
+isolated-ordinary_ensures_legal: 	 - Location: tests/json-handler/uninit-part1-composition/mixed.rs:27:1 in function ordinary_contract::{closure#2}
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 29: std::fmt::Arguments::<'_>::from_str.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: UNREACHABLE
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to shift left with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/mod.rs:820:38 in function std::fmt::Arguments::<'_>::from_str
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 30: kani::mem_init::set_ptr_initialized::<0, kani::internal::ContractClauseGuard>.safety_check.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<0, kani::internal::ContractClauseGuard>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 31: kani::mem_init::set_ptr_initialized::<0, kani::internal::ContractClauseGuard>.safety_check.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<0, kani::internal::ContractClauseGuard>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 32: kani::mem_init::begin_argument_transfer.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 33: kani::mem_init::begin_argument_transfer.assertion.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: argument_count > 0"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 34: kani::mem_init::set_ptr_initialized::<0, {closure@/home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:27:17: 27:43}>.safety_check.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<0, {closure@/home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:27:17: 27:43}>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 35: kani::mem_init::set_ptr_initialized::<0, {closure@/home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:27:17: 27:43}>.safety_check.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<0, {closure@/home/runner/work/kani/kani/tests/json-handler/uninit-part1-composition/mixed.rs:27:17: 27:43}>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 36: kani::mem_init::set_ptr_initialized::<8, usize>.safety_check.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<8, usize>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 37: kani::mem_init::set_ptr_initialized::<8, usize>.safety_check.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<8, usize>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 38: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 39: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to add with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:479:21 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 40: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to subtract with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:488:28 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 41: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.4
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_last_stored < selected_argument"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 42: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.5
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written < MEM_INIT_STATE.argument_buffer_count"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 43: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.6
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_count > 0"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 44: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.7
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_signature == signature"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 45: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.8
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 46: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 47: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written == 1"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 48: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: argument_count == 0"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 49: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.4
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_layout_size == LAYOUT_SIZE"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 50: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.5
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to add with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:537:25 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 51: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.6
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:539:65 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 52: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:541:21 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 53: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:541:21 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 54: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.7
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to subtract with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:543:17 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 55: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.8
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_selected_argument == usize::MAX"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 56: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.9
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_last_loaded < selected_argument"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 57: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.10
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written == argument_count"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 58: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.11
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: argument_count > 0"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 59: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.12
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_remaining > 0"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 60: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.13
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_count == argument_count"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 61: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.14
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_signature == signature"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 62: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.15
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 63: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to multiply with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:166:60 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 64: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to add with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:166:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 65: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to subtract with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:171:59 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 66: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.4
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to add with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:171:47 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 67: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.5
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to subtract with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 68: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.6
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to calculate the remainder with a divisor of zero"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 69: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.arithmetic_overflow.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to calculate the remainder with a divisor of zero"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 70: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.7
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:173:39 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 71: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.8
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to multiply with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:181:58 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 72: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.9
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to add with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:181:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 73: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.10
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to subtract with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 74: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.11
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to calculate the remainder with a divisor of zero"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 75: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.arithmetic_overflow.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to calculate the remainder with a divisor of zero"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 76: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.12
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:183:34 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 77: ordinary_contract::{closure#1}.unreachable.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "unreachable code"
+isolated-ordinary_ensures_legal: 	 - Location: tests/json-handler/uninit-part1-composition/mixed.rs:27:1 in function ordinary_contract::{closure#1}
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 78: kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>.safety_check.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 79: kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>.safety_check.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 80: kani::mem_init::MemoryInitializationState::set::<96>.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to add with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<96>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 81: kani::mem_init::MemoryInitializationState::set::<96>.assertion.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to subtract with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<96>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 82: kani::mem_init::MemoryInitializationState::set::<96>.assertion.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<96>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 83: kani::mem_init::set_str_ptr_initialized::<1>.safety_check.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:373:17 in function kani::mem_init::set_str_ptr_initialized::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 84: kani::mem_init::set_str_ptr_initialized::<1>.safety_check.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:373:17 in function kani::mem_init::set_str_ptr_initialized::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 85: kani::mem_init::is_ptr_initialized::<1, u8>.safety_check.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:262:22 in function kani::mem_init::is_ptr_initialized::<1, u8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 86: kani::mem_init::is_ptr_initialized::<1, u8>.safety_check.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:262:22 in function kani::mem_init::is_ptr_initialized::<1, u8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 87: kani::internal::exit_contract_clause.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to subtract with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:851:49 in function kani::internal::exit_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 88: kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:416:17 in function kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 89: kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:416:17 in function kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 90: kani::mem_init::MemoryInitializationState::get::<1>.assertion.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to add with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:93:46 in function kani::mem_init::MemoryInitializationState::get::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 91: kani::mem_init::MemoryInitializationState::get::<1>.assertion.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "attempt to subtract with overflow"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:95:29 in function kani::mem_init::MemoryInitializationState::get::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 92: kani::mem_init::MemoryInitializationState::get::<1>.assertion.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:95:22 in function kani::mem_init::MemoryInitializationState::get::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 93: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.array_bounds.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:173:39 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 94: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.array_bounds.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:183:34 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 95: kani::mem_init::MemoryInitializationState::get::<1>.array_bounds.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:95:22 in function kani::mem_init::MemoryInitializationState::get::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 96: kani::mem_init::MemoryInitializationState::set::<0>.array_bounds.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<0>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 97: kani::mem_init::MemoryInitializationState::set::<1>.array_bounds.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 98: kani::mem_init::MemoryInitializationState::set::<96>.array_bounds.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<96>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 99: kani::mem_init::MemoryInitializationState::set::<8>.array_bounds.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 100: kani::mem_init::MemoryInitializationState::set_slice::<1>.array_bounds.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:232:34 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 101: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.array_bounds.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:539:65 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 102: pointer_dereference.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 103: pointer_dereference.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 104: pointer_dereference.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 105: pointer_dereference.4
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 106: pointer_dereference.5
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 107: pointer_dereference.6
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 108: pointer_dereference.7
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 109: pointer_dereference.8
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 110: pointer_dereference.9
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 111: pointer_dereference.10
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 112: pointer_dereference.11
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 113: pointer_dereference.12
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 114: std::ptr::read::<u8>.pointer_dereference.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 115: std::ptr::read::<u8>.pointer_dereference.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 116: std::ptr::read::<u8>.pointer_dereference.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 117: std::ptr::read::<u8>.pointer_dereference.4
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 118: std::ptr::read::<u8>.pointer_dereference.5
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 119: std::ptr::read::<u8>.pointer_dereference.6
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 120: kani::internal::in_contract_clause.pointer_dereference.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 121: kani::internal::in_contract_clause.pointer_dereference.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 122: kani::internal::in_contract_clause.pointer_dereference.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 123: kani::internal::in_contract_clause.pointer_dereference.4
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 124: kani::internal::in_contract_clause.pointer_dereference.5
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 125: kani::internal::in_contract_clause.pointer_dereference.6
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 126: kani::mem_init::begin_argument_transfer.pointer_dereference.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 127: kani::mem_init::begin_argument_transfer.pointer_dereference.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 128: kani::mem_init::begin_argument_transfer.pointer_dereference.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 129: kani::mem_init::begin_argument_transfer.pointer_dereference.4
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 130: kani::mem_init::begin_argument_transfer.pointer_dereference.5
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 131: kani::mem_init::begin_argument_transfer.pointer_dereference.6
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 132: kani::mem_init::begin_argument_transfer.pointer_dereference.7
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 133: kani::mem_init::begin_argument_transfer.pointer_dereference.8
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 134: kani::mem_init::begin_argument_transfer.pointer_dereference.9
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 135: kani::mem_init::begin_argument_transfer.pointer_dereference.10
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 136: kani::mem_init::begin_argument_transfer.pointer_dereference.11
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 137: kani::mem_init::begin_argument_transfer.pointer_dereference.12
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 138: kani::mem_init::begin_argument_transfer.pointer_dereference.13
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 139: kani::mem_init::begin_argument_transfer.pointer_dereference.14
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 140: kani::mem_init::begin_argument_transfer.pointer_dereference.15
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 141: kani::mem_init::begin_argument_transfer.pointer_dereference.16
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 142: kani::mem_init::begin_argument_transfer.pointer_dereference.17
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 143: kani::mem_init::begin_argument_transfer.pointer_dereference.18
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 144: kani::mem_init::begin_argument_transfer.pointer_dereference.19
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 145: kani::mem_init::begin_argument_transfer.pointer_dereference.20
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 146: kani::mem_init::begin_argument_transfer.pointer_dereference.21
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 147: kani::mem_init::begin_argument_transfer.pointer_dereference.22
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 148: kani::mem_init::begin_argument_transfer.pointer_dereference.23
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 149: kani::mem_init::begin_argument_transfer.pointer_dereference.24
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 150: kani::mem_init::begin_argument_transfer.pointer_dereference.25
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 151: kani::mem_init::begin_argument_transfer.pointer_dereference.26
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 152: kani::mem_init::begin_argument_transfer.pointer_dereference.27
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 153: kani::mem_init::begin_argument_transfer.pointer_dereference.28
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 154: kani::mem_init::begin_argument_transfer.pointer_dereference.29
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 155: kani::mem_init::begin_argument_transfer.pointer_dereference.30
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 156: kani::mem_init::begin_argument_transfer.pointer_dereference.31
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 157: kani::mem_init::begin_argument_transfer.pointer_dereference.32
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 158: kani::mem_init::begin_argument_transfer.pointer_dereference.33
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 159: kani::mem_init::begin_argument_transfer.pointer_dereference.34
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 160: kani::mem_init::begin_argument_transfer.pointer_dereference.35
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 161: kani::mem_init::begin_argument_transfer.pointer_dereference.36
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 162: kani::mem_init::begin_argument_transfer.pointer_dereference.37
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 163: kani::mem_init::begin_argument_transfer.pointer_dereference.38
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 164: kani::mem_init::begin_argument_transfer.pointer_dereference.39
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 165: kani::mem_init::begin_argument_transfer.pointer_dereference.40
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 166: kani::mem_init::begin_argument_transfer.pointer_dereference.41
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 167: kani::mem_init::begin_argument_transfer.pointer_dereference.42
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 168: kani::mem_init::begin_argument_transfer.pointer_dereference.43
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 169: kani::mem_init::begin_argument_transfer.pointer_dereference.44
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 170: kani::mem_init::begin_argument_transfer.pointer_dereference.45
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 171: kani::mem_init::begin_argument_transfer.pointer_dereference.46
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 172: kani::mem_init::begin_argument_transfer.pointer_dereference.47
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 173: kani::mem_init::begin_argument_transfer.pointer_dereference.48
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 174: kani::mem_init::begin_argument_transfer.pointer_dereference.49
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 175: kani::mem_init::begin_argument_transfer.pointer_dereference.50
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 176: kani::mem_init::begin_argument_transfer.pointer_dereference.51
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 177: kani::mem_init::begin_argument_transfer.pointer_dereference.52
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 178: kani::mem_init::begin_argument_transfer.pointer_dereference.53
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 179: kani::mem_init::begin_argument_transfer.pointer_dereference.54
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 180: kani::mem_init::begin_argument_transfer.pointer_dereference.55
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 181: kani::mem_init::begin_argument_transfer.pointer_dereference.56
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 182: kani::mem_init::begin_argument_transfer.pointer_dereference.57
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 183: kani::mem_init::begin_argument_transfer.pointer_dereference.58
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 184: kani::mem_init::begin_argument_transfer.pointer_dereference.59
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 185: kani::mem_init::begin_argument_transfer.pointer_dereference.60
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 186: array_bounds.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 187: array_bounds.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 188: array_bounds.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 189: array_bounds.4
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 190: array_bounds.5
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 191: array_bounds.6
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 192: array_bounds.7
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 193: array_bounds.8
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 194: array_bounds.9
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 195: array_bounds.10
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 196: array_bounds.11
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 197: array_bounds.12
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 198: array_bounds.13
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 199: array_bounds.14
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 200: array_bounds.15
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 201: array_bounds.16
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 202: array_bounds.17
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 203: array_bounds.18
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 204: array_bounds.19
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 205: array_bounds.20
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "index out of bounds: the length is less than or equal to the given index"
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 206: kani::internal::enter_contract_clause.pointer_dereference.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 207: kani::internal::enter_contract_clause.pointer_dereference.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 208: kani::internal::enter_contract_clause.pointer_dereference.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 209: kani::internal::enter_contract_clause.pointer_dereference.4
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 210: kani::internal::enter_contract_clause.pointer_dereference.5
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 211: kani::internal::enter_contract_clause.pointer_dereference.6
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 212: kani::internal::enter_contract_clause.pointer_dereference.7
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 213: kani::internal::enter_contract_clause.pointer_dereference.8
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 214: kani::internal::enter_contract_clause.pointer_dereference.9
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 215: kani::internal::enter_contract_clause.pointer_dereference.10
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 216: kani::internal::enter_contract_clause.pointer_dereference.11
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 217: kani::internal::enter_contract_clause.pointer_dereference.12
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 218: kani::internal::exit_contract_clause.pointer_dereference.1
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 219: kani::internal::exit_contract_clause.pointer_dereference.2
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 220: kani::internal::exit_contract_clause.pointer_dereference.3
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 221: kani::internal::exit_contract_clause.pointer_dereference.4
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 222: kani::internal::exit_contract_clause.pointer_dereference.5
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 223: kani::internal::exit_contract_clause.pointer_dereference.6
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 224: kani::internal::exit_contract_clause.pointer_dereference.7
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer NULL"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 225: kani::internal::exit_contract_clause.pointer_dereference.8
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer invalid"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 226: kani::internal::exit_contract_clause.pointer_dereference.9
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: deallocated dynamic object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 227: kani::internal::exit_contract_clause.pointer_dereference.10
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: dead object"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 228: kani::internal::exit_contract_clause.pointer_dereference.11
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: pointer outside object bounds"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Check 229: kani::internal::exit_contract_clause.pointer_dereference.12
+isolated-ordinary_ensures_legal: 	 - Status: SUCCESS
+isolated-ordinary_ensures_legal: 	 - Description: "dereference failure: invalid integer address"
+isolated-ordinary_ensures_legal: 	 - Location: library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: SUMMARY:
+isolated-ordinary_ensures_legal:  ** 0 of 229 failed (9 unreachable)
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: VERIFICATION:- SUCCESSFUL
+isolated-ordinary_ensures_legal: Verification Time: 0.9237053s
+isolated-ordinary_ensures_legal: 
+isolated-ordinary_ensures_legal: Manual Harness Summary:
+isolated-ordinary_ensures_legal: Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+Composition stopped at isolated-ordinary_ensures_legal: compare/binding: Rejected: lost check, extra check, or status/identity drift
+Composition stopped at isolated-ordinary_ensures_legal: compare/binding: Rejected: lost check, extra check, or status/identity drift
