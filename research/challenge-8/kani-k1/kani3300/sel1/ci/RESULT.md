@@ -1,9 +1,3 @@
-# SEL1 replay overlay — READY
+READY e59c3527a852d805a4d1317a400a3229b398eead
 
-READY c9619b15022fb43f1e961e01695e64875ad68fe9
-
-Clone `/root/kani-fix-3300-sel1-replay-w15`, branch `ci/kani3300-sel1-replay-w15`; sole parent exact Gate B′ recipe0c1cc8a7d05184044d496b01f5ed41cebfde0cac. CI-only changes bind Kani46e46583ff112cae9c43aea1ba5dd6145e5e8387 and std overlay6075e7ce17179f45642c9ffe8fe09e3ec9395726, exactly six issued ON rows. Run4 URL/--destination/submodules, original exit/partial receipts and UNKNOWN/manual acceptance are preserved. Jobs1/max-parallel1, no retries; push trigger only requested branch. No production source/std modifications.
-
-Delta: `ci-overlay-delta.patch`, SHA-256cbcb31b360b872d6ed8e8440b0decf15d424cf47f9e6f5f82dff01bea435b27a. Full export, checksum and checked `make-ci-delta.py` are alongside it. Exact-base generation/--check, temporary reverse/check/apply and candidate reverse-check passed.29 service Python tests and7 packaging Python tests passed; independent static review has no blocking findings.
-
-Source commit author/committer Tiramisu-Cake <igkharin@gmail.com>, via git -c; clone clean. Research/package uncommitted for owner. No local builds, actual Kani/rustc/CBMC/Miri, push, dispatch or CI were performed. Six replay outcomes NOT_RUN; proof credit NONE. Quick43605855700 is only owner-reported started, not queried or credited here.
+Source ec85b782a1b7156ad434cfac25403acd4e326dc1; tests-only repair. Delta SHA256d563532e1315780fefdd53fa471b30a60e9d2bf1b5f146f4605153c3865e9409.29 service/7 generator Python tests and delta --check passed. New builds/replay NOT_RUN; no push/CI. See ../followup-43609527860/RESULT.md.

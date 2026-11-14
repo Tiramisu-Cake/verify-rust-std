@@ -1,0 +1,223 @@
+diff --git a/kani-compiler/src/kani_middle/mod.rs b/kani-compiler/src/kani_middle/mod.rs
+index c3fd05680c4ac00280b7c74df684f36d3d0915c7..97d564d378cd640581ecb11b51c071e5d143075a 100644
+--- a/kani-compiler/src/kani_middle/mod.rs
++++ b/kani-compiler/src/kani_middle/mod.rs
+@@ -162,6 +162,8 @@ pub fn has_intrinsic_fallback(instance: Instance) -> bool {
+ /// Layout admission belongs to the local uninit visitor; this only selects the body
+ /// and validates the monomorphized `(bool, T, T) -> T` signature.
+ pub fn select_unpredictable_fallback(tcx: TyCtxt, instance: Instance) -> Option<Ty> {
++    use rustc_hir::definitions::DefPathData;
++
+     if instance.kind != rustc_public::mir::mono::InstanceKind::Intrinsic
+         || instance.intrinsic_name().as_deref() != Some("select_unpredictable")
+         || !has_intrinsic_fallback(instance)
+@@ -169,7 +171,17 @@ pub fn select_unpredictable_fallback(tcx: TyCtxt, instance: Instance) -> Option<
+         return None;
+     }
+     let TyKind::RigidTy(RigidTy::FnDef(def, _)) = instance.ty().kind() else { return None };
+-    if def.name() != "core::intrinsics::select_unpredictable" {
++    // The displayed name can use std's re-export, even for this exact core item.
++    // Match its definition path, as for multi_char_eq_searcher_kind below, rather
++    // than accepting an additional printed spelling or arbitrary bodyful intrinsic.
++    let path = tcx.def_path(rustc_internal::internal(tcx, def.def_id()));
++    if tcx.crate_name(path.krate) != rustc_span::sym::core {
++        return None;
++    }
++    let [module, item] = path.data.as_slice() else { return None };
++    let DefPathData::TypeNs(module) = &module.data else { return None };
++    let DefPathData::ValueNs(item) = &item.data else { return None };
++    if module.as_str() != "intrinsics" || item.as_str() != "select_unpredictable" {
+         return None;
+     }
+     let sig = instance.ty().kind().fn_sig()?.skip_binder();
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 8ae62ba0288612747e502693819026c2b07ed7ec..24f7f78bd1e3795247c7330bba085bc9e55a6219 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -148,7 +148,10 @@ fn transfers_shadow(&self, ty: Ty) -> bool {
+     /// false padding bytes; layout existence alone is not sufficient.
+     fn validate_select_fallback(&self, instance: Instance) -> Result<(), String> {
+         let reject = |reason: String| {
+-            format!("Kani does not support memory initialization of intrinsic `select_unpredictable` for `{}`: {reason}", instance.ty())
++            format!(
++                "Kani does not support memory initialization of intrinsic `select_unpredictable` for `{}`: {reason}",
++                instance.ty()
++            )
+         };
+         let ty = select_unpredictable_fallback(self.tcx, instance).ok_or_else(|| {
+             reject("no usable standard fallback with signature (bool, T, T) -> T.".to_string())
+@@ -591,9 +594,10 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                     }
+                     let sig = instance.ty().kind().fn_sig().unwrap().skip_binder();
+                     if args.len() != sig.inputs().len()
+-                        || args.iter().zip(sig.inputs()).any(|(arg, ty)| {
+-                            arg.ty(&self.locals).unwrap() != *ty
+-                        })
++                        || args
++                            .iter()
++                            .zip(sig.inputs())
++                            .any(|(arg, ty)| arg.ty(&self.locals).unwrap() != *ty)
+                         || destination.ty(&self.locals).unwrap() != sig.output()
+                     {
+                         self.push_target(MemoryInitOp::Unsupported {
+diff --git a/tests/expected/uninit/select-unpredictable-copy-overwrite/controls.inc b/tests/expected/uninit/select-unpredictable-copy-overwrite/controls.inc
+index fc9dce3efa77338ee3a6dc30c2cdc9d14d36a155..555768c35587d3b638878859d67534421182d007 100644
+--- a/tests/expected/uninit/select-unpredictable-copy-overwrite/controls.inc
++++ b/tests/expected/uninit/select-unpredictable-copy-overwrite/controls.inc
+@@ -31,7 +31,7 @@ fn overwriting_selected_hole_reinitializes_result() {
+ }
+ 
+ #[kani::proof]
+-fn overwriting_initialized_destination_with_selected_hole_does_not_retain_true() {
++fn overwrite_hole() {
+     let hole = MaybeUninit::<u8>::uninit();
+     let initialized = MaybeUninit::new(47u8);
+     let mut destination = MaybeUninit::new(43u8);
+diff --git a/tests/expected/uninit/select-unpredictable-copy-overwrite/overwrite_hole.expected b/tests/expected/uninit/select-unpredictable-copy-overwrite/overwrite_hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..4c82bbaba5fab3ef18f35d9376d83331b2715397
+--- /dev/null
++++ b/tests/expected/uninit/select-unpredictable-copy-overwrite/overwrite_hole.expected
+@@ -0,0 +1,9 @@
++Checking harness overwrite_hole...
++- Status: SUCCESS\
++- Description: "destination starts initialized"
++- Status: FAILURE\
++- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++** 1 of
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/select-unpredictable-copy-overwrite/overwrite_hole.rs b/tests/expected/uninit/select-unpredictable-copy-overwrite/overwrite_hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..6dfb44804450cb31fdf94f18b495d68a5fecd73a
+--- /dev/null
++++ b/tests/expected/uninit/select-unpredictable-copy-overwrite/overwrite_hole.rs
+@@ -0,0 +1,9 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular --harness overwrite_hole --exact
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++include!("controls.inc");
+diff --git a/tests/expected/uninit/select-unpredictable-copy-overwrite/overwriting_initialized_destination_with_selected_hole_does_not_retain_true.expected b/tests/expected/uninit/select-unpredictable-copy-overwrite/overwriting_initialized_destination_with_selected_hole_does_not_retain_true.expected
+deleted file mode 100644
+index 29e6a6f30b0173d8b1cbcd082a973f22dd20d0ff..0000000000000000000000000000000000000000
+--- a/tests/expected/uninit/select-unpredictable-copy-overwrite/overwriting_initialized_destination_with_selected_hole_does_not_retain_true.expected
++++ /dev/null
+@@ -1,9 +0,0 @@
+-Checking harness overwriting_initialized_destination_with_selected_hole_does_not_retain_true...
+-- Status: SUCCESS\
+-- Description: "destination starts initialized"
+-- Status: FAILURE\
+-- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+-** 1 of
+-Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
+-VERIFICATION:- FAILED
+-Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/select-unpredictable-copy-overwrite/overwriting_initialized_destination_with_selected_hole_does_not_retain_true.rs b/tests/expected/uninit/select-unpredictable-copy-overwrite/overwriting_initialized_destination_with_selected_hole_does_not_retain_true.rs
+deleted file mode 100644
+index 0ef9cc9d1872a942bc3e46411647bc8ee8a5e5a3..0000000000000000000000000000000000000000
+--- a/tests/expected/uninit/select-unpredictable-copy-overwrite/overwriting_initialized_destination_with_selected_hole_does_not_retain_true.rs
++++ /dev/null
+@@ -1,9 +0,0 @@
+-// Copyright Kani Contributors
+-// SPDX-License-Identifier: Apache-2.0 OR MIT
+-// compile-flags: --edition 2021 -D warnings
+-// kani-flags: -Z uninit-checks --output-format=regular --harness overwriting_initialized_destination_with_selected_hole_does_not_retain_true --exact
+-
+-#![feature(core_intrinsics)]
+-#![allow(internal_features)]
+-
+-include!("controls.inc");
+diff --git a/tests/expected/uninit/select-unpredictable-nested-unsupported/expected b/tests/expected/uninit/select-unpredictable-nested-unsupported/expected
+index 9b422ca5183764873e070ecd2cc25f63c9bd8b08..9ad2dbfdfdf335585e6bda828b05eb05ae64f3bb 100644
+--- a/tests/expected/uninit/select-unpredictable-nested-unsupported/expected
++++ b/tests/expected/uninit/select-unpredictable-nested-unsupported/expected
+@@ -1,8 +1,10 @@
+ Checking harness nested_shadow_layout_remains_unsupported...
+ - Status: FAILURE\
+ - Description: "Kani does not support memory initialization of intrinsic `select_unpredictable`
+-unsupported payload `MaybeUninit<Nested>`
+-Cannot determine layout for a type that contains union of type MaybeUninit<u8> as a field.
++unsupported payload
++MaybeUninit<Nested>
++Cannot determine layout for a type that contains union of type
++MaybeUninit<u8> as a field.
+ ** 1 of
+ Failed Checks: Kani does not support memory initialization of intrinsic `select_unpredictable`
+ VERIFICATION:- FAILED
+diff --git a/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs b/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs
+index a59ef0c69cb7bbbccd0043c3502fab6394904ada..4fa225af45045cc7d7a2a6072d974ce8384cdba4 100644
+--- a/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs
++++ b/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs
+@@ -15,9 +15,8 @@ struct Nested {
+ 
+ #[kani::proof]
+ fn nested_shadow_layout_remains_unsupported() {
+-    let initialized = MaybeUninit::new(Nested {
+-        bytes: [MaybeUninit::new(1), MaybeUninit::new(2)],
+-    });
++    let initialized =
++        MaybeUninit::new(Nested { bytes: [MaybeUninit::new(1), MaybeUninit::new(2)] });
+     let hole = MaybeUninit::<Nested>::uninit();
+     let selected = core::intrinsics::select_unpredictable(true, initialized, hole);
+     let _result_pointer = std::hint::black_box(selected.as_ptr());
+diff --git a/tests/expected/uninit/select-unpredictable-pointer-hole-false/main.rs b/tests/expected/uninit/select-unpredictable-pointer-hole-false/main.rs
+index e0814b0e8d1cc5fe12b7a42ffc9745ef34901837..cc0886a33e5b12869238c366f0519ba3537cebd5 100644
+--- a/tests/expected/uninit/select-unpredictable-pointer-hole-false/main.rs
++++ b/tests/expected/uninit/select-unpredictable-pointer-hole-false/main.rs
+@@ -22,7 +22,7 @@ fn selected_hole_in_false_arm_fails() {
+     kani::cover!(!condition);
+     kani::assert(
+         selected == if condition { initialized.as_ptr() } else { hole.as_ptr() },
+-        "selected raw pointer names the condition's arm"
++        "selected raw pointer names the condition's arm",
+     );
+     let _value = unsafe { selected.read_volatile() }; // False selects the hole.
+ }
+diff --git a/tests/expected/uninit/select-unpredictable-pointer-hole-true/main.rs b/tests/expected/uninit/select-unpredictable-pointer-hole-true/main.rs
+index a4d1f51db8739e4d7eccfe72b72e8aacb854fcf1..9d8da9eccbad181a3869d5d91712e48f326e20da 100644
+--- a/tests/expected/uninit/select-unpredictable-pointer-hole-true/main.rs
++++ b/tests/expected/uninit/select-unpredictable-pointer-hole-true/main.rs
+@@ -22,7 +22,7 @@ fn selected_hole_in_true_arm_fails() {
+     kani::cover!(condition);
+     kani::assert(
+         selected == if condition { hole.as_ptr() } else { initialized.as_ptr() },
+-        "selected raw pointer names the condition's arm"
++        "selected raw pointer names the condition's arm",
+     );
+     let _value = unsafe { selected.read_volatile() }; // True selects the hole.
+ }
+diff --git a/tests/expected/uninit/select-unpredictable-values/expected b/tests/expected/uninit/select-unpredictable-values/expected
+index 5b762216b4b22543689a1aa3fbee8ee929be99b0..a48d6c2213867eb68c80ac8cf80e45e3178f277e 100644
+--- a/tests/expected/uninit/select-unpredictable-values/expected
++++ b/tests/expected/uninit/select-unpredictable-values/expected
+@@ -1,3 +1,6 @@
+ Checking harness selected_scalar_values...
++- Status: SUCCESS\
++- Description: "core and std select paths preserve the chosen value"
++** 0 of
+ VERIFICATION:- SUCCESSFUL
+ Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/select-unpredictable-values/main.rs b/tests/expected/uninit/select-unpredictable-values/main.rs
+index fc2b9ce2a9caf5bf24865802f220dac28a41e68d..7a8167e8adb10477939c64bf4de0a9dc3697136b 100644
+--- a/tests/expected/uninit/select-unpredictable-values/main.rs
++++ b/tests/expected/uninit/select-unpredictable-values/main.rs
+@@ -21,6 +21,13 @@ fn selected_scalar_values() {
+     assert_eq!(select(false, 11u64, 13), 13);
+     assert_eq!(select(condition, true, false), condition);
+     assert_eq!(select(condition, 'a', 'z'), if condition { 'a' } else { 'z' });
++    // Both paths resolve to the same core definition, irrespective of its printed name.
++    let core_value = core::intrinsics::select_unpredictable(condition, 7u8, 9u8);
++    let std_value = std::intrinsics::select_unpredictable(condition, 7u8, 9u8);
++    kani::assert(
++        core_value == (if condition { 7 } else { 9 }) && std_value == core_value,
++        "core and std select paths preserve the chosen value",
++    );
+     kani::cover!(condition);
+     kani::cover!(!condition);
+ }

@@ -27,7 +27,7 @@
     "rss": "Capture per-child max RSS through wait4; if unavailable record null with UNKNOWN status. Do not wrap or alter Kani argv.",
     "scope": "Exactly six named ON rows from issued SEL1 CI-REQUEST; no retries or additional rows.",
     "sort4": "Expected SUCCESS,0 failed checks and useful comparator/frame/readback/return properties reached.",
-    "source_binding": "Exact frozen SEL1 Kani46e46583ff; separate std test overlay6075e7ce17.",
+    "source_binding": "Exact frozen SEL1 tests-only repair Kaniec85b782a1b7156ad434cfac25403acd4e326dc1; std test overlay6075e7ce17 unchanged.",
     "source_overlay": "Apply sel1-test-only.patch once to exact frozen std70ba; validate all five file hashes and base/library identities."
   },
   "owner": "COORDINATOR_ASSIGNMENT_REQUIRED",
@@ -423,6 +423,6 @@
   "test_overlay_commit": "6075e7ce17179f45642c9ffe8fe09e3ec9395726",
   "test_patch_sha256": "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06",
   "tool_binary_model_hashes": null,
-  "tool_export_sha": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
-  "tool_export_tree": "0a46fad6c1adc3022d39e25a45096ed9cd622844"
+  "tool_export_sha": "ec85b782a1b7156ad434cfac25403acd4e326dc1",
+  "tool_export_tree": "0c9e5e67ba0a17128f71af415644f3fad84099d3"
 }

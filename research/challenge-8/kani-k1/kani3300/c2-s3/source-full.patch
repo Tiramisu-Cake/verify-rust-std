@@ -1,0 +1,421 @@
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 63dc0e96a16cb3251b89bad614fe0121b59ca63e..5313e4d0669c8afc7abeabcaa51fc1f0276b5ef1 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -132,6 +132,39 @@ fn transfers_shadow(&self, ty: Ty) -> bool {
+         ty.kind().is_union() || maybe_uninit_storage(self.tcx, ty).is_some()
+     }
+ 
++    /// Nested aggregates have no value-transfer protocol. Reuse the existing layout
++    /// boundary rather than treating every layout error (or generic argument) as a union.
++    fn needs_nested_call_reset(&self, ty: Ty) -> bool {
++        !self.transfers_shadow(ty)
++            && ty.layout().is_ok()
++            && matches!(PointeeInfo::from_ty(ty), Err(LayoutComputationError::UnionAsField(_)))
++    }
++
++    fn reset_nested_call(&mut self, args: &[Operand], destination: &Place, returns: bool) {
++        // The caller must have snapshotted ALL supported arguments before this helper.
++        // Take the address of the actual Move place while its storage is still live.
++        for operand in args {
++            if let Operand::Move(place) = operand
++                && self.needs_nested_call_reset(place.ty(&self.locals).unwrap())
++            {
++                self.push_target(MemoryInitOp::SetRef {
++                    operand: Operand::Copy(place.clone()),
++                    value: false,
++                    position: InsertPosition::Before,
++                });
++            }
++        }
++        if returns && self.needs_nested_call_reset(destination.ty(&self.locals).unwrap()) {
++            // After a Call means its normal continuation edge, never unwind/abort.
++            // Clear exactly this place's full storage, including padding, not pointees.
++            self.push_target(MemoryInitOp::SetRef {
++                operand: Operand::Copy(destination.clone()),
++                value: false,
++                position: InsertPosition::After,
++            });
++        }
++    }
++
+     /// Locate the first union on the projection path, including a union at the end.
+     fn enclosing_union(&self, place: &Place) -> Option<Ty> {
+         let mut prefix = Place::from(place.local);
+@@ -506,7 +539,7 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+         }
+         // Leave it as an exhaustive match to be notified when a new kind is added.
+         match &term.kind {
+-            TerminatorKind::Call { func, args, destination, .. } => 'call: {
++            TerminatorKind::Call { func, args, destination, target, .. } => 'call: {
+                 self.super_terminator(term, location);
+                 let instance = match try_resolve_instance(self.tcx, &self.locals, func) {
+                     Ok(instance) => instance,
+@@ -569,6 +602,12 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                                     reason: format!("Kani does not support shadow-carrying argument or return values of intrinsic `{intrinsic:?}`."),
+                                 });
+                             }
++                            // black_box is a by-value identity in codegen, even though it
++                            // has no pointer-effect model. Its nested values need the same
++                            // conservative boundary as ordinary calls. Forget stays a no-op.
++                            Intrinsic::BlackBox => {
++                                self.reset_nested_call(args, destination, target.is_some());
++                            }
+                             intrinsic_name if can_skip_intrinsic(intrinsic_name.clone()) => {
+                                 /* Intrinsics that can be safely skipped */
+                             }
+@@ -774,6 +813,10 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                                 }
+                             }
+                         }
++                        // Include accepted foreign calls and MIR-backed shims: neither has
++                        // a paired nested protocol. Resolver/early Unsupported paths above
++                        // remain unchanged. This also runs when union_args is empty.
++                        self.reset_nested_call(args, destination, target.is_some());
+                     }
+                     // The shared resolver rejects these before any call-specific effects.
+                     InstanceKind::Virtual { .. } | InstanceKind::LlvmIntrinsic => unreachable!(),
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+index 746baa8b50e29fb30c73e5e8125f99fb303ad214..1cba3ff26fb96d4d9a248c4ef861d8c4d6c82e73 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+@@ -140,12 +140,11 @@ pub(super) fn maybe_uninit_storage(tcx: TyCtxt, ty: Ty) -> Option<Ty> {
+ impl PointeeInfo {
+     /// Deinitializing a sized call operand clears its entire storage, regardless of field masks.
+     pub(super) fn for_deinit(ty: Ty) -> Result<Self, LayoutComputationError> {
+-        let size = ty
+-            .layout()
+-            .map_err(|_| LayoutComputationError::UnknownUnsizedLayout(ty))?
+-            .shape()
+-            .size
+-            .bytes();
++        let layout = ty.layout().map_err(|_| LayoutComputationError::UnknownUnsizedLayout(ty))?;
++        if !layout.shape().is_sized() {
++            return Err(LayoutComputationError::UnknownUnsizedLayout(ty));
++        }
++        let size = layout.shape().size.bytes();
+         Ok(Self { pointee_ty: ty, layout: PointeeLayout::Sized { layout: vec![true; size] } })
+     }
+ 
+diff --git a/tests/expected/uninit/nested-aggregate-reset/moved-from-source.expected b/tests/expected/uninit/nested-aggregate-reset/moved-from-source.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..c0d579440701b1f4d1ba50ddcb43d1fc52b5f4ae
+--- /dev/null
++++ b/tests/expected/uninit/nested-aggregate-reset/moved-from-source.expected
+@@ -0,0 +1,6 @@
++Checking harness moved_from_nested_payload_read_is_rejected...
++** 1 of
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Verification failed for - moved_from_nested_payload_read_is_rejected
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs b/tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..5aefedb06440020453f8c7b4d6efa8255bfecbaf
+--- /dev/null
++++ b/tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs
+@@ -0,0 +1,65 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++use std::mem::MaybeUninit;
++
++#[repr(C)]
++struct Nested {
++    payload: MaybeUninit<u8>,
++    #[allow(dead_code)]
++    marker: u8,
++}
++
++#[inline(never)]
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn relay(_value: Nested) {
++    mir! {
++        { Return() }
++    }
++}
++
++#[inline(never)]
++unsafe fn read_payload(value: *const MaybeUninit<u8>) -> u8 {
++    unsafe { (*value).assume_init() }
++}
++
++// Assemble source field-by-field so the nested aggregate assignment guard does
++// not stop the test before Call(Move(source)). Keep source storage live through
++// the saved-pointer read. A scalar black_box retains the observed payload.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn read_moved_from_source(seed: MaybeUninit<u8>) -> u8 {
++    mir! {
++        type RET = u8;
++        let source: Nested;
++        let saved: *const MaybeUninit<u8>;
++        let _unit: ();
++        let observed: u8;
++
++        {
++            source.payload = Move(seed);
++            source.marker = 3;
++            saved = std::ptr::addr_of!(source.payload);
++            Call(_unit = relay(Move(source)), ReturnTo(after_move), UnwindUnreachable())
++        }
++
++        after_move = {
++            Call(observed = read_payload(saved), ReturnTo(done), UnwindUnreachable())
++        }
++
++        done = {
++            RET = observed;
++            Return()
++        }
++    }
++}
++
++#[kani::proof]
++fn moved_from_nested_payload_read_is_rejected() {
++    std::hint::black_box(unsafe { read_moved_from_source(MaybeUninit::new(42)) });
++}
+diff --git a/tests/expected/uninit/nested-aggregate-reset/reinit-companion.expected b/tests/expected/uninit/nested-aggregate-reset/reinit-companion.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..32ff76966ed70b6cb97ca5e9ef51aa8141c30f2d
+--- /dev/null
++++ b/tests/expected/uninit/nested-aggregate-reset/reinit-companion.expected
+@@ -0,0 +1,3 @@
++Checking harness nested_reset_allows_later_destination_and_source_writes...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs b/tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..278332c4888cd4629f9445c60ab5223947b04bb5
+--- /dev/null
++++ b/tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs
+@@ -0,0 +1,119 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++use std::mem::MaybeUninit;
++
++#[repr(C)]
++struct Nested {
++    payload: MaybeUninit<u8>,
++    #[allow(dead_code)]
++    marker: u8,
++}
++
++#[inline(never)]
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn relay(value: Nested) -> Nested {
++    mir! {
++        type RET = Nested;
++        let payload: MaybeUninit<u8>;
++
++        {
++            payload = Move(value.payload);
++            RET.payload = Move(payload);
++            RET.marker = 0;
++            Return()
++        }
++    }
++}
++
++#[inline(never)]
++unsafe fn read_payload(value: *const MaybeUninit<u8>) -> u8 {
++    unsafe { (*value).assume_init() }
++}
++
++#[inline(never)]
++unsafe fn write_payload(value: *mut MaybeUninit<u8>, byte: u8) {
++    unsafe { (*value).write(byte) };
++}
++
++#[inline(never)]
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn consume_nested(_value: Nested) {
++    mir! {
++        { Return() }
++    }
++}
++
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn repair_destination(hole: MaybeUninit<u8>, repair: MaybeUninit<u8>) -> u8 {
++    mir! {
++        type RET = u8;
++        let destination: Nested;
++        let source: Nested;
++        let pointer: *const MaybeUninit<u8>;
++        let observed: u8;
++
++        {
++            source.payload = Move(hole);
++            source.marker = 1;
++            Call(destination = relay(Move(source)), ReturnTo(after_return), UnwindUnreachable())
++        }
++
++        after_return = {
++            destination.payload = Move(repair);
++            pointer = std::ptr::addr_of!(destination.payload);
++            Call(observed = read_payload(pointer), ReturnTo(done), UnwindUnreachable())
++        }
++
++        done = {
++            RET = observed;
++            Return()
++        }
++    }
++}
++
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn repair_moved_source(seed: MaybeUninit<u8>, repair: u8) -> u8 {
++    mir! {
++        type RET = u8;
++        let source: Nested;
++        let saved: *mut MaybeUninit<u8>;
++        let observed: u8;
++        let _unit: ();
++
++        {
++            source.payload = Move(seed);
++            source.marker = 3;
++            saved = std::ptr::addr_of_mut!(source.payload);
++            Call(_unit = consume_nested(Move(source)), ReturnTo(after_move), UnwindUnreachable())
++        }
++
++        after_move = {
++            Call(_unit = write_payload(saved, repair), ReturnTo(after_repair), UnwindUnreachable())
++        }
++
++        after_repair = {
++            Call(observed = read_payload(saved), ReturnTo(done), UnwindUnreachable())
++        }
++
++        done = {
++            RET = observed;
++            Return()
++        }
++    }
++}
++
++#[kani::proof]
++fn nested_reset_allows_later_destination_and_source_writes() {
++    let destination_value =
++        unsafe { repair_destination(MaybeUninit::uninit(), MaybeUninit::new(55)) };
++    let source_value = unsafe { repair_moved_source(MaybeUninit::new(42), 77) };
++    assert_eq!(destination_value, 55);
++    assert_eq!(source_value, 77);
++}
+diff --git a/tests/expected/uninit/nested-aggregate-reset/repeated-destination.expected b/tests/expected/uninit/nested-aggregate-reset/repeated-destination.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..23829053d0f13d249f6282f673cf18d6e35a0029
+--- /dev/null
++++ b/tests/expected/uninit/nested-aggregate-reset/repeated-destination.expected
+@@ -0,0 +1,6 @@
++Checking harness repeated_destination_hole_return_is_rejected...
++** 1 of
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Verification failed for - repeated_destination_hole_return_is_rejected
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs b/tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..2ce684e136446947de88d237f739e38d982a8e32
+--- /dev/null
++++ b/tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs
+@@ -0,0 +1,87 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++use std::mem::MaybeUninit;
++
++#[repr(C)]
++struct Nested {
++    payload: MaybeUninit<u8>,
++    #[allow(dead_code)]
++    marker: u8,
++}
++
++#[inline(never)]
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn relay(value: Nested) -> Nested {
++    mir! {
++        type RET = Nested;
++        let payload: MaybeUninit<u8>;
++
++        {
++            payload = Move(value.payload);
++            RET.payload = Move(payload);
++            RET.marker = 0;
++            Return()
++        }
++    }
++}
++
++#[inline(never)]
++unsafe fn read_payload(value: *const MaybeUninit<u8>) -> u8 {
++    unsafe { (*value).assume_init() }
++}
++
++// Keep both the destination object and its nested payload slot identical across
++// the two calls. Only the second returned aggregate contains a payload hole.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn reuse_destination(
++    seed: MaybeUninit<u8>,
++    initialized_payload: MaybeUninit<u8>,
++    hole_payload: MaybeUninit<u8>,
++) -> u8 {
++    mir! {
++        type RET = u8;
++        let destination: Nested;
++        let initialized: Nested;
++        let hole: Nested;
++        let pointer: *const MaybeUninit<u8>;
++        let observed: u8;
++
++        {
++            destination.payload = Move(seed);
++            destination.marker = 1;
++            initialized.payload = Move(initialized_payload);
++            initialized.marker = 2;
++            hole.payload = Move(hole_payload);
++            hole.marker = 3;
++            Call(destination = relay(Move(initialized)), ReturnTo(second_call), UnwindUnreachable())
++        }
++
++        second_call = {
++            Call(destination = relay(Move(hole)), ReturnTo(read), UnwindUnreachable())
++        }
++
++        read = {
++            pointer = std::ptr::addr_of!(destination.payload);
++            Call(observed = read_payload(pointer), ReturnTo(done), UnwindUnreachable())
++        }
++
++        done = {
++            RET = observed;
++            Return()
++        }
++    }
++}
++
++#[kani::proof]
++fn repeated_destination_hole_return_is_rejected() {
++    std::hint::black_box(unsafe {
++        reuse_destination(MaybeUninit::new(11), MaybeUninit::new(23), MaybeUninit::uninit())
++    });
++}

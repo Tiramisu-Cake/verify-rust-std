@@ -1,0 +1,125 @@
+{
+  "schema": "kani3300-c2-s3-inputs-v1",
+  "source": {
+    "path": "/root/kani-fix-3300-c2-s3",
+    "branch": "fix/kani-3300-c2-s3",
+    "base": "bf8170b28afb682f8dd55a94199caa247736d8fa",
+    "base_tree": "9ff24911693123853c88cca21a0baf764b63b2bf",
+    "candidate": "86428e9313a8a697482bfd092de61a735a716961",
+    "candidate_tree": "146049f153dd5410d8be7a812b071147c64c2cd0",
+    "author_and_committer": "Tiramisu-Cake <igkharin@gmail.com> via git -c",
+    "clean": true
+  },
+  "g0": {
+    "path": "/root/verify-rust-std-kani3300-g0",
+    "entry_commit": "959f03d10eae173389511132aa4675c7fc5aafb1",
+    "research_committed": false,
+    "preexisting_sel1_changes": "preserved; never staged/committed by this worker"
+  },
+  "baseline_test_only": {
+    "base": "bf8170b28afb682f8dd55a94199caa247736d8fa",
+    "commit": null,
+    "expected_tree": "623062b0c7d9c9dda7a1edd52d8cb86d7c33bcc1",
+    "patch": "baseline-tests.patch",
+    "patch_sha256": "b7e778b38db68d4b31a6dcaa47c1c32b08fa40915d3435d08148c845c1679673",
+    "apply_cached_check": "PASS",
+    "reconstructed_tree_match": "PASS",
+    "production_changes": false,
+    "same_fixture_blobs_as_candidate": true,
+    "historical_first_test_commit": "a328d1d897bf7382c154530db1de7c3687bc5480 (superseded tests; do not run as final baseline)",
+    "candidate_repair_apply_tree_check": "PASS"
+  },
+  "fixtures": [
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/moved-from-source.expected",
+      "blob": "c0d579440701b1f4d1ba50ddcb43d1fc52b5f4ae",
+      "sha256": "04dac1715ba047f70200f716f066676475e2851f99d2398699c3046bd37a6287",
+      "bytes": 315
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs",
+      "blob": "5aefedb06440020453f8c7b4d6efa8255bfecbaf",
+      "sha256": "d3c65fd32b9eb40cd6cbb0e92b37c1b5a30e6c7f2dfa647c437a2c64e02d0ffd",
+      "bytes": 1822
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/reinit-companion.expected",
+      "blob": "32ff76966ed70b6cb97ca5e9ef51aa8141c30f2d",
+      "sha256": "0e5bcb0cae79aabf465ec8f70e27cf083e4224f8ea119df18ccf0fc18c7efa81",
+      "bytes": 169
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs",
+      "blob": "278332c4888cd4629f9445c60ab5223947b04bb5",
+      "sha256": "6e93bb5e2dd054e10deafddfa45ff58ec776178563dc7137138234f5442b4c62",
+      "bytes": 3234
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/repeated-destination.expected",
+      "blob": "23829053d0f13d249f6282f673cf18d6e35a0029",
+      "sha256": "2026e7a4fa39cc7166cd5b1787aac81e56b7835dfec799a3a889ea81c7d96e30",
+      "bytes": 319
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs",
+      "blob": "2ce684e136446947de88d237f739e38d982a8e32",
+      "sha256": "24551ec053d351dc1df050e681ce68a9338683eaa9bb82f68c5d6cc4cb3b1b9f",
+      "bytes": 2447
+    }
+  ],
+  "patches": {
+    "baseline-tests.patch": {
+      "sha256": "b7e778b38db68d4b31a6dcaa47c1c32b08fa40915d3435d08148c845c1679673",
+      "bytes": 10816
+    },
+    "source-full.patch": {
+      "sha256": "2c463a6a6d0639615c6dcbcecfe5d81aae6f1f2208f107fdad18a751d60e5138",
+      "bytes": 16789
+    },
+    "source-repair.patch": {
+      "sha256": "b84846538f501b353d5251cd7a2fd002945e0d838cd828481da1f28571e6e1a2",
+      "bytes": 5973
+    }
+  },
+  "local_validation": {
+    "git_diff_check": "PASS for committed base..HEAD",
+    "allowed_rustfmt": "PASS",
+    "compile_type_borrow_check": "NOT_RUN",
+    "cargo_rustc_Kani_CBMC_Miri_builds": "NOT_RUN",
+    "push": "NOT_RUN",
+    "CI": "NOT_RUN",
+    "Cloud_spend": 0,
+    "static_type_borrow_extent_order_review": "PASS as source inspection; compiler/typecheck NOT_RUN",
+    "fixture_hashes_patch_hashes_JSON_single_harness_flags": "PASS"
+  },
+  "runtime_claims": {
+    "baseline_false_success_pairs": "NOT_RUN",
+    "candidate_intended_failure_pairs": "NOT_RUN",
+    "actual_consumed_MIR_binding": "UNKNOWN",
+    "exact_emitted_failure_counts": "UNKNOWN",
+    "F6_reproduced": false,
+    "F6_accepted_fixed": false,
+    "proof_credit": "NONE"
+  },
+  "docs": "unchanged: narrowing deferred pending two discriminating pairs and source coverage review",
+  "allowed_rustfmt": {
+    "script": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+    "sha256": "50d6185aa821a7f6ea5aceba7cebe1bd517ea323f399a269c5a170b6ac65210d",
+    "exact_arguments": "--edition 2024 --config-path rustfmt.toml <file>"
+  },
+  "assignment": {
+    "path": "research/challenge-8/kani-k1/TASK-KANI3300-C2-S3.md",
+    "sha256": "91a574da688b73c3d03f4df93a6b9e4cc4db9ecf08e88c975c0b84db28c9110f"
+  },
+  "independent_review": {
+    "model": "GPT-6 Luna HIGH",
+    "candidate": "86428e9313a8a697482bfd092de61a735a716961",
+    "packet": "review-packet-final",
+    "canonical_spec_sha256": "5cb2d32da653131c7cccb72bc508b37601a80a740d9ecabc697cc59b725404a4",
+    "packet_sha256": "ee7224caa3b049cb4e92ffa5037214e47e2020e1f96678180dba57bed360cc7b",
+    "packet_check": "PASS",
+    "static_disposition": "No remaining source finding; marker-read concern addressed in test-only delta",
+    "runtime_credit": "NONE",
+    "report": "REVIEW.md"
+  }
+}

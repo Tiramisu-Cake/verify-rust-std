@@ -1,0 +1,121 @@
+{
+  "schema": "kani3300-c2-s3-controls-v1",
+  "execution": "NOT_RUN",
+  "assurance": "source-designed controls; no empirical discrimination or consumed-MIR binding",
+  "same_baseline_candidate_fixture_blobs": true,
+  "flags": "-Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12",
+  "compile_flags": "--edition 2021 -D warnings",
+  "normal_checks": "enabled; no cover summary or disabled checks",
+  "controls": [
+    {
+      "file": "repeated-destination.rs",
+      "harness": "repeated_destination_hole_return_is_rejected",
+      "negative": true,
+      "construction": "custom MIR field assignments and fieldwise return; no whole Nested assignment",
+      "boundary": "two Calls into the same local destination, first initialized source then hole source; destination payload seeded before both",
+      "read_binding": "read_payload(pointer) in reuse_destination::read after second normal return; pointer addresses destination.payload",
+      "expected_baseline": "VERIFICATION SUCCESSFUL (false success); expected selector fails",
+      "expected_candidate": "VERIFICATION FAILED at intended second-return u8 payload read",
+      "provisional_failed_properties": 1,
+      "failure_description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "other_failures_permitted": 0,
+      "actual_failure_count": "UNKNOWN",
+      "duplicate_disposition": "One source read only; emitted local/delayed duplicates UNKNOWN. If present, bind each to same read and review exact count before any goldens change."
+    },
+    {
+      "file": "moved-from-source.rs",
+      "harness": "moved_from_nested_payload_read_is_rejected",
+      "negative": true,
+      "construction": "source payload/marker written by fields; source type is non-Copy",
+      "boundary": "actual custom MIR Operand::Move(source) in Call; saved pointer formed before call; no StorageDead",
+      "read_binding": "read_payload(saved) reads original source.payload storage, never a callee copy or returned aggregate",
+      "expected_baseline": "VERIFICATION SUCCESSFUL (false success); expected selector fails",
+      "expected_candidate": "VERIFICATION FAILED at intended moved-from old-source u8 payload read",
+      "provisional_failed_properties": 1,
+      "failure_description": "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+      "other_failures_permitted": 0,
+      "actual_failure_count": "UNKNOWN",
+      "duplicate_disposition": "One source read only; emitted local/delayed duplicates UNKNOWN. Any other read/failure is not accepted."
+    },
+    {
+      "file": "reinit-companion.rs",
+      "harness": "nested_reset_allows_later_destination_and_source_writes",
+      "negative": false,
+      "boundary": "destination slot rewrite after nested call normal return; saved source-pointer write after actual Move in another helper",
+      "expected_baseline": "SUCCESS with own payload equality assertions",
+      "expected_candidate": "SUCCESS with own payload equality assertions; reset cannot erase later write",
+      "expected_failed_properties": 0,
+      "actual_failure_count": "UNKNOWN"
+    }
+  ],
+  "layout_source_expectations": {
+    "type": "#[repr(C)] Nested { payload: MaybeUninit<u8>, marker: u8 }",
+    "payload_offset": 0,
+    "payload_extent": 1,
+    "Nested_extent": 2,
+    "Nested_align": 1,
+    "actual_layout_binding": "UNKNOWN"
+  },
+  "actual_consumed_MIR_requirements": [
+    "destination local/projection identity on both returns",
+    "actual Move vs Copy at target Call",
+    "saved pointer reaches original live source object",
+    "no whole aggregate guard before target",
+    "retained target read and normal continuation",
+    "exact extent/offset, all snapshots-before-reset and later reinit setters"
+  ],
+  "existing_controls_unchanged": [
+    "maybe-uninit-call-move",
+    "maybe-uninit-call-pairing",
+    "maybe-uninit-call-pairing-unsupported",
+    "maybe-uninit-argument-return",
+    "maybe-uninit-typed-return-padding",
+    "part1-composition/move-return-top-level",
+    "part1-composition/move-return-reinit (known false positive, not UB credit)",
+    "transfer-qualification/normal-abort",
+    "ordinary-slots",
+    "unresolved-calls",
+    "closure-upvars",
+    "contract/PFC/cycle",
+    "immutable and S2 descriptor coalescing"
+  ],
+  "existing_execution": "NOT_RUN",
+  "files": [
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/moved-from-source.expected",
+      "blob": "c0d579440701b1f4d1ba50ddcb43d1fc52b5f4ae",
+      "sha256": "04dac1715ba047f70200f716f066676475e2851f99d2398699c3046bd37a6287",
+      "bytes": 315
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs",
+      "blob": "5aefedb06440020453f8c7b4d6efa8255bfecbaf",
+      "sha256": "d3c65fd32b9eb40cd6cbb0e92b37c1b5a30e6c7f2dfa647c437a2c64e02d0ffd",
+      "bytes": 1822
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/reinit-companion.expected",
+      "blob": "32ff76966ed70b6cb97ca5e9ef51aa8141c30f2d",
+      "sha256": "0e5bcb0cae79aabf465ec8f70e27cf083e4224f8ea119df18ccf0fc18c7efa81",
+      "bytes": 169
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs",
+      "blob": "278332c4888cd4629f9445c60ab5223947b04bb5",
+      "sha256": "6e93bb5e2dd054e10deafddfa45ff58ec776178563dc7137138234f5442b4c62",
+      "bytes": 3234
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/repeated-destination.expected",
+      "blob": "23829053d0f13d249f6282f673cf18d6e35a0029",
+      "sha256": "2026e7a4fa39cc7166cd5b1787aac81e56b7835dfec799a3a889ea81c7d96e30",
+      "bytes": 319
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs",
+      "blob": "2ce684e136446947de88d237f739e38d982a8e32",
+      "sha256": "24551ec053d351dc1df050e681ce68a9338683eaa9bb82f68c5d6cc4cb3b1b9f",
+      "bytes": 2447
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "source": "ec85b782a1b7156ad434cfac25403acd4e326dc1",
+  "source_tree": "0c9e5e67ba0a17128f71af415644f3fad84099d3",
+  "overlay": "e59c3527a852d805a4d1317a400a3229b398eead",
+  "overlay_tree": "bed4a1cffe4f12f86e017fec34276d3cd10f9d9d",
+  "source_scope": [
+    "tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs",
+    "tests/expected/uninit/select-unpredictable-padding/selected_false_padding_stays_uninitialized.expected",
+    "tests/expected/uninit/select-unpredictable-padding/selected_true_padding_stays_uninitialized.expected",
+    "tests/expected/uninit/select-unpredictable-pointer-hole-false/expected",
+    "tests/expected/uninit/select-unpredictable-pointer-hole-true/expected"
+  ],
+  "production_diff": "EMPTY",
+  "golden_delta": "exact u8 -> *const u8 spelling only; own SUCCESS, one FAILURE and verdict retained",
+  "nested_change": "field-local allow(dead_code); exact field type, construction, select and no reads preserved",
+  "rustfmt": "PASS through owner wrapper; --check PASS",
+  "runner_functions": "AST unchanged fromf44ddc431; only pin assignments changed",
+  "workflow_std_patch_and_service_tests": "UNCHANGED",
+  "service_python_tests": {
+    "passed": 29,
+    "failed": 0
+  },
+  "generator_python_tests": {
+    "passed": 7,
+    "failed": 0
+  },
+  "delta_generator_check": "PASS",
+  "delta_reverse_check": "PASS",
+  "delta_sha256": "d563532e1315780fefdd53fa471b30a60e9d2bf1b5f146f4605153c3865e9409",
+  "diff_check": "PASS",
+  "source_and_overlay_clean": true,
+  "author_committer_verified": true,
+  "builds": 0,
+  "push": 0,
+  "ci": 0,
+  "new_native_and_replay_runtime": "NOT_RUN",
+  "proof_credit": "NONE"
+}

@@ -97,7 +97,7 @@ index 9f97f37..bbfba22 100644
            if-no-files-found: error
            retention-days: 7
 diff --git a/scripts/kani3300-replay/CI-REQUEST.json b/scripts/kani3300-replay/CI-REQUEST.json
-index 2cc46de..fc72e83 100644
+index 2cc46de..5a1bff9 100644
 --- a/scripts/kani3300-replay/CI-REQUEST.json
 +++ b/scripts/kani3300-replay/CI-REQUEST.json
 @@ -2,7 +2,7 @@
@@ -121,7 +121,7 @@ index 2cc46de..fc72e83 100644
 -    "source_overlay": "Apply test-only.patch to selected library snapshot after validating base commit/tree and submodule initialization; report patch and all four file hashes."
 +    "scope": "Exactly six named ON rows from issued SEL1 CI-REQUEST; no retries or additional rows.",
 +    "sort4": "Expected SUCCESS,0 failed checks and useful comparator/frame/readback/return properties reached.",
-+    "source_binding": "Exact frozen SEL1 Kani46e46583ff; separate std test overlay6075e7ce17.",
++    "source_binding": "Exact frozen SEL1 tests-only repair Kaniec85b782a1b7156ad434cfac25403acd4e326dc1; std test overlay6075e7ce17 unchanged.",
 +    "source_overlay": "Apply sel1-test-only.patch once to exact frozen std70ba; validate all five file hashes and base/library identities."
    },
    "owner": "COORDINATOR_ASSIGNMENT_REQUIRED",
@@ -492,14 +492,14 @@ index 2cc46de..fc72e83 100644
    "tool_binary_model_hashes": null,
 -  "tool_export_sha": "1658f4cadfa83139e41180ce3865e23f79d889aa",
 -  "tool_export_tree": "bfb5eb9db13ffb91ec4585b7c7ef41ddfe0008fb"
-+  "tool_export_sha": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
-+  "tool_export_tree": "0a46fad6c1adc3022d39e25a45096ed9cd622844"
++  "tool_export_sha": "ec85b782a1b7156ad434cfac25403acd4e326dc1",
++  "tool_export_tree": "0c9e5e67ba0a17128f71af415644f3fad84099d3"
  }
 diff --git a/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json b/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json
-index 924828e..9a79bf9 100644
+index 924828e..98e8e07 100644
 --- a/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json
 +++ b/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json
-@@ -1,22 +1,23 @@
+@@ -1,22 +1,28 @@
  {
    "base": {
 -    "commit": "ac49cf8f62137e25e8cfea04968016e60d6c5906",
@@ -512,8 +512,13 @@ index 924828e..9a79bf9 100644
 +    "tree": "cbb04807c711a9d1bad2ac2dbe1f77538d5658b0"
    },
 -  "delta_against": "exact ac49cf8f62137e25e8cfea04968016e60d6c5906 files; source-binding unchanged",
-+  "delta_against": "exact Gate B-prime0c1cc8a7d05184044d496b01f5ed41cebfde0cac CI paths only; actual Kani source binding46e46583ff112cae9c43aea1ba5dd6145e5e8387",
++  "delta_against": "exact Gate B-prime0c1cc8a7d05184044d496b01f5ed41cebfde0cac CI paths only; actual Kani source bindingec85b782a1b7156ad434cfac25403acd4e326dc1",
    "delta_patch": "ci-overlay-delta.patch",
++  "followup": {
++    "prior_ci_candidate": "f44ddc4313651fc2fd946ea7f4be60280de47cb5",
++    "prior_tool": "b6f1b08eb512ff9006aff7b4924c2e8f13930d70",
++    "reason": "Tests-only volatile-read golden spelling and local unused-field lint repair. Production unchanged; six rows/profile/std/runner logic unchanged."
++  },
    "full_export_file_sha256": {
 -    ".github/workflows/kani3300-replay.yml": "aa9d76cd87af2a220c67df5c54dc2ba3debfa9f5de372236350b92282e4902d7",
 -    "scripts/kani3300-replay/CI-REQUEST.json": "5a769b123e92a1d46962e946bb500e076eb2d528657ebf287df87d7b0f53a55d",
@@ -522,9 +527,9 @@ index 924828e..9a79bf9 100644
 -    "scripts/kani3300-replay/replay.py": "38062b43a135fd103920deca53f805169ee3355879756a0077895a6635773c31",
 -    "scripts/kani3300-replay/test_replay.py": "59ccf304925f4d082201223142b166e07faec6735aacb7df41f7bed4a41c64aa"
 +    ".github/workflows/kani3300-replay.yml": "c5ce5250453078053b33e23cbc3ff4f7132f56c8c8993f9bd895f9947ec805bb",
-+    "scripts/kani3300-replay/CI-REQUEST.json": "8e9c8bf74858fdfd76c24c21e24c039bf11e8cb78d8a8ca39a92cbdf693ac70a",
-+    "scripts/kani3300-replay/replay.py": "766b2986d9f85194c7991c1a15ce5a50cd1d6e6c2bf298c4e3d95cdcddfba1c5",
-+    "scripts/kani3300-replay/sel1-source-binding.json": "f15543e1245347455d38477a8600de64ed95e3098fec9856dd48c7398b967f04",
++    "scripts/kani3300-replay/CI-REQUEST.json": "c96c9bd955d64ca7d79bf40e589db397c2447a2cb460703544647b1c079ca033",
++    "scripts/kani3300-replay/replay.py": "067c9fe9569a35db4d48acc5257042229a4d2983003e81cc2efa6e8a1dec5443",
++    "scripts/kani3300-replay/sel1-source-binding.json": "3e23da10b03a3d659b4cc373fdd53b715397d7161fc35014c12ae197e8530e5f",
 +    "scripts/kani3300-replay/sel1-test-only.patch": "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06",
 +    "scripts/kani3300-replay/test_replay.py": "2256b986945c61532b8ef063bc2f477d83bdf55f02cabd8b90a977a4c1e2ccb3"
    },
@@ -535,7 +540,7 @@ index 924828e..9a79bf9 100644
      "coverage": [
        "success remains UNKNOWN",
        "positive failure exit retained",
-@@ -25,10 +26,17 @@
+@@ -25,10 +31,17 @@
        "atomic receipt survives postprocessing error",
        "missing/partial/null/wrong-type/wrong-selector export",
        "request checksum/patch/file-hash/allowlist/cap validation",
@@ -555,7 +560,7 @@ index 924828e..9a79bf9 100644
    },
    "receipt": {
      "outcome": "UNKNOWN_until_reviewed",
-@@ -41,25 +49,29 @@
+@@ -41,25 +54,29 @@
        "wait4 RSS",
        "stdout/stderr bytes and hashes",
        "export JSON",
@@ -587,12 +592,12 @@ index 924828e..9a79bf9 100644
      ],
 -    "sha256": "5a769b123e92a1d46962e946bb500e076eb2d528657ebf287df87d7b0f53a55d",
 -    "status": "NOT_RUN_C1_FROZEN"
-+    "sha256": "8e9c8bf74858fdfd76c24c21e24c039bf11e8cb78d8a8ca39a92cbdf693ac70a",
++    "sha256": "c96c9bd955d64ca7d79bf40e589db397c2447a2cb460703544647b1c079ca033",
 +    "status": "NOT_RUN_SEL1_FROZEN"
    },
    "run4_recipe": {
      "destination": "$RUNNER_TEMP/kani3300-std",
-@@ -67,11 +79,14 @@
+@@ -67,11 +84,14 @@
      "source": "ac49cf8f62 scripts/kani3300-replay/replay.py prepare_std",
      "submodule_step": "git submodule update --init --depth 1"
    },
@@ -602,16 +607,16 @@ index 924828e..9a79bf9 100644
 -    "c1_sha": "1658f4cadfa83139e41180ce3865e23f79d889aa",
 -    "c1_tree": "bfb5eb9db13ffb91ec4585b7c7ef41ddfe0008fb",
 -    "source_binding_sha256": "cf67542d5ef1bfd9454986f1bba0599dcae4f7168dff47599bf5803df7568c55"
-+    "quick_assurance": "owner-reported started; not queried; not proof acceptance",
-+    "quick_run": "43605855700",
++    "quick_assurance": "Owner excerpts: fmt/build/clippy PASS onb6f1b08eb5;24/29 select controls ok,5 fixture failures; new tests-only repair runtime NOT_RUN",
++    "quick_run": "43609527860",
 +    "source_binding_file": "sel1-source-binding.json",
-+    "source_binding_sha256": "f15543e1245347455d38477a8600de64ed95e3098fec9856dd48c7398b967f04",
-+    "tool_sha": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
-+    "tool_tree": "0a46fad6c1adc3022d39e25a45096ed9cd622844"
++    "source_binding_sha256": "3e23da10b03a3d659b4cc373fdd53b715397d7161fc35014c12ae197e8530e5f",
++    "tool_sha": "ec85b782a1b7156ad434cfac25403acd4e326dc1",
++    "tool_tree": "0c9e5e67ba0a17128f71af415644f3fad84099d3"
    },
    "state": "PREPARATION_ONLY_REVIEW_REQUIRED",
    "std": {
-@@ -79,33 +94,36 @@
+@@ -79,33 +99,36 @@
        "library/core/src/slice/sort/shared/smallsort/verify.rs",
        "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
        "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs",
@@ -661,7 +666,7 @@ index 924828e..9a79bf9 100644
    }
  }
 diff --git a/scripts/kani3300-replay/replay.py b/scripts/kani3300-replay/replay.py
-index 4a70766..2b27fc5 100644
+index 4a70766..42f6671 100644
 --- a/scripts/kani3300-replay/replay.py
 +++ b/scripts/kani3300-replay/replay.py
 @@ -1,9 +1,9 @@
@@ -686,15 +691,15 @@ index 4a70766..2b27fc5 100644
 -C1_TREE = "bfb5eb9db13ffb91ec4585b7c7ef41ddfe0008fb"
 +SOURCE_BINDING = HERE / "sel1-source-binding.json"
 +PATCH = HERE / "sel1-test-only.patch"
-+TOOL_SHA = '46e46583ff112cae9c43aea1ba5dd6145e5e8387'
-+TOOL_TREE = '0a46fad6c1adc3022d39e25a45096ed9cd622844'
++TOOL_SHA = 'ec85b782a1b7156ad434cfac25403acd4e326dc1'
++TOOL_TREE = '0c9e5e67ba0a17128f71af415644f3fad84099d3'
  STD_SHA = "70ba5befc617627073738e26cb1466bd4fb76e41"
  STD_TREE = "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f"
  STD_COMMIT_TREE = "84ab170ccdcc29fba69e55e0a46e6acdf52d9704"
 -PATCH_SHA = "af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5"
 -REQUEST_SHA = "5a769b123e92a1d46962e946bb500e076eb2d528657ebf287df87d7b0f53a55d"
 +PATCH_SHA = '473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06'
-+REQUEST_SHA = '8e9c8bf74858fdfd76c24c21e24c039bf11e8cb78d8a8ca39a92cbdf693ac70a'
++REQUEST_SHA = 'c96c9bd955d64ca7d79bf40e589db397c2447a2cb460703544647b1c079ca033'
 +STD_OVERLAY_SHA = '6075e7ce17179f45642c9ffe8fe09e3ec9395726'
 +STD_OVERLAY_TREE = '12e87bd4a4e141a8f829d8a0519efc09260c5059'
  ROOT_CAP_SECONDS = 2400
@@ -924,10 +929,10 @@ index 4a70766..2b27fc5 100644
                  "std_overlay_sha256": post_std_hashes,
                  "std_test_only_overlay_valid": post_std_valid,
 diff --git a/scripts/kani3300-replay/c1-source-binding.json b/scripts/kani3300-replay/sel1-source-binding.json
-similarity index 58%
+similarity index 57%
 rename from scripts/kani3300-replay/c1-source-binding.json
 rename to scripts/kani3300-replay/sel1-source-binding.json
-index dad456a..c3e26cf 100644
+index dad456a..9ac01ce 100644
 --- a/scripts/kani3300-replay/c1-source-binding.json
 +++ b/scripts/kani3300-replay/sel1-source-binding.json
 @@ -1,14 +1,16 @@
@@ -938,9 +943,9 @@ index dad456a..c3e26cf 100644
 -  "acceptance_assurance": "OWNER_FROZEN_C1; quick qualification source-reported, no independent proof credit",
 -  "export_sha": "1658f4cadfa83139e41180ce3865e23f79d889aa",
 -  "export_tree": "bfb5eb9db13ffb91ec4585b7c7ef41ddfe0008fb",
-+  "acceptance_assurance": "OWNER_ACCEPTED_SEL1_FOR_CI; quick run43605855700 owner-reported started, result not queried; no independent proof credit",
-+  "export_sha": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
-+  "export_tree": "0a46fad6c1adc3022d39e25a45096ed9cd622844",
++  "acceptance_assurance": "Owner quick43609527860 onb6f1b08eb5: fmt/build/clippy PASS,24/29 select controls ok,5 fixture failures; tests-only repair, new runtime NOT_RUN",
++  "export_sha": "ec85b782a1b7156ad434cfac25403acd4e326dc1",
++  "export_tree": "0c9e5e67ba0a17128f71af415644f3fad84099d3",
    "files": {
      ".github/actions/setup/action.yml": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
 -    ".github/workflows/kani.yml": "41799dc8b87557d2077c95dcd7cbcf26180a552aa4afd85e66abbc97843a6b48",
@@ -948,10 +953,10 @@ index dad456a..c3e26cf 100644
 +    ".github/workflows/kani.yml": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
 +    "Cargo.lock": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
 +    "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs": "c0729827d6bb585e974dbb4b2ebf1078ecb9e829af8d9ecdc722921cfa994d7c",
-+    "kani-compiler/src/kani_middle/mod.rs": "38aae9da52ef2fa5c440f61e525f8ca476dbe190e21ba8b073b4d86d315e7ead",
++    "kani-compiler/src/kani_middle/mod.rs": "714a25787650cfa212bec56a246f9208df4a10b3d0d301a9b6d8f8c67ccdb36e",
 +    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs": "9857ce811b154b1211ba8430eccc5bfeab7b59e6454851c2d6ce61b963235a1d",
 +    "kani-compiler/src/kani_middle/reachability.rs": "3070ac455b25d8c96204d54f8fbe43a53890aa7847d31deb3aee2021f98a6499",
-+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": "51f57838dfb955c68ccabd7a24112e5901502ea45147172085f8ab4e0727cd72",
++    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": "a00f6a98b2af3ada2c3c7da157653d68e63a5509dc9328aae413b40153b5b4c5",
      "kani-dependencies": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
      "library/kani_core/src/mem.rs": "598428730a32f2c4034091688b50dde5a44deb69e2e3c61e08a0d394a5e42844",
      "library/kani_core/src/mem_init.rs": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
@@ -996,11 +1001,11 @@ index dad456a..c3e26cf 100644
 -    "kani-driver": "c214b9ff3402e7d6b14f874b1ff5279a56075207",
 -    "tools": "685b2c10e086ab6552aef098e2424d1ee1224653",
 -    "scripts": "7d1c75c2a5ba49102a2efa7e6d9facc47675efd2"
-+    "kani-compiler": "af28d4589ca9003f86fade8bf26e792c5a306802",
++    "kani-compiler": "ed746ced0585f22b46654e7544803fe17c9ed59a",
 +    "kani-driver": "f05085b98bda414ea7ceb9de96317cceeb39863f",
 +    "library": "eeae80b128033f335183b587eab19ec83ddcfcd5",
 +    "scripts": "17ce41a6b9744224defd3a87247736f82992e550",
-+    "tests": "56e552e9ef57238f7e3c75bfab05d4df0c86f160",
++    "tests": "94aa9d446777c11d085d57d2c59fdcecf4de52ef",
 +    "tools": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99"
    }
  }

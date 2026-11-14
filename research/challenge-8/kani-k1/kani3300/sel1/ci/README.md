@@ -1,10 +1,10 @@
 # SEL1 six-row replay CI overlay
 
-Preparation only. Local candidate `c9619b15022fb43f1e961e01695e64875ad68fe9`, tree `e17787b7ef41250e8e55bb90e2fc7f5d254943ba`, sole parent Gate B′ recipe `0c1cc8a7d05184044d496b01f5ed41cebfde0cac` (tree `cbb04807c711a9d1bad2ac2dbe1f77538d5658b0`). Clone `/root/kani-fix-3300-sel1-replay-w15`, local branch `ci/kani3300-sel1-replay-w15`. Original recipe clone/HEAD were left unchanged. Author and committer: Tiramisu-Cake <igkharin@gmail.com>, through git -c.
+Preparation only. Current local candidate `e59c3527a852d805a4d1317a400a3229b398eead`, tree `bed4a1cffe4f12f86e017fec34276d3cd10f9d9d`, cumulative CI delta against exact Gate B′ recipe `0c1cc8a7d05184044d496b01f5ed41cebfde0cac` (tree `cbb04807c711a9d1bad2ac2dbe1f77538d5658b0`). Clone `/root/kani-fix-3300-sel1-replay-w15`, local branch `ci/kani3300-sel1-replay-w15`. Original recipe clone/HEAD were left unchanged. Author and committer: Tiramisu-Cake <igkharin@gmail.com>, through git -c.
 
 `ci-overlay-delta.patch` is a Git-apply delta against that exact recipe, not a full Kani source patch. Its checksum is in `ci-overlay-delta.patch.sha256`; seven destination files are in `full-export/`. It replaces the old C1 binding/patch with `sel1-source-binding.json`/`sel1-test-only.patch`. The committed overlay changes only `.github/workflows/kani3300-replay.yml` and `scripts/kani3300-replay/`.
 
-Kani is bound to `46e46583ff112cae9c43aea1ba5dd6145e5e8387`, tree `0a46fad6c1adc3022d39e25a45096ed9cd622844`. The workflow separately checks out/builds this exact clean export. The CI recipe's own historical compiler tree is not the tool being built. The owner's quick run43605855700 was reported started; no status was queried here and no quick acceptance is inferred.
+Kani is bound to `ec85b782a1b7156ad434cfac25403acd4e326dc1`, tree `0c9e5e67ba0a17128f71af415644f3fad84099d3`. This tests-only followup corrects four volatile-read golden spellings and one unused-field lint; production is byte-identical to priorb6f1b08eb5. See ../followup-43609527860/RESULT.md. Quick43609527860 reported fmt/build/clippy PASS and24/29 select controls ok with5 fixture failures; new native/replay outcomes remain NOT_RUN.
 
 Std stays at frozen `70ba5befc617627073738e26cb1466bd4fb76e41`; the embedded full test-only patch reproduces overlay `6075e7ce17179f45642c9ffe8fe09e3ec9395726`, library tree `12e87bd4a4e141a8f829d8a0519efc09260c5059`. The wrapper checks the exact base/patch and all five changed-file hashes. It retains run4's URL `https://github.com/Tiramisu-Cake/verify-rust-std.git`, string URL argument, `--destination "$RUNNER_TEMP/kani3300-std"` and `git submodule update --init --depth 1`.
 
@@ -28,4 +28,6 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -q test_make_ci_delta.py
 
 Run service tests from `full-export/scripts/kani3300-replay/` or the candidate's corresponding directory with `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_replay.py`.
 
-`REPLAY-CI-OVERLAY.json` binds request/source/std/workflow/file identities; `VALIDATION.json` records static/Python checks. `independent-review.md` is the independent static correctness review. The delta's runtime builds/verification and binary hashes remain NOT_RUN/pending. No local builds, Kani/rustc/CBMC/Miri, source push, CI dispatch or Cloud execution took place. Research here remains uncommitted for the owner; no production tool/std changes were made.
+`REPLAY-CI-OVERLAY.json` binds request/source/std/workflow/file identities; `VALIDATION.json` records static/Python checks. `independent-review.md` is the prior static review; ../followup-43605855700/independent-review.md binds the current source/replay delta. The delta's runtime builds/verification and binary hashes remain NOT_RUN/pending. No local builds, Kani/rustc/CBMC/Miri, source push, CI dispatch or Cloud execution took place. Research here remains uncommitted for the owner; no production tool/std changes were made.
+
+Latest binding/static validation: ../followup-43609527860/VALIDATION.json. Prior independent reviews apply to unchanged production/runner semantics; this delta only adjusts test fixtures and pins.

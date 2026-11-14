@@ -1,3 +1,17 @@
+# Latest tests-only followup43609527860
+
+READY `ec85b782a1b7156ad434cfac25403acd4e326dc1` + replay `e59c3527a852d805a4d1317a400a3229b398eead`. Four goldens and one field lint fixed; production unchanged. See [result](followup-43609527860/RESULT.md). New runtime NOT_RUN; no builds/push/CI.
+
+Previous results below are historical.
+
+# Latest SEL1 quick followup43605855700
+
+READY `b6f1b08eb512ff9006aff7b4924c2e8f13930d70` + replay `f44ddc4313651fc2fd946ea7f4be60280de47cb5`.
+
+Printed-name classifier mismatch, long overwrite test name and reported rustfmt failures corrected; see [followup result](followup-43605855700/RESULT.md) and [cause](followup-43605855700/ROOT-CAUSE.md). New runtime outcomes NOT_RUN; prior quick on46e46583ff FAILED.29 service Python tests/7 generator tests and formatter/static checks passed; no builds/push/CI.
+
+The initial preparation result below is historical and superseded by this followup.
+
 # SEL1 result — preparation complete
 
 READY `46e46583ff112cae9c43aea1ba5dd6145e5e8387`

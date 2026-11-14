@@ -6,7 +6,7 @@ Each exact selector is run alone for the acceptance oracle. Source/expected file
 | --- | --- | ---: | --- |
 | select-unpredictable-copy-overwrite | `copy_sources_remain_initialized` | 0 | SUCCESS |
 | select-unpredictable-copy-overwrite | `overwriting_selected_hole_reinitializes_result` | 0 | SUCCESS |
-| select-unpredictable-copy-overwrite | `overwriting_initialized_destination_with_selected_hole_does_not_retain_true` | 1 | FAILURE |
+| select-unpredictable-copy-overwrite | `overwrite_hole` | 1 | FAILURE |
 | select-unpredictable-delayed-padding | `write_through_selected_pointer_leaves_true_source_padding_hole` | 1 | FAILURE |
 | select-unpredictable-delayed-padding | `write_through_selected_pointer_leaves_false_source_padding_hole` | 1 | FAILURE |
 | select-unpredictable-hint-wrapper | `hint_wrapper_u8_uses_all_internal_selects` | 0 | SUCCESS |
@@ -43,3 +43,5 @@ No source fixture can select compiler-state absent/overridden fallback or legal 
 Total: 29 native selectors in12 new groups, plus6 named std rows. All compile/Kani/verdict/coverage outcomes NOT_RUN.
 
 Final fixture paths and per-selector expected files are in CONTROL-MANIFEST.json. Shared controls.inc retains the reviewed Rust items; root wrapper crate flags/features are preserved.
+
+Followup43605855700: current sourceb6f1b08eb512ff9006aff7b4924c2e8f13930d70; overwrite_hole is the shortened existing selector, not a removed control; still29 roots, all new outcomes NOT_RUN.

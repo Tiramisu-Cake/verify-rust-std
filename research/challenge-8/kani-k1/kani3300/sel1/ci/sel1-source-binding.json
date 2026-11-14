@@ -1,16 +1,16 @@
 {
-  "acceptance_assurance": "OWNER_ACCEPTED_SEL1_FOR_CI; quick run43605855700 owner-reported started, result not queried; no independent proof credit",
-  "export_sha": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
-  "export_tree": "0a46fad6c1adc3022d39e25a45096ed9cd622844",
+  "acceptance_assurance": "Owner quick43609527860 onb6f1b08eb5: fmt/build/clippy PASS,24/29 select controls ok,5 fixture failures; tests-only repair, new runtime NOT_RUN",
+  "export_sha": "ec85b782a1b7156ad434cfac25403acd4e326dc1",
+  "export_tree": "0c9e5e67ba0a17128f71af415644f3fad84099d3",
   "files": {
     ".github/actions/setup/action.yml": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
     ".github/workflows/kani.yml": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
     "Cargo.lock": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
     "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs": "c0729827d6bb585e974dbb4b2ebf1078ecb9e829af8d9ecdc722921cfa994d7c",
-    "kani-compiler/src/kani_middle/mod.rs": "38aae9da52ef2fa5c440f61e525f8ca476dbe190e21ba8b073b4d86d315e7ead",
+    "kani-compiler/src/kani_middle/mod.rs": "714a25787650cfa212bec56a246f9208df4a10b3d0d301a9b6d8f8c67ccdb36e",
     "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs": "9857ce811b154b1211ba8430eccc5bfeab7b59e6454851c2d6ce61b963235a1d",
     "kani-compiler/src/kani_middle/reachability.rs": "3070ac455b25d8c96204d54f8fbe43a53890aa7847d31deb3aee2021f98a6499",
-    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": "51f57838dfb955c68ccabd7a24112e5901502ea45147172085f8ab4e0727cd72",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": "a00f6a98b2af3ada2c3c7da157653d68e63a5509dc9328aae413b40153b5b4c5",
     "kani-dependencies": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
     "library/kani_core/src/mem.rs": "598428730a32f2c4034091688b50dde5a44deb69e2e3c61e08a0d394a5e42844",
     "library/kani_core/src/mem_init.rs": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
@@ -49,11 +49,11 @@
   "schema": "kani3300-gate-binding-v1",
   "state": "SEL1_FROZEN_FOR_CI",
   "subtrees": {
-    "kani-compiler": "af28d4589ca9003f86fade8bf26e792c5a306802",
+    "kani-compiler": "ed746ced0585f22b46654e7544803fe17c9ed59a",
     "kani-driver": "f05085b98bda414ea7ceb9de96317cceeb39863f",
     "library": "eeae80b128033f335183b587eab19ec83ddcfcd5",
     "scripts": "17ce41a6b9744224defd3a87247736f82992e550",
-    "tests": "56e552e9ef57238f7e3c75bfab05d4df0c86f160",
+    "tests": "94aa9d446777c11d085d57d2c59fdcecf4de52ef",
     "tools": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99"
   }
 }

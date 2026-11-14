@@ -1,6 +1,6 @@
 {
   "schema": "kani3300-sel1-controls-v1",
-  "candidate": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
+  "candidate": "ec85b782a1b7156ad434cfac25403acd4e326dc1",
   "groups": 12,
   "selector_count": 29,
   "state": "NOT_RUN",
@@ -36,8 +36,8 @@
       "expected_file": "tests/expected/uninit/select-unpredictable-copy-overwrite/overwriting_selected_hole_reinitializes_result.expected"
     },
     {
-      "file": "tests/expected/uninit/select-unpredictable-copy-overwrite/overwriting_initialized_destination_with_selected_hole_does_not_retain_true.rs",
-      "selector": "overwriting_initialized_destination_with_selected_hole_does_not_retain_true",
+      "file": "tests/expected/uninit/select-unpredictable-copy-overwrite/overwrite_hole.rs",
+      "selector": "overwrite_hole",
       "expected_result": "FAILURE",
       "expected_failed_properties": 1,
       "failure_kind": "Uninit",
@@ -50,7 +50,7 @@
       "state": "NOT_RUN",
       "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
       "shared_source": "tests/expected/uninit/select-unpredictable-copy-overwrite/controls.inc",
-      "expected_file": "tests/expected/uninit/select-unpredictable-copy-overwrite/overwriting_initialized_destination_with_selected_hole_does_not_retain_true.expected"
+      "expected_file": "tests/expected/uninit/select-unpredictable-copy-overwrite/overwrite_hole.expected"
     },
     {
       "file": "tests/expected/uninit/select-unpredictable-delayed-padding/write_through_selected_pointer_leaves_true_source_padding_hole.rs",
@@ -353,7 +353,7 @@
       "expected_failed_properties": 1,
       "failure_kind": "Uninit",
       "failure_descriptions": [
-        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+        "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
       ],
       "required_success_descriptions": [
         "true-arm typed fields are readable before padding check"
@@ -371,7 +371,7 @@
       "expected_failed_properties": 1,
       "failure_kind": "Uninit",
       "failure_descriptions": [
-        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+        "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
       ],
       "required_success_descriptions": [
         "false-arm typed fields are readable before padding check"
@@ -389,7 +389,7 @@
       "expected_failed_properties": 1,
       "failure_kind": "Uninit",
       "failure_descriptions": [
-        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+        "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
       ],
       "required_success_descriptions": [
         "selected raw pointer names the condition's arm"
@@ -405,7 +405,7 @@
       "expected_failed_properties": 1,
       "failure_kind": "Uninit",
       "failure_descriptions": [
-        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+        "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
       ],
       "required_success_descriptions": [
         "selected raw pointer names the condition's arm"
@@ -461,7 +461,9 @@
       "expected_failed_properties": 0,
       "failure_kind": null,
       "failure_descriptions": [],
-      "required_success_descriptions": [],
+      "required_success_descriptions": [
+        "core and std select paths preserve the chosen value"
+      ],
       "state": "NOT_RUN",
       "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
       "expected_file": "tests/expected/uninit/select-unpredictable-values/expected"
@@ -497,5 +499,6 @@
     "Existing conflict diagnostics, B1 fn-pointer/trait-object and pending loads/checks are unchanged; request full original suites, no golden or check weakening."
   ],
   "std_controls": "Six additional named ON selectors in CI-REQUEST.json/TARGET-GATE-MAP.md; source hashes in STD-OVERLAY.json.",
-  "expected_matching_limit": "Each multi-harness Rust source is shared through controls.inc; a per-selector .rs wrapper selects --harness NAME --exact and has its own .expected with one harness total. Single-root groups remain main.rs/expected. Count/status/description cannot be borrowed from another harness output. Expected patterns still use substring matching and never full total-property inventories."
+  "expected_matching_limit": "Each multi-harness Rust source is shared through controls.inc; a per-selector .rs wrapper selects --harness NAME --exact and has its own .expected with one harness total. Single-root groups remain main.rs/expected. Count/status/description cannot be borrowed from another harness output. Expected patterns still use substring matching and never full total-property inventories.",
+  "prior_candidate": "b6f1b08eb512ff9006aff7b4924c2e8f13930d70"
 }

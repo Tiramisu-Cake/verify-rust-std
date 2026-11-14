@@ -1,0 +1,30 @@
+{
+  "applicability": "Exact narrow classifier identity fix and control/format repairs; no local builds/push/CI.",
+  "baseline_commit": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
+  "candidate_commit": "b6f1b08eb512ff9006aff7b4924c2e8f13930d70",
+  "controls": [
+    "Owner rustfmt wrapper and --check pass; git diff --check clean. New runtime outcomes NOT_RUN.",
+    "29 replay Python service tests pass; delta rebuilt and --check pass. Generator Python tests rerun on final package."
+  ],
+  "defect": "Real std intrinsic rejected because rendered FnDef name is std re-export; long fixture artifact name and rustfmt failures in supplied quick43605855700.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/reachability.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "Only canonical core::intrinsics::select_unpredictable, intrinsic kind/name, usable non-overridden body, exact signature, checked_body and sized existing masks.",
+    "Do not broaden other intrinsic/refusal domains, change runtime shadow protocol, body owner, alias modeling, masks or F5/F6/F7.",
+    "Retain29 exact controls; rename only long overwrite selector; add core/std direct path assertion in scalar root; preserve actual failure/refusal counts.",
+    "Replay3bb04079537dc4611d5e214586a291966905e018 binds exact new source/tree and unchanged std6075e7ce17, same six ON rows/profile/branch/serial/no-retry."
+  ],
+  "known_limitations": [
+    "User-supplied quick excerpts only; no CI rerun or independent proof credit.",
+    "Existing composition FAIL debt remains unchanged. Research uncommitted."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-sel1"
+}

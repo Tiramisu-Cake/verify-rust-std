@@ -1,0 +1,208 @@
+{
+  "baseline_commit": "bf8170b28afb682f8dd55a94199caa247736d8fa",
+  "candidate_commit": "86428e9313a8a697482bfd092de61a735a716961",
+  "candidate_tree": "146049f153dd5410d8be7a812b071147c64c2cd0",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "63dc0e96a16cb3251b89bad614fe0121b59ca63e",
+        "mode": "100644",
+        "sha256": "d6f50054559366e830f2843e9384aa372d68569d7454267dd39a33d7c9e17762"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "5313e4d0669c8afc7abeabcaa51fc1f0276b5ef1",
+        "mode": "100644",
+        "sha256": "8fdddfda6a75eb1cb6281e8509a6e8183016e7acaf002a8c8c0a9cb2adff994b"
+      },
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "746baa8b50e29fb30c73e5e8125f99fb303ad214",
+        "mode": "100644",
+        "sha256": "11a2ced7dc5df2e907a586018c42b4c949ca9dd86fd682aa33fa870a070a3c20"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "1cba3ff26fb96d4d9a248c4ef861d8c4d6c82e73",
+        "mode": "100644",
+        "sha256": "8337bd6afe093594855a9e7061ccb408f7a181ec7b0305c736f994df0c6f6a45"
+      },
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "c0d579440701b1f4d1ba50ddcb43d1fc52b5f4ae",
+        "mode": "100644",
+        "sha256": "04dac1715ba047f70200f716f066676475e2851f99d2398699c3046bd37a6287"
+      },
+      "path": "tests/expected/uninit/nested-aggregate-reset/moved-from-source.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "5aefedb06440020453f8c7b4d6efa8255bfecbaf",
+        "mode": "100644",
+        "sha256": "d3c65fd32b9eb40cd6cbb0e92b37c1b5a30e6c7f2dfa647c437a2c64e02d0ffd"
+      },
+      "path": "tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "32ff76966ed70b6cb97ca5e9ef51aa8141c30f2d",
+        "mode": "100644",
+        "sha256": "0e5bcb0cae79aabf465ec8f70e27cf083e4224f8ea119df18ccf0fc18c7efa81"
+      },
+      "path": "tests/expected/uninit/nested-aggregate-reset/reinit-companion.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "278332c4888cd4629f9445c60ab5223947b04bb5",
+        "mode": "100644",
+        "sha256": "6e93bb5e2dd054e10deafddfa45ff58ec776178563dc7137138234f5442b4c62"
+      },
+      "path": "tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "23829053d0f13d249f6282f673cf18d6e35a0029",
+        "mode": "100644",
+        "sha256": "2026e7a4fa39cc7166cd5b1787aac81e56b7835dfec799a3a889ea81c7d96e30"
+      },
+      "path": "tests/expected/uninit/nested-aggregate-reset/repeated-destination.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "2ce684e136446947de88d237f739e38d982a8e32",
+        "mode": "100644",
+        "sha256": "24551ec053d351dc1df050e681ce68a9338683eaa9bb82f68c5d6cc4cb3b1b9f"
+      },
+      "path": "tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs",
+      "status": "added"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "0ab7059e422f54480dd62547df7aeed93c6bafe8",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "sha256": "1371e9059e45cff62f8be3d5323cc866ce74a4e67a6f3e69bf98372462bd3853",
+      "size": 43127
+    },
+    {
+      "blob": "88414a040a79ee34e99bc79bef8bc03317d6f76d",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "sha256": "e888310d3f46c1bdbfc39a091ddeebd29c9173694da25db0132f654cbf775d37",
+      "size": 16733
+    },
+    {
+      "blob": "72331e10eff342af7fb0e427e8d418adb258cddb",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+      "sha256": "53064d8de9417f1c2ffb33675a5679767a4e6e14052f0dfff233e38739408217",
+      "size": 9102
+    },
+    {
+      "blob": "ae984c26e220b2fc689c7f16fecd970b7cbe0a20",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/body.rs",
+      "sha256": "930636ad1ab2290fb2b10f1970f2283f6e29c52de9a7b1696c7767c041a469d5",
+      "size": 26496
+    },
+    {
+      "blob": "b4a740e9e4145b32f7aa165b543215b57110edd9",
+      "member": "dependencies/0004.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "sha256": "82ce460dd51984ca62f8f9bafb4043597ae8e90c75fa4fdce0d0091681b9c2ad",
+      "size": 48881
+    },
+    {
+      "blob": "2f6ed473c408a049b2d0466057c284f7928bbeb3",
+      "member": "dependencies/0005.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+      "sha256": "6008f3aec05e33bde86720d1a4d2c71009d89390b368101d79a4d8c24afa9c3d",
+      "size": 97626
+    },
+    {
+      "blob": "cf5feb8a4191c99ecbfc6d52897b7459a64ae9f9",
+      "member": "dependencies/0006.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+      "sha256": "ad73c82580f8f9ba3528ce9b6b371c6a4f717443e31a86b1fad6bad0a2c80d64",
+      "size": 66660
+    },
+    {
+      "blob": "41ebc98272aec6e64656f0a4075c648133adef6b",
+      "member": "dependencies/0007.bin",
+      "mode": "100644",
+      "path": "library/kani_core/src/lib.rs",
+      "sha256": "fd4936db12f998df2419b9e6240f9171643f8287654840596ea2db40cfd76bc0",
+      "size": 42462
+    },
+    {
+      "blob": "ee49697076d8bb9f7720544569d3b6681398c784",
+      "member": "dependencies/0008.bin",
+      "mode": "100644",
+      "path": "docs/src/reference/experimental/contracts.md",
+      "sha256": "086a178a276615522c364c306c4e7184907351809c3b9aa73aa1ea9577f208e1",
+      "size": 4573
+    },
+    {
+      "blob": "b3da48419c1c2380134e2b3bb5a89b245cd58ef8",
+      "member": "dependencies/0009.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/part1-composition/move-return-top-level.rs",
+      "sha256": "83d33f5c707bee9a063bab2c88e1aa1bc174c062a6785695d00a0b1b92760f48",
+      "size": 2216
+    },
+    {
+      "blob": "b32503de275eb45ad10b8dc3b221591937c67e53",
+      "member": "dependencies/0010.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/part1-composition/move-return-reinit.rs",
+      "sha256": "df3b5073df2c89991d25eaf48a4fa68fc06878b87b21d5adf643ede6514ffe2b",
+      "size": 2194
+    },
+    {
+      "blob": "78291d3820d56a77f6bf009eb095e7f1529b431b",
+      "member": "dependencies/0011.bin",
+      "mode": "100644",
+      "path": "tests/expected/uninit/part1-composition/move-return-reinit.expected",
+      "sha256": "1d82430f1f5fab7c8e0b0cfc64fe4119cf325f51dcd86ab6aa152462f7591a35",
+      "size": 655
+    }
+  ],
+  "diff_sha256": "2c463a6a6d0639615c6dcbcecfe5d81aae6f1f2208f107fdad18a751d60e5138",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "5cb2d32da653131c7cccb72bc508b37601a80a740d9ecabc697cc59b725404a4",
+  "worktree": "/root/kani-fix-3300-c2-s3"
+}

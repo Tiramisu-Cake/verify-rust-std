@@ -3,16 +3,16 @@
   "authorization": "PREPARATION_ONLY; coordinator owns source/CI publication, adaptation, dispatch, execution and review",
   "state": "NOT_RUN",
   "source_binding": {
-    "commit": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
-    "tree": "0a46fad6c1adc3022d39e25a45096ed9cd622844",
-    "patch_sha256": "820316621382c7215eb53bd5f64ea8230d25fa759d2947a633a8413b7cc37972",
+    "commit": "ec85b782a1b7156ad434cfac25403acd4e326dc1",
+    "tree": "0c9e5e67ba0a17128f71af415644f3fad84099d3",
+    "patch_sha256": "729d412f9eb4fc31d79cb555a92e6ffa11bf3cb33b577b72a610aca6624ff30a",
     "base": "69b13711e60a87458200833445d47488ab466344"
   },
   "std_binding": "STD-OVERLAY.json; apply std-test-only.patch once to exact frozen std, or std-sel1-delta.patch once to exact B-prime package library. Never apply both.",
   "ci_reference": {
     "commit": "0c1cc8a7d05184044d496b01f5ed41cebfde0cac",
     "base": "ac49cf8f62137e25e8cfea04968016e60d6c5906",
-    "status": "REFERENCE_ONLY; unchanged recipe restricts C1/three old rows and old boundary, so cannot execute this request. Coordinator rebinds candidate, six rows, oracle, std hashes; no CI code changed here."
+    "status": "Prepared and rebound replay CI package in ci/; local source followup NOT_RUN. Coordinator owns publication/dispatch."
   },
   "owner": null,
   "phase": null,

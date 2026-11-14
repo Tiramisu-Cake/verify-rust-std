@@ -5,13 +5,18 @@
     "source_checkout_status": "read-only exact git objects; current branch/HEAD not changed",
     "tree": "cbb04807c711a9d1bad2ac2dbe1f77538d5658b0"
   },
-  "delta_against": "exact Gate B-prime0c1cc8a7d05184044d496b01f5ed41cebfde0cac CI paths only; actual Kani source binding46e46583ff112cae9c43aea1ba5dd6145e5e8387",
+  "delta_against": "exact Gate B-prime0c1cc8a7d05184044d496b01f5ed41cebfde0cac CI paths only; actual Kani source bindingec85b782a1b7156ad434cfac25403acd4e326dc1",
   "delta_patch": "ci-overlay-delta.patch",
+  "followup": {
+    "prior_ci_candidate": "f44ddc4313651fc2fd946ea7f4be60280de47cb5",
+    "prior_tool": "b6f1b08eb512ff9006aff7b4924c2e8f13930d70",
+    "reason": "Tests-only volatile-read golden spelling and local unused-field lint repair. Production unchanged; six rows/profile/std/runner logic unchanged."
+  },
   "full_export_file_sha256": {
     ".github/workflows/kani3300-replay.yml": "c5ce5250453078053b33e23cbc3ff4f7132f56c8c8993f9bd895f9947ec805bb",
-    "scripts/kani3300-replay/CI-REQUEST.json": "8e9c8bf74858fdfd76c24c21e24c039bf11e8cb78d8a8ca39a92cbdf693ac70a",
-    "scripts/kani3300-replay/replay.py": "766b2986d9f85194c7991c1a15ce5a50cd1d6e6c2bf298c4e3d95cdcddfba1c5",
-    "scripts/kani3300-replay/sel1-source-binding.json": "f15543e1245347455d38477a8600de64ed95e3098fec9856dd48c7398b967f04",
+    "scripts/kani3300-replay/CI-REQUEST.json": "c96c9bd955d64ca7d79bf40e589db397c2447a2cb460703544647b1c079ca033",
+    "scripts/kani3300-replay/replay.py": "067c9fe9569a35db4d48acc5257042229a4d2983003e81cc2efa6e8a1dec5443",
+    "scripts/kani3300-replay/sel1-source-binding.json": "3e23da10b03a3d659b4cc373fdd53b715397d7161fc35014c12ae197e8530e5f",
     "scripts/kani3300-replay/sel1-test-only.patch": "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06",
     "scripts/kani3300-replay/test_replay.py": "2256b986945c61532b8ef063bc2f477d83bdf55f02cabd8b90a977a4c1e2ccb3"
   },
@@ -70,7 +75,7 @@
       "merge-raw-closure-on",
       "merge-profile-closure-on"
     ],
-    "sha256": "8e9c8bf74858fdfd76c24c21e24c039bf11e8cb78d8a8ca39a92cbdf693ac70a",
+    "sha256": "c96c9bd955d64ca7d79bf40e589db397c2447a2cb460703544647b1c079ca033",
     "status": "NOT_RUN_SEL1_FROZEN"
   },
   "run4_recipe": {
@@ -81,12 +86,12 @@
   },
   "schema": "kani3300-sel1-ci-overlay-v1",
   "source": {
-    "quick_assurance": "owner-reported started; not queried; not proof acceptance",
-    "quick_run": "43605855700",
+    "quick_assurance": "Owner excerpts: fmt/build/clippy PASS onb6f1b08eb5;24/29 select controls ok,5 fixture failures; new tests-only repair runtime NOT_RUN",
+    "quick_run": "43609527860",
     "source_binding_file": "sel1-source-binding.json",
-    "source_binding_sha256": "f15543e1245347455d38477a8600de64ed95e3098fec9856dd48c7398b967f04",
-    "tool_sha": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
-    "tool_tree": "0a46fad6c1adc3022d39e25a45096ed9cd622844"
+    "source_binding_sha256": "3e23da10b03a3d659b4cc373fdd53b715397d7161fc35014c12ae197e8530e5f",
+    "tool_sha": "ec85b782a1b7156ad434cfac25403acd4e326dc1",
+    "tool_tree": "0c9e5e67ba0a17128f71af415644f3fad84099d3"
   },
   "state": "PREPARATION_ONLY_REVIEW_REQUIRED",
   "std": {

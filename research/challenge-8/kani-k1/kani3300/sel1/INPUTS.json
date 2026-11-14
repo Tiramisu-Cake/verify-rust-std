@@ -6,17 +6,21 @@
     "branch": "fix/kani-3300-sel1",
     "base": "69b13711e60a87458200833445d47488ab466344",
     "base_tree": "1df668c6896eaed2b08385d307b8ddf178613c6f",
-    "candidate": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
-    "candidate_tree": "0a46fad6c1adc3022d39e25a45096ed9cd622844",
+    "candidate": "ec85b782a1b7156ad434cfac25403acd4e326dc1",
+    "candidate_tree": "0c9e5e67ba0a17128f71af415644f3fad84099d3",
     "read_only_input": "/root/kani-fix-3300-c2-s1",
     "input_clean_verified": true,
     "destination_absent_before_clone": true,
     "commits": [
       "52f2ef41f9f3c81c42e1207981b0e28a9171bdf2",
       "27eba17c1d2503233dfe525da9fdb2df31685226",
-      "46e46583ff112cae9c43aea1ba5dd6145e5e8387"
+      "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
+      "3f23c95c3eccc03c7124c2c346d2b4b4598b5343",
+      "b6f1b08eb512ff9006aff7b4924c2e8f13930d70",
+      "ec85b782a1b7156ad434cfac25403acd4e326dc1"
     ],
-    "patch_sha256": "820316621382c7215eb53bd5f64ea8230d25fa759d2947a633a8413b7cc37972"
+    "patch_sha256": "729d412f9eb4fc31d79cb555a92e6ffa11bf3cb33b577b72a610aca6624ff30a",
+    "prior_candidate": "b6f1b08eb512ff9006aff7b4924c2e8f13930d70"
   },
   "research": {
     "clone": "/root/verify-rust-std-kani3300-g0",
@@ -93,5 +97,6 @@
     "push": 0,
     "ci": 0,
     "cloud_usd": 0
-  }
+  },
+  "followup": "followup-43609527860/INPUTS.json"
 }

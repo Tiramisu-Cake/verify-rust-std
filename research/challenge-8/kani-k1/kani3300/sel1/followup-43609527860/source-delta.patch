@@ -1,0 +1,73 @@
+diff --git a/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs b/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs
+index 4fa225af4..d00653691 100644
+--- a/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs
++++ b/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs
+@@ -10,6 +10,8 @@
+ 
+ #[derive(Clone, Copy)]
+ struct Nested {
++    // The nested storage is a layout-refusal control; deliberately do not read it.
++    #[allow(dead_code)]
+     bytes: [MaybeUninit<u8>; 2],
+ }
+ 
+diff --git a/tests/expected/uninit/select-unpredictable-padding/selected_false_padding_stays_uninitialized.expected b/tests/expected/uninit/select-unpredictable-padding/selected_false_padding_stays_uninitialized.expected
+index 3b788e843..531c9fc21 100644
+--- a/tests/expected/uninit/select-unpredictable-padding/selected_false_padding_stays_uninitialized.expected
++++ b/tests/expected/uninit/select-unpredictable-padding/selected_false_padding_stays_uninitialized.expected
+@@ -2,8 +2,8 @@ Checking harness selected_false_padding_stays_uninitialized...
+ - Status: SUCCESS\
+ - Description: "false-arm typed fields are readable before padding check"
+ - Status: FAILURE\
+-- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+ ** 1 of
+-Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
+ VERIFICATION:- FAILED
+ Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/select-unpredictable-padding/selected_true_padding_stays_uninitialized.expected b/tests/expected/uninit/select-unpredictable-padding/selected_true_padding_stays_uninitialized.expected
+index 44b9db33a..162e3da54 100644
+--- a/tests/expected/uninit/select-unpredictable-padding/selected_true_padding_stays_uninitialized.expected
++++ b/tests/expected/uninit/select-unpredictable-padding/selected_true_padding_stays_uninitialized.expected
+@@ -2,8 +2,8 @@ Checking harness selected_true_padding_stays_uninitialized...
+ - Status: SUCCESS\
+ - Description: "true-arm typed fields are readable before padding check"
+ - Status: FAILURE\
+-- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+ ** 1 of
+-Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
+ VERIFICATION:- FAILED
+ Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/select-unpredictable-pointer-hole-false/expected b/tests/expected/uninit/select-unpredictable-pointer-hole-false/expected
+index 40f752dc9..0b20f35ef 100644
+--- a/tests/expected/uninit/select-unpredictable-pointer-hole-false/expected
++++ b/tests/expected/uninit/select-unpredictable-pointer-hole-false/expected
+@@ -2,8 +2,8 @@ Checking harness selected_hole_in_false_arm_fails...
+ - Status: SUCCESS\
+ - Description: "selected raw pointer names the condition's arm"
+ - Status: FAILURE\
+-- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+ ** 1 of
+-Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
+ VERIFICATION:- FAILED
+ Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/select-unpredictable-pointer-hole-true/expected b/tests/expected/uninit/select-unpredictable-pointer-hole-true/expected
+index c241efc8c..ddafcebfc 100644
+--- a/tests/expected/uninit/select-unpredictable-pointer-hole-true/expected
++++ b/tests/expected/uninit/select-unpredictable-pointer-hole-true/expected
+@@ -2,8 +2,8 @@ Checking harness selected_hole_in_true_arm_fails...
+ - Status: SUCCESS\
+ - Description: "selected raw pointer names the condition's arm"
+ - Status: FAILURE\
+-- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+ ** 1 of
+-Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
+ VERIFICATION:- FAILED
+ Complete - 0 successfully verified harnesses, 1 failures, 1 total.

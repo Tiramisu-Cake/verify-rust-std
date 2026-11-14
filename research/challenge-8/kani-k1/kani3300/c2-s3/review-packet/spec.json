@@ -1,0 +1,40 @@
+{
+  "applicability": "Only C2-S3: not transfers_shadow and exact existing PointeeInfo UnionAsField; direct/accepted Item, Shim, foreign/hook calls and BlackBox; full sized extent SetRef(false).",
+  "baseline_commit": "bf8170b28afb682f8dd55a94199caa247736d8fa",
+  "candidate_commit": "15ede35f3f6809e79a869d33482f7fc6034464f5",
+  "controls": [
+    "New repeated-destination and moved-from-source single-harness negatives; baseline exact base plus test-only patch must false-SUCCESS, candidate intended u8 read failure. All execution and exact property counts NOT_RUN/UNKNOWN.",
+    "New reinit companion expected legal; custom MIR field construction/returns; repr(C) extent assumptions need actual consumed-MIR binding.",
+    "Existing top-level move-return, call-pairing, normal-abort, ordinary/PFC, closure, cycle, immutable suites remain byte-identical."
+  ],
+  "defect": "F6 hypothesis: nested aggregate Call destinations and actual Move sources retain stale true initialization shadow beyond the existing whole-assignment guard. Neither discriminating runtime pair has run.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+    "library/kani_core/src/lib.rs",
+    "docs/src/reference/experimental/contracts.md",
+    "tests/expected/uninit/part1-composition/move-return-top-level.rs",
+    "tests/expected/uninit/part1-composition/move-return-reinit.rs",
+    "tests/expected/uninit/part1-composition/move-return-reinit.expected"
+  ],
+  "invariants": [
+    "Existing top-level union/MU/flat-array/slice paired protocol, all snapshots before any source reset, return0 and pending B1 checks preserved.",
+    "Source reset Before actual Call Move, destination reset only After normal target; no Copy/function-operand reset.",
+    "Forget/no-effect exclusions and resolver/early Unsupported unchanged; no new recursive model or blanket guard.",
+    "Full sized storage reset includes padding, no pointee/neighbor reset; later writes survive.",
+    "Runtime, immutable F5, DFCC, delayed-body cache F7, SEL1, composition roots/checker/allowlist and existing fixtures unchanged."
+  ],
+  "known_limitations": [
+    "No compiler/build/test/verifier/push/CI permitted. Static review only; no proof credit.",
+    "Goldens provisional: one intended u8 payload failure per negative; actual duplicates/counts need reached-read execution. Unsupported or baseline failure cannot discriminate.",
+    "Docs narrowing deferred. Known composition FAIL remains S5 debt; source coverage alone does not establish model execution."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-c2-s3"
+}
