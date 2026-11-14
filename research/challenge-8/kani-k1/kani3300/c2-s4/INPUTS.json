@@ -1,0 +1,33 @@
+{
+  "base": "ad324418cdc66b18e9b71f76a412be6ccea20c7e",
+  "base_tree": "b7e9e8ffa7212c1c41299c32ebd0b72fd9951a68",
+  "g0": "9d9d3399e65b4af37c3477ba18f7dc04d3f2f65c",
+  "clone": "/root/kani-fix-3300-c2-s4",
+  "branch": "fix/kani-3300-c2-s4",
+  "task": "research/challenge-8/kani-k1/TASK-KANI3300-C2-S4.md",
+  "scope": "S4/F7 only",
+  "execution": "NOT_RUN",
+  "rust_toolchain": "nightly-2026-10-23",
+  "source": "tests/json-handler/uninit-part1-composition/mixed.rs",
+  "source_sha256": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970",
+  "author": "Tiramisu-Cake <igkharin@gmail.com>",
+  "forbidden_actions_not_performed": [
+    "local builds/compiler/verifier execution",
+    "push",
+    "CI dispatch",
+    "S5/F8/SEL1 changes"
+  ],
+  "historical_evidence": "Read-only references, not new baseline or independent proof credit",
+  "baseline_tree": "6bed3373b8c2c62f103c2f3c8ecd99d5a90db95a",
+  "baseline_patch_sha256": "51d171d0700d29e569c477954ed82ab65d52c717fb533b118146b188cb504496",
+  "candidate": "3b382c812a1b8541946e6dc732cf04497ebcf995",
+  "candidate_tree": "716a2446684bb56e0a03b7fbe5df26593648a1c8",
+  "source_patch_sha256": "dfff0900e5107e72ba25cb7cb2cd0c8987954b11c5f17973121cc08cb906c05b",
+  "local_validation": {
+    "rustfmt": "requested wrapper only, exit 0",
+    "git_diff_check": "PASS",
+    "python_synthetic": "54 passed: comparator43/bindings11",
+    "independent_static_review": "no actionable findings",
+    "Rust_tests_build_clippy_Kani_CBMC": "NOT_RUN"
+  }
+}

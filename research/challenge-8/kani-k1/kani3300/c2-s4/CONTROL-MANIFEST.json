@@ -1,0 +1,213 @@
+{
+  "execution": "NOT_RUN",
+  "observer": "tests/json-handler/uninit-part1-composition/run.py --collect-unbound --keep-output",
+  "capture_exit": 2,
+  "capture_status": "UNBOUND_CAPTURE",
+  "binding_status": "NOT_CHECKED_CAPTURE",
+  "invocations": [
+    {
+      "id": "isolated-immutable_legal",
+      "selectors": [
+        "immutable_legal"
+      ],
+      "expected_kani_exit": 0
+    },
+    {
+      "id": "isolated-immutable_hole_negative",
+      "selectors": [
+        "immutable_hole_negative"
+      ],
+      "expected_kani_exit": 1
+    },
+    {
+      "id": "isolated-ordinary_ensures_legal",
+      "selectors": [
+        "ordinary_ensures_legal"
+      ],
+      "expected_kani_exit": 0
+    },
+    {
+      "id": "isolated-pfc_legal",
+      "selectors": [
+        "pfc_legal"
+      ],
+      "expected_kani_exit": 0
+    },
+    {
+      "id": "isolated-pfc_negative",
+      "selectors": [
+        "pfc_negative"
+      ],
+      "expected_kani_exit": 1
+    },
+    {
+      "id": "isolated-cycle_root",
+      "selectors": [
+        "cycle_root"
+      ],
+      "expected_kani_exit": 1
+    },
+    {
+      "id": "isolated-unrelated_legal_after_cycle",
+      "selectors": [
+        "unrelated_legal_after_cycle"
+      ],
+      "expected_kani_exit": 0
+    },
+    {
+      "id": "all_A_then_B",
+      "selectors": [
+        "immutable_legal",
+        "immutable_hole_negative",
+        "ordinary_ensures_legal",
+        "pfc_legal",
+        "pfc_negative",
+        "cycle_root",
+        "unrelated_legal_after_cycle"
+      ],
+      "expected_kani_exit": 1
+    },
+    {
+      "id": "all_B_then_A",
+      "selectors": [
+        "unrelated_legal_after_cycle",
+        "cycle_root",
+        "pfc_negative",
+        "pfc_legal",
+        "ordinary_ensures_legal",
+        "immutable_hole_negative",
+        "immutable_legal"
+      ],
+      "expected_kani_exit": 1
+    },
+    {
+      "id": "cycle_then_legal",
+      "selectors": [
+        "cycle_root",
+        "unrelated_legal_after_cycle"
+      ],
+      "expected_kani_exit": 1
+    },
+    {
+      "id": "legal_then_cycle",
+      "selectors": [
+        "unrelated_legal_after_cycle",
+        "cycle_root"
+      ],
+      "expected_kani_exit": 1
+    }
+  ],
+  "comparison_count": 18,
+  "same_inputs_both_tools": true,
+  "jobs": 1,
+  "fresh_process_per_invocation": true,
+  "fresh_target_and_export_per_invocation": true,
+  "compile_environment": {
+    "RUSTFLAGS": "--edition 2021 -D warnings",
+    "NO_COLOR": "1"
+  },
+  "kani_args_before_selectors": [
+    "<kani>",
+    "<checkout>/tests/json-handler/uninit-part1-composition/mixed.rs",
+    "-Z",
+    "uninit-checks",
+    "-Z",
+    "function-contracts",
+    "-Z",
+    "export-json",
+    "-Z",
+    "unstable-options"
+  ],
+  "kani_args_per_selector": [
+    "--harness",
+    "<exact selector>"
+  ],
+  "kani_args_after_selectors": [
+    "--exact",
+    "--jobs",
+    "1",
+    "--target-dir",
+    "<unique>/target",
+    "--export-json",
+    "<unique>/export.json",
+    "--output-format=regular",
+    "--cbmc-args",
+    "--object-bits",
+    "12"
+  ],
+  "expected_roots": [
+    {
+      "name": "immutable_legal",
+      "mode": "Assert",
+      "root_line": 15,
+      "expected_verdict": "SUCCESS"
+    },
+    {
+      "name": "immutable_hole_negative",
+      "mode": "Assert",
+      "root_line": 22,
+      "expected_verdict": "FAILURE"
+    },
+    {
+      "name": "ordinary_ensures_legal",
+      "mode": "Assert+ensures",
+      "root_line": 33,
+      "expected_verdict": "SUCCESS"
+    },
+    {
+      "name": "pfc_legal",
+      "mode": "PFC",
+      "root_line": 46,
+      "expected_verdict": "SUCCESS"
+    },
+    {
+      "name": "pfc_negative",
+      "mode": "PFC",
+      "root_line": 58,
+      "expected_verdict": "FAILURE"
+    },
+    {
+      "name": "cycle_root",
+      "mode": "PFC+recursion",
+      "root_line": 80,
+      "expected_verdict": "FAILURE"
+    },
+    {
+      "name": "unrelated_legal_after_cycle",
+      "mode": "Assert",
+      "root_line": 85,
+      "expected_verdict": "SUCCESS"
+    }
+  ],
+  "comparison": "strict full-row multiset per root, checks/failures/Unsupported/covers; exact verdict and failure kind; Check N is not identity",
+  "native_units": {
+    "journal": 6,
+    "scope_guard": 2,
+    "execution": "NOT_RUN"
+  },
+  "unchanged_controls": {
+    "S2": "19 immutable fixtures + 9 immutable_allocations units; retain all accepted expectations",
+    "S3": "nested-aggregate-reset two intended single-failure negatives + reinit SUCCESS",
+    "Quick": "Uninit/Quantifiers/TailCall; expected uninit/quantifier-capture/arbitrary; ui and script suites; contract/mode suites; trailing stages"
+  },
+  "fixture_files": [
+    {
+      "path": "tests/json-handler/uninit-part1-composition/mixed.rs",
+      "sha256": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970",
+      "blob": "746193b62820d71c6582e566a445086dfbdabdfb"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/roots.json",
+      "sha256": "72a8eec6cd95d9a7698869dddf94587a64d7db5628cb5601abe9fd4ee88de706",
+      "blob": "7c521a1b24bd6e82eb51be8add7a99ac43bf859c"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/ROOT-ORDER-MAP.json",
+      "sha256": "dc14a54b7c02f2fcd77c0a4578322b3b4d861e1fc5890341553d0d452b3d56ff",
+      "blob": "d01824a9285a7ccec8431223c196eebcc1de0191"
+    }
+  ],
+  "candidate": "3b382c812a1b8541946e6dc732cf04497ebcf995",
+  "candidate_tree": "716a2446684bb56e0a03b7fbe5df26593648a1c8",
+  "baseline_tree": "6bed3373b8c2c62f103c2f3c8ecd99d5a90db95a"
+}

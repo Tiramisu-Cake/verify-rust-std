@@ -1,0 +1,666 @@
+diff --git a/kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs b/kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs
+index aa65b0fbe..cead741d8 100644
+--- a/kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs
++++ b/kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs
+@@ -67,6 +67,9 @@ fn codegen_items(
+         _check_contract: Option<InternalDefId>,
+         mut transformer: BodyTransformation,
+     ) -> (Vec<MonoItem>, Option<AssignsContract>) {
++        // This backend owns its transformer, but delayed writes use the same
++        // scoped API as goto codegen, including the PubFns path.
++        let mut transformer = transformer.delayed_scope();
+         let (items, call_graph) = with_timer(
+             || collect_reachable_items(tcx, &mut transformer, starting_items),
+             "codegen reachability analysis",
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+index 690e3b7e5..3461ada46 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+@@ -89,6 +89,11 @@ fn codegen_items<'tcx>(
+         transformer: &mut BodyTransformation,
+         thread_pool: &ThreadPool,
+     ) -> (MinimalGotocCtx, Vec<MonoItem>, Option<AssignsContract>) {
++        // Restore only after reachability, codegen, and contract/model emission.
++        // Export workers receive owned, materialized symbols rather than MIR.
++        let mut delayed_scope = transformer.delayed_scope();
++        let transformer = &mut *delayed_scope;
++
+         // This runs reachability analysis before global passes are applied.
+         //
+         // Alternatively, we could run reachability only once after the global passes are applied
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+index f7f5b0a20..456b39de7 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+@@ -15,7 +15,7 @@
+     },
+     reachability::CallGraph,
+     transform::{
+-        BodyTransformation, GlobalPass, TransformationResult,
++        BodyTransformation, GlobalPass,
+         body::{CheckType, InsertPosition, MutableBody, SourceInstruction},
+         check_uninit::UninitInstrumenter,
+     },
+@@ -188,9 +188,7 @@ fn transform(
+                 // If some instrumentation has been performed, update the cached body in the local transformer.
+                 if instrumentation_added {
+                     modified = true;
+-                    transformer.cache.entry(instance).and_modify(|transformation_result| {
+-                        *transformation_result = TransformationResult(body, true);
+-                    });
++                    transformer.replace_delayed_body(instance, body);
+                 }
+             }
+ 
+@@ -211,7 +209,7 @@ fn transform(
+                     None,
+                     &error.reason,
+                 );
+-                transformer.cache.insert(instance, TransformationResult(body.into(), true));
++                transformer.replace_delayed_body(instance, body.into());
+                 modified = true;
+             }
+         }
+diff --git a/kani-compiler/src/kani_middle/transform/delayed_cache.rs b/kani-compiler/src/kani_middle/transform/delayed_cache.rs
+new file mode 100644
+index 000000000..6ba16800f
+--- /dev/null
++++ b/kani-compiler/src/kani_middle/transform/delayed_cache.rs
+@@ -0,0 +1,144 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++//! First-write journal for the cache entries replaced by the delayed UB pass.
++//! Generic keys/values let the ownership lifecycle be tested without fabricating
++//! compiler Instances or MIR Bodies. Production stores exact TransformationResults.
++
++use std::collections::HashMap;
++use std::hash::Hash;
++
++#[derive(Debug)]
++pub(super) struct DelayedCache<K, V> {
++    originals: Option<HashMap<K, Option<V>>>,
++}
++
++impl<K, V> Default for DelayedCache<K, V> {
++    fn default() -> Self {
++        Self { originals: None }
++    }
++}
++
++impl<K: Copy + Eq + Hash, V> DelayedCache<K, V> {
++    pub(super) fn begin(&mut self) {
++        assert!(self.originals.is_none(), "previous delayed transformation scope is still active");
++        self.originals = Some(HashMap::new());
++    }
++
++    pub(super) fn replace(&mut self, cache: &mut HashMap<K, V>, key: K, value: V) {
++        let originals = self.originals.as_mut().expect("delayed replacement outside a model scope");
++        // Move the complete original, including the modified flag, without cloning
++        // MIR or replacing an earlier snapshot with an intermediate delayed body.
++        let previous = cache.insert(key, value);
++        originals.entry(key).or_insert(previous);
++    }
++
++    pub(super) fn restore(&mut self, cache: &mut HashMap<K, V>) {
++        let originals = self.originals.take().expect("no delayed transformation scope to restore");
++        for (key, original) in originals {
++            match original {
++                Some(value) => {
++                    cache.insert(key, value);
++                }
++                None => {
++                    cache.remove(&key);
++                }
++            }
++        }
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use super::DelayedCache;
++    use std::collections::HashMap;
++
++    // Deliberately non-Clone: restoration must move the exact original value.
++    #[derive(Debug, Eq, PartialEq)]
++    struct Result {
++        body: Vec<u8>,
++        modified: bool,
++    }
++
++    fn result(body: u8, modified: bool) -> Result {
++        Result { body: vec![body], modified }
++    }
++
++    #[test]
++    fn first_snapshot_restores_body_and_modified_flag() {
++        for modified in [false, true] {
++            let mut cache = HashMap::from([(1, result(10, modified))]);
++            let mut journal = DelayedCache::default();
++            journal.begin();
++            journal.replace(&mut cache, 1, result(20, true));
++            journal.replace(&mut cache, 1, result(30, true));
++            assert_eq!(cache[&1], result(30, true));
++            assert_eq!(journal.originals.as_ref().unwrap().len(), 1);
++            journal.restore(&mut cache);
++            assert_eq!(cache[&1], result(10, modified));
++            assert!(journal.originals.is_none());
++        }
++    }
++
++    #[test]
++    fn preserves_warm_untouched_and_new_regular_entries() {
++        let mut cache = HashMap::from([(1, result(10, true)), (2, result(11, false))]);
++        let mut journal = DelayedCache::default();
++        journal.begin();
++        journal.replace(&mut cache, 1, result(20, true));
++        cache.insert(3, result(12, true));
++        // A body first regular-transformed during this scope must stay regular.
++        cache.insert(4, result(13, false));
++        journal.replace(&mut cache, 4, result(21, true));
++        journal.restore(&mut cache);
++        assert_eq!(
++            cache,
++            HashMap::from([
++                (1, result(10, true)),
++                (2, result(11, false)),
++                (3, result(12, true)),
++                (4, result(13, false)),
++            ])
++        );
++    }
++
++    #[test]
++    fn removes_previously_absent_failed_root_and_repeats_cleanly() {
++        let mut cache = HashMap::new();
++        let mut journal = DelayedCache::default();
++        for _ in 0..3 {
++            journal.begin();
++            journal.replace(&mut cache, 1, result(99, true));
++            journal.replace(&mut cache, 1, result(100, true));
++            assert_eq!(cache[&1], result(100, true));
++            journal.restore(&mut cache);
++            assert!(cache.is_empty());
++            assert!(journal.originals.is_none());
++        }
++    }
++
++    #[test]
++    fn empty_scope_preserves_regular_cache() {
++        let mut cache = HashMap::from([(1, result(10, false))]);
++        let mut journal = DelayedCache::default();
++        for _ in 0..2 {
++            journal.begin();
++            journal.restore(&mut cache);
++            assert_eq!(cache[&1], result(10, false));
++        }
++    }
++
++    #[test]
++    #[should_panic(expected = "previous delayed transformation scope is still active")]
++    fn rejects_unclosed_scope() {
++        let mut journal = DelayedCache::<u8, Result>::default();
++        journal.begin();
++        journal.begin();
++    }
++
++    #[test]
++    #[should_panic(expected = "delayed replacement outside a model scope")]
++    fn rejects_unscoped_replacement() {
++        DelayedCache::default().replace(&mut HashMap::new(), 1, result(10, true));
++    }
++}
+diff --git a/kani-compiler/src/kani_middle/transform/mod.rs b/kani-compiler/src/kani_middle/transform/mod.rs
+index db2466bbe..4484375ce 100644
+--- a/kani-compiler/src/kani_middle/transform/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/mod.rs
+@@ -28,6 +28,7 @@
+ use crate::kani_middle::transform::stubs::{ExternFnStubPass, FnStubPass};
+ use crate::kani_queries::QueryDb;
+ use automatic::{AutomaticArbitraryPass, AutomaticHarnessPass};
++use delayed_cache::DelayedCache;
+ use dump_mir_pass::DumpMirPass;
+ use rustc_hir::def::DefKind;
+ use rustc_middle::ty::{EarlyBinder, TyCtxt, TypingEnv};
+@@ -36,6 +37,7 @@
+ use rustc_public::rustc_internal;
+ use std::collections::HashMap;
+ use std::fmt::Debug;
++use std::ops::{Deref, DerefMut};
+ 
+ use crate::kani_middle::transform::rustc_intrinsics::RustcIntrinsicsPass;
+ pub use internal_mir::RustcInternalMir;
+@@ -71,6 +73,7 @@ fn build_missing_body(tcx: TyCtxt, instance: Instance) -> Body {
+ pub(crate) use check_uninit::immutable_origin_type_supported;
+ mod check_values;
+ mod contracts;
++mod delayed_cache;
+ mod dump_mir_pass;
+ mod internal_mir;
+ mod kani_intrinsics;
+@@ -92,6 +95,8 @@ pub struct BodyTransformation {
+     inst_passes: Vec<Box<dyn ClonableTransformPass>>,
+     /// Cache transformation results.
+     cache: HashMap<Instance, TransformationResult>,
++    /// Originals of entries replaced by delayed instrumentation in the current model.
++    delayed_cache: DelayedCache<Instance, TransformationResult>,
+     /// The locals to add to the loop modifies clause of a loop, by the instance of the body that
+     /// contains the loop and the instance of the register function that the loop latch calls, as
+     /// recorded by the passes (see [TransformPass::take_generated_loop_modifies]).
+@@ -108,6 +113,7 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {
+             stub_passes: vec![],
+             inst_passes: vec![],
+             cache: Default::default(),
++            delayed_cache: DelayedCache::default(),
+             generated_loop_modifies: Default::default(),
+             loop_modifies_bindings: Default::default(),
+         };
+@@ -149,6 +155,19 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {
+         transformer
+     }
+ 
++    /// Keep delayed replacements visible until the current model is fully materialized.
++    /// Regular transformations and their loop metadata remain cached between models.
++    pub fn delayed_scope(&mut self) -> DelayedTransformationScope<'_> {
++        self.delayed_cache.begin();
++        DelayedTransformationScope { transformer: self }
++    }
++
++    /// Replace only after `body()` has applied the regular transformations. Both
++    /// delayed instrumentation and failed-root Unsupported use the same journal.
++    fn replace_delayed_body(&mut self, instance: Instance, body: Body) {
++        self.delayed_cache.replace(&mut self.cache, instance, TransformationResult(body, true));
++    }
++
+     /// Equivalent to `body()`, but avoids cloning the returned `Body`.
+     pub fn body_ref(&mut self, tcx: TyCtxt, instance: Instance) -> &Body {
+         &self
+@@ -214,6 +233,32 @@ fn add_pass<P: ClonableTransformPass + 'static>(&mut self, query_db: &QueryDb, p
+     }
+ }
+ 
++/// Restores delayed mutations on normal return, recoverable early return, or unwind.
++/// The exclusive borrow prevents another model from starting before this scope ends.
++pub struct DelayedTransformationScope<'a> {
++    transformer: &'a mut BodyTransformation,
++}
++
++impl Deref for DelayedTransformationScope<'_> {
++    type Target = BodyTransformation;
++
++    fn deref(&self) -> &Self::Target {
++        self.transformer
++    }
++}
++
++impl DerefMut for DelayedTransformationScope<'_> {
++    fn deref_mut(&mut self) -> &mut Self::Target {
++        self.transformer
++    }
++}
++
++impl Drop for DelayedTransformationScope<'_> {
++    fn drop(&mut self) {
++        self.transformer.delayed_cache.restore(&mut self.transformer.cache);
++    }
++}
++
+ /// The type of transformation that a pass may perform.
+ #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
+ pub(crate) enum TransformationType {
+@@ -387,3 +432,46 @@ fn clone_back(&self) -> Box<dyn $new_trait_name> {
+         crate::kani_middle::transform::GlobalPass
+     );
+ }
++
++#[cfg(test)]
++mod delayed_scope_tests {
++    use super::BodyTransformation;
++    use std::panic::{AssertUnwindSafe, catch_unwind};
++
++    // No compiler context or fabricated Instance/Body is needed to exercise
++    // the actual scope guard. Entry ownership is covered by delayed_cache tests.
++    fn transformer() -> BodyTransformation {
++        BodyTransformation {
++            stub_passes: vec![],
++            inst_passes: vec![],
++            cache: Default::default(),
++            delayed_cache: Default::default(),
++            generated_loop_modifies: Default::default(),
++            loop_modifies_bindings: Default::default(),
++        }
++    }
++
++    #[test]
++    fn normal_and_early_return_close_scope() {
++        fn early_return(transformer: &mut BodyTransformation) -> bool {
++            let _scope = transformer.delayed_scope();
++            false
++        }
++
++        let mut transformer = transformer();
++        drop(transformer.delayed_scope());
++        assert!(!early_return(&mut transformer));
++        drop(transformer.delayed_scope());
++    }
++
++    #[test]
++    fn unwind_closes_scope_before_transformer_reuse() {
++        let mut transformer = transformer();
++        let result = catch_unwind(AssertUnwindSafe(|| {
++            let _scope = transformer.delayed_scope();
++            panic!("simulated codegen unwind");
++        }));
++        assert!(result.is_err());
++        drop(transformer.delayed_scope());
++    }
++}
+diff --git a/tests/json-handler/uninit-part1-composition/README.md b/tests/json-handler/uninit-part1-composition/README.md
+index 9fc7f8c41..bce684c2d 100644
+--- a/tests/json-handler/uninit-part1-composition/README.md
++++ b/tests/json-handler/uninit-part1-composition/README.md
+@@ -32,17 +32,19 @@ path. All four R4 mixed selections retain that cycle inventory exactly. Evidence
+ pins the capture digests and source commits; R4's CI wrapper commit differs from
+ the source commit only in workflow files. No output is learned during a run.
+ The ordinary `./test.sh` path fails closed before invoking Kani if any binding
+-is pending. The coordinator's pre-C1 capture
+-path is `./test.sh --collect-unbound --keep-output`; it runs isolated roots,
++is pending. The fresh observation path is `./test.sh --collect-unbound --keep-output`;
++it skips comparisons against manifest golden inventories even when they are marked
++bound, then runs isolated roots,
+ then all seven selectors in both orders and the focused cycle/legal pair in
+ both orders. It prints and retains `capture.json`, each invocation's
+ `receipt.json`, exports, and regular output. Capture exits 2 with
+-`UNBOUND_CAPTURE`, never PASS, including when bindings are already reviewed.
++`UNBOUND_CAPTURE`, never PASS, and reports `binding_status: NOT_CHECKED_CAPTURE`.
+ Inventory differences do not stop capture: it records all per-root/order diffs
+ in `mixed_root_comparisons` and continues through all 11 invocations. Each diff
+-retains exact added/removed rows, an `accepted` oracle result, and `t1b_evidence`.
+-`mixed_root_oracle` distinguishes `EXACT_MATCH`, `MATCH_WITH_T1B`, and `MISMATCH`;
+-even a captured `MISMATCH` exits 2 and supplies no regression credit. Process,
++retains exact added/removed rows and an `accepted` oracle result.
++`mixed_root_oracle` is `EXACT_MATCH` or `MISMATCH`. Every added or removed check,
++and every metadata, status, verdict, failure, Unsupported, or cover difference,
++is a mismatch. A captured `MISMATCH` still exits 2 and supplies no regression credit. Process,
+ schema, incomplete-output, and root-binding errors still stop the run.
+ Any caught stop reports its invocation/order and
+ phase plus the exception type and reason on stderr, before and after regular
+@@ -57,28 +59,14 @@ identities to `roots.json` with status
+ `./test.sh` as the C1 qualification. No output is auto-learned or written into
+ the manifest. The runner rejects incomplete exports/selections, un-attributable
+ inventories, failure counter/kind drift, wrong-root results, and
+-unsupported/failure metadata drift. The mixed-root oracle requires the same
+-verdict, exact multiset of failures (IDs, descriptions, locations and remaining
+-metadata), Unsupported inventory, and useful checks/covers as isolation. Root
+-harness and target-function checks stay exact, including their statuses;
+-reached covers retain their exact identities, descriptions and locations.
+-It does not accept a match based on the word `FAILED`.
+-
+-**Known limitation T1b:** DelayedUbPass writes instrumentation into the unit's
+-shared cache. Mixed roots can therefore gain or lose SUCCESS/UNREACHABLE safety
+-checks in a shared monomorphized function. The explicit reviewed allowlist is
+-currently only `std::ptr::read::<u8>`: both its exact regular-output function
+-location and its `.safety_check.N` property ID must match. Extra/missing rows
+-there are accepted and retained as T1b evidence. Existing IDs may not change
+-status, description or location; failures, Unsupported, assertions, reachability
+-checks and covers are never exempted. Other functions fail closed until
+-explicitly reviewed. In capture r2 (`43502450916`), `immutable_legal` acquired
+-six successful checks `.safety_check.5`–`.10` in that shared function, with the
+-same SUCCESS verdict and zero failures. This oracle allowance does not repair
+-T1b or qualify shared-cache isolation; that remains a separate upstream
+-mechanism (R3 answer 7/11). Isolated binding review remains exact. Fixtures
+-currently have no covers; a future reviewed binding with covers must also
+-supply `expected_covers`.
++unsupported/failure metadata drift. The mixed-root oracle requires exact full
++multiset equality for checks, failed-property metadata, Unsupported properties,
++and covers, plus equal verdict and failure kind. Root harness and target-function
++checks stay exact, including status and metadata; reached covers retain their
++exact identities, descriptions, and locations. Every inventory change is
++rejected, including changes to shared safety instrumentation. Fixtures currently
++have no covers; a future reviewed
++binding with covers must also supply `expected_covers`.
+ 
+ The A/B and B/A labels describe only selector argument order. Source/CLI order
+ does not establish producer or codegen order. `ROOT-ORDER-MAP.json` records
+diff --git a/tests/json-handler/uninit-part1-composition/compare.py b/tests/json-handler/uninit-part1-composition/compare.py
+index 543df3b77..65ddfefdb 100644
+--- a/tests/json-handler/uninit-part1-composition/compare.py
++++ b/tests/json-handler/uninit-part1-composition/compare.py
+@@ -1,13 +1,9 @@
+ #!/usr/bin/env python3
+ # Copyright Kani Contributors
+ # SPDX-License-Identifier: Apache-2.0 OR MIT
+-"""Root-local composition oracle with a narrow, recorded T1b allowance."""
++"""Root-local composition oracle with exact per-root comparisons."""
+ from collections import Counter
+ 
+-# Reviewed shared monomorphization in this fixture, never a root/contract target.
+-# Do not infer sharing merely from a function being outside the selected harness.
+-T1B_SHARED_FUNCTIONS = {"std::ptr::read::<u8>"}
+-
+ 
+ class Rejected(ValueError):
+     pass
+@@ -154,25 +150,8 @@ def row_difference(before, after):
+     return difference
+ 
+ 
+-def t1b_check(row):
+-    """Only benign safety instrumentation in an explicitly reviewed shared body."""
+-    location = row.get("location")
+-    if not isinstance(location, str):
+-        return False
+-    function = location.rpartition(" in function ")[2]
+-    prefix = function + ".safety_check."
+-    return (function in T1B_SHARED_FUNCTIONS
+-            and row["status"] in {"SUCCESS", "UNREACHABLE"}
+-            and row["id"].startswith(prefix) and row["id"][len(prefix):].isdigit())
+-
+-
+ def compare_root(isolated, combined):
+-    """Return all drift; permit only extra/missing benign shared instrumentation.
+-
+-    Verdict, failures (including exact metadata), Unsupported, covers, and every
+-    useful/root/target check stay exact. Existing IDs may not change metadata or
+-    status, even in a shared body. Unknown functions fail closed.
+-    """
++    """Return all drift and accept only exact equality of the complete inventories."""
+     inventory(isolated)
+     inventory(combined)
+     require(isolated["expected_root"] == combined["expected_root"], "different root bindings")
+@@ -185,20 +164,13 @@ def compare_root(isolated, combined):
+     for field in ("verdict", "failure_kind"):
+         if isolated[field] != combined[field]:
+             differences[field] = {"isolated": isolated[field], "combined": combined[field]}
+-    check_diff = differences.get("checks", {"removed": [], "added": []})
+-    common_ids = {row["id"] for row in isolated["checks"]} & {
+-        row["id"] for row in combined["checks"]}
+-    t1b = {direction: [row for row in rows
+-                      if t1b_check(row) and row["id"] not in common_ids]
+-           for direction, rows in check_diff.items()}
+-    accepted = (set(differences) <= {"checks"} and t1b == check_diff)
++    accepted = not differences
+     return {"root": isolated["expected_root"], "accepted": accepted,
+-            "exact_match": not differences, "differences": differences,
+-            "t1b_evidence": t1b}
++            "exact_match": not differences, "differences": differences}
+ 
+ 
+ def compare_pair(isolated, combined, expected_roots):
+-    """Require semantic composition, recording the narrow shared-cache exception."""
++    """Require every selected root's complete inventory to match isolation exactly."""
+     singles = compare_selection(isolated, expected_roots)
+     joint = compare_selection(combined, expected_roots)
+     require(set(singles) == set(joint), "combined selection has different roots")
+diff --git a/tests/json-handler/uninit-part1-composition/run.py b/tests/json-handler/uninit-part1-composition/run.py
+index 2878e1925..ca3efd38a 100644
+--- a/tests/json-handler/uninit-part1-composition/run.py
++++ b/tests/json-handler/uninit-part1-composition/run.py
+@@ -306,7 +306,7 @@ def main():
+     parser.add_argument("--keep-output", action="store_true",
+                         help="retain temporary exports and regular logs")
+     parser.add_argument("--collect-unbound", action="store_true",
+-                        help="explicit pre-binding capture; prints complete observations and exits 2")
++                        help="observe fresh isolated/mixed runs without golden bindings; prints observations and exits 2")
+     args = parser.parse_args()
+     return capture(args)
+ 
+@@ -342,7 +342,7 @@ def capture(args):
+             receipts.append(receipt)
+             step = "isolated-" + case["name"] + ": compare/binding"
+             isolated_root = compare_selection(result, {case["name"]: case})[case["name"]]
+-            if not binding_pending:
++            if not args.collect_unbound:
+                 check_single(isolated_root, {"binding": case["binding"],
+                                              "expected_verdict": case["expected_verdict"],
+                                              "checks": case["expected_inventory"],
+@@ -371,12 +371,12 @@ def capture(args):
+                             f"mixed-root inventory changed: {name} in {order['id']}")
+         step = "write capture report"
+         report = {"status": "UNBOUND_CAPTURE" if args.collect_unbound else "PASS",
+-                  "binding_status": "BINDING_PENDING" if binding_pending else "REGRESSION_BOUND",
++                  "binding_status": "NOT_CHECKED_CAPTURE" if args.collect_unbound
++                      else "REGRESSION_BOUND",
+                   "root_inventory_observations": isolated,
+                   "combined_inventory_observations": combined_observations,
+                   "mixed_root_comparisons": comparisons,
+                   "mixed_root_oracle": "MISMATCH" if any(not item["accepted"] for item in comparisons)
+-                      else "MATCH_WITH_T1B" if any(not item["exact_match"] for item in comparisons)
+                       else "EXACT_MATCH",
+                   "order_credit": "NOT_ESTABLISHED",
+                   "producer_order": manifest["producer_order_receipt"]["status"],
+diff --git a/tests/json-handler/uninit-part1-composition/test_bindings.py b/tests/json-handler/uninit-part1-composition/test_bindings.py
+index 393afe955..0e70345c8 100644
+--- a/tests/json-handler/uninit-part1-composition/test_bindings.py
++++ b/tests/json-handler/uninit-part1-composition/test_bindings.py
+@@ -184,7 +184,7 @@ class BindingManifestTests(unittest.TestCase):
+         with self.assertRaisesRegex(Rejected, "Unsupported inventory"):
+             check_single(actual, expected)
+ 
+-    def test_cycle_diagnostic_drift_is_not_accepted_as_t1b(self):
++    def test_cycle_diagnostic_drift_is_rejected(self):
+         baseline, expected = self.bound_cycle()
+         changed = copy.deepcopy(baseline)
+         for bucket in ("checks", "failed_properties", "unsupported_constructs"):
+@@ -195,7 +195,7 @@ class BindingManifestTests(unittest.TestCase):
+             check_single(changed, expected)
+         self.assertFalse(compare_root(baseline, changed)["accepted"])
+ 
+-    def test_shared_t1b_check_can_be_recorded_without_changing_binding(self):
++    def test_shared_check_drift_is_rejected_with_full_rows(self):
+         baseline = observation("immutable_legal", [])
+         combined = copy.deepcopy(baseline)
+         combined["checks"] = [{
+@@ -205,9 +205,9 @@ class BindingManifestTests(unittest.TestCase):
+             "location": "library/core/src/ptr/mod.rs:1:1 in function std::ptr::read::<u8>",
+         }]
+         result = compare_root(baseline, combined)
+-        self.assertTrue(result["accepted"])
++        self.assertFalse(result["accepted"])
+         self.assertFalse(result["exact_match"])
+-        self.assertEqual(len(result["t1b_evidence"]["added"]), 1)
++        self.assertEqual(result["differences"]["checks"]["added"], combined["checks"])
+ 
+ 
+ if __name__ == "__main__":
+diff --git a/tests/json-handler/uninit-part1-composition/test_compare.py b/tests/json-handler/uninit-part1-composition/test_compare.py
+index 6a5ec2cca..ad848632c 100644
+--- a/tests/json-handler/uninit-part1-composition/test_compare.py
++++ b/tests/json-handler/uninit-part1-composition/test_compare.py
+@@ -221,17 +221,19 @@ class MixedInventoryTests(unittest.TestCase):
+         row["location"] = "library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>"
+         return row
+ 
+-    def test_shared_superset_and_subset_are_recorded_as_t1b(self):
++    def test_shared_superset_and_subset_are_diagnostic_but_rejected(self):
+         extra = [self.shared_check(), self.shared_check(6, "UNREACHABLE")]
+         mixed = copy.deepcopy(self.legal)
+         mixed["checks"] += extra
+         for before, after, direction in ((self.legal, mixed, "added"),
+                                          (mixed, self.legal, "removed")):
+             with self.subTest(direction=direction):
+-                self.assertTrue(compare_pair(run(before), run(after), self.expected))
++                with self.assertRaisesRegex(Rejected, "mixed-root inventory changed: legal"):
++                    compare_pair(run(before), run(after), self.expected)
+                 diff = compare_root(before, after)
+                 self.assertFalse(diff["exact_match"])
+-                self.assertEqual(diff["t1b_evidence"][direction], extra)
++                self.assertFalse(diff["accepted"])
++                self.assertEqual(diff["differences"]["checks"][direction], extra)
+ 
+     def test_shared_failure_multiset_drift_is_rejected(self):
+         baseline = root("legal", [self.shared_check(1, "FAILURE")], "FAILURE")
+@@ -558,7 +560,7 @@ class ExecuteReceiptTests(unittest.TestCase):
+ class CaptureDiagnosticTests(unittest.TestCase):
+     def invoke(self, fail_run=None, compare_error=False, corrupt_receipt=False,
+                collect_unbound=True, report_error=False, interrupt=False, shared_extra=False,
+-               failure_drift=False, bound_manifest=False):
++               failure_drift=False, bound_manifest=False, stale_binding=False):
+         args = SimpleNamespace(kani="must-not-run", keep_output=True,
+                                collect_unbound=collect_unbound)
+         with tempfile.TemporaryDirectory() as temporary:
+@@ -574,6 +576,8 @@ class CaptureDiagnosticTests(unittest.TestCase):
+                                 expected_failure_kind=baseline["failure_kind"],
+                                 expected_failures=baseline["failed_properties"],
+                                 expected_unsupported_inventory=baseline["unsupported_constructs"])
++                    if stale_binding:
++                        case["expected_inventory"] = [check("stale.golden.binding")]
+             else:
+                 # Exercise the pending guard independently of committed bindings.
+                 manifest["roots"][0]["binding"] = "BINDING_PENDING"
+@@ -648,13 +652,16 @@ class CaptureDiagnosticTests(unittest.TestCase):
+         self.assertEqual(len(report["combined_inventory_observations"]), 4)
+         self.assertEqual(errors, "")
+ 
+-    def test_shared_superset_capture_records_t1b_and_completes_all_runs(self):
++    def test_shared_superset_capture_records_mismatch_and_completes_all_runs(self):
+         code, report, _, errors, count = self.invoke(shared_extra=True)
+         self.assertEqual(code, 2)
+         self.assertEqual(count, 11)
+-        self.assertEqual(report["mixed_root_oracle"], "MATCH_WITH_T1B")
+-        self.assertEqual(report["mixed_root_comparisons"][0]["t1b_evidence"]["added"][0]["id"],
+-                         "std::ptr::read::<u8>.safety_check.5")
++        self.assertEqual(report["mixed_root_oracle"], "MISMATCH")
++        self.assertFalse(report["mixed_root_comparisons"][0]["accepted"])
++        self.assertEqual(report["mixed_root_comparisons"][0]["differences"]["checks"]["added"][0],
++                         {"id": "std::ptr::read::<u8>.safety_check.5",
++                          "status": "SUCCESS", "description": "std::ptr::read::<u8>.safety_check.5",
++                          "location": "ptr/mod.rs:1754:9 in function std::ptr::read::<u8>"})
+         self.assertEqual(errors, "")
+ 
+     def test_failure_drift_capture_retains_failure_metadata_and_runs_all_orders(self):
+@@ -671,7 +678,7 @@ class CaptureDiagnosticTests(unittest.TestCase):
+ 
+     def test_bound_regression_uses_oracle_and_explicit_capture_never_claims_pass(self):
+         for shared, failure, collect, expected_code in ((False, False, False, 0),
+-                                                      (True, False, False, 0),
++                                                      (True, False, False, 1),
+                                                       (False, True, False, 1),
+                                                       (False, False, True, 2)):
+             with self.subTest(shared=shared, failure=failure, collect=collect):
+@@ -683,6 +690,15 @@ class CaptureDiagnosticTests(unittest.TestCase):
+                     self.assertEqual(count, 11)
+                     self.assertEqual(report["status"], "UNBOUND_CAPTURE" if collect else "PASS")
+ 
++    def test_explicit_capture_skips_stale_golden_bindings(self):
++        code, report, _, errors, count = self.invoke(
++            collect_unbound=True, bound_manifest=True, stale_binding=True)
++        self.assertEqual((code, count), (2, 11))
++        self.assertEqual(report["status"], "UNBOUND_CAPTURE")
++        self.assertEqual(report["binding_status"], "NOT_CHECKED_CAPTURE")
++        self.assertEqual(report["mixed_root_oracle"], "EXACT_MATCH")
++        self.assertEqual(errors, "")
++
+     def test_corrupt_receipt_does_not_mask_original_failure(self):
+         code, report, _, errors, _ = self.invoke(fail_run="isolated-pfc_legal",
+                                                 corrupt_receipt=True)
+@@ -716,7 +732,7 @@ class CaptureDiagnosticTests(unittest.TestCase):
+         self.assertEqual(code, 2)
+         self.assertEqual(count, 11)
+         self.assertEqual(report["status"], "UNBOUND_CAPTURE")
+-        self.assertEqual(report["binding_status"], "BINDING_PENDING")
++        self.assertEqual(report["binding_status"], "NOT_CHECKED_CAPTURE")
+         self.assertEqual(report["order_credit"], "NOT_ESTABLISHED")
+         self.assertEqual(errors, "")
+ 
