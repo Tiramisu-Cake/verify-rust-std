@@ -1,0 +1,38 @@
+---- [expected] expected/uninit/copy-source-arguments/arg1-hole.rs stdout ----
+
+error: test failed: expected output to contain the line(s):
+Checking harness copy_same_source_to_arg1_hole...
+status: exit status: 1
+command: RUSTFLAGS="--edition 2021" "kani" "tests/expected/uninit/copy-source-arguments/arg1-hole.rs" "-Z" "uninit-checks" "--output-format=regular" "--harness" "copy_same_source_to_arg1_hole" "--exact" "-Z" "unstable-options" "--cbmc-args" "--object-bits" "12"
+stdout:
+------------------------------------------
+Kani Rust Verifier 0.68.0 (standalone)
+CBMC 6.11.0
+error: target/kani/bin/kani-compiler exited with status exit status: 101
+
+------------------------------------------
+stderr:
+------------------------------------------
+error[E0423]: cannot find function, tuple struct or tuple variant `Copy` in this scope
+  --> tests/expected/uninit/copy-source-arguments/arg1-hole.rs:23:41
+   |
+23 |             Call(selected = read_second(Copy(source), Copy(source)), ReturnTo(done), UnwindUnreachable())
+   |                                         ^^^^ not found in this scope
+   |
+   = note: a trait named `Copy` exists in another namespace
+
+error[E0423]: cannot find function, tuple struct or tuple variant `Copy` in this scope
+  --> tests/expected/uninit/copy-source-arguments/arg1-hole.rs:23:55
+   |
+23 |             Call(selected = read_second(Copy(source), Copy(source)), ReturnTo(done), UnwindUnreachable())
+   |                                                       ^^^^ not found in this scope
+   |
+   = note: a trait named `Copy` exists in another namespace
+
+error: aborting due to 2 previous errors
+
+For more information about this error, try `rustc --explain E0423`.
+
+------------------------------------------
+
+

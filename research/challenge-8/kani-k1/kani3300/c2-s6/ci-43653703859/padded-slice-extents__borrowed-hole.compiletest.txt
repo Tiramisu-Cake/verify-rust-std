@@ -1,0 +1,1165 @@
+---- [expected] expected/uninit/padded-slice-extents/borrowed-hole.rs stdout ----
+
+error: test failed: expected output to contain the line(s):
+borrowed_slice_cross_slot_hole.assertion.1
+ - Status: SUCCESS
+ - Description: "assertion failed: first_value == 0x5a5a_5a5a"
+status: exit status: 1
+command: RUSTFLAGS="--edition 2021" "kani" "tests/expected/uninit/padded-slice-extents/borrowed-hole.rs" "-Z" "uninit-checks" "--output-format=regular" "--harness" "borrowed_slice_cross_slot_hole" "--exact" "-Z" "unstable-options" "--cbmc-args" "--object-bits" "12"
+stdout:
+------------------------------------------
+Kani Rust Verifier 0.68.0 (standalone)
+CBMC 6.11.0
+Checking harness borrowed_slice_cross_slot_hole...
+CBMC 6.11.0 (cbmc-6.11.0)
+CBMC version 6.11.0 (cbmc-6.11.0) 64-bit x86_64 linux
+Reading GOTO program from file tests/expected/uninit/padded-slice-extents/borrowed_hole__RNvCs4GLkAzirj8U_13borrowed_hole30borrowed_slice_cross_slot_hole.out
+Generating GOTO Program
+Adding CPROVER library (x86_64)
+Removal of function pointers and virtual functions
+Generic Property Instrumentation
+Running with 12 object bits, 52 offset bits (user-specified)
+Starting Bounded Model Checking
+Runtime Symex: 0.266125s
+size of program expression: 8431 steps
+slicing removed 5505 assignments
+Generated 376 VCC(s), 229 remaining after simplification
+Runtime Postprocess Equation: 0.00518781s
+Passing problem to propositional reduction
+converting SSA
+Runtime Convert SSA: 0.0545459s
+Running propositional reduction
+Post-processing
+Runtime Post-process: 1.3299e-05s
+Solving with CaDiCaL 3.0.0
+40561 variables, 89236 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00506976s
+Runtime decision procedure: 0.0611903s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+40562 variables, 89237 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0125617s
+Runtime decision procedure: 0.0134201s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+40563 variables, 89238 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.022467s
+Runtime decision procedure: 0.0231688s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+40564 variables, 89239 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0159354s
+Runtime decision procedure: 0.0168639s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+40565 variables, 89240 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0101616s
+Runtime decision procedure: 0.0110257s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+40566 variables, 89241 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00995339s
+Runtime decision procedure: 0.01065s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+40567 variables, 89242 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0114966s
+Runtime decision procedure: 0.0123699s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+40568 variables, 89243 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0144601s
+Runtime decision procedure: 0.0152813s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+40569 variables, 89244 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.059536s
+Runtime decision procedure: 0.0602873s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+40570 variables, 89245 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0495122s
+Runtime decision procedure: 0.0502553s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+40571 variables, 89246 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0371331s
+Runtime decision procedure: 0.0379974s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+40572 variables, 89247 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0521523s
+Runtime decision procedure: 0.0530122s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+40573 variables, 89248 clauses
+SAT checker: instance is UNSATISFIABLE
+Runtime Solver: 0.0241851s
+Runtime decision procedure: 0.0247841s
+
+RESULTS:
+Check 1: kani::mem_init::MemoryInitializationState::set::<96>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 2: kani::mem_init::MemoryInitializationState::set::<96>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 3: kani::mem_init::MemoryInitializationState::set::<96>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 4: kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 5: kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.2
+	 - Status: UNREACHABLE
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:479:21 in function kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 6: kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:488:28 in function kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 7: kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_last_stored < selected_argument"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 8: kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written < MEM_INIT_STATE.argument_buffer_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 9: kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.6
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_count > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 10: kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_signature == signature"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 11: kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 12: core::panicking::panic_nounwind_fmt::runtime.unsupported_construct.1
+	 - Status: SUCCESS
+	 - Description: "call to foreign "Rust" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panicking.rs:110:17 in function core::panicking::panic_nounwind_fmt::runtime
+
+Check 13: std::ptr::read_volatile::<u32>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u32`"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u32>
+
+Check 14: std::ptr::read_volatile::<u32>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "`src` must be properly aligned"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u32>
+
+Check 15: kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>
+
+Check 16: kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>
+
+Check 17: kani::mem_init::set_ptr_initialized::<8, usize>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<8, usize>
+
+Check 18: kani::mem_init::set_ptr_initialized::<8, usize>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<8, usize>
+
+Check 19: std::ptr::read_volatile::<u8>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u8>
+
+Check 20: std::ptr::read_volatile::<u8>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "`src` must be properly aligned"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u8>
+
+Check 21: <usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1
+	 - Status: SUCCESS
+	 - Description: "unreachable code"
+	 - Location: library/kani_core/src/models.rs:203:17 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize
+
+Check 22: <usize as kani::rustc_intrinsics::ToISize>::to_isize.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "Offset value overflows isize"
+	 - Location: library/kani/src/lib.rs:63:1 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize
+
+Check 23: <usize as kani::rustc_intrinsics::ToISize>::to_isize.assertion.1
+	 - Status: SUCCESS
+	 - Description: "internal error: entered unreachable code"
+	 - Location: library/kani/src/lib.rs:63:1 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize
+
+Check 24: <usize as std::slice::SliceIndex<[std::mem::MaybeUninit<Padded>]>>::get_unchecked.assume.1
+	 - Status: SUCCESS
+	 - Description: "Rust intrinsic assumption failed"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/index.rs:218:13 in function <usize as std::slice::SliceIndex<[std::mem::MaybeUninit<Padded>]>>::get_unchecked
+
+Check 25: kani::mem_init::MemoryInitializationState::get::<4>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:93:46 in function kani::mem_init::MemoryInitializationState::get::<4>
+
+Check 26: kani::mem_init::MemoryInitializationState::get::<4>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:95:29 in function kani::mem_init::MemoryInitializationState::get::<4>
+
+Check 27: kani::mem_init::MemoryInitializationState::get::<4>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:95:22 in function kani::mem_init::MemoryInitializationState::get::<4>
+
+Check 28: core::slice::<impl [std::mem::MaybeUninit<Padded>]>::get_unchecked::<usize>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/mod.rs:649:18 in function core::slice::<impl [std::mem::MaybeUninit<Padded>]>::get_unchecked::<usize>
+
+Check 29: core::slice::<impl [std::mem::MaybeUninit<Padded>]>::get_unchecked::<usize>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/mod.rs:649:18 in function core::slice::<impl [std::mem::MaybeUninit<Padded>]>::get_unchecked::<usize>
+
+Check 30: kani::mem_init::copy_init_state_single::<8, std::mem::MaybeUninit<Padded>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:416:17 in function kani::mem_init::copy_init_state_single::<8, std::mem::MaybeUninit<Padded>>
+
+Check 31: kani::mem_init::copy_init_state_single::<8, std::mem::MaybeUninit<Padded>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:416:17 in function kani::mem_init::copy_init_state_single::<8, std::mem::MaybeUninit<Padded>>
+
+Check 32: std::fmt::Arguments::<'_>::from_str.assertion.1
+	 - Status: UNREACHABLE
+	 - Description: "attempt to shift left with overflow"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/mod.rs:820:38 in function std::fmt::Arguments::<'_>::from_str
+
+Check 33: kani::mem_init::is_ptr_initialized::<4, u32>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:262:22 in function kani::mem_init::is_ptr_initialized::<4, u32>
+
+Check 34: kani::mem_init::is_ptr_initialized::<4, u32>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:262:22 in function kani::mem_init::is_ptr_initialized::<4, u32>
+
+Check 35: kani::mem_init::MemoryInitializationState::set::<8>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 36: kani::mem_init::MemoryInitializationState::set::<8>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 37: kani::mem_init::MemoryInitializationState::set::<8>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 38: std::ptr::read::<u8>.safety_check.1
+	 - Status: FAILURE
+	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+
+Check 39: std::ptr::read::<u8>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+
+Check 40: std::ptr::read::<u8>.safety_check.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+
+Check 41: std::ptr::read::<u8>.safety_check.4
+	 - Status: FAILURE
+	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+
+Check 42: kani::mem_init::set_ptr_initialized::<8, std::mem::MaybeUninit<Padded>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<8, std::mem::MaybeUninit<Padded>>
+
+Check 43: kani::mem_init::set_ptr_initialized::<8, std::mem::MaybeUninit<Padded>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<8, std::mem::MaybeUninit<Padded>>
+
+Check 44: kani::mem_init::MemoryInitializationState::get::<1>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:93:46 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 45: kani::mem_init::MemoryInitializationState::get::<1>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:95:29 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 46: kani::mem_init::MemoryInitializationState::get::<1>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:95:22 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 47: borrowed_slice_cross_slot_hole.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:35:30 in function borrowed_slice_cross_slot_hole
+
+Check 48: borrowed_slice_cross_slot_hole.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:35:30 in function borrowed_slice_cross_slot_hole
+
+Check 49: borrowed_slice_cross_slot_hole.assertion.3
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:35:30 in function borrowed_slice_cross_slot_hole
+
+Check 50: borrowed_slice_cross_slot_hole.assertion.4
+	 - Status: SUCCESS
+	 - Description: "assertion failed: first_value == 0x5a5a_5a5a"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:40:5 in function borrowed_slice_cross_slot_hole
+
+Check 51: borrowed_slice_cross_slot_hole.assertion.5
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:42:66 in function borrowed_slice_cross_slot_hole
+
+Check 52: borrowed_slice_cross_slot_hole.assertion.6
+	 - Status: SUCCESS
+	 - Description: "assertion failed: crossed_byte == 0x5a"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:43:5 in function borrowed_slice_cross_slot_hole
+
+Check 53: borrowed_slice_cross_slot_hole.assertion.7
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:44:59 in function borrowed_slice_cross_slot_hole
+
+Check 54: kani::mem_init::is_ptr_initialized::<1, u8>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:262:22 in function kani::mem_init::is_ptr_initialized::<1, u8>
+
+Check 55: kani::mem_init::is_ptr_initialized::<1, u8>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:262:22 in function kani::mem_init::is_ptr_initialized::<1, u8>
+
+Check 56: check_layout.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:17:21 in function check_layout
+
+Check 57: check_layout.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to multiply with overflow"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:19:18 in function check_layout
+
+Check 58: check_layout.assertion.3
+	 - Status: SUCCESS
+	 - Description: "assertion failed: mem::offset_of!(Padded, tag) == 0"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:20:5 in function check_layout
+
+Check 59: check_layout.assertion.4
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:21:16 in function check_layout
+
+Check 60: check_layout.arithmetic_overflow.1
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:21:16 in function check_layout
+
+Check 61: check_layout.assertion.5
+	 - Status: SUCCESS
+	 - Description: "assertion failed: value_offset % mem::align_of::<u32>() == 0"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:21:5 in function check_layout
+
+Check 62: check_layout.assertion.6
+	 - Status: SUCCESS
+	 - Description: "assertion failed: mem::align_of::<Padded>() == mem::align_of::<u32>()"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:22:5 in function check_layout
+
+Check 63: check_layout.assertion.7
+	 - Status: SUCCESS
+	 - Description: "assertion failed: mem::size_of::<Padded>() == stride"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:23:5 in function check_layout
+
+Check 64: check_layout.assertion.8
+	 - Status: SUCCESS
+	 - Description: "assertion failed: mem::size_of::<MaybeUninit<Padded>>() == stride"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:24:5 in function check_layout
+
+Check 65: check_layout.assertion.9
+	 - Status: SUCCESS
+	 - Description: "attempt to multiply with overflow"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:25:41 in function check_layout
+
+Check 66: check_layout.assertion.10
+	 - Status: SUCCESS
+	 - Description: "assertion failed: mem::size_of_val(slice) == 2 * stride"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:25:5 in function check_layout
+
+Check 67: core::num::<impl usize>::div_ceil.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to divide by zero"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:3812:21 in function core::num::<impl usize>::div_ceil
+
+Check 68: core::num::<impl usize>::div_ceil.arithmetic_overflow.1
+	 - Status: SUCCESS
+	 - Description: "attempt to divide by zero"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:3812:21 in function core::num::<impl usize>::div_ceil
+
+Check 69: core::num::<impl usize>::div_ceil.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:3813:21 in function core::num::<impl usize>::div_ceil
+
+Check 70: core::num::<impl usize>::div_ceil.arithmetic_overflow.2
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:3813:21 in function core::num::<impl usize>::div_ceil
+
+Check 71: core::num::<impl usize>::div_ceil.assertion.3
+	 - Status: UNREACHABLE
+	 - Description: "attempt to add with overflow"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:3815:17 in function core::num::<impl usize>::div_ceil
+
+Check 72: kani::mem_init::set_slice_chunk_ptr_initialized::<1, u8>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:311:17 in function kani::mem_init::set_slice_chunk_ptr_initialized::<1, u8>
+
+Check 73: kani::mem_init::set_slice_chunk_ptr_initialized::<1, u8>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:311:17 in function kani::mem_init::set_slice_chunk_ptr_initialized::<1, u8>
+
+Check 74: std::ptr::write_bytes::<u8>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "`dst` must be properly aligned"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:732:9 in function std::ptr::write_bytes::<u8>
+
+Check 75: std::ptr::write_bytes::<u8>.arithmetic_overflow.1
+	 - Status: SUCCESS
+	 - Description: "write_bytes: attempt to compute number in bytes which would overflow"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:732:9 in function std::ptr::write_bytes::<u8>
+
+Check 76: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 77: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written == 1"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 78: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "assertion failed: argument_count == 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 79: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_layout_size == LAYOUT_SIZE"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 80: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:537:25 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 81: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.6
+	 - Status: UNREACHABLE
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:539:65 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 82: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:541:21 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 83: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:541:21 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 84: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:543:17 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 85: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_selected_argument == usize::MAX"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 86: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.9
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_last_loaded < selected_argument"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 87: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.10
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written == argument_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 88: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.11
+	 - Status: SUCCESS
+	 - Description: "assertion failed: argument_count > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 89: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.12
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_remaining > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 90: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.13
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_count == argument_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 91: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.14
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_signature == signature"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 92: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.assertion.15
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 93: kani::mem_init::MemoryInitializationState::set::<1>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 94: kani::mem_init::MemoryInitializationState::set::<1>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 95: kani::mem_init::MemoryInitializationState::set::<1>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 96: kani::mem_init::set_str_ptr_initialized::<1>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:373:17 in function kani::mem_init::set_str_ptr_initialized::<1>
+
+Check 97: kani::mem_init::set_str_ptr_initialized::<1>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:373:17 in function kani::mem_init::set_str_ptr_initialized::<1>
+
+Check 98: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:166:60 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 99: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:166:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 100: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:171:59 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 101: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:171:47 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 102: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 103: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.assertion.6
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 104: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.arithmetic_overflow.1
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 105: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:173:39 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 106: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:181:58 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 107: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.assertion.9
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:181:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 108: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.assertion.10
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 109: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.assertion.11
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 110: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.arithmetic_overflow.2
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 111: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.assertion.12
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:183:34 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 112: kani::mem_init::set_ptr_initialized::<1, bool>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, bool>
+
+Check 113: kani::mem_init::set_ptr_initialized::<1, bool>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, bool>
+
+Check 114: kani::rustc_intrinsics::size_of_val_raw::<[std::mem::MaybeUninit<Padded>; 2]>.unreachable.1
+	 - Status: SUCCESS
+	 - Description: "unreachable code"
+	 - Location: library/kani_core/src/models.rs:23:13 in function kani::rustc_intrinsics::size_of_val_raw::<[std::mem::MaybeUninit<Padded>; 2]>
+
+Check 115: kani::rustc_intrinsics::size_of_val_raw::<[std::mem::MaybeUninit<Padded>; 2]>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "cannot compute `size_of_val` for extern types"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::rustc_intrinsics::size_of_val_raw::<[std::mem::MaybeUninit<Padded>; 2]>
+
+Check 116: kani::rustc_intrinsics::size_of_val_raw::<[std::mem::MaybeUninit<Padded>; 2]>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "failed to compute `size_of_val`"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::rustc_intrinsics::size_of_val_raw::<[std::mem::MaybeUninit<Padded>; 2]>
+
+Check 117: std::panic::Location::<'_>::caller.unsupported_construct.1
+	 - Status: SUCCESS
+	 - Description: "Kani does not support reasoning about memory initialization of intrinsic `Unimplemented { name: "caller_location", issue_link: "https://github.com/model-checking/kani/issues/374" }`."
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic/location.rs:185:9 in function std::panic::Location::<'_>::caller
+
+Check 118: std::panic::Location::<'_>::caller.unsupported_construct.2
+	 - Status: SUCCESS
+	 - Description: "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic/location.rs:185:9 in function std::panic::Location::<'_>::caller
+
+Check 119: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:230:55 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 120: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:230:46 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 121: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 122: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 123: kani::mem_init::MemoryInitializationState::set_slice::<1>.arithmetic_overflow.1
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 124: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:232:34 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 125: kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "Offset in bytes overflows isize"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::rustc_intrinsics::offset::<u8, *const u8, usize>
+
+Check 126: kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "Offset result address must equal original pointer address plus offset"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::rustc_intrinsics::offset::<u8, *const u8, usize>
+
+Check 127: kani::rustc_intrinsics::offset::<u8, *const u8, usize>.safety_check.3
+	 - Status: SUCCESS
+	 - Description: "Offset result and original pointer must point to the same allocation"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::rustc_intrinsics::offset::<u8, *const u8, usize>
+
+Check 128: std::ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1
+	 - Status: UNREACHABLE
+	 - Description: "attempt to subtract with overflow"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/const_ptr.rs:1359:23 in function std::ptr::const_ptr::<impl *const ()>::is_aligned_to
+
+Check 129: std::ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.2
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/const_ptr.rs:1356:13 in function std::ptr::const_ptr::<impl *const ()>::is_aligned_to
+
+Check 130: kani::mem::cbmc::same_allocation.unsupported_construct.1
+	 - Status: SUCCESS
+	 - Description: "Kani does not support reasoning about pointer to unallocated memory"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem::cbmc::same_allocation
+
+Check 131: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:173:39 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 132: kani::mem_init::MemoryInitializationState::copy_by_id::<8>.array_bounds.2
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:183:34 in function kani::mem_init::MemoryInitializationState::copy_by_id::<8>
+
+Check 133: kani::mem_init::MemoryInitializationState::get::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:95:22 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 134: kani::mem_init::MemoryInitializationState::get::<4>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:95:22 in function kani::mem_init::MemoryInitializationState::get::<4>
+
+Check 135: kani::mem_init::MemoryInitializationState::set::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 136: kani::mem_init::MemoryInitializationState::set::<96>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 137: kani::mem_init::MemoryInitializationState::set::<8>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 138: kani::mem_init::MemoryInitializationState::set_slice::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:232:34 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 139: kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:539:65 in function kani::mem_init::load_argument::<8, std::mem::MaybeUninit<Padded>>
+
+Check 140: pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+
+Check 141: pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+
+Check 142: pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+
+Check 143: pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+
+Check 144: pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+
+Check 145: pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+
+Check 146: pointer_dereference.7
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+
+Check 147: pointer_dereference.8
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+
+Check 148: pointer_dereference.9
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+
+Check 149: pointer_dereference.10
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+
+Check 150: pointer_dereference.11
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+
+Check 151: pointer_dereference.12
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+
+Check 152: std::ptr::write_bytes::<u8>.precondition_instance.1
+	 - Status: SUCCESS
+	 - Description: "memset destination region writeable"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:732:9 in function std::ptr::write_bytes::<u8>
+
+Check 153: std::ptr::read_volatile::<u8>.pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u8>
+
+Check 154: std::ptr::read_volatile::<u8>.pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u8>
+
+Check 155: std::ptr::read_volatile::<u8>.pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u8>
+
+Check 156: std::ptr::read_volatile::<u8>.pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u8>
+
+Check 157: std::ptr::read_volatile::<u8>.pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u8>
+
+Check 158: std::ptr::read_volatile::<u8>.pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u8>
+
+Check 159: std::ptr::read_volatile::<u32>.pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u32>
+
+Check 160: std::ptr::read_volatile::<u32>.pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u32>
+
+Check 161: std::ptr::read_volatile::<u32>.pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u32>
+
+Check 162: std::ptr::read_volatile::<u32>.pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u32>
+
+Check 163: std::ptr::read_volatile::<u32>.pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u32>
+
+Check 164: std::ptr::read_volatile::<u32>.pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:2159:9 in function std::ptr::read_volatile::<u32>
+
+Check 165: std::ptr::read::<u8>.pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+
+Check 166: std::ptr::read::<u8>.pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+
+Check 167: std::ptr::read::<u8>.pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+
+Check 168: std::ptr::read::<u8>.pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+
+Check 169: std::ptr::read::<u8>.pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+
+Check 170: std::ptr::read::<u8>.pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs:1754:9 in function std::ptr::read::<u8>
+
+Check 171: check_layout.division-by-zero.1
+	 - Status: SUCCESS
+	 - Description: "division by zero"
+	 - Location: tests/expected/uninit/padded-slice-extents/borrowed-hole.rs:21:16 in function check_layout
+
+Check 172: core::num::<impl usize>::div_ceil.division-by-zero.1
+	 - Status: SUCCESS
+	 - Description: "division by zero"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:3812:21 in function core::num::<impl usize>::div_ceil
+
+Check 173: core::num::<impl usize>::div_ceil.division-by-zero.2
+	 - Status: SUCCESS
+	 - Description: "division by zero"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:3813:21 in function core::num::<impl usize>::div_ceil
+
+Check 174: array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 175: array_bounds.2
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 176: array_bounds.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 177: array_bounds.4
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 178: array_bounds.5
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 179: array_bounds.6
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 180: array_bounds.7
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 181: array_bounds.8
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 182: array_bounds.9
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 183: array_bounds.10
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 184: array_bounds.11
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 185: array_bounds.12
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 186: array_bounds.13
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 187: array_bounds.14
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 188: array_bounds.15
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 189: array_bounds.16
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 190: array_bounds.17
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 191: array_bounds.18
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 192: array_bounds.19
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 193: array_bounds.20
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 194: array_bounds.21
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 195: array_bounds.22
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 196: array_bounds.23
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 197: array_bounds.24
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 198: array_bounds.25
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 199: array_bounds.26
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 200: array_bounds.27
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 201: array_bounds.28
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 202: array_bounds.29
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 203: array_bounds.30
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 204: array_bounds.31
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 205: array_bounds.32
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 206: array_bounds.33
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 207: array_bounds.34
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 208: array_bounds.35
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 209: array_bounds.36
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 210: array_bounds.37
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 211: array_bounds.38
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 212: array_bounds.39
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 213: array_bounds.40
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+
+SUMMARY:
+ ** 2 of 213 failed (5 unreachable)
+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
+ File: "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs", line 1754, in std::ptr::read::<u8>
+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
+ File: "/home/runner/.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/mod.rs", line 1754, in std::ptr::read::<u8>
+
+VERIFICATION:- FAILED
+Verification Time: 2.6784103s
+
+Manual Harness Summary:
+Verification failed for - borrowed_slice_cross_slot_hole
+Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+
+------------------------------------------
+stderr:
+------------------------------------------
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+  |
+  = note: requested on the command line with `--force-warn unstable-features`
+
+warning: Found the following unsupported constructs:
+             - caller_location (1)
+             - foreign function (1)
+         
+         Verification will fail if one or more of these constructs is reachable.
+         See https://model-checking.github.io/kani/rust-feature-support.html for more details.
+
+warning: 2 warnings emitted
+
+
+------------------------------------------
+
+
+
