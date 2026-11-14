@@ -17,3 +17,16 @@ Exact fit (residual 0 at all five points): V = 258·2^B + 8 340, C = 642·2^B + 
 258 = 2 × 129 and 642 = 2 × 321, the per-read cost of one sliced DFCC table read derived in audit R3 §2.1
 (first read of a table version with a non-constant `POINTER_OBJECT` index: 129·N + 64 variables, 321·N + 1 clauses, N = 2^B).
 So refcell.rs pays exactly two such reads. Our uninit-checks P1 measurement (h1-step1, run 43393496999) paid six (774 = 6·129, 1926 = 6·321).
+
+## Probe: `--arrays-uf-always` (run 43606302978, CI-only b7a1c4d2ed, same base)
+
+Same command plus `--cbmc-args … --arrays-uf-always`. Both runs VERIFICATION SUCCESSFUL, exit 0.
+
+| B | variables | clauses (first solver instance) | Convert SSA | max RSS | wall |
+|---:|---:|---:|---:|---:|---:|
+| 12 | 532 628 | 8 247 | 0.06 s | 0.26 GB | 1.8 s |
+| 16 | 8 396 948 | 8 247 | 0.72 s | 2.41 GB | 3.3 s |
+
+Variables still grow as 128·2^B + 8 340, but clauses no longer depend on B; at B=16 RSS drops 9.8 → 2.4 GB and wall 22.4 → 3.3 s.
+Only this one test was tried; effect on the rest of the suite, on solver time for harder instances and any interaction
+with other options is untested. Observation, not a recommendation.
