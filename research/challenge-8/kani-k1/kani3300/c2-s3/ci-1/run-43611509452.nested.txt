@@ -1,0 +1,3280 @@
+---- [expected] expected/uninit/nested-aggregate-reset/moved-from-source.rs stdout ----
+
+error: test failed: expected output to contain the line(s):
+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
+status: exit status: 1
+command: RUSTFLAGS="--edition 2021 -D warnings" "kani" "/home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs" "-Z" "uninit-checks" "-Z" "unstable-options" "--output-format=regular" "--cbmc-args" "--object-bits" "12"
+stdout:
+------------------------------------------
+Kani Rust Verifier 0.68.0 (standalone)
+CBMC 6.11.0
+Checking harness moved_from_nested_payload_read_is_rejected...
+CBMC 6.11.0 (cbmc-6.11.0)
+CBMC version 6.11.0 (cbmc-6.11.0) 64-bit x86_64 linux
+Reading GOTO program from file /home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/moved_from_source__RNvCs8NYDB9e8Bs7_17moved_from_source42moved_from_nested_payload_read_is_rejected.out
+Generating GOTO Program
+Adding CPROVER library (x86_64)
+Removal of function pointers and virtual functions
+Generic Property Instrumentation
+Running with 12 object bits, 52 offset bits (user-specified)
+Starting Bounded Model Checking
+aborting path on assume(false) at file library/kani/src/lib.rs line 63 column 1 function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>> thread 0
+aborting path on assume(false) at file /home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs line 48 column 13 function read_moved_from_source thread 0
+Runtime Symex: 0.102396s
+size of program expression: 5547 steps
+slicing removed 3764 assignments
+Generated 310 VCC(s), 154 remaining after simplification
+Runtime Postprocess Equation: 0.0017336s
+Passing problem to propositional reduction
+converting SSA
+Runtime Convert SSA: 0.0190734s
+Running propositional reduction
+Post-processing
+Runtime Post-process: 1.3444e-05s
+Solving with CaDiCaL 3.0.0
+27155 variables, 59762 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00169491s
+Runtime decision procedure: 0.0215019s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+27156 variables, 59763 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00337722s
+Runtime decision procedure: 0.0037155s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+27157 variables, 59764 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00425769s
+Runtime decision procedure: 0.0046115s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+27158 variables, 59765 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00339947s
+Runtime decision procedure: 0.00367369s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+27159 variables, 59766 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00293894s
+Runtime decision procedure: 0.00320974s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+27160 variables, 59767 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00876583s
+Runtime decision procedure: 0.00903637s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+27161 variables, 59768 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00588674s
+Runtime decision procedure: 0.0061731s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+27162 variables, 59769 clauses
+SAT checker: instance is UNSATISFIABLE
+Runtime Solver: 0.0397321s
+Runtime decision procedure: 0.0399136s
+
+RESULTS:
+Check 1: kani::mem_init::set_ptr_initialized::<8, usize>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<8, usize>
+
+Check 2: kani::mem_init::set_ptr_initialized::<8, usize>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<8, usize>
+
+Check 3: kani::mem_init::set_ptr_initialized::<1, u8>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, u8>
+
+Check 4: kani::mem_init::set_ptr_initialized::<1, u8>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, u8>
+
+Check 5: kani::mem_init::begin_argument_transfer.assertion.1
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::begin_argument_transfer
+
+Check 6: kani::mem_init::begin_argument_transfer.assertion.2
+	 - Status: SUCCESS
+	 - Description: "assertion failed: argument_count > 0"
+Some tests failed in compiletest suite=expected mode=expected host=(none) target=(none)
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::begin_argument_transfer
+
+Check 7: kani::mem_init::set_ptr_initialized::<2, Nested>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<2, Nested>
+
+Check 8: kani::mem_init::set_ptr_initialized::<2, Nested>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<2, Nested>
+
+Check 9: std::mem::transmute_neo::<std::mem::MaybeUninit<u8>, u8>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/mod.rs:1279:14 in function std::mem::transmute_neo::<std::mem::MaybeUninit<u8>, u8>
+
+Check 10: kani::mem_init::set_str_ptr_initialized::<1>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:373:17 in function kani::mem_init::set_str_ptr_initialized::<1>
+
+Check 11: kani::mem_init::set_str_ptr_initialized::<1>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:373:17 in function kani::mem_init::set_str_ptr_initialized::<1>
+
+Check 12: kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>
+
+Check 13: kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>
+
+Check 14: kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>
+
+Check 15: kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>
+
+Check 16: kani::mem_init::set_ptr_initialized::<1, bool>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, bool>
+
+Check 17: kani::mem_init::set_ptr_initialized::<1, bool>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, bool>
+
+Check 18: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 19: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written == 1"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 20: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "assertion failed: argument_count == 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 21: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_layout_size == LAYOUT_SIZE"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 22: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:537:25 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 23: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.6
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:539:65 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 24: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:541:21 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 25: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:541:21 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 26: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:543:17 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 27: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_selected_argument == usize::MAX"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 28: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.9
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_last_loaded < selected_argument"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 29: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.10
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written == argument_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 30: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.11
+	 - Status: SUCCESS
+	 - Description: "assertion failed: argument_count > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 31: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.12
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_remaining > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 32: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.13
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_count == argument_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 33: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.14
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_signature == signature"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 34: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.15
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 35: kani::mem_init::MemoryInitializationState::set::<1>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 36: kani::mem_init::MemoryInitializationState::set::<1>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 37: kani::mem_init::MemoryInitializationState::set::<1>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 38: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 39: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:479:21 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 40: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:488:28 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 41: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_last_stored < selected_argument"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 42: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written < MEM_INIT_STATE.argument_buffer_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 43: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.6
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_count > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 44: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_signature == signature"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 45: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 46: read_payload.safety_check.1
+	 - Status: UNREACHABLE
+	 - Description: "misaligned pointer dereference: address must be a multiple of its type's alignment"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs:29:14 in function read_payload
+
+Check 47: read_payload.safety_check.2
+	 - Status: UNREACHABLE
+	 - Description: "null pointer dereference occurred"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs:29:14 in function read_payload
+
+Check 48: read_payload.safety_check.3
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs:29:14 in function read_payload
+
+Check 49: read_payload.safety_check.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs:29:14 in function read_payload
+
+Check 50: kani::mem_init::MemoryInitializationState::set::<96>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 51: kani::mem_init::MemoryInitializationState::set::<96>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 52: kani::mem_init::MemoryInitializationState::set::<96>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 53: kani::mem_init::MemoryInitializationState::get::<1>.assertion.1
+	 - Status: UNREACHABLE
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:93:46 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 54: kani::mem_init::MemoryInitializationState::get::<1>.assertion.2
+	 - Status: UNREACHABLE
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:95:29 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 55: kani::mem_init::MemoryInitializationState::get::<1>.assertion.3
+	 - Status: UNREACHABLE
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:95:22 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 56: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.1
+	 - Status: UNREACHABLE
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:230:55 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 57: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.2
+	 - Status: UNREACHABLE
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:230:46 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 58: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.3
+	 - Status: UNREACHABLE
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 59: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.4
+	 - Status: UNREACHABLE
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 60: kani::mem_init::MemoryInitializationState::set_slice::<1>.arithmetic_overflow.1
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 61: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.5
+	 - Status: UNREACHABLE
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:232:34 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 62: read_moved_from_source.unsupported_construct.1
+	 - Status: FAILURE
+	 - Description: "Kani currently doesn't support checking memory initialization for pointers to `Nested. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs:48:13 in function read_moved_from_source
+
+Check 63: kani::mem_init::is_ptr_initialized::<1, u8>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:262:22 in function kani::mem_init::is_ptr_initialized::<1, u8>
+
+Check 64: kani::mem_init::is_ptr_initialized::<1, u8>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:262:22 in function kani::mem_init::is_ptr_initialized::<1, u8>
+
+Check 65: std::fmt::Arguments::<'_>::from_str.assertion.1
+	 - Status: UNREACHABLE
+	 - Description: "attempt to shift left with overflow"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/mod.rs:820:38 in function std::fmt::Arguments::<'_>::from_str
+
+Check 66: kani::mem_init::MemoryInitializationState::set::<2>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<2>
+
+Check 67: kani::mem_init::MemoryInitializationState::set::<2>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<2>
+
+Check 68: kani::mem_init::MemoryInitializationState::set::<2>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<2>
+
+Check 69: kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:416:17 in function kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>
+
+Check 70: kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:416:17 in function kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>
+
+Check 71: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:166:60 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 72: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:166:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 73: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:171:59 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 74: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:171:47 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 75: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 76: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.6
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 77: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.arithmetic_overflow.1
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 78: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:173:39 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 79: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:181:58 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 80: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.9
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:181:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 81: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.10
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 82: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.11
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 83: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.arithmetic_overflow.2
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 84: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.12
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:183:34 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 85: kani::mem_init::MemoryInitializationState::set::<8>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 86: kani::mem_init::MemoryInitializationState::set::<8>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 87: kani::mem_init::MemoryInitializationState::set::<8>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 88: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:173:39 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 89: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.array_bounds.2
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:183:34 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 90: kani::mem_init::MemoryInitializationState::get::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:95:22 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 91: kani::mem_init::MemoryInitializationState::set::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 92: kani::mem_init::MemoryInitializationState::set::<2>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<2>
+
+Check 93: kani::mem_init::MemoryInitializationState::set::<96>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 94: kani::mem_init::MemoryInitializationState::set::<8>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 95: kani::mem_init::MemoryInitializationState::set_slice::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:232:34 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 96: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:539:65 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 97: pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+
+Check 98: pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+
+Check 99: pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+
+Check 100: pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+
+Check 101: pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+
+Check 102: pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+
+Check 103: pointer_dereference.7
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+
+Check 104: pointer_dereference.8
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+
+Check 105: pointer_dereference.9
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+
+Check 106: pointer_dereference.10
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+
+Check 107: pointer_dereference.11
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+
+Check 108: pointer_dereference.12
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+
+Check 109: read_payload.pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs:29:14 in function read_payload
+
+Check 110: read_payload.pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs:29:14 in function read_payload
+
+Check 111: read_payload.pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs:29:14 in function read_payload
+
+Check 112: read_payload.pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs:29:14 in function read_payload
+
+Check 113: read_payload.pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs:29:14 in function read_payload
+
+Check 114: read_payload.pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs:29:14 in function read_payload
+
+Check 115: kani::mem_init::begin_argument_transfer.pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 116: kani::mem_init::begin_argument_transfer.pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 117: kani::mem_init::begin_argument_transfer.pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 118: kani::mem_init::begin_argument_transfer.pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 119: kani::mem_init::begin_argument_transfer.pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 120: kani::mem_init::begin_argument_transfer.pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 121: kani::mem_init::begin_argument_transfer.pointer_dereference.7
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 122: kani::mem_init::begin_argument_transfer.pointer_dereference.8
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 123: kani::mem_init::begin_argument_transfer.pointer_dereference.9
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 124: kani::mem_init::begin_argument_transfer.pointer_dereference.10
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 125: kani::mem_init::begin_argument_transfer.pointer_dereference.11
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 126: kani::mem_init::begin_argument_transfer.pointer_dereference.12
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 127: kani::mem_init::begin_argument_transfer.pointer_dereference.13
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 128: kani::mem_init::begin_argument_transfer.pointer_dereference.14
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 129: kani::mem_init::begin_argument_transfer.pointer_dereference.15
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 130: kani::mem_init::begin_argument_transfer.pointer_dereference.16
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 131: kani::mem_init::begin_argument_transfer.pointer_dereference.17
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 132: kani::mem_init::begin_argument_transfer.pointer_dereference.18
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 133: kani::mem_init::begin_argument_transfer.pointer_dereference.19
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 134: kani::mem_init::begin_argument_transfer.pointer_dereference.20
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 135: kani::mem_init::begin_argument_transfer.pointer_dereference.21
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 136: kani::mem_init::begin_argument_transfer.pointer_dereference.22
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 137: kani::mem_init::begin_argument_transfer.pointer_dereference.23
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 138: kani::mem_init::begin_argument_transfer.pointer_dereference.24
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 139: kani::mem_init::begin_argument_transfer.pointer_dereference.25
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 140: kani::mem_init::begin_argument_transfer.pointer_dereference.26
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 141: kani::mem_init::begin_argument_transfer.pointer_dereference.27
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 142: kani::mem_init::begin_argument_transfer.pointer_dereference.28
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 143: kani::mem_init::begin_argument_transfer.pointer_dereference.29
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 144: kani::mem_init::begin_argument_transfer.pointer_dereference.30
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 145: kani::mem_init::begin_argument_transfer.pointer_dereference.31
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 146: kani::mem_init::begin_argument_transfer.pointer_dereference.32
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 147: kani::mem_init::begin_argument_transfer.pointer_dereference.33
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 148: kani::mem_init::begin_argument_transfer.pointer_dereference.34
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 149: kani::mem_init::begin_argument_transfer.pointer_dereference.35
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 150: kani::mem_init::begin_argument_transfer.pointer_dereference.36
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 151: kani::mem_init::begin_argument_transfer.pointer_dereference.37
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 152: kani::mem_init::begin_argument_transfer.pointer_dereference.38
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 153: kani::mem_init::begin_argument_transfer.pointer_dereference.39
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 154: kani::mem_init::begin_argument_transfer.pointer_dereference.40
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 155: kani::mem_init::begin_argument_transfer.pointer_dereference.41
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 156: kani::mem_init::begin_argument_transfer.pointer_dereference.42
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 157: kani::mem_init::begin_argument_transfer.pointer_dereference.43
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 158: kani::mem_init::begin_argument_transfer.pointer_dereference.44
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 159: kani::mem_init::begin_argument_transfer.pointer_dereference.45
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 160: kani::mem_init::begin_argument_transfer.pointer_dereference.46
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 161: kani::mem_init::begin_argument_transfer.pointer_dereference.47
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 162: kani::mem_init::begin_argument_transfer.pointer_dereference.48
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 163: kani::mem_init::begin_argument_transfer.pointer_dereference.49
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 164: kani::mem_init::begin_argument_transfer.pointer_dereference.50
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 165: kani::mem_init::begin_argument_transfer.pointer_dereference.51
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 166: kani::mem_init::begin_argument_transfer.pointer_dereference.52
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 167: kani::mem_init::begin_argument_transfer.pointer_dereference.53
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 168: kani::mem_init::begin_argument_transfer.pointer_dereference.54
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 169: kani::mem_init::begin_argument_transfer.pointer_dereference.55
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 170: kani::mem_init::begin_argument_transfer.pointer_dereference.56
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 171: kani::mem_init::begin_argument_transfer.pointer_dereference.57
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 172: kani::mem_init::begin_argument_transfer.pointer_dereference.58
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 173: kani::mem_init::begin_argument_transfer.pointer_dereference.59
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 174: kani::mem_init::begin_argument_transfer.pointer_dereference.60
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 175: array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 176: array_bounds.2
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 177: array_bounds.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 178: array_bounds.4
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 179: array_bounds.5
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 180: array_bounds.6
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 181: array_bounds.7
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 182: array_bounds.8
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 183: array_bounds.9
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 184: array_bounds.10
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 185: array_bounds.11
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 186: array_bounds.12
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 187: array_bounds.13
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 188: array_bounds.14
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 189: array_bounds.15
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 190: array_bounds.16
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 191: array_bounds.17
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 192: array_bounds.18
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+
+SUMMARY:
+ ** 1 of 192 failed (11 unreachable)
+Failed Checks: Kani currently doesn't support checking memory initialization for pointers to `Nested. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.
+ File: "/home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs", line 48, in read_moved_from_source
+
+VERIFICATION:- FAILED
+Verification Time: 0.7187289s
+
+Manual Harness Summary:
+Verification failed for - moved_from_nested_payload_read_is_rejected
+Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+
+------------------------------------------
+stderr:
+------------------------------------------
+warning: use of an unstable feature
+ --> /home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs:6:12
+  |
+6 | #![feature(custom_mir, core_intrinsics)]
+  |            ^^^^^^^^^^
+  |
+  = note: requested on the command line with `--force-warn unstable-features`
+  = note: the `unstable_features` lint ignores `-D warnings`
+
+warning: use of an unstable feature
+ --> /home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs:6:24
+  |
+6 | #![feature(custom_mir, core_intrinsics)]
+  |                        ^^^^^^^^^^^^^^^
+
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+
+warning: 3 warnings emitted
+
+
+------------------------------------------
+
+
+---- [expected] expected/uninit/nested-aggregate-reset/reinit-companion.rs stdout ----
+---- [expected] expected/uninit/nested-aggregate-reset/reinit-companion.rs stdout ----
+
+error: test failed: expected output to contain the line(s):
+VERIFICATION:- SUCCESSFUL
+status: exit status: 1
+command: RUSTFLAGS="--edition 2021 -D warnings" "kani" "/home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs" "-Z" "uninit-checks" "-Z" "unstable-options" "--output-format=regular" "--cbmc-args" "--object-bits" "12"
+stdout:
+------------------------------------------
+Kani Rust Verifier 0.68.0 (standalone)
+CBMC 6.11.0
+Checking harness nested_reset_allows_later_destination_and_source_writes...
+CBMC 6.11.0 (cbmc-6.11.0)
+CBMC version 6.11.0 (cbmc-6.11.0) 64-bit x86_64 linux
+Reading GOTO program from file /home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/reinit_companion__RNvCs86blB0LlVZV_16reinit_companion55nested_reset_allows_later_destination_and_source_writes.out
+Generating GOTO Program
+Adding CPROVER library (x86_64)
+Removal of function pointers and virtual functions
+Generic Property Instrumentation
+Running with 12 object bits, 52 offset bits (user-specified)
+Starting Bounded Model Checking
+aborting path on assume(false) at file library/kani/src/lib.rs line 63 column 1 function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>> thread 0
+aborting path on assume(false) at file /home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs line 65 column 13 function repair_destination thread 0
+Runtime Symex: 0.15244s
+size of program expression: 8233 steps
+slicing removed 5702 assignments
+Generated 438 VCC(s), 213 remaining after simplification
+Runtime Postprocess Equation: 0.0035656s
+Passing problem to propositional reduction
+converting SSA
+Runtime Convert SSA: 0.0254714s
+Running propositional reduction
+Post-processing
+Runtime Post-process: 1.202e-05s
+Solving with CaDiCaL 3.0.0
+32859 variables, 69310 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00209485s
+Runtime decision procedure: 0.0285804s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+32860 variables, 69311 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0111503s
+Runtime decision procedure: 0.0115516s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+32861 variables, 69312 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00689722s
+Runtime decision procedure: 0.00723723s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+32862 variables, 69313 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0033398s
+Runtime decision procedure: 0.00367487s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+32863 variables, 69314 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00866015s
+Runtime decision procedure: 0.00897365s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+32864 variables, 69315 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00435762s
+Runtime decision procedure: 0.00473298s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+32865 variables, 69316 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00623553s
+Runtime decision procedure: 0.00666975s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+32866 variables, 69317 clauses
+SAT checker: instance is UNSATISFIABLE
+Runtime Solver: 0.0613083s
+Runtime decision procedure: 0.061578s
+
+RESULTS:
+Check 1: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:166:60 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 2: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:166:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 3: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:171:59 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 4: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:171:47 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 5: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 6: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.6
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 7: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.arithmetic_overflow.1
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 8: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:173:39 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 9: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:181:58 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 10: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.9
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:181:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 11: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.10
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 12: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.11
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 13: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.arithmetic_overflow.2
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 14: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.12
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:183:34 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 15: kani::mem_init::is_ptr_initialized::<1, u8>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:262:22 in function kani::mem_init::is_ptr_initialized::<1, u8>
+
+Check 16: kani::mem_init::is_ptr_initialized::<1, u8>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:262:22 in function kani::mem_init::is_ptr_initialized::<1, u8>
+
+Check 17: std::fmt::Arguments::<'_>::from_str.assertion.1
+	 - Status: UNREACHABLE
+	 - Description: "attempt to shift left with overflow"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/mod.rs:820:38 in function std::fmt::Arguments::<'_>::from_str
+
+Check 18: kani::mem_init::set_ptr_initialized::<1, u8>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, u8>
+
+Check 19: kani::mem_init::set_ptr_initialized::<1, u8>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, u8>
+
+Check 20: kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:416:17 in function kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>
+
+Check 21: kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:416:17 in function kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>
+
+Check 22: nested_reset_allows_later_destination_and_source_writes.assertion.1
+	 - Status: UNREACHABLE
+	 - Description: "assertion failed: destination_value == 55"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:117:5 in function nested_reset_allows_later_destination_and_source_writes
+
+Check 23: nested_reset_allows_later_destination_and_source_writes.assertion.2
+	 - Status: UNREACHABLE
+	 - Description: "assertion failed: source_value == 77"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:118:5 in function nested_reset_allows_later_destination_and_source_writes
+
+Check 24: repair_moved_source.unsupported_construct.1
+	 - Status: SUCCESS
+	 - Description: "Kani currently doesn't support checking memory initialization for pointers to `Nested. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:94:13 in function repair_moved_source
+
+Check 25: read_payload.safety_check.1
+	 - Status: UNREACHABLE
+	 - Description: "misaligned pointer dereference: address must be a multiple of its type's alignment"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:37:14 in function read_payload
+
+Check 26: read_payload.safety_check.2
+	 - Status: UNREACHABLE
+	 - Description: "null pointer dereference occurred"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:37:14 in function read_payload
+
+Check 27: read_payload.safety_check.3
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:37:14 in function read_payload
+
+Check 28: read_payload.safety_check.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:37:14 in function read_payload
+
+Check 29: kani::mem_init::set_str_ptr_initialized::<1>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:373:17 in function kani::mem_init::set_str_ptr_initialized::<1>
+
+Check 30: kani::mem_init::set_str_ptr_initialized::<1>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:373:17 in function kani::mem_init::set_str_ptr_initialized::<1>
+
+Check 31: kani::mem_init::MemoryInitializationState::set::<8>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 32: kani::mem_init::MemoryInitializationState::set::<8>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 33: kani::mem_init::MemoryInitializationState::set::<8>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 34: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.1
+	 - Status: UNREACHABLE
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:230:55 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 35: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.2
+	 - Status: UNREACHABLE
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:230:46 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 36: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.3
+	 - Status: UNREACHABLE
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 37: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.4
+	 - Status: UNREACHABLE
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 38: kani::mem_init::MemoryInitializationState::set_slice::<1>.arithmetic_overflow.1
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 39: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.5
+	 - Status: UNREACHABLE
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:232:34 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 40: kani::mem_init::MemoryInitializationState::set::<96>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 41: kani::mem_init::MemoryInitializationState::set::<96>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 42: kani::mem_init::MemoryInitializationState::set::<96>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 43: kani::mem_init::begin_argument_transfer.assertion.1
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::begin_argument_transfer
+
+Check 44: kani::mem_init::begin_argument_transfer.assertion.2
+	 - Status: SUCCESS
+	 - Description: "assertion failed: argument_count > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::begin_argument_transfer
+
+Check 45: kani::mem_init::set_ptr_initialized::<1, bool>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, bool>
+
+Check 46: kani::mem_init::set_ptr_initialized::<1, bool>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, bool>
+
+Check 47: repair_destination.unsupported_construct.1
+	 - Status: FAILURE
+	 - Description: "Kani currently doesn't support checking memory initialization for pointers to `Nested. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:65:13 in function repair_destination
+
+Check 48: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 49: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written == 1"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 50: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "assertion failed: argument_count == 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 51: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_layout_size == LAYOUT_SIZE"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 52: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:537:25 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 53: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.6
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:539:65 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 54: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:541:21 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 55: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:541:21 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 56: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:543:17 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 57: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_selected_argument == usize::MAX"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 58: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.9
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_last_loaded < selected_argument"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 59: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.10
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written == argument_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 60: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.11
+	 - Status: SUCCESS
+	 - Description: "assertion failed: argument_count > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 61: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.12
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_remaining > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 62: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.13
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_count == argument_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 63: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.14
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_signature == signature"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 64: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.15
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 65: kani::mem_init::set_ptr_initialized::<8, usize>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<8, usize>
+
+Check 66: kani::mem_init::set_ptr_initialized::<8, usize>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<8, usize>
+
+Check 67: kani::mem_init::MemoryInitializationState::set::<1>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 68: kani::mem_init::MemoryInitializationState::set::<1>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 69: kani::mem_init::MemoryInitializationState::set::<1>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 70: kani::mem_init::MemoryInitializationState::get::<1>.assertion.1
+	 - Status: UNREACHABLE
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:93:46 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 71: kani::mem_init::MemoryInitializationState::get::<1>.assertion.2
+	 - Status: UNREACHABLE
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:95:29 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 72: kani::mem_init::MemoryInitializationState::get::<1>.assertion.3
+	 - Status: UNREACHABLE
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:95:22 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 73: std::mem::MaybeUninit::<u8>::assume_init_mut.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*mut u8`"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs:1016:13 in function std::mem::MaybeUninit::<u8>::assume_init_mut
+
+Check 74: std::mem::MaybeUninit::<u8>::assume_init_mut.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs:1016:13 in function std::mem::MaybeUninit::<u8>::assume_init_mut
+
+Check 75: std::mem::MaybeUninit::<u8>::assume_init_mut.safety_check.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs:1016:13 in function std::mem::MaybeUninit::<u8>::assume_init_mut
+
+Check 76: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 77: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:479:21 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 78: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:488:28 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 79: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_last_stored < selected_argument"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 80: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written < MEM_INIT_STATE.argument_buffer_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 81: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.6
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_count > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 82: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_signature == signature"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 83: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 84: kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>
+
+Check 85: kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>
+
+Check 86: kani::mem_init::MemoryInitializationState::set::<2>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<2>
+
+Check 87: kani::mem_init::MemoryInitializationState::set::<2>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<2>
+
+Check 88: kani::mem_init::MemoryInitializationState::set::<2>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<2>
+
+Check 89: kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>
+
+Check 90: kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>
+
+Check 91: write_payload.safety_check.1
+	 - Status: UNREACHABLE
+	 - Description: "misaligned pointer dereference: address must be a multiple of its type's alignment"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:42:14 in function write_payload
+
+Check 92: write_payload.safety_check.2
+	 - Status: UNREACHABLE
+	 - Description: "null reference produced"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:42:14 in function write_payload
+
+Check 93: write_payload.safety_check.3
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:42:14 in function write_payload
+
+Check 94: write_payload.safety_check.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:42:14 in function write_payload
+
+Check 95: std::mem::transmute_neo::<std::mem::MaybeUninit<u8>, u8>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/mod.rs:1279:14 in function std::mem::transmute_neo::<std::mem::MaybeUninit<u8>, u8>
+
+Check 96: kani::mem_init::set_ptr_initialized::<2, Nested>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<2, Nested>
+
+Check 97: kani::mem_init::set_ptr_initialized::<2, Nested>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<2, Nested>
+
+Check 98: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:173:39 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 99: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.array_bounds.2
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:183:34 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 100: kani::mem_init::MemoryInitializationState::get::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:95:22 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 101: kani::mem_init::MemoryInitializationState::set::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 102: kani::mem_init::MemoryInitializationState::set::<2>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<2>
+
+Check 103: kani::mem_init::MemoryInitializationState::set::<96>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 104: kani::mem_init::MemoryInitializationState::set::<8>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 105: kani::mem_init::MemoryInitializationState::set_slice::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:232:34 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 106: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:539:65 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 107: pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+
+Check 108: pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+
+Check 109: pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+
+Check 110: pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+
+Check 111: pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+
+Check 112: pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+
+Check 113: pointer_dereference.7
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+
+Check 114: pointer_dereference.8
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+
+Check 115: pointer_dereference.9
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+
+Check 116: pointer_dereference.10
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+
+Check 117: pointer_dereference.11
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+
+Check 118: pointer_dereference.12
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+
+Check 119: read_payload.pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:37:14 in function read_payload
+
+Check 120: read_payload.pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:37:14 in function read_payload
+
+Check 121: read_payload.pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:37:14 in function read_payload
+
+Check 122: read_payload.pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:37:14 in function read_payload
+
+Check 123: read_payload.pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:37:14 in function read_payload
+
+Check 124: read_payload.pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:37:14 in function read_payload
+
+Check 125: std::mem::MaybeUninit::<u8>::write.pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs:575:9 in function std::mem::MaybeUninit::<u8>::write
+
+Check 126: std::mem::MaybeUninit::<u8>::write.pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs:575:9 in function std::mem::MaybeUninit::<u8>::write
+
+Check 127: std::mem::MaybeUninit::<u8>::write.pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs:575:9 in function std::mem::MaybeUninit::<u8>::write
+
+Check 128: std::mem::MaybeUninit::<u8>::write.pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs:575:9 in function std::mem::MaybeUninit::<u8>::write
+
+Check 129: std::mem::MaybeUninit::<u8>::write.pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs:575:9 in function std::mem::MaybeUninit::<u8>::write
+
+Check 130: std::mem::MaybeUninit::<u8>::write.pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs:575:9 in function std::mem::MaybeUninit::<u8>::write
+
+Check 131: kani::mem_init::begin_argument_transfer.pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 132: kani::mem_init::begin_argument_transfer.pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 133: kani::mem_init::begin_argument_transfer.pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 134: kani::mem_init::begin_argument_transfer.pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 135: kani::mem_init::begin_argument_transfer.pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 136: kani::mem_init::begin_argument_transfer.pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 137: kani::mem_init::begin_argument_transfer.pointer_dereference.7
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 138: kani::mem_init::begin_argument_transfer.pointer_dereference.8
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 139: kani::mem_init::begin_argument_transfer.pointer_dereference.9
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 140: kani::mem_init::begin_argument_transfer.pointer_dereference.10
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 141: kani::mem_init::begin_argument_transfer.pointer_dereference.11
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 142: kani::mem_init::begin_argument_transfer.pointer_dereference.12
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 143: kani::mem_init::begin_argument_transfer.pointer_dereference.13
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 144: kani::mem_init::begin_argument_transfer.pointer_dereference.14
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 145: kani::mem_init::begin_argument_transfer.pointer_dereference.15
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 146: kani::mem_init::begin_argument_transfer.pointer_dereference.16
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 147: kani::mem_init::begin_argument_transfer.pointer_dereference.17
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 148: kani::mem_init::begin_argument_transfer.pointer_dereference.18
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 149: kani::mem_init::begin_argument_transfer.pointer_dereference.19
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 150: kani::mem_init::begin_argument_transfer.pointer_dereference.20
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 151: kani::mem_init::begin_argument_transfer.pointer_dereference.21
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 152: kani::mem_init::begin_argument_transfer.pointer_dereference.22
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 153: kani::mem_init::begin_argument_transfer.pointer_dereference.23
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 154: kani::mem_init::begin_argument_transfer.pointer_dereference.24
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 155: kani::mem_init::begin_argument_transfer.pointer_dereference.25
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 156: kani::mem_init::begin_argument_transfer.pointer_dereference.26
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 157: kani::mem_init::begin_argument_transfer.pointer_dereference.27
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 158: kani::mem_init::begin_argument_transfer.pointer_dereference.28
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 159: kani::mem_init::begin_argument_transfer.pointer_dereference.29
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 160: kani::mem_init::begin_argument_transfer.pointer_dereference.30
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 161: kani::mem_init::begin_argument_transfer.pointer_dereference.31
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 162: kani::mem_init::begin_argument_transfer.pointer_dereference.32
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 163: kani::mem_init::begin_argument_transfer.pointer_dereference.33
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 164: kani::mem_init::begin_argument_transfer.pointer_dereference.34
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 165: kani::mem_init::begin_argument_transfer.pointer_dereference.35
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 166: kani::mem_init::begin_argument_transfer.pointer_dereference.36
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 167: kani::mem_init::begin_argument_transfer.pointer_dereference.37
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 168: kani::mem_init::begin_argument_transfer.pointer_dereference.38
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 169: kani::mem_init::begin_argument_transfer.pointer_dereference.39
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 170: kani::mem_init::begin_argument_transfer.pointer_dereference.40
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 171: kani::mem_init::begin_argument_transfer.pointer_dereference.41
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 172: kani::mem_init::begin_argument_transfer.pointer_dereference.42
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 173: kani::mem_init::begin_argument_transfer.pointer_dereference.43
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 174: kani::mem_init::begin_argument_transfer.pointer_dereference.44
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 175: kani::mem_init::begin_argument_transfer.pointer_dereference.45
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 176: kani::mem_init::begin_argument_transfer.pointer_dereference.46
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 177: kani::mem_init::begin_argument_transfer.pointer_dereference.47
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 178: kani::mem_init::begin_argument_transfer.pointer_dereference.48
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 179: kani::mem_init::begin_argument_transfer.pointer_dereference.49
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 180: kani::mem_init::begin_argument_transfer.pointer_dereference.50
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 181: kani::mem_init::begin_argument_transfer.pointer_dereference.51
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 182: kani::mem_init::begin_argument_transfer.pointer_dereference.52
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 183: kani::mem_init::begin_argument_transfer.pointer_dereference.53
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 184: kani::mem_init::begin_argument_transfer.pointer_dereference.54
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 185: kani::mem_init::begin_argument_transfer.pointer_dereference.55
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 186: kani::mem_init::begin_argument_transfer.pointer_dereference.56
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 187: kani::mem_init::begin_argument_transfer.pointer_dereference.57
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 188: kani::mem_init::begin_argument_transfer.pointer_dereference.58
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 189: kani::mem_init::begin_argument_transfer.pointer_dereference.59
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 190: kani::mem_init::begin_argument_transfer.pointer_dereference.60
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 191: array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 192: array_bounds.2
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 193: array_bounds.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 194: array_bounds.4
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 195: array_bounds.5
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 196: array_bounds.6
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 197: array_bounds.7
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 198: array_bounds.8
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 199: array_bounds.9
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 200: array_bounds.10
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 201: array_bounds.11
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 202: array_bounds.12
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 203: array_bounds.13
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 204: array_bounds.14
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 205: array_bounds.15
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 206: array_bounds.16
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 207: array_bounds.17
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 208: array_bounds.18
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 209: array_bounds.19
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 210: array_bounds.20
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 211: array_bounds.21
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+
+SUMMARY:
+ ** 1 of 211 failed (15 unreachable)
+Failed Checks: Kani currently doesn't support checking memory initialization for pointers to `Nested. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.
+ File: "/home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs", line 65, in repair_destination
+
+VERIFICATION:- FAILED
+Verification Time: 0.8195112s
+
+Manual Harness Summary:
+Verification failed for - nested_reset_allows_later_destination_and_source_writes
+Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+
+------------------------------------------
+stderr:
+------------------------------------------
+warning: use of an unstable feature
+ --> /home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:6:12
+  |
+6 | #![feature(custom_mir, core_intrinsics)]
+  |            ^^^^^^^^^^
+  |
+  = note: requested on the command line with `--force-warn unstable-features`
+  = note: the `unstable_features` lint ignores `-D warnings`
+
+warning: use of an unstable feature
+ --> /home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs:6:24
+  |
+6 | #![feature(custom_mir, core_intrinsics)]
+  |                        ^^^^^^^^^^^^^^^
+
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+
+warning: 3 warnings emitted
+
+
+------------------------------------------
+
+
+---- [expected] expected/uninit/nested-aggregate-reset/repeated-destination.rs stdout ----
+---- [expected] expected/uninit/nested-aggregate-reset/repeated-destination.rs stdout ----
+
+error: test failed: expected output to contain the line(s):
+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
+status: exit status: 1
+command: RUSTFLAGS="--edition 2021 -D warnings" "kani" "/home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs" "-Z" "uninit-checks" "-Z" "unstable-options" "--output-format=regular" "--cbmc-args" "--object-bits" "12"
+stdout:
+------------------------------------------
+Kani Rust Verifier 0.68.0 (standalone)
+CBMC 6.11.0
+Checking harness repeated_destination_hole_return_is_rejected...
+CBMC 6.11.0 (cbmc-6.11.0)
+CBMC version 6.11.0 (cbmc-6.11.0) 64-bit x86_64 linux
+Reading GOTO program from file /home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/repeated_destination__RNvCskUyUFMfN9vn_20repeated_destination44repeated_destination_hole_return_is_rejected.out
+Generating GOTO Program
+Adding CPROVER library (x86_64)
+Removal of function pointers and virtual functions
+Generic Property Instrumentation
+Running with 12 object bits, 52 offset bits (user-specified)
+Starting Bounded Model Checking
+aborting path on assume(false) at file library/kani/src/lib.rs line 63 column 1 function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>> thread 0
+aborting path on assume(false) at file /home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs line 63 column 13 function reuse_destination thread 0
+aborting path on assume(false) at file /home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs line 67 column 13 function reuse_destination thread 0
+Runtime Symex: 0.206893s
+size of program expression: 10863 steps
+slicing removed 7678 assignments
+Generated 578 VCC(s), 280 remaining after simplification
+Runtime Postprocess Equation: 0.00570398s
+Passing problem to propositional reduction
+converting SSA
+Runtime Convert SSA: 0.0315468s
+Running propositional reduction
+Post-processing
+Runtime Post-process: 1.5014e-05s
+Solving with CaDiCaL 3.0.0
+39868 variables, 81161 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00234337s
+Runtime decision procedure: 0.037348s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+39869 variables, 81162 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00765275s
+Runtime decision procedure: 0.00811419s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+39870 variables, 81163 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00733321s
+Runtime decision procedure: 0.00779303s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+39871 variables, 81164 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0176013s
+Runtime decision procedure: 0.0179984s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+39872 variables, 81165 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00861569s
+Runtime decision procedure: 0.00903727s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+39873 variables, 81166 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00827561s
+Runtime decision procedure: 0.00882899s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+39874 variables, 81167 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0289093s
+Runtime decision procedure: 0.0295008s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+39875 variables, 81168 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.013617s
+Runtime decision procedure: 0.0142766s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+39876 variables, 81169 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0135933s
+Runtime decision procedure: 0.0140514s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+39877 variables, 81170 clauses
+SAT checker: instance is UNSATISFIABLE
+Runtime Solver: 0.0936513s
+Runtime decision procedure: 0.0939692s
+
+RESULTS:
+Check 1: kani::mem_init::MemoryInitializationState::set::<8>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 2: kani::mem_init::MemoryInitializationState::set::<8>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 3: kani::mem_init::MemoryInitializationState::set::<8>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 4: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 5: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:479:21 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 6: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:488:28 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 7: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_last_stored < selected_argument"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 8: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written < MEM_INIT_STATE.argument_buffer_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 9: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.6
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_count > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 10: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_signature == signature"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 11: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 12: kani::mem_init::set_ptr_initialized::<8, usize>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<8, usize>
+
+Check 13: kani::mem_init::set_ptr_initialized::<8, usize>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<8, usize>
+
+Check 14: kani::mem_init::set_ptr_initialized::<2, Nested>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<2, Nested>
+
+Check 15: kani::mem_init::set_ptr_initialized::<2, Nested>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<2, Nested>
+
+Check 16: kani::mem_init::MemoryInitializationState::set::<1>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 17: kani::mem_init::MemoryInitializationState::set::<1>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 18: kani::mem_init::MemoryInitializationState::set::<1>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 19: kani::mem_init::MemoryInitializationState::set::<96>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 20: kani::mem_init::MemoryInitializationState::set::<96>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 21: kani::mem_init::MemoryInitializationState::set::<96>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 22: std::fmt::Arguments::<'_>::from_str.assertion.1
+	 - Status: UNREACHABLE
+	 - Description: "attempt to shift left with overflow"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/mod.rs:820:38 in function std::fmt::Arguments::<'_>::from_str
+
+Check 23: std::mem::transmute_neo::<std::mem::MaybeUninit<u8>, u8>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/mod.rs:1279:14 in function std::mem::transmute_neo::<std::mem::MaybeUninit<u8>, u8>
+
+Check 24: kani::mem_init::MemoryInitializationState::set::<2>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<2>
+
+Check 25: kani::mem_init::MemoryInitializationState::set::<2>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<2>
+
+Check 26: kani::mem_init::MemoryInitializationState::set::<2>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<2>
+
+Check 27: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:166:60 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 28: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:166:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 29: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:171:59 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 30: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:171:47 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 31: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 32: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.6
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 33: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.arithmetic_overflow.1
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 34: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:173:39 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 35: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:181:58 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 36: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.9
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:181:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 37: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.10
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 38: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.11
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 39: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.arithmetic_overflow.2
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 40: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.12
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:183:34 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 41: kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>
+
+Check 42: kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>
+
+Check 43: kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:416:17 in function kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>
+
+Check 44: kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:416:17 in function kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>
+
+Check 45: kani::mem_init::is_ptr_initialized::<1, u8>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:262:22 in function kani::mem_init::is_ptr_initialized::<1, u8>
+
+Check 46: kani::mem_init::is_ptr_initialized::<1, u8>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:262:22 in function kani::mem_init::is_ptr_initialized::<1, u8>
+
+Check 47: kani::mem_init::MemoryInitializationState::get::<1>.assertion.1
+	 - Status: UNREACHABLE
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:93:46 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 48: kani::mem_init::MemoryInitializationState::get::<1>.assertion.2
+	 - Status: UNREACHABLE
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:95:29 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 49: kani::mem_init::MemoryInitializationState::get::<1>.assertion.3
+	 - Status: UNREACHABLE
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:95:22 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 50: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.1
+	 - Status: UNREACHABLE
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:230:55 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 51: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.2
+	 - Status: UNREACHABLE
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:230:46 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 52: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.3
+	 - Status: UNREACHABLE
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 53: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.4
+	 - Status: UNREACHABLE
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 54: kani::mem_init::MemoryInitializationState::set_slice::<1>.arithmetic_overflow.1
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 55: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.5
+	 - Status: UNREACHABLE
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:232:34 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 56: kani::mem_init::set_ptr_initialized::<1, bool>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, bool>
+
+Check 57: kani::mem_init::set_ptr_initialized::<1, bool>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, bool>
+
+Check 58: kani::mem_init::begin_argument_transfer.assertion.1
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::begin_argument_transfer
+
+Check 59: kani::mem_init::begin_argument_transfer.assertion.2
+	 - Status: SUCCESS
+	 - Description: "assertion failed: argument_count > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::begin_argument_transfer
+
+Check 60: kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>
+
+Check 61: kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>
+
+Check 62: kani::mem_init::set_str_ptr_initialized::<1>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:373:17 in function kani::mem_init::set_str_ptr_initialized::<1>
+
+Check 63: kani::mem_init::set_str_ptr_initialized::<1>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:373:17 in function kani::mem_init::set_str_ptr_initialized::<1>
+
+Check 64: kani::mem_init::set_ptr_initialized::<1, u8>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, u8>
+
+Check 65: kani::mem_init::set_ptr_initialized::<1, u8>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, u8>
+
+Check 66: read_payload.safety_check.1
+	 - Status: UNREACHABLE
+	 - Description: "misaligned pointer dereference: address must be a multiple of its type's alignment"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs:37:14 in function read_payload
+
+Check 67: read_payload.safety_check.2
+	 - Status: UNREACHABLE
+	 - Description: "null pointer dereference occurred"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs:37:14 in function read_payload
+
+Check 68: read_payload.safety_check.3
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs:37:14 in function read_payload
+
+Check 69: read_payload.safety_check.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs:37:14 in function read_payload
+
+Check 70: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 71: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written == 1"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 72: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "assertion failed: argument_count == 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 73: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_layout_size == LAYOUT_SIZE"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 74: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:537:25 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 75: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.6
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:539:65 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 76: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:541:21 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 77: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:541:21 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 78: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:543:17 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 79: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_selected_argument == usize::MAX"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 80: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.9
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_last_loaded < selected_argument"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 81: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.10
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written == argument_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 82: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.11
+	 - Status: SUCCESS
+	 - Description: "assertion failed: argument_count > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 83: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.12
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_remaining > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 84: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.13
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_count == argument_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 85: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.14
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_signature == signature"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 86: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.15
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 87: reuse_destination.unsupported_construct.1
+	 - Status: FAILURE
+	 - Description: "Kani currently doesn't support checking memory initialization for pointers to `Nested. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs:63:13 in function reuse_destination
+
+Check 88: reuse_destination.unsupported_construct.2
+	 - Status: SUCCESS
+	 - Description: "Kani currently doesn't support checking memory initialization for pointers to `Nested. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs:67:13 in function reuse_destination
+
+Check 89: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:173:39 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 90: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.array_bounds.2
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:183:34 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 91: kani::mem_init::MemoryInitializationState::get::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:95:22 in function kani::mem_init::MemoryInitializationState::get::<1>
+
+Check 92: kani::mem_init::MemoryInitializationState::set::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 93: kani::mem_init::MemoryInitializationState::set::<2>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<2>
+
+Check 94: kani::mem_init::MemoryInitializationState::set::<96>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 95: kani::mem_init::MemoryInitializationState::set::<8>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 96: kani::mem_init::MemoryInitializationState::set_slice::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:232:34 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 97: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:539:65 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 98: pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+
+Check 99: pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+
+Check 100: pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+
+Check 101: pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+
+Check 102: pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+
+Check 103: pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+
+Check 104: pointer_dereference.7
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+
+Check 105: pointer_dereference.8
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+
+Check 106: pointer_dereference.9
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+
+Check 107: pointer_dereference.10
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+
+Check 108: pointer_dereference.11
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+
+Check 109: pointer_dereference.12
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+
+Check 110: read_payload.pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs:37:14 in function read_payload
+
+Check 111: read_payload.pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs:37:14 in function read_payload
+
+Check 112: read_payload.pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs:37:14 in function read_payload
+
+Check 113: read_payload.pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs:37:14 in function read_payload
+
+Check 114: read_payload.pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs:37:14 in function read_payload
+
+Check 115: read_payload.pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs:37:14 in function read_payload
+
+Check 116: kani::mem_init::begin_argument_transfer.pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 117: kani::mem_init::begin_argument_transfer.pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 118: kani::mem_init::begin_argument_transfer.pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 119: kani::mem_init::begin_argument_transfer.pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 120: kani::mem_init::begin_argument_transfer.pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 121: kani::mem_init::begin_argument_transfer.pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:431:26 in function kani::mem_init::begin_argument_transfer
+
+Check 122: kani::mem_init::begin_argument_transfer.pointer_dereference.7
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 123: kani::mem_init::begin_argument_transfer.pointer_dereference.8
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 124: kani::mem_init::begin_argument_transfer.pointer_dereference.9
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 125: kani::mem_init::begin_argument_transfer.pointer_dereference.10
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 126: kani::mem_init::begin_argument_transfer.pointer_dereference.11
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 127: kani::mem_init::begin_argument_transfer.pointer_dereference.12
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:433:17 in function kani::mem_init::begin_argument_transfer
+
+Check 128: kani::mem_init::begin_argument_transfer.pointer_dereference.13
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 129: kani::mem_init::begin_argument_transfer.pointer_dereference.14
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 130: kani::mem_init::begin_argument_transfer.pointer_dereference.15
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 131: kani::mem_init::begin_argument_transfer.pointer_dereference.16
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 132: kani::mem_init::begin_argument_transfer.pointer_dereference.17
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 133: kani::mem_init::begin_argument_transfer.pointer_dereference.18
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:434:17 in function kani::mem_init::begin_argument_transfer
+
+Check 134: kani::mem_init::begin_argument_transfer.pointer_dereference.19
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 135: kani::mem_init::begin_argument_transfer.pointer_dereference.20
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 136: kani::mem_init::begin_argument_transfer.pointer_dereference.21
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 137: kani::mem_init::begin_argument_transfer.pointer_dereference.22
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 138: kani::mem_init::begin_argument_transfer.pointer_dereference.23
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 139: kani::mem_init::begin_argument_transfer.pointer_dereference.24
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:435:17 in function kani::mem_init::begin_argument_transfer
+
+Check 140: kani::mem_init::begin_argument_transfer.pointer_dereference.25
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 141: kani::mem_init::begin_argument_transfer.pointer_dereference.26
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 142: kani::mem_init::begin_argument_transfer.pointer_dereference.27
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 143: kani::mem_init::begin_argument_transfer.pointer_dereference.28
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 144: kani::mem_init::begin_argument_transfer.pointer_dereference.29
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 145: kani::mem_init::begin_argument_transfer.pointer_dereference.30
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:436:17 in function kani::mem_init::begin_argument_transfer
+
+Check 146: kani::mem_init::begin_argument_transfer.pointer_dereference.31
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 147: kani::mem_init::begin_argument_transfer.pointer_dereference.32
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 148: kani::mem_init::begin_argument_transfer.pointer_dereference.33
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 149: kani::mem_init::begin_argument_transfer.pointer_dereference.34
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 150: kani::mem_init::begin_argument_transfer.pointer_dereference.35
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 151: kani::mem_init::begin_argument_transfer.pointer_dereference.36
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:437:17 in function kani::mem_init::begin_argument_transfer
+
+Check 152: kani::mem_init::begin_argument_transfer.pointer_dereference.37
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 153: kani::mem_init::begin_argument_transfer.pointer_dereference.38
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 154: kani::mem_init::begin_argument_transfer.pointer_dereference.39
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 155: kani::mem_init::begin_argument_transfer.pointer_dereference.40
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 156: kani::mem_init::begin_argument_transfer.pointer_dereference.41
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 157: kani::mem_init::begin_argument_transfer.pointer_dereference.42
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:438:17 in function kani::mem_init::begin_argument_transfer
+
+Check 158: kani::mem_init::begin_argument_transfer.pointer_dereference.43
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 159: kani::mem_init::begin_argument_transfer.pointer_dereference.44
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 160: kani::mem_init::begin_argument_transfer.pointer_dereference.45
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 161: kani::mem_init::begin_argument_transfer.pointer_dereference.46
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 162: kani::mem_init::begin_argument_transfer.pointer_dereference.47
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 163: kani::mem_init::begin_argument_transfer.pointer_dereference.48
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:439:17 in function kani::mem_init::begin_argument_transfer
+
+Check 164: kani::mem_init::begin_argument_transfer.pointer_dereference.49
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 165: kani::mem_init::begin_argument_transfer.pointer_dereference.50
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 166: kani::mem_init::begin_argument_transfer.pointer_dereference.51
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 167: kani::mem_init::begin_argument_transfer.pointer_dereference.52
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 168: kani::mem_init::begin_argument_transfer.pointer_dereference.53
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 169: kani::mem_init::begin_argument_transfer.pointer_dereference.54
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:440:17 in function kani::mem_init::begin_argument_transfer
+
+Check 170: kani::mem_init::begin_argument_transfer.pointer_dereference.55
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 171: kani::mem_init::begin_argument_transfer.pointer_dereference.56
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 172: kani::mem_init::begin_argument_transfer.pointer_dereference.57
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 173: kani::mem_init::begin_argument_transfer.pointer_dereference.58
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 174: kani::mem_init::begin_argument_transfer.pointer_dereference.59
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 175: kani::mem_init::begin_argument_transfer.pointer_dereference.60
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: library/kani_core/src/mem_init.rs:441:17 in function kani::mem_init::begin_argument_transfer
+
+Check 176: array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 177: array_bounds.2
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 178: array_bounds.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 179: array_bounds.4
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 180: array_bounds.5
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 181: array_bounds.6
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 182: array_bounds.7
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 183: array_bounds.8
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 184: array_bounds.9
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 185: array_bounds.10
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 186: array_bounds.11
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 187: array_bounds.12
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 188: array_bounds.13
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 189: array_bounds.14
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 190: array_bounds.15
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 191: array_bounds.16
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 192: array_bounds.17
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 193: array_bounds.18
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+
+SUMMARY:
+ ** 1 of 193 failed (11 unreachable)
+Failed Checks: Kani currently doesn't support checking memory initialization for pointers to `Nested. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.
+ File: "/home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs", line 63, in reuse_destination
+
+VERIFICATION:- FAILED
+Verification Time: 1.1596229s
+
+Manual Harness Summary:
+Verification failed for - repeated_destination_hole_return_is_rejected
+Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+
+------------------------------------------
+stderr:
+------------------------------------------
+warning: use of an unstable feature
+ --> /home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs:6:12
+  |
+6 | #![feature(custom_mir, core_intrinsics)]
+  |            ^^^^^^^^^^
+  |
+  = note: requested on the command line with `--force-warn unstable-features`
+  = note: the `unstable_features` lint ignores `-D warnings`
+
+warning: use of an unstable feature
+ --> /home/runner/work/kani/kani/tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs:6:24
+  |
+6 | #![feature(custom_mir, core_intrinsics)]
+  |                        ^^^^^^^^^^^^^^^
+
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+
+warning: 3 warnings emitted
+
+
+------------------------------------------
+
+
+
+failures:

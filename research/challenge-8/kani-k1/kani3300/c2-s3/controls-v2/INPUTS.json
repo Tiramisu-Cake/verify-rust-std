@@ -1,0 +1,124 @@
+{
+  "schema": "kani3300-c2-s3-controls-v2",
+  "source": {
+    "path": "/root/kani-fix-3300-c2-s3",
+    "branch": "fix/kani-3300-c2-s3",
+    "prior_candidate": "86428e9313a8a697482bfd092de61a735a716961",
+    "candidate": "5ca3cbf2e913e9c9b1d81cad3bce598964bafeac",
+    "tree": "2b036a185f635a377992d616a132fac8ba7d096d",
+    "test_only_commit": true,
+    "changed_paths": [
+      "tests/expected/uninit/nested-aggregate-reset/moved-from-source.expected",
+      "tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs",
+      "tests/expected/uninit/nested-aggregate-reset/reinit-companion.expected",
+      "tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs",
+      "tests/expected/uninit/nested-aggregate-reset/repeated-destination.expected",
+      "tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs"
+    ],
+    "production_and_docs_identical_to_prior": true,
+    "author_and_committer": "Tiramisu-Cake <igkharin@gmail.com> via git -c",
+    "clean": true
+  },
+  "baseline": {
+    "base": "bf8170b28afb682f8dd55a94199caa247736d8fa",
+    "patch": "baseline-tests.patch",
+    "sha256": "f93a436385b739261459853b0d173ad9afe343d2dd26cd960e5be18fc2cf2f05",
+    "expected_tree": "1356cb004836d69fa0c234801e9c0600a7146167",
+    "only_six_test_files": true,
+    "apply_check": "PASS",
+    "fixtures_byte_identical_to_candidate": true
+  },
+  "candidate_delta": {
+    "base": "86428e9313a8a697482bfd092de61a735a716961",
+    "patch": "candidate-tests-delta.patch",
+    "sha256": "3257c6594bc5a50803e0da5c5228d51ff389afa22c12bfb2d36a5775a9f5a959",
+    "apply_and_candidate_tree_check": "PASS"
+  },
+  "fixtures": [
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/moved-from-source.expected",
+      "blob": "21a0b63b37a5f7da3fb85dc491ac3131e742df3a",
+      "sha256": "0dff9e8ea069b8c5af3155bb46a66e90316db2a0f1c38c79f3cf565f0adcb066",
+      "bytes": 322
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs",
+      "blob": "e24c8a0e75e8c150e6af9b0fe8cc74c4d3684ab0",
+      "sha256": "7dd492f013b3c2bb5a79ad9e66b62c293f6f3e91d3485cb8c4b2e2d5b6c06f19",
+      "bytes": 1783
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/reinit-companion.expected",
+      "blob": "22d92fe5b4b205021abfc10cb8f1d9d5b310d396",
+      "sha256": "d5a7f50f48981578b58571b533d19160aa6a7776292c78a907c98c1bbe2b0a35",
+      "bytes": 177
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs",
+      "blob": "8d11113ca3c80a4018b662147a0b64fbb83e1d26",
+      "sha256": "5d31d49a7490d107d1ff219eb1b2e8b6d59f073dc86fb16ae290411c85f4741d",
+      "bytes": 3048
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/repeated-destination.expected",
+      "blob": "46fe7b91d7807c83deee23f3dcedb5c3b4ad891e",
+      "sha256": "f16b1be3142a2939e3b7c2f24ccfbcb55b303b3484eec038dfeec4938cc37b02",
+      "bytes": 326
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs",
+      "blob": "8df69a53d9a7d727e8f9b6d3a6fd1f850d116b55",
+      "sha256": "c0e3018e1247e6d7a0d26dbcfa7cf1a9b2d3d16197552c39207e81d5edcec751",
+      "bytes": 2111
+    }
+  ],
+  "ci_1": {
+    "baseline_run": "43611505688",
+    "candidate_run": "43611509452",
+    "classification": "NONDISCRIMINATING on all 3 fixtures; Unsupported before target read; reinit FAIL",
+    "evidence": [
+      {
+        "path": "../ci-1/run-43611505688.nested.txt",
+        "sha256": "3f3ebb2ce3744b4b346175ccaa4c01f872d537cb29f04321ccb47696971a0e72"
+      },
+      {
+        "path": "../ci-1/run-43611509452.nested.txt",
+        "sha256": "16c002a29e029c255f3b89ae6bdb84887d494c11c51c07852972e80e5322467e"
+      }
+    ],
+    "other_candidate_suites": "user-reported expected210 ok, kani24/0, ui17/0, script2/0; composition S5",
+    "credit": "none for F6; CI excerpts are provided inputs, no independent rerun"
+  },
+  "controls_v2": {
+    "payload": "ordinary union Slot { byte:u8,hole:() }; nested union is within existing F6 scope",
+    "source_pointer_types": [
+      "*const u8",
+      "*mut u8"
+    ],
+    "direct_nested_pointer_or_reference": false,
+    "target_read": "read_payload: unsafe {*pointer}, no MaybeUninit/assume_init/as_ptr/pointer cast",
+    "negative_expected_failure_count": 1,
+    "negative_expected_description": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+    "reinit_expected_failure_count": 0,
+    "actual_failure_counts": "UNKNOWN",
+    "target_bindings": "custom MIR source spelling; actual consumed MIR UNKNOWN",
+    "baseline_expected": "two false VERIFICATION SUCCESSFUL results; expected-negative selectors fail",
+    "candidate_expected": "one intended raw u8 read failure per negative; reinit SUCCESS"
+  },
+  "local_validation": {
+    "git_diff_check": "PASS",
+    "allowed_rustfmt": "PASS",
+    "source_single_harness_flags_pointer_cast_scan": "PASS (comments excluded from source-order scan)",
+    "static_shape_audit": "see REVIEW.md; no empirical credit",
+    "compile_build_tests": "NOT_RUN",
+    "push_CI": "NOT_RUN"
+  },
+  "runtime_new_controls": "NOT_RUN; discrimination UNKNOWN",
+  "docs": "unchanged",
+  "research_committed": false,
+  "allowed_rustfmt": {
+    "script": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+    "sha256": "50d6185aa821a7f6ea5aceba7cebe1bd517ea323f399a269c5a170b6ac65210d",
+    "arguments": "--edition 2024 --config-path rustfmt.toml <file>"
+  }
+}

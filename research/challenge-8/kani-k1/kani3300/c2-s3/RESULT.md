@@ -1,65 +1,78 @@
-# C2-S3 preparation result
+# C2-S3 result — confirmed pairs and docs follow-up
 
-READY `86428e9313a8a697482bfd092de61a735a716961`
+READY `ad324418cdc66b18e9b71f76a412be6ccea20c7e`
 
-Candidate tree `146049f153dd5410d8be7a812b071147c64c2cd0`, isolated clone
-`/root/kani-fix-3300-c2-s3`, branch `fix/kani-3300-c2-s3`, exact base
-`bf8170b28afb682f8dd55a94199caa247736d8fa`. Clean source worktree.
+Docs-only commit, tree `b7e9e8ffa7212c1c41299c32ebd0b72fd9951a68`, parent
+`5ca3cbf2e913e9c9b1d81cad3bce598964bafeac`, branch `fix/kani-3300-c2-s3`
+in `/root/kani-fix-3300-c2-s3`. Author and committer Tiramisu-Cake
+<igkharin@gmail.com> through git -c. Source worktree clean.
 
-The assigned destination initially did not exist. It was cloned locally from
-the clean S2 source and switched to the exact base. No reset/stash, modification
-of existing clones, build, push or CI was performed.
+## Confirmed distinguishing pairs
 
-## Changes and identities
+Coordinator report: [ci-2/CI-RESULT.md](ci-2/CI-RESULT.md), SHA256
+`5241ed88cc944c9d11f6b7d7b4bdab6a7fbd1d8044024b76b62a586797b4f2df`. These are supplied coordinator CI results, not a worker rerun
+or an independently reconstructed proof/MIR inventory.
 
-- `a328d1d897bf7382c154530db1de7c3687bc5480`: initial test-only controls.
-- `15ede35f3f6809e79a869d33482f7fc6034464f5`: nested Call reset source repair.
-- `86428e9313a8a697482bfd092de61a735a716961`: test-only review correction,
-  eliminating unrelated callee marker reads. Earlier test-only tree is
-  superseded; use the final baseline package below.
+| Control | Baseline run 43614612145 | Candidate run 43614615441 |
+| --- | --- | --- |
+| moved-from-source | False VERIFICATION SUCCESSFUL; 0 of 183 failed; expected-negative selector fails | Exactly one intended raw `*const u8` uninitialized-read failure; selector passes |
+| repeated-destination | False VERIFICATION SUCCESSFUL; 0 of 189 failed; expected-negative selector fails | Exactly one intended raw `*const u8` uninitialized-read failure; selector passes |
+| reinit-companion | Legal control passes | Legal control passes |
 
-All source commits use author and committer Tiramisu-Cake
-<igkharin@gmail.com> through git -c. Only visitor, necessary for_deinit size
-guard and new nested-aggregate-reset fixtures changed. No runtime/immutable/
-DFCC/cache/SEL1/composition changes; S4/S5/F8 were not started.
+Baseline is exact bf8170b28afb682f8dd55a94199caa247736d8fa plus
+controls-v2/baseline-tests.patch, tree 1356cb004836d69fa0c234801e9c0600a7146167,
+with CI-only overlay 8cf1626b30. Patch SHA256
+`f93a436385b739261459853b0d173ad9afe343d2dd26cd960e5be18fc2cf2f05`.
+Tested candidate is 5ca3cbf2e913e9c9b1d81cad3bce598964bafeac with CI-only
+1b9be0f53b. Its fixture sources, goldens and flags match the baseline package.
+Coordinator confirms both F6 paths reproduced and fixed by the candidate;
+targeted nested-aggregate-reset 3/3, fmt/build/clippy PASS.
 
-Source repair uses exact existing UnionAsField classification outside supported
-shadow carriers. It resets actual Move sources after all supported snapshots,
-before Call; resets exact destinations only on normal continuation. It covers
-accepted Item/Shim/foreign/hook routes plus black_box, and preserves Forget,
-existing no-effect exclusions and early resolver/Unsupported paths. No new
-aggregate transfer protocol or blanket Unsupported was introduced.
+Earlier CI1 (baseline43611505688, candidate43611509452) remains
+NONDISCRIMINATING: all three old-form fixtures stopped at the existing Nested
+pointer/layout guard before the target reads. No credit is taken from those
+failures. Historical excerpts and preparation records are retained.
 
-## Separate final baseline package
+## Boundary and documentation
 
-Apply `baseline-tests.patch` only to exact base bf8170b28.
-SHA256 `b7e778b38db68d4b31a6dcaa47c1c32b08fa40915d3435d08148c845c1679673`.
-Expected tree `623062b0c7d9c9dda7a1edd52d8cb86d7c33bcc1`, also recorded in
-expected-baseline-tree.txt. It contains six new fixture/oracle files and no
-production repair. Sources/goldens/flags are byte-identical to the candidate.
-Temporary-index apply/check and exact tree/blob comparison passed; applying
-source-repair.patch on that test-only tree reproduces the candidate tree.
+Existing static source coverage/extent/order review is in REVIEW.md and
+RESET-COVERAGE-MAP.md. Actual Move source resets follow all supported argument
+snapshots and precede the Call. Exact destination full-storage reset occurs on
+normal continuation only. The tests preserve the same destination across two
+returns or retain the address of the original live moved source; controls-v2
+uses direct byte-field pointers, fieldwise construction and no whole-Nested
+assignment. New CI confirms the distinguishing observations; full consumed-MIR
+identity/offset/alias bindings were not independently reconstructed by this
+worker from the summary.
 
-## Validation and limits
+Task §5 now permits docs narrowing after the coverage review and two confirmed
+pairs. The sole source change in this follow-up is
+`docs/src/reference/experimental/contracts.md`: it describes conservative
+full-storage reset for sized aggregates rejected by the nested-union layout
+check, normal-return destinations and moved call sources. It retains possible
+false positives, absence of nested shadow transfer support, whole-value
+Unsupported, the known initialized tuple-return false positive and the advice
+to return a supported top-level slot. It makes no blanket aggregate-support,
+full-soundness or whole-#3300 claim.
 
-Allowed rustfmt wrapper and committed `git diff --check` passed. Static
-Rust type/borrow/extent/order review is in REVIEW.md; this is not compiler
-typechecking. Git patch/tree/blob/hash and JSON/one-harness/flag checks passed.
+Production and tests are unchanged from tested 5ca3cbf2e9. Runtime, F5, DFCC,
+F7/cache, SEL1/F8, existing controls, composition roots/checker/allowlist and
+base/pins are unchanged. S4/S5 were not started.
 
-Local cargo/rustc/Kani/CBMC/Miri/builds, all baseline/candidate executions,
-fmt suite/build/clippy, full Quick, actual consumed MIR/offset/object identity,
-reached-read proof, exact emitted property/duplicate counts and composition
-outcome on this candidate are NOT_RUN/UNKNOWN. Negative goldens provisionally
-request one intended u8 read failure; no empirical discrimination is claimed.
-The coordinator request records each required binding and stop condition.
+## Validation and remaining limits
 
-F6 remains source-established hypothesis with an unexecuted candidate repair.
-No reproduction, accepted fix, new B1/B2 proof or independent proof credit.
-contracts.md is unchanged: docs narrowing waits for both discriminating
-baseline/candidate pairs and complete source coverage review. Known tuple
-legal stays a known false positive. Existing known composition FAIL remains
-narrowly deferred S5 debt, not an all-PASS Quick or a waiver for new drift.
+Docs diff inspected against §5; committed `git diff --check` PASS. No new
+compiler/build/verifier/test, push, dispatch or CI was performed. The docs-only
+HEAD itself has not run CI. No new B1/B2 or independent proof credit is claimed.
 
-Research is uncommitted only under kani3300/c2-s3 in g0 at entry
-959f03d10eae173389511132aa4675c7fc5aafb1. Concurrent/unrelated SEL1 research
-changes were not touched or staged. No publication/dispatch/CI/Cloud spend.
+Coordinator reports earlier full uninit Quick on 86428e9313: kani 24/0,
+expected 210 ok (only the three superseded old-form controls failed), ui 17/0,
+script 2/0. Composition remains FAIL, separately deferred S5 debt, not an
+all-PASS Quick or a blanket waiver for new lost checks/status/payload drift.
+A full Quick on the final docs-only HEAD and independent full evidence binding
+remain NOT_RUN/UNKNOWN.
+
+Current test package and exact identities are in controls-v2/INPUTS.json;
+original top-level preparation patches/manifests refer to superseded controls.
+Research, including this updated RESULT, remains uncommitted under
+kani3300/c2-s3 in g0. Existing CI reports and unrelated work were not modified.

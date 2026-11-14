@@ -1,0 +1,305 @@
+diff --git a/tests/expected/uninit/nested-aggregate-reset/moved-from-source.expected b/tests/expected/uninit/nested-aggregate-reset/moved-from-source.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..21a0b63b37a5f7da3fb85dc491ac3131e742df3a
+--- /dev/null
++++ b/tests/expected/uninit/nested-aggregate-reset/moved-from-source.expected
+@@ -0,0 +1,6 @@
++Checking harness moved_from_nested_payload_read_is_rejected...
++** 1 of
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++VERIFICATION:- FAILED
++Verification failed for - moved_from_nested_payload_read_is_rejected
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs b/tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..e24c8a0e75e8c150e6af9b0fe8cc74c4d3684ab0
+--- /dev/null
++++ b/tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs
+@@ -0,0 +1,66 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[derive(Clone, Copy)]
++union Slot {
++    byte: u8,
++    #[allow(dead_code)]
++    hole: (),
++}
++
++#[repr(C)]
++struct Nested {
++    payload: Slot,
++    #[allow(dead_code)]
++    marker: u8,
++}
++
++#[inline(never)]
++unsafe fn read_payload(pointer: *const u8) -> u8 {
++    unsafe { *pointer }
++}
++
++#[inline(never)]
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn consume_nested(_value: Nested) {
++    mir! {
++        { Return() }
++    }
++}
++
++// Keep the actual source allocation live after Call(Move(source)). The saved
++// u8 pointer is formed before the Move, without a pointer to the parent Nested
++// or a layout-changing cast that would seed the delayed whole-aggregate guard.
++#[inline(never)]
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn read_moved_from_source(seed: Slot) -> u8 {
++    mir! {
++        type RET = u8;
++        let source: Nested;
++        let saved: *const u8;
++        let _unit: ();
++
++        {
++            source.payload = Move(seed);
++            source.marker = 3;
++            saved = std::ptr::addr_of!(source.payload.byte);
++            Call(_unit = consume_nested(Move(source)), ReturnTo(after_move), UnwindUnreachable())
++        }
++        after_move = {
++            Call(RET = read_payload(saved), ReturnTo(done), UnwindUnreachable())
++        }
++        done = { Return() }
++    }
++}
++
++#[kani::proof]
++fn moved_from_nested_payload_read_is_rejected() {
++    std::hint::black_box(unsafe { read_moved_from_source(Slot { byte: 42 }) });
++}
+diff --git a/tests/expected/uninit/nested-aggregate-reset/reinit-companion.expected b/tests/expected/uninit/nested-aggregate-reset/reinit-companion.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..22d92fe5b4b205021abfc10cb8f1d9d5b310d396
+--- /dev/null
++++ b/tests/expected/uninit/nested-aggregate-reset/reinit-companion.expected
+@@ -0,0 +1,4 @@
++Checking harness nested_reset_allows_later_destination_and_source_writes...
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs b/tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..8d11113ca3c80a4018b662147a0b64fbb83e1d26
+--- /dev/null
++++ b/tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs
+@@ -0,0 +1,112 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[derive(Clone, Copy)]
++union Slot {
++    byte: u8,
++    #[allow(dead_code)]
++    hole: (),
++}
++
++#[repr(C)]
++struct Nested {
++    payload: Slot,
++    #[allow(dead_code)]
++    marker: u8,
++}
++
++#[inline(never)]
++unsafe fn read_payload(pointer: *const u8) -> u8 {
++    unsafe { *pointer }
++}
++
++#[inline(never)]
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn make_nested(payload: Slot) -> Nested {
++    mir! {
++        type RET = Nested;
++        {
++            RET.payload = Move(payload);
++            RET.marker = 0;
++            Return()
++        }
++    }
++}
++
++#[inline(never)]
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn consume_nested(_value: Nested) {
++    mir! {
++        { Return() }
++    }
++}
++
++#[inline(never)]
++unsafe fn write_payload(pointer: *mut u8, byte: u8) {
++    unsafe { *pointer = byte };
++}
++
++#[inline(never)]
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn repair_destination(seed: Slot, hole: Slot, repair: u8) -> u8 {
++    mir! {
++        type RET = u8;
++        let destination: Nested;
++        let saved: *mut u8;
++        let _unit: ();
++
++        {
++            destination.payload = Move(seed);
++            destination.marker = 1;
++            saved = std::ptr::addr_of_mut!(destination.payload.byte);
++            Call(destination = make_nested(Move(hole)), ReturnTo(after_return), UnwindUnreachable())
++        }
++        after_return = {
++            Call(_unit = write_payload(saved, repair), ReturnTo(read), UnwindUnreachable())
++        }
++        read = {
++            Call(RET = read_payload(saved), ReturnTo(done), UnwindUnreachable())
++        }
++        done = { Return() }
++    }
++}
++
++#[inline(never)]
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn repair_moved_source(seed: Slot, repair: u8) -> u8 {
++    mir! {
++        type RET = u8;
++        let source: Nested;
++        let saved: *mut u8;
++        let _unit: ();
++
++        {
++            source.payload = Move(seed);
++            source.marker = 3;
++            saved = std::ptr::addr_of_mut!(source.payload.byte);
++            Call(_unit = consume_nested(Move(source)), ReturnTo(after_move), UnwindUnreachable())
++        }
++        after_move = {
++            Call(_unit = write_payload(saved, repair), ReturnTo(read), UnwindUnreachable())
++        }
++        read = {
++            Call(RET = read_payload(saved), ReturnTo(done), UnwindUnreachable())
++        }
++        done = { Return() }
++    }
++}
++
++#[kani::proof]
++fn nested_reset_allows_later_destination_and_source_writes() {
++    let destination_value = unsafe { repair_destination(Slot { byte: 11 }, Slot { hole: () }, 55) };
++    let source_value = unsafe { repair_moved_source(Slot { byte: 42 }, 77) };
++    assert_eq!(destination_value, 55);
++    assert_eq!(source_value, 77);
++}
+diff --git a/tests/expected/uninit/nested-aggregate-reset/repeated-destination.expected b/tests/expected/uninit/nested-aggregate-reset/repeated-destination.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..46fe7b91d7807c83deee23f3dcedb5c3b4ad891e
+--- /dev/null
++++ b/tests/expected/uninit/nested-aggregate-reset/repeated-destination.expected
+@@ -0,0 +1,6 @@
++Checking harness repeated_destination_hole_return_is_rejected...
++** 1 of
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++VERIFICATION:- FAILED
++Verification failed for - repeated_destination_hole_return_is_rejected
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs b/tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..8df69a53d9a7d727e8f9b6d3a6fd1f850d116b55
+--- /dev/null
++++ b/tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs
+@@ -0,0 +1,75 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[derive(Clone, Copy)]
++union Slot {
++    byte: u8,
++    #[allow(dead_code)]
++    hole: (),
++}
++
++#[repr(C)]
++struct Nested {
++    payload: Slot,
++    #[allow(dead_code)]
++    marker: u8,
++}
++
++#[inline(never)]
++unsafe fn read_payload(pointer: *const u8) -> u8 {
++    unsafe { *pointer }
++}
++
++#[inline(never)]
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn make_nested(payload: Slot) -> Nested {
++    mir! {
++        type RET = Nested;
++        {
++            RET.payload = Move(payload);
++            RET.marker = 0;
++            Return()
++        }
++    }
++}
++
++// The pointer addresses only the u8 union field. Save it while the destination
++// is initialized, before either Call: no address-taking setter may follow reset.
++// No pointer casts or copy intrinsics seed delayed whole-Nested instrumentation.
++#[inline(never)]
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++unsafe fn reuse_destination(seed: Slot, initialized: Slot, hole: Slot) -> u8 {
++    mir! {
++        type RET = u8;
++        let destination: Nested;
++        let saved: *const u8;
++
++        {
++            destination.payload = Move(seed);
++            destination.marker = 1;
++            saved = std::ptr::addr_of!(destination.payload.byte);
++            Call(destination = make_nested(Move(initialized)), ReturnTo(second_call), UnwindUnreachable())
++        }
++        second_call = {
++            Call(destination = make_nested(Move(hole)), ReturnTo(read), UnwindUnreachable())
++        }
++        read = {
++            Call(RET = read_payload(saved), ReturnTo(done), UnwindUnreachable())
++        }
++        done = { Return() }
++    }
++}
++
++#[kani::proof]
++fn repeated_destination_hole_return_is_rejected() {
++    std::hint::black_box(unsafe {
++        reuse_destination(Slot { byte: 11 }, Slot { byte: 23 }, Slot { hole: () })
++    });
++}

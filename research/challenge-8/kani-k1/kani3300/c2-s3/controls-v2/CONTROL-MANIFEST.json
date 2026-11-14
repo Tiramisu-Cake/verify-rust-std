@@ -1,0 +1,88 @@
+{
+  "schema": "kani3300-c2-s3-controls-v2-manifest",
+  "candidate": "5ca3cbf2e913e9c9b1d81cad3bce598964bafeac",
+  "baseline_tree": "1356cb004836d69fa0c234801e9c0600a7146167",
+  "controls": [
+    {
+      "file": "repeated-destination.rs",
+      "harness": "repeated_destination_hole_return_is_rejected",
+      "negative": true,
+      "binding": "same destination local on both make_nested returns; saved byte pointer before first Call; payload load after second",
+      "expected_failed_properties": 1,
+      "expected_failure_description": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+      "other_failures_accepted": false,
+      "actual_properties": "NOT_RUN",
+      "expected_file": "repeated-destination.expected"
+    },
+    {
+      "file": "moved-from-source.rs",
+      "harness": "moved_from_nested_payload_read_is_rejected",
+      "negative": true,
+      "binding": "actual Move(non-Copy Nested) to empty consumer; saved byte pointer reads old live source after Call",
+      "expected_failed_properties": 1,
+      "expected_failure_description": "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+      "other_failures_accepted": false,
+      "actual_properties": "NOT_RUN",
+      "expected_file": "moved-from-source.expected"
+    },
+    {
+      "file": "reinit-companion.rs",
+      "harness": "nested_reset_allows_later_destination_and_source_writes",
+      "negative": false,
+      "binding": "writes via saved byte pointers after nested destination/source reset; own assertions check55/77",
+      "expected_failed_properties": 0,
+      "expected_failure_description": null,
+      "other_failures_accepted": false,
+      "actual_properties": "NOT_RUN",
+      "expected_file": "reinit-companion.expected"
+    }
+  ],
+  "source_layout_expectation": {
+    "Nested_extent": 2,
+    "Nested_align": 1,
+    "payload_and_byte_offset": 0,
+    "payload_extent": 1,
+    "actual_consumed_binding": "UNKNOWN"
+  },
+  "flags": "-Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12",
+  "compile_flags": "--edition 2021 -D warnings",
+  "fixtures": [
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/moved-from-source.expected",
+      "blob": "21a0b63b37a5f7da3fb85dc491ac3131e742df3a",
+      "sha256": "0dff9e8ea069b8c5af3155bb46a66e90316db2a0f1c38c79f3cf565f0adcb066",
+      "bytes": 322
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs",
+      "blob": "e24c8a0e75e8c150e6af9b0fe8cc74c4d3684ab0",
+      "sha256": "7dd492f013b3c2bb5a79ad9e66b62c293f6f3e91d3485cb8c4b2e2d5b6c06f19",
+      "bytes": 1783
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/reinit-companion.expected",
+      "blob": "22d92fe5b4b205021abfc10cb8f1d9d5b310d396",
+      "sha256": "d5a7f50f48981578b58571b533d19160aa6a7776292c78a907c98c1bbe2b0a35",
+      "bytes": 177
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs",
+      "blob": "8d11113ca3c80a4018b662147a0b64fbb83e1d26",
+      "sha256": "5d31d49a7490d107d1ff219eb1b2e8b6d59f073dc86fb16ae290411c85f4741d",
+      "bytes": 3048
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/repeated-destination.expected",
+      "blob": "46fe7b91d7807c83deee23f3dcedb5c3b4ad891e",
+      "sha256": "f16b1be3142a2939e3b7c2f24ccfbcb55b303b3484eec038dfeec4938cc37b02",
+      "bytes": 326
+    },
+    {
+      "path": "tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs",
+      "blob": "8df69a53d9a7d727e8f9b6d3a6fd1f850d116b55",
+      "sha256": "c0e3018e1247e6d7a0d26dbcfa7cf1a9b2d3d16197552c39207e81d5edcec751",
+      "bytes": 2111
+    }
+  ],
+  "execution": "NOT_RUN; no new baseline/candidate discrimination credit"
+}
