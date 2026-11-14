@@ -1,37 +1,44 @@
-# Coordinator diagnostic request — STOP, no dispatch performed
+# Targeted CI request — QUALIFICATION_PENDING
 
-Input: exact S5 source 8d67298c48eb7b2381f806a6353433d1440e3d94 / tree
-5fb7dbaa6f79a75ca552be9d4d5c7b535cf38058. These are research-only diagnostic overlays,
-not an S6 frozen candidate or normal-suite acceptance request. File SHA256 identities
-are in MANIFEST.json. Preserve pinned dependencies and all checks.
+Candidate source `61eb057b46e2ffd62df28c3e956cd8031ed84748`, tree `712b560e63097fc36e4866572aa22af347a100c0`.
 
-First observe `repro/ordinary-hook-return.rs` on that exact source using existing
-bounded Linux targeted infrastructure. Use source kani-flags before --cbmc-args,
-regular output and --object-bits 12. Capture actual instantiated callee kind/body,
-FnAbi, generated MIR call/destination/normal target, marker-selected UntrackedDeref
-interception, protocol begin/store/load behavior, all native failed descriptions,
-exact check summary N, reached useful checks, exits and source/tool/tree identities.
-Do not bless any failure or create a guessed expected file. If a prior analysis or
-layout failure dominates, record NONDISCRIMINATING and preserve the exact output.
-Add initialized ordinary bodyful MU argument/return companion for comparison
-(existing `maybe-uninit-argument-return` / `transfer-qualification/legal-ordinary`).
+Exact source SHA/tree + file hashes: parent C2-FREEZE.json / EXPORT-MANIFEST.json.
+No worker local builds/formatter/proofs, push, PR, CI or dispatch. Use existing bounded
+Linux infrastructure and fixed nightly/CBMC/Kissat/deps, all normal checks and fixture
+object-bits12. No full kani-regression.sh, new workflow, Gate A or SmallSort/SEL1 replay.
 
-Observe `generated-modifies-no-shadow.rs` and invalid-target separately only if
-needed to confirm the source type-shape analysis; setup failures are not semantic
-qualification. Confirm whether a selected PFC actually executes a hook call.
+1. fmt/build/clippy on exact candidate; new typed_marker_categories_remain_distinct
+   unit; existing S2 registration9, S4 delayed_cache6/delayed_scope2 units.
+2. Matched baseline8d + candidate observations of SAME exported ordinary-hook-return.rs
+   and fn-item-shadow-return.rs. New useful assertions differ from historical repros.
+   Kani flags and --keep-temps BEFORE --cbmc-args; --emit mir in observation RUSTFLAGS.
+   Record input/tool/source/tree/argv identities, actual instance kind/body/FnAbi,
+   normal call target, complete failures, own useful SUCCESS and exits. Baseline hook
+   must reproduce sole internal load_argument placeholder N1; candidate must replace
+   with sole explicit pairing Unsupported N1. FnDef plain N0/shadow N1 must retain
+   actual FnOnce call_once shim, not optimized Item, tuple/layout or pointer path.
+3. All17 new expected selectors in DISCOVERY-INVENTORY.json; native compiletest
+   --force-rerun for repeats. Exact failure N/named function/status/description,
+   useful SUCCESS, summary and selected root completion must match. No bless,
+   --fix-expected, skipped selectors or check-disable workaround. Actual scalar hook
+   must reach destination37/source37; generated modifies(out) is only legal noncarrier.
+   Actual Model and unknown-marker true/hole pairs must preserve ordinary protocol.
+4. Bounded MIR/operation review on candidate: hooked MU call has explicit refusal
+   before Begin/Store/return LoadArgument, no snapshots/deinit; operand checks and B1
+   flush preserved. Ordinary paired companions retain caller stores/load, callee
+   entry loads/return store. Copy both operands SAME place and Copy, distinct indices;
+   original-source preservation. Padded actual stride/offset, cross-slot extent and
+   intended final DATA byte through borrowed/raw slice, never invalid &[Padded].
+5. Ordinary/PFC/contracts generation/helpers, quantifier/arbitrary, existing Uninit
+   kani/expected/ui/script, S2/S3/S4 controls, all remaining upstream JSON-handler,
+   then SAME existing bounded Linux Quick. S5 totals kani24/expected228/ui17/script2/
+   json17 are historical only; preserve two pre-existing ignored fixmes, no new skips.
+6. Revalidate four unchanged S5 sensitivity patches using c2-s5/SENSITIVITY-MANIFEST.json
+   and c2-s5/sensitivity (sibling research package). Actual --force-rerun, separate
+   mutation outputs, same built tools. Compile/setup errors, cached/ignored runs or
+   unrelated Unsupported are INVALID sensitivity evidence.
 
-For Fn-item candidates capture optimized FnDef callee kind and ABI. Plain has no
-predetermined native outcome; shadow-return can qualify Shim refusal only if that
-actual Shim is reached, with no prior tuple/layout failure. Reuse existing forced
-fn-pointer selectors as the distinct indirect control. Actual --force-rerun is
-required for repeated selectors; ignored/cached results are not qualification.
-
-Do not run partial-source-tests as accepted fixtures: they are incomplete drafts
-with known static/golden issues listed in REVIEW.md. No full regression, Gate A,
-SmallSort/SEL1 replay or gate workflow belongs to this diagnostic request.
-
-After a corrected control design and a new reviewed source candidate, the original
-S6 targeted fmt/build/clippy, units6/2/9, all Uninit/expected/ui/script and remaining
-json-handler, four unchanged S5 sensitivity patches (actual --force-rerun), and the
-same bounded Linux Quick remain required. S5 receipts do not qualify that new SHA.
-Gate A three-platform remains a separate later task, NOT_RUN.
+New admitted-path regression, non-discriminating control, unexpected failure/count,
+missing useful success or unexplained failure => STOP with exact repro; no new boundary
+blessing. Capture receipts against exact immutable SHA. Prior S5 CI does not qualify
+this predicate delta. Gate A3-platform is NOT_RUN, separate coordinator step.

@@ -1,0 +1,195 @@
+{
+  "status": "STATIC_DISCOVERY_QUALIFICATION_PENDING",
+  "new_fixture_count": 17,
+  "fixtures": [
+    {
+      "source": "tests/expected/uninit/marker-hook-calls/fn-item-plain.rs",
+      "expected": "tests/expected/uninit/marker-hook-calls/fn-item-plain.expected",
+      "root": "fn_item_plain",
+      "intended_failed_N": 0,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/marker-hook-calls/fn-item-plain.rs": "c0624bfbbc22321a4ba2f6cbbea420634c45ad2bf15c9c9affd07e515942574c",
+        "tests/expected/uninit/marker-hook-calls/fn-item-plain.expected": "1451d47fb4baf9136be7fc8d931ca002e8f24cb01fc5471ad77f5be99d14816d"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.rs",
+      "expected": "tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.expected",
+      "root": "fn_item_shadow_return",
+      "intended_failed_N": 1,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.rs": "8014746669d3d91e956f62a68e8ce4e67436736911b60013049d363a4c3adae3",
+        "tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.expected": "6ef29ffc40284ba12642c4c714ee56329f7989fb6811fdda489e4974446f20a5"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.rs",
+      "expected": "tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.expected",
+      "root": "generated_modifies_no_shadow",
+      "intended_failed_N": 0,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.rs": "f25fbf6a45e2e1e5dd334f0c14261e08122a3e265dde289fe2aa8dd47acc9a7f",
+        "tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.expected": "942538b26c5a61be8333400fdec082c6a017f76ad4e4f50b6926357df37005d7"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/marker-hook-calls/marked-body-hole.rs",
+      "expected": "tests/expected/uninit/marker-hook-calls/marked-body-hole.expected",
+      "root": "marked_body_hole",
+      "intended_failed_N": 1,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/marker-hook-calls/marked-body-hole.rs": "e69ba1c01fab75f70932e37c24800f847997968095622b20554c4d273732e226",
+        "tests/expected/uninit/marker-hook-calls/marked-body-hole.expected": "75d358ddd8293b542ea80b8e8676062196a93cbfbfdb457154fcfce36d7efb28"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/marker-hook-calls/marked-body-initialized.rs",
+      "expected": "tests/expected/uninit/marker-hook-calls/marked-body-initialized.expected",
+      "root": "marked_body_initialized",
+      "intended_failed_N": 0,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/marker-hook-calls/marked-body-initialized.rs": "50cb337e52357e1b6cbb17970fd109d778d808935ee4a2787c177c29f5de863e",
+        "tests/expected/uninit/marker-hook-calls/marked-body-initialized.expected": "a366dc3657e37294d0778deceb1ea0bb655cb69f3b6a490846e13fd863222092"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/marker-hook-calls/marked-model-hole.rs",
+      "expected": "tests/expected/uninit/marker-hook-calls/marked-model-hole.expected",
+      "root": "marked_model_hole",
+      "intended_failed_N": 1,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/marker-hook-calls/marked-model-hole.rs": "f06d5cae94c673eae40e3d297082db86ae36774b5e39555cc31f981dff648722",
+        "tests/expected/uninit/marker-hook-calls/marked-model-hole.expected": "8c0c6a830e6fac15ec3e688f960586e9b1d55f0a0ce1b641fdb6f2b2d001131d"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/marker-hook-calls/marked-model-initialized.rs",
+      "expected": "tests/expected/uninit/marker-hook-calls/marked-model-initialized.expected",
+      "root": "marked_model_initialized",
+      "intended_failed_N": 0,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/marker-hook-calls/marked-model-initialized.rs": "364607d38b693b98e72fab4d702021dfe30299c8715fa6647b71825a121f3154",
+        "tests/expected/uninit/marker-hook-calls/marked-model-initialized.expected": "f49335753bd694704d361f7b33d1116cc625516d3371bb00570f88253633d309"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/marker-hook-calls/ordinary-hook-return.rs",
+      "expected": "tests/expected/uninit/marker-hook-calls/ordinary-hook-return.expected",
+      "root": "ordinary_hook_return",
+      "intended_failed_N": 1,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/marker-hook-calls/ordinary-hook-return.rs": "cc61abd69b69cdfc3cfdf8ef630512dab133411e31c00d8d2ddd60c2a508d79e",
+        "tests/expected/uninit/marker-hook-calls/ordinary-hook-return.expected": "a27521950684f56cf912f1fdd5900d57aed80537099fe72d9bfe1a6974c0fafe"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.rs",
+      "expected": "tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.expected",
+      "root": "ordinary_hook_scalar",
+      "intended_failed_N": 0,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.rs": "b55f23754b279a14db06dfe4e45907ba1be521f61327c1f67969716e1abe7376",
+        "tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.expected": "c4c2f96c71d38511e014e05ecad662e1d79f8f73f76628625346c9bb3382e951"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/copy-source-arguments/arg0-hole.rs",
+      "expected": "tests/expected/uninit/copy-source-arguments/arg0-hole.expected",
+      "root": "copy_same_source_to_arg0_hole",
+      "intended_failed_N": 1,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/copy-source-arguments/arg0-hole.rs": "20873bb790de1eaf87d7805f00a293aa7ef7befa5e95a6a565a7817a3d002d77",
+        "tests/expected/uninit/copy-source-arguments/arg0-hole.expected": "63fe107166342c1cec0efbd9db13730d71a8178191003f033b6061f8366ca682"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/copy-source-arguments/arg0-initialized.rs",
+      "expected": "tests/expected/uninit/copy-source-arguments/arg0-initialized.expected",
+      "root": "copy_same_source_to_arg0_initialized",
+      "intended_failed_N": 0,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/copy-source-arguments/arg0-initialized.rs": "bd2f5e21b90df3d55b1de93127c5baf19c24f542a48b4a513ff1d9801c24e52e",
+        "tests/expected/uninit/copy-source-arguments/arg0-initialized.expected": "0ab6b6eb536cc1de31ab649cc50a58e51a856fca068f7f83342abdc12944e896"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/copy-source-arguments/arg1-hole.rs",
+      "expected": "tests/expected/uninit/copy-source-arguments/arg1-hole.expected",
+      "root": "copy_same_source_to_arg1_hole",
+      "intended_failed_N": 1,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/copy-source-arguments/arg1-hole.rs": "0201d75f531c78a724390585c7dd8989b9f756ba4d69b73c921726681588ea9a",
+        "tests/expected/uninit/copy-source-arguments/arg1-hole.expected": "0ea66365bcf7bd6ebd127cc4dcccf82e17e458795b5ad835cad23e11f74e8013"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/copy-source-arguments/arg1-initialized.rs",
+      "expected": "tests/expected/uninit/copy-source-arguments/arg1-initialized.expected",
+      "root": "copy_same_source_to_arg1_initialized",
+      "intended_failed_N": 0,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/copy-source-arguments/arg1-initialized.rs": "87f5f5bdb8ae43247a36ec9405a0ee9ab90e423a8433c5fa2e78451f389c92de",
+        "tests/expected/uninit/copy-source-arguments/arg1-initialized.expected": "a8fe35e0e84e2a9c8cf582c36c4025150dd70453c96d5284200a5a3088071cd9"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/padded-slice-extents/borrowed-hole.rs",
+      "expected": "tests/expected/uninit/padded-slice-extents/borrowed-hole.expected",
+      "root": "borrowed_slice_cross_slot_hole",
+      "intended_failed_N": 1,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/padded-slice-extents/borrowed-hole.rs": "cfd85a5e6476865582a9f17dd014df5196113e04753f6a4077ad7679f4bfe01f",
+        "tests/expected/uninit/padded-slice-extents/borrowed-hole.expected": "b6081f8d345d69ac3763c6e9d9e9c0bbaf477b2faf27aac9bea9df35b7f2c80a"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/padded-slice-extents/borrowed-initialized.rs",
+      "expected": "tests/expected/uninit/padded-slice-extents/borrowed-initialized.expected",
+      "root": "borrowed_slice_cross_slot_initialized",
+      "intended_failed_N": 0,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/padded-slice-extents/borrowed-initialized.rs": "43435be57ee006c6b160a0cda08e036a37a973d715cf1cb51aa9f092b94e8dda",
+        "tests/expected/uninit/padded-slice-extents/borrowed-initialized.expected": "d7d3d5207d04914989c7419dbf56f275198b823487f6dc8e8a9cd99e2336b3fb"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/padded-slice-extents/raw-hole.rs",
+      "expected": "tests/expected/uninit/padded-slice-extents/raw-hole.expected",
+      "root": "raw_slice_cross_slot_hole",
+      "intended_failed_N": 1,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/padded-slice-extents/raw-hole.rs": "e26521146333bcdad67b556fdc4eda2a959f3f6b04b1b9b05bedb180e452ed50",
+        "tests/expected/uninit/padded-slice-extents/raw-hole.expected": "734235e758862c5c995879233b9b3b5f61109cd0021f79d55f830833ed17a9f9"
+      }
+    },
+    {
+      "source": "tests/expected/uninit/padded-slice-extents/raw-initialized.rs",
+      "expected": "tests/expected/uninit/padded-slice-extents/raw-initialized.expected",
+      "root": "raw_slice_cross_slot_initialized",
+      "intended_failed_N": 0,
+      "candidate_execution": "NOT_RUN",
+      "sha256": {
+        "tests/expected/uninit/padded-slice-extents/raw-initialized.rs": "8047cb513bd141b6152e8ff8c93b979f21c6bb9318d4b9f00efb762b00bd6e25",
+        "tests/expected/uninit/padded-slice-extents/raw-initialized.expected": "6c0d07461d04186ecc3f93a0a64e779467e84362773effaae6aeec934a1c7265"
+      }
+    }
+  ],
+  "source_sha": "61eb057b46e2ffd62df28c3e956cd8031ed84748",
+  "source_tree": "712b560e63097fc36e4866572aa22af347a100c0"
+}

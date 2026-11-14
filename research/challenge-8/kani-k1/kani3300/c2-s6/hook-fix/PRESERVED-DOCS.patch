@@ -1,0 +1,116 @@
+diff --git a/docs/src/reference/experimental/contracts.md b/docs/src/reference/experimental/contracts.md
+index ff4b21716..a72c6605f 100644
+--- a/docs/src/reference/experimental/contracts.md
++++ b/docs/src/reference/experimental/contracts.md
+@@ -72,9 +72,21 @@ By leveraging the stubbing feature, we can replace the (expensive) `gcd` call wi
+ 
+ ## Limitations
+ 
+-With `-Z uninit-checks`, tracking the initialization state of `MaybeUninit` and union
+-values passed across a call is not yet supported when the callee is replaced by its
+-contract (`#[kani::stub_verified]`) or checked recursively (`#[kani::recursion]`).
++The [uninitialized memory support and general limitations](../../rust-feature-support.md#uninitialized-memory)
++apply to ordinary proof harnesses as well as contract checks. Supported top-level
++`MaybeUninit` storage can transfer initialization state through direct MIR-body calls,
++including arguments and return values, when its data mask is computable. Whole
++immutable masks require the qualification described there; unqualified nonzero-subrange
++or relocation origins may produce conservative false positives, while eligible aliases
++and independently supported static paths can succeed.
++
++Tracking the initialization state of `MaybeUninit` and union values passed across a
++call is not yet supported when the callee is replaced by its contract
++(`#[kani::stub_verified]`, Replace mode) or checked recursively
++(`#[kani::recursion]`, RecursiveCheck mode). Observed conservative failures at these
++boundaries do not qualify shadow transfer in those modes. A local
++`#[kani::proof_for_contract]` companion required to validate a verified stub is only
++executed when selected; its presence alone does not establish successful checking.
+ With `-Z uninit-checks`, a harness is rejected as unsupported if delayed
+ initialization analysis encounters an interprocedural call cycle. This can affect
+ ordinary proof harnesses and `#[kani::proof_for_contract]` checks; a runtime
+diff --git a/docs/src/rust-feature-support.md b/docs/src/rust-feature-support.md
+index ae21eb7a6..0dae589c8 100644
+--- a/docs/src/rust-feature-support.md
++++ b/docs/src/rust-feature-support.md
+@@ -177,7 +177,32 @@ stack unwinding support.
+ Reading uninitialized memory is
+ [considered undefined behavior](https://doc.rust-lang.org/reference/behavior-considered-undefined.html#behavior-considered-undefined) in Rust.
+ Kani has partial, experimental support for detecting access to uninitialized memory with the `-Z uninit-checks` option.
+-See [this issue](https://github.com/model-checking/kani/issues/3300) for more details.
++The instrumentation tracks a top-level `MaybeUninit<T>` slot, `[MaybeUninit<T>; N]`,
++`[MaybeUninit<T>]`, and `MaybeUninit<[T; N]>` when Kani can compute the element's data mask.
++It tracks initialization through raw copies, typed moves of payload bytes (padding is not
++preserved by typed moves), and direct calls to functions with MIR bodies, including
++arguments and return values. Qualified whole immutable promoted constants and named
++statics start with their exact byte masks.
++
++This whole-storage qualification is narrow. Unqualified origins involving a nonzero
++subrange or a relocation can produce conservative false positives. Eligible aliases
++and independently supported static paths can still succeed; this limitation does not
++mean that every subrange or relocation read fails.
++
++General limitations apply to all harnesses using `-Z uninit-checks`, including ordinary
++proofs. Intrinsics without an initialization model, including `select_unpredictable`
++and `core::hint::select_unpredictable`, calls through function pointers and trait
++objects, and call cycles in the delayed initialization analysis remain unsupported.
++Some function-item trait shims have layout or shadow-transfer limitations; this is
++not a restriction on all direct calls to function items. Shadow transfer under
++`#[kani::stub_verified]` or `#[kani::recursion]` and by-value aggregates containing
++nested `MaybeUninit` or union fields are also outside this support. Conservative
++resets at nested aggregate call boundaries can produce false positives.
++See the [contract limitations](reference/experimental/contracts.md#limitations) for
++contract modes and a nested aggregate example, and [issue #3300](https://github.com/model-checking/kani/issues/3300)
++for the broader work.
++
++This change does not make core::slice::sort::shared::smallsort verifiable with -Z uninit-checks.
+ 
+ ### Destructors
+ 
+diff --git a/docs/src/rust-feature-support/intrinsics.md b/docs/src/rust-feature-support/intrinsics.md
+index 5480ee7c6..e27ec4c28 100644
+--- a/docs/src/rust-feature-support/intrinsics.md
++++ b/docs/src/rust-feature-support/intrinsics.md
+@@ -194,7 +194,7 @@ prefetch_write_instruction | No | |
+ ptr_guaranteed_eq | Yes | |
+ ptr_guaranteed_ne | Yes | |
+ ptr_offset_from | Partial | Doesn't check [all UB conditions](https://doc.rust-lang.org/std/primitive.pointer.html#safety-4) |
+-raw_eq | Partial | Cannot detect [uninitialized memory](#uninitialized-memory) |
++raw_eq | Partial | With `-Z uninit-checks`, checks initialization of modeled operand byte extents using their shadow state, including padding bytes. All compared bytes must be initialized. Support depends on the modeled layout and origin; see [Uninitialized memory](../rust-feature-support.md#uninitialized-memory). |
+ round_ties_even_f16 | No | |
+ round_ties_even_f32 | Yes | |
+ round_ties_even_f64 | Yes | |
+diff --git a/tests/expected/uninit/part1-edges/README.md b/tests/expected/uninit/part1-edges/README.md
+index d672b8674..8434b1df3 100644
+--- a/tests/expected/uninit/part1-edges/README.md
++++ b/tests/expected/uninit/part1-edges/README.md
+@@ -1,21 +1,13 @@
+-# Part 1 semantic edges
++# Initialization edge fixtures
+ 
+-Singleton controls for ordinary-union constants, projected raw stores, immutable origins,
+-and by-value unsized slot arguments. Expected outputs record semantic requirements before CI.
+-They do not establish target reachability or a complete failure set.
++These fixtures cover ordinary union constants, raw field stores, immutable origins,
++and unsized slot arguments. Each file selects one oracle root.
+ 
+-The immutable subrange/relocation/static legal fixtures require SUCCESS. If a path is not
+-initialized by an admitted origin or an independent existing static path, its failure is a
+-legal falseFAIL and a release limitation. Never change those expectations to uninitialized UB.
+-A negative qualifies only with its matched legal companion and exactly the intended hole
+-property; failures caused by unqualified initialized bytes do not qualify the hole.
++The initialized nonzero-subrange fixture records a conservative uninitialized-read
++failure. The relocation and named-static companions use supported origin paths;
++their initialized cases succeed. Hole companions distinguish payload reads from
++origin or layout limitations.
+ 
+-The two by-value DST fixtures intentionally expect the exact unsupported-size reason for
+-both initialized and hole inputs. The Box is only the existing source form for moving a slice
+-by value; passing the Box or a reference would exercise a different edge. Compilation failure
+-or an earlier unrelated Unsupported does not qualify this test. By-reference legal/hole
+-fixtures and existing sized transfers remain supported companions.
+-
+-Run with uninit checks enabled. Bind each actual MIR call/store, byte offset/mask, property
+-identity and the full failure set to the exact tested source. Existing strong JSON oracles,
+-mode boundaries, pairing/cycles, typed-data/padding and immutable masks remain required.
++By-value unsized slot transfers have an explicit unsupported-size boundary for both
++initialized and hole inputs. Borrowed slice companions cover supported reference
++access without moving an unsized value.

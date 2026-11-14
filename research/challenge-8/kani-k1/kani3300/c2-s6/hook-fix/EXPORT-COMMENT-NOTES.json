@@ -1,0 +1,204 @@
+[
+  {
+    "file": "tests/expected/uninit/closure-upvars/ordinary.rs",
+    "removed_process_notes": [
+      "    // Actual typed closure read: the layout request must be reached in CI."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.rs",
+    "removed_process_notes": [
+      "// qualification must be inspected in CI before claiming this case distinguishes registration."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.rs",
+    "removed_process_notes": [
+      "// qualification must be inspected in CI before claiming this case distinguishes registration."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.rs",
+    "removed_process_notes": [
+      "// for the same emitted byte. Their actual keys, symbol and qualification require CI inspection."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/immutable-descriptor-coalescing/direct-first.rs",
+    "removed_process_notes": [
+      "// for the same emitted byte. Their actual keys, symbol and qualification require CI inspection."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.rs",
+    "removed_process_notes": [
+      "// for the same emitted byte. Their actual keys, symbol and qualification require CI inspection."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/immutable-descriptor-coalescing/nested-first.rs",
+    "removed_process_notes": [
+      "// for the same emitted byte. Their actual keys, symbol and qualification require CI inspection."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/immutable-masks/copy-hole.rs",
+    "removed_process_notes": [
+      "// Required binding: anonymous None -> raw copy -> mutable target -> left raw_eq failure."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/immutable-masks/zero-byte-hole.rs",
+    "removed_process_notes": [
+      "// Required binding: left None byte fails, right Some(0) bytes remain legal."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs",
+    "removed_process_notes": [
+      "// Actual origins, masks, retained operation and both byte checks require CI binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs",
+    "removed_process_notes": [
+      "// Actual origins, masks, retained operation and both byte checks require CI binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.rs",
+    "removed_process_notes": [
+      "// A const item borrowed below, not a named static. Actual allocation requires MIR binding.",
+      "// Actual origins, masks, retained operation and both byte checks require CI binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.rs",
+    "removed_process_notes": [
+      "// A const item borrowed below, not a named static. Actual allocation requires MIR binding.",
+      "// Actual origins, masks, retained operation and both byte checks require CI binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.rs",
+    "removed_process_notes": [
+      "// A const item borrowed below, not a named static. Actual allocation requires MIR binding.",
+      "// Actual origins, masks, retained operation and both byte checks require CI binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.rs",
+    "removed_process_notes": [
+      "// A const item borrowed below, not a named static. Actual allocation requires MIR binding.",
+      "// Actual origins, masks, retained operation and both byte checks require CI binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs",
+    "removed_process_notes": [
+      "// Actual origins, masks, retained operation and both byte checks require CI binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs",
+    "removed_process_notes": [
+      "// Actual origins, masks, retained operation and both byte checks require CI binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/part1-edges/dst-by-value-hole.rs",
+    "removed_process_notes": [
+      "    // not the Box/fat pointer. Require actual by-value Slice/Move binding in CI."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/part1-edges/dst-by-value-legal.rs",
+    "removed_process_notes": [
+      "    // not the Box/fat pointer. Require actual by-value Slice/Move binding in CI."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/part1-edges/immutable-subrange-hole.rs",
+    "removed_process_notes": [
+      "// Use three bytes to avoid scalar transmute lowering; CI must confirm retained raw_eq."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/part1-edges/immutable-subrange-legal.rs",
+    "removed_process_notes": [
+      "// Use three bytes to avoid scalar transmute lowering; CI must confirm retained raw_eq."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/part1-edges/union-constant-hole.rs",
+    "removed_process_notes": [
+      "// Require CI binding to Operand::Constant of an ordinary union."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/part1-edges/union-constant-legal.rs",
+    "removed_process_notes": [
+      "// Require CI binding to Operand::Constant of an ordinary union."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/part1-edges/union-variable-hole.rs",
+    "removed_process_notes": [
+      "// Require CI binding to Operand::Copy of an ordinary union."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/part1-edges/union-variable-legal.rs",
+    "removed_process_notes": [
+      "// Require CI binding to Operand::Copy of an ordinary union."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/promoted-allocations/direct-left-hole.rs",
+    "removed_process_notes": [
+      "// Promotion, Some/None masks, operand checks and helper propagation require CI binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/promoted-allocations/direct-legal.rs",
+    "removed_process_notes": [
+      "// Promotion, Some/None masks, operand checks and helper propagation require CI binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/promoted-allocations/direct-right-hole.rs",
+    "removed_process_notes": [
+      "// Promotion, Some/None masks, operand checks and helper propagation require CI binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/promoted-allocations/helper-left-hole.rs",
+    "removed_process_notes": [
+      "// Promotion, Some/None masks, operand checks and helper propagation require CI binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/promoted-allocations/helper-legal.rs",
+    "removed_process_notes": [
+      "// Promotion, Some/None masks, operand checks and helper propagation require CI binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/promoted-allocations/helper-right-hole.rs",
+    "removed_process_notes": [
+      "// Promotion, Some/None masks, operand checks and helper propagation require CI binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/unresolved-calls/generated-positive-plain.rs",
+    "removed_process_notes": [
+      "// Actual instance kind/body and property reachability require pinned CI MIR binding."
+    ]
+  },
+  {
+    "file": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs",
+    "removed_process_notes": [
+      "// Actual instance kind/body and property reachability require pinned CI MIR binding."
+    ]
+  }
+]

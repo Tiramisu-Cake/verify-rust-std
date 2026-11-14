@@ -1,12 +1,20 @@
-# C2-S6 — STOP
+# S6 result — FREEZE_PREPARED / QUALIFICATION_PENDING
 
-Reason: required generated backend-hook control is NONDISCRIMINATING/UNKNOWN;
-valid modifies(out) has reference return, MU modifies(*out) cannot satisfy generated
-Pointer bound/PFC cast. Ordinary real-hook and FnDef Shim alternatives need exact
-binding/outcome observations before an oracle can be accepted. See REPRO.md and
-CI-REQUEST.md. This is not a newly established production defect.
+Local source `61eb057b46e2ffd62df28c3e956cd8031ed84748`, tree `712b560e63097fc36e4866572aa22af347a100c0`, parent exact8d. Worktree clean;
+neutral local commit author/committer Tiramisu-Cake <igkharin@gmail.com>. No push/PR/CI.
 
-Isolated clone/branch created at requested exact base/tree. Docs/README preparation
-is uncommitted; incomplete new tests preserved only in research. No S6 source SHA
-or accepted/prepared freeze. Source HEAD remains S5 base8d. No builds, cargo, rustc,
-Kani, CBMC, Miri, push, PR, CI, dispatch, Gate A or SEL1 replay run. Research uncommitted.
+Shared predicate excludes only canonical typed Hook category; remaining calls keep prior
+Item/nonforeign/body eligibility.18-hook registry map/static review complete.17 new
+bounded expected fixtures cover actual hook/shim, marked model/body, duplicate Copy
+source and borrowed/raw padded slice extents. Candidate outcomes remain NOT_RUN.
+Four initial dirty docs/README preserved, clarified Scope A and export hygiene completed.
+33 legacy test edits are comments only, no code/flags/assertions changed. Native formatter,
+build/clippy/Kani/CBMC/Miri not run. Static checks and independent Luna High review pass;
+four S5 sensitivity patches apply unchanged but native reruns pending.
+
+CI-REQUEST.md requires new-head qualification, matched baseline8d/candidate altered
+refusal fixtures, actual optimized MIR/operation binding and required regressions/Linux
+Quick. Historical S5 and diagnostic observations do not qualify this head. Original
+STOP/REPRO/observations preserved; missing-hook prerequisite superseded only as authorized.
+No accepted freeze, publication or release permission. Gate A3-platform NOT_RUN, separate
+coordinator action. Research uncommitted.

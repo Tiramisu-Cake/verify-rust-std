@@ -1,20 +1,38 @@
 {
-  "status": "STOP",
-  "freeze_prepared": false,
-  "qualification": "NOT_RUN",
-  "source_head": "8d67298c48eb7b2381f806a6353433d1440e3d94",
-  "source_tree": "5fb7dbaa6f79a75ca552be9d4d5c7b535cf38058",
-  "candidate_source_sha": null,
+  "status": "FREEZE_PREPARED",
+  "qualification": "QUALIFICATION_PENDING",
+  "freeze_prepared": true,
+  "accepted_freeze": false,
+  "ready_to_submit": false,
+  "source_head": "61eb057b46e2ffd62df28c3e956cd8031ed84748",
+  "candidate_source_sha": "61eb057b46e2ffd62df28c3e956cd8031ed84748",
+  "source_tree": "712b560e63097fc36e4866572aa22af347a100c0",
+  "source_clean": true,
   "base": "8d67298c48eb7b2381f806a6353433d1440e3d94",
-  "source_clean": false,
-  "Gate_A_3_platform": "NOT_RUN",
-  "reason": "required hook control non-discriminating; see REPRO.md",
+  "upstream_U": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "accepted_B1": "6fe484b30043b3696b5f1ccc4bea0e42891ad012",
   "dependencies": {
-    "S1": "ba0e5cfed",
-    "S2": "bf8170b28",
-    "S3": "ad324418c",
-    "S4": "3b382c812a",
+    "S1": "ba0e5cfedf31e20d18e95b50ba5dbd6946277d2c",
+    "S2": "bf8170b28afb682f8dd55a94199caa247736d8fa",
+    "S3": "ad324418cdc66b18e9b71f76a412be6ccea20c7e",
+    "S4": "3b382c812a1b8541946e6dc732cf04497ebcf995",
     "S5": "8d67298c48eb7b2381f806a6353433d1440e3d94",
-    "S6": null
-  }
+    "S6": "61eb057b46e2ffd62df28c3e956cd8031ed84748"
+  },
+  "targeted_run": null,
+  "targeted_coverage": "NOT_RUN: coordinator CI-REQUEST pending",
+  "export_manifest_sha256": "fae3c256501b3d3b83f17cdcb0cfa8931dc86af8b058b607ec7f50dbc2109d8e",
+  "remaining_exclusions": [
+    "intrinsics without initialization models including select_unpredictable/hint wrapper",
+    "fn pointers and trait objects",
+    "typed marker-dispatched hooks with shadow by-value transfers; other_hooks not comprehensively classified",
+    "stub_verified Replace and recursion shadow transfers",
+    "nested by-value MU/union aggregates and conservative nested resets",
+    "delayed-analysis cycles",
+    "unqualified nonzero-subrange/relocation immutable origins can conservatively fail",
+    "some FnDef shim layouts/transfers",
+    "F11 optional; SEL1/F8 outside C2 Scope A"
+  ],
+  "Gate_A_3_platform": "NOT_RUN",
+  "freeze_ref": "NOT_CREATED: coordinator separate action after successful qualification"
 }

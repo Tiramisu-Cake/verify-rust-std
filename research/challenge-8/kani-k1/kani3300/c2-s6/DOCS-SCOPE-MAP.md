@@ -1,14 +1,17 @@
-# Docs scope map — prepared, uncommitted
+# Docs scope map — prepared candidate, qualification pending
 
-- rust-feature-support.md#uninitialized-memory: accepted Scope A storage shapes, masks,
-  raw copies, typed data bytes, MIR-body calls, qualified whole immutable origins.
-  General limits apply to ordinary harnesses too; narrow origin qualification permits
-  eligible alias/static successes, and unqualified paths may conservatively fail.
-- reference/experimental/contracts.md#limitations: links general scope; preserves Replace /
-  RecursiveCheck exclusions, delayed call cycles, nested reset false-positive example.
-  Companion proof presence is not proof execution.
-- rust-feature-support/intrinsics.md raw_eq: modeled byte extents/shadow, padding obligation,
-  layout/origin qualification, corrected relative link to general section.
-- Exact required smallsort exclusion sentence retained. No SEL1/all-T,N/B2 claims.
+Three user-requested docs and edge README retain initial edits (full original patch and
+SHA-256s in hook-fix/PRESERVED-DOCS.*). Clarifications added: only ordinary executing MIR
+bodies promise paired transfer; typed marker hooks excluded, not all backend interception.
+Whole immutable qualification is operationally stated: immutable relocation-free allocation,
+supported Freeze origin, computable whole layout, promoted offset0/full extent. Eligible
+aliases/independent static paths can succeed; nonzero subrange/relocation may false-fail.
 
-Native doc build NOT_RUN; local links checked statically at closeout. No accepted freeze.
+Scope A: top-level MU/array/slice/MU-array computable masks, raw copies, typed data bytes,
+ordinary direct argument/return protocol. General limits apply beyond contracts. Replace/
+RecursiveCheck exclusions, analysis call cycles and S3 nested-reset false-positive example
+retained. No nested by-value support or mode qualification claim; local PFC presence does
+not mean execution. raw_eq partial byte extents/shadow and padding obligations/link fixed.
+Exact smallsort exclusion retained; no SEL1, all-T,N, B2, all-3300 or frozen-head CI claims.
+README is semantic fixture guidance, stale process/strong-JSON/blanket subrange success removed.
+Local links statically checked; native doc build NOT_RUN.

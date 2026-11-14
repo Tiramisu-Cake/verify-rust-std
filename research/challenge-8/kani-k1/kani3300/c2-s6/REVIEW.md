@@ -1,17 +1,29 @@
-# Static review — STOP
+# Static source review
 
-Main reviewed the bounded source investigation and rejected the initial generated
-MU modifies candidate as non-discriminating/ill-typed. REPRO.md contains the exact
-bindings and alternatives. No production defect was established by execution.
-No new source production/driver/validator/compiletest/pins changes, no checks removed.
+Scope: canonical typed Hook exclusion in shared visitor predicate/import/comment;
+pure exhaustive category tests in kani_functions; bounded expected controls/docs.
+No runtime/hook-handler/buffer/placeholder/DFCC/alias/driver/compiletest/pins change.
+Existing F5/F6/F7 and checks preserved. HOOK-MAP proves exact enum/registry set equality
+and records source ordering, not observed candidate MIR. Native qualification PENDING.
+Independent Luna High findings/disposition follow when final review completes.
 
-Docs/README edits remain uncommitted in the isolated clone; partial-source.patch
-preserves them. They are preparation only, not a source candidate.
-Worker test drafts were moved to research/partial-source-tests, not committed or
-exported. Known issues: padded Padded lacks Copy for repeat-array construction;
-Copy goldens lack SUMMARY/count anchors; slice goldens lack useful SUCCESS blocks;
-all counts are source guesses, all native outcomes NOT_RUN. They must not be used
-as accepted tests. No ignored/skip/disable workaround introduced.
+## Independent review completed
 
-Native formatter/build/compiler/proof tests NOT_RUN by explicit task prohibition.
-Static diff --check passes on prepared docs. No freeze or READY/source commit.
+Reviewer /root/s6_review, GPT-6 Luna HIGH, separate context, no nested agents.
+Static review: PASS, no new production defect identified; no native proof credit.
+Canonical typed hook category,18-variant registry equality and three shared predicate
+sites checked. Other conditional hooks remain distinct. Reviewer confirmed guard
+ordering/source protocol boundaries, ordinary unknown-marker/actual Model companions,
+source/expected controls and docs limits.
+
+Concrete draft findings fixed before commit: useful own initialized witnesses added to
+hook/shim refusal tests (matched observation requested); Copy-hole extra original-source
+read removed (retained only in initialized companions); slot1 prefix byte SUCCESS added
+to padded pairs. Final bounded confirmation checked raw addr_of! field read_volatile
+without &Padded or invalid assume_init. Main caught/corrected that draft method typo.
+No known unaddressed production finding. Copy-hole's local useful assertion is an
+initialized control; same-call/source-preservation positives live in paired fixtures.
+Native expected outcomes/counts, actual optimized call identity and operation coverage
+remain QUALIFICATION_PENDING, with STOP criteria in CI-REQUEST.
+
+Full static audit: hook-fix/STATIC-CHECKS.json. Historical STOP review preserved separately.

@@ -54,3 +54,18 @@ candidate for further coordinator observation; this report does not prove that
 all legal hook controls are impossible. A bounded production fix is appropriate
 only if an exact observation establishes a defect; do not change the memory model
 or goldens in order to force a freeze.
+
+## Authorized HOOK continuation — superseding disposition (2026-11-15)
+
+The preceding STOP/UNKNOWN analysis is preserved historical input. Run43645985416
+established the actual direct internal hook path and FnDef shim outcomes; void run43645617823
+has no semantic credit. TASK-KANI3300-C2-S6-HOOK.md authorizes the bounded typed Hook
+predicate correction. Generated modifies(out) is legal NONCARRIER; modifies(*out) remains
+INVALID_TARGET E0277, not a rejection control. Direct actual UntrackedDeref MU return is
+the qualified rejection control, with baseline fail-closed internal placeholder and intended
+candidate explicit pairing Unsupported (not a baseline false SUCCESS).
+
+Candidate/source/control details: hook-fix/CONTROL-MAP.md, HOOK-MAP.md, CI-REQUEST.md;
+current exact immutable source in C2-FREEZE.json. New useful assertions require matched
+baseline/candidate observations of the same fixtures. Current disposition is preparation
+complete, QUALIFICATION_PENDING; not a successful native outcome/freeze acceptance.

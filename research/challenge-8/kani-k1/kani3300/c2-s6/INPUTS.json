@@ -1,22 +1,27 @@
 {
-  "task": "TASK-KANI3300-C2-S6.md",
-  "task_sha256": "f4d37ded181e5bf7dba5e1e521bb6c30b958d4dade83fec0843bb804c2b4abce",
-  "g0": "b57887884ea2a79581d8f03ce04185ed1308c611",
+  "task": "TASK-KANI3300-C2-S6-HOOK.md together with TASK-KANI3300-C2-S6.md",
+  "research_input_head": "e1c61943fde36928868b68329c812724b4a0292d",
+  "original_stop_package": "hook-fix/prior-stop-package",
   "base": "8d67298c48eb7b2381f806a6353433d1440e3d94",
   "base_tree": "5fb7dbaa6f79a75ca552be9d4d5c7b535cf38058",
-  "upstream_U": "0aac16ef62da9e9d5645782d458593e5d78143ba",
-  "accepted_B1": "6fe484b30043b3696b5f1ccc4bea0e42891ad012",
   "clone": "/root/kani-fix-3300-c2-s6",
   "branch": "fix/kani-3300-c2-s6",
-  "initial_status": "",
-  "source_origin": "read-only /root/kani-fix-3300-c2-s5; clone --no-hardlinks",
-  "prohibitions": [
-    "local builds/cargo/rustc/Kani/CBMC/Miri",
-    "push/PR/CI/dispatch",
-    "production changes",
-    "research commits"
-  ],
-  "input_evidence": "S5 coordinator acceptance CI43641978948 is source-reported, not S6 qualification",
-  "qualification": "NOT_RUN",
-  "Gate_A_3_platform": "NOT_RUN"
+  "allowed_initial_dirty": "hook-fix/INPUTS.md + PRESERVED-DOCS.patch + PRESERVED-DOCS.json",
+  "task_sha256": {
+    "TASK-KANI3300-C2-S6.md": "f4d37ded181e5bf7dba5e1e521bb6c30b958d4dade83fec0843bb804c2b4abce",
+    "TASK-KANI3300-C2-S6-HOOK.md": "2052597cd3ed7b865908c4589f4d3fe2ba0842e6416cbafb286861a82f3c09ac"
+  },
+  "observations": {
+    "path": "coordinator-observe-43645985416/OBSERVATION.md",
+    "sha256": "4680fa03152cc10a4e64604cdf2f37219a7c63f5ed5128e7af6dbc9837cf3ca6",
+    "assurance": "source-reported baseline; original unchanged"
+  },
+  "source_candidate": "61eb057b46e2ffd62df28c3e956cd8031ed84748",
+  "source_tree": "712b560e63097fc36e4866572aa22af347a100c0",
+  "source_clean": true,
+  "qualification": "QUALIFICATION_PENDING",
+  "Gate_A_3_platform": "NOT_RUN",
+  "local_builds_proofs_formatter": "NOT_RUN",
+  "push_PR_CI_dispatch": "NOT_RUN",
+  "research_committed": false
 }

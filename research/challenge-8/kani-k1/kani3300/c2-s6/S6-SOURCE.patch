@@ -1,0 +1,1566 @@
+diff --git a/docs/src/reference/experimental/contracts.md b/docs/src/reference/experimental/contracts.md
+index ff4b21716..6e476cdae 100644
+--- a/docs/src/reference/experimental/contracts.md
++++ b/docs/src/reference/experimental/contracts.md
+@@ -72,9 +72,21 @@ By leveraging the stubbing feature, we can replace the (expensive) `gcd` call wi
+ 
+ ## Limitations
+ 
+-With `-Z uninit-checks`, tracking the initialization state of `MaybeUninit` and union
+-values passed across a call is not yet supported when the callee is replaced by its
+-contract (`#[kani::stub_verified]`) or checked recursively (`#[kani::recursion]`).
++The [uninitialized memory support and general limitations](../../rust-feature-support.md#uninitialized-memory)
++apply to ordinary proof harnesses as well as contract checks. Supported top-level
++`MaybeUninit` storage can transfer initialization state through direct ordinary MIR-body calls,
++including arguments and return values, when its data mask is computable. Whole
++immutable masks require the qualification described there; unqualified nonzero-subrange
++or relocation origins may produce conservative false positives, while eligible aliases
++and independently supported static paths can succeed.
++
++Tracking the initialization state of `MaybeUninit` and union values passed across a
++call is not yet supported when the callee is replaced by its contract
++(`#[kani::stub_verified]`, Replace mode) or checked recursively
++(`#[kani::recursion]`, RecursiveCheck mode). Observed conservative failures at these
++boundaries do not qualify shadow transfer in those modes. A local
++`#[kani::proof_for_contract]` companion required to validate a verified stub is only
++executed when selected; its presence alone does not establish successful checking.
+ With `-Z uninit-checks`, a harness is rejected as unsupported if delayed
+ initialization analysis encounters an interprocedural call cycle. This can affect
+ ordinary proof harnesses and `#[kani::proof_for_contract]` checks; a runtime
+diff --git a/docs/src/rust-feature-support.md b/docs/src/rust-feature-support.md
+index ae21eb7a6..f3af957c9 100644
+--- a/docs/src/rust-feature-support.md
++++ b/docs/src/rust-feature-support.md
+@@ -177,7 +177,35 @@ stack unwinding support.
+ Reading uninitialized memory is
+ [considered undefined behavior](https://doc.rust-lang.org/reference/behavior-considered-undefined.html#behavior-considered-undefined) in Rust.
+ Kani has partial, experimental support for detecting access to uninitialized memory with the `-Z uninit-checks` option.
+-See [this issue](https://github.com/model-checking/kani/issues/3300) for more details.
++The instrumentation tracks a top-level `MaybeUninit<T>` slot, `[MaybeUninit<T>; N]`,
++`[MaybeUninit<T>]`, and `MaybeUninit<[T; N]>` when Kani can compute the element's data mask.
++It tracks initialization through raw copies, typed moves of payload bytes (padding is not
++preserved by typed moves), and direct calls to ordinary functions whose MIR bodies execute, including
++arguments and return values. Qualified whole immutable promoted constants and named
++statics start with their exact byte masks. This requires an immutable, relocation-free
++allocation with a supported `Freeze` origin type and computable layout covering the
++whole allocation; a promoted reference must start at offset zero and span that allocation.
++
++This whole-storage qualification is narrow. Unqualified origins involving a nonzero
++subrange or a relocation can produce conservative false positives. Eligible aliases
++and independently supported static paths can still succeed; this limitation does not
++mean that every subrange or relocation read fails.
++
++General limitations apply to all harnesses using `-Z uninit-checks`, including ordinary
++proofs. Intrinsics without an initialization model, including `select_unpredictable`
++and `core::hint::select_unpredictable`, calls through function pointers and trait
++objects, and call cycles in the delayed initialization analysis remain unsupported.
++Kani's typed marker-dispatched backend hooks do not support by-value shadow argument or return transfers.
++Some function-item trait shims have layout or shadow-transfer limitations; this is
++not a restriction on all direct calls to function items. Shadow transfer under
++`#[kani::stub_verified]` or `#[kani::recursion]` and by-value aggregates containing
++nested `MaybeUninit` or union fields are also outside this support. Conservative
++resets at nested aggregate call boundaries can produce false positives.
++See the [contract limitations](reference/experimental/contracts.md#limitations) for
++contract modes and a nested aggregate example, and [issue #3300](https://github.com/model-checking/kani/issues/3300)
++for the broader work.
++
++This change does not make core::slice::sort::shared::smallsort verifiable with -Z uninit-checks.
+ 
+ ### Destructors
+ 
+diff --git a/docs/src/rust-feature-support/intrinsics.md b/docs/src/rust-feature-support/intrinsics.md
+index 5480ee7c6..e27ec4c28 100644
+--- a/docs/src/rust-feature-support/intrinsics.md
++++ b/docs/src/rust-feature-support/intrinsics.md
+@@ -194,7 +194,7 @@ prefetch_write_instruction | No | |
+ ptr_guaranteed_eq | Yes | |
+ ptr_guaranteed_ne | Yes | |
+ ptr_offset_from | Partial | Doesn't check [all UB conditions](https://doc.rust-lang.org/std/primitive.pointer.html#safety-4) |
+-raw_eq | Partial | Cannot detect [uninitialized memory](#uninitialized-memory) |
++raw_eq | Partial | With `-Z uninit-checks`, checks initialization of modeled operand byte extents using their shadow state, including padding bytes. All compared bytes must be initialized. Support depends on the modeled layout and origin; see [Uninitialized memory](../rust-feature-support.md#uninitialized-memory). |
+ round_ties_even_f16 | No | |
+ round_ties_even_f32 | Yes | |
+ round_ties_even_f64 | Yes | |
+diff --git a/kani-compiler/src/kani_middle/kani_functions.rs b/kani-compiler/src/kani_middle/kani_functions.rs
+index 19378aea3..db31cea7c 100644
+--- a/kani-compiler/src/kani_middle/kani_functions.rs
++++ b/kani-compiler/src/kani_middle/kani_functions.rs
+@@ -410,3 +410,27 @@ pub fn validate_kani_functions(kani_funcs: &HashMap<KaniFunction, FnDef>) {
+         tracing::error!("Failed to find `{missing}` Kani functions")
+     }
+ }
++
++#[cfg(test)]
++mod marker_category_tests {
++    use super::*;
++
++    #[test]
++    fn typed_marker_categories_remain_distinct() {
++        for hook in KaniHook::iter() {
++            let marker: &'static str = hook.into();
++            assert_eq!(try_get_kani_function(marker), Some(KaniFunction::Hook(hook)));
++        }
++        for model in KaniModel::iter() {
++            let marker: &'static str = model.into();
++            assert_eq!(try_get_kani_function(marker), Some(KaniFunction::Model(model)));
++        }
++        for intrinsic in KaniIntrinsic::iter() {
++            let marker: &'static str = intrinsic.into();
++            assert_eq!(try_get_kani_function(marker), Some(KaniFunction::Intrinsic(intrinsic)));
++        }
++        for marker in ["ShadowTransferControl", "UnknownHook", "kani_register_loop_contract", ""] {
++            assert_eq!(try_get_kani_function(marker), None);
++        }
++    }
++}
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 5313e4d06..11e154dff 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -16,7 +16,7 @@
+             },
+         },
+     },
+-    kani_middle::{nonnull_pointee, points_to::resolve_call},
++    kani_middle::{kani_functions::KaniFunction, nonnull_pointee, points_to::resolve_call},
+ };
+ use rustc_attr_ir::lang_items::LangItem;
+ use rustc_middle::ty::TyCtxt;
+@@ -752,7 +752,7 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                     }
+                     InstanceKind::Item | InstanceKind::Shim => {
+                         // Non-shadow MIR-backed shims are followed by points-to and the
+-                        // local visitor. Only the unchanged Item predicate grants pairing.
++                        // local visitor. Only the shared protocol predicate grants pairing.
+                         if instance.is_foreign_item() {
+                             match instance.name().as_str() {
+                                 "alloc::alloc::__rust_alloc" | "alloc::alloc::__rust_realloc" => {
+@@ -1232,6 +1232,11 @@ fn single_field_ty(ty: Ty) -> Option<Ty> {
+ 
+ /// Caller stores and callee loads must agree on exactly the same supported instance domain.
+ /// Bodyful shims/intrinsics are not ordinary item calls and have no paired protocol here.
++/// Marker-dispatched hooks replace the MIR call during codegen, so their MIR body cannot
++/// consume argument snapshots or publish a return snapshot even when it exists.
+ fn has_transfer_protocol(instance: Instance) -> bool {
+-    instance.kind == InstanceKind::Item && !instance.is_foreign_item() && instance.has_body()
++    instance.kind == InstanceKind::Item
++        && !instance.is_foreign_item()
++        && instance.has_body()
++        && !matches!(KaniFunction::try_from(instance), Ok(KaniFunction::Hook(_)))
+ }
+diff --git a/tests/expected/uninit/closure-upvars/ordinary.rs b/tests/expected/uninit/closure-upvars/ordinary.rs
+index e9009706a..25e986228 100644
+--- a/tests/expected/uninit/closure-upvars/ordinary.rs
++++ b/tests/expected/uninit/closure-upvars/ordinary.rs
+@@ -10,7 +10,7 @@ fn touch<T>(_: &T) {}
+ 
+ #[inline(never)]
+ fn copy_call<F: Copy + Fn() -> bool>(callback: F) -> bool {
+-    // Actual typed closure read: the layout request must be reached in CI.
++    // The typed closure read exercises the captured-field layout.
+     let copied = unsafe { std::ptr::addr_of!(callback).read() };
+     copied()
+ }
+diff --git a/tests/expected/uninit/copy-source-arguments/arg0-hole.expected b/tests/expected/uninit/copy-source-arguments/arg0-hole.expected
+new file mode 100644
+index 000000000..abe482dd3
+--- /dev/null
++++ b/tests/expected/uninit/copy-source-arguments/arg0-hole.expected
+@@ -0,0 +1,12 @@
++Checking harness copy_same_source_to_arg0_hole...
++copy_same_source_to_arg0_hole.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: unsafe { initialized.assume_init() } == 0xABCD"
++std::ptr::read::<u32>.safety_check.
++ - Status: FAILURE
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u32`
++SUMMARY:\
++ ** 1 of
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/copy-source-arguments/arg0-hole.rs b/tests/expected/uninit/copy-source-arguments/arg0-hole.rs
+new file mode 100644
+index 000000000..709104490
+--- /dev/null
++++ b/tests/expected/uninit/copy-source-arguments/arg0-hole.rs
+@@ -0,0 +1,38 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular --harness copy_same_source_to_arg0_hole --exact -Z unstable-options --cbmc-args --object-bits 12
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn read_first(first: MaybeUninit<u32>, _second: MaybeUninit<u32>) -> u32 {
++    unsafe { std::ptr::read(first.as_ptr()) }
++}
++
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn copy_same_source_to_arg0(source: MaybeUninit<u32>) -> u32 {
++    mir! {
++        type RET = u32;
++        let selected: u32;
++        {
++            Call(selected = read_first(Copy(source), Copy(source)), ReturnTo(done), UnwindUnreachable())
++        }
++        done = {
++            RET = Move(selected);
++            Return()
++        }
++    }
++}
++
++#[kani::proof]
++fn copy_same_source_to_arg0_hole() {
++    let initialized = MaybeUninit::<u16>::new(0xABCD);
++    assert_eq!(unsafe { initialized.assume_init() }, 0xABCD);
++    let source = MaybeUninit::<u32>::uninit();
++    let _read = copy_same_source_to_arg0(source);
++}
+diff --git a/tests/expected/uninit/copy-source-arguments/arg0-initialized.expected b/tests/expected/uninit/copy-source-arguments/arg0-initialized.expected
+new file mode 100644
+index 000000000..aabf5ee54
+--- /dev/null
++++ b/tests/expected/uninit/copy-source-arguments/arg0-initialized.expected
+@@ -0,0 +1,11 @@
++Checking harness copy_same_source_to_arg0_initialized...
++copy_same_source_to_arg0_initialized.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: selected == 0x1234"
++copy_same_source_to_arg0_initialized.assertion.2\
++ - Status: SUCCESS\
++ - Description: "assertion failed: original_after_call == 0x1234"
++SUMMARY:\
++ ** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/copy-source-arguments/arg0-initialized.rs b/tests/expected/uninit/copy-source-arguments/arg0-initialized.rs
+new file mode 100644
+index 000000000..2664aa8aa
+--- /dev/null
++++ b/tests/expected/uninit/copy-source-arguments/arg0-initialized.rs
+@@ -0,0 +1,50 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular --harness copy_same_source_to_arg0_initialized --exact -Z unstable-options --cbmc-args --object-bits 12
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn read_first(first: MaybeUninit<u32>, _second: MaybeUninit<u32>) -> u32 {
++    unsafe { first.assume_init() }
++}
++
++#[inline(never)]
++unsafe fn read_original(pointer: *const MaybeUninit<u32>) -> u32 {
++    unsafe { (*pointer).assume_init() }
++}
++
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn copy_same_source_to_arg0(source: MaybeUninit<u32>) -> (u32, u32) {
++    mir! {
++        type RET = (u32, u32);
++        let pointer: *const MaybeUninit<u32>;
++        let selected: u32;
++        let original: u32;
++        {
++            pointer = std::ptr::addr_of!(source);
++            Call(selected = read_first(Copy(source), Copy(source)), ReturnTo(after_call), UnwindUnreachable())
++        }
++        after_call = {
++            Call(original = read_original(pointer), ReturnTo(done), UnwindUnreachable())
++        }
++        done = {
++            RET.0 = Move(selected);
++            RET.1 = Move(original);
++            Return()
++        }
++    }
++}
++
++#[kani::proof]
++fn copy_same_source_to_arg0_initialized() {
++    let source = MaybeUninit::<u32>::new(0x1234);
++    let (selected, original_after_call) = copy_same_source_to_arg0(source);
++    assert_eq!(selected, 0x1234);
++    assert_eq!(original_after_call, 0x1234);
++}
+diff --git a/tests/expected/uninit/copy-source-arguments/arg1-hole.expected b/tests/expected/uninit/copy-source-arguments/arg1-hole.expected
+new file mode 100644
+index 000000000..781f41e8a
+--- /dev/null
++++ b/tests/expected/uninit/copy-source-arguments/arg1-hole.expected
+@@ -0,0 +1,12 @@
++Checking harness copy_same_source_to_arg1_hole...
++copy_same_source_to_arg1_hole.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: unsafe { initialized.assume_init() } == 0xABCD"
++std::ptr::read::<u32>.safety_check.
++ - Status: FAILURE
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u32`"
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u32`
++SUMMARY:\
++ ** 1 of
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/copy-source-arguments/arg1-hole.rs b/tests/expected/uninit/copy-source-arguments/arg1-hole.rs
+new file mode 100644
+index 000000000..8388ef97f
+--- /dev/null
++++ b/tests/expected/uninit/copy-source-arguments/arg1-hole.rs
+@@ -0,0 +1,38 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular --harness copy_same_source_to_arg1_hole --exact -Z unstable-options --cbmc-args --object-bits 12
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn read_second(_first: MaybeUninit<u32>, second: MaybeUninit<u32>) -> u32 {
++    unsafe { std::ptr::read(second.as_ptr()) }
++}
++
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn copy_same_source_to_arg1(source: MaybeUninit<u32>) -> u32 {
++    mir! {
++        type RET = u32;
++        let selected: u32;
++        {
++            Call(selected = read_second(Copy(source), Copy(source)), ReturnTo(done), UnwindUnreachable())
++        }
++        done = {
++            RET = Move(selected);
++            Return()
++        }
++    }
++}
++
++#[kani::proof]
++fn copy_same_source_to_arg1_hole() {
++    let initialized = MaybeUninit::<u16>::new(0xABCD);
++    assert_eq!(unsafe { initialized.assume_init() }, 0xABCD);
++    let source = MaybeUninit::<u32>::uninit();
++    let _read = copy_same_source_to_arg1(source);
++}
+diff --git a/tests/expected/uninit/copy-source-arguments/arg1-initialized.expected b/tests/expected/uninit/copy-source-arguments/arg1-initialized.expected
+new file mode 100644
+index 000000000..0c7c9e61a
+--- /dev/null
++++ b/tests/expected/uninit/copy-source-arguments/arg1-initialized.expected
+@@ -0,0 +1,11 @@
++Checking harness copy_same_source_to_arg1_initialized...
++copy_same_source_to_arg1_initialized.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: selected == 0x5678"
++copy_same_source_to_arg1_initialized.assertion.2\
++ - Status: SUCCESS\
++ - Description: "assertion failed: original_after_call == 0x5678"
++SUMMARY:\
++ ** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/copy-source-arguments/arg1-initialized.rs b/tests/expected/uninit/copy-source-arguments/arg1-initialized.rs
+new file mode 100644
+index 000000000..4a6ebc4a6
+--- /dev/null
++++ b/tests/expected/uninit/copy-source-arguments/arg1-initialized.rs
+@@ -0,0 +1,50 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular --harness copy_same_source_to_arg1_initialized --exact -Z unstable-options --cbmc-args --object-bits 12
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn read_second(_first: MaybeUninit<u32>, second: MaybeUninit<u32>) -> u32 {
++    unsafe { second.assume_init() }
++}
++
++#[inline(never)]
++unsafe fn read_original(pointer: *const MaybeUninit<u32>) -> u32 {
++    unsafe { (*pointer).assume_init() }
++}
++
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn copy_same_source_to_arg1(source: MaybeUninit<u32>) -> (u32, u32) {
++    mir! {
++        type RET = (u32, u32);
++        let pointer: *const MaybeUninit<u32>;
++        let selected: u32;
++        let original: u32;
++        {
++            pointer = std::ptr::addr_of!(source);
++            Call(selected = read_second(Copy(source), Copy(source)), ReturnTo(after_call), UnwindUnreachable())
++        }
++        after_call = {
++            Call(original = read_original(pointer), ReturnTo(done), UnwindUnreachable())
++        }
++        done = {
++            RET.0 = Move(selected);
++            RET.1 = Move(original);
++            Return()
++        }
++    }
++}
++
++#[kani::proof]
++fn copy_same_source_to_arg1_initialized() {
++    let source = MaybeUninit::<u32>::new(0x5678);
++    let (selected, original_after_call) = copy_same_source_to_arg1(source);
++    assert_eq!(selected, 0x5678);
++    assert_eq!(original_after_call, 0x5678);
++}
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.rs b/tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.rs
+index a83f9007b..d7f83adc2 100644
+--- a/tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.rs
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.rs
+@@ -8,8 +8,8 @@
+ const INDIRECT: [&u8; 1] = [&5];
+ static T: [&u8; 1] = INDIRECT;
+ 
+-// Candidate mixed-qualification control: actual distinct AllocId keys, shared symbol and
+-// qualification must be inspected in CI before claiming this case distinguishes registration.
++// The direct and nested references exercise immutable descriptor qualification
++// across const-evaluated initializer forms.
+ #[kani::proof]
+ fn aggregate_constant_initializer() {
+     let direct: &u8 = &5;
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.rs b/tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.rs
+index 25f15d950..ad96edaac 100644
+--- a/tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.rs
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.rs
+@@ -11,8 +11,8 @@
+ 
+ static T: [&u8; 1] = nested_origin();
+ 
+-// Candidate mixed-qualification control: actual distinct AllocId keys, shared symbol and
+-// qualification must be inspected in CI before claiming this case distinguishes registration.
++// The direct and nested references exercise immutable descriptor qualification
++// across const-evaluated initializer forms.
+ #[kani::proof]
+ fn const_fn_initializer() {
+     let direct: &u8 = &5;
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.rs b/tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.rs
+index 0e09ca134..64b10d991 100644
+--- a/tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.rs
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.rs
+@@ -6,7 +6,7 @@
+ static T: [&u8; 1] = [&5];
+ 
+ // The direct whole-object reference and the nested relocation may use different AllocId keys
+-// for the same emitted byte. Their actual keys, symbol and qualification require CI inspection.
++// for the same emitted byte; the whole-object origin supplies qualification.
+ // Volatile reads retain the observations without changing either reference origin.
+ #[kani::proof]
+ fn direct_first_volatile() {
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/direct-first.rs b/tests/expected/uninit/immutable-descriptor-coalescing/direct-first.rs
+index d9f8438da..09c3e467f 100644
+--- a/tests/expected/uninit/immutable-descriptor-coalescing/direct-first.rs
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/direct-first.rs
+@@ -6,7 +6,7 @@
+ static T: [&u8; 1] = [&5];
+ 
+ // The direct whole-object reference and the nested relocation may use different AllocId keys
+-// for the same emitted byte. Their actual keys, symbol and qualification require CI inspection.
++// for the same emitted byte; the whole-object origin supplies qualification.
+ #[kani::proof]
+ fn direct_first() {
+     let direct: &u8 = &5;
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.rs b/tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.rs
+index e5f5ba0e5..8f00b16e8 100644
+--- a/tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.rs
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.rs
+@@ -6,7 +6,7 @@
+ static T: [&u8; 1] = [&5];
+ 
+ // The direct whole-object reference and the nested relocation may use different AllocId keys
+-// for the same emitted byte. Their actual keys, symbol and qualification require CI inspection.
++// for the same emitted byte; the whole-object origin supplies qualification.
+ // Volatile reads retain the observations without changing either reference origin.
+ #[kani::proof]
+ fn nested_first_volatile() {
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/nested-first.rs b/tests/expected/uninit/immutable-descriptor-coalescing/nested-first.rs
+index 52e300566..d91ee52f8 100644
+--- a/tests/expected/uninit/immutable-descriptor-coalescing/nested-first.rs
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/nested-first.rs
+@@ -6,7 +6,7 @@
+ static T: [&u8; 1] = [&5];
+ 
+ // The direct whole-object reference and the nested relocation may use different AllocId keys
+-// for the same emitted byte. Their actual keys, symbol and qualification require CI inspection.
++// for the same emitted byte; the whole-object origin supplies qualification.
+ #[kani::proof]
+ fn nested_first() {
+     let nested: &u8 = T[0];
+diff --git a/tests/expected/uninit/immutable-masks/copy-hole.rs b/tests/expected/uninit/immutable-masks/copy-hole.rs
+index 6f14111c5..50896fcd7 100644
+--- a/tests/expected/uninit/immutable-masks/copy-hole.rs
++++ b/tests/expected/uninit/immutable-masks/copy-hole.rs
+@@ -9,7 +9,7 @@
+ use std::intrinsics::raw_eq;
+ use std::mem::MaybeUninit;
+ 
+-// Required binding: anonymous None -> raw copy -> mutable target -> left raw_eq failure.
++// Copy the anonymous storage hole into mutable storage, then read it with left raw_eq.
+ // The other operand must independently pass its byte-initialization check.
+ #[kani::proof]
+ fn copied_immutable_hole_remains_uninitialized() {
+diff --git a/tests/expected/uninit/immutable-masks/zero-byte-hole.rs b/tests/expected/uninit/immutable-masks/zero-byte-hole.rs
+index 5e3703bba..b805a925e 100644
+--- a/tests/expected/uninit/immutable-masks/zero-byte-hole.rs
++++ b/tests/expected/uninit/immutable-masks/zero-byte-hole.rs
+@@ -9,7 +9,7 @@
+ use std::intrinsics::raw_eq;
+ use std::mem::MaybeUninit;
+ 
+-// Required binding: left None byte fails, right Some(0) bytes remain legal.
++// The left storage hole fails; initialized zero bytes on the right remain legal.
+ #[kani::proof]
+ fn zero_and_uninitialized_are_distinct() {
+     let left: &[MaybeUninit<u8>; 3] =
+diff --git a/tests/expected/uninit/marker-hook-calls/fn-item-plain.expected b/tests/expected/uninit/marker-hook-calls/fn-item-plain.expected
+new file mode 100644
+index 000000000..4edc0dfdc
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/fn-item-plain.expected
+@@ -0,0 +1,8 @@
++Checking harness fn_item_plain...
++fn_item_plain.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: invoke(answer) == 42"
++SUMMARY:\
++ ** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/marker-hook-calls/fn-item-plain.rs b/tests/expected/uninit/marker-hook-calls/fn-item-plain.rs
+new file mode 100644
+index 000000000..aa0aefd3e
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/fn-item-plain.rs
+@@ -0,0 +1,16 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++#[inline(never)]
++fn answer() -> u16 {
++    42
++}
++#[inline(never)]
++fn invoke<F: FnOnce() -> u16>(f: F) -> u16 {
++    f()
++}
++#[kani::proof]
++fn fn_item_plain() {
++    assert_eq!(invoke(answer), 42);
++}
+diff --git a/tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.expected b/tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.expected
+new file mode 100644
+index 000000000..69acfc788
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.expected
+@@ -0,0 +1,12 @@
++Checking harness fn_item_shadow_return...
++fn_item_shadow_return.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: unsafe { initialized.assume_init_read() } == 17"
++invoke\
++ - Status: FAILURE\
++ - Description: "Kani does not support shadow transfers without a paired argument/return protocol."
++SUMMARY:\
++ ** 1 of
++Failed Checks: Kani does not support shadow transfers without a paired argument/return protocol.
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.rs b/tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.rs
+new file mode 100644
+index 000000000..24c57076b
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.rs
+@@ -0,0 +1,20 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++use std::mem::MaybeUninit;
++#[inline(never)]
++fn hole() -> MaybeUninit<u16> {
++    MaybeUninit::uninit()
++}
++#[inline(never)]
++fn invoke<F: FnOnce() -> MaybeUninit<u16>>(f: F) -> MaybeUninit<u16> {
++    f()
++}
++#[kani::proof]
++fn fn_item_shadow_return() {
++    let initialized = MaybeUninit::new(17u16);
++    assert_eq!(unsafe { initialized.assume_init_read() }, 17);
++    let result = invoke(hole);
++    let _payload = unsafe { result.assume_init_read() };
++}
+diff --git a/tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.expected b/tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.expected
+new file mode 100644
+index 000000000..b2e1bab13
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.expected
+@@ -0,0 +1,8 @@
++Checking harness generated_modifies_no_shadow...
++generated_modifies_no_shadow.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: unsafe { out.assume_init() } == 7"
++SUMMARY:\
++ ** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.rs b/tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.rs
+new file mode 100644
+index 000000000..b3d915e8c
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.rs
+@@ -0,0 +1,17 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++use std::mem::MaybeUninit;
++
++#[kani::modifies(out)]
++fn write(out: &mut MaybeUninit<u16>) {
++    *out = MaybeUninit::new(7);
++}
++
++#[kani::proof_for_contract(write)]
++fn generated_modifies_no_shadow() {
++    let mut out = MaybeUninit::uninit();
++    write(&mut out);
++    assert_eq!(unsafe { out.assume_init() }, 7);
++}
+diff --git a/tests/expected/uninit/marker-hook-calls/marked-body-hole.expected b/tests/expected/uninit/marker-hook-calls/marked-body-hole.expected
+new file mode 100644
+index 000000000..0ae2d8ace
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/marked-body-hole.expected
+@@ -0,0 +1,12 @@
++Checking harness marked_body_hole...
++marked_body_hole.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: unsafe { initialized.assume_init_read() } == 29"
++transmute_neo\
++ - Status: FAILURE\
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
++SUMMARY:\
++ ** 1 of
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/marker-hook-calls/marked-body-hole.rs b/tests/expected/uninit/marker-hook-calls/marked-body-hole.rs
+new file mode 100644
+index 000000000..1b3004bee
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/marked-body-hole.rs
+@@ -0,0 +1,20 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[kanitool::fn_marker = "ShadowTransferControl"]
++#[inline(never)]
++fn marked_identity(value: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    value
++}
++
++#[kani::proof]
++fn marked_body_hole() {
++    let initialized = marked_identity(MaybeUninit::new(29));
++    assert_eq!(unsafe { initialized.assume_init_read() }, 29);
++    let hole = marked_identity(MaybeUninit::<u16>::uninit());
++    let _payload = unsafe { hole.assume_init() };
++}
+diff --git a/tests/expected/uninit/marker-hook-calls/marked-body-initialized.expected b/tests/expected/uninit/marker-hook-calls/marked-body-initialized.expected
+new file mode 100644
+index 000000000..a49122039
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/marked-body-initialized.expected
+@@ -0,0 +1,8 @@
++Checking harness marked_body_initialized...
++marked_body_initialized.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: unsafe { initialized.assume_init_read() } == 29"
++SUMMARY:\
++ ** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/marker-hook-calls/marked-body-initialized.rs b/tests/expected/uninit/marker-hook-calls/marked-body-initialized.rs
+new file mode 100644
+index 000000000..70f5165a9
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/marked-body-initialized.rs
+@@ -0,0 +1,18 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[kanitool::fn_marker = "ShadowTransferControl"]
++#[inline(never)]
++fn marked_identity(value: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    value
++}
++
++#[kani::proof]
++fn marked_body_initialized() {
++    let initialized = marked_identity(MaybeUninit::new(29));
++    assert_eq!(unsafe { initialized.assume_init_read() }, 29);
++}
+diff --git a/tests/expected/uninit/marker-hook-calls/marked-model-hole.expected b/tests/expected/uninit/marker-hook-calls/marked-model-hole.expected
+new file mode 100644
+index 000000000..11d28bc44
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/marked-model-hole.expected
+@@ -0,0 +1,12 @@
++Checking harness marked_model_hole...
++marked_model_hole.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: unsafe { source.assume_init_read() } == 11"
++marked_model_hole.\
++ - Status: FAILURE\
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++SUMMARY:\
++ ** 1 of
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/marker-hook-calls/marked-model-hole.rs b/tests/expected/uninit/marker-hook-calls/marked-model-hole.rs
+new file mode 100644
+index 000000000..8654746c8
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/marked-model-hole.rs
+@@ -0,0 +1,29 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[derive(Clone, Copy)]
++#[allow(dead_code)]
++union Byte {
++    byte: u8,
++    empty: (),
++}
++
++impl kani::Arbitrary for Byte {
++    fn any() -> Self {
++        Self { empty: () }
++    }
++}
++
++#[kani::proof]
++fn marked_model_hole() {
++    let source = MaybeUninit::new(11u16);
++    // NondetFn1Model has a real, non-inlined MIR body. It accepts a shadow argument
++    // and returns ordinary union storage via AnyModel and this Arbitrary body.
++    let result = kani::arbitrary::nondet_fn1::<_, Byte>(source);
++    assert_eq!(unsafe { source.assume_init_read() }, 11);
++    let _payload = unsafe { result.byte };
++}
+diff --git a/tests/expected/uninit/marker-hook-calls/marked-model-initialized.expected b/tests/expected/uninit/marker-hook-calls/marked-model-initialized.expected
+new file mode 100644
+index 000000000..cb699a57a
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/marked-model-initialized.expected
+@@ -0,0 +1,11 @@
++Checking harness marked_model_initialized...
++marked_model_initialized.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: unsafe { source.assume_init_read() } == 11"
++marked_model_initialized.assertion.2\
++ - Status: SUCCESS\
++ - Description: "assertion failed: unsafe { result.byte } == 41"
++SUMMARY:\
++ ** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/marker-hook-calls/marked-model-initialized.rs b/tests/expected/uninit/marker-hook-calls/marked-model-initialized.rs
+new file mode 100644
+index 000000000..0fb65bc0e
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/marked-model-initialized.rs
+@@ -0,0 +1,29 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[derive(Clone, Copy)]
++#[allow(dead_code)]
++union Byte {
++    byte: u8,
++    empty: (),
++}
++
++impl kani::Arbitrary for Byte {
++    fn any() -> Self {
++        Self { byte: 41 }
++    }
++}
++
++#[kani::proof]
++fn marked_model_initialized() {
++    let source = MaybeUninit::new(11u16);
++    // NondetFn1Model has a real, non-inlined MIR body. It accepts a shadow argument
++    // and returns ordinary union storage via AnyModel and this Arbitrary body.
++    let result = kani::arbitrary::nondet_fn1::<_, Byte>(source);
++    assert_eq!(unsafe { source.assume_init_read() }, 11);
++    assert_eq!(unsafe { result.byte }, 41);
++}
+diff --git a/tests/expected/uninit/marker-hook-calls/ordinary-hook-return.expected b/tests/expected/uninit/marker-hook-calls/ordinary-hook-return.expected
+new file mode 100644
+index 000000000..953a2319c
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/ordinary-hook-return.expected
+@@ -0,0 +1,12 @@
++Checking harness ordinary_hook_return...
++ordinary_hook_return.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: unsafe { source.as_ptr().cast::<u8>().read() } == 7"
++ordinary_hook_return\
++ - Status: FAILURE\
++ - Description: "Kani does not support shadow transfers without a paired argument/return protocol."
++SUMMARY:\
++ ** 1 of
++Failed Checks: Kani does not support shadow transfers without a paired argument/return protocol.
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/marker-hook-calls/ordinary-hook-return.rs b/tests/expected/uninit/marker-hook-calls/ordinary-hook-return.rs
+new file mode 100644
+index 000000000..686b07854
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/ordinary-hook-return.rs
+@@ -0,0 +1,16 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++use std::mem::MaybeUninit;
++
++#[kani::proof]
++fn ordinary_hook_return() {
++    let mut source = MaybeUninit::<u16>::uninit();
++    // Runtime-seeded storage. This is the actual public internal function,
++    // not a mock carrying a copied marker or matching name.
++    unsafe { source.as_mut_ptr().cast::<u8>().write(7) };
++    assert_eq!(unsafe { source.as_ptr().cast::<u8>().read() }, 7);
++    let destination = kani::internal::untracked_deref(&source);
++    let _payload = unsafe { destination.assume_init_read() };
++}
+diff --git a/tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.expected b/tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.expected
+new file mode 100644
+index 000000000..555990d65
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.expected
+@@ -0,0 +1,11 @@
++Checking harness ordinary_hook_scalar...
++ordinary_hook_scalar.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: destination == 37"
++ordinary_hook_scalar.assertion.2\
++ - Status: SUCCESS\
++ - Description: "assertion failed: source == 37"
++SUMMARY:\
++ ** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.rs b/tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.rs
+new file mode 100644
+index 000000000..6ff97b8c0
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.rs
+@@ -0,0 +1,12 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++#[kani::proof]
++fn ordinary_hook_scalar() {
++    let source = 37u16;
++    let destination = kani::internal::untracked_deref(&source);
++    assert_eq!(destination, 37);
++    assert_eq!(source, 37);
++}
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs b/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs
+index 5b2feb8b3..cae53d3f8 100644
+--- a/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs
++++ b/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs
+@@ -6,7 +6,7 @@
+ use std::mem::MaybeUninit;
+ 
+ // Required: tracked stack/assume_init temporary and anonymous immutable referent.
+-// Actual origins, masks, retained operation and both byte checks require CI binding.
++// The raw comparison checks initialization on both stack and immutable operands.
+ #[kani::proof]
+ fn mixed_eq_u8_stack_left() {
+     let mut storage = MaybeUninit::<[u8; 3]>::uninit();
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs b/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs
+index 3b9756205..348c89158 100644
+--- a/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs
++++ b/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs
+@@ -6,7 +6,7 @@
+ use std::mem::MaybeUninit;
+ 
+ // Required: tracked stack/assume_init temporary and anonymous immutable referent.
+-// Actual origins, masks, retained operation and both byte checks require CI binding.
++// The raw comparison checks initialization on both stack and immutable operands.
+ #[kani::proof]
+ fn mixed_eq_u8_stack_right() {
+     let mut storage = MaybeUninit::<[u8; 3]>::uninit();
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.rs b/tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.rs
+index fd0249788..8cd3d44a2 100644
+--- a/tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.rs
++++ b/tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.rs
+@@ -9,12 +9,12 @@
+ use std::intrinsics::raw_eq;
+ use std::mem::MaybeUninit;
+ 
+-// A const item borrowed below, not a named static. Actual allocation requires MIR binding.
++// This borrows a const item rather than a named static.
+ const PROMOTED: [MaybeUninit<u8>; 3] =
+     [MaybeUninit::uninit(), MaybeUninit::new(0u8), MaybeUninit::new(9u8)];
+ 
+ // Required: tracked flat stack array and anonymous immutable referent.
+-// Actual origins, masks, retained operation and both byte checks require CI binding.
++// The raw comparison checks initialization on both stack and immutable operands.
+ // Only the promoted left raw_eq byte read may fail; the stack check must succeed.
+ // MaybeUninit references are valid; no hole is converted to a typed u8 value.
+ #[kani::proof]
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.rs b/tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.rs
+index 5a0bbc4ea..5fd2101f4 100644
+--- a/tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.rs
++++ b/tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.rs
+@@ -9,12 +9,12 @@
+ use std::intrinsics::raw_eq;
+ use std::mem::MaybeUninit;
+ 
+-// A const item borrowed below, not a named static. Actual allocation requires MIR binding.
++// This borrows a const item rather than a named static.
+ const PROMOTED: [MaybeUninit<u8>; 3] =
+     [MaybeUninit::new(7u8), MaybeUninit::new(0u8), MaybeUninit::uninit()];
+ 
+ // Required: tracked flat stack array and anonymous immutable referent.
+-// Actual origins, masks, retained operation and both byte checks require CI binding.
++// The raw comparison checks initialization on both stack and immutable operands.
+ // Only the promoted right raw_eq byte read may fail; the stack check must succeed.
+ // MaybeUninit references are valid; no hole is converted to a typed u8 value.
+ #[kani::proof]
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.rs b/tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.rs
+index 3a1829a9d..4fe4525f4 100644
+--- a/tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.rs
++++ b/tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.rs
+@@ -9,12 +9,12 @@
+ use std::intrinsics::raw_eq;
+ use std::mem::MaybeUninit;
+ 
+-// A const item borrowed below, not a named static. Actual allocation requires MIR binding.
++// This borrows a const item rather than a named static.
+ const PROMOTED: [MaybeUninit<u8>; 3] =
+     [MaybeUninit::new(7u8), MaybeUninit::new(0u8), MaybeUninit::new(9u8)];
+ 
+ // Required: tracked flat stack array and anonymous immutable referent.
+-// Actual origins, masks, retained operation and both byte checks require CI binding.
++// The raw comparison checks initialization on both stack and immutable operands.
+ #[kani::proof]
+ fn mixed_raw_mu_stack_left_legal() {
+     let mut storage = [MaybeUninit::<u8>::uninit(); 3];
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.rs b/tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.rs
+index bb019c239..6a70c04e6 100644
+--- a/tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.rs
++++ b/tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.rs
+@@ -9,12 +9,12 @@
+ use std::intrinsics::raw_eq;
+ use std::mem::MaybeUninit;
+ 
+-// A const item borrowed below, not a named static. Actual allocation requires MIR binding.
++// This borrows a const item rather than a named static.
+ const PROMOTED: [MaybeUninit<u8>; 3] =
+     [MaybeUninit::new(7u8), MaybeUninit::new(0u8), MaybeUninit::new(9u8)];
+ 
+ // Required: tracked flat stack array and anonymous immutable referent.
+-// Actual origins, masks, retained operation and both byte checks require CI binding.
++// The raw comparison checks initialization on both stack and immutable operands.
+ #[kani::proof]
+ fn mixed_raw_mu_stack_right_legal() {
+     let mut storage = [MaybeUninit::<u8>::uninit(); 3];
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs b/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs
+index 9c2e15eb7..205c4a555 100644
+--- a/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs
++++ b/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs
+@@ -10,7 +10,7 @@
+ use std::mem::MaybeUninit;
+ 
+ // Required: tracked stack/assume_init temporary and anonymous immutable referent.
+-// Actual origins, masks, retained operation and both byte checks require CI binding.
++// The raw comparison checks initialization on both stack and immutable operands.
+ #[kani::proof]
+ fn mixed_raw_u8_stack_left() {
+     let mut storage = MaybeUninit::<[u8; 3]>::uninit();
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs b/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs
+index e88d72700..081bb5fd3 100644
+--- a/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs
++++ b/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs
+@@ -10,7 +10,7 @@
+ use std::mem::MaybeUninit;
+ 
+ // Required: tracked stack/assume_init temporary and anonymous immutable referent.
+-// Actual origins, masks, retained operation and both byte checks require CI binding.
++// The raw comparison checks initialization on both stack and immutable operands.
+ #[kani::proof]
+ fn mixed_raw_u8_stack_right() {
+     let mut storage = MaybeUninit::<[u8; 3]>::uninit();
+diff --git a/tests/expected/uninit/padded-slice-extents/borrowed-hole.expected b/tests/expected/uninit/padded-slice-extents/borrowed-hole.expected
+new file mode 100644
+index 000000000..051b98b77
+--- /dev/null
++++ b/tests/expected/uninit/padded-slice-extents/borrowed-hole.expected
+@@ -0,0 +1,15 @@
++Checking harness borrowed_slice_cross_slot_hole...
++borrowed_slice_cross_slot_hole.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: first_value == 0x5a5a_5a5a"
++borrowed_slice_cross_slot_hole.assertion.2\
++ - Status: SUCCESS\
++ - Description: "assertion failed: crossed_byte == 0x5a"
++std::ptr::read::<u8>.safety_check.
++ - Status: FAILURE
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++SUMMARY:\
++ ** 1 of
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/padded-slice-extents/borrowed-hole.rs b/tests/expected/uninit/padded-slice-extents/borrowed-hole.rs
+new file mode 100644
+index 000000000..4abe0770b
+--- /dev/null
++++ b/tests/expected/uninit/padded-slice-extents/borrowed-hole.rs
+@@ -0,0 +1,45 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular --harness borrowed_slice_cross_slot_hole --exact -Z unstable-options --cbmc-args --object-bits 12
++
++use std::mem::{self, MaybeUninit};
++
++#[derive(Clone, Copy)]
++#[repr(C)]
++struct Padded {
++    tag: u8,
++    value: u32,
++}
++
++fn check_layout(slice: &[MaybeUninit<Padded>; 2]) -> usize {
++    let value_offset = mem::offset_of!(Padded, value);
++    let value_end = value_offset + mem::size_of::<u32>();
++    let align = mem::align_of::<Padded>();
++    let stride = value_end.div_ceil(align) * align;
++    assert_eq!(mem::offset_of!(Padded, tag), 0);
++    assert_eq!(value_offset % mem::align_of::<u32>(), 0);
++    assert_eq!(mem::align_of::<Padded>(), mem::align_of::<u32>());
++    assert_eq!(mem::size_of::<Padded>(), stride);
++    assert_eq!(mem::size_of::<MaybeUninit<Padded>>(), stride);
++    assert_eq!(mem::size_of_val(slice), 2 * stride);
++    value_offset
++}
++
++#[kani::proof]
++fn borrowed_slice_cross_slot_hole() {
++    let mut slots = [MaybeUninit::<Padded>::uninit(); 2];
++    let value_offset = check_layout(&slots);
++    let stride = mem::size_of::<Padded>();
++    // Initialize slot 0 and the tag, padding, and first three value bytes of slot 1.
++    let initialized_prefix = stride + value_offset + mem::size_of::<u32>() - 1;
++    unsafe { slots.as_mut_ptr().cast::<u8>().write_bytes(0x5a, initialized_prefix) };
++    let borrowed: &[MaybeUninit<Padded>] = &slots;
++    let first = unsafe { borrowed.get_unchecked(0) };
++    let first_value = unsafe { std::ptr::addr_of!((*first.as_ptr()).value).read_volatile() };
++    assert_eq!(first_value, 0x5a5a_5a5a);
++    let second = unsafe { borrowed.get_unchecked(1) };
++    let crossed_byte = unsafe { second.as_ptr().cast::<u8>().add(value_offset + 2).read_volatile() };
++    assert_eq!(crossed_byte, 0x5a);
++    let _hole = unsafe { second.as_ptr().cast::<u8>().add(value_offset + 3).read() };
++}
+diff --git a/tests/expected/uninit/padded-slice-extents/borrowed-initialized.expected b/tests/expected/uninit/padded-slice-extents/borrowed-initialized.expected
+new file mode 100644
+index 000000000..16c6b5246
+--- /dev/null
++++ b/tests/expected/uninit/padded-slice-extents/borrowed-initialized.expected
+@@ -0,0 +1,11 @@
++Checking harness borrowed_slice_cross_slot_initialized...
++borrowed_slice_cross_slot_initialized.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: crossed_byte == 0x5a"
++borrowed_slice_cross_slot_initialized.assertion.2\
++ - Status: SUCCESS\
++ - Description: "assertion failed: byte == 0x5a"
++SUMMARY:\
++ ** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/padded-slice-extents/borrowed-initialized.rs b/tests/expected/uninit/padded-slice-extents/borrowed-initialized.rs
+new file mode 100644
+index 000000000..bde4c0054
+--- /dev/null
++++ b/tests/expected/uninit/padded-slice-extents/borrowed-initialized.rs
+@@ -0,0 +1,41 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular --harness borrowed_slice_cross_slot_initialized --exact -Z unstable-options --cbmc-args --object-bits 12
++
++use std::mem::{self, MaybeUninit};
++
++#[derive(Clone, Copy)]
++#[repr(C)]
++struct Padded {
++    tag: u8,
++    value: u32,
++}
++
++fn check_layout(slice: &[MaybeUninit<Padded>; 2]) -> usize {
++    let value_offset = mem::offset_of!(Padded, value);
++    let value_end = value_offset + mem::size_of::<u32>();
++    let align = mem::align_of::<Padded>();
++    let stride = value_end.div_ceil(align) * align;
++    assert_eq!(mem::offset_of!(Padded, tag), 0);
++    assert_eq!(value_offset % mem::align_of::<u32>(), 0);
++    assert_eq!(mem::align_of::<Padded>(), mem::align_of::<u32>());
++    assert_eq!(mem::size_of::<Padded>(), stride);
++    assert_eq!(mem::size_of::<MaybeUninit<Padded>>(), stride);
++    assert_eq!(mem::size_of_val(slice), 2 * stride);
++    value_offset
++}
++
++#[kani::proof]
++fn borrowed_slice_cross_slot_initialized() {
++    let mut slots = [MaybeUninit::<Padded>::uninit(); 2];
++    let value_offset = check_layout(&slots);
++    let initialized_prefix = mem::size_of::<Padded>() + value_offset + mem::size_of::<u32>();
++    unsafe { slots.as_mut_ptr().cast::<u8>().write_bytes(0x5a, initialized_prefix) };
++    let borrowed: &[MaybeUninit<Padded>] = &slots;
++    let second = unsafe { borrowed.get_unchecked(1) };
++    let crossed_byte = unsafe { second.as_ptr().cast::<u8>().add(value_offset + 2).read_volatile() };
++    let byte = unsafe { second.as_ptr().cast::<u8>().add(value_offset + 3).read() };
++    assert_eq!(crossed_byte, 0x5a);
++    assert_eq!(byte, 0x5a);
++}
+diff --git a/tests/expected/uninit/padded-slice-extents/raw-hole.expected b/tests/expected/uninit/padded-slice-extents/raw-hole.expected
+new file mode 100644
+index 000000000..bdf2535ad
+--- /dev/null
++++ b/tests/expected/uninit/padded-slice-extents/raw-hole.expected
+@@ -0,0 +1,15 @@
++Checking harness raw_slice_cross_slot_hole...
++raw_slice_cross_slot_hole.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: first_value == 0x5a5a_5a5a"
++raw_slice_cross_slot_hole.assertion.2\
++ - Status: SUCCESS\
++ - Description: "assertion failed: crossed_byte == 0x5a"
++std::ptr::read::<u8>.safety_check.
++ - Status: FAILURE
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++SUMMARY:\
++ ** 1 of
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/padded-slice-extents/raw-hole.rs b/tests/expected/uninit/padded-slice-extents/raw-hole.rs
+new file mode 100644
+index 000000000..f8f09a12b
+--- /dev/null
++++ b/tests/expected/uninit/padded-slice-extents/raw-hole.rs
+@@ -0,0 +1,46 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular --harness raw_slice_cross_slot_hole --exact -Z unstable-options --cbmc-args --object-bits 12
++
++use std::mem::{self, MaybeUninit};
++
++#[derive(Clone, Copy)]
++#[repr(C)]
++struct Padded {
++    tag: u8,
++    value: u32,
++}
++
++fn check_layout(slice: &[MaybeUninit<Padded>; 2]) -> usize {
++    let value_offset = mem::offset_of!(Padded, value);
++    let value_end = value_offset + mem::size_of::<u32>();
++    let align = mem::align_of::<Padded>();
++    let stride = value_end.div_ceil(align) * align;
++    assert_eq!(mem::offset_of!(Padded, tag), 0);
++    assert_eq!(value_offset % mem::align_of::<u32>(), 0);
++    assert_eq!(mem::align_of::<Padded>(), mem::align_of::<u32>());
++    assert_eq!(mem::size_of::<Padded>(), stride);
++    assert_eq!(mem::size_of::<MaybeUninit<Padded>>(), stride);
++    assert_eq!(mem::size_of_val(slice), 2 * stride);
++    value_offset
++}
++
++#[kani::proof]
++fn raw_slice_cross_slot_hole() {
++    let mut slots = [MaybeUninit::<Padded>::uninit(); 2];
++    let value_offset = check_layout(&slots);
++    let stride = mem::size_of::<Padded>();
++    // Initialize slot 0 and the tag, padding, and first three value bytes of slot 1.
++    let initialized_prefix = stride + value_offset + mem::size_of::<u32>() - 1;
++    unsafe { slots.as_mut_ptr().cast::<u8>().write_bytes(0x5a, initialized_prefix) };
++    let raw_slice = std::ptr::slice_from_raw_parts(slots.as_ptr(), slots.len());
++    let borrowed = unsafe { &*raw_slice };
++    let first = unsafe { borrowed.get_unchecked(0) };
++    let first_value = unsafe { std::ptr::addr_of!((*first.as_ptr()).value).read_volatile() };
++    assert_eq!(first_value, 0x5a5a_5a5a);
++    let second = unsafe { borrowed.get_unchecked(1) };
++    let crossed_byte = unsafe { second.as_ptr().cast::<u8>().add(value_offset + 2).read_volatile() };
++    assert_eq!(crossed_byte, 0x5a);
++    let _hole = unsafe { second.as_ptr().cast::<u8>().add(value_offset + 3).read() };
++}
+diff --git a/tests/expected/uninit/padded-slice-extents/raw-initialized.expected b/tests/expected/uninit/padded-slice-extents/raw-initialized.expected
+new file mode 100644
+index 000000000..9dbf817c0
+--- /dev/null
++++ b/tests/expected/uninit/padded-slice-extents/raw-initialized.expected
+@@ -0,0 +1,11 @@
++Checking harness raw_slice_cross_slot_initialized...
++raw_slice_cross_slot_initialized.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: crossed_byte == 0x5a"
++raw_slice_cross_slot_initialized.assertion.2\
++ - Status: SUCCESS\
++ - Description: "assertion failed: byte == 0x5a"
++SUMMARY:\
++ ** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/padded-slice-extents/raw-initialized.rs b/tests/expected/uninit/padded-slice-extents/raw-initialized.rs
+new file mode 100644
+index 000000000..74c29aac7
+--- /dev/null
++++ b/tests/expected/uninit/padded-slice-extents/raw-initialized.rs
+@@ -0,0 +1,42 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular --harness raw_slice_cross_slot_initialized --exact -Z unstable-options --cbmc-args --object-bits 12
++
++use std::mem::{self, MaybeUninit};
++
++#[derive(Clone, Copy)]
++#[repr(C)]
++struct Padded {
++    tag: u8,
++    value: u32,
++}
++
++fn check_layout(slice: &[MaybeUninit<Padded>; 2]) -> usize {
++    let value_offset = mem::offset_of!(Padded, value);
++    let value_end = value_offset + mem::size_of::<u32>();
++    let align = mem::align_of::<Padded>();
++    let stride = value_end.div_ceil(align) * align;
++    assert_eq!(mem::offset_of!(Padded, tag), 0);
++    assert_eq!(value_offset % mem::align_of::<u32>(), 0);
++    assert_eq!(mem::align_of::<Padded>(), mem::align_of::<u32>());
++    assert_eq!(mem::size_of::<Padded>(), stride);
++    assert_eq!(mem::size_of::<MaybeUninit<Padded>>(), stride);
++    assert_eq!(mem::size_of_val(slice), 2 * stride);
++    value_offset
++}
++
++#[kani::proof]
++fn raw_slice_cross_slot_initialized() {
++    let mut slots = [MaybeUninit::<Padded>::uninit(); 2];
++    let value_offset = check_layout(&slots);
++    let initialized_prefix = mem::size_of::<Padded>() + value_offset + mem::size_of::<u32>();
++    unsafe { slots.as_mut_ptr().cast::<u8>().write_bytes(0x5a, initialized_prefix) };
++    let raw_slice = std::ptr::slice_from_raw_parts(slots.as_ptr(), slots.len());
++    let borrowed = unsafe { &*raw_slice };
++    let second = unsafe { borrowed.get_unchecked(1) };
++    let crossed_byte = unsafe { second.as_ptr().cast::<u8>().add(value_offset + 2).read_volatile() };
++    let byte = unsafe { second.as_ptr().cast::<u8>().add(value_offset + 3).read() };
++    assert_eq!(crossed_byte, 0x5a);
++    assert_eq!(byte, 0x5a);
++}
+diff --git a/tests/expected/uninit/part1-edges/README.md b/tests/expected/uninit/part1-edges/README.md
+index d672b8674..8434b1df3 100644
+--- a/tests/expected/uninit/part1-edges/README.md
++++ b/tests/expected/uninit/part1-edges/README.md
+@@ -1,21 +1,13 @@
+-# Part 1 semantic edges
++# Initialization edge fixtures
+ 
+-Singleton controls for ordinary-union constants, projected raw stores, immutable origins,
+-and by-value unsized slot arguments. Expected outputs record semantic requirements before CI.
+-They do not establish target reachability or a complete failure set.
++These fixtures cover ordinary union constants, raw field stores, immutable origins,
++and unsized slot arguments. Each file selects one oracle root.
+ 
+-The immutable subrange/relocation/static legal fixtures require SUCCESS. If a path is not
+-initialized by an admitted origin or an independent existing static path, its failure is a
+-legal falseFAIL and a release limitation. Never change those expectations to uninitialized UB.
+-A negative qualifies only with its matched legal companion and exactly the intended hole
+-property; failures caused by unqualified initialized bytes do not qualify the hole.
++The initialized nonzero-subrange fixture records a conservative uninitialized-read
++failure. The relocation and named-static companions use supported origin paths;
++their initialized cases succeed. Hole companions distinguish payload reads from
++origin or layout limitations.
+ 
+-The two by-value DST fixtures intentionally expect the exact unsupported-size reason for
+-both initialized and hole inputs. The Box is only the existing source form for moving a slice
+-by value; passing the Box or a reference would exercise a different edge. Compilation failure
+-or an earlier unrelated Unsupported does not qualify this test. By-reference legal/hole
+-fixtures and existing sized transfers remain supported companions.
+-
+-Run with uninit checks enabled. Bind each actual MIR call/store, byte offset/mask, property
+-identity and the full failure set to the exact tested source. Existing strong JSON oracles,
+-mode boundaries, pairing/cycles, typed-data/padding and immutable masks remain required.
++By-value unsized slot transfers have an explicit unsupported-size boundary for both
++initialized and hole inputs. Borrowed slice companions cover supported reference
++access without moving an unsized value.
+diff --git a/tests/expected/uninit/part1-edges/dst-by-value-hole.rs b/tests/expected/uninit/part1-edges/dst-by-value-hole.rs
+index 1db8fdbd0..5c968da59 100644
+--- a/tests/expected/uninit/part1-edges/dst-by-value-hole.rs
++++ b/tests/expected/uninit/part1-edges/dst-by-value-hole.rs
+@@ -21,7 +21,7 @@ fn read(self) -> u8 {
+ #[kani::proof]
+ fn dst_by_value_hole() {
+     // Same source form as tests/kani/UnsizedFnParams: the ARGUMENT is *source,
+-    // not the Box/fat pointer. Require actual by-value Slice/Move binding in CI.
++    // not the Box/fat pointer, so the slice storage is passed by value.
+     let source: Box<[MaybeUninit<u8>]> = Box::new([MaybeUninit::new(0u8), MaybeUninit::uninit()]);
+     let _read = (*source).read();
+ }
+diff --git a/tests/expected/uninit/part1-edges/dst-by-value-legal.rs b/tests/expected/uninit/part1-edges/dst-by-value-legal.rs
+index 3ea4223d9..6720a640d 100644
+--- a/tests/expected/uninit/part1-edges/dst-by-value-legal.rs
++++ b/tests/expected/uninit/part1-edges/dst-by-value-legal.rs
+@@ -21,7 +21,7 @@ fn read(self) -> u8 {
+ #[kani::proof]
+ fn dst_by_value_legal() {
+     // Same source form as tests/kani/UnsizedFnParams: the ARGUMENT is *source,
+-    // not the Box/fat pointer. Require actual by-value Slice/Move binding in CI.
++    // not the Box/fat pointer, so the slice storage is passed by value.
+     let source: Box<[MaybeUninit<u8>]> = Box::new([MaybeUninit::new(0u8), MaybeUninit::new(0u8)]);
+     let _read = (*source).read();
+ }
+diff --git a/tests/expected/uninit/part1-edges/immutable-subrange-hole.rs b/tests/expected/uninit/part1-edges/immutable-subrange-hole.rs
+index 43dfb717e..21dd4b29b 100644
+--- a/tests/expected/uninit/part1-edges/immutable-subrange-hole.rs
++++ b/tests/expected/uninit/part1-edges/immutable-subrange-hole.rs
+@@ -11,7 +11,7 @@
+ 
+ const ALLOCATION: &[MaybeUninit<u8>; 4] =
+     &[MaybeUninit::new(0), MaybeUninit::new(0), MaybeUninit::new(0), MaybeUninit::uninit()];
+-// Use three bytes to avoid scalar transmute lowering; CI must confirm retained raw_eq.
++// Three bytes keep the comparison distinct from scalar transmute lowering.
+ // Only this subrange origin is used at runtime: offset 1, extent 3, allocation size 4.
+ const SUBRANGE: &[MaybeUninit<u8>; 3] =
+     unsafe { &*ALLOCATION.as_ptr().add(1).cast::<[MaybeUninit<u8>; 3]>() };
+diff --git a/tests/expected/uninit/part1-edges/immutable-subrange-legal.rs b/tests/expected/uninit/part1-edges/immutable-subrange-legal.rs
+index 425e91e3e..40cd3a377 100644
+--- a/tests/expected/uninit/part1-edges/immutable-subrange-legal.rs
++++ b/tests/expected/uninit/part1-edges/immutable-subrange-legal.rs
+@@ -11,7 +11,7 @@
+ 
+ const ALLOCATION: &[MaybeUninit<u8>; 4] =
+     &[MaybeUninit::new(0), MaybeUninit::new(0), MaybeUninit::new(0), MaybeUninit::new(0)];
+-// Use three bytes to avoid scalar transmute lowering; CI must confirm retained raw_eq.
++// Three bytes keep the comparison distinct from scalar transmute lowering.
+ // Only this subrange origin is used at runtime: offset 1, extent 3, allocation size 4.
+ const SUBRANGE: &[MaybeUninit<u8>; 3] =
+     unsafe { &*ALLOCATION.as_ptr().add(1).cast::<[MaybeUninit<u8>; 3]>() };
+diff --git a/tests/expected/uninit/part1-edges/union-constant-hole.rs b/tests/expected/uninit/part1-edges/union-constant-hole.rs
+index 017fb6f67..4741aae98 100644
+--- a/tests/expected/uninit/part1-edges/union-constant-hole.rs
++++ b/tests/expected/uninit/part1-edges/union-constant-hole.rs
+@@ -22,7 +22,7 @@ fn consume(value: Byte) -> u8 {
+ 
+ const VALUE: Byte = Byte { empty: () };
+ 
+-// Require CI binding to Operand::Constant of an ordinary union.
++// The call uses a constant ordinary union operand.
+ #[custom_mir(dialect = "runtime", phase = "optimized")]
+ fn transfer() -> u8 {
+     mir! {
+diff --git a/tests/expected/uninit/part1-edges/union-constant-legal.rs b/tests/expected/uninit/part1-edges/union-constant-legal.rs
+index 7162e305b..00d535bb7 100644
+--- a/tests/expected/uninit/part1-edges/union-constant-legal.rs
++++ b/tests/expected/uninit/part1-edges/union-constant-legal.rs
+@@ -22,7 +22,7 @@ fn consume(value: Byte) -> u8 {
+ 
+ const VALUE: Byte = Byte { byte: 0 };
+ 
+-// Require CI binding to Operand::Constant of an ordinary union.
++// The call uses a constant ordinary union operand.
+ #[custom_mir(dialect = "runtime", phase = "optimized")]
+ fn transfer() -> u8 {
+     mir! {
+diff --git a/tests/expected/uninit/part1-edges/union-variable-hole.rs b/tests/expected/uninit/part1-edges/union-variable-hole.rs
+index 45d205fcb..5fdc9c651 100644
+--- a/tests/expected/uninit/part1-edges/union-variable-hole.rs
++++ b/tests/expected/uninit/part1-edges/union-variable-hole.rs
+@@ -20,7 +20,7 @@ fn consume(value: Byte) -> u8 {
+     unsafe { value.byte }
+ }
+ 
+-// Require CI binding to Operand::Copy of an ordinary union.
++// The call copies an ordinary union operand.
+ #[custom_mir(dialect = "runtime", phase = "optimized")]
+ fn transfer(source: Byte) -> u8 {
+     mir! {
+diff --git a/tests/expected/uninit/part1-edges/union-variable-legal.rs b/tests/expected/uninit/part1-edges/union-variable-legal.rs
+index 028ea3406..2dad36653 100644
+--- a/tests/expected/uninit/part1-edges/union-variable-legal.rs
++++ b/tests/expected/uninit/part1-edges/union-variable-legal.rs
+@@ -20,7 +20,7 @@ fn consume(value: Byte) -> u8 {
+     unsafe { value.byte }
+ }
+ 
+-// Require CI binding to Operand::Copy of an ordinary union.
++// The call copies an ordinary union operand.
+ #[custom_mir(dialect = "runtime", phase = "optimized")]
+ fn transfer(source: Byte) -> u8 {
+     mir! {
+diff --git a/tests/expected/uninit/promoted-allocations/direct-left-hole.rs b/tests/expected/uninit/promoted-allocations/direct-left-hole.rs
+index c3839634e..9428d9f6c 100644
+--- a/tests/expected/uninit/promoted-allocations/direct-left-hole.rs
++++ b/tests/expected/uninit/promoted-allocations/direct-left-hole.rs
+@@ -10,7 +10,7 @@
+ use std::mem::MaybeUninit;
+ 
+ // Required lowering: retained raw_eq over both promoted three-byte referents.
+-// Promotion, Some/None masks, operand checks and helper propagation require CI binding.
++// Promoted byte masks and stack storage are checked through raw comparison operands.
+ // Both MaybeUninit references are valid before raw_eq; no constant storage is mutated.
+ // Require the left operand byte check to fail and the other operand check to succeed.
+ // Earlier UB/Unsupported or an additional failure does not satisfy this control.
+diff --git a/tests/expected/uninit/promoted-allocations/direct-legal.rs b/tests/expected/uninit/promoted-allocations/direct-legal.rs
+index 35686a654..a01cd2a45 100644
+--- a/tests/expected/uninit/promoted-allocations/direct-legal.rs
++++ b/tests/expected/uninit/promoted-allocations/direct-legal.rs
+@@ -10,7 +10,7 @@
+ use std::mem::MaybeUninit;
+ 
+ // Required lowering: retained raw_eq over both promoted three-byte referents.
+-// Promotion, Some/None masks, operand checks and helper propagation require CI binding.
++// Promoted byte masks and stack storage are checked through raw comparison operands.
+ // Both MaybeUninit references are valid before raw_eq; no constant storage is mutated.
+ // Require both byte checks to succeed and equality to be true.
+ #[kani::proof]
+diff --git a/tests/expected/uninit/promoted-allocations/direct-right-hole.rs b/tests/expected/uninit/promoted-allocations/direct-right-hole.rs
+index b695e2bde..7e03e7c5a 100644
+--- a/tests/expected/uninit/promoted-allocations/direct-right-hole.rs
++++ b/tests/expected/uninit/promoted-allocations/direct-right-hole.rs
+@@ -10,7 +10,7 @@
+ use std::mem::MaybeUninit;
+ 
+ // Required lowering: retained raw_eq over both promoted three-byte referents.
+-// Promotion, Some/None masks, operand checks and helper propagation require CI binding.
++// Promoted byte masks and stack storage are checked through raw comparison operands.
+ // Both MaybeUninit references are valid before raw_eq; no constant storage is mutated.
+ // Require the right operand byte check to fail and the other operand check to succeed.
+ // Earlier UB/Unsupported or an additional failure does not satisfy this control.
+diff --git a/tests/expected/uninit/promoted-allocations/helper-left-hole.rs b/tests/expected/uninit/promoted-allocations/helper-left-hole.rs
+index c7b1a8b67..53e6e9c24 100644
+--- a/tests/expected/uninit/promoted-allocations/helper-left-hole.rs
++++ b/tests/expected/uninit/promoted-allocations/helper-left-hole.rs
+@@ -15,7 +15,7 @@
+ }
+ 
+ // Required lowering: retained raw_eq over both promoted three-byte referents.
+-// Promotion, Some/None masks, operand checks and helper propagation require CI binding.
++// Promoted byte masks and stack storage are checked through raw comparison operands.
+ // Both MaybeUninit references are valid before raw_eq; no constant storage is mutated.
+ // Require the left operand byte check to fail and the other operand check to succeed.
+ // Earlier UB/Unsupported or an additional failure does not satisfy this control.
+diff --git a/tests/expected/uninit/promoted-allocations/helper-legal.rs b/tests/expected/uninit/promoted-allocations/helper-legal.rs
+index 2ea2ea7c5..7457e313c 100644
+--- a/tests/expected/uninit/promoted-allocations/helper-legal.rs
++++ b/tests/expected/uninit/promoted-allocations/helper-legal.rs
+@@ -15,7 +15,7 @@
+ }
+ 
+ // Required lowering: retained raw_eq over both promoted three-byte referents.
+-// Promotion, Some/None masks, operand checks and helper propagation require CI binding.
++// Promoted byte masks and stack storage are checked through raw comparison operands.
+ // Both MaybeUninit references are valid before raw_eq; no constant storage is mutated.
+ // Require both byte checks to succeed and equality to be true.
+ #[kani::proof]
+diff --git a/tests/expected/uninit/promoted-allocations/helper-right-hole.rs b/tests/expected/uninit/promoted-allocations/helper-right-hole.rs
+index 9b7f5ff0c..3f5b6bdcc 100644
+--- a/tests/expected/uninit/promoted-allocations/helper-right-hole.rs
++++ b/tests/expected/uninit/promoted-allocations/helper-right-hole.rs
+@@ -15,7 +15,7 @@
+ }
+ 
+ // Required lowering: retained raw_eq over both promoted three-byte referents.
+-// Promotion, Some/None masks, operand checks and helper propagation require CI binding.
++// Promoted byte masks and stack storage are checked through raw comparison operands.
+ // Both MaybeUninit references are valid before raw_eq; no constant storage is mutated.
+ // Require the right operand byte check to fail and the other operand check to succeed.
+ // Earlier UB/Unsupported or an additional failure does not satisfy this control.
+diff --git a/tests/expected/uninit/unresolved-calls/generated-positive-plain.rs b/tests/expected/uninit/unresolved-calls/generated-positive-plain.rs
+index f7b5f74eb..61f199f57 100644
+--- a/tests/expected/uninit/unresolved-calls/generated-positive-plain.rs
++++ b/tests/expected/uninit/unresolved-calls/generated-positive-plain.rs
+@@ -10,7 +10,7 @@ fn identity(value: u8) -> u8 {
+ }
+ 
+ // A non-shadow function-item Fn-trait call is a positive generated-body probe.
+-// Actual instance kind/body and property reachability require pinned CI MIR binding.
++// The function item is passed through the generic Fn-trait call below.
+ #[inline(never)]
+ fn invoke<F: Fn(u8) -> u8>(function: F) -> u8 {
+     std::ops::Fn::call(&function, (42,))
+diff --git a/tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs b/tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs
+index fa75e3f4b..c6a2a6348 100644
+--- a/tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs
++++ b/tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs
+@@ -10,7 +10,7 @@ fn identity(value: u8) -> u8 {
+ }
+ 
+ // A non-shadow function-item Fn-trait call is a positive generated-body probe.
+-// Actual instance kind/body and property reachability require pinned CI MIR binding.
++// The function item is passed through the generic Fn-trait call below.
+ #[inline(never)]
+ fn invoke<F: Fn(u8) -> u8>(function: F) -> u8 {
+     std::ops::Fn::call(&function, (42,))
