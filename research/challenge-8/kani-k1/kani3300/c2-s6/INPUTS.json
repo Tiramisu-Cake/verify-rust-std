@@ -1,0 +1,22 @@
+{
+  "task": "TASK-KANI3300-C2-S6.md",
+  "task_sha256": "f4d37ded181e5bf7dba5e1e521bb6c30b958d4dade83fec0843bb804c2b4abce",
+  "g0": "b57887884ea2a79581d8f03ce04185ed1308c611",
+  "base": "8d67298c48eb7b2381f806a6353433d1440e3d94",
+  "base_tree": "5fb7dbaa6f79a75ca552be9d4d5c7b535cf38058",
+  "upstream_U": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "accepted_B1": "6fe484b30043b3696b5f1ccc4bea0e42891ad012",
+  "clone": "/root/kani-fix-3300-c2-s6",
+  "branch": "fix/kani-3300-c2-s6",
+  "initial_status": "",
+  "source_origin": "read-only /root/kani-fix-3300-c2-s5; clone --no-hardlinks",
+  "prohibitions": [
+    "local builds/cargo/rustc/Kani/CBMC/Miri",
+    "push/PR/CI/dispatch",
+    "production changes",
+    "research commits"
+  ],
+  "input_evidence": "S5 coordinator acceptance CI43641978948 is source-reported, not S6 qualification",
+  "qualification": "NOT_RUN",
+  "Gate_A_3_platform": "NOT_RUN"
+}

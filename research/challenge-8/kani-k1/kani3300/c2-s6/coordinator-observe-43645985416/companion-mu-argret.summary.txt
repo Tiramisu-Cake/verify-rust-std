@@ -1,0 +1,6 @@
+Checking harness argument_return...
+ ** 1 of 176 failed (6 unreachable)
+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
+ File: "<sysroot>/library/core/src/mem/mod.rs", line 1279, in std::mem::transmute_neo::<std::mem::MaybeUninit<u16>, u16>
+VERIFICATION:- FAILED
+Complete - 0 successfully verified harnesses, 1 failures, 1 total.
