@@ -1,0 +1,39 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-c2-s1",
+  "baseline_commit": "6fe484b30043b3696b5f1ccc4bea0e42891ad012",
+  "candidate_commit": "ba0e5cfedf31e20d18e95b50ba5dbd6946277d2c",
+  "defect": "Port accepted memory-initialization instrumentation from the old upstream base onto pinned upstream plus the standalone unresolved-call dependency; reconcile overlapping upstream changes.",
+  "applicability": "Static integration review only. Compare candidate against accepted C1b 3f2c12f46e9e32899e8d84e89c65cb6483ba685a and upstream 0aac16ef62da9e9d5645782d458593e5d78143ba. No new F5-F8 repairs.",
+  "invariants": [
+    "Retain upstream atomic-store check/set and tail-call diagnostics, clause-depth helpers, JSON tests/validator and platform matrix.",
+    "Preserve selected registration/discarded override bodies and provenance, pending operand operations and per-root cycle error isolation.",
+    "Preserve accepted masks/runtime/storage/call/closure behavior and heavy 12-bit fixture settings; no dependency or toolchain repinning."
+  ],
+  "controls": [
+    "All runtime/compiler/CI controls NOT_RUN by task. Inspect B1 plain/seeded fixture union without duplicate implementations; preserve expected outputs.",
+    "Coordinator request must include formatting/build/clippy, Uninit/expected/ui/script, atomic/volatile, tail-call, contract override/cycle and Linux Quick."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/mod.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/src/kani_middle/transform/contracts.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "rust-toolchain.toml",
+    "Cargo.lock",
+    "library/kani_macros/src/sysroot/contracts/initialize.rs",
+    "scripts/kani-regression.sh",
+    "scripts/validate_json_export.py"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/AUDIT-REPORT-KANI3300-PART1-R4-RU.md",
+      "sha256": "2a17c94da235dab02453d1af8c651993984121b8f8ec9abe7d5762939e260d05"
+    }
+  ],
+  "known_limitations": [
+    "Static review is not compilation or proof. F5 descriptor coalescing, F6 nested aggregate reset, F7 delayed-cache accumulation and F8 SEL1 remain outside S1.",
+    "No local cargo/rustc/Kani/CBMC/Miri/builds, no push, no CI or Cloud. Source inputs read-only; research uncommitted.",
+    "smallsort-session review create with B1 baseline exceeded its 524288-byte git-output limit. C1b baseline is not an ancestor and was rejected. A manual source-only packet preserves full B1/candidate diff and inventory, plus C1b/candidate integration diff and exact dependencies. No generated packet-check or automated approval claimed."
+  ]
+}

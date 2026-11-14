@@ -1,0 +1,890 @@
+{
+  "tests/expected/uninit/unresolved-calls/direct-plain.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "c02f563f407655a2d92c2c8bbe9cf9adac1de2b3"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "c02f563f407655a2d92c2c8bbe9cf9adac1de2b3"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "c02f563f407655a2d92c2c8bbe9cf9adac1de2b3"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/direct-plain.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "ca18966ff4369b5297a8e00387a9eda02a4f6fef"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "ca18966ff4369b5297a8e00387a9eda02a4f6fef"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "ca18966ff4369b5297a8e00387a9eda02a4f6fef"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/direct-seeded.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "c02f563f407655a2d92c2c8bbe9cf9adac1de2b3"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "c02f563f407655a2d92c2c8bbe9cf9adac1de2b3"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "c02f563f407655a2d92c2c8bbe9cf9adac1de2b3"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/direct-seeded.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "70ae032c0ddba00a69637fc3c18df674a1856f29"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "70ae032c0ddba00a69637fc3c18df674a1856f29"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "70ae032c0ddba00a69637fc3c18df674a1856f29"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/entry-initialized-plain.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d5e5069afa3240956775cbfeec6d830fcde64e70"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d5e5069afa3240956775cbfeec6d830fcde64e70"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d5e5069afa3240956775cbfeec6d830fcde64e70"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "63accc842d492ac19f22ba517b1bd21a8709b3e6"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "4d47c8a947c6a2487c36cdec189f5e63b2b5af08"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e4d7377976013eb1e1a6bdb9af6e6503dcbca78b"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d5e5069afa3240956775cbfeec6d830fcde64e70"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d5e5069afa3240956775cbfeec6d830fcde64e70"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d5e5069afa3240956775cbfeec6d830fcde64e70"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "f3bb1638843b816ae8e10a5af679bcb892b9d881"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "21551c19bf931b2cac4119bee5ddb3601b19036f"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "b16dbc1d09b631513faf1f7fb1716d1fa6aeb19f"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/entry-partial-plain.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "9cc9db923394ad7419c0683f7602256ab425ab73"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "9cc9db923394ad7419c0683f7602256ab425ab73"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "9cc9db923394ad7419c0683f7602256ab425ab73"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "416ffd275e3c2f67faae38e37f09078113dd5534"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "47937752a8d05eaf8c1d6fdc31acebaf7c7fb01b"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "22e6fcac09bf69b3123bbf14c9b4934b5c34b04c"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/entry-partial-seeded.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "9cc9db923394ad7419c0683f7602256ab425ab73"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "9cc9db923394ad7419c0683f7602256ab425ab73"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "9cc9db923394ad7419c0683f7602256ab425ab73"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "2d7acde7eadd265a1298d8d35f93f469e137ba20"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "0884c1cf0299a174fa638b8750c9c5d0e42da9f5"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "3320c81ca1f498aff60be7fa45b6395b44a1474e"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/erased-pointer-plain.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "a704098b407849f50e93960036d1ab19d6c3ad4d"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "5d0dc55cc11b1c959c45d1ad11f87c0f76910827"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "5d0dc55cc11b1c959c45d1ad11f87c0f76910827"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "35261d078d34fafa60c0ad9925923f885bcc5371"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "1ff04532eba9608ca83cd833c05d4b3a480576a9"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "1ff04532eba9608ca83cd833c05d4b3a480576a9"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/fn-pointer-plain.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/fn-pointer-plain.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "5866893083123796c986e9bcced19ce7f19570da"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "5866893083123796c986e9bcced19ce7f19570da"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "5866893083123796c986e9bcced19ce7f19570da"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "844037d99a5875fdffffbaac080457ea5269c1d6"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "844037d99a5875fdffffbaac080457ea5269c1d6"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "844037d99a5875fdffffbaac080457ea5269c1d6"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "cabfb6f27f0b94d3fde1aa8a1a93b500996f51f0"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "cabfb6f27f0b94d3fde1aa8a1a93b500996f51f0"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "cabfb6f27f0b94d3fde1aa8a1a93b500996f51f0"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "da67d225c8ddc2d13b622dc42a8eb2975bbef8e0"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "da67d225c8ddc2d13b622dc42a8eb2975bbef8e0"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "da67d225c8ddc2d13b622dc42a8eb2975bbef8e0"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "cabfb6f27f0b94d3fde1aa8a1a93b500996f51f0"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "cabfb6f27f0b94d3fde1aa8a1a93b500996f51f0"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "cabfb6f27f0b94d3fde1aa8a1a93b500996f51f0"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "dee00b6519b0ca91fd0baefe5c79d48e637847ac"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "dee00b6519b0ca91fd0baefe5c79d48e637847ac"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "dee00b6519b0ca91fd0baefe5c79d48e637847ac"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/generated-positive-plain.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d630863c7f679818773e3679c8a90342ad82b644"
+    },
+    "C1b": null,
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d630863c7f679818773e3679c8a90342ad82b644"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/generated-positive-plain.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "f7b5f74eb83f2c42177374b86cbd7594087256e5"
+    },
+    "C1b": null,
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "f7b5f74eb83f2c42177374b86cbd7594087256e5"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/generated-positive-seeded.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d630863c7f679818773e3679c8a90342ad82b644"
+    },
+    "C1b": null,
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d630863c7f679818773e3679c8a90342ad82b644"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "fa75e3f4bc3fd78117e289e765f009a07591667c"
+    },
+    "C1b": null,
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "fa75e3f4bc3fd78117e289e765f009a07591667c"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/global-escaped-plain.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/global-escaped-plain.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e94bd9e454be367bc369b4c72b5524bd7e134a03"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e94bd9e454be367bc369b4c72b5524bd7e134a03"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e94bd9e454be367bc369b4c72b5524bd7e134a03"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/global-escaped-seeded.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "976a978648c3f2e5a90603a3fbbc8b60e959fc19"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "976a978648c3f2e5a90603a3fbbc8b60e959fc19"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "976a978648c3f2e5a90603a3fbbc8b60e959fc19"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.expected": {
+    "B1": null,
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d5546617673439475c49cb95e08f2ce8968a9f8c"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d5546617673439475c49cb95e08f2ce8968a9f8c"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.rs": {
+    "B1": null,
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "71965cea8e72f2119e82c97d73036a3665415935"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "71965cea8e72f2119e82c97d73036a3665415935"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.expected": {
+    "B1": null,
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d5546617673439475c49cb95e08f2ce8968a9f8c"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d5546617673439475c49cb95e08f2ce8968a9f8c"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.rs": {
+    "B1": null,
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "5eb12f806a38c102cbd114dd9d8e57dc94740127"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "5eb12f806a38c102cbd114dd9d8e57dc94740127"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.expected": {
+    "B1": null,
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "ebb8bbfa3ee2b36fc00cf87b2d1f65af3075a1b9"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "ebb8bbfa3ee2b36fc00cf87b2d1f65af3075a1b9"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.rs": {
+    "B1": null,
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "7fa0644802c5e7bdc2fd41ed955ae33de1e43248"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "7fa0644802c5e7bdc2fd41ed955ae33de1e43248"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.expected": {
+    "B1": null,
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "ebb8bbfa3ee2b36fc00cf87b2d1f65af3075a1b9"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "ebb8bbfa3ee2b36fc00cf87b2d1f65af3075a1b9"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.rs": {
+    "B1": null,
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "57e9ea7289ed57cc128cb054d8fa5fd0f9bd98ed"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "57e9ea7289ed57cc128cb054d8fa5fd0f9bd98ed"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/pending-ops-plain.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "2fcdd1cbb49c3f320f3cf5a03d58e28d48b37abe"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "2fcdd1cbb49c3f320f3cf5a03d58e28d48b37abe"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "2fcdd1cbb49c3f320f3cf5a03d58e28d48b37abe"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/pending-ops-plain.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "2cba767a5fe6b440794e75c31ab9c31ebe839fd7"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "a47f80db0e037468ce8675aff75f823b83fc0c55"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "2cba767a5fe6b440794e75c31ab9c31ebe839fd7"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "2fcdd1cbb49c3f320f3cf5a03d58e28d48b37abe"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "2fcdd1cbb49c3f320f3cf5a03d58e28d48b37abe"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "2fcdd1cbb49c3f320f3cf5a03d58e28d48b37abe"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "0157cfe34811a5677a715ada7a2d6f60035189a6"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "9b75a0e05c4702392a07a9a079ba2ee0ecc0ae20"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "0157cfe34811a5677a715ada7a2d6f60035189a6"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.expected": {
+    "B1": null,
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "cf119c8b31d966e65a9e999736bbca27ae65ccd7"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "cf119c8b31d966e65a9e999736bbca27ae65ccd7"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.rs": {
+    "B1": null,
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e194102d565784c746d1f6818ab8f30ea141c2f5"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e194102d565784c746d1f6818ab8f30ea141c2f5"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.expected": {
+    "B1": null,
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "cf119c8b31d966e65a9e999736bbca27ae65ccd7"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "cf119c8b31d966e65a9e999736bbca27ae65ccd7"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.rs": {
+    "B1": null,
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "58fca22da33d928687b9c098fe1e2a66efbef8ce"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "58fca22da33d928687b9c098fe1e2a66efbef8ce"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/virtual-plain.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "50fcbeae27515311da1976352d62783ba6d10468"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "50fcbeae27515311da1976352d62783ba6d10468"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "50fcbeae27515311da1976352d62783ba6d10468"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/virtual-plain.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "3f493a7e5a9d1e8d7398fadac4909b34a9655f96"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "3f493a7e5a9d1e8d7398fadac4909b34a9655f96"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "3f493a7e5a9d1e8d7398fadac4909b34a9655f96"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/virtual-seeded.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "50fcbeae27515311da1976352d62783ba6d10468"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "50fcbeae27515311da1976352d62783ba6d10468"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "50fcbeae27515311da1976352d62783ba6d10468"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/virtual-seeded.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "be2b16bb0cb785e674671752b5d4acb0e44f34a4"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "be2b16bb0cb785e674671752b5d4acb0e44f34a4"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "be2b16bb0cb785e674671752b5d4acb0e44f34a4"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "bb950c32c683e50d6c16bf5923d19610056c3457"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "bb950c32c683e50d6c16bf5923d19610056c3457"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "bb950c32c683e50d6c16bf5923d19610056c3457"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.expected": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "e737b233a3c2382e9784f76cd3b255e03ed2efc1"
+    }
+  },
+  "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs": {
+    "B1": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d461fcb506ed216fdc3c924c09eec1f24f596f8e"
+    },
+    "C1b": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d461fcb506ed216fdc3c924c09eec1f24f596f8e"
+    },
+    "candidate": {
+      "mode": "100644",
+      "kind": "blob",
+      "oid": "d461fcb506ed216fdc3c924c09eec1f24f596f8e"
+    }
+  }
+}

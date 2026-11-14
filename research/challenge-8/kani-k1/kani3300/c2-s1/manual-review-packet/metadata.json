@@ -1,0 +1,31 @@
+{
+  "candidate": "ba0e5cfedf31e20d18e95b50ba5dbd6946277d2c",
+  "tree": "0fe7f51c1017656ae141f7d223ac737a930d7265",
+  "baseline": "6fe484b30043b3696b5f1ccc4bea0e42891ad012",
+  "spec_sha256": "1965568203eba0ae88925a13d0fde26c3429ba402b099efb9f9df281919cf336",
+  "artifacts": {
+    "candidate.diff": {
+      "sha256": "cb1ef37f8f9a1f1493468f23e3cb3e227a1e5e0345aca6ccbf668b76cf64ff74",
+      "bytes": 1159101
+    },
+    "integration.diff": {
+      "sha256": "f7fd9bd4c17e292ce1d84b288f1cefc3184089cf589ef91b687de12371bffc01",
+      "bytes": 238410
+    },
+    "changed-paths.txt": {
+      "sha256": "6f8945742f2961b45f576ea1aaf0942c4eefa261509150a9910654b0651dde85",
+      "bytes": 18957
+    }
+  },
+  "dependencies": {
+    "kani-compiler/src/kani_middle/mod.rs": "c6babe17803b4f2f352b4162770a283c162ad4fe9249622c00b746b16d2a5c1b",
+    "kani-compiler/src/kani_middle/transform/mod.rs": "8dc76ebe25ce1e05db3a98613011ed3258280ef57c2be336ab84ed97f7f46ba8",
+    "kani-compiler/src/kani_middle/transform/contracts.rs": "06523bc56804fae5a4e6b484ef4e2ecedf34dbc046b29e02608e9ccdb3660cc9",
+    "kani-compiler/src/kani_middle/transform/body.rs": "930636ad1ab2290fb2b10f1970f2283f6e29c52de9a7b1696c7767c041a469d5",
+    "rust-toolchain.toml": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+    "Cargo.lock": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+    "library/kani_macros/src/sysroot/contracts/initialize.rs": "dad2dcfdd2aa348a33f0162a81459ae4539946bc027ccac7d2593bf09bd2e95b",
+    "scripts/kani-regression.sh": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+    "scripts/validate_json_export.py": "af2a207bafbe4fd66254d40a0c022bfa4b51a76a426aedfc9f27ed14388e8b7d"
+  }
+}
