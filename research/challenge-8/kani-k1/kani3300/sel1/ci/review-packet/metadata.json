@@ -1,0 +1,159 @@
+{
+  "baseline_commit": "0c1cc8a7d05184044d496b01f5ed41cebfde0cac",
+  "candidate_commit": "c9619b15022fb43f1e961e01695e64875ad68fe9",
+  "candidate_tree": "e17787b7ef41250e8e55bb90e2fc7f5d254943ba",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "9f97f37c414221225f10e521aa30e4b9273207d1",
+        "mode": "100644",
+        "sha256": "aa9d76cd87af2a220c67df5c54dc2ba3debfa9f5de372236350b92282e4902d7"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "bbfba22c3dc446c0609d7dac82c710efe5743d62",
+        "mode": "100644",
+        "sha256": "c5ce5250453078053b33e23cbc3ff4f7132f56c8c8993f9bd895f9947ec805bb"
+      },
+      "path": ".github/workflows/kani3300-replay.yml",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "2cc46de13023b823325afef4564a212c4cd1424f",
+        "mode": "100644",
+        "sha256": "5a769b123e92a1d46962e946bb500e076eb2d528657ebf287df87d7b0f53a55d"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "fc72e83463f42a762c18e0b95748d02f275100a1",
+        "mode": "100644",
+        "sha256": "8e9c8bf74858fdfd76c24c21e24c039bf11e8cb78d8a8ca39a92cbdf693ac70a"
+      },
+      "path": "scripts/kani3300-replay/CI-REQUEST.json",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "924828e5eac850ce3e46ad3dd86b7fca113d4a30",
+        "mode": "100644",
+        "sha256": "6bd55487b787b670c67cea94326a2811681f983b741849aa341d4e104679deb9"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "9a79bf9c22203c91e4c73573707c4a8febb82618",
+        "mode": "100644",
+        "sha256": "0f26ac14b4f0dbece76cfc517ee060227adc2e7f067e49b6783c97090e2c8ab2"
+      },
+      "path": "scripts/kani3300-replay/REPLAY-CI-OVERLAY.json",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "dad456af20219a2e043e6f32adac13be36253d0d",
+        "mode": "100644",
+        "sha256": "cf67542d5ef1bfd9454986f1bba0599dcae4f7168dff47599bf5803df7568c55"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "scripts/kani3300-replay/c1-source-binding.json",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "27e00ff87cb939406f5108ca7866e81dc355c1ec",
+        "mode": "100644",
+        "sha256": "af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": "scripts/kani3300-replay/gateb-prime-test-only.patch",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "4a707662bd7f1e4d84a13d7bb3823f6a131ee726",
+        "mode": "100644",
+        "sha256": "38062b43a135fd103920deca53f805169ee3355879756a0077895a6635773c31"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "2b27fc5cdcee04aedc026f240f6d1ece639d0715",
+        "mode": "100644",
+        "sha256": "766b2986d9f85194c7991c1a15ce5a50cd1d6e6c2bf298c4e3d95cdcddfba1c5"
+      },
+      "path": "scripts/kani3300-replay/replay.py",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "c3e26cfdfd2b9a109dbcc24e0dcd59c1384b61c1",
+        "mode": "100644",
+        "sha256": "f15543e1245347455d38477a8600de64ed95e3098fec9856dd48c7398b967f04"
+      },
+      "path": "scripts/kani3300-replay/sel1-source-binding.json",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "445bd50637d0db7348479b9abc32bc22048511aa",
+        "mode": "100644",
+        "sha256": "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06"
+      },
+      "path": "scripts/kani3300-replay/sel1-test-only.patch",
+      "status": "added"
+    },
+    {
+      "baseline": {
+        "blob": "7c2f8561adee97d68c87a90b280a66bfb026a8e3",
+        "mode": "100644",
+        "sha256": "59ccf304925f4d082201223142b166e07faec6735aacb7df41f7bed4a41c64aa"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "6dfc22a72e8a8772c7773929d924d2ea08c0a7ee",
+        "mode": "100644",
+        "sha256": "2256b986945c61532b8ef063bc2f477d83bdf55f02cabd8b90a977a4c1e2ccb3"
+      },
+      "path": "scripts/kani3300-replay/test_replay.py",
+      "status": "modified"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "7e781d3c6f853811cb39b29839ff4e452436ae2e",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": ".github/actions/setup/action.yml",
+      "sha256": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+      "size": 1510
+    },
+    {
+      "blob": "4edc84573b03d2b923d584f5df144274c435f693",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "rust-toolchain.toml",
+      "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+      "size": 183
+    },
+    {
+      "blob": "177eb685db5011ad9066f5891b74146d38d40a72",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "kani-dependencies",
+      "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+      "size": 186
+    }
+  ],
+  "diff_sha256": "3c1f4f5f38a3d146799b13bf0fac797ddd86960d01c99ce2c13107ce9284f71e",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "d2ace34e07d2a7923dc727c99f23c7f3e7e785ad23e5800a63c9fdfe34bd3472",
+  "worktree": "/root/kani-fix-3300-sel1-replay-w15"
+}

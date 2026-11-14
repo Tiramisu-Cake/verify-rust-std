@@ -1,0 +1,1558 @@
+diff --git a/.github/workflows/kani3300-replay.yml b/.github/workflows/kani3300-replay.yml
+index 9f97f37c414221225f10e521aa30e4b9273207d1..bbfba22c3dc446c0609d7dac82c710efe5743d62 100644
+--- a/.github/workflows/kani3300-replay.yml
++++ b/.github/workflows/kani3300-replay.yml
+@@ -1,29 +1,32 @@
+ # Copyright Kani Contributors
+ # SPDX-License-Identifier: Apache-2.0 OR MIT
+-name: Kani 3300 Gate B-prime replay (preparation candidate)
++name: Kani 3300 SEL1 replay (preparation candidate)
+ 
+ on:
+   push:
+-    branches: ['ci/kani3300-gateb-prime-w15']
++    branches: ['ci/kani3300-sel1-replay-w15']
+ 
+ permissions:
+   contents: read
+ 
+ jobs:
+   replay:
+-    # Coordinator-owned fork lane only. This candidate is intentionally not dispatchable.
++    # Coordinator-owned fork lane only. Only coordinator publication may trigger this workflow.
+     if: ${{ github.repository == 'Tiramisu-Cake/kani' }}
+     runs-on: ubuntu-24.04
+-    # One 60-minute job per row; three serial jobs bound the proposed envelope to 180 minutes.
++    # One 60-minute job per row; six serial jobs bound the proposed envelope to 360 minutes.
+     timeout-minutes: 60
+     strategy:
+       fail-fast: false
+       max-parallel: 1
+       matrix:
+         root:
++          - sort4-closure-on
++          - swap-if-less-closure-on
++          - raw-legal-on
++          - raw-negative-on
+           - merge-raw-closure-on
+           - merge-profile-closure-on
+-          - sort4-closure-on
+     steps:
+       - name: Checkout CI-only overlay
+         uses: actions/checkout@v6
+@@ -31,6 +34,12 @@ jobs:
+           path: overlay
+           fetch-depth: 0
+ 
++      - name: Replay Python service preflight
++        working-directory: overlay/scripts/kani3300-replay
++        env:
++          PYTHONDONTWRITEBYTECODE: '1'
++        run: python3 -m unittest -v test_replay.py
++
+       - name: Read exact export revision
+         id: export
+         run: |
+@@ -41,13 +50,13 @@ jobs:
+               out.write('sha=' + req['tool_export_sha'] + '\n')
+           PY
+ 
+-      - name: Checkout exact frozen C1 export
++      - name: Checkout exact frozen SEL1 export
+         uses: actions/checkout@v6
+         with:
+           ref: ${{ steps.export.outputs.sha }}
+           path: export
+ 
+-      - name: Verify immutable C1 source bindings
++      - name: Verify immutable SEL1 source bindings
+         run: python3 overlay/scripts/kani3300-replay/replay.py verify-source --repo export
+ 
+       - name: Setup pinned Kani dependencies
+@@ -56,7 +65,7 @@ jobs:
+           os: ubuntu-24.04
+           kani_dir: export
+ 
+-      - name: Build this exact C1 checkout
++      - name: Build this exact SEL1 checkout
+         working-directory: export
+         run: cargo build-dev -- --release
+ 
+@@ -88,7 +97,7 @@ jobs:
+           receipt = out / 'receipt.json'
+           if not receipt.exists():
+               receipt.write_text(json.dumps({
+-                  'schema': 'kani3300-gateb-prime-receipt-v1',
++                  'schema': 'kani3300-sel1-receipt-v1',
+                   'root_id': '${{ matrix.root }}',
+                   'outcome': 'UNKNOWN',
+                   'runtime_proof_status': 'NOT_RUN',
+@@ -103,7 +112,7 @@ jobs:
+         if: always()
+         uses: actions/upload-artifact@v4
+         with:
+-          name: kani3300-gateb-prime-${{ matrix.root }}
++          name: kani3300-sel1-${{ matrix.root }}
+           path: ${{ runner.temp }}/kani3300-receipt/${{ matrix.root }}/
+           if-no-files-found: error
+           retention-days: 7
+diff --git a/scripts/kani3300-replay/CI-REQUEST.json b/scripts/kani3300-replay/CI-REQUEST.json
+index 2cc46de13023b823325afef4564a212c4cd1424f..fc72e83463f42a762c18e0b95748d02f275100a1 100644
+--- a/scripts/kani3300-replay/CI-REQUEST.json
++++ b/scripts/kani3300-replay/CI-REQUEST.json
+@@ -2,7 +2,7 @@
+   "authorization": "PREPARATION_ONLY",
+   "dependencies": {
+     "cbmc": "6.11.0",
+-    "hash_binding": "PENDING_C1_BUILD",
++    "hash_binding": "PENDING_SEL1_BUILD",
+     "kissat": "4.0.1"
+   },
+   "flags": {
+@@ -23,24 +23,26 @@
+   "notes": {
+     "artifact_policy": "Preserve original exit/signal/RSS and artifacts on failures; proof credit requires review of useful reached checks/body.",
+     "missing_or_truncated": "UNKNOWN",
++    "raw_negative": "Exactly intended source[1] uninitialized u64 read; preserve original exit and manual review, never auto-credit negative.",
+     "rss": "Capture per-child max RSS through wait4; if unavailable record null with UNKNOWN status. Do not wrap or alter Kani argv.",
+-    "scope": "Exactly the three named ON rows; no OFF matrix or new negative/calibration rows.",
+-    "sort4_boundary": "Expected diagnostic result is exactly one named select_unpredictable Unsupported at library/core/src/hint.rs:871; never auto-credit SUCCESS.",
+-    "source_binding": "Frozen C1 unchanged; test-only std overlay is separate from source binding.",
+-    "source_overlay": "Apply test-only.patch to selected library snapshot after validating base commit/tree and submodule initialization; report patch and all four file hashes."
++    "scope": "Exactly six named ON rows from issued SEL1 CI-REQUEST; no retries or additional rows.",
++    "sort4": "Expected SUCCESS,0 failed checks and useful comparator/frame/readback/return properties reached.",
++    "source_binding": "Exact frozen SEL1 Kani46e46583ff; separate std test overlay6075e7ce17.",
++    "source_overlay": "Apply sel1-test-only.patch once to exact frozen std70ba; validate all five file hashes and base/library identities."
+   },
+   "owner": "COORDINATOR_ASSIGNMENT_REQUIRED",
+   "patched_file_sha256": {
+-    "library/core/src/slice/sort/shared/smallsort/verify.rs": "b37239fc681409922606a8fd310e20f9c776e67a9c7f8dd4e4b79a77172c79fb",
+-    "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "270e2a2d57d162e979d375c1a1bdb786dfdca664ad6e610e7b4e8661c135d933",
++    "library/core/src/slice/sort/shared/smallsort/verify.rs": "506644ad92ed4872af19bd1d302b439ff5e1d4dd850e9e9f149d429286065a95",
++    "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "22de8b24f6adf35b633b2962d9873a349041a18cca9d580944d2d4a3c9ad0655",
+     "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "b2d71e6e61b4130a95dda6daac3cd5f0970f9daf7b0f7bfa8a9f99d9c3c29844",
+-    "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs": "c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1"
++    "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs": "c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1",
++    "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs": "c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39"
+   },
+   "phase": "UNASSIGNED",
+   "preparation_cloud_cap_usd": 0,
+   "proposal": {
+-    "aggregate_cap": "PROPOSED_ONLY_180MIN_TOTAL; 3 SERIAL 60MIN JOBS INCLUDING SETUP/REPORTING",
+-    "aggregate_cap_seconds": 10800,
++    "aggregate_cap": "PROPOSED_ONLY_360MIN_TOTAL; 6 SERIAL 60MIN JOBS INCLUDING SETUP/REPORTING",
++    "aggregate_cap_seconds": 21600,
+     "authorization": "NOT_GRANTED",
+     "harness_cap_seconds": 2400,
+     "job_timeout_minutes": 60,
+@@ -56,7 +58,7 @@
+   "roots": [
+     {
+       "argv": [
+-        "<EXACT_C1_KANI_BINARY>",
++        "<EXACT_SEL1_KANI_BINARY>",
+         "verify-std",
+         "-Z",
+         "unstable-options",
+@@ -81,16 +83,16 @@
+         "uninit-checks",
+         "--no-assert-contracts",
+         "--harness",
+-        "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
++        "slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64",
+         "--exact",
+         "--jobs",
+         "1",
+         "--harness-timeout",
+         "2400s",
+         "--target-dir",
+-        "<OUTPUT_ROOT>/merge-raw-closure-on/target",
++        "<OUTPUT_ROOT>/sort4-closure-on/target",
+         "--export-json",
+-        "<OUTPUT_ROOT>/merge-raw-closure-on/export.json",
++        "<OUTPUT_ROOT>/sort4-closure-on/export.json",
+         "--output-format=regular",
+         "--cbmc-args",
+         "--object-bits",
+@@ -100,18 +102,21 @@
+         "NO_COLOR": "1",
+         "RUSTFLAGS": "--cfg kani_smallsort_controls"
+       },
+-      "expected_mode": "Check(bidirectional_merge)",
++      "expected_failed_checks": 0,
++      "expected_mode": "Check(sort4_stable)",
+       "expected_result": "SUCCESS",
+       "generated_property_binding": null,
+-      "id": "merge-raw-closure-on",
+-      "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
+-      "source_unwind": 34,
++      "id": "sort4-closure-on",
++      "oracle": "0 failed Unsupported/uninit/frame/other checks, useful own assertions SUCCESS, required comparator/body/return covers reached.",
++      "selector": "slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64",
++      "source_unwind": 16,
++      "state": "NOT_RUN",
+       "status": "NOT_RUN",
+       "uninit": true
+     },
+     {
+       "argv": [
+-        "<EXACT_C1_KANI_BINARY>",
++        "<EXACT_SEL1_KANI_BINARY>",
+         "verify-std",
+         "-Z",
+         "unstable-options",
+@@ -136,16 +141,16 @@
+         "uninit-checks",
+         "--no-assert-contracts",
+         "--harness",
+-        "slice::sort::shared::smallsort::verify::replay_gateb_prime::merge_profile_closure_scratch48_u8_n9",
++        "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u64_backing4",
+         "--exact",
+         "--jobs",
+         "1",
+         "--harness-timeout",
+         "2400s",
+         "--target-dir",
+-        "<OUTPUT_ROOT>/merge-profile-closure-on/target",
++        "<OUTPUT_ROOT>/swap-if-less-closure-on/target",
+         "--export-json",
+-        "<OUTPUT_ROOT>/merge-profile-closure-on/export.json",
++        "<OUTPUT_ROOT>/swap-if-less-closure-on/export.json",
+         "--output-format=regular",
+         "--cbmc-args",
+         "--object-bits",
+@@ -155,18 +160,21 @@
+         "NO_COLOR": "1",
+         "RUSTFLAGS": "--cfg kani_smallsort_controls"
+       },
+-      "expected_mode": "Check(merge_profile_closure_u8)",
++      "expected_failed_checks": 0,
++      "expected_mode": "Check(swap_if_less)",
+       "expected_result": "SUCCESS",
+       "generated_property_binding": null,
+-      "id": "merge-profile-closure-on",
+-      "selector": "slice::sort::shared::smallsort::verify::replay_gateb_prime::merge_profile_closure_scratch48_u8_n9",
+-      "source_unwind": 34,
++      "id": "swap-if-less-closure-on",
++      "oracle": "0 failed checks; helper contract swap frame SUCCESS; comparator true/false, equal/increasing/decreasing positions and normal-return covers SATISFIED.",
++      "selector": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u64_backing4",
++      "source_unwind": 8,
++      "state": "NOT_RUN",
+       "status": "NOT_RUN",
+       "uninit": true
+     },
+     {
+       "argv": [
+-        "<EXACT_C1_KANI_BINARY>",
++        "<EXACT_SEL1_KANI_BINARY>",
+         "verify-std",
+         "-Z",
+         "unstable-options",
+@@ -191,16 +199,16 @@
+         "uninit-checks",
+         "--no-assert-contracts",
+         "--harness",
+-        "slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64",
++        "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_all_initialized_u64",
+         "--exact",
+         "--jobs",
+         "1",
+         "--harness-timeout",
+         "2400s",
+         "--target-dir",
+-        "<OUTPUT_ROOT>/sort4-closure-on/target",
++        "<OUTPUT_ROOT>/raw-legal-on/target",
+         "--export-json",
+-        "<OUTPUT_ROOT>/sort4-closure-on/export.json",
++        "<OUTPUT_ROOT>/raw-legal-on/export.json",
+         "--output-format=regular",
+         "--cbmc-args",
+         "--object-bits",
+@@ -210,34 +218,211 @@
+         "NO_COLOR": "1",
+         "RUSTFLAGS": "--cfg kani_smallsort_controls"
+       },
+-      "expected_mode": "Check(sort4_stable)",
+-      "expected_result": "BOUNDARY",
++      "expected_failed_checks": 0,
++      "expected_mode": "Original(sort4_stable)",
++      "expected_result": "SUCCESS",
+       "generated_property_binding": null,
+-      "id": "sort4-closure-on",
+-      "selector": "slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64",
++      "id": "raw-legal-on",
++      "oracle": "Actual sort4 with raw fully initialized src4 and separate MU output; 0 failed checks, entered and return covers reached.",
++      "selector": "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_all_initialized_u64",
++      "source_unwind": 16,
++      "state": "NOT_RUN",
++      "status": "NOT_RUN",
++      "uninit": true
++    },
++    {
++      "argv": [
++        "<EXACT_SEL1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_hole_negative_u64",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/raw-negative-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/raw-negative-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "NO_COLOR": "1",
++        "RUSTFLAGS": "--cfg kani_smallsort_controls"
++      },
++      "expected_failed_checks": 1,
++      "expected_mode": "Original(sort4_stable)",
++      "expected_result": "FAILURE",
++      "generated_property_binding": null,
++      "id": "raw-negative-on",
++      "oracle": "Exactly one intended uninitialized u64 source[1] read at actual smallsort.rs:751; retain complete failures and trace/source binding. No select Unsupported or early layout/frame/refusal qualifies. Setup/timeout/OOM not expected failure.",
++      "selector": "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_hole_negative_u64",
+       "source_unwind": 16,
++      "state": "NOT_RUN",
++      "status": "NOT_RUN",
++      "uninit": true
++    },
++    {
++      "argv": [
++        "<EXACT_SEL1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/merge-raw-closure-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/merge-raw-closure-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "NO_COLOR": "1",
++        "RUSTFLAGS": "--cfg kani_smallsort_controls"
++      },
++      "expected_failed_checks": 0,
++      "expected_mode": "Check(bidirectional_merge)",
++      "expected_result": "SUCCESS",
++      "generated_property_binding": null,
++      "id": "merge-raw-closure-on",
++      "oracle": "0 failed Unsupported/uninit/frame/other checks, useful own assertions SUCCESS, required comparator/body/return covers reached.",
++      "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
++      "source_unwind": 34,
++      "state": "NOT_RUN",
++      "status": "NOT_RUN",
++      "uninit": true
++    },
++    {
++      "argv": [
++        "<EXACT_SEL1_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::replay_gateb_prime::merge_profile_closure_scratch48_u8_n9",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/merge-profile-closure-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/merge-profile-closure-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "NO_COLOR": "1",
++        "RUSTFLAGS": "--cfg kani_smallsort_controls"
++      },
++      "expected_failed_checks": 0,
++      "expected_mode": "Check(merge_profile_closure_u8)",
++      "expected_result": "SUCCESS",
++      "generated_property_binding": null,
++      "id": "merge-profile-closure-on",
++      "oracle": "0 failed Unsupported/uninit/frame/other checks, useful own assertions SUCCESS, required comparator/body/return covers reached.",
++      "selector": "slice::sort::shared::smallsort::verify::replay_gateb_prime::merge_profile_closure_scratch48_u8_n9",
++      "source_unwind": 34,
++      "state": "NOT_RUN",
+       "status": "NOT_RUN",
+       "uninit": true
+     }
+   ],
+   "run_budget": {
+-    "aggregate_envelope_note": "PROPOSED_ONLY_180_MINUTES_INCLUDING_SETUP_AND_REPORTING; coordinator assigns actual runner/caps",
+-    "aggregate_job_envelope": "3 serial jobs x 60 minutes = 180 minutes maximum",
+-    "aggregate_job_envelope_seconds": 10800,
++    "aggregate_envelope_note": "PREPARATION_ONLY_360_MINUTES_INCLUDING_SETUP_AND_REPORTING; inherited60min job/2400s harness caps, coordinator owns execution",
++    "aggregate_job_envelope": "6 serial jobs x 60 minutes = 360 minutes maximum",
++    "aggregate_job_envelope_seconds": 21600,
+     "harness_cap_seconds": 2400,
+     "jobs": 1,
+-    "max_invocations": 3,
++    "max_invocations": 6,
+     "max_parallel": 1,
+     "retry_policy": "NONE"
+   },
+-  "schema": "kani3300-gateb-prime-request-v1",
++  "schema": "kani3300-sel1-replay-request-v1",
+   "selected_library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+   "slot": null,
+-  "status": "NOT_RUN_C1_FROZEN",
+-  "test_only_library_tree": "86cbdb4d9f8415161657f66bf07e5a0dd1b3e982",
+-  "test_overlay_commit": "933b20a2375bd7529243510728b1eb48adf34e5d",
+-  "test_patch_sha256": "af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5",
++  "status": "NOT_RUN_SEL1_FROZEN",
++  "test_only_library_tree": "12e87bd4a4e141a8f829d8a0519efc09260c5059",
++  "test_overlay_commit": "6075e7ce17179f45642c9ffe8fe09e3ec9395726",
++  "test_patch_sha256": "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06",
+   "tool_binary_model_hashes": null,
+-  "tool_export_sha": "1658f4cadfa83139e41180ce3865e23f79d889aa",
+-  "tool_export_tree": "bfb5eb9db13ffb91ec4585b7c7ef41ddfe0008fb"
++  "tool_export_sha": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
++  "tool_export_tree": "0a46fad6c1adc3022d39e25a45096ed9cd622844"
+ }
+diff --git a/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json b/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json
+index 924828e5eac850ce3e46ad3dd86b7fca113d4a30..9a79bf9c22203c91e4c73573707c4a8febb82618 100644
+--- a/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json
++++ b/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json
+@@ -1,22 +1,23 @@
+ {
+   "base": {
+-    "commit": "ac49cf8f62137e25e8cfea04968016e60d6c5906",
+-    "source_binding": "byte-identical run4 c1-source-binding.json",
+-    "source_checkout_status": "clean_at_inspection",
+-    "tree": "8250d8d1b353d10eb4324021e8cad8c3beaee7e6"
++    "commit": "0c1cc8a7d05184044d496b01f5ed41cebfde0cac",
++    "source_binding": "replace prior C1 binding with exact SEL1 binding",
++    "source_checkout_status": "read-only exact git objects; current branch/HEAD not changed",
++    "tree": "cbb04807c711a9d1bad2ac2dbe1f77538d5658b0"
+   },
+-  "delta_against": "exact ac49cf8f62137e25e8cfea04968016e60d6c5906 files; source-binding unchanged",
++  "delta_against": "exact Gate B-prime0c1cc8a7d05184044d496b01f5ed41cebfde0cac CI paths only; actual Kani source binding46e46583ff112cae9c43aea1ba5dd6145e5e8387",
+   "delta_patch": "ci-overlay-delta.patch",
+   "full_export_file_sha256": {
+-    ".github/workflows/kani3300-replay.yml": "aa9d76cd87af2a220c67df5c54dc2ba3debfa9f5de372236350b92282e4902d7",
+-    "scripts/kani3300-replay/CI-REQUEST.json": "5a769b123e92a1d46962e946bb500e076eb2d528657ebf287df87d7b0f53a55d",
+-    "scripts/kani3300-replay/c1-source-binding.json": "cf67542d5ef1bfd9454986f1bba0599dcae4f7168dff47599bf5803df7568c55",
+-    "scripts/kani3300-replay/gateb-prime-test-only.patch": "af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5",
+-    "scripts/kani3300-replay/replay.py": "38062b43a135fd103920deca53f805169ee3355879756a0077895a6635773c31",
+-    "scripts/kani3300-replay/test_replay.py": "59ccf304925f4d082201223142b166e07faec6735aacb7df41f7bed4a41c64aa"
++    ".github/workflows/kani3300-replay.yml": "c5ce5250453078053b33e23cbc3ff4f7132f56c8c8993f9bd895f9947ec805bb",
++    "scripts/kani3300-replay/CI-REQUEST.json": "8e9c8bf74858fdfd76c24c21e24c039bf11e8cb78d8a8ca39a92cbdf693ac70a",
++    "scripts/kani3300-replay/replay.py": "766b2986d9f85194c7991c1a15ce5a50cd1d6e6c2bf298c4e3d95cdcddfba1c5",
++    "scripts/kani3300-replay/sel1-source-binding.json": "f15543e1245347455d38477a8600de64ed95e3098fec9856dd48c7398b967f04",
++    "scripts/kani3300-replay/sel1-test-only.patch": "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06",
++    "scripts/kani3300-replay/test_replay.py": "2256b986945c61532b8ef063bc2f477d83bdf55f02cabd8b90a977a4c1e2ccb3"
+   },
+   "python_tests": {
+-    "count": 20,
++    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v",
++    "count": 29,
+     "coverage": [
+       "success remains UNKNOWN",
+       "positive failure exit retained",
+@@ -25,10 +26,17 @@
+       "atomic receipt survives postprocessing error",
+       "missing/partial/null/wrong-type/wrong-selector export",
+       "request checksum/patch/file-hash/allowlist/cap validation",
+-      "unknown RSS fails closed"
++      "unknown RSS fails closed",
++      "six exact row source-stage-target/selector/argv/oracle/flag bindings",
++      "exact five-file std overlay and source identities",
++      "explicit NOT_RUN nonzero",
++      "source post-validation failure preserves original positive exit",
++      "run4 URL/destination/submodule and serial push workflow invariants",
++      "mock-only prepare_std/run_root exact argv substitution"
+     ],
+     "file": "test_replay.py",
+-    "no_rust_or_kani": true
++    "no_rust_or_kani": true,
++    "status": "PASS"
+   },
+   "receipt": {
+     "outcome": "UNKNOWN_until_reviewed",
+@@ -41,25 +49,29 @@
+       "wait4 RSS",
+       "stdout/stderr bytes and hashes",
+       "export JSON",
+-      "C1/runtime identities",
++      "SEL1/runtime identities",
+       "failure artifacts"
+     ],
+     "proof_status": "NOT_RUN_UNTIL_REVIEWED",
++    "raw_negative": "Preserve child nonzero original exit; manual source[1] failure review. No automatic expected-negative acceptance.",
+     "rss": "wait4 per-child ru_maxrss in Linux bytes; null/UNKNOWN if unavailable; no command wrapper or argv change",
+-    "sort4": "Expected diagnostic BOUNDARY is one named select_unpredictable Unsupported at library/core/src/hint.rs:871; never auto SUCCESS",
++    "sort4": "Expected SUCCESS,0 failed checks; useful comparator/frame/readbacks/return reached; never auto proof credit",
+     "truncation_or_missing": "UNKNOWN"
+   },
+   "request": {
+     "authorization": "PREPARATION_ONLY",
+     "file": "CI-REQUEST.json",
+-    "row_count": 3,
++    "row_count": 6,
+     "row_ids": [
++      "sort4-closure-on",
++      "swap-if-less-closure-on",
++      "raw-legal-on",
++      "raw-negative-on",
+       "merge-raw-closure-on",
+-      "merge-profile-closure-on",
+-      "sort4-closure-on"
++      "merge-profile-closure-on"
+     ],
+-    "sha256": "5a769b123e92a1d46962e946bb500e076eb2d528657ebf287df87d7b0f53a55d",
+-    "status": "NOT_RUN_C1_FROZEN"
++    "sha256": "8e9c8bf74858fdfd76c24c21e24c039bf11e8cb78d8a8ca39a92cbdf693ac70a",
++    "status": "NOT_RUN_SEL1_FROZEN"
+   },
+   "run4_recipe": {
+     "destination": "$RUNNER_TEMP/kani3300-std",
+@@ -67,11 +79,14 @@
+     "source": "ac49cf8f62 scripts/kani3300-replay/replay.py prepare_std",
+     "submodule_step": "git submodule update --init --depth 1"
+   },
+-  "schema": "kani3300-gateb-prime-ci-overlay-v1",
++  "schema": "kani3300-sel1-ci-overlay-v1",
+   "source": {
+-    "c1_sha": "1658f4cadfa83139e41180ce3865e23f79d889aa",
+-    "c1_tree": "bfb5eb9db13ffb91ec4585b7c7ef41ddfe0008fb",
+-    "source_binding_sha256": "cf67542d5ef1bfd9454986f1bba0599dcae4f7168dff47599bf5803df7568c55"
++    "quick_assurance": "owner-reported started; not queried; not proof acceptance",
++    "quick_run": "43605855700",
++    "source_binding_file": "sel1-source-binding.json",
++    "source_binding_sha256": "f15543e1245347455d38477a8600de64ed95e3098fec9856dd48c7398b967f04",
++    "tool_sha": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
++    "tool_tree": "0a46fad6c1adc3022d39e25a45096ed9cd622844"
+   },
+   "state": "PREPARATION_ONLY_REVIEW_REQUIRED",
+   "std": {
+@@ -79,33 +94,36 @@
+       "library/core/src/slice/sort/shared/smallsort/verify.rs",
+       "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+       "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs",
+-      "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs"
++      "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs",
++      "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs"
+     ],
+     "base_commit": "70ba5befc617627073738e26cb1466bd4fb76e41",
+     "base_library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+-    "overlay_commit": "933b20a2375bd7529243510728b1eb48adf34e5d",
+-    "overlay_library_tree": "86cbdb4d9f8415161657f66bf07e5a0dd1b3e982",
+-    "patch": "gateb-prime-test-only.patch",
+-    "patch_sha256": "af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5",
++    "overlay_commit": "6075e7ce17179f45642c9ffe8fe09e3ec9395726",
++    "overlay_library_tree": "12e87bd4a4e141a8f829d8a0519efc09260c5059",
++    "patch": "sel1-test-only.patch",
++    "patch_sha256": "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06",
+     "patched_file_sha256": {
+-      "library/core/src/slice/sort/shared/smallsort/verify.rs": "b37239fc681409922606a8fd310e20f9c776e67a9c7f8dd4e4b79a77172c79fb",
+-      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "270e2a2d57d162e979d375c1a1bdb786dfdca664ad6e610e7b4e8661c135d933",
++      "library/core/src/slice/sort/shared/smallsort/verify.rs": "506644ad92ed4872af19bd1d302b439ff5e1d4dd850e9e9f149d429286065a95",
++      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "22de8b24f6adf35b633b2962d9873a349041a18cca9d580944d2d4a3c9ad0655",
+       "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "b2d71e6e61b4130a95dda6daac3cd5f0970f9daf7b0f7bfa8a9f99d9c3c29844",
+-      "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs": "c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1"
++      "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs": "c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1",
++      "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs": "c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39"
+     },
+     "production_source_changed": false,
+     "source": "https://github.com/Tiramisu-Cake/verify-rust-std.git"
+   },
+   "workflow": {
+-    "authorization": "NOT_GRANTED",
++    "authorization": "PREPARATION_ONLY; owner publishes and starts workflow",
+     "file": ".github/workflows/kani3300-replay.yml",
+     "job_timeout_minutes": 60,
+     "max_parallel": 1,
+-    "proposed_serial_envelope_minutes": 180,
++    "preflight": "python3 -m unittest -v test_replay.py; before source checkout/build",
++    "proposed_serial_envelope_minutes": 360,
+     "repository_guard": "github.repository == 'Tiramisu-Cake/kani'",
+     "retry_count": 0,
+     "root_harness_cap_seconds": 2400,
+-    "rows": 3,
+-    "trigger": "push on coordinator-owned ci/kani3300-gateb-prime-w15 only"
++    "rows": 6,
++    "trigger": "push on coordinator-owned ci/kani3300-sel1-replay-w15 only"
+   }
+ }
+diff --git a/scripts/kani3300-replay/c1-source-binding.json b/scripts/kani3300-replay/c1-source-binding.json
+deleted file mode 100644
+index dad456af20219a2e043e6f32adac13be36253d0d..0000000000000000000000000000000000000000
+--- a/scripts/kani3300-replay/c1-source-binding.json
++++ /dev/null
+@@ -1,55 +0,0 @@
+-{
+-  "schema": "kani3300-gate-binding-v1",
+-  "state": "C1_FROZEN",
+-  "m3_accepted": true,
+-  "acceptance_assurance": "OWNER_FROZEN_C1; quick qualification source-reported, no independent proof credit",
+-  "export_sha": "1658f4cadfa83139e41180ce3865e23f79d889aa",
+-  "export_tree": "bfb5eb9db13ffb91ec4585b7c7ef41ddfe0008fb",
+-  "files": {
+-    ".github/actions/setup/action.yml": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+-    ".github/workflows/kani.yml": "41799dc8b87557d2077c95dcd7cbcf26180a552aa4afd85e66abbc97843a6b48",
+-    "Cargo.lock": "984ef4cea51f0ad74124311f5cd09fca6d9c8c37bdbb9a8f29dd87cce842fadb",
+-    "kani-dependencies": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+-    "library/kani_core/src/mem.rs": "598428730a32f2c4034091688b50dde5a44deb69e2e3c61e08a0d394a5e42844",
+-    "library/kani_core/src/mem_init.rs": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
+-    "rust-toolchain.toml": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+-    "scripts/kani-regression.sh": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+-    "tests/json-handler/uninit-contract-mode-boundaries/README.md": "77aee2b958e3ac0205b622a4f75d2d68814850dbfe8d844500e36536258d8b04",
+-    "tests/json-handler/uninit-contract-mode-boundaries/cc4/isolated-bounded.rs": "0ec74991f5e7cf7a3ad490f153307b919402777b4305bf5cfbd430ff7f4f3dd5",
+-    "tests/json-handler/uninit-contract-mode-boundaries/cc4/isolated-recursive-ordinary.rs": "84c904f19e097056bb26127a303c34fc86e4c27311a13a6bd4787762000a8d70",
+-    "tests/json-handler/uninit-contract-mode-boundaries/cc4/mixed-reversed.rs": "b5537b792e7eaf250bb7a15763f36154ba3f5bc83f01d8b4bf267be7f7a48051",
+-    "tests/json-handler/uninit-contract-mode-boundaries/config.yml": "18c60b89ee0a92c3d4728f4a108f8591b0d8a5209a3f40b3c4ae104802190d0c",
+-    "tests/json-handler/uninit-contract-mode-boundaries/observe.py": "439ca67541d7808bbf9a2ccc2b9aaeabff3c21f1a2bb7acf6c4dbe698e07cdf5",
+-    "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
+-    "tests/json-handler/uninit-contract-mode-boundaries/replace.rs": "44b10bf2ef4d961b37b75098ec89246afe608036f4ed4cb8e3c5e70680425600",
+-    "tests/json-handler/uninit-contract-mode-boundaries/roots.json": "e86e53af05c943c1fe4e322b98d6a3c0585d18fe89505bbc6099a95ce55c5b8f",
+-    "tests/json-handler/uninit-contract-mode-boundaries/run.py": "747f6221030a9efeec7273f765f8ff8cd78aaf3f7a703b78d4e0e45e506a240b",
+-    "tests/json-handler/uninit-contract-mode-boundaries/test.sh": "f1ab14eeeb2efb0a7d9d11a8beab1d7a71ba6df023cf286637caa6e56a7f1578",
+-    "tests/json-handler/uninit-contract-mode-boundaries/test_observe.py": "11736af025d48b22a0f7d5adce669b560428f5286d7ecf3879773bbdc4bf3468",
+-    "tests/json-handler/uninit-contract-oracles/README.md": "013bef7ef1d14726634a155e91c200a97c5918ba20c3207d5bf6ef0c0afa143d",
+-    "tests/json-handler/uninit-contract-oracles/checker.py": "932779e2773a758a75c5c467a83ef445c17bfa08f7b5b6bddbc9c1dd8cf3d326",
+-    "tests/json-handler/uninit-contract-oracles/config.yml": "18c60b89ee0a92c3d4728f4a108f8591b0d8a5209a3f40b3c4ae104802190d0c",
+-    "tests/json-handler/uninit-contract-oracles/oracles.json": "34c08a26dd508cf75d19dc80c1c17b88e0bbeb54d492a3f6da10af7ee8120d73",
+-    "tests/json-handler/uninit-contract-oracles/run.py": "eeded59a792c09af7eeef337605adbd9641675839a444f68efab958c44b0c393",
+-    "tests/json-handler/uninit-contract-oracles/test.sh": "697c923f2845455502170c9849b61f33aae66095a1106c5bbaba427f44a3454a",
+-    "tests/json-handler/uninit-contract-oracles/test_checker.py": "987414a0c921632f9a0072c2728edc4cc8d0c9d69a947ea658cac8d6bad8e345",
+-    "tests/json-handler/uninit-part1-composition/README.md": "dfa9a87cb17643d1b8d2bd3ceed0c036860836450c77aa82a469fa685eab5817",
+-    "tests/json-handler/uninit-part1-composition/ROOT-ORDER-MAP.json": "dc14a54b7c02f2fcd77c0a4578322b3b4d861e1fc5890341553d0d452b3d56ff",
+-    "tests/json-handler/uninit-part1-composition/compare.py": "c6dec051cd3c39bfe532d834a02da99886d458702d1b76f15a83e5484cb8fd66",
+-    "tests/json-handler/uninit-part1-composition/config.yml": "18c60b89ee0a92c3d4728f4a108f8591b0d8a5209a3f40b3c4ae104802190d0c",
+-    "tests/json-handler/uninit-part1-composition/mixed.rs": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970",
+-    "tests/json-handler/uninit-part1-composition/roots.json": "3dbb1230e99e6c778f7992cee3c73d58afb31fa68cb96e4fbe9c7aae98864e75",
+-    "tests/json-handler/uninit-part1-composition/run.py": "df63ec39d3c4f1dc777ce8e709fe3c131880509eb48b71c1d763115f15e50fc6",
+-    "tests/json-handler/uninit-part1-composition/test.sh": "b91bbf9bd37d21fe5ccab398e73ef18fe9194eca617b8fa9ec9c9d53359d3610",
+-    "tests/json-handler/uninit-part1-composition/test_bindings.py": "653cd925bc8d79c84dde491ec6e2ba85492eff47e285cd697f8e3fb383892959",
+-    "tests/json-handler/uninit-part1-composition/test_compare.py": "e126104d84dbe1dd3d3120ca3d90e79f6addccf38a718c5f59f72252d6d670d2"
+-  },
+-  "subtrees": {
+-    "kani-compiler": "15d5902996e176ff37a1151af4c245eb5ce044b0",
+-    "library": "a2f83b7bc4ba161cb454c7ecde285a7b655be344",
+-    "tests": "572771295a193ee59adbf98093c8d2985a133ff5",
+-    "kani-driver": "c214b9ff3402e7d6b14f874b1ff5279a56075207",
+-    "tools": "685b2c10e086ab6552aef098e2424d1ee1224653",
+-    "scripts": "7d1c75c2a5ba49102a2efa7e6d9facc47675efd2"
+-  }
+-}
+diff --git a/scripts/kani3300-replay/gateb-prime-test-only.patch b/scripts/kani3300-replay/gateb-prime-test-only.patch
+deleted file mode 100644
+index 27e00ff87cb939406f5108ca7866e81dc355c1ec..0000000000000000000000000000000000000000
+--- a/scripts/kani3300-replay/gateb-prime-test-only.patch
++++ /dev/null
+@@ -1,101 +0,0 @@
+-diff --git a/library/core/src/slice/sort/shared/smallsort/verify.rs b/library/core/src/slice/sort/shared/smallsort/verify.rs
+-index 9ed9be525b..e1093b410b 100644
+---- a/library/core/src/slice/sort/shared/smallsort/verify.rs
+-+++ b/library/core/src/slice/sort/shared/smallsort/verify.rs
+-@@ -84,6 +84,8 @@ mod merge;
+- #[cfg(kani_smallsort_controls)]
+- mod mutations;
+- mod network;
+-+#[cfg(kani_smallsort_controls)]
+-+mod replay_gateb_prime;
+- mod scratch_geometry;
+- mod smoke;
+- mod tag_permutation;
+-diff --git a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
+-index 52977f4b1f..30683b3717 100644
+---- a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
+-+++ b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
+-@@ -196,7 +196,11 @@ fn sort4_safety_u64() {
+-     let mut dst = crate::mem::MaybeUninit::<[u64; 4]>::uninit();
+-     // SAFETY: four initialized source values and a distinct allocation writable for four
+-     // destination values. The destination need not be initialized before the call.
+--    unsafe { sort4_stable(src.as_ptr(), dst.as_mut_ptr().cast(), &mut arbitrary_less::<u64>) };
+-+    unsafe {
+-+        sort4_stable(src.as_ptr(), dst.as_mut_ptr().cast(), &mut |a: &u64, b: &u64| {
+-+            arbitrary_less::<u64>(a, b)
+-+        })
+-+    };
+-     for i in 0..4 {
+-         kani::assert(src[i] == before[i], "helper contract sort4 source frame");
+-     }
+-diff --git a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
+-index b0c6777add..432a9c0d4b 100644
+---- a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
+-+++ b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
+-@@ -114,7 +114,7 @@ fn merge_safety_u64_len8_scratch48_src32_dst0() {
+-     unsafe {
+-         let base = scratch.as_mut_ptr().cast::<u64>();
+-         let source = crate::slice::from_raw_parts(base.add(32), 8);
+--        bidirectional_merge(source, base, &mut tail_less_u64);
+-+        bidirectional_merge(source, base, &mut |a: &u64, b: &u64| tail_less_u64(a, b));
+-     }
+-     for i in 0..8 {
+-         // SAFETY: the initialized source must be framed by the merge.
+-diff --git a/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs b/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs
+-new file mode 100644
+-index 0000000000..b66ce6ee72
+---- /dev/null
+-+++ b/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs
+-@@ -0,0 +1,52 @@
+-+//! Gate B-prime: concrete closure comparator companion, enabled only for replay controls.
+-+//! This proves its own bounded target, not the generic fn-pointer `merge_profile<P>`.
+-+
+-+use super::merge::profiles::{
+-+    LtU8, Profile, merge_halves_sorted, merge_regions, model_count, model_sorted,
+-+};
+-+use crate::mem::MaybeUninit;
+-+use crate::slice::sort::shared::smallsort::{SMALL_SORT_GENERAL_SCRATCH_LEN, bidirectional_merge};
+-+use crate::{kani, ptr};
+-+
+-+// The original profile's canonical comparator guard is discharged by construction:
+-+// no comparator parameter or fn-pointer coercion exists; the closure calls lt_u8 directly.
+-+// The remaining clauses are exactly merge_profile::<LtU8>'s clauses.
+-+#[cfg(kani_smallsort_controls)]
+-+#[kani::requires(merge_regions::<u8>(v, dst) && merge_halves_sorted::<LtU8>(v))]
+-+#[kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len()))]
+-+#[kani::ensures(|_| model_sorted::<LtU8>(dst, v.len()))]
+-+#[kani::ensures(|_| model_count::<LtU8>(v.as_ptr(), v.len()) == model_count::<LtU8>(dst, v.len()))]
+-+pub(crate) unsafe fn merge_profile_closure_u8(v: &[u8], dst: *mut u8) {
+-+    // SAFETY: the unchanged profile region/sorted-halves premises establish the source
+-+    // and destination geometry; lt_u8 is the fixed canonical key order (x >> 1).
+-+    unsafe { bidirectional_merge(v, dst, &mut |a: &u8, b: &u8| super::merge::lt_u8(a, b)) }
+-+}
+-+
+-+#[cfg(kani_smallsort_controls)]
+-+#[kani::proof_for_contract(merge_profile_closure_u8)]
+-+#[kani::unwind(34)]
+-+fn merge_profile_closure_scratch48_u8_n9() {
+-+    const N: usize = 9;
+-+    const { assert!(N >= 2 && N <= 32) };
+-+    LtU8::set_probe(kani::any());
+-+    let input: [u8; N] = kani::any();
+-+    let mut dst: [u8; N] = kani::any();
+-+    let stable: bool = kani::any();
+-+    let mut stable_scratch = [MaybeUninit::<u8>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+-+    let mut general_scratch = MaybeUninit::<[u8; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit();
+-+    let src = if stable {
+-+        stable_scratch.as_mut_ptr() as *mut u8
+-+    } else {
+-+        general_scratch.as_mut_ptr() as *mut u8
+-+    };
+-+    // SAFETY: copy initializes only prefix N of the selected 48-slot backing before
+-+    // forming a slice; dst is separate and initialized. The enclosing PFC checks the
+-+    // concrete companion's unchanged region and sorted-half contract.
+-+    unsafe {
+-+        ptr::copy_nonoverlapping(input.as_ptr(), src, N);
+-+        let v = crate::slice::from_raw_parts(src, N);
+-+        merge_profile_closure_u8(v, dst.as_mut_ptr());
+-+    }
+-+    kani::cover(!stable, "general scratch48 merge contract checked");
+-+    kani::cover(stable, "stable scratch48 merge contract checked");
+-+}
+diff --git a/scripts/kani3300-replay/replay.py b/scripts/kani3300-replay/replay.py
+index 4a707662bd7f1e4d84a13d7bb3823f6a131ee726..2b27fc5cdcee04aedc026f240f6d1ece639d0715 100644
+--- a/scripts/kani3300-replay/replay.py
++++ b/scripts/kani3300-replay/replay.py
+@@ -1,9 +1,9 @@
+ #!/usr/bin/env python3
+-"""Preparation and bounded execution receipts for the Kani 3300 Gate B-prime replay.
++"""Preparation and bounded execution receipts for the Kani 3300 SEL1 replay.
+ 
+ This file deliberately records observations without assigning proof credit.
+ Every root stays UNKNOWN until a reviewer binds useful checks and the selected
+-Check body or expected boundary to the generated artifact.
++Check/Original body or intended negative to the generated artifact.
+ """
+ 
+ from __future__ import annotations
+@@ -23,22 +23,67 @@ from typing import Any
+ 
+ HERE = Path(__file__).resolve().parent
+ REQUEST = HERE / "CI-REQUEST.json"
+-SOURCE_BINDING = HERE / "c1-source-binding.json"
+-PATCH = HERE / "gateb-prime-test-only.patch"
+-C1_SHA = "1658f4cadfa83139e41180ce3865e23f79d889aa"
+-C1_TREE = "bfb5eb9db13ffb91ec4585b7c7ef41ddfe0008fb"
++SOURCE_BINDING = HERE / "sel1-source-binding.json"
++PATCH = HERE / "sel1-test-only.patch"
++TOOL_SHA = '46e46583ff112cae9c43aea1ba5dd6145e5e8387'
++TOOL_TREE = '0a46fad6c1adc3022d39e25a45096ed9cd622844'
+ STD_SHA = "70ba5befc617627073738e26cb1466bd4fb76e41"
+ STD_TREE = "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f"
+ STD_COMMIT_TREE = "84ab170ccdcc29fba69e55e0a46e6acdf52d9704"
+-PATCH_SHA = "af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5"
+-REQUEST_SHA = "5a769b123e92a1d46962e946bb500e076eb2d528657ebf287df87d7b0f53a55d"
++PATCH_SHA = '473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06'
++REQUEST_SHA = '8e9c8bf74858fdfd76c24c21e24c039bf11e8cb78d8a8ca39a92cbdf693ac70a'
++STD_OVERLAY_SHA = '6075e7ce17179f45642c9ffe8fe09e3ec9395726'
++STD_OVERLAY_TREE = '12e87bd4a4e141a8f829d8a0519efc09260c5059'
+ ROOT_CAP_SECONDS = 2400
+ INVALID_EXPORT_STATES = {
+     "MISSING", "EMPTY", "INVALID_OR_PARTIAL", "NULL", "WRONG_TOP_LEVEL_TYPE",
+-    "WRONG_SOURCE_OR_SELECTOR",
++    "WRONG_SOURCE_OR_SELECTOR", "EXPLICIT_NOT_RUN",
+ }
+-PATCHED_FILE_HASHES = {'library/core/src/slice/sort/shared/smallsort/verify.rs': 'b37239fc681409922606a8fd310e20f9c776e67a9c7f8dd4e4b79a77172c79fb', 'library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs': '270e2a2d57d162e979d375c1a1bdb786dfdca664ad6e610e7b4e8661c135d933', 'library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs': 'b2d71e6e61b4130a95dda6daac3cd5f0970f9daf7b0f7bfa8a9f99d9c3c29844', 'library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs': 'c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1'}
++PATCHED_FILE_HASHES = {'library/core/src/slice/sort/shared/smallsort/verify.rs': '506644ad92ed4872af19bd1d302b439ff5e1d4dd850e9e9f149d429286065a95',
++ 'library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs': '22de8b24f6adf35b633b2962d9873a349041a18cca9d580944d2d4a3c9ad0655',
++ 'library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs': 'b2d71e6e61b4130a95dda6daac3cd5f0970f9daf7b0f7bfa8a9f99d9c3c29844',
++ 'library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs': 'c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1',
++ 'library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs': 'c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39'}
+ PINNED_RUST_TOOLCHAIN = "nightly-2026-10-23"
++EXPECTED_ROWS = {'sort4-closure-on': {'selector': 'slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64',
++                      'expected_mode': 'Check(sort4_stable)',
++                      'source_unwind': 16,
++                      'expected_result': 'SUCCESS',
++                      'expected_failed_checks': 0},
++ 'swap-if-less-closure-on': {'selector': 'slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u64_backing4',
++                             'expected_mode': 'Check(swap_if_less)',
++                             'source_unwind': 8,
++                             'expected_result': 'SUCCESS',
++                             'expected_failed_checks': 0},
++ 'raw-legal-on': {'selector': 'slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_all_initialized_u64',
++                  'expected_mode': 'Original(sort4_stable)',
++                  'source_unwind': 16,
++                  'expected_result': 'SUCCESS',
++                  'expected_failed_checks': 0},
++ 'raw-negative-on': {'selector': 'slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_hole_negative_u64',
++                     'expected_mode': 'Original(sort4_stable)',
++                     'source_unwind': 16,
++                     'expected_result': 'FAILURE',
++                     'expected_failed_checks': 1},
++ 'merge-raw-closure-on': {'selector': 'slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0',
++                          'expected_mode': 'Check(bidirectional_merge)',
++                          'source_unwind': 34,
++                          'expected_result': 'SUCCESS',
++                          'expected_failed_checks': 0},
++ 'merge-profile-closure-on': {'selector': 'slice::sort::shared::smallsort::verify::replay_gateb_prime::merge_profile_closure_scratch48_u8_n9',
++                              'expected_mode': 'Check(merge_profile_closure_u8)',
++                              'source_unwind': 34,
++                              'expected_result': 'SUCCESS',
++                              'expected_failed_checks': 0}}
++EXPECTED_FLAGS = {'assertion_reachability': 'DEFAULT_ON',
++ 'cfg_controls': True,
++ 'coverage_requested': False,
++ 'experimental_valid_value': False,
++ 'no_assert_contracts': True,
++ 'object_bits': 12,
++ 'slicing': 'DEFAULT_ON',
++ 'solver': 'DEFAULT_CADICAL',
++ 'standard_checks': 'DEFAULTS_ON'}
+ 
+ 
+ def sha256(path: Path) -> str:
+@@ -68,7 +113,7 @@ def root_exit_code(receipt: dict[str, Any]) -> int:
+     if rss.get("status") != "OBSERVED_WAIT4_LINUX_RU_MAXRSS" or not isinstance(rss.get("max_bytes"), int):
+         return 1
+     validation = receipt.get("post_run_validation", {})
+-    source = validation.get("c1_source_valid", {})
++    source = validation.get("tool_source_valid", {})
+     if source.get("valid") is False or validation.get("std_test_only_overlay_valid") is False:
+         return 1
+     return 0
+@@ -94,15 +139,15 @@ def load_request() -> dict[str, Any]:
+     if sha256(PATCH) != PATCH_SHA:
+         raise ValueError("embedded test patch SHA-256 mismatch")
+     req = json.loads(REQUEST.read_text())
+-    if req.get("tool_export_sha") != C1_SHA or req.get("tool_export_tree") != C1_TREE:
+-        raise ValueError("request does not pin the frozen C1 source")
+-    if req.get("selected_library_tree") != STD_TREE or len(req.get("roots", [])) != 3:
+-        raise ValueError("request library pin or exact 3-root inventory mismatch")
+-    expected_ids = {"merge-raw-closure-on", "merge-profile-closure-on", "sort4-closure-on"}
++    if req.get("tool_export_sha") != TOOL_SHA or req.get("tool_export_tree") != TOOL_TREE:
++        raise ValueError("request does not pin the frozen SEL1 source")
++    if req.get("selected_library_tree") != STD_TREE or len(req.get("roots", [])) != 6:
++        raise ValueError("request library pin or exact 6-root inventory mismatch")
++    expected_ids = set(EXPECTED_ROWS)
+     if {r.get("id") for r in req["roots"]} != expected_ids:
+         raise ValueError("request row allowlist mismatch")
+     if (req.get("authorization") != "PREPARATION_ONLY" or
+-            req.get("run_budget", {}).get("max_invocations") != 3 or
++            req.get("run_budget", {}).get("max_invocations") != 6 or
+             req.get("run_budget", {}).get("retry_policy") != "NONE" or
+             req.get("run_budget", {}).get("jobs") != 1 or
+             req.get("run_budget", {}).get("max_parallel") != 1):
+@@ -111,13 +156,34 @@ def load_request() -> dict[str, Any]:
+         raise ValueError("request test patch hash differs from wrapper")
+     if req.get("patched_file_sha256") != PATCHED_FILE_HASHES:
+         raise ValueError("request patched file hashes differ from wrapper")
++    if (req.get("test_overlay_commit") != STD_OVERLAY_SHA or
++            req.get("test_only_library_tree") != STD_OVERLAY_TREE):
++        raise ValueError("request std overlay identity mismatch")
++    for row in req["roots"]:
++        expected = EXPECTED_ROWS[row["id"]]
++        if any(row.get(key) != value for key, value in expected.items()):
++            raise ValueError("request source-stage-target or row oracle mismatch")
++        argv = ["<EXACT_SEL1_KANI_BINARY>", "verify-std", "-Z", "unstable-options", "./library",
++                "-Z", "function-contracts", "-Z", "mem-predicates", "-Z", "float-lib", "-Z", "c-ffi",
++                "-Z", "loop-contracts", "-Z", "quantifiers", "-Z", "stubbing", "-Z", "export-json",
++                "-Z", "uninit-checks", "--no-assert-contracts", "--harness", expected["selector"],
++                "--exact", "--jobs", "1", "--harness-timeout", "2400s", "--target-dir",
++                f"<OUTPUT_ROOT>/{row['id']}/target", "--export-json",
++                f"<OUTPUT_ROOT>/{row['id']}/export.json", "--output-format=regular",
++                "--cbmc-args", "--object-bits", "12"]
++        if (row.get("argv") != argv or row.get("uninit") is not True or
++                row.get("environment") != {"NO_COLOR": "1", "RUSTFLAGS": "--cfg kani_smallsort_controls"}):
++            raise ValueError("request exact argv/environment mismatch")
++    if req.get("flags") != EXPECTED_FLAGS:
++        raise ValueError("request checker flags differ from frozen profile")
+     flags = req.get("flags", {})
+     budget = req.get("run_budget", {})
+     if (flags.get("object_bits") != 12 or flags.get("experimental_valid_value") is not False or
+             flags.get("cfg_controls") is not True or budget.get("harness_cap_seconds") != ROOT_CAP_SECONDS or
+-            budget.get("aggregate_job_envelope_seconds", ROOT_CAP_SECONDS + 1) > 10800):
++            budget.get("aggregate_job_envelope_seconds") != 21600):
+         raise ValueError("request flags or time caps exceed authorized bounds")
+-    if any(r.get("status") != "NOT_RUN" or r.get("generated_property_binding") is not None for r in req["roots"]):
++    if any(r.get("status") != "NOT_RUN" or r.get("state") != "NOT_RUN" or
++           r.get("generated_property_binding") is not None for r in req["roots"]):
+         raise ValueError("request must remain NOT_RUN with unbound generated properties")
+     return req
+ 
+@@ -129,33 +195,33 @@ def git(repo: Path, *args: str) -> str:
+ 
+ 
+ def verify_source(repo: Path) -> dict[str, Any]:
+-    """Check C1 by immutable git object IDs, even when overlay files are present."""
++    """Check SEL1 by immutable git object IDs, even when overlay files are present."""
+     req = load_request()
+     binding = json.loads(SOURCE_BINDING.read_text())
+-    if binding.get("export_sha") != C1_SHA or binding.get("export_tree") != C1_TREE:
+-        raise ValueError("source binding does not identify C1")
+-    if git(repo, "cat-file", "-t", C1_SHA) != "commit":
+-        raise ValueError("frozen C1 commit object is unavailable")
+-    if git(repo, "rev-parse", f"{C1_SHA}^{{tree}}") != C1_TREE:
+-        raise ValueError("frozen C1 tree mismatch")
++    if binding.get("export_sha") != TOOL_SHA or binding.get("export_tree") != TOOL_TREE:
++        raise ValueError("source binding does not identify SEL1")
++    if git(repo, "cat-file", "-t", TOOL_SHA) != "commit":
++        raise ValueError("frozen SEL1 commit object is unavailable")
++    if git(repo, "rev-parse", f"{TOOL_SHA}^{{tree}}") != TOOL_TREE:
++        raise ValueError("frozen SEL1 tree mismatch")
+     head = git(repo, "rev-parse", "HEAD")
+-    if head != C1_SHA:
+-        raise ValueError("build source checkout must be the exact frozen C1 commit")
++    if head != TOOL_SHA:
++        raise ValueError("build source checkout must be the exact frozen SEL1 commit")
+     if git(repo, "status", "--porcelain"):
+-        raise ValueError("frozen C1 export checkout must be clean")
++        raise ValueError("frozen SEL1 export checkout must be clean")
+     actual_files = {}
+     for rel, expected in binding["files"].items():
+         # git show is text-safe here but hashes must be over exact bytes.
+-        data = subprocess.run(["git", "-C", str(repo), "show", f"{C1_SHA}:{rel}"],
++        data = subprocess.run(["git", "-C", str(repo), "show", f"{TOOL_SHA}:{rel}"],
+                               check=True, stdout=subprocess.PIPE).stdout
+         digest = hashlib.sha256(data).hexdigest()
+         if digest != expected:
+-            raise ValueError(f"C1 bound source mismatch: {rel}")
++            raise ValueError(f"SEL1 bound source mismatch: {rel}")
+         actual_files[rel] = digest
+     for rel, expected in binding["subtrees"].items():
+-        if git(repo, "rev-parse", f"{C1_SHA}:{rel}") != expected:
+-            raise ValueError(f"C1 bound subtree mismatch: {rel}")
+-    return {"c1_sha": C1_SHA, "c1_tree": C1_TREE, "bound_files": len(actual_files),
++        if git(repo, "rev-parse", f"{TOOL_SHA}:{rel}") != expected:
++            raise ValueError(f"SEL1 bound subtree mismatch: {rel}")
++    return {"tool_sha": TOOL_SHA, "tool_tree": TOOL_TREE, "bound_files": len(actual_files),
+             "bound_subtrees": len(binding["subtrees"]), "request_sha256": sha256(REQUEST),
+             "std_commit": STD_SHA, "std_tree": STD_TREE, "patch_sha256": sha256(PATCH),
+             "test_overlay_tree": req["test_only_library_tree"], "proof_status": "NOT_RUN"}
+@@ -208,6 +274,8 @@ def parse_export(path: Path, expected_selector: str) -> dict[str, Any]:
+         return {"state": "NULL", "outcome": "UNKNOWN"}
+     if not isinstance(value, dict):
+         return {"state": "WRONG_TOP_LEVEL_TYPE", "observed_type": type(value).__name__, "outcome": "UNKNOWN"}
++    if any(value.get(key) == "NOT_RUN" for key in ("result", "status", "runtime_proof_status")):
++        return {"state": "EXPLICIT_NOT_RUN", "outcome": "UNKNOWN"}
+     # Export schema and harness identity vary across supported Kani builds.
+     # A missing or mismatched recognizable identity is a gap, never a pass.
+     selectors = []
+@@ -221,7 +289,7 @@ def parse_export(path: Path, expected_selector: str) -> dict[str, Any]:
+             "outcome": "UNKNOWN", "generated_property_binding": None,
+             "review_required": ["selected Check body", "useful reached checks/ensures and covers",
+                                 "complete artifact coverage; no proof credit from this envelope parse"] +
+-                               (["sort4 expected boundary: exactly one named select_unpredictable Unsupported at library/core/src/hint.rs:871"]
++                               (["sort4 expected SUCCESS:0 failed checks, useful comparator/frame/readbacks/return reached"]
+                                 if expected_selector.endswith("helper_contracts::sort4_safety_u64") else [])}
+ 
+ 
+@@ -356,20 +424,23 @@ def run_root(repo: Path, std: Path, root_id: str, binary: Path, out: Path) -> di
+     if not binary.is_file() or not os.access(binary, os.X_OK):
+         raise ValueError("exact built Kani executable is missing or not executable")
+     out.mkdir(parents=True, exist_ok=False)
+-    argv = [str(binary) if x == "<EXACT_C1_KANI_BINARY>" else x for x in row["argv"]]
++    argv = [str(binary) if x == "<EXACT_SEL1_KANI_BINARY>" else x for x in row["argv"]]
+     argv = [x.replace("<OUTPUT_ROOT>", str(out.parent)) for x in argv]
+     env = os.environ.copy()
+     env.update(row["environment"])
+     execution = execute(argv, std, env, out)
+     export = out / "export.json"
+     receipt = {
+-        "schema": "kani3300-replay-receipt-v1", "root_id": root_id,
+-        "request_sha256": sha256(REQUEST), "c1_sha": C1_SHA, "c1_tree": C1_TREE,
++        "schema": "kani3300-sel1-replay-receipt-v1", "root_id": root_id,
++        "request_sha256": sha256(REQUEST), "tool_sha": TOOL_SHA, "tool_tree": TOOL_TREE,
+         "source_identity": source_identity,
+         "std_base_commit": STD_SHA, "std_base_commit_tree": STD_COMMIT_TREE,
+         "std_library_tree": STD_TREE, "test_patch_sha256": sha256(PATCH),
+         "argv": argv, "environment": {k: env.get(k) for k in row["environment"]},
+         "expected_result": row["expected_result"], "expected_mode": row["expected_mode"],
++        "expected_failed_checks": row["expected_failed_checks"], "oracle": row["oracle"],
++        "source_unwind": row["source_unwind"], "test_overlay_source_commit": STD_OVERLAY_SHA,
++        "expected_test_overlay_library_tree": STD_OVERLAY_TREE,
+         "rss": {"max_bytes": execution.pop("rss_max_bytes"),
+                 "status": execution.pop("rss_status")},
+         **execution,
+@@ -402,7 +473,7 @@ def run_root(repo: Path, std: Path, root_id: str, binary: Path, out: Path) -> di
+         return {
+             "export": receipt["export"],
+             "post_run_validation": {
+-                "c1_source_valid": post_source_state,
++                "tool_source_valid": post_source_state,
+                 "std_overlay_paths": sorted(post_std_paths),
+                 "std_overlay_sha256": post_std_hashes,
+                 "std_test_only_overlay_valid": post_std_valid,
+diff --git a/scripts/kani3300-replay/sel1-source-binding.json b/scripts/kani3300-replay/sel1-source-binding.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..c3e26cfdfd2b9a109dbcc24e0dcd59c1384b61c1
+--- /dev/null
++++ b/scripts/kani3300-replay/sel1-source-binding.json
+@@ -0,0 +1,59 @@
++{
++  "acceptance_assurance": "OWNER_ACCEPTED_SEL1_FOR_CI; quick run43605855700 owner-reported started, result not queried; no independent proof credit",
++  "export_sha": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
++  "export_tree": "0a46fad6c1adc3022d39e25a45096ed9cd622844",
++  "files": {
++    ".github/actions/setup/action.yml": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
++    ".github/workflows/kani.yml": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
++    "Cargo.lock": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
++    "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs": "c0729827d6bb585e974dbb4b2ebf1078ecb9e829af8d9ecdc722921cfa994d7c",
++    "kani-compiler/src/kani_middle/mod.rs": "38aae9da52ef2fa5c440f61e525f8ca476dbe190e21ba8b073b4d86d315e7ead",
++    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs": "9857ce811b154b1211ba8430eccc5bfeab7b59e6454851c2d6ce61b963235a1d",
++    "kani-compiler/src/kani_middle/reachability.rs": "3070ac455b25d8c96204d54f8fbe43a53890aa7847d31deb3aee2021f98a6499",
++    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": "51f57838dfb955c68ccabd7a24112e5901502ea45147172085f8ab4e0727cd72",
++    "kani-dependencies": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
++    "library/kani_core/src/mem.rs": "598428730a32f2c4034091688b50dde5a44deb69e2e3c61e08a0d394a5e42844",
++    "library/kani_core/src/mem_init.rs": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150",
++    "rust-toolchain.toml": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
++    "scripts/kani-regression.sh": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
++    "tests/json-handler/uninit-contract-mode-boundaries/README.md": "77aee2b958e3ac0205b622a4f75d2d68814850dbfe8d844500e36536258d8b04",
++    "tests/json-handler/uninit-contract-mode-boundaries/cc4/isolated-bounded.rs": "0ec74991f5e7cf7a3ad490f153307b919402777b4305bf5cfbd430ff7f4f3dd5",
++    "tests/json-handler/uninit-contract-mode-boundaries/cc4/isolated-recursive-ordinary.rs": "84c904f19e097056bb26127a303c34fc86e4c27311a13a6bd4787762000a8d70",
++    "tests/json-handler/uninit-contract-mode-boundaries/cc4/mixed-reversed.rs": "b5537b792e7eaf250bb7a15763f36154ba3f5bc83f01d8b4bf267be7f7a48051",
++    "tests/json-handler/uninit-contract-mode-boundaries/config.yml": "18c60b89ee0a92c3d4728f4a108f8591b0d8a5209a3f40b3c4ae104802190d0c",
++    "tests/json-handler/uninit-contract-mode-boundaries/observe.py": "439ca67541d7808bbf9a2ccc2b9aaeabff3c21f1a2bb7acf6c4dbe698e07cdf5",
++    "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0",
++    "tests/json-handler/uninit-contract-mode-boundaries/replace.rs": "44b10bf2ef4d961b37b75098ec89246afe608036f4ed4cb8e3c5e70680425600",
++    "tests/json-handler/uninit-contract-mode-boundaries/roots.json": "e86e53af05c943c1fe4e322b98d6a3c0585d18fe89505bbc6099a95ce55c5b8f",
++    "tests/json-handler/uninit-contract-mode-boundaries/run.py": "747f6221030a9efeec7273f765f8ff8cd78aaf3f7a703b78d4e0e45e506a240b",
++    "tests/json-handler/uninit-contract-mode-boundaries/test.sh": "f1ab14eeeb2efb0a7d9d11a8beab1d7a71ba6df023cf286637caa6e56a7f1578",
++    "tests/json-handler/uninit-contract-mode-boundaries/test_observe.py": "11736af025d48b22a0f7d5adce669b560428f5286d7ecf3879773bbdc4bf3468",
++    "tests/json-handler/uninit-contract-oracles/README.md": "0b2f009b4bde31d12591a35078165668263d4abbc57f2347c154ee137bebe7c0",
++    "tests/json-handler/uninit-contract-oracles/checker.py": "0811721b507172ee9d27ec7f0285bb912a7ce9fcbbac41d74f4535778b3d0838",
++    "tests/json-handler/uninit-contract-oracles/config.yml": "18c60b89ee0a92c3d4728f4a108f8591b0d8a5209a3f40b3c4ae104802190d0c",
++    "tests/json-handler/uninit-contract-oracles/oracles.json": "95bd9c4e554d4ae5b79ec72ad2885592f30f10cb0931c2ddeb57015b351e7cd0",
++    "tests/json-handler/uninit-contract-oracles/run.py": "eeded59a792c09af7eeef337605adbd9641675839a444f68efab958c44b0c393",
++    "tests/json-handler/uninit-contract-oracles/test.sh": "697c923f2845455502170c9849b61f33aae66095a1106c5bbaba427f44a3454a",
++    "tests/json-handler/uninit-contract-oracles/test_checker.py": "3c62d3992bf5903ba62d9abc8e1e8a1e869109608dd3c297cff8b54f4ad3a5c7",
++    "tests/json-handler/uninit-part1-composition/README.md": "1acf8fe23e5663670ea6ab0939626cf3b49c84f53b70b4191e38d7713283a014",
++    "tests/json-handler/uninit-part1-composition/ROOT-ORDER-MAP.json": "dc14a54b7c02f2fcd77c0a4578322b3b4d861e1fc5890341553d0d452b3d56ff",
++    "tests/json-handler/uninit-part1-composition/compare.py": "c6dec051cd3c39bfe532d834a02da99886d458702d1b76f15a83e5484cb8fd66",
++    "tests/json-handler/uninit-part1-composition/config.yml": "18c60b89ee0a92c3d4728f4a108f8591b0d8a5209a3f40b3c4ae104802190d0c",
++    "tests/json-handler/uninit-part1-composition/mixed.rs": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970",
++    "tests/json-handler/uninit-part1-composition/roots.json": "72a8eec6cd95d9a7698869dddf94587a64d7db5628cb5601abe9fd4ee88de706",
++    "tests/json-handler/uninit-part1-composition/run.py": "bf9c3406ad639e0f22980ed04789a52cb45a7633e5ef31ce4b2bd8d5aee395d2",
++    "tests/json-handler/uninit-part1-composition/test.sh": "46fa2e7e9a91a529e968875172e18b16258dfd80f7caf95fff505e83abaa7322",
++    "tests/json-handler/uninit-part1-composition/test_bindings.py": "79d34c8f396d842038d4ddad9f04e03d9028e9a198229f7aa518d78dc699442c",
++    "tests/json-handler/uninit-part1-composition/test_compare.py": "b95f866cd46c574fa018f7a9ba70dcd63c800a97256f29234193edf6856587db"
++  },
++  "schema": "kani3300-gate-binding-v1",
++  "state": "SEL1_FROZEN_FOR_CI",
++  "subtrees": {
++    "kani-compiler": "af28d4589ca9003f86fade8bf26e792c5a306802",
++    "kani-driver": "f05085b98bda414ea7ceb9de96317cceeb39863f",
++    "library": "eeae80b128033f335183b587eab19ec83ddcfcd5",
++    "scripts": "17ce41a6b9744224defd3a87247736f82992e550",
++    "tests": "56e552e9ef57238f7e3c75bfab05d4df0c86f160",
++    "tools": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99"
++  }
++}
+diff --git a/scripts/kani3300-replay/sel1-test-only.patch b/scripts/kani3300-replay/sel1-test-only.patch
+new file mode 100644
+index 0000000000000000000000000000000000000000..445bd50637d0db7348479b9abc32bc22048511aa
+--- /dev/null
++++ b/scripts/kani3300-replay/sel1-test-only.patch
+@@ -0,0 +1,169 @@
++diff --git a/library/core/src/slice/sort/shared/smallsort/verify.rs b/library/core/src/slice/sort/shared/smallsort/verify.rs
++index 9ed9be525b..b6d76fe0bc 100644
++--- a/library/core/src/slice/sort/shared/smallsort/verify.rs
+++++ b/library/core/src/slice/sort/shared/smallsort/verify.rs
++@@ -84,6 +84,10 @@ mod merge;
++ #[cfg(kani_smallsort_controls)]
++ mod mutations;
++ mod network;
+++#[cfg(kani_smallsort_controls)]
+++mod replay_gateb_prime;
+++#[cfg(kani_smallsort_controls)]
+++mod replay_uninit_controls;
++ mod scratch_geometry;
++ mod smoke;
++ mod tag_permutation;
++diff --git a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
++index 52977f4b1f..336fe65277 100644
++--- a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
+++++ b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
++@@ -36,7 +36,9 @@ fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
++     // SAFETY: both positions are initialized, aligned, readable and writable
++     // and belong to this allocation.
++     // Equality is allowed by the real helper's safety condition.
++-    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut arbitrary_less::<T>) };
+++    unsafe {
+++        swap_if_less(v.as_mut_ptr(), a, b, &mut |a: &T, b: &T| arbitrary_less::<T>(a, b))
+++    };
++     for i in 0..4 {
++         kani::assert(i == a || i == b || v[i] == before[i], "helper contract swap frame");
++     }
++@@ -196,7 +198,11 @@ fn sort4_safety_u64() {
++     let mut dst = crate::mem::MaybeUninit::<[u64; 4]>::uninit();
++     // SAFETY: four initialized source values and a distinct allocation writable for four
++     // destination values. The destination need not be initialized before the call.
++-    unsafe { sort4_stable(src.as_ptr(), dst.as_mut_ptr().cast(), &mut arbitrary_less::<u64>) };
+++    unsafe {
+++        sort4_stable(src.as_ptr(), dst.as_mut_ptr().cast(), &mut |a: &u64, b: &u64| {
+++            arbitrary_less::<u64>(a, b)
+++        })
+++    };
++     for i in 0..4 {
++         kani::assert(src[i] == before[i], "helper contract sort4 source frame");
++     }
++diff --git a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
++index b0c6777add..432a9c0d4b 100644
++--- a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
+++++ b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
++@@ -114,7 +114,7 @@ fn merge_safety_u64_len8_scratch48_src32_dst0() {
++     unsafe {
++         let base = scratch.as_mut_ptr().cast::<u64>();
++         let source = crate::slice::from_raw_parts(base.add(32), 8);
++-        bidirectional_merge(source, base, &mut tail_less_u64);
+++        bidirectional_merge(source, base, &mut |a: &u64, b: &u64| tail_less_u64(a, b));
++     }
++     for i in 0..8 {
++         // SAFETY: the initialized source must be framed by the merge.
++diff --git a/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs b/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs
++new file mode 100644
++index 0000000000..b66ce6ee72
++--- /dev/null
+++++ b/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs
++@@ -0,0 +1,52 @@
+++//! Gate B-prime: concrete closure comparator companion, enabled only for replay controls.
+++//! This proves its own bounded target, not the generic fn-pointer `merge_profile<P>`.
+++
+++use super::merge::profiles::{
+++    LtU8, Profile, merge_halves_sorted, merge_regions, model_count, model_sorted,
+++};
+++use crate::mem::MaybeUninit;
+++use crate::slice::sort::shared::smallsort::{SMALL_SORT_GENERAL_SCRATCH_LEN, bidirectional_merge};
+++use crate::{kani, ptr};
+++
+++// The original profile's canonical comparator guard is discharged by construction:
+++// no comparator parameter or fn-pointer coercion exists; the closure calls lt_u8 directly.
+++// The remaining clauses are exactly merge_profile::<LtU8>'s clauses.
+++#[cfg(kani_smallsort_controls)]
+++#[kani::requires(merge_regions::<u8>(v, dst) && merge_halves_sorted::<LtU8>(v))]
+++#[kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len()))]
+++#[kani::ensures(|_| model_sorted::<LtU8>(dst, v.len()))]
+++#[kani::ensures(|_| model_count::<LtU8>(v.as_ptr(), v.len()) == model_count::<LtU8>(dst, v.len()))]
+++pub(crate) unsafe fn merge_profile_closure_u8(v: &[u8], dst: *mut u8) {
+++    // SAFETY: the unchanged profile region/sorted-halves premises establish the source
+++    // and destination geometry; lt_u8 is the fixed canonical key order (x >> 1).
+++    unsafe { bidirectional_merge(v, dst, &mut |a: &u8, b: &u8| super::merge::lt_u8(a, b)) }
+++}
+++
+++#[cfg(kani_smallsort_controls)]
+++#[kani::proof_for_contract(merge_profile_closure_u8)]
+++#[kani::unwind(34)]
+++fn merge_profile_closure_scratch48_u8_n9() {
+++    const N: usize = 9;
+++    const { assert!(N >= 2 && N <= 32) };
+++    LtU8::set_probe(kani::any());
+++    let input: [u8; N] = kani::any();
+++    let mut dst: [u8; N] = kani::any();
+++    let stable: bool = kani::any();
+++    let mut stable_scratch = [MaybeUninit::<u8>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+++    let mut general_scratch = MaybeUninit::<[u8; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit();
+++    let src = if stable {
+++        stable_scratch.as_mut_ptr() as *mut u8
+++    } else {
+++        general_scratch.as_mut_ptr() as *mut u8
+++    };
+++    // SAFETY: copy initializes only prefix N of the selected 48-slot backing before
+++    // forming a slice; dst is separate and initialized. The enclosing PFC checks the
+++    // concrete companion's unchanged region and sorted-half contract.
+++    unsafe {
+++        ptr::copy_nonoverlapping(input.as_ptr(), src, N);
+++        let v = crate::slice::from_raw_parts(src, N);
+++        merge_profile_closure_u8(v, dst.as_mut_ptr());
+++    }
+++    kani::cover(!stable, "general scratch48 merge contract checked");
+++    kani::cover(stable, "stable scratch48 merge contract checked");
+++}
++diff --git a/library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs b/library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs
++new file mode 100644
++index 0000000000..890b2597c2
++--- /dev/null
+++++ b/library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs
++@@ -0,0 +1,49 @@
+++//! Opt-in raw-helper uninitialized-read controls. Preparation only; NOT_RUN.
+++//!
+++//! Run with the organizer --no-assert-contracts profile: the negative calls
+++//! the actual Original helper body and intentionally violates its source
+++//! initializedness requirement. It is a checker control, not a contract proof.
+++
+++use super::super::sort4_stable;
+++use crate::mem::MaybeUninit;
+++use crate::{kani, ptr};
+++
+++fn read_less_u64(a: &u64, b: &u64) -> bool {
+++    // The negative intentionally exercises the live read of an unwritten
+++    // source value; no initialized reference is constructed before the helper.
+++    unsafe {
+++        ptr::read_volatile(a);
+++        ptr::read_volatile(b);
+++    }
+++    kani::any()
+++}
+++
+++fn exercise_sort4_raw<const INITIALIZE_SLOT_ONE: bool>() {
+++    let mut src = [MaybeUninit::<u64>::uninit(); 4];
+++    src[0].write(kani::any());
+++    if INITIALIZE_SLOT_ONE {
+++        src[1].write(kani::any());
+++    }
+++    src[2].write(kani::any());
+++    src[3].write(kani::any());
+++    let mut dst = MaybeUninit::<[u64; 4]>::uninit();
+++    let raw = src.as_mut_ptr().cast::<u64>();
+++    kani::cover(true, "sort4 raw helper entered");
+++    // The legal instance supplies four initialized source values. The negative
+++    // leaves precisely slot 1 unwritten in the same valid MU allocation.
+++    // Both use the identical source/destination geometry and actual helper.
+++    unsafe { sort4_stable(raw, dst.as_mut_ptr().cast(), &mut read_less_u64) };
+++    kani::cover(true, "sort4 raw helper returned");
+++}
+++
+++#[kani::proof]
+++#[kani::unwind(16)]
+++fn sort4_raw_all_initialized_u64() {
+++    exercise_sort4_raw::<true>();
+++}
+++
+++#[kani::proof]
+++#[kani::unwind(16)]
+++fn sort4_raw_hole_negative_u64() {
+++    exercise_sort4_raw::<false>();
+++}
+diff --git a/scripts/kani3300-replay/test_replay.py b/scripts/kani3300-replay/test_replay.py
+index 7c2f8561adee97d68c87a90b280a66bfb026a8e3..6dfc22a72e8a8772c7773929d924d2ea08c0a7ee 100644
+--- a/scripts/kani3300-replay/test_replay.py
++++ b/scripts/kani3300-replay/test_replay.py
+@@ -40,6 +40,17 @@ class ExportTests(unittest.TestCase):
+     def test_wrong_source(self):
+         self.check_state(b'{"selector":"other::root"}', "WRONG_SOURCE_OR_SELECTOR")
+ 
++    def test_explicit_not_run_is_invalid_for_zero_exit(self):
++        with tempfile.TemporaryDirectory() as td:
++            p = Path(td) / "export.json"
++            p.write_text('{"status":"NOT_RUN"}')
++            export = parse_export(p, "expected::root")
++        self.assertEqual(export["state"], "EXPLICIT_NOT_RUN")
++        receipt = {"original_exit_code": 0, "timed_out": False, "runner_error": None,
++                   "export": export, "postprocessing_state": "COMPLETE",
++                   "rss": {"status": "OBSERVED_WAIT4_LINUX_RU_MAXRSS", "max_bytes": 1}}
++        self.assertNotEqual(root_exit_code(receipt), 0)
++
+ 
+     def test_malformed_success_exit_is_nonzero(self):
+         for state in ("EMPTY", "INVALID_OR_PARTIAL", "NULL", "WRONG_TOP_LEVEL_TYPE",
+@@ -70,13 +81,18 @@ class ExportTests(unittest.TestCase):
+ 
+ 
+ class RequestTests(unittest.TestCase):
+-    def test_actual_request_is_exact_three_row_preparation(self):
++    def test_actual_request_is_exact_six_row_preparation(self):
+         req = load_request()
+         self.assertEqual({r["id"] for r in req["roots"]},
+-                         {"merge-raw-closure-on", "merge-profile-closure-on", "sort4-closure-on"})
++                         {"sort4-closure-on", "swap-if-less-closure-on", "raw-legal-on",
++                          "raw-negative-on", "merge-raw-closure-on", "merge-profile-closure-on"})
+         self.assertTrue(all(r["status"] == "NOT_RUN" for r in req["roots"]))
+-        self.assertEqual(req["run_budget"]["max_invocations"], 3)
++        self.assertTrue(all(r["state"] == "NOT_RUN" for r in req["roots"]))
++        self.assertEqual(req["run_budget"]["max_invocations"], 6)
++        self.assertEqual(req["run_budget"]["aggregate_job_envelope_seconds"], 21600)
+         self.assertEqual(req["run_budget"]["retry_policy"], "NONE")
++        self.assertEqual(req["tool_export_sha"], replay.TOOL_SHA)
++        self.assertEqual(req["test_overlay_commit"], replay.STD_OVERLAY_SHA)
+ 
+     def load_modified(self, modify):
+         req = json.loads(replay.REQUEST.read_text())
+@@ -89,12 +105,12 @@ class RequestTests(unittest.TestCase):
+                 return load_request()
+ 
+     def test_rejects_extra_or_wrong_root(self):
+-        def mutate(req): req["roots"][0]["id"] = "raw-negative-on"
++        def mutate(req): req["roots"][0]["id"] = "raw-negative-on-extra"
+         with self.assertRaisesRegex(ValueError, "row allowlist"):
+             self.load_modified(mutate)
+ 
+     def test_rejects_retry_or_parallel_cap_expansion(self):
+-        for key, value in (("retry_policy", "ONE_RETRY"), ("max_parallel", 2), ("max_invocations", 4)):
++        for key, value in (("retry_policy", "ONE_RETRY"), ("max_parallel", 2), ("max_invocations", 7)):
+             def mutate(req, key=key, value=value): req["run_budget"][key] = value
+             with self.subTest(key=key), self.assertRaisesRegex(ValueError, "bounded preparation caps"):
+                 self.load_modified(mutate)
+@@ -112,6 +128,38 @@ class RequestTests(unittest.TestCase):
+         with self.assertRaisesRegex(ValueError, "request patched file hashes"):
+             self.load_modified(wrong_file_hash)
+ 
++    def test_rejects_source_stage_target_and_selector_argv_mismatches(self):
++        for field, value, message in (
++                ("expected_mode", "Original(sort4_stable)", "source-stage-target"),
++                ("source_unwind", 17, "source-stage-target"),
++                ("selector", "slice::wrong::harness", "source-stage-target")):
++            def mutate(req, field=field, value=value): req["roots"][0][field] = value
++            with self.subTest(field=field), self.assertRaisesRegex(ValueError, message):
++                self.load_modified(mutate)
++
++        def mutate_argv(req): req["roots"][0]["argv"].remove("--exact")
++        with self.assertRaisesRegex(ValueError, "exact argv/environment"):
++            self.load_modified(mutate_argv)
++
++    def test_rejects_weakened_sort4_oracle_and_changed_flags(self):
++        def weaken_oracle(req): req["roots"][0]["expected_failed_checks"] = 1
++        with self.assertRaisesRegex(ValueError, "source-stage-target"):
++            self.load_modified(weaken_oracle)
++
++        def weaken_flags(req): req["flags"]["experimental_valid_value"] = True
++        with self.assertRaisesRegex(ValueError, "checker flags"):
++            self.load_modified(weaken_flags)
++
++    def test_rejects_std_overlay_binding_mismatch(self):
++        def mutate(req): req["test_only_library_tree"] = "0" * 40
++        with self.assertRaisesRegex(ValueError, "std overlay identity"):
++            self.load_modified(mutate)
++
++    def test_request_binds_exact_five_patched_files(self):
++        req = load_request()
++        self.assertEqual(len(req["patched_file_sha256"]), 5)
++        self.assertEqual(set(req["patched_file_sha256"]), set(replay.PATCHED_FILE_HASHES))
++
+ 
+ class ExecutionTests(unittest.TestCase):
+     def run_synthetic(self, code, timeout=1.0):
+@@ -186,6 +234,126 @@ class ExecutionTests(unittest.TestCase):
+             self.assertEqual(saved["postprocessing_error"]["stage"], "runtime-inventory")
+             self.assertEqual(result, saved)
+ 
++    def test_post_run_source_validation_failure_rejects_zero_but_preserves_positive_exit(self):
++        base = {"timed_out": False, "runner_error": None,
++                "export": {"state": "UNVALIDATED_JSON_OBJECT"},
++                "postprocessing_state": "COMPLETE",
++                "rss": {"status": "OBSERVED_WAIT4_LINUX_RU_MAXRSS", "max_bytes": 1},
++                "post_run_validation": {"tool_source_valid": {"valid": False},
++                                        "std_test_only_overlay_valid": True}}
++        self.assertNotEqual(root_exit_code({**base, "original_exit_code": 0}), 0)
++        self.assertEqual(root_exit_code({**base, "original_exit_code": 7}), 7)
++
++
++class OverlayWorkflowTests(unittest.TestCase):
++    def test_workflow_keeps_six_serial_rows_and_exact_prepare_invocation(self):
++        workflow = (replay.HERE.parents[1] / ".github/workflows/kani3300-replay.yml").read_text()
++        req = load_request()
++        self.assertIn("branches: ['ci/kani3300-sel1-replay-w15']", workflow)
++        self.assertIn("max-parallel: 1", workflow)
++        self.assertLess(workflow.index("python3 -m unittest -v test_replay.py"),
++                        workflow.index("Read exact export revision"))
++        self.assertLess(workflow.index("python3 -m unittest -v test_replay.py"),
++                        workflow.index("Build this exact SEL1 checkout"))
++        self.assertEqual(workflow.count("          - "), 6)
++        for row in req["roots"]:
++            self.assertIn(f"          - {row['id']}", workflow)
++        self.assertEqual(req["run_budget"]["retry_policy"], "NONE")
++        self.assertIn("--repo https://github.com/Tiramisu-Cake/verify-rust-std.git", workflow)
++        self.assertIn("--destination \"$RUNNER_TEMP/kani3300-std\"", workflow)
++        self.assertIn('"submodule", "update", "--init", "--depth", "1"',
++                      (replay.HERE / "replay.py").read_text())
++        self.assertNotIn("retry", workflow.lower())
++
++    def test_prepare_std_preserves_pinned_clone_checkout_patch_and_submodules(self):
++        req = load_request()
++        paths = sorted(replay.PATCHED_FILE_HASHES)
++        with tempfile.TemporaryDirectory() as td:
++            destination = Path(td) / "std"
++            calls = []
++            status = b"".join(b" M " + p.encode() + b"\0" for p in paths)
++
++            def fake_run(argv, **kwargs):
++                calls.append(argv)
++                if "status" in argv:
++                    return mock.Mock(stdout=status)
++                return mock.Mock(stdout=b"")
++
++            def fake_git(repo, *args):
++                if args == ("rev-parse", "HEAD^{tree}"):
++                    return replay.STD_COMMIT_TREE
++                if args == ("rev-parse", "HEAD:library"):
++                    return replay.STD_TREE
++                return ""
++
++            def fake_sha(path):
++                path = Path(path)
++                if path == replay.PATCH:
++                    return replay.PATCH_SHA
++                return replay.PATCHED_FILE_HASHES[path.relative_to(destination).as_posix()]
++
++            with mock.patch.object(replay.subprocess, "run", side_effect=fake_run), \
++                    mock.patch.object(replay, "git", side_effect=fake_git), \
++                    mock.patch.object(replay, "sha256", side_effect=fake_sha):
++                result = replay.prepare_std("https://example.invalid/std.git", destination)
++
++        self.assertEqual(result["status"], "PREPARED_NOT_RUN")
++        self.assertEqual(result["changed_paths"], paths)
++        self.assertIn(["git", "clone", "--no-hardlinks", "https://example.invalid/std.git",
++                       str(destination)], calls)
++        self.assertIn(["git", "-C", str(destination), "submodule", "update", "--init",
++                       "--depth", "1"], calls)
++        self.assertIn(["git", "-C", str(destination), "apply", "--check", str(replay.PATCH)], calls)
++
++    def test_run_root_substitutes_only_output_binary_and_preserves_receipt_exit(self):
++        req = load_request()
++        root = "raw-negative-on"
++        row = next(r for r in req["roots"] if r["id"] == root)
++        patched_paths = sorted(replay.PATCHED_FILE_HASHES)
++        status = b"".join(b" M " + p.encode() + b"\0" for p in patched_paths)
++        with tempfile.TemporaryDirectory() as td:
++            base = Path(td)
++            repo, std, out = base / "repo", base / "std", base / "out" / root
++            repo.mkdir(); std.mkdir()
++            binary = base / "kani"
++            binary.write_text("synthetic executable")
++            binary.chmod(0o755)
++            captured = {}
++
++            def fake_execute(argv, cwd, env, out_dir, timeout=replay.ROOT_CAP_SECONDS):
++                captured.update(argv=argv, cwd=cwd, env=env, out=out_dir, timeout=timeout)
++                (out_dir / "export.json").write_text('{"status":"NOT_RUN"}')
++                return {"started_unix": 1, "original_exit_code": 7, "timed_out": False,
++                        "runner_error": None, "signal": None, "rss_max_bytes": 100,
++                        "rss_status": "OBSERVED_WAIT4_LINUX_RU_MAXRSS", "elapsed_seconds": 1,
++                        "stdout_sha256": "0" * 64, "stdout_bytes": 0,
++                        "stderr_sha256": "0" * 64, "stderr_bytes": 0}
++
++            def fake_sha(path):
++                path = Path(path)
++                if path == replay.REQUEST:
++                    return replay.REQUEST_SHA
++                if path == replay.PATCH:
++                    return replay.PATCH_SHA
++                return replay.PATCHED_FILE_HASHES[path.relative_to(std).as_posix()]
++
++            with mock.patch.object(replay, "verify_source", return_value={"proof_status": "NOT_RUN"}), \
++                    mock.patch.object(replay, "git", side_effect=[replay.STD_SHA, replay.STD_TREE]), \
++                    mock.patch.object(replay.subprocess, "run", return_value=mock.Mock(stdout=status)), \
++                    mock.patch.object(replay, "sha256", side_effect=fake_sha), \
++                    mock.patch.object(replay, "execute", side_effect=fake_execute), \
++                    mock.patch.object(replay, "runtime_inventory", return_value={"synthetic": True}):
++                receipt = replay.run_root(repo, std, root, binary, out)
++
++        expected_argv = [str(binary) if x == "<EXACT_SEL1_KANI_BINARY>" else
++                         x.replace("<OUTPUT_ROOT>", str(out.parent)) for x in row["argv"]]
++        self.assertEqual(captured["argv"], expected_argv)
++        self.assertEqual(captured["cwd"], std)
++        self.assertEqual(receipt["original_exit_code"], 7)
++        self.assertEqual(receipt["export"]["state"], "EXPLICIT_NOT_RUN")
++        self.assertEqual(receipt["runtime_proof_status"], "NOT_RUN_UNTIL_REVIEWED")
++        self.assertEqual(root_exit_code(receipt), 7)
++
+ 
+ if __name__ == "__main__":
+     unittest.main()

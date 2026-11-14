@@ -1,0 +1,31 @@
+{
+  "applicability": "CI-only overlay and delta packaging; no compiler/std production code edits. Owner reported quick43605855700 started on tool46e46583ff; no runtime result queried.",
+  "baseline_commit": "0c1cc8a7d05184044d496b01f5ed41cebfde0cac",
+  "candidate_commit": "c9619b15022fb43f1e961e01695e64875ad68fe9",
+  "controls": [
+    "29 service unittest cases pass, original20 retained with six-row inventory/cap adaptations; preparation/runtime mocks never run Kani or clone.",
+    "make-ci-delta.py generation and --check passed, reverse/check/apply in temporary Git recreates seven full-export paths exactly from immutable0c1 base.",
+    "Reject request/source-stage/target/argv/profile/std binding mismatches; preserve explicitNOT_RUN, partial/missing/null/wrong-type and original failure exits."
+  ],
+  "defect": "Rebind exact Gate B-prime replay CI recipe to SEL1 tool/std and six issued ON rows, retaining run4 fixes and service controls.",
+  "dependencies": [
+    ".github/actions/setup/action.yml",
+    "rust-toolchain.toml",
+    "kani-dependencies"
+  ],
+  "invariants": [
+    "Exact tool46e46583ff112cae9c43aea1ba5dd6145e5e8387 tree0a46fad6c1adc3022d39e25a45096ed9cd622844; frozen std70ba plus exact test-only overlay6075e7ce17179f45642c9ffe8fe09e3ec9395726; five exact patched hashes.",
+    "Exactly six issued ON rows, jobs1/maxparallel1/no retries, inherited60min job and2400s child caps; sort4 SUCCESS and raw-negative intended source[1] failure.",
+    "Keep original child exit, timeout/signal/wait4RSS, atomic partial receipts, setupNOT_RUN fallback, useful property review; never infer credit from success envelope or arbitrary failure.",
+    "Preserve run4 std URL, --destination and submodule init. Push trigger only ci/kani3300-sel1-replay-w15 with existing repository guard.",
+    "Changes only replay CI paths; no build/push/CI/tool invocation."
+  ],
+  "known_limitations": [
+    "All actual six-row replay builds/proofs/outcomes NOT_RUN. Only local Python tests/static Git metadata performed; no push/network/CI.",
+    "Raw negative may leave CI row red because original nonzero exit is preserved; expected-negative acceptance remains manual review.",
+    "Generator/package artifacts in g0 sel1/ci are uncommitted; source CI overlay commit is local."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-sel1-replay-w15"
+}

@@ -1,0 +1,45 @@
+{
+  "state": "PYTHON_AND_STATIC_GIT_ONLY",
+  "candidate": "c9619b15022fb43f1e961e01695e64875ad68fe9",
+  "candidate_tree": "e17787b7ef41250e8e55bb90e2fc7f5d254943ba",
+  "base_commit": "0c1cc8a7d05184044d496b01f5ed41cebfde0cac",
+  "base_tree": "cbb04807c711a9d1bad2ac2dbe1f77538d5658b0",
+  "service_tests": {
+    "passed": 29,
+    "failed": 0,
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v",
+    "scope": "Synthetic Python children and mocked std/preflight/runtime; no actual tools/builds"
+  },
+  "generator_tests": {
+    "passed": 7,
+    "failed": 0,
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -q test_make_ci_delta.py",
+    "scope": "Python/tempGit only; originalrepo HEAD/status preserved"
+  },
+  "delta_generator_check": "PASS; exact base tree and exported inventory; reverse/check/apply; bytes reproduced",
+  "delta_reverse_check_against_candidate": "PASS",
+  "six_roots_identical_to_issued_request": true,
+  "diff_check": "PASS",
+  "ci_only_paths": [
+    ".github/workflows/kani3300-replay.yml",
+    "scripts/kani3300-replay/CI-REQUEST.json",
+    "scripts/kani3300-replay/REPLAY-CI-OVERLAY.json",
+    "scripts/kani3300-replay/replay.py",
+    "scripts/kani3300-replay/sel1-source-binding.json",
+    "scripts/kani3300-replay/sel1-test-only.patch",
+    "scripts/kani3300-replay/test_replay.py"
+  ],
+  "delta_sha256": "cbcb31b360b872d6ed8e8440b0decf15d424cf47f9e6f5f82dff01bea435b27a",
+  "builds": 0,
+  "push": 0,
+  "ci": 0,
+  "actual_replay_outcomes": "NOT_RUN",
+  "proof_credit": "NONE",
+  "independent_review": {
+    "state": "NO_BLOCKING_STATIC_FINDINGS",
+    "file": "independent-review.md",
+    "sha256": "a44bed57ddd90cf331657e1770cdd859a31827e043a1565bd13eec9a06757351"
+  },
+  "source_clean": true,
+  "author_committer_verified": true
+}

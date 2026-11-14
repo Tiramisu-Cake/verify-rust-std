@@ -1,0 +1,129 @@
+{
+  "base": {
+    "commit": "0c1cc8a7d05184044d496b01f5ed41cebfde0cac",
+    "source_binding": "replace prior C1 binding with exact SEL1 binding",
+    "source_checkout_status": "read-only exact git objects; current branch/HEAD not changed",
+    "tree": "cbb04807c711a9d1bad2ac2dbe1f77538d5658b0"
+  },
+  "delta_against": "exact Gate B-prime0c1cc8a7d05184044d496b01f5ed41cebfde0cac CI paths only; actual Kani source binding46e46583ff112cae9c43aea1ba5dd6145e5e8387",
+  "delta_patch": "ci-overlay-delta.patch",
+  "full_export_file_sha256": {
+    ".github/workflows/kani3300-replay.yml": "c5ce5250453078053b33e23cbc3ff4f7132f56c8c8993f9bd895f9947ec805bb",
+    "scripts/kani3300-replay/CI-REQUEST.json": "8e9c8bf74858fdfd76c24c21e24c039bf11e8cb78d8a8ca39a92cbdf693ac70a",
+    "scripts/kani3300-replay/replay.py": "766b2986d9f85194c7991c1a15ce5a50cd1d6e6c2bf298c4e3d95cdcddfba1c5",
+    "scripts/kani3300-replay/sel1-source-binding.json": "f15543e1245347455d38477a8600de64ed95e3098fec9856dd48c7398b967f04",
+    "scripts/kani3300-replay/sel1-test-only.patch": "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06",
+    "scripts/kani3300-replay/test_replay.py": "2256b986945c61532b8ef063bc2f477d83bdf55f02cabd8b90a977a4c1e2ccb3"
+  },
+  "python_tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v",
+    "count": 29,
+    "coverage": [
+      "success remains UNKNOWN",
+      "positive failure exit retained",
+      "timeout and signal",
+      "runner start error",
+      "atomic receipt survives postprocessing error",
+      "missing/partial/null/wrong-type/wrong-selector export",
+      "request checksum/patch/file-hash/allowlist/cap validation",
+      "unknown RSS fails closed",
+      "six exact row source-stage-target/selector/argv/oracle/flag bindings",
+      "exact five-file std overlay and source identities",
+      "explicit NOT_RUN nonzero",
+      "source post-validation failure preserves original positive exit",
+      "run4 URL/destination/submodule and serial push workflow invariants",
+      "mock-only prepare_std/run_root exact argv substitution"
+    ],
+    "file": "test_replay.py",
+    "no_rust_or_kani": true,
+    "status": "PASS"
+  },
+  "receipt": {
+    "outcome": "UNKNOWN_until_reviewed",
+    "preserves": [
+      "argv",
+      "exit code",
+      "signal",
+      "timeout",
+      "runner error",
+      "wait4 RSS",
+      "stdout/stderr bytes and hashes",
+      "export JSON",
+      "SEL1/runtime identities",
+      "failure artifacts"
+    ],
+    "proof_status": "NOT_RUN_UNTIL_REVIEWED",
+    "raw_negative": "Preserve child nonzero original exit; manual source[1] failure review. No automatic expected-negative acceptance.",
+    "rss": "wait4 per-child ru_maxrss in Linux bytes; null/UNKNOWN if unavailable; no command wrapper or argv change",
+    "sort4": "Expected SUCCESS,0 failed checks; useful comparator/frame/readbacks/return reached; never auto proof credit",
+    "truncation_or_missing": "UNKNOWN"
+  },
+  "request": {
+    "authorization": "PREPARATION_ONLY",
+    "file": "CI-REQUEST.json",
+    "row_count": 6,
+    "row_ids": [
+      "sort4-closure-on",
+      "swap-if-less-closure-on",
+      "raw-legal-on",
+      "raw-negative-on",
+      "merge-raw-closure-on",
+      "merge-profile-closure-on"
+    ],
+    "sha256": "8e9c8bf74858fdfd76c24c21e24c039bf11e8cb78d8a8ca39a92cbdf693ac70a",
+    "status": "NOT_RUN_SEL1_FROZEN"
+  },
+  "run4_recipe": {
+    "destination": "$RUNNER_TEMP/kani3300-std",
+    "repo_url": "https://github.com/Tiramisu-Cake/verify-rust-std.git",
+    "source": "ac49cf8f62 scripts/kani3300-replay/replay.py prepare_std",
+    "submodule_step": "git submodule update --init --depth 1"
+  },
+  "schema": "kani3300-sel1-ci-overlay-v1",
+  "source": {
+    "quick_assurance": "owner-reported started; not queried; not proof acceptance",
+    "quick_run": "43605855700",
+    "source_binding_file": "sel1-source-binding.json",
+    "source_binding_sha256": "f15543e1245347455d38477a8600de64ed95e3098fec9856dd48c7398b967f04",
+    "tool_sha": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
+    "tool_tree": "0a46fad6c1adc3022d39e25a45096ed9cd622844"
+  },
+  "state": "PREPARATION_ONLY_REVIEW_REQUIRED",
+  "std": {
+    "applied_paths": [
+      "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs"
+    ],
+    "base_commit": "70ba5befc617627073738e26cb1466bd4fb76e41",
+    "base_library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+    "overlay_commit": "6075e7ce17179f45642c9ffe8fe09e3ec9395726",
+    "overlay_library_tree": "12e87bd4a4e141a8f829d8a0519efc09260c5059",
+    "patch": "sel1-test-only.patch",
+    "patch_sha256": "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06",
+    "patched_file_sha256": {
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "506644ad92ed4872af19bd1d302b439ff5e1d4dd850e9e9f149d429286065a95",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "22de8b24f6adf35b633b2962d9873a349041a18cca9d580944d2d4a3c9ad0655",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "b2d71e6e61b4130a95dda6daac3cd5f0970f9daf7b0f7bfa8a9f99d9c3c29844",
+      "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs": "c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1",
+      "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs": "c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39"
+    },
+    "production_source_changed": false,
+    "source": "https://github.com/Tiramisu-Cake/verify-rust-std.git"
+  },
+  "workflow": {
+    "authorization": "PREPARATION_ONLY; owner publishes and starts workflow",
+    "file": ".github/workflows/kani3300-replay.yml",
+    "job_timeout_minutes": 60,
+    "max_parallel": 1,
+    "preflight": "python3 -m unittest -v test_replay.py; before source checkout/build",
+    "proposed_serial_envelope_minutes": 360,
+    "repository_guard": "github.repository == 'Tiramisu-Cake/kani'",
+    "retry_count": 0,
+    "root_harness_cap_seconds": 2400,
+    "rows": 6,
+    "trigger": "push on coordinator-owned ci/kani3300-sel1-replay-w15 only"
+  }
+}
