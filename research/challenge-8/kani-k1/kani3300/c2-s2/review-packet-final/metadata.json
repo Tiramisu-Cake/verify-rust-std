@@ -1,0 +1,191 @@
+{
+  "baseline_commit": "69b13711e60a87458200833445d47488ab466344",
+  "candidate_commit": "f96ad419bcae4e920708ff4bffe2b28d310f422e",
+  "candidate_tree": "bb02e1177745835e17878db00e7f9b653f43c5df",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "d0c51bd36978c2efc4fecd89c2d43a30f63a7cae",
+        "mode": "100644",
+        "sha256": "72c8efde1aa948db54728042997193125495bf67a47aa82f18ebf513b5c94571"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "05a0da7796f9568c097eca0fac499133fd805b9c",
+        "mode": "100644",
+        "sha256": "1a8d321dcd235c64f7f87bab18bff24206d38ce599cd787e85a941f7d90b1af4"
+      },
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "36199a0dbab90069209f90920dd44960a81cba09",
+        "mode": "100644",
+        "sha256": "24bb33466e2ab30d6db554bd8d369b01c16ee1fcddff809db4cc83e7e79b7c22"
+      },
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "0e09ca13453acfa3174c7a924482f99cbac98ddb",
+        "mode": "100644",
+        "sha256": "cc4e18e74d31dc6041aa4a778b6456c88f2a34ff4f102ce61d69bc00722e2bd1"
+      },
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "cfcf9265bfd9e89fb2000819b4655e95e711d206",
+        "mode": "100644",
+        "sha256": "368d4c543a3515d7ea670828b96fd8cde03b86d6687acd3c688c65392e2faf7b"
+      },
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/direct-first.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "d9f8438da4254fcb129834c9e279b07e3363a1c4",
+        "mode": "100644",
+        "sha256": "d8df22a7cf0e61f67385fead22586934f315341a1659f204b13684ea16da1930"
+      },
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/direct-first.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "7174d2c297480d96e7a62863e5c1d8ac37d14327",
+        "mode": "100644",
+        "sha256": "c57b85144250c425b7f258f64ad437e66c4e5cc4649efc797a8f307035b32fe8"
+      },
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "e5f5ba0e5baa3b27918d7a1d71b46384a3f51cb4",
+        "mode": "100644",
+        "sha256": "2e429c0885302e693191351d11cc8e314a81cb52a9a785ca64305d78e0589587"
+      },
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "4f395a99458259e3eec01edd5dda1fe0f03d467b",
+        "mode": "100644",
+        "sha256": "8ade5717d4d79045406361514cacddf96c552c63ed5ce0ffbd0d610dc432e937"
+      },
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/nested-first.expected",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "52e3005660149a3759f05d8871fea711fdb73798",
+        "mode": "100644",
+        "sha256": "fb65315761f174130cb5c61a9a666523deb8b55c408d36046e3a7bad5e82099c"
+      },
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/nested-first.rs",
+      "status": "added"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "05a0da7796f9568c097eca0fac499133fd805b9c",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "sha256": "1a8d321dcd235c64f7f87bab18bff24206d38ce599cd787e85a941f7d90b1af4",
+      "size": 26576
+    },
+    {
+      "blob": "52654193df9859dc03c1223184f6aa5705d511a9",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+      "sha256": "daacc82f429cbf3d21e877731ddbb34c55e21ef788e05d177da8656b22baeea8",
+      "size": 4864
+    },
+    {
+      "blob": "d9b965359021853ab94e905209a41b40d40549ef",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "sha256": "add9326d0250c7645ac8570bca1357d94072e9182ea64f1c2bf1a908fd99860f",
+      "size": 39413
+    },
+    {
+      "blob": "001e482a3653dff92c4c5bc1b5682e3c7c797d63",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+      "sha256": "cf0433855bf460b679d6202effbece3dcdd4d2f920cff274b53e359cfeb21957",
+      "size": 63027
+    },
+    {
+      "blob": "0ab7059e422f54480dd62547df7aeed93c6bafe8",
+      "member": "dependencies/0004.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "sha256": "1371e9059e45cff62f8be3d5323cc866ce74a4e67a6f3e69bf98372462bd3853",
+      "size": 43127
+    },
+    {
+      "blob": "0e4b62727c400b942d6dbd17e198b1bd83a46227",
+      "member": "dependencies/0005.bin",
+      "mode": "100644",
+      "path": "kani-driver/src/cbmc_property_renderer.rs",
+      "sha256": "f2f6be1b2a2e29e340e17c5859fa5a0f5c7d90bacb9287d082af23d442737c42",
+      "size": 35408
+    },
+    {
+      "blob": "4edc84573b03d2b923d584f5df144274c435f693",
+      "member": "dependencies/0006.bin",
+      "mode": "100644",
+      "path": "rust-toolchain.toml",
+      "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+      "size": 183
+    },
+    {
+      "blob": "d77b82e0cf51e3324e899faafec367830d3a24c1",
+      "member": "dependencies/0007.bin",
+      "mode": "100644",
+      "path": "rustfmt.toml",
+      "sha256": "d1886a654a790b5f5779d12c770b32c5328e4e4eaa415fc3a024c6ba9df687b1",
+      "size": 238
+    },
+    {
+      "blob": "177eb685db5011ad9066f5891b74146d38d40a72",
+      "member": "dependencies/0008.bin",
+      "mode": "100644",
+      "path": "kani-dependencies",
+      "sha256": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+      "size": 186
+    }
+  ],
+  "diff_sha256": "72ff8b4731b76d7c1cc9f77184e034b2065e66649730a1b22426ee176c92a693",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "51f19a50b3a79c860d0ec72557aa27c214c93fb2151d28b2642037c297ddc2cc",
+  "worktree": "/root/kani-fix-3300-c2-s2"
+}

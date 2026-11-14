@@ -1,0 +1,79 @@
+{
+  "schema": "kani3300-c2-s2-static-checks-v1",
+  "candidate": "f96ad419bcae4e920708ff4bffe2b28d310f422e",
+  "tree": "bb02e1177745835e17878db00e7f9b653f43c5df",
+  "git_diff_check": "PASS",
+  "source_scope": "PASS: 1 allowed module and 8 new control/oracle files",
+  "source_clean": true,
+  "base_and_two_commit_chain": "PASS",
+  "author_committer": "PASS: both commits exact identity via git -c",
+  "old_unit_tests_unchanged": true,
+  "unit_tests": {
+    "existing": 5,
+    "added": 4,
+    "total": 9,
+    "execution": "NOT_RUN"
+  },
+  "finalize_binding_seed_code_unchanged_except_comment": true,
+  "admitted_predicate_unchanged": true,
+  "configuration_runtime_and_existing_fixtures_unchanged": true,
+  "new_fixture_structure_and_expected_patterns": "PASS (source-only; not a compiler or semantic result)",
+  "new_fixtures": [
+    {
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.rs",
+      "source_sha256": "cc4e18e74d31dc6041aa4a778b6456c88f2a34ff4f102ce61d69bc00722e2bd1",
+      "expected_sha256": "24bb33466e2ab30d6db554bd8d369b01c16ee1fcddff809db4cc83e7e79b7c22",
+      "harness": "direct_first_volatile"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/direct-first.rs",
+      "source_sha256": "d8df22a7cf0e61f67385fead22586934f315341a1659f204b13684ea16da1930",
+      "expected_sha256": "368d4c543a3515d7ea670828b96fd8cde03b86d6687acd3c688c65392e2faf7b",
+      "harness": "direct_first"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.rs",
+      "source_sha256": "2e429c0885302e693191351d11cc8e314a81cb52a9a785ca64305d78e0589587",
+      "expected_sha256": "c57b85144250c425b7f258f64ad437e66c4e5cc4649efc797a8f307035b32fe8",
+      "harness": "nested_first_volatile"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/nested-first.rs",
+      "source_sha256": "fb65315761f174130cb5c61a9a666523deb8b55c408d36046e3a7bad5e82099c",
+      "expected_sha256": "8ade5717d4d79045406361514cacddf96c552c63ed5ce0ffbd0d610dc432e937",
+      "harness": "nested_first"
+    }
+  ],
+  "input_clone_unchanged_clean": true,
+  "g0_HEAD_unchanged": false,
+  "g0_external_advance": {
+    "entry": "2c3f0af8251aca746aad6157a6db0eb4a6f501ef",
+    "observed_closeout": "38ed07ba0a94bd5a845cfec3bf95b44f0b9c46fa",
+    "paths": [
+      "A\tresearch/challenge-8/kani-k1/TASK-KANI3300-SEL1.md"
+    ],
+    "S2_inputs_unchanged": true
+  },
+  "g0_tracked_dirty_changes": false,
+  "g0_status": [
+    "?? research/challenge-8/kani-k1/kani3300/c2-s2/"
+  ],
+  "baseline_patch_validation": "PASS; see INPUTS.json identities; no production change",
+  "review_packet_check": {
+    "candidate_commit": "f96ad419bcae4e920708ff4bffe2b28d310f422e",
+    "files": 14,
+    "packet_sha256": "6e528796f0dc58fe42c8b08c48342e27ed35ad4bba33ae543d477791376d1085",
+    "proof_credit": "NONE",
+    "spec_sha256": "51f19a50b3a79c860d0ec72557aa27c214c93fb2151d28b2642037c297ddc2cc",
+    "state": "PACKET_VALID_NOT_REVIEWED"
+  },
+  "independent_review": "Luna HIGH: no correctness findings; static only",
+  "not_run": [
+    "Rust tools, formatting, compilation, build, clippy, unit or expected execution",
+    "Kani/CBMC/Miri",
+    "CI/Cloud, baseline and candidate runs",
+    "real-source alias/provenance/qualification binding, full matrix"
+  ],
+  "proof_credit": "NONE",
+  "validation_note": "An initial aggregate source check stopped on the g0 HEAD equality assertion; read-only inspection found only an external SEL1 task commit. S2 input blobs match the issued pin; no external changes reverted."
+}

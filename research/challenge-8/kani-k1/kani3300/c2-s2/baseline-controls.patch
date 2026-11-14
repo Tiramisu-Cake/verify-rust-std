@@ -1,0 +1,266 @@
+--- a/kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs
+@@ -454,6 +454,97 @@
+         let conflict = descriptor(vec![None, Some(0)], Mutability::Not, true);
+         assert!(registry.register(symbol, conflict).is_err());
+         assert_eq!(registry.symbols[&symbol], original);
++    }
++
++    #[test]
++    fn compatible_aliases_combine_qualification_in_either_order() {
++        for qualifications in [[false, true], [true, false], [true, true], [false, false]] {
++            let mut registry = ImmutableAllocations::default();
++            let symbol = "coalesced-immutable-mask".into();
++            for frozen in qualifications {
++                let alias = descriptor(vec![Some(0), None], Mutability::Not, frozen);
++                assert!(registry.register(symbol, alias.clone()).is_ok());
++                assert!(registry.register(symbol, alias).is_ok());
++            }
++            let qualified = qualifications.into_iter().any(|frozen| frozen);
++            let expected = descriptor(vec![Some(0), None], Mutability::Not, qualified);
++            assert_eq!(registry.symbols.len(), 1);
++            assert_eq!(registry.symbols[&symbol], expected);
++            assert_eq!(registry.symbols[&symbol].mask, [true, false]);
++            assert_eq!(registry.symbols[&symbol].admitted(), qualified);
++        }
++    }
++
++    #[test]
++    fn incompatible_storage_never_overwrites_or_combines_qualification() {
++        let original = descriptor(vec![Some(0), None], Mutability::Not, false);
++        let mut conflicts = vec![
++            descriptor(vec![Some(1), None], Mutability::Not, false),
++            descriptor(vec![Some(0), Some(0)], Mutability::Not, false),
++            descriptor(vec![Some(0), None, None], Mutability::Not, false),
++        ];
++        // Isolate each compatibility field, including Option bytes before physical zero fill.
++        let mut option_bytes = original.clone();
++        option_bytes.allocation.bytes[1] = Some(0);
++        conflicts.push(option_bytes);
++        let mut mask = original.clone();
++        mask.mask[1] = true;
++        conflicts.push(mask);
++        let mut layout = original.clone();
++        layout.layout = vec![(1, 2)];
++        conflicts.push(layout);
++        let mut mutable = original.clone();
++        mutable.allocation.mutability = Mutability::Mut;
++        conflicts.push(mutable);
++        let mut alignment = original.clone();
++        alignment.allocation.align = 2;
++        conflicts.push(alignment);
++
++        for conflict in conflicts {
++            assert_ne!(original, conflict);
++            for qualifications in [[false, true], [true, false], [true, true], [false, false]] {
++                let mut registry = ImmutableAllocations::default();
++                let symbol = "conflicting-immutable-mask".into();
++                let mut first = original.clone();
++                first.frozen = qualifications[0];
++                let mut next = conflict.clone();
++                next.frozen = qualifications[1];
++                assert!(registry.register(symbol, first.clone()).is_ok());
++                let expected = if first.admitted() || next.admitted() {
++                    Err(first.clone())
++                } else {
++                    Ok(())
++                };
++                assert_eq!(registry.register(symbol, next), expected);
++                assert_eq!(registry.symbols.len(), 1);
++                assert_eq!(registry.symbols[&symbol], first);
++            }
++        }
++    }
++
++    #[test]
++    fn unqualified_conflict_keeps_existing_policy() {
++        let mut registry = ImmutableAllocations::default();
++        let symbol = "unqualified-immutable-mask".into();
++        let first = descriptor(vec![Some(0), None], Mutability::Not, false);
++        let conflict = descriptor(vec![None, Some(0)], Mutability::Not, false);
++        assert!(registry.register(symbol, first.clone()).is_ok());
++        assert!(registry.register(symbol, conflict).is_ok());
++        assert_eq!(registry.symbols[&symbol], first);
++        assert!(!registry.symbols[&symbol].admitted());
++    }
++
++    #[test]
++    fn compatible_mutable_aliases_remain_unadmitted() {
++        let mut registry = ImmutableAllocations::default();
++        let symbol = "mutable-mask".into();
++        for frozen in [false, true] {
++            assert!(
++                registry.register(symbol, descriptor(vec![Some(0)], Mutability::Mut, frozen)).is_ok()
++            );
++        }
++        assert!(registry.symbols[&symbol].frozen);
++        assert!(!registry.symbols[&symbol].admitted());
+     }
+ 
+     #[test]
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.expected b/tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.expected
+new file mode 100644
+index 000000000..36199a0db
+--- /dev/null
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.expected
+@@ -0,0 +1,10 @@
++Checking harness direct_first_volatile...
++ - Status: SUCCESS\
++ - Description: "assertion failed: direct_value == 5"
++ - Status: SUCCESS\
++ - Description: "assertion failed: nested_value == 5"
++ - Status: SUCCESS\
++ - Description: "assertion failed: direct_value == nested_value"
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.rs b/tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.rs
+new file mode 100644
+index 000000000..0e09ca134
+--- /dev/null
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.rs
+@@ -0,0 +1,20 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++static T: [&u8; 1] = [&5];
++
++// The direct whole-object reference and the nested relocation may use different AllocId keys
++// for the same emitted byte. Their actual keys, symbol and qualification require CI inspection.
++// Volatile reads retain the observations without changing either reference origin.
++#[kani::proof]
++fn direct_first_volatile() {
++    let direct: &u8 = &5;
++    let nested: &u8 = T[0];
++    let direct_value = unsafe { std::ptr::read_volatile(direct) };
++    let nested_value = unsafe { std::ptr::read_volatile(nested) };
++    assert!(direct_value == 5);
++    assert!(nested_value == 5);
++    assert!(direct_value == nested_value);
++}
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/direct-first.expected b/tests/expected/uninit/immutable-descriptor-coalescing/direct-first.expected
+new file mode 100644
+index 000000000..cfcf9265b
+--- /dev/null
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/direct-first.expected
+@@ -0,0 +1,10 @@
++Checking harness direct_first...
++ - Status: SUCCESS\
++ - Description: "assertion failed: direct_value == 5"
++ - Status: SUCCESS\
++ - Description: "assertion failed: nested_value == 5"
++ - Status: SUCCESS\
++ - Description: "assertion failed: direct_value == nested_value"
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/direct-first.rs b/tests/expected/uninit/immutable-descriptor-coalescing/direct-first.rs
+new file mode 100644
+index 000000000..d9f8438da
+--- /dev/null
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/direct-first.rs
+@@ -0,0 +1,19 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++static T: [&u8; 1] = [&5];
++
++// The direct whole-object reference and the nested relocation may use different AllocId keys
++// for the same emitted byte. Their actual keys, symbol and qualification require CI inspection.
++#[kani::proof]
++fn direct_first() {
++    let direct: &u8 = &5;
++    let nested: &u8 = T[0];
++    let direct_value = *direct;
++    let nested_value = *nested;
++    assert!(direct_value == 5);
++    assert!(nested_value == 5);
++    assert!(direct_value == nested_value);
++}
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.expected b/tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.expected
+new file mode 100644
+index 000000000..7174d2c29
+--- /dev/null
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.expected
+@@ -0,0 +1,10 @@
++Checking harness nested_first_volatile...
++ - Status: SUCCESS\
++ - Description: "assertion failed: direct_value == 5"
++ - Status: SUCCESS\
++ - Description: "assertion failed: nested_value == 5"
++ - Status: SUCCESS\
++ - Description: "assertion failed: direct_value == nested_value"
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.rs b/tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.rs
+new file mode 100644
+index 000000000..e5f5ba0e5
+--- /dev/null
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.rs
+@@ -0,0 +1,20 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++static T: [&u8; 1] = [&5];
++
++// The direct whole-object reference and the nested relocation may use different AllocId keys
++// for the same emitted byte. Their actual keys, symbol and qualification require CI inspection.
++// Volatile reads retain the observations without changing either reference origin.
++#[kani::proof]
++fn nested_first_volatile() {
++    let nested: &u8 = T[0];
++    let direct: &u8 = &5;
++    let nested_value = unsafe { std::ptr::read_volatile(nested) };
++    let direct_value = unsafe { std::ptr::read_volatile(direct) };
++    assert!(direct_value == 5);
++    assert!(nested_value == 5);
++    assert!(direct_value == nested_value);
++}
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/nested-first.expected b/tests/expected/uninit/immutable-descriptor-coalescing/nested-first.expected
+new file mode 100644
+index 000000000..4f395a994
+--- /dev/null
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/nested-first.expected
+@@ -0,0 +1,10 @@
++Checking harness nested_first...
++ - Status: SUCCESS\
++ - Description: "assertion failed: direct_value == 5"
++ - Status: SUCCESS\
++ - Description: "assertion failed: nested_value == 5"
++ - Status: SUCCESS\
++ - Description: "assertion failed: direct_value == nested_value"
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/nested-first.rs b/tests/expected/uninit/immutable-descriptor-coalescing/nested-first.rs
+new file mode 100644
+index 000000000..52e300566
+--- /dev/null
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/nested-first.rs
+@@ -0,0 +1,19 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++static T: [&u8; 1] = [&5];
++
++// The direct whole-object reference and the nested relocation may use different AllocId keys
++// for the same emitted byte. Their actual keys, symbol and qualification require CI inspection.
++#[kani::proof]
++fn nested_first() {
++    let nested: &u8 = T[0];
++    let direct: &u8 = &5;
++    let nested_value = *nested;
++    let direct_value = *direct;
++    assert!(direct_value == 5);
++    assert!(nested_value == 5);
++    assert!(direct_value == nested_value);
++}

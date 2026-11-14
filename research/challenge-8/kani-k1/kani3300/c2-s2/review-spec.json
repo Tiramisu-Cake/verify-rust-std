@@ -1,0 +1,36 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-c2-s2",
+  "baseline_commit": "69b13711e60a87458200833445d47488ab466344",
+  "candidate_commit": "f96ad419bcae4e920708ff4bffe2b28d310f422e",
+  "defect": "Different AllocId keys for one emitted allocation may carry different frozen-origin qualification and spuriously conflict in Descriptor equality.",
+  "applicability": "C2-S2 only: exact descriptor compatibility and qualification merge, register unit controls and direct/nested immutable reference expected fixtures.",
+  "invariants": [
+    "Combine qualification only for exact allocation equality (Option bytes, extent, align, mutability, provenance), identical mask and layout.",
+    "False-to-true and true-to-false registration must preserve the same exact object and qualification; genuine admitted conflicts return Err without mutation.",
+    "Keep whole-object supported Freeze or exact static source qualification, immutable/no-relocations admission, seal, canonical binding, target checks and reset-completion seeding.",
+    "Preserve unrelated unqualified-conflict policy; no mutable blessing, subrange or relocation support, runtime or body-cache changes."
+  ],
+  "controls": [
+    "Review unit matrix for both orderings, repeats, neither qualifying, Some(0)/None, actual storage conflicts and no overwrite after Err.",
+    "Review four one-harness expected fixtures: minimal direct/nested use and reversed order, plus volatile companions. Own assertions SUCCESS, zero failures and final SUCCESS.",
+    "No local compiler/verifier/test runs are permitted. Source coalescing and qualification require future coordinator baseline/candidate CI inspection; no observed fatal is claimed."
+  ],
+  "dependencies": [
+    "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+    "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-driver/src/cbmc_property_renderer.rs",
+    "rust-toolchain.toml",
+    "rustfmt.toml",
+    "kani-dependencies"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Static review only. No cargo/rustc/rustfmt/Kani/CBMC/Miri/builds, push, CI or Cloud; do not spawn agents.",
+    "Synthetic descriptor cases are unit-only and cannot establish real-source AllocId/provenance binding. Actual coalescing UNKNOWN until CI; absent coalescing is NONDISCRIMINATING.",
+    "S1 composition JSON drift remains deferred to S5; F6/F7/SEL1 and all later C2 work are out of scope."
+  ]
+}

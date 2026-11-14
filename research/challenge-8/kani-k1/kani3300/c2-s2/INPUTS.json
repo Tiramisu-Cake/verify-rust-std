@@ -1,0 +1,94 @@
+{
+  "schema": "kani3300-c2-s2-inputs-v1",
+  "task": "TASK-KANI3300-C2-S2.md",
+  "g0": {
+    "path": "/root/verify-rust-std-kani3300-g0",
+    "commit": "2c3f0af8251aca746aad6157a6db0eb4a6f501ef",
+    "research_committed": false,
+    "entry_commit": "2c3f0af8251aca746aad6157a6db0eb4a6f501ef",
+    "observed_closeout_commit": "38ed07ba0a94bd5a845cfec3bf95b44f0b9c46fa",
+    "external_advance": {
+      "changed_paths": [
+        "A\tresearch/challenge-8/kani-k1/TASK-KANI3300-SEL1.md"
+      ],
+      "S2_inputs_unchanged": true,
+      "action": "preserved; no reset or g0 commit by worker"
+    }
+  },
+  "source": {
+    "path": "/root/kani-fix-3300-c2-s2",
+    "branch": "fix/kani-3300-c2-s2",
+    "commit": "f96ad419bcae4e920708ff4bffe2b28d310f422e",
+    "tree": "bb02e1177745835e17878db00e7f9b653f43c5df",
+    "base": "69b13711e60a87458200833445d47488ab466344",
+    "base_tree": "1df668c6896eaed2b08385d307b8ddf178613c6f",
+    "commits": [
+      "9f321df1af6afd5c2e61b4eb698831a5a670caae",
+      "f96ad419bcae4e920708ff4bffe2b28d310f422e"
+    ],
+    "clean": true
+  },
+  "read_only_source": {
+    "path": "/root/kani-fix-3300-c2-s1",
+    "head": "69b13711e60a87458200833445d47488ab466344",
+    "tree": "1df668c6896eaed2b08385d307b8ddf178613c6f"
+  },
+  "new_controls_baseline": {
+    "base": "69b13711e60a87458200833445d47488ab466344",
+    "patch": "baseline-controls.patch",
+    "patch_sha256": "3aac62b0a3ba1fd5d03f2789cee0346a59a4d9f579f09c8e69b64d6c126e4c13",
+    "overlay_tree": "208e5f19457ac11789bb92cb06d8203bf9aa7489",
+    "patch_apply_check": "PASS (temporary index; no baseline worktree mutation)",
+    "production_bytes_unchanged": true,
+    "new_controls_identical_to_candidate": true,
+    "compiler_and_execution": "NOT_RUN",
+    "observed_fatal": "UNKNOWN"
+  },
+  "changed_paths": [
+    "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+    "tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.expected",
+    "tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.rs",
+    "tests/expected/uninit/immutable-descriptor-coalescing/direct-first.expected",
+    "tests/expected/uninit/immutable-descriptor-coalescing/direct-first.rs",
+    "tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.expected",
+    "tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.rs",
+    "tests/expected/uninit/immutable-descriptor-coalescing/nested-first.expected",
+    "tests/expected/uninit/immutable-descriptor-coalescing/nested-first.rs"
+  ],
+  "configuration_blobs": {
+    "rust-toolchain.toml": "4edc84573b03d2b923d584f5df144274c435f693",
+    "rustfmt.toml": "d77b82e0cf51e3324e899faafec367830d3a24c1",
+    "kani-dependencies": "177eb685db5011ad9066f5891b74146d38d40a72",
+    "Cargo.lock": "1bb6463d877d16edd25c153aa5a439cb8ae24cb7",
+    ".gitmodules": "c7e25f120c9507561b6f31988b4a7aa40a050070",
+    "library/kani_core/src/mem_init.rs": "59f3e587c0645764cad4d48369f7bddf82a6d26e"
+  },
+  "gitlinks": [
+    "160000 commit 1b6df08a04fd2edaeedd4046b917253a1bf25de5\tcharon",
+    "160000 commit cd36c699f3cb3d531289aadee26c45c1306edcfc\tfirecracker",
+    "160000 commit be829a473881163369f7df4c739232ebbd1e7d27\ttests/perf/s2n-quic"
+  ],
+  "assurance": "STATIC_SOURCE_ONLY; no new B1/B2 proof credit",
+  "not_run": [
+    "rustfmt",
+    "Rust typecheck",
+    "build",
+    "clippy",
+    "unit tests",
+    "Kani",
+    "CBMC",
+    "Miri",
+    "baseline controls execution",
+    "candidate controls execution",
+    "CI",
+    "Cloud",
+    "full C2 gate"
+  ],
+  "restrictions": {
+    "local_rust_tools": false,
+    "push": false,
+    "CI": false,
+    "Cloud_spend": 0,
+    "source_author_and_committer": "Tiramisu-Cake <igkharin@gmail.com>"
+  }
+}
