@@ -45,3 +45,21 @@ Source static checks, wrapper formatting and git diff --check are the local vali
 No builds, compiler/verifier runs, native compiletest, push or CI dispatch.
 
 Final source 6d2e9ae621310605eda4b0c9572d34d9a7ff948d, tree 6a8f2b2e11780445451640eaba8b6a7076686896. Only planned three-suite deletions followed the reviewed predeletion tree; static scope/deletion-set checks PASS. Metadata hashes refreshed. Source-full.patch reconstructs exact tree in an isolated Git index. Native CI remains NOT_RUN.
+
+## CI43636027466 correction: source-harness exception
+
+Two Replace inputs require an in-crate `#[proof_for_contract(passthrough)]` companion
+for `stub_verified` validation. Each now contains the original caller plus the full-domain
+`replace_simple_check` companion, but `kani-flags --harness <caller> --exact` selects
+exactly one caller (before --cbmc-args). This explicitly authorized exception changes
+source harness count to two in these files, and preserves one selected root per oracle.
+The separate replace-simple-check.rs fixture still executes the PFC oracle. Companion
+presence does not constitute proof execution or mode qualification.
+
+No goldens or intended native counts changed: Replace N2, false-return partition N0.
+Only the selected caller emits the verification summary, with its own Checking harness,
+consecutive SUMMARY / ** N of, verdict and Complete1total. Cover counts cannot satisfy
+the anchored check-summary requirement. See fix-43636027466/REVIEW.md for source tracing.
+Native verification of this correction remains NOT_RUN.
+
+Correction source 8d67298c48eb7b2381f806a6353433d1440e3d94, tree 5fb7dbaa6f79a75ca552be9d4d5c7b535cf38058; static delta review at fix-43636027466/REVIEW.md. Prior independent review/CI did not cover this local PFC omission; restore prerequisite with exact selection. No new build/CI.

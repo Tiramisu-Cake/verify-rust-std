@@ -126,6 +126,34 @@
     "tests/json-handler/uninit-part1-composition/test_bindings.py",
     "tests/json-handler/uninit-part1-composition/test_compare.py"
   ],
-  "source_candidate": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
-  "source_tree": "6a8f2b2e11780445451640eaba8b6a7076686896"
+  "source_candidate": "8d67298c48eb7b2381f806a6353433d1440e3d94",
+  "source_tree": "5fb7dbaa6f79a75ca552be9d4d5c7b535cf38058",
+  "source_harness_exceptions": {
+    "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs": {
+      "source_harnesses": [
+        "replace_transfer_uninitialized",
+        "replace_simple_check"
+      ],
+      "selected_root": "replace_transfer_uninitialized",
+      "root_selection_flags": [
+        "--harness",
+        "replace_transfer_uninitialized",
+        "--exact"
+      ]
+    },
+    "tests/expected/uninit/contract-modes/replace-transfer.rs": {
+      "source_harnesses": [
+        "replace_transfer",
+        "replace_simple_check"
+      ],
+      "selected_root": "replace_transfer",
+      "root_selection_flags": [
+        "--harness",
+        "replace_transfer",
+        "--exact"
+      ]
+    }
+  },
+  "selected_root_policy": "All22 oracle fixtures execute one selected root; two have an unselected local PFC prerequisite",
+  "fix_parent": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d"
 }

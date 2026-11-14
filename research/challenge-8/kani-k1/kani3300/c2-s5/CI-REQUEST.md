@@ -1,3 +1,17 @@
+# Correction after CI43636027466 — targeted request (no dispatch)
+
+Prior6d2e9ae621: fmt/build/clippy PASS; units6/2/9, kani24/0, expected226ok/2compile failures,
+ui17/0, script2/0, remaining JSON17/0. The two Replace callers lost the required local PFC.
+Current source restores it and explicitly selects the original caller only. First rerun
+both affected expected selectors and confirm their intended N2/N0, useful blocks and1total.
+Goldens remain unchanged. New source has not been built/verified by this worker.
+
+Sensitivity CI attempt was INVALID: selectors were ignored/skipped; it was not a detection
+result. Manifest already specifies --force-rerun; use it for every mutation selector.
+All four patch files and their mutated-input hashes remain unchanged/applicable. Reuse
+the built Kani/compiletest; require normal cases PASS before mutation mismatch evidence.
+The original regression/Quick and final three-host acceptance requirements below remain.
+
 # S5 coordinator CI request — NOT_RUN
 
 The owner supplied missing exact-base report43630584079 at g0 d9a2a40c93.

@@ -19,3 +19,19 @@ additional exported JSON root selectors. Preserve their code/conditions in the i
 only one-harness splits become expected selectors after all map blockers close.
 Mixed source order is not observed producer order. See MIXED-ISOLATION-DISPOSITION.md.
 Only pure cover!(true, description) hooks are removed from negative Replace/recursive copies. All payload reads and assertions remain; positive copies retain required SATISFIED covers. Six old mode roots map to seven fixtures. The new false-partition companion N=0 is source-justified, native NOT_RUN.
+
+## CI43636027466 correction: source-harness exception
+
+Two Replace inputs require an in-crate `#[proof_for_contract(passthrough)]` companion
+for `stub_verified` validation. Each now contains the original caller plus the full-domain
+`replace_simple_check` companion, but `kani-flags --harness <caller> --exact` selects
+exactly one caller (before --cbmc-args). This explicitly authorized exception changes
+source harness count to two in these files, and preserves one selected root per oracle.
+The separate replace-simple-check.rs fixture still executes the PFC oracle. Companion
+presence does not constitute proof execution or mode qualification.
+
+No goldens or intended native counts changed: Replace N2, false-return partition N0.
+Only the selected caller emits the verification summary, with its own Checking harness,
+consecutive SUMMARY / ** N of, verdict and Complete1total. Cover counts cannot satisfy
+the anchored check-summary requirement. See fix-43636027466/REVIEW.md for source tracing.
+Native verification of this correction remains NOT_RUN.

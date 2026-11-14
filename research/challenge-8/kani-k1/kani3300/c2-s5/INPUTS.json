@@ -7,7 +7,7 @@
   "branch": "fix/kani-3300-c2-s5",
   "scope": "S5 only; blockers resolved by user supplied exact-base report43630584079",
   "source_changed": true,
-  "source_commit": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
+  "source_commit": "8d67298c48eb7b2381f806a6353433d1440e3d94",
   "allowed": "read-only/static preparation; no build/push/CI; research uncommitted",
   "input_files": [
     {
@@ -167,9 +167,20 @@
       }
     }
   },
-  "source_candidate": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
-  "source_tree": "6a8f2b2e11780445451640eaba8b6a7076686896",
+  "source_candidate": "8d67298c48eb7b2381f806a6353433d1440e3d94",
+  "source_tree": "5fb7dbaa6f79a75ca552be9d4d5c7b535cf38058",
   "source_worktree_clean": true,
   "research_commit": "NOT_CREATED",
-  "source_author": "Tiramisu-Cake <igkharin@gmail.com>"
+  "source_author": "Tiramisu-Cake <igkharin@gmail.com>",
+  "fix_parent": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
+  "source_patch_chain": [
+    {
+      "path": "source-full.patch",
+      "sha256": "65f95408879819225afb5a7b85ea32665660bf1479b5e14ab123b7fe095679a5"
+    },
+    {
+      "path": "fix-43636027466/source-fix.patch",
+      "sha256": "54e268d077d4cb374bbdcc8f09862b62564a4eecc5c865a668fce1dcd0a1378d"
+    }
+  ]
 }

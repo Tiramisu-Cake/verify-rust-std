@@ -1,6 +1,6 @@
 # C2-S5 mode-boundaries mapping and fixture status
 
-Source base: `3b382c812a1b8541946e6dc732cf04497ebcf995` (tree `716a2446684bb56e0a03b7fbe5df26593648a1c8`). The six old roots are each represented by one harness in `tests/expected/uninit/contract-modes/`. All fixtures retain `-Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --cbmc-args --object-bits 12`; each harness has unwind 8. The main agent removes only the three mapped JSON suites after independent static review.
+Source base: `3b382c812a1b8541946e6dc732cf04497ebcf995` (tree `716a2446684bb56e0a03b7fbe5df26593648a1c8`). The six old roots are each represented by one selected harness in `tests/expected/uninit/contract-modes/`. All fixtures retain `-Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --cbmc-args --object-bits 12`; each harness has unwind 8. The main agent removes only the three mapped JSON suites after independent static review.
 
 | Old pointer | New selector | Mapped condition and retained operation |
 |---|---|---|
@@ -16,3 +16,19 @@ The old Replace covers were observation-only, not JSON-required covers. The init
 The earlier five-failure observation included two bool/`&bool` capture checks and a nonzero closure-layout Unsupported; it is not evidence for the exact base. Current source and the supplied exact-base observation line up with two mechanisms: ordinary-slot tracking in `delayed_ub/instrumentation_visitor.rs` seeds and tracks the ordinary argument/reference storage bytes themselves, without treating a reference slot as initialization of its referent; and the nonzero `RigidTy::Closure` arm in `kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs:486-507` walks the actual monomorphized upvar types at the closure-layout field offsets. The latter is the relevant environment handling for a captured `&bool`; the sized zero-byte closure arm at lines 481-485 does not explain that old nonzero capture. The current observation confirms the bool/`&bool` checks succeed and reports no closure-layout Unsupported, consistent with these source paths. This is source-backed mechanism plus observed outcome, not a matched-ablation causal proof. The two current failures remain the exact `ptr::read` checks above; the observation does not establish which individual internal transfer caused them. See `kani3300/c2-s5/REPLACE-OUTCOME.md` for the source analysis and its limits.
 
 The portable goldens use literal property blocks, stable harness/function prefixes and descriptions, exact failure summary counts, and final verdicts. They do not pin host paths, standard-library source locations, closure-number paths, toolchain identity, or full stdout. Full native verification of these new fixtures is NOT_RUN by scope.
+
+## CI43636027466 correction: source-harness exception
+
+Two Replace inputs require an in-crate `#[proof_for_contract(passthrough)]` companion
+for `stub_verified` validation. Each now contains the original caller plus the full-domain
+`replace_simple_check` companion, but `kani-flags --harness <caller> --exact` selects
+exactly one caller (before --cbmc-args). This explicitly authorized exception changes
+source harness count to two in these files, and preserves one selected root per oracle.
+The separate replace-simple-check.rs fixture still executes the PFC oracle. Companion
+presence does not constitute proof execution or mode qualification.
+
+No goldens or intended native counts changed: Replace N2, false-return partition N0.
+Only the selected caller emits the verification summary, with its own Checking harness,
+consecutive SUMMARY / ** N of, verdict and Complete1total. Cover counts cannot satisfy
+the anchored check-summary requirement. See fix-43636027466/REVIEW.md for source tracing.
+Native verification of this correction remains NOT_RUN.

@@ -1,7 +1,7 @@
 {
   "status": "PREPARED_CI_ONLY_TEST_ONLY",
   "base": "3b382c812a1b8541946e6dc732cf04497ebcf995",
-  "source_candidate": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
+  "source_candidate": "8d67298c48eb7b2381f806a6353433d1440e3d94",
   "execution": "NOT_RUN",
   "export_contains_mutations": false,
   "apply": "One overlay per fresh temporary copy of the final candidate, independently. Verify input and patch SHA before apply. Normal suite must pass first. Mutants do not change production code.",
@@ -103,5 +103,15 @@
       "native_result_status": "NOT_RUN: CI-only per owner"
     }
   ],
-  "source_tree": "6a8f2b2e11780445451640eaba8b6a7076686896"
+  "source_tree": "5fb7dbaa6f79a75ca552be9d4d5c7b535cf38058",
+  "fix_parent": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
+  "ci_attempts": [
+    {
+      "run": "43636027466",
+      "candidate": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
+      "result": "INVALID: ignored/skipped, no oracle detection evidence",
+      "retry_requirement": "--force-rerun (already in argv template)",
+      "patch_bytes": "UNCHANGED; all4 apply checks PASS on corrected source"
+    }
+  ]
 }

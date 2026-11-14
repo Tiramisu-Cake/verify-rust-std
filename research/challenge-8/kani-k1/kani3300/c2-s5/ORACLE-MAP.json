@@ -1358,7 +1358,7 @@
           "native_candidate_execution": "NOT_RUN"
         }
       ],
-      "preservation": "Retain nondet initialized bool, input(initialized) constructor-return path, relay/through_helper, passthrough Replace stub, requires/ensures and conditional payload assertion. Remove only two pure true observation hooks from negative parent. Initialized reachability is own payload SUCCESS. New explicit false-partition companion retains input(initialized) with the explicit false domain/same helper+stub route and postreturn SUCCESS plus SATISFIED uninitialized-return cover; N0 source-justified by short-circuit, native NOT_RUN. Parent exact N2 from supplied base; no mode qualification.",
+      "preservation": "Retain nondet initialized bool, input(initialized) constructor-return path, relay/through_helper, passthrough Replace stub, requires/ensures and conditional payload assertion. Remove only two pure true observation hooks from negative parent. Initialized reachability is own payload SUCCESS. New explicit false-partition companion retains input(initialized) with the explicit false domain/same helper+stub route and postreturn SUCCESS plus SATISFIED uninitialized-return cover; N0 source-justified by short-circuit, native NOT_RUN. Parent exact N2 from supplied base; no mode qualification. In-file full-domain PFC companion restored after CI compile error; explicit exact caller selection leaves original payload/contract/mode unchanged.",
       "status": "MAPPED_IMPLEMENTED_STATIC_REVIEWED_NATIVE_NOT_RUN",
       "current_base_verdict": "FAILURE",
       "current_base_failures": [
@@ -1446,7 +1446,81 @@
           "execution": "NOT_RUN"
         }
       ],
-      "companion_domain": "Explicit false-alternative partition: original nondet bool plus assume(!initialized), preserving input(initialized) and all target/contract/helper handoffs. Parent nondet root is unchanged/unrestricted. Avoids compile-time elimination of postreturn witness; not a premise added to general Replace claim."
+      "companion_domain": "Explicit false-alternative partition: original nondet bool plus assume(!initialized), preserving input(initialized) and all target/contract/helper handoffs. Parent nondet root is unchanged/unrestricted. Avoids compile-time elimination of postreturn witness; not a premise added to general Replace claim.",
+      "source_harness_exception": {
+        "authorization": "Owner follow-up after CI43636027466 explicitly permits in-file PFC companion plus --harness root --exact",
+        "reason": "check_crate_items gathers all HIR items and requires local PFC registration for stub_verified(passthrough); a separate crate cannot satisfy it",
+        "companion": "replace_simple_check; full original nondet SimpleCheck body, no cover hooks; same target/contracts/helpers",
+        "per_input": [
+          {
+            "input": "tests/expected/uninit/contract-modes/replace-transfer.rs",
+            "selected_root": "replace_transfer",
+            "source_harnesses": [
+              "replace_transfer",
+              "replace_simple_check"
+            ],
+            "selected_harness_count": 1,
+            "exact_N": 2,
+            "input_sha256": "d6673e266993cf7fc9b1606022d53424adde373ba6e3815ba7dfe796090b42b4",
+            "golden_unchanged": true,
+            "flags": [
+              "-Z",
+              "uninit-checks",
+              "-Z",
+              "function-contracts",
+              "-Z",
+              "stubbing",
+              "-Z",
+              "unstable-options",
+              "--output-format=regular",
+              "--harness-timeout",
+              "120",
+              "--harness",
+              "replace_transfer",
+              "--exact",
+              "--cbmc-args",
+              "--object-bits",
+              "12"
+            ],
+            "native_fix_result": "NOT_RUN"
+          },
+          {
+            "input": "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs",
+            "selected_root": "replace_transfer_uninitialized",
+            "source_harnesses": [
+              "replace_transfer_uninitialized",
+              "replace_simple_check"
+            ],
+            "selected_harness_count": 1,
+            "exact_N": 0,
+            "input_sha256": "1ceb347fd29b394e7f2005752f597bee435723adc78d56ace33d479286440cba",
+            "golden_unchanged": true,
+            "flags": [
+              "-Z",
+              "uninit-checks",
+              "-Z",
+              "function-contracts",
+              "-Z",
+              "stubbing",
+              "-Z",
+              "unstable-options",
+              "--output-format=regular",
+              "--harness-timeout",
+              "120",
+              "--harness",
+              "replace_transfer_uninitialized",
+              "--exact",
+              "--cbmc-args",
+              "--object-bits",
+              "12"
+            ],
+            "native_fix_result": "NOT_RUN"
+          }
+        ],
+        "summary_binding": "compiletest forwards flags before CBMC args; compiler determine_targets exact-matches the caller only. Thus unselected PFC cannot contribute a summary. Existing Checking harness + anchored SUMMARY/N + verdict +1total still bind N2 or N0 to chosen root.",
+        "proof_scope": "PFC companion presence is a compile requirement, not proof execution/credit. Existing replace-simple-check.rs executes the legal PFC oracle separately."
+      },
+      "source_harness_count_per_replace_input": 2
     },
     {
       "old_file": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
@@ -2729,6 +2803,10 @@
   },
   "no_source_changes": false,
   "review": "INDEPENDENT-REVIEW.md; earlier map boilerplate finding fixed and verified before suite deletion",
-  "source_candidate": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
-  "source_tree": "6a8f2b2e11780445451640eaba8b6a7076686896"
+  "source_candidate": "8d67298c48eb7b2381f806a6353433d1440e3d94",
+  "source_tree": "5fb7dbaa6f79a75ca552be9d4d5c7b535cf38058",
+  "one_harness_policy": "20 source-single-harness fixtures +2 explicitly authorized source-two-harness Replace fixtures; all22 execute exactly one selected root. Companion retained solely for stub_verified prerequisite; separate PFC expected fixture retained.",
+  "current_fix_base": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
+  "fix_parent": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
+  "current_fix": "fix-43636027466/REVIEW.md; two source-harness exceptions, one exact selected root each; native fix NOT_RUN"
 }

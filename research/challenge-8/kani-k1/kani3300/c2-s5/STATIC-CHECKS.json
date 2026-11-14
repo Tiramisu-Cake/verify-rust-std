@@ -1,27 +1,28 @@
 {
-  "base": "3b382c812a1b8541946e6dc732cf04497ebcf995",
-  "candidate_tree": "6a8f2b2e11780445451640eaba8b6a7076686896",
-  "source_scope": "PASS: expected/uninit + deletion of exactly3 JSON suites only",
-  "deleted_old_suite_files": 29,
-  "old_manifest_file_deletion_set": "EXACT_MATCH INPUTS input_files",
-  "static_oracle_inventory": "22 single-harness inputs, anchored exact N, chained own statuses/descriptions, flags12bits and no negative covers PASS",
-  "map": "21 rows, all exact failure blocks equal N; independent review corrections resolved",
-  "fixture_hashes": "22/22 PASS",
-  "json_exec_discovery": "only3 named configs removed; remaining upstream JSON suites unchanged",
-  "dangling_imports_docs": "none via hidden-aware rg across source",
-  "rustfmt": "PASS: requested wrapper only on changed/new Rust",
+  "source_candidate": "8d67298c48eb7b2381f806a6353433d1440e3d94",
+  "source_tree": "5fb7dbaa6f79a75ca552be9d4d5c7b535cf38058",
+  "fix_parent": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
+  "source_scope": "two Replace inputs only; root/target/helpers/contracts unchanged; local full-domain PFC prerequisites restored",
+  "current_fix_static_checks": "fix-43636027466/STATIC-CHECKS.json",
+  "previous_static_checks": "fix-43636027466/PREVIOUS-STATIC-CHECKS.json",
+  "source_harness_counts": "20 source-single-harness +2 source-two-harness inputs, all22 select one root",
+  "selection_summary_binding": "exact --harness before --cbmc-args; Checking root + SUMMARY/exact N + verdict +1total, goldens unchanged",
+  "mutation_patch_bytes": "all4 unchanged vs g0 HEAD; applicable as checked; input hashes unchanged",
+  "rustfmt": "requested wrapper PASS on2 files",
   "git_diff_cached_check": "PASS",
-  "sensitivity_patch_apply_checks": "4/4 PASS; overlays outside export",
-  "native_compiletest_sensitivity": "NOT_RUN",
-  "new_portable_verification": "NOT_RUN",
-  "build_rustc_cargo_Kani_CBMC_CI_push": "NOT_RUN",
-  "source_patch_sha256": "65f95408879819225afb5a7b85ea32665660bf1479b5e14ab123b7fe095679a5",
-  "independent_review_file": "INDEPENDENT-REVIEW.md",
-  "mixed_inventory_disposition": "end-to-end regression coverage decreases; source/per-root tests do not establish inventory equality; coordinator acceptance item",
-  "source_candidate": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
-  "source_tree": "6a8f2b2e11780445451640eaba8b6a7076686896",
-  "source_full_patch_apply": "PASS: isolated temporary Git index reconstructs exact final tree",
-  "source_worktree_clean": "PASS",
-  "source_author": "PASS",
-  "source_parent_base": "PASS"
+  "source_clean_author": "PASS",
+  "source_patch_chain": [
+    {
+      "path": "source-full.patch",
+      "sha256": "65f95408879819225afb5a7b85ea32665660bf1479b5e14ab123b7fe095679a5"
+    },
+    {
+      "path": "fix-43636027466/source-fix.patch",
+      "sha256": "54e268d077d4cb374bbdcc8f09862b62564a4eecc5c865a668fce1dcd0a1378d"
+    }
+  ],
+  "patch_chain_reconstruction": "PASS: isolated Git index reconstructs exact final tree",
+  "native_fix_build_verification_CI_push": "NOT_RUN",
+  "prior_CI": "ci-43636027466/SUMMARY.md; previous compile errors, unrelated gates PASS",
+  "sensitivity_native": "NOT_RUN; previous attempt INVALID/skipped, --force-rerun required"
 }

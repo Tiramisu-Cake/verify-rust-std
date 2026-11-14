@@ -10,7 +10,7 @@ bounded false Replace return companion), add seven composition inputs. Six other
 inputs are reused and strengthened. This accounts for all16 added/one removed file selectors.
 Independent existing expected controls stay. Native discovery remains NOT_RUN, required in CI.
 
-All input sources are self-contained and have exactly one proof/proof_for_contract attribute.
+All input sources are self-contained. Twenty have one proof/proof_for_contract attribute; the two Replace inputs have a caller plus the required local PFC companion, with exactly one caller selected via --harness/--exact.
 There are no new helper .rs files requiring discovery exclusion. tools/compiletest/src/main.rs
 collect_rs_tests_from_dir/is_test discovers every normal .rs except auxiliary directories;
 run_expected_test uses .expected or directory expected. Goldens pin Checking harness and 1 total.
@@ -28,3 +28,19 @@ Shared scripts/validate_json_export.py, upstream JSON suites (including #5154), 
 compiletest matcher/driver, production compiler/runtime/pins, S4 units and independent controls
 are unchanged. Check no external imports/docs reference removed suites before final commit.
 Deletion occurs after completed semantic map and independent transfer review; CI results stay NOT_RUN.
+
+## CI43636027466 correction: source-harness exception
+
+Two Replace inputs require an in-crate `#[proof_for_contract(passthrough)]` companion
+for `stub_verified` validation. Each now contains the original caller plus the full-domain
+`replace_simple_check` companion, but `kani-flags --harness <caller> --exact` selects
+exactly one caller (before --cbmc-args). This explicitly authorized exception changes
+source harness count to two in these files, and preserves one selected root per oracle.
+The separate replace-simple-check.rs fixture still executes the PFC oracle. Companion
+presence does not constitute proof execution or mode qualification.
+
+No goldens or intended native counts changed: Replace N2, false-return partition N0.
+Only the selected caller emits the verification summary, with its own Checking harness,
+consecutive SUMMARY / ** N of, verdict and Complete1total. Cover counts cannot satisfy
+the anchored check-summary requirement. See fix-43636027466/REVIEW.md for source tracing.
+Native verification of this correction remains NOT_RUN.

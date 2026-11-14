@@ -1,0 +1,90 @@
+{
+  "base": "6d2e9ae621310605eda4b0c9572d34d9a7ff948d",
+  "source_scope": "exactly two Replace Rust fixtures",
+  "root_target_helper_body_preservation": "PASS: exact existing source excluding selection flags/added companion",
+  "PFC_companion": "PASS: same full nondet SimpleCheck body as existing independently tested fixture, only pure cover hooks omitted",
+  "goldens": "unchanged; root name + consecutive SUMMARY/exact N + verdict +1total retained",
+  "one_harness_exception": "2 source harnesses, exactly1 selected root per fixture; explicit user authorization",
+  "rustfmt": "requested wrapper only, PASS",
+  "mutation_patches": "all4 unchanged SHA and mutated-file inputs unchanged; git apply --check4/4 PASS",
+  "patches": {
+    "sensitivity/positive-remove-useful-assertion.patch": "02480ef19491ae850442e5a50b486b95815822b1f4f495556c7a4ed283e2fbe6",
+    "sensitivity/negative-extra-reached-failure.patch": "bf395d0c9ffb884466a34358c370f1de47630fd703701a1efe91cc6f2eb8b782",
+    "sensitivity/negative-repair-user-write.patch": "4a423abacbc1df120f0144d9a1f7d2412f43652b0cf2fea10ae0ca0613ad6c89",
+    "sensitivity/golden-invert-required-count.patch": "9c07ed2c6e46f423aa81785a0ac1aeb99aac95f57d108a22b911b1f8feca4684"
+  },
+  "records": [
+    {
+      "input": "tests/expected/uninit/contract-modes/replace-transfer.rs",
+      "selected_root": "replace_transfer",
+      "source_harnesses": [
+        "replace_transfer",
+        "replace_simple_check"
+      ],
+      "selected_harness_count": 1,
+      "exact_N": 2,
+      "input_sha256": "d6673e266993cf7fc9b1606022d53424adde373ba6e3815ba7dfe796090b42b4",
+      "golden_unchanged": true,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "stubbing",
+        "-Z",
+        "unstable-options",
+        "--output-format=regular",
+        "--harness-timeout",
+        "120",
+        "--harness",
+        "replace_transfer",
+        "--exact",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ],
+      "native_fix_result": "NOT_RUN"
+    },
+    {
+      "input": "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs",
+      "selected_root": "replace_transfer_uninitialized",
+      "source_harnesses": [
+        "replace_transfer_uninitialized",
+        "replace_simple_check"
+      ],
+      "selected_harness_count": 1,
+      "exact_N": 0,
+      "input_sha256": "1ceb347fd29b394e7f2005752f597bee435723adc78d56ace33d479286440cba",
+      "golden_unchanged": true,
+      "flags": [
+        "-Z",
+        "uninit-checks",
+        "-Z",
+        "function-contracts",
+        "-Z",
+        "stubbing",
+        "-Z",
+        "unstable-options",
+        "--output-format=regular",
+        "--harness-timeout",
+        "120",
+        "--harness",
+        "replace_transfer_uninitialized",
+        "--exact",
+        "--cbmc-args",
+        "--object-bits",
+        "12"
+      ],
+      "native_fix_result": "NOT_RUN"
+    }
+  ],
+  "new_native_build_or_verification": "NOT_RUN",
+  "CI_prior": "43636027466 on6d2e9ae621: two compile failures, sensitivity INVALID (ignored/skipped), not detection",
+  "source_candidate": "8d67298c48eb7b2381f806a6353433d1440e3d94",
+  "source_tree": "5fb7dbaa6f79a75ca552be9d4d5c7b535cf38058",
+  "source_clean": "PASS",
+  "author": "Tiramisu-Cake <igkharin@gmail.com>",
+  "patch_chain_reconstruction": "PASS",
+  "sensitivity_patch_bytes_vs_g0_HEAD": "UNCHANGED all4"
+}

@@ -1,0 +1,60 @@
+diff --git a/tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs b/tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs
+index 36fd9a0d9..8f4d0bc36 100644
+--- a/tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs
++++ b/tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs
+@@ -1,7 +1,7 @@
+ // Copyright Kani Contributors
+ // SPDX-License-Identifier: Apache-2.0 OR MIT
+ // compile-flags: --edition 2021 -D warnings
+-// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --cbmc-args --object-bits 12
++// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --harness replace_transfer_uninitialized --exact --cbmc-args --object-bits 12
+ 
+ use std::mem::MaybeUninit;
+ 
+@@ -42,3 +42,16 @@ fn replace_transfer_uninitialized() {
+     assert!(!initialized || payload_is_42(&result));
+     kani::cover!(true, "uninitialized storage returned");
+ }
++
++// A verified stub needs its contract proof in the same crate. The flags select
++// only the caller; the SimpleCheck oracle is exercised in its own fixture.
++#[kani::proof_for_contract(passthrough)]
++#[kani::unwind(8)]
++fn replace_simple_check() {
++    let initialized: bool = kani::any();
++    let value = input(initialized);
++    let result = through_helper(value, initialized);
++    if initialized {
++        assert!(payload_is_42(&result));
++    }
++}
+diff --git a/tests/expected/uninit/contract-modes/replace-transfer.rs b/tests/expected/uninit/contract-modes/replace-transfer.rs
+index b6ae38ba7..80d90042d 100644
+--- a/tests/expected/uninit/contract-modes/replace-transfer.rs
++++ b/tests/expected/uninit/contract-modes/replace-transfer.rs
+@@ -1,7 +1,7 @@
+ // Copyright Kani Contributors
+ // SPDX-License-Identifier: Apache-2.0 OR MIT
+ // compile-flags: --edition 2021 -D warnings
+-// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --cbmc-args --object-bits 12
++// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --harness replace_transfer --exact --cbmc-args --object-bits 12
+ 
+ use std::mem::MaybeUninit;
+ 
+@@ -43,3 +43,16 @@ fn replace_transfer() {
+         // Transferring uninitialized storage is legal; do not read its payload.
+     }
+ }
++
++// A verified stub needs its contract proof in the same crate. The flags select
++// only the caller; the SimpleCheck oracle is exercised in its own fixture.
++#[kani::proof_for_contract(passthrough)]
++#[kani::unwind(8)]
++fn replace_simple_check() {
++    let initialized: bool = kani::any();
++    let value = input(initialized);
++    let result = through_helper(value, initialized);
++    if initialized {
++        assert!(payload_is_42(&result));
++    }
++}

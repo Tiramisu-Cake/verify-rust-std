@@ -16,3 +16,5 @@ count0→1 in a temporary copy, with native result unchanged. Native CI must con
 setup errors, timeouts, early unrelated Unsupported or missing original failures are invalid.
 
 Final candidate pinned: 6d2e9ae621310605eda4b0c9572d34d9a7ff948d, tree 6a8f2b2e11780445451640eaba8b6a7076686896; source files match previously checked patch input hashes. No new native execution.
+
+CI43636027466 mutation attempt INVALID/skipped (not detection). Corrected source 8d67298c48eb7b2381f806a6353433d1440e3d94; all4 patches/inputs unchanged and applicable. --force-rerun already specified; valid native outcomes remain NOT_RUN.

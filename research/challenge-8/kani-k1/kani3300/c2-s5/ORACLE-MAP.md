@@ -31,3 +31,19 @@ Full inventory/mixed isolation/schema/selector-order relations are explicitly ou
 this expected representation: see MIXED-ISOLATION-DISPOSITION.md and REVIEW.md.
 Portable-candidate execution, native compiletest sensitivity and three-host portability
 remain NOT_RUN; base observations are not new independent proof credit.
+
+## CI43636027466 correction: source-harness exception
+
+Two Replace inputs require an in-crate `#[proof_for_contract(passthrough)]` companion
+for `stub_verified` validation. Each now contains the original caller plus the full-domain
+`replace_simple_check` companion, but `kani-flags --harness <caller> --exact` selects
+exactly one caller (before --cbmc-args). This explicitly authorized exception changes
+source harness count to two in these files, and preserves one selected root per oracle.
+The separate replace-simple-check.rs fixture still executes the PFC oracle. Companion
+presence does not constitute proof execution or mode qualification.
+
+No goldens or intended native counts changed: Replace N2, false-return partition N0.
+Only the selected caller emits the verification summary, with its own Checking harness,
+consecutive SUMMARY / ** N of, verdict and Complete1total. Cover counts cannot satisfy
+the anchored check-summary requirement. See fix-43636027466/REVIEW.md for source tracing.
+Native verification of this correction remains NOT_RUN.
