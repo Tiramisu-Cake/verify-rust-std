@@ -45,3 +45,9 @@ Total: 29 native selectors in12 new groups, plus6 named std rows. All compile/Ka
 Final fixture paths and per-selector expected files are in CONTROL-MANIFEST.json. Shared controls.inc retains the reviewed Rust items; root wrapper crate flags/features are preserved.
 
 Followup43605855700: current sourceb6f1b08eb512ff9006aff7b4924c2e8f13930d70; overwrite_hole is the shortened existing selector, not a removed control; still29 roots, all new outcomes NOT_RUN.
+
+## Nested refusal oracle — quick43611512375 correction
+
+`nested_shadow_layout_remains_unsupported` now binds its actual first rejection: the `Nested { bytes: ... }` aggregate assignment while preparing the first value arm. `CheckUninitVisitor::visit_statement` sends that ordinary Nested type through `PointeeInfo::from_ty`; recursive layout computation encounters its `[MaybeUninit<u8>;2]` field and returns UnionAsField. The local Unsupported check stops the path before the later MaybeUninit construction/select call can be exercised. The supplied excerpt identifies exactly one failed root property, with “Checking memory initialization of type Nested is not supported” and the nested MaybeUninit<u8>-as-a-field reason.
+
+The golden requires this exact root property/status/reason, one failure and FAILED verdict, without pinning total119 or host/std line inventories. This is a general nested-layout fail-closed control; it does **not** qualify the select-specific layout-refusal branch. Later select properties appearing SUCCESS after the early abort do not establish that branch's execution. No actual runtime check/control was removed; only an incorrect select-specific oracle was replaced by the already reached exact refusal. Production and the fixture executable body are unchanged. Replay43611601987 remains pinned to ec85b782a1; no rebind.

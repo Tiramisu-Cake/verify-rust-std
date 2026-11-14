@@ -1,0 +1,676 @@
+---- [expected] expected/uninit/select-unpredictable-nested-unsupported/main.rs stdout ----
+
+error: test failed: expected output to contain the line(s):
+- Status: FAILURE
+- Description: "Kani does not support memory initialization of intrinsic `select_unpredictable`
+status: exit status: 1
+command: RUSTFLAGS="--edition 2021 -D warnings" "kani" "/home/runner/work/kani/kani/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs" "-Z" "uninit-checks" "--output-format=regular"
+stdout:
+------------------------------------------
+Kani Rust Verifier 0.68.0 (standalone)
+CBMC 6.11.0
+Checking harness nested_shadow_layout_remains_unsupported...
+CBMC 6.11.0 (cbmc-6.11.0)
+CBMC version 6.11.0 (cbmc-6.11.0) 64-bit x86_64 linux
+Reading GOTO program from file /home/runner/work/kani/kani/tests/expected/uninit/select-unpredictable-nested-unsupported/main__RNvCs4mluHxTdfxx_4main40nested_shadow_layout_remains_unsupported.out
+Generating GOTO Program
+Adding CPROVER library (x86_64)
+Removal of function pointers and virtual functions
+Generic Property Instrumentation
+Running with 16 object bits, 48 offset bits (user-specified)
+Starting Bounded Model Checking
+aborting path on assume(false) at file /home/runner/work/kani/kani/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs line 21 column 26 function nested_shadow_layout_remains_unsupported thread 0
+aborting path on assume(false) at file /home/runner/work/kani/kani/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs line 21 column 9 function nested_shadow_layout_remains_unsupported thread 0
+aborting path on assume(false) at file /home/runner/work/kani/kani/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs line 22 column 16 function nested_shadow_layout_remains_unsupported thread 0
+aborting path on assume(false) at file /home/runner/work/kani/kani/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs line 23 column 20 function nested_shadow_layout_remains_unsupported thread 0
+aborting path on assume(false) at file /home/runner/work/kani/kani/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs line 24 column 48 function nested_shadow_layout_remains_unsupported thread 0
+Runtime Symex: 0.121548s
+size of program expression: 5600 steps
+slicing removed 3807 assignments
+Generated 255 VCC(s), 157 remaining after simplification
+Runtime Postprocess Equation: 0.00155459s
+Passing problem to propositional reduction
+converting SSA
+Runtime Convert SSA: 0.0201433s
+Running propositional reduction
+Post-processing
+Runtime Post-process: 1.2363e-05s
+Solving with CaDiCaL 3.0.0
+27469 variables, 60675 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.0015974s
+Runtime decision procedure: 0.0225039s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+27470 variables, 60676 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00969932s
+Runtime decision procedure: 0.0100316s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+27471 variables, 60677 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00364725s
+Runtime decision procedure: 0.00392481s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+27472 variables, 60678 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00382863s
+Runtime decision procedure: 0.0041483s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+27473 variables, 60679 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.00373808s
+Runtime decision procedure: 0.00402293s
+Running propositional reduction
+Solving with CaDiCaL 3.0.0
+27474 variables, 60680 clauses
+SAT checker: instance is UNSATISFIABLE
+Runtime Solver: 0.153253s
+Runtime decision procedure: 0.153444s
+
+RESULTS:
+Check 1: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 2: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written == 1"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 3: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "assertion failed: argument_count == 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 4: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_layout_size == LAYOUT_SIZE"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 5: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:537:25 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 6: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.6
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:539:65 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 7: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:541:21 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 8: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:541:21 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 9: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:543:17 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 10: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_selected_argument == usize::MAX"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 11: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.9
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_last_loaded < selected_argument"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 12: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.10
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written == argument_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 13: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.11
+	 - Status: SUCCESS
+	 - Description: "assertion failed: argument_count > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 14: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.12
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_remaining > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 15: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.13
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_count == argument_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 16: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.14
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_signature == signature"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 17: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.assertion.15
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 18: std::mem::MaybeUninit::<Nested>::new.unsupported_construct.1
+	 - Status: SUCCESS
+	 - Description: "Kani currently doesn't support checking memory initialization for pointers to `std::mem::MaybeUninit<Nested>. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs:407:9 in function std::mem::MaybeUninit::<Nested>::new
+
+Check 19: std::mem::MaybeUninit::<Nested>::new.unsupported_construct.2
+	 - Status: SUCCESS
+	 - Description: "Kani currently doesn't support checking memory initialization for pointers to `std::mem::MaybeUninit<Nested>. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs:408:6 in function std::mem::MaybeUninit::<Nested>::new
+
+Check 20: std::mem::MaybeUninit::<Nested>::uninit.unsupported_construct.1
+	 - Status: SUCCESS
+	 - Description: "Kani currently doesn't support checking memory initialization for pointers to `std::mem::MaybeUninit<Nested>. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs:430:9 in function std::mem::MaybeUninit::<Nested>::uninit
+
+Check 21: std::mem::MaybeUninit::<Nested>::uninit.unsupported_construct.2
+	 - Status: SUCCESS
+	 - Description: "Kani currently doesn't support checking memory initialization for pointers to `std::mem::MaybeUninit<Nested>. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/maybe_uninit.rs:431:6 in function std::mem::MaybeUninit::<Nested>::uninit
+
+Check 22: kani::mem_init::MemoryInitializationState::set::<8>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 23: kani::mem_init::MemoryInitializationState::set::<8>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 24: kani::mem_init::MemoryInitializationState::set::<8>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 25: std::mem::ManuallyDrop::<Nested>::new.unsupported_construct.1
+	 - Status: SUCCESS
+	 - Description: "Checking memory initialization of type std::mem::ManuallyDrop<Nested> is not supported. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/mem/manually_drop.rs:181:9 in function std::mem::ManuallyDrop::<Nested>::new
+
+Check 26: std::intrinsics::select_unpredictable::<std::mem::MaybeUninit<Nested>>.unsupported_construct.1
+	 - Status: SUCCESS
+	 - Description: "Kani does not support memory initialization of intrinsic `select_unpredictable` for `fn(bool, std::mem::MaybeUninit<Nested>, std::mem::MaybeUninit<Nested>) -> std::mem::MaybeUninit<Nested> {std::intrinsics::select_unpredictable::<std::mem::MaybeUninit<Nested>>}`: unsupported payload `std::mem::MaybeUninit<Nested>`: Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/intrinsics/mod.rs:744:8 in function std::intrinsics::select_unpredictable::<std::mem::MaybeUninit<Nested>>
+
+Check 27: std::intrinsics::select_unpredictable::<std::mem::MaybeUninit<Nested>>.unsupported_construct.2
+	 - Status: SUCCESS
+	 - Description: "Kani currently doesn't support checking memory initialization for pointers to `std::mem::MaybeUninit<Nested>. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/intrinsics/mod.rs:746:9 in function std::intrinsics::select_unpredictable::<std::mem::MaybeUninit<Nested>>
+
+Check 28: std::intrinsics::select_unpredictable::<std::mem::MaybeUninit<Nested>>.unsupported_construct.3
+	 - Status: SUCCESS
+	 - Description: "Kani currently doesn't support checking memory initialization for pointers to `std::mem::MaybeUninit<Nested>. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/intrinsics/mod.rs:749:9 in function std::intrinsics::select_unpredictable::<std::mem::MaybeUninit<Nested>>
+
+Check 29: kani::mem_init::set_ptr_initialized::<8, usize>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<8, usize>
+
+Check 30: kani::mem_init::set_ptr_initialized::<8, usize>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<8, usize>
+
+Check 31: kani::mem_init::set_str_ptr_initialized::<1>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:373:17 in function kani::mem_init::set_str_ptr_initialized::<1>
+
+Check 32: kani::mem_init::set_str_ptr_initialized::<1>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:373:17 in function kani::mem_init::set_str_ptr_initialized::<1>
+
+Check 33: kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:416:17 in function kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>
+
+Check 34: kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:416:17 in function kani::mem_init::copy_init_state_single::<1, std::mem::MaybeUninit<u8>>
+
+Check 35: kani::mem_init::set_ptr_initialized::<1, bool>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, bool>
+
+Check 36: kani::mem_init::set_ptr_initialized::<1, bool>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, bool>
+
+Check 37: kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>
+
+Check 38: kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<96, kani::mem_init::MemoryInitializationState>
+
+Check 39: nested_shadow_layout_remains_unsupported.unsupported_construct.1
+	 - Status: FAILURE
+	 - Description: "Checking memory initialization of type Nested is not supported. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs:21:26 in function nested_shadow_layout_remains_unsupported
+
+Check 40: nested_shadow_layout_remains_unsupported.unsupported_construct.2
+	 - Status: SUCCESS
+	 - Description: "Kani currently doesn't support checking memory initialization for pointers to `std::mem::MaybeUninit<Nested>. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs:21:9 in function nested_shadow_layout_remains_unsupported
+
+Check 41: nested_shadow_layout_remains_unsupported.unsupported_construct.3
+	 - Status: SUCCESS
+	 - Description: "Kani currently doesn't support checking memory initialization for pointers to `std::mem::MaybeUninit<Nested>. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs:22:16 in function nested_shadow_layout_remains_unsupported
+
+Check 42: nested_shadow_layout_remains_unsupported.unsupported_construct.4
+	 - Status: SUCCESS
+	 - Description: "Kani does not support memory initialization of intrinsic `select_unpredictable` for `fn(bool, std::mem::MaybeUninit<Nested>, std::mem::MaybeUninit<Nested>) -> std::mem::MaybeUninit<Nested> {std::intrinsics::select_unpredictable::<std::mem::MaybeUninit<Nested>>}`: unsupported payload `std::mem::MaybeUninit<Nested>`: Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs:23:20 in function nested_shadow_layout_remains_unsupported
+
+Check 43: nested_shadow_layout_remains_unsupported.unsupported_construct.5
+	 - Status: SUCCESS
+	 - Description: "Kani currently doesn't support checking memory initialization for pointers to `std::mem::MaybeUninit<Nested>. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+	 - Location: tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs:24:48 in function nested_shadow_layout_remains_unsupported
+
+Check 44: std::fmt::Arguments::<'_>::from_str.assertion.1
+	 - Status: UNREACHABLE
+	 - Description: "attempt to shift left with overflow"
+	 - Location: ../../../.rustup/toolchains/nightly-2026-10-23-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/mod.rs:820:38 in function std::fmt::Arguments::<'_>::from_str
+
+Check 45: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 46: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.2
+	 - Status: UNREACHABLE
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:479:21 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 47: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:488:28 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 48: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_last_stored < selected_argument"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 49: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_written < MEM_INIT_STATE.argument_buffer_count"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 50: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.6
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_count > 0"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 51: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "assertion failed: MEM_INIT_STATE.argument_buffer_signature == signature"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 52: kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: library/kani/src/lib.rs:63:1 in function kani::mem_init::store_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 53: kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>.safety_check.1
+	 - Status: SUCCESS
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>
+
+Check 54: kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>.safety_check.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: library/kani_core/src/mem_init.rs:278:17 in function kani::mem_init::set_ptr_initialized::<1, std::mem::MaybeUninit<u8>>
+
+Check 55: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:166:60 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 56: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:166:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 57: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:171:59 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 58: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.4
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:171:47 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 59: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.5
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 60: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.6
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 61: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.arithmetic_overflow.1
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:173:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 62: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.7
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:173:39 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 63: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.8
+	 - Status: SUCCESS
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:181:58 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 64: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.9
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:181:46 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 65: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.10
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 66: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.11
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 67: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.arithmetic_overflow.2
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:183:41 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 68: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.assertion.12
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:183:34 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 69: kani::mem_init::MemoryInitializationState::set::<1>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 70: kani::mem_init::MemoryInitializationState::set::<1>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 71: kani::mem_init::MemoryInitializationState::set::<1>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 72: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.1
+	 - Status: UNREACHABLE
+	 - Description: "attempt to multiply with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:230:55 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 73: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.2
+	 - Status: UNREACHABLE
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:230:46 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 74: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.3
+	 - Status: UNREACHABLE
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 75: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.4
+	 - Status: UNREACHABLE
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 76: kani::mem_init::MemoryInitializationState::set_slice::<1>.arithmetic_overflow.1
+	 - Status: SUCCESS
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: library/kani_core/src/mem_init.rs:232:41 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 77: kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.5
+	 - Status: UNREACHABLE
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:232:34 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 78: kani::mem_init::MemoryInitializationState::set::<96>.assertion.1
+	 - Status: SUCCESS
+	 - Description: "attempt to add with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:118:46 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 79: kani::mem_init::MemoryInitializationState::set::<96>.assertion.2
+	 - Status: SUCCESS
+	 - Description: "attempt to subtract with overflow"
+	 - Location: library/kani_core/src/mem_init.rs:120:41 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 80: kani::mem_init::MemoryInitializationState::set::<96>.assertion.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 81: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:173:39 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 82: kani::mem_init::MemoryInitializationState::copy_by_id::<1>.array_bounds.2
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:183:34 in function kani::mem_init::MemoryInitializationState::copy_by_id::<1>
+
+Check 83: kani::mem_init::MemoryInitializationState::set::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<1>
+
+Check 84: kani::mem_init::MemoryInitializationState::set::<96>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<96>
+
+Check 85: kani::mem_init::MemoryInitializationState::set::<8>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:120:34 in function kani::mem_init::MemoryInitializationState::set::<8>
+
+Check 86: kani::mem_init::MemoryInitializationState::set_slice::<1>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:232:34 in function kani::mem_init::MemoryInitializationState::set_slice::<1>
+
+Check 87: kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>.array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+	 - Location: library/kani_core/src/mem_init.rs:539:65 in function kani::mem_init::load_argument::<1, std::mem::MaybeUninit<u8>>
+
+Check 88: pointer_dereference.1
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+
+Check 89: pointer_dereference.2
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+
+Check 90: pointer_dereference.3
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+
+Check 91: pointer_dereference.4
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+
+Check 92: pointer_dereference.5
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+
+Check 93: pointer_dereference.6
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+
+Check 94: pointer_dereference.7
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer NULL"
+
+Check 95: pointer_dereference.8
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer invalid"
+
+Check 96: pointer_dereference.9
+	 - Status: SUCCESS
+	 - Description: "dereference failure: deallocated dynamic object"
+
+Check 97: pointer_dereference.10
+	 - Status: SUCCESS
+	 - Description: "dereference failure: dead object"
+
+Check 98: pointer_dereference.11
+	 - Status: SUCCESS
+	 - Description: "dereference failure: pointer outside object bounds"
+
+Check 99: pointer_dereference.12
+	 - Status: SUCCESS
+	 - Description: "dereference failure: invalid integer address"
+
+Check 100: array_bounds.1
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 101: array_bounds.2
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 102: array_bounds.3
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 103: array_bounds.4
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 104: array_bounds.5
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 105: array_bounds.6
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 106: array_bounds.7
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 107: array_bounds.8
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 108: array_bounds.9
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 109: array_bounds.10
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 110: array_bounds.11
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 111: array_bounds.12
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 112: array_bounds.13
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 113: array_bounds.14
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 114: array_bounds.15
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 115: array_bounds.16
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 116: array_bounds.17
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 117: array_bounds.18
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 118: array_bounds.19
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+Check 119: array_bounds.20
+	 - Status: SUCCESS
+	 - Description: "index out of bounds: the length is less than or equal to the given index"
+
+
+SUMMARY:
+ ** 1 of 119 failed (7 unreachable)
+Failed Checks: Checking memory initialization of type Nested is not supported. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.
+ File: "/home/runner/work/kani/kani/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs", line 21, in nested_shadow_layout_remains_unsupported
+
+VERIFICATION:- FAILED
+Verification Time: 0.89665025s
+
+Manual Harness Summary:
+Verification failed for - nested_shadow_layout_remains_unsupported
+Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+
+------------------------------------------
+stderr:
+------------------------------------------
+warning: use of an unstable feature
+ --> /home/runner/work/kani/kani/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs:6:12
+  |
+6 | #![feature(core_intrinsics)]
+  |            ^^^^^^^^^^^^^^^
+  |
+  = note: requested on the command line with `--force-warn unstable-features`
+  = note: the `unstable_features` lint ignores `-D warnings`
+
+warning: use of an unstable feature
+ --> <crate attribute>:1:12
+  |
+1 | #![feature(register_tool)]
+  |            ^^^^^^^^^^^^^
+
+warning: 2 warnings emitted
+
+
+------------------------------------------
+
+
+
+failures:

@@ -1,3 +1,9 @@
+# Latest test-only nested oracle correction43611512375
+
+READY `39a6521bf1b042358801cf613fd340623f35f851`. General Nested/UnionAsField rejection now matches the actual first check; coverage limit recorded in CONTROL-MANIFEST. Production unchanged; replay43611601987 stays on ec85b782a1, no rebind. See [result](followup-43611512375/RESULT.md).
+
+Earlier results below are historical.
+
 # Latest tests-only followup43609527860
 
 READY `ec85b782a1b7156ad434cfac25403acd4e326dc1` + replay `e59c3527a852d805a4d1317a400a3229b398eead`. Four goldens and one field lint fixed; production unchanged. See [result](followup-43609527860/RESULT.md). New runtime NOT_RUN; no builds/push/CI.

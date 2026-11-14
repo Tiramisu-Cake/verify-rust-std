@@ -1,0 +1,32 @@
+diff --git a/tests/expected/uninit/select-unpredictable-nested-unsupported/expected b/tests/expected/uninit/select-unpredictable-nested-unsupported/expected
+index 9ad2dbfdf..5f8050f8f 100644
+--- a/tests/expected/uninit/select-unpredictable-nested-unsupported/expected
++++ b/tests/expected/uninit/select-unpredictable-nested-unsupported/expected
+@@ -1,11 +1,9 @@
+ Checking harness nested_shadow_layout_remains_unsupported...
++nested_shadow_layout_remains_unsupported.unsupported_construct.1\
+ - Status: FAILURE\
+-- Description: "Kani does not support memory initialization of intrinsic `select_unpredictable`
+-unsupported payload
+-MaybeUninit<Nested>
+-Cannot determine layout for a type that contains union of type
++- Description: "Checking memory initialization of type Nested is not supported. Cannot determine layout for a type that contains union of type
+ MaybeUninit<u8> as a field.
+ ** 1 of
+-Failed Checks: Kani does not support memory initialization of intrinsic `select_unpredictable`
++Failed Checks: Checking memory initialization of type Nested is not supported. Cannot determine layout for a type that contains union of type
+ VERIFICATION:- FAILED
+ Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs b/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs
+index d00653691..9b0278acd 100644
+--- a/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs
++++ b/tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs
+@@ -15,6 +15,8 @@ struct Nested {
+     bytes: [MaybeUninit<u8>; 2],
+ }
+ 
++// Constructing Nested rejects its nested union before the select call is reached.
++// This covers the general nested-layout boundary, not select-specific refusal.
+ #[kani::proof]
+ fn nested_shadow_layout_remains_unsupported() {
+     let initialized =

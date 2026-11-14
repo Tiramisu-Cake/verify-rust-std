@@ -1,6 +1,6 @@
 {
   "schema": "kani3300-sel1-controls-v1",
-  "candidate": "ec85b782a1b7156ad434cfac25403acd4e326dc1",
+  "candidate": "39a6521bf1b042358801cf613fd340623f35f851",
   "groups": 12,
   "selector_count": 29,
   "state": "NOT_RUN",
@@ -307,12 +307,24 @@
       "expected_failed_properties": 1,
       "failure_kind": "Unsupported",
       "failure_descriptions": [
-        "Kani does not support memory initialization of intrinsic `select_unpredictable`"
+        "Checking memory initialization of type Nested is not supported. Cannot determine layout for a type that contains union of type",
+        "MaybeUninit<u8> as a field."
       ],
       "required_success_descriptions": [],
       "state": "NOT_RUN",
-      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
-      "expected_file": "tests/expected/uninit/select-unpredictable-nested-unsupported/expected"
+      "oracle": "Exactly one nested_shadow_layout_remains_unsupported.unsupported_construct.1 FAILURE with Nested/UnionAsField diagnostic, **1 of and FAILED verdict. Reject unrelated Unsupported/setup/timeout errors. Do not credit later select checks as reached.",
+      "expected_file": "tests/expected/uninit/select-unpredictable-nested-unsupported/expected",
+      "expected_first_rejection": "Nested aggregate assignment while constructing the first arm, before MaybeUninit::new and select call",
+      "coverage_scope": "General nested-layout fail-closed boundary; does not establish execution of the select-specific refusal branch",
+      "source_basis": "uninit_visitor.rs::visit_statement Assign -> PointeeInfo::from_ty -> LayoutComputationError::UnionAsField; ty_layout.rs data_bytes_for_ty rejects union as a nested field",
+      "prior_observation": {
+        "run": "43611512375",
+        "source": "ec85b782a1b7156ad434cfac25403acd4e326dc1",
+        "assurance": "Owner-provided excerpt",
+        "observed_failure_count": 1,
+        "summary_total_checks": 119,
+        "note": "Total119 is an observation only, not a new golden inventory."
+      }
     },
     {
       "file": "tests/expected/uninit/select-unpredictable-padding/selected_true_maybe_uninit_fields_are_legal.rs",
@@ -500,5 +512,5 @@
   ],
   "std_controls": "Six additional named ON selectors in CI-REQUEST.json/TARGET-GATE-MAP.md; source hashes in STD-OVERLAY.json.",
   "expected_matching_limit": "Each multi-harness Rust source is shared through controls.inc; a per-selector .rs wrapper selects --harness NAME --exact and has its own .expected with one harness total. Single-root groups remain main.rs/expected. Count/status/description cannot be borrowed from another harness output. Expected patterns still use substring matching and never full total-property inventories.",
-  "prior_candidate": "b6f1b08eb512ff9006aff7b4924c2e8f13930d70"
+  "prior_candidate": "ec85b782a1b7156ad434cfac25403acd4e326dc1"
 }
