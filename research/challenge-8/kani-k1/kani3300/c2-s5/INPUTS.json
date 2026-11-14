@@ -1,0 +1,130 @@
+{
+  "task": "TASK-KANI3300-C2-S5.md",
+  "g0": "a5452f9084",
+  "base": "3b382c812a1b8541946e6dc732cf04497ebcf995",
+  "base_tree": "716a2446684bb56e0a03b7fbe5df26593648a1c8",
+  "clone": "/root/kani-fix-3300-c2-s5",
+  "branch": "fix/kani-3300-c2-s5",
+  "scope": "S5 only; STOP before deletion",
+  "source_changed": false,
+  "source_commit": null,
+  "allowed": "read-only/static preparation; no build/push/CI; research uncommitted",
+  "input_files": [
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/README.md",
+      "sha256": "0b2f009b4bde31d12591a35078165668263d4abbc57f2347c154ee137bebe7c0"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/checker.py",
+      "sha256": "0811721b507172ee9d27ec7f0285bb912a7ce9fcbbac41d74f4535778b3d0838"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/config.yml",
+      "sha256": "18c60b89ee0a92c3d4728f4a108f8591b0d8a5209a3f40b3c4ae104802190d0c"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "sha256": "95bd9c4e554d4ae5b79ec72ad2885592f30f10cb0931c2ddeb57015b351e7cd0"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/run.py",
+      "sha256": "eeded59a792c09af7eeef337605adbd9641675839a444f68efab958c44b0c393"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/test.sh",
+      "sha256": "697c923f2845455502170c9849b61f33aae66095a1106c5bbaba427f44a3454a"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-oracles/test_checker.py",
+      "sha256": "3c62d3992bf5903ba62d9abc8e1e8a1e869109608dd3c297cff8b54f4ad3a5c7"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/README.md",
+      "sha256": "77aee2b958e3ac0205b622a4f75d2d68814850dbfe8d844500e36536258d8b04"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/cc4/isolated-bounded.rs",
+      "sha256": "0ec74991f5e7cf7a3ad490f153307b919402777b4305bf5cfbd430ff7f4f3dd5"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/cc4/isolated-recursive-ordinary.rs",
+      "sha256": "84c904f19e097056bb26127a303c34fc86e4c27311a13a6bd4787762000a8d70"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/cc4/mixed-reversed.rs",
+      "sha256": "b5537b792e7eaf250bb7a15763f36154ba3f5bc83f01d8b4bf267be7f7a48051"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/config.yml",
+      "sha256": "18c60b89ee0a92c3d4728f4a108f8591b0d8a5209a3f40b3c4ae104802190d0c"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/observe.py",
+      "sha256": "439ca67541d7808bbf9a2ccc2b9aaeabff3c21f1a2bb7acf6c4dbe698e07cdf5"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/recursive.rs",
+      "sha256": "ea297d80b8c0e9a0493ff65e586bc39da5cd7ceaa295ed4ed67b9380567f4bf0"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/replace.rs",
+      "sha256": "44b10bf2ef4d961b37b75098ec89246afe608036f4ed4cb8e3c5e70680425600"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+      "sha256": "e86e53af05c943c1fe4e322b98d6a3c0585d18fe89505bbc6099a95ce55c5b8f"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/run.py",
+      "sha256": "747f6221030a9efeec7273f765f8ff8cd78aaf3f7a703b78d4e0e45e506a240b"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/test.sh",
+      "sha256": "f1ab14eeeb2efb0a7d9d11a8beab1d7a71ba6df023cf286637caa6e56a7f1578"
+    },
+    {
+      "path": "tests/json-handler/uninit-contract-mode-boundaries/test_observe.py",
+      "sha256": "11736af025d48b22a0f7d5adce669b560428f5286d7ecf3879773bbdc4bf3468"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/README.md",
+      "sha256": "f7d929ed08fd1d2752b779cd01b5a529ea820c28dc1607b0b6b9d77e4ce4c3dc"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/ROOT-ORDER-MAP.json",
+      "sha256": "dc14a54b7c02f2fcd77c0a4578322b3b4d861e1fc5890341553d0d452b3d56ff"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/compare.py",
+      "sha256": "39ba552d6032acb224f9d30814603dfd5e2a1fd2c551324e55f9a69c342e6d48"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/config.yml",
+      "sha256": "18c60b89ee0a92c3d4728f4a108f8591b0d8a5209a3f40b3c4ae104802190d0c"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/mixed.rs",
+      "sha256": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/roots.json",
+      "sha256": "72a8eec6cd95d9a7698869dddf94587a64d7db5628cb5601abe9fd4ee88de706"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/run.py",
+      "sha256": "9273d8600cc5f4ba8592ef7f3a184b0a9a061b2e730ef31f27e1a8b2b97e986a"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/test.sh",
+      "sha256": "46fa2e7e9a91a529e968875172e18b16258dfd80f7caf95fff505e83abaa7322"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/test_bindings.py",
+      "sha256": "3f388b59a75f1ce5b4ca34b6f7ee54b3ba11f27b61bbc126e6307815959c8a31"
+    },
+    {
+      "path": "tests/json-handler/uninit-part1-composition/test_compare.py",
+      "sha256": "9a4a22f0286b28aeac75187f6c6eeaca188b873096aba34b529f2e80ee728530"
+    }
+  ]
+}
