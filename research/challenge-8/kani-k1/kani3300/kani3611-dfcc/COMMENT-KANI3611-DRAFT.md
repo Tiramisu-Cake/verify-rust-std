@@ -20,6 +20,6 @@ For a syntactically non-constant `POINTER_OBJECT` index, [`convert_index`](https
 
 Lowering object bits reduces these table widths exponentially, explaining the improvement here; the chosen value still needs enough object-ID capacity for the program. This measurement does not establish a general fix.
 
-**Pending before publication:** add `--arrays-uf-always` results at B=12/16 from run `43606302978` (verdict, variables/clauses and RSS); no conclusion about that option yet.
+With `--arrays-uf-always` added to the CBMC arguments ([run](https://github.com/Tiramisu-Cake/kani/actions/runs/43606302978)), both B=12 and B=16 still verify successfully. The clause count stays at 8,247 for both; variables are 532,628 and 8,396,948. At B=16, max RSS drops from 9.84 GB to 2.41 GB and wall time from 22.4 s to 3.3 s. I only tried this one test, so this is an observation rather than a suggested default.
 
 *Disclosure: this analysis and comment were prepared with the help of AI assistants.*
