@@ -38,3 +38,9 @@ Reuse unchanged controls:
 | json-handler/uninit-part1-composition | retain actual failure/exit, compare within narrowly accepted S1/S5 debt |
 
 `baseline-controls.patch` adds exactly the four new unit tests and eight new fixture/oracle files to baseline 69b13711e. Baseline production bytes before cfg(test) are unchanged; patch applies to a temporary index and fixture blobs equal candidate. Overlay tree `208e5f19457ac11789bb92cb06d8203bf9aa7489`. This is a source identity check only. Baseline and candidate unit/targeted runs: NOT_RUN. Candidate expected=PASS and old-register qualification conflict are predictions, not execution evidence.
+
+## Follow-up after coordinator CI
+
+The four original controls PASS on both candidate f96 and old baseline69b, so they are NONDISCRIMINATING (coordinator SUMMARY run43603876627/baseline43603880264). Their source and expected blobs are unchanged. Unit matrix9/0 is reported on f96; baseline unit results are not supplied.
+
+Added aggregate-constant-initializer and const-fn-initializer, one harness each, volatile direct/nested reads, the same three own SUCCESS assertions, zero-failure summary and final SUCCESSFUL oracle. Both new cases: NOT_RUN on baseline and candidate. They are source candidates, not established mixed-qualification discriminators. See format-coalescing-followup/{TRACE,CI-REQUEST,RESULT}.md and its test-only baseline patch for exact mapping criteria and limitations.

@@ -1,0 +1,42 @@
+{
+  "candidate": "bf8170b28afb682f8dd55a94199caa247736d8fa",
+  "tree": "9ff24911693123853c88cca21a0baf764b63b2bf",
+  "source_clean": true,
+  "format_commit_separate": true,
+  "format_commit_whitespace_only": true,
+  "format_tool": "authorized rustfmt.sh only; 3 affected Rust files formatted and second pass byte-idempotent",
+  "production_semantics_unchanged_from_CI_f96": true,
+  "old_control_oracles_byte_identical": true,
+  "new_one_harness_controls": [
+    {
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.rs",
+      "rs_sha256": "e034e5cad62e2274eb6c478012786a73366c92ed50346ec186a6c7ca6a88fc5d",
+      "expected_sha256": "5659805b8803c87e1dac8fb9fd4fc0261f18375408e5287da5fd1d0b807c10c4",
+      "execution": "NOT_RUN"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.rs",
+      "rs_sha256": "313057fee1e7d28164db09bc558afd0e75de4764b204a662b5e7a2ea538dc30a",
+      "expected_sha256": "27e597e8d69ea5e9594e75294b88769a816b5915d7873194cd74694786cdcba5",
+      "execution": "NOT_RUN"
+    }
+  ],
+  "source_new_commit_chain_and_author_committer": "PASS",
+  "git_diff_check_source_and_research": "PASS",
+  "configuration_runtime_unchanged": true,
+  "baseline_patch_apply_and_exact_blobs": "PASS temporary index; see INPUTS.json",
+  "g0_observed_head": "bfd22f8e5e9eed6824912b4eae337c0c95a3aa26",
+  "g0_tracked_dirty_files": [
+    "research/challenge-8/kani-k1/kani3300/c2-s2/CONTROL-MANIFEST.md",
+    "research/challenge-8/kani-k1/kani3300/c2-s2/RESULT.md"
+  ],
+  "g0_index_clean": true,
+  "g0_no_commit_by_worker": true,
+  "source_F5_reproduced": false,
+  "old_4_source_controls": "NONDISCRIMINATING (coordinator report)",
+  "numeric_AllocId_symbol_trace": "UNKNOWN, not in summary",
+  "new_source_controls_and_current_head_CI": "NOT_RUN",
+  "source_unreachability": "NOT_ESTABLISHED",
+  "build_push_CI_this_followup": "NOT_RUN",
+  "proof_credit": "NONE"
+}

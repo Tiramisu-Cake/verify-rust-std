@@ -1,0 +1,99 @@
+{
+  "schema": "kani3300-c2-s2-format-coalescing-followup-v1",
+  "source": {
+    "path": "/root/kani-fix-3300-c2-s2",
+    "branch": "fix/kani-3300-c2-s2",
+    "entry_commit": "f96ad419bcae4e920708ff4bffe2b28d310f422e",
+    "format_commit": "3c2af5d5e54ebd15784e34b46e53fd54d7090c4e",
+    "candidate": "bf8170b28afb682f8dd55a94199caa247736d8fa",
+    "tree": "9ff24911693123853c88cca21a0baf764b63b2bf",
+    "base": "69b13711e60a87458200833445d47488ab466344"
+  },
+  "author_and_committer": "Tiramisu-Cake <igkharin@gmail.com> via git -c",
+  "g0": {
+    "path": "/root/verify-rust-std-kani3300-g0",
+    "entry_commit": "1e48f6dfe481296b5eccc5ea68efd4d12bc5cc2d",
+    "observed_after_external_commits": "95bbba6d0efdb4bef151b365dc1cf53290a32220",
+    "research_committed_by_worker": false,
+    "unrelated_changes": "preserved"
+  },
+  "coordinator_summary": {
+    "path": "research/challenge-8/kani-k1/kani3300/c2-s2/ci-43603876627/SUMMARY.md",
+    "sha256": "4dbfe58a34cc8aa05fa24fac2e3922b00bf498d9a7e4b22811a16c0cbfb3d381",
+    "assurance": "user-supplied/coordinator source report; no raw logs or independently reverified proof"
+  },
+  "reported_candidate_CI": {
+    "source": "f96ad419bcae4e920708ff4bffe2b28d310f422e",
+    "overlay": "d86dce7de7",
+    "run": "43603876627",
+    "fmt": "FAIL: two unit-test expressions",
+    "build": "PASS",
+    "clippy": "PASS",
+    "immutable_allocations_units": "9/0",
+    "new_source_controls": "4/4 PASS; NONDISCRIMINATING against baseline",
+    "kani": "24/0",
+    "expected": "208/0 (2 ignored)",
+    "ui": "17/0",
+    "script": "2/0",
+    "contract_oracles": "PASS",
+    "mode_boundaries": "PASS",
+    "composition": "FAIL: isolated-ordinary_ensures_legal compare/binding; same stop point, not reclassified"
+  },
+  "reported_baseline_CI": {
+    "source": "69b13711e60a87458200833445d47488ab466344",
+    "overlay_tree": "208e5f19457ac11789bb92cb06d8203bf9aa7489",
+    "CI_overlay": "ac5613f652",
+    "run": "43603880264",
+    "source_controls": "4/4 PASS; NONDISCRIMINATING",
+    "baseline_units": "NOT_REPORTED",
+    "observed_F5_fatal": false,
+    "actual_numeric_AllocId_and_symbol_trace": "NOT_PROVIDED"
+  },
+  "new_baseline_overlay": {
+    "base": "69b13711e60a87458200833445d47488ab466344",
+    "patch": "baseline-new-controls.patch",
+    "sha256": "cc0f72a942086f336d75c0afc58fc8d76d24724629f4a60dc0e7d1cb9948339d",
+    "tree": "74dd51d27e99c9c011544f42b8b8d2799558c471",
+    "new_files": [
+      "tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.expected",
+      "tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.rs",
+      "tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.expected",
+      "tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.rs"
+    ],
+    "unit_and_production_changes": false,
+    "apply_and_blob_check": "PASS in temporary index",
+    "execution": "NOT_RUN"
+  },
+  "compiler_source_reference": {
+    "repo": "rust-lang/rust",
+    "commit": "1a2c4797ef2570bd76ca5dee34449169bc7dc457",
+    "identity": "nearby reference only; exact nightly-2026-10-23 compiler hash NOT_ESTABLISHED",
+    "primary_source_symbols": [
+      "reserve_and_set_memory_alloc",
+      "reserve_and_set_memory_dedup",
+      "intern_shallow",
+      "BodyBuilder::visit_const_operand",
+      "inner_mir_for_ctfe",
+      "PromoteTemps"
+    ]
+  },
+  "allowed_local_tool": {
+    "script": "/tmp/claude-0/-root/5ce1713f-0d75-4ce2-92ab-bcf1e5df1b74/scratchpad/rustfmt.sh",
+    "args": "--edition 2024 --config-path rustfmt.toml <file>",
+    "script_sha256": "50d6185aa821a7f6ea5aceba7cebe1bd517ea323f399a269c5a170b6ac65210d",
+    "result": "PASS, idempotent for affected 3 Rust files"
+  },
+  "executed_this_followup": {
+    "build": false,
+    "cargo": false,
+    "rustc": false,
+    "Kani_CBMC_Miri": false,
+    "push": false,
+    "CI": false,
+    "Cloud_spend": 0
+  },
+  "new_source_controls_execution": "NOT_RUN",
+  "F5_real_source_failure_reproduced": false,
+  "F5_source_unreachability_established": false,
+  "proof_credit": "NONE"
+}

@@ -1,3 +1,9 @@
+# Current S2 follow-up handoff
+
+READY `bf8170b28afb682f8dd55a94199caa247736d8fa` — format repaired in a separate commit; two indirect-initializer source controls added. Details and limits: [format-coalescing-followup/RESULT.md](format-coalescing-followup/RESULT.md). Old four controls are CI-confirmed NONDISCRIMINATING. New controls NOT_RUN; source F5 reproduction and exact numeric key/symbol mapping remain UNKNOWN. Current follow-up research is uncommitted. The initial handoff below is preserved as historical, including its then-current NOT_RUN statements.
+
+---
+
 # C2-S2 — READY for coordinator CI
 
 READY `f96ad419bcae4e920708ff4bffe2b28d310f422e`

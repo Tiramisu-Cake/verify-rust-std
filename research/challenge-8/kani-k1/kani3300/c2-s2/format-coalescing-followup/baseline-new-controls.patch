@@ -1,0 +1,91 @@
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.expected b/tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.expected
+new file mode 100644
+index 000000000..0b9b31fc4
+--- /dev/null
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.expected
+@@ -0,0 +1,10 @@
++Checking harness aggregate_constant_initializer...
++ - Status: SUCCESS\
++ - Description: "assertion failed: direct_value == 5"
++ - Status: SUCCESS\
++ - Description: "assertion failed: nested_value == 5"
++ - Status: SUCCESS\
++ - Description: "assertion failed: direct_value == nested_value"
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.rs b/tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.rs
+new file mode 100644
+index 000000000..a83f9007b
+--- /dev/null
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.rs
+@@ -0,0 +1,22 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++// Keep the nested reference inside an aggregate constant instead of a ref-typed
++// constant in T's initializer. Const definitions are not runtime MonoItems.
++const INDIRECT: [&u8; 1] = [&5];
++static T: [&u8; 1] = INDIRECT;
++
++// Candidate mixed-qualification control: actual distinct AllocId keys, shared symbol and
++// qualification must be inspected in CI before claiming this case distinguishes registration.
++#[kani::proof]
++fn aggregate_constant_initializer() {
++    let direct: &u8 = &5;
++    let nested: &u8 = T[0];
++    let direct_value = unsafe { std::ptr::read_volatile(direct) };
++    let nested_value = unsafe { std::ptr::read_volatile(nested) };
++    assert!(direct_value == 5);
++    assert!(nested_value == 5);
++    assert!(direct_value == nested_value);
++}
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.expected b/tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.expected
+new file mode 100644
+index 000000000..8c21848e0
+--- /dev/null
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.expected
+@@ -0,0 +1,10 @@
++Checking harness const_fn_initializer...
++ - Status: SUCCESS\
++ - Description: "assertion failed: direct_value == 5"
++ - Status: SUCCESS\
++ - Description: "assertion failed: nested_value == 5"
++ - Status: SUCCESS\
++ - Description: "assertion failed: direct_value == nested_value"
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.rs b/tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.rs
+new file mode 100644
+index 000000000..25f15d950
+--- /dev/null
++++ b/tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.rs
+@@ -0,0 +1,25 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++// This helper is used only by CTFE. The runtime reachability graph follows T's
++// evaluated allocation, not the initializer's call to this function.
++const fn nested_origin() -> [&'static u8; 1] {
++    [&5]
++}
++
++static T: [&u8; 1] = nested_origin();
++
++// Candidate mixed-qualification control: actual distinct AllocId keys, shared symbol and
++// qualification must be inspected in CI before claiming this case distinguishes registration.
++#[kani::proof]
++fn const_fn_initializer() {
++    let direct: &u8 = &5;
++    let nested: &u8 = T[0];
++    let direct_value = unsafe { std::ptr::read_volatile(direct) };
++    let nested_value = unsafe { std::ptr::read_volatile(nested) };
++    assert!(direct_value == 5);
++    assert!(nested_value == 5);
++    assert!(direct_value == nested_value);
++}
