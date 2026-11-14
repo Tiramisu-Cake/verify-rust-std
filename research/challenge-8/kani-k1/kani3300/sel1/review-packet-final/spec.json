@@ -1,0 +1,43 @@
+{
+  "applicability": "Only exact standard intrinsic with usable non-overridden fallback, (bool,T,T)->T, sized existing masks; TASK-KANI3300-SEL1.md F8 contract. Static correctness review, no local compiler/verifier/CI.",
+  "baseline_commit": "69b13711e60a87458200833445d47488ab466344",
+  "candidate_commit": "27eba17c1d2503233dfe525da9fdb2df31685226",
+  "controls": [
+    "29 exact native selectors in CONTROL-MANIFEST.json (12 SUCCESS/17 intended negatives proposed); all outcomes NOT_RUN.",
+    "Six named std ON rows in CI-REQUEST.json/TARGET-GATE-MAP.md; separate std test overlay6075e7ce17179f45642c9ffe8fe09e3ec9395726."
+  ],
+  "defect": "Uninit local visitor rejects standard select_unpredictable while codegen executes its fallback; points-to misses aliases from that fallback.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/src/kani_middle/transform/contracts.rs",
+    "kani-compiler/src/kani_middle/points_to/mod.rs",
+    "library/kani_core/src/mem_init.rs",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "Fallback body is sole selected-byte transfer owner; do not union runtime initializedness or bless pointees.",
+    "Caller/callee agree on paired argument indices/count/signature, return0 only on normal return; snapshots precede deinit of both actual Move arms, Copy retains sources.",
+    "Preserve operand/raw/union checks and pending B1 operations; reject unsupported body/layout before partial protocol/deinit.",
+    "Points-to follows same body and reaches referents of both arms without condition edge or extra arm-slot indirection.",
+    "No changes to runtime buffers, DFCC, std algorithms, fn-pointer/trait-object refusal, general alias resolution, nested type support or F5/F6/F7."
+  ],
+  "known_limitations": [
+    "No local builds, cargo/rustc/Kani/CBMC/Miri, push or CI. New outcomes NOT_RUN.",
+    "Port to final C2 and new freeze/gates required later. No inherited proof credit for production delta."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/sel1/independent-review.md",
+      "sha256": "fa58f3f0fdbf13f138b934df8a011636cd68be60370d07f99ecf172d3828cc09"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-sel1"
+}

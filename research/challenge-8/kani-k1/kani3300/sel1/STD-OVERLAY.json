@@ -1,0 +1,36 @@
+{
+  "status": "TEST_ONLY_PREPARED_NOT_RUN",
+  "clone": "/root/verify-rust-std-kani3300-sel1-swap",
+  "branch": "prep/kani3300-sel1-swap",
+  "commit": "6075e7ce17179f45642c9ffe8fe09e3ec9395726",
+  "tree": "a7795c5a49a4f3f00b774356c0ae3fb2a89c6825",
+  "library_tree": "12e87bd4a4e141a8f829d8a0519efc09260c5059",
+  "package_parent": "01d75b8e839c751e7ab679fdaaa5fba6384983b6",
+  "frozen_std": "70ba5befc617627073738e26cb1466bd4fb76e41",
+  "swap_commit": "da47945f47c6d61e6e207a749299a74f840a01f0",
+  "raw_control_commit": "6075e7ce17179f45642c9ffe8fe09e3ec9395726",
+  "patches_sha256": {
+    "std-test-only.patch": "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06",
+    "std-sel1-delta.patch": "b01e811f856503a5f9f11883d99245e7ffb1a4d8c399d3dd7e15f6c6d18cbf50",
+    "std-swap-only.patch": "bc4d40a8ef7cf32207456348e76caef91ae6d7426baaac9320da3447b5a8092f"
+  },
+  "files_sha256": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "506644ad92ed4872af19bd1d302b439ff5e1d4dd850e9e9f149d429286065a95",
+    "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "22de8b24f6adf35b633b2962d9873a349041a18cca9d580944d2d4a3c9ad0655",
+    "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "b2d71e6e61b4130a95dda6daac3cd5f0970f9daf7b0f7bfa8a9f99d9c3c29844",
+    "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs": "c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1",
+    "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs": "c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39"
+  },
+  "raw_origin": {
+    "overlay_commit": "3f0aebb87f325a2f07b6fa6fbcce9315ef713690",
+    "overlay_tree": "bc999547dbd98466255eb9d19b59f4cc5382110a",
+    "patch_sha256": "f2689c76720e95f98a88bdd17a2bf4cf13a7348d40dedcf9c009aa0b20db0df5",
+    "module_sha256": "c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39",
+    "source_path": "research/challenge-8/kani-k1/kani3300/final-gate/replay-test-only.patch",
+    "binding_path": "research/challenge-8/kani-k1/kani3300/final-gate/REPLAY-CI-OVERLAY.json",
+    "reused_module_verbatim": true
+  },
+  "production_std_changed": false,
+  "clean": true,
+  "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>"
+}

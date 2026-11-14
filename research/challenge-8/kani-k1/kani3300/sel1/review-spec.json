@@ -1,0 +1,39 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-3300-sel1",
+  "baseline_commit": "69b13711e60a87458200833445d47488ab466344",
+  "candidate_commit": "52f2ef41f9f3c81c42e1207981b0e28a9171bdf2",
+  "defect": "Uninit local visitor rejects standard select_unpredictable while codegen executes its fallback; points-to misses aliases from that fallback.",
+  "applicability": "Only exact standard intrinsic with usable non-overridden fallback, (bool,T,T)->T, sized existing masks; TASK-KANI3300-SEL1.md F8 contract. Static correctness review, no local compiler/verifier/CI.",
+  "invariants": [
+    "Fallback body is sole selected-byte transfer owner; do not union runtime initializedness or bless pointees.",
+    "Caller/callee agree on paired argument indices/count/signature, return0 only on normal return; snapshots precede deinit of both actual Move arms, Copy retains sources.",
+    "Preserve operand/raw/union checks and pending B1 operations; reject unsupported body/layout before partial protocol/deinit.",
+    "Points-to follows same body and reaches referents of both arms without condition edge or extra arm-slot indirection.",
+    "No changes to runtime buffers, DFCC, std algorithms, fn-pointer/trait-object refusal, general alias resolution, nested type support or F5/F6/F7."
+  ],
+  "controls": [
+    "Native controls are being added independently under tests/expected/uninit/select-unpredictable-*; inspect once final files arrive. All new execution NOT_RUN.",
+    "Both delayed-padding aliases must FAIL at intended payload read; MU selected-hole legal/hole arms; Copy/Move/overwrite/padding; actual full hint wrappers u8 and pointer.",
+    "Existing B1 fn-pointer/trait-object, true conflict, contract/mode and composition controls remain unchanged; known S1 composition drift remains debt."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/src/kani_middle/transform/contracts.rs",
+    "kani-compiler/src/kani_middle/points_to/mod.rs",
+    "library/kani_core/src/mem_init.rs",
+    "rust-toolchain.toml"
+  ],
+  "known_limitations": [
+    "No local builds, cargo/rustc/Kani/CBMC/Miri, push or CI. New outcomes NOT_RUN.",
+    "Port to final C2 and new freeze/gates required later. No inherited proof credit for production delta."
+  ],
+  "prior_reviews": []
+}

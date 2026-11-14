@@ -1,0 +1,97 @@
+{
+  "status": "PREPARATION_ONLY_NOT_RUN",
+  "authorization": "TASK-KANI3300-SEL1 issued by owner; local source commits and uncommitted research only. No local builds, push, CI, PR, dispatch or Cloud.",
+  "source": {
+    "clone": "/root/kani-fix-3300-sel1",
+    "branch": "fix/kani-3300-sel1",
+    "base": "69b13711e60a87458200833445d47488ab466344",
+    "base_tree": "1df668c6896eaed2b08385d307b8ddf178613c6f",
+    "candidate": "46e46583ff112cae9c43aea1ba5dd6145e5e8387",
+    "candidate_tree": "0a46fad6c1adc3022d39e25a45096ed9cd622844",
+    "read_only_input": "/root/kani-fix-3300-c2-s1",
+    "input_clean_verified": true,
+    "destination_absent_before_clone": true,
+    "commits": [
+      "52f2ef41f9f3c81c42e1207981b0e28a9171bdf2",
+      "27eba17c1d2503233dfe525da9fdb2df31685226",
+      "46e46583ff112cae9c43aea1ba5dd6145e5e8387"
+    ],
+    "patch_sha256": "820316621382c7215eb53bd5f64ea8230d25fa759d2947a633a8413b7cc37972"
+  },
+  "research": {
+    "clone": "/root/verify-rust-std-kani3300-g0",
+    "input_commit": "38ed07ba0a94bd5a845cfec3bf95b44f0b9c46fa",
+    "write_scope": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/sel1",
+    "uncommitted": true,
+    "preexisting_untracked_preserved": [
+      "research/challenge-8/kani-k1/kani3300/c2-s2/"
+    ],
+    "concurrent_observation": {
+      "head": "1e48f6dfe481296b5eccc5ea68efd4d12bc5cc2d",
+      "note": "Owner/other worker committed C2-S2 research during SEL1 work. No SEL1 process committed g0, no C2-S2 source/research read or changed; task/design still bound to38ed07ba0a."
+    },
+    "task_sha256": "e1a79fec840967ff94e8fa9a722ea50b2124dd40c662dcf1fad84edb1ff73653"
+  },
+  "design": {
+    "sel0_clone": "/root/verify-rust-std-kani3300-sel",
+    "sel0_commit": "898fdb62943394e227c7f9b67deb313779be1d7d",
+    "authority": "R4 F8/answer3 supersedes SEL0 pointer-only Scope1"
+  },
+  "std_package": {
+    "commit": "70ba5befc617627073738e26cb1466bd4fb76e41",
+    "commit_tree": "84ab170ccdcc29fba69e55e0a46e6acdf52d9704",
+    "library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+    "clean_before_edits": true,
+    "files_sha256": {
+      "library/core/src/slice/sort/shared/smallsort.rs": "bc8f2cd12c03ac2c4a1be231bb14d7fefef269ed0fd571e35993e6d0467c7fb0",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "b1e522b885d6669a64bf041dd652bcee4699b50b1e79c21abbf0975e13a10396",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "86bac48e888365eab2187756dfd8ffbce059d6cc2ce35b1d8ab7b39d788118ac",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "85bdd131f3a7e62106e69e98e4b1b85d2f68c91a4bfff4df629955539493748c",
+      "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "e37e6971e6458a17d858de9a6a6ea38265d7584934ef71c8243c97a487505e54",
+      "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs": "3a220d9fcd8269b253efaa8d7c18c13aa7a6e6f8cf59504ac2ec4c004b9abffe",
+      "library/core/src/hint.rs": "f73ec2e70c2a4e119da73de2c106d2d1b55c4f74bafb189bc13fcda0238d4714",
+      "library/core/src/ops/function.rs": "1e3d6f598c2d0177e5969d1bb4154f737c68300bb985382380eea70ae987a848",
+      ".gitmodules": "93f8aef14130e19df0a76f15159e96aa033e7b80be9662a3c52a02a2d2307c66"
+    }
+  },
+  "gateb_prime": {
+    "package_commit": "01d75b8e839c751e7ab679fdaaa5fba6384983b6",
+    "package_tree": "0ed391601f43680d620e450d511527e95b05e1dd",
+    "overlay": {
+      "base_commit": "70ba5befc617627073738e26cb1466bd4fb76e41",
+      "base_library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+      "overlay_commit": "933b20a2375bd7529243510728b1eb48adf34e5d",
+      "overlay_library_tree": "86cbdb4d9f8415161657f66bf07e5a0dd1b3e982",
+      "patch_file": "test-only.patch",
+      "patch_sha256": "af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5",
+      "files_sha256": {
+        "library/core/src/slice/sort/shared/smallsort/verify.rs": "b37239fc681409922606a8fd310e20f9c776e67a9c7f8dd4e4b79a77172c79fb",
+        "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "270e2a2d57d162e979d375c1a1bdb786dfdca664ad6e610e7b4e8661c135d933",
+        "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "b2d71e6e61b4130a95dda6daac3cd5f0970f9daf7b0f7bfa8a9f99d9c3c29844",
+        "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs": "c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1"
+      },
+      "production_source_changed": false,
+      "status": "TEST_ONLY_PREPARED_NOT_RUN"
+    },
+    "ci_recipe": "0c1cc8a7d05184044d496b01f5ed41cebfde0cac",
+    "ci_recipe_tree": "cbb04807c711a9d1bad2ac2dbe1f77538d5658b0",
+    "ci_recipe_base": "ac49cf8f62137e25e8cfea04968016e60d6c5906",
+    "ci_delta_patch_sha256": "3ca0c85c204af23349e22bc62c4c34ecc5ab9a7d32631cdf14d100f7f773dc70",
+    "result_run": "43600834435",
+    "assurance": "Coordinator source report; bounded C1 evidence only; receipt outcome UNKNOWN, stdout verdicts in gateb-prime-result/RESULT.md. Not a gate on base69 or SEL1.",
+    "package_files_sha256": {
+      "research/challenge-8/kani-k1/kani3300/gateb-prime/INPUTS.json": "40a54cf792d992b5088a327abb087a64d1d8a3133471312f429719613baa7b46",
+      "research/challenge-8/kani-k1/kani3300/gateb-prime/PACKAGE.json": "c7873cd8eda6da086311465f12020668086315c65b1b4189c88856cf9770bb31",
+      "research/challenge-8/kani-k1/kani3300/gateb-prime/PATCH.json": "02ba5862bd5ab1d00d3ee4434fa889eeac19ad09b21cd596947e057520ff6724",
+      "research/challenge-8/kani-k1/kani3300/gateb-prime/ci/REPLAY-CI-OVERLAY.json": "6bd55487b787b670c67cea94326a2811681f983b741849aa341d4e104679deb9"
+    }
+  },
+  "executions": {
+    "build": 0,
+    "compiler": 0,
+    "verifier": 0,
+    "push": 0,
+    "ci": 0,
+    "cloud_usd": 0
+  }
+}

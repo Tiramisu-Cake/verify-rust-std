@@ -1,0 +1,15 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
+index 30683b3717..336fe65277 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
+@@ -36,7 +36,9 @@ fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
+     // SAFETY: both positions are initialized, aligned, readable and writable
+     // and belong to this allocation.
+     // Equality is allowed by the real helper's safety condition.
+-    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut arbitrary_less::<T>) };
++    unsafe {
++        swap_if_less(v.as_mut_ptr(), a, b, &mut |a: &T, b: &T| arbitrary_less::<T>(a, b))
++    };
+     for i in 0..4 {
+         kani::assert(i == a || i == b || v[i] == before[i], "helper contract swap frame");
+     }
