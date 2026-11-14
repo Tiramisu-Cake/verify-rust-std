@@ -4,7 +4,7 @@ Refs #3300
 
 With `-Z uninit-checks`, when the uninitialized-memory visitor cannot resolve a call (a function pointer, a trait object, ...), `visit_terminator` returns early. Everything it had already collected for that terminator is dropped: the checks on the call's operands and, in a statement-free entry block, the argument loads. Kani still reports that it does not support checks across such calls, but the actual uninitialized read in the operand is no longer reported.
 
-Example ([`pending-ops-plain.rs`](https://github.com/Tiramisu-Cake/kani/blob/7ef191d8dd589d5fe589d1aff164d33ae35677f0/tests/expected/uninit/unresolved-calls/pending-ops-plain.rs), custom MIR so that the read is an operand of the call):
+Example ([`pending-ops-plain.rs`](https://github.com/Tiramisu-Cake/kani/blob/6fe484b30043b3696b5f1ccc4bea0e42891ad012/tests/expected/uninit/unresolved-calls/pending-ops-plain.rs), custom MIR so that the read is an operand of the call):
 
 ```rust
 #[custom_mir(dialect = "runtime", phase = "optimized")]
@@ -31,7 +31,7 @@ The harness passes a pointer to an uninitialized heap byte. On `main` the only f
 
 On `main` six of them fail: in the entry-block and pending-read cases the `indirect.safety_check` properties are missing from the results. With this change all uninit-checks suites pass.
 
-CI on this commit in my fork: [Kani CI](https://github.com/Tiramisu-Cake/kani/actions/runs/43208073261) passes the regression jobs on Ubuntu 22.04, Ubuntu 24.04, Ubuntu 24.04 ARM and macOS 15 Intel, plus perf, documentation, LLBC and benchcomp; Cargo Deny and Format Check also pass. The macOS 15 Intel job needed one rerun after a CBMC timeout in the unrelated `cargo_autoharness_multichareq_searcher` test. The macOS 14 job does not start on the fork (GitHub reports that the `macos-14-arm64-us-default` configuration is not supported).
+CI on this commit in my fork: [Kani CI](https://github.com/Tiramisu-Cake/kani/actions/runs/43516450125) passes the regression jobs on Ubuntu 22.04, Ubuntu 24.04, Ubuntu 24.04 ARM and macOS 15, plus perf, documentation, LLBC and benchcomp; Cargo Deny and Format Check also pass. On macOS 15 Intel the only failure is a CBMC timeout in the unrelated `cargo_autoharness_multichareq_searcher` test, also after a rerun; the same job fails the same way on `main` (e.g. [run 43366978590](https://github.com/model-checking/kani/actions/runs/43366978590)). The macOS 14 job does not start on the fork (GitHub reports that the `macos-14-arm64-us-default` configuration is not supported).
 
 ### Not in this PR
 
