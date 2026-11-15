@@ -1,0 +1,182 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify.rs b/library/core/src/slice/sort/shared/smallsort/verify.rs
+index b6d76fe0bc834fa937e1b1921cce1fc831891bdf..de9cb0d60dea1ef3b69025a002b20535f2f9f283 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify.rs
+@@ -94,3 +94,5 @@ mod tag_permutation;
+ mod trait_contracts;
+ pub(super) mod trait_model;
+ mod types;
++#[cfg(kani_smallsort_controls)]
++mod wave0_a1;
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs b/library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..8226194452b6330ed81161d8e48f078433485f42
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs
+@@ -0,0 +1,166 @@
++//! A1 bounded scale probes: actual trait entry points with arbitrary-bool comparators.
++//! These roots are opt-in and intentionally make no sortedness or permutation claim.
++
++use super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
++use crate::kani;
++use crate::mem::MaybeUninit;
++use crate::ptr;
++use crate::slice::sort::shared::FreezeMarker;
++
++/// Transparent, Freeze, eight-byte payload wrapper. It has neither Copy nor Drop.
++#[repr(transparent)]
++struct A1FreezeNonCopy(u64);
++
++fn require_freeze<T: FreezeMarker>() {}
++
++fn cut_merge_order_violation() -> ! {
++    // Exact existing helper-contract replacement: cover the boundary before cutting the abort.
++    kani::cover(true, "helper contract merge order violation reachable");
++    kani::assume(false);
++    unreachable!()
++}
++
++macro_rules! noncopy_values {
++    ($($ignored:ident),+ $(,)?) => {
++        [$( { let _ = stringify!($ignored); A1FreezeNonCopy(kani::any()) } ),+]
++    };
++}
++
++macro_rules! stable_u64_case {
++    ($name:ident, $n:literal) => {
++        #[kani::proof]
++        #[kani::stub(super::super::panic_on_ord_violation, cut_merge_order_violation)]
++        #[kani::unwind(34)]
++        fn $name() {
++            let mut backing: [u64; $n + 2] = kani::any();
++            let original = backing;
++            let values = &mut backing[1..$n + 1];
++            let mut scratch = [MaybeUninit::<u64>::uninit(); 48];
++            assert!(values.len() == $n && scratch.len() == 48);
++            assert!(<u64 as StableSmallSortTypeImpl>::small_sort_threshold() == 32);
++            assert!(!kani::mem::same_allocation(
++                values.as_ptr(),
++                scratch.as_ptr().cast::<u64>(),
++            ));
++            let mut less = |left: &u64, right: &u64| {
++                // SAFETY: the actual comparator arguments are initialized sort elements.
++                unsafe {
++                    ptr::read_volatile(left);
++                    ptr::read_volatile(right);
++                }
++                kani::cover(true, "stable comparator reads both actual arguments");
++                kani::any()
++            };
++            kani::cover(true, "stable actual-body call begins");
++            <u64 as StableSmallSortTypeImpl>::small_sort(values, &mut scratch, &mut less);
++            kani::cover(true, "stable actual-body call returns");
++            for value in values.iter() {
++                // SAFETY: every active output was initialized before sorting.
++                unsafe { ptr::read_volatile(value); }
++            }
++            assert!(backing[0] == original[0] && backing[$n + 1] == original[$n + 1]);
++            kani::cover(true, "all active stable outputs were volatile-read");
++        }
++    };
++}
++
++macro_rules! unstable_noncopy_case {
++    ($name:ident, $n:literal, $($slot:ident),+ $(,)?) => {
++        #[kani::proof]
++        #[kani::stub(super::super::panic_on_ord_violation, cut_merge_order_violation)]
++        #[kani::unwind(34)]
++        fn $name() {
++            require_freeze::<A1FreezeNonCopy>();
++            let mut backing: [A1FreezeNonCopy; $n + 2] = noncopy_values!($($slot),+);
++            let left_guard = backing[$n].0;
++            let right_guard = backing[$n + 1].0;
++            let values = &mut backing[..$n];
++            assert!(values.len() == $n);
++            assert!(<A1FreezeNonCopy as UnstableSmallSortTypeImpl>::small_sort_threshold() == 32);
++            assert!(crate::mem::size_of::<A1FreezeNonCopy>() * 48 <= 4096);
++            let mut less = |left: &A1FreezeNonCopy, right: &A1FreezeNonCopy| {
++                // SAFETY: the actual comparator arguments are initialized sort elements.
++                unsafe {
++                    ptr::read_volatile(&left.0);
++                    ptr::read_volatile(&right.0);
++                }
++                kani::cover(true, "Freeze non-Copy comparator reads both actual arguments");
++                kani::any()
++            };
++            kani::cover(true, "Freeze non-Copy general actual-body call begins");
++            <A1FreezeNonCopy as UnstableSmallSortTypeImpl>::small_sort(
++                values,
++                &mut less,
++            );
++            kani::cover(true, "Freeze non-Copy general actual-body call returns");
++            for value in values.iter() {
++                // SAFETY: every active payload was initialized before sorting.
++                unsafe { ptr::read_volatile(&value.0); }
++            }
++            assert!(backing[$n].0 == left_guard && backing[$n + 1].0 == right_guard);
++            kani::cover(true, "all active general outputs were volatile-read");
++        }
++    };
++}
++
++macro_rules! unstable_network_case {
++    ($name:ident, $n:literal) => {
++        #[kani::proof]
++        #[kani::stub(super::super::panic_on_ord_violation, cut_merge_order_violation)]
++        #[kani::unwind(34)]
++        fn $name() {
++            let mut backing: [u64; 32] = kani::any();
++            let original = backing;
++            let mut less = |left: &u64, right: &u64| {
++                // SAFETY: the actual comparator arguments are initialized sort elements.
++                unsafe {
++                    ptr::read_volatile(left);
++                    ptr::read_volatile(right);
++                }
++                kani::cover(true, "network comparator reads both actual arguments");
++                kani::any()
++            };
++            assert!(<u64 as UnstableSmallSortTypeImpl>::small_sort_threshold() == 32);
++            assert!(super::super::has_efficient_in_place_swap::<u64>());
++            assert!(crate::mem::size_of::<u64>() * 32 <= 4096);
++            kani::cover(true, "Freeze Copy network actual-body call begins");
++            <u64 as UnstableSmallSortTypeImpl>::small_sort(
++                &mut backing[..$n],
++                &mut less,
++            );
++            kani::cover(true, "Freeze Copy network actual-body call returns");
++            for value in &backing[..$n] {
++                // SAFETY: every active output was initialized before sorting.
++                unsafe { ptr::read_volatile(value); }
++            }
++            for index in $n..32 {
++                assert!(backing[index] == original[index], "network input frame");
++            }
++            kani::cover(true, "all active network outputs were volatile-read");
++        }
++    };
++}
++
++stable_u64_case!(stable_freeze_u64_n8, 8);
++stable_u64_case!(stable_freeze_u64_n16, 16);
++stable_u64_case!(stable_freeze_u64_n32, 32);
++
++unstable_noncopy_case!(
++    unstable_general_nocopy_u64_n8,
++    8,
++    a, b, c, d, e, f, g, h, i, j,
++);
++unstable_noncopy_case!(
++    unstable_general_nocopy_u64_n16,
++    16,
++    a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r,
++);
++unstable_noncopy_case!(
++    unstable_general_nocopy_u64_n32,
++    32,
++    a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p,
++    q, r, s, t, u, v, w, x, y, z, aa, ab, ac, ad, ae, af, ag, ah,
++);
++
++unstable_network_case!(unstable_network_u64_n18, 18);
++unstable_network_case!(unstable_network_u64_n32, 32);

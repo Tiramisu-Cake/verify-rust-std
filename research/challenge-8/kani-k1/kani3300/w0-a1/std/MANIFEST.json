@@ -1,0 +1,94 @@
+{
+  "additional_conditional_stub_cover": "helper contract merge order violation reachable",
+  "author": "Tiramisu-Cake <igkharin@gmail.com>",
+  "base_library_tree": "12e87bd4a4e141a8f829d8a0519efc09260c5059",
+  "base_tree": "a7795c5a49a4f3f00b774356c0ae3fb2a89c6825",
+  "branch": "work/ch8-w0-a1-w15",
+  "commit": "65864680a145c90c583dcba7efd1d569475519fc",
+  "commit_subject": "Add opt-in CH8 W0-A1 actual body probes [skip ci]",
+  "committer": "Tiramisu-Cake <igkharin@gmail.com>",
+  "compiler_or_verifier_validation": "NOT_RUN; prohibited in worker session",
+  "frozen_library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+  "frozen_source_commit": "70ba5befc617627073738e26cb1466bd4fb76e41",
+  "frozen_source_tree": "84ab170ccdcc29fba69e55e0a46e6acdf52d9704",
+  "library_tree": "93d2f428370a2a9dbedafd6dd598305b46aac50c",
+  "overlay_files": [
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "sha256": "f7741fde76545b53c98742149c2081c3ef6de8c7f004fe4522473cd64a611f1c"
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs",
+      "sha256": "453218bd78b39d8e30881ada9bc442b50d3e1d63b81151410ec25b2ecf467299"
+    }
+  ],
+  "package": "CH8-W0-A1 std test-only overlay",
+  "parent": "6075e7ce17179f45642c9ffe8fe09e3ec9395726",
+  "parent_tree": "a7795c5a49a4f3f00b774356c0ae3fb2a89c6825",
+  "patched_files_frozen_to_final_library": [
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs"
+  ],
+  "patches": {
+    "combined-from-70ba.patch": {
+      "base": "70ba5befc617627073738e26cb1466bd4fb76e41",
+      "scope": "library/ only; accepted test package plus A1",
+      "sha256": "bb076677040e5da399df6a1751814add5ba4f2a8d4c58ee02e78a95022ac918a"
+    },
+    "overlay-from-6075.patch": {
+      "base": "6075e7ce17179f45642c9ffe8fe09e3ec9395726",
+      "scope": "A1 overlay only",
+      "sha256": "05da44f4ded67994140025607666037911e2105ae613c002451dea39618fa2d5"
+    }
+  },
+  "push_or_dispatch": false,
+  "regular_cover_labels_by_route": {
+    "general_noncopy": [
+      "Freeze non-Copy general actual-body call begins",
+      "Freeze non-Copy comparator reads both actual arguments",
+      "Freeze non-Copy general actual-body call returns",
+      "all active general outputs were volatile-read"
+    ],
+    "network": [
+      "Freeze Copy network actual-body call begins",
+      "network comparator reads both actual arguments",
+      "Freeze Copy network actual-body call returns",
+      "all active network outputs were volatile-read"
+    ],
+    "stable": [
+      "stable actual-body call begins",
+      "stable comparator reads both actual arguments",
+      "stable actual-body call returns",
+      "all active stable outputs were volatile-read"
+    ]
+  },
+  "regular_required_cover_count_per_selector": 4,
+  "runtime_status": "NOT_RUN",
+  "schema_version": 1,
+  "selector_prefix": "slice::sort::shared::smallsort::verify::wave0_a1::",
+  "selectors": [
+    "stable_freeze_u64_n8",
+    "stable_freeze_u64_n16",
+    "stable_freeze_u64_n32",
+    "unstable_general_nocopy_u64_n8",
+    "unstable_general_nocopy_u64_n16",
+    "unstable_general_nocopy_u64_n32",
+    "unstable_network_u64_n18",
+    "unstable_network_u64_n32"
+  ],
+  "source_worktree": "/root/verify-rust-std-ch8-w0-a1-w15",
+  "static_output_payload_volatile_reads_total": 162,
+  "static_validation": [
+    "exact source/tree identities",
+    "diff scope review",
+    "route/type/length/offset review",
+    "git diff --check",
+    "SHA-256 patch/source hashes"
+  ],
+  "tree": "318753826afce4c952e8210b67a8b5919f646f9b",
+  "unwind_bound": 34
+}

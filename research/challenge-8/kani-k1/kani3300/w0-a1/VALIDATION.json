@@ -1,0 +1,50 @@
+{
+  "actionlint": "UNAVAILABLE; YAML1.2/context/bash/AST targeted scanner used",
+  "ci_scope": "ONLY_WORKFLOWS_AND_CONTROL_SCRIPTS",
+  "commands": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_a1.py",
+      "elapsed_seconds_parent_run": 5.992,
+      "exit": 0,
+      "test_methods": [
+        "test_accepts_exact_r1_r2_rows_and_null_environment_removal",
+        "test_rejects_missing_row_or_native_std_mixup",
+        "test_rejects_wrong_mode_and_selector_binding",
+        "test_parser_states_are_unknown_and_selector_mismatch_is_not_success",
+        "test_wrong_pin_tree_dirty_status_and_bound_file_are_rejected",
+        "test_fixture_hash_mismatch_is_rejected",
+        "test_frozen_pin_request_rejects_wrong_commit_even_before_git",
+        "test_success_intended_failure_and_signal_preserve_child_status",
+        "test_timeout_kills_descendant_after_leader_exits",
+        "test_output_stream_cap_is_enforced_during_execution",
+        "test_frozen_job_rss_policy_is_used_and_cannot_exceed_reserve",
+        "test_setup_only_or_unknown_receipt_is_nonzero_and_never_pass",
+        "test_durable_run_receipt_marks_post_run_source_drift_incomplete",
+        "test_successful_r1_records_std_and_does_not_need_native_fixture",
+        "test_artifact_trimming_preserves_receipt_and_marks_incomplete"
+      ],
+      "tests": 15
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 ci/check_workflow.py",
+      "exit": 0,
+      "result_file": "validation-yaml.json"
+    }
+  ],
+  "no_local_rust_or_verifier": true,
+  "package_copy_checksums": "EXACT_19_ASSETS",
+  "patch_application": "TEMP_GIT_INDEX_EXACT_LIBRARY_TREE; no compiler",
+  "proof_claim": "NONE",
+  "runtime": "NOT_RUN",
+  "schema": "ch8-w0-a1-offline-validation-v1",
+  "status": "PASS",
+  "std_scope": "ONLY_REGISTRATION_AND_WAVE0_A1_MODULE",
+  "validated_hashes": {
+    "CI-REQUEST.json": "6f49f0dec801a14f4dd33205620d0114a606959a2d2f0ad7c677d6bbd2e26e71",
+    "a1.py": "8bc4787c3703dc2ea59408e3d38e6da7f50ad9cd8fe938ed9e964211f212454f",
+    "ch8-w0-a1.yml": "c75ec17b97a2af2a47197343ec70fd677d2a264f8653e3eeb850df44c3f3a875",
+    "replay_origin.py": "aa5d3484421c8266ff2aebfeafabc395740133b4625c28e345b5c7fcfbb78ec0",
+    "test_a1.py": "64bc2dec0f304083ed674d70660931bc968e32e6bc2f394c21c5283d981e6c58"
+  },
+  "whitespace": "Authored workflow/Python/JSON pass git diff --check. Full scan flags exact native bodies/fixture EOF and unified diff whitespace; immutable data bytes intentionally preserved. No existing control was relaxed."
+}

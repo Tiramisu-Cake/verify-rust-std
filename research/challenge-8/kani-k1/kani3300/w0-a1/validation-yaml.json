@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "yaml": "YAML1.2_DUPLICATES_REJECTED",
+  "mutations_rejected": [
+    "dispatch-only",
+    "grandparent-tree-guard",
+    "literal-newline-output",
+    "runner-job-env",
+    "shallow-export",
+    "nested-export",
+    "wrong-setup-cwd",
+    "wrong-binary-prefix",
+    "duplicate-yaml-key"
+  ],
+  "source_binding": {
+    "baseline": {
+      "files": 142,
+      "tests": 118,
+      "subtrees": 9
+    },
+    "sel1": {
+      "files": 572,
+      "tests": 548,
+      "subtrees": 9
+    }
+  },
+  "rows": {
+    "r1": 8,
+    "r2": 6
+  },
+  "limitation": "offline targeted checker; no actionlint, Rust compilation or runtime verification"
+}

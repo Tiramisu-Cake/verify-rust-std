@@ -1,0 +1,42 @@
+{
+  "ci_package": "bf81a1f14f9468c5b25d3ee33f7dafbf2bca131e",
+  "ci_request": "CI-REQUEST.md",
+  "claims": [
+    {
+      "assurance": "STATIC_AND_SYNTHETIC_ONLY",
+      "claim": "exact local packages and offline checks completed",
+      "evidence": [
+        "CI-OVERLAY.json",
+        "VALIDATION.json",
+        "validation-yaml.json",
+        "REVIEW.md"
+      ]
+    }
+  ],
+  "cloud_dollars": 0,
+  "dispatches_started": 0,
+  "independent_review": "PASS_STATIC_PREPARATION_ONLY",
+  "next": "Coordinator validates exact package identities and schedule/ledger, creates same-tree non-skip triggers, dispatches R1/R2. Worker stops; evidence analysis is a new session.",
+  "open": [
+    {
+      "question": "Actual compilation, selected-body binding, useful checks/covers, phase/status/resource evidence",
+      "status": "NOT_RUN_COORDINATOR_R1_R2_NEXT_SESSION"
+    },
+    {
+      "question": "Optional one OFF N32 companion after R1 cost selection",
+      "status": "NOT_PREPARED_OPTIONAL_COORDINATOR_DECISION"
+    },
+    {
+      "question": "R3 reserve",
+      "status": "UNUSED_COORDINATOR_ONLY"
+    }
+  ],
+  "proof_credit": "NOT_ESTABLISHED",
+  "push_or_publication": false,
+  "runtime": "NOT_RUN",
+  "schema": "ch8-w0-a1-checkpoint-v1",
+  "status": "READY",
+  "std_package": "65864680a145c90c583dcba7efd1d569475519fc",
+  "task": "TASK-CH8-W0-A1.md",
+  "worker": "worker15"
+}
