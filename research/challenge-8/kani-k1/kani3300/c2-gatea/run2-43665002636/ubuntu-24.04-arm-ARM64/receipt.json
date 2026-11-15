@@ -1,0 +1,2747 @@
+{
+  "argv": [
+    "bash",
+    "scripts/kani-regression.sh"
+  ],
+  "artifact_package_bytes_at_finalize": 349948,
+  "binding_identity": {
+    "export_sha": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+    "export_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb"
+  },
+  "combined_output_file": "regression.events.log",
+  "duration_seconds": 2012.5764563540001,
+  "effective_environment_policy": {
+    "KANI_REGRESSION_KEEP_GOING": "forced empty string",
+    "KANI_REGRESSION_TEST_TIMEOUT": "forced 2400 seconds",
+    "RUSTFLAGS": "frozen script-scoped assignments only",
+    "RUST_TEST_THREADS": "unset; inherited value rejected",
+    "external_overrides_rejected": [
+      "RUSTFLAGS",
+      "KANI_FLAGS",
+      "CBMC_FLAGS",
+      "EXTRA_X_PY_BUILD_ARGS",
+      "BASH_ENV",
+      "SHELLOPTS",
+      "BASHOPTS",
+      "KANI_GATE_OWNER_PID",
+      "KANI_REGRESSION_TEST_TIMEOUT",
+      "RUST_TEST_THREADS",
+      "nonempty KANI_REGRESSION_KEEP_GOING"
+    ]
+  },
+  "event_complete": true,
+  "event_count": 132,
+  "event_stream": {
+    "bytes": 200111,
+    "complete": true,
+    "sha256": "f3f02decb533880533509d806eb3cd2d73f3e7440497c37e153f29afcbce57cd",
+    "truncated": false
+  },
+  "exit_trace": [
+    {
+      "command": "echo",
+      "elapsed_seconds": 2012,
+      "line": "1",
+      "pid": 14172,
+      "rc": 0,
+      "source": "scripts/kani-regression.sh"
+    }
+  ],
+  "export_sha": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "export_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+  "formal_proof_credit": "NOT_ESTABLISHED",
+  "full_verifier_argv": "UNKNOWN_NOT_OBSERVED",
+  "lifecycle": {
+    "budget": {
+      "allowed_seconds": 20261,
+      "elapsed_seconds": 739,
+      "job_seconds": 21600,
+      "regression_cap_seconds": 20400,
+      "reserve_seconds": 600,
+      "run": true,
+      "status": "READY"
+    },
+    "identities": {
+      "control_head": "39bcdd7ad51dc169f75a9974e43717205553bad0",
+      "export_sha": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+      "export_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+      "job_id": "regression",
+      "overlay_sha": "39bcdd7ad51dc169f75a9974e43717205553bad0",
+      "run_attempt": "1",
+      "run_id": "43665002636"
+    },
+    "platform": {
+      "disk": {
+        "free_bytes": 113897533440,
+        "total_bytes": 154894188544
+      },
+      "host_triple": "aarch64-unknown-linux-gnu",
+      "image": "ubuntu24-arm64",
+      "image_version": "20261111.182.1",
+      "machine": "aarch64",
+      "matrix_os": "ubuntu-24.04-arm",
+      "platform": "Linux-7.0.0-1017-azure-aarch64-with-glibc2.39",
+      "processor": "aarch64",
+      "ram_bytes": 16715927552,
+      "release": "7.0.0-1017-azure",
+      "runner_arch": "ARM64",
+      "runner_name": "GitHub Actions 1000001985",
+      "runner_os": "Linux",
+      "system": "Linux",
+      "version": "#17~24.04.1-Ubuntu SMP PREEMPT Thu Sep 24 19:06:39 UTC 2026"
+    },
+    "problems": [],
+    "schema": "kani3300-gatea-lifecycle-v1",
+    "source_checks": [
+      {
+        "clean": true,
+        "diff": "",
+        "diff_bytes": 0,
+        "diff_truncated": false,
+        "file_hashes": {
+          ".cargo/config.toml": {
+            "actual": "8a7317c9b5e38ee2e842086a154e99f9bae4e2bc1118cae9e5b7cd5ee7c3547c",
+            "bytes": 1909,
+            "expected": "8a7317c9b5e38ee2e842086a154e99f9bae4e2bc1118cae9e5b7cd5ee7c3547c",
+            "ok": true
+          },
+          ".github/actions/setup/action.yml": {
+            "actual": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+            "bytes": 1510,
+            "expected": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+            "ok": true
+          },
+          ".github/workflows/kani.yml": {
+            "actual": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+            "bytes": 3914,
+            "expected": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+            "ok": true
+          },
+          ".gitmodules": {
+            "actual": "bed047cc36087a49620c1d0035dc09895b33c66b8364c561e349cc5e090c8863",
+            "bytes": 305,
+            "expected": "bed047cc36087a49620c1d0035dc09895b33c66b8364c561e349cc5e090c8863",
+            "ok": true
+          },
+          "Cargo.lock": {
+            "actual": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+            "bytes": 72882,
+            "expected": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+            "ok": true
+          },
+          "Cargo.toml": {
+            "actual": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
+            "bytes": 2136,
+            "expected": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
+            "ok": true
+          },
+          "kani-dependencies": {
+            "actual": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+            "bytes": 186,
+            "expected": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+            "ok": true
+          },
+          "library/kani/kani_lib.c": {
+            "actual": "4a3c653c5cf540de061dc6044b85cad196b1321119f936621e692e13a88cd6b6",
+            "bytes": 5982,
+            "expected": "4a3c653c5cf540de061dc6044b85cad196b1321119f936621e692e13a88cd6b6",
+            "ok": true
+          },
+          "rust-toolchain.toml": {
+            "actual": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+            "bytes": 183,
+            "expected": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+            "ok": true
+          },
+          "scripts/kani-regression.sh": {
+            "actual": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+            "bytes": 5201,
+            "expected": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+            "ok": true
+          },
+          "scripts/setup/al2/install_cbmc.sh": {
+            "actual": "d807eb1b83a5e118b739f04e7c1f2217ca97df066d8c285b5466b1045d3546d6",
+            "bytes": 786,
+            "expected": "d807eb1b83a5e118b739f04e7c1f2217ca97df066d8c285b5466b1045d3546d6",
+            "ok": true
+          },
+          "scripts/setup/al2/install_deps.sh": {
+            "actual": "6519d6a4bf5f05f3cb869c911ca9eebb3ba09ecb174700c2b493d0335281d434",
+            "bytes": 747,
+            "expected": "6519d6a4bf5f05f3cb869c911ca9eebb3ba09ecb174700c2b493d0335281d434",
+            "ok": true
+          },
+          "scripts/setup/install_kissat.sh": {
+            "actual": "d7f6fb4d3cae5a94144a54bf0bf07db9f174fad6db6a1ba70ad62f9fc86f1dd9",
+            "bytes": 985,
+            "expected": "d7f6fb4d3cae5a94144a54bf0bf07db9f174fad6db6a1ba70ad62f9fc86f1dd9",
+            "ok": true
+          },
+          "scripts/setup/install_rustup.sh": {
+            "actual": "ce02a8a4042b4f6d2b8ffc0905f50284e77d7772b2ed3a2760cdb17db728adb5",
+            "bytes": 475,
+            "expected": "ce02a8a4042b4f6d2b8ffc0905f50284e77d7772b2ed3a2760cdb17db728adb5",
+            "ok": true
+          },
+          "scripts/setup/macos/install_cbmc.sh": {
+            "actual": "f6738acc049bf672e66e019ad9d40a34a5ea699a85e2a8c1928da7c72bd3996c",
+            "bytes": 570,
+            "expected": "f6738acc049bf672e66e019ad9d40a34a5ea699a85e2a8c1928da7c72bd3996c",
+            "ok": true
+          },
+          "scripts/setup/macos/install_deps.sh": {
+            "actual": "6275eee58ebe7860d26d63fec39525b6fbbfcd79e2a7f2ac475a0f8d93a13436",
+            "bytes": 1792,
+            "expected": "6275eee58ebe7860d26d63fec39525b6fbbfcd79e2a7f2ac475a0f8d93a13436",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-20.04/install_cbmc.sh": {
+            "actual": "4d889a4b6a2c3d33022d206061529e3602f52074a1fdb0615c0fd50c086e3197",
+            "bytes": 788,
+            "expected": "4d889a4b6a2c3d33022d206061529e3602f52074a1fdb0615c0fd50c086e3197",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-20.04/install_deps.sh": {
+            "actual": "b7b330905a65974b7448145c8500bbf301694d200285fac898d0c8c05c5f26cf",
+            "bytes": 1032,
+            "expected": "b7b330905a65974b7448145c8500bbf301694d200285fac898d0c8c05c5f26cf",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-20.04/install_doc_deps.sh": {
+            "actual": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "bytes": 219,
+            "expected": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "ok": true
+          },
+          "scripts/setup/ubuntu/install_cbmc.sh": {
+            "actual": "378294d7c13cc0d3c90403cf31a5c577d5292d2f5aee3274977a4446060eda54",
+            "bytes": 1203,
+            "expected": "378294d7c13cc0d3c90403cf31a5c577d5292d2f5aee3274977a4446060eda54",
+            "ok": true
+          },
+          "scripts/setup/ubuntu/install_deps.sh": {
+            "actual": "820a436228d735c1231d09a791de1cb56958d9be42778bb422735183c749bc50",
+            "bytes": 1267,
+            "expected": "820a436228d735c1231d09a791de1cb56958d9be42778bb422735183c749bc50",
+            "ok": true
+          },
+          "scripts/setup/ubuntu/install_doc_deps.sh": {
+            "actual": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "bytes": 219,
+            "expected": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "ok": true
+          }
+        },
+        "head": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+        "mismatches": [],
+        "ok": true,
+        "phase": "pre-setup",
+        "status": [],
+        "status_truncated": false,
+        "submodule_pins": {
+          "charon": {
+            "actual": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+            "expected": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+            "index": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+            "initialized": false,
+            "ok": true
+          },
+          "firecracker": {
+            "actual": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+            "expected": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+            "index": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+            "initialized": false,
+            "ok": true
+          },
+          "tests/perf/s2n-quic": {
+            "actual": "be829a473881163369f7df4c739232ebbd1e7d27",
+            "expected": "be829a473881163369f7df4c739232ebbd1e7d27",
+            "index": "be829a473881163369f7df4c739232ebbd1e7d27",
+            "initialized": false,
+            "ok": true
+          }
+        },
+        "subtrees": {
+          ".github/actions/setup": {
+            "actual": "f3392b185d8272979f6861b1aa3de1086acc15b5",
+            "expected": "f3392b185d8272979f6861b1aa3de1086acc15b5",
+            "ok": true
+          },
+          "cprover_bindings": {
+            "actual": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
+            "expected": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
+            "ok": true
+          },
+          "docs": {
+            "actual": "edb41c0886dbda689cfef16ac1649701e547a862",
+            "expected": "edb41c0886dbda689cfef16ac1649701e547a862",
+            "ok": true
+          },
+          "kani-compiler": {
+            "actual": "c738897777875c87a0b52ecf91ff171521b93314",
+            "expected": "c738897777875c87a0b52ecf91ff171521b93314",
+            "ok": true
+          },
+          "kani-driver": {
+            "actual": "f05085b98bda414ea7ceb9de96317cceeb39863f",
+            "expected": "f05085b98bda414ea7ceb9de96317cceeb39863f",
+            "ok": true
+          },
+          "library": {
+            "actual": "eeae80b128033f335183b587eab19ec83ddcfcd5",
+            "expected": "eeae80b128033f335183b587eab19ec83ddcfcd5",
+            "ok": true
+          },
+          "scripts": {
+            "actual": "17ce41a6b9744224defd3a87247736f82992e550",
+            "expected": "17ce41a6b9744224defd3a87247736f82992e550",
+            "ok": true
+          },
+          "tests": {
+            "actual": "945332aaccc96ccf92e93662f1f2a33ae5fd14ce",
+            "expected": "945332aaccc96ccf92e93662f1f2a33ae5fd14ce",
+            "ok": true
+          },
+          "tools": {
+            "actual": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99",
+            "expected": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99",
+            "ok": true
+          }
+        },
+        "symlinks": {
+          "scripts/setup/macos-10.15": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-11": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-12": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-13": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-14": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-15": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-15-intel": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-22.04": {
+            "actual": "ubuntu",
+            "expected": "ubuntu",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-24.04": {
+            "actual": "ubuntu",
+            "expected": "ubuntu",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-24.04-arm": {
+            "actual": "ubuntu",
+            "expected": "ubuntu",
+            "ok": true
+          }
+        },
+        "timestamp_utc": "2026-11-15T01:51:13Z",
+        "tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+        "untracked": []
+      },
+      {
+        "clean": true,
+        "diff": "",
+        "diff_bytes": 0,
+        "diff_truncated": false,
+        "file_hashes": {
+          ".cargo/config.toml": {
+            "actual": "8a7317c9b5e38ee2e842086a154e99f9bae4e2bc1118cae9e5b7cd5ee7c3547c",
+            "bytes": 1909,
+            "expected": "8a7317c9b5e38ee2e842086a154e99f9bae4e2bc1118cae9e5b7cd5ee7c3547c",
+            "ok": true
+          },
+          ".github/actions/setup/action.yml": {
+            "actual": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+            "bytes": 1510,
+            "expected": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+            "ok": true
+          },
+          ".github/workflows/kani.yml": {
+            "actual": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+            "bytes": 3914,
+            "expected": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+            "ok": true
+          },
+          ".gitmodules": {
+            "actual": "bed047cc36087a49620c1d0035dc09895b33c66b8364c561e349cc5e090c8863",
+            "bytes": 305,
+            "expected": "bed047cc36087a49620c1d0035dc09895b33c66b8364c561e349cc5e090c8863",
+            "ok": true
+          },
+          "Cargo.lock": {
+            "actual": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+            "bytes": 72882,
+            "expected": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+            "ok": true
+          },
+          "Cargo.toml": {
+            "actual": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
+            "bytes": 2136,
+            "expected": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
+            "ok": true
+          },
+          "kani-dependencies": {
+            "actual": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+            "bytes": 186,
+            "expected": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+            "ok": true
+          },
+          "library/kani/kani_lib.c": {
+            "actual": "4a3c653c5cf540de061dc6044b85cad196b1321119f936621e692e13a88cd6b6",
+            "bytes": 5982,
+            "expected": "4a3c653c5cf540de061dc6044b85cad196b1321119f936621e692e13a88cd6b6",
+            "ok": true
+          },
+          "rust-toolchain.toml": {
+            "actual": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+            "bytes": 183,
+            "expected": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+            "ok": true
+          },
+          "scripts/kani-regression.sh": {
+            "actual": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+            "bytes": 5201,
+            "expected": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+            "ok": true
+          },
+          "scripts/setup/al2/install_cbmc.sh": {
+            "actual": "d807eb1b83a5e118b739f04e7c1f2217ca97df066d8c285b5466b1045d3546d6",
+            "bytes": 786,
+            "expected": "d807eb1b83a5e118b739f04e7c1f2217ca97df066d8c285b5466b1045d3546d6",
+            "ok": true
+          },
+          "scripts/setup/al2/install_deps.sh": {
+            "actual": "6519d6a4bf5f05f3cb869c911ca9eebb3ba09ecb174700c2b493d0335281d434",
+            "bytes": 747,
+            "expected": "6519d6a4bf5f05f3cb869c911ca9eebb3ba09ecb174700c2b493d0335281d434",
+            "ok": true
+          },
+          "scripts/setup/install_kissat.sh": {
+            "actual": "d7f6fb4d3cae5a94144a54bf0bf07db9f174fad6db6a1ba70ad62f9fc86f1dd9",
+            "bytes": 985,
+            "expected": "d7f6fb4d3cae5a94144a54bf0bf07db9f174fad6db6a1ba70ad62f9fc86f1dd9",
+            "ok": true
+          },
+          "scripts/setup/install_rustup.sh": {
+            "actual": "ce02a8a4042b4f6d2b8ffc0905f50284e77d7772b2ed3a2760cdb17db728adb5",
+            "bytes": 475,
+            "expected": "ce02a8a4042b4f6d2b8ffc0905f50284e77d7772b2ed3a2760cdb17db728adb5",
+            "ok": true
+          },
+          "scripts/setup/macos/install_cbmc.sh": {
+            "actual": "f6738acc049bf672e66e019ad9d40a34a5ea699a85e2a8c1928da7c72bd3996c",
+            "bytes": 570,
+            "expected": "f6738acc049bf672e66e019ad9d40a34a5ea699a85e2a8c1928da7c72bd3996c",
+            "ok": true
+          },
+          "scripts/setup/macos/install_deps.sh": {
+            "actual": "6275eee58ebe7860d26d63fec39525b6fbbfcd79e2a7f2ac475a0f8d93a13436",
+            "bytes": 1792,
+            "expected": "6275eee58ebe7860d26d63fec39525b6fbbfcd79e2a7f2ac475a0f8d93a13436",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-20.04/install_cbmc.sh": {
+            "actual": "4d889a4b6a2c3d33022d206061529e3602f52074a1fdb0615c0fd50c086e3197",
+            "bytes": 788,
+            "expected": "4d889a4b6a2c3d33022d206061529e3602f52074a1fdb0615c0fd50c086e3197",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-20.04/install_deps.sh": {
+            "actual": "b7b330905a65974b7448145c8500bbf301694d200285fac898d0c8c05c5f26cf",
+            "bytes": 1032,
+            "expected": "b7b330905a65974b7448145c8500bbf301694d200285fac898d0c8c05c5f26cf",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-20.04/install_doc_deps.sh": {
+            "actual": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "bytes": 219,
+            "expected": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "ok": true
+          },
+          "scripts/setup/ubuntu/install_cbmc.sh": {
+            "actual": "378294d7c13cc0d3c90403cf31a5c577d5292d2f5aee3274977a4446060eda54",
+            "bytes": 1203,
+            "expected": "378294d7c13cc0d3c90403cf31a5c577d5292d2f5aee3274977a4446060eda54",
+            "ok": true
+          },
+          "scripts/setup/ubuntu/install_deps.sh": {
+            "actual": "820a436228d735c1231d09a791de1cb56958d9be42778bb422735183c749bc50",
+            "bytes": 1267,
+            "expected": "820a436228d735c1231d09a791de1cb56958d9be42778bb422735183c749bc50",
+            "ok": true
+          },
+          "scripts/setup/ubuntu/install_doc_deps.sh": {
+            "actual": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "bytes": 219,
+            "expected": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "ok": true
+          }
+        },
+        "head": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+        "mismatches": [],
+        "ok": true,
+        "phase": "post-setup",
+        "status": [],
+        "status_truncated": false,
+        "submodule_pins": {
+          "charon": {
+            "actual": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+            "expected": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+            "index": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+            "initialized": true,
+            "ok": true
+          },
+          "firecracker": {
+            "actual": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+            "expected": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+            "index": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+            "initialized": true,
+            "ok": true
+          },
+          "tests/perf/s2n-quic": {
+            "actual": "be829a473881163369f7df4c739232ebbd1e7d27",
+            "expected": "be829a473881163369f7df4c739232ebbd1e7d27",
+            "index": "be829a473881163369f7df4c739232ebbd1e7d27",
+            "initialized": true,
+            "ok": true
+          }
+        },
+        "subtrees": {
+          ".github/actions/setup": {
+            "actual": "f3392b185d8272979f6861b1aa3de1086acc15b5",
+            "expected": "f3392b185d8272979f6861b1aa3de1086acc15b5",
+            "ok": true
+          },
+          "cprover_bindings": {
+            "actual": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
+            "expected": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
+            "ok": true
+          },
+          "docs": {
+            "actual": "edb41c0886dbda689cfef16ac1649701e547a862",
+            "expected": "edb41c0886dbda689cfef16ac1649701e547a862",
+            "ok": true
+          },
+          "kani-compiler": {
+            "actual": "c738897777875c87a0b52ecf91ff171521b93314",
+            "expected": "c738897777875c87a0b52ecf91ff171521b93314",
+            "ok": true
+          },
+          "kani-driver": {
+            "actual": "f05085b98bda414ea7ceb9de96317cceeb39863f",
+            "expected": "f05085b98bda414ea7ceb9de96317cceeb39863f",
+            "ok": true
+          },
+          "library": {
+            "actual": "eeae80b128033f335183b587eab19ec83ddcfcd5",
+            "expected": "eeae80b128033f335183b587eab19ec83ddcfcd5",
+            "ok": true
+          },
+          "scripts": {
+            "actual": "17ce41a6b9744224defd3a87247736f82992e550",
+            "expected": "17ce41a6b9744224defd3a87247736f82992e550",
+            "ok": true
+          },
+          "tests": {
+            "actual": "945332aaccc96ccf92e93662f1f2a33ae5fd14ce",
+            "expected": "945332aaccc96ccf92e93662f1f2a33ae5fd14ce",
+            "ok": true
+          },
+          "tools": {
+            "actual": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99",
+            "expected": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99",
+            "ok": true
+          }
+        },
+        "symlinks": {
+          "scripts/setup/macos-10.15": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-11": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-12": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-13": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-14": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-15": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-15-intel": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-22.04": {
+            "actual": "ubuntu",
+            "expected": "ubuntu",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-24.04": {
+            "actual": "ubuntu",
+            "expected": "ubuntu",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-24.04-arm": {
+            "actual": "ubuntu",
+            "expected": "ubuntu",
+            "ok": true
+          }
+        },
+        "timestamp_utc": "2026-11-15T02:02:29Z",
+        "tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+        "untracked": []
+      },
+      {
+        "clean": true,
+        "diff": "",
+        "diff_bytes": 0,
+        "diff_truncated": false,
+        "file_hashes": {
+          ".cargo/config.toml": {
+            "actual": "8a7317c9b5e38ee2e842086a154e99f9bae4e2bc1118cae9e5b7cd5ee7c3547c",
+            "bytes": 1909,
+            "expected": "8a7317c9b5e38ee2e842086a154e99f9bae4e2bc1118cae9e5b7cd5ee7c3547c",
+            "ok": true
+          },
+          ".github/actions/setup/action.yml": {
+            "actual": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+            "bytes": 1510,
+            "expected": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+            "ok": true
+          },
+          ".github/workflows/kani.yml": {
+            "actual": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+            "bytes": 3914,
+            "expected": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+            "ok": true
+          },
+          ".gitmodules": {
+            "actual": "bed047cc36087a49620c1d0035dc09895b33c66b8364c561e349cc5e090c8863",
+            "bytes": 305,
+            "expected": "bed047cc36087a49620c1d0035dc09895b33c66b8364c561e349cc5e090c8863",
+            "ok": true
+          },
+          "Cargo.lock": {
+            "actual": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+            "bytes": 72882,
+            "expected": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+            "ok": true
+          },
+          "Cargo.toml": {
+            "actual": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
+            "bytes": 2136,
+            "expected": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
+            "ok": true
+          },
+          "kani-dependencies": {
+            "actual": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+            "bytes": 186,
+            "expected": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+            "ok": true
+          },
+          "library/kani/kani_lib.c": {
+            "actual": "4a3c653c5cf540de061dc6044b85cad196b1321119f936621e692e13a88cd6b6",
+            "bytes": 5982,
+            "expected": "4a3c653c5cf540de061dc6044b85cad196b1321119f936621e692e13a88cd6b6",
+            "ok": true
+          },
+          "rust-toolchain.toml": {
+            "actual": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+            "bytes": 183,
+            "expected": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+            "ok": true
+          },
+          "scripts/kani-regression.sh": {
+            "actual": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+            "bytes": 5201,
+            "expected": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+            "ok": true
+          },
+          "scripts/setup/al2/install_cbmc.sh": {
+            "actual": "d807eb1b83a5e118b739f04e7c1f2217ca97df066d8c285b5466b1045d3546d6",
+            "bytes": 786,
+            "expected": "d807eb1b83a5e118b739f04e7c1f2217ca97df066d8c285b5466b1045d3546d6",
+            "ok": true
+          },
+          "scripts/setup/al2/install_deps.sh": {
+            "actual": "6519d6a4bf5f05f3cb869c911ca9eebb3ba09ecb174700c2b493d0335281d434",
+            "bytes": 747,
+            "expected": "6519d6a4bf5f05f3cb869c911ca9eebb3ba09ecb174700c2b493d0335281d434",
+            "ok": true
+          },
+          "scripts/setup/install_kissat.sh": {
+            "actual": "d7f6fb4d3cae5a94144a54bf0bf07db9f174fad6db6a1ba70ad62f9fc86f1dd9",
+            "bytes": 985,
+            "expected": "d7f6fb4d3cae5a94144a54bf0bf07db9f174fad6db6a1ba70ad62f9fc86f1dd9",
+            "ok": true
+          },
+          "scripts/setup/install_rustup.sh": {
+            "actual": "ce02a8a4042b4f6d2b8ffc0905f50284e77d7772b2ed3a2760cdb17db728adb5",
+            "bytes": 475,
+            "expected": "ce02a8a4042b4f6d2b8ffc0905f50284e77d7772b2ed3a2760cdb17db728adb5",
+            "ok": true
+          },
+          "scripts/setup/macos/install_cbmc.sh": {
+            "actual": "f6738acc049bf672e66e019ad9d40a34a5ea699a85e2a8c1928da7c72bd3996c",
+            "bytes": 570,
+            "expected": "f6738acc049bf672e66e019ad9d40a34a5ea699a85e2a8c1928da7c72bd3996c",
+            "ok": true
+          },
+          "scripts/setup/macos/install_deps.sh": {
+            "actual": "6275eee58ebe7860d26d63fec39525b6fbbfcd79e2a7f2ac475a0f8d93a13436",
+            "bytes": 1792,
+            "expected": "6275eee58ebe7860d26d63fec39525b6fbbfcd79e2a7f2ac475a0f8d93a13436",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-20.04/install_cbmc.sh": {
+            "actual": "4d889a4b6a2c3d33022d206061529e3602f52074a1fdb0615c0fd50c086e3197",
+            "bytes": 788,
+            "expected": "4d889a4b6a2c3d33022d206061529e3602f52074a1fdb0615c0fd50c086e3197",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-20.04/install_deps.sh": {
+            "actual": "b7b330905a65974b7448145c8500bbf301694d200285fac898d0c8c05c5f26cf",
+            "bytes": 1032,
+            "expected": "b7b330905a65974b7448145c8500bbf301694d200285fac898d0c8c05c5f26cf",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-20.04/install_doc_deps.sh": {
+            "actual": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "bytes": 219,
+            "expected": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "ok": true
+          },
+          "scripts/setup/ubuntu/install_cbmc.sh": {
+            "actual": "378294d7c13cc0d3c90403cf31a5c577d5292d2f5aee3274977a4446060eda54",
+            "bytes": 1203,
+            "expected": "378294d7c13cc0d3c90403cf31a5c577d5292d2f5aee3274977a4446060eda54",
+            "ok": true
+          },
+          "scripts/setup/ubuntu/install_deps.sh": {
+            "actual": "820a436228d735c1231d09a791de1cb56958d9be42778bb422735183c749bc50",
+            "bytes": 1267,
+            "expected": "820a436228d735c1231d09a791de1cb56958d9be42778bb422735183c749bc50",
+            "ok": true
+          },
+          "scripts/setup/ubuntu/install_doc_deps.sh": {
+            "actual": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "bytes": 219,
+            "expected": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "ok": true
+          }
+        },
+        "head": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+        "mismatches": [],
+        "ok": true,
+        "phase": "post-regression",
+        "status": [],
+        "status_truncated": false,
+        "submodule_pins": {
+          "charon": {
+            "actual": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+            "expected": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+            "index": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+            "initialized": true,
+            "ok": true
+          },
+          "firecracker": {
+            "actual": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+            "expected": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+            "index": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+            "initialized": true,
+            "ok": true
+          },
+          "tests/perf/s2n-quic": {
+            "actual": "be829a473881163369f7df4c739232ebbd1e7d27",
+            "expected": "be829a473881163369f7df4c739232ebbd1e7d27",
+            "index": "be829a473881163369f7df4c739232ebbd1e7d27",
+            "initialized": true,
+            "ok": true
+          }
+        },
+        "subtrees": {
+          ".github/actions/setup": {
+            "actual": "f3392b185d8272979f6861b1aa3de1086acc15b5",
+            "expected": "f3392b185d8272979f6861b1aa3de1086acc15b5",
+            "ok": true
+          },
+          "cprover_bindings": {
+            "actual": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
+            "expected": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
+            "ok": true
+          },
+          "docs": {
+            "actual": "edb41c0886dbda689cfef16ac1649701e547a862",
+            "expected": "edb41c0886dbda689cfef16ac1649701e547a862",
+            "ok": true
+          },
+          "kani-compiler": {
+            "actual": "c738897777875c87a0b52ecf91ff171521b93314",
+            "expected": "c738897777875c87a0b52ecf91ff171521b93314",
+            "ok": true
+          },
+          "kani-driver": {
+            "actual": "f05085b98bda414ea7ceb9de96317cceeb39863f",
+            "expected": "f05085b98bda414ea7ceb9de96317cceeb39863f",
+            "ok": true
+          },
+          "library": {
+            "actual": "eeae80b128033f335183b587eab19ec83ddcfcd5",
+            "expected": "eeae80b128033f335183b587eab19ec83ddcfcd5",
+            "ok": true
+          },
+          "scripts": {
+            "actual": "17ce41a6b9744224defd3a87247736f82992e550",
+            "expected": "17ce41a6b9744224defd3a87247736f82992e550",
+            "ok": true
+          },
+          "tests": {
+            "actual": "945332aaccc96ccf92e93662f1f2a33ae5fd14ce",
+            "expected": "945332aaccc96ccf92e93662f1f2a33ae5fd14ce",
+            "ok": true
+          },
+          "tools": {
+            "actual": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99",
+            "expected": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99",
+            "ok": true
+          }
+        },
+        "symlinks": {
+          "scripts/setup/macos-10.15": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-11": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-12": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-13": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-14": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-15": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-15-intel": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-22.04": {
+            "actual": "ubuntu",
+            "expected": "ubuntu",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-24.04": {
+            "actual": "ubuntu",
+            "expected": "ubuntu",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-24.04-arm": {
+            "actual": "ubuntu",
+            "expected": "ubuntu",
+            "ok": true
+          }
+        },
+        "timestamp_utc": "2026-11-15T02:36:03Z",
+        "tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+        "untracked": []
+      },
+      {
+        "clean": true,
+        "diff": "",
+        "diff_bytes": 0,
+        "diff_truncated": false,
+        "file_hashes": {
+          ".cargo/config.toml": {
+            "actual": "8a7317c9b5e38ee2e842086a154e99f9bae4e2bc1118cae9e5b7cd5ee7c3547c",
+            "bytes": 1909,
+            "expected": "8a7317c9b5e38ee2e842086a154e99f9bae4e2bc1118cae9e5b7cd5ee7c3547c",
+            "ok": true
+          },
+          ".github/actions/setup/action.yml": {
+            "actual": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+            "bytes": 1510,
+            "expected": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+            "ok": true
+          },
+          ".github/workflows/kani.yml": {
+            "actual": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+            "bytes": 3914,
+            "expected": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+            "ok": true
+          },
+          ".gitmodules": {
+            "actual": "bed047cc36087a49620c1d0035dc09895b33c66b8364c561e349cc5e090c8863",
+            "bytes": 305,
+            "expected": "bed047cc36087a49620c1d0035dc09895b33c66b8364c561e349cc5e090c8863",
+            "ok": true
+          },
+          "Cargo.lock": {
+            "actual": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+            "bytes": 72882,
+            "expected": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+            "ok": true
+          },
+          "Cargo.toml": {
+            "actual": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
+            "bytes": 2136,
+            "expected": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
+            "ok": true
+          },
+          "kani-dependencies": {
+            "actual": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+            "bytes": 186,
+            "expected": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+            "ok": true
+          },
+          "library/kani/kani_lib.c": {
+            "actual": "4a3c653c5cf540de061dc6044b85cad196b1321119f936621e692e13a88cd6b6",
+            "bytes": 5982,
+            "expected": "4a3c653c5cf540de061dc6044b85cad196b1321119f936621e692e13a88cd6b6",
+            "ok": true
+          },
+          "rust-toolchain.toml": {
+            "actual": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+            "bytes": 183,
+            "expected": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+            "ok": true
+          },
+          "scripts/kani-regression.sh": {
+            "actual": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+            "bytes": 5201,
+            "expected": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+            "ok": true
+          },
+          "scripts/setup/al2/install_cbmc.sh": {
+            "actual": "d807eb1b83a5e118b739f04e7c1f2217ca97df066d8c285b5466b1045d3546d6",
+            "bytes": 786,
+            "expected": "d807eb1b83a5e118b739f04e7c1f2217ca97df066d8c285b5466b1045d3546d6",
+            "ok": true
+          },
+          "scripts/setup/al2/install_deps.sh": {
+            "actual": "6519d6a4bf5f05f3cb869c911ca9eebb3ba09ecb174700c2b493d0335281d434",
+            "bytes": 747,
+            "expected": "6519d6a4bf5f05f3cb869c911ca9eebb3ba09ecb174700c2b493d0335281d434",
+            "ok": true
+          },
+          "scripts/setup/install_kissat.sh": {
+            "actual": "d7f6fb4d3cae5a94144a54bf0bf07db9f174fad6db6a1ba70ad62f9fc86f1dd9",
+            "bytes": 985,
+            "expected": "d7f6fb4d3cae5a94144a54bf0bf07db9f174fad6db6a1ba70ad62f9fc86f1dd9",
+            "ok": true
+          },
+          "scripts/setup/install_rustup.sh": {
+            "actual": "ce02a8a4042b4f6d2b8ffc0905f50284e77d7772b2ed3a2760cdb17db728adb5",
+            "bytes": 475,
+            "expected": "ce02a8a4042b4f6d2b8ffc0905f50284e77d7772b2ed3a2760cdb17db728adb5",
+            "ok": true
+          },
+          "scripts/setup/macos/install_cbmc.sh": {
+            "actual": "f6738acc049bf672e66e019ad9d40a34a5ea699a85e2a8c1928da7c72bd3996c",
+            "bytes": 570,
+            "expected": "f6738acc049bf672e66e019ad9d40a34a5ea699a85e2a8c1928da7c72bd3996c",
+            "ok": true
+          },
+          "scripts/setup/macos/install_deps.sh": {
+            "actual": "6275eee58ebe7860d26d63fec39525b6fbbfcd79e2a7f2ac475a0f8d93a13436",
+            "bytes": 1792,
+            "expected": "6275eee58ebe7860d26d63fec39525b6fbbfcd79e2a7f2ac475a0f8d93a13436",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-20.04/install_cbmc.sh": {
+            "actual": "4d889a4b6a2c3d33022d206061529e3602f52074a1fdb0615c0fd50c086e3197",
+            "bytes": 788,
+            "expected": "4d889a4b6a2c3d33022d206061529e3602f52074a1fdb0615c0fd50c086e3197",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-20.04/install_deps.sh": {
+            "actual": "b7b330905a65974b7448145c8500bbf301694d200285fac898d0c8c05c5f26cf",
+            "bytes": 1032,
+            "expected": "b7b330905a65974b7448145c8500bbf301694d200285fac898d0c8c05c5f26cf",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-20.04/install_doc_deps.sh": {
+            "actual": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "bytes": 219,
+            "expected": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "ok": true
+          },
+          "scripts/setup/ubuntu/install_cbmc.sh": {
+            "actual": "378294d7c13cc0d3c90403cf31a5c577d5292d2f5aee3274977a4446060eda54",
+            "bytes": 1203,
+            "expected": "378294d7c13cc0d3c90403cf31a5c577d5292d2f5aee3274977a4446060eda54",
+            "ok": true
+          },
+          "scripts/setup/ubuntu/install_deps.sh": {
+            "actual": "820a436228d735c1231d09a791de1cb56958d9be42778bb422735183c749bc50",
+            "bytes": 1267,
+            "expected": "820a436228d735c1231d09a791de1cb56958d9be42778bb422735183c749bc50",
+            "ok": true
+          },
+          "scripts/setup/ubuntu/install_doc_deps.sh": {
+            "actual": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "bytes": 219,
+            "expected": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+            "ok": true
+          }
+        },
+        "head": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+        "mismatches": [],
+        "ok": true,
+        "phase": "post-regression",
+        "status": [],
+        "status_truncated": false,
+        "submodule_pins": {
+          "charon": {
+            "actual": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+            "expected": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+            "index": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+            "initialized": true,
+            "ok": true
+          },
+          "firecracker": {
+            "actual": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+            "expected": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+            "index": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+            "initialized": true,
+            "ok": true
+          },
+          "tests/perf/s2n-quic": {
+            "actual": "be829a473881163369f7df4c739232ebbd1e7d27",
+            "expected": "be829a473881163369f7df4c739232ebbd1e7d27",
+            "index": "be829a473881163369f7df4c739232ebbd1e7d27",
+            "initialized": true,
+            "ok": true
+          }
+        },
+        "subtrees": {
+          ".github/actions/setup": {
+            "actual": "f3392b185d8272979f6861b1aa3de1086acc15b5",
+            "expected": "f3392b185d8272979f6861b1aa3de1086acc15b5",
+            "ok": true
+          },
+          "cprover_bindings": {
+            "actual": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
+            "expected": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
+            "ok": true
+          },
+          "docs": {
+            "actual": "edb41c0886dbda689cfef16ac1649701e547a862",
+            "expected": "edb41c0886dbda689cfef16ac1649701e547a862",
+            "ok": true
+          },
+          "kani-compiler": {
+            "actual": "c738897777875c87a0b52ecf91ff171521b93314",
+            "expected": "c738897777875c87a0b52ecf91ff171521b93314",
+            "ok": true
+          },
+          "kani-driver": {
+            "actual": "f05085b98bda414ea7ceb9de96317cceeb39863f",
+            "expected": "f05085b98bda414ea7ceb9de96317cceeb39863f",
+            "ok": true
+          },
+          "library": {
+            "actual": "eeae80b128033f335183b587eab19ec83ddcfcd5",
+            "expected": "eeae80b128033f335183b587eab19ec83ddcfcd5",
+            "ok": true
+          },
+          "scripts": {
+            "actual": "17ce41a6b9744224defd3a87247736f82992e550",
+            "expected": "17ce41a6b9744224defd3a87247736f82992e550",
+            "ok": true
+          },
+          "tests": {
+            "actual": "945332aaccc96ccf92e93662f1f2a33ae5fd14ce",
+            "expected": "945332aaccc96ccf92e93662f1f2a33ae5fd14ce",
+            "ok": true
+          },
+          "tools": {
+            "actual": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99",
+            "expected": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99",
+            "ok": true
+          }
+        },
+        "symlinks": {
+          "scripts/setup/macos-10.15": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-11": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-12": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-13": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-14": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-15": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/macos-15-intel": {
+            "actual": "macos",
+            "expected": "macos",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-22.04": {
+            "actual": "ubuntu",
+            "expected": "ubuntu",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-24.04": {
+            "actual": "ubuntu",
+            "expected": "ubuntu",
+            "ok": true
+          },
+          "scripts/setup/ubuntu-24.04-arm": {
+            "actual": "ubuntu",
+            "expected": "ubuntu",
+            "ok": true
+          }
+        },
+        "timestamp_utc": "2026-11-15T02:36:03Z",
+        "tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+        "untracked": []
+      }
+    ],
+    "source_identity_ok": true,
+    "statuses": {
+      "observer": "success",
+      "preflight": "success",
+      "regression": "success",
+      "setup": "success"
+    }
+  },
+  "matrix_os": "ubuntu-24.04-arm",
+  "metadata_cap_bytes": 16777216,
+  "observer_errors": [],
+  "output_cap_bytes": 268435456,
+  "overlay_sha": "39bcdd7ad51dc169f75a9974e43717205553bad0",
+  "problems": [],
+  "run_attempt": "1",
+  "run_id": "43665002636",
+  "runtime_inventory": {
+    "inventory_limit_hit": false,
+    "payload_root": "/home/runner/work/kani/kani/export/target/kani",
+    "payload_total_bytes": 675961726,
+    "required_missing": [],
+    "runtime_layout": {
+      "no_core": {
+        "files": [
+          "libkani_core.rlib",
+          "libkani_macros.so"
+        ],
+        "path": "/home/runner/work/kani/kani/export/target/kani/no_core/lib",
+        "present": true
+      },
+      "playback": {
+        "files": [
+          "libkani.rlib",
+          "libkani_core-96aab773f21dd307.rlib",
+          "libkani_macros.so",
+          "libstd.rlib"
+        ],
+        "path": "/home/runner/work/kani/kani/export/target/kani/playback/lib",
+        "present": true
+      },
+      "verification": {
+        "files": [
+          "libkani.rlib",
+          "libkani_core-8bfea575c39b8628.rlib",
+          "libkani_macros.so",
+          "libstd.rlib"
+        ],
+        "path": "/home/runner/work/kani/kani/export/target/kani/lib",
+        "present": true
+      }
+    },
+    "status": "COLLECTED",
+    "tools": {
+      "cadical": {
+        "bytes": "UNKNOWN",
+        "path": "UNKNOWN",
+        "sha256": "UNKNOWN",
+        "version": "UNKNOWN"
+      },
+      "cargo": {
+        "bytes": 20172120,
+        "path": "/home/runner/.cargo/bin/rustup",
+        "sha256": "9f608c142e0e38a78957d0661ba1dfaf0b6fb37184cfaa4b9a0aa57af6184282",
+        "version": [
+          "rustup 1.29.3 (edbc831ce 2026-11-02)",
+          "info: This is the version for the rustup toolchain manager, not the rustc compiler.",
+          "info: the currently active `rustc` version is `rustc 1.101.0-nightly (7189d39d9 2026-10-22)`"
+        ]
+      },
+      "cbmc": {
+        "bytes": 20434024,
+        "path": "/usr/bin/cbmc",
+        "sha256": "2bf07c66445ba163e7c385177bdedd0cfe60c0dbede49a1a1b96e0cca4152282",
+        "version": [
+          "6.11.0 (cbmc-6.11.0)"
+        ]
+      },
+      "cvc5": {
+        "bytes": 26402344,
+        "path": "/usr/local/bin/cvc5",
+        "sha256": "be9d14f6ec8c3dccd1fddfff3f606cbdce3568cc275dc5cb080edd474214927f",
+        "version": [
+          "This is cvc5 version 1.3.0 [git tag 1.3.0 branch HEAD]",
+          "compiled with GCC version 11.4.0",
+          "on Jun 19 2025 00:30:00",
+          "",
+          "Copyright (c) 2009-2025 by the authors and their institutional",
+          "affiliations listed at https://cvc5.github.io/people.html",
+          "",
+          "cvc5 is open-source and is covered by the BSD license (modified).",
+          "",
+          "THIS SOFTWARE IS PROVIDED AS-IS, WITHOUT ANY WARRANTIES.",
+          "USE AT YOUR OWN RISK.",
+          "",
+          "This version of cvc5 is linked against the following non-(L)GPL'ed",
+          "third party libraries.",
+          "",
+          "  CaDiCaL - Simplified Satisfiability Solver",
+          "  See https://github.com/arminbiere/cadical for copyright information.",
+          "",
+          "  Editline Library",
+          "  See https://thrysoee.dk/editline"
+        ]
+      },
+      "goto-instrument": {
+        "bytes": 17542544,
+        "path": "/usr/bin/goto-instrument",
+        "sha256": "34d155d95123d5f79b78ae41809584c7711cc175b8adf95a276637e1df4708cf",
+        "version": [
+          "6.11.0 (cbmc-6.11.0)"
+        ]
+      },
+      "kani": {
+        "bytes": "UNKNOWN",
+        "path": "UNKNOWN",
+        "sha256": "UNKNOWN",
+        "version": "UNKNOWN"
+      },
+      "kani-compiler": {
+        "bytes": 130518832,
+        "path": "/home/runner/work/kani/kani/export/target/kani/bin/kani-compiler",
+        "sha256": "d3f5030b99a4c753aef7553af117fbd750e3aef6d215296c9ec03aa696915201",
+        "version": [
+          "rustc 1.101.0-nightly (7189d39d9 2026-10-22)"
+        ]
+      },
+      "kani-compiler-rt": {
+        "bytes": "UNKNOWN",
+        "path": "UNKNOWN",
+        "sha256": "UNKNOWN",
+        "version": "UNKNOWN"
+      },
+      "kani-driver": {
+        "bytes": 98794576,
+        "path": "/home/runner/work/kani/kani/export/target/kani/bin/kani-driver",
+        "sha256": "c433143d1a6a716bcf147de82cd4946270b8bb64965af613d098490d510645df",
+        "version": [
+          "Kani Rust Verifier 0.68.0 (standalone)",
+          "CBMC 6.11.0"
+        ]
+      },
+      "kani_model_c": {
+        "bytes": 5982,
+        "path": "/home/runner/work/kani/kani/export/library/kani/kani_lib.c",
+        "sha256": "4a3c653c5cf540de061dc6044b85cad196b1321119f936621e692e13a88cd6b6"
+      },
+      "kissat": {
+        "bytes": 498176,
+        "path": "/usr/local/bin/kissat",
+        "sha256": "a46af18fbcc97d55a031dc3f261d7370bb8838569dcb08a8a96a84f4cd138df4",
+        "version": [
+          "4.0.1"
+        ]
+      },
+      "minisat": {
+        "bytes": "UNKNOWN",
+        "path": "UNKNOWN",
+        "sha256": "UNKNOWN",
+        "version": "UNKNOWN"
+      },
+      "payload_binaries": {
+        "target/kani/bin/cargo-kani": {
+          "bytes": 7189984,
+          "sha256": "fab3ea2c5dce01a3f9bfdea899b0e2c25b0d39e98908032ba7b8514d96ae8427",
+          "version": "UNKNOWN (version output/deadline cap)"
+        },
+        "target/kani/bin/kani": {
+          "bytes": 7189792,
+          "sha256": "bab640d676de2106e7f2fdad19afc0b97147fbf99a69d2a6788fe44ae0fd02ff",
+          "version": [
+            "Kani Rust Verifier 0.68.0 (standalone)",
+            "CBMC 6.11.0"
+          ]
+        },
+        "target/kani/bin/kani-compiler": {
+          "bytes": 130518832,
+          "sha256": "d3f5030b99a4c753aef7553af117fbd750e3aef6d215296c9ec03aa696915201",
+          "version": [
+            "rustc 1.101.0-nightly (7189d39d9 2026-10-22)"
+          ]
+        },
+        "target/kani/bin/kani-driver": {
+          "bytes": 98794576,
+          "sha256": "c433143d1a6a716bcf147de82cd4946270b8bb64965af613d098490d510645df",
+          "version": [
+            "Kani Rust Verifier 0.68.0 (standalone)",
+            "CBMC 6.11.0"
+          ]
+        },
+        "target/kani/lib/libkani_macros.so": {
+          "bytes": 21369792,
+          "sha256": "b38b618e5ae41dd98b6d8b383ca137cbf8cd3e3bf0afe8ffc86f170d82374ea8",
+          "version": "UNKNOWN (version output/deadline cap)"
+        },
+        "target/kani/no_core/lib/libkani_macros.so": {
+          "bytes": 21369056,
+          "sha256": "cb144ff7d7c8ceaff16faee761f3308d3d6db514413dacbe06f3e3277576470d",
+          "version": "UNKNOWN (version output/deadline cap)"
+        },
+        "target/kani/playback/lib/libkani_macros.so": {
+          "bytes": 21369792,
+          "sha256": "b38b618e5ae41dd98b6d8b383ca137cbf8cd3e3bf0afe8ffc86f170d82374ea8",
+          "version": "UNKNOWN (version output/deadline cap)"
+        }
+      },
+      "payload_files": {
+        "target/kani/bin/cargo-kani": {
+          "bytes": 7189984,
+          "sha256": "fab3ea2c5dce01a3f9bfdea899b0e2c25b0d39e98908032ba7b8514d96ae8427"
+        },
+        "target/kani/bin/kani": {
+          "bytes": 7189792,
+          "sha256": "bab640d676de2106e7f2fdad19afc0b97147fbf99a69d2a6788fe44ae0fd02ff"
+        },
+        "target/kani/bin/kani-compiler": {
+          "bytes": 130518832,
+          "sha256": "d3f5030b99a4c753aef7553af117fbd750e3aef6d215296c9ec03aa696915201"
+        },
+        "target/kani/bin/kani-driver": {
+          "bytes": 98794576,
+          "sha256": "c433143d1a6a716bcf147de82cd4946270b8bb64965af613d098490d510645df"
+        },
+        "target/kani/lib/libkani.rlib": {
+          "bytes": 686260,
+          "sha256": "270ac596a026a391734da954a90cf2b24a1cce0922635e3cbab2950aba37879b"
+        },
+        "target/kani/lib/libkani_core-8bfea575c39b8628.rlib": {
+          "bytes": 220260,
+          "sha256": "67dda0e980cb024b0efd17c0d850c97d841571154ff9d13cbce1c9b6044a51d3"
+        },
+        "target/kani/lib/libkani_macros.so": {
+          "bytes": 21369792,
+          "sha256": "b38b618e5ae41dd98b6d8b383ca137cbf8cd3e3bf0afe8ffc86f170d82374ea8"
+        },
+        "target/kani/lib/libstd.rlib": {
+          "bytes": 36860,
+          "sha256": "3fac43b0ff5bf9569ab2eaca4b054ac24df66298c61d32b82fca96bc992b1a93"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libaddr2line-4077697de0ded3ff.rlib": {
+          "bytes": 353044,
+          "sha256": "7b239e5fd58ec602d756c9b2e60e8d492302b7f9eb0e36c6f8272cfd4f8a68a4"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libadler2-e634ed59ddb7d04b.rlib": {
+          "bytes": 35380,
+          "sha256": "0bdc5cdbc80a15273e7fdf02125a7aecd19a83eb94f73e221657fd9f0d713e49"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/liballoc-c45e5770f625df44.rlib": {
+          "bytes": 6628932,
+          "sha256": "aab8d3d0c27d30248e9282238c8c7a6bf50256a7f8a974f4977085fefe740297"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libcfg_if-b536caf3ed0c409a.rlib": {
+          "bytes": 6980,
+          "sha256": "891c06beb77b8e9458896ff2b8496277912e4696ce3ed10ece5396e8bd0fed1b"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libcompiler_builtins-c0cf4834a0b589f4.rlib": {
+          "bytes": 3425876,
+          "sha256": "0033f331e5abefd6cb1a0dadcc40f1375ceaebaf23014ce52ba2a3b06e5b9db3"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libcore-400dafb2c88d7a5b.rlib": {
+          "bytes": 63448068,
+          "sha256": "009cba4ecaaba40c6aa980fbce957ac4132396eb6c47cd07a4d49c53d23f808a"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libgetopts-9685bc4d5db731f7.rlib": {
+          "bytes": 196892,
+          "sha256": "dc5312aafb4ec88be8f7207d56773af1adfdb66a2438a7e3cc4805d37fd1c09b"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libgimli-dd417923c6c5c6b1.rlib": {
+          "bytes": 5415708,
+          "sha256": "c3a56666821ee6b825cf4deb5d1c87192f385b75840cb6c2f60f003524166f65"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libhashbrown-75495821c68a08d8.rlib": {
+          "bytes": 1412572,
+          "sha256": "c952db27abd473b45845b7c8288550d6d5b5fd7b2574381aa517228de8bb7227"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libheck-da7b5316f66875f9.rlib": {
+          "bytes": 662460,
+          "sha256": "73854da7368a23ffc483fde1533a9fa705ab72bbb7cfe30c20eea6434d533205"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/liblibc-7b8378ec4cd6b358.rlib": {
+          "bytes": 4566076,
+          "sha256": "3b7aacddaf02a5b941b5789e7e09e309d535e24224c14578620a91cb1ee1b68d"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libmemchr-1245bb998c265f08.rlib": {
+          "bytes": 1301260,
+          "sha256": "d4fc37246ed0c1d9a58b6bc6e195e92171fa8b9638649b53f749ca127e1d15de"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libminiz_oxide-d9e700b173807eb8.rlib": {
+          "bytes": 278028,
+          "sha256": "994d9b888800befc133dd7c1361eb662628e3d288857d2b30a1f12240ae78514"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libobject-fa8a906f8e96f80d.rlib": {
+          "bytes": 7748948,
+          "sha256": "8089c4f92cfae1a5e641634e7afdca1015e1a63822ae7165fd5d9591b9d85184"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libpanic_abort-e2b8349ba26ead32.rlib": {
+          "bytes": 4980,
+          "sha256": "12b72dfa059f063bedeef76e92751716392fdd079e53d377235af358c20e00d7"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libpanic_unwind-3311ca82241500e2.rlib": {
+          "bytes": 12788,
+          "sha256": "ece19865113ad09766ff969bddd7dab6620a687fabdce2d14799b0cf074b9727"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libproc_macro-af30b05ebc9fd41b.rlib": {
+          "bytes": 1477164,
+          "sha256": "2b7d012631d0c9a99a939454de8609a04691dfeea66b38815f082279e0ddce51"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libproc_macro2-0f14d91bb6b5b254.rlib": {
+          "bytes": 2498848,
+          "sha256": "cc422414f0f0e0abaf166d7fe5dcb8145ad0c51d466f56977c98d3bb5ec4aafc"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libproc_macro2_diagnostics-c23abc0302936931.rlib": {
+          "bytes": 727970,
+          "sha256": "fc5c9e8c9d9c6880413151bd323f6272eafe9f959f2a60e535558a5de5906bd1"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libquote-269cfb139d20529f.rlib": {
+          "bytes": 621112,
+          "sha256": "69faca69f2f33191ddb25e98654870faa0a2cdbee37b3d7e4028d58ed8f17f1f"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/librustc_demangle-f5501fb0eb3fee2e.rlib": {
+          "bytes": 308588,
+          "sha256": "6d07d6e3f5253176473dc0f396b1b48ff40ac1d1cbe073a2dbda07315dd4e3fc"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/librustc_literal_escaper-33f076f19b99d13f.rlib": {
+          "bytes": 90636,
+          "sha256": "43395edc5e9be516c72245fd7413a4f58cb54963b66e79cd956442aa3f471700"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/librustc_std_workspace_alloc-897a16625984098c.rlib": {
+          "bytes": 3676,
+          "sha256": "5b3eaade981fbe94a30cd0c63e7470fa36c32bae392df36b3b77bc17e8006d68"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/librustc_std_workspace_core-d804d2ce16fea38e.rlib": {
+          "bytes": 7780,
+          "sha256": "71938d8f563446382f87f4b009eb963ae276fbf0b1f093aa01186bbdd95f22fa"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/librustc_std_workspace_std-0c8432549caad1ad.rlib": {
+          "bytes": 9532,
+          "sha256": "9c89792ba3bc9d59ae0d165292be83fb74d3f7cd63e5cf77390e063542f50919"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libstd-fcb2d7fe5e90f96f.rlib": {
+          "bytes": 8661964,
+          "sha256": "97bf2e6ab0f540970fbfef03089b3da1b8b5c410485f96bb002ef5a9d9f5ab0f"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libstd_detect-528c902622de3c38.rlib": {
+          "bytes": 397404,
+          "sha256": "b96995987d56fec69390152982aa63497fa97dec4ea520d995ce91e4be68f864"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libstrum-450758968c1f8f38.rlib": {
+          "bytes": 17878,
+          "sha256": "6c654a4f424525bc29b8b27e57e23ecf170c87d8c26fd408bd7af8545908457a"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libstrum_macros-efae49c8bb7126f7.so": {
+          "bytes": 19342208,
+          "sha256": "a8758bb9e0c52a9edddd3f97774a7a99a4dece01a5a744911c6e3e2e904cc36d"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libsyn-27a2223b7264d9d6.rlib": {
+          "bytes": 19184000,
+          "sha256": "7aaf8786b5d5e845cdc1d308e35159139bd26172502d53122d684939b027bab9"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libtest-79e4e0776a130c0e.rlib": {
+          "bytes": 1145324,
+          "sha256": "7bbe3a86de75cf978ff9e27e749fd1af3bac64904fcb215ae23fd02791ebfb73"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libunicode_ident-0fa3c7236087fd2d.rlib": {
+          "bytes": 32518,
+          "sha256": "81e2068220f76e17596b18bfa2f9d3a9f8e32e7ff16410a9cc9b959aec7f0735"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libunwind-4aaf76f19734b73c.rlib": {
+          "bytes": 23372,
+          "sha256": "a93adf0989681db723c2e8997d2eb8b3a9fc3493324d1297e576a6292eefc2f1"
+        },
+        "target/kani/lib/rustlib/aarch64-unknown-linux-gnu/lib/libversion_check-36b7c21f58add0d9.rlib": {
+          "bytes": 1164422,
+          "sha256": "357ec1c547b7e0b1146c2cf520aecc13816f0cd4943b2e9a0a9a111726b611ef"
+        },
+        "target/kani/no_core/lib/libkani_core.rlib": {
+          "bytes": 220664,
+          "sha256": "5637b63258ed179bb308d10fd840b1a6c0ea01be4b3a67a9981ca21af2ce5de5"
+        },
+        "target/kani/no_core/lib/libkani_macros.so": {
+          "bytes": 21369056,
+          "sha256": "cb144ff7d7c8ceaff16faee761f3308d3d6db514413dacbe06f3e3277576470d"
+        },
+        "target/kani/playback/lib/libkani.rlib": {
+          "bytes": 1063636,
+          "sha256": "e46c0d6c73efa9bd0b24b9dc637f36811c420582b10c3016aa74c315cc49dfc9"
+        },
+        "target/kani/playback/lib/libkani_core-96aab773f21dd307.rlib": {
+          "bytes": 221184,
+          "sha256": "bfce5afe2ae6567e31d4c378c468f9031028e36966cc9f26c511f17516100157"
+        },
+        "target/kani/playback/lib/libkani_macros.so": {
+          "bytes": 21369792,
+          "sha256": "b38b618e5ae41dd98b6d8b383ca137cbf8cd3e3bf0afe8ffc86f170d82374ea8"
+        },
+        "target/kani/playback/lib/libstd.rlib": {
+          "bytes": 11004,
+          "sha256": "8b33efbbb0fdcacd5a158ab38686e054255e8be1e4f5c89637619ff5c7f43a8d"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libaddr2line-18653b0279c5e35a.rlib": {
+          "bytes": 559362,
+          "sha256": "76652bfd3d88ce37176b696cf109440428bd99c44cb929ef660e223193c60eb2"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libadler2-f85b6db80eb9e1b7.rlib": {
+          "bytes": 99698,
+          "sha256": "850770bfec10c9042e3ee79b386ea9b3a5be766e52ee9ee8b4c6fd9f19abbc3a"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/liballoc-cf0fcdb2006d751e.rlib": {
+          "bytes": 8433296,
+          "sha256": "6687c1d061b0f206c80ac03d46a640f1302ffe2f4b36fb985c021156f6e4660d"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libcfg_if-310f4a0d51399c9c.rlib": {
+          "bytes": 7890,
+          "sha256": "034533b7c3afe12e1c945a62e44e04cc95dff00bc22203b947c9c1e01f90fd9c"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libcompiler_builtins-d9ce54f3468ff7f0.rlib": {
+          "bytes": 7335994,
+          "sha256": "29af2fc8cf8cd3c35520a744050b53f5d46a29c69be8dc0fa2dd1d75d4c1cda0"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libcore-54b4f32577b6ef04.rlib": {
+          "bytes": 69395454,
+          "sha256": "c74c807a183a2a323c4ff9a87b946ef5a7ee59463bcc02fa3a11a3a779cb5ab9"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libgetopts-8c76047c1c388c24.rlib": {
+          "bytes": 1405798,
+          "sha256": "8b1160ad5c303faa299811fdb7b8b9cec9170c590d75f023a4c79d72bc925964"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libgimli-446020fe524a4fe1.rlib": {
+          "bytes": 7479364,
+          "sha256": "7c1698b2e685bedc319bcc186b9e17418b28f299893455a94efba9bb5aa1b16b"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libhashbrown-0a553827a12a4264.rlib": {
+          "bytes": 1514320,
+          "sha256": "bb4eeb2c6ade95e11e09e71967b6c7707c9994fb0ded8a6da4d74927c304e138"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libheck-da7b5316f66875f9.rlib": {
+          "bytes": 662460,
+          "sha256": "73854da7368a23ffc483fde1533a9fa705ab72bbb7cfe30c20eea6434d533205"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/liblibc-b524fdc2bee843e3.rlib": {
+          "bytes": 4663680,
+          "sha256": "14ded761bc8850459ce820bd1545ff8c214e09df8be5d9330423a060c700d9cd"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libmemchr-e0b4a77e3ee34091.rlib": {
+          "bytes": 1726030,
+          "sha256": "e67a212046248a2665aef660e1b023cf013bac3945683378536ee5c63e6ad2c5"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libminiz_oxide-b363335fb564b4d0.rlib": {
+          "bytes": 797212,
+          "sha256": "d8172a24647aa08c1ca6c3d91bbca9ba4a026399a0c24c8439970e9ce8cc5b0e"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libobject-29a9b9fb9fd1bdf9.rlib": {
+          "bytes": 10420810,
+          "sha256": "e7f533cf93dc5bde9f176fdaccdefaf7bc6f0ccf5a3ad6fa9af7a2954fc7a367"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libpanic_abort-13146cdc5c7b057d.rlib": {
+          "bytes": 11380,
+          "sha256": "b035ed2807e102b93d89142b00ea9caff4acebc0e1b76049b8d0b0c10e0eecb5"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libpanic_unwind-a1d05828f25b4f52.rlib": {
+          "bytes": 101356,
+          "sha256": "e2a100c46103ffaf9625c368fbf5b839f7227e8e6614d5813fc29ba42b08efda"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libproc_macro-5ff92c1298282d94.rlib": {
+          "bytes": 6993306,
+          "sha256": "388721b91a9236ce4f13fcc3ab31f89e0e9917bd1386aaa2ef42306532b58479"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libproc_macro2-0f14d91bb6b5b254.rlib": {
+          "bytes": 2498848,
+          "sha256": "cc422414f0f0e0abaf166d7fe5dcb8145ad0c51d466f56977c98d3bb5ec4aafc"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libproc_macro2_diagnostics-c23abc0302936931.rlib": {
+          "bytes": 727970,
+          "sha256": "fc5c9e8c9d9c6880413151bd323f6272eafe9f959f2a60e535558a5de5906bd1"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libquote-269cfb139d20529f.rlib": {
+          "bytes": 621112,
+          "sha256": "69faca69f2f33191ddb25e98654870faa0a2cdbee37b3d7e4028d58ed8f17f1f"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/librustc_demangle-e93fd46830c02698.rlib": {
+          "bytes": 1401286,
+          "sha256": "bd11af7dca1d01d0847d18d547d9b3ed8da87f3e215e43ffe3f3aeac0af41eb1"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/librustc_literal_escaper-b31bf848d6d9792f.rlib": {
+          "bytes": 99070,
+          "sha256": "82af6675e6178a71075e9e13ee1b05727deb530bfc3b0fcb1ffcaf1081fc47d2"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/librustc_std_workspace_alloc-7d56864b50a1b9f2.rlib": {
+          "bytes": 4680,
+          "sha256": "065c32180e1ef6789f0b7eb1bcc46ecaf561fd8d91dbb7f116a4810229f2823b"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/librustc_std_workspace_core-dd1da86fe4c98e7d.rlib": {
+          "bytes": 8774,
+          "sha256": "4083bca67f888cba2c83c65f05b5a13962b4dbf81f3760351a88d7048cc9c144"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/librustc_std_workspace_std-b63624965022ee2e.rlib": {
+          "bytes": 10524,
+          "sha256": "66f2b4db947b9ea659629f52c22779827ecd73eacec4c501f1dead32a57d60b4"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libstd-468fe809330c0947.rlib": {
+          "bytes": 34312264,
+          "sha256": "71ab827820407ed1b20cef4b6b0b0df5a22c40211bfa5a86126e0743d36e7b02"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libstd_detect-7ad23dace59fc1a9.rlib": {
+          "bytes": 580240,
+          "sha256": "893e2a1d08dee3c7954a824189a7f12b340b475e48a9b1e36f636e6abc65e798"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libstrum-450758968c1f8f38.rlib": {
+          "bytes": 17878,
+          "sha256": "6c654a4f424525bc29b8b27e57e23ecf170c87d8c26fd408bd7af8545908457a"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libstrum_macros-efae49c8bb7126f7.so": {
+          "bytes": 19342208,
+          "sha256": "a8758bb9e0c52a9edddd3f97774a7a99a4dece01a5a744911c6e3e2e904cc36d"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libsyn-27a2223b7264d9d6.rlib": {
+          "bytes": 19184000,
+          "sha256": "7aaf8786b5d5e845cdc1d308e35159139bd26172502d53122d684939b027bab9"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libtest-8d1e0e2758575b5c.rlib": {
+          "bytes": 12850160,
+          "sha256": "d7ab5831a8eb3b1fe806027ecfb13937e317a1195e7de2a0512b9c2f4aedefb7"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libunicode_ident-0fa3c7236087fd2d.rlib": {
+          "bytes": 32518,
+          "sha256": "81e2068220f76e17596b18bfa2f9d3a9f8e32e7ff16410a9cc9b959aec7f0735"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libunwind-d78985114c6a3314.rlib": {
+          "bytes": 24282,
+          "sha256": "0a2befee4237d5fc63f1fcb0e7e59869da1498180b439cd12bfe322c39bcbbe8"
+        },
+        "target/kani/playback/lib/rustlib/aarch64-unknown-linux-gnu/lib/libversion_check-36b7c21f58add0d9.rlib": {
+          "bytes": 1164422,
+          "sha256": "357ec1c547b7e0b1146c2cf520aecc13816f0cd4943b2e9a0a9a111726b611ef"
+        }
+      },
+      "rustc": {
+        "bytes": 1264104,
+        "host_triple": "aarch64-unknown-linux-gnu",
+        "path": "/home/runner/.rustup/toolchains/nightly-2026-10-23-aarch64-unknown-linux-gnu/bin/rustc",
+        "sha256": "aceae926be59a6ce40e2409cd91bc9ab15531e0d9c7d3ea0c2a22ed712c0b843",
+        "version": [
+          "rustc 1.101.0-nightly (7189d39d9 2026-10-22)",
+          "binary: rustc",
+          "commit-hash: 7189d39d9ce936881b8132c6addeaf3e295cd455",
+          "commit-date: 2026-10-22",
+          "host: aarch64-unknown-linux-gnu",
+          "release: 1.101.0-nightly",
+          "LLVM version: 23.1.4"
+        ]
+      },
+      "z3": {
+        "bytes": 15406344,
+        "path": "/usr/bin/z3",
+        "sha256": "5315c08ab26b870573e273cfa9f92f30320a08f6de3b58ba59d56f36af11f073",
+        "version": [
+          "Z3 version 4.8.12 - 64 bit"
+        ]
+      }
+    }
+  },
+  "schema": "kani3300-gatea-observer-v1",
+  "script_exit": 0,
+  "script_exit_kind": "EXIT",
+  "script_exit_signal": null,
+  "script_exit_signal_name": null,
+  "source_identity": {
+    "clean": true,
+    "diff": "",
+    "diff_bytes": 0,
+    "diff_truncated": false,
+    "file_hashes": {
+      ".cargo/config.toml": {
+        "actual": "8a7317c9b5e38ee2e842086a154e99f9bae4e2bc1118cae9e5b7cd5ee7c3547c",
+        "bytes": 1909,
+        "expected": "8a7317c9b5e38ee2e842086a154e99f9bae4e2bc1118cae9e5b7cd5ee7c3547c",
+        "ok": true
+      },
+      ".github/actions/setup/action.yml": {
+        "actual": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+        "bytes": 1510,
+        "expected": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+        "ok": true
+      },
+      ".github/workflows/kani.yml": {
+        "actual": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+        "bytes": 3914,
+        "expected": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
+        "ok": true
+      },
+      ".gitmodules": {
+        "actual": "bed047cc36087a49620c1d0035dc09895b33c66b8364c561e349cc5e090c8863",
+        "bytes": 305,
+        "expected": "bed047cc36087a49620c1d0035dc09895b33c66b8364c561e349cc5e090c8863",
+        "ok": true
+      },
+      "Cargo.lock": {
+        "actual": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+        "bytes": 72882,
+        "expected": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
+        "ok": true
+      },
+      "Cargo.toml": {
+        "actual": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
+        "bytes": 2136,
+        "expected": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
+        "ok": true
+      },
+      "kani-dependencies": {
+        "actual": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+        "bytes": 186,
+        "expected": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
+        "ok": true
+      },
+      "library/kani/kani_lib.c": {
+        "actual": "4a3c653c5cf540de061dc6044b85cad196b1321119f936621e692e13a88cd6b6",
+        "bytes": 5982,
+        "expected": "4a3c653c5cf540de061dc6044b85cad196b1321119f936621e692e13a88cd6b6",
+        "ok": true
+      },
+      "rust-toolchain.toml": {
+        "actual": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+        "bytes": 183,
+        "expected": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+        "ok": true
+      },
+      "scripts/kani-regression.sh": {
+        "actual": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+        "bytes": 5201,
+        "expected": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+        "ok": true
+      },
+      "scripts/setup/al2/install_cbmc.sh": {
+        "actual": "d807eb1b83a5e118b739f04e7c1f2217ca97df066d8c285b5466b1045d3546d6",
+        "bytes": 786,
+        "expected": "d807eb1b83a5e118b739f04e7c1f2217ca97df066d8c285b5466b1045d3546d6",
+        "ok": true
+      },
+      "scripts/setup/al2/install_deps.sh": {
+        "actual": "6519d6a4bf5f05f3cb869c911ca9eebb3ba09ecb174700c2b493d0335281d434",
+        "bytes": 747,
+        "expected": "6519d6a4bf5f05f3cb869c911ca9eebb3ba09ecb174700c2b493d0335281d434",
+        "ok": true
+      },
+      "scripts/setup/install_kissat.sh": {
+        "actual": "d7f6fb4d3cae5a94144a54bf0bf07db9f174fad6db6a1ba70ad62f9fc86f1dd9",
+        "bytes": 985,
+        "expected": "d7f6fb4d3cae5a94144a54bf0bf07db9f174fad6db6a1ba70ad62f9fc86f1dd9",
+        "ok": true
+      },
+      "scripts/setup/install_rustup.sh": {
+        "actual": "ce02a8a4042b4f6d2b8ffc0905f50284e77d7772b2ed3a2760cdb17db728adb5",
+        "bytes": 475,
+        "expected": "ce02a8a4042b4f6d2b8ffc0905f50284e77d7772b2ed3a2760cdb17db728adb5",
+        "ok": true
+      },
+      "scripts/setup/macos/install_cbmc.sh": {
+        "actual": "f6738acc049bf672e66e019ad9d40a34a5ea699a85e2a8c1928da7c72bd3996c",
+        "bytes": 570,
+        "expected": "f6738acc049bf672e66e019ad9d40a34a5ea699a85e2a8c1928da7c72bd3996c",
+        "ok": true
+      },
+      "scripts/setup/macos/install_deps.sh": {
+        "actual": "6275eee58ebe7860d26d63fec39525b6fbbfcd79e2a7f2ac475a0f8d93a13436",
+        "bytes": 1792,
+        "expected": "6275eee58ebe7860d26d63fec39525b6fbbfcd79e2a7f2ac475a0f8d93a13436",
+        "ok": true
+      },
+      "scripts/setup/ubuntu-20.04/install_cbmc.sh": {
+        "actual": "4d889a4b6a2c3d33022d206061529e3602f52074a1fdb0615c0fd50c086e3197",
+        "bytes": 788,
+        "expected": "4d889a4b6a2c3d33022d206061529e3602f52074a1fdb0615c0fd50c086e3197",
+        "ok": true
+      },
+      "scripts/setup/ubuntu-20.04/install_deps.sh": {
+        "actual": "b7b330905a65974b7448145c8500bbf301694d200285fac898d0c8c05c5f26cf",
+        "bytes": 1032,
+        "expected": "b7b330905a65974b7448145c8500bbf301694d200285fac898d0c8c05c5f26cf",
+        "ok": true
+      },
+      "scripts/setup/ubuntu-20.04/install_doc_deps.sh": {
+        "actual": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+        "bytes": 219,
+        "expected": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+        "ok": true
+      },
+      "scripts/setup/ubuntu/install_cbmc.sh": {
+        "actual": "378294d7c13cc0d3c90403cf31a5c577d5292d2f5aee3274977a4446060eda54",
+        "bytes": 1203,
+        "expected": "378294d7c13cc0d3c90403cf31a5c577d5292d2f5aee3274977a4446060eda54",
+        "ok": true
+      },
+      "scripts/setup/ubuntu/install_deps.sh": {
+        "actual": "820a436228d735c1231d09a791de1cb56958d9be42778bb422735183c749bc50",
+        "bytes": 1267,
+        "expected": "820a436228d735c1231d09a791de1cb56958d9be42778bb422735183c749bc50",
+        "ok": true
+      },
+      "scripts/setup/ubuntu/install_doc_deps.sh": {
+        "actual": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+        "bytes": 219,
+        "expected": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
+        "ok": true
+      }
+    },
+    "head": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+    "mismatches": [],
+    "ok": true,
+    "phase": "post-regression",
+    "status": [],
+    "status_truncated": false,
+    "submodule_pins": {
+      "charon": {
+        "actual": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+        "expected": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+        "index": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
+        "initialized": true,
+        "ok": true
+      },
+      "firecracker": {
+        "actual": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+        "expected": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+        "index": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
+        "initialized": true,
+        "ok": true
+      },
+      "tests/perf/s2n-quic": {
+        "actual": "be829a473881163369f7df4c739232ebbd1e7d27",
+        "expected": "be829a473881163369f7df4c739232ebbd1e7d27",
+        "index": "be829a473881163369f7df4c739232ebbd1e7d27",
+        "initialized": true,
+        "ok": true
+      }
+    },
+    "subtrees": {
+      ".github/actions/setup": {
+        "actual": "f3392b185d8272979f6861b1aa3de1086acc15b5",
+        "expected": "f3392b185d8272979f6861b1aa3de1086acc15b5",
+        "ok": true
+      },
+      "cprover_bindings": {
+        "actual": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
+        "expected": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
+        "ok": true
+      },
+      "docs": {
+        "actual": "edb41c0886dbda689cfef16ac1649701e547a862",
+        "expected": "edb41c0886dbda689cfef16ac1649701e547a862",
+        "ok": true
+      },
+      "kani-compiler": {
+        "actual": "c738897777875c87a0b52ecf91ff171521b93314",
+        "expected": "c738897777875c87a0b52ecf91ff171521b93314",
+        "ok": true
+      },
+      "kani-driver": {
+        "actual": "f05085b98bda414ea7ceb9de96317cceeb39863f",
+        "expected": "f05085b98bda414ea7ceb9de96317cceeb39863f",
+        "ok": true
+      },
+      "library": {
+        "actual": "eeae80b128033f335183b587eab19ec83ddcfcd5",
+        "expected": "eeae80b128033f335183b587eab19ec83ddcfcd5",
+        "ok": true
+      },
+      "scripts": {
+        "actual": "17ce41a6b9744224defd3a87247736f82992e550",
+        "expected": "17ce41a6b9744224defd3a87247736f82992e550",
+        "ok": true
+      },
+      "tests": {
+        "actual": "945332aaccc96ccf92e93662f1f2a33ae5fd14ce",
+        "expected": "945332aaccc96ccf92e93662f1f2a33ae5fd14ce",
+        "ok": true
+      },
+      "tools": {
+        "actual": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99",
+        "expected": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99",
+        "ok": true
+      }
+    },
+    "symlinks": {
+      "scripts/setup/macos-10.15": {
+        "actual": "macos",
+        "expected": "macos",
+        "ok": true
+      },
+      "scripts/setup/macos-11": {
+        "actual": "macos",
+        "expected": "macos",
+        "ok": true
+      },
+      "scripts/setup/macos-12": {
+        "actual": "macos",
+        "expected": "macos",
+        "ok": true
+      },
+      "scripts/setup/macos-13": {
+        "actual": "macos",
+        "expected": "macos",
+        "ok": true
+      },
+      "scripts/setup/macos-14": {
+        "actual": "macos",
+        "expected": "macos",
+        "ok": true
+      },
+      "scripts/setup/macos-15": {
+        "actual": "macos",
+        "expected": "macos",
+        "ok": true
+      },
+      "scripts/setup/macos-15-intel": {
+        "actual": "macos",
+        "expected": "macos",
+        "ok": true
+      },
+      "scripts/setup/ubuntu-22.04": {
+        "actual": "ubuntu",
+        "expected": "ubuntu",
+        "ok": true
+      },
+      "scripts/setup/ubuntu-24.04": {
+        "actual": "ubuntu",
+        "expected": "ubuntu",
+        "ok": true
+      },
+      "scripts/setup/ubuntu-24.04-arm": {
+        "actual": "ubuntu",
+        "expected": "ubuntu",
+        "ok": true
+      }
+    },
+    "timestamp_utc": "2026-11-15T02:36:03Z",
+    "tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+    "untracked": []
+  },
+  "stage_order_seen": [
+    "cbmc",
+    "kissat",
+    "fmt",
+    "build-dev",
+    "unit:cprover_bindings",
+    "unit:kani-compiler",
+    "unit:kani-driver",
+    "unit:kani_metadata",
+    "unit:compiletest",
+    "unit:kani-cov",
+    "unit:kani",
+    "unit:kani_macros",
+    "compiletest-config",
+    "build-cov",
+    "suite:kani",
+    "suite:expected",
+    "suite:ui",
+    "suite:std-checks",
+    "suite:firecracker",
+    "suite:prusti",
+    "suite:smack",
+    "suite:cargo-kani",
+    "suite:cargo-ui",
+    "suite:script-based-pre",
+    "suite:coverage",
+    "suite:cargo-coverage",
+    "suite:kani-docs",
+    "suite:kani-fixme",
+    "suite:json-handler",
+    "firecracker-codegen",
+    "cargo-smoke",
+    "cargo-clean",
+    "warnings-build"
+  ],
+  "stages": {
+    "build-cov": {
+      "command": "cargo build -p kani-cov",
+      "counts": [],
+      "counts_required": false,
+      "duration_seconds": 2,
+      "ended_offset_seconds": 178,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "",
+      "source_line": 74,
+      "started_offset_seconds": 176,
+      "status": "EXIT_ZERO"
+    },
+    "build-dev": {
+      "command": "cargo build-dev",
+      "counts": [],
+      "counts_required": false,
+      "duration_seconds": 113,
+      "ended_offset_seconds": 114,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "",
+      "source_line": 34,
+      "started_offset_seconds": 1,
+      "status": "EXIT_ZERO"
+    },
+    "cargo-clean": {
+      "command": "cargo clean --manifest-path \"$FEATURES_MANIFEST_PATH\"",
+      "counts": [],
+      "counts_required": false,
+      "duration_seconds": 0,
+      "ended_offset_seconds": 1969,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "exec",
+      "source_line": 117,
+      "started_offset_seconds": 1969,
+      "status": "EXIT_ZERO"
+    },
+    "cargo-smoke": {
+      "command": "cargo kani --manifest-path \"$FEATURES_MANIFEST_PATH\" --harness trivial_success",
+      "counts": [],
+      "counts_required": false,
+      "duration_seconds": 1,
+      "ended_offset_seconds": 1969,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "exec",
+      "source_line": 116,
+      "started_offset_seconds": 1968,
+      "status": "EXIT_ZERO"
+    },
+    "cbmc": {
+      "command": "check-cbmc-version.py --major ${CBMC_MAJOR} --minor ${CBMC_MINOR}",
+      "counts": [],
+      "counts_required": false,
+      "duration_seconds": 0,
+      "ended_offset_seconds": 0,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "",
+      "source_line": 27,
+      "started_offset_seconds": 0,
+      "status": "EXIT_ZERO"
+    },
+    "compiletest-config": {
+      "command": "cargo run -p compiletest --quiet -- --suite kani --mode cargo-kani --dry-run --verbose",
+      "counts": [],
+      "counts_required": false,
+      "duration_seconds": 0,
+      "ended_offset_seconds": 176,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "",
+      "source_line": 70,
+      "started_offset_seconds": 176,
+      "status": "EXIT_ZERO"
+    },
+    "firecracker-codegen": {
+      "command": "\"$SCRIPT_DIR\"/codegen-firecracker.sh",
+      "counts": [],
+      "counts_required": false,
+      "duration_seconds": 0,
+      "ended_offset_seconds": 1968,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "exec",
+      "source_line": 111,
+      "started_offset_seconds": 1968,
+      "status": "EXIT_ZERO"
+    },
+    "fmt": {
+      "command": "${SCRIPT_DIR}/kani-fmt.sh --check",
+      "counts": [],
+      "counts_required": false,
+      "duration_seconds": 1,
+      "ended_offset_seconds": 1,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "",
+      "source_line": 31,
+      "started_offset_seconds": 0,
+      "status": "EXIT_ZERO"
+    },
+    "kissat": {
+      "command": "check_kissat_version.sh",
+      "counts": [],
+      "counts_required": false,
+      "duration_seconds": 0,
+      "ended_offset_seconds": 0,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "",
+      "source_line": 28,
+      "started_offset_seconds": 0,
+      "status": "EXIT_ZERO"
+    },
+    "suite:cargo-coverage": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 2
+          },
+          "line": "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.52s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 1,
+      "ended_offset_seconds": 1934,
+      "exit": 0,
+      "mode": "cargo-coverage",
+      "observed_mode": "cargo-coverage",
+      "source_line": 98,
+      "started_offset_seconds": 1933,
+      "status": "EXIT_ZERO"
+    },
+    "suite:cargo-kani": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 72
+          },
+          "line": "test result: ok. 72 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 83.93s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 84,
+      "ended_offset_seconds": 1144,
+      "exit": 0,
+      "mode": "cargo-kani",
+      "observed_mode": "cargo-kani",
+      "source_line": 98,
+      "started_offset_seconds": 1060,
+      "status": "EXIT_ZERO"
+    },
+    "suite:cargo-ui": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 30
+          },
+          "line": "test result: ok. 30 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.71s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 5,
+      "ended_offset_seconds": 1149,
+      "exit": 0,
+      "mode": "cargo-kani",
+      "observed_mode": "cargo-kani",
+      "source_line": 98,
+      "started_offset_seconds": 1144,
+      "status": "EXIT_ZERO"
+    },
+    "suite:coverage": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 20
+          },
+          "line": "test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.88s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 2,
+      "ended_offset_seconds": 1933,
+      "exit": 0,
+      "mode": "coverage-based",
+      "observed_mode": "coverage-based",
+      "source_line": 98,
+      "started_offset_seconds": 1931,
+      "status": "EXIT_ZERO"
+    },
+    "suite:expected": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 13,
+            "passed": 744
+          },
+          "line": "test result: ok. 744 passed; 0 failed; 13 ignored; 0 measured; 0 filtered out; finished in 584.72s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 585,
+      "ended_offset_seconds": 1022,
+      "exit": 0,
+      "mode": "expected",
+      "observed_mode": "expected",
+      "source_line": 98,
+      "started_offset_seconds": 437,
+      "status": "EXIT_ZERO"
+    },
+    "suite:firecracker": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 2,
+            "passed": 0
+          },
+          "line": "test result: ok. 0 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 0,
+      "ended_offset_seconds": 1052,
+      "exit": 0,
+      "mode": "kani",
+      "observed_mode": "kani",
+      "source_line": 98,
+      "started_offset_seconds": 1052,
+      "status": "EXIT_ZERO"
+    },
+    "suite:json-handler": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 17
+          },
+          "line": "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 11.06s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 11,
+      "ended_offset_seconds": 1968,
+      "exit": 0,
+      "mode": "exec",
+      "observed_mode": "exec",
+      "source_line": 98,
+      "started_offset_seconds": 1957,
+      "status": "EXIT_ZERO"
+    },
+    "suite:kani": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 23,
+            "passed": 654
+          },
+          "line": "test result: ok. 654 passed; 0 failed; 23 ignored; 0 measured; 0 filtered out; finished in 259.13s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 259,
+      "ended_offset_seconds": 437,
+      "exit": 0,
+      "mode": "kani",
+      "observed_mode": "kani",
+      "source_line": 98,
+      "started_offset_seconds": 178,
+      "status": "EXIT_ZERO"
+    },
+    "suite:kani-docs": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 13
+          },
+          "line": "test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 11.54s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 12,
+      "ended_offset_seconds": 1946,
+      "exit": 0,
+      "mode": "cargo-kani",
+      "observed_mode": "cargo-kani",
+      "source_line": 98,
+      "started_offset_seconds": 1934,
+      "status": "EXIT_ZERO"
+    },
+    "suite:kani-fixme": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 655,
+            "passed": 22
+          },
+          "line": "test result: ok. 22 passed; 0 failed; 655 ignored; 0 measured; 0 filtered out; finished in 11.29s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 11,
+      "ended_offset_seconds": 1957,
+      "exit": 0,
+      "mode": "kani-fixme",
+      "observed_mode": "kani-fixme",
+      "source_line": 98,
+      "started_offset_seconds": 1946,
+      "status": "EXIT_ZERO"
+    },
+    "suite:prusti": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 8
+          },
+          "line": "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.57s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 2,
+      "ended_offset_seconds": 1054,
+      "exit": 0,
+      "mode": "kani",
+      "observed_mode": "kani",
+      "source_line": 98,
+      "started_offset_seconds": 1052,
+      "status": "EXIT_ZERO"
+    },
+    "suite:script-based-pre": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 102
+          },
+          "line": "test result: ok. 102 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 782.04s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 782,
+      "ended_offset_seconds": 1931,
+      "exit": 0,
+      "mode": "exec",
+      "observed_mode": "exec",
+      "source_line": 98,
+      "started_offset_seconds": 1149,
+      "status": "EXIT_ZERO"
+    },
+    "suite:smack": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 40
+          },
+          "line": "test result: ok. 40 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.36s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 6,
+      "ended_offset_seconds": 1060,
+      "exit": 0,
+      "mode": "kani",
+      "observed_mode": "kani",
+      "source_line": 98,
+      "started_offset_seconds": 1054,
+      "status": "EXIT_ZERO"
+    },
+    "suite:std-checks": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 5
+          },
+          "line": "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 11.70s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 12,
+      "ended_offset_seconds": 1052,
+      "exit": 0,
+      "mode": "cargo-kani",
+      "observed_mode": "cargo-kani",
+      "source_line": 98,
+      "started_offset_seconds": 1040,
+      "status": "EXIT_ZERO"
+    },
+    "suite:ui": {
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 172
+          },
+          "line": "test result: ok. 172 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 17.36s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 18,
+      "ended_offset_seconds": 1040,
+      "exit": 0,
+      "mode": "expected",
+      "observed_mode": "expected",
+      "source_line": 98,
+      "started_offset_seconds": 1022,
+      "status": "EXIT_ZERO"
+    },
+    "unit:compiletest": {
+      "command": "cargo test -p compiletest",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 0
+          },
+          "line": "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+        },
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 2
+          },
+          "line": "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 7,
+      "ended_offset_seconds": 158,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "",
+      "source_line": 41,
+      "started_offset_seconds": 151,
+      "status": "EXIT_ZERO"
+    },
+    "unit:cprover_bindings": {
+      "command": "cargo test -p cprover_bindings",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 42
+          },
+          "line": "test result: ok. 42 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 7,
+      "ended_offset_seconds": 121,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "",
+      "source_line": 37,
+      "started_offset_seconds": 114,
+      "status": "EXIT_ZERO"
+    },
+    "unit:kani": {
+      "command": "cargo test -p kani --features concrete_playback",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 6
+          },
+          "line": "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+        },
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 2,
+            "passed": 25
+          },
+          "line": "test result: ok. 25 passed; 0 failed; 2 ignored; 0 measured; 0 filtered out; finished in 0.51s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 6,
+      "ended_offset_seconds": 171,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "",
+      "source_line": 44,
+      "started_offset_seconds": 165,
+      "status": "EXIT_ZERO"
+    },
+    "unit:kani-compiler": {
+      "command": "cargo test -p kani-compiler",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 76
+          },
+          "line": "test result: ok. 76 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 10,
+      "ended_offset_seconds": 131,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "",
+      "source_line": 38,
+      "started_offset_seconds": 121,
+      "status": "EXIT_ZERO"
+    },
+    "unit:kani-cov": {
+      "command": "cargo test -p kani-cov",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 2
+          },
+          "line": "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 7,
+      "ended_offset_seconds": 165,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "",
+      "source_line": 42,
+      "started_offset_seconds": 158,
+      "status": "EXIT_ZERO"
+    },
+    "unit:kani-driver": {
+      "command": "cargo test -p kani-driver",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 215
+          },
+          "line": "test result: ok. 215 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 17,
+      "ended_offset_seconds": 148,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "",
+      "source_line": 39,
+      "started_offset_seconds": 131,
+      "status": "EXIT_ZERO"
+    },
+    "unit:kani_macros": {
+      "command": "RUSTFLAGS=--cfg=kani_sysroot cargo test -p kani_macros --features syn/extra-traits --lib",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 7
+          },
+          "line": "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 5,
+      "ended_offset_seconds": 176,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "",
+      "source_line": 47,
+      "started_offset_seconds": 171,
+      "status": "EXIT_ZERO"
+    },
+    "unit:kani_metadata": {
+      "command": "cargo test -p kani_metadata",
+      "counts": [
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 0,
+            "passed": 4
+          },
+          "line": "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+        },
+        {
+          "counts": {
+            "failed": 0,
+            "filtered": 0,
+            "ignored": 1,
+            "passed": 2
+          },
+          "line": "test result: ok. 2 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+        }
+      ],
+      "counts_required": true,
+      "duration_seconds": 3,
+      "ended_offset_seconds": 151,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "",
+      "source_line": 40,
+      "started_offset_seconds": 148,
+      "status": "EXIT_ZERO"
+    },
+    "warnings-build": {
+      "command": "RUSTFLAGS=\"-D warnings\" cargo build --target-dir /tmp/kani_build_warnings --no-default-features --features cprover",
+      "counts": [],
+      "counts_required": false,
+      "duration_seconds": 43,
+      "ended_offset_seconds": 2012,
+      "exit": 0,
+      "mode": "",
+      "observed_mode": "exec",
+      "source_line": 126,
+      "started_offset_seconds": 1969,
+      "status": "EXIT_ZERO"
+    }
+  },
+  "status": "COMPLETE_EXIT_ZERO_REQUIRES_REVIEW",
+  "termination": null,
+  "timeout_seconds": 20261,
+  "timestamps": {
+    "ended_utc": "2026-11-15T02:36:02.600532Z",
+    "started_utc": "2026-11-15T02:02:30.029840Z"
+  }
+}
