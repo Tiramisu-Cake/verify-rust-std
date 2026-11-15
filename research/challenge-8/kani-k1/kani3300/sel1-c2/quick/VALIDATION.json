@@ -1,47 +1,62 @@
 {
-  "checks": {
-    "diff_check": "Non-patch CI files PASS; full diff has pre-existing context-space/new-blank-line in byte-preserved S5 negative-repair-user-write.patch; no change to accepted patch",
-    "gatea": {
-      "fixture": "synthetic SHA replacement in temporary copy only; accepted observer bytes otherwise identity/state substitution only",
-      "status": "PASS",
-      "synthetic_tests": 26
-    },
-    "quick": {
-      "coverage": [
-        "pending candidate guard",
-        "471+29 inventory/ignores",
-        "4 S5 variants/11 F7 invocations",
-        "missing/partial/count/timeout failures",
-        "original exit/launch error/timeout",
-        "exact native inventory with review required",
-        "source-stage-target mismatch"
-      ],
-      "status": "PASS",
-      "synthetic_tests": 7
-    },
-    "replay": {
-      "coverage": [
-        "success UNKNOWN",
-        "original exit/signal/timeout/launch error",
-        "atomic receipt/postprocess failure",
-        "missing/partial/null/wrong-type/wrong-selector JSON",
-        "request hash/patch/file inventory/cap checks",
-        "unbound source guard",
-        "synthetic frozen metadata HEAD/tree/dirty rejection",
-        "six exact row argv/mode/unwind",
-        "duplicate selectors",
-        "post-run source/std failure"
-      ],
-      "status": "PASS",
-      "synthetic_tests": 29
-    },
-    "static": "quick/validate_preparation.py PASS; Python AST/JSON/YAML, single manual disabled fork workflow each, CI allowlist, local Git/full-export/patch identities, std test-only 5-file Git identities, retained Quick selectors/directives and structural input bytes"
-  },
-  "cloud_spend_usd": 0,
+  "CI": "NOT_RUN",
+  "CI_only": true,
+  "F7_comparisons": 18,
+  "F7_expected_exit1_invocations": 7,
+  "F7_invocations": 11,
+  "S5_apply_check": "PASS",
+  "S5_patches_unchanged": true,
+  "S5_variants": 4,
+  "cloud_spend": 0,
+  "compiler_units": 76,
   "formal_proof_credit": "NOT_ESTABLISHED",
-  "local_toolchains_invoked": false,
-  "push_dispatch": false,
-  "runtime": "NOT_RUN",
-  "source_binding_finalized": false,
-  "status": "PASS_PREPARATION_ONLY"
+  "freeze": false,
+  "intended_select_negative_or_refusal": 17,
+  "intended_select_success": 12,
+  "native_fmt_build_clippy_LLBC_Kani": "NOT_RUN",
+  "overlay_sha": "4ef74e822b090109c391ebc723c4092690679e57",
+  "overlay_tree": "0833589f2ddf801542c5ac4f5fb7fb198fbbabb1",
+  "push": "NOT_RUN",
+  "select_controls": 29,
+  "selectors": 500,
+  "source_binding_files": 1097,
+  "source_parent": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+  "source_sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "source_snapshot_entries": 4267,
+  "source_tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
+  "status": "PASS_STATIC_AND_SYNTHETIC_ONLY",
+  "suite_counts": {
+    "expected": {
+      "ignored": 6,
+      "selectors": 408
+    },
+    "json-handler": {
+      "ignored": 0,
+      "selectors": 17
+    },
+    "kani": {
+      "ignored": 3,
+      "selectors": 53
+    },
+    "script-based-pre": {
+      "ignored": 0,
+      "selectors": 3
+    },
+    "std-checks": {
+      "ignored": 0,
+      "selectors": 2
+    },
+    "ui": {
+      "ignored": 0,
+      "selectors": 17
+    }
+  },
+  "synthetic_tests": {
+    "quick": 10,
+    "seam_tool": 10,
+    "sensitivity": 13,
+    "structural": 15
+  },
+  "targeted_units": 28,
+  "workflow": "manual fork-only, sibling control/export, external evidence"
 }

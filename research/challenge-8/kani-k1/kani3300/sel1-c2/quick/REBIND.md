@@ -1,6 +1,13 @@
-# Rebinding после P и freeze — исполнение отложено
+# Rebinding — Q завершён, A/B ждут freeze
 
-Ни один PENDING token в шаблоне не является source identity. Не cherry-pick/rebase prep stack поверх порта:
+Q уже привязан к14bc57fdb9; текущие identities и READY overlay в HANDOFF.md.
+Ниже сохранена последовательность подготовки; заново Q не запускать и source не менять.
+Проверка текущего пакета: python3 quick/validate_bound.py из соответствующего каталога.
+A/B всё ещё требуют новой привязки после принятого Q/freeze.
+
+## Исходная последовательность (Q выполнен статически)
+
+Ни один PENDING token в оставшихся A/B шаблонах не является source identity. Не cherry-pick/rebase prep stack поверх порта:
 пересоздать один CI-only overlay из full-export на exact принятом source, убрать stock workflows только в нём,
 проверить diff allowlist и parent. Чужие refs/source не двигать. Worker15 не push/dispatch.
 

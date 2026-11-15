@@ -121,26 +121,28 @@
   },
   "effective_all_compiler_unit_count": 76,
   "effective_targeted_unit_count": 28,
-  "g0_input": "b216a04e107e62d40d639689d1b7afefe77feaf4",
+  "g0_input": "aa9074c6f5ecf185c22b806d464670fe82481628",
   "integration_heads": [],
-  "integration_status": "PENDING_PORT_ACCEPTANCE_AND_CANDIDATE_BINDING",
+  "integration_status": "P_STATIC_REVIEW_PASS_Q_NOT_RUN",
   "packet_unit_expected_count_note": "Inherited9+9+1+1=20 plus F7 journal6/scope2=28; all compiler units76, exact native names required.",
   "qualification_kind": "SEL1_C2_QUICK_WITH_S5_AND_F7",
-  "recipe_commit": "PENDING_NEW_OVERLAY",
+  "recipe_commit": "8288537e7c57b04d2462ff0c5bf1af38ab9d4451",
+  "recipe_commit_role": "Accepted recipe ancestor; actual Q overlay SHA is recorded externally and in source snapshots.",
   "recipe_path": ".github/workflows/uninit-quick.yml",
-  "recipe_sha256": "PENDING_NEW_WORKFLOW_SHA256",
+  "recipe_sha256": "4884073a7fa67ab2e5217a618551606664348c154c78995363758b47bd84565a",
   "runtime": "NOT_RUN",
+  "sel1_controls_sha256": "430015b485ef7b72c4c99e3bf08ccf5709dc30d2b95c37ce80ab42eaa7343d6c",
   "sensitivity": {
     "acceptance": "All four independent --force-rerun intended golden mismatches with completed native verdict/N; no compile/timeout/Unsupported detection.",
     "classification_basis": "Completed native verdict/N plus intended golden mismatch; repaired-write local var_N labels may renumber. See accepted5 run43715788377.",
     "clean_expected_suite_required": true,
     "manifest": "sensitivity-manifest.json",
-    "manifest_sha256": "2e78e61d1aa27583c1e0914c90bd6c371e4fa8c131ba01677db540967bcbd281",
+    "manifest_sha256": "9fbc3d394dc3901a8f2db8bfd74712d01f675f12d089270258f1d65713333df4",
     "status": "REQUIRED_4_OF_4"
   },
   "source_parent": "8e299aa6243bc5f06a29c51e98aafa9564478220",
-  "source_sha": "PENDING_SEL1_FREEZE_SHA",
-  "source_tree": "PENDING_SEL1_FREEZE_TREE",
+  "source_sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "source_tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
   "structural": {
     "comparisons": 18,
     "fresh_native_result": "NOT_RUN",
@@ -153,5 +155,5 @@
     "producer_order": "ORDER_UNCONTROLLED",
     "status": "REQUIRED_18_OF_18_EXACT_FRESH_MIXED_VS_OWN_ISOLATED"
   },
-  "test_manifest_sha256": "cd0ae326416e9ab241476cc97fefedd6450700760966d450d1d681201fe9adae"
+  "test_manifest_sha256": "23fedc630bbebf29dc79be35df89e6878e5804a69bfee46f4346a1bf16238a48"
 }

@@ -1,12 +1,17 @@
 {
   "claims": [
     {
-      "assurance": "static and synthetic only",
-      "claim": "A/B/Q unbound templates prepared",
-      "evidence": "HANDOFF.md; VALIDATION.json; TEMPLATE-INVENTORY.json per stage"
+      "assurance": "read-only source/manual review and bounded token audit, no native build",
+      "claim": "Independent P delta and C2 seams PASS with no blocking findings",
+      "evidence": "../review/REVIEW.md; ../review/SEAM-AUDIT.json; ../review/IDENTITY-CHECKS.json"
+    },
+    {
+      "assurance": "exact Git identities and static/synthetic package validation only",
+      "claim": "Q bound on reviewed14bc57fdb9 with500 selectors, all76 compiler units, S5 four variants and F7 eighteen comparisons",
+      "evidence": "CI-OVERLAY.json; CI-REQUEST.json; SOURCE-BINDING.json; VALIDATION.json"
     }
   ],
-  "closure_reason": "Explicit preparation task complete; remaining source identities depend on P and subsequent Quick/freeze. No extra variants or runtime authorized to worker15.",
+  "closure_reason": "Explicit sections2\u20133 scope complete: read-only independent P review PASS and bound CI-only Q READY; runtime/push/dispatch reserved to coordinator. No A/B finalization or extra variants authorized.",
   "g0_input": "b216a04e107e62d40d639689d1b7afefe77feaf4",
   "local_ci": {
     "gatea": {
@@ -20,14 +25,14 @@
       "tree": "c738b06aa9f167ed98ab1cdef9843e9d8887482e"
     },
     "quick": {
-      "binding": "PENDING_PORT_ACCEPTANCE",
-      "branch": "ci/kani3300-sel1-c2-quick-w15-prep",
-      "commit": "ed8848daa5e2c4146603ba50d9883fd71df91c81",
-      "parent": "59f9fa9657e854e366c2bf4a0504ec7df6270324",
+      "binding": "BOUND_REVIEWED_CANDIDATE",
+      "branch": "ci/kani3300-sel1-c2-quick-w15",
+      "commit": "4ef74e822b090109c391ebc723c4092690679e57",
+      "parent": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
       "path": "/root/kani-fix-3300-sel1-c2-w15",
       "runtime": "NOT_RUN",
-      "source_base": "8e299aa6243bc5f06a29c51e98aafa9564478220",
-      "tree": "8052e32b47584976e4930038f6d322890b3541ab"
+      "source_base": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+      "tree": "0833589f2ddf801542c5ac4f5fb7fb198fbbabb1"
     },
     "replay": {
       "binding": "PENDING_FREEZE",
@@ -40,16 +45,20 @@
       "tree": "32e7d1ad64878ae83e7bda64578b09eef14f5b67"
     }
   },
-  "next": "Accept/review worker14 P, rebind Quick candidate; after Quick freeze rebind A/B. Do not dispatch these disabled templates.",
+  "next": "Coordinator reviews/publishes/dispatches Q once; after complete accepted Q freeze exact source; A/B remain unbound until freeze.",
   "open": [
-    "P accepted source delta review is a separate session",
-    "Q candidate binding after accepted P, before Quick run",
-    "A/B final binding after Quick acceptance and exact freeze",
-    "Coordinator final review/manual dispatch availability/push/run/acceptance"
+    "Coordinator workflow/binding review and manual dispatch availability",
+    "Complete native Q run and coordinator acceptance",
+    "Exact source freeze after Q acceptance",
+    "A/B rebinding and later stages outside this session"
   ],
   "runtime": "NOT_RUN",
-  "schema": "sel1-c2-worker15-preparation-v1",
-  "source_candidate": null,
+  "schema": "sel1-c2-worker15-review-Q-v1",
+  "source_candidate": {
+    "parent": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+    "sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+    "tree": "1efb6e4dfa69d346df8e23741d11839b1932403d"
+  },
   "source_freeze": null,
-  "status": "PREPARATION_COMPLETE"
+  "status": "READY_Q_COORDINATOR_REVIEW_AND_SINGLE_DISPATCH"
 }

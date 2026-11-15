@@ -1,24 +1,72 @@
 {
+  "CI": "NOT_RUN",
+  "Cloud_spend": 0,
+  "F7_acceptance": "18 exact mixed-vs-own-isolated comparisons in 11 complete invocations; intended original exits per manifest",
+  "F7_expected_exit1_invocations": 7,
   "F7_invocations": 11,
   "F7_required_comparisons": 18,
+  "S5_acceptance": "4/4 DETECTED with completed intended native verdict/count, no setup/timeout/unrelated Unsupported",
   "S5_required_detected": 4,
   "accepted_run": "43723531871",
+  "attempts": 1,
   "automatic_retry": false,
+  "byte_or_RSS_cap": "No additional cap in accepted slice-07 Quick; unchanged",
   "compiletest_timeout_seconds": 2400,
+  "dispatch": "COORDINATOR_ONLY_WORKFLOW_DISPATCH",
+  "expected_compiler_units": 76,
+  "expected_suites": {
+    "expected": {
+      "ignored": 6,
+      "passed": 402
+    },
+    "json-handler": {
+      "ignored": 0,
+      "passed": 17
+    },
+    "kani": {
+      "ignored": 3,
+      "passed": 50
+    },
+    "script-based-pre": {
+      "ignored": 0,
+      "passed": 3
+    },
+    "std-checks": {
+      "ignored": 0,
+      "passed": 2
+    },
+    "ui": {
+      "ignored": 0,
+      "passed": 17
+    }
+  },
+  "expected_targeted_units": 28,
+  "freeze": false,
   "intended_native_failure_or_unsupported": 17,
   "intended_native_success": 12,
+  "job_cap_for_build_fmt_clippy_LLBC": "120min whole-job cap",
   "job_timeout_minutes": 120,
   "json_drift_exemptions": [],
   "native_sel1_controls": 29,
+  "overlay_sha": "4ef74e822b090109c391ebc723c4092690679e57",
+  "overlay_tree": "0833589f2ddf801542c5ac4f5fb7fb198fbbabb1",
+  "push": "NOT_RUN",
   "recipe": "8288537e7c57b04d2462ff0c5bf1af38ab9d4451",
   "retention_days": 14,
+  "review": "review/REVIEW.md",
+  "review_sha256": "903c8531aa126f81b94a5b95c2faf6d638e453d422c1b514eabe2f8622859ef7",
+  "runner": "ubuntu-24.04",
   "runtime": "NOT_RUN",
   "rust_test_threads": 2,
-  "schema": "sel1-c2-quick-preparation-v1",
+  "schema": "sel1-c2-quick-request-v1",
   "sensitivity_timeout_seconds": 2400,
-  "source_sha": null,
-  "source_tree": null,
-  "status": "PENDING_PORT_ACCEPTANCE",
+  "source_binding_sha256": "71c95b1092133f8e2d58206eec0550ef36e5825893066e971eca11e19279f01d",
+  "source_parent": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+  "source_sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "source_tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
+  "status": "READY_COORDINATOR_REVIEW_AND_SINGLE_DISPATCH",
   "structural_timeout_seconds_per_invocation": 180,
-  "unique_compiletest_selectors": 500
+  "test_manifest_sha256": "23fedc630bbebf29dc79be35df89e6878e5804a69bfee46f4346a1bf16238a48",
+  "unique_compiletest_selectors": 500,
+  "workflow_sha256": "4884073a7fa67ab2e5217a618551606664348c154c78995363758b47bd84565a"
 }

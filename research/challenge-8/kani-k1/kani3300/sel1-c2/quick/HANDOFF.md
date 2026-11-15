@@ -1,47 +1,55 @@
-# SEL1-C2 worker15 — подготовка A/B/Q
+# SEL1-C2 worker15 — P review PASS, Q READY
 
-Вход g0 `b216a04e107e62d40d639689d1b7afefe77feaf4`; 2026-11-15.
-Задание: `research/challenge-8/kani-k1/TASK-KANI3300-SEL1-C2.md` + прямое поручение подготовить A/B/Q, пока worker14 выполняет P.
-Готовы только заготовки; все новые Quick/Gate A/replay **NOT_RUN**. Cloud $0. Локальных сборок, setup, verifier, push/dispatch не было.
-Source worker14 и research `port/` не изменялись; независимый review порта не входит в эту подготовительную сессию.
+2026-11-15. Input g0 aa9074c6f5, worker14 handoff273c619231; task sections2–3 only.
+Independent read-only review: [PASS](../review/REVIEW.md), no blocking findings;
+own bounded seam audit17 contracts/36 calls,34 changed Rust files, ten synthetic tests PASS.
+Worker14 code and port/ unchanged. Native fmt/build/clippy/LLBC/Kani/CBMC and Q are **NOT_RUN**.
+No push, dispatch, local build/setup, Cloud spend or new proof credit.
 
-| Стадия | Готово | Локальный CI SHA |
-| --- | --- | --- |
-| A | accepted observer/lifecycle с 39bcdd7ad5, 3 платформы, 33 стадии, caps, request, receipt и overlay patch | `a634f93ded5440b60eac3025adbd97e2b7157159` |
-| B | C2 B′ runner + test-only 6075e7ce17, 6 уникальных exact строк, caps/argv/oracles, receipt и overlay patch | `b759ee8d8aa93b154bf3906e452b26afe040445b` |
-| Q | slice-07 43723531871, прежние 471 + 29 SEL1 selectors, S5 4/4 и F7 18 сравнений, sibling control/export, receipt и overlay patch | `ed8848daa5e2c4146603ba50d9883fd71df91c81` |
+| Identity | Exact value |
+| --- | --- |
+| Reviewed source | `14bc57fdb99960240c4944845a3d985c8af4dcf7` |
+| Source tree | `1efb6e4dfa69d346df8e23741d11839b1932403d` |
+| Source parent | `8e299aa6243bc5f06a29c51e98aafa9564478220` |
+| Q overlay | `4ef74e822b090109c391ebc723c4092690679e57` |
+| Q overlay tree | `0833589f2ddf801542c5ac4f5fb7fb198fbbabb1` |
+| Overlay parent | exact reviewed source above |
 
-Все CI refs локальны, в одном worktree `/root/kani-fix-3300-sel1-c2-w15` (сейчас Quick).
-Точные ветки/SHA/tree — `LOCAL-CI-INDEX.json`; base каждой заготовки — exact C2 `8e299aa624`.
-Это CI templates поверх C2, **не overlays принятого SEL1 candidate**: после P их нужно пересоздать поверх принятого candidate,
-а после Quick привязать A/B к точной freeze. Старые source identities намеренно заменены PENDING токенами.
-В каждой ветке удалены stock workflows только CI-коммитом, оставлен один manual fork-only workflow с `false &&` guard.
-Source/tests/docs/runtime за пределами CI unchanged. `[skip ci]`, автор/committer Tiramisu-Cake через per-command `-c`.
+Worktree /root/kani-fix-3300-sel1-c2-w15, branch ci/kani3300-sel1-c2-quick-w15, clean.
+Single CI-only commit, author/committer Tiramisu-Cake <igkharin@gmail.com>, [skip ci].
+Only .github/c2-slices/ and .github/workflows/ differ from source. Stock workflows removed
+only in overlay; one enabled workflow_dispatch, fork-only workflow remains.
+Independent control/export sibling checkouts and external evidence preserve source/workspace boundaries.
+Manual dispatch availability on fork/default branch is coordinator work; no push trigger was added.
 
-Готовые файлы в каждой стадии: `full-export/`, `ci-only-template.patch`, `CI-REQUEST.json`, `CI-OVERLAY.json`,
-`receipt-template.json`, `TEMPLATE-INVENTORY.json`, `LOCAL-CI.json`, `CI-REQUEST.md`, `RESULT-template.md`.
-`quick/validate_preparation.py` проверяет identities, coverage, caps, source-preserving diff и совпадение local CI/full-export.
-Синтетика: Gate A 26, replay 29, Quick 7 checks PASS (ни один не запускает toolchain).
-Gate A synthetic fixture использует искусственные SHA только во временной копии; реальный source binding не создаётся.
-`VALIDATION.json` хранит результаты. Полный diff-check замечает пробельный context внутри принятого S5 patch;
-non-patch diff-check PASS, исходные patch bytes сохранены и проверены hash.
+Q uses accepted slice-07 recipe8288537e7c57b04d2462ff0c5bf1af38ab9d4451, run43723531871 as ancestry only.
+All471 original selectors/directives/identities/ignores retained, plus all29 corrected SEL1 controls
+(12 intended SUCCESS,17 intended failure/refusal). Static candidate discovery gives500 unique selectors:
+kani53 (50+3 ignored), expected408 (402+6 ignored), ui17, script3, json17, std2.
+All76 native compiler unit names independently reconstructed from candidate; targeted groups total28.
+SOURCE-BINDING.json binds1097 files including source, units, fixtures/helpers/goldens, setup and pins.
+Runtime source guards verify all non-CI source entries before/after. Native discovery/execution NOT_RUN.
 
-Ждёт P/Quick/freeze:
+S5 four mutation bytes/oracles unchanged; all four git apply --check PASS on actual candidate.
+F7 structural source, manifest and comparison logic unchanged:11 invocations/18 exact comparisons.
+Correction of inherited prose only: manifest has **7 expected exit1 invocations** (3 isolated +4 mixed),
+not the five in old template/historical summary. Existing manifest/exits were not changed.
+Quick caps unchanged: job120min, threads2, compiletest2400s/test, S5 2400s/variant,
+structural180s/invocation, retention14d; no extra byte/RSS cap in accepted Quick.
+No JSON DRIFT exceptions or added ignores/check disables. Nested refusal remains pre-select UnionAsField;
+absent/overridden fallback/unsized T remain static-only. 29/0 is compiletest count, not29 legal proofs.
 
-1. Worker14 завершает P; worker15 делает отдельный review delta/стыков и сверяет 29 selectors, причины отказов и новые source bytes.
-2. **До Quick**, после принятия P: привязать Q к candidate SHA/tree/parent; заново получить file blobs/SHA/directives,
-   проверить native discovery 500 selectors и units против actual candidate (новые units допускают только review, не потерю прежних).
-   Обновить manifest/inputs, source pin sensitivity, test-only input hashes и вложенные checksum bindings.
-   См. `REBIND.md`. Q не ждёт freeze: именно принятый Q позволяет coordinator объявить freeze.
-3. Coordinator публикует/запускает Q один раз и принимает полный результат; затем фиксирует **точные source SHA/tree**.
-4. **После freeze**: заново открыть A/B source inventories, определить актуальное coverage, пересчитать каждый file/subtree hash,
-   request hash, embedded constants, overlay manifest/file hashes, patch SHA и новые CI commits с parent exact freeze.
-   570 paths/7 subtrees — заготовка coverage, не готовый manifest; число может измениться после source discovery.
-5. Worker14 review A; coordinator review binding/workflow и доступности manual dispatch в fork.
-   Disabled guards снимаются только в финальной проверенной CI-копии. Push/dispatch — только coordinator;
-   отсутствие workflow на default branch не решено этой подготовкой, push trigger не добавлен.
-6. Приёмка строго **P → Q → freeze → A → B**. B только после принятого A на той же freeze.
-   В каждом будущем run — исходные exit/signal, caps, complete receipts, полезные checks/covers, runtime hashes;
-   missing/UNKNOWN/timeout/OOM не превращаются в PASS. Любой drift требует review, без автоматического retry.
+Package: CI-REQUEST.md/json, CI-OVERLAY.json, LOCAL-CI.json, SOURCE-BINDING.json,
+receipt-template.json, TEMPLATE-INVENTORY.json and full-export/ bind these exact identities.
+ci-only-template.patch keeps its legacy filename but contains the **final bound** source→overlay diff.
+rebind_quick.py reconstructs candidate inputs; validate_bound.py validates committed package.
+VALIDATION.json: PASS_STATIC_AND_SYNTHETIC_ONLY. Synthetic tests: Quick10, S5 13, F7 15, seam tool10.
+Earlier unbound validation preserved in PREPARATION-VALIDATION.json and g0 aa9074c6f5.
 
-Финальный результат этой сессии — g0 research commit с этим handoff; source binding и proof credit не заявлены.
+Next: coordinator reviews exact workflow/binding, publishes source+overlay and runs Q once, without retry.
+Missing/partial/setup/timeout/OOM/source drift/unexpected failures require STOP/review, never automatic PASS.
+Only acceptance of complete Q permits declaring exact source freeze.
+Gate A/B templates remain **unbound and NOT_RUN** at aa9074c6f5; not finalized in this session.
+After Q acceptance/freeze: A binding/review, then B six unique rows. No A/B execution authorized here.
+
+READY `4ef74e822b090109c391ebc723c4092690679e57`.

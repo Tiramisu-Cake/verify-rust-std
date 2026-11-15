@@ -1,0 +1,183 @@
+[
+  {
+    "id": "codegen-fallback",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/codegen/statement\\.rs",
+    "tokens": [
+      "crate",
+      "::",
+      "kani_middle",
+      "::",
+      "has_intrinsic_fallback"
+    ],
+    "arity": 1,
+    "count": 1
+  },
+  {
+    "id": "reachability-fallback",
+    "path_regex": "kani-compiler/src/kani_middle/reachability\\.rs",
+    "tokens": [
+      "crate",
+      "::",
+      "kani_middle",
+      "::",
+      "has_intrinsic_fallback"
+    ],
+    "arity": 1,
+    "count": 1
+  },
+  {
+    "id": "classifier-fallback",
+    "path_regex": "kani-compiler/src/kani_middle/mod\\.rs",
+    "tokens": [
+      "has_intrinsic_fallback"
+    ],
+    "arity": 1,
+    "count": 1
+  },
+  {
+    "id": "analysis-classifier",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "crate",
+      "::",
+      "kani_middle",
+      "::",
+      "select_unpredictable_fallback"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "analysis-regular-call",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "apply_regular_call_effect"
+    ],
+    "arity": 5,
+    "count": 2
+  },
+  {
+    "id": "analysis-recursion",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "PointsToAnalysis",
+      "::",
+      "run"
+    ],
+    "arity": 8,
+    "count": 2
+  },
+  {
+    "id": "visitor-classifier",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "select_unpredictable_fallback"
+    ],
+    "arity": 2,
+    "count": 2
+  },
+  {
+    "id": "protocol-entry-call-return",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "has_transfer_protocol"
+    ],
+    "arity": 2,
+    "count": 3
+  },
+  {
+    "id": "layout-entry-call-return",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "validate_select_fallback"
+    ],
+    "arity": 1,
+    "count": 3
+  },
+  {
+    "id": "select-name-entry-call-return",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "is_select_unpredictable"
+    ],
+    "arity": 1,
+    "count": 3
+  },
+  {
+    "id": "all-argument-stores",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "store_call_arguments"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "typed-layout",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "PointeeInfo",
+      "::",
+      "for_typed_storage"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "ordinary-layout",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "PointeeInfo",
+      "::",
+      "from_ty"
+    ],
+    "arity": 1,
+    "count": 5
+  },
+  {
+    "id": "storage-recognition",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "maybe_uninit_storage"
+    ],
+    "arity": 2,
+    "count": 5
+  },
+  {
+    "id": "preserved-resolve-call",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "resolve_call"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "preserved-f6-reset",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "reset_nested_call"
+    ],
+    "arity": 3,
+    "count": 2
+  },
+  {
+    "id": "preserved-f7-writers",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod\\.rs",
+    "tokens": [
+      "transformer",
+      ".",
+      "replace_delayed_body"
+    ],
+    "arity": 2,
+    "count": 2
+  }
+]

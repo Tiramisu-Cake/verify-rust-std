@@ -1,9 +1,9 @@
 {
   "files_sha256": {
-    ".github/c2-slices/inputs.json": "ea73db039b1003b284e03d4a17782bfb01d0917dce131221b50f94a7bc181d80",
-    ".github/c2-slices/sel1-controls.json": "ca2e7bfc9fe5a7edabb6ff99fd196fbd8d98dce717cd2eed24db7036633932a9",
-    ".github/c2-slices/sensitivity-manifest.json": "2e78e61d1aa27583c1e0914c90bd6c371e4fa8c131ba01677db540967bcbd281",
-    ".github/c2-slices/sensitivity.py": "0ff7b3e59e29c85a57b002d262f8649e4f4bb15356ae0b4d4a35e2c934d1ccb6",
+    ".github/c2-slices/inputs.json": "b3fc24e2c13bfc09969a8f716c1f8e1025903818a9ec06649487dcb3114f22be",
+    ".github/c2-slices/sel1-controls.json": "430015b485ef7b72c4c99e3bf08ccf5709dc30d2b95c37ce80ab42eaa7343d6c",
+    ".github/c2-slices/sensitivity-manifest.json": "9fbc3d394dc3901a8f2db8bfd74712d01f675f12d089270258f1d65713333df4",
+    ".github/c2-slices/sensitivity.py": "b088dc2a31f7e08479eacc185e40858f708377eb10de5ee10c358d086b30dca7",
     ".github/c2-slices/sensitivity/golden-invert-required-count.patch": "9c07ed2c6e46f423aa81785a0ac1aeb99aac95f57d108a22b911b1f8feca4684",
     ".github/c2-slices/sensitivity/negative-extra-reached-failure.patch": "bf395d0c9ffb884466a34358c370f1de47630fd703701a1efe91cc6f2eb8b782",
     ".github/c2-slices/sensitivity/negative-repair-user-write.patch": "4a423abacbc1df120f0144d9a1f7d2412f43652b0cf2fea10ae0ca0613ad6c89",
@@ -14,19 +14,24 @@
     ".github/c2-slices/structural.py": "7ada5009b12a502a9cc015f0745219a5cbdcdafa6ed64928a02f2edf04f8c550",
     ".github/c2-slices/structural_compare.py": "9f7fab3bf2e222838f58b58bbc06283497e54be75188d9127c8423e88b0c9ef4",
     ".github/c2-slices/structural_observation.py": "b09285e414f2a90f99ec752d289c2e0e5e97bc39b9b8b48e8ea87dd36939d829",
-    ".github/c2-slices/test-manifest.json": "cd0ae326416e9ab241476cc97fefedd6450700760966d450d1d681201fe9adae",
-    ".github/workflows/uninit-quick.yml": "e117ac26aba1a2aa9153172a7bfbbd085e4ac22ed137b4cd02d777e92c1fad14"
+    ".github/c2-slices/test-manifest.json": "23fedc630bbebf29dc79be35df89e6878e5804a69bfee46f4346a1bf16238a48",
+    ".github/workflows/uninit-quick.yml": "4884073a7fa67ab2e5217a618551606664348c154c78995363758b47bd84565a"
   },
-  "final_source_binding": "PENDING_PORT_ACCEPTANCE",
+  "final_source_binding": "BOUND_REVIEWED_CANDIDATE",
   "formal_proof_credit": "NOT_ESTABLISHED",
-  "local_template_base": "8e299aa6243bc5f06a29c51e98aafa9564478220",
-  "publication": "COORDINATOR_ONLY_AFTER_STAGE_REVIEW",
-  "request_sha256": "6ee24fbc69c14549289710a8da42d6f9e03ca876ef8b58eafe6a113e9429119e",
+  "overlay_parent": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "overlay_sha": "4ef74e822b090109c391ebc723c4092690679e57",
+  "overlay_tree": "0833589f2ddf801542c5ac4f5fb7fb198fbbabb1",
+  "patch_sha256": "a592959192bc39abff677159cba8ea7c7e90edd1c8478694c854ebeb86b1a5a5",
+  "publication": "COORDINATOR_ONLY",
+  "request_sha256": "e7de399d06856fd387687488136013fff8ea4b22f64bb6408cc96e72653e4868",
   "retry": "NONE",
   "runtime": "NOT_RUN",
-  "schema": "sel1-c2-unbound-ci-template-v1",
-  "source_sha": null,
-  "source_tree": null,
+  "schema": "sel1-c2-bound-ci-overlay-v1",
+  "source_binding_sha256": "71c95b1092133f8e2d58206eec0550ef36e5825893066e971eca11e19279f01d",
+  "source_parent": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+  "source_sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "source_tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
   "stage": "quick",
-  "status": "PREPARATION_ONLY"
+  "status": "READY_NOT_RUN"
 }

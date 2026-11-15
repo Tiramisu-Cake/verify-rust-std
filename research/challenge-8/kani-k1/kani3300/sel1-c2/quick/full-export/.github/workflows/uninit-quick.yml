@@ -1,6 +1,6 @@
 # Copyright Kani Contributors
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-name: SEL1-C2 Quick (UNBOUND TEMPLATE)
+name: SEL1-C2 Quick (reviewed candidate)
 on:
   workflow_dispatch:
 
@@ -17,7 +17,7 @@ env:
 
 jobs:
   uninit:
-    if: ${{ false && github.repository == 'Tiramisu-Cake/kani' }}
+    if: ${{ github.repository == 'Tiramisu-Cake/kani' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     permissions:
@@ -34,7 +34,7 @@ jobs:
       - name: Independent exact candidate checkout
         uses: actions/checkout@v6
         with:
-          ref: PENDING_SEL1_FREEZE_SHA
+          ref: 14bc57fdb99960240c4944845a3d985c8af4dcf7
           path: export
           persist-credentials: false
 

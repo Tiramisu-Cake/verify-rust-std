@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only checks of unbound templates and local Git objects; no toolchains."""
+"""Unbound A/B/Q checks (aa9074c6f5); for finalized Q use validate_bound.py."""
 from pathlib import Path
 import ast,hashlib,json,subprocess
 import yaml

@@ -5,15 +5,18 @@ import importlib.util,json,sys,tempfile,unittest,os
 from unittest import mock
 HERE=Path(__file__).resolve().parent
 SRC=HERE/'full-export/.github/c2-slices'
-os.environ['SEL1_C2_SOURCE_DIR']='/root/kani-fix-3300-c2-s6'
+os.environ['SEL1_C2_SOURCE_DIR']='/root/kani-fix-3300-sel1-c2-w14'
 sys.path.insert(0,str(SRC))
 import slice07_ci as ci
 import structural
 
 class QuickPreparationTests(unittest.TestCase):
-    def test_candidate_binding_is_deliberately_unavailable(self):
-        with self.assertRaisesRegex(ValueError,'PENDING_PORT_ACCEPTANCE'):
-            ci.inputs()
+    def test_reviewed_candidate_binding(self):
+        config, manifest = ci.inputs()
+        self.assertEqual(config['source_sha'], '14bc57fdb99960240c4944845a3d985c8af4dcf7')
+        self.assertEqual(config['source_sha'], manifest['source_sha'])
+        self.assertEqual(config['source_tree'], manifest['source_tree'])
+        self.assertEqual(manifest['deduplicated_selector_count'], 500)
 
     def test_inherited_inventory_and_all_29_controls_remain(self):
         data=json.loads((SRC/'test-manifest.json').read_text())
@@ -70,5 +73,41 @@ class QuickPreparationTests(unittest.TestCase):
                  mock.patch.object(ci,'git',side_effect=git), \
                  mock.patch.object(ci.subprocess,'check_output',return_value=b'overlay'):
                 with self.assertRaises(ValueError):ci.snapshot('before',Path(td))
+
+    def test_null_wrong_type_and_not_run_cannot_pass(self):
+        for value in [None, {}, []]:
+            with self.assertRaises(TypeError):
+                ci.check_output(value, {'wanted': False})
+        for value in ['NOT_RUN', 'test result: ok. 0 passed; 0 failed; 0 ignored;']:
+            self.assertTrue(ci.check_output(value, {'wanted': False}))
+
+    def test_explicit_not_run_before_any_native_stage(self):
+        with tempfile.TemporaryDirectory() as td, \
+             mock.patch.dict(ci.os.environ, {'C2_EVIDENCE_DIR': td}), \
+             mock.patch.object(ci.sys, 'argv', ['runner', 'before']), \
+             mock.patch.object(ci, 'snapshot'):
+            ci.main()
+            record = json.loads((Path(td)/'units/result.json').read_text())
+            self.assertEqual(record['result'], 'NOT_RUN')
+            self.assertIsNone(record['exit'])
+            self.assertEqual(record['termination_reason'], 'NOT_STARTED')
+
+    def test_manifest_mismatch_fails_before_execution(self):
+        for kind in ['hash', 'source']:
+            with tempfile.TemporaryDirectory() as td:
+                root = Path(td)
+                config = json.loads((SRC/'inputs.json').read_text())
+                manifest = json.loads((SRC/'test-manifest.json').read_text())
+                if kind == 'hash':
+                    config['test_manifest_sha256'] = '0'*64
+                else:
+                    manifest['source_sha'] = '0'*40
+                    import hashlib
+                    data = json.dumps(manifest).encode()
+                    config['test_manifest_sha256'] = hashlib.sha256(data).hexdigest()
+                (root/'test-manifest.json').write_text(json.dumps(manifest))
+                (root/'inputs.json').write_text(json.dumps(config))
+                with mock.patch.object(ci, 'HERE', root), self.assertRaises(ValueError):
+                    ci.inputs()
 
 if __name__=='__main__':unittest.main(verbosity=2)

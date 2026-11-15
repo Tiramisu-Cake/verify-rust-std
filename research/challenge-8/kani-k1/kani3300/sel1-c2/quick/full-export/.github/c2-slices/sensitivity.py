@@ -17,7 +17,7 @@ VARIANT_IDS = {
     "negative-repair-user-write",
     "golden-invert-required-count",
 }
-SOURCE_SHA = "PENDING_SEL1_FREEZE_SHA"
+SOURCE_SHA = "14bc57fdb99960240c4944845a3d985c8af4dcf7"
 TEST_LINE = re.compile(r"^test (.+?) \.\.\. (ok|FAILED|ignored)(?:\b.*)?$", re.M)
 TEST_SUMMARY = re.compile(
     r"^test result: (ok|FAILED)\. (\d+) passed; (\d+) failed; (\d+) ignored;",

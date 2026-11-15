@@ -1,0 +1,27 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "base": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+  "head": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "parent": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+  "tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
+  "changed_files": 71,
+  "production_files": [
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs",
+    "kani-compiler/src/kani_middle/mod.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "kani-compiler/src/kani_middle/reachability.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs"
+  ],
+  "fixtures_exact_old_SEL1": 65,
+  "groups": 12,
+  "protected_blobs": {
+    "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs": "cead741d8618551828063ed46c310c1f10f740b0",
+    "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs": "3461ada461b9d0f123f22d25274b000a7a789559",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs": "456b39de7fa3ace577f0cae44fdcf14c37dc887f",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs": "0ab7059e422f54480dd62547df7aeed93c6bafe8",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs": "1cba3ff26fb96d4d9a248c4ef861d8c4d6c82e73",
+    "kani-compiler/src/kani_middle/transform/delayed_cache.rs": "6ba16800fba5cc1955094551acfd20e6c2e20065",
+    "kani-compiler/src/kani_middle/transform/mod.rs": "4484375cea01d66a1545208238542815d0490896"
+  },
+  "native_build": "NOT_RUN"
+}
