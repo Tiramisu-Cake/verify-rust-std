@@ -161,6 +161,7 @@
 #![feature(try_blocks)]
 #![feature(uint_carryless_mul)]
 #![feature(unboxed_closures)]
+#![cfg_attr(all(kani, kani_smallsort_sorting), feature(fn_traits))]
 #![feature(unsized_fn_params)]
 #![feature(with_negative_coherence)]
 // Required for Kani loop contracts, which are annotated as custom stmt attributes.

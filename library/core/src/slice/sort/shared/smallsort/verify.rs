@@ -52,8 +52,10 @@
 //!
 //! Not covered:
 //! - Uninitialized-memory, value-validity, and immutable-byte permission checks, or unwinding.
-//! - Trait methods have no contracts: the pinned Kani rejects specialization defaults and
-//!   method-generic comparators (model-checking/kani issues #5116 and #4908).
+//! - Under opt-in `kani_smallsort_sorting`, six real trait bodies have conditional sorting
+//!   contracts for the exact KeyLess u8/Cell/non-Copy-byte pairs. Their S1 PFC smoke is
+//!   N0..3 only; model CAP32 is not a full threshold proof or a generic T/F theorem.
+//!   They are never used as verified summaries. Ordinary roots keep their old domains.
 //! - Types, lengths, comparators, or routes beyond those listed, including aliasing, ZST,
 //!   and panic cases.
 //!
@@ -76,3 +78,13 @@ mod scratch_geometry;
 mod smoke;
 mod tag_permutation;
 mod types;
+
+// S1 modules are isolated from the ordinary #752 inventory.
+#[cfg(all(kani, kani_smallsort_sorting))]
+pub(super) mod sorting_model;
+#[cfg(all(kani, kani_smallsort_sorting))]
+mod sorting_entry_smoke;
+#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_controls))]
+mod sorting_model_controls;
+#[cfg(all(kani, kani_smallsort_sorting, kani_smallsort_controls))]
+mod sorting_entry_controls;
