@@ -21,7 +21,7 @@ fn array_typed_copy() {
 }
 ```
 
-On current `main` (0aac16ef62), CBMC 6.11.0 stops in `bits2expr` (`simplify_utils.cpp:345`) on the invariant `el_size_opt.has_value() && *el_size_opt > 0`.
+On `main` at 0aac16ef62, CBMC 6.11.0 stops in `bits2expr` (`simplify_utils.cpp:345`) on the invariant `el_size_opt.has_value() && *el_size_opt > 0`.
 
 ### Cause
 
@@ -36,6 +36,7 @@ The root cause is the zero-width element check in CBMC's `bits2expr`, which diff
 ### Testing
 
 `tests/expected/zst-union-arm` adds seven harnesses:
+
 - typed copies with a byte-array arm;
 - a padded `repr(C)` payload in both `repr(C)` and Rust-layout unions;
 - a union at a nonzero offset inside a struct;
@@ -47,13 +48,19 @@ Seven more single-harness tests cover the ZST arm declared first, nested `[[(); 
 
 On `main`, four of the seven `zst-union-arm` harnesses and all five new arm-shape tests fail with the CBMC invariant; the two recursive tests pass. With this change all of them pass.
 
-CI on this commit in my fork: [Kani CI](https://github.com/Tiramisu-Cake/kani/actions/runs/43605511755) passes the regression jobs on Ubuntu 22.04, Ubuntu 24.04, Ubuntu 24.04 ARM, macOS 15 and macOS 15 Intel (the Intel job needed one rerun after a CBMC timeout in the unrelated `cargo_autoharness_multichareq_searcher` test), plus documentation, LLBC and benchcomp; Cargo Deny and Format Check also pass. The perf job lost its runner twice. I checked whether this change affects the heaviest perf case, `s2n-quic-core`: with and without this change its 40 harnesses have the same symex program size, the same variable and clause counts for the 10 solved in-process (the rest use the external SAT solver), and the same verdicts ([main](https://github.com/Tiramisu-Cake/kani/actions/runs/43634544624), [this change](https://github.com/Tiramisu-Cake/kani/actions/runs/43634541874)). In both of those runs `sync::spsc::tests::alloc_test` brought the 16 GB runner under 1 GB of free memory; the unchanged perf job on `main` [passed](https://github.com/Tiramisu-Cake/kani/actions/runs/43628958916) on the fork once. The macOS 14 runner is not available on the fork.
+[Fork CI on 3d9a180938](https://github.com/Tiramisu-Cake/kani/actions/runs/43605511755) passes regression on Ubuntu 22.04, Ubuntu 24.04, Ubuntu 24.04 ARM, macOS 15 and macOS 15 Intel, plus documentation, LLBC and benchcomp; Clippy, Format Check and Cargo Deny also pass. The Intel job [passed on rerun](https://github.com/Tiramisu-Cake/kani/actions/runs/43605511755/job/132504301511). The `cargo_autoharness_multichareq_searcher` timeout on this runner is tracked in #5162; the earlier disable proposal #5163 was closed.
+
+The perf job lost its runner in three fork executions. It also lost runners on branches without this change, while two runs of unmodified `main` passed ([first](https://github.com/Tiramisu-Cake/kani/actions/runs/43628958916), [second](https://github.com/Tiramisu-Cake/kani/actions/runs/43683645556)); the cause is not established.
+
+I also compared captured models for all 15 perf tests in an A/B/A run ([capture](https://github.com/Tiramisu-Cake/kani/actions/runs/43701550489), [symbol-table dumps](https://github.com/Tiramisu-Cake/kani/actions/runs/43708572925), [function-body dumps](https://github.com/Tiramisu-Cake/kani/actions/runs/43717071092)). Symbol tables and linked GOTO bodies matched after normalization for output nondeterminism, including rustc `AllocId` names (see #4821); the positive control retained exactly the expected padded-wrapper change. Post-instrumentation bodies had no B3-only differences, with residual A/A ordering noise. This comparison does not explain the runner losses or establish equal resource use.
 
 ### Limitations
 
 A nonzero-width arm that contains a zero-sized array, such as `struct Tail { b: u8, z: [(); 2] }` or `(u64, [(); 2])`, still hits the same CBMC invariant after this change. It goes through the struct-field representation rather than the union wrapper, and is closer to #5085. With a CBMC build that includes diffblue/cbmc#9487, the `Tail` typed copy passes ([replay in #5085](https://github.com/model-checking/kani/issues/5085#issuecomment-6863856826)).
 
 ### Related
+
+TODO (owner): add `Resolves #<Kani issue>` after confirming or publishing the padded-union reproducer issue. #5085 is related but is not resolved by this workaround.
 
 - #5085 reports the same CBMC invariant for nested zero-width arrays in statics and constants. It is reached through a different lowering path, so this PR does not claim to fix it.
 - diffblue/cbmc#9487 fixes the invariant in CBMC itself. Once Kani's CBMC includes it, the special case here can be removed.
