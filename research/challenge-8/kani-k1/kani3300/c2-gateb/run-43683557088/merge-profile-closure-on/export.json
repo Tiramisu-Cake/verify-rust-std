@@ -1,0 +1,256 @@
+{
+  "schema_version": "0.1.0",
+  "kani_commit": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "kani_commit_dirty": false,
+  "tools": {
+    "kani": "0.68.0",
+    "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+    "cbmc": "6.11.0 (cbmc-6.11.0)"
+  },
+  "enabled_unstable_features": [
+    "c-ffi",
+    "export-json",
+    "float-lib",
+    "function-contracts",
+    "loop-contracts",
+    "mem-predicates",
+    "quantifiers",
+    "stubbing",
+    "uninit-checks",
+    "unstable-options"
+  ],
+  "harness_selection": {
+    "requested_filters": [
+      "slice::sort::shared::smallsort::verify::replay_gateb_prime::merge_profile_closure_scratch48_u8_n9"
+    ],
+    "exact": true,
+    "unmatched_filters": [],
+    "matched_count": 1
+  },
+  "harness_timeout_s": 2400.0,
+  "configuration": {
+    "checks": {
+      "memory_safety": true,
+      "overflow": true,
+      "unwinding": true,
+      "undefined_function": true,
+      "assertion_reach_checks": true,
+      "ignore_global_asm": false,
+      "extra_pointer_checks": false,
+      "assert_contracts": false,
+      "prove_safety_only": false
+    },
+    "cbmc_args": [
+      "--object-bits",
+      "12"
+    ],
+    "coverage_enabled": false
+  },
+  "outcome": {
+    "kind": "COMPLETED"
+  },
+  "run_state": "COMPLETE",
+  "target": "x86_64-unknown-linux-gnu",
+  "started_at": "2026-11-15T06:13:17Z",
+  "wall_time_s": 141.609345859,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::replay_gateb_prime::merge_profile_closure_scratch48_u8_n9",
+      "crate_name": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs",
+      "line": 28,
+      "contract": {
+        "contracted_function_name": "_RNCNCNvNtNtNtNtNtNtCsbVBfXMvSkop_4core5slice4sort6shared9smallsort6verify18replay_gateb_prime24merge_profile_closure_u8s1_0s0_0Bh_",
+        "recursion_tracker": null
+      },
+      "is_automatically_generated": false,
+      "has_loop_contracts": false,
+      "is_bounded": false,
+      "attributes": {
+        "kind": {
+          "ProofForContract": {
+            "target_fn": "merge_profile_closure_u8"
+          }
+        },
+        "should_panic": false,
+        "solver": null,
+        "unwind_value": 34,
+        "stubs": [],
+        "verified_stubs": []
+      },
+      "outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "resolved_solver": "cadical",
+      "resolved_unwind": 34,
+      "generated_concrete_test": false,
+      "resources": {
+        "verification_time_s": 137.53946437
+      },
+      "n_properties": 1032,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failed_properties": [],
+      "unsupported_constructs": [
+        {
+          "id": "kani::mem::is_inbounds::<[u8]>.unsupported_construct.1",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/_temp/kani3300-std/library/core/src/lib.rs",
+          "line": "357",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "intrinsics::unlikely.unsupported_construct.1",
+          "description": "Kani does not support reasoning about memory initialization of intrinsic `Unimplemented { name: \"cold_path\", issue_link: \"https://github.com/model-checking/kani/issues/new/choose\" }`.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/_temp/kani3300-std/library/core/src/intrinsics/mod.rs",
+          "line": "722",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/_temp/kani3300-std/library/core/src/panicking.rs",
+          "line": "110",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "description": "Kani does not support reasoning about memory initialization of intrinsic `Unimplemented { name: \"caller_location\", issue_link: \"https://github.com/model-checking/kani/issues/374\" }`.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/_temp/kani3300-std/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "panic::location::Location::<'_>::caller.unsupported_construct.2",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/_temp/kani3300-std/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/_temp/kani3300-std/library/core/src/lib.rs",
+          "line": "357",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "warnings": [],
+      "warnings_truncated": 0,
+      "checks": {
+        "total": 1030,
+        "success": 962,
+        "failure": [],
+        "unreachable": [
+          "kani::mem_init::store_argument::<48, mem::maybe_uninit::MaybeUninit<[u8; 48]>>.assertion.2",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.9",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.10",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.11",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.12",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.13",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.14",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.15",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.16",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.17",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.18",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.19",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.20",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.21",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.22",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.23",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.24",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.25",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.26",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.27",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.28",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.29",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.30",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.31",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+          "kani::mem_init::load_argument::<48, mem::maybe_uninit::MaybeUninit<[u8; 48]>>.assertion.6",
+          "ub_checks::is_valid_allocation_size.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.1",
+          "num::<impl usize>::abs_diff.assertion.2",
+          "kani::mem_init::load_argument::<1, mem::maybe_uninit::MaybeUninit<u8>>.assertion.6",
+          "kani::rustc_intrinsics::ptr_offset_from::<u8>.assertion.1",
+          "kani::rustc_intrinsics::ptr_offset_from::<u8>.assertion.2",
+          "kani::rustc_intrinsics::ptr_offset_from::<u8>.assertion.3",
+          "kani::rustc_intrinsics::ptr_offset_from::<u8>.assertion.4",
+          "kani::rustc_intrinsics::ptr_offset_from::<u8>.assertion.5",
+          "kani::mem_init::store_argument::<1, mem::maybe_uninit::MaybeUninit<u8>>.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, {closure@/home/runner/work/_temp/kani3300-std/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs:22:47: 22:63}>.assertion.5",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, {closure@/home/runner/work/_temp/kani3300-std/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs:22:47: 22:63}>.assertion.6",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, {closure@/home/runner/work/_temp/kani3300-std/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs:22:47: 22:63}>.assertion.7",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u8, {closure@/home/runner/work/_temp/kani3300-std/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs:22:47: 22:63}>.assertion.8",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.10",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.11",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.12",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.13",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.14",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.15",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.16",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.17",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.18",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.19",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.20",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.21",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.22",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.23",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.24",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.25",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.26",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.27",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.28",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.29",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.30",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.31",
+          "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<slice::sort::shared::smallsort::verify::merge::profiles::LtU8>.assertion.32",
+          "fmt::Arguments::<'_>::from_str.assertion.1",
+          "slice::sort::shared::smallsort::verify::merge::regions_are_disjoint::<u8>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.3"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "covers": {
+        "total": 2,
+        "satisfied": [
+          "slice::sort::shared::smallsort::verify::replay_gateb_prime::merge_profile_closure_scratch48_u8_n9.cover.1",
+          "slice::sort::shared::smallsort::verify::replay_gateb_prime::merge_profile_closure_scratch48_u8_n9.cover.2"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      }
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "successful": 1,
+    "failed": 0,
+    "checks_total": 1030,
+    "checks_success": 962,
+    "covers_total": 2,
+    "covers_satisfied": 2
+  }
+}

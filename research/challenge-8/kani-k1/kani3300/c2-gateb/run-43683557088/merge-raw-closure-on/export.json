@@ -1,0 +1,212 @@
+{
+  "schema_version": "0.1.0",
+  "kani_commit": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "kani_commit_dirty": false,
+  "tools": {
+    "kani": "0.68.0",
+    "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)",
+    "cbmc": "6.11.0 (cbmc-6.11.0)"
+  },
+  "enabled_unstable_features": [
+    "c-ffi",
+    "export-json",
+    "float-lib",
+    "function-contracts",
+    "loop-contracts",
+    "mem-predicates",
+    "quantifiers",
+    "stubbing",
+    "uninit-checks",
+    "unstable-options"
+  ],
+  "harness_selection": {
+    "requested_filters": [
+      "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0"
+    ],
+    "exact": true,
+    "unmatched_filters": [],
+    "matched_count": 1
+  },
+  "harness_timeout_s": 2400.0,
+  "configuration": {
+    "checks": {
+      "memory_safety": true,
+      "overflow": true,
+      "unwinding": true,
+      "undefined_function": true,
+      "assertion_reach_checks": true,
+      "ignore_global_asm": false,
+      "extra_pointer_checks": false,
+      "assert_contracts": false,
+      "prove_safety_only": false
+    },
+    "cbmc_args": [
+      "--object-bits",
+      "12"
+    ],
+    "coverage_enabled": false
+  },
+  "outcome": {
+    "kind": "COMPLETED"
+  },
+  "run_state": "COMPLETE",
+  "target": "x86_64-unknown-linux-gnu",
+  "started_at": "2026-11-15T06:06:16Z",
+  "wall_time_s": 117.229515923,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
+      "crate_name": "core",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs",
+      "line": 105,
+      "contract": {
+        "contracted_function_name": "_RNCNCINvNtNtNtNtCsbVBfXMvSkop_4core5slice4sort6shared9smallsort19bidirectional_mergeyNCNvNtNtB6_6verify21helper_contracts_wide42merge_safety_u64_len8_scratch48_src32_dst00Es0_00Be_",
+        "recursion_tracker": null
+      },
+      "is_automatically_generated": false,
+      "has_loop_contracts": false,
+      "is_bounded": false,
+      "attributes": {
+        "kind": {
+          "ProofForContract": {
+            "target_fn": "bidirectional_merge"
+          }
+        },
+        "should_panic": false,
+        "solver": null,
+        "unwind_value": 34,
+        "stubs": [
+          {
+            "original": "super :: super :: panic_on_ord_violation",
+            "replacement": "cut_merge_order_violation"
+          }
+        ],
+        "verified_stubs": []
+      },
+      "outcome": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "resolved_solver": "cadical",
+      "resolved_unwind": 34,
+      "generated_concrete_test": false,
+      "resources": {
+        "verification_time_s": 114.873460584
+      },
+      "n_properties": 577,
+      "n_failed": 0,
+      "failure_kind": "NONE",
+      "failed_properties": [],
+      "unsupported_constructs": [
+        {
+          "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "description": "Kani does not support reasoning about memory initialization of intrinsic `Unimplemented { name: \"caller_location\", issue_link: \"https://github.com/model-checking/kani/issues/374\" }`.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/_temp/kani3300-std/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "panic::location::Location::<'_>::caller.unsupported_construct.2",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/_temp/kani3300-std/library/core/src/panic/location.rs",
+          "line": "185",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "kani::mem::is_inbounds::<[u64]>.unsupported_construct.1",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/_temp/kani3300-std/library/core/src/lib.rs",
+          "line": "357",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/_temp/kani3300-std/library/core/src/lib.rs",
+          "line": "357",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/_temp/kani3300-std/library/core/src/panicking.rs",
+          "line": "110",
+          "trace_available": false,
+          "status": "SUCCESS"
+        },
+        {
+          "id": "intrinsics::unlikely.unsupported_construct.1",
+          "description": "Kani does not support reasoning about memory initialization of intrinsic `Unimplemented { name: \"cold_path\", issue_link: \"https://github.com/model-checking/kani/issues/new/choose\" }`.",
+          "class": "unsupported_construct",
+          "file": "/home/runner/work/_temp/kani3300-std/library/core/src/intrinsics/mod.rs",
+          "line": "722",
+          "trace_available": false,
+          "status": "SUCCESS"
+        }
+      ],
+      "warnings": [],
+      "warnings_truncated": 0,
+      "checks": {
+        "total": 572,
+        "success": 556,
+        "failure": [],
+        "unreachable": [
+          "ub_checks::is_valid_allocation_size.assertion.1",
+          "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u64, {closure@/home/runner/work/_temp/kani3300-std/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs:117:48: 117:66}>.assertion.1",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u64, {closure@/home/runner/work/_temp/kani3300-std/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs:117:48: 117:66}>.assertion.2",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u64, {closure@/home/runner/work/_temp/kani3300-std/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs:117:48: 117:66}>.assertion.3",
+          "slice::sort::shared::smallsort::bidirectional_merge::<u64, {closure@/home/runner/work/_temp/kani3300-std/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs:117:48: 117:66}>.assertion.4",
+          "fmt::Arguments::<'_>::from_str.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.3",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.4",
+          "kani::mem_init::MemoryInitializationState::set_slice::<1>.assertion.5",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.1",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.2",
+          "kani::mem_init::MemoryInitializationState::set::<0>.assertion.3",
+          "num::<impl usize>::abs_diff.assertion.1"
+        ],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      },
+      "covers": {
+        "total": 5,
+        "satisfied": [
+          "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0.cover.1",
+          "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0.cover.2",
+          "slice::sort::shared::smallsort::verify::helper_contracts_wide::tail_comparison_covers.cover.1",
+          "slice::sort::shared::smallsort::verify::helper_contracts_wide::tail_comparison_covers.cover.2",
+          "slice::sort::shared::smallsort::panic_on_ord_violation.cover.1"
+        ],
+        "unsatisfiable": [],
+        "unreachable": [],
+        "undetermined": [],
+        "error": [],
+        "unknown": [],
+        "other": []
+      }
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "successful": 1,
+    "failed": 0,
+    "checks_total": 572,
+    "checks_success": 556,
+    "covers_total": 5,
+    "covers_satisfied": 5
+  }
+}

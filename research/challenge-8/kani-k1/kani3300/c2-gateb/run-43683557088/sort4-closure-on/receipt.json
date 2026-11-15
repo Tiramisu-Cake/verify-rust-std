@@ -1,0 +1,131 @@
+{
+  "argv": [
+    "/home/runner/work/kani/kani/export/scripts/kani",
+    "verify-std",
+    "-Z",
+    "unstable-options",
+    "./library",
+    "-Z",
+    "function-contracts",
+    "-Z",
+    "mem-predicates",
+    "-Z",
+    "float-lib",
+    "-Z",
+    "c-ffi",
+    "-Z",
+    "loop-contracts",
+    "-Z",
+    "quantifiers",
+    "-Z",
+    "stubbing",
+    "-Z",
+    "export-json",
+    "-Z",
+    "uninit-checks",
+    "--no-assert-contracts",
+    "--harness",
+    "slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64",
+    "--exact",
+    "--jobs",
+    "1",
+    "--harness-timeout",
+    "2400s",
+    "--target-dir",
+    "/home/runner/work/_temp/kani3300-receipt/sort4-closure-on/target",
+    "--export-json",
+    "/home/runner/work/_temp/kani3300-receipt/sort4-closure-on/export.json",
+    "--output-format=regular",
+    "--cbmc-args",
+    "--object-bits",
+    "12"
+  ],
+  "c2_sha": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "c2_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+  "elapsed_seconds": 45.554,
+  "environment": {
+    "NO_COLOR": "1",
+    "RUSTFLAGS": "--cfg kani_smallsort_controls"
+  },
+  "expected_mode": "Check(sort4_stable)",
+  "expected_result": "BOUNDARY",
+  "export": {
+    "generated_property_binding": null,
+    "outcome": "UNKNOWN",
+    "review_required": [
+      "selected Check body",
+      "useful reached checks/ensures and covers",
+      "complete artifact coverage; no proof credit from this envelope parse",
+      "sort4 expected boundary: exactly one named select_unpredictable Unsupported at library/core/src/hint.rs:871"
+    ],
+    "selector_identity": null,
+    "state": "UNVALIDATED_JSON_OBJECT"
+  },
+  "generated_property_binding": null,
+  "original_exit_code": 1,
+  "outcome": "UNKNOWN",
+  "post_run_validation": {
+    "c2_source_valid": {
+      "identity": {
+        "bound_files": 504,
+        "bound_subtrees": 6,
+        "c2_sha": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+        "c2_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+        "patch_sha256": "af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5",
+        "proof_status": "NOT_RUN",
+        "request_sha256": "9723c4772a24fd11eb1e428342b0598ff0777b6e0793b7ad74b376820f9b9771",
+        "std_commit": "70ba5befc617627073738e26cb1466bd4fb76e41",
+        "std_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+        "test_overlay_tree": "86cbdb4d9f8415161657f66bf07e5a0dd1b3e982"
+      },
+      "valid": true
+    },
+    "std_overlay_paths": [
+      "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs"
+    ],
+    "std_overlay_sha256": {
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "b37239fc681409922606a8fd310e20f9c776e67a9c7f8dd4e4b79a77172c79fb",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "270e2a2d57d162e979d375c1a1bdb786dfdca664ad6e610e7b4e8661c135d933",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "b2d71e6e61b4130a95dda6daac3cd5f0970f9daf7b0f7bfa8a9f99d9c3c29844",
+      "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs": "c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1"
+    },
+    "std_test_only_overlay_valid": true
+  },
+  "postprocessing_state": "COMPLETE",
+  "request_sha256": "9723c4772a24fd11eb1e428342b0598ff0777b6e0793b7ad74b376820f9b9771",
+  "root_id": "sort4-closure-on",
+  "rss": {
+    "max_bytes": 5054328832,
+    "status": "OBSERVED_WAIT4_LINUX_RU_MAXRSS"
+  },
+  "runner_error": null,
+  "runtime_identity_file": "runtime-identities.json",
+  "runtime_proof_status": "NOT_RUN_UNTIL_REVIEWED",
+  "schema": "kani3300-replay-receipt-v1",
+  "signal": null,
+  "source_identity": {
+    "bound_files": 504,
+    "bound_subtrees": 6,
+    "c2_sha": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+    "c2_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+    "patch_sha256": "af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5",
+    "proof_status": "NOT_RUN",
+    "request_sha256": "9723c4772a24fd11eb1e428342b0598ff0777b6e0793b7ad74b376820f9b9771",
+    "std_commit": "70ba5befc617627073738e26cb1466bd4fb76e41",
+    "std_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+    "test_overlay_tree": "86cbdb4d9f8415161657f66bf07e5a0dd1b3e982"
+  },
+  "started_unix": 1794723524.627053,
+  "std_base_commit": "70ba5befc617627073738e26cb1466bd4fb76e41",
+  "std_base_commit_tree": "84ab170ccdcc29fba69e55e0a46e6acdf52d9704",
+  "std_library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+  "stderr_bytes": 2542,
+  "stderr_sha256": "86c2b2b4f5c37eeda22fdd00319dde9a0427ccb0fc97ca28f7ab0e56ecad4e67",
+  "stdout_bytes": 328285,
+  "stdout_sha256": "e5bacd3b53a66e5566cfe42f8891d83299014a064101ca04f6a1a06bc1a04e56",
+  "test_patch_sha256": "af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5",
+  "timed_out": false
+}
