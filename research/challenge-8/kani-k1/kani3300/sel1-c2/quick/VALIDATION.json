@@ -1,0 +1,47 @@
+{
+  "checks": {
+    "diff_check": "Non-patch CI files PASS; full diff has pre-existing context-space/new-blank-line in byte-preserved S5 negative-repair-user-write.patch; no change to accepted patch",
+    "gatea": {
+      "fixture": "synthetic SHA replacement in temporary copy only; accepted observer bytes otherwise identity/state substitution only",
+      "status": "PASS",
+      "synthetic_tests": 26
+    },
+    "quick": {
+      "coverage": [
+        "pending candidate guard",
+        "471+29 inventory/ignores",
+        "4 S5 variants/11 F7 invocations",
+        "missing/partial/count/timeout failures",
+        "original exit/launch error/timeout",
+        "exact native inventory with review required",
+        "source-stage-target mismatch"
+      ],
+      "status": "PASS",
+      "synthetic_tests": 7
+    },
+    "replay": {
+      "coverage": [
+        "success UNKNOWN",
+        "original exit/signal/timeout/launch error",
+        "atomic receipt/postprocess failure",
+        "missing/partial/null/wrong-type/wrong-selector JSON",
+        "request hash/patch/file inventory/cap checks",
+        "unbound source guard",
+        "synthetic frozen metadata HEAD/tree/dirty rejection",
+        "six exact row argv/mode/unwind",
+        "duplicate selectors",
+        "post-run source/std failure"
+      ],
+      "status": "PASS",
+      "synthetic_tests": 29
+    },
+    "static": "quick/validate_preparation.py PASS; Python AST/JSON/YAML, single manual disabled fork workflow each, CI allowlist, local Git/full-export/patch identities, std test-only 5-file Git identities, retained Quick selectors/directives and structural input bytes"
+  },
+  "cloud_spend_usd": 0,
+  "formal_proof_credit": "NOT_ESTABLISHED",
+  "local_toolchains_invoked": false,
+  "push_dispatch": false,
+  "runtime": "NOT_RUN",
+  "source_binding_finalized": false,
+  "status": "PASS_PREPARATION_ONLY"
+}

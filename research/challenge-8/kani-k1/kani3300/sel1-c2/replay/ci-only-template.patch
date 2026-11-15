@@ -1,0 +1,3905 @@
+diff --git a/.github/workflows/bench-compiler.yml b/.github/workflows/bench-compiler.yml
+deleted file mode 100644
+index 0b30110c6..000000000
+--- a/.github/workflows/bench-compiler.yml
++++ /dev/null
+@@ -1,148 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Run performance benchmarks comparing the compiler performance of two different Kani versions.
+-name: Kani Compiler Performance Benchmarks
+-permissions:
+-  contents: read
+-on:
+-  push:
+-    branches:
+-      - 'main'
+-  workflow_call:
+-
+-jobs:
+-  compile-timer-short:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Save push event HEAD and HEAD~ to environment variables
+-        if: ${{ github.event_name == 'push' }}
+-        run: |
+-          echo "NEW_REF=${{ github.event.after}}" | tee -a "$GITHUB_ENV"
+-          echo "OLD_REF=${{ github.event.before }}" | tee -a "$GITHUB_ENV"
+-      # Note: in reusable workflows, github.event_name and github.event are
+-      # those of the caller; when invoked from bench-pr.yml this is a
+-      # pull_request event.
+-      - name: Save pull request HEAD and base to environment variables
+-        if: ${{ github.event_name == 'pull_request' }}
+-        run: |
+-          echo "OLD_REF=${{ github.event.pull_request.base.sha }}" | tee -a "$GITHUB_ENV"
+-          echo "NEW_REF=${{ github.event.pull_request.head.sha }}" | tee -a "$GITHUB_ENV"
+-      - name: Check out Kani (old variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./old
+-          ref: ${{ env.OLD_REF }}
+-          fetch-depth: 2
+-
+-      - name: Check out Kani (new variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./new
+-          ref: ${{ env.NEW_REF }}
+-          fetch-depth: 1
+-
+-      - name: Set up Kani Dependencies (old variant)
+-        uses: ./old/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: old
+-
+-      - name: Set up Kani Dependencies (new variant)
+-        uses: ./new/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: new
+-
+-      - name: Copy benchmarks from new to old
+-        run: rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/
+-
+-      - name: Build `compile-timer` in old
+-        run: cd old/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in old
+-        run: cd old && cargo build-dev --release
+-
+-      - name: Build `compile-timer` in new
+-        run: cd new/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in new
+-        run: cd new && cargo build-dev --release
+-
+-      - name: Run `compile-timer` on old
+-        run: |
+-          export PATH="${{ github.workspace }}/old/scripts:$PATH"
+-          cd old/tests/perf && ../../target/release/compile-timer --out-path compile-times-old.json --ignore kani-lib --ignore display_trait --ignore s2n-quic
+-      - name: Run `compile-timer` on new
+-        run: |
+-          export PATH="${{ github.workspace }}/new/scripts:$PATH"
+-          cd new/tests/perf && ../../target/release/compile-timer --out-path compile-times-new.json --ignore kani-lib --ignore display_trait --ignore s2n-quic
+-      - name: Run analysis between the two
+-        run: ./new/target/release/compile-analyzer --path-pre old/tests/perf/compile-times-old.json --path-post new/tests/perf/compile-times-new.json --only-markdown --suite-name short >> "$GITHUB_STEP_SUMMARY"
+-
+-  compile-timer-long:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Save push event HEAD and HEAD~ to environment variables
+-        if: ${{ github.event_name == 'push' }}
+-        run: |
+-          echo "NEW_REF=${{ github.event.after}}" | tee -a "$GITHUB_ENV"
+-          echo "OLD_REF=${{ github.event.before }}" | tee -a "$GITHUB_ENV"
+-      # Note: in reusable workflows, github.event_name and github.event are
+-      # those of the caller; when invoked from bench-pr.yml this is a
+-      # pull_request event.
+-      - name: Save pull request HEAD and base to environment variables
+-        if: ${{ github.event_name == 'pull_request' }}
+-        run: |
+-          echo "OLD_REF=${{ github.event.pull_request.base.sha }}" | tee -a "$GITHUB_ENV"
+-          echo "NEW_REF=${{ github.event.pull_request.head.sha }}" | tee -a "$GITHUB_ENV"
+-      
+-      - name: Check out Kani (old variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./old
+-          ref: ${{ env.OLD_REF }}
+-          fetch-depth: 2
+-
+-      - name: Check out Kani (new variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./new
+-          ref: ${{ env.NEW_REF }}
+-          fetch-depth: 1
+-
+-      - name: Set up Kani Dependencies (old variant)
+-        uses: ./old/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: old
+-
+-      - name: Set up Kani Dependencies (new variant)
+-        uses: ./new/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: new
+-
+-      # Ensures that a PR changing the benchmarks will have the new benchmarks run 
+-      # for both commits.
+-      - name: Copy benchmarks from new to old
+-        run: rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/
+-
+-      - name: Build `compile-timer` in old
+-        run: cd old/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in old
+-        run: cd old && cargo build-dev --release
+-
+-      - name: Build `compile-timer` in new
+-        run: cd new/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in new
+-        run: cd new && cargo build-dev --release
+-
+-      - name: Run `compile-timer` on old
+-        run: |
+-          export PATH="${{ github.workspace }}/old/scripts:$PATH"
+-          cd old/tests/perf/s2n-quic && ../../../target/release/compile-timer --out-path compile-times-old.json --also-visit quic/s2n-quic-core --also-visit quic/s2n-quic-platform --also-visit common/s2n-codec --skip-current
+-      - name: Run `compile-timer` on new
+-        run: |
+-          export PATH="${{ github.workspace }}/new/scripts:$PATH"
+-          cd new/tests/perf/s2n-quic && ../../../target/release/compile-timer --out-path compile-times-new.json --also-visit quic/s2n-quic-core --also-visit quic/s2n-quic-platform --also-visit common/s2n-codec --skip-current
+-      - name: Run analysis between the two
+-        run: ./new/target/release/compile-analyzer --path-pre old/tests/perf/s2n-quic/compile-times-old.json --path-post new/tests/perf/s2n-quic/compile-times-new.json --only-markdown --suite-name long >> "$GITHUB_STEP_SUMMARY"
+diff --git a/.github/workflows/bench-e2e.yml b/.github/workflows/bench-e2e.yml
+deleted file mode 100644
+index bc2db84b5..000000000
+--- a/.github/workflows/bench-e2e.yml
++++ /dev/null
+@@ -1,85 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Run performance benchmarks comparing two different Kani versions.
+-# This workflow takes much longer than other workflows, so we don't run it by default.
+-# This workflow will run when:
+-#  - Changes are pushed to 'main'.
+-#  - Triggered by another workflow
+-name: Kani End-To-End Performance Benchmarks
+-permissions:
+-  contents: read
+-on:
+-  push:
+-    branches:
+-      - 'main'
+-  workflow_call:
+-
+-jobs:
+-  perf-benchcomp:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Save push event HEAD and HEAD~ to environment variables
+-        if: ${{ github.event_name == 'push' }}
+-        run: |
+-          echo "NEW_REF=${{ github.event.after}}" | tee -a "$GITHUB_ENV"
+-          echo "OLD_REF=${{ github.event.before }}" | tee -a "$GITHUB_ENV"
+-
+-      # Note: in reusable workflows, github.event_name and github.event are
+-      # those of the caller; when invoked from bench-pr.yml this is a
+-      # pull_request event.
+-      - name: Save pull request HEAD and base to environment variables
+-        if: ${{ github.event_name == 'pull_request' }}
+-        run: |
+-          echo "OLD_REF=${{ github.event.pull_request.base.sha }}" | tee -a "$GITHUB_ENV"
+-          echo "NEW_REF=${{ github.event.pull_request.head.sha }}" | tee -a "$GITHUB_ENV"
+-
+-      - name: Check out Kani (old variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./old
+-          ref: ${{ env.OLD_REF }}
+-          fetch-depth: 2
+-
+-      - name: Check out Kani (new variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./new
+-          ref: ${{ env.NEW_REF }}
+-          fetch-depth: 1
+-
+-      - name: Set up Kani Dependencies (old variant)
+-        uses: ./old/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: old
+-
+-      - name: Set up Kani Dependencies (new variant)
+-        uses: ./new/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: new
+-
+-      - name: Copy benchmarks from new to old
+-        run: rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/
+-
+-      - name: Run benchcomp
+-        run: |
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            run
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            collate
+-
+-      - name: Perf Regression Results Table
+-        run: |
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            visualize --only dump_markdown_results_table >> "$GITHUB_STEP_SUMMARY"
+-
+-      - name: Run other visualizations
+-        run: |
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            visualize --except dump_markdown_results_table
+diff --git a/.github/workflows/bench-pr.yml b/.github/workflows/bench-pr.yml
+deleted file mode 100644
+index d68534a54..000000000
+--- a/.github/workflows/bench-pr.yml
++++ /dev/null
+@@ -1,40 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Run the performance benchmark workflows for pull requests that carry the
+-# corresponding Z-*BenchCI label (applied automatically by the labeler in
+-# extra_jobs.yml based on the changed files, or manually).
+-#
+-# This runs on `pull_request` (not `pull_request_target`) on purpose: the
+-# benchmark workflows build and execute the code proposed in the pull
+-# request, which must not happen in the trusted `pull_request_target`
+-# context (actions/checkout v6.1.0/v5.1.0/v4.4.0 refuse to do so; see
+-# https://github.blog/changelog/2026-06-18-safer-pull_request_target-defaults-for-github-actions-checkout/).
+-#
+-# Note on the `labeled` trigger: labels added by the auto-labeler do not
+-# re-trigger this workflow (events created with the default GITHUB_TOKEN
+-# never trigger new workflow runs), so on freshly opened pull requests the
+-# benchmarks only start with the next push to the pull request. Manually
+-# adding the label triggers them immediately.
+-
+-name: Kani Benchmarks
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-    types: [opened, synchronize, reopened, labeled]
+-
+-concurrency:
+-  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+-  cancel-in-progress: true
+-
+-jobs:
+-  end-to-end-bench:
+-    name: End-to-End Benchmarks
+-    if: ${{ contains(github.event.pull_request.labels.*.name, 'Z-EndToEndBenchCI') }}
+-    uses: ./.github/workflows/bench-e2e.yml
+-
+-  compiler-bench:
+-    name: Compiler Benchmarks
+-    if: ${{ contains(github.event.pull_request.labels.*.name, 'Z-CompilerBenchCI') }}
+-    uses: ./.github/workflows/bench-compiler.yml
+diff --git a/.github/workflows/cargo-update.yml b/.github/workflows/cargo-update.yml
+deleted file mode 100644
+index 1873a2ecd..000000000
+--- a/.github/workflows/cargo-update.yml
++++ /dev/null
+@@ -1,51 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt cargo update
+-
+-on:
+-  schedule:
+-    - cron: "30 3 * * Mon" # Run this every Monday at 03:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  pull-requests: write
+-
+-jobs:
+-  create-cargo-update-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The cargo update action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Run cargo update
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          today=$(date +%Y-%m-%d)
+-          echo "today=$today" >> $GITHUB_ENV
+-          if ! git ls-remote --exit-code origin cargo-update-$today ; then
+-            cargo update
+-            cargo build-dev
+-            git diff
+-          fi
+-      - name: Create Pull Request
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade cargo dependencies to ${{ env.today }}
+-          branch: cargo-update-${{ env.today }}
+-          delete-branch: true
+-          title: 'Automatic cargo update to ${{ env.today }}'
+-          body: >
+-            Dependency upgrade resulting from `cargo update`.
+diff --git a/.github/workflows/cbmc-latest.yml b/.github/workflows/cbmc-latest.yml
+deleted file mode 100644
+index 223ec7f96..000000000
+--- a/.github/workflows/cbmc-latest.yml
++++ /dev/null
+@@ -1,123 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# We use block scalar notation to allow us to add ":" to the workflow name.
+-name: >-
+-  Nightly: CBMC Latest
+-
+-permissions:
+-  contents: read
+-
+-on:
+-  schedule:
+-    - cron: "0 9 * * *" # Run this every day at 9 AM UTC (4 AM ET/1 AM PT)
+-  workflow_dispatch:    # Allow manual dispatching for a custom branch / tag.
+-
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  regression:
+-    runs-on: ${{ matrix.os }}
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, ubuntu-22.04, ubuntu-24.04]
+-    steps:
+-      - name: Checkout Kani under "kani"
+-        uses: actions/checkout@v6
+-        with:
+-          path: kani
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./kani/.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-          kani_dir: 'kani'
+-
+-      - name: Checkout CBMC under "cbmc"
+-        uses: actions/checkout@v6
+-        with:
+-          repository: diffblue/cbmc
+-          path: cbmc
+-
+-      - name: Build CBMC (Linux)
+-        if: ${{ startsWith(matrix.os, 'ubuntu') }}
+-        working-directory: ./cbmc
+-        run: |
+-          cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl="minisat2;cadical"
+-          cmake --build build -- -j 4
+-          # Prepend the bin directory to $PATH
+-          echo "${GITHUB_WORKSPACE}/cbmc/build/bin" >> $GITHUB_PATH
+-
+-      - name: Build CBMC (macOS)
+-        if: ${{ startsWith(matrix.os, 'macos') }}
+-        working-directory: ./cbmc
+-        run: |
+-          cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl="minisat2;cadical" -DCMAKE_CXX_COMPILER=$(which clang++)
+-          cmake --build build -- -j 4
+-          # Prepend the bin directory to $PATH
+-          echo "${GITHUB_WORKSPACE}/cbmc/build/bin" >> $GITHUB_PATH
+-
+-      - name: Execute Kani regressions
+-        working-directory: ./kani
+-        run: ./scripts/kani-regression.sh
+-
+-  perf:
+-    runs-on: ubuntu-24.04
+-    # The perf suite is memory-hungry: the s2n-quic harnesses solve large
+-    # formulas, and running them concurrently exhausts a standard runner, which
+-    # shows up as an unattributable SIGTERM (exit 143) or "the hosted runner
+-    # lost communication with the server" a few minutes into the step rather
+-    # than as a test failure. Run serially instead, as kani.yml does. That takes
+-    # ~45 min, so the 180-min step timeout leaves ample headroom, and the job
+-    # timeout sits above (step timeout) x (max_attempts) so a retry can land.
+-    timeout-minutes: 380
+-    steps:
+-      - name: Checkout Kani under "kani"
+-        uses: actions/checkout@v6
+-        with:
+-          path: kani
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./kani/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: 'kani'
+-
+-      - name: Build Kani using release mode
+-        working-directory: ./kani
+-        run: cargo build-dev -- --release
+-
+-      - name: Checkout CBMC under "cbmc"
+-        uses: actions/checkout@v6
+-        with:
+-          repository: diffblue/cbmc
+-          path: cbmc
+-
+-      - name: Build CBMC
+-        working-directory: ./cbmc
+-        run: |
+-          cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl="minisat2;cadical"
+-          cmake --build build -- -j 4
+-          # Prepend the bin directory to $PATH
+-          echo "${GITHUB_WORKSPACE}/cbmc/build/bin" >> $GITHUB_PATH
+-
+-      - name: Execute Kani performance tests
+-        # Run the suite serially and allow one retry, matching the perf job in
+-        # kani.yml. `working-directory` is not valid on a `uses` step, so the
+-        # command changes directory itself.
+-        uses: nick-fields/retry@v4
+-        with:
+-          timeout_minutes: 180
+-          max_attempts: 2
+-          command: cd kani && ./scripts/kani-perf.sh
+-        env:
+-          RUST_TEST_THREADS: 1
+-
+-      - name: Execute Kani performance ignored tests
+-        working-directory: ./kani
+-        continue-on-error: true
+-        run: cargo run -p compiletest -- --suite perf --mode cargo-kani-test ignore --ignored --no-fail-fast
+-        env:
+-          RUST_TEST_THREADS: 1
+diff --git a/.github/workflows/cbmc-update.yml b/.github/workflows/cbmc-update.yml
+deleted file mode 100644
+index 90eea8a06..000000000
+--- a/.github/workflows/cbmc-update.yml
++++ /dev/null
+@@ -1,91 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt CBMC update
+-
+-on:
+-  schedule:
+-    - cron: "30 4 * * Mon" # Run this every Monday at 04:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-cbmc-update-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The CBMC update action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Compare CBMC versions and determine next step
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          grep ^CBMC_VERSION kani-dependencies | sed 's/"//g' >> $GITHUB_ENV
+-          CBMC_LATEST=$(gh -R diffblue/cbmc release list | grep Latest | awk '{print $1}' | cut -f2 -d-)
+-          echo "CBMC_LATEST=$CBMC_LATEST" >> $GITHUB_ENV
+-          # check whether the version has changed at all
+-          if [ x$CBMC_LATEST = x$CBMC_VERSION ] ; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # check whether we already have an existing issue for a failing
+-          # upgrade
+-          elif gh issue list -S \
+-              "CBMC upgrade to $CBMC_LATEST failed" \
+-              --json number,title | grep title ; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # check whether we already have a branch (and thus: a PR) for a
+-          # successful upgrade
+-          elif ! git ls-remote --exit-code origin cbmc-$CBMC_LATEST ; then
+-            CBMC_LATEST_MAJOR=$(echo $CBMC_LATEST | cut -f1 -d.)
+-            CBMC_LATEST_MINOR=$(echo $CBMC_LATEST | cut -f2 -d.)
+-            sed -i "s/^CBMC_MAJOR=.*/CBMC_MAJOR=\"$CBMC_LATEST_MAJOR\"/" kani-dependencies
+-            sed -i "s/^CBMC_MINOR=.*/CBMC_MINOR=\"$CBMC_LATEST_MINOR\"/" kani-dependencies
+-            sed -i "s/^CBMC_VERSION=.*/CBMC_VERSION=\"$CBMC_LATEST\"/" kani-dependencies
+-            git diff
+-            # install the newer CBMC version
+-            ./scripts/setup/ubuntu/install_cbmc.sh
+-            if ! ./scripts/kani-regression.sh ; then
+-              echo "next_step=create_issue" >> $GITHUB_ENV
+-            else
+-              echo "next_step=create_pr" >> $GITHUB_ENV
+-            fi
+-          # we already have a PR, nothing to be done
+-          else
+-            echo "next_step=none" >> $GITHUB_ENV
+-          fi
+-
+-      - name: Create Pull Request
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }}
+-          branch: cbmc-${{ env.CBMC_LATEST }}
+-          delete-branch: true
+-          title: 'Automatic upgrade of CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }}'
+-          body: >
+-            Upgrade CBMC to its latest release.
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        uses: dacbd/create-issue-action@main
+-        with:
+-          token: ${{ github.token }}
+-          title: 'CBMC upgrade to ${{ env.CBMC_LATEST }} failed'
+-          body: >
+-            Updating CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }} failed.
+-
+-            The failed automated run
+-            [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+diff --git a/.github/workflows/charon-update.yml b/.github/workflows/charon-update.yml
+deleted file mode 100644
+index 70ad28901..000000000
+--- a/.github/workflows/charon-update.yml
++++ /dev/null
+@@ -1,93 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt Charon update
+-
+-on:
+-  schedule:
+-    - cron: "30 4 * * Wed" # Run this every Wednesday at 04:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-charon-update-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The Charon update action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Update the Charon pin and determine next step
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: ./scripts/charon_update.sh
+-
+-      - name: Clean untracked files
+-        run: git clean -f
+-
+-      - name: Create Pull Request
+-        id: create_pr
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade Charon from ${{ env.current_charon }} to ${{ env.next_charon }}
+-          branch: charon-${{ env.next_charon }}
+-          delete-branch: true
+-          title: 'Automatic upgrade of Charon from ${{ env.current_charon }} to ${{ env.next_charon }}'
+-          body: |
+-            Update the Charon pin (used by the LLBC backend) from ${{ env.current_charon }} to its
+-            latest tag, ${{ env.next_charon }}. Only the `charon` submodule and `Cargo.lock` change.
+-            `kani-llbc-regression.sh` passed in the
+-            [automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+-
+-            ${{ env.charon_log }}
+-
+-      - name: Point the open failure issue to the PR
+-        if: ${{ steps.create_pr.outputs.pull-request-number && env.failure_issue != '' }}
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-          PR_NUMBER: ${{ steps.create_pr.outputs.pull-request-number }}
+-        run: |
+-          gh issue comment "$failure_issue" --body \
+-            "Charon $next_charon passes the LLBC regression: see #$PR_NUMBER."
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        uses: dacbd/create-issue-action@main
+-        with:
+-          token: ${{ github.token }}
+-          # Keep in sync with `failure_title` in scripts/charon_update.sh.
+-          title: 'Automatic Charon upgrade failed'
+-          body: |
+-            Updating Charon from ${{ env.current_charon }} to ${{ env.next_charon }} requires
+-            source changes: `kani-llbc-regression.sh` failed in the
+-            [automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+-
+-            This issue stays open across Charon tags: later failing attempts add a comment here
+-            rather than filing a new issue. Close it once the pin is updated.
+-
+-            ${{ env.charon_log }}
+-
+-      - name: Comment on the open failure issue
+-        if: ${{ env.next_step == 'comment_issue' }}
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-          BODY: |
+-            Updating Charon from ${{ env.current_charon }} to ${{ env.next_charon }} failed as well:
+-            [automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+-
+-            ${{ env.charon_log }}
+-        run: gh issue comment "$failure_issue" --body "$BODY"
+diff --git a/.github/workflows/deny.yml b/.github/workflows/deny.yml
+deleted file mode 100644
+index c54ce6bbc..000000000
+--- a/.github/workflows/deny.yml
++++ /dev/null
+@@ -1,30 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# 1. Checks licenses for allowed license.
+-# 2. Checks Rust-Sec registry for security advisories.
+-
+-name: Cargo Deny
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    # Run on changes to branches but not tags.
+-    branches:
+-      - '**'
+-
+-jobs:
+-  audit:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - uses: actions/checkout@v6
+-        with:
+-          submodules: recursive
+-      - uses: EmbarkStudios/cargo-deny-action@v2
+-        env:
+-          RUSTUP_TOOLCHAIN: stable
+-        with:
+-          arguments: --all-features --workspace
+-          command-arguments: -s
+diff --git a/.github/workflows/extra_jobs.yml b/.github/workflows/extra_jobs.yml
+deleted file mode 100644
+index 157c5b2d9..000000000
+--- a/.github/workflows/extra_jobs.yml
++++ /dev/null
+@@ -1,51 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Workflow that execute jobs based on the files that were changed or some label configuration.
+-#
+-# The first job in this workflow will auto label the PR, while the following jobs will conditionally
+-# run according to the auto-label result.
+-#
+-# This workflow runs on `pull_request_target` because the labeler needs extra write permission.
+-# Thus, we keep this job minimal, and the only actions used are from the same verified publisher.
+-#
+-# Other jobs should not require extra permissions, so be careful when adding new jobs to not propagate write
+-# permissions.
+-#
+-# Note that this also means that the workflow version run is the one currently in `main`,
+-# not the one from the PR. This is only relevant if a PR is changing this workflow.
+-#
+-# See https://github.com/actions/labeler?tab=readme-ov-file#recommended-permissions for more details.
+-
+-name: Kani Extra
+-permissions:
+-  contents: read
+-on:
+-  pull_request_target:
+-  merge_group:
+-
+-jobs:
+-  # Keep this job minimal since it requires extra permission
+-  auto-label:
+-    name: Auto Label
+-    permissions:
+-      pull-requests: write
+-    outputs:
+-      all-labels: ${{ steps.labeler.outputs.all-labels }}
+-      new-labels: ${{ steps.labeler.outputs.new-labels }}
+-    runs-on: ubuntu-latest
+-    steps:
+-    - name: Checkout Kani
+-      uses: actions/checkout@v6
+-
+-    - name: Label PR
+-      id: labeler
+-      uses: actions/labeler@v7
+-      with:
+-        dot: true
+-
+-  # Note: the label-gated benchmark workflows (bench-pr.yml) used to be
+-  # invoked from here, but they build and run the code proposed in the pull
+-  # request, which must not happen in this workflow's trusted
+-  # `pull_request_target` context. They now trigger on `pull_request`
+-  # events directly.
+diff --git a/.github/workflows/format-check.yml b/.github/workflows/format-check.yml
+deleted file mode 100644
+index 9d21eeb45..000000000
+--- a/.github/workflows/format-check.yml
++++ /dev/null
+@@ -1,60 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-name: Kani Format Check
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    # Not just any push, as that includes tags.
+-    # We don't want to re-trigger this workflow when tagging an existing commit.
+-    branches:
+-      - '**'
+-
+-jobs:
+-  format-check:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Execute copyright check
+-        run: ./scripts/ci/run-copyright-check.sh
+-
+-      # Ignore failures here for now until we can pindown a version.
+-      - name: Check C code formatting
+-        continue-on-error: true
+-        run: ./scripts/run-clang-format.sh -d
+-
+-      - name: Check Python code formatting
+-        run: |
+-          pip3 install --upgrade autopep8
+-          ./scripts/run-autopep8.sh
+-
+-  clippy-check:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: 'Install jq for parsing.'
+-        run: |
+-          sudo apt-get install -y jq
+-
+-      - name: 'Run Clippy'
+-        run: |
+-          cargo clippy --workspace --tests -- -D warnings
+-          RUSTFLAGS="--cfg=kani_sysroot" cargo clippy --workspace -- -D warnings
+-
+-      - name: 'Print Clippy Statistics'
+-        run: |
+-          rm .cargo/config.toml
+-          (cargo clippy --all --message-format=json 2>/dev/null  | \
+-          jq 'select(.message!=null) | .message.code.code' | grep -v '^null$' | \
+-          sort | uniq -c) || true
+diff --git a/.github/workflows/kani.yml b/.github/workflows/kani.yml
+deleted file mode 100644
+index 3e34d8ac3..000000000
+--- a/.github/workflows/kani.yml
++++ /dev/null
+@@ -1,136 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-name: Kani CI
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    # Not just any push, as that includes tags.
+-    # We don't want to re-trigger this workflow when tagging an existing commit.
+-    branches:
+-      - '**'
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  regression:
+-    runs-on: ${{ matrix.os }}
+-    permissions:
+-      contents: read
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, ubuntu-22.04, ubuntu-24.04, macos-15, ubuntu-24.04-arm]
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-
+-      - name: Execute Kani regression
+-        run: ./scripts/kani-regression.sh
+-
+-  benchcomp-tests:
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: read
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Install benchcomp dependencies
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install -y python3-pip
+-          pushd tools/benchcomp && pip3 install -r requirements.txt
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: Build Kani using release mode
+-        run: cargo build-dev -- --release
+-
+-      - name: Run benchcomp unit and regression tests
+-        run: pushd tools/benchcomp && PATH=$(realpath ../../scripts):$PATH test/run
+-
+-  perf:
+-    runs-on: ubuntu-24.04
+-    # The full perf suite runs in ~45 min (matching main): most cases finish in
+-    # seconds; the heaviest, s2n-quic-core, runs 34 harnesses in ~1500s. The
+-    # per-test guardrail in scripts/kani-perf.sh (2400s) sits above that. The
+-    # 180-min step timeout leaves ample headroom over that realistic runtime,
+-    # and the job timeout sits above (step timeout) x (max_attempts) so a retry
+-    # can still land.
+-    timeout-minutes: 380
+-    permissions:
+-      contents: read
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: Execute Kani performance tests
+-        # Retry on infra-driven failures (spot preemption / runner shutdown).
+-        # The script itself bounds per-test wall time, so functional regressions
+-        # surface as normal test failures and are not retried indefinitely.
+-        uses: nick-fields/retry@v4
+-        with:
+-          timeout_minutes: 180
+-          max_attempts: 2
+-          command: ./scripts/kani-perf.sh
+-        env:
+-          RUST_TEST_THREADS: 1
+-
+-  llbc-regression:
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: read
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: Build Kani with Charon
+-        run: cargo build-dev -- --features cprover --features llbc
+-
+-      - name: Run tests
+-        run: ./scripts/kani-llbc-regression.sh
+-
+-  documentation:
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: write
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-        with:
+-          submodules: recursive
+-
+-      - name: Install book dependencies
+-        run: ./scripts/setup/ubuntu/install_doc_deps.sh
+-
+-      # On one OS only, build the documentation, too.
+-      - name: Build Documentation
+-        run: ./scripts/build-docs.sh
+-
+-      # When we're pushed to main branch, only then actually publish the docs.
+-      - name: Publish Documentation
+-        if: ${{ github.event_name == 'push' && startsWith('refs/heads/main', github.ref) }}
+-        uses: JamesIves/github-pages-deploy-action@v4
+-        with:
+-          branch: gh-pages
+-          folder: docs/book/
+-          single-commit: true
+diff --git a/.github/workflows/kani3300-replay.yml b/.github/workflows/kani3300-replay.yml
+new file mode 100644
+index 000000000..18a8af7dd
+--- /dev/null
++++ b/.github/workflows/kani3300-replay.yml
+@@ -0,0 +1,117 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++name: Kani 3300 SEL1-C2 Gate B-prime replay (preparation candidate)
++
++on:
++  workflow_dispatch:
++
++permissions:
++  contents: read
++
++jobs:
++  replay:
++    # Coordinator-owned fork lane only. This candidate is intentionally not dispatchable.
++    if: ${{ false && github.repository == 'Tiramisu-Cake/kani' }}
++    runs-on: ubuntu-24.04
++    # One 60-minute job per row; six serial jobs bound the proposed envelope to 360 minutes.
++    timeout-minutes: 60
++    strategy:
++      fail-fast: false
++      max-parallel: 1
++      matrix:
++        root:
++          - merge-raw-closure-on
++          - merge-profile-closure-on
++          - sort4-closure-on
++          - swap-if-less-closure-on
++          - raw-legal-on
++          - raw-negative-on
++    steps:
++      - name: Checkout CI-only overlay
++        uses: actions/checkout@v6
++        with:
++          path: overlay
++          fetch-depth: 0
++
++      - name: Python-only wrapper preflight
++        working-directory: overlay/scripts/kani3300-replay
++        env:
++          PYTHONDONTWRITEBYTECODE: "1"
++        run: python3 -m unittest -v test_replay.py
++
++      - name: Read exact export revision
++        id: export
++        run: |
++          python3 - <<'PY'
++          import json, os
++          req = json.load(open('overlay/scripts/kani3300-replay/CI-REQUEST.json'))
++          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
++              out.write('sha=' + req['tool_export_sha'] + '\n')
++          PY
++
++      - name: Checkout exact frozen SEL1-C2 export
++        uses: actions/checkout@v6
++        with:
++          ref: ${{ steps.export.outputs.sha }}
++          path: export
++
++      - name: Verify immutable SEL1-C2 source bindings
++        run: python3 overlay/scripts/kani3300-replay/replay.py verify-source --repo export
++
++      - name: Setup pinned Kani dependencies
++        uses: ./export/.github/actions/setup
++        with:
++          os: ubuntu-24.04
++          kani_dir: export
++
++      - name: Build this exact SEL1-C2 checkout
++        working-directory: export
++        run: cargo build-dev -- --release
++
++      - name: Prepare isolated selected std snapshot
++        run: >-
++          python3 overlay/scripts/kani3300-replay/replay.py prepare-std
++          --repo https://github.com/Tiramisu-Cake/verify-rust-std.git
++          --destination "$RUNNER_TEMP/kani3300-std"
++
++      - name: Execute one exact replay row
++        run: >-
++          python3 overlay/scripts/kani3300-replay/replay.py run-root
++          --repo "$GITHUB_WORKSPACE/export"
++          --std "$RUNNER_TEMP/kani3300-std"
++          --root "${{ matrix.root }}"
++          --binary "$GITHUB_WORKSPACE/export/scripts/kani"
++          --out "$RUNNER_TEMP/kani3300-receipt/${{ matrix.root }}"
++
++      - name: Materialize NOT_RUN fallback receipt
++        if: always()
++        env:
++          JOB_STATUS: ${{ job.status }}
++        run: |
++          python3 - <<'PY'
++          import json, os
++          from pathlib import Path
++          out = Path(os.environ['RUNNER_TEMP']) / 'kani3300-receipt' / '${{ matrix.root }}'
++          out.mkdir(parents=True, exist_ok=True)
++          receipt = out / 'receipt.json'
++          if not receipt.exists():
++              receipt.write_text(json.dumps({
++                  'schema': 'kani3300-gateb-prime-receipt-v1',
++                  'root_id': '${{ matrix.root }}',
++                  'outcome': 'UNKNOWN',
++                  'runtime_proof_status': 'NOT_RUN',
++                  'rss': {'max_bytes': None, 'status': 'UNKNOWN'},
++                  'job_status': os.environ['JOB_STATUS'],
++                  'note': 'setup/build/preflight/runner failed before a complete root receipt; no result inferred'
++              }, indent=2, sort_keys=True) + '\n')
++          (out / 'job-status.json').write_text(json.dumps({'status': os.environ['JOB_STATUS']}) + '\n')
++          PY
++
++      - name: Upload bounded receipts and retained failure artifacts
++        if: always()
++        uses: actions/upload-artifact@v4
++        with:
++          name: kani3300-sel1-c2-replay-${{ matrix.root }}
++          path: ${{ runner.temp }}/kani3300-receipt/${{ matrix.root }}/
++          if-no-files-found: error
++          retention-days: 7
+diff --git a/.github/workflows/release.yml b/.github/workflows/release.yml
+deleted file mode 100644
+index f10833e30..000000000
+--- a/.github/workflows/release.yml
++++ /dev/null
+@@ -1,394 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# This workflow will build, and, optionally, release Kani bundles in this order.
+-#
+-# The release will create a draft release and upload the bundles to it, and it will only run when we push a new
+-# release tag (i.e.: tag named `kani-*`).
+-name: Release Bundle
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    branches:
+-      - 'main'
+-    tags:
+-      - kani-*
+-
+-env:
+-  RUST_BACKTRACE: 1
+-  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+-
+-jobs:
+-  build_bundle_macos_x86_64:
+-    name: BuildBundle-MacOs-x86_64
+-    runs-on: macos-15-intel
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: macos-15-intel
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: x86_64-apple-darwin
+-
+-  build_bundle_macos_aarch64:
+-    name: BuildBundle-MacOs-aarch64
+-    runs-on: macos-15
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: macos-15
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: aarch64-apple-darwin
+-
+-  build_bundle_linux_x86_64:
+-    name: BuildBundle-Linux-x86_64
+-    runs-on: ubuntu-22.04
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: x86_64-unknown-linux-gnu
+-
+-  build_bundle_linux_aarch64:
+-    name: BuildBundle-Linux-aarch64
+-    runs-on: ubuntu-24.04-arm
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04-arm
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: aarch64-unknown-linux-gnu
+-
+-  test-use-local-toolchain:
+-    name: TestLocalToolchain
+-    needs: [build_bundle_macos_x86_64, build_bundle_macos_aarch64, build_bundle_linux_x86_64, build_bundle_linux_aarch64]
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, macos-15, ubuntu-22.04, ubuntu-24.04, ubuntu-24.04-arm]
+-        include:
+-        - os: macos-15-intel
+-          rust_target: x86_64-apple-darwin
+-          prev_job: ${{ needs.build_bundle_macos_x86_64.outputs }}
+-        - os: macos-15
+-          rust_target: aarch64-apple-darwin
+-          prev_job: ${{ needs.build_bundle_macos_aarch64.outputs }}
+-        - os: ubuntu-22.04
+-          rust_target: x86_64-unknown-linux-gnu
+-          prev_job: ${{ needs.build_bundle_linux_x86_64.outputs }}
+-        - os: ubuntu-24.04
+-          rust_target: x86_64-unknown-linux-gnu
+-          prev_job: ${{ needs.build_bundle_linux_x86_64.outputs }}
+-        - os: ubuntu-24.04-arm
+-          rust_target: aarch64-unknown-linux-gnu
+-          prev_job: ${{ needs.build_bundle_linux_aarch64.outputs }}
+-    runs-on: ${{ matrix.os }}
+-    steps:
+-      - name: Download bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.bundle }}
+-
+-      - name: Download kani-verifier crate
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.package }}
+-
+-      - name: Check download
+-        run: |
+-          ls -lh .
+-
+-      - name: Get toolchain version used to setup kani
+-        run: |
+-          tar zxvf ${{ matrix.prev_job.bundle }}
+-          DATE=$(cat ./kani-${{ matrix.prev_job.version }}/rust-toolchain-version | cut -d'-' -f2,3,4)
+-          echo "Nightly date: $DATE"
+-          echo "DATE=$DATE" >> $GITHUB_ENV
+-
+-      - name: Install Kani from path
+-        run: |
+-          tar zxvf ${{ matrix.prev_job.package }}
+-          cargo install --locked --path kani-verifier-${{ matrix.prev_job.crate_version }}
+-
+-      - name: Create a custom toolchain directory
+-        run: mkdir -p ${{ github.workspace }}/../custom_toolchain
+-
+-      - name: Fetch the nightly tarball
+-        run: |
+-          echo "Downloading Rust toolchain from rust server."
+-          curl --proto '=https' --tlsv1.2 -O https://static.rust-lang.org/dist/$DATE/rust-nightly-${{ matrix.rust_target }}.tar.gz
+-          tar -xzf rust-nightly-${{ matrix.rust_target }}.tar.gz
+-          ./rust-nightly-${{ matrix.rust_target }}/install.sh --prefix=${{ github.workspace }}/../custom_toolchain
+-
+-      - name: Ensure installation is correct
+-        run: |
+-          cargo kani setup --use-local-bundle ./${{ matrix.prev_job.bundle }} --use-local-toolchain ${{ github.workspace }}/../custom_toolchain/
+-
+-      - name: Ensure that the rustup toolchain is not present
+-        run: |
+-          if [ ! -e "~/.rustup/toolchains/" ]; then
+-            echo "Default toolchain file does not exist. Proceeding with running tests."
+-          else
+-            echo "::error::Default toolchain exists despite not installing."
+-            exit 1
+-          fi
+-
+-      - name: Checkout tests
+-        uses: actions/checkout@v6
+-
+-      - name: Move rust-toolchain file to outside kani
+-        run: |
+-          mkdir -p ${{ github.workspace }}/../post-setup-tests
+-          cp -r tests/cargo-ui ${{ github.workspace }}/../post-setup-tests
+-          cp -r tests/kani/Assert ${{ github.workspace }}/../post-setup-tests
+-          ls ${{ github.workspace }}/../post-setup-tests
+-
+-      - name: Run cargo-kani tests after moving
+-        run: |
+-          for dir in supported-lib-types/rlib multiple-harnesses verbose; do
+-            >&2 echo "Running test $dir"
+-            pushd ${{ github.workspace }}/../post-setup-tests/cargo-ui/$dir
+-            cargo kani
+-            popd
+-          done
+-
+-      - name: Check --help and --version
+-        run: |
+-          >&2 echo "Running cargo kani --help and --version"
+-          pushd ${{ github.workspace }}/../post-setup-tests/Assert
+-          cargo kani --help && cargo kani --version
+-          popd
+-
+-      - name: Run standalone kani test
+-        run: |
+-          >&2 echo "Running test on file bool_ref"
+-          pushd ${{ github.workspace }}/../post-setup-tests/Assert
+-          kani bool_ref.rs
+-          popd
+-
+-  test_bundle:
+-    name: TestBundle
+-    needs: [build_bundle_macos_x86_64, build_bundle_macos_aarch64, build_bundle_linux_x86_64, build_bundle_linux_aarch64]
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, macos-15, ubuntu-22.04, ubuntu-24.04, ubuntu-24.04-arm]
+-        include:
+-          # Stores the output of the previous job conditional to the OS
+-          - prev_job: ${{ needs.build_bundle_linux_x86_64.outputs }}
+-          - os: macos-15-intel
+-            prev_job: ${{ needs.build_bundle_macos_x86_64.outputs }}
+-          - os: macos-15
+-            prev_job: ${{ needs.build_bundle_macos_aarch64.outputs }}
+-          - os: ubuntu-24.04-arm
+-            prev_job: ${{ needs.build_bundle_linux_aarch64.outputs }}
+-    runs-on: ${{ matrix.os }}
+-    steps:
+-      - name: Download bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.bundle }}
+-
+-      - name: Download kani-verifier crate
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.package }}
+-
+-      - name: Check download
+-        run: |
+-          ls -lh .
+-
+-      - name: Install from bundle
+-        run: |
+-          tar zxvf ${{ matrix.prev_job.package }}
+-          cargo install --locked --path kani-verifier-${{ matrix.prev_job.crate_version }}
+-          cargo kani setup --use-local-bundle ./${{ matrix.prev_job.bundle }}
+-
+-      - name: Checkout tests
+-        uses: actions/checkout@v6
+-
+-      - name: Run tests
+-        # TODO: Customize compiletest to run custom kani. For now, just run a few cargo kani tests.
+-        run: |
+-          for dir in simple-lib build-rs-works simple-kissat; do
+-            >&2 echo "Running test $dir"
+-            pushd tests/cargo-kani/$dir
+-            cargo kani
+-            popd
+-          done
+-
+-  kani_release:
+-    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/kani-') }}
+-    name: Release
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: write
+-    needs: [build_bundle_macos_x86_64, build_bundle_macos_aarch64, build_bundle_linux_x86_64, build_bundle_linux_aarch64, test_bundle]
+-    outputs:
+-      version: ${{ steps.versioning.outputs.version }}
+-      upload_url: ${{ steps.create_release.outputs.upload_url }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Get version
+-        run: |
+-          # pkgid is something like file:///home/ubuntu/kani#kani-verifier:0.1.0
+-          echo "CRATE_VERSION=$(cargo pkgid | cut -d@ -f2)" >> $GITHUB_ENV
+-          # GITHUB_REF is something like refs/tags/kani-0.1.0
+-          echo "TAG_VERSION=$(echo ${{ github.ref }} | cut -d "-" -f 2)" >> $GITHUB_ENV
+-
+-      - name: Check Version
+-        id: versioning
+-        run: |
+-          # Validate git tag & Cargo.toml are in sync on version number
+-          if [[ ${{ env.CRATE_VERSION }} != ${{ env.TAG_VERSION }} ]]; then
+-            echo "Git tag ${{env.TAG_VERSION}} did not match crate version ${{env.CRATE_VERSION}}"
+-            exit 1
+-          fi
+-          echo "version=${{ env.TAG_VERSION }}" >> $GITHUB_OUTPUT
+-
+-      - name: Download MacOS bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_macos_x86_64.outputs.bundle }}
+-
+-      - name: Download MacOS ARM bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_macos_aarch64.outputs.bundle }}
+-
+-      - name: Download Linux bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_linux_x86_64.outputs.bundle }}
+-
+-      - name: Download Linux Arm bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_linux_aarch64.outputs.bundle }}
+-
+-      - name: Create release
+-        id: create_release
+-        uses: ncipollo/release-action@v1.21.0
+-        env:
+-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+-        with:
+-          name: kani-${{ env.TAG_VERSION }}
+-          tag: kani-${{ env.TAG_VERSION }}
+-          artifacts: "${{ needs.build_bundle_linux_x86_64.outputs.bundle }},${{ needs.build_bundle_linux_aarch64.outputs.bundle }},${{ needs.build_bundle_macos_x86_64.outputs.bundle }},${{ needs.build_bundle_macos_aarch64.outputs.bundle }}"
+-          body: |
+-            Kani Rust verifier release bundle version ${{ env.TAG_VERSION }}.
+-          draft: true
+-
+-  package_docker:
+-    name: Package Docker
+-    needs: kani_release
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: write
+-      packages: write
+-    env:
+-      os: ubuntu-24.04
+-      target: x86_64-unknown-linux-gnu
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: 'Build release bundle'
+-        run: |
+-          cargo bundle
+-          cargo package -p kani-verifier
+-
+-      - name: 'Login to GitHub Container Registry'
+-        uses: docker/login-action@v4
+-        with:
+-          registry: ghcr.io
+-          username: ${{ github.repository_owner }}
+-          password: ${{ secrets.GITHUB_TOKEN }}
+-
+-      - name: 'Set lower case owner name. Needed for docker push.'
+-        run: |
+-          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+-        env:
+-          OWNER: '${{ github.repository_owner }}'
+-
+-      - name: Build and push
+-        uses: docker/build-push-action@v7
+-        with:
+-          context: .
+-          file: scripts/ci/Dockerfile.bundle-release-24-04
+-          push: true
+-          github-token: ${{ secrets.GITHUB_TOKEN }}
+-          tags: |
+-            ghcr.io/${{ env.OWNER_LC }}/kani-${{ env.os }}:${{ needs.kani_release.outputs.version }}
+-            ghcr.io/${{ env.OWNER_LC }}/kani-${{ env.os }}:latest
+-          labels: |
+-            org.opencontainers.image.source=${{ github.repositoryUrl }}
+-            org.opencontainers.image.version=${{ needs.kani_release.outputs.version }}
+-            org.opencontainers.image.licenses=Apache-2.0 OR MIT
+-
+-      # This check will not work until #1655 is completed.
+-      # - name: Check action and image is updated.
+-      #   uses: ./.
+-      #   with:
+-      #     command: |
+-      #       [[ "$(cargo kani --version)" == 'cargo-kani ${{ needs.Release.outputs.version }}' ]]
+diff --git a/.github/workflows/slow-tests.yml b/.github/workflows/slow-tests.yml
+deleted file mode 100644
+index 54952f59b..000000000
+--- a/.github/workflows/slow-tests.yml
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# We use block scalar notation to allow us to add ":" to the workflow name.
+-name: >-
+-  Nightly: Slow tests
+-
+-permissions:
+-  contents: read
+-
+-on:
+-  schedule:
+-    - cron: "30 5 * * *" # Run this every day at 05:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  regression:
+-    runs-on: ${{ matrix.os }}
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, ubuntu-22.04, ubuntu-24.04]
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-
+-      - name: Build Kani
+-        run: cargo build-dev
+-
+-      - name: Run Kani's slow tests
+-        run: ./scripts/kani-slow-tests.sh
+diff --git a/.github/workflows/toolchain-upgrade.yml b/.github/workflows/toolchain-upgrade.yml
+deleted file mode 100644
+index 55bcdda98..000000000
+--- a/.github/workflows/toolchain-upgrade.yml
++++ /dev/null
+@@ -1,93 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt toolchain update
+-
+-on:
+-  schedule:
+-    - cron: "30 2 * * *" # Run this every day at 02:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-toolchain-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The toolchain upgrade action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Update toolchain config
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          source scripts/toolchain_update.sh
+-
+-      - name: Clean untracked files
+-        run: git clean -f
+-
+-      - name: Create Pull Request
+-        id: create_pr
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade Rust toolchain to nightly-${{ env.next_toolchain_date }}
+-          branch: toolchain-${{ env.next_toolchain_date }}
+-          delete-branch: true
+-          title: 'Automatic toolchain upgrade to nightly-${{ env.next_toolchain_date }}'
+-          body: >
+-            Update Rust toolchain from nightly-${{ env.current_toolchain_date }} to
+-            nightly-${{ env.next_toolchain_date }} without any other source changes.
+-
+-      - name: Add debugging hints
+-        if: ${{ steps.create_pr.outputs.pull-request-number }}
+-        uses: actions/github-script@v9
+-        with:
+-          script: |
+-            github.rest.issues.createComment({
+-              issue_number: ${{ steps.create_pr.outputs.pull-request-number }},
+-              owner: context.repo.owner,
+-              repo: context.repo.repo,
+-              body: `This is an automatically generated pull request. If any of the CI checks fail,
+-                manual intervention is required. In such a case, review the changes at
+-                https://github.com/rust-lang/rust from
+-                https://github.com/rust-lang/rust/commit/${{ env.current_toolchain_hash }} up to
+-                https://github.com/rust-lang/rust/commit/${{ env.next_toolchain_hash }}. The log
+-                for this commit range is:
+-
+-                ` + process.env.git_log
+-            })
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        uses: dacbd/create-issue-action@main
+-        with:
+-          token: ${{ github.token }}
+-          title: 'Toolchain upgrade to nightly-${{ env.next_toolchain_date }} failed'
+-          body: >
+-            Updating Rust toolchain from nightly-${{ env.current_toolchain_date }} to
+-            nightly-${{ env.next_toolchain_date }} requires source changes.
+-
+-            The failed automated run
+-            [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+-
+-            Please review the changes at
+-            https://github.com/rust-lang/rust from
+-            https://github.com/rust-lang/rust/commit/${{ env.current_toolchain_hash }} up to
+-            https://github.com/rust-lang/rust/commit/${{ env.next_toolchain_hash }}. The log
+-            for this commit range is:
+-
+-            ${{ env.git_log }}
+diff --git a/.github/workflows/verify-std-check.yml b/.github/workflows/verify-std-check.yml
+deleted file mode 100644
+index be07976f4..000000000
+--- a/.github/workflows/verify-std-check.yml
++++ /dev/null
+@@ -1,103 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# This workflow will try to build and run the `verify-rust-std` repository.
+-#
+-# This check should be optional, but it has been added to help provide
+-# visibility to when a PR may break the `verify-rust-std` repository.
+-#
+-# We expect toolchain updates to potentially break this workflow in cases where
+-# the version tracked in the `verify-rust-std` is not compatible with newer
+-# versions of the Rust toolchain.
+-#
+-# Changes unrelated to the toolchain should match the current status of main.
+-
+-name: Check Std Verification
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  workflow_call:
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  verify-std:
+-    runs-on: ${{ matrix.os }}
+-    strategy:
+-      matrix:
+-        # Kani does not support windows.
+-        os: [ ubuntu-22.04, macos-15 ]
+-    steps:
+-      - name: Checkout Library
+-        uses: actions/checkout@v6
+-        with:
+-          repository: model-checking/verify-rust-std
+-          path: verify-rust-std
+-          submodules: true
+-
+-      - name: Checkout `Kani`
+-        uses: actions/checkout@v6
+-        with:
+-          path: kani
+-          fetch-depth: 0
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./kani/.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-          kani_dir: kani
+-
+-      - name: Build Kani
+-        working-directory: kani
+-        run: |
+-          cargo build-dev
+-          echo "$(pwd)/scripts" >> $GITHUB_PATH
+-
+-      - name: Run verification with HEAD
+-        id: check-head
+-        working-directory: verify-rust-std
+-        continue-on-error: true
+-        run: |
+-          kani verify-std -Z unstable-options ./library --target-dir ${{ runner.temp }} -Z function-contracts \
+-            -Z mem-predicates -Z loop-contracts --cbmc-args --object-bits 12
+-
+-      # If the head failed, check if it's a new failure.
+-      - name: Checkout BASE
+-        working-directory: kani
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        run: |
+-          BASE_REF=${{ github.event.pull_request.base.sha }}
+-          git checkout ${BASE_REF}
+-
+-      - name: Setup Kani Dependencies BASE
+-        uses: ./kani/.github/actions/setup
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        with:
+-          os: ${{ matrix.os }}
+-          kani_dir: kani
+-
+-      - name: Build Kani BASE
+-        working-directory: kani
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        run: |
+-          cargo build-dev
+-
+-      - name: Run verification with BASE
+-        id: check-base
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        working-directory: verify-rust-std
+-        continue-on-error: true
+-        run: |
+-          kani verify-std -Z unstable-options ./library --target-dir ${{ runner.temp }} -Z function-contracts \
+-            -Z mem-predicates -Z loop-contracts --cbmc-args --object-bits 12
+-
+-      - name: Compare PR results
+-        if: steps.check-head.outcome != 'success' && steps.check-head.outcome != steps.check-base.outcome
+-        run: |
+-          echo "New failure introduced by this change"
+-          echo "HEAD: ${{ steps.check-head.outcome }}"
+-          echo "BASE: ${{ steps.check-base.outcome }}"
+-          exit 1
+-
+diff --git a/.github/workflows/z3-update.yml b/.github/workflows/z3-update.yml
+deleted file mode 100644
+index 486105cd0..000000000
+--- a/.github/workflows/z3-update.yml
++++ /dev/null
+@@ -1,86 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# Opens a PR that bumps `Z3_VERSION` in `kani-dependencies` when Z3 publishes a release. Only the
+-# macOS setup installs that release (Ubuntu uses the distribution's package), so the PR's macOS CI
+-# jobs are what test it; this job only checks that the release has the macOS binaries the setup
+-# script downloads.
+-name: Attempt Z3 update
+-
+-on:
+-  schedule:
+-    - cron: "45 4 * * Mon" # Run this every Monday at 04:45 UTC
+-  workflow_dispatch:
+-
+-permissions:
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-z3-update-pr:
+-    # Restricted to the main repository so that forks do not open update PRs.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Compare Z3 versions and determine next step
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          source kani-dependencies
+-          echo "Z3_VERSION=$Z3_VERSION" >> $GITHUB_ENV
+-          # The latest release that is not a pre-release (Z3 also publishes nightly builds).
+-          Z3_LATEST=$(gh release view -R Z3Prover/z3 --json tagName --jq .tagName | sed 's/^z3-//')
+-          echo "Z3_LATEST=$Z3_LATEST" >> $GITHUB_ENV
+-          assets=$(gh release view -R Z3Prover/z3 "z3-$Z3_LATEST" --json assets --jq '.assets[].name')
+-          # How many open issues already report a failed upgrade to this version. This is its own
+-          # command, not part of the `elif` below, so that a failing `gh` call fails the step
+-          # instead of reading as "no issue".
+-          failure_issues=$(gh issue list -S "Z3 upgrade to $Z3_LATEST failed" --json title --jq length)
+-          if [ "x$Z3_LATEST" = "x$Z3_VERSION" ]; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # A PR or a failure issue for this version already exists.
+-          elif git ls-remote --exit-code origin "z3-$Z3_LATEST" > /dev/null || \
+-              [ "$failure_issues" -gt 0 ]; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # `scripts/setup/macos/install_deps.sh` downloads these two archives.
+-          elif ! echo "$assets" | grep -qx "z3-$Z3_LATEST-arm64-osx-13.3.zip" || \
+-              ! echo "$assets" | grep -qx "z3-$Z3_LATEST-x64-osx-13.3.zip"; then
+-            echo "next_step=create_issue" >> $GITHUB_ENV
+-          else
+-            sed -i "s/^Z3_VERSION=.*/Z3_VERSION=\"$Z3_LATEST\"/" kani-dependencies
+-            git diff
+-            echo "next_step=create_pr" >> $GITHUB_ENV
+-          fi
+-
+-      - name: Create Pull Request
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade Z3 from ${{ env.Z3_VERSION }} to ${{ env.Z3_LATEST }}
+-          branch: z3-${{ env.Z3_LATEST }}
+-          delete-branch: true
+-          title: 'Automatic upgrade of Z3 from ${{ env.Z3_VERSION }} to ${{ env.Z3_LATEST }}'
+-          body: >
+-            Upgrade the Z3 release that the macOS CI jobs install to its latest version. The macOS
+-            regression jobs on this PR are what test it.
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        # Pinned to the commit of v2.0.0, the latest release. `main` has only README changes
+-        # since, and an unpinned third-party action could change under this token.
+-        uses: dacbd/create-issue-action@cdb57ab6ff8862aa09fee2be6ba77a59581921c2 # v2.0.0
+-        with:
+-          token: ${{ github.token }}
+-          title: 'Z3 upgrade to ${{ env.Z3_LATEST }} failed'
+-          body: >
+-            Z3 ${{ env.Z3_LATEST }} does not have the `arm64-osx-13.3` and `x64-osx-13.3` archives
+-            that `scripts/setup/macos/install_deps.sh` downloads, so the pin in `kani-dependencies`
+-            stays at ${{ env.Z3_VERSION }}. Update the asset names in that script, then bump
+-            `Z3_VERSION`.
+-
+-            The automated run
+-            [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+diff --git a/scripts/kani3300-replay/CI-REQUEST.json b/scripts/kani3300-replay/CI-REQUEST.json
+new file mode 100644
+index 000000000..b6ae4d995
+--- /dev/null
++++ b/scripts/kani3300-replay/CI-REQUEST.json
+@@ -0,0 +1,434 @@
++{
++  "authorization": "PREPARATION_ONLY",
++  "dependencies": {
++    "cbmc": "6.11.0",
++    "hash_binding": "PENDING_SEL1_C2_BUILD",
++    "kissat": "4.0.1"
++  },
++  "flags": {
++    "assertion_reachability": "DEFAULT_ON",
++    "cfg_controls": true,
++    "coverage_requested": false,
++    "experimental_valid_value": false,
++    "no_assert_contracts": true,
++    "object_bits": 12,
++    "slicing": "DEFAULT_ON",
++    "solver": "DEFAULT_CADICAL",
++    "standard_checks": "DEFAULTS_ON"
++  },
++  "lane": "EXISTING_COORDINATOR_ONLY",
++  "ledger": null,
++  "library_pin_confirmation": null,
++  "nightly": "nightly-2026-10-23",
++  "notes": {
++    "artifact_policy": "Preserve original exit/signal/RSS and artifacts on failures; proof credit requires review of useful reached checks/body.",
++    "missing_or_truncated": "UNKNOWN",
++    "raw_negative": "Exactly intended source[1] uninitialized u64 read; preserve original exit and manual review, never auto-credit negative.",
++    "rss": "Capture per-child max RSS through wait4; if unavailable record null with UNKNOWN status. Do not wrap or alter Kani argv.",
++    "scope": "Exactly six unique ON rows; sort4-closure-on once. No retries.",
++    "sort4": "Expected SUCCESS,0 failed checks and useful comparator/frame/readback/return properties reached.",
++    "source_binding": "PENDING_FREEZE: regenerate all source file/subtree hashes; old C2/SEL1 receipts are reference only.",
++    "source_overlay": "Apply sel1-test-only.patch once to exact frozen std70ba; validate all five file hashes and base/library identities."
++  },
++  "owner": "COORDINATOR_ASSIGNMENT_REQUIRED",
++  "patched_file_sha256": {
++    "library/core/src/slice/sort/shared/smallsort/verify.rs": "506644ad92ed4872af19bd1d302b439ff5e1d4dd850e9e9f149d429286065a95",
++    "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "22de8b24f6adf35b633b2962d9873a349041a18cca9d580944d2d4a3c9ad0655",
++    "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "b2d71e6e61b4130a95dda6daac3cd5f0970f9daf7b0f7bfa8a9f99d9c3c29844",
++    "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs": "c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1",
++    "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs": "c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39"
++  },
++  "phase": "UNASSIGNED",
++  "preparation_cloud_cap_usd": 0,
++  "proposal": {
++    "aggregate_cap": "360MIN_TOTAL_6_SERIAL_60MIN_JOBS",
++    "aggregate_cap_seconds": 21600,
++    "authorization": "NOT_GRANTED",
++    "harness_cap_seconds": 2400,
++    "job_timeout_minutes": 60,
++    "max_concurrency": 1,
++    "runner": "ubuntu-24.04",
++    "runner_shape": "GitHub-hosted ubuntu-24.04 X64; coordinator only"
++  },
++  "reporting_only_delta_from_organizer": [
++    "-Z export-json",
++    "--export-json <fresh-output>",
++    "--output-format=regular"
++  ],
++  "roots": [
++    {
++      "argv": [
++        "<EXACT_SEL1_C2_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/merge-raw-closure-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/merge-raw-closure-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "NO_COLOR": "1",
++        "RUSTFLAGS": "--cfg kani_smallsort_controls"
++      },
++      "expected_failed_checks": 0,
++      "expected_mode": "Check(bidirectional_merge)",
++      "expected_result": "SUCCESS",
++      "generated_property_binding": null,
++      "id": "merge-raw-closure-on",
++      "oracle": "0 failed Unsupported/uninit/frame/other checks, useful own assertions SUCCESS, required comparator/body/return covers reached.",
++      "required_covers": 5,
++      "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
++      "source_unwind": 34,
++      "state": "NOT_RUN",
++      "status": "NOT_RUN",
++      "uninit": true
++    },
++    {
++      "argv": [
++        "<EXACT_SEL1_C2_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::replay_gateb_prime::merge_profile_closure_scratch48_u8_n9",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/merge-profile-closure-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/merge-profile-closure-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "NO_COLOR": "1",
++        "RUSTFLAGS": "--cfg kani_smallsort_controls"
++      },
++      "expected_failed_checks": 0,
++      "expected_mode": "Check(merge_profile_closure_u8)",
++      "expected_result": "SUCCESS",
++      "generated_property_binding": null,
++      "id": "merge-profile-closure-on",
++      "oracle": "0 failed Unsupported/uninit/frame/other checks, useful own assertions SUCCESS, required comparator/body/return covers reached.",
++      "required_covers": 2,
++      "selector": "slice::sort::shared::smallsort::verify::replay_gateb_prime::merge_profile_closure_scratch48_u8_n9",
++      "source_unwind": 34,
++      "state": "NOT_RUN",
++      "status": "NOT_RUN",
++      "uninit": true
++    },
++    {
++      "argv": [
++        "<EXACT_SEL1_C2_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/sort4-closure-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/sort4-closure-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "NO_COLOR": "1",
++        "RUSTFLAGS": "--cfg kani_smallsort_controls"
++      },
++      "expected_failed_checks": 0,
++      "expected_mode": "Check(sort4_stable)",
++      "expected_result": "SUCCESS",
++      "generated_property_binding": null,
++      "id": "sort4-closure-on",
++      "oracle": "0 failed Unsupported/uninit/frame/other checks, useful own assertions SUCCESS, required comparator/body/return covers reached.",
++      "required_covers": 3,
++      "selector": "slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64",
++      "source_unwind": 16,
++      "state": "NOT_RUN",
++      "status": "NOT_RUN",
++      "uninit": true
++    },
++    {
++      "argv": [
++        "<EXACT_SEL1_C2_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u64_backing4",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/swap-if-less-closure-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/swap-if-less-closure-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "NO_COLOR": "1",
++        "RUSTFLAGS": "--cfg kani_smallsort_controls"
++      },
++      "expected_failed_checks": 0,
++      "expected_mode": "Check(swap_if_less)",
++      "expected_result": "SUCCESS",
++      "generated_property_binding": null,
++      "id": "swap-if-less-closure-on",
++      "oracle": "0 failed checks; helper contract swap frame SUCCESS; comparator true/false, equal/increasing/decreasing positions and normal-return covers SATISFIED.",
++      "required_covers": 6,
++      "selector": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u64_backing4",
++      "source_unwind": 8,
++      "state": "NOT_RUN",
++      "status": "NOT_RUN",
++      "uninit": true
++    },
++    {
++      "argv": [
++        "<EXACT_SEL1_C2_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_all_initialized_u64",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/raw-legal-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/raw-legal-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "NO_COLOR": "1",
++        "RUSTFLAGS": "--cfg kani_smallsort_controls"
++      },
++      "expected_failed_checks": 0,
++      "expected_mode": "Original(sort4_stable)",
++      "expected_result": "SUCCESS",
++      "generated_property_binding": null,
++      "id": "raw-legal-on",
++      "oracle": "Actual sort4 with raw fully initialized src4 and separate MU output; 0 failed checks, entered and return covers reached.",
++      "required_covers": 2,
++      "selector": "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_all_initialized_u64",
++      "source_unwind": 16,
++      "state": "NOT_RUN",
++      "status": "NOT_RUN",
++      "uninit": true
++    },
++    {
++      "argv": [
++        "<EXACT_SEL1_C2_KANI_BINARY>",
++        "verify-std",
++        "-Z",
++        "unstable-options",
++        "./library",
++        "-Z",
++        "function-contracts",
++        "-Z",
++        "mem-predicates",
++        "-Z",
++        "float-lib",
++        "-Z",
++        "c-ffi",
++        "-Z",
++        "loop-contracts",
++        "-Z",
++        "quantifiers",
++        "-Z",
++        "stubbing",
++        "-Z",
++        "export-json",
++        "-Z",
++        "uninit-checks",
++        "--no-assert-contracts",
++        "--harness",
++        "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_hole_negative_u64",
++        "--exact",
++        "--jobs",
++        "1",
++        "--harness-timeout",
++        "2400s",
++        "--target-dir",
++        "<OUTPUT_ROOT>/raw-negative-on/target",
++        "--export-json",
++        "<OUTPUT_ROOT>/raw-negative-on/export.json",
++        "--output-format=regular",
++        "--cbmc-args",
++        "--object-bits",
++        "12"
++      ],
++      "environment": {
++        "NO_COLOR": "1",
++        "RUSTFLAGS": "--cfg kani_smallsort_controls"
++      },
++      "expected_failed_checks": 1,
++      "expected_mode": "Original(sort4_stable)",
++      "expected_result": "FAILURE",
++      "generated_property_binding": null,
++      "id": "raw-negative-on",
++      "oracle": "Exactly one intended uninitialized u64 source[1] read at actual smallsort.rs:751; retain complete failures and trace/source binding. No select Unsupported or early layout/frame/refusal qualifies. Setup/timeout/OOM not expected failure.",
++      "required_covers": null,
++      "selector": "slice::sort::shared::smallsort::verify::replay_uninit_controls::sort4_raw_hole_negative_u64",
++      "source_unwind": 16,
++      "state": "NOT_RUN",
++      "status": "NOT_RUN",
++      "uninit": true
++    }
++  ],
++  "run_budget": {
++    "aggregate_envelope_note": "PREPARATION_ONLY_360_MINUTES_INCLUDING_SETUP_AND_REPORTING; inherited60min job/2400s harness caps, coordinator owns execution",
++    "aggregate_job_envelope": "6 serial jobs x 60 minutes = 360 minutes maximum",
++    "aggregate_job_envelope_seconds": 21600,
++    "harness_cap_seconds": 2400,
++    "jobs": 1,
++    "max_invocations": 6,
++    "max_parallel": 1,
++    "retry_policy": "NONE"
++  },
++  "schema": "kani3300-sel1-c2-replay-request-v1",
++  "selected_library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
++  "slot": null,
++  "status": "PENDING_FREEZE",
++  "test_only_library_tree": "12e87bd4a4e141a8f829d8a0519efc09260c5059",
++  "test_overlay_commit": "6075e7ce17179f45642c9ffe8fe09e3ec9395726",
++  "test_patch_sha256": "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06",
++  "tool_binary_model_hashes": null,
++  "tool_export_sha": "PENDING_SEL1_FREEZE_SHA",
++  "tool_export_tree": "PENDING_SEL1_FREEZE_TREE"
++}
+diff --git a/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json b/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json
+new file mode 100644
+index 000000000..5841ba191
+--- /dev/null
++++ b/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json
+@@ -0,0 +1,59 @@
++{
++  "files_sha256": {
++    ".github/workflows/kani3300-replay.yml": "906d07eddabf8708f5075dfe21b18d6c0e9b1924676b2c650eec2ec45a521196",
++    "scripts/kani3300-replay/CI-REQUEST.json": "c594d607da812e08e91688173ddfa74eb889227557f78f0d16a6b3b20f73d36f",
++    "scripts/kani3300-replay/replay.py": "ffd018d3c131f3e5e0eba2c768d92caa21be98886a254b4d11313c4a5bb70b9c",
++    "scripts/kani3300-replay/sel1-c2-source-binding.json": "ff72ae54bc3b2bb258968c0e7f56119f168eb70a5263aa108ecd9291b30bee59",
++    "scripts/kani3300-replay/sel1-test-only.patch": "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06",
++    "scripts/kani3300-replay/test_replay.py": "6dba1dfc3880f93c75af15dab5327a14d421d920e3975364c164e7f7a1d435df"
++  },
++  "final_source_binding": "PENDING_FREEZE",
++  "formal_proof_credit": "NOT_ESTABLISHED",
++  "local_template_base": "8e299aa6243bc5f06a29c51e98aafa9564478220",
++  "publication": "COORDINATOR_ONLY_AFTER_STAGE_REVIEW",
++  "request_sha256": "c594d607da812e08e91688173ddfa74eb889227557f78f0d16a6b3b20f73d36f",
++  "retry": "NONE",
++  "runtime": "NOT_RUN",
++  "schema": "sel1-c2-unbound-ci-template-v1",
++  "source_binding_coverage": "570 proposed file paths / 7 subtrees, all hash values unresolved; recompute/discover after freeze",
++  "source_sha": null,
++  "source_tree": null,
++  "stage": "replay",
++  "status": "PREPARATION_ONLY",
++  "std": {
++    "author_committer": "Tiramisu-Cake <igkharin@gmail.com>\nTiramisu-Cake <igkharin@gmail.com>",
++    "branch": "prep/kani3300-sel1-swap",
++    "clean": "NOT_REASSERTED_FOR_HISTORICAL_WORKTREE",
++    "clone": "/root/verify-rust-std-kani3300-sel1-swap",
++    "commit": "6075e7ce17179f45642c9ffe8fe09e3ec9395726",
++    "files_sha256": {
++      "library/core/src/slice/sort/shared/smallsort/verify.rs": "506644ad92ed4872af19bd1d302b439ff5e1d4dd850e9e9f149d429286065a95",
++      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "22de8b24f6adf35b633b2962d9873a349041a18cca9d580944d2d4a3c9ad0655",
++      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "b2d71e6e61b4130a95dda6daac3cd5f0970f9daf7b0f7bfa8a9f99d9c3c29844",
++      "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs": "c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1",
++      "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs": "c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39"
++    },
++    "frozen_std": "70ba5befc617627073738e26cb1466bd4fb76e41",
++    "library_tree": "12e87bd4a4e141a8f829d8a0519efc09260c5059",
++    "package_parent": "01d75b8e839c751e7ab679fdaaa5fba6384983b6",
++    "patches_sha256": {
++      "std-sel1-delta.patch": "b01e811f856503a5f9f11883d99245e7ffb1a4d8c399d3dd7e15f6c6d18cbf50",
++      "std-swap-only.patch": "bc4d40a8ef7cf32207456348e76caef91ae6d7426baaac9320da3447b5a8092f",
++      "std-test-only.patch": "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06"
++    },
++    "production_std_changed": false,
++    "raw_control_commit": "6075e7ce17179f45642c9ffe8fe09e3ec9395726",
++    "raw_origin": {
++      "binding_path": "research/challenge-8/kani-k1/kani3300/final-gate/REPLAY-CI-OVERLAY.json",
++      "module_sha256": "c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39",
++      "overlay_commit": "3f0aebb87f325a2f07b6fa6fbcce9315ef713690",
++      "overlay_tree": "bc999547dbd98466255eb9d19b59f4cc5382110a",
++      "patch_sha256": "f2689c76720e95f98a88bdd17a2bf4cf13a7348d40dedcf9c009aa0b20db0df5",
++      "reused_module_verbatim": true,
++      "source_path": "research/challenge-8/kani-k1/kani3300/final-gate/replay-test-only.patch"
++    },
++    "status": "HISTORICAL_TEST_ONLY_INPUT_REUSED_NEW_RUNTIME_NOT_RUN",
++    "swap_commit": "da47945f47c6d61e6e207a749299a74f840a01f0",
++    "tree": "a7795c5a49a4f3f00b774356c0ae3fb2a89c6825"
++  }
++}
+diff --git a/scripts/kani3300-replay/replay.py b/scripts/kani3300-replay/replay.py
+new file mode 100644
+index 000000000..9dcfc637f
+--- /dev/null
++++ b/scripts/kani3300-replay/replay.py
+@@ -0,0 +1,443 @@
++#!/usr/bin/env python3
++"""Preparation and bounded execution receipts for the Kani 3300 Gate B-prime replay.
++
++This file deliberately records observations without assigning proof credit.
++Every root stays UNKNOWN until a reviewer binds useful checks and the selected
++Check body or expected boundary to the generated artifact.
++"""
++
++from __future__ import annotations
++
++import argparse
++import hashlib
++import json
++import os
++from pathlib import Path
++import shutil
++import signal
++import subprocess
++import sys
++import time
++from typing import Any
++
++
++HERE = Path(__file__).resolve().parent
++REQUEST = HERE / "CI-REQUEST.json"
++SOURCE_BINDING = HERE / "sel1-c2-source-binding.json"
++PATCH = HERE / "sel1-test-only.patch"
++SEL1_C2_SHA = "PENDING_SEL1_FREEZE_SHA"
++SEL1_C2_TREE = "PENDING_SEL1_FREEZE_TREE"
++STD_SHA = "70ba5befc617627073738e26cb1466bd4fb76e41"
++STD_TREE = "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f"
++STD_COMMIT_TREE = "84ab170ccdcc29fba69e55e0a46e6acdf52d9704"
++PATCH_SHA = "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06"
++REQUEST_SHA = "c594d607da812e08e91688173ddfa74eb889227557f78f0d16a6b3b20f73d36f"
++ROOT_CAP_SECONDS = 2400
++INVALID_EXPORT_STATES = {
++    "MISSING", "EMPTY", "INVALID_OR_PARTIAL", "NULL", "WRONG_TOP_LEVEL_TYPE",
++    "WRONG_SOURCE_OR_SELECTOR",
++}
++PATCHED_FILE_HASHES = {'library/core/src/slice/sort/shared/smallsort/verify.rs': '506644ad92ed4872af19bd1d302b439ff5e1d4dd850e9e9f149d429286065a95', 'library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs': '22de8b24f6adf35b633b2962d9873a349041a18cca9d580944d2d4a3c9ad0655', 'library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs': 'b2d71e6e61b4130a95dda6daac3cd5f0970f9daf7b0f7bfa8a9f99d9c3c29844', 'library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs': 'c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1', 'library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs': 'c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39'}
++PINNED_RUST_TOOLCHAIN = "nightly-2026-10-23"
++
++
++def sha256(path: Path) -> str:
++    h = hashlib.sha256()
++    with path.open("rb") as f:
++        for chunk in iter(lambda: f.read(1024 * 1024), b""):
++            h.update(chunk)
++    return h.hexdigest()
++
++
++def write_json_atomic(path: Path, value: dict[str, Any]) -> None:
++    temporary = path.with_suffix(path.suffix + ".tmp")
++    temporary.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
++    os.replace(temporary, path)
++
++
++def root_exit_code(receipt: dict[str, Any]) -> int:
++    """Return the child's positive exit unchanged; never treat malformed exports as success."""
++    code = receipt.get("original_exit_code")
++    if isinstance(code, int) and code > 0:
++        return code
++    if (code is None or code < 0 or receipt.get("timed_out") or receipt.get("runner_error") or
++            receipt.get("export", {}).get("state") in INVALID_EXPORT_STATES or
++            receipt.get("postprocessing_state") != "COMPLETE"):
++        return 1
++    rss = receipt.get("rss", {})
++    if rss.get("status") != "OBSERVED_WAIT4_LINUX_RU_MAXRSS" or not isinstance(rss.get("max_bytes"), int):
++        return 1
++    validation = receipt.get("post_run_validation", {})
++    source = validation.get("sel1_c2_source_valid", {})
++    if source.get("valid") is False or validation.get("std_test_only_overlay_valid") is False:
++        return 1
++    return 0
++
++
++def persist_then_postprocess(path: Path, receipt: dict[str, Any], stage: dict[str, str], postprocess) -> dict[str, Any]:
++    """Durably save execution evidence before any fallible receipt enrichment."""
++    receipt["postprocessing_state"] = "INCOMPLETE"
++    write_json_atomic(path, receipt)
++    try:
++        receipt.update(postprocess())
++        receipt["postprocessing_state"] = "COMPLETE"
++    except Exception as e:
++        receipt["postprocessing_state"] = "INCOMPLETE"
++        receipt["postprocessing_error"] = {"stage": stage["name"], "type": type(e).__name__, "message": str(e)}
++    write_json_atomic(path, receipt)
++    return receipt
++
++
++def load_request() -> dict[str, Any]:
++    if sha256(REQUEST) != REQUEST_SHA:
++        raise ValueError("embedded request SHA-256 mismatch")
++    if sha256(PATCH) != PATCH_SHA:
++        raise ValueError("embedded test patch SHA-256 mismatch")
++    req = json.loads(REQUEST.read_text())
++    if req.get("tool_export_sha") != SEL1_C2_SHA or req.get("tool_export_tree") != SEL1_C2_TREE:
++        raise ValueError("request does not pin the frozen C2 source")
++    if req.get("selected_library_tree") != STD_TREE or len(req.get("roots", [])) != 6:
++        raise ValueError("request library pin or exact 6-root inventory mismatch")
++    expected_ids = {'sort4-closure-on', 'swap-if-less-closure-on', 'raw-negative-on', 'raw-legal-on', 'merge-profile-closure-on', 'merge-raw-closure-on'}
++    if {r.get("id") for r in req["roots"]} != expected_ids:
++        raise ValueError("request row allowlist mismatch")
++    if (req.get("authorization") != "PREPARATION_ONLY" or
++            req.get("run_budget", {}).get("max_invocations") != 6 or
++            req.get("run_budget", {}).get("retry_policy") != "NONE" or
++            req.get("run_budget", {}).get("jobs") != 1 or
++            req.get("run_budget", {}).get("max_parallel") != 1):
++        raise ValueError("request exceeds bounded preparation caps")
++    if req.get("test_patch_sha256") != PATCH_SHA:
++        raise ValueError("request test patch hash differs from wrapper")
++    if req.get("patched_file_sha256") != PATCHED_FILE_HASHES:
++        raise ValueError("request patched file hashes differ from wrapper")
++    if len({r["selector"] for r in req["roots"]}) != 6:
++        raise ValueError("duplicate exact selector")
++    flags = req.get("flags", {})
++    budget = req.get("run_budget", {})
++    if (flags.get("object_bits") != 12 or flags.get("experimental_valid_value") is not False or
++            flags.get("cfg_controls") is not True or budget.get("harness_cap_seconds") != ROOT_CAP_SECONDS or
++            budget.get("aggregate_job_envelope_seconds", ROOT_CAP_SECONDS + 1) > 21600):
++        raise ValueError("request flags or time caps exceed authorized bounds")
++    if any(r.get("status") != "NOT_RUN" or r.get("generated_property_binding") is not None for r in req["roots"]):
++        raise ValueError("request must remain NOT_RUN with unbound generated properties")
++    return req
++
++
++def git(repo: Path, *args: str) -> str:
++    p = subprocess.run(["git", "-C", str(repo), *args], check=True, text=True,
++                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++    return p.stdout.strip()
++
++
++def verify_source(repo: Path) -> dict[str, Any]:
++    """Check C2 by immutable git object IDs, even when overlay files are present."""
++    req = load_request()
++    binding = json.loads(SOURCE_BINDING.read_text())
++    if binding.get("state") != "SEL1_C2_FROZEN":
++        raise ValueError("PENDING_FREEZE: source binding is not finalized")
++    if binding.get("export_sha") != SEL1_C2_SHA or binding.get("export_tree") != SEL1_C2_TREE:
++        raise ValueError("source binding does not identify C2")
++    if git(repo, "cat-file", "-t", SEL1_C2_SHA) != "commit":
++        raise ValueError("frozen C2 commit object is unavailable")
++    if git(repo, "rev-parse", f"{SEL1_C2_SHA}^{{tree}}") != SEL1_C2_TREE:
++        raise ValueError("frozen C2 tree mismatch")
++    head = git(repo, "rev-parse", "HEAD")
++    if head != SEL1_C2_SHA:
++        raise ValueError("build source checkout must be the exact frozen C2 commit")
++    if git(repo, "status", "--porcelain"):
++        raise ValueError("frozen C2 export checkout must be clean")
++    actual_files = {}
++    for rel, expected in binding["files"].items():
++        # git show is text-safe here but hashes must be over exact bytes.
++        data = subprocess.run(["git", "-C", str(repo), "show", f"{SEL1_C2_SHA}:{rel}"],
++                              check=True, stdout=subprocess.PIPE).stdout
++        digest = hashlib.sha256(data).hexdigest()
++        if digest != expected:
++            raise ValueError(f"C2 bound source mismatch: {rel}")
++        actual_files[rel] = digest
++    for rel, expected in binding["subtrees"].items():
++        if git(repo, "rev-parse", f"{SEL1_C2_SHA}:{rel}") != expected:
++            raise ValueError(f"C2 bound subtree mismatch: {rel}")
++    return {"sel1_c2_sha": SEL1_C2_SHA, "sel1_c2_tree": SEL1_C2_TREE, "bound_files": len(actual_files),
++            "bound_subtrees": len(binding["subtrees"]), "request_sha256": sha256(REQUEST),
++            "std_commit": STD_SHA, "std_tree": STD_TREE, "patch_sha256": sha256(PATCH),
++            "test_overlay_tree": req["test_only_library_tree"], "proof_status": "NOT_RUN"}
++
++
++def prepare_std(repo: str, destination: Path) -> dict[str, Any]:
++    """Create an isolated std checkout, pin exact base, then apply only test patch."""
++    if destination.exists() and any(destination.iterdir()):
++        raise ValueError(f"refusing to reuse non-empty std checkout: {destination}")
++    destination.parent.mkdir(parents=True, exist_ok=True)
++    if not destination.exists():
++        destination.mkdir()
++    subprocess.run(["git", "clone", "--no-hardlinks", str(repo), str(destination)], check=True)
++    git(destination, "checkout", "--detach", STD_SHA)
++    # std needs its submodules (e.g. library/backtrace, library/stdarch) to build.
++    subprocess.run(["git", "-C", str(destination), "submodule", "update", "--init", "--depth", "1"], check=True)
++    if git(destination, "rev-parse", "HEAD^{tree}") != STD_COMMIT_TREE:
++        raise ValueError("selected std snapshot commit tree mismatch")
++    if git(destination, "rev-parse", "HEAD:library") != STD_TREE:
++        raise ValueError("selected std library subtree mismatch")
++    subprocess.run(["git", "-C", str(destination), "apply", "--check", str(PATCH)], check=True)
++    subprocess.run(["git", "-C", str(destination), "apply", str(PATCH)], check=True)
++    status = subprocess.run(["git", "-C", str(destination), "status", "--porcelain=v1", "-z"],
++                            check=True, stdout=subprocess.PIPE).stdout
++    changed = [entry[3:].decode() for entry in status.split(b"\0") if entry]
++    expected = sorted(PATCHED_FILE_HASHES)
++    if sorted(changed) != sorted(expected):
++        raise ValueError(f"test overlay changed unexpected std paths: {changed}")
++    for rel, digest in PATCHED_FILE_HASHES.items():
++        if sha256(destination / rel) != digest:
++            raise ValueError(f"patched std source byte mismatch: {rel}")
++    return {"base_commit": STD_SHA, "base_commit_tree": STD_COMMIT_TREE,
++            "library_tree": STD_TREE, "patch_sha256": sha256(PATCH),
++            "changed_paths": sorted(changed), "production_source_changed": False,
++            "status": "PREPARED_NOT_RUN"}
++
++
++def parse_export(path: Path, expected_selector: str) -> dict[str, Any]:
++    """Validate the export envelope only; never infer proof or boundary credit."""
++    if not path.exists():
++        return {"state": "MISSING", "outcome": "UNKNOWN"}
++    try:
++        raw = path.read_bytes()
++        if not raw:
++            return {"state": "EMPTY", "outcome": "UNKNOWN"}
++        value = json.loads(raw)
++    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as e:
++        return {"state": "INVALID_OR_PARTIAL", "error": str(e), "outcome": "UNKNOWN"}
++    if value is None:
++        return {"state": "NULL", "outcome": "UNKNOWN"}
++    if not isinstance(value, dict):
++        return {"state": "WRONG_TOP_LEVEL_TYPE", "observed_type": type(value).__name__, "outcome": "UNKNOWN"}
++    # Export schema and harness identity vary across supported Kani builds.
++    # A missing or mismatched recognizable identity is a gap, never a pass.
++    selectors = []
++    for key in ("harness", "selector", "function", "name"):
++        v = value.get(key)
++        if isinstance(v, str):
++            selectors.append(v)
++    if selectors and expected_selector not in selectors:
++        return {"state": "WRONG_SOURCE_OR_SELECTOR", "observed": selectors, "outcome": "UNKNOWN"}
++    return {"state": "UNVALIDATED_JSON_OBJECT", "selector_identity": selectors or None,
++            "outcome": "UNKNOWN", "generated_property_binding": None,
++            "review_required": ["selected Check body", "useful reached checks/ensures and covers",
++                                "complete artifact coverage; no proof credit from this envelope parse"] +
++                               (["sort4 expected boundary: exactly one named select_unpredictable Unsupported at library/core/src/hint.rs:871"]
++                                if expected_selector.endswith("helper_contracts::sort4_safety_u64") else [])}
++
++
++def execute(argv: list[str], cwd: Path, env: dict[str, str], out: Path,
++            timeout_seconds: float = ROOT_CAP_SECONDS) -> dict[str, Any]:
++    """Run one exact child argv and retain its exit, signal, timeout and wait4 RSS."""
++    started = time.time()
++    result: dict[str, Any] = {"started_unix": started, "original_exit_code": None,
++                              "timed_out": False, "runner_error": None, "signal": None,
++                              "rss_max_bytes": None, "rss_status": "UNKNOWN"}
++
++    def wait4_until(pid: int, deadline: float):
++        while True:
++            try:
++                got, status, usage = os.wait4(pid, os.WNOHANG)
++            except InterruptedError:
++                continue
++            if got == pid:
++                return status, usage
++            if time.monotonic() >= deadline:
++                return None
++            time.sleep(min(0.05, max(0.001, deadline - time.monotonic())))
++
++    try:
++        with (out / "stdout.log").open("wb") as stdout, (out / "stderr.log").open("wb") as stderr:
++            p = subprocess.Popen(argv, cwd=cwd, env=env, stdout=stdout, stderr=stderr,
++                                 start_new_session=True)
++            waited = wait4_until(p.pid, time.monotonic() + timeout_seconds)
++            if waited is None:
++                result["timed_out"] = True
++                result["runner_error"] = f"{timeout_seconds:g} second cap elapsed; process group terminated"
++                os.killpg(p.pid, signal.SIGTERM)
++                waited = wait4_until(p.pid, time.monotonic() + 5)
++                if waited is None:
++                    os.killpg(p.pid, signal.SIGKILL)
++                    while True:
++                        try:
++                            _, status, usage = os.wait4(p.pid, 0)
++                            break
++                        except InterruptedError:
++                            continue
++                    waited = (status, usage)
++            status, usage = waited
++            code = os.waitstatus_to_exitcode(status)
++            p.returncode = code
++            result["original_exit_code"] = code
++            result["rss_max_bytes"] = int(usage.ru_maxrss * 1024)
++            result["rss_status"] = "OBSERVED_WAIT4_LINUX_RU_MAXRSS"
++            if code < 0:
++                result["signal"] = -code
++    except OSError as e:
++        result["runner_error"] = f"runner_exec_or_wait_error: {e}"
++    except subprocess.SubprocessError as e:
++        result["runner_error"] = f"runner_subprocess_error: {e}"
++    result["elapsed_seconds"] = round(time.time() - started, 3)
++    for name in ("stdout.log", "stderr.log"):
++        pth = out / name
++        result[name.replace(".log", "_sha256")] = sha256(pth) if pth.exists() else None
++        result[name.replace(".log", "_bytes")] = pth.stat().st_size if pth.exists() else 0
++    return result
++
++
++def runtime_inventory(repo: Path, binary: Path) -> dict[str, Any]:
++    """Capture build/runtime identities without assigning model or proof credit."""
++    def command_version(argv: list[str]) -> dict[str, Any]:
++        try:
++            p = subprocess.run(argv, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
++                               text=True, timeout=15, check=False)
++            return {"argv": argv, "exit_code": p.returncode, "output": p.stdout[:4096]}
++        except (OSError, subprocess.SubprocessError) as e:
++            return {"argv": argv, "error": str(e)}
++
++    def identity(path: Path | None) -> dict[str, Any]:
++        if path is None or not path.is_file():
++            return {"path": str(path) if path else None, "available": False}
++        return {"path": str(path), "available": True, "sha256": sha256(path), "bytes": path.stat().st_size}
++
++    driver = repo / "target/kani/bin/kani-driver"
++    tool_identities = {}
++    for name in ("cbmc", "kissat"):
++        found = shutil.which(name)
++        tool_identities[name] = {"binary": identity(Path(found) if found else None),
++                                 "version": command_version([found, "--version"]) if found else None}
++    try:
++        rustc_path = subprocess.run(["rustup", "which", "--toolchain", PINNED_RUST_TOOLCHAIN, "rustc"],
++                                    check=True, stdout=subprocess.PIPE, text=True, timeout=15).stdout.strip()
++    except (OSError, subprocess.SubprocessError):
++        rustc_path = None
++    tool_identities["rustc"] = {"binary": identity(Path(rustc_path) if rustc_path else None),
++                                 "version": command_version([rustc_path, "--version", "--verbose"]) if rustc_path else None,
++                                 "toolchain": PINNED_RUST_TOOLCHAIN}
++    kani_tree = repo / "target/kani"
++    kani_files = {}
++    total_bytes = 0
++    if kani_tree.is_dir():
++        for p in sorted(kani_tree.rglob("*")):
++            if p.is_file():
++                rel = p.relative_to(repo).as_posix()
++                kani_files[rel] = sha256(p)
++                total_bytes += p.stat().st_size
++    return {
++        "kani_wrapper": command_version([str(binary), "--version"]),
++        "kani_driver": identity(driver),
++        "dependencies_manifest": identity(repo / "kani-dependencies"),
++        "rust_toolchain_manifest": identity(repo / "rust-toolchain.toml"),
++        "tools": tool_identities,
++        "target_kani_file_hashes": kani_files,
++        "target_kani_file_count": len(kani_files),
++        "target_kani_total_bytes": total_bytes,
++        "target_kani_directory_available": kani_tree.is_dir()
++    }
++
++
++def run_root(repo: Path, std: Path, root_id: str, binary: Path, out: Path) -> dict[str, Any]:
++    req = load_request()
++    row = next((r for r in req["roots"] if r["id"] == root_id), None)
++    if row is None:
++        raise ValueError(f"root is not one of the exact request rows: {root_id}")
++    source_identity = verify_source(repo)
++    if (git(std, "rev-parse", "HEAD") != STD_SHA or
++            git(std, "rev-parse", "HEAD:library") != STD_TREE):
++        raise ValueError("std checkout is not the selected base commit")
++    status = subprocess.run(["git", "-C", str(std), "status", "--porcelain=v1", "-z"],
++                            check=True, stdout=subprocess.PIPE).stdout
++    changed_paths = [entry[3:].decode() for entry in status.split(b"\0") if entry]
++    expected_paths = sorted(PATCHED_FILE_HASHES)
++    if sorted(changed_paths) != sorted(expected_paths):
++        raise ValueError(f"std checkout must contain only the exact test-only overlay paths: {changed_paths}")
++    std_file_hashes = {rel: sha256(std / rel) for rel in expected_paths}
++    if std_file_hashes != PATCHED_FILE_HASHES:
++        raise ValueError("std checkout patched source bytes do not match the embedded exact test overlay")
++    if not binary.is_file() or not os.access(binary, os.X_OK):
++        raise ValueError("exact built Kani executable is missing or not executable")
++    out.mkdir(parents=True, exist_ok=False)
++    argv = [str(binary) if x == "<EXACT_SEL1_C2_KANI_BINARY>" else x for x in row["argv"]]
++    argv = [x.replace("<OUTPUT_ROOT>", str(out.parent)) for x in argv]
++    env = os.environ.copy()
++    env.update(row["environment"])
++    execution = execute(argv, std, env, out)
++    export = out / "export.json"
++    receipt = {
++        "schema": "kani3300-replay-receipt-v1", "root_id": root_id,
++        "request_sha256": sha256(REQUEST), "sel1_c2_sha": SEL1_C2_SHA, "sel1_c2_tree": SEL1_C2_TREE,
++        "source_identity": source_identity,
++        "std_base_commit": STD_SHA, "std_base_commit_tree": STD_COMMIT_TREE,
++        "std_library_tree": STD_TREE, "test_patch_sha256": sha256(PATCH),
++        "argv": argv, "environment": {k: env.get(k) for k in row["environment"]},
++        "expected_result": row["expected_result"], "expected_mode": row["expected_mode"],
++        "rss": {"max_bytes": execution.pop("rss_max_bytes"),
++                "status": execution.pop("rss_status")},
++        **execution,
++        "export": {"state": "PENDING_PARSE", "outcome": "UNKNOWN"},
++        "runtime_identity_file": "runtime-identities.json",
++        "outcome": "UNKNOWN", "generated_property_binding": None,
++        "runtime_proof_status": "NOT_RUN_UNTIL_REVIEWED",
++        "postprocessing_state": "INCOMPLETE",
++    }
++    receipt_path = out / "receipt.json"
++    stage = {"name": "export-parse"}
++
++    def postprocess():
++        receipt["export"] = parse_export(export, row["selector"])
++        stage["name"] = "runtime-inventory"
++        runtime = runtime_inventory(repo, binary)
++        write_json_atomic(out / "runtime-identities.json", runtime)
++        stage["name"] = "post-run-source-validation"
++        try:
++            post_source = verify_source(repo)
++            post_source_state = {"valid": True, "identity": post_source}
++        except (OSError, ValueError, subprocess.CalledProcessError) as e:
++            post_source_state = {"valid": False, "error": str(e)}
++        stage["name"] = "post-run-std-validation"
++        post_std_status = subprocess.run(["git", "-C", str(std), "status", "--porcelain=v1", "-z"],
++                                         check=True, stdout=subprocess.PIPE).stdout
++        post_std_paths = [entry[3:].decode() for entry in post_std_status.split(b"\0") if entry]
++        post_std_hashes = {rel: sha256(std / rel) for rel in expected_paths if (std / rel).is_file()}
++        post_std_valid = sorted(post_std_paths) == sorted(expected_paths) and post_std_hashes == PATCHED_FILE_HASHES
++        return {
++            "export": receipt["export"],
++            "post_run_validation": {
++                "sel1_c2_source_valid": post_source_state,
++                "std_overlay_paths": sorted(post_std_paths),
++                "std_overlay_sha256": post_std_hashes,
++                "std_test_only_overlay_valid": post_std_valid,
++            },
++            "runtime_identity_file": "runtime-identities.json",
++        }
++
++    persist_then_postprocess(receipt_path, receipt, stage, postprocess)
++    return receipt
++
++
++def main() -> int:
++    parser = argparse.ArgumentParser()
++    sub = parser.add_subparsers(dest="command", required=True)
++    v = sub.add_parser("verify-source"); v.add_argument("--repo", type=Path, default=Path.cwd())
++    p = sub.add_parser("prepare-std"); p.add_argument("--repo", type=str, required=True); p.add_argument("--destination", type=Path, required=True)
++    r = sub.add_parser("run-root"); r.add_argument("--repo", type=Path, required=True); r.add_argument("--std", type=Path, required=True); r.add_argument("--root", required=True); r.add_argument("--binary", type=Path, required=True); r.add_argument("--out", type=Path, required=True)
++    args = parser.parse_args()
++    try:
++        if args.command == "verify-source": result = verify_source(args.repo)
++        elif args.command == "prepare-std": result = prepare_std(args.repo, args.destination)
++        else:
++            result = run_root(args.repo, args.std, args.root, args.binary, args.out)
++            print(json.dumps(result, indent=2, sort_keys=True))
++            return root_exit_code(result)
++        print(json.dumps(result, indent=2, sort_keys=True))
++        return 0
++    except (OSError, ValueError, subprocess.CalledProcessError, json.JSONDecodeError) as e:
++        print(f"replay preparation/execution error: {e}", file=sys.stderr)
++        return 2
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/scripts/kani3300-replay/sel1-c2-source-binding.json b/scripts/kani3300-replay/sel1-c2-source-binding.json
+new file mode 100644
+index 000000000..6aa22bae4
+--- /dev/null
++++ b/scripts/kani3300-replay/sel1-c2-source-binding.json
+@@ -0,0 +1,588 @@
++{
++  "acceptance_assurance": "PENDING_FREEZE; historical receipts confer no acceptance",
++  "export_sha": "PENDING_SEL1_FREEZE_SHA",
++  "export_tree": "PENDING_SEL1_FREEZE_TREE",
++  "files": {
++    ".cargo/config.toml": "PENDING_SOURCE_SHA256",
++    ".github/actions/setup/action.yml": "PENDING_SOURCE_SHA256",
++    ".github/workflows/kani.yml": "PENDING_SOURCE_SHA256",
++    "Cargo.lock": "PENDING_SOURCE_SHA256",
++    "docs/src/rust-feature-support.md": "PENDING_SOURCE_SHA256",
++    "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs": "PENDING_SOURCE_SHA256",
++    "kani-compiler/src/kani_middle/mod.rs": "PENDING_SOURCE_SHA256",
++    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs": "PENDING_SOURCE_SHA256",
++    "kani-compiler/src/kani_middle/reachability.rs": "PENDING_SOURCE_SHA256",
++    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs": "PENDING_SOURCE_SHA256",
++    "kani-dependencies": "PENDING_SOURCE_SHA256",
++    "library/kani_core/src/mem.rs": "PENDING_SOURCE_SHA256",
++    "library/kani_core/src/mem_init.rs": "PENDING_SOURCE_SHA256",
++    "rust-toolchain.toml": "PENDING_SOURCE_SHA256",
++    "scripts/cargo-kani": "PENDING_SOURCE_SHA256",
++    "scripts/kani": "PENDING_SOURCE_SHA256",
++    "scripts/kani-regression.sh": "PENDING_SOURCE_SHA256",
++    "scripts/setup/install_kissat.sh": "PENDING_SOURCE_SHA256",
++    "scripts/setup/install_rustup.sh": "PENDING_SOURCE_SHA256",
++    "scripts/setup/ubuntu-24.04": "PENDING_SOURCE_SHA256",
++    "scripts/setup/ubuntu/install_cbmc.sh": "PENDING_SOURCE_SHA256",
++    "scripts/setup/ubuntu/install_deps.sh": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/access-padding-uninit/access-padding-enum-diverging-variants.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/access-padding-uninit/access-padding-enum-diverging-variants.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/access-padding-uninit/access-padding-enum-multiple-variants.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/access-padding-uninit/access-padding-enum-multiple-variants.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/access-padding-uninit/access-padding-enum-single-field.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/access-padding-uninit/access-padding-enum-single-field.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/access-padding-uninit/access-padding-enum-single-variant.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/access-padding-uninit/access-padding-enum-single-variant.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/access-padding-uninit/access-padding-uninit.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/access-padding-uninit/access-padding-uninit.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/access-padding-via-cast/access-padding-via-cast.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/access-padding-via-cast/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/access-static-padding.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/access-static-padding.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/alloc-to-slice/alloc-to-slice.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/alloc-to-slice/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/atomic/atomic.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/atomic/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-upvars/holes.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-upvars/holes.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-upvars/layout.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-upvars/layout.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-upvars/ordinary.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-upvars/ordinary.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-aligned-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-aligned-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-aligned-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-aligned-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-mu-reference-new.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-mu-reference-new.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-mu-reference-uninit.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-mu-reference-uninit.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-mu-value-new.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-mu-value-new.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-mu-value-uninit.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-mu-value-uninit.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-padded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-padded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-raw-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-raw-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-raw-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-raw-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-reference-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-reference-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-reference-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-reference-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-scalar.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-scalar.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-union-reference.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-union-reference.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-union-value.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-union-value.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-unit-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-unit-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-unit-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/capture-unit-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/scalar-pfc-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/scalar-pfc-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/scalar-pfc-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-modes/recursive-check.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-modes/recursive-check.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-modes/recursive-ordinary.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-modes/recursive-ordinary.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-modes/recursive-simple-check.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-modes/recursive-simple-check.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-modes/replace-ordinary.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-modes/replace-ordinary.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-modes/replace-simple-check.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-modes/replace-simple-check.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-modes/replace-transfer.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/contract-modes/replace-transfer.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy-source-arguments/arg0-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy-source-arguments/arg0-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy-source-arguments/arg0-initialized.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy-source-arguments/arg0-initialized.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy-source-arguments/arg1-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy-source-arguments/arg1-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy-source-arguments/arg1-initialized.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy-source-arguments/arg1-initialized.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy/copy_without_padding.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy/copy_without_padding.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy/expose_padding_via_copy.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy/expose_padding_via_copy.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy/expose_padding_via_copy_convoluted.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy/expose_padding_via_copy_convoluted.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy/expose_padding_via_non_byte_copy.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy/expose_padding_via_non_byte_copy.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy/non_byte_copy_without_padding.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy/non_byte_copy_without_padding.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy/read_after_copy.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/copy/read_after_copy.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/delayed-ub-overapprox.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/delayed-ub-overapprox.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/delayed-ub-unsupported-call/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/delayed-ub-unsupported-call/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/delayed-ub/delayed-ub.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/delayed-ub/delayed-ub.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/delayed-ub/slices_fixme.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/delayed-ub/slices_fixme.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/dyn-pointee-write/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/dyn-pointee-write/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/fixme_unions.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-descriptor-coalescing/direct-first.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-descriptor-coalescing/direct-first.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-descriptor-coalescing/nested-first.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-descriptor-coalescing/nested-first.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-masks/copy-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-masks/copy-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-masks/empty.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-masks/empty.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-masks/zero-byte-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-masks/zero-byte-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-masks/zero-bytes-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/immutable-masks/zero-bytes-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/intrinsics/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/intrinsics/intrinsics.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/fn-item-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/fn-item-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/marked-body-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/marked-body-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/marked-body-initialized.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/marked-body-initialized.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/marked-model-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/marked-model-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/marked-model-initialized.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/marked-model-initialized.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/ordinary-hook-return.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/ordinary-hook-return.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-argument-buffer/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-argument-return/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-argument-return/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-array-reverse-unsupported/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-array-reverse-unsupported/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-call-move/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-call-move/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-call-pairing/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-call-pairing/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-contract-clause/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-contract-clause/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-contract-frame/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-contract-frame/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-initialized/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-initialized/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-overlap-copy/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-overlap-copy/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-overwrite-copy/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-overwrite-copy/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-partial-copy/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-partial-copy/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-repeat-local/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-repeat-local/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-reset-alias/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-reset-alias/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-reset-zst/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-reset-zst/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-transfers/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-transfers/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-transmute-padding/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-transmute-padding/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-transmute-source-read/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-transmute-source-read/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-transmute/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-transmute/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-typed-argument-padding/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-typed-argument-padding/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-typed-array-padding/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-typed-array-padding/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-typed-array-partial-data/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-typed-array-partial-data/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-typed-assignment-padding/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-typed-assignment-padding/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-typed-partial-data/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-typed-partial-data/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-typed-return-padding/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-typed-return-padding/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/multiple-instrumentations.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/multiple-instrumentations.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/nested-aggregate-reset/moved-from-source.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/nested-aggregate-reset/reinit-companion.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/nested-aggregate-reset/repeated-destination.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/nested-enum-different-padding/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/nested-enum-different-padding/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/nested-enum-same-padding/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/nested-enum-same-padding/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/nested-pat-data/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/nested-pat-data/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/nested-pat-padding/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/nested-pat-padding/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/ordinary-slots/padding.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/ordinary-slots/padding.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/ordinary-slots/payload.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/ordinary-slots/payload.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/ordinary-slots/positive.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/ordinary-slots/positive.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/padded-slice-extents/borrowed-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/padded-slice-extents/borrowed-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/padded-slice-extents/borrowed-initialized.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/padded-slice-extents/borrowed-initialized.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/padded-slice-extents/raw-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/padded-slice-extents/raw-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/padded-slice-extents/raw-initialized.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/padded-slice-extents/raw-initialized.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/move-return-reinit.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/move-return-reinit.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/move-return-top-level.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/move-return-top-level.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/origin-offset-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/origin-offset-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/origin-offset-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/origin-offset-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/raw-vs-typed-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/raw-vs-typed-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/raw-vs-typed-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/raw-vs-typed-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/reset-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/reset-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/reset-reinit.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/reset-reinit.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/typed-padding-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-composition/typed-padding-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/README.md": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/dst-by-reference-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/dst-by-reference-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/dst-by-reference-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/dst-by-reference-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/dst-by-value-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/dst-by-value-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/dst-by-value-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/dst-by-value-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/immutable-relocation-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/immutable-relocation-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/immutable-relocation-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/immutable-relocation-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/immutable-static-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/immutable-static-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/immutable-static-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/immutable-static-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/immutable-subrange-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/immutable-subrange-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/immutable-subrange-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/immutable-subrange-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/raw-field-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/raw-field-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/raw-field-neighbor-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/raw-field-neighbor-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/raw-field-padding-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/raw-field-padding-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/union-constant-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/union-constant-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/union-constant-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/union-constant-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/union-variable-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/union-variable-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/union-variable-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/part1-edges/union-variable-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/points-to-cycles/capture-free.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/points-to-cycles/capture-free.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/points-to-cycles/dag.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/points-to-cycles/dag.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/points-to-cycles/mutual-cycle.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/points-to-cycles/mutual-cycle.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/points-to-cycles/roots-acyclic-first.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/points-to-cycles/roots-acyclic-first.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/points-to-cycles/roots-cycle-first.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/points-to-cycles/roots-cycle-first.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/points-to-cycles/self-cycle.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/points-to-cycles/self-cycle.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/private-transfer-frame/lawful-modifies.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/promoted-allocations/direct-left-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/promoted-allocations/direct-left-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/promoted-allocations/direct-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/promoted-allocations/direct-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/promoted-allocations/direct-right-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/promoted-allocations/direct-right-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/promoted-allocations/helper-left-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/promoted-allocations/helper-left-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/promoted-allocations/helper-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/promoted-allocations/helper-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/promoted-allocations/helper-right-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/promoted-allocations/helper-right-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/raw-eq-uninit/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/raw-eq-uninit/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/root-composition/cycle-root.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/root-composition/cycle-root.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/root-composition/immutable-hole-negative.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/root-composition/immutable-hole-negative.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/root-composition/immutable-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/root-composition/immutable-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/root-composition/ordinary-ensures-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/root-composition/ordinary-ensures-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/root-composition/pfc-legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/root-composition/pfc-legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/root-composition/pfc-negative.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/root-composition/pfc-negative.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-copy-overwrite/controls.inc": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-copy-overwrite/copy_sources_remain_initialized.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-copy-overwrite/copy_sources_remain_initialized.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-copy-overwrite/overwrite_hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-copy-overwrite/overwrite_hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-copy-overwrite/overwriting_selected_hole_reinitializes_result.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-copy-overwrite/overwriting_selected_hole_reinitializes_result.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-delayed-padding/controls.inc": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-delayed-padding/write_through_selected_pointer_leaves_false_source_padding_hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-delayed-padding/write_through_selected_pointer_leaves_false_source_padding_hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-delayed-padding/write_through_selected_pointer_leaves_true_source_padding_hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-delayed-padding/write_through_selected_pointer_leaves_true_source_padding_hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-hint-wrapper/controls.inc": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-hint-wrapper/hint_wrapper_pointer_preserves_selected_alias_and_payload.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-hint-wrapper/hint_wrapper_pointer_preserves_selected_alias_and_payload.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-hint-wrapper/hint_wrapper_u8_uses_all_internal_selects.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-hint-wrapper/hint_wrapper_u8_uses_all_internal_selects.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-maybe-uninit/controls.inc": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-maybe-uninit/copied_unselected_false_hole_remains_false.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-maybe-uninit/copied_unselected_false_hole_remains_false.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-maybe-uninit/copied_unselected_true_hole_remains_false.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-maybe-uninit/copied_unselected_true_hole_remains_false.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-maybe-uninit/legal_selected_false_arm_with_unselected_hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-maybe-uninit/legal_selected_false_arm_with_unselected_hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-maybe-uninit/legal_selected_true_arm_with_unselected_hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-maybe-uninit/legal_selected_true_arm_with_unselected_hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-maybe-uninit/selected_false_hole_fails.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-maybe-uninit/selected_false_hole_fails.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-maybe-uninit/selected_true_hole_fails.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-maybe-uninit/selected_true_hole_fails.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-moves/controls.inc": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-moves/copy_intrinsic_operands_preserve_both_sources.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-moves/copy_intrinsic_operands_preserve_both_sources.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-moves/false_selected_arm_still_deinitializes_source_a.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-moves/false_selected_arm_still_deinitializes_source_a.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-moves/false_selected_arm_still_deinitializes_source_b.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-moves/false_selected_arm_still_deinitializes_source_b.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-moves/true_selected_arm_still_deinitializes_source_a.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-moves/true_selected_arm_still_deinitializes_source_a.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-moves/true_selected_arm_still_deinitializes_source_b.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-moves/true_selected_arm_still_deinitializes_source_b.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-nested-unsupported/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-padding/controls.inc": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-padding/selected_false_maybe_uninit_fields_are_legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-padding/selected_false_maybe_uninit_fields_are_legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-padding/selected_false_padding_stays_uninitialized.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-padding/selected_false_padding_stays_uninitialized.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-padding/selected_true_maybe_uninit_fields_are_legal.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-padding/selected_true_maybe_uninit_fields_are_legal.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-padding/selected_true_padding_stays_uninitialized.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-padding/selected_true_padding_stays_uninitialized.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-pointer-hole-false/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-pointer-hole-false/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-pointer-hole-true/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-pointer-hole-true/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-pointer-values/controls.inc": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-pointer-values/selected_initialized_pointer_values.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-pointer-values/selected_initialized_pointer_values.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-pointer-values/selected_null_or_dangling_without_dereference.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-pointer-values/selected_null_or_dangling_without_dereference.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-unmodeled-intrinsic/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-unmodeled-intrinsic/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-values/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/select-unpredictable-values/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/transfer-qualification/legal-ordinary.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/transfer-qualification/legal-ordinary.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/transfer-qualification/legal-pfc.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/transfer-qualification/legal-pfc.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/transfer-qualification/normal-abort.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/transfer-qualification/normal-abort.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/transfer-qualification/out-pointer.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/transfer-qualification/out-pointer.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/transfer-qualification/postcondition-hole.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/transfer-qualification/postcondition-hole.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/transmute-padding/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/transmute-padding/transmute_padding.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/transmute-ptr-to-ref/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/transmute-ptr-to-ref/main.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/uninhabited-union-field/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/uninhabited-union-field/uninhabited-union-field.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unions.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unions.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/direct-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/direct-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/direct-seeded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/direct-seeded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/entry-initialized-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/entry-partial-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/entry-partial-seeded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/erased-pointer-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/fn-pointer-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/fn-pointer-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/generated-positive-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/generated-positive-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/generated-positive-seeded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/global-escaped-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/global-escaped-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/global-escaped-seeded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/pending-ops-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/pending-ops-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/virtual-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/virtual-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/virtual-seeded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/virtual-seeded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/vec-read-bad-len/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/vec-read-bad-len/vec-read-bad-len.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/vec-read-semi-init/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/vec-read-semi-init/vec-read-semi-init.rs": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/vec-read-uninit/expected": "PENDING_SOURCE_SHA256",
++    "tests/expected/uninit/vec-read-uninit/vec-read-uninit.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/additive-output/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/additive-output/test.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/additive-output/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/autoharness-export/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/autoharness-export/fixture.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/autoharness-export/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/basic-export/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/basic-export/test.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/basic-export/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/cargo-export/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/cargo-export/expected": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/cargo-export/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/fail-fast/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/fail-fast/test.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/fail-fast/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/failed-verification/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/failed-verification/test.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/failed-verification/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/gate-rejections/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/gate-rejections/fixture.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/gate-rejections/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/incomplete-marker/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/incomplete-marker/fake_cbmc.py": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/incomplete-marker/run.py": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/incomplete-marker/test.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/incomplete-marker/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/jobs-ordering-stable/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/jobs-ordering-stable/extra.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/jobs-ordering-stable/test.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/jobs-ordering-stable/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/live-configuration/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/live-configuration/fixture.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/live-configuration/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/multi-crate-export/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/multi-crate-export/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/multiple-harnesses/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/multiple-harnesses/test.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/multiple-harnesses/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/no-harnesses-selected/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/no-harnesses-selected/test.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/no-harnesses-selected/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/schema-validation/check_fixtures.py": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/schema-validation/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/schema-validation/fixture-completed-failure.json": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/schema-validation/fixture-completed-success.json": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/schema-validation/fixture-no-harnesses-selected.json": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/schema-validation/fixture-non-completed-outcomes.json": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/schema-validation/kani_json_schema.json": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/schema-validation/test.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/schema-validation/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/structured-warnings/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/structured-warnings/fake_cbmc.py": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/structured-warnings/fixture.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/structured-warnings/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/vacuity-check/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/vacuity-check/test.rs": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/vacuity-check/test.sh": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/workspace-filter-diagnostic/config.yml": "PENDING_SOURCE_SHA256",
++    "tests/json-handler/workspace-filter-diagnostic/test.sh": "PENDING_SOURCE_SHA256"
++  },
++  "schema": "kani3300-gate-binding-v1",
++  "state": "PENDING_FREEZE",
++  "subtrees": {
++    "docs": "PENDING_SOURCE_OBJECT",
++    "kani-compiler": "PENDING_SOURCE_OBJECT",
++    "kani-driver": "PENDING_SOURCE_OBJECT",
++    "library": "PENDING_SOURCE_OBJECT",
++    "scripts": "PENDING_SOURCE_OBJECT",
++    "tests": "PENDING_SOURCE_OBJECT",
++    "tools": "PENDING_SOURCE_OBJECT"
++  }
++}
+diff --git a/scripts/kani3300-replay/sel1-test-only.patch b/scripts/kani3300-replay/sel1-test-only.patch
+new file mode 100644
+index 000000000..445bd5063
+--- /dev/null
++++ b/scripts/kani3300-replay/sel1-test-only.patch
+@@ -0,0 +1,169 @@
++diff --git a/library/core/src/slice/sort/shared/smallsort/verify.rs b/library/core/src/slice/sort/shared/smallsort/verify.rs
++index 9ed9be525b..b6d76fe0bc 100644
++--- a/library/core/src/slice/sort/shared/smallsort/verify.rs
+++++ b/library/core/src/slice/sort/shared/smallsort/verify.rs
++@@ -84,6 +84,10 @@ mod merge;
++ #[cfg(kani_smallsort_controls)]
++ mod mutations;
++ mod network;
+++#[cfg(kani_smallsort_controls)]
+++mod replay_gateb_prime;
+++#[cfg(kani_smallsort_controls)]
+++mod replay_uninit_controls;
++ mod scratch_geometry;
++ mod smoke;
++ mod tag_permutation;
++diff --git a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
++index 52977f4b1f..336fe65277 100644
++--- a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
+++++ b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
++@@ -36,7 +36,9 @@ fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
++     // SAFETY: both positions are initialized, aligned, readable and writable
++     // and belong to this allocation.
++     // Equality is allowed by the real helper's safety condition.
++-    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut arbitrary_less::<T>) };
+++    unsafe {
+++        swap_if_less(v.as_mut_ptr(), a, b, &mut |a: &T, b: &T| arbitrary_less::<T>(a, b))
+++    };
++     for i in 0..4 {
++         kani::assert(i == a || i == b || v[i] == before[i], "helper contract swap frame");
++     }
++@@ -196,7 +198,11 @@ fn sort4_safety_u64() {
++     let mut dst = crate::mem::MaybeUninit::<[u64; 4]>::uninit();
++     // SAFETY: four initialized source values and a distinct allocation writable for four
++     // destination values. The destination need not be initialized before the call.
++-    unsafe { sort4_stable(src.as_ptr(), dst.as_mut_ptr().cast(), &mut arbitrary_less::<u64>) };
+++    unsafe {
+++        sort4_stable(src.as_ptr(), dst.as_mut_ptr().cast(), &mut |a: &u64, b: &u64| {
+++            arbitrary_less::<u64>(a, b)
+++        })
+++    };
++     for i in 0..4 {
++         kani::assert(src[i] == before[i], "helper contract sort4 source frame");
++     }
++diff --git a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
++index b0c6777add..432a9c0d4b 100644
++--- a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
+++++ b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
++@@ -114,7 +114,7 @@ fn merge_safety_u64_len8_scratch48_src32_dst0() {
++     unsafe {
++         let base = scratch.as_mut_ptr().cast::<u64>();
++         let source = crate::slice::from_raw_parts(base.add(32), 8);
++-        bidirectional_merge(source, base, &mut tail_less_u64);
+++        bidirectional_merge(source, base, &mut |a: &u64, b: &u64| tail_less_u64(a, b));
++     }
++     for i in 0..8 {
++         // SAFETY: the initialized source must be framed by the merge.
++diff --git a/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs b/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs
++new file mode 100644
++index 0000000000..b66ce6ee72
++--- /dev/null
+++++ b/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs
++@@ -0,0 +1,52 @@
+++//! Gate B-prime: concrete closure comparator companion, enabled only for replay controls.
+++//! This proves its own bounded target, not the generic fn-pointer `merge_profile<P>`.
+++
+++use super::merge::profiles::{
+++    LtU8, Profile, merge_halves_sorted, merge_regions, model_count, model_sorted,
+++};
+++use crate::mem::MaybeUninit;
+++use crate::slice::sort::shared::smallsort::{SMALL_SORT_GENERAL_SCRATCH_LEN, bidirectional_merge};
+++use crate::{kani, ptr};
+++
+++// The original profile's canonical comparator guard is discharged by construction:
+++// no comparator parameter or fn-pointer coercion exists; the closure calls lt_u8 directly.
+++// The remaining clauses are exactly merge_profile::<LtU8>'s clauses.
+++#[cfg(kani_smallsort_controls)]
+++#[kani::requires(merge_regions::<u8>(v, dst) && merge_halves_sorted::<LtU8>(v))]
+++#[kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len()))]
+++#[kani::ensures(|_| model_sorted::<LtU8>(dst, v.len()))]
+++#[kani::ensures(|_| model_count::<LtU8>(v.as_ptr(), v.len()) == model_count::<LtU8>(dst, v.len()))]
+++pub(crate) unsafe fn merge_profile_closure_u8(v: &[u8], dst: *mut u8) {
+++    // SAFETY: the unchanged profile region/sorted-halves premises establish the source
+++    // and destination geometry; lt_u8 is the fixed canonical key order (x >> 1).
+++    unsafe { bidirectional_merge(v, dst, &mut |a: &u8, b: &u8| super::merge::lt_u8(a, b)) }
+++}
+++
+++#[cfg(kani_smallsort_controls)]
+++#[kani::proof_for_contract(merge_profile_closure_u8)]
+++#[kani::unwind(34)]
+++fn merge_profile_closure_scratch48_u8_n9() {
+++    const N: usize = 9;
+++    const { assert!(N >= 2 && N <= 32) };
+++    LtU8::set_probe(kani::any());
+++    let input: [u8; N] = kani::any();
+++    let mut dst: [u8; N] = kani::any();
+++    let stable: bool = kani::any();
+++    let mut stable_scratch = [MaybeUninit::<u8>::uninit(); SMALL_SORT_GENERAL_SCRATCH_LEN];
+++    let mut general_scratch = MaybeUninit::<[u8; SMALL_SORT_GENERAL_SCRATCH_LEN]>::uninit();
+++    let src = if stable {
+++        stable_scratch.as_mut_ptr() as *mut u8
+++    } else {
+++        general_scratch.as_mut_ptr() as *mut u8
+++    };
+++    // SAFETY: copy initializes only prefix N of the selected 48-slot backing before
+++    // forming a slice; dst is separate and initialized. The enclosing PFC checks the
+++    // concrete companion's unchanged region and sorted-half contract.
+++    unsafe {
+++        ptr::copy_nonoverlapping(input.as_ptr(), src, N);
+++        let v = crate::slice::from_raw_parts(src, N);
+++        merge_profile_closure_u8(v, dst.as_mut_ptr());
+++    }
+++    kani::cover(!stable, "general scratch48 merge contract checked");
+++    kani::cover(stable, "stable scratch48 merge contract checked");
+++}
++diff --git a/library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs b/library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs
++new file mode 100644
++index 0000000000..890b2597c2
++--- /dev/null
+++++ b/library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs
++@@ -0,0 +1,49 @@
+++//! Opt-in raw-helper uninitialized-read controls. Preparation only; NOT_RUN.
+++//!
+++//! Run with the organizer --no-assert-contracts profile: the negative calls
+++//! the actual Original helper body and intentionally violates its source
+++//! initializedness requirement. It is a checker control, not a contract proof.
+++
+++use super::super::sort4_stable;
+++use crate::mem::MaybeUninit;
+++use crate::{kani, ptr};
+++
+++fn read_less_u64(a: &u64, b: &u64) -> bool {
+++    // The negative intentionally exercises the live read of an unwritten
+++    // source value; no initialized reference is constructed before the helper.
+++    unsafe {
+++        ptr::read_volatile(a);
+++        ptr::read_volatile(b);
+++    }
+++    kani::any()
+++}
+++
+++fn exercise_sort4_raw<const INITIALIZE_SLOT_ONE: bool>() {
+++    let mut src = [MaybeUninit::<u64>::uninit(); 4];
+++    src[0].write(kani::any());
+++    if INITIALIZE_SLOT_ONE {
+++        src[1].write(kani::any());
+++    }
+++    src[2].write(kani::any());
+++    src[3].write(kani::any());
+++    let mut dst = MaybeUninit::<[u64; 4]>::uninit();
+++    let raw = src.as_mut_ptr().cast::<u64>();
+++    kani::cover(true, "sort4 raw helper entered");
+++    // The legal instance supplies four initialized source values. The negative
+++    // leaves precisely slot 1 unwritten in the same valid MU allocation.
+++    // Both use the identical source/destination geometry and actual helper.
+++    unsafe { sort4_stable(raw, dst.as_mut_ptr().cast(), &mut read_less_u64) };
+++    kani::cover(true, "sort4 raw helper returned");
+++}
+++
+++#[kani::proof]
+++#[kani::unwind(16)]
+++fn sort4_raw_all_initialized_u64() {
+++    exercise_sort4_raw::<true>();
+++}
+++
+++#[kani::proof]
+++#[kani::unwind(16)]
+++fn sort4_raw_hole_negative_u64() {
+++    exercise_sort4_raw::<false>();
+++}
+diff --git a/scripts/kani3300-replay/test_replay.py b/scripts/kani3300-replay/test_replay.py
+new file mode 100644
+index 000000000..eb4946645
+--- /dev/null
++++ b/scripts/kani3300-replay/test_replay.py
+@@ -0,0 +1,335 @@
++#!/usr/bin/env python3
++"""Synthetic receipt/parser tests; these never invoke Kani or a build."""
++
++import hashlib
++import json
++from pathlib import Path
++import tempfile
++import unittest
++from unittest import mock
++
++import replay
++from replay import execute, load_request, parse_export, persist_then_postprocess, root_exit_code
++
++
++class ExportTests(unittest.TestCase):
++    def check_state(self, content, expected):
++        with tempfile.TemporaryDirectory() as td:
++            p = Path(td) / "export.json"
++            if content is not None:
++                p.write_bytes(content)
++            got = parse_export(p, "expected::root")
++            self.assertEqual(got["state"], expected)
++            self.assertEqual(got["outcome"], "UNKNOWN")
++
++    def test_parsed_success_claim_is_unvalidated_and_still_unknown(self):
++        self.check_state(b'{"result":"SUCCESS","harness":"expected::root"}', "UNVALIDATED_JSON_OBJECT")
++
++    def test_missing(self):
++        self.check_state(None, "MISSING")
++
++    def test_partial(self):
++        self.check_state(b'{"harness":', "INVALID_OR_PARTIAL")
++
++    def test_null(self):
++        self.check_state(b'null', "NULL")
++
++    def test_wrong_type(self):
++        self.check_state(b'[]', "WRONG_TOP_LEVEL_TYPE")
++
++    def test_wrong_source(self):
++        self.check_state(b'{"selector":"other::root"}', "WRONG_SOURCE_OR_SELECTOR")
++
++
++    def test_malformed_success_exit_is_nonzero(self):
++        for state in ("EMPTY", "INVALID_OR_PARTIAL", "NULL", "WRONG_TOP_LEVEL_TYPE",
++                      "WRONG_SOURCE_OR_SELECTOR", "MISSING"):
++            with self.subTest(state=state):
++                receipt = {"original_exit_code": 0, "timed_out": False, "runner_error": None,
++                           "export": {"state": state}, "postprocessing_state": "COMPLETE",
++                           "rss": {"status": "OBSERVED_WAIT4_LINUX_RU_MAXRSS", "max_bytes": 1}}
++                self.assertNotEqual(root_exit_code(receipt), 0)
++
++    def test_original_child_failure_code_is_preserved(self):
++        receipt = {"original_exit_code": 7, "timed_out": False, "runner_error": None,
++                   "export": {"state": "INVALID_OR_PARTIAL"}, "postprocessing_state": "COMPLETE",
++                   "rss": {"status": "OBSERVED_WAIT4_LINUX_RU_MAXRSS", "max_bytes": 1}}
++        self.assertEqual(root_exit_code(receipt), 7)
++
++    def test_unvalidated_object_with_zero_child_exit_remains_unknown(self):
++        receipt = {"original_exit_code": 0, "timed_out": False, "runner_error": None,
++                   "export": {"state": "UNVALIDATED_JSON_OBJECT"}, "postprocessing_state": "COMPLETE",
++                   "rss": {"status": "OBSERVED_WAIT4_LINUX_RU_MAXRSS", "max_bytes": 1}}
++        self.assertEqual(root_exit_code(receipt), 0)
++
++    def test_unknown_rss_makes_receipt_nonzero(self):
++        receipt = {"original_exit_code": 0, "timed_out": False, "runner_error": None,
++                   "export": {"state": "UNVALIDATED_JSON_OBJECT"}, "postprocessing_state": "COMPLETE",
++                   "rss": {"status": "UNKNOWN", "max_bytes": None}}
++        self.assertEqual(root_exit_code(receipt), 1)
++
++
++class RequestTests(unittest.TestCase):
++    def test_actual_request_is_exact_six_row_preparation(self):
++        req = load_request()
++        self.assertEqual({r["id"] for r in req["roots"]},
++                         {'sort4-closure-on', 'swap-if-less-closure-on', 'raw-negative-on', 'raw-legal-on', 'merge-profile-closure-on', 'merge-raw-closure-on'})
++        self.assertTrue(all(r["status"] == "NOT_RUN" for r in req["roots"]))
++        self.assertEqual(req["run_budget"]["max_invocations"], 6)
++        self.assertEqual(req["run_budget"]["retry_policy"], "NONE")
++
++    def load_modified(self, modify):
++        req = json.loads(replay.REQUEST.read_text())
++        modify(req)
++        with tempfile.TemporaryDirectory() as td:
++            path = Path(td) / "request.json"
++            path.write_text(json.dumps(req))
++            with mock.patch.object(replay, "REQUEST", path), mock.patch.object(
++                    replay, "REQUEST_SHA", hashlib.sha256(path.read_bytes()).hexdigest()):
++                return load_request()
++
++    def test_rejects_extra_or_wrong_root(self):
++        def mutate(req): req["roots"][0]["id"] = "unknown-row"
++        with self.assertRaisesRegex(ValueError, "row allowlist"):
++            self.load_modified(mutate)
++
++    def test_rejects_retry_or_parallel_cap_expansion(self):
++        for key, value in (("retry_policy", "ONE_RETRY"), ("max_parallel", 2), ("max_invocations", 4)):
++            def mutate(req, key=key, value=value): req["run_budget"][key] = value
++            with self.subTest(key=key), self.assertRaisesRegex(ValueError, "bounded preparation caps"):
++                self.load_modified(mutate)
++
++    def test_rejects_modified_request_hash(self):
++        with mock.patch.object(replay, "REQUEST_SHA", "0" * 64):
++            with self.assertRaisesRegex(ValueError, "request SHA-256"):
++                load_request()
++
++        def wrong_patch_metadata(req): req["test_patch_sha256"] = "0" * 64
++        with self.assertRaisesRegex(ValueError, "request test patch hash"):
++            self.load_modified(wrong_patch_metadata)
++
++        def wrong_file_hash(req): req["patched_file_sha256"][next(iter(req["patched_file_sha256"]))] = "0" * 64
++        with self.assertRaisesRegex(ValueError, "request patched file hashes"):
++            self.load_modified(wrong_file_hash)
++
++
++class ExecutionTests(unittest.TestCase):
++    def run_synthetic(self, code, timeout=1.0):
++        with tempfile.TemporaryDirectory() as td:
++            out = Path(td)
++            import sys
++            receipt = execute([sys.executable, "-c", code], Path.cwd(), {}, out, timeout)
++            receipt["outcome"] = "UNKNOWN"
++            receipt["runtime_proof_status"] = "NOT_RUN_UNTIL_REVIEWED"
++            return receipt
++
++    def test_success_exit_not_proof_credit(self):
++        r = self.run_synthetic("print('synthetic success')")
++        self.assertEqual(r["original_exit_code"], 0)
++        self.assertFalse(r["timed_out"])
++        self.assertEqual(r["rss_status"], "OBSERVED_WAIT4_LINUX_RU_MAXRSS")
++        self.assertIsInstance(r["rss_max_bytes"], int)
++        self.assertEqual(r["outcome"], "UNKNOWN")
++
++    def test_failure_exit_preserved_not_arbitrary_negative_credit(self):
++        r = self.run_synthetic("raise SystemExit(7)")
++        self.assertEqual(r["original_exit_code"], 7)
++        self.assertEqual(r["outcome"], "UNKNOWN")
++
++    def test_timeout_recorded(self):
++        r = self.run_synthetic("import time; time.sleep(10)", timeout=0.05)
++        self.assertTrue(r["timed_out"])
++        self.assertIsNotNone(r["original_exit_code"])
++        self.assertEqual(r["outcome"], "UNKNOWN")
++
++    def test_signal_preserved(self):
++        r = self.run_synthetic("import os,signal; os.kill(os.getpid(), signal.SIGTERM)")
++        self.assertEqual(r["signal"], 15)
++        self.assertLess(r["original_exit_code"], 0)
++        self.assertGreaterEqual(r["rss_max_bytes"], 0)
++
++
++    def test_runner_exec_error_is_recorded_and_nonzero(self):
++        with tempfile.TemporaryDirectory() as td:
++            out = Path(td)
++            receipt = execute([str(out / "no-such-executable")], Path.cwd(), {}, out, 1.0)
++            self.assertIsNone(receipt["original_exit_code"])
++            self.assertTrue(receipt["runner_error"].startswith("runner_exec_or_wait_error:"))
++            self.assertEqual(receipt["stdout_bytes"], 0)
++            self.assertEqual(receipt["stderr_bytes"], 0)
++            envelope = {**receipt, "export": {"state": "MISSING"},
++                        "postprocessing_state": "INCOMPLETE"}
++            self.assertNotEqual(root_exit_code(envelope), 0)
++
++    def test_postprocessing_error_keeps_atomic_partial_execution_receipt(self):
++        with tempfile.TemporaryDirectory() as td:
++            path = Path(td) / "receipt.json"
++            receipt = {"original_exit_code": 0, "timed_out": False, "signal": None,
++                       "argv": ["synthetic"], "source_identity": {"sha": "bound"},
++                       "outcome": "UNKNOWN", "postprocessing_state": "INCOMPLETE"}
++            stage = {"name": "runtime-inventory"}
++
++            def fail_postprocessing():
++                before = json.loads(path.read_text())
++                self.assertEqual(before["postprocessing_state"], "INCOMPLETE")
++                self.assertEqual(before["original_exit_code"], 0)
++                self.assertEqual(before["outcome"], "UNKNOWN")
++                raise OSError("synthetic inventory failure")
++
++            result = persist_then_postprocess(path, receipt, stage, fail_postprocessing)
++            saved = json.loads(path.read_text())
++            self.assertEqual(saved["original_exit_code"], 0)
++            self.assertEqual(saved["argv"], ["synthetic"])
++            self.assertEqual(saved["source_identity"], {"sha": "bound"})
++            self.assertEqual(saved["outcome"], "UNKNOWN")
++            self.assertEqual(saved["postprocessing_state"], "INCOMPLETE")
++            self.assertEqual(saved["postprocessing_error"]["stage"], "runtime-inventory")
++            self.assertEqual(result, saved)
++
++
++class C2BindingTests(unittest.TestCase):
++    def test_request_and_observer_have_unbound_sel1_c2_identity(self):
++        req = load_request()
++        self.assertEqual(replay.SEL1_C2_SHA, "PENDING_SEL1_FREEZE_SHA")
++        self.assertEqual(replay.SEL1_C2_TREE, "PENDING_SEL1_FREEZE_TREE")
++        self.assertEqual(req["tool_export_sha"], replay.SEL1_C2_SHA)
++        self.assertEqual(req["tool_export_tree"], replay.SEL1_C2_TREE)
++        self.assertEqual(replay.SOURCE_BINDING.name, "sel1-c2-source-binding.json")
++        self.assertEqual(req["proposal"]["runner"], "ubuntu-24.04")
++
++    def test_exact_rows_targets_flags_and_unwinds(self):
++        rows = load_request()["roots"]
++        self.assertEqual([r["source_unwind"] for r in rows], [34, 34, 16, 8, 16, 16])
++        self.assertEqual([r["expected_mode"] for r in rows],
++                         ["Check(bidirectional_merge)", "Check(merge_profile_closure_u8)", "Check(sort4_stable)", "Check(swap_if_less)", "Original(sort4_stable)", "Original(sort4_stable)"])
++        self.assertEqual([r["expected_result"] for r in rows], ["SUCCESS", "SUCCESS", "SUCCESS", "SUCCESS", "SUCCESS", "FAILURE"])
++        for row in rows:
++            self.assertEqual(row["argv"][0], "<EXACT_SEL1_C2_KANI_BINARY>")
++            self.assertEqual(row["argv"][row["argv"].index("--harness") + 1], row["selector"])
++            self.assertTrue(row["uninit"])
++            self.assertIn("uninit-checks", row["argv"])
++            self.assertIn("--no-assert-contracts", row["argv"])
++            self.assertEqual(row["environment"]["RUSTFLAGS"], "--cfg kani_smallsort_controls")
++
++    def test_source_binding_consistency_without_executing_tools(self):
++        binding = json.loads(replay.SOURCE_BINDING.read_text())
++        self.assertEqual(binding["export_sha"], replay.SEL1_C2_SHA)
++        self.assertEqual(binding["export_tree"], replay.SEL1_C2_TREE)
++        self.assertEqual(set(binding["subtrees"]),
++                         {"kani-compiler", "kani-driver", "library", "tests", "tools", "scripts", "docs"})
++        self.assertIn("scripts/setup/ubuntu-24.04", binding["files"])
++        self.assertIn("scripts/setup/ubuntu/install_deps.sh", binding["files"])
++
++    def test_verify_source_rejects_wrong_binding_head_tree_and_dirty(self):
++        binding = json.loads(replay.SOURCE_BINDING.read_text())
++        for case in ("binding", "head", "tree", "dirty"):
++            with self.subTest(case=case), tempfile.TemporaryDirectory() as td:
++                altered = json.loads(json.dumps(binding))
++                altered["state"] = "SEL1_C2_FROZEN"
++                if case == "binding":
++                    altered["export_sha"] = "1658f4cadfa83139e41180ce3865e23f79d889aa"
++                p = Path(td) / "binding.json"
++                p.write_text(json.dumps(altered))
++
++                def fake_git(repo, *args):
++                    if args == ("cat-file", "-t", replay.SEL1_C2_SHA): return "commit"
++                    if args == ("rev-parse", replay.SEL1_C2_SHA + "^{tree}"):
++                        return "wrong" if case == "tree" else replay.SEL1_C2_TREE
++                    if args == ("rev-parse", "HEAD"):
++                        return "wrong" if case == "head" else replay.SEL1_C2_SHA
++                    if args == ("status", "--porcelain"): return " M source" if case == "dirty" else ""
++                    self.fail("unexpected git invocation")
++
++                with mock.patch.object(replay, "SOURCE_BINDING", p), mock.patch.object(replay, "git", side_effect=fake_git):
++                    with self.assertRaises(ValueError): replay.verify_source(Path(td))
++
++    def test_not_run_and_post_run_source_failure_cannot_pass(self):
++        base = {"original_exit_code": 0, "timed_out": False, "runner_error": None,
++                "export": {"state": "UNVALIDATED_JSON_OBJECT"}, "postprocessing_state": "COMPLETE",
++                "rss": {"status": "OBSERVED_WAIT4_LINUX_RU_MAXRSS", "max_bytes": 1}}
++        self.assertNotEqual(root_exit_code({**base, "original_exit_code": None, "runtime_proof_status": "NOT_RUN"}), 0)
++        failed = {**base, "post_run_validation": {"sel1_c2_source_valid": {"valid": False}}}
++        self.assertNotEqual(root_exit_code(failed), 0)
++        self.assertEqual(root_exit_code({**failed, "original_exit_code": 7}), 7)
++
++    def test_workflow_is_serial_six_rows_with_preflight_and_run4_recipe(self):
++        workflow = replay.HERE.parent.parent / ".github/workflows/kani3300-replay.yml"
++        if not workflow.exists(): self.skipTest("workflow checked in full export validation")
++        text = workflow.read_text()
++        for required in ("workflow_dispatch", "runs-on: ubuntu-24.04", "max-parallel: 1",
++                         "timeout-minutes: 60", "uses: ./export/.github/actions/setup", "kani_dir: export",
++                         "--destination", "https://github.com/Tiramisu-Cake/verify-rust-std.git"):
++            self.assertIn(required, text)
++        self.assertLess(text.index("Python-only wrapper preflight"), text.index("Setup pinned Kani dependencies"))
++        self.assertNotIn("  push:", text)
++
++    def test_run_root_substitutes_exact_c2_binary_and_preserves_exit(self):
++        import subprocess
++        req = load_request()
++        original_hash = replay.sha256
++        with tempfile.TemporaryDirectory() as td:
++            base = Path(td)
++            binary = base / "kani"
++            binary.write_text("mock only; must never execute")
++            binary.chmod(0o755)
++            status = b"".join(b" M " + p.encode() + b"\0" for p in replay.PATCHED_FILE_HASHES)
++            std = base / "std"
++            for rel in replay.PATCHED_FILE_HASHES:
++                path = std / rel
++                path.parent.mkdir(parents=True, exist_ok=True)
++                path.write_text("mock source bytes")
++
++            def fake_hash(path):
++                if path.is_relative_to(std): return replay.PATCHED_FILE_HASHES[path.relative_to(std).as_posix()]
++                return original_hash(path)
++
++            def fake_git(repo, *args):
++                return {("rev-parse", "HEAD"): replay.STD_SHA,
++                        ("rev-parse", "HEAD:library"): replay.STD_TREE}[args]
++
++            for row in req["roots"]:
++                with self.subTest(row=row["id"]):
++                    out = base / row["id"]
++                    execution = {"original_exit_code": 7, "timed_out": False, "runner_error": None,
++                                 "signal": None, "rss_max_bytes": 100,
++                                 "rss_status": "OBSERVED_WAIT4_LINUX_RU_MAXRSS"}
++                    with mock.patch.object(replay, "verify_source", return_value={"sel1_c2_sha": replay.SEL1_C2_SHA}), \
++                         mock.patch.object(replay, "git", side_effect=fake_git), \
++                         mock.patch.object(replay.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, stdout=status)), \
++                         mock.patch.object(replay, "sha256", side_effect=fake_hash), \
++                         mock.patch.object(replay, "runtime_inventory", return_value={"mock_only": True}), \
++                         mock.patch.object(replay, "execute", return_value=execution) as execute_mock:
++                        receipt = replay.run_root(base, std, row["id"], binary, out)
++                    expected = [str(binary) if x == "<EXACT_SEL1_C2_KANI_BINARY>" else x.replace("<OUTPUT_ROOT>", str(base)) for x in row["argv"]]
++                    self.assertEqual(execute_mock.call_args.args[0], expected)
++                    self.assertEqual(execute_mock.call_args.args[1], std)
++                    self.assertEqual(receipt["argv"], expected)
++                    self.assertEqual(receipt["sel1_c2_sha"], replay.SEL1_C2_SHA)
++                    self.assertEqual(receipt["original_exit_code"], 7)
++                    self.assertEqual(receipt["outcome"], "UNKNOWN")
++                    self.assertEqual(root_exit_code(receipt), 7)
++                    self.assertTrue(receipt["post_run_validation"]["std_test_only_overlay_valid"])
++                    self.assertEqual(json.loads((out / "receipt.json").read_text()), receipt)
++
++
++class PreparationGuardTests(unittest.TestCase):
++    def test_unbound_source_is_rejected_before_git_or_execution(self):
++        with mock.patch.object(replay, "git") as git_mock:
++            with self.assertRaisesRegex(ValueError, "PENDING_FREEZE"):
++                replay.verify_source(Path("/must/not/run"))
++            git_mock.assert_not_called()
++
++    def test_duplicate_selector_rejected_even_with_valid_request_checksum(self):
++        req = json.loads(replay.REQUEST.read_text())
++        req["roots"][1]["selector"] = req["roots"][0]["selector"]
++        with tempfile.TemporaryDirectory() as td:
++            p = Path(td) / "request.json"
++            p.write_text(json.dumps(req))
++            with mock.patch.object(replay, "REQUEST", p), mock.patch.object(
++                    replay, "REQUEST_SHA", hashlib.sha256(p.read_bytes()).hexdigest()):
++                with self.assertRaisesRegex(ValueError, "duplicate exact selector"):
++                    replay.load_request()
++
++
++if __name__ == "__main__":
++    unittest.main()

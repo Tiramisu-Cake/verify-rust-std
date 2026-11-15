@@ -1,0 +1,314 @@
+{
+  "schema": "kani3300-gate-binding-v2",
+  "state": "PENDING_FREEZE",
+  "export_sha": "PENDING_SEL1_FREEZE_SHA",
+  "export_tree": "PENDING_SEL1_FREEZE_TREE",
+  "files": {
+    "scripts/kani-regression.sh": "PENDING_SOURCE_SHA256",
+    ".github/actions/setup/action.yml": "PENDING_SOURCE_SHA256",
+    ".github/workflows/kani.yml": "PENDING_SOURCE_SHA256",
+    "rust-toolchain.toml": "PENDING_SOURCE_SHA256",
+    "kani-dependencies": "PENDING_SOURCE_SHA256",
+    "Cargo.lock": "PENDING_SOURCE_SHA256",
+    "Cargo.toml": "PENDING_SOURCE_SHA256",
+    ".gitmodules": "PENDING_SOURCE_SHA256",
+    ".cargo/config.toml": "PENDING_SOURCE_SHA256",
+    "scripts/setup/al2/install_cbmc.sh": "PENDING_SOURCE_SHA256",
+    "scripts/setup/al2/install_deps.sh": "PENDING_SOURCE_SHA256",
+    "scripts/setup/install_kissat.sh": "PENDING_SOURCE_SHA256",
+    "scripts/setup/install_rustup.sh": "PENDING_SOURCE_SHA256",
+    "scripts/setup/macos/install_cbmc.sh": "PENDING_SOURCE_SHA256",
+    "scripts/setup/macos/install_deps.sh": "PENDING_SOURCE_SHA256",
+    "scripts/setup/ubuntu-20.04/install_cbmc.sh": "PENDING_SOURCE_SHA256",
+    "scripts/setup/ubuntu-20.04/install_deps.sh": "PENDING_SOURCE_SHA256",
+    "scripts/setup/ubuntu-20.04/install_doc_deps.sh": "PENDING_SOURCE_SHA256",
+    "scripts/setup/ubuntu/install_cbmc.sh": "PENDING_SOURCE_SHA256",
+    "scripts/setup/ubuntu/install_deps.sh": "PENDING_SOURCE_SHA256",
+    "scripts/setup/ubuntu/install_doc_deps.sh": "PENDING_SOURCE_SHA256",
+    "library/kani/kani_lib.c": "PENDING_SOURCE_SHA256"
+  },
+  "subtrees": {
+    "kani-compiler": "PENDING_SOURCE_OBJECT",
+    "kani-driver": "PENDING_SOURCE_OBJECT",
+    "library": "PENDING_SOURCE_OBJECT",
+    "tests": "PENDING_SOURCE_OBJECT",
+    "docs": "PENDING_SOURCE_OBJECT",
+    "tools": "PENDING_SOURCE_OBJECT",
+    "scripts": "PENDING_SOURCE_OBJECT",
+    "cprover_bindings": "PENDING_SOURCE_OBJECT",
+    ".github/actions/setup": "PENDING_SOURCE_OBJECT"
+  },
+  "submodule_pins": {
+    "charon": "PENDING_SOURCE_OBJECT",
+    "firecracker": "PENDING_SOURCE_OBJECT",
+    "tests/perf/s2n-quic": "PENDING_SOURCE_OBJECT"
+  },
+  "symlinks": {
+    "scripts/setup/macos-10.15": "macos",
+    "scripts/setup/macos-11": "macos",
+    "scripts/setup/macos-12": "macos",
+    "scripts/setup/macos-13": "macos",
+    "scripts/setup/macos-14": "macos",
+    "scripts/setup/macos-15": "macos",
+    "scripts/setup/macos-15-intel": "macos",
+    "scripts/setup/ubuntu-22.04": "ubuntu",
+    "scripts/setup/ubuntu-24.04": "ubuntu",
+    "scripts/setup/ubuntu-24.04-arm": "ubuntu"
+  },
+  "stages": [
+    {
+      "id": "cbmc",
+      "line": 27,
+      "command": "check-cbmc-version.py --major ${CBMC_MAJOR} --minor ${CBMC_MINOR}",
+      "mode": "",
+      "counts_required": false
+    },
+    {
+      "id": "kissat",
+      "line": 28,
+      "command": "check_kissat_version.sh",
+      "mode": "",
+      "counts_required": false
+    },
+    {
+      "id": "fmt",
+      "line": 31,
+      "command": "${SCRIPT_DIR}/kani-fmt.sh --check",
+      "mode": "",
+      "counts_required": false
+    },
+    {
+      "id": "build-dev",
+      "line": 34,
+      "command": "cargo build-dev",
+      "mode": "",
+      "counts_required": false
+    },
+    {
+      "id": "unit:cprover_bindings",
+      "line": 37,
+      "command": "cargo test -p cprover_bindings",
+      "mode": "",
+      "counts_required": true
+    },
+    {
+      "id": "unit:kani-compiler",
+      "line": 38,
+      "command": "cargo test -p kani-compiler",
+      "mode": "",
+      "counts_required": true
+    },
+    {
+      "id": "unit:kani-driver",
+      "line": 39,
+      "command": "cargo test -p kani-driver",
+      "mode": "",
+      "counts_required": true
+    },
+    {
+      "id": "unit:kani_metadata",
+      "line": 40,
+      "command": "cargo test -p kani_metadata",
+      "mode": "",
+      "counts_required": true
+    },
+    {
+      "id": "unit:compiletest",
+      "line": 41,
+      "command": "cargo test -p compiletest",
+      "mode": "",
+      "counts_required": true
+    },
+    {
+      "id": "unit:kani-cov",
+      "line": 42,
+      "command": "cargo test -p kani-cov",
+      "mode": "",
+      "counts_required": true
+    },
+    {
+      "id": "unit:kani",
+      "line": 44,
+      "command": "cargo test -p kani --features concrete_playback",
+      "mode": "",
+      "counts_required": true
+    },
+    {
+      "id": "unit:kani_macros",
+      "line": 47,
+      "command": "RUSTFLAGS=--cfg=kani_sysroot cargo test -p kani_macros --features syn/extra-traits --lib",
+      "mode": "",
+      "counts_required": true
+    },
+    {
+      "id": "compiletest-config",
+      "line": 70,
+      "command": "cargo run -p compiletest --quiet -- --suite kani --mode cargo-kani --dry-run --verbose",
+      "mode": "",
+      "counts_required": false
+    },
+    {
+      "id": "build-cov",
+      "line": 74,
+      "command": "cargo build -p kani-cov",
+      "mode": "",
+      "counts_required": false
+    },
+    {
+      "id": "suite:kani",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "kani",
+      "counts_required": true
+    },
+    {
+      "id": "suite:expected",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "expected",
+      "counts_required": true
+    },
+    {
+      "id": "suite:ui",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "expected",
+      "counts_required": true
+    },
+    {
+      "id": "suite:std-checks",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "cargo-kani",
+      "counts_required": true
+    },
+    {
+      "id": "suite:firecracker",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "kani",
+      "counts_required": true
+    },
+    {
+      "id": "suite:prusti",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "kani",
+      "counts_required": true
+    },
+    {
+      "id": "suite:smack",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "kani",
+      "counts_required": true
+    },
+    {
+      "id": "suite:cargo-kani",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "cargo-kani",
+      "counts_required": true
+    },
+    {
+      "id": "suite:cargo-ui",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "cargo-kani",
+      "counts_required": true
+    },
+    {
+      "id": "suite:script-based-pre",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "exec",
+      "counts_required": true
+    },
+    {
+      "id": "suite:coverage",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "coverage-based",
+      "counts_required": true
+    },
+    {
+      "id": "suite:cargo-coverage",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "cargo-coverage",
+      "counts_required": true
+    },
+    {
+      "id": "suite:kani-docs",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "cargo-kani",
+      "counts_required": true
+    },
+    {
+      "id": "suite:kani-fixme",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "kani-fixme",
+      "counts_required": true
+    },
+    {
+      "id": "suite:json-handler",
+      "line": 98,
+      "command": "cargo run -p compiletest --quiet -- --suite $suite --mode $mode --quiet --no-fail-fast --timeout \"$timeout_secs\"",
+      "mode": "exec",
+      "counts_required": true
+    },
+    {
+      "id": "firecracker-codegen",
+      "line": 111,
+      "command": "\"$SCRIPT_DIR\"/codegen-firecracker.sh",
+      "mode": "",
+      "counts_required": false
+    },
+    {
+      "id": "cargo-smoke",
+      "line": 116,
+      "command": "cargo kani --manifest-path \"$FEATURES_MANIFEST_PATH\" --harness trivial_success",
+      "mode": "",
+      "counts_required": false
+    },
+    {
+      "id": "cargo-clean",
+      "line": 117,
+      "command": "cargo clean --manifest-path \"$FEATURES_MANIFEST_PATH\"",
+      "mode": "",
+      "counts_required": false
+    },
+    {
+      "id": "warnings-build",
+      "line": 126,
+      "command": "RUSTFLAGS=\"-D warnings\" cargo build --target-dir /tmp/kani_build_warnings --no-default-features --features cprover",
+      "mode": "",
+      "counts_required": false
+    }
+  ],
+  "platforms": [
+    "ubuntu-24.04",
+    "ubuntu-24.04-arm",
+    "macos-15"
+  ],
+  "pins": {
+    "rust": "nightly-2026-10-23",
+    "cbmc": "6.11.0",
+    "kissat": "4.0.1",
+    "cvc5": "1.3.0",
+    "macos_z3": "5.3.1",
+    "ubuntu_z3": "distribution package; actual version required"
+  },
+  "caps": {
+    "job_seconds": 21600,
+    "regression_seconds": 20400,
+    "reserve_seconds": 600,
+    "test_seconds": 2400,
+    "event_bytes": 268435456,
+    "metadata_bytes": 16777216,
+    "package_bytes": 402653184,
+    "retention_days": 14
+  }
+}
