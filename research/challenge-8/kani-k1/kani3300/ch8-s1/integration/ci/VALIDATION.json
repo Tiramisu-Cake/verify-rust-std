@@ -1,0 +1,31 @@
+{
+  "state": "PASS_OFFLINE_ONLY",
+  "synthetic_tests": {
+    "runner": 12,
+    "yaml_control_fallback": 3,
+    "total_pass": 15,
+    "targeted_batch_after_phase_capture_delta": 2
+  },
+  "source_identity_check": "PASS (Git/hashes only; no verifier)",
+  "python_ast": "PASS",
+  "workflow_shell_parse": "bash -n PASS; commands not executed",
+  "yaml": "PASS",
+  "manifest_rows": 23,
+  "ci_overlay_apply_check": "PASS",
+  "ci_overlay_diff_check": "PASS",
+  "request_sha256": "b186c533712383d485cf85419eb4999fd19fe93391d7d178b6fd2db7840cc066",
+  "ci_patch_sha256": "debff93371d9b69962cdf6b3e96f2aa78939786d5e4d90bed8d226d6c023fb21",
+  "Rust": "NOT_RUN",
+  "Kani": "NOT_RUN",
+  "CBMC": "NOT_RUN",
+  "local_build_setup": "NOT_RUN",
+  "CI_dispatch": "NOT_RUN",
+  "Cloud_dollars": 0,
+  "limitations": [
+    "Real list/export/ABI/contract/body/post/cover qualification awaits coordinator CI.",
+    "Stock export0.1 has no named successful-check descriptions; counts retained, source-name binding REVIEW_REQUIRED.",
+    "Performance estimates unmeasured; phase cap can leave NOT_RUN rows."
+  ],
+  "targeted_package_export_after_schema_parent_delta": 6,
+  "schema_note": "PFC pretty target matches list; mangled modifies wrapper retained separately for reviewer correlation."
+}

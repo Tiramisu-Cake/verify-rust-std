@@ -1,0 +1,151 @@
+{
+  "baseline_commit": "872d5a43380752786415bc00d2a12ce0e930cb37",
+  "candidate_commit": "75a4d1ea6eb60c63c27c1b18e662740d93bafb08",
+  "candidate_tree": "6d1b90bc11440762c9b65889fc538ba3071b0d9d",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "208967e964a8a4671d5a1f61d22ef104d9110e83",
+        "mode": "100644",
+        "sha256": "277fdda6ef207ca4b964d5eb914ff942f45bf0f1a34c36ddb4d21b94bb2bc754"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "a8243cee3d1b89c224ee4296ec5368c3b04cc604",
+        "mode": "100644",
+        "sha256": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb"
+      },
+      "path": "library/core/Cargo.toml",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "05f61eb68f667dc1cbb1cd0de7d02ba67d44c916",
+        "mode": "100644",
+        "sha256": "f2145a4cf20ffdae768faabe8db8b32b67b58dd38883bb0d2bff91424dc440e1"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "0a13f55e1796e4382147dd2d3040fc86879a2a9e",
+        "mode": "100644",
+        "sha256": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504"
+      },
+      "path": "library/core/src/lib.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "f8000328aae720a6ae7a6e81cd5d5816fd73df8c",
+        "mode": "100644",
+        "sha256": "982449b95d4449807b55f6997f83c8cce6bb167e52a95b6e4342ab816d04ba84"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "4587a72c51325a25cca1c20138a6ee1d1aa2233f",
+        "mode": "100644",
+        "sha256": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651"
+      },
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "2430ea5ac9f41c5ccca7d7afb3e1d88b8b6889be",
+        "mode": "100644",
+        "sha256": "221226eeb818b0120a23a24ab66c20c98aae1907252d4e57a4e1048fea3e6c25"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "94660db8971b112ed627aaeb8c5d4ba6acd6cd35",
+        "mode": "100644",
+        "sha256": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958"
+      },
+      "path": "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "656742e9e7957cbead89b25d8994a1003d5aaaf2",
+        "mode": "100644",
+        "sha256": "f6a941f618a8b5c1a1e936ba46501c25785d105a4f25a4e86fa15418c52cc562"
+      },
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "08ad1aebf318dc9522bae2e64510a61ececf2fe5",
+        "mode": "100644",
+        "sha256": "b3fa030187e4b6dbc1a9bcd6b84fc51fb657a1ee8be13d150c5870275da2725f"
+      },
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "0d0a9f1441e77acc793175a16270dd8ff9fac43d",
+        "mode": "100644",
+        "sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18"
+      },
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "9b050c150f6c069f0f3efe8f9e0646f6e9bf6a6d",
+        "mode": "100644",
+        "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70"
+      },
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+      "status": "added"
+    },
+    {
+      "baseline": {
+        "blob": "0ebc05137bda64583e7c78f0ceba22c974c16bc8",
+        "mode": "100644",
+        "sha256": "40ee88392e3e1b0af82611394f9a30df259e22cad6a623bded49ba1a0adb954c"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "a7cbb60bbf5d56c1fb15dc108c0fd390ac246ca7",
+        "mode": "100644",
+        "sha256": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+      },
+      "path": "tool_config/kani-version.toml",
+      "status": "modified"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "e1977d79f32076488e37048d17be77e37a321b0c",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "library/core/src/slice/sort/shared/mod.rs",
+      "sha256": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
+      "size": 1548
+    },
+    {
+      "blob": "55227b2921c1113fe242f18f3e0bc8669c4ecdd1",
+      "member": "dependencies/0001.bin",
+      "mode": "100755",
+      "path": "scripts/run-kani.sh",
+      "sha256": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+      "size": 15039
+    }
+  ],
+  "diff_sha256": "9781723d8c5ee047317b0fc63f462a676c24953b0d73815b50390b74d2d377d1",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "126e1c309d38d3e87490cfaf6499b280c08e7758838ef0afaf5294274ded4df4",
+  "worktree": "/root/verify-rust-std-ch8-s1-w13"
+}

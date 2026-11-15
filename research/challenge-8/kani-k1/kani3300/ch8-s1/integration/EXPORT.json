@@ -1,0 +1,24 @@
+{
+  "state": "COMMITTED_SOURCE_STATIC_REVIEW_GO_VERIFIER_NOT_RUN",
+  "baseline_sha": "872d5a43380752786415bc00d2a12ce0e930cb37",
+  "baseline_tree": "384023c2f80a04d0618aa7ce971b1419494b062b",
+  "model_original_sha": "3f469d3ba2e94d7129e66e53ea76df883ff9c946",
+  "model_integrated_sha": "1313f7c329",
+  "export_sha": "75a4d1ea6eb60c63c27c1b18e662740d93bafb08",
+  "export_tree": "6d1b90bc11440762c9b65889fc538ba3071b0d9d",
+  "patch_sha256": "ca78c0ad43baed5bfb61814008b95aa5ca2da34da7d19f7bfcb711eb0e435492",
+  "files": {
+    "library/core/Cargo.toml": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb",
+    "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+    "library/core/src/slice/sort/shared/smallsort.rs": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "f6a941f618a8b5c1a1e936ba46501c25785d105a4f25a4e86fa15418c52cc562",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "b3fa030187e4b6dbc1a9bcd6b84fc51fb657a1ee8be13d150c5870275da2725f",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+    "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+  },
+  "diff_stat": "library/core/Cargo.toml                            |   2 +\n library/core/src/lib.rs                            |   1 +\n library/core/src/slice/sort/shared/smallsort.rs    |  19 +++\n .../core/src/slice/sort/shared/smallsort/verify.rs |  16 +-\n .../smallsort/verify/sorting_entry_controls.rs     |  34 ++++\n .../shared/smallsort/verify/sorting_entry_smoke.rs |  94 +++++++++++\n .../sort/shared/smallsort/verify/sorting_model.rs  | 158 ++++++++++++++++++\n .../smallsort/verify/sorting_model_controls.rs     | 182 +++++++++++++++++++++\n tool_config/kani-version.toml                      |   2 +-\n 9 files changed, 505 insertions(+), 3 deletions(-)",
+  "published": false,
+  "proof_credit": "NONE"
+}

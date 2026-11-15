@@ -1,0 +1,27 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-ch8-s1-w13",
+  "baseline_commit": "872d5a43380752786415bc00d2a12ce0e930cb37",
+  "candidate_commit": "75a4d1ea6eb60c63c27c1b18e662740d93bafb08",
+  "defect": "S1 verification-only actual trait sorting contracts, closed model and smoke mechanism on six implementations",
+  "applicability": "Six actual bodies on std872d with exact stock Kani0aac; named u8/Cell/NonCopyByte KeyLess pairs; N0..3 mechanism only. No verifier execution authorized.",
+  "invariants": [
+    "Runtime bodies/signatures/bounds unchanged. Six fully qualified trait threshold requires; Stable Freeze len<2 or scratch>=len+16.",
+    "Conditional semantic ensures on each real body with owned old(snapshot), no comparator calls in checker, no broad generic theorem or verified summaries.",
+    "Independent initialized backing/flat MU scratch, model activation before calls, canaries, N0..3 useful covers; no panic stubs."
+  ],
+  "controls": [
+    "Worker11 12 model/control roots (3 pairs, inactive/invalid/order/count).",
+    "Six PFC smoke roots and two fixed legal PFC activation companions; CI-only false-ensures variants planned separately."
+  ],
+  "dependencies": [
+    "library/core/src/slice/sort/shared/mod.rs",
+    "scripts/run-kani.sh"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Rust/Kani NOT_RUN, forbidden locally; all qualifications future CI coordinator.",
+    "Frames qualified only for exact named pure ZST comparators; no arbitrary FnMut frame claim or Replace use.",
+    "No S2/full threshold/all internal branches/extra-UB proof."
+  ]
+}

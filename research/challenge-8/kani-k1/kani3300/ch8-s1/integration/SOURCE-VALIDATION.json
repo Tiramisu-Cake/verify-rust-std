@@ -1,0 +1,24 @@
+{
+  "state": "PASS_STATIC_ONLY",
+  "source_sha": "75a4d1ea6eb60c63c27c1b18e662740d93bafb08",
+  "source_tree": "6d1b90bc11440762c9b65889fc538ba3071b0d9d",
+  "changed_paths": [
+    "library/core/Cargo.toml",
+    "library/core/src/lib.rs",
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+    "tool_config/kani-version.toml"
+  ],
+  "runtime_body_comparison": "BYTE_IDENTICAL_AFTER_REMOVING_19_VERIFICATION_ATTRS",
+  "methods": 6,
+  "pfc_smoke_roots": 6,
+  "activation_companions": 2,
+  "model_files": "EXACT_W11",
+  "Rust": "NOT_RUN",
+  "Kani": "NOT_RUN",
+  "Cloud_dollars": 0
+}
