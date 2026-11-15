@@ -1,0 +1,41 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "files": 10,
+  "active_call_unit_names": [
+    "self_cycle_is_an_error_without_pushing_another_frame",
+    "mutual_cycle_retains_original_root_and_active_stack",
+    "caller_location_is_diagnostic_only_and_survives_repeated_entry",
+    "diamond_and_repeated_completed_calls_are_allowed",
+    "exact_instance_and_body_selection_are_part_of_identity",
+    "discarded_override_has_no_source_body_edges",
+    "independent_roots_in_both_orders_do_not_share_errors",
+    "diagnostic_uses_display_without_exposing_internal_identity",
+    "diagnostic_is_bounded_without_limiting_analysis_depth"
+  ],
+  "active_call_unit_count": 9,
+  "unit_execution": "NOT_RUN",
+  "checks": [
+    "deterministic owner1 extraction including explicit syntax seams",
+    "lexical balanced delimiters (not Rust parsing)",
+    "independent exact resolver-only change over baseline visitor",
+    "entire instrumentation visitor and nine unit bodies exact F",
+    "both real pre-F7 cache writers; no future API",
+    "all 22 B1 fixture code/golden pairs retained",
+    "no runtime/layout/graph/docs/workflow/pin changes",
+    "git diff --check"
+  ],
+  "compilation_fmt_clippy_CI_push": "NOT_RUN",
+  "integration_status": "PENDING",
+  "integration_heads": [
+    4,
+    5
+  ],
+  "independent_review": "PENDING_WORKER15",
+  "source_sha": "d82752c8bc878398e672bffaa631ca6a28430acc",
+  "source_tree": "c7024fb95c9cbb8ca2b1091056b9d5aa9c8cea9b",
+  "patch_reconstruction_files": 10,
+  "source.patch_sha256": "fa7cec3f0ddaf285cf46f158a827dadcbab1838f3eed2965ae6b0271145aa1a0",
+  "source.patch_alternate_index_target_tree": "c7024fb95c9cbb8ca2b1091056b9d5aa9c8cea9b",
+  "residual-to-F.patch_sha256": "5477393421ac4e736039bdcb467cf3c1f009c4e1178202f4b721feec3ea29330",
+  "residual-to-F.patch_alternate_index_target_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb"
+}

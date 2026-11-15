@@ -19,8 +19,7 @@ owner parts; individual +/- line parts are not independently applicable patches.
 syntax/imports/callers together and obey the semantic seam notes. Raw source diffs are research baselines, not slice patches.
 
 Two dependencies refine the initial outline:2 borrows only the exact layout qualification helpers it already calls;
-4 receives projected-raw/address behavior needed by MU safety.6 retains the ordinary-union constant production branch
-plus its edge qualification. The coordinator must review these choices before source implementation.
+4 receives projected-raw/address behavior needed by MU safety.6 retains only its edge qualification. These refinements are accepted by the variant C decision below.
 F7 stays7; earlier heads use exact historical cache writes/import from PRE-F7.json, with no early fake API.
 
 `STATIC-CHECKS.json`: all source patches reconstruct their target blobs byte-for-byte **in memory**;
@@ -36,3 +35,14 @@ this stage does not independently re-audit their CI evidence or establish formal
 NOT_RUN: local native builds (prohibited), CI, push, intermediate head Quick, source slicing, full-tree recompose.
 Parallel oracle/docs map is neither modified nor accepted here. This handoff completes worker14's stage0 assignment;
 the coordinator owns combined-map acceptance and issuing the next stage.
+
+## Accepted dependency decision for stage1
+
+TASK @`4fef62ad67`, variant C supersedes stage0 review-pending language above.
+Recognition/for_storage helpers stay2; all projected-raw guards and exact V420–424 part move to4; E1 has no required production residual.
+Head1 is `NO_REGRESSION`, integration `PENDING` on heads `[4,5]`: no new non-MU fixtures, no golden weakening, no early closure/storage prerequisites.
+Head4 closes owner1 DAG/cycles/root-order and ordinary payload/padding; head5 closes ordinary positive/capture-free and all mapped contract/strong/mode/root obligations.
+Nested Pat/enum/raw-eq-uninit integration of owner3 waits4; generated-modifies-no-shadow waits5.
+Stage0 findings are static dependency observations, not failed runtime runs. Canonical updated parts are in JSON; stage0 pins remain available at bf455494e4.
+
+Current stage1 source/patch/static result and pending integration obligations: `../slice-01/SLICE.json`. The preceding stage0 status is historical.

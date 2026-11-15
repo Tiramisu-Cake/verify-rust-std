@@ -1,0 +1,4897 @@
+{
+  "slice": 1,
+  "name": "ANALYSIS S3+CC1/2/4",
+  "source_sha": "d82752c8bc878398e672bffaa631ca6a28430acc",
+  "source_tree": "c7024fb95c9cbb8ca2b1091056b9d5aa9c8cea9b",
+  "base_sha": "6fe484b30043b3696b5f1ccc4bea0e42891ad012",
+  "parents": [
+    "6fe484b30043b3696b5f1ccc4bea0e42891ad012"
+  ],
+  "reference_F": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "reference_F_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+  "g0_input": "4fef62ad67",
+  "source_map_input": "bf455494e449c8c60c23a9e6db1e19bc809c0458",
+  "oracle_map_input": "d1dbc70afd797457ada49fb651ac98d5d338d2de",
+  "dependency_decision": "TASK variant C @4fef62ad67",
+  "dependents": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "changed_files": [
+    "kani-compiler/src/kani_middle/points_to/mod.rs",
+    "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+    "tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs",
+    "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/generated-positive-plain.rs",
+    "tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs"
+  ],
+  "changed_hunks": "SOURCE-PARTS.json",
+  "tests": "TEST-MANIFEST.json",
+  "docs": [],
+  "borrowed_prerequisite": [],
+  "syntax_adaptations": [
+    "Split combined baseline CheckType import with exact pre-F7 import",
+    "Keep baseline shim/diagnostic helpers and replace resolver in its original location",
+    "Failed-root write uses real historical cache insertion until F7; ordinary writer unchanged"
+  ],
+  "qualification_kind": "NO_REGRESSION",
+  "qualification_status": "NOT_RUN",
+  "integration_status": "PENDING",
+  "integration_heads": [
+    4,
+    5
+  ],
+  "deferred_obligations": [
+    {
+      "id": "closure-upvars/holes",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-upvars/holes.rs",
+        "mode": "100644",
+        "blob": "6e97bfd5023961ca40aa6f991a1ed7f5a757c88d",
+        "sha256": "6da4a03e0e5d5691cce5bd4f851da704ea275a18f50fa109fd666678182fd45a"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-upvars/holes.expected",
+        "mode": "100644",
+        "blob": "05dd9ea7207d8c141b882efd8915fea2713e605e",
+        "sha256": "6a2cb7887112bf40562cf518d0c299616cc0c178244f3d0a98425b5f875e863e"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 26,
+          "text": "assert!(*enabled, \"initialized bool referent consumed\");"
+        },
+        {
+          "line": 31,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 38,
+          "text": "assert_eq!(two_refs(true), 17, \"two-ref initialized payload consumed\");"
+        },
+        {
+          "line": 80,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 27,
+          "text": "kani::cover!(true, \"two-ref body reached payload read\");"
+        },
+        {
+          "line": 39,
+          "text": "kani::cover!(true, \"two-ref initialized return reached\");"
+        },
+        {
+          "line": 46,
+          "text": "kani::cover!(byte == 17, \"two-ref hole result consumed\");"
+        },
+        {
+          "line": 61,
+          "text": "kani::cover!(true, \"closure padding byte read reached\");"
+        },
+        {
+          "line": 82,
+          "text": "kani::cover!(byte == 0, \"closure padding result consumed\");"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness two_refs_initialized...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Checking harness two_refs_preserve_hole...",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "VERIFICATION:- FAILED",
+          "Checking harness capture_padding_stays_false...",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "VERIFICATION:- FAILED",
+          "Complete - 1 successfully verified harnesses, 2 failures, 3 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 2 failures, 3 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL",
+          "VERIFICATION:- FAILED",
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-upvars/layout",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-upvars/layout.rs",
+        "mode": "100644",
+        "blob": "2b1edb090ddbfddb7c4e93be7bf82c5b62b1e097",
+        "sha256": "6c2aec8a236599cb99c87fd1adf1ac53eea996583cef82c93db413ed5bb51312"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-upvars/layout.expected",
+        "mode": "100644",
+        "blob": "817e51b3777e2ebe451947d8e7f718704ccf9f59",
+        "sha256": "6831eace839b67fb557d75246986db191d921e37b54f3c1f1a676af1b0d2cec3"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 33,
+          "text": "assert_eq!(copied.prefix, 7, \"prefix survives closure layout composition\");"
+        },
+        {
+          "line": 61,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 62,
+          "text": "assert!(offset_copy_call(callback), \"mixed captures and padding consumed\");"
+        },
+        {
+          "line": 88,
+          "text": "assert!(std::mem::size_of_val(&outer) > 0);"
+        },
+        {
+          "line": 89,
+          "text": "assert!(offset_copy_call(outer), \"nested closure fields consumed\");"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 54,
+          "text": "kani::cover!(true, \"mixed upvars reached payload read\");"
+        },
+        {
+          "line": 63,
+          "text": "kani::cover!(true, \"mixed upvars returned\");"
+        },
+        {
+          "line": 85,
+          "text": "kani::cover!(true, \"nested ordinary closure reached\");"
+        },
+        {
+          "line": 90,
+          "text": "kani::cover!(true, \"nested upvars returned\");"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness mixed_scalar_ref_padding...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Checking harness reordered_nested_captures...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 2 successfully verified harnesses, 0 failures, 2 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 2 successfully verified harnesses, 0 failures, 2 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL",
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-upvars/ordinary",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-upvars/ordinary.rs",
+        "mode": "100644",
+        "blob": "25e986228e4de14270b9a32aa6dbb54d97925c8f",
+        "sha256": "49a56d035fc87de378521881f4d49166e59423fd90a8b88514608719ad1e4f5e"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-upvars/ordinary.expected",
+        "mode": "100644",
+        "blob": "4759a8f0fbafd299e2a998c602c147249154562a",
+        "sha256": "e5f601472ef5f6423a8329c1b136a90bf818d1c0ec38636314a97d3e5954f1e0"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 25,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 32,
+          "text": "assert!(captured_bool(true), \"true captured bool consumed\");"
+        },
+        {
+          "line": 33,
+          "text": "assert!(!captured_bool(false), \"false captured bool consumed\");"
+        },
+        {
+          "line": 53,
+          "text": "assert!(payload_is_17(&result), \"captured contract initialized result read\");"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 22,
+          "text": "kani::cover!(true, \"bool capture body reached\");"
+        },
+        {
+          "line": 34,
+          "text": "kani::cover!(true, \"both bool captures consumed\");"
+        },
+        {
+          "line": 42,
+          "text": "#[kani::requires(!initialized || payload_is_17(&value))]"
+        },
+        {
+          "line": 43,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_17(result))]"
+        },
+        {
+          "line": 54,
+          "text": "kani::cover!(true, \"captured contract true result consumed\");"
+        },
+        {
+          "line": 56,
+          "text": "kani::cover!(true, \"captured contract false storage returned\");"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness bool_captures_true_false...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Checking harness ordinary_captured_contract...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Checking harness simple_check_captured_contract...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 3 successfully verified harnesses, 0 failures, 3 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 3 successfully verified harnesses, 0 failures, 3 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL",
+          "VERIFICATION:- SUCCESSFUL",
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-aligned-hole",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-aligned-hole.rs",
+        "mode": "100644",
+        "blob": "fba14f0e70aa8e5220547ff20a4d25914899dd78",
+        "sha256": "6575e558829ccfd38c7e51416b2540e6d6d6a8419673f39801a7501768a7e919"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-aligned-hole.expected",
+        "mode": "100644",
+        "blob": "ff6e51b83b81953840ad449d50381035e9f741c7",
+        "sha256": "1d1f8adf5f03cce85533ad7b66ceca4db84fda4e05e95f9bed523a3dac9be32d"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 40,
+          "text": "assert_eq!(std::mem::size_of_val(&callback), 0);"
+        },
+        {
+          "line": 41,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_aligned_hole...",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-aligned-legal",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-aligned-legal.rs",
+        "mode": "100644",
+        "blob": "5f8807468319e15db22c8d64799e8270c2aa19a0",
+        "sha256": "4134d44f0b01e31532074affa6d16e18909e84f2a15d14a4cc3f4bb8fec1b724"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-aligned-legal.expected",
+        "mode": "100644",
+        "blob": "f405af824418c9aff1b8058c32b2774efaf60419",
+        "sha256": "50609c1c9ed50aaaef1bbd2f5925fbf5a0b784ee2669e3312dcf4e6fd5ccbba6"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 40,
+          "text": "assert_eq!(std::mem::size_of_val(&callback), 0);"
+        },
+        {
+          "line": 41,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_aligned_legal...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-mu-reference-new",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-mu-reference-new.rs",
+        "mode": "100644",
+        "blob": "25235c7b1092ccf93170e6c28cc01cab7e6abf02",
+        "sha256": "79af8c65910124b0cb0b32b0aec053829706df386d4a240a9bdef820798ccc37"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-mu-reference-new.expected",
+        "mode": "100644",
+        "blob": "a4017ecf214da21ffed32573ecffc954caa65f05",
+        "sha256": "486487e7a8e3c4e425cdfd5ff0a80cefb891525fde4ecc34444a20a8832d46e6"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 38,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 39,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_mu_reference_new...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-mu-reference-uninit",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-mu-reference-uninit.rs",
+        "mode": "100644",
+        "blob": "43ee854f51c1ba7c3705f0b2379df669f3b3faae",
+        "sha256": "dc7156cc3c7d73cf99eb1ba25c304edb16c52a1d62bf1ce52ff07bf1fd68d7ae"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-mu-reference-uninit.expected",
+        "mode": "100644",
+        "blob": "92d4f7cd732623e4ae2febdbf90e1830c0bee09c",
+        "sha256": "5bb65539db89d1487324617fd4bfda81f26e660b9e1d9d2af153f96114ef2f42"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 38,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 39,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_mu_reference_uninit...",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-mu-value-new",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-mu-value-new.rs",
+        "mode": "100644",
+        "blob": "6a9896a71d8059d2833dde6ada9c7b17a3612854",
+        "sha256": "64a4d95ff93a91527bacffc06ffa84143031fb36fd30b9d0eefd6a0d6abde2a4"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-mu-value-new.expected",
+        "mode": "100644",
+        "blob": "9df6d38b7c9211a33f43b4e66404214c1762f210",
+        "sha256": "f2ae3629eb78f40f568bb7c371b601439e629001a8031218a2bc4bed1aa5a246"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 38,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 39,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_mu_value_new...",
+          "Cannot determine layout for a type that contains union of type",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [
+        "Legal-looking name is not a SUCCESS promise; retain exact F layout/union refusal or read failure"
+      ],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-mu-value-uninit",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-mu-value-uninit.rs",
+        "mode": "100644",
+        "blob": "1d39a0abdea8c325d2889ce56978b442ddc0bcb5",
+        "sha256": "997d4d0b05a6eb8ede32f819a3d31109fe58fb5af7337be97a3885377c4cd45d"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-mu-value-uninit.expected",
+        "mode": "100644",
+        "blob": "8b7e519ff99144596afd89383dd4346c18557d3b",
+        "sha256": "37bdd5c5d5aa454cec1dd4bcff275f6e08052d9be60c861f6fee6c0c965806fa"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 38,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 39,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_mu_value_uninit...",
+          "Cannot determine layout for a type that contains union of type",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-padded",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-padded.rs",
+        "mode": "100644",
+        "blob": "9bb96fda71871d5493ac43c52459679f0dd5ca3d",
+        "sha256": "68a6397a2ee8f9c2c1c6c928b3cbb77dfa3bbd74e8cf696fd8bf632798eb76d4"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-padded.expected",
+        "mode": "100644",
+        "blob": "64a87e4a37dd672651202ac0eeaa0c203a214591",
+        "sha256": "c07f12d4a288634ef41538885b0247dfd738e99bdf8b8f232f60f3dfe737a53f"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 42,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 43,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_padded...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-raw-hole",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-raw-hole.rs",
+        "mode": "100644",
+        "blob": "a784c5d082b7069d42d97805d01f5a6a46231329",
+        "sha256": "a5bb0b83afb23a95a2511c34513c53bb95686c5cca06e1986ab08ccbc4f5637d"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-raw-hole.expected",
+        "mode": "100644",
+        "blob": "4d4f9d98bd0b8dadbe1da959c053f28e80e6981a",
+        "sha256": "b384ce683b2f16142243ef5958ebef2a760215ad704d827453d8d79b7a58342f"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 43,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 44,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_raw_hole...",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-raw-legal",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-raw-legal.rs",
+        "mode": "100644",
+        "blob": "0a6ce2d14d5e028bf2fc83dd124d5c5003927cd3",
+        "sha256": "4e35e57c4b50e4d591efecf10a3b402b963045b2ed62bb08b99be23cbb9da65b"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-raw-legal.expected",
+        "mode": "100644",
+        "blob": "9dea24c28229c2889b0a0e8ce0f99408ad6e1042",
+        "sha256": "c4907fcc009f37229abf998fd5fe0129b53f04f24b212fd01f6c806f07d188c7"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 43,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 44,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_raw_legal...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-reference-hole",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-reference-hole.rs",
+        "mode": "100644",
+        "blob": "105d48459ff2e955059a0ddccb8d4e934b63dd08",
+        "sha256": "b01315a14b6a7bac3c5846ea30e656c7f9d8712d8886e3641462a89175494bad"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-reference-hole.expected",
+        "mode": "100644",
+        "blob": "253f3ac5bc7d4155300e3575e706ef44b6bef83f",
+        "sha256": "a59acfb8885e021f2ac5573558a39326497766d21452ee24984d3b1743c59be3"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 43,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 44,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_reference_hole...",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-reference-legal",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-reference-legal.rs",
+        "mode": "100644",
+        "blob": "f4b5bee2883375c8637efc2dd8c134d0fcb28b01",
+        "sha256": "5ed5c749247eaca38e5107b0c875efb8c49a232a6840d7d78f7f01d4b90439a1"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-reference-legal.expected",
+        "mode": "100644",
+        "blob": "ff1b798c1ee4450f7252bf9c618565eaa67f5dfe",
+        "sha256": "62164ea9e366e5dd1ac99da27b7ff7d6b3d36c241b695c666af93a837c215a5b"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 43,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 44,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_reference_legal...",
+          "Failed Checks: Checking memory initialization of type std::cell::UnsafeCell<std::mem::MaybeUninit<u8>> is not supported. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [
+          "Failed Checks: Checking memory initialization of type std::cell::UnsafeCell<std::mem::MaybeUninit<u8>> is not supported. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field."
+        ],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [
+        "Legal-looking name is not a SUCCESS promise; retain exact F layout/union refusal or read failure"
+      ],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-scalar",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-scalar.rs",
+        "mode": "100644",
+        "blob": "3ee56cf71f69a2c94c1516313d82d9c0a419acc1",
+        "sha256": "6fd868a4b0363c68d84d56efcce9da6e639f3c1e7e9e5acf16c01d0ffbf1e5c2"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-scalar.expected",
+        "mode": "100644",
+        "blob": "89dc7bb7e5710cfa119d0ebfe39b7db4385030b8",
+        "sha256": "03b188faa7f7ae3c49205b6931f3201dd31d7b71edb9afbf480bfc50022a0c4e"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 36,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 37,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_scalar...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-union-reference",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-union-reference.rs",
+        "mode": "100644",
+        "blob": "241782702e29d0970977ab34bbb1b737b2cf1055",
+        "sha256": "9373e13da78a5487aedee7e7abd039f42c1c2a443e23c288b65c64e2cf02fcc2"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-union-reference.expected",
+        "mode": "100644",
+        "blob": "a800797b95da6cbb15dffe0ccaa0f1e1f09501fd",
+        "sha256": "65aaa9a08dd62e364c924ce9cda114a9ecfbe3fc1db382dd4f839046b230bf65"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 44,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 45,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_union_reference...",
+          "Failed Checks: Kani does not yet support performing a dereference on a union field",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [
+          "Failed Checks: Kani does not yet support performing a dereference on a union field"
+        ],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [
+        "Legal-looking name is not a SUCCESS promise; retain exact F layout/union refusal or read failure"
+      ],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-union-value",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-union-value.rs",
+        "mode": "100644",
+        "blob": "501b2f6c8fb1d3be07d35e08fc4d4c9d23a4c792",
+        "sha256": "a5bdf2f7f5c263b4580e7c6cd1dc765a92ceb3c3f83e181bb9b4f05f095ccef1"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-union-value.expected",
+        "mode": "100644",
+        "blob": "8099c2e7cff1a910e13d12795bcd530ee852840a",
+        "sha256": "1625e9e44b90f14416b302203a6ec2d5f952cd2d9689af3729297961741ce148"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 44,
+          "text": "assert!(std::mem::size_of_val(&callback) > 0);"
+        },
+        {
+          "line": 45,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_union_value...",
+          "Cannot determine layout for a type that contains union of type",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [
+        "Legal-looking name is not a SUCCESS promise; retain exact F layout/union refusal or read failure"
+      ],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-unit-hole",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-unit-hole.rs",
+        "mode": "100644",
+        "blob": "696c9afe98eb114186fd30e5bd212185b626c8e5",
+        "sha256": "f4934b5d6e8b708bf65688718ac60d6bdfe8202d8757ce2b9610ad4a925989cd"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-unit-hole.expected",
+        "mode": "100644",
+        "blob": "c6136f9c09285f072f9677dfb5b43809533e9a54",
+        "sha256": "e4a557521b82386f46c2238617a4dc85f749bedaca50f325231bd60d8f2d3923"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 36,
+          "text": "assert_eq!(std::mem::size_of_val(&callback), 0);"
+        },
+        {
+          "line": 37,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_unit_hole...",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/capture-unit-legal",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/capture-unit-legal.rs",
+        "mode": "100644",
+        "blob": "2fd05350b685dc3f58bae6af6d19875593721e55",
+        "sha256": "62e582812a3f88a89eea98b7c2ddbf26aad8ac3f21b9c3201a88307cd700a9da"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/capture-unit-legal.expected",
+        "mode": "100644",
+        "blob": "40d5f7e8275270f481e65ba85b784a2ad4efb90f",
+        "sha256": "8a1572b39b750f5a26fba68dd38301a57e4bbddf9c8c7898b74b745021133b23"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 36,
+          "text": "assert_eq!(std::mem::size_of_val(&callback), 0);"
+        },
+        {
+          "line": 37,
+          "text": "assert!(copy_and_call(callback, &payload));"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_unit_legal...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/scalar-pfc-hole",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/scalar-pfc-hole.rs",
+        "mode": "100644",
+        "blob": "77861141370900aefd1aca932b2c3983d507433a",
+        "sha256": "6c7eadadb7ca5ecf36babd733a9b2878928718c0f54696bc0b1e5c7dafc902a4"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/scalar-pfc-hole.expected",
+        "mode": "100644",
+        "blob": "409ebbe02c0384dcd6393ce8a4722b36c9509af7",
+        "sha256": "742cd8f652e98a4b0a9526a1bbdb61e73cc2c115093926e2a432c33bec243698"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [],
+      "contracts_and_covers": [
+        {
+          "line": 14,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 })]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness postcondition_reads_returned_hole...",
+          "std::ptr::read::<u8>.safety_check.1\\",
+          " - Status: FAILURE\\",
+          " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\"",
+          "std::ptr::read::<u8>.safety_check.4\\",
+          " - Status: FAILURE\\",
+          " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\"",
+          "postcondition_target::\\",
+          " - Status: FAILURE\\",
+          " - Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }\"",
+          "SUMMARY:\\",
+          " ** 3 of",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "Failed Checks: |result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "FAILURE",
+            "literal_lines": [
+              "std::ptr::read::<u8>.safety_check.1\\",
+              " - Status: FAILURE\\",
+              " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\""
+            ]
+          },
+          {
+            "line": 5,
+            "status": "FAILURE",
+            "literal_lines": [
+              "std::ptr::read::<u8>.safety_check.4\\",
+              " - Status: FAILURE\\",
+              " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\""
+            ]
+          },
+          {
+            "line": 8,
+            "status": "FAILURE",
+            "literal_lines": [
+              "postcondition_target::\\",
+              " - Status: FAILURE\\",
+              " - Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }\""
+            ]
+          }
+        ],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "Failed Checks: |result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }"
+        ],
+        "exact_failure_counts": [
+          3
+        ],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "closure-zst/scalar-pfc-legal",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs",
+        "mode": "100644",
+        "blob": "8fc4bed8fc3e9bf9538269bc77a7c0ffa67d6db6",
+        "sha256": "439c9c9817875a0554fbf43a14eb7f871a3ab23cc038605afcead23a719ee4f0"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/closure-zst/scalar-pfc-legal.expected",
+        "mode": "100644",
+        "blob": "b203f9aa03118ad269cdd7ac344c998f4dbf1f8b",
+        "sha256": "bbb0702f4dfb3bf0487b79fb5c29ef3c138582e4279ce2eb52a4070bc3cb2c40"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [],
+      "contracts_and_covers": [
+        {
+          "line": 14,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 })]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness postcondition_reads_initialized_return...",
+          "postcondition_target::\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }\"",
+          "SUMMARY:\\",
+          " ** 0 of",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "postcondition_target::\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }\""
+            ]
+          }
+        ],
+        "required_failed_checks": [],
+        "exact_failure_counts": [
+          0
+        ],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "contract-immutable-masks/ensures-left-hole",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs",
+        "mode": "100644",
+        "blob": "b58814038bf2ec1319a96e9c69df62d004a89bcb",
+        "sha256": "47e48e69bff71f92f9f098acbea449cb44ce40034d9bea6eb6f3818bc6b3838f"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.expected",
+        "mode": "100644",
+        "blob": "501ea698c3195f1b984a4eb04d86610dc5b37c71",
+        "sha256": "4bedbd7632f8f9775f5f07a39430cb5b2e26c623bc551896b6ce9e395a9e1467"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular"
+        }
+      ],
+      "useful_assertions": [],
+      "contracts_and_covers": [
+        {
+          "line": 14,
+          "text": "#[kani::ensures(|result: &&[MaybeUninit<u8>; 3]| unsafe {"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness ensures_left_hole...",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type",
+          "VERIFICATION:- FAILED",
+          "Verification failed for - ensures_left_hole",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type"
+        ],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "contract-immutable-masks/ensures-right-hole",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs",
+        "mode": "100644",
+        "blob": "ed3fe1d61d470303bc2b550d65b28c0d7c94d513",
+        "sha256": "6e0cb23853ca8954b1824adb5375df8c141da6fc2653f89c75eb96e0b9f10bda"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.expected",
+        "mode": "100644",
+        "blob": "a53422ae097862aac42694a926002b03ff93adee",
+        "sha256": "e4c29764a41c9f1483b87dbeb5ad4268bc3b8ea952a5d6b9730326bf0c8d9b2a"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular"
+        }
+      ],
+      "useful_assertions": [],
+      "contracts_and_covers": [
+        {
+          "line": 14,
+          "text": "#[kani::ensures(|result: &&[MaybeUninit<u8>; 3]| unsafe {"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness ensures_right_hole...",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type",
+          "VERIFICATION:- FAILED",
+          "Verification failed for - ensures_right_hole",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type"
+        ],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "contract-immutable-masks/ordinary-singleton",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs",
+        "mode": "100644",
+        "blob": "1b1ade35a8871e2aedc03193b64b915addd679c6",
+        "sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.expected",
+        "mode": "100644",
+        "blob": "643abe821be7acdc531500c8345708de653a69bf",
+        "sha256": "6fb62c8154c9248d51f319458e7caacfb13ded674d377a0e60d240f21ab31228"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 19,
+          "text": "assert_eq!(byte, 7);"
+        },
+        {
+          "line": 30,
+          "text": "assert_eq!(value, [1, 2, 3]);"
+        },
+        {
+          "line": 38,
+          "text": "assert_eq!(write_initialized(&mut out), 7);"
+        },
+        {
+          "line": 39,
+          "text": "assert_eq!(out, [1, 2, 3]);"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 13,
+          "text": "#[kani::modifies(out)]"
+        },
+        {
+          "line": 14,
+          "text": "#[kani::ensures(|result: &u8| *result == 7 && *out == [1, 2, 3])]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness legal_ordinary_transfer...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "contract-modes/recursive-check",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/contract-modes/recursive-check.rs",
+        "mode": "100644",
+        "blob": "901fc3ecb948d587690db84813846766e5c158db",
+        "sha256": "7f4bfe55ba02710cff817a661233559e1422deafa8be264fadd22995fea200eb"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/contract-modes/recursive-check.expected",
+        "mode": "100644",
+        "blob": "c9304e8a50e0f432049839ab2ac00a5659e95dff",
+        "sha256": "38d5797de81544aea8b7927fd80f902993bd79d307563f83dce69405d068869f"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 37,
+          "text": "assert!(payload_is_42(&result));"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 22,
+          "text": "#[kani::requires(depth <= 1)]"
+        },
+        {
+          "line": 23,
+          "text": "#[kani::requires(!initialized || payload_is_42(&value))]"
+        },
+        {
+          "line": 24,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_42(result))]"
+        },
+        {
+          "line": 25,
+          "text": "#[kani::recursion]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness recursive_check...",
+          "recursive_check.unsupported_construct.1\\",
+          "- Status: FAILURE\\",
+          "- Description: \"Kani delayed uninitialized-memory analysis detected an interprocedural cycle",
+          "root/active path: recursive_check [provenance=source]",
+          "recursive_transfer [provenance=source]",
+          "provenance=registration-override; origin=kani::internal::run_contract_fn",
+          "Failed Checks: Kani delayed uninitialized-memory analysis detected an interprocedural cycle",
+          "SUMMARY:\\",
+          "** 1 of",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "FAILURE",
+            "literal_lines": [
+              "recursive_check.unsupported_construct.1\\",
+              "- Status: FAILURE\\",
+              "- Description: \"Kani delayed uninitialized-memory analysis detected an interprocedural cycle"
+            ]
+          }
+        ],
+        "required_failed_checks": [
+          "Failed Checks: Kani delayed uninitialized-memory analysis detected an interprocedural cycle"
+        ],
+        "exact_failure_counts": [
+          1
+        ],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "contract-modes/recursive-ordinary",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/contract-modes/recursive-ordinary.rs",
+        "mode": "100644",
+        "blob": "7faabc02097d36e11fd3e49e13a8f394b4f8665b",
+        "sha256": "ae47705a06682e319f3ffd104853397546164ea3f6add61e98eaa3f40230e559"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/contract-modes/recursive-ordinary.expected",
+        "mode": "100644",
+        "blob": "c35fa9c27bfcad4d7d208532ef275d79764878c1",
+        "sha256": "0212a134db9a9a8bf797f1213ea5781a5c6a6c88aa457d32961f0be781dd803d"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 37,
+          "text": "assert!(payload_is_42(&result));"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 22,
+          "text": "#[kani::requires(depth <= 1)]"
+        },
+        {
+          "line": 23,
+          "text": "#[kani::requires(!initialized || payload_is_42(&value))]"
+        },
+        {
+          "line": 24,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_42(result))]"
+        },
+        {
+          "line": 25,
+          "text": "#[kani::recursion]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness recursive_ordinary...",
+          "recursive_ordinary.unsupported_construct.1\\",
+          "- Status: FAILURE\\",
+          "- Description: \"Kani delayed uninitialized-memory analysis detected an interprocedural cycle",
+          "root/active path: recursive_ordinary [provenance=source]",
+          "recursive_transfer [provenance=source]",
+          "provenance=registration-override; origin=kani::internal::run_contract_fn",
+          "Failed Checks: Kani delayed uninitialized-memory analysis detected an interprocedural cycle",
+          "SUMMARY:\\",
+          "** 1 of",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "FAILURE",
+            "literal_lines": [
+              "recursive_ordinary.unsupported_construct.1\\",
+              "- Status: FAILURE\\",
+              "- Description: \"Kani delayed uninitialized-memory analysis detected an interprocedural cycle"
+            ]
+          }
+        ],
+        "required_failed_checks": [
+          "Failed Checks: Kani delayed uninitialized-memory analysis detected an interprocedural cycle"
+        ],
+        "exact_failure_counts": [
+          1
+        ],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "contract-modes/recursive-simple-check",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/contract-modes/recursive-simple-check.rs",
+        "mode": "100644",
+        "blob": "704aa3ddb8bd0a2565e28c0c58d0b1d2c4d05433",
+        "sha256": "7e5a8eede08b3c5793e637de19aa64bf6394e098c9768904d458469b1edf1a7c"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/contract-modes/recursive-simple-check.expected",
+        "mode": "100644",
+        "blob": "792adfa3e920140793b6946caa6bb7b6b0da6831",
+        "sha256": "8eaa8afb0d03867d74b947269a5f4a7dd1483343ebb8eb6ac62adf724644d720"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 43,
+          "text": "assert!(payload_is_42(&result));"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 22,
+          "text": "#[kani::requires(depth <= 1)]"
+        },
+        {
+          "line": 23,
+          "text": "#[kani::requires(!initialized || payload_is_42(&value))]"
+        },
+        {
+          "line": 24,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_42(result))]"
+        },
+        {
+          "line": 27,
+          "text": "kani::cover!(true, \"base body reached\");"
+        },
+        {
+          "line": 31,
+          "text": "kani::cover!(true, \"unrolled body edge reached\");"
+        },
+        {
+          "line": 44,
+          "text": "kani::cover!(true, \"initialized return consumed\");"
+        },
+        {
+          "line": 46,
+          "text": "kani::cover!(true, \"uninitialized storage returned\");"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness recursive_simple_check...",
+          "bounded_transfer::\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"|result: &MaybeUninit<u8>| !initialized || payload_is_42(result)\"",
+          "recursive_simple_check.assertion.1\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"assertion failed: payload_is_42(&result)\"",
+          "recursive_simple_check.cover.1\\",
+          "- Status: SATISFIED\\",
+          "- Description: \"initialized return consumed\"",
+          "recursive_simple_check.cover.2\\",
+          "- Status: SATISFIED\\",
+          "- Description: \"uninitialized storage returned\"",
+          "bounded_transfer::\\",
+          "- Status: SATISFIED\\",
+          "- Description: \"base body reached\"",
+          "bounded_transfer::\\",
+          "- Status: SATISFIED\\",
+          "- Description: \"unrolled body edge reached\"",
+          "SUMMARY:\\",
+          "** 0 of",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "bounded_transfer::\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"|result: &MaybeUninit<u8>| !initialized || payload_is_42(result)\""
+            ]
+          },
+          {
+            "line": 5,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "recursive_simple_check.assertion.1\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"assertion failed: payload_is_42(&result)\""
+            ]
+          },
+          {
+            "line": 8,
+            "status": "SATISFIED",
+            "literal_lines": [
+              "recursive_simple_check.cover.1\\",
+              "- Status: SATISFIED\\",
+              "- Description: \"initialized return consumed\""
+            ]
+          },
+          {
+            "line": 11,
+            "status": "SATISFIED",
+            "literal_lines": [
+              "recursive_simple_check.cover.2\\",
+              "- Status: SATISFIED\\",
+              "- Description: \"uninitialized storage returned\""
+            ]
+          },
+          {
+            "line": 14,
+            "status": "SATISFIED",
+            "literal_lines": [
+              "bounded_transfer::\\",
+              "- Status: SATISFIED\\",
+              "- Description: \"base body reached\""
+            ]
+          },
+          {
+            "line": 17,
+            "status": "SATISFIED",
+            "literal_lines": [
+              "bounded_transfer::\\",
+              "- Status: SATISFIED\\",
+              "- Description: \"unrolled body edge reached\""
+            ]
+          }
+        ],
+        "required_failed_checks": [],
+        "exact_failure_counts": [
+          0
+        ],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "contract-modes/replace-ordinary",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/contract-modes/replace-ordinary.rs",
+        "mode": "100644",
+        "blob": "4506f31c73a7ab86ce4f2b5250407b120227c48d",
+        "sha256": "72d45eaffa6771cbae294e91cb29919316a77c67e2b03451e5f717d10638a576"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/contract-modes/replace-ordinary.expected",
+        "mode": "100644",
+        "blob": "feb69f74dd7c18264c29bfa4939457438aacfaed",
+        "sha256": "2ad109c9eab0e59959d75beb355a942e8350d005cc5b55d3d91aabd0e24d07d5"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 40,
+          "text": "assert!(payload_is_42(&result));"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 22,
+          "text": "#[kani::requires(!initialized || payload_is_42(&value))]"
+        },
+        {
+          "line": 23,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_42(result))]"
+        },
+        {
+          "line": 41,
+          "text": "kani::cover!(true, \"initialized return consumed\");"
+        },
+        {
+          "line": 43,
+          "text": "kani::cover!(true, \"uninitialized storage returned\");"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness replace_ordinary...",
+          "passthrough::\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"|result: &MaybeUninit<u8>| !initialized || payload_is_42(result)\"",
+          "replace_ordinary.assertion.1\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"assertion failed: payload_is_42(&result)\"",
+          "replace_ordinary.cover.1\\",
+          "- Status: SATISFIED\\",
+          "- Description: \"initialized return consumed\"",
+          "replace_ordinary.cover.2\\",
+          "- Status: SATISFIED\\",
+          "- Description: \"uninitialized storage returned\"",
+          "SUMMARY:\\",
+          "** 0 of",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "passthrough::\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"|result: &MaybeUninit<u8>| !initialized || payload_is_42(result)\""
+            ]
+          },
+          {
+            "line": 5,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "replace_ordinary.assertion.1\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"assertion failed: payload_is_42(&result)\""
+            ]
+          },
+          {
+            "line": 8,
+            "status": "SATISFIED",
+            "literal_lines": [
+              "replace_ordinary.cover.1\\",
+              "- Status: SATISFIED\\",
+              "- Description: \"initialized return consumed\""
+            ]
+          },
+          {
+            "line": 11,
+            "status": "SATISFIED",
+            "literal_lines": [
+              "replace_ordinary.cover.2\\",
+              "- Status: SATISFIED\\",
+              "- Description: \"uninitialized storage returned\""
+            ]
+          }
+        ],
+        "required_failed_checks": [],
+        "exact_failure_counts": [
+          0
+        ],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "contract-modes/replace-simple-check",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/contract-modes/replace-simple-check.rs",
+        "mode": "100644",
+        "blob": "058058220f0cde926aa0fd4e46f49cb9974df36a",
+        "sha256": "cc01f62ee65b9b1f54020b229dce71d29d486ea9aee9fb5ee0d210fae5466cd8"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/contract-modes/replace-simple-check.expected",
+        "mode": "100644",
+        "blob": "60f5499fc65121d95dda9e1bf29a5c2f34219e2d",
+        "sha256": "dd843ecd361eea23d95fc6aaaa119f597c544fe09eb7659e0a01c673e9942b03"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 40,
+          "text": "assert!(payload_is_42(&result));"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 22,
+          "text": "#[kani::requires(!initialized || payload_is_42(&value))]"
+        },
+        {
+          "line": 23,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_42(result))]"
+        },
+        {
+          "line": 41,
+          "text": "kani::cover!(true, \"initialized return consumed\");"
+        },
+        {
+          "line": 43,
+          "text": "kani::cover!(true, \"uninitialized storage returned\");"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness replace_simple_check...",
+          "passthrough::\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"|result: &MaybeUninit<u8>| !initialized || payload_is_42(result)\"",
+          "replace_simple_check.assertion.1\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"assertion failed: payload_is_42(&result)\"",
+          "replace_simple_check.cover.1\\",
+          "- Status: SATISFIED\\",
+          "- Description: \"initialized return consumed\"",
+          "replace_simple_check.cover.2\\",
+          "- Status: SATISFIED\\",
+          "- Description: \"uninitialized storage returned\"",
+          "SUMMARY:\\",
+          "** 0 of",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "passthrough::\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"|result: &MaybeUninit<u8>| !initialized || payload_is_42(result)\""
+            ]
+          },
+          {
+            "line": 5,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "replace_simple_check.assertion.1\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"assertion failed: payload_is_42(&result)\""
+            ]
+          },
+          {
+            "line": 8,
+            "status": "SATISFIED",
+            "literal_lines": [
+              "replace_simple_check.cover.1\\",
+              "- Status: SATISFIED\\",
+              "- Description: \"initialized return consumed\""
+            ]
+          },
+          {
+            "line": 11,
+            "status": "SATISFIED",
+            "literal_lines": [
+              "replace_simple_check.cover.2\\",
+              "- Status: SATISFIED\\",
+              "- Description: \"uninitialized storage returned\""
+            ]
+          }
+        ],
+        "required_failed_checks": [],
+        "exact_failure_counts": [
+          0
+        ],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "contract-modes/replace-transfer-uninitialized",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs",
+        "mode": "100644",
+        "blob": "8f4d0bc36c096cb1b24cc22dc6ec2475f37efd10",
+        "sha256": "1ceb347fd29b394e7f2005752f597bee435723adc78d56ace33d479286440cba"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.expected",
+        "mode": "100644",
+        "blob": "ad037961fccd263c0e8d48797c74933563f63c00",
+        "sha256": "43abe4527007c5e2456d2732274830b73a52c25f1c44c682daa9cec6ee0a05ac"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --harness replace_transfer_uninitialized --exact --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 42,
+          "text": "assert!(!initialized || payload_is_42(&result));"
+        },
+        {
+          "line": 55,
+          "text": "assert!(payload_is_42(&result));"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 22,
+          "text": "#[kani::requires(!initialized || payload_is_42(&value))]"
+        },
+        {
+          "line": 23,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_42(result))]"
+        },
+        {
+          "line": 34,
+          "text": "#[kani::stub_verified(passthrough)]"
+        },
+        {
+          "line": 43,
+          "text": "kani::cover!(true, \"uninitialized storage returned\");"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness replace_transfer_uninitialized...",
+          "replace_transfer_uninitialized.assertion.1\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"assertion failed: !initialized || payload_is_42(&result)\"",
+          "replace_transfer_uninitialized.cover.1\\",
+          "- Status: SATISFIED\\",
+          "- Description: \"uninitialized storage returned\"",
+          "SUMMARY:\\",
+          "** 0 of",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "replace_transfer_uninitialized.assertion.1\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"assertion failed: !initialized || payload_is_42(&result)\""
+            ]
+          },
+          {
+            "line": 5,
+            "status": "SATISFIED",
+            "literal_lines": [
+              "replace_transfer_uninitialized.cover.1\\",
+              "- Status: SATISFIED\\",
+              "- Description: \"uninitialized storage returned\""
+            ]
+          }
+        ],
+        "required_failed_checks": [],
+        "exact_failure_counts": [
+          0
+        ],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [
+        "Retain local full-domain proof_for_contract(passthrough) companion; --harness caller --exact before --cbmc-args selects ONE caller; companion presence is not execution"
+      ],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "contract-modes/replace-transfer",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/contract-modes/replace-transfer.rs",
+        "mode": "100644",
+        "blob": "80d90042dc366d128aff0021696766754890b497",
+        "sha256": "d6673e266993cf7fc9b1606022d53424adde373ba6e3815ba7dfe796090b42b4"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/contract-modes/replace-transfer.expected",
+        "mode": "100644",
+        "blob": "42ffd3b6f7a91139f858605c77bc0135d6eb6223",
+        "sha256": "61c6c43754c416856102967388b117647b9f79c2e860b80e1e14271d4f34567b"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --harness replace_transfer --exact --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 41,
+          "text": "assert!(payload_is_42(&result));"
+        },
+        {
+          "line": 56,
+          "text": "assert!(payload_is_42(&result));"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 22,
+          "text": "#[kani::requires(!initialized || payload_is_42(&value))]"
+        },
+        {
+          "line": 23,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_42(result))]"
+        },
+        {
+          "line": 34,
+          "text": "#[kani::stub_verified(passthrough)]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness replace_transfer...",
+          "passthrough::\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"!initialized || payload_is_42(&value)\"",
+          "replace_transfer.assertion.1\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"assertion failed: payload_is_42(&result)\"",
+          "std::ptr::read::<u8>.safety_check.1\\",
+          "- Status: FAILURE\\",
+          "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\"",
+          "std::ptr::read::<u8>.safety_check.4\\",
+          "- Status: FAILURE\\",
+          "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\"",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "SUMMARY:\\",
+          "** 2 of",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "passthrough::\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"!initialized || payload_is_42(&value)\""
+            ]
+          },
+          {
+            "line": 5,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "replace_transfer.assertion.1\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"assertion failed: payload_is_42(&result)\""
+            ]
+          },
+          {
+            "line": 8,
+            "status": "FAILURE",
+            "literal_lines": [
+              "std::ptr::read::<u8>.safety_check.1\\",
+              "- Status: FAILURE\\",
+              "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\""
+            ]
+          },
+          {
+            "line": 11,
+            "status": "FAILURE",
+            "literal_lines": [
+              "std::ptr::read::<u8>.safety_check.4\\",
+              "- Status: FAILURE\\",
+              "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\""
+            ]
+          }
+        ],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+        ],
+        "exact_failure_counts": [
+          2
+        ],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [
+        "Retain local full-domain proof_for_contract(passthrough) companion; --harness caller --exact before --cbmc-args selects ONE caller; companion presence is not execution"
+      ],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "marker-hook-calls/generated-modifies-no-shadow",
+      "owner_slice": 4,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.rs",
+        "mode": "100644",
+        "blob": "b3d915e8cb3af4d158bb3bd15ec0b3b43ef82dc8",
+        "sha256": "f25fbf6a45e2e1e5dd334f0c14261e08122a3e265dde289fe2aa8dd47acc9a7f"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.expected",
+        "mode": "100644",
+        "blob": "b2e1bab137a6556dbcb0ef70a59ef7c4095059a7",
+        "sha256": "942538b26c5a61be8333400fdec082c6a017f76ad4e4f50b6926357df37005d7"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 16,
+          "text": "assert_eq!(unsafe { out.assume_init() }, 7);"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 7,
+          "text": "#[kani::modifies(out)]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness generated_modifies_no_shadow...",
+          "generated_modifies_no_shadow.assertion.1\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"assertion failed: unsafe { out.assume_init() } == 7\"",
+          "SUMMARY:\\",
+          " ** 0 of",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "generated_modifies_no_shadow.assertion.1\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"assertion failed: unsafe { out.assume_init() } == 7\""
+            ]
+          }
+        ],
+        "required_failed_checks": [],
+        "exact_failure_counts": [
+          0
+        ],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "maybe-uninit-contract-clause/main",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+        "mode": "100644",
+        "blob": "3dcd4aadd7ec818fe766c606c3b56682e275b5f0",
+        "sha256": "16cbc2c27e1c1d6b3edd45573536b769ef7b48be781c341fa755263d25d018ad"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+        "mode": "100644",
+        "blob": "ea5bcfdb6bdf971937c1219ed5f995b2bc8e9a7b",
+        "sha256": "a31748d88e349e90aa9770ed669350efb1f4064c0dad723fa6716a716eb54c4c"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [],
+      "contracts_and_covers": [
+        {
+          "line": 24,
+          "text": "#[kani::requires(clause_helper())]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness clause_pfc_negative...",
+          "std::mem::transmute_neo::<std::mem::MaybeUninit<u16>, u16>.safety_check.1\\",
+          " - Status: FAILURE\\",
+          " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u16`\"",
+          "SUMMARY:\\",
+          " ** 1 of",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "FAILURE",
+            "literal_lines": [
+              "std::mem::transmute_neo::<std::mem::MaybeUninit<u16>, u16>.safety_check.1\\",
+              " - Status: FAILURE\\",
+              " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u16`\""
+            ]
+          }
+        ],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+        ],
+        "exact_failure_counts": [
+          1
+        ],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "maybe-uninit-contract-frame/main",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+        "mode": "100644",
+        "blob": "c0854aa68d52a0f29693c554c6e9f758e2347b9d",
+        "sha256": "207273b3c629331304441126e3a6411c316cdab084a06ca936ffc18139cc1440"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+        "mode": "100644",
+        "blob": "86cdc5de74b1bb6326cf83ea910e0885851fbd9a",
+        "sha256": "8d1b564b94ce7346a69c0993151e861f277c05f465495b55c965a08807d54eb2"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [],
+      "contracts_and_covers": [
+        {
+          "line": 19,
+          "text": "#[kani::modifies(out)]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness frame_negative...",
+          "frame_target::\\",
+          " - Status: FAILURE\\",
+          " - Description: \"Check that *var_7 is assignable\"\\",
+          " - Location: tests/expected/uninit/maybe-uninit-contract-frame/main.rs:22:5",
+          "frame_target::\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"Check that *var_8 is assignable\"\\",
+          " - Location: tests/expected/uninit/maybe-uninit-contract-frame/main.rs:23:5",
+          "SUMMARY:\\",
+          " ** 1 of",
+          "Failed Checks: Check that *var_7 is assignable",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "FAILURE",
+            "literal_lines": [
+              "frame_target::\\",
+              " - Status: FAILURE\\",
+              " - Description: \"Check that *var_7 is assignable\"\\",
+              " - Location: tests/expected/uninit/maybe-uninit-contract-frame/main.rs:22:5"
+            ]
+          },
+          {
+            "line": 6,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "frame_target::\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"Check that *var_8 is assignable\"\\",
+              " - Location: tests/expected/uninit/maybe-uninit-contract-frame/main.rs:23:5"
+            ]
+          }
+        ],
+        "required_failed_checks": [
+          "Failed Checks: Check that *var_7 is assignable"
+        ],
+        "exact_failure_counts": [
+          1
+        ],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "ordinary-slots/padding",
+      "owner_slice": 1,
+      "integration_head": 4,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/ordinary-slots/padding.rs",
+        "mode": "100644",
+        "blob": "a1c9837e64f0db9459869ed4783feac7c74e5e81",
+        "sha256": "52dfb43d8faf5de88aca5c8f294f1af9588c729a2daa21699709b7d79688dc52"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/ordinary-slots/padding.expected",
+        "mode": "100644",
+        "blob": "a9d0b16610625c7097c4fcbf1415784960826ac0",
+        "sha256": "35fdefec2995f8d441453989197983ee01181e7cab43298665e77a267a27a536"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [],
+      "contracts_and_covers": [
+        {
+          "line": 18,
+          "text": "kani::cover!(true, \"padded parameter reached byte read\");"
+        },
+        {
+          "line": 34,
+          "text": "kani::cover!(byte == 0, \"padding result consumed\");"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness ordinary_parameter_does_not_bless_padding...",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type"
+        ],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "ordinary-slots/payload",
+      "owner_slice": 1,
+      "integration_head": 4,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/ordinary-slots/payload.rs",
+        "mode": "100644",
+        "blob": "0489b8341bf5a4ab9c1e05f0baf650e8098bcf54",
+        "sha256": "ef3f4a6d4f8edab532f712de149276f101aa0dc7ff69d818ce7e949609a167ba"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/ordinary-slots/payload.expected",
+        "mode": "100644",
+        "blob": "9881e4bca67bbb64a3d07e38d6bd82d5b1c14041",
+        "sha256": "7e8f42919b3dfa2b4ce78a3aa0898614b446a28ba551c34d0d990b796829a571"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 36,
+          "text": "assert_eq!(read_reference(&value), 42, \"reference payload consumed\");"
+        },
+        {
+          "line": 37,
+          "text": "assert_eq!(read_raw(value.as_ptr()), 42, \"raw payload consumed\");"
+        },
+        {
+          "line": 38,
+          "text": "assert_eq!(consume_byte(42), 42, \"ordinary byte entry consumed\");"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 14,
+          "text": "kani::cover!(true, \"reference body reached payload read\");"
+        },
+        {
+          "line": 22,
+          "text": "kani::cover!(true, \"raw body reached payload read\");"
+        },
+        {
+          "line": 39,
+          "text": "kani::cover!(true, \"both initialized payload reads returned\");"
+        },
+        {
+          "line": 47,
+          "text": "kani::cover!(byte == 42, \"hole reference result consumed\");"
+        },
+        {
+          "line": 55,
+          "text": "kani::cover!(byte == 42, \"hole raw result consumed\");"
+        },
+        {
+          "line": 65,
+          "text": "kani::cover!(byte == 42, \"caller hole result consumed\");"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness initialized_payloads...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Checking harness reference_slot_preserves_hole...",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type",
+          "VERIFICATION:- FAILED",
+          "Checking harness raw_slot_preserves_hole...",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type",
+          "VERIFICATION:- FAILED",
+          "Checking harness entry_does_not_hide_caller_read...",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type",
+          "VERIFICATION:- FAILED",
+          "Complete - 1 successfully verified harnesses, 3 failures, 4 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type"
+        ],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 3 failures, 4 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL",
+          "VERIFICATION:- FAILED",
+          "VERIFICATION:- FAILED",
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "ordinary-slots/positive",
+      "owner_slice": 1,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/ordinary-slots/positive.rs",
+        "mode": "100644",
+        "blob": "9247934d630c34d8789ae93274e8fec4ebc9a7a1",
+        "sha256": "599877efcbd1f8bda19ec28b954f412ab0a03fd06c470f12043206bdbcf88759"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/ordinary-slots/positive.expected",
+        "mode": "100644",
+        "blob": "7e504189571ad8ef2035a4e999998489ae823241",
+        "sha256": "4f462c309bd7c89f204dd837a4e6df2fc577f1bf3d3034b48f51947a865d09e6"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 18,
+          "text": "assert_eq!(copied, initialized, \"scalar parameter slot read\");"
+        },
+        {
+          "line": 33,
+          "text": "assert_eq!(*copied, *before_address, \"reference parameter slot read\");"
+        },
+        {
+          "line": 47,
+          "text": "assert!(value.tag == 7, \"wrapper entry data read before address\");"
+        },
+        {
+          "line": 50,
+          "text": "assert_eq!(moved.tag, 7, \"wrapper data read\");"
+        },
+        {
+          "line": 59,
+          "text": "assert!(yes && !no, \"scalar normal returns consumed\");"
+        },
+        {
+          "line": 70,
+          "text": "assert!(*copied && !*moved.value, \"reference normal returns consumed\");"
+        },
+        {
+          "line": 88,
+          "text": "assert!(capture_free_slots(), \"ordinary slot body and return reached\");"
+        },
+        {
+          "line": 95,
+          "text": "assert!(capture_free_slots(), \"SimpleCheck slot body and return reached\");"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 12,
+          "text": "kani::cover!(initialized, \"true scalar entry read before address\");"
+        },
+        {
+          "line": 13,
+          "text": "kani::cover!(!initialized, \"false scalar entry read before address\");"
+        },
+        {
+          "line": 60,
+          "text": "kani::cover!(yes && !no, \"true and false scalar slots reached\");"
+        },
+        {
+          "line": 71,
+          "text": "kani::cover!(*copied && !*moved.value, \"reference copy and wrapper move reached\");"
+        },
+        {
+          "line": 76,
+          "text": "#[kani::ensures(|result: &bool| *result)]"
+        },
+        {
+          "line": 89,
+          "text": "kani::cover!(true, \"ordinary capture-free slots consumed\");"
+        },
+        {
+          "line": 96,
+          "text": "kani::cover!(true, \"SimpleCheck capture-free slots consumed\");"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness scalar_parameters_true_false...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Checking harness reference_copy_move_return...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Checking harness capture_free_ordinary...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Checking harness capture_free_simple_check...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 4 successfully verified harnesses, 0 failures, 4 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 4 successfully verified harnesses, 0 failures, 4 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL",
+          "VERIFICATION:- SUCCESSFUL",
+          "VERIFICATION:- SUCCESSFUL",
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "points-to-cycles/capture-free",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/points-to-cycles/capture-free.rs",
+        "mode": "100644",
+        "blob": "5867c681e51d9b886238252939474ab1514b92ed",
+        "sha256": "2b785e11971bc41a8e0b351f788433c014968eb286069c262a3b87b21c95bf2a"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/points-to-cycles/capture-free.expected",
+        "mode": "100644",
+        "blob": "4f4d7d4e2785bf15068021bf5ab58923ae5efd79",
+        "sha256": "5c0b0828683686f67ceaff2accd66e66dbd34228cbfda4055eecf901ba083d1c"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [],
+      "contracts_and_covers": [
+        {
+          "line": 11,
+          "text": "#[kani::ensures(|_result: &MaybeUninit<u8>| true)]"
+        },
+        {
+          "line": 12,
+          "text": "#[kani::recursion]"
+        },
+        {
+          "line": 21,
+          "text": "kani::cover!(true, \"legal recursive mode returned storage\");"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness capture_free_recursive_check...",
+          "Kani delayed uninitialized-memory analysis detected an interprocedural cycle (repeats active frame",
+          "root/active path: capture_free_recursive_check [provenance=source]",
+          "[call at",
+          "VERIFICATION:- FAILED",
+          "Verification failed for - capture_free_recursive_check",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "points-to-cycles/dag",
+      "owner_slice": 1,
+      "integration_head": 4,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/points-to-cycles/dag.rs",
+        "mode": "100644",
+        "blob": "1c18fd23a77edfe61a7687f7aa7d91f2ae1ba59c",
+        "sha256": "7f37e26433c46a96c19298e6bc9e592aac55cbec3b336757a4c89e53e7cf74a1"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/points-to-cycles/dag.expected",
+        "mode": "100644",
+        "blob": "53057ef2a29f0a79363928db79e849152acd76fd",
+        "sha256": "c2b19381a59e2250a60e0c16420ba6727a41487b661d576c7a9535a39f39d279"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 29,
+          "text": "assert_eq!(unsafe { left(a.as_ptr()).read() }, 17);"
+        },
+        {
+          "line": 30,
+          "text": "assert_eq!(unsafe { right(b.as_ptr()).read() }, 29);"
+        },
+        {
+          "line": 31,
+          "text": "assert_eq!(unsafe { leaf(a.as_ptr()).read() }, 17);"
+        },
+        {
+          "line": 39,
+          "text": "assert_eq!(unsafe { left(a.as_ptr()).read() }, 17);"
+        },
+        {
+          "line": 40,
+          "text": "assert_eq!(unsafe { right(b.as_ptr()).read() }, 29);"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 32,
+          "text": "kani::cover!(true, \"both distinct pointees consumed\");"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness diamond_two_inputs...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Checking harness repeated_callee_preserves_hole...",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type",
+          "VERIFICATION:- FAILED",
+          "Complete - 1 successfully verified harnesses, 1 failures, 2 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type"
+        ],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 1 failures, 2 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL",
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "points-to-cycles/mutual-cycle",
+      "owner_slice": 1,
+      "integration_head": 4,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/points-to-cycles/mutual-cycle.rs",
+        "mode": "100644",
+        "blob": "1e6197b6f177a1b247feb55aae02c78c6ca6d99d",
+        "sha256": "d3215f5d42224f3fe889da4e78f4e8d15ebe6208b0171ddc8fcc03e0dded239e"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/points-to-cycles/mutual-cycle.expected",
+        "mode": "100644",
+        "blob": "e33f74542af5acedfbfd4cee5b0d9d4a33fd0fff",
+        "sha256": "5532339e21ed4674015f78c4e9267231a74b26467cb268c23d3e5fe853285f82"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 22,
+          "text": "assert_eq!(unsafe { value.assume_init() }, 42);"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness mutual_cycle...",
+          "Kani delayed uninitialized-memory analysis detected an interprocedural cycle (repeats active frame",
+          "root/active path: mutual_cycle [provenance=source]",
+          "transfer [provenance=source] [call at",
+          "mutual-cycle.rs:15]",
+          "VERIFICATION:- FAILED",
+          "Verification failed for - mutual_cycle",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "points-to-cycles/roots-acyclic-first",
+      "owner_slice": 1,
+      "integration_head": 4,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/points-to-cycles/roots-acyclic-first.rs",
+        "mode": "100644",
+        "blob": "92d122e8aad36acb1fbaaf6dbb27c77042fd5bb6",
+        "sha256": "8cf937c965e9f46f0b609ae65d78aa60abb56a6d2318203cd9bc28abf3839bce"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/points-to-cycles/roots-acyclic-first.expected",
+        "mode": "100644",
+        "blob": "c56afac86e87170dddf5e11dfdc1e3b1757a09f2",
+        "sha256": "da26a13d2092f986fb7cf7b0b1aae60486f24db723fe3d9bee00f185fa1d7eba"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 16,
+          "text": "assert_eq!(unsafe { value.assume_init() }, 29);"
+        },
+        {
+          "line": 24,
+          "text": "assert_eq!(unsafe { value.assume_init() }, 42);"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 17,
+          "text": "kani::cover!(true, \"independent root reached useful assertion\");"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Kani delayed uninitialized-memory analysis detected an interprocedural cycle (repeats active frame",
+          "root/active path: self_cycle [provenance=source]",
+          "transfer [provenance=source] [call at",
+          "roots-acyclic-first.rs:10]",
+          "Complete - 1 successfully verified harnesses, 1 failures, 2 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 1 failures, 2 total."
+        ],
+        "verdict_lines": [],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "points-to-cycles/roots-cycle-first",
+      "owner_slice": 1,
+      "integration_head": 4,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/points-to-cycles/roots-cycle-first.rs",
+        "mode": "100644",
+        "blob": "b7309d479d9afd69e1cbab694cd245d71d1a5c98",
+        "sha256": "9e98d899e82710a03b0da817c79457a114eacfebdddd1f658d8cd19a372d3b4c"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/points-to-cycles/roots-cycle-first.expected",
+        "mode": "100644",
+        "blob": "af333383ef4f7c468a8bc5d61a27c17a317a2ceb",
+        "sha256": "c3b41dd139eace41a3120a53c0f66c694699d0529131f7993c5bcf62cf661d5b"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 17,
+          "text": "assert_eq!(unsafe { value.assume_init() }, 42);"
+        },
+        {
+          "line": 23,
+          "text": "assert_eq!(unsafe { value.assume_init() }, 29);"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 24,
+          "text": "kani::cover!(true, \"independent root reached useful assertion\");"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Kani delayed uninitialized-memory analysis detected an interprocedural cycle (repeats active frame",
+          "root/active path: self_cycle [provenance=source]",
+          "transfer [provenance=source] [call at",
+          "roots-cycle-first.rs:10]",
+          "Complete - 1 successfully verified harnesses, 1 failures, 2 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 1 failures, 2 total."
+        ],
+        "verdict_lines": [],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "points-to-cycles/self-cycle",
+      "owner_slice": 1,
+      "integration_head": 4,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/points-to-cycles/self-cycle.rs",
+        "mode": "100644",
+        "blob": "15b31c8fbde15ac703179c2ca0794b825d47a6df",
+        "sha256": "54290ed84b8ca2f63ff664d9ec05aca7cd7644e43248400b10bf3b8f3c48f85a"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/points-to-cycles/self-cycle.expected",
+        "mode": "100644",
+        "blob": "94d156038c41c62ca4e9f702298f18b828d348b2",
+        "sha256": "f7ae0f14a033adbe178f0da109aa36be5daa7eda7abcb8f17d3e3262797c4b93"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 17,
+          "text": "assert_eq!(unsafe { value.assume_init() }, 42);"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness self_cycle...",
+          "Kani delayed uninitialized-memory analysis detected an interprocedural cycle (repeats active frame",
+          "root/active path: self_cycle [provenance=source]",
+          "transfer [provenance=source] [call at",
+          "self-cycle.rs:10]",
+          "VERIFICATION:- FAILED",
+          "Verification failed for - self_cycle",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "private-transfer-frame/lawful-modifies",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs",
+        "mode": "100644",
+        "blob": "0a2dfa442b09a8ef813280844721b611129bdecc",
+        "sha256": "32c1342513dd0588d0e3f5ea5991f64538b0506964fc821d4bc201bb66cc5fc0"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.expected",
+        "mode": "100644",
+        "blob": "649f80412d890a6f8fb0f2bad4d1d159a379ddf6",
+        "sha256": "3c69a644f3542e6cdd941deb81a355068c68e7de7b62e71aef94371d16e94861"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 6,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 34,
+          "text": "assert_eq!(frame_target(&mut out, &mut outside), 29);"
+        },
+        {
+          "line": 35,
+          "text": "assert_eq!(out, 29);"
+        },
+        {
+          "line": 36,
+          "text": "assert_eq!(outside, 41);"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 21,
+          "text": "#[kani::modifies(out)]"
+        },
+        {
+          "line": 22,
+          "text": "#[kani::ensures(|result: &u16| *result == 29 && *out == 29)]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness lawful_modifies_preserves_outside...",
+          "frame_target::\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"|result: &u16| *result == 29 && *out == 29\"",
+          "frame_target::\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"Check that *var_8 is assignable\"\\",
+          " - Location: tests/expected/uninit/private-transfer-frame/lawful-modifies.rs:26:5",
+          "lawful_modifies_preserves_outside.assertion.1\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"assertion failed: frame_target(&mut out, &mut outside) == 29\"",
+          "lawful_modifies_preserves_outside.assertion.2\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"assertion failed: out == 29\"",
+          "lawful_modifies_preserves_outside.assertion.3\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"assertion failed: outside == 41\"",
+          "SUMMARY:\\",
+          " ** 0 of",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "frame_target::\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"|result: &u16| *result == 29 && *out == 29\""
+            ]
+          },
+          {
+            "line": 5,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "frame_target::\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"Check that *var_8 is assignable\"\\",
+              " - Location: tests/expected/uninit/private-transfer-frame/lawful-modifies.rs:26:5"
+            ]
+          },
+          {
+            "line": 9,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "lawful_modifies_preserves_outside.assertion.1\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"assertion failed: frame_target(&mut out, &mut outside) == 29\""
+            ]
+          },
+          {
+            "line": 12,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "lawful_modifies_preserves_outside.assertion.2\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"assertion failed: out == 29\""
+            ]
+          },
+          {
+            "line": 15,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "lawful_modifies_preserves_outside.assertion.3\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"assertion failed: outside == 41\""
+            ]
+          }
+        ],
+        "required_failed_checks": [],
+        "exact_failure_counts": [
+          0
+        ],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "root-composition/cycle-root",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/root-composition/cycle-root.rs",
+        "mode": "100644",
+        "blob": "cc0d4ab4d6ba2f4215be596e39b659be7f876779",
+        "sha256": "417976207cfda5d1be3b6fe6136be7044b9d9d9c680006aad2f420eb7a5f7b17"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/root-composition/cycle-root.expected",
+        "mode": "100644",
+        "blob": "983954d3c8f0a19cce7f41c1033109ba51b8e91a",
+        "sha256": "ad85a681a9b43f0e66ee340651a415cb541f0727c3895e78eb144d5ad5142b50"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [],
+      "contracts_and_covers": [
+        {
+          "line": 18,
+          "text": "#[kani::requires(depth <= 1)]"
+        },
+        {
+          "line": 19,
+          "text": "#[kani::requires(!initialized || payload_is_53(&value))]"
+        },
+        {
+          "line": 20,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_53(result))]"
+        },
+        {
+          "line": 21,
+          "text": "#[kani::recursion]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness cycle_root...",
+          "cycle_root.unsupported_construct.1\\",
+          "- Status: FAILURE\\",
+          "- Description: \"Kani delayed uninitialized-memory analysis detected an interprocedural cycle",
+          "root/active path: cycle_root [provenance=source] -> frame 1: cycle_relay [provenance=source]",
+          "[provenance=registration-override; origin=kani::internal::run_contract_fn",
+          "-> repeated: cycle_relay [provenance=source]",
+          "Failed Checks: Kani delayed uninitialized-memory analysis detected an interprocedural cycle",
+          "SUMMARY:\\",
+          "** 1 of",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "FAILURE",
+            "literal_lines": [
+              "cycle_root.unsupported_construct.1\\",
+              "- Status: FAILURE\\",
+              "- Description: \"Kani delayed uninitialized-memory analysis detected an interprocedural cycle"
+            ]
+          }
+        ],
+        "required_failed_checks": [
+          "Failed Checks: Kani delayed uninitialized-memory analysis detected an interprocedural cycle"
+        ],
+        "exact_failure_counts": [
+          1
+        ],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "root-composition/immutable-hole-negative",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/root-composition/immutable-hole-negative.rs",
+        "mode": "100644",
+        "blob": "38fb170e704095f9e3dde55f061f4918fa60e062",
+        "sha256": "2834ee12307663fd98bb44e03812c021400aa8c68fc064594a73f25097678f17"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/root-composition/immutable-hole-negative.expected",
+        "mode": "100644",
+        "blob": "f0c810e35992307ffc78bd9e88f0f6b419e8b37c",
+        "sha256": "3e7a1ea0aa56c17832d4000a9be5e08ce09363dc134f59397abc5ed57f564c33"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness immutable_hole_negative...",
+          "std::ptr::read::<u8>.safety_check.1\\",
+          "- Status: FAILURE\\",
+          "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\"",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "std::ptr::read::<u8>.safety_check.4\\",
+          "- Status: FAILURE\\",
+          "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\"",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "SUMMARY:\\",
+          "** 2 of",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "FAILURE",
+            "literal_lines": [
+              "std::ptr::read::<u8>.safety_check.1\\",
+              "- Status: FAILURE\\",
+              "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\""
+            ]
+          },
+          {
+            "line": 6,
+            "status": "FAILURE",
+            "literal_lines": [
+              "std::ptr::read::<u8>.safety_check.4\\",
+              "- Status: FAILURE\\",
+              "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\""
+            ]
+          }
+        ],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+        ],
+        "exact_failure_counts": [
+          2
+        ],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "root-composition/immutable-legal",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/root-composition/immutable-legal.rs",
+        "mode": "100644",
+        "blob": "5695fc82aa8e48a9e7a08e3fc289e6cc58d9fbdc",
+        "sha256": "55aaf26e48072720c1a2b04de1be483d55b27bf91152bbbb7bfc8bea7566a49a"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/root-composition/immutable-legal.expected",
+        "mode": "100644",
+        "blob": "2497b18bd77f4477bf402d4f406fc640d09e132d",
+        "sha256": "38245e6a42448202b3a1b46c77c232239630a04e85cb5ced4411dfd12edcff0f"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 14,
+          "text": "assert_eq!(value, 17);"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness immutable_legal...",
+          "immutable_legal.assertion.1\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"assertion failed: value == 17\"",
+          "SUMMARY:\\",
+          "** 0 of",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "immutable_legal.assertion.1\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"assertion failed: value == 17\""
+            ]
+          }
+        ],
+        "required_failed_checks": [],
+        "exact_failure_counts": [
+          0
+        ],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "root-composition/ordinary-ensures-legal",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/root-composition/ordinary-ensures-legal.rs",
+        "mode": "100644",
+        "blob": "e5bee294834aa8233dc98722c14cc98534223617",
+        "sha256": "7424cf66ef558e8e91d94df8e6cbb4aa554f3b6f43b57a7c3750b6406f9d1542"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/root-composition/ordinary-ensures-legal.expected",
+        "mode": "100644",
+        "blob": "fc063f03f8c1d248c88da964f7f04af986199aa7",
+        "sha256": "4b9d8cb0e2ecc5d0a23e23fe556a2624f7e8dc3b1a99083837d406ddfc54082d"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 21,
+          "text": "assert_eq!(unsafe { result.assume_init_read() }, 23);"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 13,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 23 })]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness ordinary_ensures_legal...",
+          "ordinary_contract::\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 23 }\"",
+          "ordinary_ensures_legal.assertion.1\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"assertion failed: unsafe { result.assume_init_read() } == 23\"",
+          "SUMMARY:\\",
+          "** 0 of",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "ordinary_contract::\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 23 }\""
+            ]
+          },
+          {
+            "line": 5,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "ordinary_ensures_legal.assertion.1\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"assertion failed: unsafe { result.assume_init_read() } == 23\""
+            ]
+          }
+        ],
+        "required_failed_checks": [],
+        "exact_failure_counts": [
+          0
+        ],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "root-composition/pfc-legal",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/root-composition/pfc-legal.rs",
+        "mode": "100644",
+        "blob": "d770273edc8f330ab2c65999807d20d9add7cffe",
+        "sha256": "45b6525e939c3931f197530079ee994e571c0796e14da420bbe84bbd4c9bab8b"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/root-composition/pfc-legal.expected",
+        "mode": "100644",
+        "blob": "a46470f61210491c754e695410562b88fd9f447e",
+        "sha256": "a8dc5664c93b42baaa969f7b8169058f2247db2d20faeb95a0eb33a26cd4f49b"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [],
+      "contracts_and_covers": [
+        {
+          "line": 8,
+          "text": "#[kani::requires(value == 31)]"
+        },
+        {
+          "line": 9,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 31 })]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness pfc_legal...",
+          "pfc_contract::\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 31 }\"",
+          "SUMMARY:\\",
+          "** 0 of",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "pfc_contract::\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 31 }\""
+            ]
+          }
+        ],
+        "required_failed_checks": [],
+        "exact_failure_counts": [
+          0
+        ],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "root-composition/pfc-negative",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/root-composition/pfc-negative.rs",
+        "mode": "100644",
+        "blob": "030e13743c0ff0644b3383595306d3ad7c6e2bdc",
+        "sha256": "81adfe8b2eaa4dd464c8b9597d482f13f94459a1b3eca63eebc61f907e6474d3"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/root-composition/pfc-negative.expected",
+        "mode": "100644",
+        "blob": "64ff01934cbe2f8e26bdb2783d354508849b7ec3",
+        "sha256": "3f44aff7d460ff39b28cd695ef65babdd6f31b55481057871bb4085ef142405f"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [],
+      "contracts_and_covers": [
+        {
+          "line": 8,
+          "text": "#[kani::requires(value == 41)]"
+        },
+        {
+          "line": 9,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 41 })]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness pfc_negative...",
+          "std::ptr::read::<u8>.safety_check.1\\",
+          "- Status: FAILURE\\",
+          "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\"",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "std::ptr::read::<u8>.safety_check.4\\",
+          "- Status: FAILURE\\",
+          "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\"",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "pfc_negative_contract::\\",
+          "- Status: FAILURE\\",
+          "- Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 41 }\"",
+          "Failed Checks: |result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 41 }",
+          "SUMMARY:\\",
+          "** 3 of",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "FAILURE",
+            "literal_lines": [
+              "std::ptr::read::<u8>.safety_check.1\\",
+              "- Status: FAILURE\\",
+              "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\""
+            ]
+          },
+          {
+            "line": 6,
+            "status": "FAILURE",
+            "literal_lines": [
+              "std::ptr::read::<u8>.safety_check.4\\",
+              "- Status: FAILURE\\",
+              "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\""
+            ]
+          },
+          {
+            "line": 10,
+            "status": "FAILURE",
+            "literal_lines": [
+              "pfc_negative_contract::\\",
+              "- Status: FAILURE\\",
+              "- Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 41 }\""
+            ]
+          }
+        ],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "Failed Checks: |result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 41 }"
+        ],
+        "exact_failure_counts": [
+          3
+        ],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "root-composition/unrelated-legal-after-cycle",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.rs",
+        "mode": "100644",
+        "blob": "d6e19186e8856c8c7c7c07088ff6b470c147a924",
+        "sha256": "3a9b119ab84fe086413da6e0a16dab8f445f048409d81fc91347d5228c4c00a9"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.expected",
+        "mode": "100644",
+        "blob": "86c162e8d7c7b3ff5d952083444674b1fc4c3e57",
+        "sha256": "427fee2f9302164f014a0174dcba2c6c0d279395c9adf163280c3078d37db458"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 17,
+          "text": "assert_eq!(unsafe { left.assume_init_read() }, 59);"
+        },
+        {
+          "line": 18,
+          "text": "assert_eq!(unsafe { right.assume_init_read() }, 61);"
+        }
+      ],
+      "contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness unrelated_legal_after_cycle...",
+          "unrelated_legal_after_cycle.assertion.1\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"assertion failed: unsafe { left.assume_init_read() } == 59\"",
+          "unrelated_legal_after_cycle.assertion.2\\",
+          "- Status: SUCCESS\\",
+          "- Description: \"assertion failed: unsafe { right.assume_init_read() } == 61\"",
+          "SUMMARY:\\",
+          "** 0 of",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "unrelated_legal_after_cycle.assertion.1\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"assertion failed: unsafe { left.assume_init_read() } == 59\""
+            ]
+          },
+          {
+            "line": 5,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "unrelated_legal_after_cycle.assertion.2\\",
+              "- Status: SUCCESS\\",
+              "- Description: \"assertion failed: unsafe { right.assume_init_read() } == 61\""
+            ]
+          }
+        ],
+        "required_failed_checks": [],
+        "exact_failure_counts": [
+          0
+        ],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "transfer-qualification/legal-ordinary",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/legal-ordinary.rs",
+        "mode": "100644",
+        "blob": "db016fc17a2d51533201d386919e4d448d97d156",
+        "sha256": "7595b7fae268fff14aa6225c14f9dfbdc4de5f811995683acf54832ba68b7eb8"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/legal-ordinary.expected",
+        "mode": "100644",
+        "blob": "4432022a5d70931dbe95e575d817fe7c826d78d1",
+        "sha256": "eaf4d5106a6bbfda3b5fa2c56489b50235484fed5847957332c5d54dd1663293"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 6,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 21,
+          "text": "assert_eq!(byte, 7);"
+        },
+        {
+          "line": 32,
+          "text": "assert_eq!(value, [1, 2, 3]);"
+        },
+        {
+          "line": 40,
+          "text": "assert_eq!(write_initialized(&mut out), 7);"
+        },
+        {
+          "line": 41,
+          "text": "assert_eq!(out, [1, 2, 3]);"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 15,
+          "text": "#[kani::modifies(out)]"
+        },
+        {
+          "line": 16,
+          "text": "#[kani::ensures(|result: &u8| *result == 7 && *out == [1, 2, 3])]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness legal_ordinary_transfer...",
+          "write_initialized::\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"|result: &u8| *result == 7 && *out == [1, 2, 3]\"",
+          "write_initialized::\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"assertion failed: byte == 7\"",
+          "write_initialized::\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"assertion failed: value == [1, 2, 3]\"",
+          "legal_ordinary_transfer.assertion.1\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"assertion failed: write_initialized(&mut out) == 7\"",
+          "legal_ordinary_transfer.assertion.2\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"assertion failed: out == [1, 2, 3]\"",
+          "SUMMARY:\\",
+          " ** 0 of",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "write_initialized::\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"|result: &u8| *result == 7 && *out == [1, 2, 3]\""
+            ]
+          },
+          {
+            "line": 5,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "write_initialized::\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"assertion failed: byte == 7\""
+            ]
+          },
+          {
+            "line": 8,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "write_initialized::\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"assertion failed: value == [1, 2, 3]\""
+            ]
+          },
+          {
+            "line": 11,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "legal_ordinary_transfer.assertion.1\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"assertion failed: write_initialized(&mut out) == 7\""
+            ]
+          },
+          {
+            "line": 14,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "legal_ordinary_transfer.assertion.2\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"assertion failed: out == [1, 2, 3]\""
+            ]
+          }
+        ],
+        "required_failed_checks": [],
+        "exact_failure_counts": [
+          0
+        ],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "transfer-qualification/legal-pfc",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/legal-pfc.rs",
+        "mode": "100644",
+        "blob": "29f74e09734f9cc5dcd66a69a287c4e5c079f607",
+        "sha256": "f8d7df3947347609f1f18b98f002bd5f0095ff323d1b6d2a778479b953b7f349"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/legal-pfc.expected",
+        "mode": "100644",
+        "blob": "64d529b28677daf660d7b6302bb1509d159a2989",
+        "sha256": "04b48b5af6a406980ee62d208978f82487f43e9ddd950d07b9e56748bc6a3c00"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 6,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [
+        {
+          "line": 21,
+          "text": "assert_eq!(byte, 7);"
+        },
+        {
+          "line": 32,
+          "text": "assert_eq!(value, [1, 2, 3]);"
+        },
+        {
+          "line": 40,
+          "text": "assert_eq!(write_initialized(&mut out), 7);"
+        },
+        {
+          "line": 41,
+          "text": "assert_eq!(out, [1, 2, 3]);"
+        }
+      ],
+      "contracts_and_covers": [
+        {
+          "line": 15,
+          "text": "#[kani::modifies(out)]"
+        },
+        {
+          "line": 16,
+          "text": "#[kani::ensures(|result: &u8| *result == 7 && *out == [1, 2, 3])]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness legal_pfc_transfer...",
+          "write_initialized::\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"|result: &u8| *result == 7 && *out == [1, 2, 3]\"",
+          "write_initialized::\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"assertion failed: byte == 7\"",
+          "write_initialized::\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"assertion failed: value == [1, 2, 3]\"",
+          "write_initialized::\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"Check that *var_23 is assignable\"\\",
+          " - Location: tests/expected/uninit/transfer-qualification/legal-pfc.rs:33:5",
+          "legal_pfc_transfer.assertion.1\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"assertion failed: write_initialized(&mut out) == 7\"",
+          "legal_pfc_transfer.assertion.2\\",
+          " - Status: SUCCESS\\",
+          " - Description: \"assertion failed: out == [1, 2, 3]\"",
+          "SUMMARY:\\",
+          " ** 0 of",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "write_initialized::\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"|result: &u8| *result == 7 && *out == [1, 2, 3]\""
+            ]
+          },
+          {
+            "line": 5,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "write_initialized::\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"assertion failed: byte == 7\""
+            ]
+          },
+          {
+            "line": 8,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "write_initialized::\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"assertion failed: value == [1, 2, 3]\""
+            ]
+          },
+          {
+            "line": 11,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "write_initialized::\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"Check that *var_23 is assignable\"\\",
+              " - Location: tests/expected/uninit/transfer-qualification/legal-pfc.rs:33:5"
+            ]
+          },
+          {
+            "line": 15,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "legal_pfc_transfer.assertion.1\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"assertion failed: write_initialized(&mut out) == 7\""
+            ]
+          },
+          {
+            "line": 18,
+            "status": "SUCCESS",
+            "literal_lines": [
+              "legal_pfc_transfer.assertion.2\\",
+              " - Status: SUCCESS\\",
+              " - Description: \"assertion failed: out == [1, 2, 3]\""
+            ]
+          }
+        ],
+        "required_failed_checks": [],
+        "exact_failure_counts": [
+          0
+        ],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    },
+    {
+      "id": "transfer-qualification/postcondition-hole",
+      "owner_slice": 5,
+      "integration_head": 5,
+      "status": "PENDING",
+      "source": {
+        "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+        "mode": "100644",
+        "blob": "d7049d7a6a3c4c01dcdc88dc59fb209f6bf90985",
+        "sha256": "92cfe76cd0e627656c9f55b3f4c7703d9cd112043d2cfb01a5a2459bb9b561b2"
+      },
+      "golden": {
+        "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+        "mode": "100644",
+        "blob": "409ebbe02c0384dcd6393ce8a4722b36c9509af7",
+        "sha256": "742cd8f652e98a4b0a9526a1bbdb61e73cc2c115093926e2a432c33bec243698"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021 -D warnings"
+        },
+        {
+          "line": 6,
+          "text": "// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12"
+        }
+      ],
+      "useful_assertions": [],
+      "contracts_and_covers": [
+        {
+          "line": 16,
+          "text": "#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 })]"
+        }
+      ],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness postcondition_reads_returned_hole...",
+          "std::ptr::read::<u8>.safety_check.1\\",
+          " - Status: FAILURE\\",
+          " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\"",
+          "std::ptr::read::<u8>.safety_check.4\\",
+          " - Status: FAILURE\\",
+          " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\"",
+          "postcondition_target::\\",
+          " - Status: FAILURE\\",
+          " - Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }\"",
+          "SUMMARY:\\",
+          " ** 3 of",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "Failed Checks: |result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }",
+          "VERIFICATION:- FAILED",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [
+          {
+            "line": 2,
+            "status": "FAILURE",
+            "literal_lines": [
+              "std::ptr::read::<u8>.safety_check.1\\",
+              " - Status: FAILURE\\",
+              " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\""
+            ]
+          },
+          {
+            "line": 5,
+            "status": "FAILURE",
+            "literal_lines": [
+              "std::ptr::read::<u8>.safety_check.4\\",
+              " - Status: FAILURE\\",
+              " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\""
+            ]
+          },
+          {
+            "line": 8,
+            "status": "FAILURE",
+            "literal_lines": [
+              "postcondition_target::\\",
+              " - Status: FAILURE\\",
+              " - Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }\""
+            ]
+          }
+        ],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+          "Failed Checks: |result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }"
+        ],
+        "exact_failure_counts": [
+          3
+        ],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "EXACT_N"
+      },
+      "special_requirements": [],
+      "source_parts": {
+        "file": "SOURCE-PARTS.json",
+        "sha256": "2ce3bdad4208e413f7cecf2dde11deeb62e9b3e568c3e2c5e80f795b7240ce28",
+        "owner": "1",
+        "binding": "Static feature/dependency link, not AST/MIR binding"
+      },
+      "closure_receipt": null
+    }
+  ],
+  "tested_selectors": [],
+  "tested_selectors_note": "No native tests executed; exact required selectors and input/golden hashes are in TEST-MANIFEST.json.",
+  "required_test_selectors_manifest": {
+    "path": "TEST-MANIFEST.json",
+    "sha256": "561b720ef9bde835cd8de7f0aff9a243d04de70b62a0465a1daf1b9e44ea4b69"
+  },
+  "source_patch": {
+    "path": "source.patch",
+    "sha256": "fa7cec3f0ddaf285cf46f158a827dadcbab1838f3eed2965ae6b0271145aa1a0"
+  },
+  "residual_to_F": {
+    "path": "residual-to-F.patch",
+    "direction": "slice1 -> F",
+    "sha256": "5477393421ac4e736039bdcb467cf3c1f009c4e1178202f4b721feec3ea29330",
+    "remaining_owners": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "full_recomposition": "NOT_RUN"
+  },
+  "static_validation": "PASS_STATIC_ONLY",
+  "independent_review": "PENDING_WORKER15",
+  "CI": "NOT_RUN",
+  "push": "NOT_RUN",
+  "builds": "NOT_RUN_PROHIBITED",
+  "formal_proof_credit": "NOT_ESTABLISHED",
+  "static_patch_endpoint_trees": {
+    "source": "c7024fb95c9cbb8ca2b1091056b9d5aa9c8cea9b",
+    "residual_to_F": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+    "method": "git apply --cached --unidiff-zero in separate temporary indexes; not full logical-stack recomposition"
+  }
+}

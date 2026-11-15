@@ -73,7 +73,7 @@ def owner(path, side, n, anchor):
                 return '2'
             if n == 180:
                 return '4'
-            if n == 191 or n == 213:
+            if n == 191 or n == 212:
                 return '7'
         else:
             if n == 15:
@@ -124,7 +124,7 @@ def owner(path, side, n, anchor):
     if path == V:
         if side == '+':
             if between(n, 420, 424):
-                return '6'
+                return '4'  # Accepted variant C; marked-model prerequisites stay together.
             if between(n, 649, 680):
                 return '3'
             if n == 544 or between(n, 1179, 1184):
@@ -289,22 +289,26 @@ def main():
             'source_changed_lines': sum(p['count'] for p in parts),
             'tests_docs_map': 'worker15/oracle-map; not assigned by worker14',
             'implemented': False, 'native_qualification': 'NOT_RUN'}
+    slices['1'].update(qualification_kind='NO_REGRESSION', integration_status='PENDING', integration_heads=[4, 5])
     dump('DEPENDENCIES.json', {
         'order': ['U', 'B1', '1', '2', '3', '4', '5', '6', '7'],
         'slices': slices,
         'borrowed_prerequisites': [
             {'owner': '2', 'outline_owner': '4', 'reason': 'immutable_origin_type_supported already needs recognition/for_storage',
              'symbols': ['immutable_origin_type_supported', 'wrapper_inner', 'maybe_uninit_storage', 'PointeeInfo::for_storage'],
-             'consumers': ['2', '4'], 'coordinator_map_review_required_before_code': True},
+             'consumers': ['2', '4'], 'coordinator_map_review_required_before_code': False, 'accepted_by': 'TASK variant C @4fef62ad67'},
             {'owner': '4', 'outline_owner': '6', 'reason': 'MU raw assignments and address formation require projected-place checks now',
-             'symbols': ['address_of_raw_deref', 'visit_ordinary_assignment except F420-424', 'visit_rvalue F951-975'],
-             'consumers': ['4', '6'], 'coordinator_map_review_required_before_code': True}],
+             'symbols': ['address_of_raw_deref', 'visit_ordinary_assignment including F420-424', 'visit_rvalue F951-975'],
+             'consumers': ['4', '6'], 'coordinator_map_review_required_before_code': False, 'accepted_by': 'TASK variant C @4fef62ad67'},
+            {'owner': '4', 'outline_owner': '6', 'reason': 'Accepted variant C: ordinary-union constant assignment required by marked-model controls on head4',
+             'symbols': ['visit_ordinary_assignment F420-424'], 'consumers': ['4', '6'],
+             'coordinator_map_review_required_before_code': False, 'accepted_by': 'TASK variant C @4fef62ad67'}],
         'additional_semantic_edges': [['2', '3'], ['3', '5'], ['4', '6'], ['2', '7'], ['1', '7']],
         'U_prerequisites': ['checked_body/constructor and tail-call paths', 'atomic store post-setter and nonvolatile reads',
                             'InitializeMemoryInitializationState marker and KaniMemoryInitializationState private state fields'],
         'head6_residual': {'exact_F_parts': slices['7']['source_parts'], 'non_F_adaptations': 'PRE-F7.json'},
         'head1_captured_closure_regression': 'NOT_ESTABLISHED; coordinator Quick must decide; STOP if a new ordinary regression is reached',
-        'combined_stage0_acceptance': 'COORDINATOR_PENDING; requires independent worker15 map',
+        'combined_stage0_acceptance': 'VARIANT_C_ACCEPTED_BY_TASK_AT_4fef62ad67; static maps are not runtime results',
         'recomposed_tree': 'NOT_CREATED'})
     pre_path = T + 'delayed_ub/mod.rs'
     pre_lines = git('show', refs['pre_F7']['sha'] + ':' + pre_path).decode().splitlines(keepends=True)
@@ -318,7 +322,7 @@ def main():
         'snippets': snippets, 'F_replacements': [
             {'start': 18, 'count': 1, 'role': 'remove TransformationResult import'},
             {'start': 191, 'count': 1, 'role': 'replace ordinary delayed write'},
-            {'start': 213, 'count': 1, 'role': 'replace failed-root write'}],
+            {'start': 212, 'count': 1, 'role': 'replace failed-root write'}],
         'no_structural_isolation_credit_before_7': True})
     # Search every F compiler/runtime Rust blob, including unchanged potential consumers.
     names = '''resolve_call AnalysisBodyOverride BodyProvenance AnalysisKey PointsToAnalysisError

@@ -105,8 +105,11 @@ def main():
             hits = [p for p in expected_parts if p['path'] == definition['path'] and p['side'] == '+' and p['start'] <= definition['line'] < p['start'] + p['count']]
             if hits:
                 assert all(p['owner'] == expected for p in hits), (name, hits)
+    slice_report = ROOT.parent / 'slice-01/STATIC-VALIDATION.json'
+    candidate = json.loads(slice_report.read_text()).get('source_sha') if slice_report.exists() else None
+    writer_head = candidate or inputs['refs']['B1']['sha']
     for path, head in [(REPO, inputs['refs']['F']['sha']), ('/root/kani-fix-b1-upstream', inputs['refs']['B1']['sha']),
-                       (inputs['worker14_worktree'], inputs['refs']['B1']['sha'])]:
+                       (inputs['worker14_worktree'], writer_head)]:
         assert subprocess.check_output(['git', '-C', path, 'rev-parse', 'HEAD']).decode().strip() == head
         assert subprocess.check_output(['git', '-C', path, 'status', '--porcelain']) == b'', path
     excluded = {'MANIFEST.json', 'RESEARCH-VALIDATION.json'}
@@ -115,11 +118,11 @@ def main():
     report = {'checked_at_utc': datetime.now(timezone.utc).isoformat(), 'status': 'PASS_STATIC_RESEARCH_CONSISTENCY',
               'checks': ['exact saved Git patches', 'hunk and part hashes/ranges', 'complete unique changed-line ownership',
                          'all original U/B1/F blobs/modes/digests', 'dependency owner-part bijection', 'exact head6 F7 residual list',
-                         'historical pre-F7 snippets', 'B1 excludes runtime/marker delta', 'remote snapshot identity/no-drift',
+                         'historical pre-F7 snippets', 'B1 excludes runtime/marker delta', 'historical remote snapshot internal identities (not a fresh network observation)',
                          'key seam definition owners', 'all three source worktrees clean/pinned'],
               'line_counts': dict(totals), 'manifest_sha256': digest((ROOT / 'MANIFEST.json').read_bytes()),
               'build_CI_push': 'NOT_RUN', 'oracle_docs_map': 'worker15 separate; not accepted by this validation',
-              'intermediate_heads': 'NOT_CREATED_NOT_QUALIFIED', 'full_recompose': 'NOT_RUN'}
+              'intermediate_heads': {'slice1': candidate, 'qualification': 'NOT_RUN'}, 'full_recompose': 'NOT_RUN'}
     (ROOT / 'RESEARCH-VALIDATION.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps(report))
 

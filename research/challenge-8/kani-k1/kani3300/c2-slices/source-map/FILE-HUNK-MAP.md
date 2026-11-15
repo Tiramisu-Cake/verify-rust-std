@@ -292,7 +292,7 @@ B1 remains the existing parent; changes after B1 are never attributed back to #5
 | `B1--F:19:006` | [67, 1] → [71, 1] | 4 |
 | `B1--F:19:007` | [69, 8] → [73, 2] | 4 |
 | `B1--F:19:008` | [78, 9] → [76, 27] | 4 |
-| `B1--F:19:009` | [113, 0] → [130, 328] | 4,6 |
+| `B1--F:19:009` | [113, 0] → [130, 328] | 4 |
 | `B1--F:19:010` | [134, 4] → [478, 10] | 4 |
 | `B1--F:19:011` | [141, 3] → [491, 1] | 4 |
 | `B1--F:19:012` | [146, 35] → [494, 2] | 4 |
@@ -422,3 +422,12 @@ B1 remains the existing parent; changes after B1 are never attributed back to #5
 | `B1--F:24:022` | [395, 1] → [501, 7] | 4 |
 | `B1--F:24:023` | [397, 10] → [508, 0] | 4 |
 | `B1--F:24:024` | [408, 1] → [510, 39] | 4 |
+
+## Accepted dependency decision for stage1
+
+TASK @`4fef62ad67`, variant C supersedes stage0 review-pending language above.
+Recognition/for_storage helpers stay2; all projected-raw guards and exact V420–424 part move to4; E1 has no required production residual.
+Head1 is `NO_REGRESSION`, integration `PENDING` on heads `[4,5]`: no new non-MU fixtures, no golden weakening, no early closure/storage prerequisites.
+Head4 closes owner1 DAG/cycles/root-order and ordinary payload/padding; head5 closes ordinary positive/capture-free and all mapped contract/strong/mode/root obligations.
+Nested Pat/enum/raw-eq-uninit integration of owner3 waits4; generated-modifies-no-shadow waits5.
+Stage0 findings are static dependency observations, not failed runtime runs. Canonical updated parts are in JSON; stage0 pins remain available at bf455494e4.

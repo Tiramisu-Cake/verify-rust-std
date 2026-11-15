@@ -1,0 +1,677 @@
+diff --git a/kani-compiler/src/kani_middle/points_to/mod.rs b/kani-compiler/src/kani_middle/points_to/mod.rs
+index db9070b92e868cf67308b04e691ada034060a2a5..0df17815f36d16ab4788e83e6ea4c6808a47e382 100644
+--- a/kani-compiler/src/kani_middle/points_to/mod.rs
++++ b/kani-compiler/src/kani_middle/points_to/mod.rs
+@@ -10 +10,3 @@
+-pub use points_to_analysis::{resolve_call, run_points_to_analysis};
++pub use points_to_analysis::{
++    AnalysisBodyOverride, BodyProvenance, resolve_call, run_points_to_analysis,
++};
+diff --git a/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs b/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
+index d74f11eb15a7f95d136bfd67940e46cf4b7c0d84..e1fca07fa7060d9d707148241115f295cd586d97 100644
+--- a/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
++++ b/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
+@@ -29,0 +30 @@
++        SourceLocation,
+@@ -31,0 +33 @@
++        readable_name,
+@@ -50 +52,139 @@
+-use std::collections::HashSet;
++use std::cell::RefCell;
++use std::collections::{HashMap, HashSet};
++use std::fmt::{self, Display};
++
++/// A failed root has no usable points-to graph. Never export an unfinished summary.
++#[derive(Clone, Debug)]
++pub struct PointsToAnalysisError {
++    pub reason: String,
++}
++
++/// Diagnostic provenance of the existing immutable override selection. This does
++/// not select an additional body or introduce an analysis fallback.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub enum BodyProvenance {
++    Source,
++    RegistrationOverride(StableInstance),
++    DiscardedClosureOverride,
++}
++
++#[derive(Clone)]
++pub struct AnalysisBodyOverride {
++    pub body: StableBody,
++    pub provenance: BodyProvenance,
++}
++
++/// Exact Instance and selected snapshot, fixed for one root's immutable map.
++#[derive(Clone, Copy, PartialEq, Eq)]
++struct AnalysisKey<'tcx> {
++    instance: Instance<'tcx>,
++    provenance: BodyProvenance,
++}
++
++impl Display for AnalysisKey<'_> {
++    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
++        // Keep exact Instance/provenance equality for cycle detection, but never
++        // expose Debug IDs or compiler symbols in a user-facing diagnostic.
++        let owner = readable_name(rustc_internal::stable(self.instance));
++        match self.provenance {
++            BodyProvenance::Source => write!(f, "{owner} [provenance=source]"),
++            BodyProvenance::RegistrationOverride(origin) => write!(
++                f,
++                "{owner} [provenance=registration-override; origin={}]",
++                readable_name(origin)
++            ),
++            BodyProvenance::DiscardedClosureOverride => {
++                write!(f, "{owner} [provenance=discarded-closure-override]")
++            }
++        }
++    }
++}
++
++#[derive(Clone)]
++struct CallerLocation {
++    file: String,
++    line: usize,
++}
++
++impl Display for CallerLocation {
++    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
++        write!(f, "{}:{}", self.file, self.line)
++    }
++}
++
++/// Shared only by the synchronous, nested analyses of ONE entry root. This is an
++/// active stack, not a visited set or an input-independent summary cache.
++struct ActiveCalls<K> {
++    stack: Vec<K>,
++    callers: Vec<Option<CallerLocation>>,
++    error: Option<PointsToAnalysisError>,
++}
++
++impl<K: Display + Eq> ActiveCalls<K> {
++    fn new() -> Self {
++        Self { stack: Vec::new(), callers: Vec::new(), error: None }
++    }
++
++    #[cfg(test)]
++    fn enter(&mut self, key: K) -> Result<(), PointsToAnalysisError> {
++        self.enter_at(key, None)
++    }
++
++    fn enter_at(
++        &mut self,
++        key: K,
++        caller: Option<CallerLocation>,
++    ) -> Result<(), PointsToAnalysisError> {
++        if let Some(error) = &self.error {
++            return Err(error.clone());
++        }
++        if let Some(cycle_start) = self.stack.iter().position(|active| active == &key) {
++            // Keep the root and the end of the original active path, including the
++            // repeated call. Bound the diagnostic, never the analysis depth or key.
++            const MAX_FRAMES: usize = 12;
++            const MAX_FRAME_CHARS: usize = 4096;
++            let label = |frame: &K, caller: Option<&CallerLocation>| {
++                let text = match caller {
++                    Some(caller) => format!("{frame} [call at {caller}]"),
++                    None => format!("{frame}"),
++                };
++                let prefix: String = text.chars().take(MAX_FRAME_CHARS).collect();
++                if prefix.len() < text.len() {
++                    format!("{prefix}... [frame truncated; {} chars total]", text.chars().count())
++                } else {
++                    prefix
++                }
++            };
++            let mut path = vec![label(&self.stack[0], self.callers[0].as_ref())];
++            let tail_start = self.stack.len().saturating_sub(MAX_FRAMES - 2).max(1);
++            if tail_start > 1 {
++                path.push(format!("... {} frames omitted ...", tail_start - 1));
++            }
++            path.extend((tail_start..self.stack.len()).map(|idx| {
++                format!("frame {idx}: {}", label(&self.stack[idx], self.callers[idx].as_ref()))
++            }));
++            path.push(format!("repeated: {}", label(&key, caller.as_ref())));
++            let error = PointsToAnalysisError {
++                reason: format!(
++                    "Kani delayed uninitialized-memory analysis detected an interprocedural cycle \
++                     (repeats active frame {cycle_start}); root/active path: {}",
++                    path.join(" -> ")
++                ),
++            };
++            self.error = Some(error.clone());
++            return Err(error);
++        }
++        self.stack.push(key);
++        self.callers.push(caller);
++        Ok(())
++    }
++
++    fn exit(&mut self) -> Result<(), PointsToAnalysisError> {
++        self.stack.pop().expect("balanced points-to analysis entry/exit");
++        self.callers.pop().expect("balanced points-to caller metadata");
++        match &self.error {
++            Some(error) => Err(error.clone()),
++            None => Ok(()),
++        }
++    }
++}
+@@ -54,0 +195 @@ struct PointsToAnalysis<'a, 'tcx> {
++    active_calls: &'a RefCell<ActiveCalls<AnalysisKey<'tcx>>>,
+@@ -60,0 +202,2 @@ struct PointsToAnalysis<'a, 'tcx> {
++    /// Contract registration trampolines and discarded closures must agree with codegen.
++    body_overrides: &'a HashMap<StableInstance, AnalysisBodyOverride>,
+@@ -73 +216,2 @@ pub fn run_points_to_analysis<'tcx>(
+-) -> PointsToGraph<'tcx> {
++    body_overrides: &HashMap<StableInstance, AnalysisBodyOverride>,
++) -> Result<PointsToGraph<'tcx>, PointsToAnalysisError> {
+@@ -82,0 +227,2 @@ pub fn run_points_to_analysis<'tcx>(
++        body_overrides,
++        &RefCell::new(ActiveCalls::new()),
+@@ -83,0 +230 @@ pub fn run_points_to_analysis<'tcx>(
++        None,
+@@ -89,0 +237 @@ impl<'a, 'tcx> PointsToAnalysis<'a, 'tcx> {
++    #[allow(clippy::too_many_arguments)]
+@@ -94,0 +243,2 @@ pub fn run(
++        body_overrides: &'a HashMap<StableInstance, AnalysisBodyOverride>,
++        active_calls: &'a RefCell<ActiveCalls<AnalysisKey<'tcx>>>,
+@@ -96,2 +246,11 @@ pub fn run(
+-    ) -> PointsToGraph<'tcx> {
+-        let analysis = Self { body, tcx, instance, call_graph, initial_graph };
++        caller: Option<CallerLocation>,
++    ) -> Result<PointsToGraph<'tcx>, PointsToAnalysisError> {
++        let key = AnalysisKey {
++            instance,
++            provenance: body_overrides
++                .get(&rustc_internal::stable(instance))
++                .map_or(BodyProvenance::Source, |selected| selected.provenance),
++        };
++        active_calls.borrow_mut().enter_at(key, caller)?;
++        let analysis =
++            Self { body, tcx, instance, call_graph, body_overrides, active_calls, initial_graph };
+@@ -116 +275,4 @@ pub fn run(
+-        results
++        // Trait callbacks cannot return Result. A cycle latches the first error;
++        // callbacks then stop adding effects, and every active frame unwinds here.
++        // No partial graph can cross this Result boundary, even during cursor replay.
++        active_calls.borrow_mut().exit().map(|()| results)
+@@ -147,0 +310,3 @@ fn apply_primary_statement_effect(
++        if self.active_calls.borrow().error.is_some() {
++            return;
++        }
+@@ -193,0 +359,3 @@ fn apply_primary_terminator_effect(
++        if self.active_calls.borrow().error.is_some() {
++            return;
++        }
+@@ -197 +365,2 @@ fn apply_primary_terminator_effect(
+-            let Ok(instance) = resolve_call(rustc_internal::stable(func.ty(self.body, self.tcx)))
++            let Ok(instance) =
++                resolve_call(self.tcx, rustc_internal::stable(func.ty(self.body, self.tcx)))
+@@ -330 +499,7 @@ fn apply_primary_terminator_effect(
+-                        self.apply_regular_call_effect(state, instance, args, destination);
++                        self.apply_regular_call_effect(
++                            state,
++                            instance,
++                            args,
++                            destination,
++                            location,
++                        );
+@@ -349,2 +524,2 @@ fn apply_call_return_effect(
+-/// MIR-backed shims may be analyzed; their shadow-transfer boundary is guarded locally.
+-pub fn resolve_call(func_ty: StableTy) -> Result<StableInstance, String> {
++/// MIR-backed shims may be analyzed, but this does not grant them A3 shadow transfers.
++pub fn resolve_call(tcx: TyCtxt, func_ty: StableTy) -> Result<StableInstance, String> {
+@@ -363 +538 @@ pub fn resolve_call(func_ty: StableTy) -> Result<StableInstance, String> {
+-            if instance.body().is_some() {
++            if crate::kani_middle::checked_body(tcx, instance).is_some() {
+@@ -447,0 +623 @@ fn apply_regular_call_effect(
++        location: Location,
+@@ -452,2 +628,7 @@ fn apply_regular_call_effect(
+-            // Unsupported callees leave previously accumulated edges intact.
+-            let Some(stable_body) = crate::kani_middle::checked_body(self.tcx, stable_instance)
++            // The shared resolver also checks source MIR, so absence is guaranteed to have
++            // a local Unsupported check. Preserve the graph accumulated before that call.
++            let Some(stable_body) = self
++                .body_overrides
++                .get(&stable_instance)
++                .map(|selected| selected.body.clone())
++                .or_else(|| crate::kani_middle::checked_body(self.tcx, stable_instance))
+@@ -515,0 +697,4 @@ fn apply_regular_call_effect(
++        // Resolve the call site as source text, never as Debug MIR/span IDs.
++        let call_site = SourceLocation::new(rustc_internal::stable(
++            self.body.basic_blocks[location.block].terminator().source_info.span,
++        ));
+@@ -517,2 +702,14 @@ fn apply_regular_call_effect(
+-        let new_result =
+-            PointsToAnalysis::run(&new_body, self.tcx, instance, self.call_graph, initial_graph);
++        let Ok(new_result) = PointsToAnalysis::run(
++            &new_body,
++            self.tcx,
++            instance,
++            self.call_graph,
++            self.body_overrides,
++            self.active_calls,
++            initial_graph,
++            Some(CallerLocation { file: call_site.filename, line: call_site.start_line }),
++        ) else {
++            // The shared context carries the error through the dataflow callbacks.
++            // In particular, do not join this failed callee's partial graph.
++            return;
++        };
+@@ -761,0 +959,173 @@ fn is_identity_aliasing_intrinsic(intrinsic: Intrinsic) -> bool {
++
++#[cfg(test)]
++mod active_call_tests {
++    use super::{ActiveCalls, CallerLocation};
++    use std::fmt::{self, Display};
++
++    #[derive(PartialEq, Eq)]
++    struct TestKey(&'static str, bool);
++
++    impl Display for TestKey {
++        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
++            write!(f, "{} [override={}]", self.0, self.1)
++        }
++    }
++
++    #[test]
++    fn self_cycle_is_an_error_without_pushing_another_frame() {
++        let mut calls = ActiveCalls::new();
++        calls.enter(TestKey("A::<u8>", false)).unwrap();
++        let error = calls.enter(TestKey("A::<u8>", false)).unwrap_err();
++        assert!(error.reason.contains("interprocedural cycle"));
++        assert_eq!(calls.stack.len(), 1);
++        assert!(calls.exit().is_err());
++        assert!(calls.stack.is_empty());
++    }
++
++    #[test]
++    fn mutual_cycle_retains_original_root_and_active_stack() {
++        let mut calls = ActiveCalls::new();
++        for name in ["root", "A", "B"] {
++            calls.enter(TestKey(name, true)).unwrap();
++        }
++        let error = calls.enter(TestKey("A", true)).unwrap_err();
++        assert!(error.reason.contains("repeats active frame 1"));
++        assert!(
++            error
++                .reason
++                .contains("root [override=true] -> frame 1: A [override=true] -> frame 2: B [override=true] -> repeated: A [override=true]")
++        );
++        // No ancestor may turn a failed child into a successful partial summary.
++        for _ in 0..3 {
++            assert_eq!(calls.exit().unwrap_err().reason, error.reason);
++        }
++        assert!(calls.stack.is_empty());
++    }
++
++    #[test]
++    fn caller_location_is_diagnostic_only_and_survives_repeated_entry() {
++        let mut calls = ActiveCalls::new();
++        calls.enter("root").unwrap();
++        let caller = CallerLocation { file: "src/cycle.rs".into(), line: 42 };
++        let error = calls.enter_at("root", Some(caller)).unwrap_err();
++        assert!(error.reason.contains("repeats active frame 0"));
++        assert!(error.reason.contains("repeated: root [call at src/cycle.rs:42]"));
++        assert!(!error.reason.contains("DefId"));
++        assert!(!error.reason.contains("AnalysisKey"));
++        assert_eq!(calls.stack.len(), 1);
++        assert_eq!(calls.callers.len(), 1);
++        assert!(calls.exit().is_err());
++        assert!(calls.callers.is_empty());
++    }
++
++    #[test]
++    fn diamond_and_repeated_completed_calls_are_allowed() {
++        let mut calls = ActiveCalls::new();
++        calls.enter("root").unwrap();
++        for branch in ["left", "right", "left"] {
++            calls.enter(branch).unwrap();
++            calls.enter("leaf").unwrap();
++            calls.exit().unwrap();
++            calls.exit().unwrap();
++        }
++        calls.exit().unwrap();
++        assert!(calls.stack.is_empty());
++        assert!(calls.error.is_none());
++    }
++
++    #[test]
++    fn exact_instance_and_body_selection_are_part_of_identity() {
++        let mut calls = ActiveCalls::new();
++        // Synthetic monomorphization/body keys; production uses rustc Instance.
++        for key in [("F::<u8>", false), ("F::<u16>", false), ("F::<u8>", true)] {
++            calls.enter(TestKey(key.0, key.1)).unwrap();
++        }
++        for _ in 0..3 {
++            calls.exit().unwrap();
++        }
++    }
++
++    #[test]
++    fn discarded_override_has_no_source_body_edges() {
++        let mut calls = ActiveCalls::new();
++        calls.enter(TestKey("root", false)).unwrap();
++        calls.enter(TestKey("discarded", true)).unwrap();
++        // An unreachable override is an empty traversal, not its recursive source.
++        calls.exit().unwrap();
++        calls.exit().unwrap();
++    }
++
++    #[test]
++    fn independent_roots_in_both_orders_do_not_share_errors() {
++        for order in [[true, false], [false, true]] {
++            for cyclic in order {
++                let mut calls = ActiveCalls::new();
++                calls.enter("root").unwrap();
++                if cyclic {
++                    assert!(calls.enter("root").is_err());
++                    assert!(calls.exit().is_err());
++                } else {
++                    calls.enter("leaf").unwrap();
++                    calls.exit().unwrap();
++                    calls.exit().unwrap();
++                }
++                assert!(calls.stack.is_empty());
++            }
++        }
++    }
++
++    #[test]
++    fn diagnostic_uses_display_without_exposing_internal_identity() {
++        #[derive(PartialEq, Eq)]
++        struct OpaqueKey {
++            id: usize,
++            name: &'static str,
++        }
++
++        impl Display for OpaqueKey {
++            fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
++                write!(f, "{} [provenance=source]", self.name)
++            }
++        }
++
++        let diagnostic = |id| {
++            let mut calls = ActiveCalls::new();
++            calls.enter(OpaqueKey { id, name: "cycle::<u8>" }).unwrap();
++            calls
++                .enter_at(
++                    OpaqueKey { id, name: "cycle::<u8>" },
++                    Some(CallerLocation { file: "src/cycle.rs".into(), line: 17 }),
++                )
++                .unwrap_err()
++                .reason
++        };
++        assert_eq!(diagnostic(62), diagnostic(93));
++        assert!(
++            diagnostic(62)
++                .contains("repeated: cycle::<u8> [provenance=source] [call at src/cycle.rs:17]")
++        );
++        // Readable names are diagnostic only: distinct exact keys still enter.
++        let mut calls = ActiveCalls::new();
++        calls.enter(OpaqueKey { id: 62, name: "same_name" }).unwrap();
++        calls.enter(OpaqueKey { id: 93, name: "same_name" }).unwrap();
++        calls.exit().unwrap();
++        calls.exit().unwrap();
++    }
++
++    #[test]
++    fn diagnostic_is_bounded_without_limiting_analysis_depth() {
++        let mut calls = ActiveCalls::new();
++        for i in 0..100 {
++            calls.enter(format!("frame-{i}-{}", "x".repeat(10000))).unwrap();
++        }
++        let error = calls.enter(format!("frame-50-{}", "x".repeat(10000))).unwrap_err();
++        assert!(error.reason.len() < 51000);
++        assert!(error.reason.contains("frames omitted"));
++        assert!(error.reason.contains("frame truncated"));
++        assert!(error.reason.contains("repeats active frame 50"));
++        for _ in 0..100 {
++            assert!(calls.exit().is_err());
++        }
++        assert!(calls.stack.is_empty());
++    }
++}
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+index b585f72370fb5ca06429286a6b3ffcc649d7ede3..03c1699f11e96dbf409ce37d79cedbab7f89466c 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+@@ -132 +132,2 @@ fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Option<Instance
+-        // A failed resolution cannot identify an intrinsic seed.
++        // A failed resolution is not an intrinsic seed. The local visitor will emit
++        // Unsupported at this call, preserving seeds already collected elsewhere.
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
+index 7909418cb12719499de258247b89c9c8b5649e41..72331e10eff342af7fb0e427e8d418adb258cddb 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
+@@ -12 +12 @@
+-            TargetFinder,
++            PointeeInfo, PointeeLayout, TargetFinder,
+@@ -45,0 +46,24 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
++            if bb_idx == 0 {
++                // Arguments have no defining assignment in this body. A valid ordinary
++                // value initializes its own data bytes on entry, even when aliasing
++                // overapproximation causes later reads to be tracked. Address the slot,
++                // not a reference/raw pointer's referent. Union/MU storage and nested
++                // unsupported layouts retain their existing transfer rules/diagnostics.
++                for (local, decl) in body.locals().iter().enumerate().skip(1).take(body.arg_count())
++                {
++                    let place = Place::from(local);
++                    if self.needs_set(&place)
++                        && !decl.ty.kind().is_union()
++                        && matches!(
++                            PointeeInfo::from_ty(decl.ty).as_ref().map(PointeeInfo::layout),
++                            Ok(PointeeLayout::Sized { .. })
++                        )
++                    {
++                        self.push_target(MemoryInitOp::SetRef {
++                            operand: Operand::Copy(place),
++                            value: true,
++                            position: InsertPosition::Before,
++                        });
++                    }
++                }
++            }
+@@ -75,0 +100,23 @@ fn push_target(&mut self, source_op: MemoryInitOp) {
++
++    /// Whether a write to this storage can supply a checked alias at the same depth.
++    fn needs_set(&self, place: &Place) -> bool {
++        let mut self_ancestors =
++            self.points_to.resolve_place_stable(place.clone(), self.current_instance, self.tcx);
++        let mut target_ancestors = self.analysis_targets.clone();
++        // The graph is field/context insensitive and can be cyclic. Repeating a pair
++        // cannot reveal a new intersection; preserve the existing terminating walk.
++        let mut visited_pairs = Vec::new();
++        while !self_ancestors.is_empty() || !target_ancestors.is_empty() {
++            if self_ancestors.intersection(&target_ancestors).next().is_some() {
++                return true;
++            }
++            let state = (self_ancestors, target_ancestors);
++            if visited_pairs.contains(&state) {
++                break;
++            }
++            self_ancestors = self.points_to.ancestors(&state.0);
++            target_ancestors = self.points_to.ancestors(&state.1);
++            visited_pairs.push(state);
++        }
++        false
++    }
+@@ -98,5 +145,3 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-            self.current_target = InitRelevantInstruction {
+-                source: SourceInstruction::Terminator { bb },
+-                after_instruction: vec![],
+-                before_instruction: vec![],
+-            };
++            // Keep entry setters when bb0 has no statements. Other blocks have no
++            // pending operations here, since visit_statement already flushed them.
++            self.current_target.source = SourceInstruction::Terminator { bb };
+@@ -106,2 +151,2 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-        // The local uninitialized-memory visitor owns unsupported-call checks. It runs
+-        // even without delayed-UB targets, and preserves checks on the call's operands.
++        // Unsupported calls are owned by the local visitor, which runs independently
++        // of delayed-UB seeds and preserves the operand reads before its diagnostic.
+@@ -159,29 +204 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+-        let needs_set = {
+-            let mut has_common_ancestor = false;
+-            let mut self_ancestors =
+-                self.points_to.resolve_place_stable(place.clone(), self.current_instance, self.tcx);
+-            let mut target_ancestors = self.analysis_targets.clone();
+-
+-            // The points-to graph can contain cycles (the analysis is field- and
+-            // context-insensitive, so e.g. a `Vec` can end up "pointing to" itself), in which
+-            // case the ancestor sets never become empty and this walk used to loop forever. Each
+-            // iteration is a deterministic function of the current pair of sets, so once a pair
+-            // repeats, no new intersection can be found: stop and report no common ancestor,
+-            // which is the answer the walk gives on every graph where it terminates.
+-            let mut visited_pairs = Vec::new();
+-            while !self_ancestors.is_empty() || !target_ancestors.is_empty() {
+-                if self_ancestors.intersection(&target_ancestors).next().is_some() {
+-                    has_common_ancestor = true;
+-                    break;
+-                }
+-                let state = (self_ancestors, target_ancestors);
+-                if visited_pairs.contains(&state) {
+-                    break;
+-                }
+-                self_ancestors = self.points_to.ancestors(&state.0);
+-                target_ancestors = self.points_to.ancestors(&state.1);
+-                visited_pairs.push(state);
+-            }
+-
+-            has_common_ancestor
+-        };
++        let needs_set = self.needs_set(place);
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+index ca96dabf6686ad6116bec9441c22544a0798f382..c8fc4b8b732a82eca5d15c955fe00a513b3d41ea 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+@@ -10 +10,2 @@
+-use crate::kani_middle::kani_functions::KaniFunction;
++use crate::kani_middle::attributes::KaniAttributes;
++use crate::kani_middle::kani_functions::{KaniFunction, KaniModel};
+@@ -12 +13,3 @@
+-    points_to::{MemLoc, PointsToGraph, run_points_to_analysis},
++    points_to::{
++        AnalysisBodyOverride, BodyProvenance, MemLoc, PointsToGraph, run_points_to_analysis,
++    },
+@@ -15 +18,2 @@
+-        BodyTransformation, GlobalPass, TransformationResult, body::CheckType,
++        BodyTransformation, GlobalPass, TransformationResult,
++        body::{CheckType, InsertPosition, MutableBody, SourceInstruction},
+@@ -25 +28,0 @@
+-    mir::MirVisitor,
+@@ -26,0 +30 @@
++    mir::{MirVisitor, TerminatorKind},
+@@ -92,0 +97,27 @@ fn transform(
++            // The source register function only panics; the contract pass replaces it with
++            // the closure call. Following the source body loses the generated body's alias
++            // edges, hence its normal-return setters. Use the emitted trampoline, and keep
++            // discarded closures unreachable so analysis cannot re-enter unused contracts.
++            // Other bodies retain the existing analysis path; do not analyze injected checks.
++            let mut body_overrides = HashMap::new();
++            for instance in &instances {
++                let body = transformer.body_ref(tcx, *instance);
++                let is_registration = KaniAttributes::for_instance(tcx, *instance)
++                    .fn_marker()
++                    .is_some_and(|marker| marker.as_str() == "kani_register_contract");
++                let is_discarded_closure = instance.ty().kind().is_closure()
++                    && body.blocks.len() == 1
++                    && body.blocks[0].statements.is_empty()
++                    && matches!(body.blocks[0].terminator.kind, TerminatorKind::Unreachable);
++                if is_registration || is_discarded_closure {
++                    let provenance = if is_registration {
++                        let run = self.mem_init_fn_cache[&KaniModel::RunContract.into()];
++                        let origin = Instance::resolve(run, &instance.args()).unwrap();
++                        BodyProvenance::RegistrationOverride(origin)
++                    } else {
++                        BodyProvenance::DiscardedClosureOverride
++                    };
++                    body_overrides
++                        .insert(*instance, AnalysisBodyOverride { body: body.clone(), provenance });
++                }
++            }
+@@ -94,0 +126 @@ fn transform(
++            let mut unsupported_roots = Vec::new();
+@@ -107,3 +139,13 @@ fn transform(
+-                    let body = crate::kani_middle::checked_body(tcx, instance).unwrap();
+-                    let results = run_points_to_analysis(&body, tcx, instance, call_graph);
+-                    global_points_to_graph.join(&results);
++                    let body = body_overrides
++                        .get(&instance)
++                        .map(|selected| selected.body.clone())
++                        .unwrap_or_else(|| {
++                            crate::kani_middle::checked_body(tcx, instance).unwrap()
++                        });
++                    match run_points_to_analysis(&body, tcx, instance, call_graph, &body_overrides)
++                    {
++                        Ok(results) => {
++                            global_points_to_graph.join(&results);
++                        }
++                        Err(error) => unsupported_roots.push((instance, error)),
++                    }
+@@ -147,0 +190,21 @@ fn transform(
++
++            // Insert at the failed entry root, AFTER ordinary instrumentation. No
++            // partial summary was merged, and no shared callee is globally blocked.
++            // Continue processing other roots rather than issuing a compiler error.
++            for (instance, error) in unsupported_roots {
++                let mut body = MutableBody::from(transformer.body(tcx, instance));
++                let mut source = if body.blocks()[0].statements.is_empty() {
++                    SourceInstruction::Terminator { bb: 0 }
++                } else {
++                    SourceInstruction::Statement { bb: 0, idx: 0 }
++                };
++                body.insert_check(
++                    &self.unsupported_check_type,
++                    &mut source,
++                    InsertPosition::Before,
++                    None,
++                    &error.reason,
++                );
++                transformer.cache.insert(instance, TransformationResult(body.into(), true));
++                modified = true;
++            }
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 121d61dbdb3f677c83edbd97618dfff7d789bf29..8aeeb23321a322209a6b6c40ba9d01de3100b3d1 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -282 +282 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-                let instance = match try_resolve_instance(&self.locals, func) {
++                let instance = match try_resolve_instance(self.tcx, &self.locals, func) {
+@@ -763,2 +763,6 @@ fn try_remove_topmost_deref(place: &Place) -> Option<Place> {
+-fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Result<Instance, String> {
+-    resolve_call(func.ty(locals).unwrap())
++fn try_resolve_instance(
++    tcx: TyCtxt,
++    locals: &[LocalDecl],
++    func: &Operand,
++) -> Result<Instance, String> {
++    resolve_call(tcx, func.ty(locals).unwrap())
+diff --git a/tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs b/tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs
+index a704098b407849f50e93960036d1ab19d6c3ad4d..5d0dc55cc11b1c959c45d1ad11f87c0f76910827 100644
+--- a/tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs
++++ b/tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs
+@@ -20 +20 @@ fn check() {
+-    // c_void and u8 have the same one-byte data layout; erasure itself adds no seed.
++    // The raw-pointer cast erases the pointee type while preserving its address.
+diff --git a/tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs b/tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs
+index 35261d078d34fafa60c0ad9925923f885bcc5371..1ff04532eba9608ca83cd833c05d4b3a480576a9 100644
+--- a/tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs
++++ b/tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs
+@@ -30 +30 @@ fn check() {
+-    // c_void and u8 have the same one-byte data layout; erasure itself adds no seed.
++    // The raw-pointer cast erases the pointee type while preserving its address.
+diff --git a/tests/expected/uninit/unresolved-calls/generated-positive-plain.rs b/tests/expected/uninit/unresolved-calls/generated-positive-plain.rs
+index f7b5f74eb83f2c42177374b86cbd7594087256e5..61f199f57c44ca672470fc5a0349bac948f61331 100644
+--- a/tests/expected/uninit/unresolved-calls/generated-positive-plain.rs
++++ b/tests/expected/uninit/unresolved-calls/generated-positive-plain.rs
+@@ -13 +13 @@ fn identity(value: u8) -> u8 {
+-// Actual instance kind/body and property reachability require pinned CI MIR binding.
++// The function item is passed through the generic Fn-trait call below.
+diff --git a/tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs b/tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs
+index fa75e3f4bc3fd78117e289e765f009a07591667c..c6a2a6348f3d69622899cedea6e2d98bc5ba27ba 100644
+--- a/tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs
++++ b/tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs
+@@ -13 +13 @@ fn identity(value: u8) -> u8 {
+-// Actual instance kind/body and property reachability require pinned CI MIR binding.
++// The function item is passed through the generic Fn-trait call below.
