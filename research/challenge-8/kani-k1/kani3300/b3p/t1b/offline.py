@@ -547,5 +547,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('artifact',type=Path)
     parser.add_argument('--output',required=True,type=Path)
+    parser.add_argument('--r2', action='store_true', help='classify the self-contained r2 capture, including bodies')
     args = parser.parse_args()
-    run(args.artifact,args.output)
+    if args.r2:
+        import runpy
+        driver = runpy.run_path(str(Path(__file__).with_name('offline_r2.py')))
+        driver['run_r2'](args.artifact, args.output, globals())
+    else:
+        run(args.artifact,args.output)
