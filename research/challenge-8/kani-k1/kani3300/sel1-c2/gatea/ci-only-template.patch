@@ -974,15 +974,16 @@ index 3e34d8ac3..000000000
 -          single-commit: true
 diff --git a/.github/workflows/kani3300-sel1-c2-gatea.yml b/.github/workflows/kani3300-sel1-c2-gatea.yml
 new file mode 100644
-index 000000000..6bac8f46e
+index 000000000..0da573551
 --- /dev/null
 +++ b/.github/workflows/kani3300-sel1-c2-gatea.yml
-@@ -0,0 +1,129 @@
+@@ -0,0 +1,135 @@
 +# Copyright Kani Contributors
 +# SPDX-License-Identifier: Apache-2.0 OR MIT
-+name: SEL1-C2 Gate A (UNBOUND TEMPLATE) (manual, exact frozen export)
++name: SEL1-C2 Gate A (exact frozen export)
 +on:
-+  workflow_dispatch:
++  push:
++    branches: ["uninit-ci/sel1-c2-gatea-*"]
 +permissions:
 +  contents: read
 +concurrency:
@@ -990,7 +991,7 @@ index 000000000..6bac8f46e
 +  cancel-in-progress: false
 +jobs:
 +  regression:
-+    if: ${{ false && github.repository == 'Tiramisu-Cake/kani' }}
++    if: ${{ github.repository == 'Tiramisu-Cake/kani' }}
 +    runs-on: ${{ matrix.os }}
 +    timeout-minutes: 360
 +    strategy:
@@ -1014,6 +1015,7 @@ index 000000000..6bac8f46e
 +        with:
 +          ref: ${{ github.sha }}
 +          path: control
++          fetch-depth: 2
 +          persist-credentials: false
 +      - name: Initialize lifecycle
 +        id: init
@@ -1024,8 +1026,9 @@ index 000000000..6bac8f46e
 +        id: export
 +        uses: actions/checkout@v6
 +        with:
-+          ref: PENDING_SEL1_FREEZE_SHA
++          ref: 14bc57fdb99960240c4944845a3d985c8af4dcf7
 +          path: export
++          fetch-depth: 2
 +          persist-credentials: false
 +      - name: Source identity before setup
 +        id: preflight
@@ -1074,15 +1077,17 @@ index 000000000..6bac8f46e
 +        run: |
 +          python3 scripts/kani3300-gate/lifecycle.py finalize --binding scripts/kani3300-gate/binding.json --output "$GATE_OUTPUT" --source-dir ../export --setup-status '${{ steps.setup.outcome }}' --preflight-status '${{ steps.preflight.outcome }}' --observer-status '${{ steps.observer.outcome }}' --regression-status '${{ steps.regression.outcome }}'
 +      - name: Upload bounded platform package
++        env:
++          GATE_ARCH: ${{ runner.arch }}
 +        if: always()
 +        uses: actions/upload-artifact@v7
 +        with:
-+          name: sel1-c2-gatea-${{ matrix.os }}-${{ runner.arch }}-${{ github.run_id }}-${{ github.run_attempt }}
++          name: sel1-c2-gatea-${{ matrix.os }}-${{ env.GATE_ARCH }}-${{ github.run_id }}-${{ github.run_attempt }}
 +          path: artifacts/${{ matrix.os }}/
 +          retention-days: 14
 +          if-no-files-found: error
 +  summary:
-+    if: ${{ false && always() && github.repository == 'Tiramisu-Cake/kani' }}
++    if: ${{ always() && github.repository == 'Tiramisu-Cake/kani' }}
 +    needs: [regression]
 +    runs-on: ubuntu-24.04
 +    timeout-minutes: 10
@@ -1090,6 +1095,7 @@ index 000000000..6bac8f46e
 +      - uses: actions/checkout@v6
 +        with:
 +          ref: ${{ github.sha }}
++          fetch-depth: 2
 +          persist-credentials: false
 +      - name: Download available platform receipts
 +        uses: actions/download-artifact@v8
@@ -1853,54 +1859,54 @@ index 486105cd0..000000000
 -            [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
 diff --git a/scripts/kani3300-gate/binding.json b/scripts/kani3300-gate/binding.json
 new file mode 100644
-index 000000000..8054e5d1c
+index 000000000..8f671f8af
 --- /dev/null
 +++ b/scripts/kani3300-gate/binding.json
 @@ -0,0 +1,314 @@
 +{
 +  "schema": "kani3300-gate-binding-v2",
-+  "state": "PENDING_FREEZE",
-+  "export_sha": "PENDING_SEL1_FREEZE_SHA",
-+  "export_tree": "PENDING_SEL1_FREEZE_TREE",
++  "state": "SEL1_C2_FROZEN",
++  "export_sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
++  "export_tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
 +  "files": {
-+    "scripts/kani-regression.sh": "PENDING_SOURCE_SHA256",
-+    ".github/actions/setup/action.yml": "PENDING_SOURCE_SHA256",
-+    ".github/workflows/kani.yml": "PENDING_SOURCE_SHA256",
-+    "rust-toolchain.toml": "PENDING_SOURCE_SHA256",
-+    "kani-dependencies": "PENDING_SOURCE_SHA256",
-+    "Cargo.lock": "PENDING_SOURCE_SHA256",
-+    "Cargo.toml": "PENDING_SOURCE_SHA256",
-+    ".gitmodules": "PENDING_SOURCE_SHA256",
-+    ".cargo/config.toml": "PENDING_SOURCE_SHA256",
-+    "scripts/setup/al2/install_cbmc.sh": "PENDING_SOURCE_SHA256",
-+    "scripts/setup/al2/install_deps.sh": "PENDING_SOURCE_SHA256",
-+    "scripts/setup/install_kissat.sh": "PENDING_SOURCE_SHA256",
-+    "scripts/setup/install_rustup.sh": "PENDING_SOURCE_SHA256",
-+    "scripts/setup/macos/install_cbmc.sh": "PENDING_SOURCE_SHA256",
-+    "scripts/setup/macos/install_deps.sh": "PENDING_SOURCE_SHA256",
-+    "scripts/setup/ubuntu-20.04/install_cbmc.sh": "PENDING_SOURCE_SHA256",
-+    "scripts/setup/ubuntu-20.04/install_deps.sh": "PENDING_SOURCE_SHA256",
-+    "scripts/setup/ubuntu-20.04/install_doc_deps.sh": "PENDING_SOURCE_SHA256",
-+    "scripts/setup/ubuntu/install_cbmc.sh": "PENDING_SOURCE_SHA256",
-+    "scripts/setup/ubuntu/install_deps.sh": "PENDING_SOURCE_SHA256",
-+    "scripts/setup/ubuntu/install_doc_deps.sh": "PENDING_SOURCE_SHA256",
-+    "library/kani/kani_lib.c": "PENDING_SOURCE_SHA256"
++    "scripts/kani-regression.sh": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
++    ".github/actions/setup/action.yml": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
++    ".github/workflows/kani.yml": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303",
++    "rust-toolchain.toml": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
++    "kani-dependencies": "94bfe751e4574561519bd26a99196280eb018c30d9db408416b231ddb6f8b7bc",
++    "Cargo.lock": "5ef47692b5b5c270e7828258efa6e7cd5da8f660096e56880759ae81c7fbff1f",
++    "Cargo.toml": "b4579d8dd4dee83ff4c04abb8e9b5cb4599489fd61bcd671177daed2a804c459",
++    ".gitmodules": "bed047cc36087a49620c1d0035dc09895b33c66b8364c561e349cc5e090c8863",
++    ".cargo/config.toml": "8a7317c9b5e38ee2e842086a154e99f9bae4e2bc1118cae9e5b7cd5ee7c3547c",
++    "scripts/setup/al2/install_cbmc.sh": "d807eb1b83a5e118b739f04e7c1f2217ca97df066d8c285b5466b1045d3546d6",
++    "scripts/setup/al2/install_deps.sh": "6519d6a4bf5f05f3cb869c911ca9eebb3ba09ecb174700c2b493d0335281d434",
++    "scripts/setup/install_kissat.sh": "d7f6fb4d3cae5a94144a54bf0bf07db9f174fad6db6a1ba70ad62f9fc86f1dd9",
++    "scripts/setup/install_rustup.sh": "ce02a8a4042b4f6d2b8ffc0905f50284e77d7772b2ed3a2760cdb17db728adb5",
++    "scripts/setup/macos/install_cbmc.sh": "f6738acc049bf672e66e019ad9d40a34a5ea699a85e2a8c1928da7c72bd3996c",
++    "scripts/setup/macos/install_deps.sh": "6275eee58ebe7860d26d63fec39525b6fbbfcd79e2a7f2ac475a0f8d93a13436",
++    "scripts/setup/ubuntu-20.04/install_cbmc.sh": "4d889a4b6a2c3d33022d206061529e3602f52074a1fdb0615c0fd50c086e3197",
++    "scripts/setup/ubuntu-20.04/install_deps.sh": "b7b330905a65974b7448145c8500bbf301694d200285fac898d0c8c05c5f26cf",
++    "scripts/setup/ubuntu-20.04/install_doc_deps.sh": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
++    "scripts/setup/ubuntu/install_cbmc.sh": "378294d7c13cc0d3c90403cf31a5c577d5292d2f5aee3274977a4446060eda54",
++    "scripts/setup/ubuntu/install_deps.sh": "820a436228d735c1231d09a791de1cb56958d9be42778bb422735183c749bc50",
++    "scripts/setup/ubuntu/install_doc_deps.sh": "15197fa4b218cc7607e0597ceb755213f5a8ea949a1d0b570071939f7dbec8b2",
++    "library/kani/kani_lib.c": "4a3c653c5cf540de061dc6044b85cad196b1321119f936621e692e13a88cd6b6"
 +  },
 +  "subtrees": {
-+    "kani-compiler": "PENDING_SOURCE_OBJECT",
-+    "kani-driver": "PENDING_SOURCE_OBJECT",
-+    "library": "PENDING_SOURCE_OBJECT",
-+    "tests": "PENDING_SOURCE_OBJECT",
-+    "docs": "PENDING_SOURCE_OBJECT",
-+    "tools": "PENDING_SOURCE_OBJECT",
-+    "scripts": "PENDING_SOURCE_OBJECT",
-+    "cprover_bindings": "PENDING_SOURCE_OBJECT",
-+    ".github/actions/setup": "PENDING_SOURCE_OBJECT"
++    "kani-compiler": "9ad031a2e73c33c54e20de60bc378f9b24594b0c",
++    "kani-driver": "f05085b98bda414ea7ceb9de96317cceeb39863f",
++    "library": "eeae80b128033f335183b587eab19ec83ddcfcd5",
++    "tests": "b4736fc8da268d66a24bc5d1bebd0cb05185f709",
++    "docs": "2c130d9f46de2cb3dcb6d6ec94e3ee4795e531dc",
++    "tools": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99",
++    "scripts": "17ce41a6b9744224defd3a87247736f82992e550",
++    "cprover_bindings": "b34b3530248caf9fdef522f7ef960f7cb99beb6d",
++    ".github/actions/setup": "f3392b185d8272979f6861b1aa3de1086acc15b5"
 +  },
 +  "submodule_pins": {
-+    "charon": "PENDING_SOURCE_OBJECT",
-+    "firecracker": "PENDING_SOURCE_OBJECT",
-+    "tests/perf/s2n-quic": "PENDING_SOURCE_OBJECT"
++    "charon": "1b6df08a04fd2edaeedd4046b917253a1bf25de5",
++    "firecracker": "cd36c699f3cb3d531289aadee26c45c1306edcfc",
++    "tests/perf/s2n-quic": "be829a473881163369f7df4c739232ebbd1e7d27"
 +  },
 +  "symlinks": {
 +    "scripts/setup/macos-10.15": "macos",
@@ -3092,7 +3098,7 @@ index 000000000..58fe3c86d
 +    sys.exit(main())
 diff --git a/scripts/kani3300-gate/receipt.py b/scripts/kani3300-gate/receipt.py
 new file mode 100644
-index 000000000..7cde083a5
+index 000000000..c87b55411
 --- /dev/null
 +++ b/scripts/kani3300-gate/receipt.py
 @@ -0,0 +1,646 @@
@@ -3119,8 +3125,8 @@ index 000000000..7cde083a5
 +OUTPUT_CAP = 256 * 1024 * 1024
 +METADATA_CAP = 16 * 1024 * 1024
 +GRACE_SECONDS = 10
-+FROZEN_SHA = "PENDING_SEL1_FREEZE_SHA"
-+FROZEN_TREE = "PENDING_SEL1_FREEZE_TREE"
++FROZEN_SHA = "14bc57fdb99960240c4944845a3d985c8af4dcf7"
++FROZEN_TREE = "1efb6e4dfa69d346df8e23741d11839b1932403d"
 +
 +STAGES = [
 +    "cbmc", "kissat", "fmt", "build-dev",

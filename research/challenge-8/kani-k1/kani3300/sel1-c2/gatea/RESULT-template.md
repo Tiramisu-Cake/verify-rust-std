@@ -1,6 +1,7 @@
 # SEL1-C2 gatea — NOT_RUN
 
-Source SHA/tree: PENDING. CI overlay SHA/tree/parent: PENDING final binding.
+Source FREEZE: `14bc57fdb99960240c4944845a3d985c8af4dcf7`, tree `1efb6e4dfa69d346df8e23741d11839b1932403d`.
+CI package: `b69a040ded46d5ee7edf35b8eb727b66e5838930`, parent FREEZE; exact run head is the coordinator trigger commit.
 Run ID/attempt/jobs: NOT_RUN. Runtime/binary/solver hashes: UNKNOWN.
 Original exit/signal/timeout and caps: NOT_OBSERVED.
 Source/std/overlay before/after binding: NOT_CHECKED_AT_RUNTIME.

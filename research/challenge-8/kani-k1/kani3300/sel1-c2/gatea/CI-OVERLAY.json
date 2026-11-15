@@ -1,22 +1,38 @@
 {
+  "binding_sha256": "c7473fdd65d4b431077ed4ee84fa3585bd0c6d6bd011956e6f4eaf84fdf48f4d",
   "files_sha256": {
-    ".github/workflows/kani3300-sel1-c2-gatea.yml": "6e95d744ad41463bcf15db2ef01c7e1e8ff78de81c24e5fdc014d66fd0ff4868",
-    "scripts/kani3300-gate/binding.json": "42ca69becad76019d3969e18b6a4bd639f9abe334e96e16e7ce7eabb80650dd2",
+    ".github/workflows/kani3300-sel1-c2-gatea.yml": "128fb3bed8e5cd56a3e885b13a87151ddec1edea9c0dfa58b9b17f167b2466ab",
+    "scripts/kani3300-gate/binding.json": "c7473fdd65d4b431077ed4ee84fa3585bd0c6d6bd011956e6f4eaf84fdf48f4d",
     "scripts/kani3300-gate/lifecycle.py": "04aa0d82518b586ef67f996ab217befc7c2f088526a01d55e620d8e1a26c36d7",
-    "scripts/kani3300-gate/receipt.py": "2dc949d5aaaf3ac784a2afb3f25fab2acd3d892199c3ce5535e456cd222bd32e",
+    "scripts/kani3300-gate/receipt.py": "8479e05a08a9d264f59f73eaa8ad756a27c9e8f14ae73bdecaa33189a7d6ddd1",
     "scripts/kani3300-gate/test_lifecycle.py": "f819936154ae574d810fcca1ea5ae93917c98e9dec25140b3fd5d6a28446fe1d",
     "scripts/kani3300-gate/test_receipt.py": "f1011112c32937f9d4737bfe72d835572b44fe24a660f52e843681ab704326ce"
   },
-  "final_source_binding": "PENDING_FREEZE",
+  "final_source_binding": "BOUND_ACCEPTED_FREEZE",
   "formal_proof_credit": "NOT_ESTABLISHED",
-  "local_template_base": "8e299aa6243bc5f06a29c51e98aafa9564478220",
-  "publication": "COORDINATOR_ONLY_AFTER_STAGE_REVIEW",
-  "request_sha256": "e884c8883f90c698594cacd4caa42fb38423eeca096a0d04ef53af36ed25472f",
+  "local_ci": {
+    "binding": "BOUND_ACCEPTED_FREEZE",
+    "branch": "uninit-ci/sel1-c2-gatea-w15",
+    "commit": "b69a040ded46d5ee7edf35b8eb727b66e5838930",
+    "parent": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+    "path": "/root/kani-fix-3300-sel1-c2-w15",
+    "runtime": "NOT_RUN",
+    "source_base": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+    "tree": "4141fba67952dc6ac018ecc3dc17b96e49461533"
+  },
+  "patch_path": "ci-only-template.patch",
+  "patch_sha256": "ad668281d05a3127c465e55bf733d16914c8a62634aae6d3150f1a411258a065",
+  "publication": "COORDINATOR_ONLY_AFTER_WORKER14_REVIEW",
+  "remaining_workflows": [
+    ".github/workflows/kani3300-sel1-c2-gatea.yml"
+  ],
+  "request_sha256": "6d63ddc66e87a2972404ad79caee7108bd0bcf59c5cd7caea6e93bd489987306",
   "retry": "NONE",
   "runtime": "NOT_RUN",
-  "schema": "sel1-c2-unbound-ci-template-v1",
-  "source_sha": null,
-  "source_tree": null,
-  "stage": "gatea",
-  "status": "PREPARATION_ONLY"
+  "schema": "sel1-c2-gatea-bound-overlay-v2",
+  "source_sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "source_tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
+  "source_unchanged": true,
+  "status": "READY_FOR_WORKER14_COORDINATOR_REVIEW",
+  "stock_workflow_deletions": 16
 }

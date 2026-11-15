@@ -1,11 +1,59 @@
 {
   "checks": {
-    "fixture": "synthetic SHA replacement in temporary copy only; accepted observer bytes otherwise identity/state substitution only",
+    "files": 22,
+    "known_error_mutations_rejected": [
+      "dispatch-only",
+      "runner-job-env",
+      "shallow-export",
+      "nested-checkout"
+    ],
+    "limitation": "targeted offline checker, not full actionlint or runtime qualification",
+    "stages": 33,
     "status": "PASS",
-    "synthetic_tests": 26
+    "submodules": 3,
+    "subtrees": 9,
+    "symlinks": 10,
+    "yaml_context_shell_binding_checks": "PASS"
+  },
+  "not_established": [
+    "runtime Gate A result",
+    "worker14 stage A review",
+    "remote branch identity",
+    "three-platform native behavior",
+    "formal proof credit"
+  ],
+  "overlay_sha": "b69a040ded46d5ee7edf35b8eb727b66e5838930",
+  "provenance_checks": {
+    "lifecycle_and_tests": "byte-identical to c012e79dd6 preparation",
+    "observer": "only FROZEN_SHA/FROZEN_TREE substitutions from c012e79dd6 preparation",
+    "regression_script": "byte-identical to exact C2 8e299aa624 and SEL1 freeze"
   },
   "runtime": "NOT_RUN",
-  "source_binding_finalized": false,
+  "shell_self_test": {
+    "guard": "accepted Bash3.2 owner variable unchanged",
+    "host": "Linux bash; macOS not run locally",
+    "result": "PASS"
+  },
+  "source_binding_finalized": true,
   "stage": "gatea",
-  "status": "PASS_PREPARATION_ONLY"
+  "status": "PASS_STATIC_SYNTHETIC_ONLY",
+  "synthetic_tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_receipt.py test_lifecycle.py",
+    "count": 26,
+    "coverage": [
+      "33 ordered stages synthetic end-to-end",
+      "original nonzero exit",
+      "timeout/signal/process-group descendant",
+      "output cap/truncation",
+      "missing/repeated/out-of-order stage",
+      "missing/failed/overflow/filtered counts",
+      "wrong SHA/tree/file hash and dirty source",
+      "setup-only fallback",
+      "missing/failed/null matrix row",
+      "wrong binding contract",
+      "partial receipt preservation"
+    ],
+    "cwd": "/root/kani-fix-3300-sel1-c2-w15/scripts/kani3300-gate",
+    "result": "PASS"
+  }
 }

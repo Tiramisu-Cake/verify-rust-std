@@ -1,0 +1,39 @@
+{
+  "schema": "sel1-c2-worker15-gatea-v1",
+  "status": "READY",
+  "task": "TASK-KANI3300-SEL1-C2.md section 4; current user stage A only",
+  "g0_input": "c012e79dd64f4f52c7e0fa163c212fedde886316",
+  "source_freeze": {
+    "sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+    "tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
+    "acceptance": "../quick/ci-43740679160/ACCEPTANCE.md"
+  },
+  "overlay": {
+    "sha": "b69a040ded46d5ee7edf35b8eb727b66e5838930",
+    "tree": "4141fba67952dc6ac018ecc3dc17b96e49461533",
+    "parent": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+    "path": "/root/kani-fix-3300-sel1-c2-w15",
+    "branch": "uninit-ci/sel1-c2-gatea-w15"
+  },
+  "claims": [
+    {
+      "claim": "Exact freeze binding and CI-only overlay READY",
+      "assurance": "Git objects, file hashes, static parsing, synthetic tests and independent static review",
+      "evidence": [
+        "CI-OVERLAY.json",
+        "CI-REQUEST.json",
+        "VALIDATION.json",
+        "REVIEW.md"
+      ]
+    }
+  ],
+  "runtime": "NOT_RUN",
+  "formal_proof_credit": "NOT_ESTABLISHED",
+  "open": [
+    "Worker14 review of stage A package before launch",
+    "Coordinator creates one empty non-skip trigger commit, verifies identities and pushes once",
+    "Three-platform complete receipts and coordinator Gate A acceptance"
+  ],
+  "next": "HANDOFF.md; no workflow_dispatch, retry or source changes",
+  "closure_reason": "Authorized stage A preparation completed; no local build, push, dispatch or replay stage authorized in this session."
+}
