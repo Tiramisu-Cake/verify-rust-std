@@ -1,0 +1,334 @@
+{
+  "rows": [
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/0",
+      "root": "postcondition_reads_initialized_return",
+      "operation_contract_mode": "select(new17,uninit,true); first u8 read in ensures",
+      "new_exact_N": 0,
+      "preservation": "Reuse scalar-pfc-legal.rs unchanged: PFC postcondition_target selects new17 rather than hole; first read is exact ensures17; its own SUCCESS required.",
+      "old_map_pointer": "/rows/0",
+      "final_selectors": [
+        "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/1",
+      "root": "legal_ordinary_transfer",
+      "operation_contract_mode": "ordinary original body; select true initialized7; written [1,2,3]",
+      "new_exact_N": 0,
+      "preservation": "Split legal-pair.rs to legal-ordinary.rs; select helper, write_initialized body, modifies(out), ensures result7/out123 unchanged. Body byte7 and array123 assertions plus caller result7/out123 SUCCESS required.",
+      "old_map_pointer": "/rows/1",
+      "final_selectors": [
+        "tests/expected/uninit/transfer-qualification/legal-ordinary.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/2",
+      "root": "legal_pfc_transfer",
+      "operation_contract_mode": "PFC original body and frame; same initialized select/array",
+      "new_exact_N": 0,
+      "preservation": "Split legal-pair.rs to legal-pfc.rs; same select/body/modifies/ensures/return/out geometry. Body and caller assertions, ensures, allowed user out-write SUCCESS required.",
+      "old_map_pointer": "/rows/2",
+      "final_selectors": [
+        "tests/expected/uninit/transfer-qualification/legal-pfc.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/3",
+      "root": "lawful_modifies_preserves_outside",
+      "operation_contract_mode": "relay/choose(new(*outside),new29); assume_init; only *out written",
+      "new_exact_N": 0,
+      "preservation": "Reuse lawful-modifies.rs unchanged: relay/choose(new(*outside),new29), initialized read, only out written. Ensures/result29/out29/outside41 and allowed out-write SUCCESS required.",
+      "old_map_pointer": "/rows/3",
+      "final_selectors": [
+        "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/4",
+      "root": "postcondition_reads_returned_hole",
+      "operation_contract_mode": "PFC valid MU hole return; first u8 payload read in ensures17; exact current outcome2 intended read failures plus outer ensures consequence = N3",
+      "new_exact_N": 3,
+      "preservation": "Reuse scalar-pfc-hole.rs unchanged: false select returns valid MU with hole. Ensures17 read causes exactly two instrumentation failures of one read plus exact outer ensures FAILURE. No contract weakened.",
+      "old_map_pointer": "/rows/4",
+      "final_selectors": [
+        "tests/expected/uninit/closure-zst/scalar-pfc-hole.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/5",
+      "root": "postcondition_reads_returned_hole",
+      "operation_contract_mode": "PFC valid MU hole return; first u8 payload read in ensures17; exact current outcome2 intended read failures plus outer ensures consequence = N3",
+      "new_exact_N": 3,
+      "preservation": "Reuse transfer-qualification/postcondition-hole.rs unchanged: false select returns valid MU hole; first payload read remains ensures17. Exact current N3 includes both read failures and outer ensures consequence.",
+      "old_map_pointer": "/rows/5",
+      "final_selectors": [
+        "tests/expected/uninit/transfer-qualification/postcondition-hole.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/6",
+      "root": "frame_negative",
+      "operation_contract_mode": "relay/choose(new23,new29); initialized u16 read; forbidden user *outside assignment, not shadow write; historical var_7 not authoritative",
+      "new_exact_N": 1,
+      "preservation": "Reuse source frame_target body unchanged; only add per-fixture objectbits12 flag. User outside write at line22 must fail, permitted out write at line23 must succeed. Own function/description/source location binds roles; private writes cannot substitute.",
+      "old_map_pointer": "/rows/6",
+      "final_selectors": [
+        "tests/expected/uninit/maybe-uninit-contract-frame/main.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/7",
+      "root": "clause_pfc_negative",
+      "operation_contract_mode": "valid uninit MU<u16>; relay(input,input).assume_init in requires helper line22; no earlier frame/protocol failure",
+      "new_exact_N": 1,
+      "preservation": "Reuse source clause helper/contracts/body unchanged; only add per-fixture objectbits12 flag. Requires helper relays same uninit MU<u16> and assume_init transmutes to u16, sole intended read failure.",
+      "old_map_pointer": "/rows/7",
+      "final_selectors": [
+        "tests/expected/uninit/maybe-uninit-contract-clause/main.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+      "old_pointer": "/roots/0",
+      "root": "replace_transfer",
+      "operation_contract_mode": "Replace target passthrough",
+      "new_exact_N": 2,
+      "preservation": "Retain nondet initialized bool, input(initialized) constructor-return path, relay/through_helper, passthrough Replace stub, requires/ensures and conditional payload assertion. Remove only two pure true observation hooks from negative parent. Initialized reachability is own payload SUCCESS. New explicit false-partition companion retains input(initialized) with the explicit false domain/same helper+stub route and postreturn SUCCESS plus SATISFIED uninitialized-return cover; N0 source-justified by short-circuit, native NOT_RUN. Parent exact N2 from supplied base; no mode qualification. In-file full-domain PFC companion restored after CI compile error; explicit exact caller selection leaves original payload/contract/mode unchanged.",
+      "old_map_pointer": "/rows/8",
+      "final_selectors": [
+        "tests/expected/uninit/contract-modes/replace-transfer.rs",
+        "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+      "old_pointer": "/roots/1",
+      "root": "replace_ordinary",
+      "operation_contract_mode": "Assert target passthrough",
+      "new_exact_N": 0,
+      "preservation": "Retain nondet initialized/new42 vs hole alternatives, input/relay/through_helper/passthrough Assert contracts, useful payload and ensures assertions. Both original return source covers retained and SATISFIED required; N0.",
+      "old_map_pointer": "/rows/9",
+      "final_selectors": [
+        "tests/expected/uninit/contract-modes/replace-ordinary.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+      "old_pointer": "/roots/2",
+      "root": "replace_simple_check",
+      "operation_contract_mode": "SimpleCheck target passthrough",
+      "new_exact_N": 0,
+      "preservation": "Retain same nondet input/relay/helper route and passthrough SimpleCheck target/contracts. Require own payload and ensures SUCCESS plus both original return covers SATISFIED; N0.",
+      "old_map_pointer": "/rows/10",
+      "final_selectors": [
+        "tests/expected/uninit/contract-modes/replace-simple-check.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+      "old_pointer": "/roots/3",
+      "root": "recursive_check",
+      "operation_contract_mode": "RecursiveCheck target recursive_transfer",
+      "new_exact_N": 1,
+      "preservation": "Retain original recursive_transfer target/contracts/recursion annotation, depth0/1 and initialized/hole alternatives, relay and conditional postreturn payload assertion. Remove only pure true covers from root and recursive helper. Sole intended cycle Unsupported N1 requires readable root/target/registration origin; not legal proof.",
+      "old_map_pointer": "/rows/11",
+      "final_selectors": [
+        "tests/expected/uninit/contract-modes/recursive-check.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+      "old_pointer": "/roots/4",
+      "root": "recursive_ordinary",
+      "operation_contract_mode": "Assert target recursive_transfer",
+      "new_exact_N": 1,
+      "preservation": "Retain same original recursive target/recursion annotation and Assert contract route, nondet depth0/1 and init/hole paths, relay and useful payload assertion. Remove only pure true covers. Sole cycle Unsupported N1 in this separate root; not legal proof.",
+      "old_map_pointer": "/rows/12",
+      "final_selectors": [
+        "tests/expected/uninit/contract-modes/recursive-ordinary.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+      "old_pointer": "/roots/5",
+      "root": "recursive_simple_check",
+      "operation_contract_mode": "SimpleCheck target bounded_transfer",
+      "new_exact_N": 0,
+      "preservation": "Retain nonrecursive bounded_transfer target/contracts, nondet depth0/1 and init/hole alternatives, relay(value) and explicit relay(relay(value)) branch. Ensures/payload SUCCESS and all four source cover roles SATISFIED required; N0, bounded/unrolled execution only.",
+      "old_map_pointer": "/rows/13",
+      "final_selectors": [
+        "tests/expected/uninit/contract-modes/recursive-simple-check.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+      "old_pointer": "/roots/0",
+      "root": "immutable_legal",
+      "operation_contract_mode": "Assert",
+      "new_exact_N": 0,
+      "preservation": "Retain only initialized named static IMMUTABLE_LEGAL = new17 and unchanged read/root assertion value17; preserve Some initialized bytes. Own assertion SUCCESS, N0. No hole/other root needed in this split.",
+      "old_map_pointer": "/rows/14",
+      "final_selectors": [
+        "tests/expected/uninit/root-composition/immutable-legal.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+      "old_pointer": "/roots/1",
+      "root": "immutable_hole_negative",
+      "operation_contract_mode": "Assert",
+      "new_exact_N": 2,
+      "preservation": "Retain named static IMMUTABLE_HOLE = uninit and unchanged intended assume_init_read; preserve None bytes. Exact two failed read instrumentation blocks, N2; no ensures/cycle/extra failure.",
+      "old_map_pointer": "/rows/15",
+      "final_selectors": [
+        "tests/expected/uninit/root-composition/immutable-hole-negative.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+      "old_pointer": "/roots/2",
+      "root": "ordinary_ensures_legal",
+      "operation_contract_mode": "Assert+ensures",
+      "new_exact_N": 0,
+      "preservation": "Retain repeated_relay identity by-value path, ordinary_contract ensures reading23, caller new23 and result-read assertion23. Both own ensures and caller assertion SUCCESS; N0.",
+      "old_map_pointer": "/rows/16",
+      "final_selectors": [
+        "tests/expected/uninit/root-composition/ordinary-ensures-legal.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+      "old_pointer": "/roots/3",
+      "root": "pfc_legal",
+      "operation_contract_mode": "PFC",
+      "new_exact_N": 0,
+      "preservation": "Retain pfc_contract requires31, initialized new31 return, ensures reading31 and PFC caller31. Own useful ensures SUCCESS, N0; do not invent an extra caller assertion absent in original.",
+      "old_map_pointer": "/rows/17",
+      "final_selectors": [
+        "tests/expected/uninit/root-composition/pfc-legal.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+      "old_pointer": "/roots/4",
+      "root": "pfc_negative",
+      "operation_contract_mode": "PFC",
+      "new_exact_N": 3,
+      "preservation": "Retain pfc_negative_contract requires41, MU hole return and exact ensures41 first payload read; PFC caller41 unchanged. Exact two read failures plus this ensures consequence N3.",
+      "old_map_pointer": "/rows/18",
+      "final_selectors": [
+        "tests/expected/uninit/root-composition/pfc-negative.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+      "old_pointer": "/roots/5",
+      "root": "cycle_root",
+      "operation_contract_mode": "PFC+recursion",
+      "new_exact_N": 1,
+      "preservation": "Retain repeated_relay, payload_is_53, actual cycle_relay recursion/contracts and PFC caller53/true/depth1. Only cycle Unsupported N1 with own root/path/target/provenance; no read-failure claims or legal-proof credit.",
+      "old_map_pointer": "/rows/19",
+      "final_selectors": [
+        "tests/expected/uninit/root-composition/cycle-root.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+      "old_pointer": "/roots/6",
+      "root": "unrelated_legal_after_cycle",
+      "operation_contract_mode": "Assert",
+      "new_exact_N": 0,
+      "preservation": "Retain repeated_relay twice with new59/new61 and both caller read assertions SUCCESS; N0. Split legal result is not evidence of mixed-root isolation.",
+      "old_map_pointer": "/rows/20",
+      "final_selectors": [
+        "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.rs"
+      ],
+      "owner_slice": 5,
+      "earliest_runnable_head": 5,
+      "disposition": "Preserve per-root semantic oracle; do not reintroduce JSON suite; final F literals in ORACLE-MAP.json"
+    }
+  ],
+  "mode_cover_preservation": "../../c2-s5/MODE-COVER-MAP.md",
+  "mixed_relation": {
+    "disposition": "MIXED-ISOLATION-DISPOSITION.md",
+    "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+    "old_pointers": [
+      "/orders",
+      "/producer_order_receipt",
+      "/roots/*/expected_inventory"
+    ],
+    "retained_basis": "unchanged F7 production plus delayed_cache6 and delayed_scope2 structural units; source-reported S4 exact18/18 vs baseline6/18 mismatch in research with hashes",
+    "replacement_claim": "per-root semantics only; no full-inventory, selector-order, export-schema or observed producer-order proof from expected",
+    "residual_end_to_end_regression_coverage": "DECREASED after suite removal; explicit coordinator acceptance item in REVIEW"
+  },
+  "qualification": "Historical NOT_RUN does not override later accepted F; no new independent proof credit"
+}

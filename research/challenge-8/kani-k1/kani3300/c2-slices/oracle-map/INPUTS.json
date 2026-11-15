@@ -1,0 +1,76 @@
+{
+  "g0_start": "203c712c6b7ac3898f105c3ca89fe0d9a026baf6",
+  "U": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "B1": "6fe484b30043b3696b5f1ccc4bea0e42891ad012",
+  "B1_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "F": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "F_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+  "worker_worktree": "/root/kani-fix-3300-c2-slices-w15",
+  "worker_worktree_mode": "detached F; read-only inspection; clean",
+  "upstream_snapshot": "UPSTREAM-SNAPSHOT.json",
+  "required_reads": [
+    {
+      "path": "PLAN-KANI3300-C2.md",
+      "sha256": "5760ba70590ddd418cdc42837d254794bf7871f8db3d83602a2b742e5a419419"
+    },
+    {
+      "path": "AUDIT-REPORT-KANI3300-PART1-R4-RU.md",
+      "sha256": "2a17c94da235dab02453d1af8c651993984121b8f8ec9abe7d5762939e260d05"
+    },
+    {
+      "path": "kani3300/c2-s5/ORACLE-MAP.md",
+      "sha256": "53f1be6cdd4c7f9f2a523a2689e310974d26c1683a13d2699071c0e7c22f464d"
+    },
+    {
+      "path": "kani3300/c2-s5/ORACLE-MAP.json",
+      "sha256": "6676df668844c9b2de3b236c3654e43dda28578146dbe3c4a055ba58ff6b2acf"
+    },
+    {
+      "path": "kani3300/c2-s5/MODE-COVER-MAP.md",
+      "sha256": "7861954b0def6e95c5adce9e5cb81fb5ecf47f3abe80f881b7f80956e9006db7"
+    },
+    {
+      "path": "kani3300/c2-s5/DISCOVERY-DELETION-MAP.md",
+      "sha256": "b1e9e5b74a2050e10a3be2b8416e76b18187a4070912472e9dff958cacb5735d"
+    },
+    {
+      "path": "kani3300/c2-s5/SENSITIVITY-MANIFEST.json",
+      "sha256": "f6757fd2c30ea6553bafc47411ec50d8c818dcc16adee92586cb700a49e428ee"
+    },
+    {
+      "path": "kani3300/c2-s6/CONTROL-MAP.md",
+      "sha256": "0d55034936420b08e3281db84a3971d881e1572e7e31a24275e09cd32a00cf78"
+    },
+    {
+      "path": "kani3300/c2-s6/DOCS-SCOPE-MAP.md",
+      "sha256": "b6c2c740fad2a0f63939737ca1e2f620fa8b0a830653993b65a48e5ef13d5cb5"
+    },
+    {
+      "path": "kani3300/c2-s6/ci-43656920767/ACCEPTANCE.md",
+      "sha256": "4efe6bd6f6a4568a31f01d5511a35c24fcdb501c82ab25b0f1a84668b15472ce"
+    },
+    {
+      "path": "kani3300/c2-gatea/ACCEPTANCE.md",
+      "sha256": "ea82683ec4c9312402a8801ae2499bee41fae45574e03e8062712e086b72cfde"
+    },
+    {
+      "path": "kani3300/c2-gateb/RESULT.md",
+      "sha256": "24febc51b7cc1210271347f5a3fda517c09dbce4ff77dc0c6dda1c1fbdce7b94"
+    }
+  ],
+  "accepted_evidence_claims": {
+    "Quick": "43656920767 / 0998b98867; expected245, kani24, ui17, script2, json17; F regression only",
+    "Gate_A": "43665002636 / 33 stages on each of3 platforms; regression not proof credit",
+    "Gate_B_prime": "43683557088 / two merge bounded SUCCESS + named sort4 select_unpredictable boundary"
+  },
+  "not_run": [
+    "all intermediate heads",
+    "local builds",
+    "new Quick/CI",
+    "F7 extraction",
+    "recomposition",
+    "push/publication"
+  ],
+  "changed_test_docs_paths": 368,
+  "source_map_owner": "worker14; not written by worker15"
+}

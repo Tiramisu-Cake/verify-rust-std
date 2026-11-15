@@ -1,0 +1,387 @@
+{
+  "status": "PLAN_ONLY_NOT_EXTRACTED",
+  "head6": "NOT_CREATED_STAGE0",
+  "F": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "F_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+  "files": [
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "historical_delta_base": "ad324418cdc66b18e9b71f76a412be6ccea20c7e",
+      "historical_delta_target": "3b382c812a1b8541946e6dc732cf04497ebcf995",
+      "historical_patch_sha256": "96707d3d0c208d8c5cca569803266adebd133dc626d6bbdd4a4c5b05a8104f33",
+      "hunks": [
+        "@@ -0,0 +1,144 @@"
+      ],
+      "unchanged_S4_to_F": true,
+      "F_blob": "6ba16800fba5cc1955094551acfd20e6c2e20065"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "historical_delta_base": "ad324418cdc66b18e9b71f76a412be6ccea20c7e",
+      "historical_delta_target": "3b382c812a1b8541946e6dc732cf04497ebcf995",
+      "historical_patch_sha256": "6cac2950900a8e745128924fd2683993d240e2540cce510320dc132cfddf4852",
+      "hunks": [
+        "@@ -30,0 +31 @@",
+        "@@ -38,0 +40 @@",
+        "@@ -73,0 +76 @@ fn build_missing_body(tcx: TyCtxt, instance: Instance) -> Body {",
+        "@@ -94,0 +98,2 @@ pub struct BodyTransformation {",
+        "@@ -110,0 +116 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {",
+        "@@ -151,0 +158,13 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {",
+        "@@ -216,0 +236,26 @@ fn add_pass<P: ClonableTransformPass + 'static>(&mut self, query_db: &QueryDb, p",
+        "@@ -389,0 +435,43 @@ fn clone_back(&self) -> Box<dyn $new_trait_name> {"
+      ],
+      "unchanged_S4_to_F": true,
+      "F_blob": "4484375cea01d66a1545208238542815d0490896"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "historical_delta_base": "ad324418cdc66b18e9b71f76a412be6ccea20c7e",
+      "historical_delta_target": "3b382c812a1b8541946e6dc732cf04497ebcf995",
+      "historical_patch_sha256": "5ca668e44b5bd534b1a13da6e1cb8db7350c4a34e9d4f899adc8e492363de10b",
+      "hunks": [
+        "@@ -18 +18 @@",
+        "@@ -191,3 +191 @@ fn transform(",
+        "@@ -214 +212 @@ fn transform("
+      ],
+      "unchanged_S4_to_F": true,
+      "F_blob": "456b39de7fa3ace577f0cae44fdcf14c37dc887f"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "historical_delta_base": "ad324418cdc66b18e9b71f76a412be6ccea20c7e",
+      "historical_delta_target": "3b382c812a1b8541946e6dc732cf04497ebcf995",
+      "historical_patch_sha256": "c2f3574687bb47f82b074a7d4ba720227cd43ed26c42accbafbd59d6d6d6e8cc",
+      "hunks": [
+        "@@ -91,0 +92,5 @@ fn codegen_items<'tcx>("
+      ],
+      "unchanged_S4_to_F": true,
+      "F_blob": "3461ada461b9d0f123f22d25274b000a7a789559"
+    },
+    {
+      "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+      "historical_delta_base": "ad324418cdc66b18e9b71f76a412be6ccea20c7e",
+      "historical_delta_target": "3b382c812a1b8541946e6dc732cf04497ebcf995",
+      "historical_patch_sha256": "2873ab10d57c601acd690b6eee7a36624626088e18a413519fb6c351c91e8162",
+      "hunks": [
+        "@@ -69,0 +70,3 @@ fn codegen_items("
+      ],
+      "unchanged_S4_to_F": true,
+      "F_blob": "cead741d8618551828063ed46c310c1f10f740b0"
+    }
+  ],
+  "exact_residual_rule": "Inverse of precisely these historical zero-context F7 hunks, adapted to actual head6 coordinates; no blanket compiler_interface.rs residual. Future head6 diff to F must equal exact F7 residue with explicit pre-F7 writer restoration.",
+  "baseline_comparisons": [
+    {
+      "path": "../../c2-s4/ci-1/baseline-capture.json",
+      "sha256": "d0b19d51f378ca6eb7e8cd76fe6f04160afdb976c9ef3b7e4d8eb67bd72ab460",
+      "status": "UNBOUND_CAPTURE",
+      "binding_status": "NOT_CHECKED_CAPTURE",
+      "order_credit": "NOT_ESTABLISHED",
+      "producer_order": "ORDER_UNCONTROLLED",
+      "mixed_root_oracle": "MISMATCH",
+      "comparisons": [
+        {
+          "root": "immutable_legal",
+          "order": "all_A_then_B",
+          "accepted": false,
+          "exact_match": false,
+          "added_check_count": 6,
+          "removed_check_count": 0
+        },
+        {
+          "root": "immutable_hole_negative",
+          "order": "all_A_then_B",
+          "accepted": false,
+          "exact_match": false,
+          "added_check_count": 9,
+          "removed_check_count": 0
+        },
+        {
+          "root": "ordinary_ensures_legal",
+          "order": "all_A_then_B",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "pfc_legal",
+          "order": "all_A_then_B",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "pfc_negative",
+          "order": "all_A_then_B",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "cycle_root",
+          "order": "all_A_then_B",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "unrelated_legal_after_cycle",
+          "order": "all_A_then_B",
+          "accepted": false,
+          "exact_match": false,
+          "added_check_count": 3,
+          "removed_check_count": 0
+        },
+        {
+          "root": "unrelated_legal_after_cycle",
+          "order": "all_B_then_A",
+          "accepted": false,
+          "exact_match": false,
+          "added_check_count": 3,
+          "removed_check_count": 0
+        },
+        {
+          "root": "cycle_root",
+          "order": "all_B_then_A",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "pfc_negative",
+          "order": "all_B_then_A",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "pfc_legal",
+          "order": "all_B_then_A",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "ordinary_ensures_legal",
+          "order": "all_B_then_A",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "immutable_hole_negative",
+          "order": "all_B_then_A",
+          "accepted": false,
+          "exact_match": false,
+          "added_check_count": 9,
+          "removed_check_count": 0
+        },
+        {
+          "root": "immutable_legal",
+          "order": "all_B_then_A",
+          "accepted": false,
+          "exact_match": false,
+          "added_check_count": 6,
+          "removed_check_count": 0
+        },
+        {
+          "root": "cycle_root",
+          "order": "cycle_then_legal",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "unrelated_legal_after_cycle",
+          "order": "cycle_then_legal",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "unrelated_legal_after_cycle",
+          "order": "legal_then_cycle",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "cycle_root",
+          "order": "legal_then_cycle",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        }
+      ],
+      "assurance": "Existing coordinator/source-reported capture, no new native run or independent proof credit"
+    },
+    {
+      "path": "../../c2-s4/ci-1/candidate-capture.json",
+      "sha256": "e12dbb57a367d50e966661167de3053836413dd18ed189f5a89116308287449e",
+      "status": "UNBOUND_CAPTURE",
+      "binding_status": "NOT_CHECKED_CAPTURE",
+      "order_credit": "NOT_ESTABLISHED",
+      "producer_order": "ORDER_UNCONTROLLED",
+      "mixed_root_oracle": "EXACT_MATCH",
+      "comparisons": [
+        {
+          "root": "immutable_legal",
+          "order": "all_A_then_B",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "immutable_hole_negative",
+          "order": "all_A_then_B",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "ordinary_ensures_legal",
+          "order": "all_A_then_B",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "pfc_legal",
+          "order": "all_A_then_B",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "pfc_negative",
+          "order": "all_A_then_B",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "cycle_root",
+          "order": "all_A_then_B",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "unrelated_legal_after_cycle",
+          "order": "all_A_then_B",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "unrelated_legal_after_cycle",
+          "order": "all_B_then_A",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "cycle_root",
+          "order": "all_B_then_A",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "pfc_negative",
+          "order": "all_B_then_A",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "pfc_legal",
+          "order": "all_B_then_A",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "ordinary_ensures_legal",
+          "order": "all_B_then_A",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "immutable_hole_negative",
+          "order": "all_B_then_A",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "immutable_legal",
+          "order": "all_B_then_A",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "cycle_root",
+          "order": "cycle_then_legal",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "unrelated_legal_after_cycle",
+          "order": "cycle_then_legal",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "unrelated_legal_after_cycle",
+          "order": "legal_then_cycle",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        },
+        {
+          "root": "cycle_root",
+          "order": "legal_then_cycle",
+          "accepted": true,
+          "exact_match": true,
+          "added_check_count": 0,
+          "removed_check_count": 0
+        }
+      ],
+      "assurance": "Existing coordinator/source-reported capture, no new native run or independent proof credit"
+    }
+  ]
+}

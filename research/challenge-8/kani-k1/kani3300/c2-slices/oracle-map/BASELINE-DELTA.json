@@ -1,0 +1,122 @@
+[
+  {
+    "path": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs b/tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs\nindex 63accc842..e4d737797 100644\n--- a/tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs\n+++ b/tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs\n@@ -15,8 +15,9 @@ fn identity(value: u32) -> u32 {\n     value\n }\n \n-// No statements in bb0: LoadArgument and the union-field Check share the\n-// unresolved Call's target. The initialized control requires the load to survive.\n+// The first MIR block is empty: entry LoadArgument and the u32 union-field\n+// read share the unresolved Call target. The aggregate is runtime symbolic\n+// input, not an ordinary-union constant.\n #[custom_mir(dialect = \"runtime\", phase = \"optimized\")]\n #[inline(never)]\n unsafe fn indirect(value: Word, f: fn(u32) -> u32) -> u32 {\n@@ -28,5 +29,5 @@ unsafe fn indirect(value: Word, f: fn(u32) -> u32) -> u32 {\n \n #[kani::proof]\n fn check() {\n-    let _ = unsafe { indirect(Word { word: 42 }, identity) };\n+    let _ = unsafe { indirect(Word { word: kani::any() }, identity) };\n }\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs b/tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs\nindex f3bb16388..b16dbc1d0 100644\n--- a/tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs\n+++ b/tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs\n@@ -15,8 +15,9 @@ fn identity(value: u32) -> u32 {\n     value\n }\n \n-// No statements in bb0: LoadArgument and the union-field Check share the\n-// unresolved Call's target. The initialized control requires the load to survive.\n+// The first MIR block is empty: entry LoadArgument and the u32 union-field\n+// read share the unresolved Call target. The aggregate is runtime symbolic\n+// input, not an ordinary-union constant.\n #[custom_mir(dialect = \"runtime\", phase = \"optimized\")]\n #[inline(never)]\n unsafe fn indirect(value: Word, f: fn(u32) -> u32) -> u32 {\n@@ -26,7 +27,7 @@ unsafe fn indirect(value: Word, f: fn(u32) -> u32) -> u32 {\n     }\n }\n \n-// A copy intrinsic creates a delayed-UB analysis target without introducing UB.\n+// An ordinary initialized-byte copy creates a delayed-UB analysis target.\n #[inline(never)]\n fn seed() {\n     let source = 7u8;\n@@ -38,5 +39,5 @@ fn seed() {\n #[kani::proof]\n fn check() {\n     seed();\n-    let _ = unsafe { indirect(Word { word: 42 }, identity) };\n+    let _ = unsafe { indirect(Word { word: kani::any() }, identity) };\n }\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/entry-partial-plain.rs b/tests/expected/uninit/unresolved-calls/entry-partial-plain.rs\nindex 416ffd275..22e6fcac0 100644\n--- a/tests/expected/uninit/unresolved-calls/entry-partial-plain.rs\n+++ b/tests/expected/uninit/unresolved-calls/entry-partial-plain.rs\n@@ -16,8 +16,10 @@ fn identity(value: u32) -> u32 {\n     value\n }\n \n-// No statements in bb0: preserve the entry LoadArgument and the Check\n-// collected from the union field used as the call argument.\n+// The first MIR block is empty: entry LoadArgument and the u32 union-field\n+// read share the unresolved Call target. Only the byte field is runtime\n+// initialized, so the u32 read spans initialized and uninitialized bytes; no\n+// ordinary-union constant is used.\n #[custom_mir(dialect = \"runtime\", phase = \"optimized\")]\n #[inline(never)]\n unsafe fn indirect(value: Word, f: fn(u32) -> u32) -> u32 {\n@@ -29,5 +31,5 @@ unsafe fn indirect(value: Word, f: fn(u32) -> u32) -> u32 {\n \n #[kani::proof]\n fn check() {\n-    let _ = unsafe { indirect(Word { byte: 42 }, identity) };\n+    let _ = unsafe { indirect(Word { byte: kani::any() }, identity) };\n }\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs b/tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs\nindex 2d7acde7e..3320c81ca 100644\n--- a/tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs\n+++ b/tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs\n@@ -16,8 +16,10 @@ fn identity(value: u32) -> u32 {\n     value\n }\n \n-// No statements in bb0: preserve the entry LoadArgument and the Check\n-// collected from the union field used as the call argument.\n+// The first MIR block is empty: entry LoadArgument and the u32 union-field\n+// read share the unresolved Call target. Only the byte field is runtime\n+// initialized, so the u32 read spans initialized and uninitialized bytes; no\n+// ordinary-union constant is used.\n #[custom_mir(dialect = \"runtime\", phase = \"optimized\")]\n #[inline(never)]\n unsafe fn indirect(value: Word, f: fn(u32) -> u32) -> u32 {\n@@ -27,7 +29,7 @@ unsafe fn indirect(value: Word, f: fn(u32) -> u32) -> u32 {\n     }\n }\n \n-// A copy intrinsic creates a delayed-UB analysis target without introducing UB.\n+// An ordinary initialized-byte copy creates a delayed-UB analysis target.\n #[inline(never)]\n fn seed() {\n     let source = 7u8;\n@@ -39,5 +41,5 @@ fn seed() {\n #[kani::proof]\n fn check() {\n     seed();\n-    let _ = unsafe { indirect(Word { byte: 42 }, identity) };\n+    let _ = unsafe { indirect(Word { byte: kani::any() }, identity) };\n }\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs",
+    "owner_slice": 1,
+    "run": 1,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs b/tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs\nindex a704098b4..5d0dc55cc 100644\n--- a/tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs\n+++ b/tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs\n@@ -17,7 +17,7 @@ fn indirect(f: fn(*mut c_void), pointer: *mut c_void) {\n #[kani::proof]\n fn check() {\n     let mut value = 0u8;\n-    // c_void and u8 have the same one-byte data layout; erasure itself adds no seed.\n+    // The raw-pointer cast erases the pointee type while preserving its address.\n     indirect(write, (&raw mut value).cast());\n     assert_eq!(value, 7);\n }\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs",
+    "owner_slice": 1,
+    "run": 1,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs b/tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs\nindex 35261d078..1ff04532e 100644\n--- a/tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs\n+++ b/tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs\n@@ -27,7 +27,7 @@ fn seed() {\n fn check() {\n     seed();\n     let mut value = 0u8;\n-    // c_void and u8 have the same one-byte data layout; erasure itself adds no seed.\n+    // The raw-pointer cast erases the pointee type while preserving its address.\n     indirect(write, (&raw mut value).cast());\n     assert_eq!(value, 7);\n }\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/generated-positive-plain.rs",
+    "owner_slice": 1,
+    "run": 1,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/generated-positive-plain.rs b/tests/expected/uninit/unresolved-calls/generated-positive-plain.rs\nindex f7b5f74eb..61f199f57 100644\n--- a/tests/expected/uninit/unresolved-calls/generated-positive-plain.rs\n+++ b/tests/expected/uninit/unresolved-calls/generated-positive-plain.rs\n@@ -10,7 +10,7 @@ fn identity(value: u8) -> u8 {\n }\n \n // A non-shadow function-item Fn-trait call is a positive generated-body probe.\n-// Actual instance kind/body and property reachability require pinned CI MIR binding.\n+// The function item is passed through the generic Fn-trait call below.\n #[inline(never)]\n fn invoke<F: Fn(u8) -> u8>(function: F) -> u8 {\n     std::ops::Fn::call(&function, (42,))\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs",
+    "owner_slice": 1,
+    "run": 1,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs b/tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs\nindex fa75e3f4b..c6a2a6348 100644\n--- a/tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs\n+++ b/tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs\n@@ -10,7 +10,7 @@ fn identity(value: u8) -> u8 {\n }\n \n // A non-shadow function-item Fn-trait call is a positive generated-body probe.\n-// Actual instance kind/body and property reachability require pinned CI MIR binding.\n+// The function item is passed through the generic Fn-trait call below.\n #[inline(never)]\n fn invoke<F: Fn(u8) -> u8>(function: F) -> u8 {\n     std::ops::Fn::call(&function, (42,))\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.expected",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/item-return-initialized-plain.expected b/tests/expected/uninit/unresolved-calls/item-return-initialized-plain.expected\nnew file mode 100644\nindex 000000000..d55466176\n--- /dev/null\n+++ b/tests/expected/uninit/unresolved-calls/item-return-initialized-plain.expected\n@@ -0,0 +1,3 @@\n+Checking harness item_return_preserves_initialized_value...\n+VERIFICATION:- SUCCESSFUL\n+Complete - 1 successfully verified harnesses, 0 failures, 1 total.\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.rs",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/item-return-initialized-plain.rs b/tests/expected/uninit/unresolved-calls/item-return-initialized-plain.rs\nnew file mode 100644\nindex 000000000..71965cea8\n--- /dev/null\n+++ b/tests/expected/uninit/unresolved-calls/item-return-initialized-plain.rs\n@@ -0,0 +1,22 @@\n+// Copyright Kani Contributors\n+// SPDX-License-Identifier: Apache-2.0 OR MIT\n+// compile-flags: --edition 2021 -D warnings\n+// kani-flags: -Z uninit-checks --output-format=regular\n+\n+use std::mem::MaybeUninit;\n+\n+#[inline(never)]\n+fn invoke_once<F>(function: F) -> MaybeUninit<u16>\n+where\n+    F: FnOnce() -> MaybeUninit<u16>,\n+{\n+    function()\n+}\n+\n+// Initialized companion of the Item-return uninit negative.\n+// Preserve true initialization state through the same noinline generic call.\n+#[kani::proof]\n+fn item_return_preserves_initialized_value() {\n+    let result = invoke_once(|| MaybeUninit::new(7u16));\n+    assert_eq!(unsafe { result.assume_init() }, 7);\n+}\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.expected",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.expected b/tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.expected\nnew file mode 100644\nindex 000000000..d55466176\n--- /dev/null\n+++ b/tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.expected\n@@ -0,0 +1,3 @@\n+Checking harness item_return_preserves_initialized_value...\n+VERIFICATION:- SUCCESSFUL\n+Complete - 1 successfully verified harnesses, 0 failures, 1 total.\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.rs",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.rs b/tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.rs\nnew file mode 100644\nindex 000000000..5eb12f806\n--- /dev/null\n+++ b/tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.rs\n@@ -0,0 +1,32 @@\n+// Copyright Kani Contributors\n+// SPDX-License-Identifier: Apache-2.0 OR MIT\n+// compile-flags: --edition 2021 -D warnings\n+// kani-flags: -Z uninit-checks --output-format=regular\n+\n+use std::mem::MaybeUninit;\n+\n+#[inline(never)]\n+fn invoke_once<F>(function: F) -> MaybeUninit<u16>\n+where\n+    F: FnOnce() -> MaybeUninit<u16>,\n+{\n+    function()\n+}\n+\n+// Ordinary-byte copy creates a delayed-UB target without raw_eq seeding.\n+#[inline(never)]\n+fn seed() {\n+    let source = 7u8;\n+    let mut destination = 0u8;\n+    unsafe { std::ptr::copy_nonoverlapping(&source, &mut destination, 1) };\n+    assert_eq!(destination, source);\n+}\n+\n+// Initialized companion of the Item-return uninit negative.\n+// Preserve true initialization state through the same noinline generic call.\n+#[kani::proof]\n+fn item_return_preserves_initialized_value() {\n+    seed();\n+    let result = invoke_once(|| MaybeUninit::new(7u16));\n+    assert_eq!(unsafe { result.assume_init() }, 7);\n+}\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.expected",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/item-return-uninit-plain.expected b/tests/expected/uninit/unresolved-calls/item-return-uninit-plain.expected\nnew file mode 100644\nindex 000000000..ebb8bbfa3\n--- /dev/null\n+++ b/tests/expected/uninit/unresolved-calls/item-return-uninit-plain.expected\n@@ -0,0 +1,5 @@\n+Checking harness item_return_preserves_uninitialized_read...\n+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`\n+VERIFICATION:- FAILED\n+Verification failed for - item_return_preserves_uninitialized_read\n+Complete - 0 successfully verified harnesses, 1 failures, 1 total.\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.rs",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/item-return-uninit-plain.rs b/tests/expected/uninit/unresolved-calls/item-return-uninit-plain.rs\nnew file mode 100644\nindex 000000000..7fa064480\n--- /dev/null\n+++ b/tests/expected/uninit/unresolved-calls/item-return-uninit-plain.rs\n@@ -0,0 +1,22 @@\n+// Copyright Kani Contributors\n+// SPDX-License-Identifier: Apache-2.0 OR MIT\n+// compile-flags: --edition 2021 -D warnings\n+// kani-flags: -Z uninit-checks --output-format=regular\n+\n+use std::mem::MaybeUninit;\n+\n+#[inline(never)]\n+fn invoke_once<F>(function: F) -> MaybeUninit<u16>\n+where\n+    F: FnOnce() -> MaybeUninit<u16>,\n+{\n+    function()\n+}\n+\n+// The closure call was reported as Item in the pinned Quick. Returning false\n+// initialization state must preserve the reached assume_init read failure.\n+#[kani::proof]\n+fn item_return_preserves_uninitialized_read() {\n+    let result = invoke_once(|| MaybeUninit::uninit());\n+    let _read = unsafe { result.assume_init() };\n+}\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.expected",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.expected b/tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.expected\nnew file mode 100644\nindex 000000000..ebb8bbfa3\n--- /dev/null\n+++ b/tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.expected\n@@ -0,0 +1,5 @@\n+Checking harness item_return_preserves_uninitialized_read...\n+Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`\n+VERIFICATION:- FAILED\n+Verification failed for - item_return_preserves_uninitialized_read\n+Complete - 0 successfully verified harnesses, 1 failures, 1 total.\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.rs",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.rs b/tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.rs\nnew file mode 100644\nindex 000000000..57e9ea728\n--- /dev/null\n+++ b/tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.rs\n@@ -0,0 +1,32 @@\n+// Copyright Kani Contributors\n+// SPDX-License-Identifier: Apache-2.0 OR MIT\n+// compile-flags: --edition 2021 -D warnings\n+// kani-flags: -Z uninit-checks --output-format=regular\n+\n+use std::mem::MaybeUninit;\n+\n+#[inline(never)]\n+fn invoke_once<F>(function: F) -> MaybeUninit<u16>\n+where\n+    F: FnOnce() -> MaybeUninit<u16>,\n+{\n+    function()\n+}\n+\n+// Ordinary-byte copy creates a delayed-UB target without raw_eq seeding.\n+#[inline(never)]\n+fn seed() {\n+    let source = 7u8;\n+    let mut destination = 0u8;\n+    unsafe { std::ptr::copy_nonoverlapping(&source, &mut destination, 1) };\n+    assert_eq!(destination, source);\n+}\n+\n+// The closure call was reported as Item in the pinned Quick. Returning false\n+// initialization state must preserve the reached assume_init read failure.\n+#[kani::proof]\n+fn item_return_preserves_uninitialized_read() {\n+    seed();\n+    let result = invoke_once(|| MaybeUninit::uninit());\n+    let _read = unsafe { result.assume_init() };\n+}\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.expected",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.expected b/tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.expected\nnew file mode 100644\nindex 000000000..cf119c8b3\n--- /dev/null\n+++ b/tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.expected\n@@ -0,0 +1,5 @@\n+Checking harness tuple_maybe_uninit_layout_is_unsupported...\n+Failed Checks: Checking memory initialization of type (std::mem::MaybeUninit<u16>,) is not supported.\n+VERIFICATION:- FAILED\n+Verification failed for - tuple_maybe_uninit_layout_is_unsupported\n+Complete - 0 successfully verified harnesses, 1 failures, 1 total.\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.rs",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.rs b/tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.rs\nnew file mode 100644\nindex 000000000..e194102d5\n--- /dev/null\n+++ b/tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.rs\n@@ -0,0 +1,22 @@\n+// Copyright Kani Contributors\n+// SPDX-License-Identifier: Apache-2.0 OR MIT\n+// compile-flags: --edition 2021 -D warnings\n+// kani-flags: -Z uninit-checks --output-format=regular\n+\n+use std::mem::MaybeUninit;\n+\n+#[inline(never)]\n+fn invoke_once<F>(function: F, value: MaybeUninit<u16>)\n+where\n+    F: FnOnce(MaybeUninit<u16>),\n+{\n+    function(value);\n+}\n+\n+// FnOnce wraps the MaybeUninit argument in a compound tuple.\n+// Expect the tuple-layout Unsupported before any direct-shadow Shim guard.\n+// This does not cover the direct-shadow-argument guard.\n+#[kani::proof]\n+fn tuple_maybe_uninit_layout_is_unsupported() {\n+    invoke_once(|_value| {}, MaybeUninit::uninit());\n+}\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.expected",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.expected b/tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.expected\nnew file mode 100644\nindex 000000000..cf119c8b3\n--- /dev/null\n+++ b/tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.expected\n@@ -0,0 +1,5 @@\n+Checking harness tuple_maybe_uninit_layout_is_unsupported...\n+Failed Checks: Checking memory initialization of type (std::mem::MaybeUninit<u16>,) is not supported.\n+VERIFICATION:- FAILED\n+Verification failed for - tuple_maybe_uninit_layout_is_unsupported\n+Complete - 0 successfully verified harnesses, 1 failures, 1 total.\n"
+  },
+  {
+    "path": "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.rs",
+    "owner_slice": 4,
+    "run": 4,
+    "patch_B1_F": "diff --git a/tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.rs b/tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.rs\nnew file mode 100644\nindex 000000000..58fca22da\n--- /dev/null\n+++ b/tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.rs\n@@ -0,0 +1,32 @@\n+// Copyright Kani Contributors\n+// SPDX-License-Identifier: Apache-2.0 OR MIT\n+// compile-flags: --edition 2021 -D warnings\n+// kani-flags: -Z uninit-checks --output-format=regular\n+\n+use std::mem::MaybeUninit;\n+\n+#[inline(never)]\n+fn invoke_once<F>(function: F, value: MaybeUninit<u16>)\n+where\n+    F: FnOnce(MaybeUninit<u16>),\n+{\n+    function(value);\n+}\n+\n+// Ordinary-byte copy creates a delayed-UB target without raw_eq seeding.\n+#[inline(never)]\n+fn seed() {\n+    let source = 7u8;\n+    let mut destination = 0u8;\n+    unsafe { std::ptr::copy_nonoverlapping(&source, &mut destination, 1) };\n+    assert_eq!(destination, source);\n+}\n+\n+// FnOnce wraps the MaybeUninit argument in a compound tuple.\n+// Expect the tuple-layout Unsupported before any direct-shadow Shim guard.\n+// This does not cover the direct-shadow-argument guard.\n+#[kani::proof]\n+fn tuple_maybe_uninit_layout_is_unsupported() {\n+    seed();\n+    invoke_once(|_value| {}, MaybeUninit::uninit());\n+}\n"
+  }
+]

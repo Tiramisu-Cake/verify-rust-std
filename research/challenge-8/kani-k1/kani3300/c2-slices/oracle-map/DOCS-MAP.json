@@ -1,0 +1,691 @@
+{
+  "documents": [
+    {
+      "path": "docs/src/rust-feature-support.md",
+      "F_blob": "f3af957c9d57a7803538f98e8ec98e3bf55c25a5",
+      "patch_sha256": "7c6c79cc81d9ca6745a06a0da64a388966be10134cc8917cb8a770d3a66f3d03",
+      "added_segments": [
+        {
+          "F_line": 180,
+          "start_column_0": 0,
+          "end_column_0": 84,
+          "text": "The instrumentation tracks a top-level `MaybeUninit<T>` slot, `[MaybeUninit<T>; N]`,",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 181,
+          "start_column_0": 0,
+          "end_column_0": 92,
+          "text": "`[MaybeUninit<T>]`, and `MaybeUninit<[T; N]>` when Kani can compute the element's data mask.",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 182,
+          "start_column_0": 0,
+          "end_column_0": 89,
+          "text": "It tracks initialization through raw copies, typed moves of payload bytes (padding is not",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 183,
+          "start_column_0": 0,
+          "end_column_0": 101,
+          "text": "preserved by typed moves), and direct calls to ordinary functions whose MIR bodies execute, including",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 184,
+          "start_column_0": 0,
+          "end_column_0": 29,
+          "text": "arguments and return values. ",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 184,
+          "start_column_0": 29,
+          "end_column_0": 83,
+          "text": "Qualified whole immutable promoted constants and named",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 185,
+          "start_column_0": 0,
+          "end_column_0": 86,
+          "text": "statics start with their exact byte masks. This requires an immutable, relocation-free",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 186,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "allocation with a supported `Freeze` origin type and computable layout covering the",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 187,
+          "start_column_0": 0,
+          "end_column_0": 90,
+          "text": "whole allocation; a promoted reference must start at offset zero and span that allocation.",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 188,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 189,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "This whole-storage qualification is narrow. Unqualified origins involving a nonzero",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 190,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "subrange or a relocation can produce conservative false positives. Eligible aliases",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 191,
+          "start_column_0": 0,
+          "end_column_0": 84,
+          "text": "and independently supported static paths can still succeed; this limitation does not",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 192,
+          "start_column_0": 0,
+          "end_column_0": 50,
+          "text": "mean that every subrange or relocation read fails.",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 193,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 194,
+          "start_column_0": 0,
+          "end_column_0": 87,
+          "text": "General limitations apply to all harnesses using `-Z uninit-checks`, including ordinary",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 195,
+          "start_column_0": 0,
+          "end_column_0": 84,
+          "text": "proofs. Intrinsics without an initialization model, including `select_unpredictable`",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 196,
+          "start_column_0": 0,
+          "end_column_0": 81,
+          "text": "and `core::hint::select_unpredictable`, calls through function pointers and trait",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 197,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "objects, and call cycles in the delayed initialization analysis remain unsupported.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 198,
+          "start_column_0": 0,
+          "end_column_0": 105,
+          "text": "Kani's typed marker-dispatched backend hooks do not support by-value shadow argument or return transfers.",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 199,
+          "start_column_0": 0,
+          "end_column_0": 82,
+          "text": "Some function-item trait shims have layout or shadow-transfer limitations; this is",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 200,
+          "start_column_0": 0,
+          "end_column_0": 78,
+          "text": "not a restriction on all direct calls to function items. Shadow transfer under",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 201,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "`#[kani::stub_verified]` or `#[kani::recursion]` and by-value aggregates containing",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 202,
+          "start_column_0": 0,
+          "end_column_0": 80,
+          "text": "nested `MaybeUninit` or union fields are also outside this support. Conservative",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 203,
+          "start_column_0": 0,
+          "end_column_0": 71,
+          "text": "resets at nested aggregate call boundaries can produce false positives.",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 204,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "See the [contract limitations](reference/experimental/contracts.md#limitations) for",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 205,
+          "start_column_0": 0,
+          "end_column_0": 116,
+          "text": "contract modes and a nested aggregate example, and [issue #3300](https://github.com/model-checking/kani/issues/3300)",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 206,
+          "start_column_0": 0,
+          "end_column_0": 21,
+          "text": "for the broader work.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 207,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 208,
+          "start_column_0": 0,
+          "end_column_0": 96,
+          "text": "This change does not make core::slice::sort::shared::smallsort verifiable with -Z uninit-checks.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        }
+      ],
+      "removed_U_lines": [
+        {
+          "text": "See [this issue](https://github.com/model-checking/kani/issues/3300) for more details.",
+          "owner_slice": 6
+        }
+      ],
+      "final_disposition": "Exact F content at head6; do not restore shared file wholesale before features; interim paragraph placement/reflow explicit in slice diffs"
+    },
+    {
+      "path": "docs/src/reference/experimental/contracts.md",
+      "F_blob": "6e476cdaee0daf4b7913300883727a10f929d37b",
+      "patch_sha256": "90cb25697989cd7ec09f36082a616636f5501d09b4fb6ce32ae55ff1e5754527",
+      "added_segments": [
+        {
+          "F_line": 73,
+          "start_column_0": 0,
+          "end_column_0": 14,
+          "text": "## Limitations",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 74,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 75,
+          "start_column_0": 0,
+          "end_column_0": 110,
+          "text": "The [uninitialized memory support and general limitations](../../rust-feature-support.md#uninitialized-memory)",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 76,
+          "start_column_0": 0,
+          "end_column_0": 81,
+          "text": "apply to ordinary proof harnesses as well as contract checks. Supported top-level",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 77,
+          "start_column_0": 0,
+          "end_column_0": 95,
+          "text": "`MaybeUninit` storage can transfer initialization state through direct ordinary MIR-body calls,",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 78,
+          "start_column_0": 0,
+          "end_column_0": 73,
+          "text": "including arguments and return values, when its data mask is computable. ",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 78,
+          "start_column_0": 73,
+          "end_column_0": 78,
+          "text": "Whole",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 79,
+          "start_column_0": 0,
+          "end_column_0": 87,
+          "text": "immutable masks require the qualification described there; unqualified nonzero-subrange",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 80,
+          "start_column_0": 0,
+          "end_column_0": 86,
+          "text": "or relocation origins may produce conservative false positives, while eligible aliases",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 81,
+          "start_column_0": 0,
+          "end_column_0": 53,
+          "text": "and independently supported static paths can succeed.",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 82,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 83,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "Tracking the initialization state of `MaybeUninit` and union values passed across a",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 84,
+          "start_column_0": 0,
+          "end_column_0": 69,
+          "text": "call is not yet supported when the callee is replaced by its contract",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 85,
+          "start_column_0": 0,
+          "end_column_0": 63,
+          "text": "(`#[kani::stub_verified]`, Replace mode) or checked recursively",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 86,
+          "start_column_0": 0,
+          "end_column_0": 84,
+          "text": "(`#[kani::recursion]`, RecursiveCheck mode). Observed conservative failures at these",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 87,
+          "start_column_0": 0,
+          "end_column_0": 65,
+          "text": "boundaries do not qualify shadow transfer in those modes. A local",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 88,
+          "start_column_0": 0,
+          "end_column_0": 84,
+          "text": "`#[kani::proof_for_contract]` companion required to validate a verified stub is only",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 89,
+          "start_column_0": 0,
+          "end_column_0": 82,
+          "text": "executed when selected; its presence alone does not establish successful checking.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 90,
+          "start_column_0": 0,
+          "end_column_0": 72,
+          "text": "With `-Z uninit-checks`, a harness is rejected as unsupported if delayed",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 91,
+          "start_column_0": 0,
+          "end_column_0": 81,
+          "text": "initialization analysis encounters an interprocedural call cycle. This can affect",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 92,
+          "start_column_0": 0,
+          "end_column_0": 76,
+          "text": "ordinary proof harnesses and `#[kani::proof_for_contract]` checks; a runtime",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 93,
+          "start_column_0": 0,
+          "end_column_0": 45,
+          "text": "recursion bound does not bound this analysis.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 94,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 95,
+          "start_column_0": 0,
+          "end_column_0": 78,
+          "text": "Initialization shadow transfer is also not implemented for by-value aggregates",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 96,
+          "start_column_0": 0,
+          "end_column_0": 76,
+          "text": "containing nested `MaybeUninit` or union slots, including call arguments and",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 97,
+          "start_column_0": 0,
+          "end_column_0": 80,
+          "text": "return values. This differs from passing a supported top-level slot. Whole-value",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 98,
+          "start_column_0": 0,
+          "end_column_0": 73,
+          "text": "assignments rejected by the nested-union layout check remain unsupported.",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 99,
+          "start_column_0": 0,
+          "end_column_0": 78,
+          "text": "For sized aggregates rejected by that check, calls with value-transfer effects",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 100,
+          "start_column_0": 0,
+          "end_column_0": 78,
+          "text": "conservatively reset the full storage shadow to uninitialized: the destination",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 101,
+          "start_column_0": 0,
+          "end_column_0": 75,
+          "text": "after a normal return, and a moved argument's source before the call. These",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 102,
+          "start_column_0": 0,
+          "end_column_0": 76,
+          "text": "resets do not transfer initialization state and may produce false positives.",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 103,
+          "start_column_0": 0,
+          "end_column_0": 78,
+          "text": "For example, repairing a moved source and returning an initialized slot inside",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 104,
+          "start_column_0": 0,
+          "end_column_0": 76,
+          "text": "a tuple may still report an uninitialized read. That result is a known false",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 105,
+          "start_column_0": 0,
+          "end_column_0": 80,
+          "text": "positive, not evidence of undefined behavior. Returning the slot directly avoids",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 106,
+          "start_column_0": 0,
+          "end_column_0": 31,
+          "text": "this nested aggregate boundary.",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 107,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        }
+      ],
+      "removed_U_lines": [],
+      "final_disposition": "Exact F content at head6; do not restore shared file wholesale before features; interim paragraph placement/reflow explicit in slice diffs"
+    },
+    {
+      "path": "docs/src/rust-feature-support/intrinsics.md",
+      "F_blob": "e27ec4c28a4ffd45b403855cdfcd2e5d9c9b3bb7",
+      "patch_sha256": "72a7fbf9f9e75d9a64cd439a71fe83621e8dae0f0d82c71e6e7f1d75b587b001",
+      "added_segments": [
+        {
+          "F_line": 197,
+          "start_column_0": 0,
+          "end_column_0": 317,
+          "text": "raw_eq | Partial | With `-Z uninit-checks`, checks initialization of modeled operand byte extents using their shadow state, including padding bytes. All compared bytes must be initialized. Support depends on the modeled layout and origin; see [Uninitialized memory](../rust-feature-support.md#uninitialized-memory). |",
+          "owner_slice": 3,
+          "earliest_head": 3
+        }
+      ],
+      "removed_U_lines": [
+        {
+          "text": "raw_eq | Partial | Cannot detect [uninitialized memory](#uninitialized-memory) |",
+          "owner_slice": 3
+        }
+      ],
+      "final_disposition": "Exact F content at head6; do not restore shared file wholesale before features; interim paragraph placement/reflow explicit in slice diffs"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/README.md",
+      "F_blob": "8434b1df36cc763d9ec510df4d42f94de82c3824",
+      "patch_sha256": "d994efd97a0d4a3cf42a3f767582acc092aed3ea892f21de7338901485ca3f32",
+      "added_segments": [
+        {
+          "F_line": 1,
+          "start_column_0": 0,
+          "end_column_0": 30,
+          "text": "# Initialization edge fixtures",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 2,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 3,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "These fixtures cover ordinary union constants, raw field stores, immutable origins,",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 4,
+          "start_column_0": 0,
+          "end_column_0": 62,
+          "text": "and unsized slot arguments. Each file selects one oracle root.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 5,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 6,
+          "start_column_0": 0,
+          "end_column_0": 82,
+          "text": "The initialized nonzero-subrange fixture records a conservative uninitialized-read",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 7,
+          "start_column_0": 0,
+          "end_column_0": 79,
+          "text": "failure. The relocation and named-static companions use supported origin paths;",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 8,
+          "start_column_0": 0,
+          "end_column_0": 79,
+          "text": "their initialized cases succeed. Hole companions distinguish payload reads from",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 9,
+          "start_column_0": 0,
+          "end_column_0": 29,
+          "text": "origin or layout limitations.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 10,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 11,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "By-value unsized slot transfers have an explicit unsupported-size boundary for both",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 12,
+          "start_column_0": 0,
+          "end_column_0": 80,
+          "text": "initialized and hole inputs. Borrowed slice companions cover supported reference",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 13,
+          "start_column_0": 0,
+          "end_column_0": 39,
+          "text": "access without moving an unsized value.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        }
+      ],
+      "removed_U_lines": [],
+      "final_disposition": "Exact F content at head6; do not restore shared file wholesale before features; interim paragraph placement/reflow explicit in slice diffs"
+    }
+  ],
+  "rule": "Each changed added character has one owner; shared-line sentence split is intentional. Empty separators owner follows paragraph; final hunk reflow owner6. No new wording or promises. Worker14 integrates production/docs."
+}
