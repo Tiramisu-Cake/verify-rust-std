@@ -1,0 +1,74 @@
+{
+  "recorded_utc": "2026-11-15T05:51:54.115917+00:00",
+  "before": {
+    "g0": {
+      "path": "/root/verify-rust-std-kani3300-g0",
+      "sha": "73d5b3ddec3422bef4390ef9e75304dbb4b62a4f",
+      "tree": "e6b4689c2d30fdd567b45557a96e77df9ff7b844",
+      "branch": "experiment/kani-k1-kani3300g0-20261111",
+      "status_porcelain": ""
+    },
+    "c2": {
+      "path": "/root/kani-fix-3300-c2-s6",
+      "sha": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+      "tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+      "branch": "fix/kani-3300-c2-s6",
+      "status_porcelain": ""
+    },
+    "std": {
+      "path": "/root/verify-rust-std-kani3300-gateb-prime",
+      "sha": "01d75b8e839c751e7ab679fdaaa5fba6384983b6",
+      "tree": "0ed391601f43680d620e450d511527e95b05e1dd",
+      "branch": "prep/kani3300-gateb-prime",
+      "status_porcelain": ""
+    },
+    "sel1_precedent": {
+      "path": "/root/kani-fix-3300-sel1-replay-w15",
+      "sha": "e59c3527a852d805a4d1317a400a3229b398eead",
+      "tree": "bed4a1cffe4f12f86e017fec34276d3cd10f9d9d",
+      "branch": "ci/kani3300-sel1-replay-w15",
+      "status_porcelain": ""
+    }
+  },
+  "old_ci": {
+    "sha": "0c1cc8a7d05184044d496b01f5ed41cebfde0cac",
+    "tree": "cbb04807c711a9d1bad2ac2dbe1f77538d5658b0"
+  },
+  "after_recorded_utc": "2026-11-15T05:58:40.420808+00:00",
+  "after": {
+    "c2": {
+      "path": "/root/kani-fix-3300-c2-s6",
+      "sha": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+      "tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+      "status_porcelain": "",
+      "unchanged_from_before": true
+    },
+    "std": {
+      "path": "/root/verify-rust-std-kani3300-gateb-prime",
+      "sha": "01d75b8e839c751e7ab679fdaaa5fba6384983b6",
+      "tree": "0ed391601f43680d620e450d511527e95b05e1dd",
+      "status_porcelain": "",
+      "unchanged_from_before": true
+    },
+    "sel1_precedent": {
+      "path": "/root/kani-fix-3300-sel1-replay-w15",
+      "sha": "e59c3527a852d805a4d1317a400a3229b398eead",
+      "tree": "bed4a1cffe4f12f86e017fec34276d3cd10f9d9d",
+      "status_porcelain": "",
+      "unchanged_from_before": true
+    },
+    "kani_ci_overlay": {
+      "path": "/root/kani-fix-3300-c2-gateb-w15",
+      "branch": "ci/kani3300-c2-gateb-w15",
+      "sha": "0d6282ad1a0004721447438f9b6e87fc90dd9971",
+      "tree": "11b33db54a60e49d4b17c66aeb8c4258bef08a39",
+      "parent": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+      "status_porcelain": ""
+    },
+    "g0": {
+      "parent": "73d5b3ddec3422bef4390ef9e75304dbb4b62a4f",
+      "commit_identity": "Containing Git commit (reported at handoff; not embedded recursively)",
+      "scope": "Only research/challenge-8/kani-k1/kani3300/c2-gateb; no std/source changes"
+    }
+  }
+}

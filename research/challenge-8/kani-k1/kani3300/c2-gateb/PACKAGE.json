@@ -1,0 +1,68 @@
+{
+  "authorization": "PREPARATION_ONLY; coordinator owns review/push/CI; no local builds/push",
+  "files_sha256": {
+    "CI-REQUEST.json": "9723c4772a24fd11eb1e428342b0598ff0777b6e0793b7ad74b376820f9b9771",
+    "CI-REQUEST.md": "3e108676a6e0600e68b5693de77eb4a3d8ed3ab5780d80a3007f68aeee3707ca",
+    "INPUTS.json": "3e50cbb352e6ed96ad34f54d6068819077117937a8faf313bd01f039febd98c3",
+    "INPUTS.md": "525b87a3b8a9d607fc0f81224e24aa78a034fe99e9999abaf9ec64b8bde2a56e",
+    "REBIND-MAP.json": "8c47854b85203015b62365d3a5cba6aa90ce847d4db551d997832aaeb1f04fed",
+    "REBIND-MAP.md": "f4abe5e200f0f029742c668b5f14a6d337413cc5bdd1cb8fb94ce545c4624bbd",
+    "RESULT-template.md": "63b019a38925f2a0304efaf4f443d00d48c66e6f566a030d9e86aabf07c87c8f",
+    "RETIRED-C1-BINDINGS.json": "a5bc3714aec5aa2846d3347fca750bca3981e31712a8636eba5f222f25b6d143",
+    "ROW-ORACLES.md": "e531a176228c3ff3f0ecc73dd1166236cc5b7e7bd1a78464b9adf30ea8d2f6ed",
+    "VALIDATION.json": "f3418e6e01a14627ac4611990ebf6b743f8725a5226c2e61e0e3806e8e7759a6",
+    "VALIDATION.md": "52cb0292f0a11b857c5c98561c1037404bf42c68b839dba8936775f1e25f27f9",
+    "ci/CI-REQUEST.json": "9723c4772a24fd11eb1e428342b0598ff0777b6e0793b7ad74b376820f9b9771",
+    "ci/REPLAY-CI-OVERLAY.json": "6223fb68c00e358408b0cd51906a42062460f1b1ebbfb6f700e1dbd585bea46c",
+    "ci/c2-source-binding.json": "982b66e01076428ee90de5625c41fce77fe085fd09efc1298b8e4dbe21e81bdf",
+    "ci/ci-overlay-delta.patch": "3b5d4811406d5ed0284eb1a25bda7f0911395d42fbba6ae72e8620723c4f4d29",
+    "ci/full-export/.github/workflows/kani3300-replay.yml": "667f23616de618dc37e406c678cdacc4c8ef06f4add54c13decddebceaceb232",
+    "ci/full-export/scripts/kani3300-replay/CI-REQUEST.json": "9723c4772a24fd11eb1e428342b0598ff0777b6e0793b7ad74b376820f9b9771",
+    "ci/full-export/scripts/kani3300-replay/REPLAY-CI-OVERLAY.json": "6223fb68c00e358408b0cd51906a42062460f1b1ebbfb6f700e1dbd585bea46c",
+    "ci/full-export/scripts/kani3300-replay/c2-source-binding.json": "982b66e01076428ee90de5625c41fce77fe085fd09efc1298b8e4dbe21e81bdf",
+    "ci/full-export/scripts/kani3300-replay/gateb-prime-test-only.patch": "af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5",
+    "ci/full-export/scripts/kani3300-replay/replay.py": "1fb6cbe228c13b0d59e723adda3d5fbd6457c16011fd0274e01ee98bbaafd347",
+    "ci/full-export/scripts/kani3300-replay/test_replay.py": "a203cccc1bb9e226bf4bdf40c2df59693e02bf88fe1cf4bd25d57f8e9dd7d61a",
+    "ci/gateb-prime-test-only.patch": "af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5",
+    "ci/kani3300-c2-gateb.yml": "667f23616de618dc37e406c678cdacc4c8ef06f4add54c13decddebceaceb232",
+    "ci/replay.py": "1fb6cbe228c13b0d59e723adda3d5fbd6457c16011fd0274e01ee98bbaafd347",
+    "ci/test_replay.py": "a203cccc1bb9e226bf4bdf40c2df59693e02bf88fe1cf4bd25d57f8e9dd7d61a",
+    "test-only.patch": "af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5",
+    "validate_package.py": "43f69e4a1b3fdbf3bf3796562774f77f86451eed3f9d4fd41cbfefd5ed16f227"
+  },
+  "g0_parent": "73d5b3ddec3422bef4390ef9e75304dbb4b62a4f",
+  "identity": "Containing g0 Git commit reported at handoff; no recursive self hash",
+  "kani_ci_branch": "ci/kani3300-c2-gateb-w15",
+  "kani_ci_overlay_commit": "0d6282ad1a0004721447438f9b6e87fc90dd9971",
+  "kani_ci_overlay_tree": "11b33db54a60e49d4b17c66aeb8c4258bef08a39",
+  "recipe_base": {
+    "sha": "0c1cc8a7d05184044d496b01f5ed41cebfde0cac",
+    "tree": "cbb04807c711a9d1bad2ac2dbe1f77538d5658b0"
+  },
+  "schema": "kani3300-c2-gateb-package-v1",
+  "status": "READY_PREPARATION_ONLY_NOT_RUN",
+  "std": {
+    "applied_paths": [
+      "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs"
+    ],
+    "base_commit": "70ba5befc617627073738e26cb1466bd4fb76e41",
+    "base_library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+    "overlay_commit": "933b20a2375bd7529243510728b1eb48adf34e5d",
+    "overlay_library_tree": "86cbdb4d9f8415161657f66bf07e5a0dd1b3e982",
+    "patch": "gateb-prime-test-only.patch",
+    "patch_sha256": "af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5",
+    "patched_file_sha256": {
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "b37239fc681409922606a8fd310e20f9c776e67a9c7f8dd4e4b79a77172c79fb",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "270e2a2d57d162e979d375c1a1bdb786dfdca664ad6e610e7b4e8661c135d933",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "b2d71e6e61b4130a95dda6daac3cd5f0970f9daf7b0f7bfa8a9f99d9c3c29844",
+      "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs": "c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1"
+    },
+    "production_source_changed": false,
+    "source": "https://github.com/Tiramisu-Cake/verify-rust-std.git"
+  },
+  "tool_export_sha": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "tool_export_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb"
+}

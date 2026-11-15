@@ -1,0 +1,16 @@
+# C1 → C2 rebinding map
+
+Exact per-file old/new SHA-256 and status: REBIND-MAP.json. Review diff against 0c1cc8a7d05184044d496b01f5ed41cebfde0cac: ci/ci-overlay-delta.patch. This is a review diff of CI paths, not a patch for the source parent; full-export is installed on C2.
+
+- .github/workflows/kani3300-replay.yml: dedicated C2 branch/artifact names and C2 step labels; Python-only wrapper preflight inserted before dependency setup/build. Same ubuntu-24.04, 3-row serial matrix, max-parallel 1, 60 min/job, 180 min envelope, no retries or dispatch trigger. Existing run4 URL/destination/submodule recipe retained.
+- ci/replay.py and its scripts mirror: exact C2 commit/tree, c2-source-binding.json, C2 binary placeholder and receipt/source-validation keys. Request checksum regenerated. Execution, parsing, runtime inventory, exit/signal/timeout/RSS handling and UNKNOWN policy unchanged.
+- c1-source-binding.json removed from export; c2-source-binding.json generated from immutable C2 Git bytes and six subtree IDs. 504 files bound, including all current expected/uninit and json-handler tests and the setup/execution chain. Git symlink object scripts/setup/ubuntu-24.04 is bound as symlink bytes (ubuntu); target scripts are separately hashed. Old qualification test directories absent from C2 are inventoried in RETIRED-C1-BINDINGS.json. No one-to-one test equivalence is asserted; C2 Gate A remains coordinator-supplied regression acceptance.
+- CI-REQUEST.json: C2 commit/tree/status/hash placeholder and exact binary placeholder, explicit ubuntu-24.04 proposal. All three rows, flags, selectors, PFC targets, unwind values, std identities/hashes and oracle fields otherwise identical to C1.
+- test_replay.py: original 20 tests retained, seven added for C2 identities, source mismatch/dirty/tree rejection, exact targets/flags, mocked three-row argv substitution, NOT_RUN/post-source errors, serial workflow/preflight/setup.
+- REPLAY-CI-OVERLAY.json: rebuilt source/request/nested file checksums, exact C2 parent, prior recipe reference and current tests/runner metadata. Manifest excludes its own hash; PACKAGE.json binds every copy of it.
+- gateb-prime-test-only.patch: UNCHANGED, SHA-256 af2d6e7bce1d628ab7b56363578e9aa1393aa1e02be72786ae277d34a43892a5.
+- PACKAGE.json: binds all handoff documents, mirrors, manifests, validation and full export; excludes itself to avoid recursion. Exact overlay SHA included, g0 identity is containing commit.
+
+C2 setup compatibility: .github/actions/setup/action.yml, Ubuntu 24.04 symlink, ubuntu/install_deps.sh, ubuntu/install_cbmc.sh, install_kissat.sh, install_rustup.sh, scripts/kani, .cargo/config.toml, kani-dependencies, rust-toolchain.toml are byte-identical to C1. kani_dir=export keeps installation/build on the frozen export. Toolchain nightly-2026-10-23, CBMC 6.11.0, Kissat 4.0.1. Current driver declarations still support verify-std, export-json, regular output, --jobs 1, uninit-checks and --no-assert-contracts. No command was executed to compile or install them.
+
+The observer accepts only an unvalidated JSON object and never grants result credit. C2 additive/export schema details must be reviewed with stdout, full failures/Unsupported, effective argv, identities, and original exits. Missing/partial/null/mismatched output remains UNKNOWN. No auto acceptance of merge, boundary, or sort4 SUCCESS.
