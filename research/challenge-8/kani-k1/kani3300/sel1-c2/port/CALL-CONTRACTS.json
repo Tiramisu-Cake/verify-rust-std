@@ -1,0 +1,370 @@
+[
+  {
+    "id": "root-analysis",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod\\.rs",
+    "tokens": [
+      "run_points_to_analysis"
+    ],
+    "arity": 5,
+    "count": 1
+  },
+  {
+    "id": "analysis-root-and-recursive",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "PointsToAnalysis",
+      "::",
+      "run"
+    ],
+    "arity": 8,
+    "count": 2
+  },
+  {
+    "id": "analysis-resolver",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "resolve_call"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "pointer-resolver",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "resolve_call"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "pointer-local-resolver",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "try_resolve_instance"
+    ],
+    "arity": 3,
+    "count": 1
+  },
+  {
+    "id": "distinct-initial-target-helper",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor\\.rs",
+    "tokens": [
+      "try_resolve_instance"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "initial-target-constructor",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod\\.rs",
+    "tokens": [
+      "InitialTargetVisitor",
+      "::",
+      "new"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "graph-successors",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "state",
+      ".",
+      "constant_successors"
+    ],
+    "arity": 2,
+    "count": 2
+  },
+  {
+    "id": "observe-at-emission",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "observe_immutable_origins"
+    ],
+    "arity": 1,
+    "count": 1
+  },
+  {
+    "id": "observe-at-prepare",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "observe_immutable_origins"
+    ],
+    "arity": 1,
+    "count": 1
+  },
+  {
+    "id": "bind-at-emission",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "bind_immutable_allocation"
+    ],
+    "arity": 3,
+    "count": 4
+  },
+  {
+    "id": "static-registration",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "register_immutable_static"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "prepare",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface\\.rs",
+    "tokens": [
+      "gcx",
+      ".",
+      "prepare_immutable_allocations"
+    ],
+    "arity": 1,
+    "count": 1
+  },
+  {
+    "id": "finalize",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface\\.rs",
+    "tokens": [
+      "gcx",
+      ".",
+      "finalize_immutable_allocations"
+    ],
+    "arity": 0,
+    "count": 1
+  },
+  {
+    "id": "origin-qualification",
+    "path_regex": "kani-compiler/src/kani_middle/anonymous_allocations\\.rs",
+    "tokens": [
+      "immutable_origin_type_supported"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "static-qualification",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations\\.rs",
+    "tokens": [
+      "immutable_origin_type_supported"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "origin-graph",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_graph\\.rs",
+    "tokens": [
+      "anonymous_origins"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "origin-target",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor\\.rs",
+    "tokens": [
+      "anonymous_origins"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "origin-registry",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations\\.rs",
+    "tokens": [
+      "anonymous_origins"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "target-compatibility",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations\\.rs",
+    "tokens": [
+      "target_matches"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "qualification-storage",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/mod\\.rs",
+    "tokens": [
+      "PointeeInfo",
+      "::",
+      "for_storage"
+    ],
+    "arity": 2,
+    "count": 3
+  },
+  {
+    "id": "qualification-recognition",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/mod\\.rs",
+    "tokens": [
+      "ty_layout",
+      "::",
+      "maybe_uninit_storage"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "storage-recognition",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout\\.rs",
+    "tokens": [
+      "maybe_uninit_storage"
+    ],
+    "arity": 2,
+    "count": 2
+  },
+  {
+    "id": "wrapper-recognition",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout\\.rs",
+    "tokens": [
+      "wrapper_inner"
+    ],
+    "arity": 3,
+    "count": 1
+  },
+  {
+    "id": "regular-call-effects",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "apply_regular_call_effect"
+    ],
+    "arity": 5,
+    "count": 2
+  },
+  {
+    "id": "select-codegen-fallback",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/codegen/statement\\.rs",
+    "tokens": [
+      "crate",
+      "::",
+      "kani_middle",
+      "::",
+      "has_intrinsic_fallback"
+    ],
+    "arity": 1,
+    "count": 1
+  },
+  {
+    "id": "select-reachability-fallback",
+    "path_regex": "kani-compiler/src/kani_middle/reachability\\.rs",
+    "tokens": [
+      "crate",
+      "::",
+      "kani_middle",
+      "::",
+      "has_intrinsic_fallback"
+    ],
+    "arity": 1,
+    "count": 1
+  },
+  {
+    "id": "select-classifier-fallback",
+    "path_regex": "kani-compiler/src/kani_middle/mod\\.rs",
+    "tokens": [
+      "has_intrinsic_fallback"
+    ],
+    "arity": 1,
+    "count": 1
+  },
+  {
+    "id": "select-analysis-classifier",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "crate",
+      "::",
+      "kani_middle",
+      "::",
+      "select_unpredictable_fallback"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "select-visitor-classifier",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "select_unpredictable_fallback"
+    ],
+    "arity": 2,
+    "count": 2
+  },
+  {
+    "id": "shared-transfer-pairing",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "has_transfer_protocol"
+    ],
+    "arity": 2,
+    "count": 3
+  },
+  {
+    "id": "select-entry-call-return-name-guard",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "is_select_unpredictable"
+    ],
+    "arity": 1,
+    "count": 3
+  },
+  {
+    "id": "select-entry-call-return-layout-guard",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "validate_select_fallback"
+    ],
+    "arity": 1,
+    "count": 3
+  },
+  {
+    "id": "caller-store-helper",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "store_call_arguments"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "preserved-F6-reset-helper",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "reset_nested_call"
+    ],
+    "arity": 3,
+    "count": 2
+  },
+  {
+    "id": "preserved-F7-journal-writers",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod\\.rs",
+    "tokens": [
+      "transformer",
+      ".",
+      "replace_delayed_body"
+    ],
+    "arity": 2,
+    "count": 2
+  }
+]

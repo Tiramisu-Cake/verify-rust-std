@@ -1,0 +1,31 @@
+{
+  "synthetic_seam_tool_tests": {
+    "command": "python3 research/challenge-8/kani-k1/kani3300/c2-slices/seam-audit/test_check_seams.py",
+    "tests": 10,
+    "exit": 0
+  },
+  "initial_seam_audit": {
+    "exit": 1,
+    "report": "SEAM-AUDIT-INITIAL.json",
+    "reason": "Two stale slice02 occurrence counts for unchanged final-C2 files",
+    "source_changed_to_fix": false
+  },
+  "final_seam_audit": {
+    "exit": 0,
+    "report": "SEAM-AUDIT.json",
+    "contracts": 36,
+    "bound_sites": 54,
+    "changed_rs_files": 34
+  },
+  "exact_port_checks": {
+    "exit": 0,
+    "report": "VALIDATION.json"
+  },
+  "compiler_tools_executed": false,
+  "native_gates": "NOT_RUN",
+  "push_or_dispatch": false,
+  "research_whitespace_check": {
+    "scope": "port/ text excluding *.patch data",
+    "patch_context_note": "Plain git diff --cached --check flags seven context-only blank lines in stored patches; patches retained exact with hashes. Candidate source diff --check passes."
+  }
+}

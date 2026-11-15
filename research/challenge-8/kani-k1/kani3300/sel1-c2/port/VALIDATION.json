@@ -1,0 +1,80 @@
+{
+  "status": "PASS_BOUNDED_STATIC_PORT_CHECKS",
+  "source": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
+  "parent": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+  "changed_files": 71,
+  "production_files": 5,
+  "docs_files": 1,
+  "fixtures_exact_old_sel1": 65,
+  "groups": [
+    "select-unpredictable-copy-overwrite",
+    "select-unpredictable-delayed-padding",
+    "select-unpredictable-hint-wrapper",
+    "select-unpredictable-maybe-uninit",
+    "select-unpredictable-moves",
+    "select-unpredictable-nested-unsupported",
+    "select-unpredictable-padding",
+    "select-unpredictable-pointer-hole-false",
+    "select-unpredictable-pointer-hole-true",
+    "select-unpredictable-pointer-values",
+    "select-unpredictable-unmodeled-intrinsic",
+    "select-unpredictable-values"
+  ],
+  "intended_success": 12,
+  "intended_failure": 17,
+  "selectors": 29,
+  "unchanged_F7_files": [
+    {
+      "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+      "sha256": "8b34ef8cae9b80e54d132fc96de1ec36d5138b52c30ff41955b8fb33c52336e4"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "sha256": "146965fae7b375da7bc4641c140b2f3729a1f328ce142919541d78f0950b2fd7"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "sha256": "97b6e96c8cea78becdecd9670a96976d08647c673637b60630a48620ce3d917b"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "sha256": "d5b402951626f44e1dcf9838f2a6d60c70e55a00a468429e0dca77dfd6c8ed89"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "sha256": "ddfd490640612de988662e1b39557ed1011271b502fca42c052f3945af93b88c"
+    }
+  ],
+  "preserved_visitor_functions": [
+    "new",
+    "push_target",
+    "transfers_shadow",
+    "needs_nested_call_reset",
+    "reset_nested_call",
+    "enclosing_union",
+    "assign_storage_operand",
+    "unsupported_storage_assignment",
+    "assign_storage",
+    "typed_storage_mask",
+    "maybe_uninit_transmute",
+    "address_of_raw_deref",
+    "visit_ordinary_assignment",
+    "visit_statement",
+    "visit_place",
+    "visit_operand",
+    "visit_rvalue",
+    "can_skip_intrinsic",
+    "try_resolve_instance",
+    "raw_ptr_arg",
+    "single_field_ty"
+  ],
+  "original_C2_tests": "UNCHANGED",
+  "outside_scope_diff": "EMPTY",
+  "source_clean": true,
+  "diff_check": "PASS",
+  "native_build": "NOT_RUN",
+  "new_runtime_outcomes": "NOT_RUN",
+  "independent_worker15_review": "PENDING",
+  "proof_credit": "NONE"
+}

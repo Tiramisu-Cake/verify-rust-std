@@ -1,0 +1,2112 @@
+{
+  "status": "FAIL",
+  "base": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+  "head": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "reference": "39a6521bf1b042358801cf613fd340623f35f851",
+  "changed_rust_file_count": 34,
+  "generic_types_checked_repo_wide": [
+    "ActiveCalls",
+    "AnalysisKey",
+    "CheckUninitVisitor",
+    "FindUnsafeCell",
+    "MonoItemsCollector",
+    "MonoItemsFnCollector",
+    "PointsToAnalysis"
+  ],
+  "files": [
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs",
+      "head_sha256": "c0729827d6bb585e974dbb4b2ebf1078ecb9e829af8d9ecdc722921cfa994d7c",
+      "declarations_impls_uses_total": 46,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use super :: ty_stable :: pointee_type_stable",
+          "container": [],
+          "line": 3,
+          "signature": "use super :: ty_stable :: pointee_type_stable",
+          "token_start": 0,
+          "token_end": 6
+        },
+        {
+          "kind": "use",
+          "name": "use super :: typ :: FN_RETURN_VOID_VAR_NAME",
+          "container": [],
+          "line": 4,
+          "signature": "use super :: typ :: FN_RETURN_VOID_VAR_NAME",
+          "token_start": 7,
+          "token_end": 13
+        },
+        {
+          "kind": "use",
+          "name": "use super :: typ :: TypeExt",
+          "container": [],
+          "line": 5,
+          "signature": "use super :: typ :: TypeExt",
+          "token_start": 14,
+          "token_end": 20
+        },
+        {
+          "kind": "use",
+          "name": "use super :: { PropertyClass , bb_label }",
+          "container": [],
+          "line": 6,
+          "signature": "use super :: { PropertyClass , bb_label }",
+          "token_start": 21,
+          "token_end": 29
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: codegen_cprover_gotoc :: codegen :: function :: rustc_public_bridge :: region_from_coverage_opaque",
+          "container": [],
+          "line": 7,
+          "signature": "use crate :: codegen_cprover_gotoc :: codegen :: function :: rustc_public_bridge :: region_from_coverage_opaque",
+          "token_start": 30,
+          "token_end": 42
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: codegen_cprover_gotoc :: context :: LoopDecreases",
+          "container": [],
+          "line": 8,
+          "signature": "use crate :: codegen_cprover_gotoc :: context :: LoopDecreases",
+          "token_start": 43,
+          "token_end": 51
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: codegen_cprover_gotoc :: { GotocCtx , VtableCtx }",
+          "container": [],
+          "line": 9,
+          "signature": "use crate :: codegen_cprover_gotoc :: { GotocCtx , VtableCtx }",
+          "token_start": 52,
+          "token_end": 62
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: unwrap_or_return_codegen_unimplemented_stmt",
+          "container": [],
+          "line": 10,
+          "signature": "use crate :: unwrap_or_return_codegen_unimplemented_stmt",
+          "token_start": 63,
+          "token_end": 67
+        },
+        {
+          "kind": "use",
+          "name": "use cbmc :: goto_program :: { Expr , Location , Stmt , Type }",
+          "container": [],
+          "line": 11,
+          "signature": "use cbmc :: goto_program :: { Expr , Location , Stmt , Type }",
+          "token_start": 68,
+          "token_end": 82
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_abi :: Size",
+          "container": [],
+          "line": 12,
+          "signature": "use rustc_abi :: Size",
+          "token_start": 83,
+          "token_end": 87
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_abi :: { FieldsShape , Primitive , TagEncoding , Variants }",
+          "container": [],
+          "line": 13,
+          "signature": "use rustc_abi :: { FieldsShape , Primitive , TagEncoding , Variants }",
+          "token_start": 88,
+          "token_end": 100
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: layout :: LayoutOf",
+          "container": [],
+          "line": 14,
+          "signature": "use rustc_middle :: ty :: layout :: LayoutOf",
+          "token_start": 101,
+          "token_end": 109
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: { List , TypingEnv }",
+          "container": [],
+          "line": 15,
+          "signature": "use rustc_middle :: ty :: { List , TypingEnv }",
+          "token_start": 110,
+          "token_end": 120
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: CrateDef",
+          "container": [],
+          "line": 16,
+          "signature": "use rustc_public :: CrateDef",
+          "token_start": 121,
+          "token_end": 125
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: abi :: { ArgAbi , FnAbi , PassMode }",
+          "container": [],
+          "line": 17,
+          "signature": "use rustc_public :: abi :: { ArgAbi , FnAbi , PassMode }",
+          "token_start": 126,
+          "token_end": 138
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: mir :: mono :: { Instance , InstanceKind }",
+          "container": [],
+          "line": 18,
+          "signature": "use rustc_public :: mir :: mono :: { Instance , InstanceKind }",
+          "token_start": 139,
+          "token_end": 151
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: mir :: { AssertMessage , BasicBlockIdx , CopyNonOverlapping , Local , NonDivergingIntrinsic , Operand , Place , ProjectionElem , RETURN_LOCAL , Rvalue , Statement , StatementKind , SwitchTargets , Terminator , TerminatorKind , }",
+          "container": [],
+          "line": 19,
+          "signature": "use rustc_public :: mir :: { AssertMessage , BasicBlockIdx , CopyNonOverlapping , Local , NonDivergingIntrinsic , Operand , Place , ProjectionElem , RETURN_LOCAL , Rvalue , Statement , StatementKind , SwitchTargets , Terminator , TerminatorKind , }",
+          "token_start": 152,
+          "token_end": 189
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: rustc_internal",
+          "container": [],
+          "line": 24,
+          "signature": "use rustc_public :: rustc_internal",
+          "token_start": 190,
+          "token_end": 194
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: ty :: { Abi , RigidTy , Span , Ty , TyKind , VariantIdx }",
+          "container": [],
+          "line": 25,
+          "signature": "use rustc_public :: ty :: { Abi , RigidTy , Span , Ty , TyKind , VariantIdx }",
+          "token_start": 195,
+          "token_end": 213
+        },
+        {
+          "kind": "use",
+          "name": "use tracing :: { debug , debug_span , trace }",
+          "container": [],
+          "line": 26,
+          "signature": "use tracing :: { debug , debug_span , trace }",
+          "token_start": 214,
+          "token_end": 224
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl GotocCtx < '_ , '_ >",
+          "container": [],
+          "line": 28,
+          "signature": "impl GotocCtx < '_ , '_ >",
+          "token_start": 225,
+          "token_end": 232
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/mod.rs",
+      "head_sha256": "714a25787650cfa212bec56a246f9208df4a10b3d0d301a9b6d8f8c67ccdb36e",
+      "declarations_impls_uses_total": 110,
+      "changed_or_added": [
+        {
+          "kind": "fn",
+          "name": "has_intrinsic_fallback",
+          "container": [],
+          "line": 155,
+          "signature": "fn has_intrinsic_fallback ( instance : Instance ) -> bool",
+          "token_start": 646,
+          "token_end": 655,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "select_unpredictable_fallback",
+          "container": [],
+          "line": 164,
+          "signature": "fn select_unpredictable_fallback ( tcx : TyCtxt , instance : Instance ) -> Option < Ty >",
+          "token_start": 713,
+          "token_end": 729,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: collections :: HashSet",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: collections :: HashSet",
+          "token_start": 0,
+          "token_end": 6
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_queries :: QueryDb",
+          "container": [],
+          "line": 8,
+          "signature": "use crate :: kani_queries :: QueryDb",
+          "token_start": 7,
+          "token_end": 13
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_data_structures :: fx :: FxHashMap",
+          "container": [],
+          "line": 9,
+          "signature": "use rustc_data_structures :: fx :: FxHashMap",
+          "token_start": 14,
+          "token_end": 20
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_hir :: { def :: DefKind , def_id :: DefId as InternalDefId , def_id :: LOCAL_CRATE }",
+          "container": [],
+          "line": 10,
+          "signature": "use rustc_hir :: { def :: DefKind , def_id :: DefId as InternalDefId , def_id :: LOCAL_CRATE }",
+          "token_start": 21,
+          "token_end": 39
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: TyCtxt",
+          "container": [],
+          "line": 11,
+          "signature": "use rustc_middle :: ty :: TyCtxt",
+          "token_start": 40,
+          "token_end": 46
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: mir :: mono :: { Instance , MonoItem }",
+          "container": [],
+          "line": 12,
+          "signature": "use rustc_public :: mir :: mono :: { Instance , MonoItem }",
+          "token_start": 47,
+          "token_end": 59
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: mir :: { Body , Mutability , TerminatorKind }",
+          "container": [],
+          "line": 13,
+          "signature": "use rustc_public :: mir :: { Body , Mutability , TerminatorKind }",
+          "token_start": 60,
+          "token_end": 72
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: rustc_internal",
+          "container": [],
+          "line": 14,
+          "signature": "use rustc_public :: rustc_internal",
+          "token_start": 73,
+          "token_end": 77
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: ty :: { AdtDef , AdtKind , FnDef , GenericArgKind , GenericArgs , PolyFnSig , RigidTy , Span as SpanStable , Ty , TyConst , TyKind , }",
+          "container": [],
+          "line": 15,
+          "signature": "use rustc_public :: ty :: { AdtDef , AdtKind , FnDef , GenericArgKind , GenericArgs , PolyFnSig , RigidTy , Span as SpanStable , Ty , TyConst , TyKind , }",
+          "token_start": 78,
+          "token_end": 109
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: visitor :: { Visitable , Visitor as TyVisitor }",
+          "container": [],
+          "line": 19,
+          "signature": "use rustc_public :: visitor :: { Visitable , Visitor as TyVisitor }",
+          "token_start": 110,
+          "token_end": 122
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: { CrateDef , CrateDefType , DefId , local_crate }",
+          "container": [],
+          "line": 20,
+          "signature": "use rustc_public :: { CrateDef , CrateDefType , DefId , local_crate }",
+          "token_start": 123,
+          "token_end": 135
+        },
+        {
+          "kind": "use",
+          "name": "use std :: ops :: ControlFlow",
+          "container": [],
+          "line": 21,
+          "signature": "use std :: ops :: ControlFlow",
+          "token_start": 136,
+          "token_end": 142
+        },
+        {
+          "kind": "use",
+          "name": "use self :: attributes :: KaniAttributes",
+          "container": [],
+          "line": 23,
+          "signature": "use self :: attributes :: KaniAttributes",
+          "token_start": 143,
+          "token_end": 149
+        },
+        {
+          "kind": "use",
+          "name": "use self :: kani_functions :: KaniModel",
+          "container": [],
+          "line": 24,
+          "signature": "use self :: kani_functions :: KaniModel",
+          "token_start": 150,
+          "token_end": 156
+        },
+        {
+          "kind": "use",
+          "name": "use strum_macros :: EnumIter",
+          "container": [],
+          "line": 25,
+          "signature": "use strum_macros :: EnumIter",
+          "token_start": 157,
+          "token_end": 161
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_hir :: definitions :: DefPathData",
+          "container": [],
+          "line": 165,
+          "signature": "use rustc_hir :: definitions :: DefPathData",
+          "token_start": 730,
+          "token_end": 736
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: InstanceKind",
+          "container": [],
+          "line": 232,
+          "signature": "use rustc_middle :: ty :: InstanceKind",
+          "token_start": 1209,
+          "token_end": 1215
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: TypingEnv",
+          "container": [],
+          "line": 283,
+          "signature": "use rustc_middle :: ty :: TypingEnv",
+          "token_start": 1474,
+          "token_end": 1480
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: TypingEnv",
+          "container": [],
+          "line": 300,
+          "signature": "use rustc_middle :: ty :: TypingEnv",
+          "token_start": 1586,
+          "token_end": 1592
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: TypeVisitableExt",
+          "container": [],
+          "line": 680,
+          "signature": "use rustc_middle :: ty :: TypeVisitableExt",
+          "token_start": 3664,
+          "token_end": 3670
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_abi :: { BackendRepr , Primitive , Scalar }",
+          "container": [],
+          "line": 945,
+          "signature": "use rustc_abi :: { BackendRepr , Primitive , Scalar }",
+          "token_start": 5159,
+          "token_end": 5169
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_abi :: { BackendRepr , Primitive , Scalar }",
+          "container": [],
+          "line": 976,
+          "signature": "use rustc_abi :: { BackendRepr , Primitive , Scalar }",
+          "token_start": 5312,
+          "token_end": 5322
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: kani_functions :: KaniModel",
+          "container": [
+            "impl SmartPointerModels"
+          ],
+          "line": 1137,
+          "signature": "use crate :: kani_middle :: kani_functions :: KaniModel",
+          "token_start": 6237,
+          "token_end": 6245
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_hir :: definitions :: DefPathData",
+          "container": [],
+          "line": 1488,
+          "signature": "use rustc_hir :: definitions :: DefPathData",
+          "token_start": 8047,
+          "token_end": 8053
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl TyVisitor for FindUnsafeCell < '_ >",
+          "container": [],
+          "line": 340,
+          "signature": "impl TyVisitor for FindUnsafeCell < '_ >",
+          "token_start": 1811,
+          "token_end": 1818
+        },
+        {
+          "kind": "impl",
+          "name": "impl SourceLocation",
+          "container": [],
+          "line": 404,
+          "signature": "impl SourceLocation",
+          "token_start": 2204,
+          "token_end": 2206
+        },
+        {
+          "kind": "impl",
+          "name": "impl SmartPointerModels",
+          "container": [],
+          "line": 1130,
+          "signature": "impl SmartPointerModels",
+          "token_start": 6205,
+          "token_end": 6207
+        },
+        {
+          "kind": "impl",
+          "name": "impl FmtTrait",
+          "container": [],
+          "line": 1248,
+          "signature": "impl FmtTrait",
+          "token_start": 6841,
+          "token_end": 6843
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "head_sha256": "9857ce811b154b1211ba8430eccc5bfeab7b59e6454851c2d6ce61b963235a1d",
+      "declarations_impls_uses_total": 64,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use crate :: { intrinsics :: Intrinsic , kani_middle :: { SourceLocation , points_to :: { MemLoc , PointsToGraph } , reachability :: CallGraph , readable_name , transform :: RustcInternalMir , } , }",
+          "container": [],
+          "line": 27,
+          "signature": "use crate :: { intrinsics :: Intrinsic , kani_middle :: { SourceLocation , points_to :: { MemLoc , PointsToGraph } , reachability :: CallGraph , readable_name , transform :: RustcInternalMir , } , }",
+          "token_start": 0,
+          "token_end": 34
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: { mir :: { BasicBlock , BinOp , Body , CallReturnPlaces , Location , NonDivergingIntrinsic , Operand , Place , ProjectionElem , Rvalue , Statement , StatementKind , Terminator , TerminatorKind , } , ty :: { Instance , InstanceKind , List , TyCtxt } , }",
+          "container": [],
+          "line": 37,
+          "signature": "use rustc_middle :: { mir :: { BasicBlock , BinOp , Body , CallReturnPlaces , Location , NonDivergingIntrinsic , Operand , Place , ProjectionElem , Rvalue , Statement , StatementKind , Terminator , TerminatorKind , } , ty :: { Instance , InstanceKind , List , TyCtxt } , }",
+          "token_start": 35,
+          "token_end": 85
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_mir_dataflow :: { Analysis , Forward , JoinSemiLattice }",
+          "container": [],
+          "line": 44,
+          "signature": "use rustc_mir_dataflow :: { Analysis , Forward , JoinSemiLattice }",
+          "token_start": 86,
+          "token_end": 96
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: mir :: { Body as StableBody , mono :: { Instance as StableInstance , InstanceKind as StableInstanceKind } , }",
+          "container": [],
+          "line": 45,
+          "signature": "use rustc_public :: mir :: { Body as StableBody , mono :: { Instance as StableInstance , InstanceKind as StableInstanceKind } , }",
+          "token_start": 97,
+          "token_end": 120
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: rustc_internal",
+          "container": [],
+          "line": 49,
+          "signature": "use rustc_public :: rustc_internal",
+          "token_start": 121,
+          "token_end": 125
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: ty :: { RigidTy as StableRigidTy , Ty as StableTy , TyKind as StableTyKind }",
+          "container": [],
+          "line": 50,
+          "signature": "use rustc_public :: ty :: { RigidTy as StableRigidTy , Ty as StableTy , TyKind as StableTyKind }",
+          "token_start": 126,
+          "token_end": 144
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_span :: Spanned",
+          "container": [],
+          "line": 51,
+          "signature": "use rustc_span :: Spanned",
+          "token_start": 145,
+          "token_end": 149
+        },
+        {
+          "kind": "use",
+          "name": "use std :: cell :: RefCell",
+          "container": [],
+          "line": 52,
+          "signature": "use std :: cell :: RefCell",
+          "token_start": 150,
+          "token_end": 156
+        },
+        {
+          "kind": "use",
+          "name": "use std :: collections :: { HashMap , HashSet }",
+          "container": [],
+          "line": 53,
+          "signature": "use std :: collections :: { HashMap , HashSet }",
+          "token_start": 157,
+          "token_end": 167
+        },
+        {
+          "kind": "use",
+          "name": "use std :: fmt :: { self , Display }",
+          "container": [],
+          "line": 54,
+          "signature": "use std :: fmt :: { self , Display }",
+          "token_start": 168,
+          "token_end": 178
+        },
+        {
+          "kind": "use",
+          "name": "use super :: { ActiveCalls , CallerLocation }",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 966,
+          "signature": "use super :: { ActiveCalls , CallerLocation }",
+          "token_start": 5038,
+          "token_end": 5046
+        },
+        {
+          "kind": "use",
+          "name": "use std :: fmt :: { self , Display }",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 967,
+          "signature": "use std :: fmt :: { self , Display }",
+          "token_start": 5047,
+          "token_end": 5057
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl Display for AnalysisKey < '_ >",
+          "container": [],
+          "line": 84,
+          "signature": "impl Display for AnalysisKey < '_ >",
+          "token_start": 280,
+          "token_end": 287
+        },
+        {
+          "kind": "impl",
+          "name": "impl Display for CallerLocation",
+          "container": [],
+          "line": 109,
+          "signature": "impl Display for CallerLocation",
+          "token_start": 394,
+          "token_end": 398
+        },
+        {
+          "kind": "impl",
+          "name": "impl < K : Display + Eq > ActiveCalls < K >",
+          "container": [],
+          "line": 123,
+          "signature": "impl < K : Display + Eq > ActiveCalls < K >",
+          "token_start": 468,
+          "token_end": 480
+        },
+        {
+          "kind": "impl",
+          "name": "impl < 'a , 'tcx > PointsToAnalysis < 'a , 'tcx >",
+          "container": [],
+          "line": 234,
+          "signature": "impl < 'a , 'tcx > PointsToAnalysis < 'a , 'tcx >",
+          "token_start": 1198,
+          "token_end": 1210
+        },
+        {
+          "kind": "impl",
+          "name": "impl < 'tcx > Analysis < 'tcx > for PointsToAnalysis < '_ , 'tcx >",
+          "container": [],
+          "line": 282,
+          "signature": "impl < 'tcx > Analysis < 'tcx > for PointsToAnalysis < '_ , 'tcx >",
+          "token_start": 1494,
+          "token_end": 1509
+        },
+        {
+          "kind": "impl",
+          "name": "impl < 'tcx > PointsToAnalysis < '_ , 'tcx >",
+          "container": [],
+          "line": 567,
+          "signature": "impl < 'tcx > PointsToAnalysis < '_ , 'tcx >",
+          "token_start": 3101,
+          "token_end": 3111
+        },
+        {
+          "kind": "impl",
+          "name": "impl Display for TestKey",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 972,
+          "signature": "impl Display for TestKey",
+          "token_start": 5077,
+          "token_end": 5081
+        },
+        {
+          "kind": "impl",
+          "name": "impl Display for OpaqueKey",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 1089,
+          "signature": "impl Display for OpaqueKey",
+          "token_start": 5947,
+          "token_end": 5951
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/reachability.rs",
+      "head_sha256": "3070ac455b25d8c96204d54f8fbe43a53890aa7847d31deb3aee2021f98a6499",
+      "declarations_impls_uses_total": 63,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use tracing :: { debug , debug_span , trace }",
+          "container": [],
+          "line": 19,
+          "signature": "use tracing :: { debug , debug_span , trace }",
+          "token_start": 0,
+          "token_end": 10
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_data_structures :: fingerprint :: Fingerprint",
+          "container": [],
+          "line": 21,
+          "signature": "use rustc_data_structures :: fingerprint :: Fingerprint",
+          "token_start": 11,
+          "token_end": 17
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_data_structures :: fx :: FxHashSet",
+          "container": [],
+          "line": 22,
+          "signature": "use rustc_data_structures :: fx :: FxHashSet",
+          "token_start": 18,
+          "token_end": 24
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_data_structures :: stable_hash :: { StableHash , StableHasher }",
+          "container": [],
+          "line": 23,
+          "signature": "use rustc_data_structures :: stable_hash :: { StableHash , StableHasher }",
+          "token_start": 25,
+          "token_end": 35
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: { TyCtxt , VtblEntry }",
+          "container": [],
+          "line": 24,
+          "signature": "use rustc_middle :: ty :: { TyCtxt , VtblEntry }",
+          "token_start": 36,
+          "token_end": 46
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: CrateItem",
+          "container": [],
+          "line": 25,
+          "signature": "use rustc_public :: CrateItem",
+          "token_start": 47,
+          "token_end": 51
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: mir :: alloc :: { AllocId , GlobalAlloc }",
+          "container": [],
+          "line": 26,
+          "signature": "use rustc_public :: mir :: alloc :: { AllocId , GlobalAlloc }",
+          "token_start": 52,
+          "token_end": 64
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: mir :: mono :: { Instance , InstanceKind , MonoItem , StaticDef }",
+          "container": [],
+          "line": 27,
+          "signature": "use rustc_public :: mir :: mono :: { Instance , InstanceKind , MonoItem , StaticDef }",
+          "token_start": 65,
+          "token_end": 81
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: mir :: { Body , CastKind , ConstOperand , MirVisitor , PointerCoercion , Rvalue , Terminator , TerminatorKind , visit :: Location , }",
+          "container": [],
+          "line": 28,
+          "signature": "use rustc_public :: mir :: { Body , CastKind , ConstOperand , MirVisitor , PointerCoercion , Rvalue , Terminator , TerminatorKind , visit :: Location , }",
+          "token_start": 82,
+          "token_end": 109
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: rustc_internal",
+          "container": [],
+          "line": 32,
+          "signature": "use rustc_public :: rustc_internal",
+          "token_start": 110,
+          "token_end": 114
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: ty :: { Allocation , ClosureKind , ConstantKind , RigidTy , Ty , TyKind }",
+          "container": [],
+          "line": 33,
+          "signature": "use rustc_public :: ty :: { Allocation , ClosureKind , ConstantKind , RigidTy , Ty , TyKind }",
+          "token_start": 115,
+          "token_end": 133
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: { CrateDef , ItemKind }",
+          "container": [],
+          "line": 34,
+          "signature": "use rustc_public :: { CrateDef , ItemKind }",
+          "token_start": 134,
+          "token_end": 142
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_session :: config :: OutputType",
+          "container": [],
+          "line": 36,
+          "signature": "use rustc_session :: config :: OutputType",
+          "token_start": 150,
+          "token_end": 156
+        },
+        {
+          "kind": "use",
+          "name": "use std :: collections :: { HashMap , HashSet }",
+          "container": [],
+          "line": 37,
+          "signature": "use std :: collections :: { HashMap , HashSet }",
+          "token_start": 157,
+          "token_end": 167
+        },
+        {
+          "kind": "use",
+          "name": "use std :: fmt :: { Display , Formatter }",
+          "container": [],
+          "line": 38,
+          "signature": "use std :: fmt :: { Display , Formatter }",
+          "token_start": 168,
+          "token_end": 178
+        },
+        {
+          "kind": "use",
+          "name": "use std :: fs :: File",
+          "container": [],
+          "line": 40,
+          "signature": "use std :: fs :: File",
+          "token_start": 186,
+          "token_end": 192
+        },
+        {
+          "kind": "use",
+          "name": "use std :: io :: { BufWriter , Write }",
+          "container": [],
+          "line": 42,
+          "signature": "use std :: io :: { BufWriter , Write }",
+          "token_start": 200,
+          "token_end": 210
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: coercion",
+          "container": [],
+          "line": 44,
+          "signature": "use crate :: kani_middle :: coercion",
+          "token_start": 211,
+          "token_end": 217
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: coercion :: CoercionBase",
+          "container": [],
+          "line": 45,
+          "signature": "use crate :: kani_middle :: coercion :: CoercionBase",
+          "token_start": 218,
+          "token_end": 226
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: is_anon_static",
+          "container": [],
+          "line": 46,
+          "signature": "use crate :: kani_middle :: is_anon_static",
+          "token_start": 227,
+          "token_end": 233
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: transform :: BodyTransformation",
+          "container": [],
+          "line": 47,
+          "signature": "use crate :: kani_middle :: transform :: BodyTransformation",
+          "token_start": 234,
+          "token_end": 242
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl < 'tcx , 'a > MonoItemsCollector < 'tcx , 'a >",
+          "container": [],
+          "line": 130,
+          "signature": "impl < 'tcx , 'a > MonoItemsCollector < 'tcx , 'a >",
+          "token_start": 619,
+          "token_end": 631
+        },
+        {
+          "kind": "impl",
+          "name": "impl MonoItemsFnCollector < '_ , '_ >",
+          "container": [],
+          "line": 222,
+          "signature": "impl MonoItemsFnCollector < '_ , '_ >",
+          "token_start": 1205,
+          "token_end": 1212
+        },
+        {
+          "kind": "impl",
+          "name": "impl MirVisitor for MonoItemsFnCollector < '_ , '_ >",
+          "container": [],
+          "line": 329,
+          "signature": "impl MirVisitor for MonoItemsFnCollector < '_ , '_ >",
+          "token_start": 1714,
+          "token_end": 1723
+        },
+        {
+          "kind": "impl",
+          "name": "impl CallGraph",
+          "container": [],
+          "line": 561,
+          "signature": "impl CallGraph",
+          "token_start": 3136,
+          "token_end": 3138
+        },
+        {
+          "kind": "impl",
+          "name": "impl Display for Node",
+          "container": [],
+          "line": 673,
+          "signature": "impl Display for Node",
+          "token_start": 4055,
+          "token_end": 4059
+        },
+        {
+          "kind": "impl",
+          "name": "impl Display for CollectedNode",
+          "container": [],
+          "line": 683,
+          "signature": "impl Display for CollectedNode",
+          "token_start": 4145,
+          "token_end": 4149
+        },
+        {
+          "kind": "impl",
+          "name": "impl From < CollectedNode > for Node",
+          "container": [],
+          "line": 693,
+          "signature": "impl From < CollectedNode > for Node",
+          "token_start": 4237,
+          "token_end": 4244
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "head_sha256": "9b1118629d116cf4f047bca6d2d364a13242f922981c7917b3361ebe26106068",
+      "declarations_impls_uses_total": 36,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use crate :: { intrinsics :: Intrinsic , kani_middle :: transform :: { body :: { InsertPosition , MutableBody , SourceInstruction } , check_uninit :: { PointeeInfo , PointeeLayout , TargetFinder , relevant_instruction :: { InitRelevantInstruction , MemoryInitOp , constant_init_mask } , ty_layout :: { LayoutComputationError , maybe_uninit_storage , tys_layout_compatible_to_size , wrapper_inner , } , } , } , kani_middle :: { kani_functions :: KaniFunction , nonnull_pointee , points_to :: resolve_call , select_unpredictable_fallback , } , }",
+          "container": [],
+          "line": 6,
+          "signature": "use crate :: { intrinsics :: Intrinsic , kani_middle :: transform :: { body :: { InsertPosition , MutableBody , SourceInstruction } , check_uninit :: { PointeeInfo , PointeeLayout , TargetFinder , relevant_instruction :: { InitRelevantInstruction , MemoryInitOp , constant_init_mask } , ty_layout :: { LayoutComputationError , maybe_uninit_storage , tys_layout_compatible_to_size , wrapper_inner , } , } , } , kani_middle :: { kani_functions :: KaniFunction , nonnull_pointee , points_to :: resolve_call , select_unpredictable_fallback , } , }",
+          "token_start": 0,
+          "token_end": 77,
+          "reference_match": false,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "validate_select_fallback",
+          "container": [
+            "impl < 'tcx > CheckUninitVisitor < 'tcx >"
+          ],
+          "line": 185,
+          "signature": "fn validate_select_fallback ( & self , instance : Instance ) -> Result < ( ) , String >",
+          "token_start": 1103,
+          "token_end": 1121,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "store_call_arguments",
+          "container": [
+            "impl < 'tcx > CheckUninitVisitor < 'tcx >"
+          ],
+          "line": 210,
+          "signature": "fn store_call_arguments ( & mut self , instance : Instance , args : & [ Operand ] )",
+          "token_start": 1295,
+          "token_end": 1313,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "has_transfer_protocol",
+          "container": [],
+          "line": 1303,
+          "signature": "fn has_transfer_protocol ( tcx : TyCtxt , instance : Instance ) -> bool",
+          "token_start": 8026,
+          "token_end": 8039,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "is_select_unpredictable",
+          "container": [],
+          "line": 1311,
+          "signature": "fn is_select_unpredictable ( instance : Instance ) -> bool",
+          "token_start": 8101,
+          "token_end": 8110,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [
+        {
+          "kind": "use",
+          "name": "use crate :: { intrinsics :: Intrinsic , kani_middle :: transform :: { body :: { InsertPosition , MutableBody , SourceInstruction } , check_uninit :: { PointeeInfo , PointeeLayout , TargetFinder , relevant_instruction :: { InitRelevantInstruction , MemoryInitOp , constant_init_mask } , ty_layout :: { LayoutComputationError , maybe_uninit_storage , tys_layout_compatible_to_size , wrapper_inner , } , } , } , kani_middle :: { kani_functions :: KaniFunction , nonnull_pointee , points_to :: resolve_call } , }",
+          "container": [],
+          "line": 6,
+          "signature": "use crate :: { intrinsics :: Intrinsic , kani_middle :: transform :: { body :: { InsertPosition , MutableBody , SourceInstruction } , check_uninit :: { PointeeInfo , PointeeLayout , TargetFinder , relevant_instruction :: { InitRelevantInstruction , MemoryInitOp , constant_init_mask } , ty_layout :: { LayoutComputationError , maybe_uninit_storage , tys_layout_compatible_to_size , wrapper_inner , } , } , } , kani_middle :: { kani_functions :: KaniFunction , nonnull_pointee , points_to :: resolve_call } , }",
+          "token_start": 0,
+          "token_end": 74
+        },
+        {
+          "kind": "fn",
+          "name": "has_transfer_protocol",
+          "container": [],
+          "line": 1237,
+          "signature": "fn has_transfer_protocol ( instance : Instance ) -> bool",
+          "token_start": 7531,
+          "token_end": 7540
+        }
+      ],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use crate :: { intrinsics :: Intrinsic , kani_middle :: transform :: { body :: { InsertPosition , MutableBody , SourceInstruction } , check_uninit :: { PointeeInfo , PointeeLayout , TargetFinder , relevant_instruction :: { InitRelevantInstruction , MemoryInitOp , constant_init_mask } , ty_layout :: { LayoutComputationError , maybe_uninit_storage , tys_layout_compatible_to_size , wrapper_inner , } , } , } , kani_middle :: { kani_functions :: KaniFunction , nonnull_pointee , points_to :: resolve_call , select_unpredictable_fallback , } , }",
+          "container": [],
+          "line": 6,
+          "signature": "use crate :: { intrinsics :: Intrinsic , kani_middle :: transform :: { body :: { InsertPosition , MutableBody , SourceInstruction } , check_uninit :: { PointeeInfo , PointeeLayout , TargetFinder , relevant_instruction :: { InitRelevantInstruction , MemoryInitOp , constant_init_mask } , ty_layout :: { LayoutComputationError , maybe_uninit_storage , tys_layout_compatible_to_size , wrapper_inner , } , } , } , kani_middle :: { kani_functions :: KaniFunction , nonnull_pointee , points_to :: resolve_call , select_unpredictable_fallback , } , }",
+          "token_start": 0,
+          "token_end": 77
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_attr_ir :: lang_items :: LangItem",
+          "container": [],
+          "line": 24,
+          "signature": "use rustc_attr_ir :: lang_items :: LangItem",
+          "token_start": 78,
+          "token_end": 84
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: TyCtxt",
+          "container": [],
+          "line": 25,
+          "signature": "use rustc_middle :: ty :: TyCtxt",
+          "token_start": 85,
+          "token_end": 91
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: CrateDefType",
+          "container": [],
+          "line": 26,
+          "signature": "use rustc_public :: CrateDefType",
+          "token_start": 92,
+          "token_end": 96
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: { mir :: { AggregateKind , CastKind , LocalDecl , MirVisitor , NonDivergingIntrinsic , Operand , Place , PointerCoercion , ProjectionElem , Rvalue , Statement , StatementKind , Terminator , TerminatorKind , alloc :: GlobalAlloc , mono :: { Instance , InstanceKind } , visit :: { Location , PlaceContext } , } , ty :: { AdtKind , ConstantKind , RigidTy , Ty , TyConstKind , TyKind , UintTy } , }",
+          "container": [],
+          "line": 27,
+          "signature": "use rustc_public :: { mir :: { AggregateKind , CastKind , LocalDecl , MirVisitor , NonDivergingIntrinsic , Operand , Place , PointerCoercion , ProjectionElem , Rvalue , Statement , StatementKind , Terminator , TerminatorKind , alloc :: GlobalAlloc , mono :: { Instance , InstanceKind } , visit :: { Location , PlaceContext } , } , ty :: { AdtKind , ConstantKind , RigidTy , Ty , TyConstKind , TyKind , UintTy } , }",
+          "token_start": 97,
+          "token_end": 173
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl TargetFinder for CheckUninitVisitor < '_ >",
+          "container": [],
+          "line": 49,
+          "signature": "impl TargetFinder for CheckUninitVisitor < '_ >",
+          "token_start": 211,
+          "token_end": 218
+        },
+        {
+          "kind": "impl",
+          "name": "impl < 'tcx > CheckUninitVisitor < 'tcx >",
+          "container": [],
+          "line": 126,
+          "signature": "impl < 'tcx > CheckUninitVisitor < 'tcx >",
+          "token_start": 751,
+          "token_end": 759
+        },
+        {
+          "kind": "impl",
+          "name": "impl MirVisitor for CheckUninitVisitor < '_ >",
+          "container": [],
+          "line": 534,
+          "signature": "impl MirVisitor for CheckUninitVisitor < '_ >",
+          "token_start": 3585,
+          "token_end": 3592
+        }
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-copy-overwrite/copy_sources_remain_initialized.rs",
+      "head_sha256": "1d16a2635346360da0b3057f5040e00711e5030724b95fee16658aba87cf6956",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-copy-overwrite/overwrite_hole.rs",
+      "head_sha256": "8ffc4b12370d82da594012803d259034c68a6128130edc497dedcaea6fb61b5e",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-copy-overwrite/overwriting_selected_hole_reinitializes_result.rs",
+      "head_sha256": "d41ba9c33570634dfe8e21b88f960b15ca09a25b8c197ee040519da605edc5b3",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-delayed-padding/write_through_selected_pointer_leaves_false_source_padding_hole.rs",
+      "head_sha256": "d8cd35d7243525f1404216d82f89a32621e5de951eba4521769aeeb1d53bac8b",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-delayed-padding/write_through_selected_pointer_leaves_true_source_padding_hole.rs",
+      "head_sha256": "6dee7c881c1216cd07f6e9d3bf3bbcdd2290f8b1bdfc482b3d2d31bf4c99b8ed",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-hint-wrapper/hint_wrapper_pointer_preserves_selected_alias_and_payload.rs",
+      "head_sha256": "442bc0a7d724a30cf2ad90135a3f4404d3e2aad484cf1fdfbec27e93c3e3d37a",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-hint-wrapper/hint_wrapper_u8_uses_all_internal_selects.rs",
+      "head_sha256": "f4d0c7df659477b9e50f9956d3f828e3afb4ea9bd6ac0981d2f7cff8837e55bc",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-maybe-uninit/copied_unselected_false_hole_remains_false.rs",
+      "head_sha256": "b36c8cdfea79e3c4383206e7eed26af91cc43c9eae3d2912976ac1c985c3a898",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-maybe-uninit/copied_unselected_true_hole_remains_false.rs",
+      "head_sha256": "bd0671a7fcc403c4f44fbaa67827dedfe28a0ab776651214c04cdccb3bf780c9",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-maybe-uninit/legal_selected_false_arm_with_unselected_hole.rs",
+      "head_sha256": "11a45d537ff1e86d74018af36ac69bdcc6438658685ef2a0035778be46af1825",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-maybe-uninit/legal_selected_true_arm_with_unselected_hole.rs",
+      "head_sha256": "6eaaaf80d7384829f200d2cecc6556d5096aad68749b69be8eecb7e325983d7b",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-maybe-uninit/selected_false_hole_fails.rs",
+      "head_sha256": "12cbec7cec09aa49c4945b42cac7f903ea8983acca3d4eeae263842034102c2c",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-maybe-uninit/selected_true_hole_fails.rs",
+      "head_sha256": "b3cc801250f7ff013a3d818eb1a7e2add97e63db0142bd27a8ae26a0fd7334e5",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-moves/copy_intrinsic_operands_preserve_both_sources.rs",
+      "head_sha256": "f6acb5abdb49b11f80dd37a389fee7a5dd56251a56451cdf32f241901161b7a7",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-moves/false_selected_arm_still_deinitializes_source_a.rs",
+      "head_sha256": "1c7ac3d386a606d169fbb0400aad3b336995de8dcdd199539c270eece6203209",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-moves/false_selected_arm_still_deinitializes_source_b.rs",
+      "head_sha256": "d4106a36f70f1db9c2a270d4a3426f1e0362d5ba42f77ed62a3a2c1fb79fab9d",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-moves/true_selected_arm_still_deinitializes_source_a.rs",
+      "head_sha256": "efbf0a4c15edfeb11cd7b791d1d127388aa43c989456fbe8caa9894b6224137d",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-moves/true_selected_arm_still_deinitializes_source_b.rs",
+      "head_sha256": "37a9f53d535ae38e1fcc5aff58843bbc41f9ce524727ca7df535f3225a3db3b5",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs",
+      "head_sha256": "66470bb55f66734c8b824732a17ed2636bfdc8b555ed3fb36063947b0fcb777a",
+      "declarations_impls_uses_total": 3,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 9,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 16,
+          "token_end": 22,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "struct",
+          "name": "Nested",
+          "container": [],
+          "line": 12,
+          "signature": "struct Nested",
+          "token_start": 32,
+          "token_end": 34,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "nested_shadow_layout_remains_unsupported",
+          "container": [],
+          "line": 21,
+          "signature": "fn nested_shadow_layout_remains_unsupported ( )",
+          "token_start": 60,
+          "token_end": 64,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 9,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 16,
+          "token_end": 22
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-padding/selected_false_maybe_uninit_fields_are_legal.rs",
+      "head_sha256": "c850c60fe1d95cadee3662351f97b114e4cb48458cb0f3f31d0bb309cd14269d",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-padding/selected_false_padding_stays_uninitialized.rs",
+      "head_sha256": "5d49eebcf7ef17afe45ef7ee13d5de71fecbc97434d1adb4f916cd683920476c",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-padding/selected_true_maybe_uninit_fields_are_legal.rs",
+      "head_sha256": "9433f1e6ffae41be7a29bad719bc280a57e22942f3076fb8067299b8997add89",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-padding/selected_true_padding_stays_uninitialized.rs",
+      "head_sha256": "0dfa68e15ec580529557c71c9086f702248dd4f1afe3da2a1f66a921c1715082",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-pointer-hole-false/main.rs",
+      "head_sha256": "0806ced6352c654962bec9d73b8701419ba49ffaeec8810ad994685d09048853",
+      "declarations_impls_uses_total": 3,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 9,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 16,
+          "token_end": 22,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 12,
+          "signature": "fn select < T > ( condition : bool , a : T , b : T ) -> T",
+          "token_start": 30,
+          "token_end": 50,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "selected_hole_in_false_arm_fails",
+          "container": [],
+          "line": 17,
+          "signature": "fn selected_hole_in_false_arm_fails ( )",
+          "token_start": 70,
+          "token_end": 74,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 9,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 16,
+          "token_end": 22
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-pointer-hole-true/main.rs",
+      "head_sha256": "f2fe8ee388fa55a801a81a5cc2d0f5d872c9365b3789fa78ec032edf960b26fb",
+      "declarations_impls_uses_total": 3,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 9,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 16,
+          "token_end": 22,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 12,
+          "signature": "fn select < T > ( condition : bool , a : T , b : T ) -> T",
+          "token_start": 30,
+          "token_end": 50,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "selected_hole_in_true_arm_fails",
+          "container": [],
+          "line": 17,
+          "signature": "fn selected_hole_in_true_arm_fails ( )",
+          "token_start": 70,
+          "token_end": 74,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 9,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 16,
+          "token_end": 22
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-pointer-values/selected_initialized_pointer_values.rs",
+      "head_sha256": "079dd7d7edbc82aa271abde182d4ee8169f6c47356dece3432207e121281ef00",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-pointer-values/selected_null_or_dangling_without_dereference.rs",
+      "head_sha256": "47980ce0c7f61cca31f9af78962aaa9f518694650d4eeaf6b9b0f09484757650",
+      "declarations_impls_uses_total": 0,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-unmodeled-intrinsic/main.rs",
+      "head_sha256": "bb24c6a6498c5d099013d731dca473a264ee7e6509d834717891c159e1ef7fae",
+      "declarations_impls_uses_total": 2,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "unmodeled_shadow_intrinsic_stays_unsupported",
+          "container": [],
+          "line": 9,
+          "signature": "fn unmodeled_shadow_intrinsic_stays_unsupported ( )",
+          "token_start": 13,
+          "token_end": 17,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/select-unpredictable-values/main.rs",
+      "head_sha256": "d3ab232773462b894826583c1369d461ed8755eccbb2bd8275c0252db6a052a6",
+      "declarations_impls_uses_total": 2,
+      "changed_or_added": [
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 10,
+          "signature": "fn select < T > ( condition : bool , a : T , b : T ) -> T",
+          "token_start": 23,
+          "token_end": 43,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "selected_scalar_values",
+          "container": [],
+          "line": 15,
+          "signature": "fn selected_scalar_values ( )",
+          "token_start": 63,
+          "token_end": 67,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": []
+    }
+  ],
+  "bound_api_calls": [
+    {
+      "contract": "observe-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 95,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "bind-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 340,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "bind-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 384,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "bind-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 465,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "bind-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 477,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "select-codegen-fallback",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs",
+      "line": 928,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "static-registration",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+      "line": 29,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "prepare",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "line": 145,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "finalize",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "line": 209,
+      "arity": 0,
+      "expected": 0
+    },
+    {
+      "contract": "observe-at-prepare",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "line": 166,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "static-qualification",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "line": 121,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "origin-registry",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "line": 102,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "target-compatibility",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "line": 265,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "origin-qualification",
+      "path": "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+      "line": 69,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "select-classifier-fallback",
+      "path": "kani-compiler/src/kani_middle/mod.rs",
+      "line": 169,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "analysis-root-and-recursive",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 222,
+      "arity": 8,
+      "expected": 8
+    },
+    {
+      "contract": "analysis-root-and-recursive",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 706,
+      "arity": 8,
+      "expected": 8
+    },
+    {
+      "contract": "analysis-resolver",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 366,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "graph-successors",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 593,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "graph-successors",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 613,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "regular-call-effects",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 383,
+      "arity": 5,
+      "expected": 5
+    },
+    {
+      "contract": "regular-call-effects",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 511,
+      "arity": 5,
+      "expected": 5
+    },
+    {
+      "contract": "select-analysis-classifier",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 374,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "origin-graph",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+      "line": 134,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "select-reachability-fallback",
+      "path": "kani-compiler/src/kani_middle/reachability.rs",
+      "line": 285,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "distinct-initial-target-helper",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 119,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "origin-target",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 52,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "root-analysis",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "line": 146,
+      "arity": 5,
+      "expected": 5
+    },
+    {
+      "contract": "initial-target-constructor",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "line": 80,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "preserved-F7-journal-writers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "line": 191,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "preserved-F7-journal-writers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "line": 212,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "qualification-storage",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 273,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "qualification-storage",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 288,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "qualification-storage",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 941,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "qualification-recognition",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 940,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "pointer-resolver",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 1250,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "pointer-local-resolver",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 618,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "select-visitor-classifier",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 192,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "select-visitor-classifier",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 1308,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "shared-transfer-pairing",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 102,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "shared-transfer-pairing",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 646,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "shared-transfer-pairing",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 923,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "select-entry-call-return-name-guard",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 68,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "select-entry-call-return-name-guard",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 626,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "select-entry-call-return-name-guard",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 924,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "select-entry-call-return-layout-guard",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 69,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "select-entry-call-return-layout-guard",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 627,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "select-entry-call-return-layout-guard",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 925,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "caller-store-helper",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 685,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "preserved-F6-reset-helper",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 707,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "preserved-F6-reset-helper",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 883,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "storage-recognition",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 153,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "storage-recognition",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 181,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "wrapper-recognition",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 137,
+      "arity": 3,
+      "expected": 3
+    }
+  ],
+  "all_same_spelling_references": {
+    "has_intrinsic_fallback": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs",
+        "line": 928,
+        "context": ":: kani_middle :: has_intrinsic_fallback ( instance ) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "line": 155,
+        "context": "} pub fn has_intrinsic_fallback ( instance : Instance"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "line": 169,
+        "context": "| | ! has_intrinsic_fallback ( instance ) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 285,
+        "context": ":: kani_middle :: has_intrinsic_fallback ( instance ) }"
+      }
+    ],
+    "has_transfer_protocol": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 102,
+        "context": "} else if has_transfer_protocol ( self . tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 646,
+        "context": "let paired = has_transfer_protocol ( self . tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 923,
+        "context": ") ; if has_transfer_protocol ( self . tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 1303,
+        "context": "} } fn has_transfer_protocol ( tcx : TyCtxt"
+      }
+    ],
+    "is_select_unpredictable": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 68,
+        "context": "select_supported = if is_select_unpredictable ( self . instance"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 626,
+        "context": "} ; if is_select_unpredictable ( instance ) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 924,
+        "context": "& ( ! is_select_unpredictable ( self . instance"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 1311,
+        "context": ") } fn is_select_unpredictable ( instance : Instance"
+      }
+    ],
+    "nested_shadow_layout_remains_unsupported": [],
+    "select": [],
+    "select_unpredictable_fallback": [
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "line": 164,
+        "context": "} pub fn select_unpredictable_fallback ( tcx : TyCtxt"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 374,
+        "context": ":: kani_middle :: select_unpredictable_fallback ( self . tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 21,
+        "context": ":: resolve_call , select_unpredictable_fallback , } , }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 192,
+        "context": "let ty = select_unpredictable_fallback ( self . tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 1308,
+        "context": ") | | select_unpredictable_fallback ( tcx , instance"
+      }
+    ],
+    "selected_hole_in_false_arm_fails": [],
+    "selected_hole_in_true_arm_fails": [],
+    "selected_scalar_values": [],
+    "store_call_arguments": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 210,
+        "context": ") } fn store_call_arguments ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 685,
+        "context": "{ self . store_call_arguments ( instance , args"
+      }
+    ],
+    "unmodeled_shadow_intrinsic_stays_unsupported": [],
+    "validate_select_fallback": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 69,
+        "context": "match self . validate_select_fallback ( self . instance"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 185,
+        "context": "} } fn validate_select_fallback ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 627,
+        "context": "= self . validate_select_fallback ( instance ) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 925,
+        "context": "| self . validate_select_fallback ( self . instance"
+      }
+    ]
+  },
+  "errors": [
+    {
+      "contract": "qualification-storage",
+      "actual_count": 3,
+      "expected_count": 1,
+      "reason": "bound callsite coverage mismatch"
+    },
+    {
+      "contract": "storage-recognition",
+      "actual_count": 2,
+      "expected_count": 1,
+      "reason": "bound callsite coverage mismatch"
+    }
+  ],
+  "limits": "Source-token inventory, local generic impl checks and explicitly bound call arities; no Rust name resolution/typecheck, macro expansion, trait resolution or native build. Whole-file signature/import inventory and lexical references require human review.",
+  "tool_sha256": "f2db55dbfbdfabad8eb3ac53cd1d4cf147c3339420736e1a5c36003be07f9fe4",
+  "contracts_sha256": "685359e3cf3d242d30123f33b3bccc36cb8abb3fc0ccc92aaef36a5c5ce53964",
+  "native_build": "NOT_RUN"
+}

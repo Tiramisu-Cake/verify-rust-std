@@ -1,0 +1,27 @@
+{
+  "assurance": "STATIC_STD_SOURCE_ONLY",
+  "std": "70ba5befc617627073738e26cb1466bd4fb76e41",
+  "files": [
+    {
+      "path": "library/core/src/intrinsics/mod.rs",
+      "source_commit": "70ba5befc617627073738e26cb1466bd4fb76e41",
+      "sha256": "95bad83ea99a46bcbdbd4163e42112866fdfadc4660ca1d1c4298fed57b1c5fc",
+      "reviewed_lines": [
+        749,
+        757
+      ]
+    },
+    {
+      "path": "library/core/src/hint.rs",
+      "source_commit": "70ba5befc617627073738e26cb1466bd4fb76e41",
+      "sha256": "f73ec2e70c2a4e119da73de2c106d2d1b55c4f74bafb189bc13fcda0238d4714",
+      "reviewed_lines": [
+        838,
+        884
+      ]
+    }
+  ],
+  "compiler_pin": "nightly-2026-10-23, unchanged source rust-toolchain.toml",
+  "actual_emitted_MIR_body_binding": "NOT_ESTABLISHED; requires native CI",
+  "notes": "Fallback forgets the unselected arm then returns the selected arm. Public wrapper performs pointer selects and a MaybeUninit select. No std production edit."
+}

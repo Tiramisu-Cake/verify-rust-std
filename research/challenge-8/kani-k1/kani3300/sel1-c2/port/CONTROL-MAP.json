@@ -1,0 +1,594 @@
+{
+  "source": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "old_sel1": "39a6521bf1b042358801cf613fd340623f35f851",
+  "fixture_transfer": "65/65 files byte-identical",
+  "groups": 12,
+  "selector_count": 29,
+  "intended_SUCCESS": 12,
+  "intended_FAILURE_or_Unsupported": 17,
+  "state": "NOT_RUN",
+  "selectors": [
+    {
+      "file": "tests/expected/uninit/select-unpredictable-copy-overwrite/copy_sources_remain_initialized.rs",
+      "selector": "copy_sources_remain_initialized",
+      "expected_result": "SUCCESS",
+      "expected_failed_properties": 0,
+      "failure_kind": null,
+      "failure_descriptions": [],
+      "required_success_descriptions": [
+        "Copy operands retain selected and source values"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-copy-overwrite/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-copy-overwrite/copy_sources_remain_initialized.expected",
+      "reason_and_operation": "Copy sources and selected payload remain readable.",
+      "source_sha256": "1d16a2635346360da0b3057f5040e00711e5030724b95fee16658aba87cf6956",
+      "expected_sha256": "a91f5a1d2077f4e9c8e2bfe958cad8b6149e064fac90618ec1c320d52998ed01"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-copy-overwrite/overwriting_selected_hole_reinitializes_result.rs",
+      "selector": "overwriting_selected_hole_reinitializes_result",
+      "expected_result": "SUCCESS",
+      "expected_failed_properties": 0,
+      "failure_kind": null,
+      "failure_descriptions": [],
+      "required_success_descriptions": [
+        "overwrite initializes selected result"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-copy-overwrite/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-copy-overwrite/overwriting_selected_hole_reinitializes_result.expected",
+      "reason_and_operation": "A write replaces the selected hole and makes its payload readable.",
+      "source_sha256": "d41ba9c33570634dfe8e21b88f960b15ca09a25b8c197ee040519da605edc5b3",
+      "expected_sha256": "2f15c9e5977aa475613a1665d06c1152c6f992c3df75effe00d06d11f9785721"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-copy-overwrite/overwrite_hole.rs",
+      "selector": "overwrite_hole",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "required_success_descriptions": [
+        "destination starts initialized"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-copy-overwrite/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-copy-overwrite/overwrite_hole.expected",
+      "reason_and_operation": "Read overwritten destination after selecting a hole; previous true state must be replaced.",
+      "source_sha256": "8ffc4b12370d82da594012803d259034c68a6128130edc497dedcaea6fb61b5e",
+      "expected_sha256": "3c9e4b471023d9314f9825d087b7b3101613d8ecaec7b52cd620713c2d8fa73b"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-delayed-padding/write_through_selected_pointer_leaves_true_source_padding_hole.rs",
+      "selector": "write_through_selected_pointer_leaves_true_source_padding_hole",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+      ],
+      "required_success_descriptions": [
+        "selected alias points to the condition's source"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "source_operation": "Selected pointer write exposes original u64 padding, or selected MU<Padded> byte1 read; distinguish typed fields from padding and true/false branches.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-delayed-padding/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-delayed-padding/write_through_selected_pointer_leaves_true_source_padding_hole.expected",
+      "reason_and_operation": "Read x as u64 after typed Padded write through selected pointer; true branch leaves source padding false.",
+      "source_sha256": "6dee7c881c1216cd07f6e9d3bf3bbcdd2290f8b1bdfc482b3d2d31bf4c99b8ed",
+      "expected_sha256": "a858b6b58d3ebb76197d77d3e5c5b61a86d92bf943a066fedfefb982f0508d73"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-delayed-padding/write_through_selected_pointer_leaves_false_source_padding_hole.rs",
+      "selector": "write_through_selected_pointer_leaves_false_source_padding_hole",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u64`"
+      ],
+      "required_success_descriptions": [
+        "selected alias points to the condition's source"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "source_operation": "Selected pointer write exposes original u64 padding, or selected MU<Padded> byte1 read; distinguish typed fields from padding and true/false branches.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-delayed-padding/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-delayed-padding/write_through_selected_pointer_leaves_false_source_padding_hole.expected",
+      "reason_and_operation": "Read y as u64 after typed Padded write through selected pointer; false branch leaves source padding false.",
+      "source_sha256": "d8cd35d7243525f1404216d82f89a32621e5de951eba4521769aeeb1d53bac8b",
+      "expected_sha256": "a05140dc734e96b2af78c64f5e48e6166ae7c8a598833089493e5d0e622138ee"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-hint-wrapper/hint_wrapper_u8_uses_all_internal_selects.rs",
+      "selector": "hint_wrapper_u8_uses_all_internal_selects",
+      "expected_result": "SUCCESS",
+      "expected_failed_properties": 0,
+      "failure_kind": null,
+      "failure_descriptions": [],
+      "required_success_descriptions": [],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-hint-wrapper/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-hint-wrapper/hint_wrapper_u8_uses_all_internal_selects.expected",
+      "reason_and_operation": "Real public wrapper including its pointer and MaybeUninit selects/assume_init, u8.",
+      "source_sha256": "f4d0c7df659477b9e50f9956d3f828e3afb4ea9bd6ac0981d2f7cff8837e55bc",
+      "expected_sha256": "f8ae20bbcbe963c1f88b29921d3e0c4236f93c1af42881eb3fa3d7adff89a50e"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-hint-wrapper/hint_wrapper_pointer_preserves_selected_alias_and_payload.rs",
+      "selector": "hint_wrapper_pointer_preserves_selected_alias_and_payload",
+      "expected_result": "SUCCESS",
+      "expected_failed_properties": 0,
+      "failure_kind": null,
+      "failure_descriptions": [],
+      "required_success_descriptions": [],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-hint-wrapper/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-hint-wrapper/hint_wrapper_pointer_preserves_selected_alias_and_payload.expected",
+      "reason_and_operation": "Real public wrapper, chosen pointer alias and payload preserved.",
+      "source_sha256": "442bc0a7d724a30cf2ad90135a3f4404d3e2aad484cf1fdfbec27e93c3e3d37a",
+      "expected_sha256": "cb80a4f8a532d2ff2c82f5153eceb1999c6202e822b8d9d2d786503773a6e19f"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-maybe-uninit/legal_selected_true_arm_with_unselected_hole.rs",
+      "selector": "legal_selected_true_arm_with_unselected_hole",
+      "expected_result": "SUCCESS",
+      "expected_failed_properties": 0,
+      "failure_kind": null,
+      "failure_descriptions": [],
+      "required_success_descriptions": [
+        "selected true MaybeUninit arm is initialized"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-maybe-uninit/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-maybe-uninit/legal_selected_true_arm_with_unselected_hole.expected",
+      "reason_and_operation": "Read initialized true arm; unselected false arm is a hole.",
+      "source_sha256": "6eaaaf80d7384829f200d2cecc6556d5096aad68749b69be8eecb7e325983d7b",
+      "expected_sha256": "12675bfc02b8c1f7f7304d2b4702506f8bef9ac6dde2865f111dd64c7b6fe18f"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-maybe-uninit/legal_selected_false_arm_with_unselected_hole.rs",
+      "selector": "legal_selected_false_arm_with_unselected_hole",
+      "expected_result": "SUCCESS",
+      "expected_failed_properties": 0,
+      "failure_kind": null,
+      "failure_descriptions": [],
+      "required_success_descriptions": [
+        "selected false MaybeUninit arm is initialized"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-maybe-uninit/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-maybe-uninit/legal_selected_false_arm_with_unselected_hole.expected",
+      "reason_and_operation": "Read initialized false arm; unselected true arm is a hole.",
+      "source_sha256": "11a45d537ff1e86d74018af36ac69bdcc6438658685ef2a0035778be46af1825",
+      "expected_sha256": "652a9adfb6da4b52fc560758660f382f4ceb1828b547b1b6dd915cb959b2da99"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-maybe-uninit/copied_unselected_false_hole_remains_false.rs",
+      "selector": "copied_unselected_false_hole_remains_false",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "required_success_descriptions": [
+        "selected true value remains initialized"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-maybe-uninit/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-maybe-uninit/copied_unselected_false_hole_remains_false.expected",
+      "reason_and_operation": "Read original unselected false-arm Copy hole after selected result succeeds.",
+      "source_sha256": "b36c8cdfea79e3c4383206e7eed26af91cc43c9eae3d2912976ac1c985c3a898",
+      "expected_sha256": "c589161a94ef83dc913797252881425849d56a39d920de5218782092a1bb78ae"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-maybe-uninit/copied_unselected_true_hole_remains_false.rs",
+      "selector": "copied_unselected_true_hole_remains_false",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "required_success_descriptions": [
+        "selected false value remains initialized"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-maybe-uninit/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-maybe-uninit/copied_unselected_true_hole_remains_false.expected",
+      "reason_and_operation": "Read original unselected true-arm Copy hole after selected result succeeds.",
+      "source_sha256": "bd0671a7fcc403c4f44fbaa67827dedfe28a0ab776651214c04cdccb3bf780c9",
+      "expected_sha256": "82394026d11826ee91ca195f7c3a3fd7904f92395e1621ccc8c53b9d05ba0199"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-maybe-uninit/selected_true_hole_fails.rs",
+      "selector": "selected_true_hole_fails",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "required_success_descriptions": [
+        "unselected Copy arm remains initialized"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-maybe-uninit/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-maybe-uninit/selected_true_hole_fails.expected",
+      "reason_and_operation": "Read selected true-arm MaybeUninit payload; original unselected Copy value remains valid.",
+      "source_sha256": "b3cc801250f7ff013a3d818eb1a7e2add97e63db0142bd27a8ae26a0fd7334e5",
+      "expected_sha256": "9eadafa2f9e40c8a56f8b5ba02f079b771837bfadf5327ece10e1f66c8c398f2"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-maybe-uninit/selected_false_hole_fails.rs",
+      "selector": "selected_false_hole_fails",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "required_success_descriptions": [
+        "unselected Copy arm remains initialized"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-maybe-uninit/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-maybe-uninit/selected_false_hole_fails.expected",
+      "reason_and_operation": "Read selected false-arm MaybeUninit payload; original unselected Copy value remains valid.",
+      "source_sha256": "12cbec7cec09aa49c4945b42cac7f903ea8983acca3d4eeae263842034102c2c",
+      "expected_sha256": "f13e3cd4cc7db5bc37e06d742e2ab3810903514af515b294b6f3aa3e7de36482"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-moves/copy_intrinsic_operands_preserve_both_sources.rs",
+      "selector": "copy_intrinsic_operands_preserve_both_sources",
+      "expected_result": "SUCCESS",
+      "expected_failed_properties": 0,
+      "failure_kind": null,
+      "failure_descriptions": [],
+      "required_success_descriptions": [
+        "Copy sources and selected result retain their values"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "source_operation": "Direct intrinsic call; bare-place Copy operands or explicit Move(a),Move(b); selected consume precedes the separately observed A/B moved-source payload read. Returns only ordinary u8 tuple.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-moves/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-moves/copy_intrinsic_operands_preserve_both_sources.expected",
+      "reason_and_operation": "Custom MIR Copy operands: selected result and both original sources readable, both conditions covered.",
+      "source_sha256": "f6acb5abdb49b11f80dd37a389fee7a5dd56251a56451cdf32f241901161b7a7",
+      "expected_sha256": "e2ead81a484278355177498901fda2ac24877dc5b9e3a4298c2f7b0dd24f3225"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-moves/true_selected_arm_still_deinitializes_source_a.rs",
+      "selector": "true_selected_arm_still_deinitializes_source_a",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "required_success_descriptions": [
+        "true arm selected value is preserved"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "source_operation": "Direct intrinsic call; bare-place Copy operands or explicit Move(a),Move(b); selected consume precedes the separately observed A/B moved-source payload read. Returns only ordinary u8 tuple.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-moves/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-moves/true_selected_arm_still_deinitializes_source_a.expected",
+      "reason_and_operation": "Actual Move of both arms; read moved-from source A after consuming true-chosen initialized result.",
+      "source_sha256": "efbf0a4c15edfeb11cd7b791d1d127388aa43c989456fbe8caa9894b6224137d",
+      "expected_sha256": "32cdf7f742fb0c09755535c06c68708f68f7138e74425ef8c6fa60af166b35e1"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-moves/false_selected_arm_still_deinitializes_source_a.rs",
+      "selector": "false_selected_arm_still_deinitializes_source_a",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "required_success_descriptions": [
+        "false arm selected value is preserved"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "source_operation": "Direct intrinsic call; bare-place Copy operands or explicit Move(a),Move(b); selected consume precedes the separately observed A/B moved-source payload read. Returns only ordinary u8 tuple.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-moves/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-moves/false_selected_arm_still_deinitializes_source_a.expected",
+      "reason_and_operation": "Actual Move of both arms; read moved-from source A after consuming false-chosen initialized result.",
+      "source_sha256": "1c7ac3d386a606d169fbb0400aad3b336995de8dcdd199539c270eece6203209",
+      "expected_sha256": "cd0248ee835efb76d8b923384941e95d1c131b1b9685d6f7598859b517924d23"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-moves/true_selected_arm_still_deinitializes_source_b.rs",
+      "selector": "true_selected_arm_still_deinitializes_source_b",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "required_success_descriptions": [
+        "true arm selected value is preserved"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "source_operation": "Direct intrinsic call; bare-place Copy operands or explicit Move(a),Move(b); selected consume precedes the separately observed A/B moved-source payload read. Returns only ordinary u8 tuple.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-moves/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-moves/true_selected_arm_still_deinitializes_source_b.expected",
+      "reason_and_operation": "Actual Move of both arms; read moved-from source B after consuming true-chosen initialized result.",
+      "source_sha256": "37a9f53d535ae38e1fcc5aff58843bbc41f9ce524727ca7df535f3225a3db3b5",
+      "expected_sha256": "bc51ee13da6346eaf90739168ee32df9800993bf53f82c31541778b5a522e770"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-moves/false_selected_arm_still_deinitializes_source_b.rs",
+      "selector": "false_selected_arm_still_deinitializes_source_b",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+      ],
+      "required_success_descriptions": [
+        "false arm selected value is preserved"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "source_operation": "Direct intrinsic call; bare-place Copy operands or explicit Move(a),Move(b); selected consume precedes the separately observed A/B moved-source payload read. Returns only ordinary u8 tuple.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-moves/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-moves/false_selected_arm_still_deinitializes_source_b.expected",
+      "reason_and_operation": "Actual Move of both arms; read moved-from source B after consuming false-chosen initialized result.",
+      "source_sha256": "d4106a36f70f1db9c2a270d4a3426f1e0362d5ba42f77ed62a3a2c1fb79fab9d",
+      "expected_sha256": "8995e1b692763753acf984d1ae53eb66724defd7fef92ec590ddea25395dfb47"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-nested-unsupported/main.rs",
+      "selector": "nested_shadow_layout_remains_unsupported",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Unsupported",
+      "failure_descriptions": [
+        "Checking memory initialization of type Nested is not supported. Cannot determine layout for a type that contains union of type",
+        "MaybeUninit<u8> as a field."
+      ],
+      "required_success_descriptions": [],
+      "state": "NOT_RUN",
+      "oracle": "Exactly one nested_shadow_layout_remains_unsupported.unsupported_construct.1 FAILURE with Nested/UnionAsField diagnostic, **1 of and FAILED verdict. Reject unrelated Unsupported/setup/timeout errors. Do not credit later select checks as reached.",
+      "expected_file": "tests/expected/uninit/select-unpredictable-nested-unsupported/expected",
+      "expected_first_rejection": "Nested aggregate assignment while constructing the first arm, before MaybeUninit::new and select call",
+      "coverage_scope": "General nested-layout fail-closed boundary; does not establish execution of the select-specific refusal branch",
+      "source_basis": "uninit_visitor.rs::visit_statement Assign -> PointeeInfo::from_ty -> LayoutComputationError::UnionAsField; ty_layout.rs data_bytes_for_ty rejects union as a nested field",
+      "prior_observation": {
+        "run": "43611512375",
+        "source": "ec85b782a1b7156ad434cfac25403acd4e326dc1",
+        "assurance": "Owner-provided excerpt",
+        "observed_failure_count": 1,
+        "summary_total_checks": 119,
+        "note": "Total119 is an observation only, not a new golden inventory."
+      },
+      "reason_and_operation": "First Nested aggregate construction hits general UnionAsField before select; NOT select-specific guard coverage.",
+      "source_sha256": "66470bb55f66734c8b824732a17ed2636bfdc8b555ed3fb36063947b0fcb777a",
+      "expected_sha256": "735ea23dcafceac839b09796cc323ec602655b4e6f311af7ddd9185be5c8f427"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-padding/selected_true_maybe_uninit_fields_are_legal.rs",
+      "selector": "selected_true_maybe_uninit_fields_are_legal",
+      "expected_result": "SUCCESS",
+      "expected_failed_properties": 0,
+      "failure_kind": null,
+      "failure_descriptions": [],
+      "required_success_descriptions": [
+        "true-arm MaybeUninit fields remain initialized"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "source_operation": "Selected pointer write exposes original u64 padding, or selected MU<Padded> byte1 read; distinguish typed fields from padding and true/false branches.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-padding/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-padding/selected_true_maybe_uninit_fields_are_legal.expected",
+      "reason_and_operation": "Chosen true-arm typed fields readable; no requirement that padding be initialized.",
+      "source_sha256": "9433f1e6ffae41be7a29bad719bc280a57e22942f3076fb8067299b8997add89",
+      "expected_sha256": "adfaebd1f048740ebb16cc0780c3e8e90a096d714b9f711ec2b464a85faca5ed"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-padding/selected_false_maybe_uninit_fields_are_legal.rs",
+      "selector": "selected_false_maybe_uninit_fields_are_legal",
+      "expected_result": "SUCCESS",
+      "expected_failed_properties": 0,
+      "failure_kind": null,
+      "failure_descriptions": [],
+      "required_success_descriptions": [
+        "false-arm MaybeUninit fields remain initialized"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "source_operation": "Selected pointer write exposes original u64 padding, or selected MU<Padded> byte1 read; distinguish typed fields from padding and true/false branches.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-padding/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-padding/selected_false_maybe_uninit_fields_are_legal.expected",
+      "reason_and_operation": "Chosen false-arm typed fields readable; no requirement that padding be initialized.",
+      "source_sha256": "c850c60fe1d95cadee3662351f97b114e4cb48458cb0f3f31d0bb309cd14269d",
+      "expected_sha256": "9e57f5afbbc216d6e8b3e10bf77c858fe1991c61af153e4725a92191166e9625"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-padding/selected_true_padding_stays_uninitialized.rs",
+      "selector": "selected_true_padding_stays_uninitialized",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+      ],
+      "required_success_descriptions": [
+        "true-arm typed fields are readable before padding check"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "source_operation": "Selected pointer write exposes original u64 padding, or selected MU<Padded> byte1 read; distinguish typed fields from padding and true/false branches.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-padding/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-padding/selected_true_padding_stays_uninitialized.expected",
+      "reason_and_operation": "Read true-arm result padding byte after legal field reads; padding remains false.",
+      "source_sha256": "0dfa68e15ec580529557c71c9086f702248dd4f1afe3da2a1f66a921c1715082",
+      "expected_sha256": "5e6e561fa8319a522b33e2a976280271c33c7f8bbc87898455fb3b8d53cfa9a6"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-padding/selected_false_padding_stays_uninitialized.rs",
+      "selector": "selected_false_padding_stays_uninitialized",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+      ],
+      "required_success_descriptions": [
+        "false-arm typed fields are readable before padding check"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "source_operation": "Selected pointer write exposes original u64 padding, or selected MU<Padded> byte1 read; distinguish typed fields from padding and true/false branches.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-padding/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-padding/selected_false_padding_stays_uninitialized.expected",
+      "reason_and_operation": "Read false-arm result padding byte after legal field reads; padding remains false.",
+      "source_sha256": "5d49eebcf7ef17afe45ef7ee13d5de71fecbc97434d1adb4f916cd683920476c",
+      "expected_sha256": "a7ee16653926881984715ae3395a46907c103771580994bafcb9d7c52c4d1a03"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-pointer-hole-false/main.rs",
+      "selector": "selected_hole_in_false_arm_fails",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+      ],
+      "required_success_descriptions": [
+        "selected raw pointer names the condition's arm"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "expected_file": "tests/expected/uninit/select-unpredictable-pointer-hole-false/expected",
+      "reason_and_operation": "Dereference selected pointer to false-arm uninitialized byte; alias assertion must succeed.",
+      "source_sha256": "0806ced6352c654962bec9d73b8701419ba49ffaeec8810ad994685d09048853",
+      "expected_sha256": "63743f39456d0d97cb6679a76e36458597c65c2c42f30ee115841814f1cf8f93"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-pointer-hole-true/main.rs",
+      "selector": "selected_hole_in_true_arm_fails",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Uninit",
+      "failure_descriptions": [
+        "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+      ],
+      "required_success_descriptions": [
+        "selected raw pointer names the condition's arm"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "expected_file": "tests/expected/uninit/select-unpredictable-pointer-hole-true/expected",
+      "reason_and_operation": "Dereference selected pointer to true-arm uninitialized byte; alias assertion must succeed.",
+      "source_sha256": "f2fe8ee388fa55a801a81a5cc2d0f5d872c9365b3789fa78ec032edf960b26fb",
+      "expected_sha256": "84a0875400597b8547b402397b4ca14900591620aa29fef9ed9a7a70e5a0e03d"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-pointer-values/selected_initialized_pointer_values.rs",
+      "selector": "selected_initialized_pointer_values",
+      "expected_result": "SUCCESS",
+      "expected_failed_properties": 0,
+      "failure_kind": null,
+      "failure_descriptions": [],
+      "required_success_descriptions": [],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-pointer-values/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-pointer-values/selected_initialized_pointer_values.expected",
+      "reason_and_operation": "Choose pointer to initialized value with correct alias/readback.",
+      "source_sha256": "079dd7d7edbc82aa271abde182d4ee8169f6c47356dece3432207e121281ef00",
+      "expected_sha256": "63e88668877ca3d51d2e2f13895257823b3f6a9bf193c406bf8d4db7c4605970"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-pointer-values/selected_null_or_dangling_without_dereference.rs",
+      "selector": "selected_null_or_dangling_without_dereference",
+      "expected_result": "SUCCESS",
+      "expected_failed_properties": 0,
+      "failure_kind": null,
+      "failure_descriptions": [],
+      "required_success_descriptions": [],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "shared_source": "tests/expected/uninit/select-unpredictable-pointer-values/controls.inc",
+      "expected_file": "tests/expected/uninit/select-unpredictable-pointer-values/selected_null_or_dangling_without_dereference.expected",
+      "reason_and_operation": "Select null/dangling pointer values without dereference or pointee initialization.",
+      "source_sha256": "47980ce0c7f61cca31f9af78962aaa9f518694650d4eeaf6b9b0f09484757650",
+      "expected_sha256": "1568bfc85fe91e2f1e69029050d909f5e4eb0769987f98eee08eaacdeb03c99e"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-unmodeled-intrinsic/main.rs",
+      "selector": "unmodeled_shadow_intrinsic_stays_unsupported",
+      "expected_result": "FAILURE",
+      "expected_failed_properties": 1,
+      "failure_kind": "Unsupported",
+      "failure_descriptions": [
+        "Kani does not support shadow-carrying argument or return values of intrinsic `BlackBox`."
+      ],
+      "required_success_descriptions": [],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "expected_file": "tests/expected/uninit/select-unpredictable-unmodeled-intrinsic/expected",
+      "reason_and_operation": "BlackBox<MaybeUninit<u8>> retains explicit unsupported shadow argument/return refusal.",
+      "source_sha256": "bb24c6a6498c5d099013d731dca473a264ee7e6509d834717891c159e1ef7fae",
+      "expected_sha256": "5007656f4f22fe65c81a9ba713609c931fd8e2f9ea19a0346a4989e103229e17"
+    },
+    {
+      "file": "tests/expected/uninit/select-unpredictable-values/main.rs",
+      "selector": "selected_scalar_values",
+      "expected_result": "SUCCESS",
+      "expected_failed_properties": 0,
+      "failure_kind": null,
+      "failure_descriptions": [],
+      "required_success_descriptions": [
+        "core and std select paths preserve the chosen value"
+      ],
+      "state": "NOT_RUN",
+      "oracle": "Run isolated exact harness; validate failed count and source-bound intended read/refusal, own SUCCESS assertions and final verdict. Do not accept setup errors/timeout/OOM or unrelated Unsupported.",
+      "expected_file": "tests/expected/uninit/select-unpredictable-values/expected",
+      "reason_and_operation": "Actual core/std intrinsic path preserves chosen scalar value.",
+      "source_sha256": "d3ab232773462b894826583c1369d461ed8755eccbb2bd8275c0252db6a052a6",
+      "expected_sha256": "712c48579a881ea9cce5fbe751311cd76556e2557cdec87ec0efd695db0237f4"
+    }
+  ],
+  "static_only_controls": [
+    "No Rust fixture can disable/override the standard intrinsic fallback or make T unsized while retaining its signature; shared classifier/guard reviewed statically. Compiler-state override/bodyless paths must stay Unsupported.",
+    "Existing conflict diagnostics, B1 fn-pointer/trait-object and pending loads/checks are unchanged; request full original suites, no golden or check weakening."
+  ],
+  "existing_regressions": [
+    "tests/expected/uninit/unresolved-calls/ all plain/seeded pairs including pending ops and empty entry loads",
+    "tests/expected/uninit/delayed-ub-unsupported-call/",
+    "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/",
+    "tests/expected/uninit/maybe-uninit-call-pairing/",
+    "tests/expected/uninit/maybe-uninit-call-move/",
+    "tests/expected/uninit/maybe-uninit-typed-argument-padding/",
+    "tests/expected/uninit/maybe-uninit-typed-return-padding/",
+    "tests/expected/uninit/intrinsics/",
+    "tests/json-handler/uninit-contract-mode-boundaries/",
+    "tests/json-handler/uninit-part1-composition/ (full unchanged final-C2 suite; no DRIFT exception)"
+  ],
+  "matching_limit": "Each multi-harness Rust source is shared through controls.inc; a per-selector .rs wrapper selects --harness NAME --exact and has its own .expected with one harness total. Single-root groups remain main.rs/expected. Count/status/description cannot be borrowed from another harness output. Expected patterns still use substring matching and never full total-property inventories.",
+  "new_ignores_or_filters": false,
+  "historical_29_0_is": "compiletest result, not 29 legal proofs; no rebind to this source",
+  "historical_S1_debt_exemption": "NONE: final C2 closed this debt; old SEL1 manifest text does not apply"
+}
