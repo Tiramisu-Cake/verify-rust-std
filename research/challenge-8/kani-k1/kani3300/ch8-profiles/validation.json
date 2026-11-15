@@ -1,0 +1,34 @@
+{
+  "schema": "ch8-profiles-package-check-v1",
+  "state": "PASS_STATIC_ONLY",
+  "source": "b5cf722e20f71c1f4f494ec4ad2af2970aa3bc9f",
+  "rows": 62,
+  "modes": {
+    "PFC:swap_profile": 14,
+    "PFC:insert_tail_profile": 5,
+    "PFC:sort4_profile": 2,
+    "PFC:merge_profile": 12,
+    "Original": 19,
+    "PFC:concrete_forwarder": 3,
+    "Replace:profile_wrapper": 5,
+    "PFC:swap_if_less": 2
+  },
+  "checks": [
+    "request/source/review/patch identities",
+    "positive/negative row oracle completeness",
+    "leaf-before-consumer same-profile gates",
+    "caps and KiB/GiB arithmetic",
+    "reverse patch check against candidate",
+    "reproduced full source audit"
+  ],
+  "ci_request_sha256": "c7568577222232c2e11f42f42c17082a7df4a68515867b2957cc97bebc6c6be5",
+  "review_sha256": "9110e4045201a036c9e155cc96a2779b2f64bd9497690497cae28a830c0afe27",
+  "Rust_compilation": "NOT_RUN",
+  "lowering": "NOT_RUN",
+  "Kani": "NOT_RUN",
+  "ON": "DEFERRED_NOT_RUN",
+  "builds": 0,
+  "pushes": 0,
+  "dispatches": 0,
+  "proof_credit": "NONE"
+}

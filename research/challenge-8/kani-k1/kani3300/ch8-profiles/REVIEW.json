@@ -1,0 +1,30 @@
+{
+  "reviewer": "codex-subagent:profiles_review",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "fork_turns": "none",
+  "baseline_commit": "872d5a43380752786415bc00d2a12ce0e930cb37",
+  "candidate_commit": "b5cf722e20f71c1f4f494ec4ad2af2970aa3bc9f",
+  "candidate_tree": "bd6fdf1750e589a8fa5c63bfd445553df43adb8a",
+  "spec_sha256": "51080370b5e9be22aa09c6e3efeab26a981cb135844730272fe21a17c7186aae",
+  "packet_sha256": "05e4379154452cf6f4ead8a37389986c3105859d3c6a29483abef7c0b2057b5e",
+  "diff_sha256": "d3c40c3ffd76d89a7cf5eefe80fc0ee5aad8592ca85d4138682eadf11450011b",
+  "packet_check": "IDENTITIES_MATCHED",
+  "decision": "GO_STATIC_REVIEW_ONLY",
+  "proof_credit": "NONE",
+  "findings": [],
+  "withdrawn_findings": [
+    {
+      "severity": "withdrawn",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/network.rs",
+      "line": 1204,
+      "text": "I previously reported that `profile_relation_read_b16` lacked `ArbitraryValue` for `[u8; 16]`.",
+      "resolution": "Withdrawn: the exact candidate has `impl<const M: usize> ArbitraryValue for [u8; M]` at network.rs:378-382, which covers both `[u8; 16]` and `[u8; 17]`. No duplicate implementation is needed."
+    }
+  ],
+  "conclusion": "After withdrawing the incorrect trait-bound finding, static review found no localized blocker in the reviewed changes. The callback-free wrappers and explicitly typed P-specific closures preserve the declared comparator/model definitions, including volatile-reading sort4 adapters. Geometry, modifies, and ordered/full-value postconditions appear retained; historical wrong-F roots are replaced with real-body bad-adapter/model-relation checks.",
+  "limits": [
+    "Static-only review. Rust compilation, FnDef shim/layout/codegen lowering, Kani PFC/Replace evidence, covers, and ON safety qualification were NOT_RUN.",
+    "No proof credit granted; no source changes, builds, CI, or pushes performed."
+  ]
+}

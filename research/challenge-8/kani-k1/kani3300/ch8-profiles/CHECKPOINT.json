@@ -1,0 +1,89 @@
+{
+  "schema": "ch8-profiles-w11-checkpoint-v1",
+  "worker": "worker11",
+  "runtime": "Codex",
+  "state": "READY_SOURCE_AND_QUALIFICATION_REQUEST",
+  "source_worktree": "/root/verify-rust-std-ch8-profiles-w11",
+  "source_branch": "work/ch8-profiles-w11",
+  "base_commit": "872d5a43380752786415bc00d2a12ce0e930cb37",
+  "source_commit": "b5cf722e20f71c1f4f494ec4ad2af2970aa3bc9f",
+  "source_tree": "bd6fdf1750e589a8fa5c63bfd445553df43adb8a",
+  "scope": [
+    "verification modules only; exact five-file diff",
+    "research package kani3300/ch8-profiles in g0"
+  ],
+  "authority": {
+    "local_builds": false,
+    "push": false,
+    "ci_dispatch": false,
+    "cloud_dollars": 0,
+    "ledger_write": false
+  },
+  "source_review": {
+    "decision": "GO_STATIC_REVIEW_ONLY",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "record": "REVIEW.json",
+    "sha256": "9110e4045201a036c9e155cc96a2779b2f64bd9497690497cae28a830c0afe27",
+    "spec": "review-spec.json",
+    "packet": "review-packet"
+  },
+  "claims": [
+    {
+      "claim": "Callback-free Profile and N2 forwarding wrappers use direct static adapters; all original P-specific orders/models and volatile reads retained.",
+      "assurance": "STATIC_REVIEWED_NOT_COMPILED",
+      "evidence": [
+        "MIGRATION.md",
+        "source.patch",
+        "REVIEW.json"
+      ]
+    },
+    {
+      "claim": "Full verification subtree and actual smallsort.rs contain no explicit source-level FnPtr/function-pointer types/function-address casts/as-fn coercion. Actual smallsort.rs unchanged; seven wrapper contract attribute sets unchanged except superseded identity requires.",
+      "assurance": "STATIC_SOURCE_ONLY",
+      "evidence": [
+        "audit_static.py",
+        "static-audit.json"
+      ]
+    },
+    {
+      "claim": "Historical wrong-F roots retained with explicit bad-profile/relation replacement; independent full-value payload and frame controls retained. Five same-wrapper matched summary consumers and eleven closed relation roots added.",
+      "assurance": "STATIC_REVIEWED_NOT_RUN",
+      "evidence": [
+        "CONTROL-MAP.md",
+        "source.patch",
+        "CI-REQUEST.json"
+      ]
+    },
+    {
+      "claim": "Prepared fixed62-row OFF request on exact organizer stock pin with separate deferred ON qualification and conditional reserve, within shared cap3; no ledger reservation or run created.",
+      "assurance": "PREPARATION_ONLY",
+      "evidence": [
+        "CI-REQUEST.md",
+        "CI-REQUEST.json",
+        "prepare_request.py",
+        "check_package.py",
+        "validation.json"
+      ]
+    }
+  ],
+  "open": [
+    "Rust compilation/actual selected-instance MIR and hidden-indirect/FnDef-shim/layout acceptance NOT_RUN.",
+    "All new PFC/Replace consumers, relation checks, negative oracles and covers NOT_RUN; historical pointer results confer no admission.",
+    "Coordinator must freeze/review bounded CI-control workflow/runner/identities and error-path preflight, reserve shared cap and dispatch if separately authorized.",
+    "ON belongs to worker15 after separately frozen safety pin/flags; uninit ON is not valid-value qualification. No OFF-to-ON transfer."
+  ],
+  "blocker": null,
+  "stop_conditions": [
+    "hidden indirect comparator edge",
+    "FnDef-shim/layout/codegen blocker",
+    "weakened property/frame",
+    "dispatch cap"
+  ],
+  "next": "Coordinator reviews OFF request and selected-instance/property inventory; worker15 later prepares ON. Do not execute CI or push from this handoff.",
+  "dispatch_count": 0,
+  "push_count": 0,
+  "local_build_count": 0,
+  "proof_credit": "NONE",
+  "closure_reason": "Assigned no-build/no-push/no-CI preparation complete: committed verification-only source, static audit, independent static review, explicit control map, qualification request and handoff. No observed static STOP condition; compiler and proof acceptance remain unknown."
+}
