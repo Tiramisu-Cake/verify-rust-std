@@ -1,6 +1,6 @@
 # U → F test/oracle map — worker15, stage 0
 
-Static source map, no native runs. U/B1/F identities in INPUTS.json; exact per-path blobs/modes/SHA-256, flags, source assertions, all golden lines and 28 compiler units in ORACLE-MAP.json. Each table row owns both source and golden, with unchanged B1 paths retaining B1 ownership in the JSON path records.
+Static source map, no native runs. Variant C is accepted at `4fef62ad67`; U/B1/F identities in INPUTS.json; exact per-path blobs/modes/SHA-256, flags, source assertions, all golden lines and 28 compiler units in ORACLE-MAP.json. Each table row owns both source and golden, with unchanged B1 paths retaining B1 ownership in the JSON path records.
 
 Owner = semantic slice; run = first cumulative head with the complete fixture prerequisites. A later run bound never licenses an incomplete source head or a new ignore. Where a golden lacks exact N, the map preserves its literal negative and marks the precision limitation; F is unchanged.
 
@@ -56,8 +56,8 @@ Owner = semantic slice; run = first cumulative head with the complete fixture pr
 | marker-hook-calls/generated-modifies-no-shadow | 4 | 5 | ANALYSIS, STORAGE, CLOSURE | 0 |
 | marker-hook-calls/marked-body-hole | 4 | 4 | ANALYSIS, STORAGE | 1 |
 | marker-hook-calls/marked-body-initialized | 4 | 4 | ANALYSIS, STORAGE | 0 |
-| marker-hook-calls/marked-model-hole | 4 | 6 | ANALYSIS, STORAGE, E1 | 1 |
-| marker-hook-calls/marked-model-initialized | 4 | 6 | ANALYSIS, STORAGE, E1 | 0 |
+| marker-hook-calls/marked-model-hole | 4 | 4 | ANALYSIS, STORAGE | 1 |
+| marker-hook-calls/marked-model-initialized | 4 | 4 | ANALYSIS, STORAGE | 0 |
 | marker-hook-calls/ordinary-hook-return | 4 | 4 | ANALYSIS, STORAGE | 1 |
 | marker-hook-calls/ordinary-hook-scalar | 4 | 4 | ANALYSIS, STORAGE | 0 |
 | maybe-uninit-argument-buffer/main | 4 | 4 | ANALYSIS, LAYOUT_RAW, STORAGE | not pinned |
@@ -192,3 +192,11 @@ Owner = semantic slice; run = first cumulative head with the complete fixture pr
 See DEPENDENCY-REVIEW.md for the ANALYSIS/late-fixture gate and E1/model seam; BASELINE-DELTA.md for all submitted-fixture changes; DOCS-MAP.json/MD for line ownership; SEMANTIC-LINEAGE.json for all 21 old semantic rows / 22 final selectors.
 
 Strong oracles: exact summaries distinguish check counts from covers; P2 and postcondition-hole N3 = two checks for one read plus outer ensures17. Replace N2 = read checks only. Clause N1 = transmute read; frame N1 = user outside write with lawful out-write SUCCESS. All seven modes and all seven composition roots remain. No broad FAILED/Unsupported substitute. Split roots do not establish mixed isolation.
+
+## Variant C dependency decision (accepted @4fef62ad67)
+
+- Head1 is `NO_REGRESSION`; integration remains `PENDING` on cumulative heads4/5. All present upstream uninit/delayed-UB cases, full `kani/FunctionContracts`, full expected `function-contract`, and ActiveCalls9 remain selected on1. The full contract suites preserve their original flags/goldens and are not direct selected-contract-MIR qualification.
+- Owner1 integration obligations remain explicit: `points-to-cycles/{dag,self-cycle,mutual-cycle,roots-acyclic-first,roots-cycle-first}` and `ordinary-slots/{payload,padding}` at4; `ordinary-slots/positive`, `points-to-cycles/capture-free`, and contract/capture fixtures at5. Results must identify the exact cumulative head and useful positives/intended negatives.
+- Full nested Pat/enum and `raw-eq-uninit/main` fixtures are run at4; layout/raw source ownership remains3.
+- `marker-hook-calls/{marked-model-initialized,marked-model-hole}` are head4 obligations. The accepted source map assigns only B1--F:19:009 added part +420/count5 (F420..424) to STORAGE4. `generated-modifies-no-shadow` remains head5.
+- Historical stage0 dependency findings below remain a record of the earlier plan; they were static observations, not runtime results, and the head1 planning STOP is superseded by this accepted decision.

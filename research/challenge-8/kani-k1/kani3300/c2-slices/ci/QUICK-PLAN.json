@@ -321,7 +321,7 @@
         "[expected] expected/valid-value-checks/maybe_uninit.rs"
       ],
       "execution": "NOT_RUN",
-      "gate": "STOP dependency review before candidate1; do not dispatch this plan as authorization"
+      "gate": "NO_REGRESSION only. Integration PENDING exact cumulative heads4/5 under accepted variant C; full baseline and FunctionContracts suites stay mandatory."
     },
     {
       "head": 2,
@@ -494,7 +494,7 @@
         "[expected] expected/valid-value-checks/maybe_uninit.rs"
       ],
       "execution": "NOT_RUN",
-      "gate": "STOP dependency review before candidate1; do not dispatch this plan as authorization"
+      "gate": "Cumulative regression qualification plan only; execution remains NOT_RUN."
     },
     {
       "head": 3,
@@ -778,7 +778,7 @@
         "[expected] expected/valid-value-checks/maybe_uninit.rs"
       ],
       "execution": "NOT_RUN",
-      "gate": "STOP dependency review before candidate1; do not dispatch this plan as authorization"
+      "gate": "u8 mixed/promoted raw_eq qualification plan. Nested Pat/enum and raw-eq-uninit integration remains PENDING exact cumulative head4."
     },
     {
       "head": 4,
@@ -792,9 +792,9 @@
         "argument_size_tests": 1
       },
       "unit_selected_total": 20,
-      "expected_common_static_discovery_count": 187,
+      "expected_common_static_discovery_count": 189,
       "expected_common_expected_ignored": 2,
-      "expected_common_expected_passed_if_green": 185,
+      "expected_common_expected_passed_if_green": 187,
       "new_or_changed_final_fixture_pairs": [
         {
           "input": "tests/expected/uninit/copy-source-arguments/arg0-hole.rs",
@@ -878,6 +878,26 @@
           "input": "tests/expected/uninit/marker-hook-calls/marked-body-initialized.rs",
           "selector": "[expected] expected/uninit/marker-hook-calls/marked-body-initialized.rs",
           "golden": "tests/expected/uninit/marker-hook-calls/marked-body-initialized.expected",
+          "owner_slice": 4,
+          "source_harnesses": 1,
+          "exact_failure_N": [
+            0
+          ]
+        },
+        {
+          "input": "tests/expected/uninit/marker-hook-calls/marked-model-hole.rs",
+          "selector": "[expected] expected/uninit/marker-hook-calls/marked-model-hole.rs",
+          "golden": "tests/expected/uninit/marker-hook-calls/marked-model-hole.expected",
+          "owner_slice": 4,
+          "source_harnesses": 1,
+          "exact_failure_N": [
+            1
+          ]
+        },
+        {
+          "input": "tests/expected/uninit/marker-hook-calls/marked-model-initialized.rs",
+          "selector": "[expected] expected/uninit/marker-hook-calls/marked-model-initialized.rs",
+          "golden": "tests/expected/uninit/marker-hook-calls/marked-model-initialized.expected",
           "owner_slice": 4,
           "source_harnesses": 1,
           "exact_failure_N": [
@@ -1538,6 +1558,8 @@
         "[expected] expected/uninit/marker-hook-calls/fn-item-shadow-return.rs",
         "[expected] expected/uninit/marker-hook-calls/marked-body-hole.rs",
         "[expected] expected/uninit/marker-hook-calls/marked-body-initialized.rs",
+        "[expected] expected/uninit/marker-hook-calls/marked-model-hole.rs",
+        "[expected] expected/uninit/marker-hook-calls/marked-model-initialized.rs",
         "[expected] expected/uninit/marker-hook-calls/ordinary-hook-return.rs",
         "[expected] expected/uninit/marker-hook-calls/ordinary-hook-scalar.rs",
         "[expected] expected/uninit/maybe-uninit-argument-buffer/main.rs",
@@ -1653,7 +1675,7 @@
         "[expected] expected/valid-value-checks/maybe_uninit.rs"
       ],
       "execution": "NOT_RUN",
-      "gate": "STOP dependency review before candidate1; do not dispatch this plan as authorization"
+      "gate": "Head4 qualification includes both marked-model controls; owner1 traversal/entry obligations also run here. Exact integration evidence remains pending until coordinator authorizes and accepts the head."
     },
     {
       "head": 5,
@@ -1667,9 +1689,9 @@
         "argument_size_tests": 1
       },
       "unit_selected_total": 20,
-      "expected_common_static_discovery_count": 234,
+      "expected_common_static_discovery_count": 236,
       "expected_common_expected_ignored": 2,
-      "expected_common_expected_passed_if_green": 232,
+      "expected_common_expected_passed_if_green": 234,
       "new_or_changed_final_fixture_pairs": [
         {
           "input": "tests/expected/uninit/closure-upvars/holes.rs",
@@ -2201,6 +2223,8 @@
         "[expected] expected/uninit/marker-hook-calls/generated-modifies-no-shadow.rs",
         "[expected] expected/uninit/marker-hook-calls/marked-body-hole.rs",
         "[expected] expected/uninit/marker-hook-calls/marked-body-initialized.rs",
+        "[expected] expected/uninit/marker-hook-calls/marked-model-hole.rs",
+        "[expected] expected/uninit/marker-hook-calls/marked-model-initialized.rs",
         "[expected] expected/uninit/marker-hook-calls/ordinary-hook-return.rs",
         "[expected] expected/uninit/marker-hook-calls/ordinary-hook-scalar.rs",
         "[expected] expected/uninit/maybe-uninit-argument-buffer/main.rs",
@@ -2331,7 +2355,7 @@
         "[expected] expected/valid-value-checks/maybe_uninit.rs"
       ],
       "execution": "NOT_RUN",
-      "gate": "STOP dependency review before candidate1; do not dispatch this plan as authorization"
+      "gate": "Head5 qualification includes ordinary-slots/positive, capture-free and contract/capture obligations closing owner1. Exact integration evidence remains pending until coordinator authorizes and accepts the head."
     },
     {
       "head": 6,
@@ -2349,26 +2373,6 @@
       "expected_common_expected_ignored": 2,
       "expected_common_expected_passed_if_green": 245,
       "new_or_changed_final_fixture_pairs": [
-        {
-          "input": "tests/expected/uninit/marker-hook-calls/marked-model-hole.rs",
-          "selector": "[expected] expected/uninit/marker-hook-calls/marked-model-hole.rs",
-          "golden": "tests/expected/uninit/marker-hook-calls/marked-model-hole.expected",
-          "owner_slice": 4,
-          "source_harnesses": 1,
-          "exact_failure_N": [
-            1
-          ]
-        },
-        {
-          "input": "tests/expected/uninit/marker-hook-calls/marked-model-initialized.rs",
-          "selector": "[expected] expected/uninit/marker-hook-calls/marked-model-initialized.rs",
-          "golden": "tests/expected/uninit/marker-hook-calls/marked-model-initialized.expected",
-          "owner_slice": 4,
-          "source_harnesses": 1,
-          "exact_failure_N": [
-            0
-          ]
-        },
         {
           "input": "tests/expected/uninit/part1-edges/dst-by-reference-hole.rs",
           "selector": "[expected] expected/uninit/part1-edges/dst-by-reference-hole.rs",
@@ -2982,21 +2986,153 @@
     }
   ],
   "slice1_smoke": {
+    "expected_filter": [
+      "function-contract"
+    ],
     "expected_expanded_selectors": [
+      "[expected] expected/function-contract/arbitrary_ensures_fail.rs",
+      "[expected] expected/function-contract/arbitrary_ensures_pass.rs",
+      "[expected] expected/function-contract/arbitrary_requires_fail.rs",
+      "[expected] expected/function-contract/arbitrary_requires_pass.rs",
       "[expected] expected/function-contract/as-assertions/assert-postconditions.rs",
       "[expected] expected/function-contract/as-assertions/assert-preconditions.rs",
+      "[expected] expected/function-contract/as-assertions/loops.rs",
+      "[expected] expected/function-contract/as-assertions/precedence.rs",
+      "[expected] expected/function-contract/attribute_complain.rs",
+      "[expected] expected/function-contract/attribute_no_complain.rs",
       "[expected] expected/function-contract/capture_load_checks_elided.rs",
       "[expected] expected/function-contract/capture_load_escaping_closure.rs",
       "[expected] expected/function-contract/capture_load_user_deref_fail.rs",
       "[expected] expected/function-contract/capture_load_user_deref_pass.rs",
+      "[expected] expected/function-contract/checking_from_external_mod.rs",
+      "[expected] expected/function-contract/checking_in_impl.rs",
       "[expected] expected/function-contract/clause_calls_check_target.rs",
       "[expected] expected/function-contract/clause_calls_check_target_fail.rs",
       "[expected] expected/function-contract/clause_context_no_assert.rs",
+      "[expected] expected/function-contract/const_block.rs",
+      "[expected] expected/function-contract/const_fn.rs",
+      "[expected] expected/function-contract/const_fn_owned_receiver_fail.rs",
+      "[expected] expected/function-contract/const_fn_with_effect.rs",
+      "[expected] expected/function-contract/const_generic_function.rs",
+      "[expected] expected/function-contract/diverging_loop.rs",
+      "[expected] expected/function-contract/fail_on_two.rs",
+      "[expected] expected/function-contract/gcd_failure_code.rs",
+      "[expected] expected/function-contract/gcd_failure_contract.rs",
+      "[expected] expected/function-contract/gcd_rec_code_fail.rs",
+      "[expected] expected/function-contract/gcd_rec_comparison_pass.rs",
       "[expected] expected/function-contract/gcd_rec_contract_fail.rs",
       "[expected] expected/function-contract/gcd_rec_replacement_pass.rs",
-      "[expected] expected/function-contract/gcd_rec_simple_pass.rs"
+      "[expected] expected/function-contract/gcd_rec_simple_pass.rs",
+      "[expected] expected/function-contract/gcd_replacement_fail.rs",
+      "[expected] expected/function-contract/gcd_replacement_pass.rs",
+      "[expected] expected/function-contract/gcd_success.rs",
+      "[expected] expected/function-contract/generic_arg_unimplemented.rs",
+      "[expected] expected/function-contract/generic_default_const_param.rs",
+      "[expected] expected/function-contract/generic_default_missing_bare.rs",
+      "[expected] expected/function-contract/generic_default_missing_required.rs",
+      "[expected] expected/function-contract/generic_fn_pointer_cabi.rs",
+      "[expected] expected/function-contract/generic_fn_pointer_higher_ranked.rs",
+      "[expected] expected/function-contract/generic_infinity_recursion.rs",
+      "[expected] expected/function-contract/history/block.rs",
+      "[expected] expected/function-contract/history/clone_pass.rs",
+      "[expected] expected/function-contract/history/copy_pass.rs",
+      "[expected] expected/function-contract/history/function_call.rs",
+      "[expected] expected/function-contract/history/no_modifies.rs",
+      "[expected] expected/function-contract/history/old_old.rs",
+      "[expected] expected/function-contract/history/respects-preconditions/ensures_before_requires.rs",
+      "[expected] expected/function-contract/history/respects-preconditions/modifies.rs",
+      "[expected] expected/function-contract/history/respects-preconditions/requires_before_ensures.rs",
+      "[expected] expected/function-contract/history/side_effect.rs",
+      "[expected] expected/function-contract/history/simple_fail.rs",
+      "[expected] expected/function-contract/history/simple_pass.rs",
+      "[expected] expected/function-contract/history/simple_pass_twice.rs",
+      "[expected] expected/function-contract/history/stub.rs",
+      "[expected] expected/function-contract/history/ui/no_args.rs",
+      "[expected] expected/function-contract/history/ui/noncopy_ignore.rs",
+      "[expected] expected/function-contract/history/ui/old_result.rs",
+      "[expected] expected/function-contract/history/ui/statement.rs",
+      "[expected] expected/function-contract/interior-mutability/api/cell.rs",
+      "[expected] expected/function-contract/interior-mutability/api/cell_stub.rs",
+      "[expected] expected/function-contract/interior-mutability/api/unsafecell.rs",
+      "[expected] expected/function-contract/interior-mutability/whole-struct/cell.rs",
+      "[expected] expected/function-contract/interior-mutability/whole-struct/oncecell.rs",
+      "[expected] expected/function-contract/interior-mutability/whole-struct/refcell.rs",
+      "[expected] expected/function-contract/interior-mutability/whole-struct/unsafecell.rs",
+      "[expected] expected/function-contract/missing_contract_for_check.rs",
+      "[expected] expected/function-contract/missing_contract_for_replace.rs",
+      "[expected] expected/function-contract/modifies/check_invalid_modifies.rs",
+      "[expected] expected/function-contract/modifies/check_only_verification.rs",
+      "[expected] expected/function-contract/modifies/dyn_pointer.rs",
+      "[expected] expected/function-contract/modifies/expr_pass.rs",
+      "[expected] expected/function-contract/modifies/expr_replace_fail.rs",
+      "[expected] expected/function-contract/modifies/expr_replace_pass.rs",
+      "[expected] expected/function-contract/modifies/fail_missing_recursion_attr.rs",
+      "[expected] expected/function-contract/modifies/field_pass.rs",
+      "[expected] expected/function-contract/modifies/field_replace_fail.rs",
+      "[expected] expected/function-contract/modifies/field_replace_pass.rs",
+      "[expected] expected/function-contract/modifies/global_fail.rs",
+      "[expected] expected/function-contract/modifies/global_pass.rs",
+      "[expected] expected/function-contract/modifies/global_replace_fail.rs",
+      "[expected] expected/function-contract/modifies/global_replace_pass.rs",
+      "[expected] expected/function-contract/modifies/havoc_pass.rs",
+      "[expected] expected/function-contract/modifies/havoc_pass_reordered.rs",
+      "[expected] expected/function-contract/modifies/mistake_condition_return.rs",
+      "[expected] expected/function-contract/modifies/refcell_fixme.rs",
+      "[expected] expected/function-contract/modifies/simple_fail.rs",
+      "[expected] expected/function-contract/modifies/simple_only_verification.rs",
+      "[expected] expected/function-contract/modifies/simple_only_verification_modifies.rs",
+      "[expected] expected/function-contract/modifies/simple_pass.rs",
+      "[expected] expected/function-contract/modifies/stmt_expr.rs",
+      "[expected] expected/function-contract/modifies/unique_arguments.rs",
+      "[expected] expected/function-contract/modifies/unsafe_rc_fixme.rs",
+      "[expected] expected/function-contract/modifies/vec_pass.rs",
+      "[expected] expected/function-contract/modifies/zst_pass.rs",
+      "[expected] expected/function-contract/modifies_fat_pointer/empty_slice.rs",
+      "[expected] expected/function-contract/modifies_fat_pointer/empty_slice_fail.rs",
+      "[expected] expected/function-contract/modifies_fat_pointer/nondeterministic_size.rs",
+      "[expected] expected/function-contract/modifies_fat_pointer/slice_of_array.rs",
+      "[expected] expected/function-contract/modifies_fat_pointer/slice_replace.rs",
+      "[expected] expected/function-contract/modifies_fat_pointer/string_rewrite_ignore.rs",
+      "[expected] expected/function-contract/modifies_fat_pointer/u32slice.rs",
+      "[expected] expected/function-contract/modifies_fat_pointer/u8slice.rs",
+      "[expected] expected/function-contract/multiple_replace_fail.rs",
+      "[expected] expected/function-contract/multiple_replace_pass.rs",
+      "[expected] expected/function-contract/mutable-references/ensures_with_two_mut_refs_fail.rs",
+      "[expected] expected/function-contract/mutable-references/mut_ref_ensures_and_modifies.rs",
+      "[expected] expected/function-contract/mutable-references/return_mut_ref.rs",
+      "[expected] expected/function-contract/mutual_recursion_unsound.rs",
+      "[expected] expected/function-contract/pattern_use.rs",
+      "[expected] expected/function-contract/prohibit-pointers/allowed_const_ptr.rs",
+      "[expected] expected/function-contract/prohibit-pointers/allowed_mut_ref.rs",
+      "[expected] expected/function-contract/prohibit-pointers/allowed_mut_return_ref.rs",
+      "[expected] expected/function-contract/prohibit-pointers/allowed_ref.rs",
+      "[expected] expected/function-contract/prohibit-pointers/hidden.rs",
+      "[expected] expected/function-contract/prohibit-pointers/plain_pointer.rs",
+      "[expected] expected/function-contract/prohibit-pointers/return_pointer.rs",
+      "[expected] expected/function-contract/simple_ensures_fail.rs",
+      "[expected] expected/function-contract/simple_ensures_pass.rs",
+      "[expected] expected/function-contract/simple_ensures_pass_no_annotation.rs",
+      "[expected] expected/function-contract/simple_replace_fail.rs",
+      "[expected] expected/function-contract/simple_replace_pass.rs",
+      "[expected] expected/function-contract/specialization_default_ensures_fail.rs",
+      "[expected] expected/function-contract/specialization_default_modifies_fail.rs",
+      "[expected] expected/function-contract/specialization_default_old_fail.rs",
+      "[expected] expected/function-contract/specialization_default_requires_fail.rs",
+      "[expected] expected/function-contract/specialization_override_no_contract.rs",
+      "[expected] expected/function-contract/stub_verified_arbitrary_cycle.rs",
+      "[expected] expected/function-contract/stub_verified_arbitrary_cycle_generic.rs",
+      "[expected] expected/function-contract/trait_impls/associated_fn.rs",
+      "[expected] expected/function-contract/trait_impls/impl_contract_precedence.rs",
+      "[expected] expected/function-contract/trait_impls/methods.rs",
+      "[expected] expected/function-contract/trait_impls/success.rs",
+      "[expected] expected/function-contract/trait_impls/unsafe_trait_contract_fail.rs",
+      "[expected] expected/function-contract/type_annotation_needed.rs",
+      "[expected] expected/function-contract/valid_ptr.rs"
     ],
-    "expected_static_count": 12,
+    "expected_static_count": 138,
+    "kani_filter": [
+      "FunctionContracts"
+    ],
     "kani_expanded_selectors": [
       "[kani] kani/FunctionContracts/const_fn_owned_receiver.rs",
       "[kani] kani/FunctionContracts/cross_module_multiple_impls.rs",
@@ -3025,7 +3161,15 @@
       "[kani] kani/FunctionContracts/stub_verified_safe_arbitrary.rs"
     ],
     "kani_static_discovery_count": 25,
-    "policy": "Existing fixme/ignores stay; record native pass/fail/ignore counts, no whole-function-contract claim"
+    "policy": "Run complete native kani FunctionContracts and expected function-contract suites on exact head1, retaining original flags, goldens, ignored/fixme status. Full common Quick also retains every present upstream uninit/delayed-UB selector. NO_REGRESSION only; not integration qualification.",
+    "upstream_inventory_manifest": {
+      "path": "../slice-01/TEST-MANIFEST.json",
+      "sha256": "561b720ef9bde835cd8de7f0aff9a243d04de70b62a0465a1daf1b9e44ea4b69",
+      "deduplicated_suites": 6,
+      "static_selectors": 311,
+      "existing_ignored": 9,
+      "runtime": "NOT_RUN"
+    }
   },
   "stale_artifact_paths_to_remove": [
     "/tmp/kani-uninit-contract-oracles-*/",
@@ -3038,5 +3182,81 @@
     "source before/after identities and file hashes",
     "sensitivity clean/each-mutant compiletest and native outputs separately"
   ],
-  "status": "PLAN_ONLY_NOT_DISPATCHABLE"
+  "status": "PLAN_ONLY_NOT_DISPATCHABLE",
+  "slice1_additional_expected_function_contract_count": 138,
+  "variant_c": {
+    "decision": "accepted @4fef62ad67",
+    "head1_qualification_kind": "NO_REGRESSION",
+    "head1_integration_status": "PENDING",
+    "head1_integration_heads": [
+      4,
+      5
+    ],
+    "head3_nested_layout_integration_status": "PENDING",
+    "head3_nested_layout_integration_head": 4,
+    "head4_marked_model_pair": [
+      "marker-hook-calls/marked-model-initialized",
+      "marker-hook-calls/marked-model-hole"
+    ],
+    "head4_marked_model_source_part": {
+      "hunk_id": "B1--F:19:009",
+      "side": "+",
+      "start": 420,
+      "count": 5,
+      "owner": "4",
+      "source_map_sha256": "3720c239100ed647f17ec28838276025fb58fddf1b3745b20fca2ce7134e3911",
+      "line_note": "F420..424 in source map"
+    },
+    "head5_generated_modifies": [
+      "marker-hook-calls/generated-modifies-no-shadow"
+    ],
+    "runtime_observations": "NOT_RUN",
+    "head1_test_summary": "Common full uninit/delayed-UB inventory plus kani FunctionContracts25 and expected function-contract138; function-contract suite is additional to common expected count.",
+    "f7_failed_root_writer": {
+      "hunk_id": "B1--F:16:014",
+      "part_side": "+",
+      "start": 212,
+      "count": 1,
+      "owner": "7",
+      "hunk_sha256": "81d04586450a2376b9e98abe8feeee8b29bb24c9d743210c1a015927e843ac2b",
+      "part_sha256": "78523ed25a112bf85e6f4c211b19c149ee9441fbfab7519e671802165ad1db74",
+      "source_map_sha256": "3720c239100ed647f17ec28838276025fb58fddf1b3745b20fca2ce7134e3911",
+      "note": "F212 writer; following F213 source line is not the replacement coordinate."
+    },
+    "upstream_inventory": {
+      "manifest_path": "../slice-01/TEST-MANIFEST.json",
+      "manifest_sha256": "561b720ef9bde835cd8de7f0aff9a243d04de70b62a0465a1daf1b9e44ea4b69",
+      "selector_groups": [
+        "upstream_uninit_delayed_expected",
+        "upstream_uninit_delayed_kani",
+        "upstream_uninit_delayed_script-based-pre",
+        "upstream_uninit_delayed_std-checks",
+        "upstream_uninit_delayed_ui"
+      ],
+      "deduplicated_suite_count": 6,
+      "deduplicated_static_selectors": 311,
+      "existing_ignored": 9,
+      "scope": "Full exact upstream uninit/delayed-UB inventory on head1; see immutable manifest selector arrays, not just common Quick filters."
+    },
+    "head1_deferred_obligations_manifest": {
+      "path": "../slice-01/DEFERRED-OBLIGATIONS.json",
+      "sha256": "a6895bbb2d5dd9e625a3bf61b97f3c22722d4537c8fe730bc1c19d8d908e2821",
+      "integration_heads": [
+        4,
+        5
+      ],
+      "closure": "Explicit exact cumulative head result with useful positives/intended negatives and unchanged source-part hashes; no aggregate-only closure."
+    },
+    "head3_nested_layout_obligations": {
+      "integration_head": 4,
+      "fixtures": [
+        "nested-pat-data/main",
+        "nested-pat-padding/main",
+        "nested-enum-same-padding/main",
+        "nested-enum-different-padding/main",
+        "raw-eq-uninit/main"
+      ],
+      "manifest_path": "../slice-01/DEFERRED-OBLIGATIONS.json"
+    }
+  }
 }

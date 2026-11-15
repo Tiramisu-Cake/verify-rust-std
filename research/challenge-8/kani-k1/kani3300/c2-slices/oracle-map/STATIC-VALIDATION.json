@@ -1,81 +1,41 @@
 {
-  "status": "STATIC_MAP_VALIDATED_DEPENDENCY_REVIEW_REQUIRED",
-  "checked_at_utc": "2026-11-15T08:10:12.440581+00:00",
+  "status": "VARIANT_C_METADATA_RECONCILED_STATIC_ONLY",
+  "checked_at_utc": "2026-11-15T08:51:01.369484+00:00",
   "checks": [
     {
-      "check": "changed-path-set",
+      "check": "variant-c-canonical-source-hunk-links",
       "result": "PASS",
-      "detail": "364 paired source/golden paths + edge README +3 docs; no duplicate or unassigned path"
+      "detail": "All source-feature hunk IDs resolve to canonical U--B1/B1--F map coordinates, per-map SHA-256, hunk hash and exact part records."
     },
     {
-      "check": "U-baseline-disposition",
+      "check": "variant-c-f7-failed-root-coordinate",
       "result": "PASS",
-      "detail": "No changed/deleted U test; B1 fixture deltas separately mapped"
+      "detail": "B1--F:16:014 part +212/count1 owner7 is the failed-root writer replacement; following F213 text is not misattributed."
     },
     {
-      "check": "full-fixture-coverage",
+      "check": "variant-c-fixture-qualification-bounds",
       "result": "PASS",
-      "detail": "182 atomic source/golden pairs"
+      "detail": "Marked-model pair at4; generated-modifies-no-shadow at5; nested Pat/enum/raw-eq-uninit full fixtures at4; owner1 obligations pending4/5."
     },
     {
-      "check": "oracle-and-source-identities",
-      "result": "PASS",
-      "detail": "All182 literal goldens, source hashes, count anchors, prerequisites/owners match pinned F"
+      "check": "variant-c-quick-head1-inventory",
+      "result": "PASS_STATIC_ONLY",
+      "detail": "Full 25 kani FunctionContracts and138 expected function-contract selectors listed; full common uninit/delayed-UB selection retained. No native tests run."
     },
     {
-      "check": "unit-counts",
-      "result": "PASS",
-      "detail": "ActiveCalls9 + immutable9 + argument_size1 + marker1 + delayed_cache6 + scope2"
+      "check": "variant-c-quick-cumulative-selector-counts",
+      "result": "PASS_STATIC_ONLY",
+      "detail": "Expected selectors reconcile with counts on each head; marked-model pair included from4 and remains in cumulative5/6/7."
     },
     {
-      "check": "docs-character-ownership",
+      "check": "variant-c-history-preserved",
       "result": "PASS",
-      "detail": "All changed docs/README added lines reconstructed from unique owner spans; removed lines accounted"
+      "detail": "Earlier static dependency findings retained as historical and explicitly superseded by accepted decision; no historic result called a runtime failure."
     },
     {
-      "check": "semantic-lineage",
-      "result": "PASS",
-      "detail": "21 old rows →22 final selectors, includes false-partition Replace companion; all assigned5"
-    },
-    {
-      "check": "Replace-local-companion",
-      "result": "PASS",
-      "detail": "Each of two source files retains2 proof roots and exact caller selection; execution is NOT_RUN"
-    },
-    {
-      "check": "quick-counts",
-      "result": "PASS",
-      "detail": "Static expected fixture count grows;2 existing fixme retained; all17 JSON suites retained"
-    },
-    {
-      "check": "smoke-expansion",
-      "result": "PASS",
-      "detail": "Exact expected and kani full selector names enumerated; native status NOT_RUN"
-    },
-    {
-      "check": "F7-separable-history",
-      "result": "PASS",
-      "detail": "Five F7 files unchanged3b382→F;14 historical0-context hunks; only plan, no extraction"
-    },
-    {
-      "check": "F7-comparison-disposition",
-      "result": "PASS",
-      "detail": "Research comparison summaries preserve UNBOUND/ORDER_UNCONTROLLED; no full inventory claim"
-    },
-    {
-      "check": "sensitivity-identity",
-      "result": "PASS",
-      "detail": "Four source/golden and patch hashes match pinned final F; patches not applied, no native sensitivity run"
-    },
-    {
-      "check": "F-tree-pin",
-      "result": "PASS",
-      "detail": "Endpoint tree identity only; no recomposition claim"
-    },
-    {
-      "check": "worker-source-clean",
-      "result": "PASS",
-      "detail": "Dedicated worker15 detached F worktree clean; no source changes"
+      "check": "variant-c-deferred-manifest-identity",
+      "result": "PASS_STATIC_ONLY",
+      "detail": "Quick plan pins the unchanged slice01 deferred-obligation manifest SHA and exact pending heads4/5; no slice01 file edited and no closure result claimed."
     }
   ],
   "sensitivity_identities": [
@@ -110,12 +70,96 @@
   ],
   "precision_counts": {
     "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT": 134,
-    "EXACT_N": 48
+    "EXACT_N": 48,
+    "provenance": "Historical exactness audit retained from d1dbc70afd; F goldens unchanged by this metadata refresh."
   },
   "native": "NOT_RUN",
   "extraction": "NOT_RUN",
   "CI": "NOT_RUN",
   "recompose": "NOT_RUN",
   "formal_proof_credit": "NOT_ESTABLISHED",
-  "stop_reason": "Head1 reached integration positive/negative oracle not justified without later4/5 prerequisites; generic cycle units/smoke do not establish it. Combined dependency/test-map review required per TASK §4."
+  "stop_reason": "NONE_FOR_VARIANT_C_PLAN; historical stage0 plan-level STOP is superseded by accepted decision @4fef62ad67. Integration remains pending exact cumulative head4/5; runtime NOT_RUN.",
+  "historical_stage0_snapshot": {
+    "input_oracle_map_commit": "d1dbc70afd797457ada49fb651ac98d5d338d2de",
+    "checked_at_utc": "2026-11-15T08:10:12.440581+00:00",
+    "status": "STATIC_MAP_VALIDATED_DEPENDENCY_REVIEW_REQUIRED",
+    "checks": [
+      {
+        "check": "changed-path-set",
+        "result": "PASS",
+        "detail": "364 paired source/golden paths + edge README +3 docs; no duplicate or unassigned path"
+      },
+      {
+        "check": "U-baseline-disposition",
+        "result": "PASS",
+        "detail": "No changed/deleted U test; B1 fixture deltas separately mapped"
+      },
+      {
+        "check": "full-fixture-coverage",
+        "result": "PASS",
+        "detail": "182 atomic source/golden pairs"
+      },
+      {
+        "check": "oracle-and-source-identities",
+        "result": "PASS",
+        "detail": "All182 literal goldens, source hashes, count anchors, prerequisites/owners match pinned F"
+      },
+      {
+        "check": "unit-counts",
+        "result": "PASS",
+        "detail": "ActiveCalls9 + immutable9 + argument_size1 + marker1 + delayed_cache6 + scope2"
+      },
+      {
+        "check": "docs-character-ownership",
+        "result": "PASS",
+        "detail": "All changed docs/README added lines reconstructed from unique owner spans; removed lines accounted"
+      },
+      {
+        "check": "semantic-lineage",
+        "result": "PASS",
+        "detail": "21 old rows →22 final selectors, includes false-partition Replace companion; all assigned5"
+      },
+      {
+        "check": "Replace-local-companion",
+        "result": "PASS",
+        "detail": "Each of two source files retains2 proof roots and exact caller selection; execution is NOT_RUN"
+      },
+      {
+        "check": "quick-counts",
+        "result": "PASS",
+        "detail": "Static expected fixture count grows;2 existing fixme retained; all17 JSON suites retained"
+      },
+      {
+        "check": "smoke-expansion",
+        "result": "PASS",
+        "detail": "Exact expected and kani full selector names enumerated; native status NOT_RUN"
+      },
+      {
+        "check": "F7-separable-history",
+        "result": "PASS",
+        "detail": "Five F7 files unchanged3b382→F;14 historical0-context hunks; only plan, no extraction"
+      },
+      {
+        "check": "F7-comparison-disposition",
+        "result": "PASS",
+        "detail": "Research comparison summaries preserve UNBOUND/ORDER_UNCONTROLLED; no full inventory claim"
+      },
+      {
+        "check": "sensitivity-identity",
+        "result": "PASS",
+        "detail": "Four source/golden and patch hashes match pinned final F; patches not applied, no native sensitivity run"
+      },
+      {
+        "check": "F-tree-pin",
+        "result": "PASS",
+        "detail": "Endpoint tree identity only; no recomposition claim"
+      },
+      {
+        "check": "worker-source-clean",
+        "result": "PASS",
+        "detail": "Dedicated worker15 detached F worktree clean; no source changes"
+      }
+    ],
+    "source_worktree_clean_check_scope": "Dedicated worker15 detached F worktree at historical stage0 only; not a claim about the later worker15 slice01/CI-overlay worktree."
+  }
 }
