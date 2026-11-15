@@ -102,3 +102,12 @@ owner's PR-01/02 triggered the stock workflows (Kani CI, Format Check, Cargo Den
 43770775542/591/535. All six were cancelled within ~1 minute; no results are used as evidence. Not counted against any track cap
 (no planned evidence produced). Lesson: create PR branches only when the owner opens the PR, or push a commit whose workflows are
 inactive; upstream PR CI provides the full matrix.
+
+## Coordinator dispatch log
+
+| UTC 2026-11-16 | ID | Track | Head / trigger | Run | Note |
+|---|---|---|---|---|---|
+| ~02:00 | A1-R2 | A1 (item 1) | pkg `bf81a1f14f` → trigger `71b4a05915` | 43772128176 | baseline 0aac vs SEL1 issue controls #5020/#4854/#5151 |
+| ~02:00 | A1-R1 | A1 (item 1) | pkg `bf81a1f14f` → trigger `a47d28da27` | 43772128212 | 8 SEL1 ON scratch roots (N32 first); queued behind R2 (concurrency group) |
+
+Item 1 used: 2 of 18 (A1 cap 3: 2 used, 1 reserve). Item 2 used: 0 of 14.
