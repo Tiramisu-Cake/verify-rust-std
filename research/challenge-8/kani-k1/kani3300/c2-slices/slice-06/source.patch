@@ -1,0 +1,602 @@
+diff --git a/docs/src/reference/experimental/contracts.md b/docs/src/reference/experimental/contracts.md
+index c972f06372d033b267d11c718b3e059fb78355b8..6e476cdaee0daf4b7913300883727a10f929d37b 100644
+--- a/docs/src/reference/experimental/contracts.md
++++ b/docs/src/reference/experimental/contracts.md
+@@ -72,15 +72,26 @@ By leveraging the stubbing feature, we can replace the (expensive) `gcd` call wi
+ 
+ ## Limitations
+ 
+-The limitations of
+-[uninitialized memory support](../../rust-feature-support.md#uninitialized-memory)
++The [uninitialized memory support and general limitations](../../rust-feature-support.md#uninitialized-memory)
+ apply to ordinary proof harnesses as well as contract checks. Supported top-level
+ `MaybeUninit` storage can transfer initialization state through direct ordinary MIR-body calls,
+-including arguments and return values, when its data mask is computable.
+-Whole immutable masks require the qualification described there; unqualified nonzero-subrange
++including arguments and return values, when its data mask is computable. Whole
++immutable masks require the qualification described there; unqualified nonzero-subrange
+ or relocation origins may produce conservative false positives, while eligible aliases
+ and independently supported static paths can succeed.
+ 
++Tracking the initialization state of `MaybeUninit` and union values passed across a
++call is not yet supported when the callee is replaced by its contract
++(`#[kani::stub_verified]`, Replace mode) or checked recursively
++(`#[kani::recursion]`, RecursiveCheck mode). Observed conservative failures at these
++boundaries do not qualify shadow transfer in those modes. A local
++`#[kani::proof_for_contract]` companion required to validate a verified stub is only
++executed when selected; its presence alone does not establish successful checking.
++With `-Z uninit-checks`, a harness is rejected as unsupported if delayed
++initialization analysis encounters an interprocedural call cycle. This can affect
++ordinary proof harnesses and `#[kani::proof_for_contract]` checks; a runtime
++recursion bound does not bound this analysis.
++
+ Initialization shadow transfer is also not implemented for by-value aggregates
+ containing nested `MaybeUninit` or union slots, including call arguments and
+ return values. This differs from passing a supported top-level slot. Whole-value
+diff --git a/docs/src/rust-feature-support.md b/docs/src/rust-feature-support.md
+index 51f2c1a25eaeb5436c42f18787ae0863a11cb4af..f3af957c9d57a7803538f98e8ec98e3bf55c25a5 100644
+--- a/docs/src/rust-feature-support.md
++++ b/docs/src/rust-feature-support.md
+@@ -177,13 +177,11 @@ stack unwinding support.
+ Reading uninitialized memory is
+ [considered undefined behavior](https://doc.rust-lang.org/reference/behavior-considered-undefined.html#behavior-considered-undefined) in Rust.
+ Kani has partial, experimental support for detecting access to uninitialized memory with the `-Z uninit-checks` option.
+-
+ The instrumentation tracks a top-level `MaybeUninit<T>` slot, `[MaybeUninit<T>; N]`,
+ `[MaybeUninit<T>]`, and `MaybeUninit<[T; N]>` when Kani can compute the element's data mask.
+ It tracks initialization through raw copies, typed moves of payload bytes (padding is not
+ preserved by typed moves), and direct calls to ordinary functions whose MIR bodies execute, including
+-arguments and return values.
+-Qualified whole immutable promoted constants and named
++arguments and return values. Qualified whole immutable promoted constants and named
+ statics start with their exact byte masks. This requires an immutable, relocation-free
+ allocation with a supported `Freeze` origin type and computable layout covering the
+ whole allocation; a promoted reference must start at offset zero and span that allocation.
+@@ -193,13 +191,21 @@ subrange or a relocation can produce conservative false positives. Eligible alia
+ and independently supported static paths can still succeed; this limitation does not
+ mean that every subrange or relocation read fails.
+ 
++General limitations apply to all harnesses using `-Z uninit-checks`, including ordinary
++proofs. Intrinsics without an initialization model, including `select_unpredictable`
++and `core::hint::select_unpredictable`, calls through function pointers and trait
++objects, and call cycles in the delayed initialization analysis remain unsupported.
+ Kani's typed marker-dispatched backend hooks do not support by-value shadow argument or return transfers.
+ Some function-item trait shims have layout or shadow-transfer limitations; this is
+-not a restriction on all direct calls to function items. By-value aggregates containing
++not a restriction on all direct calls to function items. Shadow transfer under
++`#[kani::stub_verified]` or `#[kani::recursion]` and by-value aggregates containing
+ nested `MaybeUninit` or union fields are also outside this support. Conservative
+ resets at nested aggregate call boundaries can produce false positives.
++See the [contract limitations](reference/experimental/contracts.md#limitations) for
++contract modes and a nested aggregate example, and [issue #3300](https://github.com/model-checking/kani/issues/3300)
++for the broader work.
+ 
+-See [this issue](https://github.com/model-checking/kani/issues/3300) for more details.
++This change does not make core::slice::sort::shared::smallsort verifiable with -Z uninit-checks.
+ 
+ ### Destructors
+ 
+diff --git a/tests/expected/uninit/part1-edges/README.md b/tests/expected/uninit/part1-edges/README.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..8434b1df36cc763d9ec510df4d42f94de82c3824
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/README.md
+@@ -0,0 +1,13 @@
++# Initialization edge fixtures
++
++These fixtures cover ordinary union constants, raw field stores, immutable origins,
++and unsized slot arguments. Each file selects one oracle root.
++
++The initialized nonzero-subrange fixture records a conservative uninitialized-read
++failure. The relocation and named-static companions use supported origin paths;
++their initialized cases succeed. Hole companions distinguish payload reads from
++origin or layout limitations.
++
++By-value unsized slot transfers have an explicit unsupported-size boundary for both
++initialized and hole inputs. Borrowed slice companions cover supported reference
++access without moving an unsized value.
+diff --git a/tests/expected/uninit/part1-edges/dst-by-reference-hole.expected b/tests/expected/uninit/part1-edges/dst-by-reference-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..aa234ba4bf2e64d3a5d4007a2ee1ecde5250b65e
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-reference-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness dst_by_reference_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - dst_by_reference_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/dst-by-reference-hole.rs b/tests/expected/uninit/part1-edges/dst-by-reference-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..0338f61523a15bb05c57de3f9b60e57d0b2b6489
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-reference-hole.rs
+@@ -0,0 +1,17 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn read(source: &mut [MaybeUninit<u8>]) -> u8 {
++    unsafe { source[1].assume_init() }
++}
++
++#[kani::proof]
++fn dst_by_reference_hole() {
++    let mut source = [MaybeUninit::new(0u8), MaybeUninit::uninit()];
++    let _read = read(&mut source);
++}
+diff --git a/tests/expected/uninit/part1-edges/dst-by-reference-legal.expected b/tests/expected/uninit/part1-edges/dst-by-reference-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..423c11a01fe08e2e48b264c554b6e4a1c7316cc9
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-reference-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness dst_by_reference_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/dst-by-reference-legal.rs b/tests/expected/uninit/part1-edges/dst-by-reference-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..22347fa9257aa26f52e0a9bb3b20eb41baf3b305
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-reference-legal.rs
+@@ -0,0 +1,17 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn read(source: &mut [MaybeUninit<u8>]) -> u8 {
++    unsafe { source[1].assume_init() }
++}
++
++#[kani::proof]
++fn dst_by_reference_legal() {
++    let mut source = [MaybeUninit::new(0u8), MaybeUninit::new(0u8)];
++    assert_eq!(read(&mut source), 0);
++}
+diff --git a/tests/expected/uninit/part1-edges/dst-by-value-hole.expected b/tests/expected/uninit/part1-edges/dst-by-value-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..60aa512d09e81fe666f84424fc3c7dbc91eaecc9
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-value-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness dst_by_value_hole...
++Failed Checks: Kani does not support unsized by-value shadow argument/return transfers.
++VERIFICATION:- FAILED
++Verification failed for - dst_by_value_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/dst-by-value-hole.rs b/tests/expected/uninit/part1-edges/dst-by-value-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..5c968da5973e02e94b0ee944fe7e7008bc0e380d
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-value-hole.rs
+@@ -0,0 +1,27 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(unsized_fn_params)]
++
++use std::mem::MaybeUninit;
++
++trait ReadSlot {
++    fn read(self) -> u8;
++}
++
++impl ReadSlot for [MaybeUninit<u8>] {
++    #[inline(never)]
++    fn read(self) -> u8 {
++        unsafe { self[1].assume_init() }
++    }
++}
++
++#[kani::proof]
++fn dst_by_value_hole() {
++    // Same source form as tests/kani/UnsizedFnParams: the ARGUMENT is *source,
++    // not the Box/fat pointer, so the slice storage is passed by value.
++    let source: Box<[MaybeUninit<u8>]> = Box::new([MaybeUninit::new(0u8), MaybeUninit::uninit()]);
++    let _read = (*source).read();
++}
+diff --git a/tests/expected/uninit/part1-edges/dst-by-value-legal.expected b/tests/expected/uninit/part1-edges/dst-by-value-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..358343dc65ce0adf19f8279453629c8b2b4d8784
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-value-legal.expected
+@@ -0,0 +1,5 @@
++Checking harness dst_by_value_legal...
++Failed Checks: Kani does not support unsized by-value shadow argument/return transfers.
++VERIFICATION:- FAILED
++Verification failed for - dst_by_value_legal
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/dst-by-value-legal.rs b/tests/expected/uninit/part1-edges/dst-by-value-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..6720a640d7f5fb29be778b19b73d435c4216498c
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-value-legal.rs
+@@ -0,0 +1,27 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(unsized_fn_params)]
++
++use std::mem::MaybeUninit;
++
++trait ReadSlot {
++    fn read(self) -> u8;
++}
++
++impl ReadSlot for [MaybeUninit<u8>] {
++    #[inline(never)]
++    fn read(self) -> u8 {
++        unsafe { self[1].assume_init() }
++    }
++}
++
++#[kani::proof]
++fn dst_by_value_legal() {
++    // Same source form as tests/kani/UnsizedFnParams: the ARGUMENT is *source,
++    // not the Box/fat pointer, so the slice storage is passed by value.
++    let source: Box<[MaybeUninit<u8>]> = Box::new([MaybeUninit::new(0u8), MaybeUninit::new(0u8)]);
++    let _read = (*source).read();
++}
+diff --git a/tests/expected/uninit/part1-edges/raw-field-legal.expected b/tests/expected/uninit/part1-edges/raw-field-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..012cfa30f60ed20a7058a1d7d742976967fbe683
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/raw-field-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness raw_field_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/raw-field-legal.rs b/tests/expected/uninit/part1-edges/raw-field-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..80e04937174ea5d4dc81c246bd4adb17b513cdca
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/raw-field-legal.rs
+@@ -0,0 +1,28 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{MaybeUninit, offset_of, size_of};
++
++#[repr(C)]
++struct Pair {
++    head: u8,
++    value: u32,
++    tail: u8,
++}
++
++#[kani::proof]
++fn raw_field_legal() {
++    assert_eq!(offset_of!(Pair, value), 4);
++    assert_eq!(offset_of!(Pair, tail), 8);
++    assert_eq!(size_of::<Pair>(), 12);
++    let mut storage = MaybeUninit::<Pair>::uninit();
++    let pointer = storage.as_mut_ptr();
++    let alias = pointer;
++    // Raw address formation never constructs an initialized reference to Pair.
++    unsafe {
++        (*alias).value = 0x1234_5678u32;
++        assert_eq!(std::ptr::read_volatile(std::ptr::addr_of!((*pointer).value)), 0x1234_5678);
++    }
++}
+diff --git a/tests/expected/uninit/part1-edges/raw-field-neighbor-hole.expected b/tests/expected/uninit/part1-edges/raw-field-neighbor-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..29ed31243cf91f7b81fcc13bf3984c0965c22a68
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/raw-field-neighbor-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness raw_field_neighbor_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - raw_field_neighbor_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/raw-field-neighbor-hole.rs b/tests/expected/uninit/part1-edges/raw-field-neighbor-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..867caee01a9c6ae0d9201922a66222d60a418971
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/raw-field-neighbor-hole.rs
+@@ -0,0 +1,29 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{MaybeUninit, offset_of, size_of};
++
++#[repr(C)]
++struct Pair {
++    head: u8,
++    value: u32,
++    tail: u8,
++}
++
++#[kani::proof]
++fn raw_field_neighbor_hole() {
++    assert_eq!(offset_of!(Pair, value), 4);
++    assert_eq!(offset_of!(Pair, tail), 8);
++    assert_eq!(size_of::<Pair>(), 12);
++    let mut storage = MaybeUninit::<Pair>::uninit();
++    let pointer = storage.as_mut_ptr();
++    let alias = pointer;
++    // Raw address formation never constructs an initialized reference to Pair.
++    unsafe {
++        (*alias).value = 0x1234_5678u32;
++        assert_eq!(std::ptr::read_volatile(std::ptr::addr_of!((*pointer).value)), 0x1234_5678);
++        let _hole = std::ptr::read_volatile(std::ptr::addr_of!((*pointer).tail));
++    }
++}
+diff --git a/tests/expected/uninit/part1-edges/raw-field-padding-hole.expected b/tests/expected/uninit/part1-edges/raw-field-padding-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ae4f942d0e8aa56531d5d70f514ce30990d92457
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/raw-field-padding-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness raw_field_padding_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - raw_field_padding_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/raw-field-padding-hole.rs b/tests/expected/uninit/part1-edges/raw-field-padding-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..c29ab2e6f23624f8255e19d935d43962d16ac776
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/raw-field-padding-hole.rs
+@@ -0,0 +1,29 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{MaybeUninit, offset_of, size_of};
++
++#[repr(C)]
++struct Pair {
++    head: u8,
++    value: u32,
++    tail: u8,
++}
++
++#[kani::proof]
++fn raw_field_padding_hole() {
++    assert_eq!(offset_of!(Pair, value), 4);
++    assert_eq!(offset_of!(Pair, tail), 8);
++    assert_eq!(size_of::<Pair>(), 12);
++    let mut storage = MaybeUninit::<Pair>::uninit();
++    let pointer = storage.as_mut_ptr();
++    let alias = pointer;
++    // Raw address formation never constructs an initialized reference to Pair.
++    unsafe {
++        (*alias).value = 0x1234_5678u32;
++        assert_eq!(std::ptr::read_volatile(std::ptr::addr_of!((*pointer).value)), 0x1234_5678);
++        let _hole = std::ptr::read_volatile(pointer.cast::<u8>().add(1));
++    }
++}
+diff --git a/tests/expected/uninit/part1-edges/union-constant-hole.expected b/tests/expected/uninit/part1-edges/union-constant-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69c41480ff366ed4244e2fc00a525103d979a65
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-constant-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness union_constant_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - union_constant_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/union-constant-hole.rs b/tests/expected/uninit/part1-edges/union-constant-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..4741aae98ddb0fa48cffddb5aea34810867580a3
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-constant-hole.rs
+@@ -0,0 +1,39 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[derive(Clone, Copy)]
++#[allow(dead_code)]
++union Byte {
++    byte: u8,
++    empty: (),
++}
++
++#[inline(never)]
++fn consume(value: Byte) -> u8 {
++    unsafe { value.byte }
++}
++
++const VALUE: Byte = Byte { empty: () };
++
++// The call uses a constant ordinary union operand.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn transfer() -> u8 {
++    mir! {
++        {
++            Call(RET = consume(VALUE), ReturnTo(done), UnwindUnreachable())
++        }
++        done = { Return() }
++    }
++}
++
++#[kani::proof]
++fn union_constant_hole() {
++    let _read = transfer();
++}
+diff --git a/tests/expected/uninit/part1-edges/union-constant-legal.expected b/tests/expected/uninit/part1-edges/union-constant-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..d636400d7dcafc2cc92bf9910f236f277355176f
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-constant-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness union_constant_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/union-constant-legal.rs b/tests/expected/uninit/part1-edges/union-constant-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..00d535bb7bc6457e9dcf5afa31bccbba42ed8528
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-constant-legal.rs
+@@ -0,0 +1,39 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[derive(Clone, Copy)]
++#[allow(dead_code)]
++union Byte {
++    byte: u8,
++    empty: (),
++}
++
++#[inline(never)]
++fn consume(value: Byte) -> u8 {
++    unsafe { value.byte }
++}
++
++const VALUE: Byte = Byte { byte: 0 };
++
++// The call uses a constant ordinary union operand.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn transfer() -> u8 {
++    mir! {
++        {
++            Call(RET = consume(VALUE), ReturnTo(done), UnwindUnreachable())
++        }
++        done = { Return() }
++    }
++}
++
++#[kani::proof]
++fn union_constant_legal() {
++    assert_eq!(transfer(), 0);
++}
+diff --git a/tests/expected/uninit/part1-edges/union-variable-hole.expected b/tests/expected/uninit/part1-edges/union-variable-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..9789105ec330376ea6ce22b6be93905e44b0dd44
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-variable-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness union_variable_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - union_variable_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/union-variable-hole.rs b/tests/expected/uninit/part1-edges/union-variable-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..5fdc9c6510b08e1b4605760af1e59f359b992659
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-variable-hole.rs
+@@ -0,0 +1,37 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[derive(Clone, Copy)]
++#[allow(dead_code)]
++union Byte {
++    byte: u8,
++    empty: (),
++}
++
++#[inline(never)]
++fn consume(value: Byte) -> u8 {
++    unsafe { value.byte }
++}
++
++// The call copies an ordinary union operand.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn transfer(source: Byte) -> u8 {
++    mir! {
++        {
++            Call(RET = consume(source), ReturnTo(done), UnwindUnreachable())
++        }
++        done = { Return() }
++    }
++}
++
++#[kani::proof]
++fn union_variable_hole() {
++    let _read = transfer(Byte { empty: () });
++}
+diff --git a/tests/expected/uninit/part1-edges/union-variable-legal.expected b/tests/expected/uninit/part1-edges/union-variable-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..65ce4a61040e0a0f27e79ef735ece17464b6c609
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-variable-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness union_variable_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/union-variable-legal.rs b/tests/expected/uninit/part1-edges/union-variable-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..2dad366532117ccae6ebd151247780c0eeafa8e8
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-variable-legal.rs
+@@ -0,0 +1,37 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[derive(Clone, Copy)]
++#[allow(dead_code)]
++union Byte {
++    byte: u8,
++    empty: (),
++}
++
++#[inline(never)]
++fn consume(value: Byte) -> u8 {
++    unsafe { value.byte }
++}
++
++// The call copies an ordinary union operand.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn transfer(source: Byte) -> u8 {
++    mir! {
++        {
++            Call(RET = consume(source), ReturnTo(done), UnwindUnreachable())
++        }
++        done = { Return() }
++    }
++}
++
++#[kani::proof]
++fn union_variable_legal() {
++    assert_eq!(transfer(Byte { byte: 0 }), 0);
++}

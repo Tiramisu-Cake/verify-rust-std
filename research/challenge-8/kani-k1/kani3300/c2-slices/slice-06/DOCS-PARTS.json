@@ -1,0 +1,407 @@
+{
+  "source_sha": "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+  "canonical_map_sha256": "f41abc7b196249bc5c9a2639bb20460f7f3a6943d9865ba7de92c0bb01b5a678",
+  "documents": [
+    {
+      "path": "docs/src/rust-feature-support.md",
+      "candidate": {
+        "mode": "100644",
+        "blob": "f3af957c9d57a7803538f98e8ec98e3bf55c25a5",
+        "sha256": "f3ce6a000abe50852aba7874eac0de348533c68f93a4c5d83f663dd2c38fa93a"
+      },
+      "final_F": {
+        "mode": "100644",
+        "blob": "f3af957c9d57a7803538f98e8ec98e3bf55c25a5",
+        "sha256": "f3ce6a000abe50852aba7874eac0de348533c68f93a4c5d83f663dd2c38fa93a"
+      },
+      "owner6_segments": [
+        {
+          "F_line": 193,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 194,
+          "start_column_0": 0,
+          "end_column_0": 87,
+          "text": "General limitations apply to all harnesses using `-Z uninit-checks`, including ordinary",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 195,
+          "start_column_0": 0,
+          "end_column_0": 84,
+          "text": "proofs. Intrinsics without an initialization model, including `select_unpredictable`",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 196,
+          "start_column_0": 0,
+          "end_column_0": 81,
+          "text": "and `core::hint::select_unpredictable`, calls through function pointers and trait",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 197,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "objects, and call cycles in the delayed initialization analysis remain unsupported.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 201,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "`#[kani::stub_verified]` or `#[kani::recursion]` and by-value aggregates containing",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 204,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "See the [contract limitations](reference/experimental/contracts.md#limitations) for",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 205,
+          "start_column_0": 0,
+          "end_column_0": 116,
+          "text": "contract modes and a nested aggregate example, and [issue #3300](https://github.com/model-checking/kani/issues/3300)",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 206,
+          "start_column_0": 0,
+          "end_column_0": 21,
+          "text": "for the broader work.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 207,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 208,
+          "start_column_0": 0,
+          "end_column_0": 96,
+          "text": "This change does not make core::slice::sort::shared::smallsort verifiable with -Z uninit-checks.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        }
+      ],
+      "owner6_removed_U_lines": [
+        {
+          "text": "See [this issue](https://github.com/model-checking/kani/issues/3300) for more details.",
+          "owner_slice": 6
+        }
+      ],
+      "earlier_owner_segments_verified": true
+    },
+    {
+      "path": "docs/src/reference/experimental/contracts.md",
+      "candidate": {
+        "mode": "100644",
+        "blob": "6e476cdaee0daf4b7913300883727a10f929d37b",
+        "sha256": "19b9f5c8473f252d5dafb21592476c95da7c881ea8de9b1b1027d97a59919af7"
+      },
+      "final_F": {
+        "mode": "100644",
+        "blob": "6e476cdaee0daf4b7913300883727a10f929d37b",
+        "sha256": "19b9f5c8473f252d5dafb21592476c95da7c881ea8de9b1b1027d97a59919af7"
+      },
+      "owner6_segments": [
+        {
+          "F_line": 74,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 75,
+          "start_column_0": 0,
+          "end_column_0": 110,
+          "text": "The [uninitialized memory support and general limitations](../../rust-feature-support.md#uninitialized-memory)",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 82,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 83,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "Tracking the initialization state of `MaybeUninit` and union values passed across a",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 84,
+          "start_column_0": 0,
+          "end_column_0": 69,
+          "text": "call is not yet supported when the callee is replaced by its contract",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 85,
+          "start_column_0": 0,
+          "end_column_0": 63,
+          "text": "(`#[kani::stub_verified]`, Replace mode) or checked recursively",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 86,
+          "start_column_0": 0,
+          "end_column_0": 84,
+          "text": "(`#[kani::recursion]`, RecursiveCheck mode). Observed conservative failures at these",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 87,
+          "start_column_0": 0,
+          "end_column_0": 65,
+          "text": "boundaries do not qualify shadow transfer in those modes. A local",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 88,
+          "start_column_0": 0,
+          "end_column_0": 84,
+          "text": "`#[kani::proof_for_contract]` companion required to validate a verified stub is only",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 89,
+          "start_column_0": 0,
+          "end_column_0": 82,
+          "text": "executed when selected; its presence alone does not establish successful checking.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 90,
+          "start_column_0": 0,
+          "end_column_0": 72,
+          "text": "With `-Z uninit-checks`, a harness is rejected as unsupported if delayed",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 91,
+          "start_column_0": 0,
+          "end_column_0": 81,
+          "text": "initialization analysis encounters an interprocedural call cycle. This can affect",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 92,
+          "start_column_0": 0,
+          "end_column_0": 76,
+          "text": "ordinary proof harnesses and `#[kani::proof_for_contract]` checks; a runtime",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 93,
+          "start_column_0": 0,
+          "end_column_0": 45,
+          "text": "recursion bound does not bound this analysis.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 94,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 107,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        }
+      ],
+      "owner6_removed_U_lines": [],
+      "earlier_owner_segments_verified": true
+    },
+    {
+      "path": "docs/src/rust-feature-support/intrinsics.md",
+      "candidate": {
+        "mode": "100644",
+        "blob": "e27ec4c28a4ffd45b403855cdfcd2e5d9c9b3bb7",
+        "sha256": "049581e2a32e9097c3c9d8c348c97331c520b141bbd8e8fbf0716d5ad81891d9"
+      },
+      "final_F": {
+        "mode": "100644",
+        "blob": "e27ec4c28a4ffd45b403855cdfcd2e5d9c9b3bb7",
+        "sha256": "049581e2a32e9097c3c9d8c348c97331c520b141bbd8e8fbf0716d5ad81891d9"
+      },
+      "owner6_segments": [],
+      "owner6_removed_U_lines": [],
+      "earlier_owner_segments_verified": true
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/README.md",
+      "candidate": {
+        "mode": "100644",
+        "blob": "8434b1df36cc763d9ec510df4d42f94de82c3824",
+        "sha256": "db83688ccc173ebda9356e4094291b68be99f297d8ed366f1379c119898fc99e"
+      },
+      "final_F": {
+        "mode": "100644",
+        "blob": "8434b1df36cc763d9ec510df4d42f94de82c3824",
+        "sha256": "db83688ccc173ebda9356e4094291b68be99f297d8ed366f1379c119898fc99e"
+      },
+      "owner6_segments": [
+        {
+          "F_line": 1,
+          "start_column_0": 0,
+          "end_column_0": 30,
+          "text": "# Initialization edge fixtures",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 2,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 3,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "These fixtures cover ordinary union constants, raw field stores, immutable origins,",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 4,
+          "start_column_0": 0,
+          "end_column_0": 62,
+          "text": "and unsized slot arguments. Each file selects one oracle root.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 5,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 6,
+          "start_column_0": 0,
+          "end_column_0": 82,
+          "text": "The initialized nonzero-subrange fixture records a conservative uninitialized-read",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 7,
+          "start_column_0": 0,
+          "end_column_0": 79,
+          "text": "failure. The relocation and named-static companions use supported origin paths;",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 8,
+          "start_column_0": 0,
+          "end_column_0": 79,
+          "text": "their initialized cases succeed. Hole companions distinguish payload reads from",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 9,
+          "start_column_0": 0,
+          "end_column_0": 29,
+          "text": "origin or layout limitations.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 10,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 11,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "By-value unsized slot transfers have an explicit unsupported-size boundary for both",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 12,
+          "start_column_0": 0,
+          "end_column_0": 80,
+          "text": "initialized and hole inputs. Borrowed slice companions cover supported reference",
+          "owner_slice": 6,
+          "earliest_head": 6
+        },
+        {
+          "F_line": 13,
+          "start_column_0": 0,
+          "end_column_0": 39,
+          "text": "access without moving an unsized value.",
+          "owner_slice": 6,
+          "earliest_head": 6
+        }
+      ],
+      "owner6_removed_U_lines": [],
+      "earlier_owner_segments_verified": true
+    }
+  ],
+  "changed_paths": [
+    "docs/src/rust-feature-support.md",
+    "docs/src/reference/experimental/contracts.md",
+    "tests/expected/uninit/part1-edges/README.md"
+  ],
+  "shared_file_delta": "docs-remainder.patch",
+  "reflow_owner": 6,
+  "new_prose": false,
+  "final_docs_equal_F": true
+}

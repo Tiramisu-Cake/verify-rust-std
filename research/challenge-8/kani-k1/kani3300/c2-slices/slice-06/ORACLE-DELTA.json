@@ -1,0 +1,865 @@
+{
+  "source_sha": "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+  "canonical_map": "../oracle-map/ORACLE-MAP.json",
+  "canonical_map_sha256": "42cb12259ccd397cef0a9881610d2d83b97f677703c26302d43843cd8ee051ee",
+  "selected_complete_fixtures": [
+    {
+      "id": "part1-edges/dst-by-reference-hole",
+      "input": "tests/expected/uninit/part1-edges/dst-by-reference-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/dst-by-reference-hole.expected",
+      "owner_slice": 6,
+      "earliest_runnable_head": 6,
+      "planned_introduction_head": 6,
+      "prerequisites": [
+        "STORAGE",
+        "E1"
+      ],
+      "linked_source_features": [
+        "STORAGE",
+        "E1"
+      ],
+      "source_owner_hunk_map": "../source-map/ (worker14 authoritative ownership; feature symbols in source_features, no duplication here)",
+      "attribution": "Edge-specific qualification; shared guards, const masks, SetStorage and argument_size unit must already be in4",
+      "identity_F": {
+        "mode": "100644",
+        "blob": "0338f61523a15bb05c57de3f9b60e57d0b2b6489",
+        "sha256": "8972d902d20ea63f3e589bc3ab9b5bcaccf6a69962fe0c33771160fe1364aeca"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks --output-format=regular"
+        }
+      ],
+      "source_harness_count": 1,
+      "source_assertions": [],
+      "source_contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness dst_by_reference_hole...",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type",
+          "VERIFICATION:- FAILED",
+          "Verification failed for - dst_by_reference_hole",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type"
+        ],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "baseline_disposition": "Absent U and B1; introduce final F pair atomically",
+      "semantic_preservation": [],
+      "special_requirements": [],
+      "qualification": "PENDING_COORDINATOR_EXACT_HEAD6_CI",
+      "useful_assertions_policy": "Retain all listed source assertions and explicit SUCCESS blocks. Positive harness assertions must succeed; an assertion containing intended bad read is not silently counted as useful SUCCESS. Exact golden is reproduced verbatim in oracle.",
+      "candidate_source": {
+        "mode": "100644",
+        "blob": "0338f61523a15bb05c57de3f9b60e57d0b2b6489",
+        "sha256": "8972d902d20ea63f3e589bc3ab9b5bcaccf6a69962fe0c33771160fe1364aeca"
+      },
+      "candidate_golden": {
+        "mode": "100644",
+        "blob": "aa234ba4bf2e64d3a5d4007a2ee1ecde5250b65e",
+        "sha256": "cdd525ac3da5166378981ef4a017c43e7b58b0933dbf12399dd24907296af0f4"
+      },
+      "native_result": "NOT_RUN"
+    },
+    {
+      "id": "part1-edges/dst-by-reference-legal",
+      "input": "tests/expected/uninit/part1-edges/dst-by-reference-legal.rs",
+      "golden": "tests/expected/uninit/part1-edges/dst-by-reference-legal.expected",
+      "owner_slice": 6,
+      "earliest_runnable_head": 6,
+      "planned_introduction_head": 6,
+      "prerequisites": [
+        "STORAGE",
+        "E1"
+      ],
+      "linked_source_features": [
+        "STORAGE",
+        "E1"
+      ],
+      "source_owner_hunk_map": "../source-map/ (worker14 authoritative ownership; feature symbols in source_features, no duplication here)",
+      "attribution": "Edge-specific qualification; shared guards, const masks, SetStorage and argument_size unit must already be in4",
+      "identity_F": {
+        "mode": "100644",
+        "blob": "22347fa9257aa26f52e0a9bb3b20eb41baf3b305",
+        "sha256": "7a1d2bd4a0ea24b8dba0822cd942db7784deeb763549788586b14798d43de4d3"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks --output-format=regular"
+        }
+      ],
+      "source_harness_count": 1,
+      "source_assertions": [
+        {
+          "line": 16,
+          "text": "assert_eq!(read(&mut source), 0);"
+        }
+      ],
+      "source_contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness dst_by_reference_legal...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "baseline_disposition": "Absent U and B1; introduce final F pair atomically",
+      "semantic_preservation": [],
+      "special_requirements": [],
+      "qualification": "PENDING_COORDINATOR_EXACT_HEAD6_CI",
+      "useful_assertions_policy": "Retain all listed source assertions and explicit SUCCESS blocks. Positive harness assertions must succeed; an assertion containing intended bad read is not silently counted as useful SUCCESS. Exact golden is reproduced verbatim in oracle.",
+      "candidate_source": {
+        "mode": "100644",
+        "blob": "22347fa9257aa26f52e0a9bb3b20eb41baf3b305",
+        "sha256": "7a1d2bd4a0ea24b8dba0822cd942db7784deeb763549788586b14798d43de4d3"
+      },
+      "candidate_golden": {
+        "mode": "100644",
+        "blob": "423c11a01fe08e2e48b264c554b6e4a1c7316cc9",
+        "sha256": "4f3e5ed808319b2ff1f2d48af92e7e6b9483f02a118ed0f3c63dddcaaca3a0c1"
+      },
+      "native_result": "NOT_RUN"
+    },
+    {
+      "id": "part1-edges/dst-by-value-hole",
+      "input": "tests/expected/uninit/part1-edges/dst-by-value-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/dst-by-value-hole.expected",
+      "owner_slice": 6,
+      "earliest_runnable_head": 6,
+      "planned_introduction_head": 6,
+      "prerequisites": [
+        "STORAGE",
+        "E1"
+      ],
+      "linked_source_features": [
+        "STORAGE",
+        "E1"
+      ],
+      "source_owner_hunk_map": "../source-map/ (worker14 authoritative ownership; feature symbols in source_features, no duplication here)",
+      "attribution": "Edge-specific qualification; shared guards, const masks, SetStorage and argument_size unit must already be in4",
+      "identity_F": {
+        "mode": "100644",
+        "blob": "5c968da5973e02e94b0ee944fe7e7008bc0e380d",
+        "sha256": "193c1aa86cef94860be50029b7eab2ef9dfdf23d5531491fb5e82c652a19ec6d"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks --output-format=regular"
+        }
+      ],
+      "source_harness_count": 1,
+      "source_assertions": [],
+      "source_contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness dst_by_value_hole...",
+          "Failed Checks: Kani does not support unsized by-value shadow argument/return transfers.",
+          "VERIFICATION:- FAILED",
+          "Verification failed for - dst_by_value_hole",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [
+          "Failed Checks: Kani does not support unsized by-value shadow argument/return transfers."
+        ],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "baseline_disposition": "Absent U and B1; introduce final F pair atomically",
+      "semantic_preservation": [],
+      "special_requirements": [],
+      "qualification": "PENDING_COORDINATOR_EXACT_HEAD6_CI",
+      "useful_assertions_policy": "Retain all listed source assertions and explicit SUCCESS blocks. Positive harness assertions must succeed; an assertion containing intended bad read is not silently counted as useful SUCCESS. Exact golden is reproduced verbatim in oracle.",
+      "candidate_source": {
+        "mode": "100644",
+        "blob": "5c968da5973e02e94b0ee944fe7e7008bc0e380d",
+        "sha256": "193c1aa86cef94860be50029b7eab2ef9dfdf23d5531491fb5e82c652a19ec6d"
+      },
+      "candidate_golden": {
+        "mode": "100644",
+        "blob": "60aa512d09e81fe666f84424fc3c7dbc91eaecc9",
+        "sha256": "f5043281d0bcabb678b92f2a1d9722341b923ce5d3b3a6a1e35d89e76b7abd6f"
+      },
+      "native_result": "NOT_RUN"
+    },
+    {
+      "id": "part1-edges/dst-by-value-legal",
+      "input": "tests/expected/uninit/part1-edges/dst-by-value-legal.rs",
+      "golden": "tests/expected/uninit/part1-edges/dst-by-value-legal.expected",
+      "owner_slice": 6,
+      "earliest_runnable_head": 6,
+      "planned_introduction_head": 6,
+      "prerequisites": [
+        "STORAGE",
+        "E1"
+      ],
+      "linked_source_features": [
+        "STORAGE",
+        "E1"
+      ],
+      "source_owner_hunk_map": "../source-map/ (worker14 authoritative ownership; feature symbols in source_features, no duplication here)",
+      "attribution": "Edge-specific qualification; shared guards, const masks, SetStorage and argument_size unit must already be in4",
+      "identity_F": {
+        "mode": "100644",
+        "blob": "6720a640d7f5fb29be778b19b73d435c4216498c",
+        "sha256": "ca680dd3a4d0c6dc1c8ae096cecb3d30f5e39c0c4046c8cf2c45760dd4068c28"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks --output-format=regular"
+        }
+      ],
+      "source_harness_count": 1,
+      "source_assertions": [],
+      "source_contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness dst_by_value_legal...",
+          "Failed Checks: Kani does not support unsized by-value shadow argument/return transfers.",
+          "VERIFICATION:- FAILED",
+          "Verification failed for - dst_by_value_legal",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [
+          "Failed Checks: Kani does not support unsized by-value shadow argument/return transfers."
+        ],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "baseline_disposition": "Absent U and B1; introduce final F pair atomically",
+      "semantic_preservation": [],
+      "special_requirements": [],
+      "qualification": "PENDING_COORDINATOR_EXACT_HEAD6_CI",
+      "useful_assertions_policy": "Retain all listed source assertions and explicit SUCCESS blocks. Positive harness assertions must succeed; an assertion containing intended bad read is not silently counted as useful SUCCESS. Exact golden is reproduced verbatim in oracle.",
+      "candidate_source": {
+        "mode": "100644",
+        "blob": "6720a640d7f5fb29be778b19b73d435c4216498c",
+        "sha256": "ca680dd3a4d0c6dc1c8ae096cecb3d30f5e39c0c4046c8cf2c45760dd4068c28"
+      },
+      "candidate_golden": {
+        "mode": "100644",
+        "blob": "358343dc65ce0adf19f8279453629c8b2b4d8784",
+        "sha256": "e7a53016a085d40b8ac9f4951b3fe8ff733853bb8094c37a8aaac7eae93d56f1"
+      },
+      "native_result": "NOT_RUN"
+    },
+    {
+      "id": "part1-edges/raw-field-legal",
+      "input": "tests/expected/uninit/part1-edges/raw-field-legal.rs",
+      "golden": "tests/expected/uninit/part1-edges/raw-field-legal.expected",
+      "owner_slice": 6,
+      "earliest_runnable_head": 6,
+      "planned_introduction_head": 6,
+      "prerequisites": [
+        "STORAGE",
+        "E1"
+      ],
+      "linked_source_features": [
+        "STORAGE",
+        "E1"
+      ],
+      "source_owner_hunk_map": "../source-map/ (worker14 authoritative ownership; feature symbols in source_features, no duplication here)",
+      "attribution": "Edge-specific qualification; shared guards, const masks, SetStorage and argument_size unit must already be in4",
+      "identity_F": {
+        "mode": "100644",
+        "blob": "80e04937174ea5d4dc81c246bd4adb17b513cdca",
+        "sha256": "4f7124c93063128e9c892b2ab7343aff917cee565db61435550546f9be5a86b6"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks --output-format=regular"
+        }
+      ],
+      "source_harness_count": 1,
+      "source_assertions": [
+        {
+          "line": 17,
+          "text": "assert_eq!(offset_of!(Pair, value), 4);"
+        },
+        {
+          "line": 18,
+          "text": "assert_eq!(offset_of!(Pair, tail), 8);"
+        },
+        {
+          "line": 19,
+          "text": "assert_eq!(size_of::<Pair>(), 12);"
+        },
+        {
+          "line": 26,
+          "text": "assert_eq!(std::ptr::read_volatile(std::ptr::addr_of!((*pointer).value)), 0x1234_5678);"
+        }
+      ],
+      "source_contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness raw_field_legal...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "baseline_disposition": "Absent U and B1; introduce final F pair atomically",
+      "semantic_preservation": [],
+      "special_requirements": [],
+      "qualification": "PENDING_COORDINATOR_EXACT_HEAD6_CI",
+      "useful_assertions_policy": "Retain all listed source assertions and explicit SUCCESS blocks. Positive harness assertions must succeed; an assertion containing intended bad read is not silently counted as useful SUCCESS. Exact golden is reproduced verbatim in oracle.",
+      "candidate_source": {
+        "mode": "100644",
+        "blob": "80e04937174ea5d4dc81c246bd4adb17b513cdca",
+        "sha256": "4f7124c93063128e9c892b2ab7343aff917cee565db61435550546f9be5a86b6"
+      },
+      "candidate_golden": {
+        "mode": "100644",
+        "blob": "012cfa30f60ed20a7058a1d7d742976967fbe683",
+        "sha256": "2abf6c97b82d69d8259784a73230c35ffda4043e73d5a742f88768ce2cccb73f"
+      },
+      "native_result": "NOT_RUN"
+    },
+    {
+      "id": "part1-edges/raw-field-neighbor-hole",
+      "input": "tests/expected/uninit/part1-edges/raw-field-neighbor-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/raw-field-neighbor-hole.expected",
+      "owner_slice": 6,
+      "earliest_runnable_head": 6,
+      "planned_introduction_head": 6,
+      "prerequisites": [
+        "STORAGE",
+        "E1"
+      ],
+      "linked_source_features": [
+        "STORAGE",
+        "E1"
+      ],
+      "source_owner_hunk_map": "../source-map/ (worker14 authoritative ownership; feature symbols in source_features, no duplication here)",
+      "attribution": "Edge-specific qualification; shared guards, const masks, SetStorage and argument_size unit must already be in4",
+      "identity_F": {
+        "mode": "100644",
+        "blob": "867caee01a9c6ae0d9201922a66222d60a418971",
+        "sha256": "f8664aa2f865d1d68bb25b3c411d3c7ce18014313981d6e7870dad4bdffdd14c"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks --output-format=regular"
+        }
+      ],
+      "source_harness_count": 1,
+      "source_assertions": [
+        {
+          "line": 17,
+          "text": "assert_eq!(offset_of!(Pair, value), 4);"
+        },
+        {
+          "line": 18,
+          "text": "assert_eq!(offset_of!(Pair, tail), 8);"
+        },
+        {
+          "line": 19,
+          "text": "assert_eq!(size_of::<Pair>(), 12);"
+        },
+        {
+          "line": 26,
+          "text": "assert_eq!(std::ptr::read_volatile(std::ptr::addr_of!((*pointer).value)), 0x1234_5678);"
+        }
+      ],
+      "source_contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness raw_field_neighbor_hole...",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type",
+          "VERIFICATION:- FAILED",
+          "Verification failed for - raw_field_neighbor_hole",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type"
+        ],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "baseline_disposition": "Absent U and B1; introduce final F pair atomically",
+      "semantic_preservation": [],
+      "special_requirements": [],
+      "qualification": "PENDING_COORDINATOR_EXACT_HEAD6_CI",
+      "useful_assertions_policy": "Retain all listed source assertions and explicit SUCCESS blocks. Positive harness assertions must succeed; an assertion containing intended bad read is not silently counted as useful SUCCESS. Exact golden is reproduced verbatim in oracle.",
+      "candidate_source": {
+        "mode": "100644",
+        "blob": "867caee01a9c6ae0d9201922a66222d60a418971",
+        "sha256": "f8664aa2f865d1d68bb25b3c411d3c7ce18014313981d6e7870dad4bdffdd14c"
+      },
+      "candidate_golden": {
+        "mode": "100644",
+        "blob": "29ed31243cf91f7b81fcc13bf3984c0965c22a68",
+        "sha256": "fe36f79336744df9bd1641826b95fb5b742c33e787a0bc2c90cc15d1378b5098"
+      },
+      "native_result": "NOT_RUN"
+    },
+    {
+      "id": "part1-edges/raw-field-padding-hole",
+      "input": "tests/expected/uninit/part1-edges/raw-field-padding-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/raw-field-padding-hole.expected",
+      "owner_slice": 6,
+      "earliest_runnable_head": 6,
+      "planned_introduction_head": 6,
+      "prerequisites": [
+        "STORAGE",
+        "E1"
+      ],
+      "linked_source_features": [
+        "STORAGE",
+        "E1"
+      ],
+      "source_owner_hunk_map": "../source-map/ (worker14 authoritative ownership; feature symbols in source_features, no duplication here)",
+      "attribution": "Edge-specific qualification; shared guards, const masks, SetStorage and argument_size unit must already be in4",
+      "identity_F": {
+        "mode": "100644",
+        "blob": "c29ab2e6f23624f8255e19d935d43962d16ac776",
+        "sha256": "887b64c75661afd8a4f1fd5d9a38c98c428d8e0f20200e65a4ce482e89892746"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks --output-format=regular"
+        }
+      ],
+      "source_harness_count": 1,
+      "source_assertions": [
+        {
+          "line": 17,
+          "text": "assert_eq!(offset_of!(Pair, value), 4);"
+        },
+        {
+          "line": 18,
+          "text": "assert_eq!(offset_of!(Pair, tail), 8);"
+        },
+        {
+          "line": 19,
+          "text": "assert_eq!(size_of::<Pair>(), 12);"
+        },
+        {
+          "line": 26,
+          "text": "assert_eq!(std::ptr::read_volatile(std::ptr::addr_of!((*pointer).value)), 0x1234_5678);"
+        }
+      ],
+      "source_contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness raw_field_padding_hole...",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type",
+          "VERIFICATION:- FAILED",
+          "Verification failed for - raw_field_padding_hole",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type"
+        ],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "baseline_disposition": "Absent U and B1; introduce final F pair atomically",
+      "semantic_preservation": [],
+      "special_requirements": [],
+      "qualification": "PENDING_COORDINATOR_EXACT_HEAD6_CI",
+      "useful_assertions_policy": "Retain all listed source assertions and explicit SUCCESS blocks. Positive harness assertions must succeed; an assertion containing intended bad read is not silently counted as useful SUCCESS. Exact golden is reproduced verbatim in oracle.",
+      "candidate_source": {
+        "mode": "100644",
+        "blob": "c29ab2e6f23624f8255e19d935d43962d16ac776",
+        "sha256": "887b64c75661afd8a4f1fd5d9a38c98c428d8e0f20200e65a4ce482e89892746"
+      },
+      "candidate_golden": {
+        "mode": "100644",
+        "blob": "ae4f942d0e8aa56531d5d70f514ce30990d92457",
+        "sha256": "cb9ce19ee6667fa9486c1e6e19d98db19b2198f45317f55f73d22fc92387180f"
+      },
+      "native_result": "NOT_RUN"
+    },
+    {
+      "id": "part1-edges/union-constant-hole",
+      "input": "tests/expected/uninit/part1-edges/union-constant-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/union-constant-hole.expected",
+      "owner_slice": 6,
+      "earliest_runnable_head": 6,
+      "planned_introduction_head": 6,
+      "prerequisites": [
+        "STORAGE",
+        "E1"
+      ],
+      "linked_source_features": [
+        "STORAGE",
+        "E1"
+      ],
+      "source_owner_hunk_map": "../source-map/ (worker14 authoritative ownership; feature symbols in source_features, no duplication here)",
+      "attribution": "Edge-specific qualification; shared guards, const masks, SetStorage and argument_size unit must already be in4",
+      "identity_F": {
+        "mode": "100644",
+        "blob": "4741aae98ddb0fa48cffddb5aea34810867580a3",
+        "sha256": "64a4259c68f8dfb135f6a8c30b42d71f2519a31786c7bf013c65695fa82d3b08"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks --output-format=regular"
+        }
+      ],
+      "source_harness_count": 1,
+      "source_assertions": [],
+      "source_contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness union_constant_hole...",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type",
+          "VERIFICATION:- FAILED",
+          "Verification failed for - union_constant_hole",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type"
+        ],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "baseline_disposition": "Absent U and B1; introduce final F pair atomically",
+      "semantic_preservation": [],
+      "special_requirements": [],
+      "qualification": "PENDING_COORDINATOR_EXACT_HEAD6_CI",
+      "useful_assertions_policy": "Retain all listed source assertions and explicit SUCCESS blocks. Positive harness assertions must succeed; an assertion containing intended bad read is not silently counted as useful SUCCESS. Exact golden is reproduced verbatim in oracle.",
+      "candidate_source": {
+        "mode": "100644",
+        "blob": "4741aae98ddb0fa48cffddb5aea34810867580a3",
+        "sha256": "64a4259c68f8dfb135f6a8c30b42d71f2519a31786c7bf013c65695fa82d3b08"
+      },
+      "candidate_golden": {
+        "mode": "100644",
+        "blob": "e69c41480ff366ed4244e2fc00a525103d979a65",
+        "sha256": "02d871f223d7fa520b69524080ba574d7581de38c688dddb4c5299fa3b92e7a4"
+      },
+      "native_result": "NOT_RUN"
+    },
+    {
+      "id": "part1-edges/union-constant-legal",
+      "input": "tests/expected/uninit/part1-edges/union-constant-legal.rs",
+      "golden": "tests/expected/uninit/part1-edges/union-constant-legal.expected",
+      "owner_slice": 6,
+      "earliest_runnable_head": 6,
+      "planned_introduction_head": 6,
+      "prerequisites": [
+        "STORAGE",
+        "E1"
+      ],
+      "linked_source_features": [
+        "STORAGE",
+        "E1"
+      ],
+      "source_owner_hunk_map": "../source-map/ (worker14 authoritative ownership; feature symbols in source_features, no duplication here)",
+      "attribution": "Edge-specific qualification; shared guards, const masks, SetStorage and argument_size unit must already be in4",
+      "identity_F": {
+        "mode": "100644",
+        "blob": "00d535bb7bc6457e9dcf5afa31bccbba42ed8528",
+        "sha256": "79ac12630f3a9b0b55e0488ada098793aa4efc06edab9c10ef4c6aed3f9415fa"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks --output-format=regular"
+        }
+      ],
+      "source_harness_count": 1,
+      "source_assertions": [
+        {
+          "line": 38,
+          "text": "assert_eq!(transfer(), 0);"
+        }
+      ],
+      "source_contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness union_constant_legal...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "baseline_disposition": "Absent U and B1; introduce final F pair atomically",
+      "semantic_preservation": [],
+      "special_requirements": [],
+      "qualification": "PENDING_COORDINATOR_EXACT_HEAD6_CI",
+      "useful_assertions_policy": "Retain all listed source assertions and explicit SUCCESS blocks. Positive harness assertions must succeed; an assertion containing intended bad read is not silently counted as useful SUCCESS. Exact golden is reproduced verbatim in oracle.",
+      "candidate_source": {
+        "mode": "100644",
+        "blob": "00d535bb7bc6457e9dcf5afa31bccbba42ed8528",
+        "sha256": "79ac12630f3a9b0b55e0488ada098793aa4efc06edab9c10ef4c6aed3f9415fa"
+      },
+      "candidate_golden": {
+        "mode": "100644",
+        "blob": "d636400d7dcafc2cc92bf9910f236f277355176f",
+        "sha256": "aa8952629e45caa9eb4c047d74f80f7950e52ce20bb44b3f6f426da8a74df369"
+      },
+      "native_result": "NOT_RUN"
+    },
+    {
+      "id": "part1-edges/union-variable-hole",
+      "input": "tests/expected/uninit/part1-edges/union-variable-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/union-variable-hole.expected",
+      "owner_slice": 6,
+      "earliest_runnable_head": 6,
+      "planned_introduction_head": 6,
+      "prerequisites": [
+        "STORAGE",
+        "E1"
+      ],
+      "linked_source_features": [
+        "STORAGE",
+        "E1"
+      ],
+      "source_owner_hunk_map": "../source-map/ (worker14 authoritative ownership; feature symbols in source_features, no duplication here)",
+      "attribution": "Edge-specific qualification; shared guards, const masks, SetStorage and argument_size unit must already be in4",
+      "identity_F": {
+        "mode": "100644",
+        "blob": "5fdc9c6510b08e1b4605760af1e59f359b992659",
+        "sha256": "b61894d8a5bd6a17b44b38210bacc9a68e55158c929bc0ceb259ae0878f4d28f"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks --output-format=regular"
+        }
+      ],
+      "source_harness_count": 1,
+      "source_assertions": [],
+      "source_contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness union_variable_hole...",
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type",
+          "VERIFICATION:- FAILED",
+          "Verification failed for - union_variable_hole",
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [
+          "Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type"
+        ],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 0 successfully verified harnesses, 1 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- FAILED"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "baseline_disposition": "Absent U and B1; introduce final F pair atomically",
+      "semantic_preservation": [],
+      "special_requirements": [],
+      "qualification": "PENDING_COORDINATOR_EXACT_HEAD6_CI",
+      "useful_assertions_policy": "Retain all listed source assertions and explicit SUCCESS blocks. Positive harness assertions must succeed; an assertion containing intended bad read is not silently counted as useful SUCCESS. Exact golden is reproduced verbatim in oracle.",
+      "candidate_source": {
+        "mode": "100644",
+        "blob": "5fdc9c6510b08e1b4605760af1e59f359b992659",
+        "sha256": "b61894d8a5bd6a17b44b38210bacc9a68e55158c929bc0ceb259ae0878f4d28f"
+      },
+      "candidate_golden": {
+        "mode": "100644",
+        "blob": "9789105ec330376ea6ce22b6be93905e44b0dd44",
+        "sha256": "5f23ad895e305b8da1c9832b3cbb0141d7d21013d74efb49a3004655b8722d9f"
+      },
+      "native_result": "NOT_RUN"
+    },
+    {
+      "id": "part1-edges/union-variable-legal",
+      "input": "tests/expected/uninit/part1-edges/union-variable-legal.rs",
+      "golden": "tests/expected/uninit/part1-edges/union-variable-legal.expected",
+      "owner_slice": 6,
+      "earliest_runnable_head": 6,
+      "planned_introduction_head": 6,
+      "prerequisites": [
+        "STORAGE",
+        "E1"
+      ],
+      "linked_source_features": [
+        "STORAGE",
+        "E1"
+      ],
+      "source_owner_hunk_map": "../source-map/ (worker14 authoritative ownership; feature symbols in source_features, no duplication here)",
+      "attribution": "Edge-specific qualification; shared guards, const masks, SetStorage and argument_size unit must already be in4",
+      "identity_F": {
+        "mode": "100644",
+        "blob": "2dad366532117ccae6ebd151247780c0eeafa8e8",
+        "sha256": "3fcb459fa772fac6c36f24bff970a143b5ffaacbf190eb711667074a5539d57b"
+      },
+      "flags": [
+        {
+          "line": 3,
+          "text": "// compile-flags: --edition 2021"
+        },
+        {
+          "line": 4,
+          "text": "// kani-flags: -Z uninit-checks --output-format=regular"
+        }
+      ],
+      "source_harness_count": 1,
+      "source_assertions": [
+        {
+          "line": 36,
+          "text": "assert_eq!(transfer(Byte { byte: 0 }), 0);"
+        }
+      ],
+      "source_contracts_and_covers": [],
+      "oracle": {
+        "literal_golden": [
+          "Checking harness union_variable_legal...",
+          "VERIFICATION:- SUCCESSFUL",
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "property_blocks": [],
+        "required_failed_checks": [],
+        "exact_failure_counts": [],
+        "harness_summaries": [
+          "Complete - 1 successfully verified harnesses, 0 failures, 1 total."
+        ],
+        "verdict_lines": [
+          "VERIFICATION:- SUCCESSFUL"
+        ],
+        "precision": "F_LITERAL_ONLY_NO_EXACT_PROPERTY_COUNT"
+      },
+      "baseline_disposition": "Absent U and B1; introduce final F pair atomically",
+      "semantic_preservation": [],
+      "special_requirements": [],
+      "qualification": "PENDING_COORDINATOR_EXACT_HEAD6_CI",
+      "useful_assertions_policy": "Retain all listed source assertions and explicit SUCCESS blocks. Positive harness assertions must succeed; an assertion containing intended bad read is not silently counted as useful SUCCESS. Exact golden is reproduced verbatim in oracle.",
+      "candidate_source": {
+        "mode": "100644",
+        "blob": "2dad366532117ccae6ebd151247780c0eeafa8e8",
+        "sha256": "3fcb459fa772fac6c36f24bff970a143b5ffaacbf190eb711667074a5539d57b"
+      },
+      "candidate_golden": {
+        "mode": "100644",
+        "blob": "65ce4a61040e0a0f27e79ef735ece17464b6c609",
+        "sha256": "52832ed8bb29880ae33a4649dc36a10e04d159696b812f7b33454568ea71f1c2"
+      },
+      "native_result": "NOT_RUN"
+    }
+  ],
+  "selected_pairs": 11,
+  "semantic_oracles_or_directives_changed": false,
+  "golden_precision": "Preserve F literal-only edge oracles; no new exact property-count claim.",
+  "runtime": "NOT_RUN",
+  "worker15_area": "UNMODIFIED"
+}

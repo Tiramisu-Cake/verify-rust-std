@@ -1,0 +1,1448 @@
+{
+  "source_sha": "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+  "mapped_fixtures": 182,
+  "mapped_test_paths": 364,
+  "all_tests_and_docs_equal_F": true,
+  "fixtures": [
+    {
+      "id": "closure-upvars/holes",
+      "input": "tests/expected/uninit/closure-upvars/holes.rs",
+      "golden": "tests/expected/uninit/closure-upvars/holes.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-upvars/layout",
+      "input": "tests/expected/uninit/closure-upvars/layout.rs",
+      "golden": "tests/expected/uninit/closure-upvars/layout.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-upvars/ordinary",
+      "input": "tests/expected/uninit/closure-upvars/ordinary.rs",
+      "golden": "tests/expected/uninit/closure-upvars/ordinary.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-aligned-hole",
+      "input": "tests/expected/uninit/closure-zst/capture-aligned-hole.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-aligned-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-aligned-legal",
+      "input": "tests/expected/uninit/closure-zst/capture-aligned-legal.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-aligned-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-mu-reference-new",
+      "input": "tests/expected/uninit/closure-zst/capture-mu-reference-new.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-mu-reference-new.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-mu-reference-uninit",
+      "input": "tests/expected/uninit/closure-zst/capture-mu-reference-uninit.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-mu-reference-uninit.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-mu-value-new",
+      "input": "tests/expected/uninit/closure-zst/capture-mu-value-new.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-mu-value-new.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-mu-value-uninit",
+      "input": "tests/expected/uninit/closure-zst/capture-mu-value-uninit.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-mu-value-uninit.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-padded",
+      "input": "tests/expected/uninit/closure-zst/capture-padded.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-padded.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-raw-hole",
+      "input": "tests/expected/uninit/closure-zst/capture-raw-hole.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-raw-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-raw-legal",
+      "input": "tests/expected/uninit/closure-zst/capture-raw-legal.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-raw-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-reference-hole",
+      "input": "tests/expected/uninit/closure-zst/capture-reference-hole.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-reference-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-reference-legal",
+      "input": "tests/expected/uninit/closure-zst/capture-reference-legal.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-reference-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-scalar",
+      "input": "tests/expected/uninit/closure-zst/capture-scalar.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-scalar.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-union-reference",
+      "input": "tests/expected/uninit/closure-zst/capture-union-reference.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-union-reference.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-union-value",
+      "input": "tests/expected/uninit/closure-zst/capture-union-value.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-union-value.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-unit-hole",
+      "input": "tests/expected/uninit/closure-zst/capture-unit-hole.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-unit-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/capture-unit-legal",
+      "input": "tests/expected/uninit/closure-zst/capture-unit-legal.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-unit-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/scalar-pfc-hole",
+      "input": "tests/expected/uninit/closure-zst/scalar-pfc-hole.rs",
+      "golden": "tests/expected/uninit/closure-zst/scalar-pfc-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "closure-zst/scalar-pfc-legal",
+      "input": "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs",
+      "golden": "tests/expected/uninit/closure-zst/scalar-pfc-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-immutable-masks/ensures-left-hole",
+      "input": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs",
+      "golden": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-immutable-masks/ensures-right-hole",
+      "input": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs",
+      "golden": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-immutable-masks/ordinary-singleton",
+      "input": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs",
+      "golden": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-modes/recursive-check",
+      "input": "tests/expected/uninit/contract-modes/recursive-check.rs",
+      "golden": "tests/expected/uninit/contract-modes/recursive-check.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-modes/recursive-ordinary",
+      "input": "tests/expected/uninit/contract-modes/recursive-ordinary.rs",
+      "golden": "tests/expected/uninit/contract-modes/recursive-ordinary.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-modes/recursive-simple-check",
+      "input": "tests/expected/uninit/contract-modes/recursive-simple-check.rs",
+      "golden": "tests/expected/uninit/contract-modes/recursive-simple-check.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-modes/replace-ordinary",
+      "input": "tests/expected/uninit/contract-modes/replace-ordinary.rs",
+      "golden": "tests/expected/uninit/contract-modes/replace-ordinary.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-modes/replace-simple-check",
+      "input": "tests/expected/uninit/contract-modes/replace-simple-check.rs",
+      "golden": "tests/expected/uninit/contract-modes/replace-simple-check.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-modes/replace-transfer-uninitialized",
+      "input": "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs",
+      "golden": "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-modes/replace-transfer",
+      "input": "tests/expected/uninit/contract-modes/replace-transfer.rs",
+      "golden": "tests/expected/uninit/contract-modes/replace-transfer.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "copy-source-arguments/arg0-hole",
+      "input": "tests/expected/uninit/copy-source-arguments/arg0-hole.rs",
+      "golden": "tests/expected/uninit/copy-source-arguments/arg0-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "copy-source-arguments/arg0-initialized",
+      "input": "tests/expected/uninit/copy-source-arguments/arg0-initialized.rs",
+      "golden": "tests/expected/uninit/copy-source-arguments/arg0-initialized.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "copy-source-arguments/arg1-hole",
+      "input": "tests/expected/uninit/copy-source-arguments/arg1-hole.rs",
+      "golden": "tests/expected/uninit/copy-source-arguments/arg1-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "copy-source-arguments/arg1-initialized",
+      "input": "tests/expected/uninit/copy-source-arguments/arg1-initialized.rs",
+      "golden": "tests/expected/uninit/copy-source-arguments/arg1-initialized.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "immutable-descriptor-coalescing/aggregate-constant-initializer",
+      "input": "tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.rs",
+      "golden": "tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "immutable-descriptor-coalescing/const-fn-initializer",
+      "input": "tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.rs",
+      "golden": "tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "immutable-descriptor-coalescing/direct-first-volatile",
+      "input": "tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.rs",
+      "golden": "tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "immutable-descriptor-coalescing/direct-first",
+      "input": "tests/expected/uninit/immutable-descriptor-coalescing/direct-first.rs",
+      "golden": "tests/expected/uninit/immutable-descriptor-coalescing/direct-first.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "immutable-descriptor-coalescing/nested-first-volatile",
+      "input": "tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.rs",
+      "golden": "tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "immutable-descriptor-coalescing/nested-first",
+      "input": "tests/expected/uninit/immutable-descriptor-coalescing/nested-first.rs",
+      "golden": "tests/expected/uninit/immutable-descriptor-coalescing/nested-first.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "immutable-masks/copy-hole",
+      "input": "tests/expected/uninit/immutable-masks/copy-hole.rs",
+      "golden": "tests/expected/uninit/immutable-masks/copy-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "immutable-masks/empty",
+      "input": "tests/expected/uninit/immutable-masks/empty.rs",
+      "golden": "tests/expected/uninit/immutable-masks/empty.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "immutable-masks/zero-byte-hole",
+      "input": "tests/expected/uninit/immutable-masks/zero-byte-hole.rs",
+      "golden": "tests/expected/uninit/immutable-masks/zero-byte-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "immutable-masks/zero-bytes-legal",
+      "input": "tests/expected/uninit/immutable-masks/zero-bytes-legal.rs",
+      "golden": "tests/expected/uninit/immutable-masks/zero-bytes-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "marker-hook-calls/fn-item-plain",
+      "input": "tests/expected/uninit/marker-hook-calls/fn-item-plain.rs",
+      "golden": "tests/expected/uninit/marker-hook-calls/fn-item-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "marker-hook-calls/fn-item-shadow-return",
+      "input": "tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.rs",
+      "golden": "tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "marker-hook-calls/generated-modifies-no-shadow",
+      "input": "tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.rs",
+      "golden": "tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "marker-hook-calls/marked-body-hole",
+      "input": "tests/expected/uninit/marker-hook-calls/marked-body-hole.rs",
+      "golden": "tests/expected/uninit/marker-hook-calls/marked-body-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "marker-hook-calls/marked-body-initialized",
+      "input": "tests/expected/uninit/marker-hook-calls/marked-body-initialized.rs",
+      "golden": "tests/expected/uninit/marker-hook-calls/marked-body-initialized.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "marker-hook-calls/marked-model-hole",
+      "input": "tests/expected/uninit/marker-hook-calls/marked-model-hole.rs",
+      "golden": "tests/expected/uninit/marker-hook-calls/marked-model-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "marker-hook-calls/marked-model-initialized",
+      "input": "tests/expected/uninit/marker-hook-calls/marked-model-initialized.rs",
+      "golden": "tests/expected/uninit/marker-hook-calls/marked-model-initialized.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "marker-hook-calls/ordinary-hook-return",
+      "input": "tests/expected/uninit/marker-hook-calls/ordinary-hook-return.rs",
+      "golden": "tests/expected/uninit/marker-hook-calls/ordinary-hook-return.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "marker-hook-calls/ordinary-hook-scalar",
+      "input": "tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.rs",
+      "golden": "tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-argument-buffer/main",
+      "input": "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-argument-buffer/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-argument-return/main",
+      "input": "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-argument-return/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-array-reverse-unsupported/main",
+      "input": "tests/expected/uninit/maybe-uninit-array-reverse-unsupported/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-array-reverse-unsupported/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-call-move/main",
+      "input": "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-call-move/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-call-pairing-unsupported/main",
+      "input": "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-call-pairing/main",
+      "input": "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-call-pairing/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-contract-clause/main",
+      "input": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-contract-frame/main",
+      "input": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-initialized/main",
+      "input": "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-initialized/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-overlap-copy/main",
+      "input": "tests/expected/uninit/maybe-uninit-overlap-copy/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-overlap-copy/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-overwrite-copy/main",
+      "input": "tests/expected/uninit/maybe-uninit-overwrite-copy/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-overwrite-copy/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-partial-copy/main",
+      "input": "tests/expected/uninit/maybe-uninit-partial-copy/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-partial-copy/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-repeat-local/main",
+      "input": "tests/expected/uninit/maybe-uninit-repeat-local/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-repeat-local/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-reset-alias/main",
+      "input": "tests/expected/uninit/maybe-uninit-reset-alias/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-reset-alias/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-reset-zst/main",
+      "input": "tests/expected/uninit/maybe-uninit-reset-zst/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-reset-zst/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-transfers/main",
+      "input": "tests/expected/uninit/maybe-uninit-transfers/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-transfers/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-transmute-padding/main",
+      "input": "tests/expected/uninit/maybe-uninit-transmute-padding/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-transmute-padding/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-transmute-source-read/main",
+      "input": "tests/expected/uninit/maybe-uninit-transmute-source-read/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-transmute-source-read/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-transmute/main",
+      "input": "tests/expected/uninit/maybe-uninit-transmute/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-transmute/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-typed-argument-padding/main",
+      "input": "tests/expected/uninit/maybe-uninit-typed-argument-padding/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-typed-argument-padding/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-typed-array-padding/main",
+      "input": "tests/expected/uninit/maybe-uninit-typed-array-padding/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-typed-array-padding/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-typed-array-partial-data/main",
+      "input": "tests/expected/uninit/maybe-uninit-typed-array-partial-data/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-typed-array-partial-data/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-typed-assignment-padding/main",
+      "input": "tests/expected/uninit/maybe-uninit-typed-assignment-padding/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-typed-assignment-padding/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-typed-partial-data/main",
+      "input": "tests/expected/uninit/maybe-uninit-typed-partial-data/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-typed-partial-data/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-typed-return-padding/main",
+      "input": "tests/expected/uninit/maybe-uninit-typed-return-padding/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-typed-return-padding/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "maybe-uninit-typed-transfer-data/main",
+      "input": "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-typed-transfer-data/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "mixed-promoted-allocations/eq-u8-stack-left",
+      "input": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs",
+      "golden": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "mixed-promoted-allocations/eq-u8-stack-right",
+      "input": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs",
+      "golden": "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "mixed-promoted-allocations/raw-mu-promoted-left-hole",
+      "input": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.rs",
+      "golden": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "mixed-promoted-allocations/raw-mu-promoted-right-hole",
+      "input": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.rs",
+      "golden": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "mixed-promoted-allocations/raw-mu-stack-left-legal",
+      "input": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.rs",
+      "golden": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "mixed-promoted-allocations/raw-mu-stack-right-legal",
+      "input": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.rs",
+      "golden": "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "mixed-promoted-allocations/raw-u8-stack-left",
+      "input": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs",
+      "golden": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "mixed-promoted-allocations/raw-u8-stack-right",
+      "input": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs",
+      "golden": "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "nested-aggregate-reset/moved-from-source",
+      "input": "tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs",
+      "golden": "tests/expected/uninit/nested-aggregate-reset/moved-from-source.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "nested-aggregate-reset/reinit-companion",
+      "input": "tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs",
+      "golden": "tests/expected/uninit/nested-aggregate-reset/reinit-companion.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "nested-aggregate-reset/repeated-destination",
+      "input": "tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs",
+      "golden": "tests/expected/uninit/nested-aggregate-reset/repeated-destination.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "nested-enum-different-padding/main",
+      "input": "tests/expected/uninit/nested-enum-different-padding/main.rs",
+      "golden": "tests/expected/uninit/nested-enum-different-padding/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "nested-enum-same-padding/main",
+      "input": "tests/expected/uninit/nested-enum-same-padding/main.rs",
+      "golden": "tests/expected/uninit/nested-enum-same-padding/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "nested-pat-data/main",
+      "input": "tests/expected/uninit/nested-pat-data/main.rs",
+      "golden": "tests/expected/uninit/nested-pat-data/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "nested-pat-padding/main",
+      "input": "tests/expected/uninit/nested-pat-padding/main.rs",
+      "golden": "tests/expected/uninit/nested-pat-padding/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "ordinary-slots/padding",
+      "input": "tests/expected/uninit/ordinary-slots/padding.rs",
+      "golden": "tests/expected/uninit/ordinary-slots/padding.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "ordinary-slots/payload",
+      "input": "tests/expected/uninit/ordinary-slots/payload.rs",
+      "golden": "tests/expected/uninit/ordinary-slots/payload.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "ordinary-slots/positive",
+      "input": "tests/expected/uninit/ordinary-slots/positive.rs",
+      "golden": "tests/expected/uninit/ordinary-slots/positive.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "padded-slice-extents/borrowed-hole",
+      "input": "tests/expected/uninit/padded-slice-extents/borrowed-hole.rs",
+      "golden": "tests/expected/uninit/padded-slice-extents/borrowed-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "padded-slice-extents/borrowed-initialized",
+      "input": "tests/expected/uninit/padded-slice-extents/borrowed-initialized.rs",
+      "golden": "tests/expected/uninit/padded-slice-extents/borrowed-initialized.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "padded-slice-extents/raw-hole",
+      "input": "tests/expected/uninit/padded-slice-extents/raw-hole.rs",
+      "golden": "tests/expected/uninit/padded-slice-extents/raw-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "padded-slice-extents/raw-initialized",
+      "input": "tests/expected/uninit/padded-slice-extents/raw-initialized.rs",
+      "golden": "tests/expected/uninit/padded-slice-extents/raw-initialized.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/move-return-reinit",
+      "input": "tests/expected/uninit/part1-composition/move-return-reinit.rs",
+      "golden": "tests/expected/uninit/part1-composition/move-return-reinit.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/move-return-top-level",
+      "input": "tests/expected/uninit/part1-composition/move-return-top-level.rs",
+      "golden": "tests/expected/uninit/part1-composition/move-return-top-level.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/origin-offset-hole",
+      "input": "tests/expected/uninit/part1-composition/origin-offset-hole.rs",
+      "golden": "tests/expected/uninit/part1-composition/origin-offset-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/origin-offset-legal",
+      "input": "tests/expected/uninit/part1-composition/origin-offset-legal.rs",
+      "golden": "tests/expected/uninit/part1-composition/origin-offset-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/raw-vs-typed-hole",
+      "input": "tests/expected/uninit/part1-composition/raw-vs-typed-hole.rs",
+      "golden": "tests/expected/uninit/part1-composition/raw-vs-typed-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/raw-vs-typed-legal",
+      "input": "tests/expected/uninit/part1-composition/raw-vs-typed-legal.rs",
+      "golden": "tests/expected/uninit/part1-composition/raw-vs-typed-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/reset-hole",
+      "input": "tests/expected/uninit/part1-composition/reset-hole.rs",
+      "golden": "tests/expected/uninit/part1-composition/reset-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/reset-reinit",
+      "input": "tests/expected/uninit/part1-composition/reset-reinit.rs",
+      "golden": "tests/expected/uninit/part1-composition/reset-reinit.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/typed-padding-hole",
+      "input": "tests/expected/uninit/part1-composition/typed-padding-hole.rs",
+      "golden": "tests/expected/uninit/part1-composition/typed-padding-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-edges/dst-by-reference-hole",
+      "input": "tests/expected/uninit/part1-edges/dst-by-reference-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/dst-by-reference-hole.expected",
+      "exact_F": true,
+      "parent_present": false
+    },
+    {
+      "id": "part1-edges/dst-by-reference-legal",
+      "input": "tests/expected/uninit/part1-edges/dst-by-reference-legal.rs",
+      "golden": "tests/expected/uninit/part1-edges/dst-by-reference-legal.expected",
+      "exact_F": true,
+      "parent_present": false
+    },
+    {
+      "id": "part1-edges/dst-by-value-hole",
+      "input": "tests/expected/uninit/part1-edges/dst-by-value-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/dst-by-value-hole.expected",
+      "exact_F": true,
+      "parent_present": false
+    },
+    {
+      "id": "part1-edges/dst-by-value-legal",
+      "input": "tests/expected/uninit/part1-edges/dst-by-value-legal.rs",
+      "golden": "tests/expected/uninit/part1-edges/dst-by-value-legal.expected",
+      "exact_F": true,
+      "parent_present": false
+    },
+    {
+      "id": "part1-edges/immutable-relocation-hole",
+      "input": "tests/expected/uninit/part1-edges/immutable-relocation-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/immutable-relocation-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-edges/immutable-relocation-legal",
+      "input": "tests/expected/uninit/part1-edges/immutable-relocation-legal.rs",
+      "golden": "tests/expected/uninit/part1-edges/immutable-relocation-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-edges/immutable-static-hole",
+      "input": "tests/expected/uninit/part1-edges/immutable-static-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/immutable-static-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-edges/immutable-static-legal",
+      "input": "tests/expected/uninit/part1-edges/immutable-static-legal.rs",
+      "golden": "tests/expected/uninit/part1-edges/immutable-static-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-edges/immutable-subrange-hole",
+      "input": "tests/expected/uninit/part1-edges/immutable-subrange-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/immutable-subrange-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-edges/immutable-subrange-legal",
+      "input": "tests/expected/uninit/part1-edges/immutable-subrange-legal.rs",
+      "golden": "tests/expected/uninit/part1-edges/immutable-subrange-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-edges/raw-field-legal",
+      "input": "tests/expected/uninit/part1-edges/raw-field-legal.rs",
+      "golden": "tests/expected/uninit/part1-edges/raw-field-legal.expected",
+      "exact_F": true,
+      "parent_present": false
+    },
+    {
+      "id": "part1-edges/raw-field-neighbor-hole",
+      "input": "tests/expected/uninit/part1-edges/raw-field-neighbor-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/raw-field-neighbor-hole.expected",
+      "exact_F": true,
+      "parent_present": false
+    },
+    {
+      "id": "part1-edges/raw-field-padding-hole",
+      "input": "tests/expected/uninit/part1-edges/raw-field-padding-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/raw-field-padding-hole.expected",
+      "exact_F": true,
+      "parent_present": false
+    },
+    {
+      "id": "part1-edges/union-constant-hole",
+      "input": "tests/expected/uninit/part1-edges/union-constant-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/union-constant-hole.expected",
+      "exact_F": true,
+      "parent_present": false
+    },
+    {
+      "id": "part1-edges/union-constant-legal",
+      "input": "tests/expected/uninit/part1-edges/union-constant-legal.rs",
+      "golden": "tests/expected/uninit/part1-edges/union-constant-legal.expected",
+      "exact_F": true,
+      "parent_present": false
+    },
+    {
+      "id": "part1-edges/union-variable-hole",
+      "input": "tests/expected/uninit/part1-edges/union-variable-hole.rs",
+      "golden": "tests/expected/uninit/part1-edges/union-variable-hole.expected",
+      "exact_F": true,
+      "parent_present": false
+    },
+    {
+      "id": "part1-edges/union-variable-legal",
+      "input": "tests/expected/uninit/part1-edges/union-variable-legal.rs",
+      "golden": "tests/expected/uninit/part1-edges/union-variable-legal.expected",
+      "exact_F": true,
+      "parent_present": false
+    },
+    {
+      "id": "points-to-cycles/capture-free",
+      "input": "tests/expected/uninit/points-to-cycles/capture-free.rs",
+      "golden": "tests/expected/uninit/points-to-cycles/capture-free.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "points-to-cycles/dag",
+      "input": "tests/expected/uninit/points-to-cycles/dag.rs",
+      "golden": "tests/expected/uninit/points-to-cycles/dag.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "points-to-cycles/mutual-cycle",
+      "input": "tests/expected/uninit/points-to-cycles/mutual-cycle.rs",
+      "golden": "tests/expected/uninit/points-to-cycles/mutual-cycle.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "points-to-cycles/roots-acyclic-first",
+      "input": "tests/expected/uninit/points-to-cycles/roots-acyclic-first.rs",
+      "golden": "tests/expected/uninit/points-to-cycles/roots-acyclic-first.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "points-to-cycles/roots-cycle-first",
+      "input": "tests/expected/uninit/points-to-cycles/roots-cycle-first.rs",
+      "golden": "tests/expected/uninit/points-to-cycles/roots-cycle-first.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "points-to-cycles/self-cycle",
+      "input": "tests/expected/uninit/points-to-cycles/self-cycle.rs",
+      "golden": "tests/expected/uninit/points-to-cycles/self-cycle.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "private-transfer-frame/lawful-modifies",
+      "input": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs",
+      "golden": "tests/expected/uninit/private-transfer-frame/lawful-modifies.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "promoted-allocations/direct-left-hole",
+      "input": "tests/expected/uninit/promoted-allocations/direct-left-hole.rs",
+      "golden": "tests/expected/uninit/promoted-allocations/direct-left-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "promoted-allocations/direct-legal",
+      "input": "tests/expected/uninit/promoted-allocations/direct-legal.rs",
+      "golden": "tests/expected/uninit/promoted-allocations/direct-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "promoted-allocations/direct-right-hole",
+      "input": "tests/expected/uninit/promoted-allocations/direct-right-hole.rs",
+      "golden": "tests/expected/uninit/promoted-allocations/direct-right-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "promoted-allocations/helper-left-hole",
+      "input": "tests/expected/uninit/promoted-allocations/helper-left-hole.rs",
+      "golden": "tests/expected/uninit/promoted-allocations/helper-left-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "promoted-allocations/helper-legal",
+      "input": "tests/expected/uninit/promoted-allocations/helper-legal.rs",
+      "golden": "tests/expected/uninit/promoted-allocations/helper-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "promoted-allocations/helper-right-hole",
+      "input": "tests/expected/uninit/promoted-allocations/helper-right-hole.rs",
+      "golden": "tests/expected/uninit/promoted-allocations/helper-right-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "raw-eq-uninit/main",
+      "input": "tests/expected/uninit/raw-eq-uninit/main.rs",
+      "golden": "tests/expected/uninit/raw-eq-uninit/expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "root-composition/cycle-root",
+      "input": "tests/expected/uninit/root-composition/cycle-root.rs",
+      "golden": "tests/expected/uninit/root-composition/cycle-root.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "root-composition/immutable-hole-negative",
+      "input": "tests/expected/uninit/root-composition/immutable-hole-negative.rs",
+      "golden": "tests/expected/uninit/root-composition/immutable-hole-negative.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "root-composition/immutable-legal",
+      "input": "tests/expected/uninit/root-composition/immutable-legal.rs",
+      "golden": "tests/expected/uninit/root-composition/immutable-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "root-composition/ordinary-ensures-legal",
+      "input": "tests/expected/uninit/root-composition/ordinary-ensures-legal.rs",
+      "golden": "tests/expected/uninit/root-composition/ordinary-ensures-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "root-composition/pfc-legal",
+      "input": "tests/expected/uninit/root-composition/pfc-legal.rs",
+      "golden": "tests/expected/uninit/root-composition/pfc-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "root-composition/pfc-negative",
+      "input": "tests/expected/uninit/root-composition/pfc-negative.rs",
+      "golden": "tests/expected/uninit/root-composition/pfc-negative.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "root-composition/unrelated-legal-after-cycle",
+      "input": "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.rs",
+      "golden": "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "transfer-qualification/legal-ordinary",
+      "input": "tests/expected/uninit/transfer-qualification/legal-ordinary.rs",
+      "golden": "tests/expected/uninit/transfer-qualification/legal-ordinary.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "transfer-qualification/legal-pfc",
+      "input": "tests/expected/uninit/transfer-qualification/legal-pfc.rs",
+      "golden": "tests/expected/uninit/transfer-qualification/legal-pfc.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "transfer-qualification/normal-abort",
+      "input": "tests/expected/uninit/transfer-qualification/normal-abort.rs",
+      "golden": "tests/expected/uninit/transfer-qualification/normal-abort.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "transfer-qualification/out-pointer",
+      "input": "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+      "golden": "tests/expected/uninit/transfer-qualification/out-pointer.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "transfer-qualification/postcondition-hole",
+      "input": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+      "golden": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/direct-plain",
+      "input": "tests/expected/uninit/unresolved-calls/direct-plain.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/direct-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/direct-seeded",
+      "input": "tests/expected/uninit/unresolved-calls/direct-seeded.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/direct-seeded.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/entry-initialized-plain",
+      "input": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/entry-initialized-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/entry-initialized-seeded",
+      "input": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/entry-partial-plain",
+      "input": "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/entry-partial-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/entry-partial-seeded",
+      "input": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/entry-partial-seeded.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/erased-pointer-plain",
+      "input": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/erased-pointer-seeded",
+      "input": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/fn-pointer-plain",
+      "input": "tests/expected/uninit/unresolved-calls/fn-pointer-plain.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/fn-pointer-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/fn-pointer-seeded",
+      "input": "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/fn-pointer-seeded.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/fn-trait-pointer-plain",
+      "input": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/fn-trait-pointer-seeded",
+      "input": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/fn-trait-pointer-seeded.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/generated-positive-plain",
+      "input": "tests/expected/uninit/unresolved-calls/generated-positive-plain.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/generated-positive-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/generated-positive-seeded",
+      "input": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/global-escaped-plain",
+      "input": "tests/expected/uninit/unresolved-calls/global-escaped-plain.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/global-escaped-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/global-escaped-seeded",
+      "input": "tests/expected/uninit/unresolved-calls/global-escaped-seeded.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/global-escaped-seeded.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/item-return-initialized-plain",
+      "input": "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/item-return-initialized-seeded",
+      "input": "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/item-return-uninit-plain",
+      "input": "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/item-return-uninit-seeded",
+      "input": "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/pending-ops-plain",
+      "input": "tests/expected/uninit/unresolved-calls/pending-ops-plain.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/pending-ops-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/pending-ops-seeded",
+      "input": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/pending-ops-seeded.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/tuple-maybe-uninit-plain",
+      "input": "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/tuple-maybe-uninit-seeded",
+      "input": "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/virtual-plain",
+      "input": "tests/expected/uninit/unresolved-calls/virtual-plain.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/virtual-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/virtual-seeded",
+      "input": "tests/expected/uninit/unresolved-calls/virtual-seeded.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/virtual-seeded.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/wrapped-pointer-plain",
+      "input": "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/wrapped-pointer-plain.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "unresolved-calls/wrapped-pointer-seeded",
+      "input": "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.rs",
+      "golden": "tests/expected/uninit/unresolved-calls/wrapped-pointer-seeded.expected",
+      "exact_F": true,
+      "parent_present": true
+    }
+  ],
+  "composition_and_modes_inherited": [
+    {
+      "id": "contract-modes/recursive-check",
+      "input": "tests/expected/uninit/contract-modes/recursive-check.rs",
+      "golden": "tests/expected/uninit/contract-modes/recursive-check.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-modes/recursive-ordinary",
+      "input": "tests/expected/uninit/contract-modes/recursive-ordinary.rs",
+      "golden": "tests/expected/uninit/contract-modes/recursive-ordinary.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-modes/recursive-simple-check",
+      "input": "tests/expected/uninit/contract-modes/recursive-simple-check.rs",
+      "golden": "tests/expected/uninit/contract-modes/recursive-simple-check.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-modes/replace-ordinary",
+      "input": "tests/expected/uninit/contract-modes/replace-ordinary.rs",
+      "golden": "tests/expected/uninit/contract-modes/replace-ordinary.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-modes/replace-simple-check",
+      "input": "tests/expected/uninit/contract-modes/replace-simple-check.rs",
+      "golden": "tests/expected/uninit/contract-modes/replace-simple-check.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-modes/replace-transfer-uninitialized",
+      "input": "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs",
+      "golden": "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "contract-modes/replace-transfer",
+      "input": "tests/expected/uninit/contract-modes/replace-transfer.rs",
+      "golden": "tests/expected/uninit/contract-modes/replace-transfer.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/move-return-reinit",
+      "input": "tests/expected/uninit/part1-composition/move-return-reinit.rs",
+      "golden": "tests/expected/uninit/part1-composition/move-return-reinit.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/move-return-top-level",
+      "input": "tests/expected/uninit/part1-composition/move-return-top-level.rs",
+      "golden": "tests/expected/uninit/part1-composition/move-return-top-level.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/origin-offset-hole",
+      "input": "tests/expected/uninit/part1-composition/origin-offset-hole.rs",
+      "golden": "tests/expected/uninit/part1-composition/origin-offset-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/origin-offset-legal",
+      "input": "tests/expected/uninit/part1-composition/origin-offset-legal.rs",
+      "golden": "tests/expected/uninit/part1-composition/origin-offset-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/raw-vs-typed-hole",
+      "input": "tests/expected/uninit/part1-composition/raw-vs-typed-hole.rs",
+      "golden": "tests/expected/uninit/part1-composition/raw-vs-typed-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/raw-vs-typed-legal",
+      "input": "tests/expected/uninit/part1-composition/raw-vs-typed-legal.rs",
+      "golden": "tests/expected/uninit/part1-composition/raw-vs-typed-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/reset-hole",
+      "input": "tests/expected/uninit/part1-composition/reset-hole.rs",
+      "golden": "tests/expected/uninit/part1-composition/reset-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/reset-reinit",
+      "input": "tests/expected/uninit/part1-composition/reset-reinit.rs",
+      "golden": "tests/expected/uninit/part1-composition/reset-reinit.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "part1-composition/typed-padding-hole",
+      "input": "tests/expected/uninit/part1-composition/typed-padding-hole.rs",
+      "golden": "tests/expected/uninit/part1-composition/typed-padding-hole.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "root-composition/cycle-root",
+      "input": "tests/expected/uninit/root-composition/cycle-root.rs",
+      "golden": "tests/expected/uninit/root-composition/cycle-root.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "root-composition/immutable-hole-negative",
+      "input": "tests/expected/uninit/root-composition/immutable-hole-negative.rs",
+      "golden": "tests/expected/uninit/root-composition/immutable-hole-negative.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "root-composition/immutable-legal",
+      "input": "tests/expected/uninit/root-composition/immutable-legal.rs",
+      "golden": "tests/expected/uninit/root-composition/immutable-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "root-composition/ordinary-ensures-legal",
+      "input": "tests/expected/uninit/root-composition/ordinary-ensures-legal.rs",
+      "golden": "tests/expected/uninit/root-composition/ordinary-ensures-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "root-composition/pfc-legal",
+      "input": "tests/expected/uninit/root-composition/pfc-legal.rs",
+      "golden": "tests/expected/uninit/root-composition/pfc-legal.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "root-composition/pfc-negative",
+      "input": "tests/expected/uninit/root-composition/pfc-negative.rs",
+      "golden": "tests/expected/uninit/root-composition/pfc-negative.expected",
+      "exact_F": true,
+      "parent_present": true
+    },
+    {
+      "id": "root-composition/unrelated-legal-after-cycle",
+      "input": "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.rs",
+      "golden": "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.expected",
+      "exact_F": true,
+      "parent_present": true
+    }
+  ],
+  "additional_composition_residual": [],
+  "historical_correction_preserved": "../slice-03/ORACLE-MAP-CORRECTION.json",
+  "note": "Exact tree identities, not new execution. Canonical early-head attributions retain the accepted slice03 correction."
+}

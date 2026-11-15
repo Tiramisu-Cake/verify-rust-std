@@ -1,0 +1,35 @@
+{
+  "source_sha": "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+  "base_sha": "96f5d5dc8dedd369c6986a4f1dd5e698b6167f0f",
+  "reviewer": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "task": "/root/review_slice06",
+    "nested_delegation": false
+  },
+  "status": "PASS_BOUNDED_STATIC_SOURCE_REVIEW",
+  "findings": [],
+  "checks": [
+    "11 exact-F source/golden pairs, edge README and two docs",
+    "43 changed declaration/import entries reference-match F",
+    "Zero production delta; constant-union V420-424, raw-address and unsized guards already in parent",
+    "Five-file residual matches pinned historical patch hashes and changed lines",
+    "Full oracle-map inventory retained including prior composition/strong/mode fixtures",
+    "Clean source tree and diff --check"
+  ],
+  "limits": [
+    "Source-token and Git identity review only",
+    "Native compilation, tests, MIR binding, runtime and proof qualification NOT_RUN",
+    "Worker15 stage review still PENDING"
+  ],
+  "package_followup": "PASS_BOUNDED_STATIC_PACKAGE_REVIEW",
+  "package_findings": [],
+  "package_checks": [
+    "Source/base/tree agree across SLICE, STATIC-VALIDATION, CI-REQUEST and TEST-MANIFEST",
+    "25 paths,11 pairs, no production change; 182 fixture pairs/364 paths exact F",
+    "14 hunks across5 files, historical hashes and alternate-index candidate/F trees match",
+    "471 selectors,462 expected passes,9 existing ignores,20 relevant units",
+    "Compile-seams11/190 files,99 bound calls; static limits and native NOT_RUN explicit",
+    "CI prepared not dispatched; no acceptance record expected"
+  ]
+}

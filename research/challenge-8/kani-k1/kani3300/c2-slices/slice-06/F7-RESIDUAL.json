@@ -1,0 +1,117 @@
+{
+  "status": "PASS_EXACT_PINNED_F7_HUNKS_ONLY",
+  "source_sha": "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+  "source_tree": "fc4c2d802e8c8c61ce7fcf27c405f7dc14c9d369",
+  "F": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "F_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+  "canonical": "../f7/F7-RESIDUAL.json",
+  "canonical_sha256": "771592442f46726dd9cda74756db8fc8f3f8cabb8ad3a17662a52973dae0d19c",
+  "files": [
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "hunks": [
+        "@@ -0,0 +1,144 @@"
+      ],
+      "patch_sha256": "96707d3d0c208d8c5cca569803266adebd133dc626d6bbdd4a4c5b05a8104f33",
+      "historical_patch_sha256": "96707d3d0c208d8c5cca569803266adebd133dc626d6bbdd4a4c5b05a8104f33",
+      "exact_bytes_equal": true,
+      "head6": null,
+      "F": {
+        "mode": "100644",
+        "blob": "6ba16800fba5cc1955094551acfd20e6c2e20065",
+        "sha256": "d5b402951626f44e1dcf9838f2a6d60c70e55a00a468429e0dca77dfd6c8ed89"
+      }
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "hunks": [
+        "@@ -30,0 +31 @@",
+        "@@ -38,0 +40 @@",
+        "@@ -73,0 +76 @@ fn build_missing_body(tcx: TyCtxt, instance: Instance) -> Body {",
+        "@@ -94,0 +98,2 @@ pub struct BodyTransformation {",
+        "@@ -110,0 +116 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {",
+        "@@ -151,0 +158,13 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {",
+        "@@ -216,0 +236,26 @@ fn add_pass<P: ClonableTransformPass + 'static>(&mut self, query_db: &QueryDb, p",
+        "@@ -389,0 +435,43 @@ fn clone_back(&self) -> Box<dyn $new_trait_name> {"
+      ],
+      "patch_sha256": "6cac2950900a8e745128924fd2683993d240e2540cce510320dc132cfddf4852",
+      "historical_patch_sha256": "6cac2950900a8e745128924fd2683993d240e2540cce510320dc132cfddf4852",
+      "exact_bytes_equal": true,
+      "head6": {
+        "mode": "100644",
+        "blob": "db2466bbe8b834bfe57d8b295aa0a78bbb4a043d",
+        "sha256": "8dc76ebe25ce1e05db3a98613011ed3258280ef57c2be336ab84ed97f7f46ba8"
+      },
+      "F": {
+        "mode": "100644",
+        "blob": "4484375cea01d66a1545208238542815d0490896",
+        "sha256": "ddfd490640612de988662e1b39557ed1011271b502fca42c052f3945af93b88c"
+      }
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "hunks": [
+        "@@ -18 +18 @@",
+        "@@ -191,3 +191 @@ fn transform(",
+        "@@ -214 +212 @@ fn transform("
+      ],
+      "patch_sha256": "5ca668e44b5bd534b1a13da6e1cb8db7350c4a34e9d4f899adc8e492363de10b",
+      "historical_patch_sha256": "5ca668e44b5bd534b1a13da6e1cb8db7350c4a34e9d4f899adc8e492363de10b",
+      "exact_bytes_equal": true,
+      "head6": {
+        "mode": "100644",
+        "blob": "f7f5b0a20adf696ba1dea66e214d1612d77d633a",
+        "sha256": "ce499e6ba49657ff9469927fa69eb6ff368457c613825e493a053cfc4d9a1a2b"
+      },
+      "F": {
+        "mode": "100644",
+        "blob": "456b39de7fa3ace577f0cae44fdcf14c37dc887f",
+        "sha256": "97b6e96c8cea78becdecd9670a96976d08647c673637b60630a48620ce3d917b"
+      }
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "hunks": [
+        "@@ -91,0 +92,5 @@ fn codegen_items<'tcx>("
+      ],
+      "patch_sha256": "c2f3574687bb47f82b074a7d4ba720227cd43ed26c42accbafbd59d6d6d6e8cc",
+      "historical_patch_sha256": "c2f3574687bb47f82b074a7d4ba720227cd43ed26c42accbafbd59d6d6d6e8cc",
+      "exact_bytes_equal": true,
+      "head6": {
+        "mode": "100644",
+        "blob": "690e3b7e5d27a8341dd52dab11c444cfd149d1ae",
+        "sha256": "b90b5b19d9fdaedae2657e8fc42f52912063f47fb734c157e2d72413054c3087"
+      },
+      "F": {
+        "mode": "100644",
+        "blob": "3461ada461b9d0f123f22d25274b000a7a789559",
+        "sha256": "146965fae7b375da7bc4641c140b2f3729a1f328ce142919541d78f0950b2fd7"
+      }
+    },
+    {
+      "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+      "hunks": [
+        "@@ -69,0 +70,3 @@ fn codegen_items("
+      ],
+      "patch_sha256": "2873ab10d57c601acd690b6eee7a36624626088e18a413519fb6c351c91e8162",
+      "historical_patch_sha256": "2873ab10d57c601acd690b6eee7a36624626088e18a413519fb6c351c91e8162",
+      "exact_bytes_equal": true,
+      "head6": {
+        "mode": "100644",
+        "blob": "aa65b0fbeb1912f7234d79f33e8cdf405137a0f3",
+        "sha256": "cb872c6a5516f24be08005f31cce9ff22db6699245c2da10b6237b65bb03c589"
+      },
+      "F": {
+        "mode": "100644",
+        "blob": "cead741d8618551828063ed46c310c1f10f740b0",
+        "sha256": "8b34ef8cae9b80e54d132fc96de1ec36d5138b52c30ff41955b8fb33c52336e4"
+      }
+    }
+  ],
+  "patch": {
+    "sha256": "8e370c617017e8476ae45ed02b8c439448756d1c8cf0251ea1cbb9545fcecbe7",
+    "alternate_index_target_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb"
+  },
+  "production_applied": false,
+  "structural_isolation_credit": "NOT_ESTABLISHED_BEFORE_F7"
+}
