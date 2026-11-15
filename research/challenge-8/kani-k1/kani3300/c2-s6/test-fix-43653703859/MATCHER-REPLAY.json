@@ -1,0 +1,111 @@
+{
+  "kind": "Python replay of unchanged native contains_lines algorithm, not compiler/proof execution",
+  "cases": [
+    {
+      "fixture": "tests/expected/uninit/padded-slice-extents/borrowed-hole.expected",
+      "observed_stdout_replay": "PASS",
+      "synthetic_rejections": [
+        "wrong_count",
+        "remove_useful_first_value == 0x5a5a_5a5a",
+        "remove_useful_crossed_byte == 0x5a",
+        "wrong_failed_type_*const u8",
+        "wrong_failed_type_u8",
+        "wrong_read_function"
+      ],
+      "source_execution": "existing61eb CI; padded source UNCHANGED",
+      "oracle": "exact function/status/description groups; exact failure N; useful own success; complete1total"
+    },
+    {
+      "fixture": "tests/expected/uninit/padded-slice-extents/borrowed-initialized.expected",
+      "observed_stdout_replay": "PASS",
+      "synthetic_rejections": [
+        "wrong_count",
+        "remove_useful_crossed_byte == 0x5a",
+        "remove_useful_byte == 0x5a"
+      ],
+      "source_execution": "existing61eb CI; padded source UNCHANGED",
+      "oracle": "exact function/status/description groups; exact failure N; useful own success; complete1total"
+    },
+    {
+      "fixture": "tests/expected/uninit/padded-slice-extents/raw-hole.expected",
+      "observed_stdout_replay": "PASS",
+      "synthetic_rejections": [
+        "wrong_count",
+        "remove_useful_first_value == 0x5a5a_5a5a",
+        "remove_useful_crossed_byte == 0x5a",
+        "wrong_failed_type_*const u8",
+        "wrong_failed_type_u8",
+        "wrong_read_function"
+      ],
+      "source_execution": "existing61eb CI; padded source UNCHANGED",
+      "oracle": "exact function/status/description groups; exact failure N; useful own success; complete1total"
+    },
+    {
+      "fixture": "tests/expected/uninit/padded-slice-extents/raw-initialized.expected",
+      "observed_stdout_replay": "PASS",
+      "synthetic_rejections": [
+        "wrong_count",
+        "remove_useful_crossed_byte == 0x5a",
+        "remove_useful_byte == 0x5a"
+      ],
+      "source_execution": "existing61eb CI; padded source UNCHANGED",
+      "oracle": "exact function/status/description groups; exact failure N; useful own success; complete1total"
+    }
+  ],
+  "pair_analysis": [
+    {
+      "fixture": "borrowed-hole",
+      "actual_failure_checks": [
+        [
+          "std::ptr::read::<u8>.safety_check.1",
+          "FAILURE",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+        ],
+        [
+          "std::ptr::read::<u8>.safety_check.4",
+          "FAILURE",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+        ]
+      ],
+      "useful_successes": [
+        [
+          "borrowed_slice_cross_slot_hole.assertion.4",
+          "SUCCESS",
+          "assertion failed: first_value == 0x5a5a_5a5a"
+        ],
+        [
+          "borrowed_slice_cross_slot_hole.assertion.6",
+          "SUCCESS",
+          "assertion failed: crossed_byte == 0x5a"
+        ]
+      ]
+    },
+    {
+      "fixture": "raw-hole",
+      "actual_failure_checks": [
+        [
+          "std::ptr::read::<u8>.safety_check.1",
+          "FAILURE",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
+        ],
+        [
+          "std::ptr::read::<u8>.safety_check.4",
+          "FAILURE",
+          "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+        ]
+      ],
+      "useful_successes": [
+        [
+          "raw_slice_cross_slot_hole.assertion.4",
+          "SUCCESS",
+          "assertion failed: first_value == 0x5a5a_5a5a"
+        ],
+        [
+          "raw_slice_cross_slot_hole.assertion.6",
+          "SUCCESS",
+          "assertion failed: crossed_byte == 0x5a"
+        ]
+      ]
+    }
+  ]
+}

@@ -20,7 +20,7 @@ Discriminating: the hook fix changes exactly the intended outcome.
 
 ## Candidate quick 43653703859 — FAILURE
 
-- fmt / build / clippy: PASS. Units: delayed_cache 6/0, delayed_scope 2/0, immutable 9/0, marker_category_tests 1/0.
+- fmt: **FAILURE** (rustfmt line wrap in the four padded-slice-extents tests; noticed in the next run, originally misreported as PASS); build / clippy: PASS. Units: delayed_cache 6/0, delayed_scope 2/0, immutable 9/0, marker_category_tests 1/0.
 - kani 24/0; ui 17/0; script 2/0; json-handler 17/0.
 - expected: 237 passed / **8 failed** / 2 ignored (pre-existing fixmes). All 9 new marker-hook-calls fixtures PASS.
 - 4/4 S5 sensitivity mutations DETECTED (`--force-rerun`).

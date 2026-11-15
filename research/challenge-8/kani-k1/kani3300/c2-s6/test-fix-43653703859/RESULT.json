@@ -1,0 +1,37 @@
+{
+  "status": "READY_FOR_COORDINATOR_TARGETED_RERUN",
+  "qualification": "QUALIFICATION_PENDING",
+  "source_head": "503d7f0b1f23616f671cc69dc7b376703bb0af31",
+  "source_tree": "1905c29c46944e4cd075a65275509473cf8e80fe",
+  "source_parent": "61eb057b46e2ffd62df28c3e956cd8031ed84748",
+  "source_clean": true,
+  "changed_files": {
+    "tests/expected/uninit/copy-source-arguments/arg0-hole.expected": "25cf24c927390ff290ffea2819cb028cb8192b5c7b54d09b0e437b60d668f21a",
+    "tests/expected/uninit/copy-source-arguments/arg0-hole.rs": "0404edbb822c0a6a8f01003f14b011138f41c4e5b34adf1ead20c97705346cb5",
+    "tests/expected/uninit/copy-source-arguments/arg0-initialized.rs": "7ab54d989881b54b5219ce782ade810b1f308ed563b4686e43c412ca437c81d5",
+    "tests/expected/uninit/copy-source-arguments/arg1-hole.expected": "cc887e0a51314b6051318fc4c34dabae6eb51d087faa9e3d52d876c2ab3fe960",
+    "tests/expected/uninit/copy-source-arguments/arg1-hole.rs": "136cc5aaa29c0a93e58763fa5f51f4bc0b47360947d9e78c6b763f0518520a5b",
+    "tests/expected/uninit/copy-source-arguments/arg1-initialized.rs": "78b3252b3c882272cd8a08d279e8b24b48e2c00038fe4d136e34e6d1d7036dbd",
+    "tests/expected/uninit/padded-slice-extents/borrowed-hole.expected": "f5a8849f206306424b8c3028bc242454847a4fc657ff63872b15576ad71c1f0e",
+    "tests/expected/uninit/padded-slice-extents/borrowed-initialized.expected": "d04f6c64d074a4ec1f907caff1bb07297515f64f74c2b215d9fe40f2902cec76",
+    "tests/expected/uninit/padded-slice-extents/raw-hole.expected": "96f4e6c1ff307dd7ca80a336f3b2599a92a93d8f0d17c82c73693e6cadeda638",
+    "tests/expected/uninit/padded-slice-extents/raw-initialized.expected": "b151c4b77db95a55508e13ba399024770753067dade3f9e168199f8398b86bd7"
+  },
+  "production_unchanged": true,
+  "protected_git_objects": {
+    "kani-compiler": "c738897777875c87a0b52ecf91ff171521b93314",
+    "library": "eeae80b128033f335183b587eab19ec83ddcfcd5",
+    "kani-driver": "f05085b98bda414ea7ceb9de96317cceeb39863f",
+    "tools": "cb64e63b96b699a01af0fd90f26a35b99cbd4a99",
+    "docs": "edb41c0886dbda689cfef16ac1649701e547a862",
+    "Cargo.lock": "1bb6463d877d16edd25c153aa5a439cb8ae24cb7",
+    "rust-toolchain.toml": "4edc84573b03d2b923d584f5df144274c435f693",
+    "kani-dependencies": "177eb685db5011ad9066f5891b74146d38d40a72"
+  },
+  "saved_stdout_matcher_replay": "4/4 padded PASS;18 synthetic mismatches rejected; no native rerun",
+  "copy_native_after_syntax_fix": "NOT_RUN; exact2 raw-pointee/payload golden source-derived; must confirm",
+  "source_patch_sha256": "2f6b93e72d54102f1bb7c855086e1ce1c02ef8c44cdf542cc3525b65be1dc4ef",
+  "Gate_A_3_platform": "NOT_RUN",
+  "builds_push_PR_CI": "NOT_RUN",
+  "research_committed": false
+}
