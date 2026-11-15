@@ -123,6 +123,7 @@ Charging decision (coordinator): S1-01 on the std fork produced no run/check sui
 Outcomes:
 - S1-01k 43775527125: FAILURE at compile of `core` (setup/build OK, 349 s, 1.39 GiB); 23/23 rows NOT_RUN. Cause: std 872d (nightly-10-22 library) vs Kani 0aac (nightly-10-23) — missing upstream #745; plus one E0369 typo in S. Charged 1. See TASK-CH8-PPRIME-REBASE.md.
 - B-01 43774504122: CANCELLED by coordinator ~23:55Z (same 872d+0aac incompatibility; result would be compile failures only). Charged 1.
+- A1-R1 43772128212: FAILURE, 8/8 matrix rows UNKNOWN — each `kani verify-std` exited 1 after ~20 s compiling `core` with **8652 errors** (std base `70ba5befc6`, nightly-10-23 = same as Kani SEL1 `14bc57fdb9`; the SEL1 replay 43751703000 compiled this base fine, so not a toolchain mismatch). Env had `RUSTFLAGS=--cfg kani_smallsort_controls` + `-Z uninit-checks`. stdout.log (10.7 MB, sha256 436210c7…) was removed by the artifact metadata cap, so the first errors are not preserved — runner must keep a bounded stdout head/tail. Charged 1 (A1 2 of 3 used; R3 reserve must cover this + #5151 fixture).
 - Shared base P′ `c5ff36ff43` (merge 872d + upstream main 6079edcda3) on std fork `experiment/ch8-pprime-20261116`.
 
 Item 1 used: 3 of 18 (A1 2 of 3, B 1 of 3). Item 2 used: 1 of 14 (S1 1 of 2; S1-02 = last S1 credit, after P′ rebase). Total 4 of 32.
