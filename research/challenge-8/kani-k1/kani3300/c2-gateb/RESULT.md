@@ -30,4 +30,4 @@ the generic fn-pointer `merge_profile<P>`; sort4/swap_if_less stay blocked on `s
 No proof credit or publication authorization follows.
 
 Files: `run-43683557088/<row>/{receipt,export,runtime-identities,job-status}.json`. Stdout SHA-256 prefixes:
-merge-raw `9641f1d4ccb5d10e`, merge-profile `b30497dacea65624`, sort4 `e5bacd3b53a66e55` (stdout kept in run artifacts, 14 days).
+merge-raw `9641f1d4ccb5d10e`, merge-profile `b30497dacea65624`, sort4 `e5bacd3b53a66e55` (stdout kept in run artifacts, 7 days).
