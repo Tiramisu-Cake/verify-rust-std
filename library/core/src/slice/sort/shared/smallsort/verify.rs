@@ -62,6 +62,8 @@
 //! `RUSTFLAGS="--cfg kani_smallsort_controls"` and pass
 //! `--kani-args --harness <full-name> --exact` to the verification command.
 
+#[cfg(kani_smallsort_controls)]
+mod c_controls;
 mod comparators;
 mod fixed_inputs;
 mod forwarding_contracts;
