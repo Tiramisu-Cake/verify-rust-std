@@ -1,0 +1,62 @@
+{
+  "source_sha": "d0345ddf4f70d10caf5ee34ddca402867264379e",
+  "source_tree": "8ac48a5660a94de062919ebcf80fdcdef2cc2f03",
+  "parent": "932fb8395a58f8c86c0d702ba2cae835823b2962",
+  "status": "PREPARED_NOT_DISPATCHED",
+  "recipe": "0998b98867:.github/workflows/uninit-quick.yml",
+  "runner": "ubuntu-24.04",
+  "env": {
+    "RUST_TEST_THREADS": "2"
+  },
+  "job_timeout_minutes": 120,
+  "test_timeout_seconds": 2400,
+  "auto_retries": false,
+  "test_manifest": "TEST-MANIFEST.json",
+  "static_counts": {
+    "expected": {
+      "selectors": 244,
+      "existing_path_ignored": 6,
+      "expected_passed_if_all_succeed": 238
+    },
+    "json-handler": {
+      "selectors": 17,
+      "existing_path_ignored": 0,
+      "expected_passed_if_all_succeed": 17
+    },
+    "kani": {
+      "selectors": 53,
+      "existing_path_ignored": 3,
+      "expected_passed_if_all_succeed": 50
+    },
+    "script-based-pre": {
+      "selectors": 3,
+      "existing_path_ignored": 0,
+      "expected_passed_if_all_succeed": 3
+    },
+    "std-checks": {
+      "selectors": 2,
+      "existing_path_ignored": 0,
+      "expected_passed_if_all_succeed": 2
+    },
+    "ui": {
+      "selectors": 17,
+      "existing_path_ignored": 0,
+      "expected_passed_if_all_succeed": 17
+    }
+  },
+  "selector_count": 336,
+  "units": [
+    {
+      "filter": "active_call_tests",
+      "expected": 9
+    },
+    {
+      "filter": "immutable_allocations::tests",
+      "expected": 9
+    }
+  ],
+  "targeted_oracles": "ORACLE-DELTA.json:selected_complete_fixtures",
+  "native_results": "NOT_RUN",
+  "worker15_overlay": "NOT_PREPARED_BY_WORKER14",
+  "no_authorization_to_dispatch": true
+}

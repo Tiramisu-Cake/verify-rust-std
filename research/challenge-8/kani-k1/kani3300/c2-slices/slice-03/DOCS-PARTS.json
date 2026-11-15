@@ -1,0 +1,21 @@
+{
+  "canonical_map_sha256": "f41abc7b196249bc5c9a2639bb20460f7f3a6943d9865ba7de92c0bb01b5a678",
+  "documents": [
+    {
+      "path": "docs/src/rust-feature-support/intrinsics.md",
+      "added_segments": [
+        {
+          "F_line": 197,
+          "start_column_0": 0,
+          "end_column_0": 317,
+          "text": "raw_eq | Partial | With `-Z uninit-checks`, checks initialization of modeled operand byte extents using their shadow state, including padding bytes. All compared bytes must be initialized. Support depends on the modeled layout and origin; see [Uninitialized memory](../rust-feature-support.md#uninitialized-memory). |",
+          "owner_slice": 3,
+          "earliest_head": 3
+        }
+      ]
+    }
+  ],
+  "adaptations": [],
+  "intrinsics_exact_F": true,
+  "general_scope_docs": "Inherited owner2 paragraphs only; remaining scope belongs4/5/6."
+}

@@ -1,0 +1,7 @@
+{
+  "superseded_source": "3e0ce1b9c3c5c144aad95fa3d7db4874d91249e3",
+  "automated_seam_audit": "PASS_BOUNDED_STATIC_SEAM_AUDIT",
+  "manual_finding": "RawEq body uses rustc_public::ty::UintTy but visitor import retained B1 list without UintTy. Token checker does not resolve names; manual import inventory caught the missing prerequisite before handoff.",
+  "correction": "Move exactly B1--F:19:005 minus29 plus33 from4 to3 (neutral UintTy import); no storage semantic delta.",
+  "native_execution": "NOT_RUN"
+}

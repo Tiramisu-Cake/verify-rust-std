@@ -1,0 +1,40 @@
+{
+  "canonical_map": "../source-map/B1--F.json",
+  "canonical_map_sha256": "92d613f75e1eab9a7d23981b6034fa49a11caf57cb4a07bba0c662849f7e72a3",
+  "reason": "Neutral UintTy import is first consumed by raw_eq extent on3. TASK requires neutral imports with their first consumer; no storage semantics imported.",
+  "owner_changes": [
+    {
+      "hunk_id": "B1--F:19:005",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "part_index": 0,
+      "old_owner": "4",
+      "new_owner": "3",
+      "part": {
+        "side": "-",
+        "start": 29,
+        "count": 1,
+        "owner": "4",
+        "sha256": "ab2915866b8568d2bd666b728eea6b37dcb734e6cc8aa88cb59bfd135e8f2f2c"
+      }
+    },
+    {
+      "hunk_id": "B1--F:19:005",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "part_index": 1,
+      "old_owner": "4",
+      "new_owner": "3",
+      "part": {
+        "side": "+",
+        "start": 33,
+        "count": 1,
+        "owner": "4",
+        "sha256": "14e1591e97d2f0ef806d83348774ce8e1b80c03d96f4b848b972c875cadf45b5"
+      }
+    }
+  ],
+  "future_consumers": [
+    4
+  ],
+  "source_owners1_2_unchanged": true,
+  "canonical_map_area": "UNMODIFIED; apply this exact ownership delta for cumulative extraction from3 onward"
+}

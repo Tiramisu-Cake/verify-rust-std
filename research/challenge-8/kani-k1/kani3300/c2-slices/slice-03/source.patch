@@ -1,0 +1,948 @@
+diff --git a/docs/src/rust-feature-support/intrinsics.md b/docs/src/rust-feature-support/intrinsics.md
+index 5480ee7c6e73c07e011803e5cdd3c51ea2999898..e27ec4c28a4ffd45b403855cdfcd2e5d9c9b3bb7 100644
+--- a/docs/src/rust-feature-support/intrinsics.md
++++ b/docs/src/rust-feature-support/intrinsics.md
+@@ -194,7 +194,7 @@ prefetch_write_instruction | No | |
+ ptr_guaranteed_eq | Yes | |
+ ptr_guaranteed_ne | Yes | |
+ ptr_offset_from | Partial | Doesn't check [all UB conditions](https://doc.rust-lang.org/std/primitive.pointer.html#safety-4) |
+-raw_eq | Partial | Cannot detect [uninitialized memory](#uninitialized-memory) |
++raw_eq | Partial | With `-Z uninit-checks`, checks initialization of modeled operand byte extents using their shadow state, including padding bytes. All compared bytes must be initialized. Support depends on the modeled layout and origin; see [Uninitialized memory](../rust-feature-support.md#uninitialized-memory). |
+ round_ties_even_f16 | No | |
+ round_ties_even_f32 | Yes | |
+ round_ties_even_f64 | Yes | |
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+index e4a444a6566fc664b49eff6002ce5e9fdccd8eb8..9ee31b45ff621bfec61b3f873354bd9ddd340283 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+@@ -73,6 +73,7 @@ pub fn push_operand(&mut self, operand: &Operand) {
+ /// We implement MirVisitor to facilitate target finding, we look for:
+ /// - pointer casts where pointees have different padding;
+ /// - calls to `copy`-like intrinsics.
++/// - both reference operands of `raw_eq`, which also reads padding bytes.
+ impl MirVisitor for InitialTargetVisitor<'_> {
+     fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
+         if let Rvalue::Cast(kind, operand, ty) = rvalue {
+@@ -111,14 +112,18 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+     }
+ 
+     fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-        // Only calls to the copy intrinsics write to a target here. A call through a function
+-        // pointer or a vtable cannot be one (intrinsics cannot be coerced to function pointers),
+-        // and whatever its callee writes is collected when visiting the callee's own body.
++        // Copy destinations and raw_eq operands need their prior writes tracked. A call through
++        // a function pointer or a vtable cannot be an intrinsic (intrinsics cannot be coerced to
++        // function pointers); effects in other callees are collected from their own bodies.
+         if let TerminatorKind::Call { func, args, .. } = &term.kind
+             && let Some(instance) = try_resolve_instance(self.body.locals(), func)
+             && instance.kind == InstanceKind::Intrinsic
+         {
+             match Intrinsic::from_instance(&instance) {
++                Intrinsic::RawEq => {
++                    self.push_operand(&args[0]);
++                    self.push_operand(&args[1]);
++                }
+                 Intrinsic::Copy => {
+                     // Here, `dst` is the second argument.
+                     self.push_operand(&args[1]);
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+index dbec042343bd430eb71a7c10af1bc0c328a2fdb6..9f8c30d5b4e30558bcf00e1e7f5f24bd3257210d 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+@@ -334,6 +334,11 @@ fn build_get_and_check(
+             MemoryInitOp::Check { operand }
+             | MemoryInitOp::CheckSliceChunk { operand, .. }
+             | MemoryInitOp::CheckRef { operand } => operand.ty(body.locals()).unwrap(),
++            MemoryInitOp::CheckAs { operand, pointee_ty }
++                if operand.ty(body.locals()).unwrap().kind().is_ref() =>
++            {
++                *pointee_ty
++            }
+             MemoryInitOp::CheckAs { .. } => operation.operand_ty(body),
+             _ => unreachable!(),
+         };
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 8aeeb23321a322209a6b6c40ba9d01de3100b3d1..567916413bf3061cae4ca320fc4f81e4b6284116 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -26,7 +26,7 @@
+         mono::{Instance, InstanceKind},
+         visit::{Location, PlaceContext},
+     },
+-    ty::{AdtKind, ConstantKind, RigidTy, Ty, TyConstKind, TyKind},
++    ty::{AdtKind, ConstantKind, RigidTy, Ty, TyConstKind, TyKind, UintTy},
+ };
+ 
+ pub struct CheckUninitVisitor<'tcx> {
+@@ -344,6 +344,38 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+                                     position: InsertPosition::After,
+                                 });
+                             }
++                            Intrinsic::RawEq => {
++                                for operand in args {
++                                    let TyKind::RigidTy(RigidTy::Ref(_, pointee_ty, _)) =
++                                        operand.ty(&self.locals).unwrap().kind()
++                                    else {
++                                        unreachable!("raw_eq operands must be references")
++                                    };
++                                    // raw_eq reads the whole extent, including padding and union
++                                    // storage. A byte array selects every byte without imposing
++                                    // the pointee's typed data mask or reading its value.
++                                    // CheckAs reborrows reference places as &raw const *operand.
++                                    let bytes_ty = pointee_ty.layout().ok().and_then(|layout| {
++                                        Ty::try_new_array(
++                                            Ty::unsigned_ty(UintTy::U8),
++                                            layout.shape().size.bytes().try_into().unwrap(),
++                                        )
++                                        .ok()
++                                    });
++                                    if let Some(pointee_ty) = bytes_ty {
++                                        self.push_target(MemoryInitOp::CheckAs {
++                                            operand: operand.clone(),
++                                            pointee_ty,
++                                        });
++                                    } else {
++                                        self.push_target(MemoryInitOp::Unsupported {
++                                            reason: format!(
++                                                "Kani cannot determine the pointee layout for raw_eq of `{pointee_ty}`."
++                                            ),
++                                        });
++                                    }
++                                }
++                            }
+                             Intrinsic::CompareBytes => {
+                                 self.push_target(MemoryInitOp::CheckSliceChunk {
+                                     operand: args[0].clone(),
+@@ -680,7 +712,6 @@ fn can_skip_intrinsic(intrinsic: Intrinsic) -> bool {
+         | Intrinsic::PowF64
+         | Intrinsic::PowIF32
+         | Intrinsic::PowIF64
+-        | Intrinsic::RawEq
+         | Intrinsic::RotateLeft
+         | Intrinsic::RotateRight
+         | Intrinsic::RoundF32
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+index 973dde0b840ab9eb975ee9efd3eb0650c8814748..a7543530555108f0e1b1f24dc4f823396cb2e1cc 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+@@ -9,8 +9,8 @@
+ };
+ use rustc_public::{
+     mir::{
+-        CastKind, FieldIdx, Mutability, Operand, Place, RawPtrKind, Rvalue, Statement,
+-        StatementKind,
++        CastKind, FieldIdx, Mutability, Operand, Place, ProjectionElem, RawPtrKind, Rvalue,
++        Statement, StatementKind,
+     },
+     ty::{RigidTy, Ty},
+ };
+@@ -275,6 +275,7 @@ pub fn push_operation(&mut self, source_op: MemoryInitOp) {
+ /// A helper to generate instrumentation for taking a reference to a given operand. Returns the
+ /// operand which is a reference and stores all instrumentation in the statements vector passed.
+ /// A new local holding `operand`, a raw pointer, cast to `*const pointee_ty`.
++/// Reference places are reborrowed as raw pointers to their pointees, as in `CheckRef`.
+ fn mk_cast(
+     operand: &Operand,
+     pointee_ty: Ty,
+@@ -283,12 +284,24 @@ fn mk_cast(
+     source: &mut SourceInstruction,
+ ) -> Operand {
+     let span = source.span(body.blocks());
++    let operand = if operand.ty(body.locals()).unwrap().kind().is_ref()
++        && let Operand::Copy(place) | Operand::Move(place) = operand
++    {
++        // AddressOf does not read the pointee. It also avoids introducing a read of the
++        // reference's storage for the later delayed-UB visitor to instrument. Constants
++        // have no reference place and can be cast directly.
++        let mut pointee = place.clone();
++        pointee.projection.push(ProjectionElem::Deref);
++        mk_ref(&Operand::Copy(pointee), body, statements, source)
++    } else {
++        operand.clone()
++    };
+     let ptr_ty = Ty::new_ptr(pointee_ty, Mutability::Not);
+     let result = body.new_local(ptr_ty, span, Mutability::Not);
+     statements.push(Statement {
+         kind: StatementKind::Assign(
+             Place::from(result),
+-            Rvalue::Cast(CastKind::PtrToPtr, operand.clone(), ptr_ty),
++            Rvalue::Cast(CastKind::PtrToPtr, operand, ptr_ty),
+         ),
+         source_info: synthetic_source_info(span),
+     });
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+index ab08539d8255cb6222fd44a6e818c56424deb085..99ad98789f79abb07a8aaeb71093fc37a3f43309 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+@@ -294,7 +294,8 @@ fn data_bytes_for_ty(
+                                     let tag_data_bytes =
+                                         vec![DataBytes { offset: current_offset, size: tag_size }];
+ 
+-                                    // Retrieve data bytes for the fields.
++                                    // Compare variant layouts relative to the enum. Absolute
++                                    // offsets could be clipped by the enum-sized masks below.
+                                     let mut fields_data_bytes = vec![];
+                                     // Iterate over all variants for the enum.
+                                     for (index, variant) in variants.iter().enumerate() {
+@@ -307,7 +308,7 @@ fn data_bytes_for_ty(
+                                                 &mut data_bytes_for_ty(
+                                                     machine_info,
+                                                     field_ty,
+-                                                    field_offset + current_offset,
++                                                    field_offset,
+                                                 )?,
+                                             );
+                                         }
+@@ -337,6 +338,10 @@ fn data_bytes_for_ty(
+                                         let mut total_data_bytes = tag_data_bytes;
+                                         let mut field_data_bytes =
+                                             fields_data_bytes.first().unwrap().clone();
++                                        // Compose the selected local layout exactly once.
++                                        for data_bytes in &mut field_data_bytes {
++                                            data_bytes.offset += current_offset;
++                                        }
+                                         total_data_bytes.append(&mut field_data_bytes);
+                                         Ok(total_data_bytes)
+                                     } else {
+@@ -370,9 +375,7 @@ fn data_bytes_for_ty(
+                 }
+                 RigidTy::Pat(base_ty, ..) => {
+                     // This is similar to a structure with one field and with niche defined.
+-                    let mut pat_data_bytes = vec![];
+-                    pat_data_bytes.append(&mut data_bytes_for_ty(machine_info, *base_ty, 0)?);
+-                    Ok(pat_data_bytes)
++                    data_bytes_for_ty(machine_info, *base_ty, current_offset)
+                 }
+                 RigidTy::Tuple(tys) => {
+                     let mut tuple_data_bytes = vec![];
+diff --git a/tests/expected/uninit/immutable-masks/empty.expected b/tests/expected/uninit/immutable-masks/empty.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..153016e4ba3ba054c2191ee948be5a5e0d8c1286
+--- /dev/null
++++ b/tests/expected/uninit/immutable-masks/empty.expected
+@@ -0,0 +1,3 @@
++Checking harness empty_immutable_arrays...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/immutable-masks/empty.rs b/tests/expected/uninit/immutable-masks/empty.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd596a2f8842770b215979af35ef991786a9fe26
+--- /dev/null
++++ b/tests/expected/uninit/immutable-masks/empty.rs
+@@ -0,0 +1,18 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++// Empty extents must not introduce a seed mask index or pointer-object query.
++#[kani::proof]
++fn empty_immutable_arrays() {
++    let left: &[MaybeUninit<u8>; 0] = &[];
++    let right: &[MaybeUninit<u8>; 0] = &[];
++    assert!(unsafe { raw_eq(left, right) });
++}
+diff --git a/tests/expected/uninit/immutable-masks/zero-byte-hole.expected b/tests/expected/uninit/immutable-masks/zero-byte-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..88027d5197b98e9ae4eebcc413654d9f21914257
+--- /dev/null
++++ b/tests/expected/uninit/immutable-masks/zero-byte-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness zero_and_uninitialized_are_distinct...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - zero_and_uninitialized_are_distinct
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/immutable-masks/zero-byte-hole.rs b/tests/expected/uninit/immutable-masks/zero-byte-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..b805a925e408762bc9dfc33b9a5665a9a35278f8
+--- /dev/null
++++ b/tests/expected/uninit/immutable-masks/zero-byte-hole.rs
+@@ -0,0 +1,19 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++// The left storage hole fails; initialized zero bytes on the right remain legal.
++#[kani::proof]
++fn zero_and_uninitialized_are_distinct() {
++    let left: &[MaybeUninit<u8>; 3] =
++        &[MaybeUninit::new(0), MaybeUninit::uninit(), MaybeUninit::new(0)];
++    let right: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(0); 3];
++    let _equal = unsafe { raw_eq(left, right) };
++}
+diff --git a/tests/expected/uninit/immutable-masks/zero-bytes-legal.expected b/tests/expected/uninit/immutable-masks/zero-bytes-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..1fa844137a65b7ab24407cc0b0fb27b77e2dc01a
+--- /dev/null
++++ b/tests/expected/uninit/immutable-masks/zero-bytes-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness initialized_zero_bytes...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/immutable-masks/zero-bytes-legal.rs b/tests/expected/uninit/immutable-masks/zero-bytes-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..7adc9eaf79e87e66a69828ab1617e9bf8680fe8e
+--- /dev/null
++++ b/tests/expected/uninit/immutable-masks/zero-bytes-legal.rs
+@@ -0,0 +1,18 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++// Both operands must bind to immutable Some(0), rather than physical zero fill.
++#[kani::proof]
++fn initialized_zero_bytes() {
++    let left: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(0); 3];
++    let right: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(0); 3];
++    assert!(unsafe { raw_eq(left, right) });
++}
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.expected b/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..b9b3b237e2eaa0be7cf2f9f34e3a047f271f0bcb
+--- /dev/null
++++ b/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.expected
+@@ -0,0 +1,3 @@
++Checking harness mixed_eq_u8_stack_left...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs b/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..cae53d3f84194723a421624a8cb0c356f4aad0f3
+--- /dev/null
++++ b/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs
+@@ -0,0 +1,23 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::MaybeUninit;
++
++// Required: tracked stack/assume_init temporary and anonymous immutable referent.
++// The raw comparison checks initialization on both stack and immutable operands.
++#[kani::proof]
++fn mixed_eq_u8_stack_left() {
++    let mut storage = MaybeUninit::<[u8; 3]>::uninit();
++    let data = storage.as_mut_ptr().cast::<u8>();
++    unsafe {
++        data.write(7);
++        data.add(1).write(0);
++        data.add(2).write(9);
++        // All three bytes are initialized before constructing this stack value.
++        let stack = &storage.assume_init();
++        let promoted: &'static [u8; 3] = &[7u8, 0u8, 9u8];
++        assert!(*stack == *promoted);
++    }
++}
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.expected b/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..44e691951f7c6b259df8772ace6b498ff41c3a30
+--- /dev/null
++++ b/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.expected
+@@ -0,0 +1,3 @@
++Checking harness mixed_eq_u8_stack_right...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs b/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..348c89158c8dc3c88f06fd3ea9559a2e30131a0d
+--- /dev/null
++++ b/tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs
+@@ -0,0 +1,23 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::MaybeUninit;
++
++// Required: tracked stack/assume_init temporary and anonymous immutable referent.
++// The raw comparison checks initialization on both stack and immutable operands.
++#[kani::proof]
++fn mixed_eq_u8_stack_right() {
++    let mut storage = MaybeUninit::<[u8; 3]>::uninit();
++    let data = storage.as_mut_ptr().cast::<u8>();
++    unsafe {
++        data.write(7);
++        data.add(1).write(0);
++        data.add(2).write(9);
++        // All three bytes are initialized before constructing this stack value.
++        let stack = &storage.assume_init();
++        let promoted: &'static [u8; 3] = &[7u8, 0u8, 9u8];
++        assert!(*promoted == *stack);
++    }
++}
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.expected b/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..477dc493ad546ef0b7daca02705b1d767a2efd5d
+--- /dev/null
++++ b/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.expected
+@@ -0,0 +1,3 @@
++Checking harness mixed_raw_u8_stack_left...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs b/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..205c4a5555cec14d67837f99f9bcc10cb537a7a5
+--- /dev/null
++++ b/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs
+@@ -0,0 +1,27 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++// Required: tracked stack/assume_init temporary and anonymous immutable referent.
++// The raw comparison checks initialization on both stack and immutable operands.
++#[kani::proof]
++fn mixed_raw_u8_stack_left() {
++    let mut storage = MaybeUninit::<[u8; 3]>::uninit();
++    let data = storage.as_mut_ptr().cast::<u8>();
++    unsafe {
++        data.write(7);
++        data.add(1).write(0);
++        data.add(2).write(9);
++        // All three bytes are initialized before constructing this stack value.
++        let stack = &storage.assume_init();
++        let promoted: &'static [u8; 3] = &[7u8, 0u8, 9u8];
++        assert!(raw_eq(stack, promoted));
++    }
++}
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.expected b/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..fee30046cd2eeb59bb232120766c64cf041794cb
+--- /dev/null
++++ b/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.expected
+@@ -0,0 +1,3 @@
++Checking harness mixed_raw_u8_stack_right...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs b/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..081bb5fd3ff4ec246d3381f58416c088a1bd1332
+--- /dev/null
++++ b/tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs
+@@ -0,0 +1,27 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++// Required: tracked stack/assume_init temporary and anonymous immutable referent.
++// The raw comparison checks initialization on both stack and immutable operands.
++#[kani::proof]
++fn mixed_raw_u8_stack_right() {
++    let mut storage = MaybeUninit::<[u8; 3]>::uninit();
++    let data = storage.as_mut_ptr().cast::<u8>();
++    unsafe {
++        data.write(7);
++        data.add(1).write(0);
++        data.add(2).write(9);
++        // All three bytes are initialized before constructing this stack value.
++        let stack = &storage.assume_init();
++        let promoted: &'static [u8; 3] = &[7u8, 0u8, 9u8];
++        assert!(raw_eq(promoted, stack));
++    }
++}
+diff --git a/tests/expected/uninit/part1-edges/immutable-relocation-hole.expected b/tests/expected/uninit/part1-edges/immutable-relocation-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..105e926bcab0dd94d70d2369395f9fd78a2dc82c
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/immutable-relocation-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness immutable_relocation_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - immutable_relocation_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/immutable-relocation-hole.rs b/tests/expected/uninit/part1-edges/immutable-relocation-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..e7ac94bf68b3ff05ae804c955792febf861afc69
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/immutable-relocation-hole.rs
+@@ -0,0 +1,20 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++#[kani::proof]
++fn immutable_relocation_hole() {
++    // Use three pointer-sized slots to avoid scalar transmute lowering in raw_eq.
++    // Slot 0 has a relocation in BOTH cases; the hole is slot 1, not an invalid &u8.
++    let left: &[MaybeUninit<&u8>; 3] =
++        &[MaybeUninit::new(&0u8), MaybeUninit::uninit(), MaybeUninit::new(&0u8)];
++    let right: &[MaybeUninit<&u8>; 3] = &[MaybeUninit::new(&0u8); 3];
++    let _equal = unsafe { raw_eq(left, right) };
++}
+diff --git a/tests/expected/uninit/part1-edges/immutable-relocation-legal.expected b/tests/expected/uninit/part1-edges/immutable-relocation-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd8df02ff26d1c600d0dbe614b9944f0036de7c3
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/immutable-relocation-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness immutable_relocation_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/immutable-relocation-legal.rs b/tests/expected/uninit/part1-edges/immutable-relocation-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..ed6a4ea250bf5bd4fd0a2736213abba8e35ac6fb
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/immutable-relocation-legal.rs
+@@ -0,0 +1,19 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++#[kani::proof]
++fn immutable_relocation_legal() {
++    // Use three pointer-sized slots to avoid scalar transmute lowering in raw_eq.
++    // Slot 0 has a relocation in BOTH cases; the hole is slot 1, not an invalid &u8.
++    let left: &[MaybeUninit<&u8>; 3] = &[MaybeUninit::new(&0u8); 3];
++    let right: &[MaybeUninit<&u8>; 3] = &[MaybeUninit::new(&0u8); 3];
++    let _equal = unsafe { raw_eq(left, right) };
++}
+diff --git a/tests/expected/uninit/part1-edges/immutable-static-hole.expected b/tests/expected/uninit/part1-edges/immutable-static-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..a7360087b270a9becbe8124bc9bbd2e363576dcd
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/immutable-static-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness immutable_static_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - immutable_static_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/immutable-static-hole.rs b/tests/expected/uninit/part1-edges/immutable-static-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..328e27f41cda3f324002316b0ca9686043222ebd
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/immutable-static-hole.rs
+@@ -0,0 +1,19 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++static SOURCE: [MaybeUninit<u8>; 3] =
++    [MaybeUninit::new(0), MaybeUninit::uninit(), MaybeUninit::new(0)];
++
++#[kani::proof]
++fn immutable_static_hole() {
++    let right: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(0); 3];
++    let _equal = unsafe { raw_eq(&SOURCE, right) };
++}
+diff --git a/tests/expected/uninit/part1-edges/immutable-static-legal.expected b/tests/expected/uninit/part1-edges/immutable-static-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..773fb946f96621d61b0ec50461fca3a37cf6e212
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/immutable-static-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness immutable_static_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/immutable-static-legal.rs b/tests/expected/uninit/part1-edges/immutable-static-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..d734b9f443bb6769c5601d26a2d8ab7be8aaf5bb
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/immutable-static-legal.rs
+@@ -0,0 +1,19 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++static SOURCE: [MaybeUninit<u8>; 3] =
++    [MaybeUninit::new(0), MaybeUninit::new(0), MaybeUninit::new(0)];
++
++#[kani::proof]
++fn immutable_static_legal() {
++    let right: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(0); 3];
++    assert!(unsafe { raw_eq(&SOURCE, right) });
++}
+diff --git a/tests/expected/uninit/part1-edges/immutable-subrange-hole.expected b/tests/expected/uninit/part1-edges/immutable-subrange-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..9a0830306ad3a7a5ccc06b7de8227dfd24671cca
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/immutable-subrange-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness immutable_subrange_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - immutable_subrange_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/immutable-subrange-hole.rs b/tests/expected/uninit/part1-edges/immutable-subrange-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..21dd4b29b29b43c0d30b6e9ada1f28e4753868db
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/immutable-subrange-hole.rs
+@@ -0,0 +1,23 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++const ALLOCATION: &[MaybeUninit<u8>; 4] =
++    &[MaybeUninit::new(0), MaybeUninit::new(0), MaybeUninit::new(0), MaybeUninit::uninit()];
++// Three bytes keep the comparison distinct from scalar transmute lowering.
++// Only this subrange origin is used at runtime: offset 1, extent 3, allocation size 4.
++const SUBRANGE: &[MaybeUninit<u8>; 3] =
++    unsafe { &*ALLOCATION.as_ptr().add(1).cast::<[MaybeUninit<u8>; 3]>() };
++
++#[kani::proof]
++fn immutable_subrange_hole() {
++    let right: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(0); 3];
++    let _equal = unsafe { raw_eq(SUBRANGE, right) };
++}
+diff --git a/tests/expected/uninit/part1-edges/immutable-subrange-legal.expected b/tests/expected/uninit/part1-edges/immutable-subrange-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..69a3bc7593fc234885b3c0180c6647ddc809e44f
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/immutable-subrange-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness immutable_subrange_legal...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `[u8; 3]`
++VERIFICATION:- FAILED
+diff --git a/tests/expected/uninit/part1-edges/immutable-subrange-legal.rs b/tests/expected/uninit/part1-edges/immutable-subrange-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..40cd3a3779236add5cafcd9320d255bc8b50c166
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/immutable-subrange-legal.rs
+@@ -0,0 +1,26 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++const ALLOCATION: &[MaybeUninit<u8>; 4] =
++    &[MaybeUninit::new(0), MaybeUninit::new(0), MaybeUninit::new(0), MaybeUninit::new(0)];
++// Three bytes keep the comparison distinct from scalar transmute lowering.
++// Only this subrange origin is used at runtime: offset 1, extent 3, allocation size 4.
++const SUBRANGE: &[MaybeUninit<u8>; 3] =
++    unsafe { &*ALLOCATION.as_ptr().add(1).cast::<[MaybeUninit<u8>; 3]>() };
++
++// Known conservative limitation: immutable allocations are seeded only as whole
++// allocations, so a constant subrange at a nonzero offset still starts uninitialized
++// and this legal comparison reports a spurious uninitialized read.
++#[kani::proof]
++fn immutable_subrange_legal() {
++    let right: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(0); 3];
++    assert!(unsafe { raw_eq(SUBRANGE, right) });
++}
+diff --git a/tests/expected/uninit/promoted-allocations/direct-left-hole.expected b/tests/expected/uninit/promoted-allocations/direct-left-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..2035c2044f3e1147c03b6d02c95f2adf8eb93b65
+--- /dev/null
++++ b/tests/expected/uninit/promoted-allocations/direct-left-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness promoted_direct_left_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - promoted_direct_left_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/promoted-allocations/direct-left-hole.rs b/tests/expected/uninit/promoted-allocations/direct-left-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..9428d9f6cc0d4e0ba183dcf37b9567b57569f9fd
+--- /dev/null
++++ b/tests/expected/uninit/promoted-allocations/direct-left-hole.rs
+@@ -0,0 +1,23 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++// Required lowering: retained raw_eq over both promoted three-byte referents.
++// Promoted byte masks and stack storage are checked through raw comparison operands.
++// Both MaybeUninit references are valid before raw_eq; no constant storage is mutated.
++// Require the left operand byte check to fail and the other operand check to succeed.
++// Earlier UB/Unsupported or an additional failure does not satisfy this control.
++#[kani::proof]
++fn promoted_direct_left_hole() {
++    let left: &[MaybeUninit<u8>; 3] =
++        &[MaybeUninit::uninit(), MaybeUninit::new(7u8), MaybeUninit::new(7u8)];
++    let right: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(7u8); 3];
++    let _equal = unsafe { raw_eq(left, right) };
++}
+diff --git a/tests/expected/uninit/promoted-allocations/direct-legal.expected b/tests/expected/uninit/promoted-allocations/direct-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ac0f58797c45e51d143eb52ee3c4e90d9c425c92
+--- /dev/null
++++ b/tests/expected/uninit/promoted-allocations/direct-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness promoted_direct_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/promoted-allocations/direct-legal.rs b/tests/expected/uninit/promoted-allocations/direct-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..a01cd2a453cdd80fab65804799d831e9b5643261
+--- /dev/null
++++ b/tests/expected/uninit/promoted-allocations/direct-legal.rs
+@@ -0,0 +1,21 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++// Required lowering: retained raw_eq over both promoted three-byte referents.
++// Promoted byte masks and stack storage are checked through raw comparison operands.
++// Both MaybeUninit references are valid before raw_eq; no constant storage is mutated.
++// Require both byte checks to succeed and equality to be true.
++#[kani::proof]
++fn promoted_direct_legal() {
++    let left: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(7u8); 3];
++    let right: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(7u8); 3];
++    assert!(unsafe { raw_eq(left, right) });
++}
+diff --git a/tests/expected/uninit/promoted-allocations/direct-right-hole.expected b/tests/expected/uninit/promoted-allocations/direct-right-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..fdfcb8793748cdbd7690226a5f58341fc35b82e0
+--- /dev/null
++++ b/tests/expected/uninit/promoted-allocations/direct-right-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness promoted_direct_right_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - promoted_direct_right_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/promoted-allocations/direct-right-hole.rs b/tests/expected/uninit/promoted-allocations/direct-right-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..7e03e7c5a95e9832f6d90e5ff34075f4db08df1b
+--- /dev/null
++++ b/tests/expected/uninit/promoted-allocations/direct-right-hole.rs
+@@ -0,0 +1,23 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++// Required lowering: retained raw_eq over both promoted three-byte referents.
++// Promoted byte masks and stack storage are checked through raw comparison operands.
++// Both MaybeUninit references are valid before raw_eq; no constant storage is mutated.
++// Require the right operand byte check to fail and the other operand check to succeed.
++// Earlier UB/Unsupported or an additional failure does not satisfy this control.
++#[kani::proof]
++fn promoted_direct_right_hole() {
++    let left: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(7u8); 3];
++    let right: &[MaybeUninit<u8>; 3] =
++        &[MaybeUninit::new(7u8), MaybeUninit::new(7u8), MaybeUninit::uninit()];
++    let _equal = unsafe { raw_eq(left, right) };
++}
+diff --git a/tests/expected/uninit/promoted-allocations/helper-left-hole.expected b/tests/expected/uninit/promoted-allocations/helper-left-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..521beadd20b6e94f6dd883560627ced2e1f79f67
+--- /dev/null
++++ b/tests/expected/uninit/promoted-allocations/helper-left-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness promoted_helper_left_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - promoted_helper_left_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/promoted-allocations/helper-left-hole.rs b/tests/expected/uninit/promoted-allocations/helper-left-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..53e6e9c24905b20a6211577d9eafd742bc75d27b
+--- /dev/null
++++ b/tests/expected/uninit/promoted-allocations/helper-left-hole.rs
+@@ -0,0 +1,28 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn compare(left: &[MaybeUninit<u8>; 3], right: &[MaybeUninit<u8>; 3]) -> bool {
++    unsafe { raw_eq(left, right) }
++}
++
++// Required lowering: retained raw_eq over both promoted three-byte referents.
++// Promoted byte masks and stack storage are checked through raw comparison operands.
++// Both MaybeUninit references are valid before raw_eq; no constant storage is mutated.
++// Require the left operand byte check to fail and the other operand check to succeed.
++// Earlier UB/Unsupported or an additional failure does not satisfy this control.
++#[kani::proof]
++fn promoted_helper_left_hole() {
++    let left: &[MaybeUninit<u8>; 3] =
++        &[MaybeUninit::uninit(), MaybeUninit::new(7u8), MaybeUninit::new(7u8)];
++    let right: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(7u8); 3];
++    let _equal = compare(left, right);
++}
+diff --git a/tests/expected/uninit/promoted-allocations/helper-legal.expected b/tests/expected/uninit/promoted-allocations/helper-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..d1210c3ce2e2d42331503223fe20e0306ad8bc45
+--- /dev/null
++++ b/tests/expected/uninit/promoted-allocations/helper-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness promoted_helper_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/promoted-allocations/helper-legal.rs b/tests/expected/uninit/promoted-allocations/helper-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..7457e313cf0bb8da999c380e6f124fda8b34aa87
+--- /dev/null
++++ b/tests/expected/uninit/promoted-allocations/helper-legal.rs
+@@ -0,0 +1,26 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn compare(left: &[MaybeUninit<u8>; 3], right: &[MaybeUninit<u8>; 3]) -> bool {
++    unsafe { raw_eq(left, right) }
++}
++
++// Required lowering: retained raw_eq over both promoted three-byte referents.
++// Promoted byte masks and stack storage are checked through raw comparison operands.
++// Both MaybeUninit references are valid before raw_eq; no constant storage is mutated.
++// Require both byte checks to succeed and equality to be true.
++#[kani::proof]
++fn promoted_helper_legal() {
++    let left: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(7u8); 3];
++    let right: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(7u8); 3];
++    assert!(compare(left, right));
++}
+diff --git a/tests/expected/uninit/promoted-allocations/helper-right-hole.expected b/tests/expected/uninit/promoted-allocations/helper-right-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..3d0cd5c9eb5cc3e591e7618962273c6df0e1f36d
+--- /dev/null
++++ b/tests/expected/uninit/promoted-allocations/helper-right-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness promoted_helper_right_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - promoted_helper_right_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/promoted-allocations/helper-right-hole.rs b/tests/expected/uninit/promoted-allocations/helper-right-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..3f5b6bdcc1591da8fe1d491db14c7dce22abcafe
+--- /dev/null
++++ b/tests/expected/uninit/promoted-allocations/helper-right-hole.rs
+@@ -0,0 +1,28 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn compare(left: &[MaybeUninit<u8>; 3], right: &[MaybeUninit<u8>; 3]) -> bool {
++    unsafe { raw_eq(left, right) }
++}
++
++// Required lowering: retained raw_eq over both promoted three-byte referents.
++// Promoted byte masks and stack storage are checked through raw comparison operands.
++// Both MaybeUninit references are valid before raw_eq; no constant storage is mutated.
++// Require the right operand byte check to fail and the other operand check to succeed.
++// Earlier UB/Unsupported or an additional failure does not satisfy this control.
++#[kani::proof]
++fn promoted_helper_right_hole() {
++    let left: &[MaybeUninit<u8>; 3] = &[MaybeUninit::new(7u8); 3];
++    let right: &[MaybeUninit<u8>; 3] =
++        &[MaybeUninit::new(7u8), MaybeUninit::new(7u8), MaybeUninit::uninit()];
++    let _equal = compare(left, right);
++}
