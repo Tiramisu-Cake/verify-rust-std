@@ -1,0 +1,55 @@
+# Challenge8 item2 S2 merge worker15 preparation only
+
+Task ID: `ch8-s2-w15-preparation`; previous task: `ch8-w0-a1-w15`.
+Owner: **Merge**. Phase: `CH8-S2-W15-PREP-NO-CI`. Lane: `merge`.
+
+## Mission
+
+This is a bounded continuation of the previous task under a newly authorized window.
+
+Runtime: Codex. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CODEX.md`](agent-workflow/RUNTIME-CODEX.md), the compact root [AGENTS.md](../../AGENTS.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
+The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. This task has no Cloud lane: no coordinator request, phase registration, Build submission or proof execution. Commit reviewed candidates and handoff inputs for a later, separately authorized Cloud task.
+No previous budget, T0, ledger authorization, profile acceptance, or proof credit transfers.
+
+## Baseline and controls
+
+Worktree `/root/verify-rust-std-ch8-s2-w15` on branch `work/ch8-s2-merge-w15`; baseline `872d5a43380752786415bc00d2a12ce0e930cb37`; source `ec3ff72f0b9ba925afeeb5664b2c103d61450bbc`.
+Tool worktree `/root/kani-upstream-ch8-s1` on `detached-0aac` at `0aac16ef62da9e9d5645782d458593e5d78143ba`.
+Profile: none (no Cloud lane). New ledger path: none; previous closed ledger: none (closed zero-budget task).
+Cloud budget: 0 seconds (no Cloud lane). Wall window: 120 minutes main + 30 minutes closeout. T0 remains NOT_SET until actual work starts.
+
+## Goal and steps
+
+Prepare S2 actual merge32 u8 sorted+arbitrary probe-count and CAP32 invariant pilot; zero CI/proof credit.
+
+1. Read direct assignment, CORE, S1 interface and S2 plan.
+2. Prepare real merge32 probe and CAP32 base/step/exit/loop pilot, controls and integration proposals.
+3. Static validation, independent static review, exact-path skip-ci commits and READY handoff.
+
+## Special bounds
+
+- Only new verify/sorting_merge*.rs; no smallsort.rs, verify.rs or model11 changes.
+- Research only kani3300/ch8-s2/w15 in g0; short exact-path skip-ci commit window.
+- No local builds/toolchains, push, CI, ledger writes or A1 result analysis.
+
+## Starting checkpoint
+
+Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
+
+Blocker: None for preparation; actual integration/compiler/qualification deferred.
+Next: Integrator13 and coordinator combine reviewed source after P1; S2 shared dispatch cap2.
+
+## References
+
+- [Roadmap roles/S2](kani-k1/ROADMAP-CH8-ITEMS1-2-FOUR-WORKERS.md)
+- [Sorting plan §§5/6](kani-k1/PLAN-CH8-ITEM2-SORTING-v2.md)
+
+## Отчёт агента
+
+**ch8-s2-w15-preparation · merge · CH8-S2-W15-PREP-NO-CI · NOT_STARTED**
+Updated: 2026-11-15T23:04:52Z. Baseline source/tool/profile: `ec3ff72f0b9ba925afeeb5664b2c103d61450bbc` / `0aac16ef62da9e9d5645782d458593e5d78143ba` / `UNKNOWN`.
+Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 0s: 0s spent, 0s retired, 0s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: None for preparation; actual integration/compiler/qualification deferred.
+Next: Integrator13 and coordinator combine reviewed source after P1; S2 shared dispatch cap2.
+See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

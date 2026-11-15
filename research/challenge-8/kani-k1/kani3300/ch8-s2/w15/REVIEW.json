@@ -1,0 +1,24 @@
+{
+  "schema": "ch8-s2-w15-static-review-v1",
+  "candidate": "ec3ff72f0b9ba925afeeb5664b2c103d61450bbc",
+  "base": "872d5a43380752786415bc00d2a12ce0e930cb37",
+  "reviewer": "GPT-6 Luna HIGH independent /root/w15_static_review",
+  "verdict": "GO_FOR_PREPARATION_ONLY",
+  "scope": "four new sorting_merge*.rs; actual source dependencies and pinned Kani loop API read-only",
+  "findings": [],
+  "integration_constraints": [
+    "Register controls only behind kani_smallsort_controls.",
+    "Integrate exact model11 S1 dependency before compiler/ABI claims.",
+    "Pilot separate helper-loop is not actual bidirectional_merge loop contract."
+  ],
+  "compilation": "NOT_RUN",
+  "proof": "NOT_RUN",
+  "proof_credit": "NONE",
+  "review_packet_sha256": "380f2f36216ff992a739fa97f0c3a71a85e7ec79ad71ff58761db7b47c8c5c59",
+  "continuation_review": {
+    "scope": "INVARIANT/INTEGRATION-PROPOSAL/CI-REQUEST/HANDOFF; source unchanged",
+    "verdict": "GO_FOR_PREPARATION_ONLY",
+    "findings": [],
+    "budget": "1650+1200+300=3150s; verification phase4500s;1350s reserve; unmeasured, not worst-case fit"
+  }
+}

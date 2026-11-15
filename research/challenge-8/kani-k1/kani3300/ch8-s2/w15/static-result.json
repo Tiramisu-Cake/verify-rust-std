@@ -1,0 +1,32 @@
+{
+  "state": "STATIC_CHECKS_PASS",
+  "source": "ec3ff72f0b9ba925afeeb5664b2c103d61450bbc",
+  "source_files": {
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_controls.rs": "85091f368d616fa843bef9e26ff905f230082342c5e3cf534363a53497f3723a",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_invariant.rs": "6e8ab0b96d260723aa3e070ed7ca2de06730681b379a3102591c9c8d9af0732c",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_model.rs": "911d0151058dcfd36d0ffcb03e8654c27e71a22a349c923aca13e0f5df4d6c55",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_probe.rs": "724227319cfdaad244e2218a70b931799ae08ebc27ff16262dde0ae7a12898f9"
+  },
+  "roots": 12,
+  "request_sha256": "bcaf9220bde8db886b52ee27edf8412d92399d4f4f4266488cf01ea8d29f845f",
+  "patch_sha256": "97bbe59f4d9130be6f94af5bb7cb3229b2fbdabcc07be60ef76b99baff0b1181",
+  "checks": [
+    "JSON syntax",
+    "source parent/tree/clean status",
+    "four addition-only files",
+    "protected source identities",
+    "model/interface dependency hashes",
+    "patch identity",
+    "12 root selectors and controls inventory",
+    "no stubs/PFC",
+    "request caps and estimates",
+    "control registration cfg"
+  ],
+  "not_run": [
+    "Rust parsing/compilation",
+    "loop extraction",
+    "verifier",
+    "CI"
+  ],
+  "proof_credit": "NONE"
+}

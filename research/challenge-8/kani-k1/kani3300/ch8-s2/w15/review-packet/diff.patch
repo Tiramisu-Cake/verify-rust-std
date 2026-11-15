@@ -1,0 +1,389 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_controls.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_controls.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..a94cf98a2bdb99f817582dfee665b135eb6b5d79
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_controls.rs
+@@ -0,0 +1,81 @@
++//! Opt-in controls. Named intended failures must not enter ordinary inventory.
++use super::sorting_merge_model::{CAP, Fronts, count, invariant, ordered};
++use super::sorting_merge_probe::merge32;
++use crate::kani;
++
++#[kani::proof]
++#[kani::unwind(34)]
++fn s2_merge_rejects_unguarded_endpoints() {
++    let mut src = [0; CAP];
++    src[..4].copy_from_slice(&[1, 9, 2, 10]);
++    let mut dst = [0; CAP];
++    dst[0] = 9;
++    dst[3] = 2;
++    let s = Fronts { k: 1, i: 1, j: 0, ir: 0, jr: 1 };
++    assert!(!invariant(&src, &dst, 4, s, 0), "S2_GUARDED_ENDPOINT_REGRESSION");
++    kani::cover(true, "S2_endpoint_rejection_reached");
++}
++
++#[kani::proof]
++#[kani::unwind(34)]
++fn s2_merge_rejects_unsorted_output() {
++    let (src, mut dst, _q) = merge32();
++    kani::assume(src[0] != src[31]);
++    dst.swap(0, CAP - 1);
++    assert!(ordered(&dst, 0, CAP), "S2_NEG_SORTED");
++}
++
++#[kani::proof]
++#[kani::unwind(34)]
++fn s2_merge_rejects_wrong_count() {
++    let (src, mut dst, _q) = merge32();
++    let q = dst[0];
++    dst[0] = q.wrapping_add(1);
++    assert!(count(&src, 0, CAP, q) == count(&dst, 0, CAP, q), "S2_NEG_COUNT");
++}
++
++#[kani::proof]
++#[kani::unwind(4)]
++fn s2_merge_false_invariant() {
++    let mut k = 0usize;
++    #[kani::loop_invariant(k == 0)]
++    #[kani::loop_modifies(&k)]
++    while k < 1 { k += 1; }
++    kani::cover(true, "S2_false_invariant_return");
++}
++
++#[kani::proof]
++#[kani::unwind(4)]
++fn s2_merge_simple_decreases() {
++    let mut remaining: u8 = kani::any();
++    kani::assume(remaining <= 16);
++    #[kani::loop_invariant(remaining <= 16)]
++    #[kani::loop_modifies(&remaining)]
++    #[kani::loop_decreases(remaining)]
++    while remaining > 0 { remaining -= 1; }
++    assert!(remaining == 0, "S2_SIMPLE_DECREASES_EXIT");
++    kani::cover(true, "S2_decreases_return");
++}
++
++#[kani::proof]
++#[kani::unwind(4)]
++fn s2_merge_false_decreases() {
++    let mut k = 0u8;
++    let remaining = 1u8;
++    #[kani::loop_invariant(k <= 1 && remaining == 1)]
++    #[kani::loop_modifies(&k)]
++    #[kani::loop_decreases(remaining)]
++    while k < 1 { k += 1; }
++    kani::cover(true, "S2_false_decreases_return");
++}
++
++#[kani::proof]
++#[kani::unwind(4)]
++fn s2_merge_false_frame() {
++    let mut k = 0u8;
++    let mut outside = 0u8;
++    #[kani::loop_invariant(k <= 1)]
++    #[kani::loop_modifies(&k)]
++    while k < 1 { outside = 1; k += 1; }
++    assert!(outside <= 1);
++}
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_invariant.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_invariant.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..0308a036f4e9c7f459af8348c408968399dd9289
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_invariant.rs
+@@ -0,0 +1,157 @@
++//! Induction pilot over initialized u8 arrays, CAP32, lawful closed comparator.
++//! Not a contract for the actual bidirectional_merge loop. W13 owns that integration.
++use super::super::{merge_down, merge_up};
++use super::sorting_merge_model::{CAP, Fronts, count, halves, invariant, ordered};
++use super::sorting_model::KeyLess;
++use crate::{kani, ptr};
++
++fn arbitrary_fronts() -> Fronts {
++    Fronts { k: kani::any(), i: kani::any(), j: kani::any(), ir: kani::any(), jr: kani::any() }
++}
++
++// Called only after invariant && k<h. Each forward/reverse pointer read is then
++// within its original half, even if combined forward/reverse consumption meets.
++fn paired_step(src: &[u8; CAP], dst: &mut [u8; CAP], len: usize, s: &mut Fronts) {
++    let h = len / 2;
++    assert!(s.k < h, "S2_STEP_GUARD");
++    assert!(s.i < h && s.j < len - h && s.ir < h && s.jr < len - h,
++        "S2_STEP_READS_IN_BOUNDS");
++    let mut cmp = KeyLess::<u8>::new();
++    unsafe {
++        let base = src.as_ptr();
++        let left = base.add(s.i);
++        let right = base.add(h + s.j);
++        let left_rev = base.add(h - 1).wrapping_sub(s.ir);
++        let right_rev = base.add(len - 1).wrapping_sub(s.jr);
++        let (l, r, d) = merge_up(left, right, dst.as_mut_ptr().add(s.k), &mut cmp);
++        let (lr, rr, dr) = merge_down(left_rev, right_rev,
++            dst.as_mut_ptr().add(len - 1 - s.k), &mut cmp);
++        s.i += (l != left) as usize;
++        s.j += (r != right) as usize;
++        s.ir += (lr != left_rev) as usize;
++        s.jr += (rr != right_rev) as usize;
++        s.k += 1;
++        assert!(l == base.add(s.i) && r == base.add(h + s.j), "S2_FORWARD_BINDING");
++        // No in-bounds add/sub with an exhausted reverse counter.
++        assert!(lr == base.add(h - 1).wrapping_sub(s.ir)
++            && rr == base.add(len - 1).wrapping_sub(s.jr), "S2_REVERSE_BINDING");
++        assert!(d == dst.as_mut_ptr().add(s.k)
++            && dr == dst.as_mut_ptr().add(len - 1 - s.k), "S2_OUTPUT_BINDING");
++    }
++}
++
++// Exact odd-copy and end-pointer operations of the actual epilogue. No panic cut.
++// We assert the actual panic guard false; the monolithic root checks actual panic.
++fn finish(src: &[u8; CAP], dst: &mut [u8; CAP], len: usize, s: Fronts, q: u8) {
++    assert!(s.k == len / 2, "S2_EXIT_GUARD");
++    let h = len / 2;
++    let left_remaining = h - s.i - s.ir;
++    let right_remaining = len - h - s.j - s.jr;
++    assert!(left_remaining + right_remaining == len % 2, "S2_EXIT_REMAINDER");
++    unsafe {
++        let base = src.as_ptr();
++        let mut left = base.add(s.i);
++        let mut right = base.add(h + s.j);
++        let left_end = base.add(h - 1).wrapping_sub(s.ir).wrapping_add(1);
++        let right_end = base.add(len - 1).wrapping_sub(s.jr).wrapping_add(1);
++        if !len.is_multiple_of(2) {
++            let left_nonempty = left < left_end;
++            assert!(left_nonempty == (left_remaining == 1), "S2_ODD_SELECTION");
++            let last_src = if left_nonempty { left } else { right };
++            ptr::copy_nonoverlapping(last_src, dst.as_mut_ptr().add(s.k), 1);
++            left = left.add(left_nonempty as usize);
++            right = right.add((!left_nonempty) as usize);
++        }
++        assert!(left == left_end && right == right_end, "S2_ORD_PANIC_UNREACHABLE");
++    }
++    assert!(ordered(dst, 0, len), "S2_EXIT_SORTED");
++    assert!(count(src, 0, len, q) == count(dst, 0, len, q), "S2_EXIT_PROBE_COUNT");
++}
++
++#[kani::proof]
++#[kani::unwind(34)]
++fn s2_merge_invariant_base_cap32() {
++    let src: [u8; CAP] = kani::any();
++    let dst: [u8; CAP] = kani::any();
++    let len: usize = kani::any();
++    let q: u8 = kani::any();
++    kani::assume(halves(&src, len));
++    assert!(invariant(&src, &dst, len, Fronts::zero(), q), "S2_INVARIANT_BASE");
++    kani::cover(len == 2, "S2_base_min");
++    kani::cover(len == 31, "S2_base_odd");
++    kani::cover(len == 32, "S2_base_cap");
++}
++
++#[kani::proof]
++#[kani::unwind(34)]
++fn s2_merge_invariant_step_cap32() {
++    let src: [u8; CAP] = kani::any();
++    let original = src;
++    let mut dst: [u8; CAP] = kani::any();
++    let before = dst;
++    let len: usize = kani::any();
++    let q: u8 = kani::any();
++    let mut s = arbitrary_fronts();
++    kani::assume(invariant(&src, &dst, len, s, q));
++    kani::assume(s.k < len / 2);
++    let k = s.k;
++    paired_step(&src, &mut dst, len, &mut s);
++    assert!(invariant(&src, &dst, len, s, q), "S2_INVARIANT_STEP");
++    assert!(src == original, "S2_STEP_SOURCE_FRAME");
++    for i in 0..CAP {
++        assert!(i == k || i == len - 1 - k || dst[i] == before[i], "S2_STEP_WRITE_FRAME");
++    }
++    kani::cover(len == 32 && k == 15, "S2_step_final_even");
++    kani::cover(len == 31 && k == 14, "S2_step_final_odd");
++    kani::cover(s.ir == len / 2, "S2_step_left_reverse_sentinel");
++    kani::cover(s.jr == len - len / 2, "S2_step_right_reverse_exhausted");
++}
++
++#[kani::proof]
++#[kani::unwind(34)]
++fn s2_merge_invariant_exit_cap32() {
++    let src: [u8; CAP] = kani::any();
++    let original = src;
++    let mut dst: [u8; CAP] = kani::any();
++    let before = dst;
++    let len: usize = kani::any();
++    let q: u8 = kani::any();
++    let s = arbitrary_fronts();
++    kani::assume(invariant(&src, &dst, len, s, q));
++    kani::assume(s.k == len / 2);
++    finish(&src, &mut dst, len, s, q);
++    assert!(src == original, "S2_EXIT_SOURCE_FRAME");
++    for i in 0..CAP {
++        assert!((len % 2 == 1 && i == s.k) || dst[i] == before[i], "S2_EXIT_WRITE_FRAME");
++    }
++    kani::cover(len == 32, "S2_exit_even_cap");
++    kani::cover(len == 31 && s.i + s.ir < len / 2, "S2_exit_odd_left");
++    kani::cover(len == 31 && s.j + s.jr < len - len / 2, "S2_exit_odd_right");
++}
++
++#[kani::proof]
++#[kani::unwind(34)]
++fn s2_merge_loop_pilot_cap32() {
++    let src: [u8; CAP] = kani::any();
++    let original = src;
++    let mut dst: [u8; CAP] = kani::any();
++    let before = dst;
++    let len: usize = kani::any();
++    let q: u8 = kani::any();
++    kani::assume(halves(&src, len));
++    let mut s = Fronts::zero();
++    // Partial correctness only. No complex loop_decreases(h - s.k) (#4585).
++    #[kani::loop_invariant(invariant(&src, &dst, len, s, q))]
++    #[kani::loop_modifies(&s, &mut dst[..len])]
++    while s.k < len / 2 {
++        paired_step(&src, &mut dst, len, &mut s);
++    }
++    finish(&src, &mut dst, len, s, q);
++    assert!(src == original, "S2_LOOP_SOURCE_FRAME");
++    for i in 0..CAP {
++        assert!(i < len || dst[i] == before[i], "S2_LOOP_OUTSIDE_FRAME");
++    }
++    kani::cover(len == 2, "S2_loop_min_return");
++    kani::cover(len == 31, "S2_loop_odd_return");
++    kani::cover(len == 32, "S2_loop_cap_return");
++}
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_model.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_model.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..6b91a46379a710637804f5cafa4aaf06a909b84e
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_model.rs
+@@ -0,0 +1,80 @@
++//! CAP32 u8 predicates. No raw reads, callbacks, symbolic quantifiers or checker loops.
++//! Query is independent of runtime comparison; one unchanged arbitrary query per root.
++
++pub(super) const CAP: usize = 32;
++
++// Literal bounds deliberately avoid symbolic quantifier lowering (#5148).
++macro_rules! positions {
++    ($m:ident) => { $m!(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
++        16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31); };
++}
++
++pub(super) fn ordered(a: &[u8; CAP], lo: usize, hi: usize) -> bool {
++    if lo > hi || hi > CAP { return false; }
++    // Index 32 is never evaluated, including during predicate-definedness checks.
++    // A helper prevents a literal out-of-bounds index in the expansion at i=31.
++    macro_rules! adjacent { ($($i:literal)*) => { $(
++        if lo <= $i && $i + 1 < hi && !ordered_pair(a, $i) { return false; }
++    )* }; }
++    positions!(adjacent);
++    true
++}
++
++fn ordered_pair(a: &[u8; CAP], i: usize) -> bool {
++    i + 1 < CAP && a[i] <= a[i + 1]
++}
++
++pub(super) fn count(a: &[u8; CAP], lo: usize, hi: usize, q: u8) -> usize {
++    // Invalid ranges are rejected by each enclosing predicate before this call.
++    let mut n = 0;
++    macro_rules! add { ($($i:literal)*) => { $(
++        if lo <= $i && $i < hi && a[$i] == q { n += 1; }
++    )* }; }
++    positions!(add);
++    n
++}
++
++pub(super) fn halves(a: &[u8; CAP], len: usize) -> bool {
++    2 <= len && len <= CAP && ordered(a, 0, len / 2) && ordered(a, len / 2, len)
++}
++
++#[derive(Clone, Copy)]
++pub(super) struct Fronts {
++    pub k: usize,
++    pub i: usize,
++    pub j: usize,
++    pub ir: usize,
++    pub jr: usize,
++}
++impl Fronts {
++    pub(super) fn zero() -> Self { Self { k: 0, i: 0, j: 0, ir: 0, jr: 0 } }
++}
++
++pub(super) fn invariant(src: &[u8; CAP], dst: &[u8; CAP], len: usize,
++    s: Fronts, q: u8) -> bool
++{
++    if !halves(src, len) { return false; }
++    let h = len / 2;
++    let r = len - h;
++    // Bounds first: all following arithmetic and indexed reads are defined.
++    if s.k > h || s.i > h || s.ir > h || s.j > r || s.jr > r { return false; }
++    if s.i + s.j != s.k || s.ir + s.jr != s.k
++        || s.i + s.ir > h || s.j + s.jr > r { return false; }
++    // Stable partition cuts: forward ties left; reverse ties right.
++    if !(s.i == 0 || s.j == r || src[s.i - 1] <= src[h + s.j])
++        || !(s.j == 0 || s.i == h || src[h + s.j - 1] < src[s.i])
++        || !(s.ir == 0 || s.jr == r || src[h - s.ir] > src[len - 1 - s.jr])
++        || !(s.jr == 0 || s.ir == h || src[len - s.jr] >= src[h - 1 - s.ir])
++    { return false; }
++    if !ordered(dst, 0, s.k) || !ordered(dst, len - s.k, len) { return false; }
++    if s.k > 0 {
++        // Each alternative MUST name a nonempty consumed segment (§6 counterexample).
++        if !((s.i > 0 && dst[s.k - 1] == src[s.i - 1])
++            || (s.j > 0 && dst[s.k - 1] == src[h + s.j - 1])) { return false; }
++        if !((s.ir > 0 && dst[len - s.k] == src[h - s.ir])
++            || (s.jr > 0 && dst[len - s.k] == src[len - s.jr])) { return false; }
++    }
++    count(dst, 0, s.k, q) == count(src, 0, s.i, q) + count(src, h, h + s.j, q)
++        && count(dst, len - s.k, len, q)
++            == count(src, h - s.ir, h, q) + count(src, len - s.jr, len, q)
++}
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_probe.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_probe.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..8f01f8b00017f795c3dbe241bca1533bb946b70c
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_merge_probe.rs
+@@ -0,0 +1,47 @@
++//! Real bidirectional_merge len32: no verified summaries and no panic/comparator stub.
++use super::super::bidirectional_merge;
++use super::sorting_merge_model::{CAP, count, halves, ordered};
++use super::sorting_model::{KeyLess, enabled};
++use crate::mem::MaybeUninit;
++use crate::kani;
++
++pub(super) fn merge32() -> ([u8; CAP], [u8; CAP], u8) {
++    let src: [u8; CAP] = kani::any();
++    let before = src;
++    let q: u8 = kani::any();
++    kani::assume(halves(&src, CAP));
++    assert!(enabled::<u8, KeyLess<u8>>(), "S2_MERGE_MODEL_ACTIVE");
++    // Actual output remains uninitialized until actual merge writes it; two guards.
++    let mut dst = [MaybeUninit::<u8>::uninit(); CAP + 2];
++    dst[0].write(0x39);
++    dst[CAP + 1].write(0xc6);
++    let mut cmp = KeyLess::<u8>::new();
++    // SAFETY: disjoint arrays, 32 initialized input bytes, interior writable output32.
++    unsafe { bidirectional_merge(&src, dst.as_mut_ptr().add(1).cast::<u8>(), &mut cmp) };
++    let mut output = [0; CAP];
++    let mut i = 0;
++    while i < CAP {
++        // SAFETY: the real body initializes every destination byte on normal return.
++        output[i] = unsafe { dst[i + 1].assume_init() };
++        i += 1;
++    }
++    assert!(src == before, "S2_MERGE_SOURCE_FRAME");
++    assert!(unsafe { dst[0].assume_init() } == 0x39, "S2_MERGE_LEFT_FRAME");
++    assert!(unsafe { dst[CAP + 1].assume_init() } == 0xc6, "S2_MERGE_RIGHT_FRAME");
++    (src, output, q)
++}
++
++#[kani::proof]
++#[kani::unwind(34)]
++fn s2_merge_u8_len32_real_body() {
++    let (src, dst, q) = merge32();
++    assert!(ordered(&dst, 0, CAP), "S2_MERGE32_SORTED");
++    assert!(count(&src, 0, CAP, q) == count(&dst, 0, CAP, q), "S2_MERGE32_PROBE_COUNT");
++    kani::cover(src[0] > src[16], "S2_merge_right_front_first_return");
++    kani::cover(src[0] < src[16], "S2_merge_left_front_first_return");
++    kani::cover(src[15] == src[16], "S2_merge_cross_half_tie_return");
++    kani::cover(dst[0] < dst[31], "S2_merge_nonconstant_return");
++    kani::cover(q == src[0], "S2_merge_probe_present_return");
++    kani::cover(count(&src, 0, CAP, q) == 0, "S2_merge_probe_absent_return");
++    kani::cover(true, "S2_merge_useful_return");
++}

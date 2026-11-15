@@ -1,0 +1,26 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-ch8-s2-w15",
+  "baseline_commit": "872d5a43380752786415bc00d2a12ce0e930cb37",
+  "candidate_commit": "ec3ff72f0b9ba925afeeb5664b2c103d61450bbc",
+  "defect": "Prepare S2 actual merge32 u8 sorted+arbitrary probe-count and CAP32 invariant pilot; zero CI/proof credit.",
+  "applicability": "Four NEW sorting_merge*.rs only. Registration and actual loop attrs only proposals to13. Model11 dependency not integrated; P1 pending.",
+  "invariants": [
+    "Actual merge32 calls real bidirectional_merge with KeyLess and uninitialized disjoint output; no panic or helper stubs.",
+    "Base/arbitrary-state step/exit cover len2..32, guarded C5, fixed-query counts, reverse wrapping sentinel, odd copy, source/output frame.",
+    "Loop pilot calls real merge_up/down but is separate from actual core for-loop; partial correctness only, no termination/extra-UB/stability/generic-T theorem."
+  ],
+  "controls": [
+    "Guarded endpoint regression, sorted/count corruptions, false invariant, false frame, simple and false decreases. All NOT_RUN."
+  ],
+  "dependencies": [
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "No local Rust toolchain or proof execution. Exact model dependency supplied separately to reviewer: w11 S1 commit3f469d3ba2e94d7129e66e53ea76df883ff9c946, sorting_model.rs.",
+    "Actual core-loop transfer not yet implemented; no summaries consumed; monolithic probe and pilot distinct.",
+    "Tool clean0aac. APIs/source compile and loop extraction remain NOT_RUN; future P1 and exact combined head required."
+  ]
+}

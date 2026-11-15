@@ -1,0 +1,246 @@
+{
+  "schema": "ch8-s2-w15-ci-request-v1",
+  "state": "READY_PREPARATION_NOT_DISPATCHABLE",
+  "gate": "P1 PASS plus combined export13 reviewed and exact CI control source/flags bound by coordinator",
+  "bucket": "S2 shared with w11/w13/w14",
+  "suggested_dispatch": "S2-01 shared batch; S2-02 conditional corrective only",
+  "dispatch_cap_shared": 2,
+  "dispatches_this_session": 0,
+  "cloud_dollars": 0,
+  "inputs": {
+    "schema": "ch8-s2-w15-inputs-v1",
+    "base": "872d5a43380752786415bc00d2a12ce0e930cb37",
+    "source": "ec3ff72f0b9ba925afeeb5664b2c103d61450bbc",
+    "source_tree": "7c18e1205c4c03b815f1d900e73ae67ce5e8b976",
+    "source_worktree": "/root/verify-rust-std-ch8-s2-w15",
+    "branch": "work/ch8-s2-merge-w15",
+    "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "model_source": "3f469d3ba2e94d7129e66e53ea76df883ff9c946",
+    "model_path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+    "model_sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "interface_sha256": "c06217c2f8138d0c915639d9d29571a56e4ca4952578b27c354fef6e68a900de",
+    "combined_export_sha": null,
+    "ci_control_sha": null,
+    "status": "PREPARATION_ONLY_NOT_RUN",
+    "proof_credit": "NONE"
+  },
+  "source_mode": "Original/no summaries/no panic stub",
+  "registration_proposal": "INTEGRATION-PROPOSAL.md",
+  "combined_export_sha": null,
+  "ci_control_sha": null,
+  "flags": [
+    "-Z unstable-options",
+    "-Z function-contracts",
+    "-Z mem-predicates",
+    "-Z float-lib",
+    "-Z c-ffi",
+    "-Z loop-contracts",
+    "-Z quantifiers",
+    "-Z stubbing",
+    "--no-assert-contracts",
+    "--jobs=1",
+    "--exact",
+    "--output-format=terse",
+    "-Z export-json",
+    "--object-bits 12"
+  ],
+  "cfg": [
+    "kani_smallsort_sorting",
+    "kani_smallsort_controls"
+  ],
+  "uninit": false,
+  "valid_value": false,
+  "default_checks": "preserve defaults, unwinding assertions ON; no solver/timeout sweep",
+  "runner": "ubuntu-24.04",
+  "jobs": 1,
+  "matrix_max_parallel": 1,
+  "root_hard_seconds": 600,
+  "workflow_minutes": 120,
+  "setup_minutes": 30,
+  "verification_phase_minutes": 75,
+  "receipt_upload_minutes": 15,
+  "aggregate_rss_cap_kib": 6291456,
+  "rss_gib_divisor": 1048576,
+  "artifact_cap_mib": 256,
+  "row_export_cap_mib": 8,
+  "retention_days": 7,
+  "rows": [
+    {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_merge_probe::s2_merge_u8_len32_real_body",
+      "source_name": "core::slice::sort::shared::smallsort::verify::sorting_merge_probe::s2_merge_u8_len32_real_body",
+      "expected": "positive",
+      "obligations": [
+        "S2_MERGE32_SORTED",
+        "S2_MERGE32_PROBE_COUNT",
+        "S2_MERGE_SOURCE_FRAME",
+        "S2_MERGE_LEFT_FRAME",
+        "S2_MERGE_RIGHT_FRAME"
+      ],
+      "property_ids": null,
+      "state": "NOT_RUN",
+      "estimated_seconds_unmeasured": 300,
+      "unwind": 34,
+      "require_all_positive_covers": true
+    },
+    {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_merge_invariant::s2_merge_invariant_base_cap32",
+      "source_name": "core::slice::sort::shared::smallsort::verify::sorting_merge_invariant::s2_merge_invariant_base_cap32",
+      "expected": "positive",
+      "obligations": [
+        "S2_INVARIANT_BASE"
+      ],
+      "property_ids": null,
+      "state": "NOT_RUN",
+      "estimated_seconds_unmeasured": 20,
+      "unwind": 34,
+      "require_all_positive_covers": true
+    },
+    {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_merge_invariant::s2_merge_invariant_step_cap32",
+      "source_name": "core::slice::sort::shared::smallsort::verify::sorting_merge_invariant::s2_merge_invariant_step_cap32",
+      "expected": "positive",
+      "obligations": [
+        "S2_INVARIANT_STEP",
+        "S2_STEP_READS_IN_BOUNDS",
+        "S2_FORWARD_BINDING",
+        "S2_REVERSE_BINDING",
+        "S2_STEP_WRITE_FRAME"
+      ],
+      "property_ids": null,
+      "state": "NOT_RUN",
+      "estimated_seconds_unmeasured": 180,
+      "unwind": 34,
+      "require_all_positive_covers": true
+    },
+    {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_merge_invariant::s2_merge_invariant_exit_cap32",
+      "source_name": "core::slice::sort::shared::smallsort::verify::sorting_merge_invariant::s2_merge_invariant_exit_cap32",
+      "expected": "positive",
+      "obligations": [
+        "S2_ORD_PANIC_UNREACHABLE",
+        "S2_EXIT_REMAINDER",
+        "S2_ODD_SELECTION",
+        "S2_EXIT_SORTED",
+        "S2_EXIT_PROBE_COUNT",
+        "S2_EXIT_WRITE_FRAME"
+      ],
+      "property_ids": null,
+      "state": "NOT_RUN",
+      "estimated_seconds_unmeasured": 180,
+      "unwind": 34,
+      "require_all_positive_covers": true
+    },
+    {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_merge_invariant::s2_merge_loop_pilot_cap32",
+      "source_name": "core::slice::sort::shared::smallsort::verify::sorting_merge_invariant::s2_merge_loop_pilot_cap32",
+      "expected": "positive",
+      "obligations": [
+        "loop invariant base/step",
+        "loop assigns",
+        "S2_ORD_PANIC_UNREACHABLE",
+        "S2_EXIT_SORTED",
+        "S2_EXIT_PROBE_COUNT",
+        "S2_LOOP_OUTSIDE_FRAME"
+      ],
+      "property_ids": null,
+      "state": "NOT_RUN",
+      "estimated_seconds_unmeasured": 300,
+      "unwind": 34,
+      "require_all_positive_covers": true
+    },
+    {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_merge_controls::s2_merge_rejects_unguarded_endpoints",
+      "source_name": "core::slice::sort::shared::smallsort::verify::sorting_merge_controls::s2_merge_rejects_unguarded_endpoints",
+      "expected": "positive",
+      "obligations": [
+        "S2_GUARDED_ENDPOINT_REGRESSION"
+      ],
+      "property_ids": null,
+      "state": "NOT_RUN",
+      "estimated_seconds_unmeasured": 10,
+      "unwind": 34,
+      "require_all_positive_covers": true
+    },
+    {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_merge_controls::s2_merge_simple_decreases",
+      "source_name": "core::slice::sort::shared::smallsort::verify::sorting_merge_controls::s2_merge_simple_decreases",
+      "expected": "positive",
+      "obligations": [
+        "loop decreases",
+        "S2_SIMPLE_DECREASES_EXIT"
+      ],
+      "property_ids": null,
+      "state": "NOT_RUN",
+      "estimated_seconds_unmeasured": 15,
+      "unwind": 4,
+      "require_all_positive_covers": true
+    },
+    {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_merge_controls::s2_merge_false_invariant",
+      "source_name": "core::slice::sort::shared::smallsort::verify::sorting_merge_controls::s2_merge_false_invariant",
+      "expected": "expected_failure",
+      "obligations": [
+        "loop invariant step: k == 0"
+      ],
+      "property_ids": null,
+      "state": "NOT_RUN",
+      "estimated_seconds_unmeasured": 15,
+      "unwind": 4,
+      "require_all_positive_covers": false
+    },
+    {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_merge_controls::s2_merge_false_decreases",
+      "source_name": "core::slice::sort::shared::smallsort::verify::sorting_merge_controls::s2_merge_false_decreases",
+      "expected": "expected_failure",
+      "obligations": [
+        "loop decreases: remaining"
+      ],
+      "property_ids": null,
+      "state": "NOT_RUN",
+      "estimated_seconds_unmeasured": 15,
+      "unwind": 4,
+      "require_all_positive_covers": false
+    },
+    {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_merge_controls::s2_merge_false_frame",
+      "source_name": "core::slice::sort::shared::smallsort::verify::sorting_merge_controls::s2_merge_false_frame",
+      "expected": "expected_failure",
+      "obligations": [
+        "loop assigns: outside"
+      ],
+      "property_ids": null,
+      "state": "NOT_RUN",
+      "estimated_seconds_unmeasured": 15,
+      "unwind": 4,
+      "require_all_positive_covers": false
+    },
+    {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_merge_controls::s2_merge_rejects_unsorted_output",
+      "source_name": "core::slice::sort::shared::smallsort::verify::sorting_merge_controls::s2_merge_rejects_unsorted_output",
+      "expected": "expected_failure",
+      "obligations": [
+        "S2_NEG_SORTED"
+      ],
+      "property_ids": null,
+      "state": "NOT_RUN",
+      "estimated_seconds_unmeasured": 300,
+      "unwind": 34,
+      "require_all_positive_covers": false
+    },
+    {
+      "selector": "slice::sort::shared::smallsort::verify::sorting_merge_controls::s2_merge_rejects_wrong_count",
+      "source_name": "core::slice::sort::shared::smallsort::verify::sorting_merge_controls::s2_merge_rejects_wrong_count",
+      "expected": "expected_failure",
+      "obligations": [
+        "S2_NEG_COUNT"
+      ],
+      "property_ids": null,
+      "state": "NOT_RUN",
+      "estimated_seconds_unmeasured": 300,
+      "unwind": 34,
+      "require_all_positive_covers": false
+    }
+  ],
+  "estimated_worker15_seconds_unmeasured": 1650
+}
