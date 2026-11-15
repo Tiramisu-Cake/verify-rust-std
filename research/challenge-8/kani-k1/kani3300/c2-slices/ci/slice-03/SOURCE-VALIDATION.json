@@ -1,0 +1,58 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "source_sha": "d0345ddf4f70d10caf5ee34ddca402867264379e",
+  "source_tree": "8ac48a5660a94de062919ebcf80fdcdef2cc2f03",
+  "base_sha": "932fb8395a58f8c86c0d702ba2cae835823b2962",
+  "changed_files": 44,
+  "production_files": 5,
+  "owner3_parts": 22,
+  "selected_whole_fixture_pairs": 19,
+  "deferred_whole_fixture_pairs": 9,
+  "golden_verdicts": {
+    "SUCCESSFUL": 10,
+    "FAILED": 9
+  },
+  "cumulative_selectors": 336,
+  "preexisting_ignores": 9,
+  "manifest_file_identities": 649,
+  "suite_counts": {
+    "kani": [
+      53,
+      3
+    ],
+    "expected": [
+      244,
+      6
+    ],
+    "ui": [
+      17,
+      0
+    ],
+    "script-based-pre": [
+      3,
+      0
+    ],
+    "json-handler": [
+      17,
+      0
+    ],
+    "std-checks": [
+      2,
+      0
+    ]
+  },
+  "checks": [
+    "read-only line-part recomposition",
+    "effective part hashes with neutral import correction",
+    "exact changed-path boundary",
+    "all existing tests unchanged",
+    "19 pairs exact F",
+    "all inherited selectors/identities unchanged",
+    "Quick head3 additions exact",
+    "all manifest file hashes",
+    "deferred9 absent",
+    "git diff --check"
+  ],
+  "native_compile_tests": "NOT_RUN",
+  "formal_proof_credit": "NOT_ESTABLISHED"
+}
