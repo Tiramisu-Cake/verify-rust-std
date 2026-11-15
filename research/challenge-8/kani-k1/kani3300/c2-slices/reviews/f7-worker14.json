@@ -1,0 +1,275 @@
+{
+  "schema": "c2-slices-f7-worker14-review-v1",
+  "status": "PASS_BOUNDED_STATIC_REVIEW",
+  "findings": [],
+  "reviewer": "worker14, main agent, no delegation",
+  "source_sha": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+  "parent_sha": "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+  "reference_F": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "source_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+  "reference_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+  "g0_entry": "6ad6714f02035ebe3a6a3f6159cc773eecaf37a1",
+  "source_worktree": "/root/kani-fix-3300-c2-slices-w15",
+  "source_clean": true,
+  "source_patch_sha256": "8e370c617017e8476ae45ed02b8c439448756d1c8cf0251ea1cbb9545fcecbe7",
+  "input_hashes": {
+    "f7/F7-RESIDUAL.json": "771592442f46726dd9cda74756db8fc8f3f8cabb8ad3a17662a52973dae0d19c",
+    "f7/EXTRACTION-PLAN.md": "5fc97bf0446489fadac39a60d8d15f21d1224333194bc0c15dbc75e4814cca3c",
+    "source-map/PRE-F7.json": "40f82051b9adc0ce50f49e54ec11a6b71adbc8f4ff464e0be414a698afe0c5c0",
+    "slice-06/CALL-CONTRACTS-06.json": "de878be78979914e47eea7b2739dd8a3fb1ffb433c0d0b2090436bb73b6d4c7a",
+    "seam-audit/check_seams.py": "f2db55dbfbdfabad8eb3ac53cd1d4cf147c3339420736e1a5c36003be07f9fe4"
+  },
+  "files": [
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "hunks": [
+        "@@ -0,0 +1,144 @@"
+      ],
+      "mode": "100644",
+      "blob": "6ba16800fba5cc1955094551acfd20e6c2e20065",
+      "patch_sha256": "96707d3d0c208d8c5cca569803266adebd133dc626d6bbdd4a4c5b05a8104f33",
+      "historical_patch_exact": true
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "hunks": [
+        "@@ -30,0 +31 @@",
+        "@@ -38,0 +40 @@",
+        "@@ -73,0 +76 @@ fn build_missing_body(tcx: TyCtxt, instance: Instance) -> Body {",
+        "@@ -94,0 +98,2 @@ pub struct BodyTransformation {",
+        "@@ -110,0 +116 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {",
+        "@@ -151,0 +158,13 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {",
+        "@@ -216,0 +236,26 @@ fn add_pass<P: ClonableTransformPass + 'static>(&mut self, query_db: &QueryDb, p",
+        "@@ -389,0 +435,43 @@ fn clone_back(&self) -> Box<dyn $new_trait_name> {"
+      ],
+      "mode": "100644",
+      "blob": "4484375cea01d66a1545208238542815d0490896",
+      "patch_sha256": "6cac2950900a8e745128924fd2683993d240e2540cce510320dc132cfddf4852",
+      "historical_patch_exact": true
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "hunks": [
+        "@@ -18 +18 @@",
+        "@@ -191,3 +191 @@ fn transform(",
+        "@@ -214 +212 @@ fn transform("
+      ],
+      "mode": "100644",
+      "blob": "456b39de7fa3ace577f0cae44fdcf14c37dc887f",
+      "patch_sha256": "5ca668e44b5bd534b1a13da6e1cb8db7350c4a34e9d4f899adc8e492363de10b",
+      "historical_patch_exact": true
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "hunks": [
+        "@@ -91,0 +92,5 @@ fn codegen_items<'tcx>("
+      ],
+      "mode": "100644",
+      "blob": "3461ada461b9d0f123f22d25274b000a7a789559",
+      "patch_sha256": "c2f3574687bb47f82b074a7d4ba720227cd43ed26c42accbafbd59d6d6d6e8cc",
+      "historical_patch_exact": true
+    },
+    {
+      "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+      "hunks": [
+        "@@ -69,0 +70,3 @@ fn codegen_items("
+      ],
+      "mode": "100644",
+      "blob": "cead741d8618551828063ed46c310c1f10f740b0",
+      "patch_sha256": "2873ab10d57c601acd690b6eee7a36624626088e18a413519fb6c351c91e8162",
+      "historical_patch_exact": true
+    }
+  ],
+  "exact_hunks": 14,
+  "exact_changed_files": 5,
+  "full_diff_to_F_empty": true,
+  "modes_submodules_dependency_pins_equal_F": true,
+  "B1_ancestor": "6fe484b30043b3696b5f1ccc4bea0e42891ad012",
+  "stack_after_B1": [
+    "d82752c8bc878398e672bffaa631ca6a28430acc",
+    "932fb8395a58f8c86c0d702ba2cae835823b2962",
+    "5ca51679e3f433718807a2e44add0d5abac128e7",
+    "345cedfd67df679e326474385308349d609fc43d",
+    "96f5d5dc8dedd369c6986a4f1dd5e698b6167f0f",
+    "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+    "8e299aa6243bc5f06a29c51e98aafa9564478220"
+  ],
+  "pre_F7": {
+    "import_and_both_writer_snippets_present_in_parent": true,
+    "all_three_snippets_absent_after_F7": true,
+    "replace_delayed_body_writers": 2
+  },
+  "invariants": [
+    "First complete TransformationResult, including modified flag, moved into journal once; repeated replacements retain first original.",
+    "Restore inserts exact previous entries or removes previously absent entries; untouched and newly regular entries remain.",
+    "Scope begin rejects overlap; exclusive borrowed guard Deref/DerefMut preserves existing transformer consumers; Drop restores on normal/early return and Rust unwind.",
+    "No Drop claim for process abort; there is no subsequent transformer reuse after abort.",
+    "Both normal instrumented and failed-root Unsupported writers use the journal after transformer.body applies regular transforms.",
+    "Cprover scope starts before initial reachability, includes second reachability/global passes, declarations/codegen, contract handling, quantifiers and immutable finalize.",
+    "Cprover export workers receive owned materialized FileDataToWrite; MIR scope remains until codegen_items returns.",
+    "LLBC common codegen_items scopes reachability/global passes and translation/export, covering harness and PubFns callers.",
+    "Regular/stub passes, loop metadata, immutable prepare/finalize, override provenance and all tests/docs are retained; no cache.clear or T1b allowance."
+  ],
+  "compile_seams": {
+    "status": "PASS_BOUNDED_STATIC_SEAM_AUDIT",
+    "base": "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+    "head": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+    "reference": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+    "changed_rust_files": 5,
+    "contracts_total": 55,
+    "bound_calls": 111,
+    "errors": [],
+    "inherited_contracts": "../slice-06/CALL-CONTRACTS-06.json",
+    "additional_contracts": [
+      {
+        "id": "f7-cprover-scope",
+        "path_regex": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface\\.rs",
+        "tokens": [
+          "transformer",
+          ".",
+          "delayed_scope"
+        ],
+        "arity": 0,
+        "count": 1
+      },
+      {
+        "id": "f7-llbc-scope",
+        "path_regex": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface\\.rs",
+        "tokens": [
+          "transformer",
+          ".",
+          "delayed_scope"
+        ],
+        "arity": 0,
+        "count": 1
+      },
+      {
+        "id": "f7-both-delayed-writers",
+        "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod\\.rs",
+        "tokens": [
+          "transformer",
+          ".",
+          "replace_delayed_body"
+        ],
+        "arity": 2,
+        "count": 2
+      },
+      {
+        "id": "f7-journal-begin",
+        "path_regex": "kani-compiler/src/kani_middle/transform/mod\\.rs",
+        "tokens": [
+          "self",
+          ".",
+          "delayed_cache",
+          ".",
+          "begin"
+        ],
+        "arity": 0,
+        "count": 1
+      },
+      {
+        "id": "f7-journal-replace",
+        "path_regex": "kani-compiler/src/kani_middle/transform/mod\\.rs",
+        "tokens": [
+          "self",
+          ".",
+          "delayed_cache",
+          ".",
+          "replace"
+        ],
+        "arity": 3,
+        "count": 1
+      },
+      {
+        "id": "f7-journal-restore",
+        "path_regex": "kani-compiler/src/kani_middle/transform/mod\\.rs",
+        "tokens": [
+          "self",
+          ".",
+          "transformer",
+          ".",
+          "delayed_cache",
+          ".",
+          "restore"
+        ],
+        "arity": 1,
+        "count": 1
+      },
+      {
+        "id": "f7-scope-test-uses",
+        "path_regex": "kani-compiler/src/kani_middle/transform/mod\\.rs",
+        "tokens": [
+          "transformer",
+          ".",
+          "delayed_scope"
+        ],
+        "arity": 0,
+        "count": 5
+      }
+    ],
+    "full_contracts_serialization": "json.dumps(contracts, sort_keys=True, separators=(comma,colon))",
+    "full_contracts_sha256": "a8abdbbbbbdc9229e7d03239292a374bcee8d59830e82509c966f6d740cf7fda",
+    "changed_or_added_declarations": [
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "count": 0
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "count": 0
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "count": 1
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "count": 20
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "count": 20
+      }
+    ],
+    "limits": "Source tokens, declaration/import provenance, generic impls and explicit call arities only; no Rust resolution/typecheck, macro expansion, borrow/trait checking or MIR binding."
+  },
+  "structural_units": [
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "names": [
+        "first_snapshot_restores_body_and_modified_flag",
+        "preserves_warm_untouched_and_new_regular_entries",
+        "removes_previously_absent_failed_root_and_repeats_cleanly",
+        "empty_scope_preserves_regular_cache",
+        "rejects_unclosed_scope",
+        "rejects_unscoped_replacement"
+      ],
+      "source_count": 6,
+      "execution": "NOT_RUN"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "names": [
+        "normal_and_early_return_close_scope",
+        "unwind_closes_scope_before_transformer_reuse"
+      ],
+      "source_count": 2,
+      "execution": "NOT_RUN"
+    }
+  ],
+  "native_fmt_build_clippy_units_quick_llbc": "NOT_RUN",
+  "push_CI": "NOT_RUN",
+  "overlay": {
+    "status": "NOT_PROVIDED_AT_SOURCE_REVIEW",
+    "source_binding": "NOT_REVIEWED"
+  },
+  "historical_evidence": "Existing F/S4 and head6 acceptance remain source/coordinator-reported; exact tree equality is independently checked here, not new runtime/proof acceptance.",
+  "structural_end_to_end_isolation_credit": "NOT_ESTABLISHED_BY_THIS_REVIEW",
+  "formal_proof_credit": "NOT_ESTABLISHED",
+  "pending": [
+    "Worker15 exact-head CI overlay/request",
+    "Coordinator cumulative Quick and actual nonzero6+2 structural units plus prior20 targeted units",
+    "Fresh affected LLBC feature compilation; optional backend uncompiled remains NOT_RUN"
+  ],
+  "writes": "Only reviews/f7-worker14.md and reviews/f7-worker14.json; no source/worktree/ref edits, no next stage."
+}
