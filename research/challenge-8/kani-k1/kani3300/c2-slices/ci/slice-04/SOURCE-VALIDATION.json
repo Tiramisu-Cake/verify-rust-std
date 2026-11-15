@@ -1,0 +1,60 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "source_sha": "345cedfd67df679e326474385308349d609fc43d",
+  "source_tree": "e13784fc67ec6bb1b15f30dc851ef7460738e3eb",
+  "base_sha": "5ca51679e3f433718807a2e44add0d5abac128e7",
+  "changed_files": 204,
+  "production_files": 8,
+  "owner4_parts": 180,
+  "exact_F_fixture_pairs": 99,
+  "new_fixture_pairs": 95,
+  "existing_source_updates": [
+    "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs",
+    "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs",
+    "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs"
+  ],
+  "manifest_file_identities": 803,
+  "cumulative_selectors": 413,
+  "preexisting_ignores": 9,
+  "suite_counts": {
+    "kani": [
+      53,
+      3
+    ],
+    "expected": [
+      321,
+      6
+    ],
+    "ui": [
+      17,
+      0
+    ],
+    "script-based-pre": [
+      3,
+      0
+    ],
+    "json-handler": [
+      17,
+      0
+    ],
+    "std-checks": [
+      2,
+      0
+    ]
+  },
+  "present_uninit_selectors": 154,
+  "all_head5_pairs_absent": 47,
+  "effective_targeted_units": 20,
+  "packet_stale_unit_scalar": 18,
+  "checks": [
+    "read-only owner1..4 line composition and accepted parent reconstruction",
+    "180 owner4 part hashes",
+    "8 production/2 docs/190 added fixture paths/4 source-only updates; no golden changes",
+    "99 exact-F pairs; inherited selectors preserved;47 head5 pairs absent",
+    "all manifest hashes and full present expected/uninit discovery",
+    "git diff --check"
+  ],
+  "native_checks": "NOT_RUN",
+  "formal_proof_credit": "NOT_ESTABLISHED"
+}

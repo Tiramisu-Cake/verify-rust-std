@@ -1,0 +1,201 @@
+{
+  "status": "PASS_BOUNDED_STATIC_DEPENDENCY_REVIEW",
+  "source_sha": "345cedfd67df679e326474385308349d609fc43d",
+  "reviewers": [
+    "worker15",
+    "independent Luna HIGH read-only fixture helper"
+  ],
+  "changed_fixture_sources": [
+    "tests/expected/uninit/copy-source-arguments/arg0-hole.rs",
+    "tests/expected/uninit/copy-source-arguments/arg0-initialized.rs",
+    "tests/expected/uninit/copy-source-arguments/arg1-hole.rs",
+    "tests/expected/uninit/copy-source-arguments/arg1-initialized.rs",
+    "tests/expected/uninit/immutable-masks/copy-hole.rs",
+    "tests/expected/uninit/immutable-masks/zero-byte-hole.rs",
+    "tests/expected/uninit/immutable-masks/zero-bytes-legal.rs",
+    "tests/expected/uninit/marker-hook-calls/fn-item-plain.rs",
+    "tests/expected/uninit/marker-hook-calls/fn-item-shadow-return.rs",
+    "tests/expected/uninit/marker-hook-calls/marked-body-hole.rs",
+    "tests/expected/uninit/marker-hook-calls/marked-body-initialized.rs",
+    "tests/expected/uninit/marker-hook-calls/marked-model-hole.rs",
+    "tests/expected/uninit/marker-hook-calls/marked-model-initialized.rs",
+    "tests/expected/uninit/marker-hook-calls/ordinary-hook-return.rs",
+    "tests/expected/uninit/marker-hook-calls/ordinary-hook-scalar.rs",
+    "tests/expected/uninit/maybe-uninit-argument-buffer/main.rs",
+    "tests/expected/uninit/maybe-uninit-argument-return/main.rs",
+    "tests/expected/uninit/maybe-uninit-array-reverse-unsupported/main.rs",
+    "tests/expected/uninit/maybe-uninit-call-move/main.rs",
+    "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/main.rs",
+    "tests/expected/uninit/maybe-uninit-call-pairing/main.rs",
+    "tests/expected/uninit/maybe-uninit-initialized/main.rs",
+    "tests/expected/uninit/maybe-uninit-overlap-copy/main.rs",
+    "tests/expected/uninit/maybe-uninit-overwrite-copy/main.rs",
+    "tests/expected/uninit/maybe-uninit-partial-copy/main.rs",
+    "tests/expected/uninit/maybe-uninit-repeat-local/main.rs",
+    "tests/expected/uninit/maybe-uninit-reset-alias/main.rs",
+    "tests/expected/uninit/maybe-uninit-reset-zst/main.rs",
+    "tests/expected/uninit/maybe-uninit-transfers/main.rs",
+    "tests/expected/uninit/maybe-uninit-transmute-padding/main.rs",
+    "tests/expected/uninit/maybe-uninit-transmute-source-read/main.rs",
+    "tests/expected/uninit/maybe-uninit-transmute/main.rs",
+    "tests/expected/uninit/maybe-uninit-typed-argument-padding/main.rs",
+    "tests/expected/uninit/maybe-uninit-typed-array-padding/main.rs",
+    "tests/expected/uninit/maybe-uninit-typed-array-partial-data/main.rs",
+    "tests/expected/uninit/maybe-uninit-typed-assignment-padding/main.rs",
+    "tests/expected/uninit/maybe-uninit-typed-partial-data/main.rs",
+    "tests/expected/uninit/maybe-uninit-typed-return-padding/main.rs",
+    "tests/expected/uninit/maybe-uninit-typed-transfer-data/main.rs",
+    "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs",
+    "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs",
+    "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-left-hole.rs",
+    "tests/expected/uninit/mixed-promoted-allocations/raw-mu-promoted-right-hole.rs",
+    "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-left-legal.rs",
+    "tests/expected/uninit/mixed-promoted-allocations/raw-mu-stack-right-legal.rs",
+    "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs",
+    "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs",
+    "tests/expected/uninit/nested-aggregate-reset/moved-from-source.rs",
+    "tests/expected/uninit/nested-aggregate-reset/reinit-companion.rs",
+    "tests/expected/uninit/nested-aggregate-reset/repeated-destination.rs",
+    "tests/expected/uninit/nested-enum-different-padding/main.rs",
+    "tests/expected/uninit/nested-enum-same-padding/main.rs",
+    "tests/expected/uninit/nested-pat-data/main.rs",
+    "tests/expected/uninit/nested-pat-padding/main.rs",
+    "tests/expected/uninit/ordinary-slots/padding.rs",
+    "tests/expected/uninit/ordinary-slots/payload.rs",
+    "tests/expected/uninit/padded-slice-extents/borrowed-hole.rs",
+    "tests/expected/uninit/padded-slice-extents/borrowed-initialized.rs",
+    "tests/expected/uninit/padded-slice-extents/raw-hole.rs",
+    "tests/expected/uninit/padded-slice-extents/raw-initialized.rs",
+    "tests/expected/uninit/part1-composition/move-return-reinit.rs",
+    "tests/expected/uninit/part1-composition/move-return-top-level.rs",
+    "tests/expected/uninit/part1-composition/origin-offset-hole.rs",
+    "tests/expected/uninit/part1-composition/origin-offset-legal.rs",
+    "tests/expected/uninit/part1-composition/raw-vs-typed-hole.rs",
+    "tests/expected/uninit/part1-composition/raw-vs-typed-legal.rs",
+    "tests/expected/uninit/part1-composition/reset-hole.rs",
+    "tests/expected/uninit/part1-composition/reset-reinit.rs",
+    "tests/expected/uninit/part1-composition/typed-padding-hole.rs",
+    "tests/expected/uninit/part1-edges/immutable-relocation-hole.rs",
+    "tests/expected/uninit/part1-edges/immutable-relocation-legal.rs",
+    "tests/expected/uninit/part1-edges/immutable-static-hole.rs",
+    "tests/expected/uninit/part1-edges/immutable-static-legal.rs",
+    "tests/expected/uninit/part1-edges/immutable-subrange-hole.rs",
+    "tests/expected/uninit/part1-edges/immutable-subrange-legal.rs",
+    "tests/expected/uninit/points-to-cycles/dag.rs",
+    "tests/expected/uninit/points-to-cycles/mutual-cycle.rs",
+    "tests/expected/uninit/points-to-cycles/roots-acyclic-first.rs",
+    "tests/expected/uninit/points-to-cycles/roots-cycle-first.rs",
+    "tests/expected/uninit/points-to-cycles/self-cycle.rs",
+    "tests/expected/uninit/promoted-allocations/direct-left-hole.rs",
+    "tests/expected/uninit/promoted-allocations/direct-legal.rs",
+    "tests/expected/uninit/promoted-allocations/direct-right-hole.rs",
+    "tests/expected/uninit/promoted-allocations/helper-left-hole.rs",
+    "tests/expected/uninit/promoted-allocations/helper-legal.rs",
+    "tests/expected/uninit/promoted-allocations/helper-right-hole.rs",
+    "tests/expected/uninit/raw-eq-uninit/main.rs",
+    "tests/expected/uninit/transfer-qualification/normal-abort.rs",
+    "tests/expected/uninit/transfer-qualification/out-pointer.rs",
+    "tests/expected/uninit/unresolved-calls/entry-initialized-plain.rs",
+    "tests/expected/uninit/unresolved-calls/entry-initialized-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/entry-partial-plain.rs",
+    "tests/expected/uninit/unresolved-calls/entry-partial-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.rs",
+    "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.rs",
+    "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.rs",
+    "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.rs",
+    "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.rs"
+  ],
+  "source_list_sha256": "6c1a04b6f3a7f74ea4ac907d7a07fdf3a5d8738d7c12b4f111834648bb8203ac",
+  "fixture_pairs": 99,
+  "new_pairs": 95,
+  "modified_sources_unchanged_goldens": 4,
+  "closure_syntax_sources": [
+    {
+      "path": "tests/expected/uninit/maybe-uninit-call-pairing-unsupported/main.rs",
+      "closure_syntax": [
+        {
+          "line": 13,
+          "text": "|value| value"
+        }
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-plain.rs",
+      "closure_syntax": [
+        {
+          "line": 20,
+          "text": "let result = invoke_once(|| MaybeUninit::new(7u16));"
+        }
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/item-return-initialized-seeded.rs",
+      "closure_syntax": [
+        {
+          "line": 30,
+          "text": "let result = invoke_once(|| MaybeUninit::new(7u16));"
+        }
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-plain.rs",
+      "closure_syntax": [
+        {
+          "line": 20,
+          "text": "let result = invoke_once(|| MaybeUninit::uninit());"
+        }
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/item-return-uninit-seeded.rs",
+      "closure_syntax": [
+        {
+          "line": 30,
+          "text": "let result = invoke_once(|| MaybeUninit::uninit());"
+        }
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-plain.rs",
+      "closure_syntax": [
+        {
+          "line": 21,
+          "text": "invoke_once(|_value| {}, MaybeUninit::uninit());"
+        }
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/tuple-maybe-uninit-seeded.rs",
+      "closure_syntax": [
+        {
+          "line": 31,
+          "text": "invoke_once(|_value| {}, MaybeUninit::uninit());"
+        }
+      ]
+    }
+  ],
+  "closure_syntax_source_count": 7,
+  "guard_trace": {
+    "carrier": "transfers_shadow only union or maybe_uninit_storage, not Closure",
+    "assignment_and_nested_reset": "Only Err(UnionAsField) triggers boundary; Closure fallback is UnsupportedType",
+    "delayed_entry": "Requires Ok(PointeeLayout::Sized); UnsupportedType closure does not seed setter",
+    "item_return": "Four capture-free Item bodies transfer MU return via stage4; closure env is not tracked byte payload",
+    "intended_shim_negatives": "pairing-unsupported and2 tuple cases retain exact-F conservative golden; no closure masks needed",
+    "contracts": "No changed fixture has requires/ensures/modifies; no contract macro capture-layout obligation"
+  },
+  "helper_count_correction": "Helper enumerated7 paths but called them6; main independent recount confirms7. Substantive conclusion unchanged.",
+  "missing_strong_oracles": [
+    "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs",
+    "tests/expected/uninit/transfer-qualification/legal-ordinary.rs",
+    "tests/expected/uninit/transfer-qualification/legal-pfc.rs",
+    "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs",
+    "tests/expected/uninit/closure-zst/scalar-pfc-hole.rs",
+    "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+    "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+    "tests/expected/uninit/maybe-uninit-contract-clause/main.rs"
+  ],
+  "sensitivity_status": "DEFERRED_HEAD5",
+  "native_lowering_typecheck": "NOT_RUN",
+  "limits": "Static dependency review, not runtime qualification. Unexpected closure/layout Unsupported in CI is STOP, never a golden change."
+}
