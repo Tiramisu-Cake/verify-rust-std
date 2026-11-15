@@ -1,0 +1,140 @@
+{
+  "canonical_map_sha256": "f41abc7b196249bc5c9a2639bb20460f7f3a6943d9865ba7de92c0bb01b5a678",
+  "documents": [
+    {
+      "path": "docs/src/rust-feature-support.md",
+      "F_blob": "f3af957c9d57a7803538f98e8ec98e3bf55c25a5",
+      "patch_sha256": "7c6c79cc81d9ca6745a06a0da64a388966be10134cc8917cb8a770d3a66f3d03",
+      "added_segments": [
+        {
+          "F_line": 184,
+          "start_column_0": 29,
+          "end_column_0": 83,
+          "text": "Qualified whole immutable promoted constants and named",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 185,
+          "start_column_0": 0,
+          "end_column_0": 86,
+          "text": "statics start with their exact byte masks. This requires an immutable, relocation-free",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 186,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "allocation with a supported `Freeze` origin type and computable layout covering the",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 187,
+          "start_column_0": 0,
+          "end_column_0": 90,
+          "text": "whole allocation; a promoted reference must start at offset zero and span that allocation.",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 188,
+          "start_column_0": 0,
+          "end_column_0": 0,
+          "text": "",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 189,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "This whole-storage qualification is narrow. Unqualified origins involving a nonzero",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 190,
+          "start_column_0": 0,
+          "end_column_0": 83,
+          "text": "subrange or a relocation can produce conservative false positives. Eligible aliases",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 191,
+          "start_column_0": 0,
+          "end_column_0": 84,
+          "text": "and independently supported static paths can still succeed; this limitation does not",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 192,
+          "start_column_0": 0,
+          "end_column_0": 50,
+          "text": "mean that every subrange or relocation read fails.",
+          "owner_slice": 2,
+          "earliest_head": 2
+        }
+      ],
+      "final_disposition": "Exact F content at head6; do not restore shared file wholesale before features; interim paragraph placement/reflow explicit in slice diffs"
+    },
+    {
+      "path": "docs/src/reference/experimental/contracts.md",
+      "F_blob": "6e476cdaee0daf4b7913300883727a10f929d37b",
+      "patch_sha256": "90cb25697989cd7ec09f36082a616636f5501d09b4fb6ce32ae55ff1e5754527",
+      "added_segments": [
+        {
+          "F_line": 78,
+          "start_column_0": 73,
+          "end_column_0": 78,
+          "text": "Whole",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 79,
+          "start_column_0": 0,
+          "end_column_0": 87,
+          "text": "immutable masks require the qualification described there; unqualified nonzero-subrange",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 80,
+          "start_column_0": 0,
+          "end_column_0": 86,
+          "text": "or relocation origins may produce conservative false positives, while eligible aliases",
+          "owner_slice": 2,
+          "earliest_head": 2
+        },
+        {
+          "F_line": 81,
+          "start_column_0": 0,
+          "end_column_0": 53,
+          "text": "and independently supported static paths can succeed.",
+          "owner_slice": 2,
+          "earliest_head": 2
+        }
+      ],
+      "final_disposition": "Exact F content at head6; do not restore shared file wholesale before features; interim paragraph placement/reflow explicit in slice diffs"
+    }
+  ],
+  "adaptations": [
+    {
+      "path": "docs/src/rust-feature-support.md",
+      "change": "Insert exact owner2 immutable paragraphs before retained baseline issue link, with paragraph separation.",
+      "kind": "INTERIM_PLACEMENT",
+      "final_resolution": "Head6 composes all owned segments and removes baseline issue sentence exactly as F."
+    },
+    {
+      "path": "docs/src/reference/experimental/contracts.md",
+      "change": "Join Whole/immutable line break and replace described there with explicit uninitialized-memory support link; insert before existing conclusion without future Limitations header.",
+      "kind": "INTERIM_LINK_AND_REFLOW",
+      "final_resolution": "Head6 restores exact F wording/placement after owner4/6 header and general link exist."
+    }
+  ],
+  "final_exact_F_required_on_head": 6
+}
