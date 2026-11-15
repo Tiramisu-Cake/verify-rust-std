@@ -1,0 +1,114 @@
+{
+  "note": "Job/step elapsed includes all roots and setup; VT projection uses separate autoharness jobs. Non-SmallSort manifests not retained. Zero counts in shards1/3 follow from disjoint deterministic slicing plus full235 union in shards2/4.",
+  "list_total": {
+    "ubuntu": 1976,
+    "macos": 1974
+  },
+  "chunk_size": 494,
+  "shards": [
+    {
+      "os": "macos",
+      "partition": 1,
+      "job_id": 128376214003,
+      "all_root_count": 494,
+      "smallsort_roots": 0,
+      "job_elapsed_s": 2126,
+      "verification_step_elapsed_s": 2113,
+      "smallsort_autoharness_vt_projection_s": 0,
+      "actual_partition_smallsort_vt_s": null,
+      "aggregate_rss_bytes": null,
+      "conclusion": "success"
+    },
+    {
+      "os": "macos",
+      "partition": 2,
+      "job_id": 128376214045,
+      "all_root_count": 494,
+      "smallsort_roots": 183,
+      "job_elapsed_s": 3822,
+      "verification_step_elapsed_s": 3805,
+      "smallsort_autoharness_vt_projection_s": 7561.482942914,
+      "actual_partition_smallsort_vt_s": null,
+      "aggregate_rss_bytes": null,
+      "conclusion": "success"
+    },
+    {
+      "os": "macos",
+      "partition": 3,
+      "job_id": 128376214106,
+      "all_root_count": 494,
+      "smallsort_roots": 0,
+      "job_elapsed_s": 1680,
+      "verification_step_elapsed_s": 1668,
+      "smallsort_autoharness_vt_projection_s": 0,
+      "actual_partition_smallsort_vt_s": null,
+      "aggregate_rss_bytes": null,
+      "conclusion": "success"
+    },
+    {
+      "os": "macos",
+      "partition": 4,
+      "job_id": 128376213966,
+      "all_root_count": 492,
+      "smallsort_roots": 52,
+      "job_elapsed_s": 4196,
+      "verification_step_elapsed_s": 4178,
+      "smallsort_autoharness_vt_projection_s": 2972.976729,
+      "actual_partition_smallsort_vt_s": null,
+      "aggregate_rss_bytes": null,
+      "conclusion": "success"
+    },
+    {
+      "os": "ubuntu",
+      "partition": 1,
+      "job_id": 128376213952,
+      "all_root_count": 494,
+      "smallsort_roots": 0,
+      "job_elapsed_s": 2429,
+      "verification_step_elapsed_s": 2302,
+      "smallsort_autoharness_vt_projection_s": 0,
+      "actual_partition_smallsort_vt_s": null,
+      "aggregate_rss_bytes": null,
+      "conclusion": "success"
+    },
+    {
+      "os": "ubuntu",
+      "partition": 2,
+      "job_id": 128376214074,
+      "all_root_count": 494,
+      "smallsort_roots": 183,
+      "job_elapsed_s": 4357,
+      "verification_step_elapsed_s": 4230,
+      "smallsort_autoharness_vt_projection_s": 5431.255438547,
+      "actual_partition_smallsort_vt_s": null,
+      "aggregate_rss_bytes": null,
+      "conclusion": "success"
+    },
+    {
+      "os": "ubuntu",
+      "partition": 3,
+      "job_id": 128376214016,
+      "all_root_count": 494,
+      "smallsort_roots": 0,
+      "job_elapsed_s": 1941,
+      "verification_step_elapsed_s": 1895,
+      "smallsort_autoharness_vt_projection_s": 0,
+      "actual_partition_smallsort_vt_s": null,
+      "aggregate_rss_bytes": null,
+      "conclusion": "success"
+    },
+    {
+      "os": "ubuntu",
+      "partition": 4,
+      "job_id": 128376214108,
+      "all_root_count": 494,
+      "smallsort_roots": 52,
+      "job_elapsed_s": 4565,
+      "verification_step_elapsed_s": 4525,
+      "smallsort_autoharness_vt_projection_s": 2370.6242195,
+      "actual_partition_smallsort_vt_s": null,
+      "aggregate_rss_bytes": null,
+      "conclusion": "success"
+    }
+  ]
+}

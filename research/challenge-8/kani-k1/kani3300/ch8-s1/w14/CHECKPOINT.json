@@ -1,0 +1,73 @@
+{
+  "task": "worker14 Challenge8 item2 S1/R8 inventory, no dispatch",
+  "runtime": "Codex",
+  "authority": "direct user assignment, 2026-11-16; CURRENT-TASK.md",
+  "status": "READY_RESEARCH_HANDOFF",
+  "recorded_at": "2026-11-15T22:59:27.968599+00:00",
+  "g0_entry_head": "c2f071425c",
+  "g0_parent_before_commit": "81ef5eb40263693f808e57d18fe36b8208cd5805",
+  "write_scope": "research/challenge-8/kani-k1/kani3300/ch8-s1/w14",
+  "std_baseline_sha": "872d5a43380752786415bc00d2a12ce0e930cb37",
+  "historical_kani_sha": "cd355b0bccd32300713bc2ce4f765dafa1510607",
+  "future_s_kani_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "existing_run": 42363378063,
+  "claims": [
+    {
+      "claim": "235 historical SmallSort VT/status rows; Ubuntu7801.879658047s/macOS10534.459671914s",
+      "assurance": "source-reported curated TSV, pinned blob bytes checked; not independent proof credit",
+      "evidence": "published-timings.tsv / published-timings-source.json"
+    },
+    {
+      "claim": "235 =183 standard roots in shard2 +52 contract roots in shard4 on both OS; zero in1/3 follows disjoint full235 union",
+      "assurance": "bounded HTTP206 selection projections + pinned slicing source; offline set checks",
+      "evidence": "samples/ + shard-*-roots.txt + VALIDATION.json"
+    },
+    {
+      "claim": "worst partition elapsed4:4565s Ubuntu /4196s macOS",
+      "assurance": "GitHub job metadata, full job elapsed includes setup/all roots",
+      "evidence": "api-summary.json / baseline-shards.json"
+    },
+    {
+      "claim": "10 classes;21 conditional migration candidates,214 retained outside primary-S replacements; all235 currently kept",
+      "assurance": "static inventory proposal; exact pinned source anchors checked;0 qualified replacements",
+      "evidence": "replace-map.tsv / COVERAGE.md"
+    }
+  ],
+  "open": [
+    {
+      "item": "historical root/process-tree/concurrent RSS, per-root full wall and actual partition SmallSort VT",
+      "status": "UNKNOWN",
+      "reason": "not reported by retrieved summaries/pinned runner instrumentation; not reconstructed from RAM or unrelated runs"
+    },
+    {
+      "item": "S3/S4 exact new theorem/root/source/contract identities and domain qualification",
+      "status": "UNQUALIFIED",
+      "next": "populate proposed21 mappings only after qualified leaves/consumers and coverage review"
+    },
+    {
+      "item": "S5/R8 matched baseline/new on new exact pin, both OS, ordinary inventory, synchronized RSS and actual concurrency/shard fit",
+      "status": "NOT_RUN",
+      "next": "coordinator prepares authorized bounded arms under separate GO/ledger; no dispatch from this packet"
+    }
+  ],
+  "rejected_approaches": [
+    "full raw logs/archives/artifact downloads",
+    "claiming runner RAM or sum of asynchronous process peaks as root RSS",
+    "using old cd355b0b timing as matched baseline for0aac16ef",
+    "deleting key-order/u64/arbitrary-F/safety/negative roots based on u8 KeyLess theorem",
+    "equating autoharness jobs3 with Ubuntu partition jobs2 or macOS pool default"
+  ],
+  "accounting": {
+    "dispatches": 0,
+    "local_builds": 0,
+    "pushes": 0,
+    "external_messages": 0,
+    "root_removals": 0,
+    "historical_records_modified": false,
+    "download_verified_modified": false
+  },
+  "validation": "python3 validate.py: offline consistency only; no Rust/Kani/CBMC invoked",
+  "R8": "UNKNOWN",
+  "closure_reason": "All authorized research deliverables prepared. Remaining memory/paired-run proof cost and new theorem qualification require future authorized runs/other-stage work and are disclosed, not fabricated. No CI authority in this session.",
+  "containing_commit": "Use the commit containing this file; no self-referential SHA."
+}

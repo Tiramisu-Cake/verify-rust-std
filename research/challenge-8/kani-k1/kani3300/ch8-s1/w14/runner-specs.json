@@ -1,0 +1,27 @@
+{
+  "retrieved_at": "2026-11-15T22:53:01.251802+00:00",
+  "source_url": "https://github.com/github/docs/blob/main/data/reusables/actions/supported-github-runners.md",
+  "source_blob": "a535e96d57e86a45925b5692163441ac2b448226",
+  "assurance": "Current official public-runner specifications; not sampled historical host memory usage. Units copied as GB from docs.",
+  "public_repository": true,
+  "ubuntu": {
+    "label": "ubuntu-latest",
+    "sampled_image": "ubuntu-24.04/20261101.360.1",
+    "cpu": 4,
+    "ram_gb_documented": 16,
+    "architecture": "x64",
+    "partition_kani_jobs_env": "2",
+    "partition_jobs_flag": "--jobs=2",
+    "autoharness_jobs_flag": "--jobs=3"
+  },
+  "macos": {
+    "label": "macos-latest",
+    "sampled_image": "macos-26-arm64/20261102.0473.1",
+    "cpu": 3,
+    "ram_gb_documented": 7,
+    "architecture": "arm64",
+    "partition_kani_jobs_env": "",
+    "partition_jobs_flag": "-j (thread-pool default; effective runtime thread count not sampled)",
+    "autoharness_jobs_flag": "--jobs=3"
+  }
+}
