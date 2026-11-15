@@ -1,0 +1,216 @@
+{
+  "schema": "c2-slices-f7-ci-worker14-review-v1",
+  "status": "PASS_BOUNDED_STATIC_CI_REVIEW",
+  "findings": [],
+  "reviewer": "worker14 main agent; no delegation",
+  "overlay_sha": "8288537e7c57b04d2462ff0c5bf1af38ab9d4451",
+  "overlay_tree": "19688715fe7d088c681c7b4093dbc8d62b935442",
+  "source_sha": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+  "source_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+  "source_parent": "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+  "reference_F": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "g0_review_entry": "c04f1bdc728c1abc3826e7b1a7b3b5c5bddd242d",
+  "overlay_only_CI_paths": true,
+  "protected_source_equal_F": true,
+  "full_source_review": {
+    "commit": "c04f1bdc728c1abc3826e7b1a7b3b5c5bddd242d",
+    "report": "f7-worker14.json",
+    "scope": "Unchanged source F7; this review adds CI overlay only."
+  },
+  "payload_sha256": {
+    ".github/c2-slices/inputs.json": "9e7da397008866e177ab6d4b445858b4cdb0cd81b809ca2c1ba6ee05248030ea",
+    ".github/c2-slices/sensitivity-manifest.json": "454cc2c6af75eaf8ec0435d7743ff8252f5c4cff71c0e38ea6f8d3ccea0674bb",
+    ".github/c2-slices/sensitivity.py": "789250c47b5cf872c93cd1891d1c2dfd3093888d56bd19a98475de5a21cc0661",
+    ".github/c2-slices/sensitivity/golden-invert-required-count.patch": "9c07ed2c6e46f423aa81785a0ac1aeb99aac95f57d108a22b911b1f8feca4684",
+    ".github/c2-slices/sensitivity/negative-extra-reached-failure.patch": "bf395d0c9ffb884466a34358c370f1de47630fd703701a1efe91cc6f2eb8b782",
+    ".github/c2-slices/sensitivity/negative-repair-user-write.patch": "4a423abacbc1df120f0144d9a1f7d2412f43652b0cf2fea10ae0ca0613ad6c89",
+    ".github/c2-slices/sensitivity/positive-remove-useful-assertion.patch": "02480ef19491ae850442e5a50b486b95815822b1f4f495556c7a4ed283e2fbe6",
+    ".github/c2-slices/slice07_ci.py": "f4a773b49554cba4e374d6afbc5a9d2fbc8dcfd712bbe04b1b81a0d8d052a4ce",
+    ".github/c2-slices/structural-manifest.json": "130db6482a280fdf5f9d653202f00f342c6d3deb217c105750ff1c04527d0789",
+    ".github/c2-slices/structural-mixed.rs": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970",
+    ".github/c2-slices/structural.py": "c799abaf1e1f5de103273ccd946c113cbe113379227f2ed37d0fd16a585599de",
+    ".github/c2-slices/structural_compare.py": "9f7fab3bf2e222838f58b58bbc06283497e54be75188d9127c8423e88b0c9ef4",
+    ".github/c2-slices/structural_observation.py": "4474ef120dce964c1e7578d966405055dfc5d81e0e07401c8f69036a610b52c7",
+    ".github/c2-slices/test-manifest.json": "0ad9d9d4e63df5e85b24a0ab271d78834716fa6c33c6009b2f17aba1938c0220"
+  },
+  "workflow_sha256": "4459b0b614b499cb3e7a98c28d0337484cae9fd976d06e62482a3273857c902d",
+  "changed_paths": [
+    ".github/c2-slices/inputs.json",
+    ".github/c2-slices/sensitivity-manifest.json",
+    ".github/c2-slices/sensitivity.py",
+    ".github/c2-slices/sensitivity/golden-invert-required-count.patch",
+    ".github/c2-slices/sensitivity/negative-extra-reached-failure.patch",
+    ".github/c2-slices/sensitivity/negative-repair-user-write.patch",
+    ".github/c2-slices/sensitivity/positive-remove-useful-assertion.patch",
+    ".github/c2-slices/slice07_ci.py",
+    ".github/c2-slices/structural-manifest.json",
+    ".github/c2-slices/structural-mixed.rs",
+    ".github/c2-slices/structural.py",
+    ".github/c2-slices/structural_compare.py",
+    ".github/c2-slices/structural_observation.py",
+    ".github/c2-slices/test-manifest.json",
+    ".github/workflows/bench-compiler.yml",
+    ".github/workflows/bench-e2e.yml",
+    ".github/workflows/bench-pr.yml",
+    ".github/workflows/cargo-update.yml",
+    ".github/workflows/cbmc-latest.yml",
+    ".github/workflows/cbmc-update.yml",
+    ".github/workflows/charon-update.yml",
+    ".github/workflows/deny.yml",
+    ".github/workflows/extra_jobs.yml",
+    ".github/workflows/format-check.yml",
+    ".github/workflows/kani.yml",
+    ".github/workflows/release.yml",
+    ".github/workflows/slow-tests.yml",
+    ".github/workflows/toolchain-upgrade.yml",
+    ".github/workflows/uninit-quick.yml",
+    ".github/workflows/verify-std-check.yml",
+    ".github/workflows/z3-update.yml"
+  ],
+  "resolved_findings": [
+    {
+      "id": "CI-METADATA-76",
+      "severity": "reporting inconsistency",
+      "first_reviewed_overlay": "ed26125281879d2c931196530920760f37e2c304",
+      "issue": "Native list/runtime gate required76 while expected/effective count said68; relevant/absent fields still20/8.",
+      "resolution": "Final inputs: expected_passed76, includes_relevant_groups28, F7_units_absent0, effective_all_compiler_unit_count76; note explains inherited20+F7eight.",
+      "resolved_in": "8288537e7c57b04d2462ff0c5bf1af38ab9d4451"
+    }
+  ],
+  "reporting_fix_verified": {
+    "structural_aggregate": "result.json records IN_PROCESS_AGGREGATION, original child exits retained separately, aggregation_exit0 only on exact fresh comparison status",
+    "sensitivity_source_pin": "Only byte change from accepted head6 recipe ece902 is SOURCE_SHA from head6 to exact F7 source"
+  },
+  "structural": {
+    "source_origin": "3b382c812a1b8541946e6dc732cf04497ebcf995:tests/json-handler/uninit-part1-composition/mixed.rs",
+    "source_exact_S4": true,
+    "source_sha256": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970",
+    "planned_fresh_invocations": 11,
+    "planned_exact_comparisons": 18,
+    "isolated_roots": 7,
+    "orders": [
+      {
+        "id": "all_A_then_B",
+        "selectors": [
+          "immutable_legal",
+          "immutable_hole_negative",
+          "ordinary_ensures_legal",
+          "pfc_legal",
+          "pfc_negative",
+          "cycle_root",
+          "unrelated_legal_after_cycle"
+        ]
+      },
+      {
+        "id": "all_B_then_A",
+        "selectors": [
+          "unrelated_legal_after_cycle",
+          "cycle_root",
+          "pfc_negative",
+          "pfc_legal",
+          "ordinary_ensures_legal",
+          "immutable_hole_negative",
+          "immutable_legal"
+        ]
+      },
+      {
+        "id": "cycle_then_legal",
+        "selectors": [
+          "cycle_root",
+          "unrelated_legal_after_cycle"
+        ]
+      },
+      {
+        "id": "legal_then_cycle",
+        "selectors": [
+          "unrelated_legal_after_cycle",
+          "cycle_root"
+        ]
+      }
+    ],
+    "expected_process_exits": [
+      0,
+      1,
+      0,
+      0,
+      1,
+      1,
+      0,
+      1,
+      1,
+      1,
+      1
+    ],
+    "semantics": "Seven fresh singleton captures followed by four mixed selections; each comparison uses own current isolated capture, not bound old inventories.",
+    "source_qualification": "Frozen root lines/modes/verdicts, input hash and invocation source hash checked; no execution claimed.",
+    "controls": [
+      "Fresh unique target/export paths reject stale outputs; jobs1 and per-invocation180s; all selector flags exact.",
+      "Original argv, environment, exit and termination reason retained; unexpected exit, signals, timeout, launch error or process exception fail.",
+      "Shared JSON schema plus COMPLETE/outcome/configuration and requested exact selections required.",
+      "Full regular-property partition compared to JSON counters/IDs, failure metadata, Unsupported metadata and covers.",
+      "Root/source/line/contract-mode checks; duplicate roots/IDs/JSON keys, wrong targets and nonterminal statuses rejected.",
+      "Exact compare_root retains SUCCESS/FAILURE/UNREACHABLE, covers, full failures/Unsupported, verdict and failure_kind; additions and removals both fail.",
+      "Eighteen exact mixed comparisons required; no T1b additions allowance, no imported roots.json/bound inventories.",
+      "Input/source snapshots and environment restoration retain failures in finally; workflow always records after snapshot and uploads artifacts."
+    ],
+    "helper_lineage": "S4 observation body unchanged except CI source path; normalize/normalize_property/load_export/regular_properties exact inherited functions; inventory/compare_root/compare_selection exact inherited functions. Bound-single/pair checks removed intentionally.",
+    "binding_status": "NOT_CHECKED_CAPTURE",
+    "producer_order": "ORDER_UNCONTROLLED",
+    "order_credit": "NOT_ESTABLISHED",
+    "isolated_golden_binding": "NOT_BOUND; cumulative semantic expected suite remains separately required",
+    "native_execution": "NOT_RUN"
+  },
+  "runner": {
+    "prior_recipe_overlay": "ece902633e72af24dcd1157ee7b457d27840027c",
+    "inherited_suites": 6,
+    "cumulative_unique_selectors": 471,
+    "expected_passes": 462,
+    "existing_ignores": 9,
+    "inherited_targeted_units": 20,
+    "F7_journal_units": 6,
+    "F7_scope_units": 2,
+    "effective_targeted_units": 28,
+    "all_compiler_units": 76,
+    "inherited_manifest_unit_field": "20 describes inherited groups; runner config explicitly adds F7eight and requires28 relevant/76 full exact native names.",
+    "deltas": [
+      "Structural runner import/action and explicit NOT_RUN initialization for aggregate/all11 invocations",
+      "6+2 unit filters, full76 exact native name list, should-panic label parsing without losing original names",
+      "llbc-build action uses cargo build-dev -- --features cprover --features llbc",
+      "Environment receipt includes RUSTFLAGS/NO_COLOR/KANI_LOG; structural callback restores them"
+    ],
+    "exact_selection": "Empty, substituted, duplicate or newly ignored native selections fail strict name/count gates.",
+    "sensitivity": "Pinned F7 source, four unchanged independent mutants, completed intended golden failures required; no compile/timeout/early Unsupported detection credit."
+  },
+  "workflow": {
+    "runner": "ubuntu-24.04",
+    "job_timeout_minutes": 120,
+    "fixture_timeout_seconds": 2400,
+    "RUST_TEST_THREADS": 2,
+    "fetch_depth": 3,
+    "source_guard": "Before/after exact source/parent/tree and non-CI worktree/submodule/mode checks",
+    "llbc": "After default backend controls; separate affected feature build, no LLBC proof claim",
+    "failures": "Steps preserve original failures; after snapshot and artifact upload use always(); upload missing files is error",
+    "object_bits": "12 only for this inherited structural input and existing per-fixture flags; no new global setting",
+    "stock_workflows": "Removed only in overlay; export/source retains F workflow tree"
+  },
+  "synthetic_checks": [
+    {
+      "command": "python3 -B ci/slice-07/check_overlay.py",
+      "tests": 24,
+      "exit": 0,
+      "tests_sha256": "9a6afbb395203707cef45adf6232470a712e534785cce2642b712de4965984cb"
+    },
+    {
+      "command": "python3 -B ci/slice-07/check_structural.py",
+      "tests": 15,
+      "exit": 0,
+      "tests_sha256": "7213fd0051a3d7fded8b167365373bfe527cad120e716b9793d4522210f0a8ed"
+    }
+  ],
+  "synthetic_identity_note": "Tests ran during reviewed payload preparation; final delta to the behavior-reviewed ed2612 is unit metadata correction and trailing blank removal only. Final Git objects and packet hashes checked explicitly.",
+  "native_builds_fmt_clippy_units_Kani_CBMC_LLBC": "NOT_RUN",
+  "push_CI_dispatch": "NOT_RUN",
+  "historical_credit": "No new baseline execution or proof acceptance; prior S4 baseline/candidate captures retain original order/binding limits.",
+  "independent_proof_credit": "NOT_ESTABLISHED",
+  "writes": "Only reviews/f7-ci-worker14.md/json committed; writer package and all source/worktree paths untouched."
+}
