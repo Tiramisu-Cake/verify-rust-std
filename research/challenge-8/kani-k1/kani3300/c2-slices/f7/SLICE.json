@@ -1,0 +1,77 @@
+{
+  "status": "READY_LOCAL_ONLY_REVIEWED_NATIVE_NOT_RUN",
+  "source_sha": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+  "source_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+  "base_sha": "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+  "accepted_parent_run": "43720042056",
+  "F": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "B1": "6fe484b30043b3696b5f1ccc4bea0e42891ad012",
+  "qualification_kind": "F7_STRUCTURAL_ISOLATION_PLUS_CUMULATIVE_QUICK",
+  "native_result": "NOT_RUN",
+  "changed_files": [
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "hunks": [
+        "@@ -0,0 +1,144 @@"
+      ],
+      "patch_sha256": "96707d3d0c208d8c5cca569803266adebd133dc626d6bbdd4a4c5b05a8104f33",
+      "F_entry": "100644 blob 6ba16800fba5cc1955094551acfd20e6c2e20065\tkani-compiler/src/kani_middle/transform/delayed_cache.rs"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "hunks": [
+        "@@ -30,0 +31 @@",
+        "@@ -38,0 +40 @@",
+        "@@ -73,0 +76 @@ fn build_missing_body(tcx: TyCtxt, instance: Instance) -> Body {",
+        "@@ -94,0 +98,2 @@ pub struct BodyTransformation {",
+        "@@ -110,0 +116 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {",
+        "@@ -151,0 +158,13 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {",
+        "@@ -216,0 +236,26 @@ fn add_pass<P: ClonableTransformPass + 'static>(&mut self, query_db: &QueryDb, p",
+        "@@ -389,0 +435,43 @@ fn clone_back(&self) -> Box<dyn $new_trait_name> {"
+      ],
+      "patch_sha256": "6cac2950900a8e745128924fd2683993d240e2540cce510320dc132cfddf4852",
+      "F_entry": "100644 blob 4484375cea01d66a1545208238542815d0490896\tkani-compiler/src/kani_middle/transform/mod.rs"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "hunks": [
+        "@@ -18 +18 @@",
+        "@@ -191,3 +191 @@ fn transform(",
+        "@@ -214 +212 @@ fn transform("
+      ],
+      "patch_sha256": "5ca668e44b5bd534b1a13da6e1cb8db7350c4a34e9d4f899adc8e492363de10b",
+      "F_entry": "100644 blob 456b39de7fa3ace577f0cae44fdcf14c37dc887f\tkani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "hunks": [
+        "@@ -91,0 +92,5 @@ fn codegen_items<'tcx>("
+      ],
+      "patch_sha256": "c2f3574687bb47f82b074a7d4ba720227cd43ed26c42accbafbd59d6d6d6e8cc",
+      "F_entry": "100644 blob 3461ada461b9d0f123f22d25274b000a7a789559\tkani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs"
+    },
+    {
+      "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+      "hunks": [
+        "@@ -69,0 +70,3 @@ fn codegen_items("
+      ],
+      "patch_sha256": "2873ab10d57c601acd690b6eee7a36624626088e18a413519fb6c351c91e8162",
+      "F_entry": "100644 blob cead741d8618551828063ed46c310c1f10f740b0\tkani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs"
+    }
+  ],
+  "source_patch_sha256": "8e370c617017e8476ae45ed02b8c439448756d1c8cf0251ea1cbb9545fcecbe7",
+  "temporary_pre_F7_adaptations": "REMOVED: TransformationResult import, ordinary and_modify writer, failed-root cache.insert; both writers now replace_delayed_body",
+  "non_goals": [
+    "SEL1",
+    "production semantic changes beyond exact F7",
+    "publication",
+    "CI dispatch"
+  ],
+  "source_review": "reviews/f7-worker14.md",
+  "source_review_g0": "c04f1bdc728c1abc3826e7b1a7b3b5c5bddd242d",
+  "CI_review": "reviews/f7-ci-worker14.md",
+  "CI_review_g0": "6ce83576451c28f4549561c0fa6448c6fceff365",
+  "overlay_sha": "8288537e7c57b04d2462ff0c5bf1af38ab9d4451",
+  "compile_seams": "PASS_BOUNDED_STATIC_ONLY",
+  "all_new_native_checks": "NOT_RUN"
+}

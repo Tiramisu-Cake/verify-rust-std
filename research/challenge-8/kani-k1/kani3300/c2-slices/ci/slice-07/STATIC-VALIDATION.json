@@ -1,0 +1,72 @@
+{
+  "status": "PASS_STATIC_AND_SYNTHETIC_ONLY",
+  "source_sha": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+  "source_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+  "source_parent": "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+  "F": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "exact_F_tree": true,
+  "diff_F_empty": true,
+  "residual_files": 0,
+  "residual_hunks": 0,
+  "historical_hunks_exact": 14,
+  "overlay_sha": "8288537e7c57b04d2462ff0c5bf1af38ab9d4451",
+  "overlay_tree": "19688715fe7d088c681c7b4093dbc8d62b935442",
+  "overlay_parent": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+  "overlay_only_ci": true,
+  "recipe_sha": "ece902633e72af24dcd1157ee7b457d27840027c",
+  "recipe_run": "43720042056",
+  "source_entries_checked": 4202,
+  "source_snapshot_problems": [],
+  "source_patch_sha256": "8e370c617017e8476ae45ed02b8c439448756d1c8cf0251ea1cbb9545fcecbe7",
+  "overlay_patch_sha256": "c6d685588d7c795d044d78aa81c923efeea81428ec8086f4776fda90e377a79d",
+  "generator_reproduction": "PASS_EXACT_BYTES",
+  "suite_counts": {
+    "kani": {
+      "discovery": 53,
+      "passed": 50,
+      "ignored": 3
+    },
+    "expected": {
+      "discovery": 379,
+      "passed": 373,
+      "ignored": 6
+    },
+    "ui": {
+      "discovery": 17,
+      "passed": 17,
+      "ignored": 0
+    },
+    "script-based-pre": {
+      "discovery": 3,
+      "passed": 3,
+      "ignored": 0
+    },
+    "json-handler": {
+      "discovery": 17,
+      "passed": 17,
+      "ignored": 0
+    },
+    "std-checks": {
+      "discovery": 2,
+      "passed": 2,
+      "ignored": 0
+    }
+  },
+  "selectors": 471,
+  "targeted_units": 28,
+  "compiler_units": 76,
+  "F7_units": 8,
+  "structural_invocations": 11,
+  "structural_comparisons": 18,
+  "structural_input_byte_identical_S4": true,
+  "synthetic_tests": {
+    "runner": 24,
+    "structural": 15,
+    "sensitivity": 13,
+    "seam": 10
+  },
+  "source_native_checks": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "push": "NOT_RUN",
+  "proof_credit": "NOT_ESTABLISHED"
+}

@@ -1,0 +1,43 @@
+{
+  "status": "CI_ONLY_PREPARED_NATIVE_NOT_RUN",
+  "payload": [
+    {
+      "local": "structural-mixed.rs",
+      "local_sha256": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970",
+      "origin": "3b382c812a1b8541946e6dc732cf04497ebcf995",
+      "origin_path": "tests/json-handler/uninit-part1-composition/mixed.rs",
+      "origin_sha256": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970",
+      "adaptation": "BYTE_IDENTICAL"
+    },
+    {
+      "local": "structural_compare.py",
+      "local_sha256": "9f7fab3bf2e222838f58b58bbc06283497e54be75188d9127c8423e88b0c9ef4",
+      "origin": "3b382c812a1b8541946e6dc732cf04497ebcf995",
+      "origin_path": "tests/json-handler/uninit-part1-composition/compare.py",
+      "origin_sha256": "39ba552d6032acb224f9d30814603dfd5e2a1fd2c551324e55f9a69c342e6d48",
+      "adaptation": "Exact reusable inventory/compare functions; removed bound check_single and unused compare_pair only"
+    },
+    {
+      "local": "structural_observation.py",
+      "local_sha256": "4474ef120dce964c1e7578d966405055dfc5d81e0e07401c8f69036a610b52c7",
+      "origin": "3b382c812a1b8541946e6dc732cf04497ebcf995",
+      "origin_path": "tests/json-handler/uninit-part1-composition/run.py",
+      "origin_sha256": "9273d8600cc5f4ba8592ef7f3a184b0a9a061b2e730ef31f27e1a8b2b97e986a",
+      "adaptation": "Only observation/Counter_status functions; source path literal adapted to .github/c2-slices/structural-mixed.rs"
+    },
+    {
+      "local": "structural_observation.py",
+      "local_sha256": "4474ef120dce964c1e7578d966405055dfc5d81e0e07401c8f69036a610b52c7",
+      "origin": "3b382c812a1b8541946e6dc732cf04497ebcf995",
+      "origin_path": "tests/json-handler/uninit-contract-oracles/checker.py",
+      "origin_sha256": "0811721b507172ee9d27ec7f0285bb912a7ce9fcbbac41d74f4535778b3d0838",
+      "adaptation": "Only normalization, strict JSON loader and regular renderer parsing helpers; shared current validator/schema import"
+    }
+  ],
+  "legacy_runners_restored": false,
+  "bound_golden_inventories_restored": false,
+  "T1b_allowance": false,
+  "source_change": "None outside .github",
+  "fresh_baseline": "NOT_RUN; historical exact-input baseline reused as discriminator with no new credit",
+  "original_capture_status": "UNBOUND_CAPTURE/NOT_CHECKED_CAPTURE; no absolute golden binding claimed"
+}

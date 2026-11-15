@@ -1,0 +1,122 @@
+{
+  "source_sha": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+  "owner_slice": 7,
+  "delta": [
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "hunks": [
+        "@@ -0,0 +1,144 @@"
+      ],
+      "patch_sha256": "96707d3d0c208d8c5cca569803266adebd133dc626d6bbdd4a4c5b05a8104f33",
+      "F_entry": "100644 blob 6ba16800fba5cc1955094551acfd20e6c2e20065\tkani-compiler/src/kani_middle/transform/delayed_cache.rs"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "hunks": [
+        "@@ -30,0 +31 @@",
+        "@@ -38,0 +40 @@",
+        "@@ -73,0 +76 @@ fn build_missing_body(tcx: TyCtxt, instance: Instance) -> Body {",
+        "@@ -94,0 +98,2 @@ pub struct BodyTransformation {",
+        "@@ -110,0 +116 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {",
+        "@@ -151,0 +158,13 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {",
+        "@@ -216,0 +236,26 @@ fn add_pass<P: ClonableTransformPass + 'static>(&mut self, query_db: &QueryDb, p",
+        "@@ -389,0 +435,43 @@ fn clone_back(&self) -> Box<dyn $new_trait_name> {"
+      ],
+      "patch_sha256": "6cac2950900a8e745128924fd2683993d240e2540cce510320dc132cfddf4852",
+      "F_entry": "100644 blob 4484375cea01d66a1545208238542815d0490896\tkani-compiler/src/kani_middle/transform/mod.rs"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "hunks": [
+        "@@ -18 +18 @@",
+        "@@ -191,3 +191 @@ fn transform(",
+        "@@ -214 +212 @@ fn transform("
+      ],
+      "patch_sha256": "5ca668e44b5bd534b1a13da6e1cb8db7350c4a34e9d4f899adc8e492363de10b",
+      "F_entry": "100644 blob 456b39de7fa3ace577f0cae44fdcf14c37dc887f\tkani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs"
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "hunks": [
+        "@@ -91,0 +92,5 @@ fn codegen_items<'tcx>("
+      ],
+      "patch_sha256": "c2f3574687bb47f82b074a7d4ba720227cd43ed26c42accbafbd59d6d6d6e8cc",
+      "F_entry": "100644 blob 3461ada461b9d0f123f22d25274b000a7a789559\tkani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs"
+    },
+    {
+      "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+      "hunks": [
+        "@@ -69,0 +70,3 @@ fn codegen_items("
+      ],
+      "patch_sha256": "2873ab10d57c601acd690b6eee7a36624626088e18a413519fb6c351c91e8162",
+      "F_entry": "100644 blob cead741d8618551828063ed46c310c1f10f740b0\tkani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs"
+    }
+  ],
+  "pre_F7": "All3 temporary import/writer snippets reverted to exact F",
+  "canonical_ownership": {
+    "path": "../source-map/B1--F.json",
+    "map_sha256": "3720c239100ed647f17ec28838276025fb58fddf1b3745b20fca2ce7134e3911",
+    "owner": "7",
+    "links": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "hunk_id": "B1--F:16:014",
+        "hunk_sha256": "81d04586450a2376b9e98abe8feeee8b29bb24c9d743210c1a015927e843ac2b",
+        "part": {
+          "side": "+",
+          "start": 212,
+          "count": 1,
+          "owner": "7",
+          "sha256": "78523ed25a112bf85e6f4c211b19c149ee9441fbfab7519e671802165ad1db74"
+        },
+        "source_map_sha256": "3720c239100ed647f17ec28838276025fb58fddf1b3745b20fca2ce7134e3911",
+        "coordinates": {
+          "header": "@@ -147,0 +194,21 @@ fn transform(",
+          "old": [
+            147,
+            0
+          ],
+          "new": [
+            194,
+            21
+          ],
+          "owners": [
+            "1",
+            "7"
+          ],
+          "parts": [
+            {
+              "side": "+",
+              "start": 194,
+              "count": 18,
+              "owner": "1",
+              "sha256": "6f379d75745d651766a6915e9de14c56ccdb8a5dde507bed938d9dd8214213a4"
+            },
+            {
+              "side": "+",
+              "start": 212,
+              "count": 1,
+              "owner": "7",
+              "sha256": "78523ed25a112bf85e6f4c211b19c149ee9441fbfab7519e671802165ad1db74"
+            },
+            {
+              "side": "+",
+              "start": 213,
+              "count": 2,
+              "owner": "1",
+              "sha256": "499ac28decd5817d8cb12092980ebe0bfec4a30a171b54fa5d172c3926c8c6e9"
+            }
+          ]
+        },
+        "source_map_path": "../source-map/B1--F.json"
+      }
+    ],
+    "maps": [
+      {
+        "sha256": "3720c239100ed647f17ec28838276025fb58fddf1b3745b20fca2ce7134e3911",
+        "path": "../source-map/B1--F.json"
+      }
+    ]
+  },
+  "production_tests_docs": "Only5 F7 files; no test/docs/pin/runtime changes outside exact residual"
+}

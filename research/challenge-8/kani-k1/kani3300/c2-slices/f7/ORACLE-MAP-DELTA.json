@@ -1,0 +1,239 @@
+{
+  "status": "OWNERSHIP_CONFIRMED_NATIVE_NOT_RUN",
+  "source_sha": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+  "feature": {
+    "slice": 7,
+    "symbols": [
+      "DelayedCache",
+      "BodyTransformation::replace_delayed_body",
+      "BodyTransformation::delayed_scope",
+      "DelayedTransformationScope::drop",
+      "codegen_items (both backends)"
+    ],
+    "meaning": "Journal only delayed replacements; restore at model exit while preserving regular/stub transforms",
+    "worker14_hunk_links": {
+      "path": "../source-map/B1--F.json",
+      "map_sha256": "3720c239100ed647f17ec28838276025fb58fddf1b3745b20fca2ce7134e3911",
+      "owner": "7",
+      "links": [
+        {
+          "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+          "hunk_id": "B1--F:16:014",
+          "hunk_sha256": "81d04586450a2376b9e98abe8feeee8b29bb24c9d743210c1a015927e843ac2b",
+          "part": {
+            "side": "+",
+            "start": 212,
+            "count": 1,
+            "owner": "7",
+            "sha256": "78523ed25a112bf85e6f4c211b19c149ee9441fbfab7519e671802165ad1db74"
+          },
+          "source_map_sha256": "3720c239100ed647f17ec28838276025fb58fddf1b3745b20fca2ce7134e3911",
+          "coordinates": {
+            "header": "@@ -147,0 +194,21 @@ fn transform(",
+            "old": [
+              147,
+              0
+            ],
+            "new": [
+              194,
+              21
+            ],
+            "owners": [
+              "1",
+              "7"
+            ],
+            "parts": [
+              {
+                "side": "+",
+                "start": 194,
+                "count": 18,
+                "owner": "1",
+                "sha256": "6f379d75745d651766a6915e9de14c56ccdb8a5dde507bed938d9dd8214213a4"
+              },
+              {
+                "side": "+",
+                "start": 212,
+                "count": 1,
+                "owner": "7",
+                "sha256": "78523ed25a112bf85e6f4c211b19c149ee9441fbfab7519e671802165ad1db74"
+              },
+              {
+                "side": "+",
+                "start": 213,
+                "count": 2,
+                "owner": "1",
+                "sha256": "499ac28decd5817d8cb12092980ebe0bfec4a30a171b54fa5d172c3926c8c6e9"
+              }
+            ]
+          },
+          "source_map_path": "../source-map/B1--F.json"
+        }
+      ],
+      "maps": [
+        {
+          "sha256": "3720c239100ed647f17ec28838276025fb58fddf1b3745b20fca2ce7134e3911",
+          "path": "../source-map/B1--F.json"
+        }
+      ]
+    }
+  },
+  "units": [
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "test": "first_snapshot_restores_body_and_modified_flag",
+      "module_filter": "delayed_cache::tests",
+      "owner_slice": 7,
+      "earliest_runnable_head": 7,
+      "line_F": 67,
+      "blob_F": "6ba16800fba5cc1955094551acfd20e6c2e20065",
+      "prerequisites": [
+        "F7"
+      ],
+      "useful_assertions_and_exact_negatives": [
+        "fn first_snapshot_restores_body_and_modified_flag() {",
+        "assert_eq!(cache[&1], result(30, true));",
+        "assert_eq!(journal.originals.as_ref().unwrap().len(), 1);",
+        "assert_eq!(cache[&1], result(10, modified));",
+        "assert!(journal.originals.is_none());"
+      ],
+      "native_result": "NOT_RUN"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "test": "preserves_warm_untouched_and_new_regular_entries",
+      "module_filter": "delayed_cache::tests",
+      "owner_slice": 7,
+      "earliest_runnable_head": 7,
+      "line_F": 83,
+      "blob_F": "6ba16800fba5cc1955094551acfd20e6c2e20065",
+      "prerequisites": [
+        "F7"
+      ],
+      "useful_assertions_and_exact_negatives": [
+        "fn preserves_warm_untouched_and_new_regular_entries() {",
+        "assert_eq!("
+      ],
+      "native_result": "NOT_RUN"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "test": "removes_previously_absent_failed_root_and_repeats_cleanly",
+      "module_filter": "delayed_cache::tests",
+      "owner_slice": 7,
+      "earliest_runnable_head": 7,
+      "line_F": 105,
+      "blob_F": "6ba16800fba5cc1955094551acfd20e6c2e20065",
+      "prerequisites": [
+        "F7"
+      ],
+      "useful_assertions_and_exact_negatives": [
+        "fn removes_previously_absent_failed_root_and_repeats_cleanly() {",
+        "assert_eq!(cache[&1], result(100, true));",
+        "assert!(cache.is_empty());",
+        "assert!(journal.originals.is_none());"
+      ],
+      "native_result": "NOT_RUN"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "test": "empty_scope_preserves_regular_cache",
+      "module_filter": "delayed_cache::tests",
+      "owner_slice": 7,
+      "earliest_runnable_head": 7,
+      "line_F": 120,
+      "blob_F": "6ba16800fba5cc1955094551acfd20e6c2e20065",
+      "prerequisites": [
+        "F7"
+      ],
+      "useful_assertions_and_exact_negatives": [
+        "fn empty_scope_preserves_regular_cache() {",
+        "assert_eq!(cache[&1], result(10, false));"
+      ],
+      "native_result": "NOT_RUN"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "test": "rejects_unclosed_scope",
+      "module_filter": "delayed_cache::tests",
+      "owner_slice": 7,
+      "earliest_runnable_head": 7,
+      "line_F": 131,
+      "blob_F": "6ba16800fba5cc1955094551acfd20e6c2e20065",
+      "prerequisites": [
+        "F7"
+      ],
+      "useful_assertions_and_exact_negatives": [
+        "#[should_panic(expected = \"previous delayed transformation scope is still active\")]",
+        "fn rejects_unclosed_scope() {"
+      ],
+      "native_result": "NOT_RUN"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "test": "rejects_unscoped_replacement",
+      "module_filter": "delayed_cache::tests",
+      "owner_slice": 7,
+      "earliest_runnable_head": 7,
+      "line_F": 139,
+      "blob_F": "6ba16800fba5cc1955094551acfd20e6c2e20065",
+      "prerequisites": [
+        "F7"
+      ],
+      "useful_assertions_and_exact_negatives": [
+        "#[should_panic(expected = \"delayed replacement outside a model scope\")]",
+        "fn rejects_unscoped_replacement() {"
+      ],
+      "native_result": "NOT_RUN"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "test": "normal_and_early_return_close_scope",
+      "module_filter": "delayed_scope_tests",
+      "owner_slice": 7,
+      "earliest_runnable_head": 7,
+      "line_F": 454,
+      "blob_F": "4484375cea01d66a1545208238542815d0490896",
+      "prerequisites": [
+        "F7"
+      ],
+      "useful_assertions_and_exact_negatives": [
+        "fn normal_and_early_return_close_scope() {",
+        "fn early_return(transformer: &mut BodyTransformation) -> bool {",
+        "assert!(!early_return(&mut transformer));"
+      ],
+      "native_result": "NOT_RUN"
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "test": "unwind_closes_scope_before_transformer_reuse",
+      "module_filter": "delayed_scope_tests",
+      "owner_slice": 7,
+      "earliest_runnable_head": 7,
+      "line_F": 467,
+      "blob_F": "4484375cea01d66a1545208238542815d0490896",
+      "prerequisites": [
+        "F7"
+      ],
+      "useful_assertions_and_exact_negatives": [
+        "fn unwind_closes_scope_before_transformer_reuse() {",
+        "let result = catch_unwind(AssertUnwindSafe(|| {",
+        "assert!(result.is_err());"
+      ],
+      "native_result": "NOT_RUN"
+    }
+  ],
+  "all_8_exact_F": true,
+  "exported_expected_fixtures": "No changes; all471 selectors inherited unchanged",
+  "structural": {
+    "source": "ci/slice-07/structural-mixed.rs",
+    "origin": "3b382c812a:tests/json-handler/uninit-part1-composition/mixed.rs",
+    "source_sha256": "9aa067f674e9cd27b7b4822795208ff4ca940554e65b6ffe32c316cb0b6e7970",
+    "native": "NOT_RUN",
+    "historical_runs": [
+      "43621472749",
+      "43621476331"
+    ],
+    "producer_order": "ORDER_UNCONTROLLED",
+    "order_credit": "NOT_ESTABLISHED"
+  }
+}

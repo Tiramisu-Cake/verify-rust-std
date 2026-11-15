@@ -1,0 +1,4728 @@
+{
+  "status": "PASS_BOUNDED_STATIC_SEAM_AUDIT",
+  "base": "3f5242bb15",
+  "head": "8e299aa624",
+  "reference": "ad499e41dd",
+  "changed_rust_file_count": 5,
+  "generic_types_checked_repo_wide": [
+    "DelayedCache",
+    "DelayedTransformationScope"
+  ],
+  "files": [
+    {
+      "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+      "head_sha256": "8b34ef8cae9b80e54d132fc96de1ec36d5138b52c30ff41955b8fb33c52336e4",
+      "declarations_impls_uses_total": 60,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use crate :: args :: ReachabilityType",
+          "container": [],
+          "line": 6,
+          "signature": "use crate :: args :: ReachabilityType",
+          "token_start": 0,
+          "token_end": 6
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: codegen_aeneas_llbc :: mir_to_ullbc :: { Context , prepare_translated_crate , record_item_names , }",
+          "container": [],
+          "line": 7,
+          "signature": "use crate :: codegen_aeneas_llbc :: mir_to_ullbc :: { Context , prepare_translated_crate , record_item_names , }",
+          "token_start": 7,
+          "token_end": 22
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: attributes :: KaniAttributes",
+          "container": [],
+          "line": 10,
+          "signature": "use crate :: kani_middle :: attributes :: KaniAttributes",
+          "token_start": 23,
+          "token_end": 31
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: check_reachable_items",
+          "container": [],
+          "line": 11,
+          "signature": "use crate :: kani_middle :: check_reachable_items",
+          "token_start": 32,
+          "token_end": 38
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: codegen_units :: { CodegenUnit , CodegenUnits }",
+          "container": [],
+          "line": 12,
+          "signature": "use crate :: kani_middle :: codegen_units :: { CodegenUnit , CodegenUnits }",
+          "token_start": 39,
+          "token_end": 51
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: provide",
+          "container": [],
+          "line": 13,
+          "signature": "use crate :: kani_middle :: provide",
+          "token_start": 52,
+          "token_end": 58
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: reachability :: { collect_reachable_items , filter_crate_items }",
+          "container": [],
+          "line": 14,
+          "signature": "use crate :: kani_middle :: reachability :: { collect_reachable_items , filter_crate_items }",
+          "token_start": 59,
+          "token_end": 71
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: transform :: { BodyTransformation , GlobalPasses }",
+          "container": [],
+          "line": 15,
+          "signature": "use crate :: kani_middle :: transform :: { BodyTransformation , GlobalPasses }",
+          "token_start": 72,
+          "token_end": 84
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_queries :: QUERY_DB",
+          "container": [],
+          "line": 16,
+          "signature": "use crate :: kani_queries :: QUERY_DB",
+          "token_start": 85,
+          "token_end": 91
+        },
+        {
+          "kind": "use",
+          "name": "use charon_lib :: ast :: { ItemId , TranslatedCrate }",
+          "container": [],
+          "line": 17,
+          "signature": "use charon_lib :: ast :: { ItemId , TranslatedCrate }",
+          "token_start": 92,
+          "token_end": 102
+        },
+        {
+          "kind": "use",
+          "name": "use charon_lib :: errors :: ErrorCtx",
+          "container": [],
+          "line": 18,
+          "signature": "use charon_lib :: errors :: ErrorCtx",
+          "token_start": 103,
+          "token_end": 109
+        },
+        {
+          "kind": "use",
+          "name": "use charon_lib :: options :: { CliOpts , Preset , SerializationFormat , TranslateOptions }",
+          "container": [],
+          "line": 19,
+          "signature": "use charon_lib :: options :: { CliOpts , Preset , SerializationFormat , TranslateOptions }",
+          "token_start": 110,
+          "token_end": 124
+        },
+        {
+          "kind": "use",
+          "name": "use charon_lib :: transform :: { TransformCtx , run_transformation_passes }",
+          "container": [],
+          "line": 20,
+          "signature": "use charon_lib :: transform :: { TransformCtx , run_transformation_passes }",
+          "token_start": 125,
+          "token_end": 135
+        },
+        {
+          "kind": "use",
+          "name": "use kani_metadata :: ArtifactType",
+          "container": [],
+          "line": 21,
+          "signature": "use kani_metadata :: ArtifactType",
+          "token_start": 136,
+          "token_end": 140
+        },
+        {
+          "kind": "use",
+          "name": "use kani_metadata :: { AssignsContract , CompilerArtifactStub }",
+          "container": [],
+          "line": 22,
+          "signature": "use kani_metadata :: { AssignsContract , CompilerArtifactStub }",
+          "token_start": 141,
+          "token_end": 149
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_codegen_ssa :: back :: archive :: { ArArchiveBuilder , ArchiveBuilder , ArchiveBuilderBuilder , DEFAULT_OBJECT_READER , }",
+          "container": [],
+          "line": 23,
+          "signature": "use rustc_codegen_ssa :: back :: archive :: { ArArchiveBuilder , ArchiveBuilder , ArchiveBuilderBuilder , DEFAULT_OBJECT_READER , }",
+          "token_start": 150,
+          "token_end": 167
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_codegen_ssa :: back :: link :: link_binary",
+          "container": [],
+          "line": 26,
+          "signature": "use rustc_codegen_ssa :: back :: link :: link_binary",
+          "token_start": 168,
+          "token_end": 176
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_codegen_ssa :: traits :: CodegenBackend",
+          "container": [],
+          "line": 27,
+          "signature": "use rustc_codegen_ssa :: traits :: CodegenBackend",
+          "token_start": 177,
+          "token_end": 183
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_codegen_ssa :: { CompiledModules , CrateInfo }",
+          "container": [],
+          "line": 28,
+          "signature": "use rustc_codegen_ssa :: { CompiledModules , CrateInfo }",
+          "token_start": 184,
+          "token_end": 192
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_data_structures :: fx :: FxHashMap",
+          "container": [],
+          "line": 29,
+          "signature": "use rustc_data_structures :: fx :: FxHashMap",
+          "token_start": 193,
+          "token_end": 199
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_data_structures :: unord :: UnordMap",
+          "container": [],
+          "line": 30,
+          "signature": "use rustc_data_structures :: unord :: UnordMap",
+          "token_start": 200,
+          "token_end": 206
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_errors :: ErrorGuaranteed",
+          "container": [],
+          "line": 31,
+          "signature": "use rustc_errors :: ErrorGuaranteed",
+          "token_start": 207,
+          "token_end": 211
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_hir :: def_id :: { DefId as InternalDefId , LOCAL_CRATE }",
+          "container": [],
+          "line": 32,
+          "signature": "use rustc_hir :: def_id :: { DefId as InternalDefId , LOCAL_CRATE }",
+          "token_start": 212,
+          "token_end": 224
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_metadata :: EncodedMetadata",
+          "container": [],
+          "line": 33,
+          "signature": "use rustc_metadata :: EncodedMetadata",
+          "token_start": 225,
+          "token_end": 229
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: dep_graph :: { WorkProduct , WorkProductId }",
+          "container": [],
+          "line": 34,
+          "signature": "use rustc_middle :: dep_graph :: { WorkProduct , WorkProductId }",
+          "token_start": 230,
+          "token_end": 240
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: TyCtxt",
+          "container": [],
+          "line": 35,
+          "signature": "use rustc_middle :: ty :: TyCtxt",
+          "token_start": 241,
+          "token_end": 247
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: util :: Providers",
+          "container": [],
+          "line": 36,
+          "signature": "use rustc_middle :: util :: Providers",
+          "token_start": 248,
+          "token_end": 254
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: mir :: mono :: { Instance , MonoItem }",
+          "container": [],
+          "line": 37,
+          "signature": "use rustc_public :: mir :: mono :: { Instance , MonoItem }",
+          "token_start": 255,
+          "token_end": 267
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: rustc_internal",
+          "container": [],
+          "line": 38,
+          "signature": "use rustc_public :: rustc_internal",
+          "token_start": 268,
+          "token_end": 272
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: ty :: FnDef",
+          "container": [],
+          "line": 39,
+          "signature": "use rustc_public :: ty :: FnDef",
+          "token_start": 273,
+          "token_end": 279
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: { CrateDef , DefId }",
+          "container": [],
+          "line": 40,
+          "signature": "use rustc_public :: { CrateDef , DefId }",
+          "token_start": 280,
+          "token_end": 288
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_session :: config :: { OutputFilenames , OutputType }",
+          "container": [],
+          "line": 41,
+          "signature": "use rustc_session :: config :: { OutputFilenames , OutputType }",
+          "token_start": 289,
+          "token_end": 299
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_session :: output :: out_filename",
+          "container": [],
+          "line": 42,
+          "signature": "use rustc_session :: output :: out_filename",
+          "token_start": 300,
+          "token_end": 306
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_session :: { IncrCompSession , Session }",
+          "container": [],
+          "line": 43,
+          "signature": "use rustc_session :: { IncrCompSession , Session }",
+          "token_start": 307,
+          "token_end": 315
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_structures :: CrateType",
+          "container": [],
+          "line": 44,
+          "signature": "use rustc_structures :: CrateType",
+          "token_start": 316,
+          "token_end": 320
+        },
+        {
+          "kind": "use",
+          "name": "use std :: any :: Any",
+          "container": [],
+          "line": 45,
+          "signature": "use std :: any :: Any",
+          "token_start": 321,
+          "token_end": 327
+        },
+        {
+          "kind": "use",
+          "name": "use std :: fs :: File",
+          "container": [],
+          "line": 46,
+          "signature": "use std :: fs :: File",
+          "token_start": 328,
+          "token_end": 334
+        },
+        {
+          "kind": "use",
+          "name": "use std :: path :: Path",
+          "container": [],
+          "line": 47,
+          "signature": "use std :: path :: Path",
+          "token_start": 335,
+          "token_end": 341
+        },
+        {
+          "kind": "use",
+          "name": "use std :: time :: Instant",
+          "container": [],
+          "line": 48,
+          "signature": "use std :: time :: Instant",
+          "token_start": 342,
+          "token_end": 348
+        },
+        {
+          "kind": "use",
+          "name": "use tracing :: { debug , info }",
+          "container": [],
+          "line": 49,
+          "signature": "use tracing :: { debug , info }",
+          "token_start": 349,
+          "token_end": 357
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl LlbcCodegenBackend",
+          "container": [],
+          "line": 54,
+          "signature": "impl LlbcCodegenBackend",
+          "token_start": 370,
+          "token_end": 372
+        },
+        {
+          "kind": "impl",
+          "name": "impl CodegenBackend for LlbcCodegenBackend",
+          "container": [],
+          "line": 167,
+          "signature": "impl CodegenBackend for LlbcCodegenBackend",
+          "token_start": 922,
+          "token_end": 926
+        },
+        {
+          "kind": "impl",
+          "name": "impl ArchiveBuilderBuilder for ArArchiveBuilderBuilder",
+          "container": [],
+          "line": 340,
+          "signature": "impl ArchiveBuilderBuilder for ArArchiveBuilderBuilder",
+          "token_start": 1850,
+          "token_end": 1854
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "head_sha256": "146965fae7b375da7bc4641c140b2f3729a1f328ce142919541d78f0950b2fd7",
+      "declarations_impls_uses_total": 83,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use crate :: args :: ReachabilityType",
+          "container": [],
+          "line": 6,
+          "signature": "use crate :: args :: ReachabilityType",
+          "token_start": 0,
+          "token_end": 6
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: codegen_cprover_gotoc :: context :: MinimalGotocCtx",
+          "container": [],
+          "line": 7,
+          "signature": "use crate :: codegen_cprover_gotoc :: context :: MinimalGotocCtx",
+          "token_start": 7,
+          "token_end": 15
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: codegen_cprover_gotoc :: utils :: file_writing_pool :: { FileDataToWrite , ThreadPool }",
+          "container": [],
+          "line": 8,
+          "signature": "use crate :: codegen_cprover_gotoc :: utils :: file_writing_pool :: { FileDataToWrite , ThreadPool }",
+          "token_start": 16,
+          "token_end": 30
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: codegen_cprover_gotoc :: { GotocCtx , clear_codegen_cache , context }",
+          "container": [],
+          "line": 9,
+          "signature": "use crate :: codegen_cprover_gotoc :: { GotocCtx , clear_codegen_cache , context }",
+          "token_start": 31,
+          "token_end": 43
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: analysis",
+          "container": [],
+          "line": 10,
+          "signature": "use crate :: kani_middle :: analysis",
+          "token_start": 44,
+          "token_end": 50
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: attributes :: KaniAttributes",
+          "container": [],
+          "line": 11,
+          "signature": "use crate :: kani_middle :: attributes :: KaniAttributes",
+          "token_start": 51,
+          "token_end": 59
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: check_reachable_items",
+          "container": [],
+          "line": 12,
+          "signature": "use crate :: kani_middle :: check_reachable_items",
+          "token_start": 60,
+          "token_end": 66
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: codegen_order :: { MostReachableItems , order_harnesses }",
+          "container": [],
+          "line": 13,
+          "signature": "use crate :: kani_middle :: codegen_order :: { MostReachableItems , order_harnesses }",
+          "token_start": 67,
+          "token_end": 79
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: codegen_units :: { CodegenUnit , CodegenUnits }",
+          "container": [],
+          "line": 14,
+          "signature": "use crate :: kani_middle :: codegen_units :: { CodegenUnit , CodegenUnits }",
+          "token_start": 80,
+          "token_end": 92
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: provide",
+          "container": [],
+          "line": 15,
+          "signature": "use crate :: kani_middle :: provide",
+          "token_start": 93,
+          "token_end": 99
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: reachability :: { collect_reachable_items , filter_crate_items }",
+          "container": [],
+          "line": 16,
+          "signature": "use crate :: kani_middle :: reachability :: { collect_reachable_items , filter_crate_items }",
+          "token_start": 100,
+          "token_end": 112
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: transform :: { BodyTransformation , GlobalPasses }",
+          "container": [],
+          "line": 17,
+          "signature": "use crate :: kani_middle :: transform :: { BodyTransformation , GlobalPasses }",
+          "token_start": 113,
+          "token_end": 125
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_queries :: QUERY_DB",
+          "container": [],
+          "line": 18,
+          "signature": "use crate :: kani_queries :: QUERY_DB",
+          "token_start": 126,
+          "token_end": 132
+        },
+        {
+          "kind": "use",
+          "name": "use cbmc :: goto_program :: Location",
+          "container": [],
+          "line": 19,
+          "signature": "use cbmc :: goto_program :: Location",
+          "token_start": 133,
+          "token_end": 139
+        },
+        {
+          "kind": "use",
+          "name": "use cbmc :: { InternedString , MachineModel }",
+          "container": [],
+          "line": 20,
+          "signature": "use cbmc :: { InternedString , MachineModel }",
+          "token_start": 140,
+          "token_end": 148
+        },
+        {
+          "kind": "use",
+          "name": "use cbmc :: { RoundingMode , WithInterner }",
+          "container": [],
+          "line": 21,
+          "signature": "use cbmc :: { RoundingMode , WithInterner }",
+          "token_start": 149,
+          "token_end": 157
+        },
+        {
+          "kind": "use",
+          "name": "use kani_metadata :: artifact :: convert_type",
+          "container": [],
+          "line": 22,
+          "signature": "use kani_metadata :: artifact :: convert_type",
+          "token_start": 158,
+          "token_end": 164
+        },
+        {
+          "kind": "use",
+          "name": "use kani_metadata :: { ArtifactType , HarnessMetadata , KaniMetadata , UnsupportedFeature }",
+          "container": [],
+          "line": 23,
+          "signature": "use kani_metadata :: { ArtifactType , HarnessMetadata , KaniMetadata , UnsupportedFeature }",
+          "token_start": 165,
+          "token_end": 177
+        },
+        {
+          "kind": "use",
+          "name": "use kani_metadata :: { AssignsContract , CompilerArtifactStub }",
+          "container": [],
+          "line": 24,
+          "signature": "use kani_metadata :: { AssignsContract , CompilerArtifactStub }",
+          "token_start": 178,
+          "token_end": 186
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_abi :: { Align , Endian }",
+          "container": [],
+          "line": 25,
+          "signature": "use rustc_abi :: { Align , Endian }",
+          "token_start": 187,
+          "token_end": 195
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_codegen_ssa :: back :: archive :: { ArArchiveBuilder , ArchiveBuilder , ArchiveBuilderBuilder , DEFAULT_OBJECT_READER , }",
+          "container": [],
+          "line": 26,
+          "signature": "use rustc_codegen_ssa :: back :: archive :: { ArArchiveBuilder , ArchiveBuilder , ArchiveBuilderBuilder , DEFAULT_OBJECT_READER , }",
+          "token_start": 196,
+          "token_end": 213
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_codegen_ssa :: back :: link :: link_binary",
+          "container": [],
+          "line": 29,
+          "signature": "use rustc_codegen_ssa :: back :: link :: link_binary",
+          "token_start": 214,
+          "token_end": 222
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_codegen_ssa :: traits :: CodegenBackend",
+          "container": [],
+          "line": 30,
+          "signature": "use rustc_codegen_ssa :: traits :: CodegenBackend",
+          "token_start": 223,
+          "token_end": 229
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_codegen_ssa :: { CompiledModules , CrateInfo , TargetConfig }",
+          "container": [],
+          "line": 31,
+          "signature": "use rustc_codegen_ssa :: { CompiledModules , CrateInfo , TargetConfig }",
+          "token_start": 230,
+          "token_end": 240
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_data_structures :: fx :: FxHashMap",
+          "container": [],
+          "line": 32,
+          "signature": "use rustc_data_structures :: fx :: FxHashMap",
+          "token_start": 241,
+          "token_end": 247
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_data_structures :: unord :: { UnordMap , UnordSet }",
+          "container": [],
+          "line": 33,
+          "signature": "use rustc_data_structures :: unord :: { UnordMap , UnordSet }",
+          "token_start": 248,
+          "token_end": 258
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_hir :: def_id :: { DefId as InternalDefId , LOCAL_CRATE }",
+          "container": [],
+          "line": 34,
+          "signature": "use rustc_hir :: def_id :: { DefId as InternalDefId , LOCAL_CRATE }",
+          "token_start": 259,
+          "token_end": 271
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_metadata :: EncodedMetadata",
+          "container": [],
+          "line": 35,
+          "signature": "use rustc_metadata :: EncodedMetadata",
+          "token_start": 272,
+          "token_end": 276
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: dep_graph :: { WorkProduct , WorkProductId }",
+          "container": [],
+          "line": 36,
+          "signature": "use rustc_middle :: dep_graph :: { WorkProduct , WorkProductId }",
+          "token_start": 277,
+          "token_end": 287
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: TyCtxt",
+          "container": [],
+          "line": 37,
+          "signature": "use rustc_middle :: ty :: TyCtxt",
+          "token_start": 288,
+          "token_end": 294
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: util :: Providers",
+          "container": [],
+          "line": 38,
+          "signature": "use rustc_middle :: util :: Providers",
+          "token_start": 295,
+          "token_end": 301
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: CrateDef",
+          "container": [],
+          "line": 39,
+          "signature": "use rustc_public :: CrateDef",
+          "token_start": 302,
+          "token_end": 306
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: mir :: mono :: { Instance , MonoItem }",
+          "container": [],
+          "line": 40,
+          "signature": "use rustc_public :: mir :: mono :: { Instance , MonoItem }",
+          "token_start": 307,
+          "token_end": 319
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: rustc_internal",
+          "container": [],
+          "line": 41,
+          "signature": "use rustc_public :: rustc_internal",
+          "token_start": 320,
+          "token_end": 324
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: ty :: FnDef",
+          "container": [],
+          "line": 42,
+          "signature": "use rustc_public :: ty :: FnDef",
+          "token_start": 325,
+          "token_end": 331
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_session :: config :: { OutputFilenames , OutputType }",
+          "container": [],
+          "line": 43,
+          "signature": "use rustc_session :: config :: { OutputFilenames , OutputType }",
+          "token_start": 332,
+          "token_end": 342
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_session :: output :: out_filename",
+          "container": [],
+          "line": 44,
+          "signature": "use rustc_session :: output :: out_filename",
+          "token_start": 343,
+          "token_end": 349
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_session :: { EarlySession , IncrCompSession , Session }",
+          "container": [],
+          "line": 45,
+          "signature": "use rustc_session :: { EarlySession , IncrCompSession , Session }",
+          "token_start": 350,
+          "token_end": 360
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_span :: { Symbol , sym }",
+          "container": [],
+          "line": 46,
+          "signature": "use rustc_span :: { Symbol , sym }",
+          "token_start": 361,
+          "token_end": 369
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_structures :: CrateType",
+          "container": [],
+          "line": 47,
+          "signature": "use rustc_structures :: CrateType",
+          "token_start": 370,
+          "token_end": 374
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_target :: spec :: { Arch , Os , PanicStrategy }",
+          "container": [],
+          "line": 48,
+          "signature": "use rustc_target :: spec :: { Arch , Os , PanicStrategy }",
+          "token_start": 375,
+          "token_end": 387
+        },
+        {
+          "kind": "use",
+          "name": "use std :: any :: Any",
+          "container": [],
+          "line": 49,
+          "signature": "use std :: any :: Any",
+          "token_start": 388,
+          "token_end": 394
+        },
+        {
+          "kind": "use",
+          "name": "use std :: cmp :: min",
+          "container": [],
+          "line": 50,
+          "signature": "use std :: cmp :: min",
+          "token_start": 395,
+          "token_end": 401
+        },
+        {
+          "kind": "use",
+          "name": "use std :: collections :: BTreeMap",
+          "container": [],
+          "line": 51,
+          "signature": "use std :: collections :: BTreeMap",
+          "token_start": 402,
+          "token_end": 408
+        },
+        {
+          "kind": "use",
+          "name": "use std :: fmt :: Write",
+          "container": [],
+          "line": 52,
+          "signature": "use std :: fmt :: Write",
+          "token_start": 409,
+          "token_end": 415
+        },
+        {
+          "kind": "use",
+          "name": "use std :: fs :: File",
+          "container": [],
+          "line": 53,
+          "signature": "use std :: fs :: File",
+          "token_start": 416,
+          "token_end": 422
+        },
+        {
+          "kind": "use",
+          "name": "use std :: io :: BufWriter",
+          "container": [],
+          "line": 54,
+          "signature": "use std :: io :: BufWriter",
+          "token_start": 423,
+          "token_end": 429
+        },
+        {
+          "kind": "use",
+          "name": "use std :: num :: NonZero",
+          "container": [],
+          "line": 55,
+          "signature": "use std :: num :: NonZero",
+          "token_start": 430,
+          "token_end": 436
+        },
+        {
+          "kind": "use",
+          "name": "use std :: path :: Path",
+          "container": [],
+          "line": 56,
+          "signature": "use std :: path :: Path",
+          "token_start": 437,
+          "token_end": 443
+        },
+        {
+          "kind": "use",
+          "name": "use std :: thread :: available_parallelism",
+          "container": [],
+          "line": 57,
+          "signature": "use std :: thread :: available_parallelism",
+          "token_start": 444,
+          "token_end": 450
+        },
+        {
+          "kind": "use",
+          "name": "use std :: time :: Instant",
+          "container": [],
+          "line": 58,
+          "signature": "use std :: time :: Instant",
+          "token_start": 451,
+          "token_end": 457
+        },
+        {
+          "kind": "use",
+          "name": "use tracing :: { debug , info }",
+          "container": [],
+          "line": 59,
+          "signature": "use tracing :: { debug , info }",
+          "token_start": 458,
+          "token_end": 466
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl GotocCodegenBackend",
+          "container": [],
+          "line": 72,
+          "signature": "impl GotocCodegenBackend",
+          "token_start": 493,
+          "token_end": 495
+        },
+        {
+          "kind": "impl",
+          "name": "impl CodegenBackend for GotocCodegenBackend",
+          "container": [],
+          "line": 292,
+          "signature": "impl CodegenBackend for GotocCodegenBackend",
+          "token_start": 1499,
+          "token_end": 1503
+        },
+        {
+          "kind": "impl",
+          "name": "impl ArchiveBuilderBuilder for ArArchiveBuilderBuilder",
+          "container": [],
+          "line": 602,
+          "signature": "impl ArchiveBuilderBuilder for ArArchiveBuilderBuilder",
+          "token_start": 3011,
+          "token_end": 3015
+        },
+        {
+          "kind": "impl",
+          "name": "impl GotoCodegenResults",
+          "container": [],
+          "line": 706,
+          "signature": "impl GotoCodegenResults",
+          "token_start": 3514,
+          "token_end": 3516
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "head_sha256": "97b6e96c8cea78becdecd9670a96976d08647c673637b60630a48620ce3d917b",
+      "declarations_impls_uses_total": 21,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: { points_to :: { AnalysisBodyOverride , BodyProvenance , MemLoc , PointsToGraph , run_points_to_analysis , } , reachability :: CallGraph , transform :: { BodyTransformation , GlobalPass , body :: { CheckType , InsertPosition , MutableBody , SourceInstruction } , check_uninit :: UninitInstrumenter , } , }",
+          "container": [],
+          "line": 12,
+          "signature": "use crate :: kani_middle :: { points_to :: { AnalysisBodyOverride , BodyProvenance , MemLoc , PointsToGraph , run_points_to_analysis , } , reachability :: CallGraph , transform :: { BodyTransformation , GlobalPass , body :: { CheckType , InsertPosition , MutableBody , SourceInstruction } , check_uninit :: UninitInstrumenter , } , }",
+          "token_start": 43,
+          "token_end": 94,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        }
+      ],
+      "removed_or_replaced": [
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: { points_to :: { AnalysisBodyOverride , BodyProvenance , MemLoc , PointsToGraph , run_points_to_analysis , } , reachability :: CallGraph , transform :: { BodyTransformation , GlobalPass , TransformationResult , body :: { CheckType , InsertPosition , MutableBody , SourceInstruction } , check_uninit :: UninitInstrumenter , } , }",
+          "container": [],
+          "line": 12,
+          "signature": "use crate :: kani_middle :: { points_to :: { AnalysisBodyOverride , BodyProvenance , MemLoc , PointsToGraph , run_points_to_analysis , } , reachability :: CallGraph , transform :: { BodyTransformation , GlobalPass , TransformationResult , body :: { CheckType , InsertPosition , MutableBody , SourceInstruction } , check_uninit :: UninitInstrumenter , } , }",
+          "token_start": 43,
+          "token_end": 96
+        }
+      ],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: collections :: HashMap",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: collections :: HashMap",
+          "token_start": 0,
+          "token_end": 6
+        },
+        {
+          "kind": "use",
+          "name": "use std :: collections :: HashSet",
+          "container": [],
+          "line": 7,
+          "signature": "use std :: collections :: HashSet",
+          "token_start": 7,
+          "token_end": 13
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: args :: ExtraChecks",
+          "container": [],
+          "line": 9,
+          "signature": "use crate :: args :: ExtraChecks",
+          "token_start": 14,
+          "token_end": 20
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: attributes :: KaniAttributes",
+          "container": [],
+          "line": 10,
+          "signature": "use crate :: kani_middle :: attributes :: KaniAttributes",
+          "token_start": 21,
+          "token_end": 29
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: kani_functions :: { KaniFunction , KaniModel }",
+          "container": [],
+          "line": 11,
+          "signature": "use crate :: kani_middle :: kani_functions :: { KaniFunction , KaniModel }",
+          "token_start": 30,
+          "token_end": 42
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: { points_to :: { AnalysisBodyOverride , BodyProvenance , MemLoc , PointsToGraph , run_points_to_analysis , } , reachability :: CallGraph , transform :: { BodyTransformation , GlobalPass , body :: { CheckType , InsertPosition , MutableBody , SourceInstruction } , check_uninit :: UninitInstrumenter , } , }",
+          "container": [],
+          "line": 12,
+          "signature": "use crate :: kani_middle :: { points_to :: { AnalysisBodyOverride , BodyProvenance , MemLoc , PointsToGraph , run_points_to_analysis , } , reachability :: CallGraph , transform :: { BodyTransformation , GlobalPass , body :: { CheckType , InsertPosition , MutableBody , SourceInstruction } , check_uninit :: UninitInstrumenter , } , }",
+          "token_start": 43,
+          "token_end": 94
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_queries :: QueryDb",
+          "container": [],
+          "line": 23,
+          "signature": "use crate :: kani_queries :: QueryDb",
+          "token_start": 95,
+          "token_end": 101
+        },
+        {
+          "kind": "use",
+          "name": "use initial_target_visitor :: { AnalysisTarget , InitialTargetVisitor }",
+          "container": [],
+          "line": 24,
+          "signature": "use initial_target_visitor :: { AnalysisTarget , InitialTargetVisitor }",
+          "token_start": 102,
+          "token_end": 110
+        },
+        {
+          "kind": "use",
+          "name": "use instrumentation_visitor :: InstrumentationVisitor",
+          "container": [],
+          "line": 25,
+          "signature": "use instrumentation_visitor :: InstrumentationVisitor",
+          "token_start": 111,
+          "token_end": 115
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: TyCtxt",
+          "container": [],
+          "line": 26,
+          "signature": "use rustc_middle :: ty :: TyCtxt",
+          "token_start": 116,
+          "token_end": 122
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_mir_dataflow :: JoinSemiLattice",
+          "container": [],
+          "line": 27,
+          "signature": "use rustc_mir_dataflow :: JoinSemiLattice",
+          "token_start": 123,
+          "token_end": 127
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: { mir :: mono :: { Instance , MonoItem } , mir :: { MirVisitor , TerminatorKind } , ty :: FnDef , }",
+          "container": [],
+          "line": 28,
+          "signature": "use rustc_public :: { mir :: mono :: { Instance , MonoItem } , mir :: { MirVisitor , TerminatorKind } , ty :: FnDef , }",
+          "token_start": 128,
+          "token_end": 155
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_session :: config :: OutputType",
+          "container": [],
+          "line": 33,
+          "signature": "use rustc_session :: config :: OutputType",
+          "token_start": 156,
+          "token_end": 162
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl DelayedUbPass",
+          "container": [],
+          "line": 45,
+          "signature": "impl DelayedUbPass",
+          "token_start": 203,
+          "token_end": 205
+        },
+        {
+          "kind": "impl",
+          "name": "impl GlobalPass for DelayedUbPass",
+          "container": [],
+          "line": 59,
+          "signature": "impl GlobalPass for DelayedUbPass",
+          "token_start": 248,
+          "token_end": 252
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "head_sha256": "d5b402951626f44e1dcf9838f2a6d60c70e55a00a468429e0dca77dfd6c8ed89",
+      "declarations_impls_uses_total": 20,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: collections :: HashMap",
+          "container": [],
+          "line": 8,
+          "signature": "use std :: collections :: HashMap",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "use",
+          "name": "use std :: hash :: Hash",
+          "container": [],
+          "line": 9,
+          "signature": "use std :: hash :: Hash",
+          "token_start": 7,
+          "token_end": 13,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "struct",
+          "name": "DelayedCache",
+          "container": [],
+          "line": 12,
+          "signature": "struct DelayedCache < K , V >",
+          "token_start": 25,
+          "token_end": 32,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "impl",
+          "name": "impl < K , V > Default for DelayedCache < K , V >",
+          "container": [],
+          "line": 16,
+          "signature": "impl < K , V > Default for DelayedCache < K , V >",
+          "token_start": 49,
+          "token_end": 63,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "default",
+          "container": [
+            "impl < K , V > Default for DelayedCache < K , V >"
+          ],
+          "line": 17,
+          "signature": "fn default ( ) -> Self",
+          "token_start": 64,
+          "token_end": 70,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "impl",
+          "name": "impl < K : Copy + Eq + Hash , V > DelayedCache < K , V >",
+          "container": [],
+          "line": 22,
+          "signature": "impl < K : Copy + Eq + Hash , V > DelayedCache < K , V >",
+          "token_start": 79,
+          "token_end": 97,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "begin",
+          "container": [
+            "impl < K : Copy + Eq + Hash , V > DelayedCache < K , V >"
+          ],
+          "line": 23,
+          "signature": "fn begin ( & mut self )",
+          "token_start": 102,
+          "token_end": 109,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "replace",
+          "container": [
+            "impl < K : Copy + Eq + Hash , V > DelayedCache < K , V >"
+          ],
+          "line": 28,
+          "signature": "fn replace ( & mut self , cache : & mut HashMap < K , V > , key : K , value : V )",
+          "token_start": 141,
+          "token_end": 167,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "restore",
+          "container": [
+            "impl < K : Copy + Eq + Hash , V > DelayedCache < K , V >"
+          ],
+          "line": 36,
+          "signature": "fn restore ( & mut self , cache : & mut HashMap < K , V > )",
+          "token_start": 212,
+          "token_end": 230,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "mod",
+          "name": "tests",
+          "container": [],
+          "line": 52,
+          "signature": "mod tests",
+          "token_start": 297,
+          "token_end": 299,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "use",
+          "name": "use super :: DelayedCache",
+          "container": [
+            "mod tests"
+          ],
+          "line": 53,
+          "signature": "use super :: DelayedCache",
+          "token_start": 300,
+          "token_end": 304,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "use",
+          "name": "use std :: collections :: HashMap",
+          "container": [
+            "mod tests"
+          ],
+          "line": 54,
+          "signature": "use std :: collections :: HashMap",
+          "token_start": 305,
+          "token_end": 311,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "struct",
+          "name": "Result",
+          "container": [
+            "mod tests"
+          ],
+          "line": 58,
+          "signature": "struct Result",
+          "token_start": 323,
+          "token_end": 325,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "result",
+          "container": [
+            "mod tests"
+          ],
+          "line": 63,
+          "signature": "fn result ( body : u8 , modified : bool ) -> Result",
+          "token_start": 338,
+          "token_end": 351,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "first_snapshot_restores_body_and_modified_flag",
+          "container": [
+            "mod tests"
+          ],
+          "line": 68,
+          "signature": "fn first_snapshot_restores_body_and_modified_flag ( )",
+          "token_start": 369,
+          "token_end": 373,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "preserves_warm_untouched_and_new_regular_entries",
+          "container": [
+            "mod tests"
+          ],
+          "line": 84,
+          "signature": "fn preserves_warm_untouched_and_new_regular_entries ( )",
+          "token_start": 540,
+          "token_end": 544,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "removes_previously_absent_failed_root_and_repeats_cleanly",
+          "container": [
+            "mod tests"
+          ],
+          "line": 106,
+          "signature": "fn removes_previously_absent_failed_root_and_repeats_cleanly ( )",
+          "token_start": 730,
+          "token_end": 734,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "empty_scope_preserves_regular_cache",
+          "container": [
+            "mod tests"
+          ],
+          "line": 121,
+          "signature": "fn empty_scope_preserves_regular_cache ( )",
+          "token_start": 858,
+          "token_end": 862,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "rejects_unclosed_scope",
+          "container": [
+            "mod tests"
+          ],
+          "line": 133,
+          "signature": "fn rejects_unclosed_scope ( )",
+          "token_start": 948,
+          "token_end": 952,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "rejects_unscoped_replacement",
+          "container": [
+            "mod tests"
+          ],
+          "line": 141,
+          "signature": "fn rejects_unscoped_replacement ( )",
+          "token_start": 994,
+          "token_end": 998,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: collections :: HashMap",
+          "container": [],
+          "line": 8,
+          "signature": "use std :: collections :: HashMap",
+          "token_start": 0,
+          "token_end": 6
+        },
+        {
+          "kind": "use",
+          "name": "use std :: hash :: Hash",
+          "container": [],
+          "line": 9,
+          "signature": "use std :: hash :: Hash",
+          "token_start": 7,
+          "token_end": 13
+        },
+        {
+          "kind": "use",
+          "name": "use super :: DelayedCache",
+          "container": [
+            "mod tests"
+          ],
+          "line": 53,
+          "signature": "use super :: DelayedCache",
+          "token_start": 300,
+          "token_end": 304
+        },
+        {
+          "kind": "use",
+          "name": "use std :: collections :: HashMap",
+          "container": [
+            "mod tests"
+          ],
+          "line": 54,
+          "signature": "use std :: collections :: HashMap",
+          "token_start": 305,
+          "token_end": 311
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl < K , V > Default for DelayedCache < K , V >",
+          "container": [],
+          "line": 16,
+          "signature": "impl < K , V > Default for DelayedCache < K , V >",
+          "token_start": 49,
+          "token_end": 63
+        },
+        {
+          "kind": "impl",
+          "name": "impl < K : Copy + Eq + Hash , V > DelayedCache < K , V >",
+          "container": [],
+          "line": 22,
+          "signature": "impl < K : Copy + Eq + Hash , V > DelayedCache < K , V >",
+          "token_start": 79,
+          "token_end": 97
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "head_sha256": "ddfd490640612de988662e1b39557ed1011271b502fca42c052f3945af93b88c",
+      "declarations_impls_uses_total": 92,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use delayed_cache :: DelayedCache",
+          "container": [],
+          "line": 31,
+          "signature": "use delayed_cache :: DelayedCache",
+          "token_start": 138,
+          "token_end": 142,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "use",
+          "name": "use std :: ops :: { Deref , DerefMut }",
+          "container": [],
+          "line": 40,
+          "signature": "use std :: ops :: { Deref , DerefMut }",
+          "token_start": 211,
+          "token_end": 221,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "mod",
+          "name": "delayed_cache",
+          "container": [],
+          "line": 76,
+          "signature": "mod delayed_cache",
+          "token_start": 376,
+          "token_end": 378,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "delayed_scope",
+          "container": [
+            "impl BodyTransformation"
+          ],
+          "line": 160,
+          "signature": "fn delayed_scope ( & mut self ) -> DelayedTransformationScope < '_ >",
+          "token_start": 790,
+          "token_end": 802,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "replace_delayed_body",
+          "container": [
+            "impl BodyTransformation"
+          ],
+          "line": 167,
+          "signature": "fn replace_delayed_body ( & mut self , instance : Instance , body : Body )",
+          "token_start": 818,
+          "token_end": 833,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "struct",
+          "name": "DelayedTransformationScope",
+          "container": [],
+          "line": 238,
+          "signature": "struct DelayedTransformationScope < 'a >",
+          "token_start": 1259,
+          "token_end": 1264,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "impl",
+          "name": "impl Deref for DelayedTransformationScope < '_ >",
+          "container": [],
+          "line": 242,
+          "signature": "impl Deref for DelayedTransformationScope < '_ >",
+          "token_start": 1273,
+          "token_end": 1280,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "type",
+          "name": "Target",
+          "container": [
+            "impl Deref for DelayedTransformationScope < '_ >"
+          ],
+          "line": 243,
+          "signature": "type Target = BodyTransformation",
+          "token_start": 1281,
+          "token_end": 1285,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "deref",
+          "container": [
+            "impl Deref for DelayedTransformationScope < '_ >"
+          ],
+          "line": 245,
+          "signature": "fn deref ( & self ) -> & Self :: Target",
+          "token_start": 1286,
+          "token_end": 1297,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "impl",
+          "name": "impl DerefMut for DelayedTransformationScope < '_ >",
+          "container": [],
+          "line": 250,
+          "signature": "impl DerefMut for DelayedTransformationScope < '_ >",
+          "token_start": 1303,
+          "token_end": 1310,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "deref_mut",
+          "container": [
+            "impl DerefMut for DelayedTransformationScope < '_ >"
+          ],
+          "line": 251,
+          "signature": "fn deref_mut ( & mut self ) -> & mut Self :: Target",
+          "token_start": 1311,
+          "token_end": 1324,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "impl",
+          "name": "impl Drop for DelayedTransformationScope < '_ >",
+          "container": [],
+          "line": 256,
+          "signature": "impl Drop for DelayedTransformationScope < '_ >",
+          "token_start": 1330,
+          "token_end": 1337,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "drop",
+          "container": [
+            "impl Drop for DelayedTransformationScope < '_ >"
+          ],
+          "line": 257,
+          "signature": "fn drop ( & mut self )",
+          "token_start": 1338,
+          "token_end": 1345,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "mod",
+          "name": "delayed_scope_tests",
+          "container": [],
+          "line": 437,
+          "signature": "mod delayed_scope_tests",
+          "token_start": 2091,
+          "token_end": 2093,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "use",
+          "name": "use super :: BodyTransformation",
+          "container": [
+            "mod delayed_scope_tests"
+          ],
+          "line": 438,
+          "signature": "use super :: BodyTransformation",
+          "token_start": 2094,
+          "token_end": 2098,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "use",
+          "name": "use std :: panic :: { AssertUnwindSafe , catch_unwind }",
+          "container": [
+            "mod delayed_scope_tests"
+          ],
+          "line": 439,
+          "signature": "use std :: panic :: { AssertUnwindSafe , catch_unwind }",
+          "token_start": 2099,
+          "token_end": 2109,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "transformer",
+          "container": [
+            "mod delayed_scope_tests"
+          ],
+          "line": 443,
+          "signature": "fn transformer ( ) -> BodyTransformation",
+          "token_start": 2110,
+          "token_end": 2116,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "normal_and_early_return_close_scope",
+          "container": [
+            "mod delayed_scope_tests"
+          ],
+          "line": 455,
+          "signature": "fn normal_and_early_return_close_scope ( )",
+          "token_start": 2171,
+          "token_end": 2175,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "early_return",
+          "container": [
+            "mod delayed_scope_tests"
+          ],
+          "line": 456,
+          "signature": "fn early_return ( transformer : & mut BodyTransformation ) -> bool",
+          "token_start": 2176,
+          "token_end": 2187,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "unwind_closes_scope_before_transformer_reuse",
+          "container": [
+            "mod delayed_scope_tests"
+          ],
+          "line": 468,
+          "signature": "fn unwind_closes_scope_before_transformer_reuse ( )",
+          "token_start": 2242,
+          "token_end": 2246,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: codegen_units :: CodegenUnit",
+          "container": [],
+          "line": 19,
+          "signature": "use crate :: kani_middle :: codegen_units :: CodegenUnit",
+          "token_start": 0,
+          "token_end": 8
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: reachability :: CallGraph",
+          "container": [],
+          "line": 20,
+          "signature": "use crate :: kani_middle :: reachability :: CallGraph",
+          "token_start": 9,
+          "token_end": 17
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: transform :: body :: CheckType",
+          "container": [],
+          "line": 21,
+          "signature": "use crate :: kani_middle :: transform :: body :: CheckType",
+          "token_start": 18,
+          "token_end": 28
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: transform :: check_uninit :: { DelayedUbPass , UninitPass }",
+          "container": [],
+          "line": 22,
+          "signature": "use crate :: kani_middle :: transform :: check_uninit :: { DelayedUbPass , UninitPass }",
+          "token_start": 29,
+          "token_end": 43
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: transform :: check_values :: ValidValuePass",
+          "container": [],
+          "line": 23,
+          "signature": "use crate :: kani_middle :: transform :: check_values :: ValidValuePass",
+          "token_start": 44,
+          "token_end": 54
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: transform :: clone :: { ClonableGlobalPass , ClonableTransformPass }",
+          "container": [],
+          "line": 24,
+          "signature": "use crate :: kani_middle :: transform :: clone :: { ClonableGlobalPass , ClonableTransformPass }",
+          "token_start": 55,
+          "token_end": 69
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: transform :: contracts :: { AnyModifiesPass , FunctionWithContractPass }",
+          "container": [],
+          "line": 25,
+          "signature": "use crate :: kani_middle :: transform :: contracts :: { AnyModifiesPass , FunctionWithContractPass }",
+          "token_start": 70,
+          "token_end": 84
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: transform :: kani_intrinsics :: IntrinsicGeneratorPass",
+          "container": [],
+          "line": 26,
+          "signature": "use crate :: kani_middle :: transform :: kani_intrinsics :: IntrinsicGeneratorPass",
+          "token_start": 85,
+          "token_end": 95
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: transform :: loop_contracts :: LoopContractPass",
+          "container": [],
+          "line": 27,
+          "signature": "use crate :: kani_middle :: transform :: loop_contracts :: LoopContractPass",
+          "token_start": 96,
+          "token_end": 106
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: transform :: stubs :: { ExternFnStubPass , FnStubPass }",
+          "container": [],
+          "line": 28,
+          "signature": "use crate :: kani_middle :: transform :: stubs :: { ExternFnStubPass , FnStubPass }",
+          "token_start": 107,
+          "token_end": 121
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_queries :: QueryDb",
+          "container": [],
+          "line": 29,
+          "signature": "use crate :: kani_queries :: QueryDb",
+          "token_start": 122,
+          "token_end": 128
+        },
+        {
+          "kind": "use",
+          "name": "use automatic :: { AutomaticArbitraryPass , AutomaticHarnessPass }",
+          "container": [],
+          "line": 30,
+          "signature": "use automatic :: { AutomaticArbitraryPass , AutomaticHarnessPass }",
+          "token_start": 129,
+          "token_end": 137
+        },
+        {
+          "kind": "use",
+          "name": "use delayed_cache :: DelayedCache",
+          "container": [],
+          "line": 31,
+          "signature": "use delayed_cache :: DelayedCache",
+          "token_start": 138,
+          "token_end": 142
+        },
+        {
+          "kind": "use",
+          "name": "use dump_mir_pass :: DumpMirPass",
+          "container": [],
+          "line": 32,
+          "signature": "use dump_mir_pass :: DumpMirPass",
+          "token_start": 143,
+          "token_end": 147
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_hir :: def :: DefKind",
+          "container": [],
+          "line": 33,
+          "signature": "use rustc_hir :: def :: DefKind",
+          "token_start": 148,
+          "token_end": 154
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: { EarlyBinder , TyCtxt , TypingEnv }",
+          "container": [],
+          "line": 34,
+          "signature": "use rustc_middle :: ty :: { EarlyBinder , TyCtxt , TypingEnv }",
+          "token_start": 155,
+          "token_end": 167
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: mir :: mono :: { Instance , MonoItem }",
+          "container": [],
+          "line": 35,
+          "signature": "use rustc_public :: mir :: mono :: { Instance , MonoItem }",
+          "token_start": 168,
+          "token_end": 180
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: mir :: { Body , Local }",
+          "container": [],
+          "line": 36,
+          "signature": "use rustc_public :: mir :: { Body , Local }",
+          "token_start": 181,
+          "token_end": 191
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: rustc_internal",
+          "container": [],
+          "line": 37,
+          "signature": "use rustc_public :: rustc_internal",
+          "token_start": 192,
+          "token_end": 196
+        },
+        {
+          "kind": "use",
+          "name": "use std :: collections :: HashMap",
+          "container": [],
+          "line": 38,
+          "signature": "use std :: collections :: HashMap",
+          "token_start": 197,
+          "token_end": 203
+        },
+        {
+          "kind": "use",
+          "name": "use std :: fmt :: Debug",
+          "container": [],
+          "line": 39,
+          "signature": "use std :: fmt :: Debug",
+          "token_start": 204,
+          "token_end": 210
+        },
+        {
+          "kind": "use",
+          "name": "use std :: ops :: { Deref , DerefMut }",
+          "container": [],
+          "line": 40,
+          "signature": "use std :: ops :: { Deref , DerefMut }",
+          "token_start": 211,
+          "token_end": 221
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: transform :: rustc_intrinsics :: RustcIntrinsicsPass",
+          "container": [],
+          "line": 42,
+          "signature": "use crate :: kani_middle :: transform :: rustc_intrinsics :: RustcIntrinsicsPass",
+          "token_start": 222,
+          "token_end": 232
+        },
+        {
+          "kind": "use",
+          "name": "use internal_mir :: RustcInternalMir",
+          "container": [],
+          "line": 43,
+          "signature": "use internal_mir :: RustcInternalMir",
+          "token_start": 234,
+          "token_end": 238
+        },
+        {
+          "kind": "use",
+          "name": "use check_uninit :: immutable_origin_type_supported",
+          "container": [],
+          "line": 73,
+          "signature": "use check_uninit :: immutable_origin_type_supported",
+          "token_start": 365,
+          "token_end": 369
+        },
+        {
+          "kind": "use",
+          "name": "use super :: BodyTransformation",
+          "container": [
+            "mod delayed_scope_tests"
+          ],
+          "line": 438,
+          "signature": "use super :: BodyTransformation",
+          "token_start": 2094,
+          "token_end": 2098
+        },
+        {
+          "kind": "use",
+          "name": "use std :: panic :: { AssertUnwindSafe , catch_unwind }",
+          "container": [
+            "mod delayed_scope_tests"
+          ],
+          "line": 439,
+          "signature": "use std :: panic :: { AssertUnwindSafe , catch_unwind }",
+          "token_start": 2099,
+          "token_end": 2109
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl BodyTransformation",
+          "container": [],
+          "line": 110,
+          "signature": "impl BodyTransformation",
+          "token_start": 478,
+          "token_end": 480
+        },
+        {
+          "kind": "impl",
+          "name": "impl Deref for DelayedTransformationScope < '_ >",
+          "container": [],
+          "line": 242,
+          "signature": "impl Deref for DelayedTransformationScope < '_ >",
+          "token_start": 1273,
+          "token_end": 1280
+        },
+        {
+          "kind": "impl",
+          "name": "impl DerefMut for DelayedTransformationScope < '_ >",
+          "container": [],
+          "line": 250,
+          "signature": "impl DerefMut for DelayedTransformationScope < '_ >",
+          "token_start": 1303,
+          "token_end": 1310
+        },
+        {
+          "kind": "impl",
+          "name": "impl Drop for DelayedTransformationScope < '_ >",
+          "container": [],
+          "line": 256,
+          "signature": "impl Drop for DelayedTransformationScope < '_ >",
+          "token_start": 1330,
+          "token_end": 1337
+        },
+        {
+          "kind": "impl",
+          "name": "impl TransformationResult",
+          "container": [],
+          "line": 324,
+          "signature": "impl TransformationResult",
+          "token_start": 1600,
+          "token_end": 1602
+        },
+        {
+          "kind": "impl",
+          "name": "impl GlobalPasses",
+          "container": [],
+          "line": 337,
+          "signature": "impl GlobalPasses",
+          "token_start": 1641,
+          "token_end": 1643
+        },
+        {
+          "kind": "impl",
+          "name": "impl Clone for Box < dyn $ new_trait_name >",
+          "container": [
+            "mod clone"
+          ],
+          "line": 399,
+          "signature": "impl Clone for Box < dyn $ new_trait_name >",
+          "token_start": 1908,
+          "token_end": 1917
+        },
+        {
+          "kind": "impl",
+          "name": "impl < T : $ extends + Clone + 'static > $ new_trait_name for T",
+          "container": [
+            "mod clone"
+          ],
+          "line": 406,
+          "signature": "impl < T : $ extends + Clone + 'static > $ new_trait_name for T",
+          "token_start": 1945,
+          "token_end": 1960
+        },
+        {
+          "kind": "impl",
+          "name": "impl < T : $ extends + Clone + 'static > $ intermediate_trait_name for T",
+          "container": [
+            "mod clone"
+          ],
+          "line": 416,
+          "signature": "impl < T : $ extends + Clone + 'static > $ intermediate_trait_name for T",
+          "token_start": 2006,
+          "token_end": 2021
+        }
+      ]
+    }
+  ],
+  "bound_api_calls": [
+    {
+      "contract": "f7-llbc-scope",
+      "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+      "line": 72,
+      "arity": 0,
+      "expected": 0
+    },
+    {
+      "contract": "observe-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 95,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "bind-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 340,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "bind-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 384,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "bind-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 465,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "bind-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 477,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "static-registration",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+      "line": 29,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "prepare",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "line": 145,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "finalize",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "line": 209,
+      "arity": 0,
+      "expected": 0
+    },
+    {
+      "contract": "f7-cprover-scope",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "line": 94,
+      "arity": 0,
+      "expected": 0
+    },
+    {
+      "contract": "observe-at-prepare",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "line": 166,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "static-qualification",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "line": 121,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "origin-registry",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "line": 102,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "target-compatibility",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "line": 265,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "origin-qualification",
+      "path": "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+      "line": 69,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "analysis-root-and-recursive",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 222,
+      "arity": 8,
+      "expected": 8
+    },
+    {
+      "contract": "analysis-root-and-recursive",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 694,
+      "arity": 8,
+      "expected": 8
+    },
+    {
+      "contract": "analysis-resolver",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 366,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "graph-successors",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 581,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "graph-successors",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 601,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "regular-call-effects",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 499,
+      "arity": 5,
+      "expected": 5
+    },
+    {
+      "contract": "origin-graph",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+      "line": 134,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "distinct-initial-target-helper",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 119,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "origin-target",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 52,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "raw-eq-and-existing-relevance-seeds",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 96,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "raw-eq-and-existing-relevance-seeds",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 109,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "raw-eq-and-existing-relevance-seeds",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 124,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "raw-eq-and-existing-relevance-seeds",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 125,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "raw-eq-and-existing-relevance-seeds",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 129,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "raw-eq-and-existing-relevance-seeds",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 133,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "root-analysis",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "line": 146,
+      "arity": 5,
+      "expected": 5
+    },
+    {
+      "contract": "initial-target-constructor",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "line": 80,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "instrumenter-run-callers-with-tcx",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "line": 179,
+      "arity": 7,
+      "expected": 7
+    },
+    {
+      "contract": "f7-delayed-writers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "line": 191,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "f7-delayed-writers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "line": 212,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "qualification-storage",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 273,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "qualification-storage",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 288,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "qualification-storage",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 941,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "qualification-recognition",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 940,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "check-builder-dispatch",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 313,
+      "arity": 4,
+      "expected": 4
+    },
+    {
+      "contract": "operation-materialization",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 353,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "operation-materialization",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 490,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "operation-materialization",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 742,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "operation-type-dispatch-and-check-diagnostic",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 241,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "operation-type-dispatch-and-check-diagnostic",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 459,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "transfer-layout-boundary-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 718,
+      "arity": 0,
+      "expected": 0
+    },
+    {
+      "contract": "full-storage-deinitialization",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 261,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "full-storage-deinitialization",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 265,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "typed-payload-layout",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 285,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "builder-constant-mask",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 192,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "instrumenter-run-callers-with-tcx",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "line": 67,
+      "arity": 7,
+      "expected": 7
+    },
+    {
+      "contract": "pointer-visitor-constructor",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "line": 74,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "pointer-resolver",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 1184,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "pointer-local-resolver",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 544,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "raw-byte-extent-type",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 661,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "transfer-storage-recognition-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 88,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "transfer-storage-recognition-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 554,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "transfer-storage-recognition-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 859,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "visitor-constant-mask",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 183,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "visitor-constant-mask",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 237,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "visitor-constant-mask",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 252,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "visitor-constant-mask",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 326,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "nested-reset-blackbox-and-ordinary",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 609,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "nested-reset-blackbox-and-ordinary",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 819,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "typed-transmute-predicate-shared",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 211,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "typed-transmute-predicate-shared",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 989,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "reference-checkas-cast",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "line": 87,
+      "arity": 5,
+      "expected": 5
+    },
+    {
+      "contract": "reference-checkas-cast",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "line": 91,
+      "arity": 5,
+      "expected": 5
+    },
+    {
+      "contract": "reference-reborrow-and-existing-ref-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "line": 90,
+      "arity": 4,
+      "expected": 4
+    },
+    {
+      "contract": "reference-reborrow-and-existing-ref-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "line": 99,
+      "arity": 4,
+      "expected": 4
+    },
+    {
+      "contract": "reference-reborrow-and-existing-ref-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "line": 130,
+      "arity": 4,
+      "expected": 4
+    },
+    {
+      "contract": "reference-reborrow-and-existing-ref-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "line": 131,
+      "arity": 4,
+      "expected": 4
+    },
+    {
+      "contract": "reference-reborrow-and-existing-ref-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "line": 335,
+      "arity": 4,
+      "expected": 4
+    },
+    {
+      "contract": "storage-recognition",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 153,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "storage-recognition",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 181,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "wrapper-recognition",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 137,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 154,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 182,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 206,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 218,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 226,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 238,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 283,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 318,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 356,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 414,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 426,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 433,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 501,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 158,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 163,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 173,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 207,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 220,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 228,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 240,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 372,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 377,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "closure-tls-type-context",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 489,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "public-to-internal-type-and-wrapper",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 122,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "public-to-internal-type-and-wrapper",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 490,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "monomorphized-upvar-list",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 494,
+      "arity": 0,
+      "expected": 0
+    },
+    {
+      "contract": "stable-upvars-before-public-recursion",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 494,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "f7-journal-begin",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "line": 161,
+      "arity": 0,
+      "expected": 0
+    },
+    {
+      "contract": "f7-journal-replace",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "line": 168,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "f7-drop-restore",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "line": 258,
+      "arity": 1,
+      "expected": 1
+    }
+  ],
+  "all_same_spelling_references": {
+    "begin": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 23,
+        "context": "super ) fn begin ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 72,
+        "context": "; journal . begin ( ) ; journal"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 87,
+        "context": "; journal . begin ( ) ; journal"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 110,
+        "context": "{ journal . begin ( ) ; journal"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 125,
+        "context": "{ journal . begin ( ) ; journal"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 135,
+        "context": "; journal . begin ( ) ; journal"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 136,
+        "context": "; journal . begin ( ) ; }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 161,
+        "context": ". delayed_cache . begin ( ) ; DelayedTransformationScope"
+      }
+    ],
+    "default": [
+      {
+        "path": "kani-compiler/src/args.rs",
+        "line": 13,
+        "context": "] # [ default ] CProver , #"
+      },
+      {
+        "path": "kani-compiler/src/args.rs",
+        "line": 27,
+        "context": ", # [ default ] None , PubFns"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 111,
+        "context": "= FxHashMap :: default ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 238,
+        "context": "= CodegenUnit :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 254,
+        "context": ", Default :: default ( ) , transformer"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 360,
+        "context": "WorkProduct > :: default ( ) ; Box"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 382,
+        "context": ".. CliOpts :: default ( ) } ;"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 389,
+        "context": ".. TranslatedCrate :: default ( ) } ;"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 130,
+        "context": "= FxHashMap :: default ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 168,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 239,
+        "context": ": Default :: default ( ) , types"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 240,
+        "context": ": Default :: default ( ) , methods"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 241,
+        "context": ": Default :: default ( ) , vtable"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 746,
+        "context": ": Default :: default ( ) , ptr_metadata"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 820,
+        "context": ": Default :: default ( ) , ptr_metadata"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1092,
+        "context": ": Default :: default ( ) , types"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1093,
+        "context": ": Default :: default ( ) , methods"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1094,
+        "context": ": Default :: default ( ) , vtable"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1326,
+        "context": ": Default :: default ( ) , vtable"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 2077,
+        "context": ": Default :: default ( ) , ptr_metadata"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/cache/impl_stats.rs",
+        "line": 210,
+        "context": "Default > :: default ( ) , |"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/cache/mod.rs",
+        "line": 45,
+        "context": "( Default :: default ( ) ) ;"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs",
+        "line": 786,
+        "context": ") ; let default = Stmt :: goto"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs",
+        "line": 787,
+        "context": ", Some ( default ) , loc )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 474,
+        "context": "= CodegenUnit :: default ( ) ; export_thread_pool"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 495,
+        "context": ", Default :: default ( ) , GlobalPasses"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 677,
+        "context": "WorkProduct > :: default ( ) ; Box"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 711,
+        "context": ": UnsupportedConstructs :: default ( ) , concurrent_constructs"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 712,
+        "context": ": UnsupportedConstructs :: default ( ) , items"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 104,
+        "context": "( FxHashMap :: default ( ) ) ;"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 160,
+        "context": ": LoopDecreasesClauses :: default ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 132,
+        "context": ": FxHashMap :: default ( ) , immutable_allocations"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 133,
+        "context": ": Default :: default ( ) , vtable_ctx"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 136,
+        "context": ": FxHashMap :: default ( ) , str_literals"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 137,
+        "context": ": FxHashMap :: default ( ) , global_checks_count"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 139,
+        "context": ": FxHashMap :: default ( ) , concurrent_constructs"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 140,
+        "context": ": FxHashMap :: default ( ) , transformer"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 808,
+        "context": "= FxHashMap :: default ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 919,
+        "context": ", cases , default } => { let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 931,
+        "context": "let new_default = default . as_ref ( )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 1203,
+        "context": ", cases , default } => { let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 1231,
+        "context": "let inlined_default = default . as_ref ( )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 163,
+        "context": "= ConstantCollector :: default ( ) ; constants"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 413,
+        "context": ", cases , default } => Stmt ::"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 419,
+        "context": "( ) , default . as_ref ( )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 458,
+        "context": "= ImmutableAllocations :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 472,
+        "context": "= ImmutableAllocations :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 516,
+        "context": "= ImmutableAllocations :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 534,
+        "context": "= ImmutableAllocations :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 546,
+        "context": "= ImmutableAllocations :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/vtable_ctx.rs",
+        "line": 49,
+        "context": ": FxHashMap :: default ( ) , call_sites"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1400,
+        "context": ", cases , default } => { has_expr"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1403,
+        "context": ") | | default . as_ref ( )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/analysis.rs",
+        "line": 28,
+        "context": "( StatsVisitor :: default ( ) , |"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/analysis.rs",
+        "line": 101,
+        "context": "= Counter :: default ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 197,
+        "context": "> > :: default ( ) , |"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 331,
+        "context": "= HashSet :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 332,
+        "context": "= FxHashMap :: default ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 168,
+        "context": ": HashMap :: default ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 180,
+        "context": ": HashMap :: default ( ) , crate_info"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 249,
+        "context": "= HashMap :: default ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 493,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 650,
+        "context": "= FxHashSet :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 747,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 748,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 753,
+        "context": "= FxHashMap :: default ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 775,
+        "context": "= FxHashMap :: default ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 1202,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 1205,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/metadata.rs",
+        "line": 44,
+        "context": ": Default :: default ( ) , has_loop_contracts"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/metadata.rs",
+        "line": 170,
+        "context": ": Default :: default ( ) , has_loop_contracts"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mined_invariants.rs",
+        "line": 423,
+        "context": "= FxHashMap :: default ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "line": 89,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 134,
+        "context": ": FxHashSet :: default ( ) , queue"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 136,
+        "context": ": CallGraph :: default ( ) , transformer"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 176,
+        "context": ": FxHashSet :: default ( ) , body"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 646,
+        "context": "= HashSet :: default ( ) ; tracing"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 512,
+        "context": "map ( | default | { default ."
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 513,
+        "context": "default | { default . instantiate ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 682,
+        "context": "Res > :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve/type_resolution.rs",
+        "line": 221,
+        "context": ") ; let default = tcx . generics_of"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve/type_resolution.rs",
+        "line": 230,
+        "context": "let filled = default . instantiate ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/stubbing/mod.rs",
+        "line": 33,
+        "context": "= HashMap :: default ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 217,
+        "context": "mut FxHashMap :: default ( ) ) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 238,
+        "context": "mut FxHashMap :: default ( ) , )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 249,
+        "context": "mut FxHashMap :: default ( ) , )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 1789,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 1948,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 1949,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 2019,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 2020,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 2186,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 2187,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 2267,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 2268,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 2387,
+        "context": "= FxHashMap :: default ( ) ; if"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 2415,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 2491,
+        "context": "= FxHashMap :: default ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/body.rs",
+        "line": 462,
+        "context": ": Vec :: default ( ) , terminator"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+        "line": 388,
+        "context": ", HashSet :: default ( ) ) }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+        "line": 407,
+        "context": ": Default :: default ( ) , run_contract_fn"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+        "line": 411,
+        "context": ": Default :: default ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+        "line": 416,
+        "context": "{ FunctionWithContractPass :: default ( ) } }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 17,
+        "context": "> { fn default ( ) -> Self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 71,
+        "context": "= DelayedCache :: default ( ) ; journal"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 86,
+        "context": "= DelayedCache :: default ( ) ; journal"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 108,
+        "context": "= DelayedCache :: default ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 123,
+        "context": "= DelayedCache :: default ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 134,
+        "context": "Result > :: default ( ) ; journal"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 142,
+        "context": "{ DelayedCache :: default ( ) . replace"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 551,
+        "context": ": Default :: default ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 211,
+        "context": "{ LoopContractPass :: default ( ) } }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 115,
+        "context": ": Default :: default ( ) , delayed_cache"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 116,
+        "context": ": DelayedCache :: default ( ) , generated_loop_modifies"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 117,
+        "context": ": Default :: default ( ) , loop_modifies_bindings"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 118,
+        "context": ": Default :: default ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 447,
+        "context": ": Default :: default ( ) , delayed_cache"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 448,
+        "context": ": Default :: default ( ) , generated_loop_modifies"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 449,
+        "context": ": Default :: default ( ) , loop_modifies_bindings"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 450,
+        "context": ": Default :: default ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/kani_queries/mod.rs",
+        "line": 14,
+        "context": "( QueryDb :: default ( ) ) ;"
+      },
+      {
+        "path": "kani-compiler/src/main.rs",
+        "line": 77,
+        "context": "= TimePassesCallbacks :: default ( ) ; compiler_entrypoint"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 74,
+        "context": "( ErrorOutputType :: default ( ) ) ;"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 105,
+        "context": "= Registry :: default ( ) . with"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 112,
+        "context": "= Registry :: default ( ) . with"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 114,
+        "context": "( HierarchicalLayer :: default ( ) . with_writer"
+      }
+    ],
+    "delayed_scope": [
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 72,
+        "context": "= transformer . delayed_scope ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 94,
+        "context": "{ let mut delayed_scope = transformer . delayed_scope"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 94,
+        "context": "= transformer . delayed_scope ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 95,
+        "context": "& mut * delayed_scope ; let ( mut"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 160,
+        "context": "} pub fn delayed_scope ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 457,
+        "context": "= transformer . delayed_scope ( ) ; false"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 462,
+        "context": "( transformer . delayed_scope ( ) ) ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 464,
+        "context": "( transformer . delayed_scope ( ) ) ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 471,
+        "context": "= transformer . delayed_scope ( ) ; panic"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 475,
+        "context": "( transformer . delayed_scope ( ) ) ;"
+      }
+    ],
+    "deref": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 952,
+        "context": "let Some ( deref ) = place ."
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 957,
+        "context": "projection [ .. deref ] . to_vec ("
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 245,
+        "context": "BodyTransformation ; fn deref ( & self )"
+      }
+    ],
+    "deref_mut": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 251,
+        "context": "> { fn deref_mut ( & mut self"
+      }
+    ],
+    "drop": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/cache/impl_stats.rs",
+        "line": 33,
+        "context": "name { fn drop ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/utils/file_writing_pool.rs",
+        "line": 81,
+        "context": "self ) { drop ( self . work_queue"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 571,
+        "context": ": false , drop : None , }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 257,
+        "context": "> { fn drop ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 462,
+        "context": "( ) ; drop ( transformer . delayed_scope"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 464,
+        "context": ") ) ; drop ( transformer . delayed_scope"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 475,
+        "context": ") ) ; drop ( transformer . delayed_scope"
+      }
+    ],
+    "early_return": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 456,
+        "context": ") { fn early_return ( transformer : &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 463,
+        "context": "! ( ! early_return ( & mut transformer"
+      }
+    ],
+    "empty_scope_preserves_regular_cache": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 121,
+        "context": "test ] fn empty_scope_preserves_regular_cache ( ) { let"
+      }
+    ],
+    "first_snapshot_restores_body_and_modified_flag": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 68,
+        "context": "test ] fn first_snapshot_restores_body_and_modified_flag ( ) { for"
+      }
+    ],
+    "normal_and_early_return_close_scope": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 455,
+        "context": "test ] fn normal_and_early_return_close_scope ( ) { fn"
+      }
+    ],
+    "preserves_warm_untouched_and_new_regular_entries": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 84,
+        "context": "test ] fn preserves_warm_untouched_and_new_regular_entries ( ) { let"
+      }
+    ],
+    "rejects_unclosed_scope": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 133,
+        "context": ") ] fn rejects_unclosed_scope ( ) { let"
+      }
+    ],
+    "rejects_unscoped_replacement": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 141,
+        "context": ") ] fn rejects_unscoped_replacement ( ) { DelayedCache"
+      }
+    ],
+    "removes_previously_absent_failed_root_and_repeats_cleanly": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 106,
+        "context": "test ] fn removes_previously_absent_failed_root_and_repeats_cleanly ( ) { let"
+      }
+    ],
+    "replace": [
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 192,
+        "context": ". item_generics . replace ( generics ) ;"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 193,
+        "context": ":: mem :: replace ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs",
+        "line": 283,
+        "context": ". symbol_table . replace ( | _ |"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 1454,
+        "context": ":: mem :: replace ( & mut field_type"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs",
+        "line": 189,
+        "context": ". pending . replace ( decreases ) ;"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/utils/debug.rs",
+        "line": 70,
+        "context": "{ odb_cell . replace ( ( Some ("
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/utils/debug.rs",
+        "line": 75,
+        "context": "; odb_cell . replace ( ( None ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 807,
+        "context": "[ orig , replace ] => { let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 809,
+        "context": "( current_module , replace , attr . span"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 852,
+        "context": ", replacement : replace . to_token_stream ( )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/body.rs",
+        "line": 302,
+        "context": "= mem :: replace ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/body.rs",
+        "line": 318,
+        "context": "= mem :: replace ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 28,
+        "context": "super ) fn replace ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 73,
+        "context": "; journal . replace ( & mut cache"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 74,
+        "context": "; journal . replace ( & mut cache"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 88,
+        "context": "; journal . replace ( & mut cache"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 92,
+        "context": "; journal . replace ( & mut cache"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 111,
+        "context": "; journal . replace ( & mut cache"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 112,
+        "context": "; journal . replace ( & mut cache"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 142,
+        "context": "( ) . replace ( & mut HashMap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 570,
+        "context": "tcx ) , replace : false , drop"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 168,
+        "context": ". delayed_cache . replace ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/stubs.rs",
+        "line": 50,
+        "context": "let Some ( replace ) = self ."
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/stubs.rs",
+        "line": 52,
+        "context": "resolve ( * replace , & args )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/stubs.rs",
+        "line": 54,
+        "context": "fn_def , * replace ) , new_instance )"
+      }
+    ],
+    "replace_delayed_body": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 191,
+        "context": "; transformer . replace_delayed_body ( instance , body"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 212,
+        "context": "; transformer . replace_delayed_body ( instance , body"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 167,
+        "context": "} } fn replace_delayed_body ( & mut self"
+      }
+    ],
+    "restore": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 36,
+        "context": "super ) fn restore ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 77,
+        "context": "; journal . restore ( & mut cache"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 93,
+        "context": "; journal . restore ( & mut cache"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 114,
+        "context": "; journal . restore ( & mut cache"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 126,
+        "context": "; journal . restore ( & mut cache"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 258,
+        "context": ". delayed_cache . restore ( & mut self"
+      }
+    ],
+    "result": [
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 194,
+        "context": ") ; let result = f ( self"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 197,
+        "context": "= outer_depth ; result } fn declared_fn_sig ("
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/block.rs",
+        "line": 99,
+        "context": "; let mut result = vec ! ["
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/block.rs",
+        "line": 101,
+        "context": "( ) { result . append ( &"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/block.rs",
+        "line": 103,
+        "context": ") ; } result . push ( bb"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/block.rs",
+        "line": 104,
+        "context": "bb ) ; result }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+        "line": 372,
+        "context": ") ; let result = abs_bits . transmute_to"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+        "line": 373,
+        "context": "( place , result , loc ) }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+        "line": 380,
+        "context": ") ; let result = abs_bits . transmute_to"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+        "line": 381,
+        "context": "( place , result , loc ) }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+        "line": 2027,
+        "context": "( size_of_count_elems . result , assert_stmt ) }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+        "line": 782,
+        "context": ") ; let result = place . projection"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+        "line": 786,
+        "context": ") ; match result { Err ( data"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+        "line": 793,
+        "context": ", _ => result , } } pub"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 373,
+        "context": "=> { let result = self . codegen_unchecked_scalar_binop"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 376,
+        "context": "[ check , result . clone ( )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 377,
+        "context": ") ] , result . typ ( )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 385,
+        "context": "=> { let result = self . codegen_unchecked_scalar_binop"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 390,
+        "context": "[ check , result . clone ( )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 391,
+        "context": ") ] , result . typ ( )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 395,
+        "context": "} else { result } } BinOp ::"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 578,
+        "context": "} ; let result = base . plus"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 579,
+        "context": "if is_byte { result . cast_to ( original_ptr_typ"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 579,
+        "context": "} else { result } ; } let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 611,
+        "context": ") ; let result = if let Some"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 622,
+        "context": "fn_id ) ; result } fn collect_assignments_from_stmt ("
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1322,
+        "context": "} ; let result = return_expr . substitute_quantifier_capture"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1328,
+        "context": "0 ; if result . is_side_effect ( )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1328,
+        "context": "{ Some ( result ) } } const"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 198,
+        "context": ", | mut result , attribute | {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 202,
+        "context": "attribute ) { result . entry ( kind"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 204,
+        "context": "attribute ) } result } , ) ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 740,
+        "context": "> { let result = resolve_fn_path ( self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 742,
+        "context": "resolve_err ) = result { let mut err"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 764,
+        "context": ") ; } result } fn parse_single_path_attr ("
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 284,
+        "context": "; let mut result = BTreeSet :: new"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 287,
+        "context": "( ) { result . insert ( ContractUsage"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 290,
+        "context": "( ) { result . insert ( ContractUsage"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 293,
+        "context": ") ; } result } fn metadata_output_path ("
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 126,
+        "context": "{ let mut result = HashSet :: new"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 130,
+        "context": "0 ) { result . insert ( MemLoc"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 135,
+        "context": "constant ) { result . insert ( MemLoc"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 141,
+        "context": "; } } result } pub fn successors"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 247,
+        "context": "{ let mut result = PointsToGraph :: empty"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 248,
+        "context": "( ) ; result . anonymous . clone_from"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 256,
+        "context": "( ) { result . nodes . entry"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 262,
+        "context": ") ; } result } } impl JoinSemiLattice"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 131,
+        "context": "? ; let result = resolve_fn_path ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 132,
+        "context": "( tcx , result . def ( )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 314,
+        "context": ") ; let result = resolve_external ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 315,
+        "context": "def_id ) = result { Ok ( Path"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 583,
+        "context": "] ; let result = tcx . hir_module_free_items"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 625,
+        "context": "def_id ) = result { return RelativeResolution ::"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 662,
+        "context": "=> { let result = resolve_relative ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 663,
+        "context": ") ; match result { RelativeResolution :: Found"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 687,
+        "context": ") ; let result = resolve_in_glob_use ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 688,
+        "context": ") ; match result { RelativeResolution :: Found"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/body.rs",
+        "line": 164,
+        "context": ") ; let result = self . new_local"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/body.rs",
+        "line": 166,
+        "context": ":: from ( result ) , rvalue )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/body.rs",
+        "line": 170,
+        "context": "position ) ; result } pub fn assign_to"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 848,
+        "context": ") ; let result = body . insert_assignment"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 849,
+        "context": ", Some ( result ) , reason )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 907,
+        "context": ") ; let result = body . new_local"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 909,
+        "context": ":: from ( result ) , rvalue )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 914,
+        "context": "{ local : result , projection : vec"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 340,
+        "context": ") ; let result = body . new_local"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 343,
+        "context": ":: from ( result ) , Rvalue ::"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 348,
+        "context": ":: from ( result ) ) } fn"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 366,
+        "context": ") ; let result = body . new_local"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 368,
+        "context": ":: from ( result ) , rvalue )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 372,
+        "context": "stmt ) ; result } ; Operand ::"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 284,
+        "context": "; let mut result = vec ! ["
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 297,
+        "context": "( ) ; result . append ( &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 300,
+        "context": "} Ok ( result ) } FieldsShape ::"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_values.rs",
+        "line": 95,
+        "context": "ranges { let result = build_limits ( body"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_values.rs",
+        "line": 102,
+        "context": ", Some ( result ) , & msg"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_values.rs",
+        "line": 109,
+        "context": "ranges { let result = build_limits ( body"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_values.rs",
+        "line": 116,
+        "context": ", Some ( result ) , & msg"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_values.rs",
+        "line": 1124,
+        "context": "; let mut result = vec ! ["
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_values.rs",
+        "line": 1137,
+        "context": "( ) ; result . append ( &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_values.rs",
+        "line": 1140,
+        "context": "} Ok ( result ) } FieldsShape ::"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 63,
+        "context": ", } fn result ( body : u8"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 70,
+        "context": "( 1 , result ( 10 , modified"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 73,
+        "context": ", 1 , result ( 20 , true"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 74,
+        "context": ", 1 , result ( 30 , true"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 75,
+        "context": "1 ] , result ( 30 , true"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 78,
+        "context": "1 ] , result ( 10 , modified"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 85,
+        "context": "( 1 , result ( 10 , true"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 85,
+        "context": "( 2 , result ( 11 , false"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 88,
+        "context": ", 1 , result ( 20 , true"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 89,
+        "context": "( 3 , result ( 12 , true"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 91,
+        "context": "( 4 , result ( 13 , false"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 92,
+        "context": ", 4 , result ( 21 , true"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 97,
+        "context": "( 1 , result ( 10 , true"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 98,
+        "context": "( 2 , result ( 11 , false"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 99,
+        "context": "( 3 , result ( 12 , true"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 100,
+        "context": "( 4 , result ( 13 , false"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 111,
+        "context": ", 1 , result ( 99 , true"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 112,
+        "context": ", 1 , result ( 100 , true"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 113,
+        "context": "1 ] , result ( 100 , true"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 122,
+        "context": "( 1 , result ( 10 , false"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 127,
+        "context": "1 ] , result ( 10 , false"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 142,
+        "context": ", 1 , result ( 10 , true"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/kani_intrinsics.rs",
+        "line": 170,
+        "context": "ranges { let result = build_limits ( &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/kani_intrinsics.rs",
+        "line": 175,
+        "context": ":: from ( result ) ) , )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 183,
+        "context": ") { let result = pass . transform"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 184,
+        "context": "modified | = result . 0 ; body"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 185,
+        "context": "; body = result . 1 ; self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 470,
+        "context": ") ; let result = catch_unwind ( AssertUnwindSafe"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 474,
+        "context": "assert ! ( result . is_err ( )"
+      }
+    ],
+    "transformer": [
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 68,
+        "context": "> , mut transformer : BodyTransformation , )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 72,
+        "context": "{ let mut transformer = transformer . delayed_scope"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 72,
+        "context": "mut transformer = transformer . delayed_scope ( )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 74,
+        "context": ", & mut transformer , starting_items ) ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 95,
+        "context": "( & mut transformer , tcx , starting_items"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 210,
+        "context": "{ let mut transformer = BodyTransformation :: new"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 221,
+        "context": ") ) , transformer , ) ; transformer"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 223,
+        "context": ", ) ; transformer = BodyTransformation :: new"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 239,
+        "context": ") ; let transformer = BodyTransformation :: new"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 255,
+        "context": "( ) , transformer , ) ; assert"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+        "line": 104,
+        "context": "= self . transformer . body_ref ( self"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+        "line": 244,
+        "context": "= self . transformer . body ( self"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs",
+        "line": 110,
+        "context": "= self . transformer . body ( self"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs",
+        "line": 267,
+        "context": "= self . transformer . body ( self"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs",
+        "line": 266,
+        "context": "= self . transformer . loop_of_modifies_binding ( instance"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 89,
+        "context": ": GlobalPasses , transformer : & mut BodyTransformation"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 94,
+        "context": "mut delayed_scope = transformer . delayed_scope ( )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 95,
+        "context": ") ; let transformer = & mut *"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 105,
+        "context": "( tcx , transformer , starting_items ) ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 124,
+        "context": ". run_global_passes ( transformer , tcx , starting_items"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 135,
+        "context": "( tcx , transformer , starting_items ) ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 143,
+        "context": ", machine_model , transformer ) ) ; check_reachable_items"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 479,
+        "context": "; let mut transformer = BodyTransformation :: new"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 497,
+        "context": ", & mut transformer , & export_thread_pool ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 97,
+        "context": "UnsupportedConstructs , pub transformer : & 'r mut"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 120,
+        "context": "& MachineModel , transformer : & 'r mut"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 141,
+        "context": "( ) , transformer , has_loop_contracts : false"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 890,
+        "context": "= gcx . transformer . generated_loop_modifies ( current_fn"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_order.rs",
+        "line": 56,
+        "context": ": TyCtxt , transformer : & mut BodyTransformation"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_order.rs",
+        "line": 67,
+        "context": "( tcx , transformer , & [ MonoItem"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 52,
+        "context": ": TyCtxt , transformer : & mut BodyTransformation"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 57,
+        "context": "( tcx , transformer ) ; for item"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 121,
+        "context": "'tcx > , transformer : & 'a mut"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 131,
+        "context": "'tcx > , transformer : & 'a mut"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 137,
+        "context": "( ) , transformer , } } pub"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 174,
+        "context": "= self . transformer . body_ref ( self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 71,
+        "context": "Instance > , transformer : & mut BodyTransformation"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 105,
+        "context": "let body = transformer . body_ref ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 171,
+        "context": "let body = transformer . body ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 191,
+        "context": "= true ; transformer . replace_delayed_body ( instance"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 199,
+        "context": ":: from ( transformer . body ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 212,
+        "context": ", ) ; transformer . replace_delayed_body ( instance"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/dump_mir_pass.rs",
+        "line": 42,
+        "context": "Instance > , transformer : & mut BodyTransformation"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/dump_mir_pass.rs",
+        "line": 66,
+        "context": "let _ = transformer . body_ref ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 112,
+        "context": "{ let mut transformer = BodyTransformation { stub_passes"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 123,
+        "context": "queries ) ; transformer . add_pass ( queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 124,
+        "context": ") ) ; transformer . add_pass ( queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 125,
+        "context": ") ) ; transformer . add_pass ( queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 126,
+        "context": ") ) ; transformer . add_pass ( queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 127,
+        "context": ") ) ; transformer . add_pass ( queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 130,
+        "context": ") ) ; transformer . add_pass ( queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 131,
+        "context": ") ) ; transformer . add_pass ( queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 143,
+        "context": ", ) ; transformer . add_pass ( queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 152,
+        "context": ", ) ; transformer . add_pass ( queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 153,
+        "context": ") ) ; transformer . add_pass ( queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 154,
+        "context": ") ) ; transformer . add_pass ( queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 155,
+        "context": ") ) ; transformer } pub fn delayed_scope"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 162,
+        "context": "; DelayedTransformationScope { transformer : self } }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 239,
+        "context": "'a > { transformer : & 'a mut"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 246,
+        "context": "{ self . transformer } } impl DerefMut"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 252,
+        "context": "{ self . transformer } } impl Drop"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 258,
+        "context": "{ self . transformer . delayed_cache . restore"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 258,
+        "context": "mut self . transformer . cache ) ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 314,
+        "context": "Instance > , transformer : & mut BodyTransformation"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 362,
+        "context": "mut self , transformer : & mut BodyTransformation"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 375,
+        "context": "( ) , transformer , ) ; }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 443,
+        "context": "} ; fn transformer ( ) -> BodyTransformation"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 456,
+        "context": "fn early_return ( transformer : & mut BodyTransformation"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 457,
+        "context": "let _scope = transformer . delayed_scope ( )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 461,
+        "context": "} let mut transformer = transformer ( )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 461,
+        "context": "mut transformer = transformer ( ) ; drop"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 462,
+        "context": "; drop ( transformer . delayed_scope ( )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 463,
+        "context": "( & mut transformer ) ) ; drop"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 464,
+        "context": "; drop ( transformer . delayed_scope ( )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 469,
+        "context": "{ let mut transformer = transformer ( )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 469,
+        "context": "mut transformer = transformer ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 471,
+        "context": "let _scope = transformer . delayed_scope ( )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 475,
+        "context": "; drop ( transformer . delayed_scope ( )"
+      }
+    ],
+    "unwind_closes_scope_before_transformer_reuse": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 468,
+        "context": "test ] fn unwind_closes_scope_before_transformer_reuse ( ) { let"
+      }
+    ]
+  },
+  "errors": [],
+  "limits": "Source-token inventory, local generic impl checks and explicitly bound call arities; no Rust name resolution/typecheck, macro expansion, trait resolution or native build. Whole-file signature/import inventory and lexical references require human review.",
+  "tool_sha256": "f2db55dbfbdfabad8eb3ac53cd1d4cf147c3339420736e1a5c36003be07f9fe4",
+  "contracts_sha256": "b7cf7fd97f66619f9ce503e9013d7f8bf79faa0afb6f63c681b595a770b97cff",
+  "native_build": "NOT_RUN"
+}
