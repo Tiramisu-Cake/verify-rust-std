@@ -1654,6 +1654,85 @@
         "line": 429,
         "text": "fn begin_argument_transfer(signature: usize, argument_count: usize) {"
       }
+    ],
+    "InitialTargetVisitor": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "line": 31,
+        "text": "pub struct InitialTargetVisitor<'tcx> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "line": 37,
+        "text": "impl<'tcx> InitialTargetVisitor<'tcx> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "line": 77,
+        "text": "impl MirVisitor for InitialTargetVisitor<'_> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 24,
+        "text": "use initial_target_visitor::{AnalysisTarget, InitialTargetVisitor};"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 80,
+        "text": "let mut visitor = InitialTargetVisitor::new(body.clone(), tcx);"
+      }
+    ],
+    "AnalysisTarget": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "line": 23,
+        "text": "pub enum AnalysisTarget {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "line": 34,
+        "text": "targets: Vec<AnalysisTarget>,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "line": 42,
+        "text": "pub fn into_targets(self) -> Vec<AnalysisTarget> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "line": 49,
+        "text": "self.targets.push(AnalysisTarget::Place(place.clone()));"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "line": 56,
+        "text": "self.targets.push(AnalysisTarget::Anonymous(origin.key));"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "line": 62,
+        "text": "self.targets.push(AnalysisTarget::Static(static_def));"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 24,
+        "text": "use initial_target_visitor::{AnalysisTarget, InitialTargetVisitor};"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 85,
+        "text": "AnalysisTarget::Place(place) => {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 88,
+        "text": "AnalysisTarget::Anonymous(key) => MemLoc::Anonymous(key),"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 89,
+        "text": "AnalysisTarget::Static(static_def) => {"
+      }
     ]
   }
 }

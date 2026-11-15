@@ -900,7 +900,7 @@ index fa31ed48f8c378e6f36c985b8f91438532bab25c..6a539900c850f8e9d69775e18e6fd6fb
 +            }
 +        }
 diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
-index 03c1699f11e96dbf409ce37d79cedbab7f89466c..468665b950c5fac2cd4556e784286f234d3d8cae 100644
+index 03c1699f11e96dbf409ce37d79cedbab7f89466c..e4a444a6566fc664b49eff6002ce5e9fdccd8eb8 100644
 --- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
 +++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
 @@ -25,0 +26 @@ pub enum AnalysisTarget {
@@ -924,6 +924,9 @@ index 03c1699f11e96dbf409ce37d79cedbab7f89466c..468665b950c5fac2cd4556e784286f23
 +                ) {
 +                    self.targets.push(AnalysisTarget::Anonymous(origin.key));
 +                }
+@@ -68 +76 @@ pub fn push_operand(&mut self, operand: &Operand) {
+-impl MirVisitor for InitialTargetVisitor {
++impl MirVisitor for InitialTargetVisitor<'_> {
 diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
 index c8fc4b8b732a82eca5d15c955fe00a513b3d41ea..37f49e0cd06d99e2896d1e4be69d2a21e01aeb4d 100644
 --- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs

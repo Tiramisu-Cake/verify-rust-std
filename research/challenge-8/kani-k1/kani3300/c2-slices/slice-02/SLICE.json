@@ -2,19 +2,35 @@
   "slice": 2,
   "name": "IMMUTABLE M1/E2+F5",
   "status": "READY_FOR_WORKER15_REVIEW_AND_COORDINATOR_CI",
-  "source_sha": "b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12",
-  "source_tree": "03e33b5a3a8b3aa1fd5505467bbe869d1001b44e",
+  "source_sha": "932fb8395a58f8c86c0d702ba2cae835823b2962",
+  "source_tree": "2c4d5ad4b72a7d07059f1461132a58da03f81ef9",
   "base_sha": "d82752c8bc878398e672bffaa631ca6a28430acc",
   "parents": [
     "d82752c8bc878398e672bffaa631ca6a28430acc"
   ],
+  "supersedes": {
+    "sha": "b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12",
+    "coordinator_run": "43699468860",
+    "result": "BUILD_FAILED_E0726",
+    "correction": "F77 trait impl lifetime and B1:68 deletion assigned2; raw_eq comment F76 remains3"
+  },
+  "seam_audit": {
+    "tool": "../seam-audit/check_seams.py",
+    "reports": [
+      "SEAM-AUDIT-01.json",
+      "SEAM-AUDIT-02.json"
+    ],
+    "old_head_regression": "SEAM-REGRESSION-OLD.json",
+    "review": "COMPILE-SEAMS.md",
+    "native_compile_status": "NOT_RUN"
+  },
   "B1_dependency": "6fe484b30043b3696b5f1ccc4bea0e42891ad012",
   "reference_F": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
   "reference_F_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
-  "g0_input": "e84a43a9b26b0190485b751c64e9b5ccae34b27e",
+  "g0_input": "1629d37454",
   "maps": {
-    "source-map/B1--F.json": "3720c239100ed647f17ec28838276025fb58fddf1b3745b20fca2ce7134e3911",
-    "source-map/DEPENDENCIES.json": "34d67a7aa40b66833f7e09ac77251a7e1aa6e5b21627ab5e4a0e127a24527735",
+    "source-map/B1--F.json": "92d613f75e1eab9a7d23981b6034fa49a11caf57cb4a07bba0c662849f7e72a3",
+    "source-map/DEPENDENCIES.json": "68b7385a1e35d9cdcf3a9cc92bce9ac0b6a75b763acad9dd6dfad6a9a8077161",
     "source-map/PRE-F7.json": "40f82051b9adc0ce50f49e54ec11a6b71adbc8f4ff464e0be414a698afe0c5c0",
     "oracle-map/ORACLE-MAP.json": "42cb12259ccd397cef0a9881610d2d83b97f677703c26302d43843cd8ee051ee",
     "oracle-map/DOCS-MAP.json": "f41abc7b196249bc5c9a2639bb20460f7f3a6943d9865ba7de92c0bb01b5a678",
@@ -249,8 +265,8 @@
       },
       "source": {
         "mode": "100644",
-        "blob": "468665b950c5fac2cd4556e784286f234d3d8cae",
-        "sha256": "277278b90f8fadba62aabfd4a509a3ff2fd20a1ca1d558c701332c6ec4119ea0"
+        "blob": "e4a444a6566fc664b49eff6002ce5e9fdccd8eb8",
+        "sha256": "32743e840097b82698cfb1397299032f57d965fb1da79e429dbc26e6958fe744"
       },
       "F": {
         "mode": "100644",
@@ -501,7 +517,7 @@
   ],
   "source_parts": {
     "file": "SOURCE-PARTS.json",
-    "count": 52
+    "count": 54
   },
   "borrowed_prerequisite": {
     "owner": 2,
@@ -631,7 +647,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -713,7 +729,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -794,7 +810,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -876,7 +892,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -957,7 +973,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -1034,7 +1050,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -1115,7 +1131,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -1197,7 +1213,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -1278,7 +1294,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -1360,7 +1376,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -1443,7 +1459,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -1527,7 +1543,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -1610,7 +1626,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -1693,7 +1709,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -1777,7 +1793,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -1860,7 +1876,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     }
   ],
@@ -1954,7 +1970,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -2046,7 +2062,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -2153,7 +2169,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -2237,7 +2253,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -2321,7 +2337,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -2406,7 +2422,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -2491,7 +2507,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -2577,7 +2593,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -2663,7 +2679,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -2747,7 +2763,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     },
     {
@@ -2831,7 +2847,7 @@
       "closure_receipt": null,
       "owner2_parts": {
         "file": "SOURCE-PARTS.json",
-        "sha256": "5241a71bfa4f43740fa60e398852f4e00f7f825dab487d48783d2908404ee521"
+        "sha256": "a713e44873708367fef40719462ddba505e84b8e65cbaa8dfe60e63a4e72777a"
       }
     }
   ],
@@ -2851,11 +2867,11 @@
   "closure_requires": "Exact-head Quick with units9 + reached useful SUCCESS and intended negative oracles. Later owner2 fixtures close individually on heads3/4; contract consumers on5. No aggregate exit0 or historical F gate substitutes.",
   "patches": {
     "source.patch": {
-      "sha256": "57c44cc9303a9ab7481e7587111ed641551acf39bfbfad030eaa027457d13666",
-      "alternate_index_target_tree": "03e33b5a3a8b3aa1fd5505467bbe869d1001b44e"
+      "sha256": "2709db109672c960b6ea32994034c4f83d8013a66b67d358688013dd84421c37",
+      "alternate_index_target_tree": "2c4d5ad4b72a7d07059f1461132a58da03f81ef9"
     },
     "residual-to-F.patch": {
-      "sha256": "74ac363146d7cece3298ef153418c3f0c02d9d06ccd26877ea5a3cb88d500666",
+      "sha256": "848e331e388e543be462f932b84c4d928fa4805276b866a9c64048c5592c7f9a",
       "alternate_index_target_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb"
     }
   },

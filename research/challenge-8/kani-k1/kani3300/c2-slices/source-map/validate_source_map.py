@@ -105,7 +105,9 @@ def main():
             hits = [p for p in expected_parts if p['path'] == definition['path'] and p['side'] == '+' and p['start'] <= definition['line'] < p['start'] + p['count']]
             if hits:
                 assert all(p['owner'] == expected for p in hits), (name, hits)
-    slice_report = ROOT.parent / 'slice-01/STATIC-VALIDATION.json'
+    slice_report = ROOT.parent / 'slice-02/STATIC-VALIDATION.json'
+    if not slice_report.exists():
+        slice_report = ROOT.parent / 'slice-01/STATIC-VALIDATION.json'
     candidate = json.loads(slice_report.read_text()).get('source_sha') if slice_report.exists() else None
     writer_head = candidate or inputs['refs']['B1']['sha']
     for path, head in [(REPO, inputs['refs']['F']['sha']), ('/root/kani-fix-b1-upstream', inputs['refs']['B1']['sha']),
@@ -122,7 +124,7 @@ def main():
                          'key seam definition owners', 'all three source worktrees clean/pinned'],
               'line_counts': dict(totals), 'manifest_sha256': digest((ROOT / 'MANIFEST.json').read_bytes()),
               'build_CI_push': 'NOT_RUN', 'oracle_docs_map': 'worker15 separate; not accepted by this validation',
-              'intermediate_heads': {'slice1': candidate, 'qualification': 'NOT_RUN'}, 'full_recompose': 'NOT_RUN'}
+              'intermediate_heads': {'latest_static_candidate': candidate, 'source_report': str(slice_report.relative_to(ROOT.parent)), 'qualification': 'NOT_RUN'}, 'full_recompose': 'NOT_RUN'}
     (ROOT / 'RESEARCH-VALIDATION.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps(report))
 

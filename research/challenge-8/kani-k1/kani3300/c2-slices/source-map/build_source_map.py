@@ -56,9 +56,9 @@ def owner(path, side, n, anchor):
         return '1'
     if path == T + 'delayed_ub/initial_target_visitor.rs':
         # RawEq seeds/comment belong to3; tcx/body plumbing is first consumed by2.
-        if side == '+' and (between(n, 76, 77) or between(n, 115, 117) or between(n, 123, 126)):
+        if side == '+' and (n == 76 or between(n, 115, 117) or between(n, 123, 126)):
             return '3'
-        if side == '-' and (n == 68 or between(n, 106, 108)):
+        if side == '-' and between(n, 106, 108):
             return '3'
         if (side == '+' and between(n, 145, 146)) or (side == '-' and n == 132):
             return '1'
@@ -200,7 +200,10 @@ def parse_pair(label, base, target):
                     raise ValueError('No-newline marker requires explicit handling')
                 n = old_pos if side == '-' else new_pos
                 selected = 'B1' if label == 'U--B1' else owner(path, side, n, h['new'][0])
-                if h['parts'] and h['parts'][-1]['side'] == side and h['parts'][-1]['owner'] == selected and h['parts'][-1]['start'] + h['parts'][-1]['count'] == n:
+                # Keep accepted part identities for the ordinary-union seam, even
+                # after variant C gives the adjacent regions the same owner4.
+                boundary = label == 'B1--F' and path == V and side == '+' and n in (420, 425)
+                if not boundary and h['parts'] and h['parts'][-1]['side'] == side and h['parts'][-1]['owner'] == selected and h['parts'][-1]['start'] + h['parts'][-1]['count'] == n:
                     part = h['parts'][-1]
                     part['count'] += 1
                     part['_text'] += line[1:]
@@ -326,7 +329,7 @@ def main():
         'no_structural_isolation_credit_before_7': True})
     # Search every F compiler/runtime Rust blob, including unchanged potential consumers.
     names = '''resolve_call AnalysisBodyOverride BodyProvenance AnalysisKey PointsToAnalysisError
-        ActiveCalls CallerLocation run_points_to_analysis anonymous_origins AnonymousOrigin referent_extent
+        ActiveCalls CallerLocation InitialTargetVisitor AnalysisTarget run_points_to_analysis anonymous_origins AnonymousOrigin referent_extent
         target_matches constant_successors ImmutableAllocations Descriptor ConstantCollector seed_returns
         observe_immutable_origins register_immutable_static prepare_immutable_allocations
         bind_immutable_allocation finalize_immutable_allocations immutable_origin_type_supported

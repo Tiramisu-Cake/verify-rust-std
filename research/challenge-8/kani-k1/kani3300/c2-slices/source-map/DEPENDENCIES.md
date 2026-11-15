@@ -50,3 +50,8 @@ Head1 is `NO_REGRESSION`, integration `PENDING` on heads `[4,5]`: no new non-MU 
 Head4 closes owner1 DAG/cycles/root-order and ordinary payload/padding; head5 closes ordinary positive/capture-free and all mapped contract/strong/mode/root obligations.
 Nested Pat/enum/raw-eq-uninit integration of owner3 waits4; generated-modifies-no-shadow waits5.
 Stage0 findings are static dependency observations, not failed runtime runs. Canonical updated parts are in JSON; stage0 pins remain available at bf455494e4.
+
+Slice02 correction (coordinator run43699468860): InitialTargetVisitor's trait impl
+lifetime at F77 and deleted baseline impl at B1:68 move3→2 with the generic struct/
+inherent impl/constructor/caller. F76 raw_eq comment remains3. Canonical map and
+generator split B1--F:14:006 by line; no other feature ownership changes.

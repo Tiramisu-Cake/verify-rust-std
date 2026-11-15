@@ -1,0 +1,48 @@
+{
+  "status": "PASS_BOUNDED_STATIC_AND_MANUAL_AUDIT",
+  "native_build_CI_push": "NOT_RUN",
+  "tool_sha256": "f2db55dbfbdfabad8eb3ac53cd1d4cf147c3339420736e1a5c36003be07f9fe4",
+  "reports": {
+    "SEAM-AUDIT-01.json": {
+      "sha256": "6209bac71bcdcff3e90d3a50dbf0b34803c7c28aa95e952af1eecbecf8258d67",
+      "head": "d82752c8bc878398e672bffaa631ca6a28430acc",
+      "changed_rs_files": 10,
+      "bound_calls": 8,
+      "original_process_exit": 0,
+      "result": "PASS_BOUNDED_STATIC_SEAM_AUDIT"
+    },
+    "SEAM-AUDIT-02.json": {
+      "sha256": "d86e47f4a1388adb1e28b710f86c0f021fc7d53c23a0e12dc4eabcfd523ba421",
+      "head": "932fb8395a58f8c86c0d702ba2cae835823b2962",
+      "changed_rs_files": 21,
+      "bound_calls": 30,
+      "original_process_exit": 0,
+      "result": "PASS_BOUNDED_STATIC_SEAM_AUDIT"
+    },
+    "SEAM-REGRESSION-OLD.json": {
+      "sha256": "006bb924b90f16b7e796b60e9a4dc26cccea867566a3baf9d61d516717ef9e09",
+      "head": "b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12",
+      "changed_rs_files": 21,
+      "bound_calls": 30,
+      "original_process_exit": 1,
+      "result": "FAIL"
+    }
+  },
+  "synthetic_tests": {
+    "count": 10,
+    "original_process_exit": 0,
+    "output": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.004s\n\nOK\n"
+  },
+  "manual_review": "COMPILE-SEAMS.md",
+  "original_coordinator_failure": {
+    "run": "43699468860",
+    "head": "b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12",
+    "status": "BUILD_FAILED_E0726",
+    "assurance": "User-supplied observation; no raw logs read"
+  },
+  "accepted1_source_and_part_identities": "UNCHANGED",
+  "canonical_hunks_changed": [
+    "B1--F:14:006"
+  ],
+  "limits": "Not compiler/name/trait/type/borrow checking; no compile PASS or complete dependency theorem. Worker15 correction review and new exact-head CI pending."
+}

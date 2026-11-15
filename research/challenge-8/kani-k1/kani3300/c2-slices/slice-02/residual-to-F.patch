@@ -125,13 +125,11 @@ index 94997512d78721fb09c6a94134a00c9a3a6be957..db31cea7c2aed570d11d1238a528ab29
 +    }
 +}
 diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
-index 468665b950c5fac2cd4556e784286f234d3d8cae..9ee31b45ff621bfec61b3f873354bd9ddd340283 100644
+index e4a444a6566fc664b49eff6002ce5e9fdccd8eb8..9ee31b45ff621bfec61b3f873354bd9ddd340283 100644
 --- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
 +++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
-@@ -76 +76,2 @@ pub fn push_operand(&mut self, operand: &Operand) {
--impl MirVisitor for InitialTargetVisitor {
+@@ -75,0 +76 @@ pub fn push_operand(&mut self, operand: &Operand) {
 +/// - both reference operands of `raw_eq`, which also reads padding bytes.
-+impl MirVisitor for InitialTargetVisitor<'_> {
 @@ -114,3 +115,3 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
 -        // Only calls to the copy intrinsics write to a target here. A call through a function
 -        // pointer or a vtable cannot be one (intrinsics cannot be coerced to function pointers),

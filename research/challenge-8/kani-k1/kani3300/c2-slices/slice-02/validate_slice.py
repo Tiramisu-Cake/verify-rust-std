@@ -67,6 +67,9 @@ def main():
     for item in json.loads((extract.MAP / 'PRE-F7.json').read_text())['snippets']:
         assert delayed.count(item['text'].encode()) == 1
     assert b'replace_delayed_body' not in delayed
+    target = expected[prefix + 'kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs']
+    assert b"impl MirVisitor for InitialTargetVisitor<'_> {" in target
+    assert b'impl MirVisitor for InitialTargetVisitor {' not in target
     layout = expected[prefix + 'kani_middle/transform/check_uninit/ty_layout.rs']
     assert b'for_typed_storage' not in layout and b'for_deinit' not in layout and b'argument_size' not in layout
     assert b'impl PointeeInfo {\n\n' not in layout
@@ -107,6 +110,16 @@ def main():
         'worker15_review': 'PENDING', 'formal_proof_credit': 'NOT_ESTABLISHED',
     }
     head = git('rev-parse', 'HEAD').decode().strip()
+    if head != extract.BASE:
+        for n, target in [('01', extract.BASE), ('02', head)]:
+            audit = json.loads((HERE / ('SEAM-AUDIT-' + n + '.json')).read_text())
+            assert audit['head'] == target and audit['status'] == 'PASS_BOUNDED_STATIC_SEAM_AUDIT' and not audit['errors']
+            assert audit['tool_sha256'] == digest((HERE.parent / 'seam-audit/check_seams.py').read_bytes())
+            assert audit['contracts_sha256'] == digest((HERE / ('CALL-CONTRACTS-' + n + '.json')).read_bytes())
+        old_audit = json.loads((HERE / 'SEAM-REGRESSION-OLD.json').read_text())
+        assert old_audit['status'] == 'FAIL' and len(old_audit['errors']) == 1
+        assert old_audit['errors'][0]['type'] == 'InitialTargetVisitor'
+        report['compile_seam_audit'] = {'status': 'PASS_BOUNDED_STATIC_ONLY', 'reports': ['SEAM-AUDIT-01.json','SEAM-AUDIT-02.json'], 'regression_old_head': 'EXPECTED_FAIL_E0726_PAIR'}
     if head != extract.BASE:
         assert git('show', '-s', '--format=%P', head).decode().strip() == extract.BASE
         assert not git('status', '--porcelain')

@@ -68,3 +68,15 @@ Nested Pat/enum/raw-eq-uninit integration of owner3 waits4; generated-modifies-n
 Stage0 findings are static dependency observations, not failed runtime runs. Canonical updated parts are in JSON; stage0 pins remain available at bf455494e4.
 
 Stage1 coordinate correction: F failed-root writer is line212; line213 is `modified = true`. PRE-F7.json and canonical parts corrected without semantic transfer. Resolver shared deletion hunk retains baseline shim guard/diagnostic on1; assemble its signature at the original function with its baseline closing brace. Split baseline combined CheckType import into exact pre-F7 import plus owner1 body imports. These are syntax-preserving seam assemblies, not late feature imports.
+
+## Slice02 compile prerequisite correction
+
+Coordinator run43699468860 on b0a5a4fff9 reported E0726: the struct/new inherent impl
+introduced a lifetime on2 while `impl MirVisitor for InitialTargetVisitor` stayed baseline.
+`B1--F:14:006` is split: old B1 line68 and final F77 (trait impl lifetime) belong **2**;
+F76 (raw_eq comment) alone stays **3**. This is one owner per source line, no duplicate
+impl or early raw_eq seed. The generic declaration, both impl headers, constructor signature,
+field initialization and sole `InitialTargetVisitor::new(body.clone(), tcx)` caller are one
+compile prerequisite seam on2. Lifetime/generic/impl and call/import inventory is checked
+independently by `../seam-audit/check_seams.py`; results for heads1/2 live in slice02.
+The historical head2 static PASS did not establish compilability.

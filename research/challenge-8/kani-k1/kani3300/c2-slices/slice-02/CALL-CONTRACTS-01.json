@@ -1,0 +1,69 @@
+[
+  {
+    "id": "root-analysis",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod\\.rs",
+    "tokens": [
+      "run_points_to_analysis"
+    ],
+    "arity": 5,
+    "count": 1
+  },
+  {
+    "id": "analysis-root-and-recursive",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "PointsToAnalysis",
+      "::",
+      "run"
+    ],
+    "arity": 8,
+    "count": 2
+  },
+  {
+    "id": "analysis-resolver",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "resolve_call"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "pointer-resolver",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "resolve_call"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "pointer-local-resolver",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "try_resolve_instance"
+    ],
+    "arity": 3,
+    "count": 1
+  },
+  {
+    "id": "distinct-initial-target-helper",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor\\.rs",
+    "tokens": [
+      "try_resolve_instance"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "regular-call-effects",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "apply_regular_call_effect"
+    ],
+    "arity": 5,
+    "count": 1
+  }
+]

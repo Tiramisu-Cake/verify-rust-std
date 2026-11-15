@@ -1,6 +1,6 @@
 # Slice02 prepared exact-head CI request
 
-Source `b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12`, tree `03e33b5a3a8b3aa1fd5505467bbe869d1001b44e`,
+Source `932fb8395a58f8c86c0d702ba2cae835823b2962`, tree `2c4d5ad4b72a7d07059f1461132a58da03f81ef9`,
 parent accepted1 `d82752c8bc878398e672bffaa631ca6a28430acc` (NO_REGRESSION, run43696666260).
 Prepared only: worker15 owns independent review/CI overlay; dispatch/push remain coordinator-only.
 No local builds, native checks, overlay, push or CI occurred in this writer session.
@@ -48,3 +48,12 @@ source/tree/manifest identities with always, preserving actual build-base/output
 missing or timeout output is NOT_RUN/UNKNOWN. Any false SUCCESS, new ordinary regression, lost check
 or extra Unsupported is STOP; never weaken goldens or add ignores to obtain a pass.
 No F7 structural isolation, Gate A or SmallSort proof credit follows from this request.
+
+Revision after coordinator run43699468860: old b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12
+failed build with E0726. Its source-map-consistent static PASS missed the map defect.
+The unpublished source commit is rewritten, adding only the exact F trait impl lifetime.
+B1--F:14:006 now splits old impl deletion/F77→2 and F76 raw_eq comment→3.
+`COMPILE-SEAMS.md` and SEAM-AUDIT-01/02.json record the independent static interface audit;
+SEAM-REGRESSION-OLD.json rejects precisely the old lifetime omission. Current native
+checks are NOT_RUN; prior worker15 review/CI overlays remain historical and must be refreshed
+for this new source SHA. No old failed result is converted to acceptance.

@@ -1,0 +1,4470 @@
+{
+  "status": "PASS_BOUNDED_STATIC_SEAM_AUDIT",
+  "base": "6fe484b30043b3696b5f1ccc4bea0e42891ad012",
+  "head": "d82752c8bc878398e672bffaa631ca6a28430acc",
+  "reference": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "changed_rust_file_count": 10,
+  "generic_types_checked_repo_wide": [
+    "ActiveCalls",
+    "AnalysisKey",
+    "CheckUninitVisitor",
+    "DropCounter",
+    "InstrumentationVisitor",
+    "PointsToAnalysis"
+  ],
+  "files": [
+    {
+      "path": "kani-compiler/src/kani_middle/points_to/mod.rs",
+      "head_sha256": "d0c9169a1c1f1476f1bdd5ef6d42040ed4587b9a86bb2891a1b312568aa98128",
+      "declarations_impls_uses_total": 4,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use points_to_analysis :: { AnalysisBodyOverride , BodyProvenance , resolve_call , run_points_to_analysis , }",
+          "container": [],
+          "line": 10,
+          "signature": "use points_to_analysis :: { AnalysisBodyOverride , BodyProvenance , resolve_call , run_points_to_analysis , }",
+          "token_start": 7,
+          "token_end": 20,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        }
+      ],
+      "removed_or_replaced": [
+        {
+          "kind": "use",
+          "name": "use points_to_analysis :: { resolve_call , run_points_to_analysis }",
+          "container": [],
+          "line": 10,
+          "signature": "use points_to_analysis :: { resolve_call , run_points_to_analysis }",
+          "token_start": 7,
+          "token_end": 15
+        }
+      ],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use points_to_analysis :: { AnalysisBodyOverride , BodyProvenance , resolve_call , run_points_to_analysis , }",
+          "container": [],
+          "line": 10,
+          "signature": "use points_to_analysis :: { AnalysisBodyOverride , BodyProvenance , resolve_call , run_points_to_analysis , }",
+          "token_start": 7,
+          "token_end": 20
+        },
+        {
+          "kind": "use",
+          "name": "use points_to_graph :: { MemLoc , PointsToGraph }",
+          "container": [],
+          "line": 13,
+          "signature": "use points_to_graph :: { MemLoc , PointsToGraph }",
+          "token_start": 22,
+          "token_end": 30
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "head_sha256": "7c6975066bfb88c9b6a7e53e48338a5c426ecb44bd6e41b4584c155b7fad2bc4",
+      "declarations_impls_uses_total": 64,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use crate :: { intrinsics :: Intrinsic , kani_middle :: { SourceLocation , points_to :: { MemLoc , PointsToGraph } , reachability :: CallGraph , readable_name , transform :: RustcInternalMir , } , }",
+          "container": [],
+          "line": 27,
+          "signature": "use crate :: { intrinsics :: Intrinsic , kani_middle :: { SourceLocation , points_to :: { MemLoc , PointsToGraph } , reachability :: CallGraph , readable_name , transform :: RustcInternalMir , } , }",
+          "token_start": 0,
+          "token_end": 34,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "use",
+          "name": "use std :: cell :: RefCell",
+          "container": [],
+          "line": 52,
+          "signature": "use std :: cell :: RefCell",
+          "token_start": 150,
+          "token_end": 156,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "use",
+          "name": "use std :: collections :: { HashMap , HashSet }",
+          "container": [],
+          "line": 53,
+          "signature": "use std :: collections :: { HashMap , HashSet }",
+          "token_start": 157,
+          "token_end": 167,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "use",
+          "name": "use std :: fmt :: { self , Display }",
+          "container": [],
+          "line": 54,
+          "signature": "use std :: fmt :: { self , Display }",
+          "token_start": 168,
+          "token_end": 178,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "struct",
+          "name": "PointsToAnalysisError",
+          "container": [],
+          "line": 58,
+          "signature": "struct PointsToAnalysisError",
+          "token_start": 189,
+          "token_end": 191,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "enum",
+          "name": "BodyProvenance",
+          "container": [],
+          "line": 65,
+          "signature": "enum BodyProvenance",
+          "token_start": 214,
+          "token_end": 216,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "struct",
+          "name": "AnalysisBodyOverride",
+          "container": [],
+          "line": 72,
+          "signature": "struct AnalysisBodyOverride",
+          "token_start": 235,
+          "token_end": 237,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "struct",
+          "name": "AnalysisKey",
+          "container": [],
+          "line": 79,
+          "signature": "struct AnalysisKey < 'tcx >",
+          "token_start": 262,
+          "token_end": 267,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "impl",
+          "name": "impl Display for AnalysisKey < '_ >",
+          "container": [],
+          "line": 84,
+          "signature": "impl Display for AnalysisKey < '_ >",
+          "token_start": 280,
+          "token_end": 287,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "fmt",
+          "container": [
+            "impl Display for AnalysisKey < '_ >"
+          ],
+          "line": 85,
+          "signature": "fn fmt ( & self , f : & mut fmt :: Formatter < '_ > ) -> fmt :: Result",
+          "token_start": 288,
+          "token_end": 309,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "struct",
+          "name": "CallerLocation",
+          "container": [],
+          "line": 104,
+          "signature": "struct CallerLocation",
+          "token_start": 382,
+          "token_end": 384,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "impl",
+          "name": "impl Display for CallerLocation",
+          "container": [],
+          "line": 109,
+          "signature": "impl Display for CallerLocation",
+          "token_start": 394,
+          "token_end": 398,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "fmt",
+          "container": [
+            "impl Display for CallerLocation"
+          ],
+          "line": 110,
+          "signature": "fn fmt ( & self , f : & mut fmt :: Formatter < '_ > ) -> fmt :: Result",
+          "token_start": 399,
+          "token_end": 420,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "struct",
+          "name": "ActiveCalls",
+          "container": [],
+          "line": 117,
+          "signature": "struct ActiveCalls < K >",
+          "token_start": 437,
+          "token_end": 442,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "impl",
+          "name": "impl < K : Display + Eq > ActiveCalls < K >",
+          "container": [],
+          "line": 123,
+          "signature": "impl < K : Display + Eq > ActiveCalls < K >",
+          "token_start": 468,
+          "token_end": 480,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "new",
+          "container": [
+            "impl < K : Display + Eq > ActiveCalls < K >"
+          ],
+          "line": 124,
+          "signature": "fn new ( ) -> Self",
+          "token_start": 481,
+          "token_end": 487,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "enter",
+          "container": [
+            "impl < K : Display + Eq > ActiveCalls < K >"
+          ],
+          "line": 129,
+          "signature": "fn enter ( & mut self , key : K ) -> Result < ( ) , PointsToAnalysisError >",
+          "token_start": 518,
+          "token_end": 537,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "enter_at",
+          "container": [
+            "impl < K : Display + Eq > ActiveCalls < K >"
+          ],
+          "line": 133,
+          "signature": "fn enter_at ( & mut self , key : K , caller : Option < CallerLocation > , ) -> Result < ( ) , PointsToAnalysisError >",
+          "token_start": 547,
+          "token_end": 574,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "exit",
+          "container": [
+            "impl < K : Display + Eq > ActiveCalls < K >"
+          ],
+          "line": 182,
+          "signature": "fn exit ( & mut self ) -> Result < ( ) , PointsToAnalysisError >",
+          "token_start": 947,
+          "token_end": 962,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "run_points_to_analysis",
+          "container": [],
+          "line": 211,
+          "signature": "fn run_points_to_analysis < 'tcx > ( body : & StableBody , tcx : TyCtxt < 'tcx > , instance : StableInstance , call_graph : & CallGraph , body_overrides : & HashMap < StableInstance , AnalysisBodyOverride > , ) -> Result < PointsToGraph < 'tcx > , PointsToAnalysisError >",
+          "token_start": 1090,
+          "token_end": 1138,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "run",
+          "container": [
+            "impl < 'a , 'tcx > PointsToAnalysis < 'a , 'tcx >"
+          ],
+          "line": 238,
+          "signature": "fn run ( body : & 'a Body < 'tcx > , tcx : TyCtxt < 'tcx > , instance : Instance < 'tcx > , call_graph : & 'a CallGraph , body_overrides : & 'a HashMap < StableInstance , AnalysisBodyOverride > , active_calls : & 'a RefCell < ActiveCalls < AnalysisKey < 'tcx > > > , initial_graph : PointsToGraph < 'tcx > , caller : Option < CallerLocation > , ) -> Result < PointsToGraph < 'tcx > , PointsToAnalysisError >",
+          "token_start": 1221,
+          "token_end": 1304,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "resolve_call",
+          "container": [],
+          "line": 525,
+          "signature": "fn resolve_call ( tcx : TyCtxt , func_ty : StableTy ) -> Result < StableInstance , String >",
+          "token_start": 2853,
+          "token_end": 2871,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "apply_regular_call_effect",
+          "container": [
+            "impl < 'tcx > PointsToAnalysis < '_ , 'tcx >"
+          ],
+          "line": 617,
+          "signature": "fn apply_regular_call_effect ( & self , state : & mut PointsToGraph < 'tcx > , instance : Instance < 'tcx > , args : & [ Spanned < Operand < 'tcx > > ] , destination : & Place < 'tcx > , location : Location , )",
+          "token_start": 3404,
+          "token_end": 3452,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "mod",
+          "name": "active_call_tests",
+          "container": [],
+          "line": 961,
+          "signature": "mod active_call_tests",
+          "token_start": 5018,
+          "token_end": 5020,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "use",
+          "name": "use super :: { ActiveCalls , CallerLocation }",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 962,
+          "signature": "use super :: { ActiveCalls , CallerLocation }",
+          "token_start": 5021,
+          "token_end": 5029,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "use",
+          "name": "use std :: fmt :: { self , Display }",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 963,
+          "signature": "use std :: fmt :: { self , Display }",
+          "token_start": 5030,
+          "token_end": 5040,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "struct",
+          "name": "TestKey",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 966,
+          "signature": "struct TestKey ( & 'static str , bool )",
+          "token_start": 5050,
+          "token_end": 5059,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "impl",
+          "name": "impl Display for TestKey",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 968,
+          "signature": "impl Display for TestKey",
+          "token_start": 5060,
+          "token_end": 5064,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "fmt",
+          "container": [
+            "mod active_call_tests",
+            "impl Display for TestKey"
+          ],
+          "line": 969,
+          "signature": "fn fmt ( & self , f : & mut fmt :: Formatter < '_ > ) -> fmt :: Result",
+          "token_start": 5065,
+          "token_end": 5086,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "self_cycle_is_an_error_without_pushing_another_frame",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 975,
+          "signature": "fn self_cycle_is_an_error_without_pushing_another_frame ( )",
+          "token_start": 5107,
+          "token_end": 5111,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "mutual_cycle_retains_original_root_and_active_stack",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 986,
+          "signature": "fn mutual_cycle_retains_original_root_and_active_stack ( )",
+          "token_start": 5212,
+          "token_end": 5216,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "caller_location_is_diagnostic_only_and_survives_repeated_entry",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 1006,
+          "signature": "fn caller_location_is_diagnostic_only_and_survives_repeated_entry ( )",
+          "token_start": 5339,
+          "token_end": 5343,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "diamond_and_repeated_completed_calls_are_allowed",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 1022,
+          "signature": "fn diamond_and_repeated_completed_calls_are_allowed ( )",
+          "token_start": 5508,
+          "token_end": 5512,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "exact_instance_and_body_selection_are_part_of_identity",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 1037,
+          "signature": "fn exact_instance_and_body_selection_are_part_of_identity ( )",
+          "token_start": 5622,
+          "token_end": 5626,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "discarded_override_has_no_source_body_edges",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 1049,
+          "signature": "fn discarded_override_has_no_source_body_edges ( )",
+          "token_start": 5701,
+          "token_end": 5705,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "independent_roots_in_both_orders_do_not_share_errors",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 1059,
+          "signature": "fn independent_roots_in_both_orders_do_not_share_errors ( )",
+          "token_start": 5771,
+          "token_end": 5775,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "diagnostic_uses_display_without_exposing_internal_identity",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 1078,
+          "signature": "fn diagnostic_uses_display_without_exposing_internal_identity ( )",
+          "token_start": 5902,
+          "token_end": 5906,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "struct",
+          "name": "OpaqueKey",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 1080,
+          "signature": "struct OpaqueKey",
+          "token_start": 5916,
+          "token_end": 5918,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "impl",
+          "name": "impl Display for OpaqueKey",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 1085,
+          "signature": "impl Display for OpaqueKey",
+          "token_start": 5930,
+          "token_end": 5934,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "fmt",
+          "container": [
+            "mod active_call_tests",
+            "impl Display for OpaqueKey"
+          ],
+          "line": 1086,
+          "signature": "fn fmt ( & self , f : & mut fmt :: Formatter < '_ > ) -> fmt :: Result",
+          "token_start": 5935,
+          "token_end": 5956,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "diagnostic_is_bounded_without_limiting_analysis_depth",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 1116,
+          "signature": "fn diagnostic_is_bounded_without_limiting_analysis_depth ( )",
+          "token_start": 6141,
+          "token_end": 6145,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [
+        {
+          "kind": "use",
+          "name": "use crate :: { intrinsics :: Intrinsic , kani_middle :: { points_to :: { MemLoc , PointsToGraph } , reachability :: CallGraph , transform :: RustcInternalMir , } , }",
+          "container": [],
+          "line": 27,
+          "signature": "use crate :: { intrinsics :: Intrinsic , kani_middle :: { points_to :: { MemLoc , PointsToGraph } , reachability :: CallGraph , transform :: RustcInternalMir , } , }",
+          "token_start": 0,
+          "token_end": 30
+        },
+        {
+          "kind": "use",
+          "name": "use std :: collections :: HashSet",
+          "container": [],
+          "line": 50,
+          "signature": "use std :: collections :: HashSet",
+          "token_start": 146,
+          "token_end": 152
+        },
+        {
+          "kind": "fn",
+          "name": "run_points_to_analysis",
+          "container": [],
+          "line": 68,
+          "signature": "fn run_points_to_analysis < 'tcx > ( body : & StableBody , tcx : TyCtxt < 'tcx > , instance : StableInstance , call_graph : & CallGraph , ) -> PointsToGraph < 'tcx >",
+          "token_start": 199,
+          "token_end": 232
+        },
+        {
+          "kind": "fn",
+          "name": "run",
+          "container": [
+            "impl < 'a , 'tcx > PointsToAnalysis < 'a , 'tcx >"
+          ],
+          "line": 90,
+          "signature": "fn run ( body : & 'a Body < 'tcx > , tcx : TyCtxt < 'tcx > , instance : Instance < 'tcx > , call_graph : & 'a CallGraph , initial_graph : PointsToGraph < 'tcx > , ) -> PointsToGraph < 'tcx >",
+          "token_start": 290,
+          "token_end": 335
+        },
+        {
+          "kind": "fn",
+          "name": "resolve_call",
+          "container": [],
+          "line": 350,
+          "signature": "fn resolve_call ( func_ty : StableTy ) -> Result < StableInstance , String >",
+          "token_start": 1768,
+          "token_end": 1782
+        },
+        {
+          "kind": "fn",
+          "name": "apply_regular_call_effect",
+          "container": [
+            "impl < 'tcx > PointsToAnalysis < '_ , 'tcx >"
+          ],
+          "line": 442,
+          "signature": "fn apply_regular_call_effect ( & self , state : & mut PointsToGraph < 'tcx > , instance : Instance < 'tcx > , args : & [ Spanned < Operand < 'tcx > > ] , destination : & Place < 'tcx > , )",
+          "token_start": 2310,
+          "token_end": 2354
+        }
+      ],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use crate :: { intrinsics :: Intrinsic , kani_middle :: { SourceLocation , points_to :: { MemLoc , PointsToGraph } , reachability :: CallGraph , readable_name , transform :: RustcInternalMir , } , }",
+          "container": [],
+          "line": 27,
+          "signature": "use crate :: { intrinsics :: Intrinsic , kani_middle :: { SourceLocation , points_to :: { MemLoc , PointsToGraph } , reachability :: CallGraph , readable_name , transform :: RustcInternalMir , } , }",
+          "token_start": 0,
+          "token_end": 34
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: { mir :: { BasicBlock , BinOp , Body , CallReturnPlaces , Location , NonDivergingIntrinsic , Operand , Place , ProjectionElem , Rvalue , Statement , StatementKind , Terminator , TerminatorKind , } , ty :: { Instance , InstanceKind , List , TyCtxt } , }",
+          "container": [],
+          "line": 37,
+          "signature": "use rustc_middle :: { mir :: { BasicBlock , BinOp , Body , CallReturnPlaces , Location , NonDivergingIntrinsic , Operand , Place , ProjectionElem , Rvalue , Statement , StatementKind , Terminator , TerminatorKind , } , ty :: { Instance , InstanceKind , List , TyCtxt } , }",
+          "token_start": 35,
+          "token_end": 85
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_mir_dataflow :: { Analysis , Forward , JoinSemiLattice }",
+          "container": [],
+          "line": 44,
+          "signature": "use rustc_mir_dataflow :: { Analysis , Forward , JoinSemiLattice }",
+          "token_start": 86,
+          "token_end": 96
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: mir :: { Body as StableBody , mono :: { Instance as StableInstance , InstanceKind as StableInstanceKind } , }",
+          "container": [],
+          "line": 45,
+          "signature": "use rustc_public :: mir :: { Body as StableBody , mono :: { Instance as StableInstance , InstanceKind as StableInstanceKind } , }",
+          "token_start": 97,
+          "token_end": 120
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: rustc_internal",
+          "container": [],
+          "line": 49,
+          "signature": "use rustc_public :: rustc_internal",
+          "token_start": 121,
+          "token_end": 125
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: ty :: { RigidTy as StableRigidTy , Ty as StableTy , TyKind as StableTyKind }",
+          "container": [],
+          "line": 50,
+          "signature": "use rustc_public :: ty :: { RigidTy as StableRigidTy , Ty as StableTy , TyKind as StableTyKind }",
+          "token_start": 126,
+          "token_end": 144
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_span :: Spanned",
+          "container": [],
+          "line": 51,
+          "signature": "use rustc_span :: Spanned",
+          "token_start": 145,
+          "token_end": 149
+        },
+        {
+          "kind": "use",
+          "name": "use std :: cell :: RefCell",
+          "container": [],
+          "line": 52,
+          "signature": "use std :: cell :: RefCell",
+          "token_start": 150,
+          "token_end": 156
+        },
+        {
+          "kind": "use",
+          "name": "use std :: collections :: { HashMap , HashSet }",
+          "container": [],
+          "line": 53,
+          "signature": "use std :: collections :: { HashMap , HashSet }",
+          "token_start": 157,
+          "token_end": 167
+        },
+        {
+          "kind": "use",
+          "name": "use std :: fmt :: { self , Display }",
+          "container": [],
+          "line": 54,
+          "signature": "use std :: fmt :: { self , Display }",
+          "token_start": 168,
+          "token_end": 178
+        },
+        {
+          "kind": "use",
+          "name": "use super :: { ActiveCalls , CallerLocation }",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 962,
+          "signature": "use super :: { ActiveCalls , CallerLocation }",
+          "token_start": 5021,
+          "token_end": 5029
+        },
+        {
+          "kind": "use",
+          "name": "use std :: fmt :: { self , Display }",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 963,
+          "signature": "use std :: fmt :: { self , Display }",
+          "token_start": 5030,
+          "token_end": 5040
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl Display for AnalysisKey < '_ >",
+          "container": [],
+          "line": 84,
+          "signature": "impl Display for AnalysisKey < '_ >",
+          "token_start": 280,
+          "token_end": 287
+        },
+        {
+          "kind": "impl",
+          "name": "impl Display for CallerLocation",
+          "container": [],
+          "line": 109,
+          "signature": "impl Display for CallerLocation",
+          "token_start": 394,
+          "token_end": 398
+        },
+        {
+          "kind": "impl",
+          "name": "impl < K : Display + Eq > ActiveCalls < K >",
+          "container": [],
+          "line": 123,
+          "signature": "impl < K : Display + Eq > ActiveCalls < K >",
+          "token_start": 468,
+          "token_end": 480
+        },
+        {
+          "kind": "impl",
+          "name": "impl < 'a , 'tcx > PointsToAnalysis < 'a , 'tcx >",
+          "container": [],
+          "line": 234,
+          "signature": "impl < 'a , 'tcx > PointsToAnalysis < 'a , 'tcx >",
+          "token_start": 1198,
+          "token_end": 1210
+        },
+        {
+          "kind": "impl",
+          "name": "impl < 'tcx > Analysis < 'tcx > for PointsToAnalysis < '_ , 'tcx >",
+          "container": [],
+          "line": 282,
+          "signature": "impl < 'tcx > Analysis < 'tcx > for PointsToAnalysis < '_ , 'tcx >",
+          "token_start": 1494,
+          "token_end": 1509
+        },
+        {
+          "kind": "impl",
+          "name": "impl < 'tcx > PointsToAnalysis < '_ , 'tcx >",
+          "container": [],
+          "line": 555,
+          "signature": "impl < 'tcx > PointsToAnalysis < '_ , 'tcx >",
+          "token_start": 3054,
+          "token_end": 3064
+        },
+        {
+          "kind": "impl",
+          "name": "impl Display for TestKey",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 968,
+          "signature": "impl Display for TestKey",
+          "token_start": 5060,
+          "token_end": 5064
+        },
+        {
+          "kind": "impl",
+          "name": "impl Display for OpaqueKey",
+          "container": [
+            "mod active_call_tests"
+          ],
+          "line": 1085,
+          "signature": "impl Display for OpaqueKey",
+          "token_start": 5930,
+          "token_end": 5934
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "head_sha256": "db60de5a5df48c5192763f6d1737af5cf63c31e228510a62318b51697d6d9d2a",
+      "declarations_impls_uses_total": 13,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use crate :: { intrinsics :: Intrinsic , kani_middle :: transform :: check_uninit :: ty_layout :: tys_layout_equal_to_size , }",
+          "container": [],
+          "line": 7,
+          "signature": "use crate :: { intrinsics :: Intrinsic , kani_middle :: transform :: check_uninit :: ty_layout :: tys_layout_equal_to_size , }",
+          "token_start": 0,
+          "token_end": 19
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: { mir :: { Body , CastKind , LocalDecl , MirVisitor , NonDivergingIntrinsic , Operand , Place , Rvalue , Statement , StatementKind , Terminator , TerminatorKind , alloc :: GlobalAlloc , mono :: { Instance , InstanceKind , StaticDef } , visit :: Location , } , ty :: { ConstantKind , RigidTy , TyKind } , }",
+          "container": [],
+          "line": 11,
+          "signature": "use rustc_public :: { mir :: { Body , CastKind , LocalDecl , MirVisitor , NonDivergingIntrinsic , Operand , Place , Rvalue , Statement , StatementKind , Terminator , TerminatorKind , alloc :: GlobalAlloc , mono :: { Instance , InstanceKind , StaticDef } , visit :: Location , } , ty :: { ConstantKind , RigidTy , TyKind } , }",
+          "token_start": 20,
+          "token_end": 82
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl InitialTargetVisitor",
+          "container": [],
+          "line": 35,
+          "signature": "impl InitialTargetVisitor",
+          "token_start": 114,
+          "token_end": 116
+        },
+        {
+          "kind": "impl",
+          "name": "impl MirVisitor for InitialTargetVisitor",
+          "container": [],
+          "line": 68,
+          "signature": "impl MirVisitor for InitialTargetVisitor",
+          "token_start": 295,
+          "token_end": 299
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+      "head_sha256": "53064d8de9417f1c2ffb33675a5679767a4e6e14052f0dfff233e38739408217",
+      "declarations_impls_uses_total": 16,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: { points_to :: { MemLoc , PointsToGraph } , transform :: { body :: { InsertPosition , MutableBody , SourceInstruction } , check_uninit :: { PointeeInfo , PointeeLayout , TargetFinder , relevant_instruction :: { InitRelevantInstruction , MemoryInitOp } , } , } , }",
+          "container": [],
+          "line": 7,
+          "signature": "use crate :: kani_middle :: { points_to :: { MemLoc , PointsToGraph } , transform :: { body :: { InsertPosition , MutableBody , SourceInstruction } , check_uninit :: { PointeeInfo , PointeeLayout , TargetFinder , relevant_instruction :: { InitRelevantInstruction , MemoryInitOp } , } , } , }",
+          "token_start": 0,
+          "token_end": 49,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "needs_set",
+          "container": [
+            "impl < 'a , 'tcx > InstrumentationVisitor < 'a , 'tcx >"
+          ],
+          "line": 102,
+          "signature": "fn needs_set ( & self , place : & Place ) -> bool",
+          "token_start": 518,
+          "token_end": 531,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: { points_to :: { MemLoc , PointsToGraph } , transform :: { body :: { InsertPosition , MutableBody , SourceInstruction } , check_uninit :: { TargetFinder , relevant_instruction :: { InitRelevantInstruction , MemoryInitOp } , } , } , }",
+          "container": [],
+          "line": 7,
+          "signature": "use crate :: kani_middle :: { points_to :: { MemLoc , PointsToGraph } , transform :: { body :: { InsertPosition , MutableBody , SourceInstruction } , check_uninit :: { TargetFinder , relevant_instruction :: { InitRelevantInstruction , MemoryInitOp } , } , } , }",
+          "token_start": 0,
+          "token_end": 45
+        }
+      ],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: { points_to :: { MemLoc , PointsToGraph } , transform :: { body :: { InsertPosition , MutableBody , SourceInstruction } , check_uninit :: { PointeeInfo , PointeeLayout , TargetFinder , relevant_instruction :: { InitRelevantInstruction , MemoryInitOp } , } , } , }",
+          "container": [],
+          "line": 7,
+          "signature": "use crate :: kani_middle :: { points_to :: { MemLoc , PointsToGraph } , transform :: { body :: { InsertPosition , MutableBody , SourceInstruction } , check_uninit :: { PointeeInfo , PointeeLayout , TargetFinder , relevant_instruction :: { InitRelevantInstruction , MemoryInitOp } , } , } , }",
+          "token_start": 0,
+          "token_end": 49
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: TyCtxt",
+          "container": [],
+          "line": 17,
+          "signature": "use rustc_middle :: ty :: TyCtxt",
+          "token_start": 50,
+          "token_end": 56
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: mir :: { MirVisitor , Operand , Place , Rvalue , Statement , Terminator , mono :: Instance , visit :: { Location , PlaceContext } , }",
+          "container": [],
+          "line": 18,
+          "signature": "use rustc_public :: mir :: { MirVisitor , Operand , Place , Rvalue , Statement , Terminator , mono :: Instance , visit :: { Location , PlaceContext } , }",
+          "token_start": 57,
+          "token_end": 88
+        },
+        {
+          "kind": "use",
+          "name": "use std :: collections :: HashSet",
+          "container": [],
+          "line": 23,
+          "signature": "use std :: collections :: HashSet",
+          "token_start": 89,
+          "token_end": 95
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl TargetFinder for InstrumentationVisitor < '_ , '_ >",
+          "container": [],
+          "line": 38,
+          "signature": "impl TargetFinder for InstrumentationVisitor < '_ , '_ >",
+          "token_start": 149,
+          "token_end": 158
+        },
+        {
+          "kind": "impl",
+          "name": "impl < 'a , 'tcx > InstrumentationVisitor < 'a , 'tcx >",
+          "container": [],
+          "line": 76,
+          "signature": "impl < 'a , 'tcx > InstrumentationVisitor < 'a , 'tcx >",
+          "token_start": 389,
+          "token_end": 401
+        },
+        {
+          "kind": "impl",
+          "name": "impl MirVisitor for InstrumentationVisitor < '_ , '_ >",
+          "container": [],
+          "line": 125,
+          "signature": "impl MirVisitor for InstrumentationVisitor < '_ , '_ >",
+          "token_start": 676,
+          "token_end": 685
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "head_sha256": "e0235520baa7737dcf0904a115f5d1c417d852a4dfe86b717b5533206f1d14f4",
+      "declarations_impls_uses_total": 21,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: attributes :: KaniAttributes",
+          "container": [],
+          "line": 10,
+          "signature": "use crate :: kani_middle :: attributes :: KaniAttributes",
+          "token_start": 21,
+          "token_end": 29,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: kani_functions :: { KaniFunction , KaniModel }",
+          "container": [],
+          "line": 11,
+          "signature": "use crate :: kani_middle :: kani_functions :: { KaniFunction , KaniModel }",
+          "token_start": 30,
+          "token_end": 42,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: { points_to :: { AnalysisBodyOverride , BodyProvenance , MemLoc , PointsToGraph , run_points_to_analysis , } , reachability :: CallGraph , transform :: { BodyTransformation , GlobalPass , TransformationResult , body :: { CheckType , InsertPosition , MutableBody , SourceInstruction } , check_uninit :: UninitInstrumenter , } , }",
+          "container": [],
+          "line": 12,
+          "signature": "use crate :: kani_middle :: { points_to :: { AnalysisBodyOverride , BodyProvenance , MemLoc , PointsToGraph , run_points_to_analysis , } , reachability :: CallGraph , transform :: { BodyTransformation , GlobalPass , TransformationResult , body :: { CheckType , InsertPosition , MutableBody , SourceInstruction } , check_uninit :: UninitInstrumenter , } , }",
+          "token_start": 43,
+          "token_end": 96,
+          "reference_match": false,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: { mir :: mono :: { Instance , MonoItem } , mir :: { MirVisitor , TerminatorKind } , ty :: FnDef , }",
+          "container": [],
+          "line": 28,
+          "signature": "use rustc_public :: { mir :: mono :: { Instance , MonoItem } , mir :: { MirVisitor , TerminatorKind } , ty :: FnDef , }",
+          "token_start": 130,
+          "token_end": 157,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        }
+      ],
+      "removed_or_replaced": [
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: kani_functions :: KaniFunction",
+          "container": [],
+          "line": 10,
+          "signature": "use crate :: kani_middle :: kani_functions :: KaniFunction",
+          "token_start": 21,
+          "token_end": 29
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: { points_to :: { MemLoc , PointsToGraph , run_points_to_analysis } , reachability :: CallGraph , transform :: { BodyTransformation , GlobalPass , TransformationResult , body :: CheckType , check_uninit :: UninitInstrumenter , } , }",
+          "container": [],
+          "line": 11,
+          "signature": "use crate :: kani_middle :: { points_to :: { MemLoc , PointsToGraph , run_points_to_analysis } , reachability :: CallGraph , transform :: { BodyTransformation , GlobalPass , TransformationResult , body :: CheckType , check_uninit :: UninitInstrumenter , } , }",
+          "token_start": 30,
+          "token_end": 70
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: { mir :: MirVisitor , mir :: mono :: { Instance , MonoItem } , ty :: FnDef , }",
+          "container": [],
+          "line": 24,
+          "signature": "use rustc_public :: { mir :: MirVisitor , mir :: mono :: { Instance , MonoItem } , ty :: FnDef , }",
+          "token_start": 104,
+          "token_end": 127
+        }
+      ],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: collections :: HashMap",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: collections :: HashMap",
+          "token_start": 0,
+          "token_end": 6
+        },
+        {
+          "kind": "use",
+          "name": "use std :: collections :: HashSet",
+          "container": [],
+          "line": 7,
+          "signature": "use std :: collections :: HashSet",
+          "token_start": 7,
+          "token_end": 13
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: args :: ExtraChecks",
+          "container": [],
+          "line": 9,
+          "signature": "use crate :: args :: ExtraChecks",
+          "token_start": 14,
+          "token_end": 20
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: attributes :: KaniAttributes",
+          "container": [],
+          "line": 10,
+          "signature": "use crate :: kani_middle :: attributes :: KaniAttributes",
+          "token_start": 21,
+          "token_end": 29
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: kani_functions :: { KaniFunction , KaniModel }",
+          "container": [],
+          "line": 11,
+          "signature": "use crate :: kani_middle :: kani_functions :: { KaniFunction , KaniModel }",
+          "token_start": 30,
+          "token_end": 42
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_middle :: { points_to :: { AnalysisBodyOverride , BodyProvenance , MemLoc , PointsToGraph , run_points_to_analysis , } , reachability :: CallGraph , transform :: { BodyTransformation , GlobalPass , TransformationResult , body :: { CheckType , InsertPosition , MutableBody , SourceInstruction } , check_uninit :: UninitInstrumenter , } , }",
+          "container": [],
+          "line": 12,
+          "signature": "use crate :: kani_middle :: { points_to :: { AnalysisBodyOverride , BodyProvenance , MemLoc , PointsToGraph , run_points_to_analysis , } , reachability :: CallGraph , transform :: { BodyTransformation , GlobalPass , TransformationResult , body :: { CheckType , InsertPosition , MutableBody , SourceInstruction } , check_uninit :: UninitInstrumenter , } , }",
+          "token_start": 43,
+          "token_end": 96
+        },
+        {
+          "kind": "use",
+          "name": "use crate :: kani_queries :: QueryDb",
+          "container": [],
+          "line": 23,
+          "signature": "use crate :: kani_queries :: QueryDb",
+          "token_start": 97,
+          "token_end": 103
+        },
+        {
+          "kind": "use",
+          "name": "use initial_target_visitor :: { AnalysisTarget , InitialTargetVisitor }",
+          "container": [],
+          "line": 24,
+          "signature": "use initial_target_visitor :: { AnalysisTarget , InitialTargetVisitor }",
+          "token_start": 104,
+          "token_end": 112
+        },
+        {
+          "kind": "use",
+          "name": "use instrumentation_visitor :: InstrumentationVisitor",
+          "container": [],
+          "line": 25,
+          "signature": "use instrumentation_visitor :: InstrumentationVisitor",
+          "token_start": 113,
+          "token_end": 117
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: TyCtxt",
+          "container": [],
+          "line": 26,
+          "signature": "use rustc_middle :: ty :: TyCtxt",
+          "token_start": 118,
+          "token_end": 124
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_mir_dataflow :: JoinSemiLattice",
+          "container": [],
+          "line": 27,
+          "signature": "use rustc_mir_dataflow :: JoinSemiLattice",
+          "token_start": 125,
+          "token_end": 129
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: { mir :: mono :: { Instance , MonoItem } , mir :: { MirVisitor , TerminatorKind } , ty :: FnDef , }",
+          "container": [],
+          "line": 28,
+          "signature": "use rustc_public :: { mir :: mono :: { Instance , MonoItem } , mir :: { MirVisitor , TerminatorKind } , ty :: FnDef , }",
+          "token_start": 130,
+          "token_end": 157
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_session :: config :: OutputType",
+          "container": [],
+          "line": 33,
+          "signature": "use rustc_session :: config :: OutputType",
+          "token_start": 158,
+          "token_end": 164
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl DelayedUbPass",
+          "container": [],
+          "line": 45,
+          "signature": "impl DelayedUbPass",
+          "token_start": 205,
+          "token_end": 207
+        },
+        {
+          "kind": "impl",
+          "name": "impl GlobalPass for DelayedUbPass",
+          "container": [],
+          "line": 59,
+          "signature": "impl GlobalPass for DelayedUbPass",
+          "token_start": 250,
+          "token_end": 254
+        }
+      ]
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "head_sha256": "53e845da868ff021446a003fe67e2effefd78fff1e81a5c2295b81c2bc9311a2",
+      "declarations_impls_uses_total": 25,
+      "changed_or_added": [
+        {
+          "kind": "fn",
+          "name": "try_resolve_instance",
+          "container": [],
+          "line": 763,
+          "signature": "fn try_resolve_instance ( tcx : TyCtxt , locals : & [ LocalDecl ] , func : & Operand , ) -> Result < Instance , String >",
+          "token_start": 4144,
+          "token_end": 4171,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [
+        {
+          "kind": "fn",
+          "name": "try_resolve_instance",
+          "container": [],
+          "line": 763,
+          "signature": "fn try_resolve_instance ( locals : & [ LocalDecl ] , func : & Operand ) -> Result < Instance , String >",
+          "token_start": 4140,
+          "token_end": 4162
+        }
+      ],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use crate :: { intrinsics :: Intrinsic , kani_middle :: transform :: { body :: { InsertPosition , MutableBody , SourceInstruction } , check_uninit :: { PointeeInfo , TargetFinder , relevant_instruction :: { InitRelevantInstruction , MemoryInitOp } , ty_layout :: { LayoutComputationError , tys_layout_compatible_to_size } , } , } , kani_middle :: { nonnull_pointee , points_to :: resolve_call } , }",
+          "container": [],
+          "line": 6,
+          "signature": "use crate :: { intrinsics :: Intrinsic , kani_middle :: transform :: { body :: { InsertPosition , MutableBody , SourceInstruction } , check_uninit :: { PointeeInfo , TargetFinder , relevant_instruction :: { InitRelevantInstruction , MemoryInitOp } , ty_layout :: { LayoutComputationError , tys_layout_compatible_to_size } , } , } , kani_middle :: { nonnull_pointee , points_to :: resolve_call } , }",
+          "token_start": 0,
+          "token_end": 61
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: TyCtxt",
+          "container": [],
+          "line": 18,
+          "signature": "use rustc_middle :: ty :: TyCtxt",
+          "token_start": 62,
+          "token_end": 68
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: { CrateDefType , rustc_internal }",
+          "container": [],
+          "line": 19,
+          "signature": "use rustc_public :: { CrateDefType , rustc_internal }",
+          "token_start": 69,
+          "token_end": 77
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: { mir :: { AggregateKind , CastKind , LocalDecl , MirVisitor , NonDivergingIntrinsic , Operand , Place , PointerCoercion , ProjectionElem , Rvalue , Statement , StatementKind , Terminator , TerminatorKind , alloc :: GlobalAlloc , mono :: { Instance , InstanceKind } , visit :: { Location , PlaceContext } , } , ty :: { AdtKind , ConstantKind , RigidTy , Ty , TyConstKind , TyKind } , }",
+          "container": [],
+          "line": 20,
+          "signature": "use rustc_public :: { mir :: { AggregateKind , CastKind , LocalDecl , MirVisitor , NonDivergingIntrinsic , Operand , Place , PointerCoercion , ProjectionElem , Rvalue , Statement , StatementKind , Terminator , TerminatorKind , alloc :: GlobalAlloc , mono :: { Instance , InstanceKind } , visit :: { Location , PlaceContext } , } , ty :: { AdtKind , ConstantKind , RigidTy , Ty , TyConstKind , TyKind } , }",
+          "token_start": 78,
+          "token_end": 152
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: TyKind",
+          "container": [],
+          "line": 776,
+          "signature": "use rustc_middle :: ty :: TyKind",
+          "token_start": 4232,
+          "token_end": 4238
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl TargetFinder for CheckUninitVisitor < '_ >",
+          "container": [],
+          "line": 42,
+          "signature": "impl TargetFinder for CheckUninitVisitor < '_ >",
+          "token_start": 190,
+          "token_end": 197
+        },
+        {
+          "kind": "impl",
+          "name": "impl < 'tcx > CheckUninitVisitor < 'tcx >",
+          "container": [],
+          "line": 96,
+          "signature": "impl < 'tcx > CheckUninitVisitor < 'tcx >",
+          "token_start": 535,
+          "token_end": 543
+        },
+        {
+          "kind": "impl",
+          "name": "impl MirVisitor for CheckUninitVisitor < '_ >",
+          "container": [],
+          "line": 116,
+          "signature": "impl MirVisitor for CheckUninitVisitor < '_ >",
+          "token_start": 642,
+          "token_end": 649
+        }
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/erased-pointer-plain.rs",
+      "head_sha256": "18ca59996e418ca3e16c946f1e16145b21a9305656e591b5f25fa362ee40e192",
+      "declarations_impls_uses_total": 4,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: ffi :: c_void",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: ffi :: c_void",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/erased-pointer-seeded.rs",
+      "head_sha256": "9424076cf9724f468eee16826ad5036661411fa12cc2ec57fb6a7cd2af7e2220",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: ffi :: c_void",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: ffi :: c_void",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/generated-positive-plain.rs",
+      "head_sha256": "8b232bfeeacb349a9414c11c0e2138eca23a6f8cbfb4a7f2e5efdf7a5b6dd5bd",
+      "declarations_impls_uses_total": 7,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl Drop for DropCounter < '_ >",
+          "container": [],
+          "line": 20,
+          "signature": "impl Drop for DropCounter < '_ >",
+          "token_start": 82,
+          "token_end": 89
+        }
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/unresolved-calls/generated-positive-seeded.rs",
+      "head_sha256": "f8d1635a7dba40a913eb7bcac5c0d08a8616729ddae7c27f39c6079bbd40f902",
+      "declarations_impls_uses_total": 8,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl Drop for DropCounter < '_ >",
+          "container": [],
+          "line": 20,
+          "signature": "impl Drop for DropCounter < '_ >",
+          "token_start": 82,
+          "token_end": 89
+        }
+      ]
+    }
+  ],
+  "bound_api_calls": [
+    {
+      "contract": "analysis-root-and-recursive",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 222,
+      "arity": 8,
+      "expected": 8
+    },
+    {
+      "contract": "analysis-root-and-recursive",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 702,
+      "arity": 8,
+      "expected": 8
+    },
+    {
+      "contract": "analysis-resolver",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 366,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "regular-call-effects",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 499,
+      "arity": 5,
+      "expected": 5
+    },
+    {
+      "contract": "distinct-initial-target-helper",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 110,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "root-analysis",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "line": 145,
+      "arity": 5,
+      "expected": 5
+    },
+    {
+      "contract": "pointer-resolver",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 768,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "pointer-local-resolver",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 282,
+      "arity": 3,
+      "expected": 3
+    }
+  ],
+  "all_same_spelling_references": {
+    "apply_regular_call_effect": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 499,
+        "context": "{ self . apply_regular_call_effect ( state , instance"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 617,
+        "context": "} } fn apply_regular_call_effect ( & self ,"
+      }
+    ],
+    "caller_location_is_diagnostic_only_and_survives_repeated_entry": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1006,
+        "context": "test ] fn caller_location_is_diagnostic_only_and_survives_repeated_entry ( ) { let"
+      }
+    ],
+    "diagnostic_is_bounded_without_limiting_analysis_depth": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1116,
+        "context": "test ] fn diagnostic_is_bounded_without_limiting_analysis_depth ( ) { let"
+      }
+    ],
+    "diagnostic_uses_display_without_exposing_internal_identity": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1078,
+        "context": "test ] fn diagnostic_uses_display_without_exposing_internal_identity ( ) { #"
+      }
+    ],
+    "diamond_and_repeated_completed_calls_are_allowed": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1022,
+        "context": "test ] fn diamond_and_repeated_completed_calls_are_allowed ( ) { let"
+      }
+    ],
+    "discarded_override_has_no_source_body_edges": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1049,
+        "context": "test ] fn discarded_override_has_no_source_body_edges ( ) { let"
+      }
+    ],
+    "enter": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 129,
+        "context": ") ] fn enter ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 977,
+        "context": "; calls . enter ( TestKey ( ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 978,
+        "context": "= calls . enter ( TestKey ( ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 989,
+        "context": "{ calls . enter ( TestKey ( name"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 991,
+        "context": "= calls . enter ( TestKey ( ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1008,
+        "context": "; calls . enter ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1024,
+        "context": "; calls . enter ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1026,
+        "context": "{ calls . enter ( branch ) ."
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1027,
+        "context": "; calls . enter ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1041,
+        "context": "{ calls . enter ( TestKey ( key"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1051,
+        "context": "; calls . enter ( TestKey ( ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1052,
+        "context": "; calls . enter ( TestKey ( ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1063,
+        "context": "; calls . enter ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1065,
+        "context": "( calls . enter ( ) . is_err"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1068,
+        "context": "{ calls . enter ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1093,
+        "context": "; calls . enter ( OpaqueKey { id"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1109,
+        "context": "; calls . enter ( OpaqueKey { id"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1110,
+        "context": "; calls . enter ( OpaqueKey { id"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1119,
+        "context": "{ calls . enter ( format ! ("
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1121,
+        "context": "= calls . enter ( format ! ("
+      }
+    ],
+    "enter_at": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 130,
+        "context": "{ self . enter_at ( key , None"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 133,
+        "context": ") } fn enter_at ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 254,
+        "context": "( ) . enter_at ( key , caller"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1010,
+        "context": "= calls . enter_at ( , Some ("
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1095,
+        "context": "; calls . enter_at ( OpaqueKey { id"
+      }
+    ],
+    "exact_instance_and_body_selection_are_part_of_identity": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1037,
+        "context": "test ] fn exact_instance_and_body_selection_are_part_of_identity ( ) { let"
+      }
+    ],
+    "exit": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 182,
+        "context": ") } fn exit ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 278,
+        "context": "( ) . exit ( ) . map"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 981,
+        "context": "( calls . exit ( ) . is_err"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1000,
+        "context": "( calls . exit ( ) . unwrap_err"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1017,
+        "context": "( calls . exit ( ) . is_err"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1028,
+        "context": "; calls . exit ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1029,
+        "context": "; calls . exit ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1031,
+        "context": "} calls . exit ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1044,
+        "context": "{ calls . exit ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1054,
+        "context": "; calls . exit ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1055,
+        "context": "; calls . exit ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1066,
+        "context": "( calls . exit ( ) . is_err"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1069,
+        "context": "; calls . exit ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1070,
+        "context": "; calls . exit ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1111,
+        "context": "; calls . exit ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1112,
+        "context": "; calls . exit ( ) . unwrap"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1127,
+        "context": "( calls . exit ( ) . is_err"
+      }
+    ],
+    "fmt": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/cache/impl_stats.rs",
+        "line": 177,
+        "context": "impl std :: fmt :: Debug for CacheStats"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/cache/impl_stats.rs",
+        "line": 178,
+        "context": "CacheStats { fn fmt ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/cache/impl_stats.rs",
+        "line": 178,
+        "context": "mut std :: fmt :: Formatter < '_"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/cache/impl_stats.rs",
+        "line": 178,
+        "context": "-> std :: fmt :: Result { let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/cache/impl_stats.rs",
+        "line": 193,
+        "context": "} std :: fmt :: Result :: Ok"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/source_region.rs",
+        "line": 11,
+        "context": "use std :: fmt :: { self ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/source_region.rs",
+        "line": 23,
+        "context": "SourceRegion { fn fmt ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/source_region.rs",
+        "line": 23,
+        "context": "& self , fmt : & mut Formatter"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/source_region.rs",
+        "line": 23,
+        "context": "> ) -> fmt :: Result { let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/source_region.rs",
+        "line": 25,
+        "context": "write ! ( fmt , ) } }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 107,
+        "context": "impl std :: fmt :: Write , indent"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 109,
+        "context": ", std :: fmt :: Error > {"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 52,
+        "context": "use std :: fmt :: Write ; use"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 47,
+        "context": "use std :: fmt :: Debug ; pub"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/analysis.rs",
+        "line": 15,
+        "context": "use std :: fmt :: Display ; pub"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/analysis.rs",
+        "line": 87,
+        "context": "Counter { fn fmt ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/analysis.rs",
+        "line": 87,
+        "context": "mut std :: fmt :: Formatter < '_"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/analysis.rs",
+        "line": 87,
+        "context": "-> std :: fmt :: Result { for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/analysis.rs",
+        "line": 91,
+        "context": "} std :: fmt :: Result :: Ok"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 169,
+        "context": "impl std :: fmt :: Debug for KaniAttributes"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 170,
+        "context": "> { fn fmt ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 170,
+        "context": "mut std :: fmt :: Formatter < '_"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 170,
+        "context": "-> std :: fmt :: Result { f"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "line": 1233,
+        "context": ":: sym :: fmt ) ; if !"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 54,
+        "context": "use std :: fmt :: { self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 85,
+        "context": "> { fn fmt ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 85,
+        "context": ": & mut fmt :: Formatter < '_"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 85,
+        "context": "> ) -> fmt :: Result { let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 110,
+        "context": "CallerLocation { fn fmt ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 110,
+        "context": ": & mut fmt :: Formatter < '_"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 110,
+        "context": "> ) -> fmt :: Result { write"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 963,
+        "context": "use std :: fmt :: { self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 969,
+        "context": "TestKey { fn fmt ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 969,
+        "context": ": & mut fmt :: Formatter < '_"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 969,
+        "context": "> ) -> fmt :: Result { write"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1086,
+        "context": "OpaqueKey { fn fmt ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1086,
+        "context": ": & mut fmt :: Formatter < '_"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1086,
+        "context": "> ) -> fmt :: Result { write"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 11,
+        "context": "{ JoinSemiLattice , fmt :: DebugWithContext } ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 38,
+        "context": "use std :: fmt :: { Display ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 677,
+        "context": "Node { fn fmt ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 677,
+        "context": "-> std :: fmt :: Result { match"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 687,
+        "context": "CollectedNode { fn fmt ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 687,
+        "context": "-> std :: fmt :: Result { match"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 24,
+        "context": "use std :: fmt ; use std ::"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 206,
+        "context": ", } impl fmt :: Debug for ResolveError"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 207,
+        "context": "> { fn fmt ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 207,
+        "context": ": & mut fmt :: Formatter < '_"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 207,
+        "context": "> ) -> fmt :: Result { std"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 208,
+        "context": "{ std :: fmt :: Display :: fmt"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 208,
+        "context": ":: Display :: fmt ( self , f"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 212,
+        "context": "} } impl fmt :: Display for ResolveError"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 213,
+        "context": "> { fn fmt ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 213,
+        "context": ": & mut fmt :: Formatter < '_"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 213,
+        "context": "> ) -> fmt :: Result { match"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/body.rs",
+        "line": 13,
+        "context": "use std :: fmt :: Debug ; use"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+        "line": 23,
+        "context": "use std :: fmt :: Debug ; use"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 6,
+        "context": "use std :: fmt :: Display ; use"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 84,
+        "context": "LayoutComputationError { fn fmt ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 84,
+        "context": "mut std :: fmt :: Formatter < '_"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 84,
+        "context": "-> std :: fmt :: Result { match"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_values.rs",
+        "line": 39,
+        "context": "use std :: fmt :: Debug ; use"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+        "line": 28,
+        "context": "use std :: fmt :: Debug ; use"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/kani_intrinsics.rs",
+        "line": 39,
+        "context": "use std :: fmt :: Debug ; use"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 29,
+        "context": "use std :: fmt :: Debug ; #"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 38,
+        "context": "use std :: fmt :: Debug ; use"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/stubs.rs",
+        "line": 18,
+        "context": "use std :: fmt :: Debug ; use"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 104,
+        "context": "use tracing_subscriber :: fmt :: layer ; let"
+      }
+    ],
+    "independent_roots_in_both_orders_do_not_share_errors": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1059,
+        "context": "test ] fn independent_roots_in_both_orders_do_not_share_errors ( ) { for"
+      }
+    ],
+    "mutual_cycle_retains_original_root_and_active_stack": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 986,
+        "context": "test ] fn mutual_cycle_retains_original_root_and_active_stack ( ) { let"
+      }
+    ],
+    "needs_set": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+        "line": 55,
+        "context": "if self . needs_set ( & place )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+        "line": 102,
+        "context": "; } fn needs_set ( & self ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+        "line": 204,
+        "context": "} ; let needs_set = self . needs_set"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+        "line": 204,
+        "context": "= self . needs_set ( place ) ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+        "line": 207,
+        "context": ") & & needs_set { self . push_target"
+      }
+    ],
+    "new": [
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 55,
+        "context": "{ pub fn new ( ) -> Self"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 90,
+        "context": "= GlobalPasses :: new ( & db ."
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 116,
+        "context": "= Context :: new ( tcx , *"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 146,
+        "context": ":: CrateData :: new ( ccx ) ;"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 201,
+        "context": "= CodegenUnits :: new ( & queries ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 207,
+        "context": "= BodyTransformation :: new ( & queries ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 220,
+        "context": "= BodyTransformation :: new ( & queries ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 236,
+        "context": "= BodyTransformation :: new ( & queries ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 339,
+        "context": "{ Box :: new ( ArArchiveBuilder :: new"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 339,
+        "context": "( ArArchiveBuilder :: new ( sess , &"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 358,
+        "context": "; Box :: new ( ( CompiledModules {"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 388,
+        "context": "= ErrorCtx :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 389,
+        "context": "= TranslateOptions :: new ( & mut errors"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 390,
+        "context": ":: RefCell :: new ( errors ) }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 123,
+        "context": "{ pub fn new ( tcx : TyCtxt"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 139,
+        "context": "= HashMap :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 161,
+        "context": "= Vec :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 238,
+        "context": ": CharonVector :: new ( ) , consts"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 261,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 262,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 278,
+        "context": ": CharonVector :: new ( ) , skip_binder"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 281,
+        "context": ": Box :: new ( c_genarg . clone"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 285,
+        "context": "= CharonTraitRef :: new ( CharonTraitRefKind :: Clause"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 301,
+        "context": "= CharonVector :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 316,
+        "context": ": CharonVector :: new ( ) , skip_binder"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 319,
+        "context": ": Box :: new ( c_genarg ) ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 373,
+        "context": ": Box :: new ( signature ) ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 480,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 481,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 483,
+        "context": "= CharonVector :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 529,
+        "context": ": CharonVector :: new ( ) , regions_outlive"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 530,
+        "context": ": Vec :: new ( ) , types_outlive"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 531,
+        "context": ": Vec :: new ( ) , trait_type_constraints"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 532,
+        "context": ": CharonVector :: new ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 542,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 543,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 545,
+        "context": "= CharonVector :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 612,
+        "context": ": Vec :: new ( ) , types_outlive"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 613,
+        "context": ": Vec :: new ( ) , trait_type_constraints"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 614,
+        "context": ": CharonVector :: new ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 624,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 625,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 627,
+        "context": "= CharonVector :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 685,
+        "context": ": Vec :: new ( ) , types_outlive"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 686,
+        "context": ": Vec :: new ( ) , trait_type_constraints"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 687,
+        "context": ": CharonVector :: new ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 705,
+        "context": "= CharonVector :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 762,
+        "context": "= CharonVector :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 802,
+        "context": "= CharonTy :: new ( CharonTyKind :: Scalar"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 805,
+        "context": "= CharonVector :: new ( ) ; fields"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 830,
+        "context": ": Box :: new ( CharonGenericArgs :: empty"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 953,
+        "context": "= Vec :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 971,
+        "context": "= CharonDisambiguator :: new ( data . disambiguator"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1027,
+        "context": ", CharonDisambiguator :: new ( 0 ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1055,
+        "context": "( Box :: new ( CharonBinder { params"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1079,
+        "context": ": Box :: new ( args ) }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1091,
+        "context": ": CharonVector :: new ( ) , consts"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1108,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1109,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1111,
+        "context": "= CharonVector :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1148,
+        "context": ": Vec :: new ( ) , types_outlive"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1149,
+        "context": ": Vec :: new ( ) , trait_type_constraints"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1150,
+        "context": ": CharonVector :: new ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1187,
+        "context": "; CharonSpan :: new ( rspan , None"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1248,
+        "context": ": Vec :: new ( ) , terminator"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1249,
+        "context": ": CharonTerminator :: new ( span , CharonRawTerminator"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1257,
+        "context": ": Vec :: new ( ) } ;"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1263,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1264,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1266,
+        "context": "= CharonVector :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1285,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1289,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1290,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1292,
+        "context": "= CharonVector :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1317,
+        "context": ": Box :: new ( generics . clone"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1322,
+        "context": "= CharonTraitRef :: new ( CharonTraitRefKind :: BuiltinOrAuto"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1325,
+        "context": ": CharonVector :: new ( ) , types"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1343,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1344,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1346,
+        "context": "= CharonVector :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1368,
+        "context": ": CharonVector :: new ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1377,
+        "context": "( CharonDeBruijnId :: new ( self . binder_depth"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1380,
+        "context": "; CharonTy :: new ( CharonTyKind :: TypeVar"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1396,
+        "context": "; CharonConstantExpr :: new ( kind , self"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1400,
+        "context": "( CharonDeBruijnId :: new ( self . binder_depth"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1405,
+        "context": "; CharonConstantExpr :: new ( CharonRawConstantExpr :: Var"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1417,
+        "context": "=> CharonTy :: new ( CharonTyKind :: Scalar"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1418,
+        "context": "=> CharonTy :: new ( CharonTyKind :: Scalar"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1420,
+        "context": "{ CharonTy :: new ( CharonTyKind :: Scalar"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1422,
+        "context": "=> CharonTy :: new ( CharonTyKind :: Scalar"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1425,
+        "context": "=> CharonTy :: new ( CharonTyKind :: Never"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1426,
+        "context": "=> CharonTy :: new ( CharonTyKind :: Adt"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1433,
+        "context": "=> CharonTy :: new ( CharonTyKind :: Ref"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1443,
+        "context": "; CharonTy :: new ( CharonTyKind :: Adt"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1445,
+        "context": ": Box :: new ( CharonGenericArgs :: new_types"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1451,
+        "context": ": Box :: new ( CharonFunIdOrTraitMethodRef :: Fun"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1454,
+        "context": ": Box :: new ( self . translate_generic_args"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1457,
+        "context": "; CharonTy :: new ( CharonTyKind :: FnDef"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1458,
+        "context": ": CharonVector :: new ( ) , skip_binder"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1474,
+        "context": "; CharonTy :: new ( CharonTyKind :: Adt"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1476,
+        "context": ": Box :: new ( c_generic_args ) ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1483,
+        "context": "; CharonTy :: new ( CharonTyKind :: RawPtr"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1492,
+        "context": "= CharonVector :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1513,
+        "context": "; CharonTy :: new ( CharonTyKind :: FnPtr"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1518,
+        "context": "{ CharonTy :: new ( CharonTyKind :: Error"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1529,
+        "context": "= CharonVector :: new ( ) ; mir_body"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1572,
+        "context": "; CharonStatement :: new ( span , content"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1667,
+        "context": "| CharonStatement :: new ( span , statement"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1668,
+        "context": ", CharonTerminator :: new ( span , terminator"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1691,
+        "context": "} CharonFnPtr :: new ( CharonFunIdOrTraitMethodRef :: Fun"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1733,
+        "context": "= CharonPlace :: new ( var_id , basetype"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1859,
+        "context": "; CharonConstantExpr :: new ( value , self"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1874,
+        "context": ": Box :: new ( c_genarg ) ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1926,
+        "context": "= CharonVector :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1927,
+        "context": "= IndexMap :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1941,
+        "context": "( CharonConstantExpr :: new ( kind , switch_ty"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1959,
+        "context": "= Vec :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 1998,
+        "context": "( CharonPlace :: new ( CharonVarId :: from_usize"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 2004,
+        "context": ": Box :: new ( c_operand ) ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 2085,
+        "context": ":: SeqHashMap :: new ( ) ; primitive_alignments"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 2133,
+        "context": "= Vec :: new ( ) ; names"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 2170,
+        "context": "( CharonConstantExpr :: new ( CharonRawConstantExpr :: Opaque"
+      },
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/mir_to_ullbc/mod.rs",
+        "line": 2223,
+        "context": ": Vec :: new ( ) , inline"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/cache/impl_stats.rs",
+        "line": 43,
+        "context": "= Vec :: new ( ) ; $"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/cache/mod.rs",
+        "line": 45,
+        "context": "= RefCell :: new ( Default :: default"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs",
+        "line": 233,
+        "context": "; FunctionContract :: new ( assigns ) }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/function.rs",
+        "line": 347,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+        "line": 48,
+        "context": "{ pub fn new ( operation : &"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+        "line": 182,
+        "context": "( Box :: new ( UnimplementedData :: new"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+        "line": 182,
+        "context": "( UnimplementedData :: new ( , , ty_from_mir"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+        "line": 285,
+        "context": "( Box :: new ( UnimplementedData :: new"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+        "line": 285,
+        "context": "( UnimplementedData :: new ( , , goto_typ"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+        "line": 562,
+        "context": "( Box :: new ( UnimplementedData :: new"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+        "line": 562,
+        "context": "( UnimplementedData :: new ( , , goto_typ"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+        "line": 630,
+        "context": "( Box :: new ( UnimplementedData :: new"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+        "line": 630,
+        "context": "( UnimplementedData :: new ( , UNINHABITED_ENUM_DOWNCAST_ISSUE_URL ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+        "line": 787,
+        "context": "( Box :: new ( UnimplementedData :: new"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/place.rs",
+        "line": 787,
+        "context": "( UnimplementedData :: new ( & data ."
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 702,
+        "context": ": Box :: new ( pointee_goto_typ ) }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 710,
+        "context": ": Box :: new ( pointee_goto_typ ) }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 715,
+        "context": "= LayoutOf :: new ( pointee_ty ) ;"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 718,
+        "context": ": Box :: new ( pointee_goto_typ ) }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 743,
+        "context": ": Box :: new ( pointee_goto_typ ) }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 753,
+        "context": ": Box :: new ( pointee_goto_typ ) }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 841,
+        "context": "= LayoutOf :: new ( src_ty ) ."
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 842,
+        "context": "= LayoutOf :: new ( * ty )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 1447,
+        "context": "; CoerceUnsizedIterator :: new ( self . tcx"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/rvalue.rs",
+        "line": 1496,
+        "context": ", BTreeMap :: new ( ) , &"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/span.rs",
+        "line": 100,
+        "context": "; Location :: new ( sp . get_filename"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/ty_stable.rs",
+        "line": 42,
+        "context": "{ LayoutOf :: new ( ty ) ."
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 233,
+        "context": "= String :: new ( ) ; debug_write_type"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 474,
+        "context": "= FmtPrinter :: new ( self . tcx"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 589,
+        "context": ", Unnormalized :: new ( ty ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 1066,
+        "context": ", Unnormalized :: new ( pointee_type ) ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 1851,
+        "context": ":: LayoutOf :: new ( ty ) ."
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 73,
+        "context": "{ pub fn new ( ) -> Self"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 138,
+        "context": "| GotocCtx :: new ( tcx , db"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 382,
+        "context": "= GotoCodegenResults :: new ( tcx , reachability"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 395,
+        "context": "= CodegenUnits :: new ( & queries ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 403,
+        "context": "= GlobalPasses :: new ( & queries ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 411,
+        "context": "= BodyTransformation :: new ( & queries ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 471,
+        "context": "= BodyTransformation :: new ( & queries ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 488,
+        "context": ", GlobalPasses :: new ( & queries ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 596,
+        "context": "{ Box :: new ( ArArchiveBuilder :: new"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 596,
+        "context": "( ArArchiveBuilder :: new ( sess , &"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 670,
+        "context": "; Box :: new ( ( CompiledModules {"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 680,
+        "context": "= BufWriter :: new ( out_file ) ;"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 699,
+        "context": "{ pub fn new ( tcx : TyCtxt"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 104,
+        "context": "= RefCell :: new ( FxHashMap :: default"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 126,
+        "context": "{ pub fn new ( instance : Instance"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 137,
+        "context": ": HashSet :: new ( ) } ;"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 304,
+        "context": "return HashSet :: new ( ) ; }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 308,
+        "context": "return HashSet :: new ( ) ; }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 319,
+        "context": "return HashSet :: new ( ) ; }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 333,
+        "context": "return HashSet :: new ( ) ; }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 347,
+        "context": "return HashSet :: new ( ) ; }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 359,
+        "context": "return HashSet :: new ( ) ; }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 370,
+        "context": "= HashMap :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 371,
+        "context": "= HashSet :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 387,
+        "context": "return HashSet :: new ( ) ; }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/current_fn.rs",
+        "line": 403,
+        "context": "return HashSet :: new ( ) ; }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 115,
+        "context": "{ pub fn new ( tcx : TyCtxt"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 122,
+        "context": "= SymbolTable :: new ( machine_model . clone"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 132,
+        "context": ": VtableCtx :: new ( emit_vtable_restrictions ) ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 141,
+        "context": ": HashMap :: new ( ) , current_stmt_loc"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 143,
+        "context": ": HashMap :: new ( ) , checked_quantifiers"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 144,
+        "context": ": HashSet :: new ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 458,
+        "context": "= HashMap :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 512,
+        "context": "mut HashSet :: new ( ) ) }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 591,
+        "context": "= HashMap :: new ( ) ; Self"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 710,
+        "context": "= BTreeMap :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 739,
+        "context": "= HashSet :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 770,
+        "context": "= HashSet :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 923,
+        "context": "; SwitchCase :: new ( case . case"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 1224,
+        "context": "; SwitchCase :: new ( sc . case"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 1258,
+        "context": "( CurrentFnCtx :: new ( instance , self"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/vtable_ctx.rs",
+        "line": 45,
+        "context": "{ pub fn new ( emit_vtable_restrictions : bool"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/vtable_ctx.rs",
+        "line": 50,
+        "context": ": Vec :: new ( ) , call_site_global_idx"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1581,
+        "context": "= HashMap :: new ( ) ; collect_assignments"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1665,
+        "context": ", Rc :: new ( Assert ) as"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1666,
+        "context": ", Rc :: new ( Assume ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1667,
+        "context": ", Rc :: new ( SliceValidityAssume ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1668,
+        "context": ", Rc :: new ( Exists ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1669,
+        "context": ", Rc :: new ( Forall ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1670,
+        "context": ", Rc :: new ( Panic ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1671,
+        "context": ", Rc :: new ( Check ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1672,
+        "context": ", Rc :: new ( Cover ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1673,
+        "context": ", Rc :: new ( Nondet ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1674,
+        "context": ", Rc :: new ( SafetyCheck ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1675,
+        "context": ", Rc :: new ( SafetyCheckNoAssume ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1676,
+        "context": ", Rc :: new ( IsAllocated ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1677,
+        "context": ", Rc :: new ( PointerObject ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1678,
+        "context": ", Rc :: new ( PointerOffset ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1679,
+        "context": ", Rc :: new ( UnsupportedCheck ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1680,
+        "context": ", Rc :: new ( UntrackedDeref ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1681,
+        "context": ", Rc :: new ( InitContracts ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1682,
+        "context": ", Rc :: new ( FloatToIntInRange ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1687,
+        "context": "[ Rc :: new ( Panic ) ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1688,
+        "context": ", Rc :: new ( RustAlloc ) ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1689,
+        "context": ", Rc :: new ( MemCmp ) ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1690,
+        "context": ", Rc :: new ( LoopInvariantRegister ) ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+        "line": 1789,
+        "context": "= HashSet :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/utils/debug.rs",
+        "line": 20,
+        "context": "{ RefCell :: new ( ( None ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/utils/debug.rs",
+        "line": 30,
+        "context": "= LazyLock :: new ( | | {"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/utils/debug.rs",
+        "line": 32,
+        "context": "( Box :: new ( | info |"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/utils/debug.rs",
+        "line": 71,
+        "context": "( Box :: new ( debug_str_generator ) )"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/utils/file_writing_pool.rs",
+        "line": 44,
+        "context": ": Vec :: new ( ) } }"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/utils/names.rs",
+        "line": 75,
+        "context": ", CodegenUnitNameBuilder :: new ( tcx ) ."
+      },
+      {
+        "path": "kani-compiler/src/kani_compiler.rs",
+        "line": 112,
+        "context": "= KaniCompiler :: new ( ) ; kani_compiler"
+      },
+      {
+        "path": "kani-compiler/src/kani_compiler.rs",
+        "line": 122,
+        "context": "; Box :: new ( LlbcCodegenBackend :: new"
+      },
+      {
+        "path": "kani-compiler/src/kani_compiler.rs",
+        "line": 122,
+        "context": "( LlbcCodegenBackend :: new ( ) ) }"
+      },
+      {
+        "path": "kani-compiler/src/kani_compiler.rs",
+        "line": 134,
+        "context": "; Box :: new ( GotocCodegenBackend :: new"
+      },
+      {
+        "path": "kani-compiler/src/kani_compiler.rs",
+        "line": 134,
+        "context": "( GotocCodegenBackend :: new ( ) ) }"
+      },
+      {
+        "path": "kani-compiler/src/kani_compiler.rs",
+        "line": 173,
+        "context": "{ pub fn new ( ) -> KaniCompiler"
+      },
+      {
+        "path": "kani-compiler/src/kani_compiler.rs",
+        "line": 204,
+        "context": "( Box :: new ( { let args"
+      },
+      {
+        "path": "kani-compiler/src/kani_compiler.rs",
+        "line": 336,
+        "context": "= Vec :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/abi.rs",
+        "line": 19,
+        "context": "{ pub fn new ( ty : Ty"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/abi.rs",
+        "line": 185,
+        "context": "; LayoutOf :: new ( fields [ last_field_idx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/abi.rs",
+        "line": 193,
+        "context": "; LayoutOf :: new ( last_ty ) }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 567,
+        "context": "{ HarnessAttributes :: new ( HarnessKind :: ProofForContract"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 569,
+        "context": "{ HarnessAttributes :: new ( HarnessKind :: Proof"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 648,
+        "context": "= HashSet :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/attributes.rs",
+        "line": 879,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 57,
+        "context": "= OnceLock :: new ( ) ; #"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 80,
+        "context": "{ pub fn new ( queries : &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 284,
+        "context": "= BTreeSet :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 307,
+        "context": "= BufWriter :: new ( out_file ) ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 333,
+        "context": "( orig , new ) in stubs ."
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 334,
+        "context": "new_fn = * new ; let mut visited"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 335,
+        "context": "= HashSet :: new ( ) ; while"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 434,
+        "context": "( RegexSet :: new ( patterns ) ."
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 537,
+        "context": "= ObligationCtxt :: new ( & infcx )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 545,
+        "context": "( Obligation :: new ( tcx , cause"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 1018,
+        "context": "{ let mut new = fnc . clone"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 1019,
+        "context": "( ) ; new . extend ( cands"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 1020,
+        "context": "; cands = new ; } if deferred_fn"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 1055,
+        "context": ":: Cell :: new ( 0 usize )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 1058,
+        "context": ":: Cell :: new ( None ) ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 1157,
+        "context": "{ String :: new ( ) } ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/codegen_units.rs",
+        "line": 1351,
+        "context": "= BTreeMap :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/coercion.rs",
+        "line": 87,
+        "context": "= CoerceUnsizedIterator :: new ( tcx , rustc_internal"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/coercion.rs",
+        "line": 165,
+        "context": "{ pub fn new ( tcx : TyCtxt"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/coercion.rs",
+        "line": 265,
+        "context": "= TraitRef :: new ( tcx , def_id"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/metadata.rs",
+        "line": 30,
+        "context": "= SourceLocation :: new ( checked_body ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/metadata.rs",
+        "line": 63,
+        "context": "= HashMap :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/metadata.rs",
+        "line": 70,
+        "context": "= SourceLocation :: new ( item . span"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/metadata.rs",
+        "line": 90,
+        "context": ": SourceLocation :: new ( def . span"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/metadata.rs",
+        "line": 137,
+        "context": "= SourceLocation :: new ( checked_body ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/metadata.rs",
+        "line": 167,
+        "context": ": HarnessAttributes :: new ( harness_kind ) ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mined_invariants.rs",
+        "line": 102,
+        "context": ", Box :: new ( a . prepend_fields"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mined_invariants.rs",
+        "line": 103,
+        "context": ", Box :: new ( b . prepend_fields"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mined_invariants.rs",
+        "line": 105,
+        "context": ", Box :: new ( a . prepend_fields"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mined_invariants.rs",
+        "line": 283,
+        "context": ", Box :: new ( extract_expr ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mined_invariants.rs",
+        "line": 284,
+        "context": ", Box :: new ( extract_expr ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mined_invariants.rs",
+        "line": 287,
+        "context": ", Box :: new ( extract_expr ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mined_invariants.rs",
+        "line": 337,
+        "context": ", Box :: new ( extract_expr ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mined_invariants.rs",
+        "line": 338,
+        "context": ", Box :: new ( extract_expr ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mined_invariants.rs",
+        "line": 341,
+        "context": ", Box :: new ( extract_expr ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "line": 89,
+        "context": "= HashSet :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "line": 315,
+        "context": "= HashSet :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "line": 357,
+        "context": "{ pub fn new ( span : SpanStable"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 124,
+        "context": "> { fn new ( ) -> Self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 125,
+        "context": ": Vec :: new ( ) , callers"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 125,
+        "context": ": Vec :: new ( ) , error"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 228,
+        "context": "& RefCell :: new ( ActiveCalls :: new"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 228,
+        "context": "( ActiveCalls :: new ( ) ) ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 584,
+        "context": "{ HashSet :: new ( ) } }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 588,
+        "context": "=> HashSet :: new ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 608,
+        "context": "{ HashSet :: new ( ) } }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 612,
+        "context": "=> HashSet :: new ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 698,
+        "context": "= SourceLocation :: new ( rustc_internal :: stable"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 791,
+        "context": "{ HashSet :: new ( ) } }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 801,
+        "context": "{ HashSet :: new ( ) } Rvalue"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 976,
+        "context": "= ActiveCalls :: new ( ) ; calls"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 987,
+        "context": "= ActiveCalls :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1007,
+        "context": "= ActiveCalls :: new ( ) ; calls"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1023,
+        "context": "= ActiveCalls :: new ( ) ; calls"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1038,
+        "context": "= ActiveCalls :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1050,
+        "context": "= ActiveCalls :: new ( ) ; calls"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1062,
+        "context": "= ActiveCalls :: new ( ) ; calls"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1092,
+        "context": "= ActiveCalls :: new ( ) ; calls"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1108,
+        "context": "= ActiveCalls :: new ( ) ; calls"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1117,
+        "context": "= ActiveCalls :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 111,
+        "context": ": HashMap :: new ( ) } }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 57,
+        "context": "= MonoItemsCollector :: new ( tcx , transformer"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 131,
+        "context": "{ pub fn new ( tcx : TyCtxt"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 496,
+        "context": "= StableHasher :: new ( ) ; rustc_internal"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 613,
+        "context": "= BufWriter :: new ( out_file ) ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 505,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 986,
+        "context": "= Vec :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 1088,
+        "context": "= Vec :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve/type_resolution.rs",
+        "line": 161,
+        "context": "=> Vec :: new ( ) , _"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve/type_resolution.rs",
+        "line": 169,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve/type_resolution.rs",
+        "line": 185,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/stubbing/mod.rs",
+        "line": 241,
+        "context": "= StubConstChecker :: new ( tcx , internal_instance"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/stubbing/mod.rs",
+        "line": 254,
+        "context": "> { fn new ( tcx : TyCtxt"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 97,
+        "context": "AnyModels { fn new ( query_db : &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 143,
+        "context": "{ pub fn new ( _unit : &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 145,
+        "context": ": AnyModels :: new ( query_db ) ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 329,
+        "context": "= SwitchTargets :: new ( branches , targets"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 2159,
+        "context": ": SwitchTargets :: new ( vec ! ["
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 2237,
+        "context": ": SwitchTargets :: new ( branches , otherwise"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 2305,
+        "context": "{ pub fn new ( query_db : &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+        "line": 2322,
+        "context": ": AnyModels :: new ( query_db ) ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/body.rs",
+        "line": 91,
+        "context": "{ Body :: new ( self . blocks"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "line": 36,
+        "context": "{ pub fn new ( body : Body"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+        "line": 77,
+        "context": "{ pub fn new ( points_to : &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+        "line": 108,
+        "context": "= Vec :: new ( ) ; while"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 46,
+        "context": "{ pub fn new ( safety_check_type : CheckType"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 80,
+        "context": "= InitialTargetVisitor :: new ( body . clone"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 102,
+        "context": "= HashMap :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 124,
+        "context": "= HashSet :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 126,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 168,
+        "context": "= InstrumentationVisitor :: new ( & global_points_to_graph ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+        "line": 73,
+        "context": ", CheckUninitVisitor :: new ( tcx , instance"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 97,
+        "context": "{ pub fn new ( tcx : TyCtxt"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+        "line": 86,
+        "context": "{ pub fn new ( tcx : TyCtxt"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+        "line": 375,
+        "context": "{ pub fn new ( tcx : TyCtxt"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+        "line": 620,
+        "context": "mut HashSet :: new ( ) ) else"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/dump_mir_pass.rs",
+        "line": 26,
+        "context": "{ pub fn new ( tcx : TyCtxt"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/dump_mir_pass.rs",
+        "line": 61,
+        "context": "= BufWriter :: new ( out_file ) ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 93,
+        "context": "( Box :: new ( const_operand . internal_mir"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 218,
+        "context": "( Box :: new ( aggregate_kind . internal_mir"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 227,
+        "context": ", Box :: new ( ( left_operand ."
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 357,
+        "context": "( Box :: new ( ( internal ("
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 360,
+        "context": "( Box :: new ( ( fake_read_cause ."
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 378,
+        "context": "( Box :: new ( internal ( tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 382,
+        "context": "( Box :: new ( ( internal ("
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 407,
+        "context": ":: Statement :: new ( source_info , kind"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 432,
+        "context": ":: SwitchTargets :: new ( self . branches"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 593,
+        "context": ": Box :: new ( msg . internal_mir"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 623,
+        "context": "( Box :: new ( rustc_middle :: mir"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 655,
+        "context": ":: Body :: new ( rustc_middle :: mir"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 658,
+        "context": ":: IndexVec :: new ( ) , local_decls"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 660,
+        "context": ":: IndexVec :: new ( ) , self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/internal_mir.rs",
+        "line": 662,
+        "context": ", Vec :: new ( ) , rustc_span"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/kani_intrinsics.rs",
+        "line": 116,
+        "context": "{ pub fn new ( unsupported_check_type : CheckType"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/kani_intrinsics.rs",
+        "line": 422,
+        "context": "= LayoutOf :: new ( pointee_ty ) ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/kani_intrinsics.rs",
+        "line": 465,
+        "context": "= LayoutOf :: new ( elem_ty ) ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/kani_intrinsics.rs",
+        "line": 542,
+        "context": "= LayoutOf :: new ( pointee_ty ) ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 118,
+        "context": "= HashMap :: new ( ) ; self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 119,
+        "context": "= HashMap :: new ( ) ; self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 120,
+        "context": "= Vec :: new ( ) ; self"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 121,
+        "context": "= Vec :: new ( ) ; match"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 196,
+        "context": "{ pub fn new ( _tcx : TyCtxt"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 203,
+        "context": ": HashMap :: new ( ) , generated_loop_locals"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 204,
+        "context": ": HashMap :: new ( ) , generated_loop_modifies"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 205,
+        "context": ": Vec :: new ( ) , loop_modifies_bindings"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 206,
+        "context": ": Vec :: new ( ) , }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 246,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 271,
+        "context": "= Vec :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 445,
+        "context": "= HashMap :: new ( ) ; firstprj_nthprj"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 481,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 566,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 568,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 638,
+        "context": "= Vec :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 639,
+        "context": "= Vec :: new ( ) ; while"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 703,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 753,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 785,
+        "context": "= HashMap :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 803,
+        "context": "= Vec :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 804,
+        "context": "= Vec :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 811,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 819,
+        "context": "= Vec :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 984,
+        "context": "= Vec :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 985,
+        "context": "= Vec :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 986,
+        "context": "= Vec :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 987,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 990,
+        "context": "= Vec :: new ( ) ; if"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 1037,
+        "context": "= Vec :: new ( ) ; current_user_local"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 1147,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 1188,
+        "context": "= HashSet :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 1189,
+        "context": "= VecDeque :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 1191,
+        "context": "= VecDeque :: new ( ) ; queue"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 1247,
+        "context": "return Vec :: new ( ) ; }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 1254,
+        "context": "= HashSet :: new ( ) ; let"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 1255,
+        "context": "= Vec :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 1311,
+        "context": "[ Vec :: new ( ) ; num_blocks"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 1462,
+        "context": "= HashSet :: new ( ) ; for"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 1550,
+        "context": "= SwitchTargets :: new ( new_branches , new_otherwise"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 1635,
+        "context": "= Vec :: new ( ) ; supported_vars"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 105,
+        "context": "{ pub fn new ( queries : &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 116,
+        "context": ", AutomaticHarnessPass :: new ( queries ) )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 117,
+        "context": ", AutomaticArbitraryPass :: new ( unit , queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 118,
+        "context": ", FnStubPass :: new ( & unit ."
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 119,
+        "context": ", ExternFnStubPass :: new ( & unit ."
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 120,
+        "context": ", FunctionWithContractPass :: new ( tcx , queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 123,
+        "context": ", AnyModifiesPass :: new ( tcx , queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 145,
+        "context": ", IntrinsicGeneratorPass :: new ( unsupported_check_type , queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 146,
+        "context": ", LoopContractPass :: new ( tcx , queries"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 147,
+        "context": ", RustcIntrinsicsPass :: new ( queries ) )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 209,
+        "context": "( Box :: new ( pass ) )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 210,
+        "context": "( Box :: new ( pass ) )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 243,
+        "context": "{ Vec :: new ( ) } fn"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 250,
+        "context": "{ Vec :: new ( ) } }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 292,
+        "context": "{ pub fn new ( queries : &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 296,
+        "context": ", DelayedUbPass :: new ( CheckType :: new_safety_check_assert_assume"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 302,
+        "context": ", DumpMirPass :: new ( tcx ) )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 308,
+        "context": "( Box :: new ( pass ) )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 362,
+        "context": "{ Box :: new ( self . clone"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 372,
+        "context": "{ Box :: new ( self . clone"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/rustc_intrinsics.rs",
+        "line": 59,
+        "context": "= ReplaceIntrinsicCallVisitor :: new ( & self ."
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/rustc_intrinsics.rs",
+        "line": 75,
+        "context": "{ pub fn new ( queries : &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/rustc_intrinsics.rs",
+        "line": 153,
+        "context": "> { fn new ( models : &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/stubs.rs",
+        "line": 64,
+        "context": "{ pub fn new ( all_stubs : &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/stubs.rs",
+        "line": 124,
+        "context": "{ pub fn new ( all_stubs : &"
+      },
+      {
+        "path": "kani-compiler/src/kani_queries/mod.rs",
+        "line": 14,
+        "context": "= RefCell :: new ( QueryDb :: default"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 32,
+        "context": "= LazyLock :: new ( | | {"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 34,
+        "context": "( Box :: new ( | info |"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 49,
+        "context": "= LazyLock :: new ( | | {"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 51,
+        "context": "( Box :: new ( | info |"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 54,
+        "context": "= JsonEmitter :: new ( Box :: new"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 55,
+        "context": "( Box :: new ( io :: BufWriter"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 55,
+        "context": ":: BufWriter :: new ( io :: stderr"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 57,
+        "context": "( Arc :: new ( SourceMap :: new"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 57,
+        "context": "( SourceMap :: new ( FilePathMapping :: empty"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 62,
+        "context": "= DiagInner :: new ( rustc_errors :: Level"
+      },
+      {
+        "path": "kani-compiler/src/session.rs",
+        "line": 74,
+        "context": "= EarlyDiagCtxt :: new ( ErrorOutputType :: default"
+      }
+    ],
+    "resolve_call": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/mod.rs",
+        "line": 11,
+        "context": ", BodyProvenance , resolve_call , run_points_to_analysis , }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 366,
+        "context": "instance ) = resolve_call ( self . tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 525,
+        "context": "} pub fn resolve_call ( tcx : TyCtxt"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 16,
+        "context": ", points_to :: resolve_call } , } ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 768,
+        "context": "String > { resolve_call ( tcx , func"
+      }
+    ],
+    "run": [
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 186,
+        "context": "= rustc_internal :: run ( tcx , |"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 340,
+        "context": "= rustc_internal :: run ( tcx , |"
+      },
+      {
+        "path": "kani-compiler/src/kani_compiler.rs",
+        "line": 110,
+        "context": "; pub fn run ( mut args :"
+      },
+      {
+        "path": "kani-compiler/src/kani_compiler.rs",
+        "line": 113,
+        "context": "; kani_compiler . run ( args ) ;"
+      },
+      {
+        "path": "kani-compiler/src/kani_compiler.rs",
+        "line": 181,
+        "context": "} pub fn run ( & mut self"
+      },
+      {
+        "path": "kani-compiler/src/kani_compiler.rs",
+        "line": 272,
+        "context": "{ rustc_internal :: run ( tcx , |"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 222,
+        "context": "; PointsToAnalysis :: run ( & internal_body ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 238,
+        "context": "] pub fn run ( body : &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 702,
+        "context": "= PointsToAnalysis :: run ( & new_body ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 114,
+        "context": "is_registration { let run = self . mem_init_fn_cache"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 115,
+        "context": ":: resolve ( run , & instance ."
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 174,
+        "context": "= UninitInstrumenter :: run ( body , instance"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 100,
+        "context": "crate ) fn run ( body : Body"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+        "line": 67,
+        "context": "= UninitInstrumenter :: run ( new_body . into"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+        "line": 346,
+        "context": ") { let run = Instance :: resolve"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/contracts.rs",
+        "line": 347,
+        "context": "( true , run . body ( )"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 128,
+        "context": ") { let run = Instance :: resolve"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/loop_contracts.rs",
+        "line": 129,
+        "context": "( true , run . body ( )"
+      },
+      {
+        "path": "kani-compiler/src/main.rs",
+        "line": 75,
+        "context": "{ kani_compiler :: run ( rustc_args ) ;"
+      }
+    ],
+    "run_points_to_analysis": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/mod.rs",
+        "line": 11,
+        "context": ", resolve_call , run_points_to_analysis , } ; pub"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 211,
+        "context": "} pub fn run_points_to_analysis < 'tcx > ("
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 14,
+        "context": ", PointsToGraph , run_points_to_analysis , } , reachability"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 145,
+        "context": ") ; match run_points_to_analysis ( & body ,"
+      }
+    ],
+    "self_cycle_is_an_error_without_pushing_another_frame": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 975,
+        "context": "test ] fn self_cycle_is_an_error_without_pushing_another_frame ( ) { let"
+      }
+    ],
+    "try_resolve_instance": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "line": 110,
+        "context": "instance ) = try_resolve_instance ( self . body"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "line": 130,
+        "context": "} } fn try_resolve_instance ( locals : &"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 282,
+        "context": "instance = match try_resolve_instance ( self . tcx"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 763,
+        "context": "} } fn try_resolve_instance ( tcx : TyCtxt"
+      }
+    ]
+  },
+  "errors": [],
+  "limits": "Source-token inventory, local generic impl checks and explicitly bound call arities; no Rust name resolution/typecheck, macro expansion, trait resolution or native build. Whole-file signature/import inventory and lexical references require human review.",
+  "tool_sha256": "f2db55dbfbdfabad8eb3ac53cd1d4cf147c3339420736e1a5c36003be07f9fe4",
+  "contracts_sha256": "26ed54b132b70a82b66b8d294f81753e35f2527a9e31c0fdf5ad6044a552f69b",
+  "native_build": "NOT_RUN"
+}

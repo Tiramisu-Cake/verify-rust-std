@@ -12,7 +12,7 @@ spec = importlib.util.spec_from_file_location('extract2', HERE / 'extract_slice.
 e = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(e)
 git, digest = e.git, e.digest
-G0_INPUT = 'e84a43a9b26b0190485b751c64e9b5ccae34b27e'
+G0_INPUT = '1629d37454'
 
 
 def dump(name, value):
@@ -39,7 +39,7 @@ def main():
         'oracle-map/ORACLE-MAP.json', 'oracle-map/DOCS-MAP.json', 'oracle-map/DEPENDENCY-REVIEW.md']}
     dependencies = json.loads((e.MAP / 'DEPENDENCIES.json').read_text())['slices']['2']
     parts = dependencies['source_parts']
-    assert len(parts) == static['owner2_part_hashes_checked'] == 52
+    assert len(parts) == static['owner2_part_hashes_checked'] == 54
     dump('SOURCE-PARTS.json', {'source_sha': head, 'canonical_map': '../source-map/B1--F.json',
         'canonical_map_sha256': maps['source-map/B1--F.json'], 'parts': parts,
         'semantics': 'All and only owner2 parts; complete shared seams and interim adaptations in REVIEW.md. Static source attribution, not AST/MIR binding.'})
@@ -115,6 +115,8 @@ def main():
     dump('SLICE.json', {
         'slice': 2, 'name': 'IMMUTABLE M1/E2+F5', 'status': 'READY_FOR_WORKER15_REVIEW_AND_COORDINATOR_CI',
         'source_sha': head, 'source_tree': tree, 'base_sha': e.BASE, 'parents': [e.BASE],
+        'supersedes': {'sha': 'b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12', 'coordinator_run': '43699468860', 'result': 'BUILD_FAILED_E0726', 'correction': 'F77 trait impl lifetime and B1:68 deletion assigned2; raw_eq comment F76 remains3'},
+        'seam_audit': {'tool': '../seam-audit/check_seams.py', 'reports': ['SEAM-AUDIT-01.json','SEAM-AUDIT-02.json'], 'old_head_regression': 'SEAM-REGRESSION-OLD.json', 'review': 'COMPILE-SEAMS.md', 'native_compile_status': 'NOT_RUN'},
         'B1_dependency': e.B1, 'reference_F': e.F, 'reference_F_tree': '9829702c1aa0ecb73c860fc0ad5451757917d6cb',
         'g0_input': G0_INPUT, 'maps': maps,
         'parent_acceptance': {'kind': 'NO_REGRESSION', 'run': '43696666260', 'path': '../slice-01/ci-43696666260/ACCEPTANCE.md',
