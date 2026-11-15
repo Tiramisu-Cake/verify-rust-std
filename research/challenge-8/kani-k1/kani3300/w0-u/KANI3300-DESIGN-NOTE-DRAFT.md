@@ -120,4 +120,4 @@ Loop-contract havoc interactions remain **open/unqualified** unless a specific c
 3. What shadow summary, if any, should a future Replace/recursion or loop-havoc design provide without excluding an uninitialized witness? These are proposed review questions, not implemented extensions.
 4. How should small follow-up fixes and organizer-compatible integration be staged after review, while the independent stock-upstream sorting path proceeds?
 
-*Disclosure: this change and description were prepared with the help of AI assistants.*
+*Disclosure: this note was prepared with the help of AI assistants.*
