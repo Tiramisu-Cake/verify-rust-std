@@ -1,0 +1,19 @@
+{
+  "status": "PASS_FINAL_STATIC_PACKAGE_CHECK",
+  "source_sha": "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+  "overlay_sha": "ece902633e72af24dcd1157ee7b457d27840027c",
+  "request_sha256": "05cdfd7a93876972db229ac097e8024be4fff73548dde72a52f25dc1f6bb851f",
+  "checks": [
+    "all request reference hashes",
+    "Python AST and JSON parse",
+    "471 selectors/462 pass-if-green and explicit9/9/1/1/compiler68 names",
+    "all67 target oracles in manifest including11 E1",
+    "direct source parent and clean overlay",
+    "only CI paths changed and saved patch exact",
+    "source/runner whitespace check excluding immutable nested mutation patch data",
+    "frozen source branch still exact F; author worktree still exact source and clean"
+  ],
+  "ref_note": "freeze/kani-3300-c2 is absent locally; exact F commit/tree and fix/kani-3300-c2-s6 are present and verified. No ref created or moved.",
+  "native": "NOT_RUN",
+  "push_dispatch": "NOT_RUN"
+}

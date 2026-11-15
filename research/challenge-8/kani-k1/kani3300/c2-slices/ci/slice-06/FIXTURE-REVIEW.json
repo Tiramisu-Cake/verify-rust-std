@@ -1,0 +1,17 @@
+{
+  "status": "PASS_BOUNDED_STATIC_DEPENDENCY_REVIEW",
+  "source_sha": "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+  "reviewer": "worker15 independent of worker14 author",
+  "fixture_pairs": 11,
+  "findings": [],
+  "reviewed": [
+    "Custom MIR ordinary-union constant and variable operands use same consume(Byte), byte0 versus empty union field.",
+    "Raw projected stores preserve size12/offset4/offset8, initialize only value; untouched tail and padding distinguish negative cases.",
+    "Borrowed DST initialized/hole reads preserve reference path; by-value DST passes dereferenced slice and both cases require explicit unsized-size refusal.",
+    "All25 changed paths equal F; tests/docs trees equal F. No production/test/golden prerequisite remains outside F7.",
+    "All inherited strong/composition/mode fixtures remain selected with original flags/goldens. F7 API and units absent."
+  ],
+  "F7_dependency_found": false,
+  "runtime": "NOT_RUN",
+  "limits": "Static identity/token/manual review cannot establish compilation, custom MIR expansion, native useful assertion outcomes or sensitivity detection."
+}

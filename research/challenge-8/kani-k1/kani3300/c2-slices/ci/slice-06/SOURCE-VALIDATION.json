@@ -1,0 +1,199 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "source_sha": "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+  "source_tree": "fc4c2d802e8c8c61ce7fcf27c405f7dc14c9d369",
+  "base_sha": "96f5d5dc8dedd369c6986a4f1dd5e698b6167f0f",
+  "changed_paths": [
+    {
+      "path": "docs/src/reference/experimental/contracts.md",
+      "sha256": "19b9f5c8473f252d5dafb21592476c95da7c881ea8de9b1b1027d97a59919af7"
+    },
+    {
+      "path": "docs/src/rust-feature-support.md",
+      "sha256": "f3ce6a000abe50852aba7874eac0de348533c68f93a4c5d83f663dd2c38fa93a"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/README.md",
+      "sha256": "db83688ccc173ebda9356e4094291b68be99f297d8ed366f1379c119898fc99e"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-reference-hole.expected",
+      "sha256": "cdd525ac3da5166378981ef4a017c43e7b58b0933dbf12399dd24907296af0f4"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-reference-hole.rs",
+      "sha256": "8972d902d20ea63f3e589bc3ab9b5bcaccf6a69962fe0c33771160fe1364aeca"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-reference-legal.expected",
+      "sha256": "4f3e5ed808319b2ff1f2d48af92e7e6b9483f02a118ed0f3c63dddcaaca3a0c1"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-reference-legal.rs",
+      "sha256": "7a1d2bd4a0ea24b8dba0822cd942db7784deeb763549788586b14798d43de4d3"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-value-hole.expected",
+      "sha256": "f5043281d0bcabb678b92f2a1d9722341b923ce5d3b3a6a1e35d89e76b7abd6f"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-value-hole.rs",
+      "sha256": "193c1aa86cef94860be50029b7eab2ef9dfdf23d5531491fb5e82c652a19ec6d"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-value-legal.expected",
+      "sha256": "e7a53016a085d40b8ac9f4951b3fe8ff733853bb8094c37a8aaac7eae93d56f1"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/dst-by-value-legal.rs",
+      "sha256": "ca680dd3a4d0c6dc1c8ae096cecb3d30f5e39c0c4046c8cf2c45760dd4068c28"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/raw-field-legal.expected",
+      "sha256": "2abf6c97b82d69d8259784a73230c35ffda4043e73d5a742f88768ce2cccb73f"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/raw-field-legal.rs",
+      "sha256": "4f7124c93063128e9c892b2ab7343aff917cee565db61435550546f9be5a86b6"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/raw-field-neighbor-hole.expected",
+      "sha256": "fe36f79336744df9bd1641826b95fb5b742c33e787a0bc2c90cc15d1378b5098"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/raw-field-neighbor-hole.rs",
+      "sha256": "f8664aa2f865d1d68bb25b3c411d3c7ce18014313981d6e7870dad4bdffdd14c"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/raw-field-padding-hole.expected",
+      "sha256": "cb9ce19ee6667fa9486c1e6e19d98db19b2198f45317f55f73d22fc92387180f"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/raw-field-padding-hole.rs",
+      "sha256": "887b64c75661afd8a4f1fd5d9a38c98c428d8e0f20200e65a4ce482e89892746"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-constant-hole.expected",
+      "sha256": "02d871f223d7fa520b69524080ba574d7581de38c688dddb4c5299fa3b92e7a4"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-constant-hole.rs",
+      "sha256": "64a4259c68f8dfb135f6a8c30b42d71f2519a31786c7bf013c65695fa82d3b08"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-constant-legal.expected",
+      "sha256": "aa8952629e45caa9eb4c047d74f80f7950e52ce20bb44b3f6f426da8a74df369"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-constant-legal.rs",
+      "sha256": "79ac12630f3a9b0b55e0488ada098793aa4efc06edab9c10ef4c6aed3f9415fa"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-variable-hole.expected",
+      "sha256": "5f23ad895e305b8da1c9832b3cbb0141d7d21013d74efb49a3004655b8722d9f"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-variable-hole.rs",
+      "sha256": "b61894d8a5bd6a17b44b38210bacc9a68e55158c929bc0ceb259ae0878f4d28f"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-variable-legal.expected",
+      "sha256": "52832ed8bb29880ae33a4649dc36a10e04d159696b812f7b33454568ea71f1c2"
+    },
+    {
+      "path": "tests/expected/uninit/part1-edges/union-variable-legal.rs",
+      "sha256": "3fcb459fa772fac6c36f24bff970a143b5ffaacbf190eb711667074a5539d57b"
+    }
+  ],
+  "production_delta": 0,
+  "exact_F_new_pairs": 11,
+  "tests_docs_equal_F": true,
+  "canonical_F7_sha256": "771592442f46726dd9cda74756db8fc8f3f8cabb8ad3a17662a52973dae0d19c",
+  "exact_residual": [
+    {
+      "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+      "patch_sha256": "96707d3d0c208d8c5cca569803266adebd133dc626d6bbdd4a4c5b05a8104f33",
+      "hunks": [
+        "@@ -0,0 +1,144 @@"
+      ],
+      "exact_historical_bytes": true
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "patch_sha256": "6cac2950900a8e745128924fd2683993d240e2540cce510320dc132cfddf4852",
+      "hunks": [
+        "@@ -30,0 +31 @@",
+        "@@ -38,0 +40 @@",
+        "@@ -73,0 +76 @@ fn build_missing_body(tcx: TyCtxt, instance: Instance) -> Body {",
+        "@@ -94,0 +98,2 @@ pub struct BodyTransformation {",
+        "@@ -110,0 +116 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {",
+        "@@ -151,0 +158,13 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {",
+        "@@ -216,0 +236,26 @@ fn add_pass<P: ClonableTransformPass + 'static>(&mut self, query_db: &QueryDb, p",
+        "@@ -389,0 +435,43 @@ fn clone_back(&self) -> Box<dyn $new_trait_name> {"
+      ],
+      "exact_historical_bytes": true
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "patch_sha256": "5ca668e44b5bd534b1a13da6e1cb8db7350c4a34e9d4f899adc8e492363de10b",
+      "hunks": [
+        "@@ -18 +18 @@",
+        "@@ -191,3 +191 @@ fn transform(",
+        "@@ -214 +212 @@ fn transform("
+      ],
+      "exact_historical_bytes": true
+    },
+    {
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "patch_sha256": "c2f3574687bb47f82b074a7d4ba720227cd43ed26c42accbafbd59d6d6d6e8cc",
+      "hunks": [
+        "@@ -91,0 +92,5 @@ fn codegen_items<'tcx>("
+      ],
+      "exact_historical_bytes": true
+    },
+    {
+      "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+      "patch_sha256": "2873ab10d57c601acd690b6eee7a36624626088e18a413519fb6c351c91e8162",
+      "hunks": [
+        "@@ -69,0 +70,3 @@ fn codegen_items("
+      ],
+      "exact_historical_bytes": true
+    }
+  ],
+  "residual_patch_sha256": "8e370c617017e8476ae45ed02b8c439448756d1c8cf0251ea1cbb9545fcecbe7",
+  "alternate_index_recomposed_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+  "F7_applied_to_source": false,
+  "inherited_selectors_unchanged": 460,
+  "cumulative_selectors": 471,
+  "existing_ignores": 9,
+  "suite_counts": {
+    "kani": [
+      53,
+      3
+    ],
+    "expected": [
+      379,
+      6
+    ],
+    "ui": [
+      17,
+      0
+    ],
+    "script-based-pre": [
+      3,
+      0
+    ],
+    "json-handler": [
+      17,
+      0
+    ],
+    "std-checks": [
+      2,
+      0
+    ]
+  },
+  "manifest_file_identities": 919,
+  "present_uninit_selectors": 212,
+  "native_checks": "NOT_RUN",
+  "formal_proof_credit": "NOT_ESTABLISHED"
+}

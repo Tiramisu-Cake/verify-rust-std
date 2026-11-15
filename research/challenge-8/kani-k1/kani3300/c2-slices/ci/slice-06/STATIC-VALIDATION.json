@@ -1,0 +1,32 @@
+{
+  "status": "PASS_STATIC_AND_SYNTHETIC_ONLY",
+  "source_sha": "3f5242bb1539fb88196d7e503b722f0905f2b46c",
+  "source_tree": "fc4c2d802e8c8c61ce7fcf27c405f7dc14c9d369",
+  "overlay_sha": "ece902633e72af24dcd1157ee7b457d27840027c",
+  "overlay_tree": "d8881ffa7a61d95b7096103ce52cb668bbcf5125",
+  "accepted_recipe": "ce56d3d467dd9aeec0fc7abc6a2444ee066e85f6",
+  "accepted_run": "43715788377",
+  "runner_byte_identical_to_accepted5": true,
+  "runner_synthetic_checks": 23,
+  "sensitivity_synthetic_checks": 13,
+  "seam_checker_synthetic_checks": 10,
+  "generator_reproduction": "PASS byte-identical CI overlay files",
+  "protected_source_entries": 4201,
+  "source_snapshot_problems": [],
+  "manifest_byte_identical": true,
+  "cumulative_selectors": 471,
+  "existing_ignores": 9,
+  "all_compiler_units": 68,
+  "explicit_relevant_units": 20,
+  "sensitivity_status": "REQUIRED4_OF4_NATIVE_NOT_RUN",
+  "native_checks": "NOT_RUN",
+  "push_dispatch": "NOT_RUN",
+  "cloud_spend": 0,
+  "formal_proof_credit": "NOT_ESTABLISHED",
+  "notes": [
+    "Python/Git synthetic tests only; original argv/exits/termination and exceptions retained.",
+    "negative-repair-user-write requires completed native SUCCESS/N0 and exact intended golden failure mismatch; permitted write success accepts renumbered locals.",
+    "Source inputs/goldens and all four patches are unchanged from accepted5; no historical acceptance rewritten.",
+    "Nested saved overlay and mutation patch preserve original trailing whitespace as data; source/runner whitespace checks have no exemption."
+  ]
+}
