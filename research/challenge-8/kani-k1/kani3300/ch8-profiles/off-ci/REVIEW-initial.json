@@ -1,0 +1,29 @@
+{
+  "reviewed_commit": "db0b922ca88a9dad9210d7defcc033f0674bb545",
+  "reviewed_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "verdict": "HOLD_STATIC_REVIEW_ONLY",
+  "findings": [
+    {
+      "severity": "medium",
+      "file": "ch8-prof-off-control/runner.py",
+      "line": 514,
+      "title": "Rust compiler executable identity is not captured",
+      "detail": "binary_fingerprints requires hashes for kani_driver, kani_compiler, and cbmc, but it does not hash the rustc executable used by the Kani compiler. The rustc_version_record and release_manifest candidates point to target/kani/rustc-version and target/kani/rust-toolchain-version, which are written only by build-kani's bundle_kani path; the workflow instead runs cargo build-dev, whose BuildDev branch only invokes build_bin/build_lib. Those files will therefore be absent and be recorded with null hashes. Export tools.rustc is only a version string. Consequently the requested exact compiler/binary provenance is incomplete even though Kani driver/compiler, CBMC, toolchain config, and exported target/version are observed.",
+      "recommended_fix": "During CI-only fingerprinting, resolve rustc from the toolchain pinned by rust-toolchain.toml, hash that executable, and make its presence mandatory for an accepted observation; retain the existing Kani driver/compiler and CBMC hashes and target/version fields."
+    }
+  ],
+  "tests": [
+    "python -m unittest -v test_runner.py test_profiles.py: 23 passed",
+    "check_package.py yaml: PASS; parsed workflow YAML and checked repository/ref/attempt, checkout depth/layout, runner context placement, and time caps",
+    "Static manifest comparison: candidate request rows equal fixed source request rows; candidate manifest equals request rows; 62 rows; payload SHA256s match",
+    "Static leaf ordering check: every Replace consumer has a preceding declared leaf",
+    "git diff --check: PASS",
+    "actionlint unavailable in environment"
+  ],
+  "limitations": [
+    "Static review only; no local cargo/rustc/Kani/CBMC, proof run, or CI dispatch performed.",
+    "No proof credit inferred; all proof outputs remain NOT_RUN.",
+    "Packet spec SHA256 and packet inventory hashes match the supplied identities."
+  ],
+  "model": "Luna HIGH"
+}

@@ -1,0 +1,32 @@
+{
+  "reviewed_commit": "236bf75037fa4e56d0aa18f93df1d6b6965676b8",
+  "reviewed_tree": "89e69479b1fe981a24a37ad9822646e0d490f6f7",
+  "reviewed_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "verdict": "GO_STATIC_REVIEW_ONLY",
+  "findings": [],
+  "disposition": [
+    {
+      "prior_finding": "Rust compiler executable identity was not captured by the build-dev host package.",
+      "status": "RESOLVED",
+      "evidence": "The runner resolves rustc from the pinned rust-toolchain.toml channel using bounded `rustup which`, records the resolved executable SHA256, and requires driver/compiler/CBMC/rustc hashes before each row. The export parser also enforces the expected target and 600-second harness timeout."
+    },
+    {
+      "delta_review": "The added NOT_RUN branches preserve root and harness NOT_RUN as UNKNOWN; default assertion reach checks must remain enabled, proof_safety_only/ignore_global_asm/extra_pointer_checks must remain false, and coverage must remain disabled.",
+      "status": "NO_NEW_FINDINGS"
+    }
+  ],
+  "tests": [
+    "26 synthetic Python unit tests passed (test_runner.py and test_profiles.py)",
+    "YAML preflight passed",
+    "actionlint passed with -shellcheck=",
+    "Candidate request rows and manifest match the fixed source request exactly (62 rows); leaf ordering and CI payload SHA256s passed",
+    "Packet spec and all packet inventory SHA256s match the refreshed identities",
+    "git diff --check passed"
+  ],
+  "limitations": [
+    "Static review only. No cargo, rustc, Kani, CBMC, proof run, or CI dispatch was performed.",
+    "Preparation only; actual Rust/Kani results remain NOT_RUN and no proof credit is inferred.",
+    "Generated frame property identity still requires post-CI independent binding."
+  ],
+  "model": "Luna HIGH"
+}

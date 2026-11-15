@@ -1,0 +1,476 @@
+--- S1-e6ee41020e/runner.py
++++ ch8-prof-off-control/runner.py
+@@ -1,5 +1,7 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
+ #!/usr/bin/env python3
+-"""Offline, bounded CI runner for the frozen Challenge 8 S1 request.
++"""Offline, bounded CI runner for the frozen Challenge 8 Profiles OFF request.
+ 
+ Receipts are observations only. They never grant proof credit. This module is
+ also deliberately usable with synthetic fixtures; it does not install tools.
+@@ -17,16 +19,18 @@
+ import sys
+ import threading
+ import time
++import tomllib
+ from typing import Any
+ 
+ HERE = Path(__file__).resolve().parent
+ REQUEST_PATH = HERE / "CI-REQUEST.json"
+-STD_SHA = "75a4d1ea6eb60c63c27c1b18e662740d93bafb08"
+-STD_TREE = "6d1b90bc11440762c9b65889fc538ba3071b0d9d"
++STD_SHA = "b5cf722e20f71c1f4f494ec4ad2af2970aa3bc9f"
++STD_TREE = "bd6fdf1750e589a8fa5c63bfd445553df43adb8a"
+ TOOL_SHA = "0aac16ef62da9e9d5645782d458593e5d78143ba"
+ TOOL_TREE = "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
++TARGET = "x86_64-unknown-linux-gnu"
+ MAX_ROW_SECONDS = 600
+-PHASE_SECONDS = 4500
++PHASE_SECONDS = 8400
+ PHASE_CLEANUP_MARGIN = 10
+ RSS_CAP_KIB = 6 * 1024 * 1024
+ STDOUT_CAP_BYTES = 1024 * 1024
+@@ -75,26 +79,47 @@
+         if not isinstance(row, dict):
+             raise RunnerError("row is not an object")
+         rid, selector = row.get("id"), row.get("selector")
+-        if not isinstance(rid, str) or not rid or rid in seen_ids:
+-            raise RunnerError("missing or duplicate row id")
++        if not isinstance(rid, str) or not rid or rid in seen_ids or "/" in rid or rid in (".", ".."):
++            raise RunnerError("missing, unsafe or duplicate row id")
+         if not isinstance(selector, str) or not selector:
+             raise RunnerError("missing exact selector")
+-        seen_ids.add(rid)
+-        if row.get("mode") not in ("PFC", "Original"):
++        mode = row.get("mode")
++        if not isinstance(mode, str) or not (mode == "Original" or mode.startswith(("PFC:", "Replace:"))):
+             raise RunnerError(f"invalid mode for {rid}")
+-        if row.get("variant") not in ("production", "activation-default", "activation-override"):
+-            raise RunnerError(f"invalid variant for {rid}")
+-        if not isinstance(row.get("unwind"), int) or row["unwind"] < 1:
++        if row.get("cfg") not in ([], ["kani_smallsort_controls"]):
++            raise RunnerError(f"invalid cfg for {rid}")
++        if row.get("unwind") is not None and (type(row["unwind"]) is not int or row["unwind"] < 1):
+             raise RunnerError(f"invalid unwind for {rid}")
+         if row.get("expected") not in ("SUCCESS", "DETECTED"):
+             raise RunnerError(f"invalid expected result for {rid}")
+-        if not isinstance(row.get("required_cover_count"), int) or row["required_cover_count"] < 0:
+-            raise RunnerError(f"invalid cover count for {rid}")
+-        timeout = row.get("timeout_seconds")
+-        if not isinstance(timeout, int) or not 1 <= timeout <= MAX_ROW_SECONDS:
+-            raise RunnerError(f"timeout outside 1..{MAX_ROW_SECONDS} for {rid}")
+-        if row["expected"] == "DETECTED" and not isinstance(row.get("failure_description"), str):
+-            raise RunnerError(f"negative row lacks named failure description: {rid}")
++        if row.get("timeout_seconds") != MAX_ROW_SECONDS:
++            raise RunnerError(f"timeout outside fixed cap for {rid}")
++        descriptions = row.get("allowed_failure_descriptions")
++        if not isinstance(descriptions, list) or any(not isinstance(d, str) or not d for d in descriptions):
++            raise RunnerError(f"invalid failure descriptions for {rid}")
++        if (row["expected"] == "DETECTED") != bool(descriptions):
++            raise RunnerError(f"negative row lacks named failure descriptions: {rid}")
++        if mode.startswith("Replace:") and row.get("leaf_companion") not in seen_ids:
++            raise RunnerError(f"consumer precedes matching leaf: {rid}")
++        seen_ids.add(rid)
++        row["profile_mode"] = mode
++        row["mode"] = "PFC" if mode.startswith("PFC:") else "Original"
++        row["variant"] = "production"
++        row["required_cover_count"] = 0  # every emitted cover, count bound below
++    if len(rows) != 62:
++        raise RunnerError("fixed manifest must contain 62 rows")
++    manifest = path.parent / "manifest.json"
++    if sha256(manifest) != request.get("manifest_sha256"):
++        raise RunnerError("manifest SHA drift")
++    original = json.loads(manifest.read_text())
++    if not isinstance(original, list) or len(original) != len(rows):
++        raise RunnerError("manifest length drift")
++    for raw, normalized in zip(original, rows):
++        expected_row = {k: v for k, v in normalized.items() if k not in
++                        ("profile_mode", "variant", "required_cover_count")}
++        expected_row["mode"] = normalized["profile_mode"]
++        if raw != expected_row:
++            raise RunnerError("manifest row drift")
+     for key in ("changed_file_sha256", "variants"):
+         if not isinstance(request.get(key), dict):
+             raise RunnerError(f"missing request {key} object")
+@@ -112,7 +137,7 @@
+     std, tool = std.resolve(), tool.resolve()
+     if std == tool or std.parent != tool.parent:
+         raise RunnerError("std and tool source checkouts must be sibling directories")
+-    control = HERE.resolve()
++    control = HERE.resolve().parent
+     if std == control or tool == control or control in std.parents or control in tool.parents:
+         raise RunnerError("source checkout must remain outside CI control workspace")
+ 
+@@ -156,24 +181,28 @@
+     return path, patch_sha, files
+ 
+ 
+-def build_argv(std: Path, tool: Path, selector: str, unwind: int, export: Path) -> list[str]:
+-    argv = [str((tool.resolve() / "scripts/kani")), "verify-std", "-Z", "unstable-options"]
+-    for feature in UNSTABLE:
++def build_argv(std: Path, tool: Path, selector: str, unwind: int | None, export: Path) -> list[str]:
++    # Source attributes own unwind. Never inject a default/unwind override.
++    argv = [str((tool.resolve() / "scripts/kani")), "verify-std", "-Z", "unstable-options",
++            str(std.resolve() / "library")]
++    for feature in UNSTABLE + ("export-json",):
+         argv += ["-Z", feature]
+-    argv += ["--no-assert-contracts", "--jobs=1", "--harness", selector,
+-             "--exact", "--default-unwind", str(unwind), "-Z", "export-json",
+-             "--export-json", str(export.resolve()), "--output-format=terse", str((std.resolve() / "library")),
++    argv += ["--no-assert-contracts", "--harness", selector, "--exact", "--jobs", "1",
++             "--harness-timeout", "600s", "--target-dir", str(export.resolve().parent / "target"),
++             "--export-json", str(export.resolve()), "--output-format=regular",
+              "--cbmc-args", "--object-bits", "12"]
+     return argv
+ 
+ 
+-def ci_env() -> dict[str, str]:
++def ci_env(row: dict[str, Any] | None = None) -> dict[str, str]:
+     env = os.environ.copy()
+-    fixed = "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls"
+-    inherited = env.get("RUSTFLAGS", "").strip()
+-    if inherited and inherited != fixed:
+-        raise RunnerError("refusing inherited RUSTFLAGS outside the frozen sorting+controls cfg")
+-    env["RUSTFLAGS"] = fixed
++    if env.get("RUSTFLAGS", "").strip() or env.get("CARGO_ENCODED_RUSTFLAGS", "").strip():
++        raise RunnerError("refusing inherited RUSTFLAGS outside frozen per-row cfg")
++    cfg = (row or {}).get("cfg", [])
++    if cfg not in ([], ["kani_smallsort_controls"]):
++        raise RunnerError("invalid row cfg")
++    env["RUSTFLAGS"] = " ".join("--cfg " + flag for flag in cfg)
++    env["KANI_TOML_FILE"] = str(HERE / "kani-version.toml")
+     return env
+ 
+ 
+@@ -330,7 +359,7 @@
+     return info
+ 
+ 
+-def parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BYTES,
++def _parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BYTES,
+                  contract_binding: dict[str, str] | None = None) -> dict[str, Any]:
+     if not path.is_file():
+         return {"state": "MISSING", "outcome": "UNKNOWN"}
+@@ -348,10 +377,16 @@
+         return {"state": "NULL", "outcome": "UNKNOWN"}
+     if not isinstance(value, dict):
+         return {"state": "WRONG_TOP_LEVEL_TYPE", "outcome": "UNKNOWN"}
++    if value.get("run_state") == "NOT_RUN":
++        return {"state": "NOT_RUN", "outcome": "UNKNOWN"}
+     if value.get("schema_version") != "0.1.0" or value.get("run_state") != "COMPLETE":
+         return {"state": "INCOMPLETE_OR_SCHEMA_DRIFT", "outcome": "UNKNOWN"}
+     if value.get("kani_commit") != TOOL_SHA or value.get("kani_commit_dirty") is not False:
+         return {"state": "WRONG_TOOL_BINDING", "outcome": "UNKNOWN"}
++    if value.get("target") != TARGET:
++        return {"state": "WRONG_TARGET", "outcome": "UNKNOWN"}
++    if value.get("harness_timeout_s") != MAX_ROW_SECONDS:
++        return {"state": "WRONG_HARNESS_TIMEOUT", "outcome": "UNKNOWN"}
+     selection = value.get("harness_selection")
+     if (not isinstance(selection, dict) or selection.get("requested_filters") != [row["selector"]] or
+             selection.get("exact") is not True or selection.get("unmatched_filters") != [] or
+@@ -363,6 +398,13 @@
+     harness = harnesses[0]
+     if not isinstance(harness, dict) or harness.get("name") != row["selector"]:
+         return {"state": "WRONG_ROOT_OR_SELECTION", "outcome": "UNKNOWN"}
++    source_file = row.get("source_file")
++    if source_file and (not isinstance(harness.get("file"), str) or
++                        not harness["file"].replace("\\", "/").endswith("/" + source_file) and
++                        harness["file"].replace("\\", "/") != source_file):
++        return {"state": "WRONG_SOURCE_FILE", "outcome": "UNKNOWN"}
++    if isinstance(harness.get("outcome"), dict) and harness["outcome"].get("kind") == "NOT_RUN":
++        return {"state": "NOT_RUN", "outcome": "UNKNOWN"}
+     attrs = harness.get("attributes")
+     kind = attrs.get("kind") if isinstance(attrs, dict) else None
+     contract = harness.get("contract")
+@@ -385,15 +427,18 @@
+     if (not isinstance(config, dict) or not isinstance(config.get("checks"), dict) or
+             config["checks"].get("assert_contracts") is not False or
+             any(config["checks"].get(k) is not True for k in
+-                ("memory_safety", "overflow", "unwinding", "undefined_function")) or
++                ("memory_safety", "overflow", "unwinding", "undefined_function", "assertion_reach_checks")) or
++            any(config["checks"].get(k) is not False for k in
++                ("prove_safety_only", "ignore_global_asm", "extra_pointer_checks")) or
++            config.get("coverage_enabled") is not False or
+             config.get("cbmc_args") != ["--object-bits", "12"]):
+         return {"state": "WRONG_CONFIGURATION", "outcome": "UNKNOWN"}
+     enabled_features = value.get("enabled_unstable_features")
+     required_features = set(UNSTABLE) | {"export-json"}
+-    if (not isinstance(enabled_features, list) or not required_features.issubset(set(enabled_features)) or
++    if (not isinstance(enabled_features, list) or any(not isinstance(f, str) for f in enabled_features) or not required_features.issubset(set(enabled_features)) or
+             any(feature in enabled_features for feature in ("uninit-checks", "valid-value-checks"))):
+         return {"state": "WRONG_UNSTABLE_FEATURE_SET", "outcome": "UNKNOWN"}
+-    if harness.get("resolved_unwind") != row["unwind"]:
++    if "resolved_unwind" not in harness or harness["resolved_unwind"] != row["unwind"]:
+         return {"state": "WRONG_UNWIND", "outcome": "UNKNOWN"}
+     reported_tools = value.get("tools")
+     if not isinstance(reported_tools, dict) or any(not isinstance(reported_tools.get(k), str) or not reported_tools[k]
+@@ -421,7 +466,9 @@
+     cover_bad = any(covers.get(key) != [] for key in
+                     ("unsatisfiable", "unreachable", "undetermined", "error", "unknown", "other"))
+     required_covers = row.get("required_covers", [])
+-    if (not isinstance(satisfied, list) or cover_bad or len(satisfied) < row["required_cover_count"] or
++    if (not isinstance(satisfied, list) or any(not isinstance(x, str) for x in satisfied) or
++            len(set(satisfied)) != len(satisfied) or len(satisfied) != covers["total"] or
++            cover_bad or len(satisfied) < row["required_cover_count"] or
+             not set(required_covers).issubset(set(satisfied))):
+         return {"state": "COVERAGE_INCOMPLETE", "outcome": "UNKNOWN", "covers": covers}
+     outcome = harness.get("outcome")
+@@ -431,24 +478,23 @@
+     if not isinstance(named, list):
+         return {"state": "WRONG_EXPORT_SHAPE", "outcome": "UNKNOWN"}
+     failed_ids = [prop.get("id") for prop in named if isinstance(prop, dict)]
+-    if (harness.get("n_failed") != len(failures) or len(failed_ids) != len(failures) or
++    if (harness.get("n_failed") != len(failures) or len(named) != len(failures) or len(failed_ids) != len(failures) or
+             set(failed_ids) != set(failures) or checks.get("success") + len(failures) != checks.get("total")):
+         return {"state": "INCONSISTENT_PROPERTY_COUNTS", "outcome": "UNKNOWN",
+                 "failures": failures, "failed_properties": named, "checks": checks}
+-    named_matches = []
+-    for prop in named:
+-        if isinstance(prop, dict):
+-            label = " ".join(str(prop.get(k, "")) for k in ("id", "description"))
+-            needle = row.get("failure_description", "")
+-            if needle and (label == needle or needle in label): named_matches.append(prop)
+     if row["expected"] == "SUCCESS":
+         accepted = is_success and not failures and harness.get("n_failed") == 0
+     else:
+-        needle = row["failure_description"]
+-        accepted = (is_failure and len(failures) == 1 and len(named_matches) == 1 and
+-                    any(needle == label or needle in label for label in
+-                        (named_matches[0].get("id", ""), named_matches[0].get("description", ""))) and
+-                    harness.get("n_failed") == 1)
++        descriptions = row.get("allowed_failure_descriptions", [row.get("failure_description", "")])
++        if any(d.startswith("<generated modifies") for d in descriptions):
++            return {"state": "FRAME_BINDING_REVIEW_REQUIRED", "outcome": "UNKNOWN",
++                    "failures": failures, "failed_properties": named, "checks": checks, "covers": covers,
++                    "reason": "Generated modifies property identity must be independently bound; never guessed"}
++        matched = [sum(isinstance(p.get("description"), str) and d in p["description"]
++                       for p in named if isinstance(p, dict)) for d in descriptions]
++        accepted = (is_failure and len(failures) == len(descriptions) and
++                    matched == [1] * len(descriptions) and
++                    all(sum(d in p.get("description", "") for d in descriptions) == 1 for p in named))
+     return {"state": "VALIDATED_OBSERVATION", "outcome": "EXPECTED" if accepted else "UNEXPECTED",
+             "expected": row["expected"], "failures": failures, "failed_properties": named,
+             "checks": checks, "covers": covers, "checks_success": checks.get("success"),
+@@ -462,6 +508,15 @@
+             "proof_credit": "PENDING_REVIEW"}
+ 
+ 
++def parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BYTES,
++                 contract_binding: dict[str, str] | None = None) -> dict[str, Any]:
++    try:
++        return _parse_export(path, row, max_bytes, contract_binding)
++    except (TypeError, KeyError, ValueError, AttributeError) as exc:
++        return {"state": "WRONG_EXPORT_SHAPE", "outcome": "UNKNOWN",
++                "original_exception": f"{type(exc).__name__}: {exc}"}
++
++
+ def _write_json(path: Path, value: Any) -> None:
+     path.parent.mkdir(parents=True, exist_ok=True)
+     tmp = path.with_suffix(path.suffix + ".tmp")
+@@ -472,6 +527,21 @@
+ def binary_fingerprints(tool: Path, export: dict[str, Any]) -> dict[str, Any]:
+     candidates = {"kani_driver": tool / "target/kani/bin/kani-driver",
+                   "kani_compiler": tool / "target/kani/bin/kani-compiler"}
++    candidates["toolchain_config"] = tool / "rust-toolchain.toml"
++    # build-dev has no bundle version records. Resolve the actual pinned rustc
++    # without invoking it, only on CI (synthetic tests mock this lookup).
++    resolution: dict[str, Any] = {}
++    try:
++        channel = tomllib.loads((tool / "rust-toolchain.toml").read_text())["toolchain"]["channel"]
++        found = subprocess.run(["rustup", "which", "--toolchain", channel, "rustc"],
++                               cwd=tool, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
++                               text=True, timeout=10, check=False)
++        resolution = {"argv": ["rustup", "which", "--toolchain", channel, "rustc"],
++                      "original_exit": found.returncode, "stderr": found.stderr[:4096]}
++        if found.returncode == 0 and found.stdout.strip():
++            candidates["rustc"] = Path(found.stdout.strip()).resolve()
++    except (OSError, ValueError, KeyError, subprocess.TimeoutExpired) as exc:
++        resolution = {"original_exception": f"{type(exc).__name__}: {exc}"}
+     cbmc = shutil.which("cbmc")
+     if cbmc:
+         candidates["cbmc"] = Path(cbmc)
+@@ -479,32 +549,14 @@
+     fingerprints = {}
+     for name, path in candidates.items():
+         fingerprints[name] = {"path": str(path), "sha256": sha256(path) if path.is_file() else None}
+-    required = all(fingerprints.get(key, {}).get("sha256") for key in ("kani_driver", "kani_compiler", "cbmc"))
++    required = all(fingerprints.get(key, {}).get("sha256") for key in ("kani_driver", "kani_compiler", "cbmc", "rustc"))
+     return {"binaries": fingerprints, "required_hashes_present": required,
+-            "reported_versions": tools if isinstance(tools, dict) else None}
++            "reported_versions": tools if isinstance(tools, dict) else None,
++            "target": export.get("target") if isinstance(export, dict) else None,
++            "expected_target": TARGET, "rustc_resolution": resolution}
+ 
+ 
+-def list_inventory(std: Path, tool: Path, out: Path, request: dict[str, Any]) -> None:
+-    verify_source(std, tool, request)
+-    list_dir = out / "list"
+-    list_dir.mkdir(parents=True, exist_ok=True)
+-    list_argv = [str(tool.resolve() / "scripts/kani"), "list", str(std.resolve() / "library"),
+-                 "--std", "--format", "json", "--quiet", "-Z", "unstable-options"]
+-    for feature in UNSTABLE:
+-        list_argv += ["-Z", feature]
+-    phase_started = time.time()
+-    listing = execute(list_argv, list_dir, list_dir, timeout=MAX_ROW_SECONDS,
+-                      env=ci_env(), stdout_cap=STDOUT_CAP_BYTES, stderr_cap=STDERR_CAP_BYTES)
+-    if (listing.get("original_exit_code") != 0 or listing.get("timed_out") or
+-            listing.get("termination_reason") or listing.get("stdout_truncated") or listing.get("stderr_truncated")):
+-        raise RunnerError(f"Kani std list inventory failed: {listing}")
+-    list_json = list_dir / "kani-list.json"
+-    if not list_json.is_file() or list_json.stat().st_size > EXPORT_CAP_BYTES:
+-        raise RunnerError("Kani list JSON is missing or exceeds export cap")
+-    try:
+-        listed = json.loads(list_json.read_text(encoding="utf-8"))
+-    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+-        raise RunnerError(f"Kani list JSON is invalid: {exc}") from exc
++def _parse_list(listed: Any, request: dict[str, Any]) -> tuple[set[str], set[str], dict[str, str]]:
+     if not isinstance(listed, dict) or listed.get("file-version") != "0.1":
+         raise RunnerError("Kani list file-version mismatch")
+     def names(field: str) -> set[str]:
+@@ -538,30 +590,49 @@
+             raise RunnerError(f"requested selector absent from {row['mode']} list inventory: {row['selector']}")
+         if row["mode"] == "PFC" and row["selector"] not in contract_binding:
+             raise RunnerError(f"PFC selector has no actual contracted-function mapping: {row['selector']}")
+-    smoke_ids = {"stable_default_cell", "stable_freeze_u8", "unstable_default_cell",
+-                 "unstable_freeze_u8", "freeze_default_noncopy", "freeze_copy_u8"}
+-    smoke_targets = {contract_binding[row["selector"]] for row in request["rows"] if row["id"] in smoke_ids}
+-    if len(smoke_targets) != 6 or {row["id"] for row in request["rows"] if row["id"] in smoke_ids} != smoke_ids:
+-        raise RunnerError("six smoke PFC roots do not map to six distinct actual contract targets")
+-    for diagnostic_id, smoke_id in (("activation-default", "stable_default_cell"),
+-                                    ("activation-override", "stable_freeze_u8")):
+-        diag = next((r for r in request["rows"] if r["id"] == diagnostic_id), None)
+-        positive = next((r for r in request["rows"] if r["id"] == smoke_id), None)
+-        if diag is None or positive is None or contract_binding.get(diag["selector"]) != contract_binding.get(positive["selector"]):
+-            raise RunnerError(f"activation diagnostic does not bind to the positive target: {diagnostic_id}")
++        if row["mode"] == "PFC" and "profile_mode" in row:
++            expected = row["profile_mode"].split(":", 1)[1]
++            if expected == "concrete_forwarder":
++                expected = {"stable_cell_n2": "stable_cell", "unstable_byte_n2": "unstable_byte",
++                            "freeze_noncopy_n2": "freeze_noncopy"}[row["id"]]
++            target = contract_binding[row["selector"]].split("::<", 1)[0]
++            if not target.endswith("::" + expected):
++                raise RunnerError(f"source-stage-target mismatch: {row['id']}")
++    return standard_names, contract_names, contract_binding
++
++
++def list_inventory(std: Path, tool: Path, out: Path, request: dict[str, Any]) -> None:
++    std, tool, out = std.resolve(), tool.resolve(), out.resolve()
++    verify_source(std, tool, request)
++    phase_started = time.time()
++    bindings, inventories = {}, []
++    for cfg in ([], ["kani_smallsort_controls"]):
++        label = "controls" if cfg else "positive"
++        list_dir = out / "list" / label
++        list_dir.mkdir(parents=True, exist_ok=True)
++        argv = [str(tool / "scripts/kani"), "list", str(std / "library"), "--std",
++                "--format", "json", "--quiet", "-Z", "unstable-options"]
++        for feature in UNSTABLE:
++            argv += ["-Z", feature]
++        listing = execute(argv, list_dir, list_dir, timeout=MAX_ROW_SECONDS, env=ci_env({"cfg": cfg}))
++        _write_json(list_dir / "receipt.json", listing)
++        if (listing.get("original_exit_code") != 0 or listing.get("termination_reason") or
++                listing.get("timed_out") or listing.get("stdout_truncated") or listing.get("stderr_truncated")):
++            raise RunnerError(f"list inventory incomplete for {label}: {listing}")
++        list_json = list_dir / "kani-list.json"
++        if not list_json.is_file() or list_json.stat().st_size > EXPORT_CAP_BYTES:
++            raise RunnerError("list JSON missing or capped")
++        listed = json.loads(list_json.read_text())
++        group = {"rows": [row for row in request["rows"] if row["cfg"] == cfg]}
++        _, _, binding = _parse_list(listed, group)
++        bindings.update(binding)
++        inventories.append({"cfg": cfg, "path": str(list_json.relative_to(out)),
++                            "sha256": sha256(list_json), "argv": argv, "execution": listing})
+     verify_source(std, tool, request)
+-    inventory = []
+-    for row in sorted(request["rows"], key=lambda r: (r["id"], r["selector"])):
+-        inventory.append({"id": row["id"], "selector": row["selector"], "mode": row["mode"],
+-                          "variant": row["variant"], "argv": build_argv(std, tool, row["selector"],
+-                                                                       row["unwind"], out / row["id"] / "export.json"),
+-                          "status": "NOT_RUN", "outcome": "UNKNOWN"})
+     _write_json(out / "inventory.json", {"state": "INVENTORY_FROZEN_NOT_RUN",
+-                      "phase_started_unix": phase_started, "list_argv": list_argv,
+-                      "list_execution": listing, "list_json_sha256": sha256(list_json),
+-                      "listed_standard": sorted(standard_names), "listed_contract": sorted(contract_names),
+-                      "contract_binding": contract_binding,
+-                      "std_sha": STD_SHA, "tool_sha": TOOL_SHA, "rows": inventory})
++                "phase_started_unix": phase_started, "lists": inventories,
++                "contract_binding": bindings, "std_sha": STD_SHA, "tool_sha": TOOL_SHA,
++                "manifest_sha256": request["manifest_sha256"]})
+ 
+ 
+ def _run_variant(std: Path, name: str, request: dict[str, Any]) -> tuple[Path | None, dict[str, str]]:
+@@ -604,6 +675,7 @@
+ 
+ 
+ def run_rows(std: Path, tool: Path, out: Path, request: dict[str, Any]) -> int:
++    std, tool, out = std.resolve(), tool.resolve(), out.resolve()
+     out.mkdir(parents=True, exist_ok=True)
+     results: list[dict[str, Any]] = []
+     fatal: str | None = None
+@@ -612,9 +684,11 @@
+         inventory = json.loads((out / "inventory.json").read_text(encoding="utf-8"))
+         if inventory.get("state") != "INVENTORY_FROZEN_NOT_RUN":
+             raise RunnerError("missing completed list inventory")
+-        list_file = out / "list" / "kani-list.json"
+-        if sha256(list_file) != inventory.get("list_json_sha256"):
+-            raise RunnerError("Kani list inventory drift")
++        if inventory.get("manifest_sha256") != request.get("manifest_sha256"):
++            raise RunnerError("inventory manifest drift")
++        for item in inventory["lists"]:
++            if sha256(out / item["path"]) != item["sha256"]:
++                raise RunnerError("Kani list inventory drift")
+         contract_binding = inventory.get("contract_binding")
+         if not isinstance(contract_binding, dict):
+             raise RunnerError("list inventory lacks PFC contract bindings")
+@@ -653,10 +727,22 @@
+                          "proof_credit": "PENDING_REVIEW", "rows": results})
+             continue
+         try:
++            leaf = row.get("leaf_companion") if row.get("profile_mode", "").startswith("Replace:") else None
++            if leaf:
++                prior = next((r for r in results if r["id"] == leaf), None)
++                if not prior or prior.get("outcome") != "EXPECTED":
++                    fatal = "matching_leaf_not_accepted"
++                    raise RunnerError(fatal)
++                result["consumer_gate"] = {"leaf": leaf, "leaf_receipt_sha256": sha256(out / leaf / "receipt.json"),
++                    "assurance": "VALIDATED_OBSERVATION_ONLY_INDEPENDENT_PROOF_CREDIT_PENDING"}
++            child_env = ci_env(row)
++            result["environment"] = {k: child_env[k] for k in ("RUSTFLAGS", "KANI_TOML_FILE")}
+             source_before = verify_source(std, tool, request)
+             result["source_before"] = source_before
+             tool_before = binary_fingerprints(tool, {})
+             result["tool_fingerprints_before"] = tool_before
++            if not tool_before["required_hashes_present"]:
++                raise RunnerError("missing required binary hashes before row")
+             patch, variant_files = _run_variant(std, row["variant"], request)
+             result["source_under_test"] = {
+                 "base_std_sha": STD_SHA, "variant": row["variant"],
+@@ -715,11 +801,18 @@
+                 elif row["expected"] == "DETECTED" and invocation.get("original_exit_code") in (None, 0):
+                     parsed["outcome"] = "UNKNOWN"
+             result["outcome"] = parsed.get("outcome", "UNKNOWN")
++            if result["outcome"] != "EXPECTED":
++                fatal = fatal or "unexpected_or_unaccepted_row"
+             result["reviewer_binding"] = "PENDING; no automatic proof credit"
+         except Exception as exc:
+             result.update(status="RUNNER_ERROR", reason=f"{type(exc).__name__}: {exc}")
+             fatal = fatal or "fatal_source_or_variant_drift"
+         finally:
++            # target-dir is disposable compilation state, never CI evidence.
++            target = row_out / "target"
++            if target.exists():
++                shutil.rmtree(target)
++                result["target_cleanup"] = "REMOVED_BUILD_OUTPUT_NOT_EVIDENCE"
+             if patch is not None:
+                 try:
+                     subprocess.run(["git", "-C", str(std), "apply", "--reverse", "--check", str(patch)], check=True)
+@@ -770,6 +863,8 @@
+         p.add_argument("--tool", required=True, type=Path)
+         if command != "check-source": p.add_argument("--out", required=True, type=Path)
+     args = parser.parse_args(argv)
++    args.std, args.tool = args.std.resolve(), args.tool.resolve()
++    if hasattr(args, "out"): args.out = args.out.resolve()
+     try:
+         request = load_request()
+         if args.command == "check-source":

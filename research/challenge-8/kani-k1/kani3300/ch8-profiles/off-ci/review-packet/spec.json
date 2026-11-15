@@ -1,0 +1,30 @@
+{
+  "applicability": "Only .github/workflows and ch8-prof-off-control. Source manifest is the fixed62-row Profiles request at g0 ea3cec4078. No source/tool semantic patches.",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "236bf75037fa4e56d0aa18f93df1d6b6965676b8",
+  "controls": [
+    "Synthetic success/error/timeout/partial/missing/null/wrong-type/NOT_RUN/source-stage-target mismatch.",
+    "Fixed62 row ordering leaf-before-consumer and matching leaf gate.",
+    "Workflow YAML/actionlint, runner context step env only, path normalization."
+  ],
+  "defect": "Prepare one fixed Profiles OFF CI-only batch hosted on Tiramisu-Cake/kani with exact separate std and stock tool checkouts.",
+  "dependencies": [],
+  "invariants": [
+    "No push/CI/ledger or local cargo/rustc/Kani/CBMC; only Git/static parsing and small synthetic tests.",
+    "Single parent equals upstream0aac16ef62da9e9d5645782d458593e5d78143ba; one workflow, repository and ref guard, attempt1; checkouts siblings/depth2.",
+    "Exact source b5cf722e20f71c1f4f494ec4ad2af2970aa3bc9f/tree bd6fdf1750e589a8fa5c63bfd445553df43adb8a, exact stock tool binary.",
+    "Preserve rows, source unwind, per-row cfg, ordinary checks, all covers and expected negative oracles; no implicit proof credit or OFF-to-ON transfer.",
+    "All caps/receipts/NOT_RUN fallbacks and preflight failure distinctions maintained."
+  ],
+  "known_limitations": [
+    "Preparation only; actual Rust/Kani and all proof outputs remain NOT_RUN. Generated frame property identity requires post-CI independent binding."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci/REVIEW-initial.json",
+      "sha256": "68c51b40c9d372fb67087f8f85e07e07c9fb6a03966802bb5de256bad4943263"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-prof-off-w11"
+}

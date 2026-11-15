@@ -1,0 +1,32 @@
+{
+  "schema": "ch8-prof-off-static-validation-v1",
+  "candidate_sha": "236bf75037fa4e56d0aa18f93df1d6b6965676b8",
+  "candidate_tree": "89e69479b1fe981a24a37ad9822646e0d490f6f7",
+  "manifest_sha256": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273",
+  "result": "PASS",
+  "checks": {
+    "single_upstream_parent": "PASS",
+    "changed_paths_control_only": "PASS",
+    "single_workflow": "PASS",
+    "source_sha_tree_clean": "PASS",
+    "exact62_manifest_rows_caps_order": "PASS",
+    "payload_hashes": "PASS",
+    "synthetic_tests": {
+      "passed": 26,
+      "failed": 0,
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -q test_runner.py test_profiles.py",
+      "cwd": "/root/kani-ch8-prof-off-w11/ch8-prof-off-control"
+    },
+    "yaml": "PASS",
+    "actionlint": {
+      "result": "PASS",
+      "command": "/tmp/kani3300-d0-ci-tools/actionlint -shellcheck= ../.github/workflows/ch8-prof-off.yml"
+    },
+    "git_diff_check": "PASS"
+  },
+  "local_compiler_verifier": "NOT_RUN",
+  "ci": "NOT_RUN",
+  "pushes": 0,
+  "ledger_writes": 0,
+  "proof_credit": "NONE"
+}
