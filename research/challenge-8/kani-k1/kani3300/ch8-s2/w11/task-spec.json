@@ -1,0 +1,56 @@
+{
+  "schema": "smallsort-assignment-v1",
+  "task_id": "ch8-s2-w11-preparation",
+  "previous_task_id": "ch8-s1-w11",
+  "title": "Challenge8 item2 S2 worker11 preparation only",
+  "owner": "network",
+  "runtime": "codex",
+  "worktree": "/root/verify-rust-std-ch8-s1-w11",
+  "branch": "work/ch8-s1-model-w11",
+  "baseline_sha": "3f469d3ba2e94d7129e66e53ea76df883ff9c946",
+  "source_sha": "3f469d3ba2e94d7129e66e53ea76df883ff9c946",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_worktree": "/root/kani-upstream-ch8-s1",
+  "tool_branch": "detached-0aac",
+  "profile_path": null,
+  "profile_sha256": null,
+  "phase": "CH8-S2-W11-PREP-NO-CI",
+  "lane": "network",
+  "ledger_path": null,
+  "previous_ledger_path": null,
+  "goal": "Prepare actual sort13/u8 verified-swap probe and S3 summary API/domains/controls/cost. P1 pending. No CI or proof credit.",
+  "steps": [
+    "Read S1 checkpoint and S2/S3 plans; freeze allowed files.",
+    "Prepare new sorting_leaf modules plus integration-only attr proposal and qualification map.",
+    "Static/Python synthetic checks, independent static review, local skip-ci commits and READY handoff."
+  ],
+  "special_bounds": [
+    "Only new verify/sorting_leaf*.rs in worker11 branch; no smallsort.rs/verify.rs/model changes.",
+    "Research only kani3300/ch8-s2/w11 in shared g0; short exact-path commit window [skip ci].",
+    "No local Rust toolchain/Kani/rustfmt, push, CI, external messages or ledger writes."
+  ],
+  "references": [
+    {
+      "title": "Roadmap \u00a74 worker11 S2",
+      "path": "research/challenge-8/kani-k1/ROADMAP-CH8-ITEMS1-2-FOUR-WORKERS.md"
+    },
+    {
+      "title": "Sorting plan \u00a7\u00a75/7",
+      "path": "research/challenge-8/kani-k1/PLAN-CH8-ITEM2-SORTING-v2.md"
+    }
+  ],
+  "handoff": {
+    "confirmed": [],
+    "open": [
+      "P1 not passed; actual compiler/contract qualification NOT_RUN."
+    ],
+    "blocker": {
+      "summary": "P1 pending; no blocker for preparation.",
+      "evidence": []
+    },
+    "rejected": [],
+    "next_step": "Prepare reviewable S2 source and S3 interface; coordinator/integrator own future CI.",
+    "artifacts": []
+  },
+  "cloud_budget_seconds": 0
+}

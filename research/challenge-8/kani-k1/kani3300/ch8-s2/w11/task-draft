@@ -1,0 +1,55 @@
+# Challenge8 item2 S2 worker11 preparation only
+
+Task ID: `ch8-s2-w11-preparation`; previous task: `ch8-s1-w11`.
+Owner: **Network**. Phase: `CH8-S2-W11-PREP-NO-CI`. Lane: `network`.
+
+## Mission
+
+This is a bounded continuation of the previous task under a newly authorized window.
+
+Runtime: Codex. This fresh-window task follows [`CORE.md`](agent-workflow/CORE.md), the runtime profile [`RUNTIME-CODEX.md`](agent-workflow/RUNTIME-CODEX.md), the compact root [AGENTS.md](../../AGENTS.md), and the persistent repo guidance. Review executor and Build waiting follow that profile only.
+The owner may proceed within this task and its bounds. Initial T0 NOT_SET: fix T0 once at actual work start, including preparation. This task has no Cloud lane: no coordinator request, phase registration, Build submission or proof execution. Commit reviewed candidates and handoff inputs for a later, separately authorized Cloud task.
+No previous budget, T0, ledger authorization, profile acceptance, or proof credit transfers.
+
+## Baseline and controls
+
+Worktree `/root/verify-rust-std-ch8-s1-w11` on branch `work/ch8-s1-model-w11`; baseline `3f469d3ba2e94d7129e66e53ea76df883ff9c946`; source `3f469d3ba2e94d7129e66e53ea76df883ff9c946`.
+Tool worktree `/root/kani-upstream-ch8-s1` on `detached-0aac` at `0aac16ef62da9e9d5645782d458593e5d78143ba`.
+Profile: none (no Cloud lane). New ledger path: none; previous closed ledger: none (closed zero-budget task).
+Cloud budget: 0 seconds (no Cloud lane). Wall window: 120 minutes main + 30 minutes closeout. T0 remains NOT_SET until actual work starts.
+
+## Goal and steps
+
+Prepare actual sort13/u8 verified-swap probe and S3 summary API/domains/controls/cost. P1 pending. No CI or proof credit.
+
+1. Read S1 checkpoint and S2/S3 plans; freeze allowed files.
+2. Prepare new sorting_leaf modules plus integration-only attr proposal and qualification map.
+3. Static/Python synthetic checks, independent static review, local skip-ci commits and READY handoff.
+
+## Special bounds
+
+- Only new verify/sorting_leaf*.rs in worker11 branch; no smallsort.rs/verify.rs/model changes.
+- Research only kani3300/ch8-s2/w11 in shared g0; short exact-path commit window [skip ci].
+- No local Rust toolchain/Kani/rustfmt, push, CI, external messages or ledger writes.
+
+## Starting checkpoint
+
+Read [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for the exact claims, assurance, evidence, open and rejected items, and artifact identities. UNKNOWN remains UNKNOWN.
+
+Blocker: P1 pending; no blocker for preparation.
+Next: Prepare reviewable S2 source and S3 interface; coordinator/integrator own future CI.
+
+## References
+
+- [Roadmap §4 worker11 S2](kani-k1/ROADMAP-CH8-ITEMS1-2-FOUR-WORKERS.md)
+- [Sorting plan §§5/7](kani-k1/PLAN-CH8-ITEM2-SORTING-v2.md)
+
+## Отчёт агента
+
+**ch8-s2-w11-preparation · network · CH8-S2-W11-PREP-NO-CI · NOT_STARTED**
+Updated: 2026-11-15T22:42:28Z. Baseline source/tool/profile: `3f469d3ba2e94d7129e66e53ea76df883ff9c946` / `0aac16ef62da9e9d5645782d458593e5d78143ba` / `UNKNOWN`.
+Dates: T0 `NOT_SET`; main `NOT_SET`; absolute `NOT_SET`. Budget 0s: 0s spent, 0s retired, 0s remaining including reservations.
+Active Build IDs: none recorded; unresolved: none recorded.
+Blocker: P1 pending; no blocker for preparation.
+Next: Prepare reviewable S2 source and S3 interface; coordinator/integrator own future CI.
+See [STATUS.md](STATUS.md) and [CHECKPOINT.json](CHECKPOINT.json) for claims, evidence, open/rejected items, and artifact identities.

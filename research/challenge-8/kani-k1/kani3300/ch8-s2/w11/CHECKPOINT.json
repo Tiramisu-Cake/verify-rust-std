@@ -1,0 +1,63 @@
+{
+  "schema": "ch8-s2-w11-checkpoint-v1",
+  "worker": "worker11",
+  "stage": "S2_PREPARATION",
+  "state": "READY_FOR_W13_INTEGRATION",
+  "source_worktree": "/root/verify-rust-std-ch8-s1-w11",
+  "source_branch": "work/ch8-s1-model-w11",
+  "source_commit": "24e12a1e98d9dd8de4f272f3d4a6fb489ade5894",
+  "source_tree": "f67001e9fd160f052318bc3391fa0187d67e715e",
+  "base_commit": "3f469d3ba2e94d7129e66e53ea76df883ff9c946",
+  "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "claims": [
+    {
+      "claim": "Prepared exact u8 swap model, actual swap PFC and actual sort13 verified-swap consumer plus opt-in controls; source scope preserved.",
+      "assurance": "STATIC_REVIEWED_NOT_COMPILED",
+      "evidence": [
+        "INTERFACE.md",
+        "CONTROL-MAP.json",
+        "REVIEW.json",
+        "leaf-source.patch"
+      ]
+    },
+    {
+      "claim": "S3 summary API/domain/topology/control/cost proposal prepared, no S3 leaves qualified.",
+      "assurance": "DESIGN_ONLY",
+      "evidence": [
+        "INTERFACE.md",
+        "DOMAIN-COST.md",
+        "geometry.json"
+      ]
+    },
+    {
+      "claim": "Python byte-pair, zero-one network, corruption/topology sanity and source/manifest checks passed.",
+      "assurance": "SYNTHETIC_ONLY",
+      "evidence": [
+        "check_package.py",
+        "synthetic-result.json",
+        "VALIDATION.md"
+      ]
+    }
+  ],
+  "open": [
+    "P1 not passed: manual Fn ABI/core specialization and actual contracts remain NOT_RUN.",
+    "Actual swap semantic attrs and module registration await worker13; existing safety/frame-only summary insufficient.",
+    "PFC/controls/compiler property IDs and exact replacement inventory NOT_RUN.",
+    "Sort13 qualified consumer, measured wall/RSS/cost and all S3 leaf qualification NOT_RUN.",
+    "Stable arbitrary-length scratch prefix locality and type/offset/topology roots need S3/S4 qualification; stability/extra-UB separate."
+  ],
+  "blocker": null,
+  "next": "13 integrates proposed attrs/modules after S1; future separately authorized coordinator batch checks same-head swap13 PFC+controls before sort13 consumer. No CI authorized here.",
+  "rejected_approaches": [
+    "No smallsort.rs/verify.rs/S1 model edits by11.",
+    "No old FnPtr safety-only summary accepted as semantic leaf.",
+    "No assumed-summary diagnostic arm or panic/abort stub in positive probes.",
+    "No fixed query-count full-multiset claim, hidden shape expansion, or stability claim.",
+    "No local compiler/verifier, push/CI or external publication."
+  ],
+  "closure_reason": "Assigned preparation complete: source committed and independently static-reviewed; all requested interfaces/domains/geometries/controls/cost estimates recorded. Actual CI is explicitly outside session authority.",
+  "cloud_budget_dollars": 0,
+  "dispatch_count": 0,
+  "push_count": 0,
+  "proof_credit": "NONE"
+}

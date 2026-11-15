@@ -1,0 +1,25 @@
+{
+  "reviewer": "codex-subagent:s2_static_review",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "fork_turns": "none",
+  "candidate_commit": "24e12a1e98d9dd8de4f272f3d4a6fb489ade5894",
+  "spec_sha256": "36ee3ef6a9c4d45c7066466fc79ff1e8623643c1e03df47aae15abc45b63673b",
+  "packet_sha256": "18a2f616f51f1d5bfed817a8d4f89080696dfb15c57236db25079b5a7406f734",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED (integrity check only)",
+  "decision": "GO_FOR_PREPARED_ARTIFACT",
+  "blocking_findings": [],
+  "conclusion": "Exact u8/KeyLess full pair transfer matches actual b<a branch; inactive read-free; actual-body/actual-contract targets and11 control oracles match. Only three new leaf files, clean source worktree.",
+  "notes": [
+    {
+      "topic": "stability",
+      "text": "sorted_span is sorted+full-value count, not stability. Any stability qualification requires a separate model.",
+      "resolution": "Stability not claimed in S2/S3 functional proposal; separate rank/id path remains per sorting plan \u00a710."
+    }
+  ],
+  "limits": [
+    "W13 must integrate actual attrs/registration, then actual PFC+controls must pass before qualified consumer use.",
+    "Rust/compiler/Kani NOT_RUN; P1 pending; S3 domain table is proposal."
+  ],
+  "proof_credit": "NONE"
+}

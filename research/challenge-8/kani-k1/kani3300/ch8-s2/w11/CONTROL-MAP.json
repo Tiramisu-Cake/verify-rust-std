@@ -1,0 +1,101 @@
+{
+  "schema": "ch8-s2-w11-controls-v1",
+  "status": "NOT_RUN",
+  "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "selector_prefix": "core::slice::sort::shared::smallsort::verify",
+  "selection": "full selector --harness NAME --exact; inventory-confirm names before CI",
+  "proof_credit": "NONE",
+  "ordinary_inventory": "S2 preparation roots remain opt-in until integration/qualification; expected failures NEVER ordinary",
+  "rows": [
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_leaf_probe::s2_swap_u8_backing13",
+      "expect": "PASS_WITH_ALL_COVERS",
+      "oracle": "actual swap PFC including exact semantic attr and unchanged frame",
+      "requirements": "actual attrs attached; existing safety/frame kept; named S2_SWAP_EXACT_TRANSFER/S2_SWAP_FRAME; all five covers reachable",
+      "actual_property_ids": "UNKNOWN_NOT_RUN",
+      "companion": "sorting_leaf_controls::s2_swap_checker_companion and actual PFC/consumer return covers"
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_leaf_probe::s2_sort13_u8_verified_swap",
+      "expect": "PASS_WITH_ALL_COVERS",
+      "oracle": "S2_SORT13_SORTED_FULL_COUNT",
+      "requirements": "only after matching leaf PFC+controls PASS; all four return covers reachable; original sort13 body and actual swap Replace inventory verified",
+      "actual_property_ids": "UNKNOWN_NOT_RUN",
+      "companion": "sorting_leaf_controls::s2_swap_checker_companion and actual PFC/consumer return covers"
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_leaf_controls::s2_swap_checker_companion",
+      "expect": "PASS_WITH_COVER",
+      "oracle": "S2_SWAP_CHECKER_COMPANION / S2_SWAP_EQUAL_COMPANION / S2_SWAP_INVALID_REJECTED / S2_SWAP_INACTIVE_READ_FREE",
+      "requirements": "pure checker companion; no actual-callee credit",
+      "actual_property_ids": "UNKNOWN_NOT_RUN",
+      "companion": "sorting_leaf_controls::s2_swap_checker_companion and actual PFC/consumer return covers"
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_leaf_controls::s2_swap_order_corruption_rejected",
+      "expect": "EXPECTED_NAMED_FAILURE",
+      "oracle": "S2_SWAP_BAD_ORDER_ACCEPTED",
+      "requirements": "[2,1] preserves counts but reverses order",
+      "actual_property_ids": "UNKNOWN_NOT_RUN",
+      "companion": "sorting_leaf_controls::s2_swap_checker_companion and actual PFC/consumer return covers"
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_leaf_controls::s2_swap_count_corruption_rejected",
+      "expect": "EXPECTED_NAMED_FAILURE",
+      "oracle": "S2_SWAP_DUPLICATE_ACCEPTED",
+      "requirements": "[1,1] remains sorted but loses full value2",
+      "actual_property_ids": "UNKNOWN_NOT_RUN",
+      "companion": "sorting_leaf_controls::s2_swap_checker_companion and actual PFC/consumer return covers"
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_leaf_controls::s2_swap_invalid_snapshot_rejected",
+      "expect": "EXPECTED_NAMED_FAILURE",
+      "oracle": "S2_SWAP_INVALID_ACCEPTED",
+      "requirements": "inactive capture invalid token used with active post",
+      "actual_property_ids": "UNKNOWN_NOT_RUN",
+      "companion": "sorting_leaf_controls::s2_swap_checker_companion and actual PFC/consumer return covers"
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_leaf_controls::s2_swap_disabled_model_rejected",
+      "expect": "EXPECTED_NAMED_FAILURE",
+      "oracle": "S2_SWAP_DISABLED_MODEL_ACCEPTED",
+      "requirements": "unsupported F=() must be inactive; first assertion companion must pass",
+      "actual_property_ids": "UNKNOWN_NOT_RUN",
+      "companion": "sorting_leaf_controls::s2_swap_checker_companion and actual PFC/consumer return covers"
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_leaf_controls::s2_swap_wrong_precondition_rejected",
+      "expect": "EXPECTED_REQUIRES_FAILURE",
+      "oracle": "actual swap b-position can_dereference/can_write precondition",
+      "requirements": "requires reject b13 in backing13 BEFORE old(capture) or havoc; a generic memory failure is not acceptable",
+      "actual_property_ids": "UNKNOWN_NOT_RUN",
+      "companion": "sorting_leaf_controls::s2_swap_checker_companion and actual PFC/consumer return covers"
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_leaf_controls::s2_swap_frame_violation_rejected",
+      "expect": "EXPECTED_MODIFIES_FAILURE",
+      "oracle": "actual swap element-only modifies / outside-frame write",
+      "requirements": "actual body with effectful F writes touched; inactive semantic model, valid initialized2; no body/assertion failure substitute",
+      "actual_property_ids": "UNKNOWN_NOT_RUN",
+      "companion": "sorting_leaf_controls::s2_swap_checker_companion and actual PFC/consumer return covers"
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_leaf_controls::s2_sort13_input_corruption_rejected",
+      "expect": "EXPECTED_NAMED_FAILURE",
+      "oracle": "S2_INPUT_CORRUPTION_ACCEPTED",
+      "requirements": "sorted fixture [1x12,2] corrupts old full input [1x13]",
+      "actual_property_ids": "UNKNOWN_NOT_RUN",
+      "companion": "sorting_leaf_controls::s2_swap_checker_companion and actual PFC/consumer return covers"
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_leaf_controls::s2_sort13_weak_summary_rejected",
+      "expect": "EXPECTED_NAMED_FAILURE",
+      "oracle": "S2_WEAK_SUMMARY_SORTING_CLAIM",
+      "requirements": "diagnostic identity replacement allowed by frame-only summary; unchanged descending fixture keeps counts and breaks order",
+      "actual_property_ids": "UNKNOWN_NOT_RUN",
+      "companion": "sorting_leaf_controls::s2_swap_checker_companion and actual PFC/consumer return covers"
+    }
+  ],
+  "source_commit": "24e12a1e98d9dd8de4f272f3d4a6fb489ade5894",
+  "source_tree": "f67001e9fd160f052318bc3391fa0187d67e715e"
+}

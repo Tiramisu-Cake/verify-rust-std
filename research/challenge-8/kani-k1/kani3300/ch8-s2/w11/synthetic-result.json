@@ -1,0 +1,38 @@
+{
+  "status": "PASS_STATIC_AND_SYNTHETIC_ONLY",
+  "proof_credit": "NONE",
+  "rust_kani": "NOT_RUN",
+  "source_base": "3f469d3ba2e94d7129e66e53ea76df883ff9c946",
+  "source_head_observed": "24e12a1e98d9dd8de4f272f3d4a6fb489ade5894",
+  "source_blob": "f8000328aae720a6ae7a6e81cd5d5816fd73df8c",
+  "leaf_file_sha256": {
+    "sorting_leaf_controls.rs": "4f6a4455b9e8c66d1a1b4d634139fe850f5d56d27a85044a897304da905ae81d",
+    "sorting_leaf_probe.rs": "6c9da4c1fe7355afc4ae4751296408bf3d80f268ee5c85417addfd28c36aa86e",
+    "sorting_leaf_swap.rs": "18ffcca0f828239c686484a72e58ff391c0e8a511f94fe357ae3e635d430fc61"
+  },
+  "networks": {
+    "9": {
+      "edge_count": 25,
+      "zero_one_fixtures": 512
+    },
+    "13": {
+      "edge_count": 45,
+      "zero_one_fixtures": 8192
+    }
+  },
+  "pair_fixtures": 65536,
+  "sort8_topology_pairs": 34,
+  "roots": [
+    "s2_swap_checker_companion",
+    "s2_swap_order_corruption_rejected",
+    "s2_swap_count_corruption_rejected",
+    "s2_swap_invalid_snapshot_rejected",
+    "s2_swap_disabled_model_rejected",
+    "s2_swap_wrong_precondition_rejected",
+    "s2_swap_frame_violation_rejected",
+    "s2_sort13_input_corruption_rejected",
+    "s2_sort13_weak_summary_rejected",
+    "s2_swap_u8_backing13",
+    "s2_sort13_u8_verified_swap"
+  ]
+}

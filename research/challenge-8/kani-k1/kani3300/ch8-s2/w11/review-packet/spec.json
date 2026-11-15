@@ -1,0 +1,28 @@
+{
+  "applicability": "Only three NEW sorting_leaf*.rs files; no edits/registration/attrs in smallsort.rs or verify.rs. W13 integrates separately; P1 pending.",
+  "baseline_commit": "3f469d3ba2e94d7129e66e53ea76df883ff9c946",
+  "candidate_commit": "24e12a1e98d9dd8de4f272f3d4a6fb489ade5894",
+  "controls": [
+    "11 roots:2 probes,1 checker companion,8 expected-failure controls; exact labels/oracles in CONTROL-MAP.json, real IDs UNKNOWN. No Rust/Kani run."
+  ],
+  "defect": "S2 preparation: actual sort13/u8 functional cost probe through proposed exact semantic actual swap summary; S3 API/domain/control/cost proposal. No CI or proof credit.",
+  "dependencies": [
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs"
+  ],
+  "invariants": [
+    "S1 API unchanged; exact u8/KeyLess swap specialization with read-free inactive fallback, owned pair snapshot, exact conditional transfer; original requires and modifies retained by proposed integration.",
+    "No runtime bounds/algorithm edits, assumed summaries or panic stubs. Consumer is actual sort13 body and actual swap stub_verified, NOT qualified until actual attrs + matching PFC pass.",
+    "S2 backing13/base0/all a,b; S3 wider offsets/topologies/Cell/nonCopy are only planned domains, not admitted. All controls opt-in."
+  ],
+  "known_limitations": [
+    "Rust/core Fn ABI/specialization/compiler qualification NOT_RUN; no local toolchain or CI permitted.",
+    "Raw spec facade reads require actual existing geometry/init before capture. Attr proposal and module registration ONLY in INTERFACE.md, belong to13.",
+    "Cost is formula-size estimate only. No full S3 implementation or universal geometry/proof claims."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-ch8-s1-w11"
+}

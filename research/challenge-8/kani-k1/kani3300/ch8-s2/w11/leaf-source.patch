@@ -1,0 +1,245 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_leaf_controls.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_leaf_controls.rs
+new file mode 100644
+index 0000000000..256c5190b0
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_leaf_controls.rs
+@@ -0,0 +1,103 @@
++//! Opt-in S2 controls. Run separately; named failures belong outside ordinary CI.
++
++use super::super::{sort13_optimal, swap_if_less};
++use super::sorting_leaf_swap as swap_model;
++use super::sorting_model::{KeyLess, enabled, post, snapshot};
++use crate::kani;
++
++#[kani::proof]
++fn s2_swap_checker_companion() {
++    let input: [u8; 2] = kani::any();
++    let pre = swap_model::capture::<u8, KeyLess<u8>>(input.as_ptr(), 0, 1);
++    let ordered = if input[1] < input[0] { [input[1], input[0]] } else { input };
++    assert!(swap_model::post::<u8, KeyLess<u8>>(pre, ordered.as_ptr(), 0, 1),
++        "S2_SWAP_CHECKER_COMPANION");
++    let equal = swap_model::capture::<u8, KeyLess<u8>>(input.as_ptr(), 0, 0);
++    assert!(swap_model::post::<u8, KeyLess<u8>>(equal, input.as_ptr(), 0, 0),
++        "S2_SWAP_EQUAL_COMPANION");
++    // Legal raw null pointer, never a null reference or an uninitialized typed view.
++    let invalid = swap_model::capture::<u8, ()>(crate::ptr::null(), usize::MAX, usize::MAX);
++    assert!(!swap_model::post::<u8, KeyLess<u8>>(invalid, input.as_ptr(), 0, 1),
++        "S2_SWAP_INVALID_REJECTED");
++    assert!(swap_model::post::<u8, ()>(pre, crate::ptr::null(), usize::MAX, usize::MAX),
++        "S2_SWAP_INACTIVE_READ_FREE");
++    kani::cover(true, "S2_swap_checker_companion_return");
++}
++
++#[kani::proof]
++fn s2_swap_order_corruption_rejected() {
++    let input = [1u8, 2];
++    let pre = swap_model::capture::<u8, KeyLess<u8>>(input.as_ptr(), 0, 1);
++    assert!(swap_model::post::<u8, KeyLess<u8>>(pre, [2u8, 1].as_ptr(), 0, 1),
++        "S2_SWAP_BAD_ORDER_ACCEPTED");
++}
++
++#[kani::proof]
++fn s2_swap_count_corruption_rejected() {
++    let input = [1u8, 2];
++    let pre = swap_model::capture::<u8, KeyLess<u8>>(input.as_ptr(), 0, 1);
++    assert!(swap_model::post::<u8, KeyLess<u8>>(pre, [1u8, 1].as_ptr(), 0, 1),
++        "S2_SWAP_DUPLICATE_ACCEPTED");
++}
++
++#[kani::proof]
++fn s2_swap_invalid_snapshot_rejected() {
++    let invalid = swap_model::capture::<u8, ()>(crate::ptr::null(), 0, 1);
++    assert!(swap_model::post::<u8, KeyLess<u8>>(invalid, [1u8, 2].as_ptr(), 0, 1),
++        "S2_SWAP_INVALID_ACCEPTED");
++}
++
++#[kani::proof]
++fn s2_swap_disabled_model_rejected() {
++    assert!(!swap_model::enabled::<u8, ()>(), "S2_SWAP_INACTIVE_COMPANION");
++    assert!(swap_model::enabled::<u8, ()>(), "S2_SWAP_DISABLED_MODEL_ACCEPTED");
++}
++
++#[kani::proof]
++#[kani::stub_verified(swap_if_less)]
++fn s2_swap_wrong_precondition_rejected() {
++    let mut values = [1u8; 13];
++    let mut cmp = KeyLess::<u8>::new();
++    kani::cover(true, "S2_swap_wrong_precondition_call_reached");
++    // Deliberate requires violation; verified stub must reject one-past-end b.
++    // No invalid reference is constructed by this harness.
++    unsafe { swap_if_less(values.as_mut_ptr(), 0, 13, &mut cmp) };
++}
++
++#[kani::proof_for_contract(swap_if_less)]
++fn s2_swap_frame_violation_rejected() {
++    let mut values = [2u8, 1];
++    let mut touched = false;
++    let mut effectful = |a: &u8, b: &u8| { touched = true; a < b };
++    kani::cover(true, "S2_swap_frame_violation_call_reached");
++    // SAFETY: valid two-byte input. The unsupported comparator writes outside
++    // the existing actual helper's element-only modifies clause: expected failure.
++    unsafe { swap_if_less(values.as_mut_ptr(), 0, 1, &mut effectful) };
++}
++
++#[kani::proof]
++#[kani::unwind(15)]
++fn s2_sort13_input_corruption_rejected() {
++    let input = [1u8; 13];
++    let before = snapshot::<u8, KeyLess<u8>>(&input);
++    let mut output = input;
++    output[12] = 2; // Sorted, but changes the full input multiset.
++    assert!(post::<u8, KeyLess<u8>>(before, &output), "S2_INPUT_CORRUPTION_ACCEPTED");
++}
++
++// Identity is permitted by the old safety/frame-only swap summary. It is NOT a
++// semantic summary, and never replaces actual swap in any accepted probe.
++unsafe fn weak_identity_swap<T, F: FnMut(&T, &T) -> bool>(
++    _base: *mut T, _a: usize, _b: usize, _cmp: &mut F,
++) {}
++
++#[kani::proof]
++#[kani::stub(swap_if_less, weak_identity_swap)]
++#[kani::unwind(15)]
++fn s2_sort13_weak_summary_rejected() {
++    let mut values = [12u8, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
++    assert!(enabled::<u8, KeyLess<u8>>(), "S2_WEAK_CONTROL_MODEL_ACTIVE");
++    let before = snapshot::<u8, KeyLess<u8>>(&values);
++    sort13_optimal(&mut values, &mut KeyLess::<u8>::new());
++    assert!(post::<u8, KeyLess<u8>>(before, &values), "S2_WEAK_SUMMARY_SORTING_CLAIM");
++}
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_leaf_probe.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_leaf_probe.rs
+new file mode 100644
+index 0000000000..6a461cba29
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_leaf_probe.rs
+@@ -0,0 +1,52 @@
++//! Prepared S2 roots, NOT_RUN. W13 owns registration and actual swap attrs.
++//! Never qualify the consumer from the old safety/frame-only swap contract.
++
++use super::super::{sort13_optimal, swap_if_less};
++use super::sorting_leaf_swap as swap_model;
++use super::sorting_model::{KeyLess, enabled, post, snapshot};
++use crate::kani;
++
++#[kani::proof_for_contract(swap_if_less)]
++#[kani::unwind(15)]
++fn s2_swap_u8_backing13() {
++    let mut values: [u8; 13] = kani::any();
++    let before = values;
++    let a: usize = kani::any();
++    let b: usize = kani::any();
++    kani::assume(a < 13 && b < 13);
++    assert!(swap_model::enabled::<u8, KeyLess<u8>>(), "S2_SWAP_MODEL_ACTIVE");
++    let pre = swap_model::capture::<u8, KeyLess<u8>>(values.as_ptr(), a, b);
++    let mut cmp = KeyLess::<u8>::new();
++    // SAFETY: both arbitrary positions are in the same initialized writable array.
++    unsafe { swap_if_less(values.as_mut_ptr(), a, b, &mut cmp) };
++    assert!(swap_model::post::<u8, KeyLess<u8>>(pre, values.as_ptr(), a, b),
++        "S2_SWAP_EXACT_TRANSFER");
++    let mut i = 0;
++    while i < 13 {
++        assert!(i == a || i == b || values[i] == before[i], "S2_SWAP_FRAME");
++        i += 1;
++    }
++    kani::cover(a == b, "S2_swap_equal_positions_return");
++    kani::cover(a < b && before[b] < before[a], "S2_swap_taken_return");
++    kani::cover(a > b && before[a] <= before[b], "S2_swap_reverse_positions_return");
++    kani::cover(a == 0 && b == 12, "S2_swap_endpoints_return");
++    kani::cover(true, "S2_swap_useful_return");
++}
++
++#[kani::proof]
++#[kani::stub_verified(swap_if_less)]
++#[kani::unwind(15)]
++fn s2_sort13_u8_verified_swap() {
++    let mut values: [u8; 13] = kani::any();
++    let input = values;
++    assert!(enabled::<u8, KeyLess<u8>>(), "S2_SORT_MODEL_ACTIVE");
++    assert!(swap_model::enabled::<u8, KeyLess<u8>>(), "S2_CONSUMER_SWAP_ACTIVE");
++    let before = snapshot::<u8, KeyLess<u8>>(&values);
++    let mut cmp = KeyLess::<u8>::new();
++    sort13_optimal(&mut values, &mut cmp);
++    assert!(post::<u8, KeyLess<u8>>(before, &values), "S2_SORT13_SORTED_FULL_COUNT");
++    kani::cover(input[0] > input[12], "S2_sort13_unsorted_input_return");
++    kani::cover(input[0] == input[12], "S2_sort13_duplicate_input_return");
++    kani::cover(values[0] < values[12], "S2_sort13_nonconstant_output_return");
++    kani::cover(true, "S2_sort13_useful_return");
++}
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_leaf_swap.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_leaf_swap.rs
+new file mode 100644
+index 0000000000..d59ebef20b
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_leaf_swap.rs
+@@ -0,0 +1,72 @@
++//! S2 proposal: exact full-byte transfer for the actual swap_if_less contract.
++//! Register under kani_smallsort_sorting only after integration of the attrs in
++//! the W11 S2 INTERFACE. This module does not attach a contract by itself.
++//! Only u8/KeyLess<u8> is active here; S1's other pairs are not swap-qualified.
++
++use super::sorting_model::KeyLess;
++
++#[derive(Clone, Copy)]
++pub(in crate::slice::sort::shared::smallsort) struct PairSnapshot {
++    a: u8,
++    b: u8,
++    valid: bool,
++}
++
++impl PairSnapshot {
++    fn invalid() -> Self { Self { a: 0, b: 0, valid: false } }
++}
++
++trait SwapModel<T, F> {
++    fn enabled() -> bool;
++    fn capture(base: *const T, a: usize, b: usize) -> PairSnapshot;
++    fn post(pre: PairSnapshot, base: *const T, a: usize, b: usize) -> bool;
++}
++
++impl<T, F> SwapModel<T, F> for () {
++    default fn enabled() -> bool { false }
++    default fn capture(_base: *const T, _a: usize, _b: usize) -> PairSnapshot {
++        PairSnapshot::invalid()
++    }
++    default fn post(_pre: PairSnapshot, _base: *const T, _a: usize, _b: usize) -> bool {
++        true
++    }
++}
++
++impl SwapModel<u8, KeyLess<u8>> for () {
++    fn enabled() -> bool { true }
++    fn capture(base: *const u8, a: usize, b: usize) -> PairSnapshot {
++        // SAFETY: the actual callee's existing requires establish both initialized,
++        // readable positions, nonwrapping offsets and a common allocation first.
++        unsafe { PairSnapshot { a: *base.add(a), b: *base.add(b), valid: true } }
++    }
++    fn post(pre: PairSnapshot, base: *const u8, a: usize, b: usize) -> bool {
++        if !pre.valid { return false; }
++        let now = <() as SwapModel<u8, KeyLess<u8>>>::capture(base, a, b);
++        if pre.b < pre.a {
++            now.a == pre.b && now.b == pre.a
++        } else {
++            now.a == pre.a && now.b == pre.b
++        }
++    }
++}
++
++/// Unconditional generic facade; no new T/F bounds on the actual helper.
++pub(in crate::slice::sort::shared::smallsort) fn enabled<T, F>() -> bool {
++    <() as SwapModel<T, F>>::enabled()
++}
++
++/// Spec-only read: active callers must establish the actual swap requires first.
++/// Inactive calls do not inspect pointers, indices or pointed-to bytes.
++pub(in crate::slice::sort::shared::smallsort) fn capture<T, F>(
++    base: *const T, a: usize, b: usize,
++) -> PairSnapshot {
++    <() as SwapModel<T, F>>::capture(base, a, b)
++}
++
++/// Exact conditional transfer implies pair order and preservation of both full
++/// bytes, including equal positions. The actual modifies clause supplies frame.
++pub(in crate::slice::sort::shared::smallsort) fn post<T, F>(
++    pre: PairSnapshot, base: *const T, a: usize, b: usize,
++) -> bool {
++    <() as SwapModel<T, F>>::post(pre, base, a, b)
++}
