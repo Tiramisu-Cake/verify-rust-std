@@ -48,11 +48,9 @@ Seven more single-harness tests cover the ZST arm declared first, nested `[[(); 
 
 On `main`, four of the seven `zst-union-arm` harnesses and all five new arm-shape tests fail with the CBMC invariant; the two recursive tests pass. With this change all of them pass.
 
-[Fork CI on 3d9a180938](https://github.com/Tiramisu-Cake/kani/actions/runs/43605511755) passes regression on Ubuntu 22.04, Ubuntu 24.04, Ubuntu 24.04 ARM, macOS 15 and macOS 15 Intel, plus documentation, LLBC and benchcomp; Clippy, Format Check and Cargo Deny also pass. The first Intel job failed only `script-based-pre/cargo_autoharness_multichareq_searcher` with a CBMC timeout, matching the known flakiness in #5162; it [passed on rerun](https://github.com/Tiramisu-Cake/kani/actions/runs/43605511755/job/132504301511). The earlier proposal to disable that test, #5163, was closed.
+[Fork CI on 3d9a180938](https://github.com/Tiramisu-Cake/kani/actions/runs/43605511755) passes regression on Ubuntu 22.04, Ubuntu 24.04, Ubuntu 24.04 ARM, macOS 15 and macOS 15 Intel (the macOS 15 Intel job needed one rerun), plus documentation, LLBC and benchcomp; Clippy, Format Check and Cargo Deny also pass.
 
-The perf job lost its runner in three fork executions. It also lost runners on branches without this change, while two runs of unmodified `main` passed ([first](https://github.com/Tiramisu-Cake/kani/actions/runs/43628958916), [second](https://github.com/Tiramisu-Cake/kani/actions/runs/43683645556)); the cause is not established.
-
-I also compared captured models for all 15 perf tests in an A/B/A run ([capture](https://github.com/Tiramisu-Cake/kani/actions/runs/43701550489), [symbol-table dumps](https://github.com/Tiramisu-Cake/kani/actions/runs/43708572925), [function-body dumps](https://github.com/Tiramisu-Cake/kani/actions/runs/43717071092)). Symbol tables and linked GOTO bodies matched after normalization for output nondeterminism, including rustc `AllocId` names (see #4821); the positive control retained exactly the expected padded-wrapper change. Post-instrumentation bodies had no differences specific to this change, with residual A/A ordering noise. This comparison does not explain the runner losses or establish equal resource use.
+I also checked that this change does not alter the GOTO models Kani generates for the 15 perf tests ([comparison](https://github.com/Tiramisu-Cake/kani/actions/runs/43717071092)); only the expected padded-union wrapper in a positive control differs.
 
 ### Limitations
 
