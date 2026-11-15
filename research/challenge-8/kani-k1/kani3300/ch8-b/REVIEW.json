@@ -1,0 +1,41 @@
+{
+  "schema": "ch8-b-review-result-v1",
+  "candidate": "5ee153ec2b22f1f7a0e174a985369b2280d8d296",
+  "candidate_tree": "f9d2bfdc79fc9651332d618d5cfdca06e7ef8e7e",
+  "reviewer": "independent GPT-6 Luna HIGH; no nested agents",
+  "decision": "READY_WITH_LIMITATIONS",
+  "original_candidate": "c9b3a0a5ddd0103d7ecdcbb0cd42d7683cbb11a2",
+  "original_findings": [
+    {
+      "severity": "HIGH",
+      "finding": "Malformed property bucket fields and numeric substitutes for bools could yield false PASS",
+      "resolution": "Strict bucket/list-ID/bool/int checks and malformed-field synthetic regressions",
+      "state": "RESOLVED_IN_FINAL_REVIEW"
+    },
+    {
+      "severity": "MEDIUM",
+      "finding": "Binary hashes not compared after census despite documentation",
+      "resolution": "Build snapshot, pre-run comparison, post-run snapshot/comparison; post-source marker only after match",
+      "state": "RESOLVED_IN_FINAL_REVIEW"
+    }
+  ],
+  "main_findings": [
+    {
+      "finding": "Three wildcard stock push workflows would create extra runs on census trigger",
+      "resolution": "Exact negative branch filters in CI control only; static_check verifies unique workflow match"
+    }
+  ],
+  "reviewer_verification": [
+    "Exact packet/commit/tree/diff identities matched",
+    "12 synthetic tests PASS",
+    "static_check.py PASS",
+    "git diff --check PASS"
+  ],
+  "actionlint": "Main executed PASS; reviewer could not independently rerun installed binary path in its tool environment",
+  "limitations": [
+    "Preparation only; no execution evidence or proof credit",
+    "Ubuntu-only diagnostic",
+    "Time/RSS/output caps can yield PARTIAL"
+  ],
+  "dispatches": 0
+}

@@ -1,0 +1,23 @@
+{
+  "applicability": "Challenge8 item1 laneB step1; one future coordinator dispatch; no push/CI now.",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "c9b3a0a5ddd0103d7ecdcbb0cd42d7683cbb11a2",
+  "controls": [
+    "Offline synthetic tests success/error/timeouts/RSS/output/missing/null/wrong-type/NOT_RUN/source-stage-target mismatch.",
+    "Static YAML/actionlint; no actual compiler invoked."
+  ],
+  "defect": "Prepare bounded CI-only valid-value235 ordinary-root census without changing compiler/std. Review runner outcome integrity and GitHub Actions readiness.",
+  "dependencies": [],
+  "invariants": [
+    "Exact std872d and pristine Kani0aac, all235 roots and historic shard membership retained.",
+    "Organizer semantic flags plus valid-value-checks; exporter is diagnostic transport.",
+    "No cfg-on/autoharness; unknown/timeouts/mismatched identities cannot become PASS."
+  ],
+  "known_limitations": [
+    "No execution evidence; only CI packaging.",
+    "Ubuntu-only, per-root bounded scheduling; no cross-OS cost/proof qualification."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-b-census-w14"
+}

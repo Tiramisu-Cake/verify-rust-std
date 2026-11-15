@@ -1,0 +1,56 @@
+{
+  "task": "Challenge8 item1 B step1 worker14 census preparation",
+  "runtime": "Codex",
+  "status": "READY_PACKAGE_NOT_RUN",
+  "authority": "Direct user instruction; CURRENT-TASK.md",
+  "entry_inventory_commit": "904bc1e4583800a8152cbe5296bfc48c56b8643e",
+  "ci_worktree": "/root/kani-ch8-b-census-w14",
+  "ci_branch": "work/ch8-b-census-w14",
+  "ci_commit": "5ee153ec2b22f1f7a0e174a985369b2280d8d296",
+  "ci_tree": "f9d2bfdc79fc9651332d618d5cfdca06e7ef8e7e",
+  "std_sha": "872d5a43380752786415bc00d2a12ce0e930cb37",
+  "kani_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "root_count": 235,
+  "shards": {
+    "1": 0,
+    "2": 183,
+    "3": 0,
+    "4": 52
+  },
+  "request_sha256": "a443bb3f3c386052ef6f673f67cce361a29b7584b22943fc17b86f17ffb51724",
+  "manifest_sha256": "7dee264da4c0afecb75e55b962520a1f14d5ef569a9bd1ca51ad70d206f78a85",
+  "patch_sha256": "94a8985a816dc1ef6bf776988d7e3ab8784223aa985bc48491eeff75722d6a79",
+  "accounting": {
+    "dispatches": 0,
+    "pushes": 0,
+    "local_builds": 0,
+    "ledger_writes": 0
+  },
+  "future_request": {
+    "B_dispatches": 1,
+    "B_cap": 3,
+    "state": "NOT_RESERVED_NOT_RUN",
+    "coordinator_only": true
+  },
+  "assurance": "STATIC_PACKAGE_ONLY_NO_PROOF_CREDIT",
+  "confirmed": [
+    "Exact235 historical roots retained, unchanged std and pristine verifier export.",
+    "Runner controls only; no compiler/model/runtime source changes.",
+    "Offline synthetic and YAML/actionlint validation only."
+  ],
+  "open": [
+    "Actual compile/verifier outcomes, RSS and cost are NOT_RUN.",
+    "Coordinator must reconcile current ledger/slot, bind final request and review, reserve and create same-tree trigger after GO.",
+    "No intentional invalid-value oracle in ordinary235; future canaries/fast path require separate WIP/design gates."
+  ],
+  "next": "Coordinator reconciles current ledger/slot, binds exact package/request/review, reserves B-01 and creates same-tree trigger after GO.",
+  "stop_B": "Plan\u00a78 STOP B unchanged; compiler design steps2-4 not performed.",
+  "containing_g0_commit": "Commit containing this file; no self-referential SHA.",
+  "review": {
+    "reviewer": "independent GPT-6 Luna HIGH",
+    "candidate": "5ee153ec2b22f1f7a0e174a985369b2280d8d296",
+    "decision": "READY_WITH_LIMITATIONS",
+    "record": "REVIEW.json",
+    "packet_metadata_sha256": "544e1dccd1840af20bc83649c5579f9d461814d3ad4c1f0f3f78113c7dffe802"
+  }
+}

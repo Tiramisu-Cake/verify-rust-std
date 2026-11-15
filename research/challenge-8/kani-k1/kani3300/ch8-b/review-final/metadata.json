@@ -1,0 +1,142 @@
+{
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "5ee153ec2b22f1f7a0e174a985369b2280d8d296",
+  "candidate_tree": "f9d2bfdc79fc9651332d618d5cfdca06e7ef8e7e",
+  "changed_files": [
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "16900b7d8eb1855f0e4de11caf409b5ad2fcb7b8",
+        "mode": "100644",
+        "sha256": "b8ce66c667d58b21d6cece2125390de7e57f4775e849b0722e9ec9aebe691eb9"
+      },
+      "path": ".github/workflows/ch8-b-census.yml",
+      "status": "added"
+    },
+    {
+      "baseline": {
+        "blob": "c54ce6bbcb075df881984f714589011c4b88d5e4",
+        "mode": "100644",
+        "sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "e7026941118581c323e12cd550043a8bd8d460a6",
+        "mode": "100644",
+        "sha256": "a386969e436fd4e44f1617457b5b161ee48b7c450dd0eaf048599f1e77bbac17"
+      },
+      "path": ".github/workflows/deny.yml",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "9d21eeb4569234292401f90c66c833f6960f06fb",
+        "mode": "100644",
+        "sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "357e3f98a557bc8c14699af3fbf50a557dc153b0",
+        "mode": "100644",
+        "sha256": "ab8de7e18a08f7f56f28f01d1dd91a8ceb0fd975d05cc63ee92e113abb488b0f"
+      },
+      "path": ".github/workflows/format-check.yml",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "3e34d8ac3c0844d9ac9409790e7cb0a669381dad",
+        "mode": "100644",
+        "sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "9c00d6563a71a08b7bed6abb5ff317142f93f8e8",
+        "mode": "100644",
+        "sha256": "5022ca80b7734d0cf6a36fd9b112b825456cf587952cc1f8d8728235237ac7bc"
+      },
+      "path": ".github/workflows/kani.yml",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "ccb7178dee2e01b7ab8768db5571876de0b434fb",
+        "mode": "100644",
+        "sha256": "a443bb3f3c386052ef6f673f67cce361a29b7584b22943fc17b86f17ffb51724"
+      },
+      "path": "scripts/ch8-b-census/CI-REQUEST.json",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "d703ef5e7e78c7542c4b8ce851335eb7805f95e0",
+        "mode": "100644",
+        "sha256": "b4c7d8986d93d8a8b49722d38d2975dedd2a3e92f098f81fa34697d8031f73bb"
+      },
+      "path": "scripts/ch8-b-census/README.md",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "5a56809884119aad359821250685aec97ab28e2e",
+        "mode": "100644",
+        "sha256": "980a0109650fe54eb439568610ed29efb67f8e9c79d4d238e711376decba4962"
+      },
+      "path": "scripts/ch8-b-census/census.py",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "24c8556ea26a2aacafd27fd255b2ce183ce75cfc",
+        "mode": "100644",
+        "sha256": "7dee264da4c0afecb75e55b962520a1f14d5ef569a9bd1ca51ad70d206f78a85"
+      },
+      "path": "scripts/ch8-b-census/roots.json",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "f8431a1f3965b620f1b856d1ee7418f76da7bfce",
+        "mode": "100644",
+        "sha256": "7853b02b43e818ee81cc7acf78c3ff78294275ec50d0f9710d615b7ccb9fd30f"
+      },
+      "path": "scripts/ch8-b-census/static_check.py",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "531b40fbd97148bf06bb3b7bb271a12baf879142",
+        "mode": "100644",
+        "sha256": "7401b0199bd5e5b009b8e553bc040e9e6831c2d253ef4962ed6b6eea862a17b3"
+      },
+      "path": "scripts/ch8-b-census/test_census.py",
+      "status": "added"
+    }
+  ],
+  "dependencies": [],
+  "diff_sha256": "2ada299081ed9a15179921b79d644a3a8c97469f892dc327ff918ff4317a7769",
+  "prior_reviews": [
+    {
+      "path": "/tmp/ch8-b-review/metadata.json",
+      "sha256": "164fbff7d9e15b2116f9e72a69fef7cf2c7465278f75534ea78987797ce5e9cf"
+    }
+  ],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "20ef472f97edd6ceff9e23aec919070f95e3e60241830f4f619e9cce6a471732",
+  "worktree": "/root/kani-ch8-b-census-w14"
+}

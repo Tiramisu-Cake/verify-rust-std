@@ -1,0 +1,2713 @@
+diff --git a/.github/workflows/ch8-b-census.yml b/.github/workflows/ch8-b-census.yml
+new file mode 100644
+index 0000000000000000000000000000000000000000..16900b7d8eb1855f0e4de11caf409b5ad2fcb7b8
+--- /dev/null
++++ b/.github/workflows/ch8-b-census.yml
+@@ -0,0 +1,105 @@
++# CI-only package. The coordinator creates a same-tree non-skip trigger after review/ledger GO.
++name: Challenge 8 B valid-value census
++'on':
++  push:
++    branches: ['uninit-ci/ch8-b-census-*']
++permissions:
++  contents: read
++concurrency:
++  group: ch8-b-census
++  cancel-in-progress: false
++jobs:
++  census:
++    if: ${{ github.repository == 'Tiramisu-Cake/kani' }}
++    runs-on: ubuntu-24.04
++    timeout-minutes: 210
++    strategy:
++      fail-fast: false
++      max-parallel: 1
++      matrix:
++        shard: [2, 4]
++    steps:
++      - name: Checkout CI control
++        uses: actions/checkout@v6
++        with:
++          ref: ${{ github.sha }}
++          path: control
++          fetch-depth: 2
++          persist-credentials: false
++      - name: Bind coordinator trigger and seed NOT_RUN receipts
++        env:
++          RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
++          SHARD: ${{ matrix.shard }}
++        run: |
++          python3 - <<'PYCODE'
++          import os, subprocess
++          from pathlib import Path
++          def git(*args):
++              return subprocess.check_output(['git','-C','control',*args],text=True).strip()
++          assert os.environ['GITHUB_RUN_ATTEMPT'] == '1', 'Reruns are not authorized'
++          assert git('rev-parse','HEAD') == os.environ['GITHUB_SHA']
++          assert git('rev-parse','HEAD^{tree}') == git('rev-parse','HEAD^1^{tree}'), 'Require same-tree coordinator trigger'
++          assert '[skip ci]' in git('show','-s','--format=%B','HEAD^1')
++          Path(os.environ['RECEIPTS']).mkdir(parents=True,exist_ok=True)
++          PYCODE
++          python3 control/scripts/ch8-b-census/census.py seed --shard "$SHARD" --out "$RECEIPTS"
++      - name: Synthetic service preflight
++        working-directory: control/scripts/ch8-b-census
++        env:
++          PYTHONDONTWRITEBYTECODE: '1'
++        run: python3 -m unittest -v test_census.py
++      - name: Checkout pristine Kani export
++        uses: actions/checkout@v6
++        with:
++          repository: Tiramisu-Cake/kani
++          ref: 0aac16ef62da9e9d5645782d458593e5d78143ba
++          path: export
++          fetch-depth: 2
++          persist-credentials: false
++      - name: Checkout unchanged std
++        uses: actions/checkout@v6
++        with:
++          repository: Tiramisu-Cake/verify-rust-std
++          ref: 872d5a43380752786415bc00d2a12ce0e930cb37
++          path: std
++          submodules: true
++          fetch-depth: 2
++          persist-credentials: false
++      - name: Bind source identities
++        env:
++          RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
++        run: python3 control/scripts/ch8-b-census/census.py bind --out "$RECEIPTS" --export export --std std
++      - name: Setup exact export dependencies
++        timeout-minutes: 25
++        uses: ./export/.github/actions/setup
++        with:
++          os: ubuntu-24.04
++          kani_dir: export
++      - name: Build pristine export with bounds
++        timeout-minutes: 36
++        env:
++          RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
++        run: python3 control/scripts/ch8-b-census/census.py build --out "$RECEIPTS" --export export
++      - name: Census ordinary roots once
++        timeout-minutes: 122
++        env:
++          RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
++          SHARD: ${{ matrix.shard }}
++        run: python3 control/scripts/ch8-b-census/census.py run --shard "$SHARD" --out "$RECEIPTS" --export export --std std
++      - name: Finalize complete or PARTIAL census
++        if: always()
++        env:
++          RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
++          SHARD: ${{ matrix.shard }}
++          JOB_STATUS: ${{ job.status }}
++        run: python3 control/scripts/ch8-b-census/census.py finalize --shard "$SHARD" --out "$RECEIPTS" --job-status "$JOB_STATUS"
++      - name: Upload bounded curated receipts
++        if: always()
++        uses: actions/upload-artifact@v4
++        env:
++          RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
++        with:
++          name: ch8-b-census-shard-${{ matrix.shard }}-${{ github.run_id }}-${{ github.run_attempt }}
++          path: ${{ env.RECEIPTS }}/*.json
++          if-no-files-found: error
++          retention-days: 7
+diff --git a/scripts/ch8-b-census/CI-REQUEST.json b/scripts/ch8-b-census/CI-REQUEST.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..ccb7178dee2e01b7ab8768db5571876de0b434fb
+--- /dev/null
++++ b/scripts/ch8-b-census/CI-REQUEST.json
+@@ -0,0 +1,76 @@
++{
++  "schema": "ch8-b-census-request-v1",
++  "authorization": "PREPARATION_ONLY; coordinator reserves, reviews, pushes and creates trigger",
++  "bucket": "B",
++  "dispatch_count": 1,
++  "bucket_cap": 3,
++  "retry": false,
++  "std": {
++    "repository": "Tiramisu-Cake/verify-rust-std",
++    "sha": "872d5a43380752786415bc00d2a12ce0e930cb37",
++    "tree": "384023c2f80a04d0618aa7ce971b1419494b062b"
++  },
++  "kani": {
++    "repository": "Tiramisu-Cake/kani",
++    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
++    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
++  },
++  "inventory": {
++    "g0_sha": "904bc1e4583800a8152cbe5296bfc48c56b8643e",
++    "path": "research/challenge-8/kani-k1/kani3300/ch8-s1/w14",
++    "baseline_sha256": "0737675fac5b717d51e2b74272d5de9269670be4dc1b6ac9772f6c4b8361a25b",
++    "count": 235,
++    "manifest_sha256": "7dee264da4c0afecb75e55b962520a1f14d5ef569a9bd1ca51ad70d206f78a85",
++    "shards": {
++      "1": 0,
++      "2": 183,
++      "3": 0,
++      "4": 52
++    }
++  },
++  "organizer_features": [
++    "function-contracts",
++    "mem-predicates",
++    "float-lib",
++    "c-ffi",
++    "loop-contracts",
++    "quantifiers",
++    "stubbing"
++  ],
++  "diagnostic_feature": "valid-value-checks",
++  "transport_features": [
++    "export-json"
++  ],
++  "jobs": 2,
++  "os": "ubuntu-24.04",
++  "target": "x86_64-unknown-linux-gnu",
++  "max_parallel_shards": 1,
++  "job_minutes": 210,
++  "stage_seconds": {
++    "build": 2100,
++    "verify": 7200
++  },
++  "root_seconds": 600,
++  "root_rss_bytes": 6442450944,
++  "aggregate_rss_bytes": 12884901888,
++  "os_reserve_bytes": 2147483648,
++  "stdout_cap_bytes": 2097152,
++  "export_cap_bytes": 262144,
++  "artifact_cap_bytes": 134217728,
++  "cfg_on": false,
++  "autoharness": false,
++  "uninit_checks": false,
++  "object_bits": 12,
++  "runtime": "NOT_RUN",
++  "credit": "NO_PROOF_CREDIT",
++  "notes": [
++    "Stock235 ordinary roots only; unchanged std, compiler and models.",
++    "Historic4-way shard membership retained, empty1/3 omitted. Ubuntu-only diagnostic, not cross-OS/R8 qualification.",
++    "Transport export-json preserves reached checks/covers; no semantic flags beyond organizer set plus valid-value-checks.",
++    "No intentional invalid-value root in the ordinary235. Such a failure is unexpected unless independently source-qualified; no name-based oracle.",
++    "Per-root invocations with2 slots and separate reusable target directories. Shard membership retained, scheduling is bounded census scheduling, not historical cost comparability."
++  ],
++  "aggregate_job_minutes": 420,
++  "per_root_jobs": 1,
++  "diagnostic_transport": "-Z export-json --export-json <path>; stock structured report only, no additional verification behavior"
++}
+diff --git a/scripts/ch8-b-census/README.md b/scripts/ch8-b-census/README.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..13edcda0b0bc281fefc847583d3b61d6c149ea69
+--- /dev/null
++++ b/scripts/ch8-b-census/README.md
+@@ -0,0 +1,83 @@
++# B-01 diagnostic census — preparation only
++
++Coordinator request: one B dispatch (lane cap3; item1 cap18; combined cap32),
++not reserved or charged here. No retry. User authorization is package preparation;
++coordinator alone reviews current ledger/slots, reserves, publishes and creates the
++same-tree non-skip trigger on `uninit-ci/ch8-b-census-*`. Package commits use `[skip ci]`.
++Never push this work branch as a trigger. No Cloud or compiler patch is included.
++
++Inputs: unchanged std `872d5a43380752786415bc00d2a12ce0e930cb37`, pristine Kani
++`0aac16ef62da9e9d5645782d458593e5d78143ba`, worker14 inventory from g0
++`904bc1e4583800a8152cbe5296bfc48c56b8643e`. All235 roots retained;
++183 in historic shard2 and52 in shard4. Shards1/3 contain zero SmallSort roots.
++Ubuntu24.04 only. This diagnostic does not qualify macOS, R8 costs, or B2 proof.
++
++The organizer semantic flags are copied from pinned std `scripts/run-kani.sh`:
++`-Z unstable-options -Z function-contracts -Z mem-predicates -Z float-lib -Z c-ffi
++-Z loop-contracts -Z quantifiers -Z stubbing --no-assert-contracts`, CBMC
++`--object-bits 12`. Add exactly the diagnostic `-Z valid-value-checks`.
++`-Z export-json --export-json PATH` is report transport through the unchanged stock
++exporter; it does not add a proof premise/check. Use exact full root selectors and
++terse text as in the organizer runner. No default-unwind override, check suppression,
++uninit-checks, std autoharness, cfg-on controls, patch or model change.
++
++Two root invocations per shard run concurrently, each `--jobs=1`, with separate
++reusable target directories. This preserves the Ubuntu organizer jobs2 upper bound
++and historic shard membership, while keeping an independent receipt for each root
++if compilation fails. It changes scheduling and is not a matched cost measurement.
++Each invocation has a600s outer wall cap (including compile) and stock600s harness
++timeout. No shortened last-root envelope. Each shard verification stage<=7200s,
++build<=2100s, setup<=25min; job<=210min, max-parallel shards1, total<=420 runner-min.
++Root process-tree summed RSS<=6GiB; aggregate concurrently observed process-tree
++RSS<=min(12GiB, available-at-stage minus2GiB), tightened before invocation.
++Sampling0.1s can overshoot; RSS sums shared pages and is not PSS or kernel enforcement.
++Kernel OOM/runner loss remains PARTIAL, never success. `/proc` figures are bytes.
++
++The three checkouts are siblings `control/`, `export/`, `std/`. Build cwd is pristine
++`export`; verify cwd is pristine `std` and library path `./library`. Target/export
++scratch is in runner temp, outside all Cargo workspaces. All checkout depths>=2;
++`runner.*` expressions appear only in step env. Setup is the exact export's action.
++Only a same-tree child of the `[skip ci]` package on attempt1 is accepted.
++
++Every shard seeds all expected NOT_RUN receipts before setup. Each attempted root
++records actual argv/cwd, exit/signal/exception, wall/RSS/output caps and full stock
++checks/covers/failures/warnings when a bounded, bound export is available. Root export
++cap256KiB; output cap2MiB with4096-byte diagnostic tail. Oversize/malformed/missing
++exports cannot become PASS. No raw logs, target trees, evidence archives or binaries
++are uploaded. Curated JSON upper bound<128MiB per shard (static checked).
++All source SHA/tree/clean checks and binary SHA256 are recorded before/after execution.
++
++Classification: PASS; copy Unsupported; casts; other Unsupported; intended invalid-value
++failure; compile-resource-not-run. Mixed failures retain every observed class/property;
++primary order is catchall, other Unsupported, casts, copy Unsupported, intended failure.
++All completed unsupported properties are diagnostics, never proof acceptance.
++Unknown/undetermined property buckets make the census PARTIAL while preserving observed
++failure families. The catchall includes unexpected assertions/invalid-value failures
++and requires review; its reason is never an assertion that compilation failed.
++There is no source-qualified intentional invalid-value root among ordinary235;
++all manifest oracles are false. Do not infer intent from a name or classify an unexpected
++validity failure as intended. A future canary needs separate scope/GO and an explicit oracle.
++
++Overall COMPLETE requires both shard summaries COMPLETE, exactly183+52 unique bound
++receipts, post-source checks and no failure of setup/upload. Any missing shard/root,
++time/resource/output cut, runner loss, unknown schema/identity or unclassified failure
++means PARTIAL. Do not fill remaining rows with PASS. Workflow success is diagnostic
++execution completeness, not all-root PASS or independent correctness credit.
++
++STOP B from plan§8 remains binding: Unknown treated as NoConstraints, rejection of legal
++delayed raw copy, premature uninitialized read, lost intentional validity check, a new
++shadow model, or overlap with active upstream design requires STOP/design note. This
++package implements no compiler fast path or canary and cannot claim those gates passed.
++
++Offline validation (no rustc/Cargo/Kani/CBMC):
++
++```sh
++PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/ch8-b-census -v
++PYTHONDONTWRITEBYTECODE=1 python3 scripts/ch8-b-census/static_check.py
++actionlint -shellcheck= .github/workflows/ch8-b-census.yml
++git diff --check
++```
++
++Coordinator handoff: bind CI package SHA/tree, g0 report SHA, exact request SHA256,
++manifest SHA256 and review before reserving B-01. Create the trigger only after GO.
++No reservation, trigger, push or CI was performed by worker14.
+diff --git a/scripts/ch8-b-census/census.py b/scripts/ch8-b-census/census.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..e011402c8dc732504fdfec0739c359f5ad8d5b1a
+--- /dev/null
++++ b/scripts/ch8-b-census/census.py
+@@ -0,0 +1,353 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""CI-only census; local use is limited to static/synthetic checks."""
++import argparse
++import concurrent.futures
++import hashlib
++import json
++import os
++from pathlib import Path
++import selectors
++import signal
++import subprocess
++import threading
++import time
++
++HERE = Path(__file__).resolve().parent
++PREFIX = 'slice::sort::shared::smallsort::verify::'
++KANI = '0aac16ef62da9e9d5645782d458593e5d78143ba'
++STD = '872d5a43380752786415bc00d2a12ce0e930cb37'
++CATCHALL = 'compile-resource-not-run'
++GROUPS = set()
++LOCK = threading.Lock()
++
++
++def digest(p):
++    return hashlib.sha256(Path(p).read_bytes()).hexdigest()
++
++
++def write(p, obj):
++    p = Path(p)
++    p.parent.mkdir(parents=True, exist_ok=True)
++    tmp = p.with_suffix('.tmp')
++    tmp.write_text(json.dumps(obj, indent=2, sort_keys=True) + '\n')
++    tmp.replace(p)
++
++
++def load():
++    req = json.loads((HERE / 'CI-REQUEST.json').read_text())
++    roots = json.loads((HERE / 'roots.json').read_text())
++    assert req['kani']['sha'] == KANI and req['std']['sha'] == STD
++    assert digest(HERE / 'roots.json') == req['inventory']['manifest_sha256']
++    assert len(roots) == 235 and len({r['selector'] for r in roots}) == 235
++    assert [r['id'] for r in roots] == list(range(1, 236))
++    assert {s: sum(r['shard'] == s for r in roots) for s in range(1, 5)} == {1: 0, 2: 183, 3: 0, 4: 52}
++    assert all(r['selector'] == PREFIX + r['root'] and r['intended_invalid_value'] is False for r in roots)
++    assert req['organizer_features'] == ['function-contracts', 'mem-predicates', 'float-lib', 'c-ffi', 'loop-contracts', 'quantifiers', 'stubbing']
++    assert req['jobs'] == 2 and req['object_bits'] == 12
++    assert req['cfg_on'] is False and req['autoharness'] is False and req['uninit_checks'] is False
++    return req, roots
++
++
++def git(repo, *args):
++    return subprocess.check_output(['git', '-C', str(repo), *args], text=True).strip()
++
++
++def bind(repo, pin):
++    assert git(repo, 'rev-parse', 'HEAD') == pin['sha'], 'source SHA mismatch'
++    assert git(repo, 'rev-parse', 'HEAD^{tree}') == pin['tree'], 'source tree mismatch'
++    assert git(repo, 'status', '--porcelain', '--untracked-files=no') == '', 'tracked source dirty'
++    return {'sha': pin['sha'], 'tree': pin['tree'], 'tracked_clean': True}
++
++
++def clean_env():
++    env = dict(os.environ)
++    # No inherited cfg, feature flags, compiler wrappers, cargo target or injected Kani/CBMC flags.
++    for key in list(env):
++        if key.startswith(('RUST', 'CARGO_ENCODED_', 'KANI_', 'CBMC_')) or key in ('CARGO_BUILD_TARGET', 'CARGO_TARGET_DIR'):
++            env.pop(key, None)
++    env['NO_COLOR'] = '1'
++    return env
++
++
++def rss_groups(groups):
++    sums = {p: 0 for p in groups}
++    for entry in Path('/proc').iterdir():
++        if not entry.name.isdigit():
++            continue
++        try:
++            stat = (entry / 'stat').read_text().rsplit(')', 1)[1].split()
++            group = int(stat[2])
++            if group in sums:
++                sums[group] += int((entry / 'statm').read_text().split()[1]) * os.sysconf('SC_PAGE_SIZE')
++        except (OSError, ValueError, IndexError):
++            continue
++    return sums
++
++
++def kill_group(pid):
++    try:
++        os.killpg(pid, signal.SIGKILL)
++    except ProcessLookupError:
++        pass
++
++
++def guarded(argv, cwd, seconds, req):
++    """Drain bounded output and monitor all invocation process groups; keep actual exit/signal."""
++    started = time.monotonic()
++    if Path('/proc/meminfo').is_file():
++        available = next(int(l.split()[1])*1024 for l in Path('/proc/meminfo').read_text().splitlines() if l.startswith('MemAvailable:'))
++        req = dict(req, aggregate_rss_bytes=min(req['aggregate_rss_bytes'], max(1, available-req['os_reserve_bytes'])))
++    receipt = {'argv': argv, 'cwd': str(cwd), 'exit': None, 'signal': None,
++               'stop': None, 'peak_rss_bytes': 0, 'peak_aggregate_rss_bytes': 0,
++               'stdout_bytes': 0, 'diagnostic_tail': '', 'exception': None}
++    try:
++        proc = subprocess.Popen(argv, cwd=cwd, env=clean_env(), stdout=subprocess.PIPE,
++                                stderr=subprocess.STDOUT, start_new_session=True)
++    except Exception as exc:
++        receipt.update(stop='SPAWN_ERROR', exception=repr(exc), wall_s=time.monotonic() - started)
++        return receipt
++    with LOCK:
++        GROUPS.add(proc.pid)
++    tail = bytearray()
++    sel = selectors.DefaultSelector()
++    sel.register(proc.stdout, selectors.EVENT_READ)
++    try:
++        while proc.poll() is None or sel.get_map():
++            for key, _ in sel.select(0.1):
++                chunk = os.read(key.fd, 65536)
++                if not chunk:
++                    sel.unregister(key.fileobj)
++                else:
++                    receipt['stdout_bytes'] += len(chunk)
++                    tail.extend(chunk)
++                    del tail[:-4096]
++            with LOCK:
++                values = rss_groups(GROUPS)
++            rss, total = values.get(proc.pid, 0), sum(values.values())
++            receipt['peak_rss_bytes'] = max(receipt['peak_rss_bytes'], rss)
++            receipt['peak_aggregate_rss_bytes'] = max(receipt['peak_aggregate_rss_bytes'], total)
++            why = ('TIMEOUT' if time.monotonic() - started > seconds else
++                   'RSS_LIMIT' if rss > req['root_rss_bytes'] or total > req['aggregate_rss_bytes'] else
++                   'OUTPUT_LIMIT' if receipt['stdout_bytes'] > req['stdout_cap_bytes'] else None)
++            if why and receipt['stop'] is None:
++                receipt['stop'] = why
++                kill_group(proc.pid)
++        code = proc.wait()
++        receipt['exit'] = code
++        receipt['signal'] = -code if code < 0 else None
++    except BaseException as exc:
++        kill_group(proc.pid)
++        receipt.update(stop='WRAPPER_EXCEPTION', exception=repr(exc), exit=proc.wait())
++        receipt['signal'] = -receipt['exit'] if receipt['exit'] < 0 else None
++    finally:
++        # Do not let orphan verifier children survive a successful parent exit.
++        kill_group(proc.pid)
++        with LOCK:
++            GROUPS.discard(proc.pid)
++        sel.close()
++        proc.stdout.close()
++    receipt['wall_s'] = time.monotonic() - started
++    receipt['diagnostic_tail'] = tail.decode(errors='replace')
++    receipt['diagnostic_tail_truncated'] = receipt['stdout_bytes'] > len(tail)
++    return receipt
++
++
++def argv_for(req, row, binary, target, export):
++    argv = [str(binary), 'verify-std', '-Z', 'unstable-options', './library']
++    for feature in req['organizer_features'] + ['valid-value-checks', 'export-json']:
++        argv += ['-Z', feature]
++    return argv + ['--no-assert-contracts', '--harness', row['selector'], '--exact', '--jobs=1',
++                   '--harness-timeout', '600s', '--target-dir', str(target), '--export-json', str(export),
++                   '--output-format=terse', '--cbmc-args', '--object-bits', '12']
++
++
++def unknown(reason):
++    return {'classification': CATCHALL, 'complete': False, 'reason': reason, 'observed_classes': []}
++
++
++def classify(data, row, execution, req):
++    """Only complete, exactly bound structured results can receive a scientific class."""
++    retained = {}
++    try:
++        assert isinstance(data, dict) and data['schema_version'] == '0.1.0', 'schema'
++        assert data['kani_commit'] == KANI and data['kani_commit_dirty'] is False, 'tool'
++        assert data['target'] == req['target'], 'target'
++        assert data['enabled_unstable_features'] == sorted(req['organizer_features'] + ['unstable-options', 'valid-value-checks', 'export-json']), 'features'
++        cfg = data['configuration']
++        expected = dict(memory_safety=True, overflow=True, unwinding=True, undefined_function=True,
++                        assertion_reach_checks=True, ignore_global_asm=False, extra_pointer_checks=False,
++                        assert_contracts=False, prove_safety_only=False)
++        assert cfg['checks'] == expected and cfg['cbmc_args'] == ['--object-bits', '12'] and cfg['coverage_enabled'] is False, 'checks'
++        selection = data['harness_selection']
++        assert selection == dict(requested_filters=[row['selector']], exact=True, unmatched_filters=[], matched_count=1), 'selection'
++        assert data['run_state'] == 'COMPLETE' and data['outcome'] == {'kind': 'COMPLETED'}, 'run-state'
++        hs = data['harnesses']
++        assert isinstance(hs, list) and len(hs) == 1, 'harness-count'
++        h = hs[0]
++        assert h['name'] == row['selector'] and h['crate_name'] == 'core' and h['is_automatically_generated'] is False, 'harness-binding'
++        assert h['outcome']['kind'] == 'COMPLETED', 'harness-not-completed'
++        retained['harness'] = h
++        checks, covers = h['checks'], h['covers']
++        property_partial = False
++        for obj in (checks, covers):
++            assert type(obj['total']) is int and obj['total'] >= 0, 'property-total'
++            for k in ('unreachable', 'undetermined', 'error', 'unknown', 'other'):
++                assert isinstance(obj[k], list), 'property-buckets'
++            property_partial |= any(obj[k] for k in ('undetermined', 'error', 'unknown', 'other'))
++        failed = h['failed_properties']
++        unsupported = h['unsupported_constructs']
++        assert isinstance(failed, list) and isinstance(unsupported, list), 'property-lists'
++        assert type(h['n_failed']) is int and h['n_failed'] == len(failed) == len(checks['failure']), 'failure-count'
++        assert type(checks['success']) is int and checks['success'] >= 0, 'success-count'
++        assert checks['total'] == checks['success'] + sum(len(checks[k]) for k in ('failure','unreachable','undetermined','error','unknown','other')), 'check-partition'
++        assert covers['total'] == sum(len(covers[k]) for k in ('satisfied', 'unsatisfiable', 'unreachable','undetermined','error','unknown','other')), 'cover-partition'
++        assert h['n_properties'] == checks['total'] + covers['total'] and checks['total'] > 0, 'properties'
++        assert {p['id'] for p in failed} == set(checks['failure']), 'failed-property-ids'
++        assert all(p['status'] == 'FAILURE' and isinstance(p['description'], str) for p in failed), 'failed-properties'
++        classes = set()
++        for p in failed:
++            desc = p['description']
++            if p['class'] == 'unsupported_construct':
++                classes.add('copy Unsupported' if 'checking validity of `copy_nonoverlapping`' in desc else
++                            'casts' if 'checking validity of `mutable cast`' in desc else 'other Unsupported')
++            elif 'Undefined Behavior: Invalid value of type `' in desc and row['intended_invalid_value'] is True:
++                classes.add('intended invalid-value failure')
++            else:
++                classes.add(CATCHALL)
++        verdict = h['outcome']['verdict']
++        assert verdict in ('SUCCESS', 'FAILURE'), 'verdict'
++        assert verdict == ('FAILURE' if failed else 'SUCCESS'), 'verdict-properties'
++        assert execution['exit'] == (1 if failed else 0), 'exit-verdict'
++        assert execution['stop'] is None, 'wrapper-stop'
++        if not classes:
++            result = {'classification': 'PASS', 'complete': True, 'reason': 'bound completed verdict', 'observed_classes': ['PASS']}
++        else:
++            order = [CATCHALL, 'other Unsupported', 'casts', 'copy Unsupported', 'intended invalid-value failure']
++            result = {'classification': next(c for c in order if c in classes), 'complete': CATCHALL not in classes,
++                      'reason': 'completed failure; unexpected scientific failures require review' if CATCHALL in classes else 'completed diagnostic failure',
++                      'observed_classes': sorted(classes)}
++        if property_partial:
++            result['complete'] = False
++            result['reason'] += '; PARTIAL property buckets'
++            if result['classification'] == 'PASS':
++                result['classification'] = CATCHALL
++                result['observed_classes'] = []
++        result['harness'] = h  # Preserve all checks, useful covers, failures and warnings, including mixed classes.
++        result['export_identity'] = {k: data[k] for k in ('kani_commit', 'kani_commit_dirty', 'target', 'configuration', 'enabled_unstable_features', 'harness_selection', 'run_state')}
++        return result
++    except (AssertionError, KeyError, TypeError, ValueError) as exc:
++        return dict(unknown('EXPORT_REJECTED: ' + str(exc)), **retained)
++
++
++def initial(row):
++    return dict(schema='ch8-b-root-v1', **row, **unknown('NOT_RUN'), runtime_proof_status='NOT_RUN')
++
++
++def seed(out, roots):
++    out.mkdir(parents=True, exist_ok=True)
++    for row in roots:
++        p = out / ('root-%03d.json' % row['id'])
++        if not p.exists():
++            write(p, initial(row))
++
++
++def run_census(args, req, roots):
++    assert os.environ.get('GITHUB_ACTIONS') == 'true', 'actual invocations CI-only'
++    out, std, export = Path(args.out).resolve(), Path(args.std).resolve(), Path(args.export).resolve()
++    assert std.parent == export.parent and std != export, 'sibling std/export layout required'
++    binding = {'std': bind(std, req['std']), 'kani': bind(export, req['kani'])}
++    seed(out, roots)
++    available = next(int(l.split()[1]) * 1024 for l in Path('/proc/meminfo').read_text().splitlines() if l.startswith('MemAvailable:'))
++    req = dict(req, aggregate_rss_bytes=min(req['aggregate_rss_bytes'], available - req['os_reserve_bytes']))
++    assert req['aggregate_rss_bytes'] > 0, 'no RAM after OS reserve'
++    write(out / 'binding.json', dict(binding, available_bytes=available, aggregate_cap_bytes=req['aggregate_rss_bytes'], request_sha256=digest(HERE/'CI-REQUEST.json'), inventory_sha256=digest(HERE/'roots.json')))
++    deadline = time.monotonic() + req['stage_seconds']['verify']
++    slots = [roots[i::req['jobs']] for i in range(req['jobs'])]
++
++    def lane(slot, rows):
++        target = out.parent / ('target-shard-%s-slot-%s' % (args.shard, slot))
++        for row in rows:
++            remaining = deadline - time.monotonic()
++            if remaining < req['root_seconds'] + 5:
++                break  # Keep full root envelope; all untouched receipts remain NOT_RUN.
++            if sum(p.stat().st_size for p in out.glob('*.json')) > req['artifact_cap_bytes'] - req['export_cap_bytes']:
++                break
++            raw = target.parent / ('export-%03d.json' % row['id'])
++            assert not raw.exists(), 'stale export'
++            argv = argv_for(req, row, export/'scripts/kani', target, raw)
++            execution = guarded(argv, std, req['root_seconds'], req)
++            receipt = initial(row)
++            receipt['runtime_proof_status'] = 'ATTEMPTED'
++            receipt['execution'] = execution
++            if raw.exists() and raw.stat().st_size <= req['export_cap_bytes']:
++                receipt['export_sha256'] = digest(raw)
++                try:
++                    result = classify(json.loads(raw.read_text()), row, execution, req)
++                except (ValueError, OSError) as exc:
++                    result = unknown('INVALID_EXPORT: ' + repr(exc))
++                receipt.update(result)
++            else:
++                receipt.update(unknown('MISSING_OR_OVERSIZE_EXPORT'))
++            if raw.exists():
++                raw.unlink()  # Only curated bounded receipts are uploaded; no target/raw logs/archives.
++            write(out / ('root-%03d.json' % row['id']), receipt)
++    with concurrent.futures.ThreadPoolExecutor(max_workers=req['jobs']) as pool:
++        futures = [pool.submit(lane, i, r) for i, r in enumerate(slots)]
++        for f in futures:
++            f.result()
++    write(out / 'post-source.json', {'std': bind(std, req['std']), 'kani': bind(export, req['kani'])})
++
++
++def finalize(out, roots, status):
++    seed(out, roots)
++    receipts = [json.loads((out / ('root-%03d.json' % r['id'])).read_text()) for r in roots]
++    assert all(p['selector'] == r['selector'] and p['shard'] == r['shard'] for p,r in zip(receipts, roots))
++    complete = all(p['complete'] is True for p in receipts) and status == 'success' and (out/'post-source.json').is_file()
++    counts = {}
++    for p in receipts:
++        counts[p['classification']] = counts.get(p['classification'], 0) + 1
++    result = {'schema': 'ch8-b-shard-v1', 'status': 'COMPLETE' if complete else 'PARTIAL',
++              'expected': len(roots), 'completed': sum(p['complete'] is True for p in receipts),
++              'counts': counts, 'job_status': status, 'runtime_credit': 'SOURCE_REPORTED_DIAGNOSTIC_ONLY'}
++    write(out / 'summary.json', result)
++    return result
++
++
++def main():
++    parser = argparse.ArgumentParser()
++    parser.add_argument('action', choices=['seed', 'run', 'finalize', 'bind', 'build'])
++    parser.add_argument('--shard', type=int, choices=[2,4], default=2)
++    parser.add_argument('--out', required=True)
++    parser.add_argument('--std')
++    parser.add_argument('--export')
++    parser.add_argument('--job-status', default='unknown')
++    args = parser.parse_args()
++    req, roots = load()
++    roots = [r for r in roots if r['shard'] == args.shard]
++    out = Path(args.out).resolve()
++    if args.action == 'seed':
++        seed(out, roots)
++    elif args.action == 'bind':
++        write(out/'source.json', {'std': bind(args.std, req['std']), 'kani': bind(args.export, req['kani'])})
++    elif args.action == 'build':
++        assert os.environ.get('GITHUB_ACTIONS') == 'true', 'build CI-only'
++        bind(args.export, req['kani'])
++        execution = guarded(['cargo', 'build-dev', '--', '--release'], Path(args.export).resolve(), req['stage_seconds']['build'], dict(req, root_rss_bytes=req['aggregate_rss_bytes']))
++        write(out/'build.json', execution)
++        assert execution['exit'] == 0 and execution['stop'] is None, 'build incomplete'
++        bind(args.export, req['kani'])
++        binaries = {str(p.relative_to(Path(args.export))): digest(p) for p in (Path(args.export)/'target/kani/bin').glob('*') if p.is_file() and not p.is_symlink()}
++        assert binaries, 'no built binaries found'
++        write(out/'binary-hashes.json', binaries)
++    elif args.action == 'run':
++        run_census(args, req, roots)
++    else:
++        result = finalize(out, roots, args.job_status)
++        print(json.dumps(result))
++        return 0 if result['status'] == 'COMPLETE' else 1
++    return 0
++
++
++if __name__ == '__main__':
++    raise SystemExit(main())
+diff --git a/scripts/ch8-b-census/roots.json b/scripts/ch8-b-census/roots.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..24c8556ea26a2aacafd27fd255b2ce183ce75cfc
+--- /dev/null
++++ b/scripts/ch8-b-census/roots.json
+@@ -0,0 +1,1882 @@
++[
++  {
++    "id": 1,
++    "root": "fixed_inputs::advancement_merge_up_u8_n2",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::advancement_merge_up_u8_n2",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 2,
++    "root": "fixed_inputs::permutation_merge_u8_n4",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::permutation_merge_u8_n4",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 3,
++    "root": "fixed_inputs::safety_stable_unit_n1",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n1",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 4,
++    "root": "fixed_inputs::safety_stable_unit_n16",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 5,
++    "root": "fixed_inputs::safety_stable_unit_n17",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 6,
++    "root": "fixed_inputs::safety_stable_unit_n2",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n2",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 7,
++    "root": "fixed_inputs::safety_stable_unit_n31",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n31",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 8,
++    "root": "fixed_inputs::safety_stable_unit_n32",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 9,
++    "root": "fixed_inputs::safety_stable_unit_n7",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n7",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 10,
++    "root": "fixed_inputs::safety_stable_unit_n8",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 11,
++    "root": "fixed_inputs::sorted_network_prefix_u8_n10",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::sorted_network_prefix_u8_n10",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 12,
++    "root": "fixed_inputs::sorted_permutation_insert_tail_u8_n2",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::sorted_permutation_insert_tail_u8_n2",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 13,
++    "root": "fixed_inputs::sorted_permutation_swap_u8_n2",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::sorted_permutation_swap_u8_n2",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 14,
++    "root": "forwarding_contracts::freeze_noncopy_n2",
++    "selector": "slice::sort::shared::smallsort::verify::forwarding_contracts::freeze_noncopy_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 15,
++    "root": "forwarding_contracts::stable_cell_n2",
++    "selector": "slice::sort::shared::smallsort::verify::forwarding_contracts::stable_cell_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 16,
++    "root": "forwarding_contracts::unstable_byte_n2",
++    "selector": "slice::sort::shared::smallsort::verify::forwarding_contracts::unstable_byte_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 17,
++    "root": "helper_contracts::insert_tail_safety_u64_tail1_to4_backing5",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::insert_tail_safety_u64_tail1_to4_backing5",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 18,
++    "root": "helper_contracts::insertion_safety_u64_len2",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::insertion_safety_u64_len2",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 19,
++    "root": "helper_contracts::insertion_safety_u64_len3",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::insertion_safety_u64_len3",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 20,
++    "root": "helper_contracts::merge_safety_u64_len2",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len2",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 21,
++    "root": "helper_contracts::merge_safety_u64_len4",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len4",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 22,
++    "root": "helper_contracts::sort4_safety_u64",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 23,
++    "root": "helper_contracts::swap_safety_bytes17_backing4",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_bytes17_backing4",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 24,
++    "root": "helper_contracts::swap_safety_u64_backing4",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u64_backing4",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 25,
++    "root": "helper_contracts::swap_safety_u8_backing13",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing13",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 26,
++    "root": "helper_contracts::swap_safety_u8_backing4",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing4",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 27,
++    "root": "helper_contracts::swap_safety_u8_backing9",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing9",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 28,
++    "root": "helper_contracts::unstable_network_safety_u8_n13_stubbed",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::unstable_network_safety_u8_n13_stubbed",
++    "shard": 2,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 29,
++    "root": "helper_contracts::unstable_network_safety_u8_n9_stubbed",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::unstable_network_safety_u8_n9_stubbed",
++    "shard": 2,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 30,
++    "root": "helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 31,
++    "root": "helper_contracts_wide::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
++    "shard": 2,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 32,
++    "root": "helper_contracts_wide::swap_safety_u64_backing32",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::swap_safety_u64_backing32",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 33,
++    "root": "helper_contracts_wide::swap_safety_u8_backing32",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::swap_safety_u8_backing32",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 34,
++    "root": "helper_contracts_wide::unstable_network_safety_u8_n32_stubbed",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::unstable_network_safety_u8_n32_stubbed",
++    "shard": 2,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 35,
++    "root": "insert_tail_contracts::insert_tail_safety_u64_backing17_tail1_to7",
++    "selector": "slice::sort::shared::smallsort::verify::insert_tail_contracts::insert_tail_safety_u64_backing17_tail1_to7",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 36,
++    "root": "insert_tail_contracts::insert_tail_safety_u64_backing17_tail8_to15",
++    "selector": "slice::sort::shared::smallsort::verify::insert_tail_contracts::insert_tail_safety_u64_backing17_tail8_to15",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 37,
++    "root": "merge::drop_fallback_drop_count_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n2",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 38,
++    "root": "merge::drop_fallback_drop_count_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n4",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 39,
++    "root": "merge::drop_fallback_drop_count_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n8",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 40,
++    "root": "merge::drop_fallback_tag_permutation_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n2",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 41,
++    "root": "merge::drop_fallback_tag_permutation_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n4",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 42,
++    "root": "merge::drop_fallback_tag_permutation_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n8",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 43,
++    "root": "merge::drop_general_drop_count_n16",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n16",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 44,
++    "root": "merge::drop_general_drop_count_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n2",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 45,
++    "root": "merge::drop_general_drop_count_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n4",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 46,
++    "root": "merge::drop_general_drop_count_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n8",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 47,
++    "root": "merge::drop_general_tag_permutation_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n2",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 48,
++    "root": "merge::drop_general_tag_permutation_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n4",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 49,
++    "root": "merge::drop_general_tag_permutation_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n8",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 50,
++    "root": "merge::fallback_sorted_permutation_u8_u64_n0",
++    "selector": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n0",
++    "shard": 2,
++    "class": "fallback",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 51,
++    "root": "merge::fallback_sorted_permutation_u8_u64_n1",
++    "selector": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n1",
++    "shard": 2,
++    "class": "fallback",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 52,
++    "root": "merge::fallback_sorted_permutation_u8_u64_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n2",
++    "shard": 2,
++    "class": "fallback",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 53,
++    "root": "merge::fallback_sorted_permutation_u8_u64_n3",
++    "selector": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n3",
++    "shard": 2,
++    "class": "fallback",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 54,
++    "root": "merge::fallback_sorted_permutation_u8_u64_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n4",
++    "shard": 2,
++    "class": "fallback",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 55,
++    "root": "merge::fallback_sorted_permutation_u8_u64_n5",
++    "selector": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n5",
++    "shard": 2,
++    "class": "fallback",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 56,
++    "root": "merge::fallback_sorted_permutation_u8_u64_n6",
++    "selector": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n6",
++    "shard": 2,
++    "class": "fallback",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 57,
++    "root": "merge::general_direct_u64_n6",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n6",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 58,
++    "root": "merge::general_direct_u64_n7",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n7",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 59,
++    "root": "merge::general_direct_u64_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n8",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 60,
++    "root": "merge::general_direct_u64_n9",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 61,
++    "root": "merge::general_direct_u8_n9",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_direct_u8_n9",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 62,
++    "root": "merge::general_stable_direct_u64_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n2",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 63,
++    "root": "merge::general_stable_direct_u64_n3",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n3",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 64,
++    "root": "merge::general_stable_direct_u64_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n4",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 65,
++    "root": "merge::general_stable_direct_u64_n5",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n5",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 66,
++    "root": "merge::general_stable_direct_u8_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n2",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 67,
++    "root": "merge::general_stable_direct_u8_n3",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n3",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 68,
++    "root": "merge::general_stable_direct_u8_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n4",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 69,
++    "root": "merge::general_stable_direct_u8_n5",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n5",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 70,
++    "root": "merge::general_stable_direct_u8_n6",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n6",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 71,
++    "root": "merge::general_stable_direct_u8_n7",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n7",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 72,
++    "root": "merge::general_stable_direct_u8_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n8",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 73,
++    "root": "merge::general_stable_sorted_permutation_u64_n0",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n0",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 74,
++    "root": "merge::general_stable_sorted_permutation_u64_n1",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n1",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 75,
++    "root": "merge::general_stable_sorted_permutation_u8_n0",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n0",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 76,
++    "root": "merge::general_stable_sorted_permutation_u8_n1",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n1",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 77,
++    "root": "merge::merge_contract_u64_n2_to4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n2_to4",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 78,
++    "root": "merge::merge_contract_u64_n5",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n5",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 79,
++    "root": "merge::merge_contract_u64_n6",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n6",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 80,
++    "root": "merge::merge_contract_u64_n7",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n7",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 81,
++    "root": "merge::merge_contract_u64_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n8",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 82,
++    "root": "merge::merge_contract_u8_n2_to4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n2_to4",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 83,
++    "root": "merge::merge_contract_u8_n5",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n5",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 84,
++    "root": "merge::merge_contract_u8_n6",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n6",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 85,
++    "root": "merge::merge_contract_u8_n7",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n7",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 86,
++    "root": "merge::merge_contract_u8_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n8",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 87,
++    "root": "merge::merge_contract_u8_n9",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n9",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 88,
++    "root": "merge::merge_scratch48_contract_u8_n9",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 89,
++    "root": "merge::route_safety_all_routes_n16",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 90,
++    "root": "merge::route_safety_all_routes_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n2",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 91,
++    "root": "merge::route_safety_all_routes_n3",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n3",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 92,
++    "root": "merge::route_safety_all_routes_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 93,
++    "root": "merge::route_safety_all_routes_n5",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n5",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 94,
++    "root": "merge::route_safety_all_routes_n6",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n6",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 95,
++    "root": "merge::route_safety_all_routes_n7",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n7",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 96,
++    "root": "merge::route_safety_all_routes_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 97,
++    "root": "merge::sort4_arbitrary_comparator_bytes16_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::sort4_arbitrary_comparator_bytes16_n4",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 98,
++    "root": "merge::sort4_arbitrary_comparator_u64_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::sort4_arbitrary_comparator_u64_n4",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 99,
++    "root": "merge::sort4_contract_bytes16_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::sort4_contract_bytes16_n4",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 100,
++    "root": "merge::sort4_contract_u64_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::sort4_contract_u64_n4",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 101,
++    "root": "merge::stable_direct_nonconst_u8_n9",
++    "selector": "slice::sort::shared::smallsort::verify::merge::stable_direct_nonconst_u8_n9",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 102,
++    "root": "merge::stable_direct_u64_n6",
++    "selector": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n6",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 103,
++    "root": "merge::stable_direct_u64_n7",
++    "selector": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n7",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 104,
++    "root": "merge::stable_direct_u64_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n8",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 105,
++    "root": "merge::stable_direct_u64_n9",
++    "selector": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 106,
++    "root": "network::contract_insert_tail_u8_prefix",
++    "selector": "slice::sort::shared::smallsort::verify::network::contract_insert_tail_u8_prefix",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 107,
++    "root": "network::dispatch_reachability_general_bytes16_n17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_reachability_general_bytes16_n17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 108,
++    "root": "network::dispatch_reachability_network_u8_n18",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_reachability_network_u8_n18",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 109,
++    "root": "network::dispatch_reachability_stable_u8_n17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_reachability_stable_u8_n17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 110,
++    "root": "network::dispatch_safety_stable_bytes16_n32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes16_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 111,
++    "root": "network::dispatch_safety_stable_bytes17_n32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes17_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 112,
++    "root": "network::dispatch_safety_stable_u8_n0_1_2_7_8",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n0_1_2_7_8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 113,
++    "root": "network::dispatch_safety_stable_u8_n15_16_17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n15_16_17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 114,
++    "root": "network::dispatch_safety_stable_u8_n31_32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n31_32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 115,
++    "root": "network::dispatch_safety_stable_unstable_bytes16_n0_1_2_7_8",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n0_1_2_7_8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 116,
++    "root": "network::dispatch_safety_stable_unstable_bytes16_n15",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n15",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 117,
++    "root": "network::dispatch_safety_stable_unstable_bytes16_n16",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 118,
++    "root": "network::dispatch_safety_stable_unstable_bytes16_n17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 119,
++    "root": "network::dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 120,
++    "root": "network::dispatch_safety_stable_unstable_bytes17_n15",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n15",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 121,
++    "root": "network::dispatch_safety_stable_unstable_bytes17_n16",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 122,
++    "root": "network::dispatch_safety_stable_unstable_bytes17_n17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 123,
++    "root": "network::dispatch_safety_stable_unstable_bytes85_n0_1_2_7_8",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes85_n0_1_2_7_8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 124,
++    "root": "network::dispatch_safety_stable_unstable_bytes85_n15_16_17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes85_n15_16_17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 125,
++    "root": "network::dispatch_safety_stable_unstable_bytes85_n32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes85_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 126,
++    "root": "network::dispatch_safety_stable_unstable_drop_u8_n0_1_2_7_8",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_drop_u8_n0_1_2_7_8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 127,
++    "root": "network::dispatch_safety_stable_unstable_drop_u8_n15_16_17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_drop_u8_n15_16_17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 128,
++    "root": "network::dispatch_safety_stable_unstable_drop_u8_n32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_drop_u8_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 129,
++    "root": "network::dispatch_safety_unstable_bytes16_n32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes16_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 130,
++    "root": "network::dispatch_safety_unstable_bytes17_n32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes17_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 131,
++    "root": "network::dispatch_safety_unstable_bytes86_n0_1_2_15_16",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes86_n0_1_2_15_16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 132,
++    "root": "network::dispatch_safety_unstable_u8_n18_31_32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_u8_n18_31_32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 133,
++    "root": "network::dispatch_safety_unstable_u8_n8_9_12_13_17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_u8_n8_9_12_13_17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 134,
++    "root": "network::insert_tail_contract_u64_start1_tail13_to14",
++    "selector": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13_to14",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 135,
++    "root": "network::insert_tail_contract_u64_start1_tail15_to16",
++    "selector": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail15_to16",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 136,
++    "root": "network::insert_tail_contract_u64_start1_tail2_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to8",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 137,
++    "root": "network::insert_tail_contract_u64_start1_tail9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to12",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 138,
++    "root": "network::insertion_permutation_u64_n10",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n10",
++    "shard": 2,
++    "class": "insertion_count",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 139,
++    "root": "network::insertion_permutation_u64_n14",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n14",
++    "shard": 2,
++    "class": "insertion_count",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 140,
++    "root": "network::insertion_permutation_u8_n10",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n10",
++    "shard": 2,
++    "class": "insertion_count",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 141,
++    "root": "network::insertion_permutation_u8_n11",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n11",
++    "shard": 2,
++    "class": "insertion_count",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 142,
++    "root": "network::insertion_permutation_u8_n14",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n14",
++    "shard": 2,
++    "class": "insertion_count",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 143,
++    "root": "network::insertion_safety_u64_n11_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n11_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 144,
++    "root": "network::insertion_safety_u64_n13",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n13",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 145,
++    "root": "network::insertion_safety_u64_n14",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n14",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 146,
++    "root": "network::insertion_safety_u64_n15_offsets13_to15",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets13_to15",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 147,
++    "root": "network::insertion_safety_u64_n15_offsets1_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets1_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 148,
++    "root": "network::insertion_safety_u64_n15_offsets5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 149,
++    "root": "network::insertion_safety_u64_n15_offsets9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 150,
++    "root": "network::insertion_safety_u64_n16_offsets13_to16",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets13_to16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 151,
++    "root": "network::insertion_safety_u64_n16_offsets1_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets1_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 152,
++    "root": "network::insertion_safety_u64_n16_offsets5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 153,
++    "root": "network::insertion_safety_u64_n16_offsets9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 154,
++    "root": "network::insertion_safety_u64_n17_offsets13_to15",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets13_to15",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 155,
++    "root": "network::insertion_safety_u64_n17_offsets16_to17",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets16_to17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 156,
++    "root": "network::insertion_safety_u64_n17_offsets1_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets1_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 157,
++    "root": "network::insertion_safety_u64_n17_offsets5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 158,
++    "root": "network::insertion_safety_u64_n17_offsets9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 159,
++    "root": "network::insertion_safety_u64_n18_offsets13_to16",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets13_to16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 160,
++    "root": "network::insertion_safety_u64_n18_offsets17_to18",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets17_to18",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 161,
++    "root": "network::insertion_safety_u64_n18_offsets1_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets1_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 162,
++    "root": "network::insertion_safety_u64_n18_offsets5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 163,
++    "root": "network::insertion_safety_u64_n18_offsets9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 164,
++    "root": "network::insertion_safety_u64_n19_offsets13_to16",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets13_to16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 165,
++    "root": "network::insertion_safety_u64_n19_offsets17_to19",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets17_to19",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 166,
++    "root": "network::insertion_safety_u64_n19_offsets1_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets1_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 167,
++    "root": "network::insertion_safety_u64_n19_offsets5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 168,
++    "root": "network::insertion_safety_u64_n19_offsets9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 169,
++    "root": "network::insertion_safety_u64_n1_to5",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n1_to5",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 170,
++    "root": "network::insertion_safety_u64_n20_offsets13_to16",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets13_to16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 171,
++    "root": "network::insertion_safety_u64_n20_offsets17_to20",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets17_to20",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 172,
++    "root": "network::insertion_safety_u64_n20_offsets1_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets1_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 173,
++    "root": "network::insertion_safety_u64_n20_offsets5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 174,
++    "root": "network::insertion_safety_u64_n20_offsets9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 175,
++    "root": "network::insertion_safety_u64_n6_to10",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n6_to10",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 176,
++    "root": "network::mutating_insertion_safety_cell_n1_to5",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n1_to5",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 177,
++    "root": "network::mutating_insertion_safety_cell_n20_offsets13_to16",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets13_to16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 178,
++    "root": "network::mutating_insertion_safety_cell_n20_offsets17_to20",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets17_to20",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 179,
++    "root": "network::mutating_insertion_safety_cell_n20_offsets1_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets1_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 180,
++    "root": "network::mutating_insertion_safety_cell_n20_offsets5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 181,
++    "root": "network::mutating_insertion_safety_cell_n20_offsets9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 182,
++    "root": "network::mutating_route_permutation_cell_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n2",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 183,
++    "root": "network::mutating_route_permutation_cell_n3",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n3",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 184,
++    "root": "network::mutating_route_permutation_cell_n4",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n4",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 185,
++    "root": "network::mutating_route_safety_cell_n0_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n0_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 186,
++    "root": "network::mutating_route_safety_cell_n13_to16",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n13_to16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 187,
++    "root": "network::mutating_route_safety_cell_n5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 188,
++    "root": "network::mutating_route_safety_cell_n9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 189,
++    "root": "network::network_correctness_u64_n0_to2",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n0_to2",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 190,
++    "root": "network::network_correctness_u64_n3_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n3_to4",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 191,
++    "root": "network::network_correctness_u64_n5",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n5",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 192,
++    "root": "network::network_correctness_u64_n6",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n6",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 193,
++    "root": "network::network_correctness_u64_n7",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n7",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 194,
++    "root": "network::network_correctness_u64_n9",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n9",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 195,
++    "root": "network::network_correctness_u8_n0_to2",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n0_to2",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 196,
++    "root": "network::network_correctness_u8_n10",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n10",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 197,
++    "root": "network::network_correctness_u8_n11",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n11",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 198,
++    "root": "network::network_correctness_u8_n12",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n12",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 199,
++    "root": "network::network_correctness_u8_n13",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n13",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 200,
++    "root": "network::network_correctness_u8_n3_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n3_to4",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 201,
++    "root": "network::network_correctness_u8_n5",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n5",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 202,
++    "root": "network::network_correctness_u8_n6",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n6",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 203,
++    "root": "network::network_correctness_u8_n7",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n7",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 204,
++    "root": "network::network_correctness_u8_n9",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n9",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 205,
++    "root": "network::network_safety_unstable_u64_n0_to17",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n0_to17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 206,
++    "root": "network::network_safety_unstable_u64_n30",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n30",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 207,
++    "root": "network::network_safety_unstable_u64_n31",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n31",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 208,
++    "root": "network::network_safety_unstable_u64_n32",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 209,
++    "root": "network::swap_contract_bytes16_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_bytes16_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 210,
++    "root": "network::swap_contract_bytes17_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_bytes17_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 211,
++    "root": "network::swap_contract_cell_i32_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_cell_i32_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 212,
++    "root": "network::swap_contract_drop_u8_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_drop_u8_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 213,
++    "root": "network::swap_contract_four_positions_i32",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_i32",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 214,
++    "root": "network::swap_contract_four_positions_u64",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u64",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 215,
++    "root": "network::swap_contract_four_positions_u8",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u8",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 216,
++    "root": "network::swap_contract_u64_indices_n17",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_u64_indices_n17",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 217,
++    "root": "network::swap_contract_u64_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_u64_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 218,
++    "root": "network::swap_contract_u64_n9",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_u64_n9",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 219,
++    "root": "network::swap_contract_u8_indices_n17",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_indices_n17",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 220,
++    "root": "network::swap_contract_u8_n13",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n13",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 221,
++    "root": "network::swap_contract_u8_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 222,
++    "root": "network::swap_contract_u8_n9",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n9",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 223,
++    "root": "network::swap_same_position_u8",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_same_position_u8",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 224,
++    "root": "network::unstable_freeze_noncopy_bytes86_fallback_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 225,
++    "root": "scratch_geometry::stable_u64_min_scratch_n2",
++    "selector": "slice::sort::shared::smallsort::verify::scratch_geometry::stable_u64_min_scratch_n2",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 226,
++    "root": "smoke::predicate_efficient_swap_type_matrix",
++    "selector": "slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 227,
++    "root": "tag_permutation::network_u8_n13",
++    "selector": "slice::sort::shared::smallsort::verify::tag_permutation::network_u8_n13",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 228,
++    "root": "tag_permutation::network_u8_n9",
++    "selector": "slice::sort::shared::smallsort::verify::tag_permutation::network_u8_n9",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 229,
++    "root": "tag_permutation::tag_types_preserve_source_routes",
++    "selector": "slice::sort::shared::smallsort::verify::tag_permutation::tag_types_preserve_source_routes",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 230,
++    "root": "types::sorted_permutation_traits_fallback_cell_u8_n0_to2",
++    "selector": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n0_to2",
++    "shard": 2,
++    "class": "logical_traits",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 231,
++    "root": "types::sorted_permutation_traits_fallback_cell_u8_n7",
++    "selector": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n7",
++    "shard": 2,
++    "class": "logical_traits",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 232,
++    "root": "types::sorted_permutation_traits_general_drop_u8_n0_to2",
++    "selector": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n0_to2",
++    "shard": 2,
++    "class": "logical_traits",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 233,
++    "root": "types::sorted_permutation_traits_general_drop_u8_n8",
++    "selector": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n8",
++    "shard": 2,
++    "class": "logical_traits",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 234,
++    "root": "types::sorted_permutation_traits_stable_fallback_cell_u8_n8",
++    "selector": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_stable_fallback_cell_u8_n8",
++    "shard": 2,
++    "class": "logical_traits",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 235,
++    "root": "types::sorted_permutation_traits_unstable_fallback_cell_u8_n8",
++    "selector": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_unstable_fallback_cell_u8_n8",
++    "shard": 2,
++    "class": "logical_traits",
++    "intended_invalid_value": false
++  }
++]
+diff --git a/scripts/ch8-b-census/static_check.py b/scripts/ch8-b-census/static_check.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..0653c537de5d3480306cbba803afa64bf040a0b6
+--- /dev/null
++++ b/scripts/ch8-b-census/static_check.py
+@@ -0,0 +1,42 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Offline YAML/identity checks; PyYAML and actionlint are static tooling only."""
++import ast
++import hashlib
++import json
++from pathlib import Path
++import re
++import yaml
++import census
++
++ROOT=Path(__file__).resolve().parents[2]
++WORKFLOW=ROOT/'.github/workflows/ch8-b-census.yml'
++req,roots=census.load()
++w=yaml.safe_load(WORKFLOW.read_text())
++assert w['on']=={'push':{'branches':['uninit-ci/ch8-b-census-*']}}
++assert w['permissions']=={'contents':'read'}
++job=w['jobs']['census']
++assert job['timeout-minutes']==req['job_minutes']==210
++assert job['runs-on']==req['os']
++assert job['strategy']=={'fail-fast':False,'max-parallel':1,'matrix':{'shard':[2,4]}}
++steps=job['steps']
++for step in steps:
++    if step.get('uses','').startswith('actions/checkout@'):
++        assert step['with']['fetch-depth']>=2
++        assert step['with']['persist-credentials'] is False
++    for key,value in step.items():
++        if key!='env':
++            assert 'runner.' not in json.dumps(value), 'runner.* outside step env'
++    if 'run' in step:
++        # Parse every embedded Python heredoc as Python, independent of indentation.
++        match=re.search(r"python3 - <<'PYCODE'\n(.*?)\nPYCODE",step['run'],re.S)
++        if match: ast.parse(match.group(1))
++assert [s['with']['path'] for s in steps if s.get('uses','').startswith('actions/checkout@')]==['control','export','std']
++assert next(s for s in steps if s.get('uses')=='./export/.github/actions/setup')['with']['kani_dir']=='export'
++assert not any(p.exists() for p in (ROOT/'control',ROOT/'export',ROOT/'std')), 'nested workspace'
++for p in census.HERE.glob('*.py'): ast.parse(p.read_text())
++# Protocol upper bound; two writers cannot exceed it even at the per-root export cap.
++assert 235*(req['export_cap_bytes']+32768)+1024**2 < req['artifact_cap_bytes']
++print(json.dumps({'status':'PASS','roots':235,'shards':req['inventory']['shards'],
++    'checks':['YAML parse','runner context','checkout depth','trigger','cwd prefixes','no nested workspace','Python AST','artifact envelope'],
++    'workflow_sha256':hashlib.sha256(WORKFLOW.read_bytes()).hexdigest()}))
+diff --git a/scripts/ch8-b-census/test_census.py b/scripts/ch8-b-census/test_census.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..33918be15ab0e25bc6f4d6a559a38937e381fa7a
+--- /dev/null
++++ b/scripts/ch8-b-census/test_census.py
+@@ -0,0 +1,130 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Isolated synthetic service tests. Never invokes a compiler or verifier."""
++import copy
++import json
++import os
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++from unittest.mock import patch
++import census as c
++
++
++class CensusTests(unittest.TestCase):
++    def setUp(self):
++        self.req, roots = c.load()
++        self.row = roots[0]
++        self.execution = {'exit':0, 'stop':None}
++        self.data = dict(schema_version='0.1.0', kani_commit=c.KANI, kani_commit_dirty=False,
++            target=self.req['target'], run_state='COMPLETE', outcome={'kind':'COMPLETED'},
++            enabled_unstable_features=sorted(self.req['organizer_features']+['unstable-options','valid-value-checks','export-json']),
++            configuration={'checks':dict(memory_safety=True,overflow=True,unwinding=True,undefined_function=True,
++                assertion_reach_checks=True,ignore_global_asm=False,extra_pointer_checks=False,assert_contracts=False,prove_safety_only=False),
++                'cbmc_args':['--object-bits','12'],'coverage_enabled':False},
++            harness_selection=dict(requested_filters=[self.row['selector']],exact=True,unmatched_filters=[],matched_count=1),
++            harnesses=[dict(name=self.row['selector'],crate_name='core',is_automatically_generated=False,
++                outcome={'kind':'COMPLETED','verdict':'SUCCESS'},n_properties=2,n_failed=0,failed_properties=[],unsupported_constructs=[],
++                checks=dict(total=1,success=1,failure=[],unreachable=[],undetermined=[],error=[],unknown=[],other=[]),
++                covers=dict(total=1,satisfied=['read-cover'],unsatisfiable=[],unreachable=[],undetermined=[],error=[],unknown=[],other=[]))])
++
++    def classify(self):
++        return c.classify(self.data,self.row,self.execution,self.req)
++
++    def fail(self,desc,cls='unsupported_construct'):
++        h=self.data['harnesses'][0]
++        p=dict(id='p.1',description=desc,**{'class':cls},status='FAILURE')
++        h.update(outcome={'kind':'COMPLETED','verdict':'FAILURE'},n_failed=1,failed_properties=[p],unsupported_constructs=[p] if cls=='unsupported_construct' else [])
++        h['checks'].update(success=0,failure=['p.1'])
++        self.execution['exit']=1
++
++    def test_pass_preserves_checks_and_reads(self):
++        out=self.classify()
++        self.assertEqual(out['classification'],'PASS')
++        self.assertEqual(out['harness']['covers']['satisfied'],['read-cover'])
++
++    def test_unsupported_families(self):
++        for text,expected in [('copy_nonoverlapping','copy Unsupported'),('mutable cast','casts'),('transmute','other Unsupported')]:
++            self.fail("Kani currently doesn't support checking validity of `"+text+"` for `u8`")
++            self.assertEqual(self.classify()['classification'],expected)
++
++    def test_intent_is_explicit_not_inferred(self):
++        self.fail('Undefined Behavior: Invalid value of type `bool`','assertion')
++        self.assertEqual(self.classify()['classification'],c.CATCHALL)
++        self.assertFalse(self.classify()['complete'])
++        self.row=dict(self.row,intended_invalid_value=True)
++        self.assertEqual(self.classify()['classification'],'intended invalid-value failure')
++
++    def test_partial_timeout_crash_null_wrong_type_not_run(self):
++        original=copy.deepcopy(self.data)
++        for value in [None,[],{},'SUCCESS',False]:
++            self.assertFalse(c.classify(value,self.row,self.execution,self.req)['complete'])
++        mutations=[('run_state','PARTIAL'),('run_state','INCOMPLETE'),('run_state','NOT_RUN'),('harnesses',None),('harnesses',[])]
++        for k,v in mutations:
++            self.data=copy.deepcopy(original); self.data[k]=v
++            self.assertFalse(self.classify()['complete'])
++        self.data=copy.deepcopy(original)
++        self.data['harnesses'][0]['outcome']={'kind':'TIMEOUT'}
++        self.assertFalse(self.classify()['complete'])
++        self.data['harnesses'][0]['outcome']={'kind':'CRASHED','code':-9}
++        self.assertFalse(self.classify()['complete'])
++
++    def test_source_stage_target_selection_flags_mismatch(self):
++        original=copy.deepcopy(self.data)
++        for k,v in [('kani_commit','0'*40),('kani_commit_dirty',True),('target','other'),('schema_version','future')]:
++            self.data=copy.deepcopy(original); self.data[k]=v
++            self.assertFalse(self.classify()['complete'])
++        for path,value in [('matched_count',0),('exact',False),('requested_filters',['wrong']),('unmatched_filters',['wrong'])]:
++            self.data=copy.deepcopy(original); self.data['harness_selection'][path]=value
++            self.assertFalse(self.classify()['complete'])
++        self.data=copy.deepcopy(original); self.data['enabled_unstable_features'].append('uninit-checks')
++        self.assertFalse(self.classify()['complete'])
++        self.data=copy.deepcopy(original); self.data['configuration']['checks']['unwinding']=False
++        self.assertFalse(self.classify()['complete'])
++        self.data=copy.deepcopy(original); self.data['harnesses'][0]['is_automatically_generated']=True
++        self.assertFalse(self.classify()['complete'])
++
++    def test_checks_and_exit_disagreement(self):
++        self.execution['exit']=1
++        self.assertFalse(self.classify()['complete'])
++        self.execution['exit']=0; self.execution['stop']='OUTPUT_LIMIT'
++        self.assertFalse(self.classify()['complete'])
++        self.execution['stop']=None; self.data['harnesses'][0]['checks']['total']=20
++        self.assertFalse(self.classify()['complete'])
++
++    def test_missing_receipt_fallback_and_partial(self):
++        with tempfile.TemporaryDirectory() as td:
++            out=Path(td)
++            result=c.finalize(out,[self.row],'success')
++            self.assertEqual(result['status'],'PARTIAL')
++            self.assertEqual(result['counts'],{c.CATCHALL:1})
++            self.assertEqual(json.loads(next(out.glob('root-*.json')).read_text())['runtime_proof_status'],'NOT_RUN')
++
++    def test_guard_original_exits_exception_timeout_output_rss(self):
++        req=dict(self.req,stdout_cap_bytes=1024)
++        with tempfile.TemporaryDirectory() as td:
++            run=lambda code, seconds=2: c.guarded([sys.executable,'-c',code],Path(td),seconds,req)
++            self.assertEqual(run('raise SystemExit(7)')['exit'],7)
++            self.assertEqual(run('print("success")')['exit'],0)
++            timed=run('import time; time.sleep(3)',.05)
++            self.assertEqual(timed['stop'],'TIMEOUT'); self.assertEqual(timed['signal'],9)
++            self.assertEqual(run('print("x"*2048)')['stop'],'OUTPUT_LIMIT')
++            with patch.object(c,'rss_groups',side_effect=lambda groups:{p:7*1024**3 for p in groups}):
++                self.assertEqual(run('import time; time.sleep(3)')['stop'],'RSS_LIMIT')
++            failed=c.guarded(['/does-not-exist'],Path(td),1,req)
++            self.assertEqual(failed['stop'],'SPAWN_ERROR'); self.assertIsNone(failed['exit'])
++            self.assertIsNotNone(failed['exception'])
++
++    def test_argv_has_only_frozen_semantics_and_no_cfg(self):
++        argv=c.argv_for(self.req,self.row,Path('/export/scripts/kani'),Path('/target'),Path('/out.json'))
++        self.assertEqual(argv[-3:],['--cbmc-args','--object-bits','12'])
++        self.assertNotIn('--default-unwind',argv)
++        self.assertNotIn('autoharness',argv)
++        with patch.dict(os.environ,{'RUSTFLAGS':'--cfg kani_smallsort_controls','KANI_FLAGS':'bad','CARGO_ENCODED_RUSTFLAGS':'bad'}):
++            env=c.clean_env()
++            self.assertNotIn('RUSTFLAGS',env); self.assertNotIn('KANI_FLAGS',env)
++
++
++if __name__=='__main__':
++    unittest.main()
