@@ -47,7 +47,7 @@
 //! - Panic stubs cut only the explicit order-violation abort path.
 //! - Fixtures supply initialized input and exclusive mutable storage; region predicates
 //!   check pointer geometry.
-//! - Closed ordered profiles guard the exact comparator and use a pure model without
+//! - Closed ordered profiles fix the comparator statically and use a pure model without
 //!   invoking the callback.
 //!
 //! Not covered:

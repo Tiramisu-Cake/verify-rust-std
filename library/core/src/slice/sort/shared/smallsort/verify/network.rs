@@ -1,5 +1,5 @@
 //! Exchange and insertion profiles, plus real network and dispatch checks.
-//! Ordered profiles guard a canonical comparator; real helper frame proofs live in the
+//! Ordered profiles fix a static comparator; real helper frame proofs live in the
 //! contract modules listed in verify.rs.
 
 use super::super::UnstableSmallSortFreezeTypeImpl;
@@ -95,10 +95,10 @@ where
     kani::cover(a == 0 && b == 3, "swap_if_less: a < b reachable");
     kani::cover(a == 3 && b == 0, "swap_if_less: a > b reachable");
     let (old_a, old_b) = (v[a], v[b]);
-    // SAFETY: `a` and `b` are distinct in-bounds positions of `v`; canonical comparator.
-    unsafe { swap_profile::<P>(v.as_mut_ptr(), a, b, P::CMP) };
-    kani::cover((P::CMP)(&old_b, &old_a), "swap_if_less: swap taken");
-    kani::cover(!(P::CMP)(&old_b, &old_a), "swap_if_less: swap not taken");
+    // SAFETY: `a` and `b` are distinct in-bounds positions of `v`; static profile comparator.
+    unsafe { swap_profile::<P>(v.as_mut_ptr(), a, b) };
+    kani::cover(P::cmp(&old_b, &old_a), "swap_if_less: swap taken");
+    kani::cover(!P::cmp(&old_b, &old_a), "swap_if_less: swap not taken");
     kani::cover(true, "swap_if_less: end reached");
 }
 
@@ -266,6 +266,12 @@ trait ArbitraryValue: Sized {
 }
 
 impl ArbitraryValue for u8 {
+    fn arbitrary_value() -> Self {
+        kani::any()
+    }
+}
+
+impl ArbitraryValue for i32 {
     fn arbitrary_value() -> Self {
         kani::any()
     }
@@ -848,7 +854,9 @@ pub(crate) struct CellI32;
 impl Profile for CellI32 {
     type Elem = crate::cell::Cell<i32>;
     type Model = i32;
-    const CMP: fn(&Self::Elem, &Self::Elem) -> bool = cell_value_less;
+    fn cmp(a: &Self::Elem, b: &Self::Elem) -> bool {
+        cell_value_less(a, b)
+    }
     fn model(x: &crate::cell::Cell<i32>) -> i32 {
         x.get()
     }
@@ -874,7 +882,9 @@ struct DropU8;
 impl Profile for DropU8 {
     type Elem = DropValue;
     type Model = u8;
-    const CMP: fn(&DropValue, &DropValue) -> bool = drop_value_less;
+    fn cmp(a: &DropValue, b: &DropValue) -> bool {
+        drop_value_less(a, b)
+    }
     fn model(x: &DropValue) -> u8 {
         x.0
     }
@@ -899,10 +909,10 @@ where
         crate::array::from_fn(|_| <P::Elem as ArbitraryValue>::arbitrary_value());
     let reverse: bool = kani::any();
     let (a, b) = if reverse { (1, 0) } else { (0, 1) };
-    let taken = (P::CMP)(&v[b], &v[a]);
+    let taken = P::cmp(&v[b], &v[a]);
     // SAFETY: a and b are distinct initialized writable elements of the live exact array.
     unsafe {
-        swap_profile::<P>(v.as_mut_ptr(), a, b, P::CMP);
+        swap_profile::<P>(v.as_mut_ptr(), a, b);
     }
     kani::cover(reverse, "swap contract covers indices 1 and 0");
     kani::cover(!reverse, "swap contract covers indices 0 and 1");
@@ -988,10 +998,10 @@ where
     let pre = v;
     let a: usize = kani::any_where(|&i| i < N);
     let b: usize = kani::any_where(|&i| i < N && i != a);
-    let taken = (P::CMP)(&v[b], &v[a]);
+    let taken = P::cmp(&v[b], &v[a]);
     // SAFETY: a and b are distinct in-bounds initialized writable elements of v.
     unsafe {
-        swap_profile::<P>(v.as_mut_ptr(), a, b, P::CMP);
+        swap_profile::<P>(v.as_mut_ptr(), a, b);
     }
     let mut i = 0;
     while i < N {
@@ -1048,7 +1058,7 @@ fn insert_tail_group_value<const LO: usize, const HI: usize>() -> usize {
     // SAFETY: 1 < LO <= tail <= HI < 17; the enclosing proof_for_contract
     // assumes precisely the profile requires, including the model-sorted prefix.
     unsafe {
-        insert_tail_profile::<LtU64>(base.add(1), base.add(tail), LtU64::CMP);
+        insert_tail_profile::<LtU64>(base.add(1), base.add(tail));
     }
     insert_tail_start1_frame(&v, &pre, tail);
     kani::cover(!prefix_unchanged(&v, &pre, 0), "insertion moves elements");
@@ -1101,7 +1111,7 @@ fn contract_insert_tail_u8_prefix() {
     // SAFETY: valid same-allocation region. proof_for_contract supplies the model-sorted
     // prefix requires of the profile; the suffix is outside the modifies region.
     unsafe {
-        insert_tail_profile::<LtU8>(base, base.add(tail), LtU8::CMP);
+        insert_tail_profile::<LtU8>(base, base.add(tail));
     }
     for i in tail + 1..17 {
         assert!(input[i] == before[i]);
@@ -1161,3 +1171,40 @@ macro_rules! mutating_route_permutation_case {
 mutating_route_permutation_case!(mutating_route_permutation_cell_n2, 2, [1, 2]);
 mutating_route_permutation_case!(mutating_route_permutation_cell_n3, 3, [1, 2, 3]);
 mutating_route_permutation_case!(mutating_route_permutation_cell_n4, 4, [1, 2, 3, 4]);
+
+// Check each audited adapter against its independent pure model over arbitrary full values.
+// These are relation checks for the closed instances, not an arbitrary FnMut law.
+fn profile_relation<P: Profile>()
+where
+    P::Elem: ArbitraryValue,
+{
+    let a = P::Elem::arbitrary_value();
+    let b = P::Elem::arbitrary_value();
+    let ma = P::model(&a);
+    let mb = P::model(&b);
+    kani::assert(P::cmp(&a, &b) == P::model_less(&ma, &mb), "static profile model relation");
+    kani::assert(P::model(&a) == ma && P::model(&b) == mb, "static profile comparison frame");
+    kani::cover(true, "static profile relation returns");
+}
+
+macro_rules! profile_relation_case {
+    ($name:ident, $tag:ty) => {
+        #[kani::proof]
+        #[kani::unwind(180)]
+        fn $name() {
+            profile_relation::<$tag>();
+        }
+    };
+}
+
+profile_relation_case!(profile_relation_lt_u8, LtU8);
+profile_relation_case!(profile_relation_lt_i32, LtI32);
+profile_relation_case!(profile_relation_lt_u64, LtU64);
+profile_relation_case!(profile_relation_read_u64, super::merge::profiles::Sort4ReadU64);
+profile_relation_case!(profile_relation_read_b16, super::merge::profiles::Sort4ReadB16);
+profile_relation_case!(profile_relation_strict_u8, StrictU8);
+profile_relation_case!(profile_relation_strict_u64, StrictU64);
+profile_relation_case!(profile_relation_cell_i32, CellI32);
+profile_relation_case!(profile_relation_drop_u8, DropU8);
+profile_relation_case!(profile_relation_key_b16, KeyB16);
+profile_relation_case!(profile_relation_key_b17, KeyB17);

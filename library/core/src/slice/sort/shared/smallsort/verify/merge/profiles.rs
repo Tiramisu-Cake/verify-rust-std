@@ -1,14 +1,13 @@
 //! Ordered profiles for the real swap, sort4, tail-insertion, and merge helpers.
-//! Each tag fixes an element type, a canonical comparator, and a pure full-value model.
-//! Specifications use that model without calling the comparator. Forwarders reject any other
-//! comparator value before assuming an ordered summary; the helpers' frame contracts alone
-//! do not promise an order. Equal keys may have different full values.
+//! Each tag fixes an element type, a static comparator, and a pure full-value model.
+//! Specifications use that model without calling the comparator. Wrappers accept no callback;
+//! each real helper receives the direct closure `|a, b| P::cmp(a, b)`. The helpers' frame
+//! contracts alone do not promise an order. Equal keys may have different full values.
 //!
 //! `kani::assert` preserves literal descriptions here; core `assert!` reports a shared
 //! placeholder on the pinned Kani.
 
 use super::{lt_u8, lt_u64, regions_are_disjoint};
-#[cfg(kani_smallsort_controls)]
 use crate::mem::MaybeUninit;
 use crate::mem::size_of;
 use crate::slice::sort::shared::FreezeMarker;
@@ -18,14 +17,14 @@ use crate::slice::sort::shared::smallsort::{
 use crate::ub_checks::{can_dereference, can_write, same_allocation};
 use crate::{kani, ptr};
 
-/// Closed verification profile. Each implementation is audited: `CMP(a, b)` computes
+/// Closed verification profile. Each implementation is audited: `cmp(a, b)` computes
 /// `model_less(&model(a), &model(b))`, at most with additional volatile reads of both arguments;
 /// `model` is the full logical value and has no side effects; the probe is one model value shared
 /// by a composition. This is not a blanket lawful-order or purity claim about any other `FnMut`.
 pub(crate) trait Profile {
     type Elem;
     type Model: Copy + PartialEq;
-    const CMP: fn(&Self::Elem, &Self::Elem) -> bool;
+    fn cmp(a: &Self::Elem, b: &Self::Elem) -> bool;
     fn model(x: &Self::Elem) -> Self::Model;
     fn model_less(a: &Self::Model, b: &Self::Model) -> bool;
     fn probe() -> Self::Model;
@@ -44,7 +43,9 @@ macro_rules! identity_profile {
         impl Profile for $tag {
             type Elem = $t;
             type Model = $t;
-            const CMP: fn(&$t, &$t) -> bool = $cmp;
+            fn cmp(a: &$t, b: &$t) -> bool {
+                $cmp(a, b)
+            }
             fn model(x: &$t) -> $t {
                 *x
             }
@@ -121,14 +122,6 @@ identity_profile!(
     sort4_read_lt_b16,
     super::lt_b16
 );
-
-/// The canonical guard: only the profile's audited function value is accepted. This is the
-/// address comparison `ptr::fn_addr_eq` performs, written as a direct cast for the pinned model.
-pub(crate) fn profile_canonical_comparator<P: Profile>(
-    cmp: fn(&P::Elem, &P::Elem) -> bool,
-) -> bool {
-    cmp as *const () == P::CMP as *const ()
-}
 
 /// No adjacent strict model inversion in `base[..len]`; loop-free for `len <= 32`.
 pub(crate) fn model_sorted<P: Profile>(base: *const P::Elem, len: usize) -> bool {
@@ -209,7 +202,6 @@ pub(crate) fn swap_ordered<P: Profile>(v: *const P::Elem, a: usize, b: usize) ->
 }
 
 #[kani::requires(swap_geometry::<P::Elem>(v, a, b))]
-#[kani::requires(profile_canonical_comparator::<P>(cmp))]
 #[kani::modifies(v.wrapping_add(a), v.wrapping_add(b))]
 #[kani::ensures(|_| swap_transfer::<P>(old(pair_models::<P>(v, a, b)), v, a, b))]
 #[kani::ensures(|_| swap_ordered::<P>(v, a, b))]
@@ -217,10 +209,9 @@ pub(crate) unsafe fn swap_profile<P: Profile>(
     v: *mut P::Elem,
     a: usize,
     b: usize,
-    cmp: fn(&P::Elem, &P::Elem) -> bool,
 ) {
-    let mut is_less = cmp;
-    // SAFETY: initialized exclusive fixture storage; requires check geometry and `P::CMP`.
+    let mut is_less = |a: &P::Elem, b: &P::Elem| P::cmp(a, b);
+    // SAFETY: initialized exclusive fixture storage; requires check geometry; the profile fixes the comparator.
     unsafe { swap_if_less(v, a, b, &mut is_less) }
 }
 
@@ -234,16 +225,14 @@ pub(crate) fn sort4_regions<T>(src: *const T, dst: *mut T) -> bool {
 }
 
 #[kani::requires(sort4_regions::<P::Elem>(src, dst))]
-#[kani::requires(profile_canonical_comparator::<P>(cmp))]
 #[kani::modifies(ptr::slice_from_raw_parts_mut(dst, 4))]
 #[kani::ensures(|_| model_sorted::<P>(dst, 4))]
 #[kani::ensures(|_| model_count::<P>(src, 4) == model_count::<P>(dst, 4))]
 pub(crate) unsafe fn sort4_profile<P: Profile>(
     src: *const P::Elem,
     dst: *mut P::Elem,
-    cmp: fn(&P::Elem, &P::Elem) -> bool,
 ) {
-    let mut is_less = cmp;
+    let mut is_less = |a: &P::Elem, b: &P::Elem| P::cmp(a, b);
     // SAFETY: fixtures initialize src and own dst; requires check both spans and disjointness.
     unsafe { sort4_stable(src, dst, &mut is_less) }
 }
@@ -270,7 +259,6 @@ pub(crate) fn tail_region<T>(begin: *mut T, tail: *mut T) -> bool {
         && can_write(ptr::slice_from_raw_parts_mut(begin, tail_len::<T>(begin, tail)))
 }
 
-#[kani::requires(profile_canonical_comparator::<P>(cmp))]
 #[kani::requires(
     tail_region::<P::Elem>(begin, tail)
         && model_sorted::<P>(begin, tail_len::<P::Elem>(begin, tail) - 1)
@@ -284,9 +272,8 @@ pub(crate) fn tail_region<T>(begin: *mut T, tail: *mut T) -> bool {
 pub(crate) unsafe fn insert_tail_profile<P: Profile>(
     begin: *mut P::Elem,
     tail: *mut P::Elem,
-    cmp: fn(&P::Elem, &P::Elem) -> bool,
 ) {
-    let mut is_less = cmp;
+    let mut is_less = |a: &P::Elem, b: &P::Elem| P::cmp(a, b);
     // SAFETY: initialized exclusive fixture storage; requires check geometry and sorted prefix.
     unsafe { insert_tail(begin, tail, &mut is_less) }
 }
@@ -308,7 +295,6 @@ pub(crate) fn merge_halves_sorted<P: Profile>(v: &[P::Elem]) -> bool {
         && model_sorted::<P>(v.as_ptr().wrapping_add(half), v.len() - half)
 }
 
-#[kani::requires(profile_canonical_comparator::<P>(cmp))]
 #[kani::requires(merge_regions::<P::Elem>(v, dst) && merge_halves_sorted::<P>(v))]
 #[kani::modifies(ptr::slice_from_raw_parts_mut(dst, v.len()))]
 #[kani::ensures(|_| model_sorted::<P>(dst, v.len()))]
@@ -316,19 +302,113 @@ pub(crate) fn merge_halves_sorted<P: Profile>(v: &[P::Elem]) -> bool {
 pub(crate) unsafe fn merge_profile<P: Profile>(
     v: &[P::Elem],
     dst: *mut P::Elem,
-    cmp: fn(&P::Elem, &P::Elem) -> bool,
 ) where
     P::Elem: FreezeMarker,
 {
-    let mut is_less = cmp;
+    let mut is_less = |a: &P::Elem, b: &P::Elem| P::cmp(a, b);
     // SAFETY: fixtures initialize v and own dst; requires check destination geometry and lengths.
     unsafe { bidirectional_merge(v, dst, &mut is_less) }
 }
 
-// Opt-in negative controls; the profile contract proofs are in `network` and `merge`. Each control
-// expects exactly the named check to fail.
+// Matched summary consumers: the wrapper itself owns the closure expression, so a leaf and
+// its consumer instantiate the same P/Elem/closure even when the wrapper is replaced. These
+// roots require new qualification; no result for the former fn-pointer signature is reused.
+#[kani::proof]
+#[kani::stub_verified(swap_profile)]
+#[kani::unwind(6)]
+fn profile_swap_consumer_u8_backing4() {
+    let mut v: [u8; 4] = kani::any();
+    let before = v;
+    let a: usize = kani::any_where(|a: &usize| *a < 4);
+    let b: usize = kani::any_where(|b: &usize| *b < 4 && *b != a);
+    let pre = pair_models::<LtU8>(v.as_ptr(), a, b);
+    // SAFETY: distinct initialized writable positions in the matching backing4 geometry.
+    unsafe { swap_profile::<LtU8>(v.as_mut_ptr(), a, b) };
+    kani::assert(swap_transfer::<LtU8>(pre, v.as_ptr(), a, b), "static swap transfer");
+    kani::assert(swap_ordered::<LtU8>(v.as_ptr(), a, b), "static swap ordered");
+    for i in 0..4 {
+        kani::assert(i == a || i == b || v[i] == before[i], "static swap consumer frame");
+    }
+    kani::cover(true, "static swap consumer returns");
+}
 
-/// Real sort4 with the canonical comparator, then one payload bit flip that keeps the key.
+fn sort4_consumer<P: Profile>()
+where
+    P::Elem: kani::Arbitrary,
+    P::Model: kani::Arbitrary,
+{
+    P::set_probe(kani::any());
+    let src: [P::Elem; 4] = kani::any();
+    let before = model_count::<P>(src.as_ptr(), 4);
+    let mut dst = MaybeUninit::<[P::Elem; 4]>::uninit();
+    let out = dst.as_mut_ptr().cast::<P::Elem>();
+    // SAFETY: separate exact arrays, initialized source; matching sort4 leaf geometry.
+    unsafe { sort4_profile::<P>(src.as_ptr(), out) };
+    kani::assert(model_sorted::<P>(out, 4), "static sort4 consumer ordered");
+    kani::assert(before == model_count::<P>(out, 4), "static sort4 consumer full values");
+    kani::assert(before == model_count::<P>(src.as_ptr(), 4), "static sort4 source probe count");
+    kani::cover(true, "static sort4 consumer returns");
+}
+
+#[kani::proof]
+#[kani::stub_verified(sort4_profile)]
+#[kani::unwind(34)]
+fn profile_sort4_consumer_u64() {
+    sort4_consumer::<Sort4ReadU64>();
+}
+
+#[kani::proof]
+#[kani::stub_verified(sort4_profile)]
+#[kani::unwind(34)]
+fn profile_sort4_consumer_b16() {
+    sort4_consumer::<Sort4ReadB16>();
+}
+
+#[kani::proof]
+#[kani::stub_verified(insert_tail_profile)]
+#[kani::unwind(18)]
+fn profile_insert_consumer_u8_backing17() {
+    LtU8::set_probe(kani::any());
+    let mut v: [u8; 17] = kani::any();
+    let tail: usize = kani::any_where(|tail: &usize| 1 <= *tail && *tail < 17);
+    let before = v;
+    kani::assume(model_sorted::<LtU8>(v.as_ptr(), tail));
+    let count = model_count::<LtU8>(v.as_ptr(), tail + 1);
+    // SAFETY: matching backing17, begin at zero and symbolic tail; sorted prefix above.
+    unsafe { insert_tail_profile::<LtU8>(v.as_mut_ptr(), v.as_mut_ptr().add(tail)) };
+    kani::assert(model_sorted::<LtU8>(v.as_ptr(), tail + 1), "static insert consumer ordered");
+    kani::assert(
+        count == model_count::<LtU8>(v.as_ptr(), tail + 1),
+        "static insert consumer full values",
+    );
+    for i in tail + 1..17 {
+        kani::assert(v[i] == before[i], "static insert consumer frame");
+    }
+    kani::cover(tail == 1, "static insert consumer minimum tail");
+    kani::cover(tail == 16, "static insert consumer maximum tail");
+    kani::cover(true, "static insert consumer returns");
+}
+
+#[kani::proof]
+#[kani::stub_verified(merge_profile)]
+#[kani::unwind(34)]
+fn profile_merge_consumer_u8_len4() {
+    LtU8::set_probe(kani::any());
+    let src: [u8; 4] = kani::any();
+    let before = src;
+    kani::assume(merge_halves_sorted::<LtU8>(&src));
+    let count = model_count::<LtU8>(src.as_ptr(), 4);
+    let mut dst = MaybeUninit::<[u8; 4]>::uninit();
+    let out = dst.as_mut_ptr().cast::<u8>();
+    // SAFETY: separate exact arrays and sorted halves, matching the len2-to4 leaf's len4 arm.
+    unsafe { merge_profile::<LtU8>(&src, out) };
+    kani::assert(model_sorted::<LtU8>(out, 4), "static merge consumer ordered");
+    kani::assert(count == model_count::<LtU8>(out, 4), "static merge consumer full values");
+    kani::assert(src == before, "static merge source frame");
+    kani::cover(true, "static merge consumer returns");
+}
+
+/// Real sort4 with the static profile comparator, then one payload bit flip that keeps the key.
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
 #[kani::unwind(6)]
@@ -336,7 +416,7 @@ fn profile_full_value_checker_rejects_payload_change_u8() {
     LtU8::set_probe(kani::any());
     let src: [u8; 4] = kani::any();
     let mut dst = [0u8; 4];
-    let mut cmp = LtU8::CMP;
+    let mut cmp = |a: &u8, b: &u8| LtU8::cmp(a, b);
     // SAFETY: separate initialized four-element arrays.
     unsafe { sort4_stable(src.as_ptr(), dst.as_mut_ptr(), &mut cmp) };
     kani::cover(true, "payload corruption reached");
@@ -347,9 +427,10 @@ fn profile_full_value_checker_rejects_payload_change_u8() {
     kani::assert(same, "full-value checker detects payload corruption");
 }
 
-// Wrong-F controls, one per profile family: a consumer of the verified profile summary passes an
-// always-true function value. Every other requires holds, so exactly the canonical guard must
-// fail at the call, before the ordered ensures are assumed.
+// Historical wrong-F root names are retained for inventory continuity. The new API has no
+// comparator argument, so a wrong function value cannot be supplied. These controls instead
+// execute real wrappers with deliberately unaudited test-only profiles; no verified stub may
+// admit these profiles. Each checks the same pure model postcondition as its legal companion.
 
 #[cfg(kani_smallsort_controls)]
 fn always_true_u8(_: &u8, _: &u8) -> bool {
@@ -362,48 +443,84 @@ fn always_true_u64(_: &u64, _: &u64) -> bool {
 }
 
 #[cfg(kani_smallsort_controls)]
+fn reverse_u8(a: &u8, b: &u8) -> bool {
+    lt_u8(b, a)
+}
+
+#[cfg(kani_smallsort_controls)]
+identity_profile!(BadCmpU8, u8, BAD_CMP_U8_PROBE, 0, always_true_u8, lt_u8);
+#[cfg(kani_smallsort_controls)]
+identity_profile!(BadCmpU64, u64, BAD_CMP_U64_PROBE, 0, always_true_u64, lt_u64);
+#[cfg(kani_smallsort_controls)]
+identity_profile!(BadRelationU8, u8, BAD_RELATION_U8_PROBE, 0, lt_u8, reverse_u8);
+
+#[cfg(kani_smallsort_controls)]
 #[kani::proof]
-#[kani::stub_verified(swap_profile)]
 fn profile_wrong_f_swap_rejected_u8() {
-    let mut v: [u8; 2] = kani::any();
+    let mut v = [0u8, 2];
+    let pre = pair_models::<BadCmpU8>(v.as_ptr(), 0, 1);
     kani::cover(true, "wrong-F swap call reached");
-    // SAFETY: distinct in-bounds initialized positions; only the comparator guard is violated.
-    unsafe { swap_profile::<LtU8>(v.as_mut_ptr(), 0, 1, always_true_u8) };
+    // SAFETY: distinct initialized positions; deliberately bad comparator/model relation only.
+    unsafe { swap_profile::<BadCmpU8>(v.as_mut_ptr(), 0, 1) };
+    kani::assert(
+        swap_transfer::<BadCmpU8>(pre, v.as_ptr(), 0, 1),
+        "bad-profile swap transfer rejected",
+    );
 }
 
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
-#[kani::stub_verified(sort4_profile)]
+#[kani::unwind(34)]
 fn profile_wrong_f_sort4_rejected_u64() {
-    let src: [u64; 4] = kani::any();
+    let src = [0u64, 2, 4, 6];
     let mut dst = MaybeUninit::<[u64; 4]>::uninit();
     kani::cover(true, "wrong-F sort4 call reached");
-    // SAFETY: initialized source, separate destination of four; only the guard is violated.
-    unsafe {
-        sort4_profile::<Sort4ReadU64>(src.as_ptr(), dst.as_mut_ptr() as *mut u64, always_true_u64)
-    };
+    // SAFETY: initialized source, separate four-element destination; bad relation only.
+    unsafe { sort4_profile::<BadCmpU64>(src.as_ptr(), dst.as_mut_ptr().cast()) };
+    kani::assert(
+        model_sorted::<BadCmpU64>(dst.as_ptr().cast(), 4),
+        "bad-profile sort4 order rejected",
+    );
 }
 
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
-#[kani::stub_verified(insert_tail_profile)]
+#[kani::unwind(6)]
 fn profile_wrong_f_insert_rejected_u8() {
-    // Keys under `lt_u8` are [0, 2, 1]: the prefix [0, 2] is model-sorted.
+    // Keys [0, 2, 1] have a model-sorted prefix.
     let mut v = [0u8, 4, 2];
     let base = v.as_mut_ptr();
     kani::cover(true, "wrong-F insert call reached");
-    // SAFETY: one initialized writable array, begin < tail; only the guard is violated.
-    unsafe { insert_tail_profile::<LtU8>(base, base.add(2), always_true_u8) };
+    // SAFETY: one initialized writable array, begin < tail; bad relation only.
+    unsafe { insert_tail_profile::<BadCmpU8>(base, base.add(2)) };
+    kani::assert(model_sorted::<BadCmpU8>(base, 3), "bad-profile insert order rejected");
 }
 
 #[cfg(kani_smallsort_controls)]
 #[kani::proof]
-#[kani::stub_verified(merge_profile)]
+#[kani::unwind(6)]
 fn profile_wrong_f_merge_rejected_u8() {
-    // Keys under `lt_u8` are [0, 1 | 0, 1]: both halves are model-sorted.
-    let v = [0u8, 2, 1, 3];
-    let mut dst = MaybeUninit::<[u8; 4]>::uninit();
+    // Singleton halves satisfy even the bad (reversed) model order. The comparator itself is
+    // lawful: merge returns normally, so an order-violation abort cannot hide this negative.
+    let v = [0u8, 2];
+    let mut dst = MaybeUninit::<[u8; 2]>::uninit();
     kani::cover(true, "wrong-F merge call reached");
-    // SAFETY: initialized source, separate destination of four; only the guard is violated.
-    unsafe { merge_profile::<LtU8>(&v, dst.as_mut_ptr() as *mut u8, always_true_u8) };
+    // SAFETY: initialized source, separate destination of two; wrong model relation only.
+    unsafe { merge_profile::<BadRelationU8>(&v, dst.as_mut_ptr().cast()) };
+    kani::assert(
+        model_sorted::<BadRelationU8>(dst.as_ptr().cast(), 2),
+        "bad-relation merge order rejected",
+    );
+}
+
+#[cfg(kani_smallsort_controls)]
+#[kani::proof]
+fn profile_bad_relation_rejected_u8() {
+    let (a, b) = (0u8, 2u8);
+    kani::cover(true, "bad relation reached");
+    kani::assert(
+        BadRelationU8::cmp(&a, &b)
+            == BadRelationU8::model_less(&BadRelationU8::model(&a), &BadRelationU8::model(&b)),
+        "bad comparator-model relation rejected",
+    );
 }

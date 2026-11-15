@@ -141,7 +141,7 @@ where
     let v: [P::Elem; N] = kani::any();
     let mut dst = MaybeUninit::<[P::Elem; N]>::uninit();
     // SAFETY: the profile contract is checked by the enclosing proof_for_contract harness.
-    unsafe { merge_profile::<P>(&v, dst.as_mut_ptr() as *mut P::Elem, P::CMP) };
+    unsafe { merge_profile::<P>(&v, dst.as_mut_ptr() as *mut P::Elem) };
     kani::cover(true, "merge returns for a permitted length");
 }
 
@@ -156,7 +156,7 @@ where
     let v: [P::Elem; 4] = kani::any();
     let mut dst = MaybeUninit::<[P::Elem; 4]>::uninit();
     // SAFETY: the profile contract is checked by the enclosing proof_for_contract harness.
-    unsafe { sort4_profile::<P>(v.as_ptr(), dst.as_mut_ptr() as *mut P::Elem, P::CMP) };
+    unsafe { sort4_profile::<P>(v.as_ptr(), dst.as_mut_ptr() as *mut P::Elem) };
     kani::cover(true, "four-element stable sort returns");
 }
 
@@ -522,7 +522,7 @@ where
     unsafe {
         ptr::copy_nonoverlapping(input.as_ptr(), src, N);
         let v = crate::slice::from_raw_parts(src, N);
-        merge_profile::<P>(v, dst.as_mut_ptr(), P::CMP);
+        merge_profile::<P>(v, dst.as_mut_ptr());
     }
     kani::cover(!stable, "general scratch48 merge contract checked");
     kani::cover(stable, "stable scratch48 merge contract checked");
