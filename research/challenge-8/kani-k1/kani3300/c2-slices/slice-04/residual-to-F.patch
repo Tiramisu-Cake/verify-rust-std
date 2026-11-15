@@ -1,0 +1,3882 @@
+diff --git a/docs/src/reference/experimental/contracts.md b/docs/src/reference/experimental/contracts.md
+index c972f06372d033b267d11c718b3e059fb78355b8..6e476cdaee0daf4b7913300883727a10f929d37b 100644
+--- a/docs/src/reference/experimental/contracts.md
++++ b/docs/src/reference/experimental/contracts.md
+@@ -72,15 +72,26 @@ By leveraging the stubbing feature, we can replace the (expensive) `gcd` call wi
+ 
+ ## Limitations
+ 
+-The limitations of
+-[uninitialized memory support](../../rust-feature-support.md#uninitialized-memory)
++The [uninitialized memory support and general limitations](../../rust-feature-support.md#uninitialized-memory)
+ apply to ordinary proof harnesses as well as contract checks. Supported top-level
+ `MaybeUninit` storage can transfer initialization state through direct ordinary MIR-body calls,
+-including arguments and return values, when its data mask is computable.
+-Whole immutable masks require the qualification described there; unqualified nonzero-subrange
++including arguments and return values, when its data mask is computable. Whole
++immutable masks require the qualification described there; unqualified nonzero-subrange
+ or relocation origins may produce conservative false positives, while eligible aliases
+ and independently supported static paths can succeed.
+ 
++Tracking the initialization state of `MaybeUninit` and union values passed across a
++call is not yet supported when the callee is replaced by its contract
++(`#[kani::stub_verified]`, Replace mode) or checked recursively
++(`#[kani::recursion]`, RecursiveCheck mode). Observed conservative failures at these
++boundaries do not qualify shadow transfer in those modes. A local
++`#[kani::proof_for_contract]` companion required to validate a verified stub is only
++executed when selected; its presence alone does not establish successful checking.
++With `-Z uninit-checks`, a harness is rejected as unsupported if delayed
++initialization analysis encounters an interprocedural call cycle. This can affect
++ordinary proof harnesses and `#[kani::proof_for_contract]` checks; a runtime
++recursion bound does not bound this analysis.
++
+ Initialization shadow transfer is also not implemented for by-value aggregates
+ containing nested `MaybeUninit` or union slots, including call arguments and
+ return values. This differs from passing a supported top-level slot. Whole-value
+diff --git a/docs/src/rust-feature-support.md b/docs/src/rust-feature-support.md
+index 51f2c1a25eaeb5436c42f18787ae0863a11cb4af..f3af957c9d57a7803538f98e8ec98e3bf55c25a5 100644
+--- a/docs/src/rust-feature-support.md
++++ b/docs/src/rust-feature-support.md
+@@ -177,13 +177,11 @@ stack unwinding support.
+ Reading uninitialized memory is
+ [considered undefined behavior](https://doc.rust-lang.org/reference/behavior-considered-undefined.html#behavior-considered-undefined) in Rust.
+ Kani has partial, experimental support for detecting access to uninitialized memory with the `-Z uninit-checks` option.
+-
+ The instrumentation tracks a top-level `MaybeUninit<T>` slot, `[MaybeUninit<T>; N]`,
+ `[MaybeUninit<T>]`, and `MaybeUninit<[T; N]>` when Kani can compute the element's data mask.
+ It tracks initialization through raw copies, typed moves of payload bytes (padding is not
+ preserved by typed moves), and direct calls to ordinary functions whose MIR bodies execute, including
+-arguments and return values.
+-Qualified whole immutable promoted constants and named
++arguments and return values. Qualified whole immutable promoted constants and named
+ statics start with their exact byte masks. This requires an immutable, relocation-free
+ allocation with a supported `Freeze` origin type and computable layout covering the
+ whole allocation; a promoted reference must start at offset zero and span that allocation.
+@@ -193,13 +191,21 @@ subrange or a relocation can produce conservative false positives. Eligible alia
+ and independently supported static paths can still succeed; this limitation does not
+ mean that every subrange or relocation read fails.
+ 
++General limitations apply to all harnesses using `-Z uninit-checks`, including ordinary
++proofs. Intrinsics without an initialization model, including `select_unpredictable`
++and `core::hint::select_unpredictable`, calls through function pointers and trait
++objects, and call cycles in the delayed initialization analysis remain unsupported.
+ Kani's typed marker-dispatched backend hooks do not support by-value shadow argument or return transfers.
+ Some function-item trait shims have layout or shadow-transfer limitations; this is
+-not a restriction on all direct calls to function items. By-value aggregates containing
++not a restriction on all direct calls to function items. Shadow transfer under
++`#[kani::stub_verified]` or `#[kani::recursion]` and by-value aggregates containing
+ nested `MaybeUninit` or union fields are also outside this support. Conservative
+ resets at nested aggregate call boundaries can produce false positives.
++See the [contract limitations](reference/experimental/contracts.md#limitations) for
++contract modes and a nested aggregate example, and [issue #3300](https://github.com/model-checking/kani/issues/3300)
++for the broader work.
+ 
+-See [this issue](https://github.com/model-checking/kani/issues/3300) for more details.
++This change does not make core::slice::sort::shared::smallsort verifiable with -Z uninit-checks.
+ 
+ ### Destructors
+ 
+diff --git a/kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs b/kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs
+index aa65b0fbeb1912f7234d79f33e8cdf405137a0f3..cead741d8618551828063ed46c310c1f10f740b0 100644
+--- a/kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs
++++ b/kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs
+@@ -67,6 +67,9 @@ fn codegen_items(
+         _check_contract: Option<InternalDefId>,
+         mut transformer: BodyTransformation,
+     ) -> (Vec<MonoItem>, Option<AssignsContract>) {
++        // This backend owns its transformer, but delayed writes use the same
++        // scoped API as goto codegen, including the PubFns path.
++        let mut transformer = transformer.delayed_scope();
+         let (items, call_graph) = with_timer(
+             || collect_reachable_items(tcx, &mut transformer, starting_items),
+             "codegen reachability analysis",
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+index 690e3b7e5d27a8341dd52dab11c444cfd149d1ae..3461ada461b9d0f123f22d25274b000a7a789559 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+@@ -89,6 +89,11 @@ fn codegen_items<'tcx>(
+         transformer: &mut BodyTransformation,
+         thread_pool: &ThreadPool,
+     ) -> (MinimalGotocCtx, Vec<MonoItem>, Option<AssignsContract>) {
++        // Restore only after reachability, codegen, and contract/model emission.
++        // Export workers receive owned, materialized symbols rather than MIR.
++        let mut delayed_scope = transformer.delayed_scope();
++        let transformer = &mut *delayed_scope;
++
+         // This runs reachability analysis before global passes are applied.
+         //
+         // Alternatively, we could run reachability only once after the global passes are applied
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+index f7f5b0a20adf696ba1dea66e214d1612d77d633a..456b39de7fa3ace577f0cae44fdcf14c37dc887f 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+@@ -15,7 +15,7 @@
+     },
+     reachability::CallGraph,
+     transform::{
+-        BodyTransformation, GlobalPass, TransformationResult,
++        BodyTransformation, GlobalPass,
+         body::{CheckType, InsertPosition, MutableBody, SourceInstruction},
+         check_uninit::UninitInstrumenter,
+     },
+@@ -188,9 +188,7 @@ fn transform(
+                 // If some instrumentation has been performed, update the cached body in the local transformer.
+                 if instrumentation_added {
+                     modified = true;
+-                    transformer.cache.entry(instance).and_modify(|transformation_result| {
+-                        *transformation_result = TransformationResult(body, true);
+-                    });
++                    transformer.replace_delayed_body(instance, body);
+                 }
+             }
+ 
+@@ -211,7 +209,7 @@ fn transform(
+                     None,
+                     &error.reason,
+                 );
+-                transformer.cache.insert(instance, TransformationResult(body.into(), true));
++                transformer.replace_delayed_body(instance, body.into());
+                 modified = true;
+             }
+         }
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+index b9daefb9368cfcba03e99c8cde34dc61952c4497..1cba3ff26fb96d4d9a248c4ef861d8c4d6c82e73 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+@@ -478,9 +478,36 @@ fn data_bytes_for_ty(
+                     }
+                     _ => unreachable!("RigidTy::RawPtr | RigidTy::Ref with a non-scalar ABI."),
+                 }),
++                // A sized closure with a zero-byte environment has no data bytes,
++                // including when it captures only zero-sized values.
++                RigidTy::Closure(_, _) if layout.is_sized() && layout.size.bytes() == 0 => {
++                    Ok(vec![])
++                }
++                RigidTy::Closure(_, _) => {
++                    // Use the same monomorphized captures as codegen_ty_closure.
++                    // Leave the internal context before recursing through public types.
++                    let upvar_tys: Vec<Ty> = rustc_middle::ty::tls::with(|tcx| {
++                        let internal_ty = rustc_internal::internal(tcx, ty);
++                        let rustc_middle::ty::Closure(_, args) = internal_ty.kind() else {
++                            unreachable!("Expected a closure type for {ty:?}")
++                        };
++                        args.as_closure().upvar_tys().iter().map(rustc_internal::stable).collect()
++                    });
++                    assert_eq!(upvar_tys.len(), offsets.len());
++                    let mut closure_data_bytes = vec![];
++                    // Field indices name logical captures; offsets and iteration order
++                    // come from the closure's own layout, not a substituted tuple.
++                    for idx in layout.fields.fields_by_offset_order() {
++                        closure_data_bytes.append(&mut data_bytes_for_ty(
++                            machine_info,
++                            upvar_tys[idx],
++                            current_offset + offsets[idx].bytes(),
++                        )?);
++                    }
++                    Ok(closure_data_bytes)
++                }
+                 RigidTy::FnDef(_, _)
+                 | RigidTy::FnPtr(_)
+-                | RigidTy::Closure(_, _)
+                 | RigidTy::Coroutine(_, _)
+                 | RigidTy::CoroutineClosure(_, _)
+                 | RigidTy::CoroutineWitness(_, _)
+diff --git a/kani-compiler/src/kani_middle/transform/delayed_cache.rs b/kani-compiler/src/kani_middle/transform/delayed_cache.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..6ba16800fba5cc1955094551acfd20e6c2e20065
+--- /dev/null
++++ b/kani-compiler/src/kani_middle/transform/delayed_cache.rs
+@@ -0,0 +1,144 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++//! First-write journal for the cache entries replaced by the delayed UB pass.
++//! Generic keys/values let the ownership lifecycle be tested without fabricating
++//! compiler Instances or MIR Bodies. Production stores exact TransformationResults.
++
++use std::collections::HashMap;
++use std::hash::Hash;
++
++#[derive(Debug)]
++pub(super) struct DelayedCache<K, V> {
++    originals: Option<HashMap<K, Option<V>>>,
++}
++
++impl<K, V> Default for DelayedCache<K, V> {
++    fn default() -> Self {
++        Self { originals: None }
++    }
++}
++
++impl<K: Copy + Eq + Hash, V> DelayedCache<K, V> {
++    pub(super) fn begin(&mut self) {
++        assert!(self.originals.is_none(), "previous delayed transformation scope is still active");
++        self.originals = Some(HashMap::new());
++    }
++
++    pub(super) fn replace(&mut self, cache: &mut HashMap<K, V>, key: K, value: V) {
++        let originals = self.originals.as_mut().expect("delayed replacement outside a model scope");
++        // Move the complete original, including the modified flag, without cloning
++        // MIR or replacing an earlier snapshot with an intermediate delayed body.
++        let previous = cache.insert(key, value);
++        originals.entry(key).or_insert(previous);
++    }
++
++    pub(super) fn restore(&mut self, cache: &mut HashMap<K, V>) {
++        let originals = self.originals.take().expect("no delayed transformation scope to restore");
++        for (key, original) in originals {
++            match original {
++                Some(value) => {
++                    cache.insert(key, value);
++                }
++                None => {
++                    cache.remove(&key);
++                }
++            }
++        }
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use super::DelayedCache;
++    use std::collections::HashMap;
++
++    // Deliberately non-Clone: restoration must move the exact original value.
++    #[derive(Debug, Eq, PartialEq)]
++    struct Result {
++        body: Vec<u8>,
++        modified: bool,
++    }
++
++    fn result(body: u8, modified: bool) -> Result {
++        Result { body: vec![body], modified }
++    }
++
++    #[test]
++    fn first_snapshot_restores_body_and_modified_flag() {
++        for modified in [false, true] {
++            let mut cache = HashMap::from([(1, result(10, modified))]);
++            let mut journal = DelayedCache::default();
++            journal.begin();
++            journal.replace(&mut cache, 1, result(20, true));
++            journal.replace(&mut cache, 1, result(30, true));
++            assert_eq!(cache[&1], result(30, true));
++            assert_eq!(journal.originals.as_ref().unwrap().len(), 1);
++            journal.restore(&mut cache);
++            assert_eq!(cache[&1], result(10, modified));
++            assert!(journal.originals.is_none());
++        }
++    }
++
++    #[test]
++    fn preserves_warm_untouched_and_new_regular_entries() {
++        let mut cache = HashMap::from([(1, result(10, true)), (2, result(11, false))]);
++        let mut journal = DelayedCache::default();
++        journal.begin();
++        journal.replace(&mut cache, 1, result(20, true));
++        cache.insert(3, result(12, true));
++        // A body first regular-transformed during this scope must stay regular.
++        cache.insert(4, result(13, false));
++        journal.replace(&mut cache, 4, result(21, true));
++        journal.restore(&mut cache);
++        assert_eq!(
++            cache,
++            HashMap::from([
++                (1, result(10, true)),
++                (2, result(11, false)),
++                (3, result(12, true)),
++                (4, result(13, false)),
++            ])
++        );
++    }
++
++    #[test]
++    fn removes_previously_absent_failed_root_and_repeats_cleanly() {
++        let mut cache = HashMap::new();
++        let mut journal = DelayedCache::default();
++        for _ in 0..3 {
++            journal.begin();
++            journal.replace(&mut cache, 1, result(99, true));
++            journal.replace(&mut cache, 1, result(100, true));
++            assert_eq!(cache[&1], result(100, true));
++            journal.restore(&mut cache);
++            assert!(cache.is_empty());
++            assert!(journal.originals.is_none());
++        }
++    }
++
++    #[test]
++    fn empty_scope_preserves_regular_cache() {
++        let mut cache = HashMap::from([(1, result(10, false))]);
++        let mut journal = DelayedCache::default();
++        for _ in 0..2 {
++            journal.begin();
++            journal.restore(&mut cache);
++            assert_eq!(cache[&1], result(10, false));
++        }
++    }
++
++    #[test]
++    #[should_panic(expected = "previous delayed transformation scope is still active")]
++    fn rejects_unclosed_scope() {
++        let mut journal = DelayedCache::<u8, Result>::default();
++        journal.begin();
++        journal.begin();
++    }
++
++    #[test]
++    #[should_panic(expected = "delayed replacement outside a model scope")]
++    fn rejects_unscoped_replacement() {
++        DelayedCache::default().replace(&mut HashMap::new(), 1, result(10, true));
++    }
++}
+diff --git a/kani-compiler/src/kani_middle/transform/mod.rs b/kani-compiler/src/kani_middle/transform/mod.rs
+index db2466bbe8b834bfe57d8b295aa0a78bbb4a043d..4484375cea01d66a1545208238542815d0490896 100644
+--- a/kani-compiler/src/kani_middle/transform/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/mod.rs
+@@ -28,6 +28,7 @@
+ use crate::kani_middle::transform::stubs::{ExternFnStubPass, FnStubPass};
+ use crate::kani_queries::QueryDb;
+ use automatic::{AutomaticArbitraryPass, AutomaticHarnessPass};
++use delayed_cache::DelayedCache;
+ use dump_mir_pass::DumpMirPass;
+ use rustc_hir::def::DefKind;
+ use rustc_middle::ty::{EarlyBinder, TyCtxt, TypingEnv};
+@@ -36,6 +37,7 @@
+ use rustc_public::rustc_internal;
+ use std::collections::HashMap;
+ use std::fmt::Debug;
++use std::ops::{Deref, DerefMut};
+ 
+ use crate::kani_middle::transform::rustc_intrinsics::RustcIntrinsicsPass;
+ pub use internal_mir::RustcInternalMir;
+@@ -71,6 +73,7 @@ fn build_missing_body(tcx: TyCtxt, instance: Instance) -> Body {
+ pub(crate) use check_uninit::immutable_origin_type_supported;
+ mod check_values;
+ mod contracts;
++mod delayed_cache;
+ mod dump_mir_pass;
+ mod internal_mir;
+ mod kani_intrinsics;
+@@ -92,6 +95,8 @@ pub struct BodyTransformation {
+     inst_passes: Vec<Box<dyn ClonableTransformPass>>,
+     /// Cache transformation results.
+     cache: HashMap<Instance, TransformationResult>,
++    /// Originals of entries replaced by delayed instrumentation in the current model.
++    delayed_cache: DelayedCache<Instance, TransformationResult>,
+     /// The locals to add to the loop modifies clause of a loop, by the instance of the body that
+     /// contains the loop and the instance of the register function that the loop latch calls, as
+     /// recorded by the passes (see [TransformPass::take_generated_loop_modifies]).
+@@ -108,6 +113,7 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {
+             stub_passes: vec![],
+             inst_passes: vec![],
+             cache: Default::default(),
++            delayed_cache: DelayedCache::default(),
+             generated_loop_modifies: Default::default(),
+             loop_modifies_bindings: Default::default(),
+         };
+@@ -149,6 +155,19 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {
+         transformer
+     }
+ 
++    /// Keep delayed replacements visible until the current model is fully materialized.
++    /// Regular transformations and their loop metadata remain cached between models.
++    pub fn delayed_scope(&mut self) -> DelayedTransformationScope<'_> {
++        self.delayed_cache.begin();
++        DelayedTransformationScope { transformer: self }
++    }
++
++    /// Replace only after `body()` has applied the regular transformations. Both
++    /// delayed instrumentation and failed-root Unsupported use the same journal.
++    fn replace_delayed_body(&mut self, instance: Instance, body: Body) {
++        self.delayed_cache.replace(&mut self.cache, instance, TransformationResult(body, true));
++    }
++
+     /// Equivalent to `body()`, but avoids cloning the returned `Body`.
+     pub fn body_ref(&mut self, tcx: TyCtxt, instance: Instance) -> &Body {
+         &self
+@@ -214,6 +233,32 @@ fn add_pass<P: ClonableTransformPass + 'static>(&mut self, query_db: &QueryDb, p
+     }
+ }
+ 
++/// Restores delayed mutations on normal return, recoverable early return, or unwind.
++/// The exclusive borrow prevents another model from starting before this scope ends.
++pub struct DelayedTransformationScope<'a> {
++    transformer: &'a mut BodyTransformation,
++}
++
++impl Deref for DelayedTransformationScope<'_> {
++    type Target = BodyTransformation;
++
++    fn deref(&self) -> &Self::Target {
++        self.transformer
++    }
++}
++
++impl DerefMut for DelayedTransformationScope<'_> {
++    fn deref_mut(&mut self) -> &mut Self::Target {
++        self.transformer
++    }
++}
++
++impl Drop for DelayedTransformationScope<'_> {
++    fn drop(&mut self) {
++        self.transformer.delayed_cache.restore(&mut self.transformer.cache);
++    }
++}
++
+ /// The type of transformation that a pass may perform.
+ #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
+ pub(crate) enum TransformationType {
+@@ -387,3 +432,46 @@ fn clone_back(&self) -> Box<dyn $new_trait_name> {
+         crate::kani_middle::transform::GlobalPass
+     );
+ }
++
++#[cfg(test)]
++mod delayed_scope_tests {
++    use super::BodyTransformation;
++    use std::panic::{AssertUnwindSafe, catch_unwind};
++
++    // No compiler context or fabricated Instance/Body is needed to exercise
++    // the actual scope guard. Entry ownership is covered by delayed_cache tests.
++    fn transformer() -> BodyTransformation {
++        BodyTransformation {
++            stub_passes: vec![],
++            inst_passes: vec![],
++            cache: Default::default(),
++            delayed_cache: Default::default(),
++            generated_loop_modifies: Default::default(),
++            loop_modifies_bindings: Default::default(),
++        }
++    }
++
++    #[test]
++    fn normal_and_early_return_close_scope() {
++        fn early_return(transformer: &mut BodyTransformation) -> bool {
++            let _scope = transformer.delayed_scope();
++            false
++        }
++
++        let mut transformer = transformer();
++        drop(transformer.delayed_scope());
++        assert!(!early_return(&mut transformer));
++        drop(transformer.delayed_scope());
++    }
++
++    #[test]
++    fn unwind_closes_scope_before_transformer_reuse() {
++        let mut transformer = transformer();
++        let result = catch_unwind(AssertUnwindSafe(|| {
++            let _scope = transformer.delayed_scope();
++            panic!("simulated codegen unwind");
++        }));
++        assert!(result.is_err());
++        drop(transformer.delayed_scope());
++    }
++}
+diff --git a/tests/expected/uninit/closure-upvars/holes.expected b/tests/expected/uninit/closure-upvars/holes.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..05dd9ea7207d8c141b882efd8915fea2713e605e
+--- /dev/null
++++ b/tests/expected/uninit/closure-upvars/holes.expected
+@@ -0,0 +1,11 @@
++Checking harness two_refs_initialized...
++VERIFICATION:- SUCCESSFUL
++Checking harness two_refs_preserve_hole...
++Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Checking harness capture_padding_stays_false...
++Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 1 successfully verified harnesses, 2 failures, 3 total.
+diff --git a/tests/expected/uninit/closure-upvars/holes.rs b/tests/expected/uninit/closure-upvars/holes.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..6e97bfd5023961ca40aa6f991a1ed7f5a757c88d
+--- /dev/null
++++ b/tests/expected/uninit/closure-upvars/holes.rs
+@@ -0,0 +1,83 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++#[inline(never)]
++fn copy_call<F: Copy + Fn() -> u8>(callback: F) -> u8 {
++    let copied = unsafe { std::ptr::addr_of!(callback).read() };
++    copied()
++}
++
++#[inline(never)]
++fn two_refs(initialized: bool) -> u8 {
++    let flag = true;
++    let data = if initialized { MaybeUninit::new(17u8) } else { MaybeUninit::uninit() };
++    let enabled = &flag;
++    let payload = &data;
++    let callback = move || {
++        touch(&enabled);
++        touch(&payload);
++        assert!(*enabled, "initialized bool referent consumed");
++        kani::cover!(true, "two-ref body reached payload read");
++        // Both references are valid; the target bad read is the MU byte only.
++        unsafe { payload.as_ptr().read() }
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    copy_call(callback)
++}
++
++#[kani::proof]
++#[kani::unwind(8)]
++fn two_refs_initialized() {
++    assert_eq!(two_refs(true), 17, "two-ref initialized payload consumed");
++    kani::cover!(true, "two-ref initialized return reached");
++}
++
++#[kani::proof]
++#[kani::unwind(8)]
++fn two_refs_preserve_hole() {
++    let byte = two_refs(false);
++    kani::cover!(byte == 17, "two-ref hole result consumed");
++}
++
++#[repr(C)]
++#[derive(Clone, Copy)]
++struct Padded {
++    byte: u8,
++    word: u32,
++}
++
++#[inline(never)]
++fn read_closure_padding<F: Copy + Fn() -> *const u8>(callback: F) -> u8 {
++    let copied = unsafe { std::ptr::addr_of!(callback).read() };
++    let padding = copied();
++    // copied remains alive: padding points inside its captured Padded field.
++    kani::cover!(true, "closure padding byte read reached");
++    unsafe { padding.read() }
++}
++
++#[kani::proof]
++#[kani::unwind(8)]
++fn capture_padding_stays_false() {
++    let mut storage = MaybeUninit::<Padded>::uninit();
++    let ptr = storage.as_mut_ptr();
++    unsafe {
++        std::ptr::addr_of_mut!((*ptr).byte).write(7);
++        std::ptr::addr_of_mut!((*ptr).word).write(42);
++    }
++    let capture = unsafe { storage.assume_init() };
++    let callback = move || {
++        touch(&capture);
++        // repr(C) offset 1 is padding, irrespective of the closure field offset.
++        std::ptr::addr_of!(capture).cast::<u8>().wrapping_add(1)
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    let byte = read_closure_padding(callback);
++    kani::cover!(byte == 0, "closure padding result consumed");
++}
+diff --git a/tests/expected/uninit/closure-upvars/layout.expected b/tests/expected/uninit/closure-upvars/layout.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..817e51b3777e2ebe451947d8e7f718704ccf9f59
+--- /dev/null
++++ b/tests/expected/uninit/closure-upvars/layout.expected
+@@ -0,0 +1,5 @@
++Checking harness mixed_scalar_ref_padding...
++VERIFICATION:- SUCCESSFUL
++Checking harness reordered_nested_captures...
++VERIFICATION:- SUCCESSFUL
++Complete - 2 successfully verified harnesses, 0 failures, 2 total.
+diff --git a/tests/expected/uninit/closure-upvars/layout.rs b/tests/expected/uninit/closure-upvars/layout.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..2b1edb090ddbfddb7c4e93be7bf82c5b62b1e097
+--- /dev/null
++++ b/tests/expected/uninit/closure-upvars/layout.rs
+@@ -0,0 +1,91 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++#[repr(C)]
++#[derive(Clone, Copy)]
++struct Padded {
++    byte: u8,
++    word: u32,
++}
++
++#[derive(Clone, Copy)]
++struct Unit;
++
++#[repr(C)]
++#[derive(Clone, Copy)]
++struct Offset<F> {
++    prefix: u8,
++    callback: F,
++}
++
++#[inline(never)]
++fn offset_copy_call<F: Copy + Fn() -> bool>(callback: F) -> bool {
++    let wrapped = Offset { prefix: 7, callback };
++    // A closure nested at a nonzero offset; recurse using that current_offset.
++    let copied = unsafe { std::ptr::addr_of!(wrapped).read() };
++    assert_eq!(copied.prefix, 7, "prefix survives closure layout composition");
++    (copied.callback)()
++}
++
++#[kani::proof]
++#[kani::unwind(8)]
++fn mixed_scalar_ref_padding() {
++    let data = MaybeUninit::new(17u8);
++    let yes = true;
++    let small = 3u16;
++    let reference = &yes;
++    let payload = &data;
++    let padded = Padded { byte: 5, word: 29 };
++    let unit = Unit;
++    let callback = move || {
++        // Logical use order interleaves fields of different size/alignment.
++        touch(&small);
++        touch(&reference);
++        touch(&padded);
++        touch(&payload);
++        touch(&unit);
++        kani::cover!(true, "mixed upvars reached payload read");
++        small == 3
++            && *reference
++            && padded.byte == 5
++            && padded.word == 29
++            && unsafe { payload.assume_init_read() == 17 }
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    assert!(offset_copy_call(callback), "mixed captures and padding consumed");
++    kani::cover!(true, "mixed upvars returned");
++}
++
++#[kani::proof]
++#[kani::unwind(8)]
++fn reordered_nested_captures() {
++    let no = false;
++    let data = MaybeUninit::new(17u8);
++    let reference = &no;
++    let payload = &data;
++    let byte = 9u8;
++    let wide = 41u64;
++    let inner = move || {
++        // Request the same sort of fields in a different logical order.
++        touch(&reference);
++        touch(&wide);
++        touch(&byte);
++        touch(&payload);
++        !*reference && wide == 41 && byte == 9 && unsafe { payload.assume_init_read() == 17 }
++    };
++    let outer = move || {
++        touch(&inner); // Retain the complete inner closure as an upvar.
++        kani::cover!(true, "nested ordinary closure reached");
++        inner()
++    };
++    assert!(std::mem::size_of_val(&outer) > 0);
++    assert!(offset_copy_call(outer), "nested closure fields consumed");
++    kani::cover!(true, "nested upvars returned");
++}
+diff --git a/tests/expected/uninit/closure-upvars/ordinary.expected b/tests/expected/uninit/closure-upvars/ordinary.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..4759a8f0fbafd299e2a998c602c147249154562a
+--- /dev/null
++++ b/tests/expected/uninit/closure-upvars/ordinary.expected
+@@ -0,0 +1,7 @@
++Checking harness bool_captures_true_false...
++VERIFICATION:- SUCCESSFUL
++Checking harness ordinary_captured_contract...
++VERIFICATION:- SUCCESSFUL
++Checking harness simple_check_captured_contract...
++VERIFICATION:- SUCCESSFUL
++Complete - 3 successfully verified harnesses, 0 failures, 3 total.
+diff --git a/tests/expected/uninit/closure-upvars/ordinary.rs b/tests/expected/uninit/closure-upvars/ordinary.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..25e986228e4de14270b9a32aa6dbb54d97925c8f
+--- /dev/null
++++ b/tests/expected/uninit/closure-upvars/ordinary.rs
+@@ -0,0 +1,70 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++#[inline(never)]
++fn copy_call<F: Copy + Fn() -> bool>(callback: F) -> bool {
++    // The typed closure read exercises the captured-field layout.
++    let copied = unsafe { std::ptr::addr_of!(callback).read() };
++    copied()
++}
++
++#[inline(never)]
++fn captured_bool(flag: bool) -> bool {
++    let callback = move || {
++        touch(&flag);
++        kani::cover!(true, "bool capture body reached");
++        flag
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    copy_call(callback)
++}
++
++#[kani::proof]
++#[kani::unwind(8)]
++fn bool_captures_true_false() {
++    assert!(captured_bool(true), "true captured bool consumed");
++    assert!(!captured_bool(false), "false captured bool consumed");
++    kani::cover!(true, "both bool captures consumed");
++}
++
++#[inline(never)]
++fn payload_is_17(value: &MaybeUninit<u8>) -> bool {
++    unsafe { value.assume_init_read() == 17 }
++}
++
++#[kani::requires(!initialized || payload_is_17(&value))]
++#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_17(result))]
++fn captured_contract(value: MaybeUninit<u8>, initialized: bool) -> MaybeUninit<u8> {
++    // The ensures environment captures &initialized: the residual CC2 &bool slot.
++    value
++}
++
++fn exercise_contract(initialized: bool) {
++    let value = if initialized { MaybeUninit::new(17) } else { MaybeUninit::uninit() };
++    let result = captured_contract(value, initialized);
++    if initialized {
++        assert!(payload_is_17(&result), "captured contract initialized result read");
++        kani::cover!(true, "captured contract true result consumed");
++    } else {
++        kani::cover!(true, "captured contract false storage returned");
++    }
++}
++
++#[kani::proof]
++#[kani::unwind(8)]
++fn ordinary_captured_contract() {
++    exercise_contract(kani::any());
++}
++
++#[kani::proof_for_contract(captured_contract)]
++#[kani::unwind(8)]
++fn simple_check_captured_contract() {
++    exercise_contract(kani::any());
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-aligned-hole.expected b/tests/expected/uninit/closure-zst/capture-aligned-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ff6e51b83b81953840ad449d50381035e9f741c7
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-aligned-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness capture_aligned_hole...
++Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-aligned-hole.rs b/tests/expected/uninit/closure-zst/capture-aligned-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..fba14f0e70aa8e5220547ff20a4d25914899dd78
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-aligned-hole.rs
+@@ -0,0 +1,42 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++#[repr(align(64))]
++#[derive(Clone, Copy)]
++struct Aligned;
++
++#[kani::proof]
++fn capture_aligned_hole() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), false);
++    let capture = Aligned;
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        unsafe { value.assume_init_read() == 17 }
++    };
++    assert_eq!(std::mem::size_of_val(&callback), 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-aligned-legal.expected b/tests/expected/uninit/closure-zst/capture-aligned-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..f405af824418c9aff1b8058c32b2774efaf60419
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-aligned-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness capture_aligned_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-aligned-legal.rs b/tests/expected/uninit/closure-zst/capture-aligned-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..5f8807468319e15db22c8d64799e8270c2aa19a0
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-aligned-legal.rs
+@@ -0,0 +1,42 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++#[repr(align(64))]
++#[derive(Clone, Copy)]
++struct Aligned;
++
++#[kani::proof]
++fn capture_aligned_legal() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), true);
++    let capture = Aligned;
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        unsafe { value.assume_init_read() == 17 }
++    };
++    assert_eq!(std::mem::size_of_val(&callback), 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-mu-reference-new.expected b/tests/expected/uninit/closure-zst/capture-mu-reference-new.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..a4017ecf214da21ffed32573ecffc954caa65f05
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-mu-reference-new.expected
+@@ -0,0 +1,3 @@
++Checking harness capture_mu_reference_new...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-mu-reference-new.rs b/tests/expected/uninit/closure-zst/capture-mu-reference-new.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..25235c7b1092ccf93170e6c28cc01cab7e6abf02
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-mu-reference-new.rs
+@@ -0,0 +1,40 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++#[kani::proof]
++fn capture_mu_reference_new() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), true);
++    let storage = payload;
++    let capture = &storage;
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        let _ = value;
++        unsafe { capture.assume_init_read() == 17 }
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-mu-reference-uninit.expected b/tests/expected/uninit/closure-zst/capture-mu-reference-uninit.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..92d4f7cd732623e4ae2febdbf90e1830c0bee09c
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-mu-reference-uninit.expected
+@@ -0,0 +1,5 @@
++Checking harness capture_mu_reference_uninit...
++Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-mu-reference-uninit.rs b/tests/expected/uninit/closure-zst/capture-mu-reference-uninit.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..43ee854f51c1ba7c3705f0b2379df669f3b3faae
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-mu-reference-uninit.rs
+@@ -0,0 +1,40 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++#[kani::proof]
++fn capture_mu_reference_uninit() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), false);
++    let storage = payload;
++    let capture = &storage;
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        let _ = value;
++        unsafe { capture.assume_init_read() == 17 }
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-mu-value-new.expected b/tests/expected/uninit/closure-zst/capture-mu-value-new.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..9df6d38b7c9211a33f43b4e66404214c1762f210
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-mu-value-new.expected
+@@ -0,0 +1,4 @@
++Checking harness capture_mu_value_new...
++Cannot determine layout for a type that contains union of type
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-mu-value-new.rs b/tests/expected/uninit/closure-zst/capture-mu-value-new.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..6a9896a71d8059d2833dde6ada9c7b17a3612854
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-mu-value-new.rs
+@@ -0,0 +1,40 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++#[kani::proof]
++fn capture_mu_value_new() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), true);
++    let storage = payload;
++    let capture = storage;
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        let _ = value;
++        unsafe { capture.assume_init_read() == 17 }
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-mu-value-uninit.expected b/tests/expected/uninit/closure-zst/capture-mu-value-uninit.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..8b7e519ff99144596afd89383dd4346c18557d3b
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-mu-value-uninit.expected
+@@ -0,0 +1,4 @@
++Checking harness capture_mu_value_uninit...
++Cannot determine layout for a type that contains union of type
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-mu-value-uninit.rs b/tests/expected/uninit/closure-zst/capture-mu-value-uninit.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..1d39a0abdea8c325d2889ce56978b442ddc0bcb5
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-mu-value-uninit.rs
+@@ -0,0 +1,40 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++#[kani::proof]
++fn capture_mu_value_uninit() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), false);
++    let storage = payload;
++    let capture = storage;
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        let _ = value;
++        unsafe { capture.assume_init_read() == 17 }
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-padded.expected b/tests/expected/uninit/closure-zst/capture-padded.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..64a87e4a37dd672651202ac0eeaa0c203a214591
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-padded.expected
+@@ -0,0 +1,3 @@
++Checking harness capture_padded...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-padded.rs b/tests/expected/uninit/closure-zst/capture-padded.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..9bb96fda71871d5493ac43c52459679f0dd5ca3d
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-padded.rs
+@@ -0,0 +1,44 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++#[repr(C)]
++#[derive(Clone, Copy)]
++struct Padded(u32, u8);
++
++#[kani::proof]
++fn capture_padded() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), true);
++    let capture = Padded(7, 3);
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        touch(&capture.0);
++        touch(&capture.1);
++        unsafe { value.assume_init_read() == 17 }
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-raw-hole.expected b/tests/expected/uninit/closure-zst/capture-raw-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..4d4f9d98bd0b8dadbe1da959c053f28e80e6981a
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-raw-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness capture_raw_hole...
++Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-raw-hole.rs b/tests/expected/uninit/closure-zst/capture-raw-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..a784c5d082b7069d42d97805d01f5a6a46231329
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-raw-hole.rs
+@@ -0,0 +1,45 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++#[kani::proof]
++fn capture_raw_hole() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), false);
++    let mut storage = payload;
++    let capture = std::ptr::addr_of_mut!(storage);
++    let alias = capture;
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        let _ = value;
++        unsafe {
++            let current = capture.read();
++            alias.write(current);
++            capture.read().assume_init_read() == 17
++        }
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-raw-legal.expected b/tests/expected/uninit/closure-zst/capture-raw-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..9dea24c28229c2889b0a0e8ce0f99408ad6e1042
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-raw-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness capture_raw_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-raw-legal.rs b/tests/expected/uninit/closure-zst/capture-raw-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..0a6ce2d14d5e028bf2fc83dd124d5c5003927cd3
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-raw-legal.rs
+@@ -0,0 +1,45 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++#[kani::proof]
++fn capture_raw_legal() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), true);
++    let mut storage = payload;
++    let capture = std::ptr::addr_of_mut!(storage);
++    let alias = capture;
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        let _ = value;
++        unsafe {
++            let current = capture.read();
++            alias.write(current);
++            capture.read().assume_init_read() == 17
++        }
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-reference-hole.expected b/tests/expected/uninit/closure-zst/capture-reference-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..253f3ac5bc7d4155300e3575e706ef44b6bef83f
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-reference-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness capture_reference_hole...
++Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-reference-hole.rs b/tests/expected/uninit/closure-zst/capture-reference-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..105d48459ff2e955059a0ddccb8d4e934b63dd08
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-reference-hole.rs
+@@ -0,0 +1,45 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++use std::cell::Cell;
++
++#[kani::proof]
++fn capture_reference_hole() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), false);
++    let storage = Cell::new(payload);
++    let capture = &storage;
++    let alias = &storage;
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        let current = capture.get();
++        alias.set(current);
++        let _ = value;
++        unsafe { capture.get().assume_init_read() == 17 }
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-reference-legal.expected b/tests/expected/uninit/closure-zst/capture-reference-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ff1b798c1ee4450f7252bf9c618565eaa67f5dfe
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-reference-legal.expected
+@@ -0,0 +1,4 @@
++Checking harness capture_reference_legal...
++Failed Checks: Checking memory initialization of type std::cell::UnsafeCell<std::mem::MaybeUninit<u8>> is not supported. Cannot determine layout for a type that contains union of type std::mem::MaybeUninit<u8> as a field.
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-reference-legal.rs b/tests/expected/uninit/closure-zst/capture-reference-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..f4b5bee2883375c8637efc2dd8c134d0fcb28b01
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-reference-legal.rs
+@@ -0,0 +1,45 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++use std::cell::Cell;
++
++#[kani::proof]
++fn capture_reference_legal() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), true);
++    let storage = Cell::new(payload);
++    let capture = &storage;
++    let alias = &storage;
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        let current = capture.get();
++        alias.set(current);
++        let _ = value;
++        unsafe { capture.get().assume_init_read() == 17 }
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-scalar.expected b/tests/expected/uninit/closure-zst/capture-scalar.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..89dc7bb7e5710cfa119d0ebfe39b7db4385030b8
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-scalar.expected
+@@ -0,0 +1,3 @@
++Checking harness capture_scalar...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-scalar.rs b/tests/expected/uninit/closure-zst/capture-scalar.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..3ee56cf71f69a2c94c1516313d82d9c0a419acc1
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-scalar.rs
+@@ -0,0 +1,38 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++#[kani::proof]
++fn capture_scalar() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), true);
++    let capture = 7u32;
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        unsafe { value.assume_init_read() == 17 }
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-union-reference.expected b/tests/expected/uninit/closure-zst/capture-union-reference.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..a800797b95da6cbb15dffe0ccaa0f1e1f09501fd
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-union-reference.expected
+@@ -0,0 +1,4 @@
++Checking harness capture_union_reference...
++Failed Checks: Kani does not yet support performing a dereference on a union field
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-union-reference.rs b/tests/expected/uninit/closure-zst/capture-union-reference.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..241782702e29d0970977ab34bbb1b737b2cf1055
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-union-reference.rs
+@@ -0,0 +1,46 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++#[derive(Clone, Copy)]
++union ByteUnion {
++    byte: u8,
++    #[allow(dead_code)] // Keep wider inactive storage without reading it.
++    word: u32,
++}
++
++#[kani::proof]
++fn capture_union_reference() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), true);
++    let storage = ByteUnion { byte: 17 };
++    let capture = &storage;
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        unsafe { capture.byte == value.assume_init_read() }
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-union-value.expected b/tests/expected/uninit/closure-zst/capture-union-value.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..8099c2e7cff1a910e13d12795bcd530ee852840a
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-union-value.expected
+@@ -0,0 +1,4 @@
++Checking harness capture_union_value...
++Cannot determine layout for a type that contains union of type
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-union-value.rs b/tests/expected/uninit/closure-zst/capture-union-value.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..501b2f6c8fb1d3be07d35e08fc4d4c9d23a4c792
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-union-value.rs
+@@ -0,0 +1,46 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++#[derive(Clone, Copy)]
++union ByteUnion {
++    byte: u8,
++    #[allow(dead_code)] // Keep wider inactive storage without reading it.
++    word: u32,
++}
++
++#[kani::proof]
++fn capture_union_value() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), true);
++    let storage = ByteUnion { byte: 17 };
++    let capture = storage;
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        unsafe { capture.byte == value.assume_init_read() }
++    };
++    assert!(std::mem::size_of_val(&callback) > 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-unit-hole.expected b/tests/expected/uninit/closure-zst/capture-unit-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..c6136f9c09285f072f9677dfb5b43809533e9a54
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-unit-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness capture_unit_hole...
++Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-unit-hole.rs b/tests/expected/uninit/closure-zst/capture-unit-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..696c9afe98eb114186fd30e5bd212185b626c8e5
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-unit-hole.rs
+@@ -0,0 +1,38 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++#[kani::proof]
++fn capture_unit_hole() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), false);
++    let capture = ();
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        unsafe { value.assume_init_read() == 17 }
++    };
++    assert_eq!(std::mem::size_of_val(&callback), 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/capture-unit-legal.expected b/tests/expected/uninit/closure-zst/capture-unit-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..40d5f7e8275270f481e65ba85b784a2ad4efb90f
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-unit-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness capture_unit_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/capture-unit-legal.rs b/tests/expected/uninit/closure-zst/capture-unit-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..2fd05350b685dc3f58bae6af6d19875593721e55
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/capture-unit-legal.rs
+@@ -0,0 +1,38 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// Borrow the entire capture, preventing field-only capture in these controls.
++#[inline(never)]
++fn touch<T>(_: &T) {}
++
++// The typed raw read explicitly requests the closure's own initialization mask.
++// Copy excludes duplicating an exclusive reference or an owned destructor.
++#[inline(never)]
++fn copy_and_call<F: Copy + Fn(&MaybeUninit<u8>) -> bool>(
++    callback: F,
++    payload: &MaybeUninit<u8>,
++) -> bool {
++    let copied = unsafe { std::ptr::read(std::ptr::addr_of!(callback)) };
++    copied(payload)
++}
++
++#[kani::proof]
++fn capture_unit_legal() {
++    let payload = select(MaybeUninit::new(17), MaybeUninit::uninit(), true);
++    let capture = ();
++    let callback = move |value: &MaybeUninit<u8>| {
++        touch(&capture);
++        unsafe { value.assume_init_read() == 17 }
++    };
++    assert_eq!(std::mem::size_of_val(&callback), 0);
++    assert!(copy_and_call(callback, &payload));
++}
+diff --git a/tests/expected/uninit/closure-zst/scalar-pfc-hole.expected b/tests/expected/uninit/closure-zst/scalar-pfc-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..409ebbe02c0384dcd6393ce8a4722b36c9509af7
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/scalar-pfc-hole.expected
+@@ -0,0 +1,17 @@
++Checking harness postcondition_reads_returned_hole...
++std::ptr::read::<u8>.safety_check.1\
++ - Status: FAILURE\
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
++std::ptr::read::<u8>.safety_check.4\
++ - Status: FAILURE\
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++postcondition_target::\
++ - Status: FAILURE\
++ - Description: "|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }"
++SUMMARY:\
++ ** 3 of
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++Failed Checks: |result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/scalar-pfc-hole.rs b/tests/expected/uninit/closure-zst/scalar-pfc-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..77861141370900aefd1aca932b2c3983d507433a
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/scalar-pfc-hole.rs
+@@ -0,0 +1,22 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// The returned MU value is valid. Its first payload read is in the postcondition.
++#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 })]
++fn postcondition_target() -> MaybeUninit<u8> {
++    select(MaybeUninit::new(17), MaybeUninit::uninit(), false)
++}
++
++#[kani::proof_for_contract(postcondition_target)]
++fn postcondition_reads_returned_hole() {
++    let _unread = postcondition_target();
++}
+diff --git a/tests/expected/uninit/closure-zst/scalar-pfc-legal.expected b/tests/expected/uninit/closure-zst/scalar-pfc-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..b203f9aa03118ad269cdd7ac344c998f4dbf1f8b
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/scalar-pfc-legal.expected
+@@ -0,0 +1,8 @@
++Checking harness postcondition_reads_initialized_return...
++postcondition_target::\
++ - Status: SUCCESS\
++ - Description: "|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }"
++SUMMARY:\
++ ** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/closure-zst/scalar-pfc-legal.rs b/tests/expected/uninit/closure-zst/scalar-pfc-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..8fc4bed8fc3e9bf9538269bc77a7c0ffa67d6db6
+--- /dev/null
++++ b/tests/expected/uninit/closure-zst/scalar-pfc-legal.rs
+@@ -0,0 +1,22 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// The initialized MU value is first read by the useful postcondition.
++#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 })]
++fn postcondition_target() -> MaybeUninit<u8> {
++    select(MaybeUninit::new(17), MaybeUninit::uninit(), true)
++}
++
++#[kani::proof_for_contract(postcondition_target)]
++fn postcondition_reads_initialized_return() {
++    let _unread = postcondition_target();
++}
+diff --git a/tests/expected/uninit/contract-immutable-masks/ensures-left-hole.expected b/tests/expected/uninit/contract-immutable-masks/ensures-left-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..501ea698c3195f1b984a4eb04d86610dc5b37c71
+--- /dev/null
++++ b/tests/expected/uninit/contract-immutable-masks/ensures-left-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness ensures_left_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - ensures_left_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs b/tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..b58814038bf2ec1319a96e9c69df62d004a89bcb
+--- /dev/null
++++ b/tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs
+@@ -0,0 +1,27 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++// Both references are valid; the first payload read is in the Assert postcondition.
++// Require the left operand's byte check to fail and the initialized companion to pass.
++#[kani::ensures(|result: &&[MaybeUninit<u8>; 3]| unsafe {
++    raw_eq(*result, &[MaybeUninit::new(7u8); 3])
++})]
++fn promoted_hole() -> &'static [MaybeUninit<u8>; 3] {
++    // Evaluate uninit() in a const item, then borrow the immutable constant value.
++    const HOLE: [MaybeUninit<u8>; 3] =
++        [MaybeUninit::uninit(), MaybeUninit::new(7u8), MaybeUninit::new(7u8)];
++    &HOLE
++}
++
++#[kani::proof]
++fn ensures_left_hole() {
++    let _unread = promoted_hole();
++}
+diff --git a/tests/expected/uninit/contract-immutable-masks/ensures-right-hole.expected b/tests/expected/uninit/contract-immutable-masks/ensures-right-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..a53422ae097862aac42694a926002b03ff93adee
+--- /dev/null
++++ b/tests/expected/uninit/contract-immutable-masks/ensures-right-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness ensures_right_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - ensures_right_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs b/tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..ed3fe1d61d470303bc2b550d65b28c0d7c94d513
+--- /dev/null
++++ b/tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs
+@@ -0,0 +1,27 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular
++
++#![feature(core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::raw_eq;
++use std::mem::MaybeUninit;
++
++// Both references are valid; the first payload read is in the Assert postcondition.
++// Require the right operand's byte check to fail and the initialized companion to pass.
++#[kani::ensures(|result: &&[MaybeUninit<u8>; 3]| unsafe {
++    raw_eq(&[MaybeUninit::new(7u8); 3], *result)
++})]
++fn promoted_hole() -> &'static [MaybeUninit<u8>; 3] {
++    // Evaluate uninit() in a const item, then borrow the immutable constant value.
++    const HOLE: [MaybeUninit<u8>; 3] =
++        [MaybeUninit::uninit(), MaybeUninit::new(7u8), MaybeUninit::new(7u8)];
++    &HOLE
++}
++
++#[kani::proof]
++fn ensures_right_hole() {
++    let _unread = promoted_hole();
++}
+diff --git a/tests/expected/uninit/contract-immutable-masks/ordinary-singleton.expected b/tests/expected/uninit/contract-immutable-masks/ordinary-singleton.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..643abe821be7acdc531500c8345708de653a69bf
+--- /dev/null
++++ b/tests/expected/uninit/contract-immutable-masks/ordinary-singleton.expected
+@@ -0,0 +1,3 @@
++Checking harness legal_ordinary_transfer...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs b/tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..1b1ade35a8871e2aedc03193b64b915addd679c6
+--- /dev/null
++++ b/tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs
+@@ -0,0 +1,40 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts --output-format=regular
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++#[kani::modifies(out)]
++#[kani::ensures(|result: &u8| *result == 7 && *out == [1, 2, 3])]
++fn write_initialized(out: &mut [u8; 3]) -> u8 {
++    // Only the true arm is the initialized conditional-return control.
++    let selected = select(MaybeUninit::new(7), MaybeUninit::uninit(), true);
++    let byte = unsafe { selected.assume_init() };
++    assert_eq!(byte, 7);
++
++    let mut slot = MaybeUninit::<[u8; 3]>::uninit();
++    let data = slot.as_mut_ptr().cast::<u8>();
++    unsafe {
++        data.write(1);
++        data.add(1).write(2);
++        data.add(2).write(3);
++    }
++    let value = unsafe { slot.assume_init() };
++    // The RHS must bind to an anonymous immutable allocation in emitted MIR.
++    assert_eq!(value, [1, 2, 3]);
++    *out = value;
++    byte
++}
++
++#[kani::proof]
++fn legal_ordinary_transfer() {
++    let mut out = [0; 3];
++    assert_eq!(write_initialized(&mut out), 7);
++    assert_eq!(out, [1, 2, 3]);
++}
+diff --git a/tests/expected/uninit/contract-modes/recursive-check.expected b/tests/expected/uninit/contract-modes/recursive-check.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..c9304e8a50e0f432049839ab2ac00a5659e95dff
+--- /dev/null
++++ b/tests/expected/uninit/contract-modes/recursive-check.expected
+@@ -0,0 +1,12 @@
++Checking harness recursive_check...
++recursive_check.unsupported_construct.1\
++- Status: FAILURE\
++- Description: "Kani delayed uninitialized-memory analysis detected an interprocedural cycle
++root/active path: recursive_check [provenance=source]
++recursive_transfer [provenance=source]
++provenance=registration-override; origin=kani::internal::run_contract_fn
++Failed Checks: Kani delayed uninitialized-memory analysis detected an interprocedural cycle
++SUMMARY:\
++** 1 of
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/contract-modes/recursive-check.rs b/tests/expected/uninit/contract-modes/recursive-check.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..901fc3ecb948d587690db84813846766e5c158db
+--- /dev/null
++++ b/tests/expected/uninit/contract-modes/recursive-check.rs
+@@ -0,0 +1,41 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn relay(value: MaybeUninit<u8>) -> MaybeUninit<u8> {
++    value
++}
++
++#[inline(never)]
++fn payload_is_42(value: &MaybeUninit<u8>) -> bool {
++    unsafe { value.assume_init_read() == 42 }
++}
++
++fn input(initialized: bool) -> MaybeUninit<u8> {
++    if initialized { MaybeUninit::new(42) } else { MaybeUninit::uninit() }
++}
++
++#[kani::requires(depth <= 1)]
++#[kani::requires(!initialized || payload_is_42(&value))]
++#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_42(result))]
++#[kani::recursion]
++fn recursive_transfer(value: MaybeUninit<u8>, initialized: bool, depth: u8) -> MaybeUninit<u8> {
++    if depth == 0 { relay(value) } else { recursive_transfer(relay(value), initialized, depth - 1) }
++}
++
++#[kani::proof_for_contract(recursive_transfer)]
++#[kani::unwind(8)]
++fn recursive_check() {
++    let initialized: bool = kani::any();
++    let depth: u8 = if kani::any() { 0 } else { 1 };
++    let result = recursive_transfer(input(initialized), initialized, depth);
++    if initialized {
++        assert!(payload_is_42(&result));
++    } else {
++        // The storage is transferred without reading an uninitialized payload.
++    }
++}
+diff --git a/tests/expected/uninit/contract-modes/recursive-ordinary.expected b/tests/expected/uninit/contract-modes/recursive-ordinary.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..c35fa9c27bfcad4d7d208532ef275d79764878c1
+--- /dev/null
++++ b/tests/expected/uninit/contract-modes/recursive-ordinary.expected
+@@ -0,0 +1,12 @@
++Checking harness recursive_ordinary...
++recursive_ordinary.unsupported_construct.1\
++- Status: FAILURE\
++- Description: "Kani delayed uninitialized-memory analysis detected an interprocedural cycle
++root/active path: recursive_ordinary [provenance=source]
++recursive_transfer [provenance=source]
++provenance=registration-override; origin=kani::internal::run_contract_fn
++Failed Checks: Kani delayed uninitialized-memory analysis detected an interprocedural cycle
++SUMMARY:\
++** 1 of
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/contract-modes/recursive-ordinary.rs b/tests/expected/uninit/contract-modes/recursive-ordinary.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..7faabc02097d36e11fd3e49e13a8f394b4f8665b
+--- /dev/null
++++ b/tests/expected/uninit/contract-modes/recursive-ordinary.rs
+@@ -0,0 +1,41 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn relay(value: MaybeUninit<u8>) -> MaybeUninit<u8> {
++    value
++}
++
++#[inline(never)]
++fn payload_is_42(value: &MaybeUninit<u8>) -> bool {
++    unsafe { value.assume_init_read() == 42 }
++}
++
++fn input(initialized: bool) -> MaybeUninit<u8> {
++    if initialized { MaybeUninit::new(42) } else { MaybeUninit::uninit() }
++}
++
++#[kani::requires(depth <= 1)]
++#[kani::requires(!initialized || payload_is_42(&value))]
++#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_42(result))]
++#[kani::recursion]
++fn recursive_transfer(value: MaybeUninit<u8>, initialized: bool, depth: u8) -> MaybeUninit<u8> {
++    if depth == 0 { relay(value) } else { recursive_transfer(relay(value), initialized, depth - 1) }
++}
++
++#[kani::proof]
++#[kani::unwind(8)]
++fn recursive_ordinary() {
++    let initialized: bool = kani::any();
++    let depth: u8 = if kani::any() { 0 } else { 1 };
++    let result = recursive_transfer(input(initialized), initialized, depth);
++    if initialized {
++        assert!(payload_is_42(&result));
++    } else {
++        // The storage is transferred without reading an uninitialized payload.
++    }
++}
+diff --git a/tests/expected/uninit/contract-modes/recursive-simple-check.expected b/tests/expected/uninit/contract-modes/recursive-simple-check.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..792adfa3e920140793b6946caa6bb7b6b0da6831
+--- /dev/null
++++ b/tests/expected/uninit/contract-modes/recursive-simple-check.expected
+@@ -0,0 +1,23 @@
++Checking harness recursive_simple_check...
++bounded_transfer::\
++- Status: SUCCESS\
++- Description: "|result: &MaybeUninit<u8>| !initialized || payload_is_42(result)"
++recursive_simple_check.assertion.1\
++- Status: SUCCESS\
++- Description: "assertion failed: payload_is_42(&result)"
++recursive_simple_check.cover.1\
++- Status: SATISFIED\
++- Description: "initialized return consumed"
++recursive_simple_check.cover.2\
++- Status: SATISFIED\
++- Description: "uninitialized storage returned"
++bounded_transfer::\
++- Status: SATISFIED\
++- Description: "base body reached"
++bounded_transfer::\
++- Status: SATISFIED\
++- Description: "unrolled body edge reached"
++SUMMARY:\
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/contract-modes/recursive-simple-check.rs b/tests/expected/uninit/contract-modes/recursive-simple-check.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..704aa3ddb8bd0a2565e28c0c58d0b1d2c4d05433
+--- /dev/null
++++ b/tests/expected/uninit/contract-modes/recursive-simple-check.rs
+@@ -0,0 +1,48 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn relay(value: MaybeUninit<u8>) -> MaybeUninit<u8> {
++    value
++}
++
++#[inline(never)]
++fn payload_is_42(value: &MaybeUninit<u8>) -> bool {
++    unsafe { value.assume_init_read() == 42 }
++}
++
++fn input(initialized: bool) -> MaybeUninit<u8> {
++    if initialized { MaybeUninit::new(42) } else { MaybeUninit::uninit() }
++}
++
++#[kani::requires(depth <= 1)]
++#[kani::requires(!initialized || payload_is_42(&value))]
++#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_42(result))]
++fn bounded_transfer(value: MaybeUninit<u8>, initialized: bool, depth: u8) -> MaybeUninit<u8> {
++    if depth == 0 {
++        kani::cover!(true, "base body reached");
++        relay(value)
++    } else {
++        // Unroll the one permitted recursive step for the SimpleCheck companion.
++        kani::cover!(true, "unrolled body edge reached");
++        relay(relay(value))
++    }
++}
++
++#[kani::proof_for_contract(bounded_transfer)]
++#[kani::unwind(8)]
++fn recursive_simple_check() {
++    let initialized: bool = kani::any();
++    let depth: u8 = if kani::any() { 0 } else { 1 };
++    let result = bounded_transfer(input(initialized), initialized, depth);
++    if initialized {
++        assert!(payload_is_42(&result));
++        kani::cover!(true, "initialized return consumed");
++    } else {
++        kani::cover!(true, "uninitialized storage returned");
++    }
++}
+diff --git a/tests/expected/uninit/contract-modes/replace-ordinary.expected b/tests/expected/uninit/contract-modes/replace-ordinary.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..feb69f74dd7c18264c29bfa4939457438aacfaed
+--- /dev/null
++++ b/tests/expected/uninit/contract-modes/replace-ordinary.expected
+@@ -0,0 +1,17 @@
++Checking harness replace_ordinary...
++passthrough::\
++- Status: SUCCESS\
++- Description: "|result: &MaybeUninit<u8>| !initialized || payload_is_42(result)"
++replace_ordinary.assertion.1\
++- Status: SUCCESS\
++- Description: "assertion failed: payload_is_42(&result)"
++replace_ordinary.cover.1\
++- Status: SATISFIED\
++- Description: "initialized return consumed"
++replace_ordinary.cover.2\
++- Status: SATISFIED\
++- Description: "uninitialized storage returned"
++SUMMARY:\
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/contract-modes/replace-ordinary.rs b/tests/expected/uninit/contract-modes/replace-ordinary.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..4506f31c73a7ab86ce4f2b5250407b120227c48d
+--- /dev/null
++++ b/tests/expected/uninit/contract-modes/replace-ordinary.rs
+@@ -0,0 +1,45 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn relay(value: MaybeUninit<u8>) -> MaybeUninit<u8> {
++    value
++}
++
++#[inline(never)]
++fn payload_is_42(value: &MaybeUninit<u8>) -> bool {
++    unsafe { value.assume_init_read() == 42 }
++}
++
++fn input(initialized: bool) -> MaybeUninit<u8> {
++    if initialized { MaybeUninit::new(42) } else { MaybeUninit::uninit() }
++}
++
++#[kani::requires(!initialized || payload_is_42(&value))]
++#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_42(result))]
++fn passthrough(value: MaybeUninit<u8>, initialized: bool) -> MaybeUninit<u8> {
++    relay(value)
++}
++
++#[inline(never)]
++fn through_helper(value: MaybeUninit<u8>, initialized: bool) -> MaybeUninit<u8> {
++    passthrough(relay(value), initialized)
++}
++
++#[kani::proof]
++#[kani::unwind(8)]
++fn replace_ordinary() {
++    let initialized: bool = kani::any();
++    let value = input(initialized);
++    let result = through_helper(value, initialized);
++    if initialized {
++        assert!(payload_is_42(&result));
++        kani::cover!(true, "initialized return consumed");
++    } else {
++        kani::cover!(true, "uninitialized storage returned");
++    }
++}
+diff --git a/tests/expected/uninit/contract-modes/replace-simple-check.expected b/tests/expected/uninit/contract-modes/replace-simple-check.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..60f5499fc65121d95dda9e1bf29a5c2f34219e2d
+--- /dev/null
++++ b/tests/expected/uninit/contract-modes/replace-simple-check.expected
+@@ -0,0 +1,17 @@
++Checking harness replace_simple_check...
++passthrough::\
++- Status: SUCCESS\
++- Description: "|result: &MaybeUninit<u8>| !initialized || payload_is_42(result)"
++replace_simple_check.assertion.1\
++- Status: SUCCESS\
++- Description: "assertion failed: payload_is_42(&result)"
++replace_simple_check.cover.1\
++- Status: SATISFIED\
++- Description: "initialized return consumed"
++replace_simple_check.cover.2\
++- Status: SATISFIED\
++- Description: "uninitialized storage returned"
++SUMMARY:\
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/contract-modes/replace-simple-check.rs b/tests/expected/uninit/contract-modes/replace-simple-check.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..058058220f0cde926aa0fd4e46f49cb9974df36a
+--- /dev/null
++++ b/tests/expected/uninit/contract-modes/replace-simple-check.rs
+@@ -0,0 +1,45 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn relay(value: MaybeUninit<u8>) -> MaybeUninit<u8> {
++    value
++}
++
++#[inline(never)]
++fn payload_is_42(value: &MaybeUninit<u8>) -> bool {
++    unsafe { value.assume_init_read() == 42 }
++}
++
++fn input(initialized: bool) -> MaybeUninit<u8> {
++    if initialized { MaybeUninit::new(42) } else { MaybeUninit::uninit() }
++}
++
++#[kani::requires(!initialized || payload_is_42(&value))]
++#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_42(result))]
++fn passthrough(value: MaybeUninit<u8>, initialized: bool) -> MaybeUninit<u8> {
++    relay(value)
++}
++
++#[inline(never)]
++fn through_helper(value: MaybeUninit<u8>, initialized: bool) -> MaybeUninit<u8> {
++    passthrough(relay(value), initialized)
++}
++
++#[kani::proof_for_contract(passthrough)]
++#[kani::unwind(8)]
++fn replace_simple_check() {
++    let initialized: bool = kani::any();
++    let value = input(initialized);
++    let result = through_helper(value, initialized);
++    if initialized {
++        assert!(payload_is_42(&result));
++        kani::cover!(true, "initialized return consumed");
++    } else {
++        kani::cover!(true, "uninitialized storage returned");
++    }
++}
+diff --git a/tests/expected/uninit/contract-modes/replace-transfer-uninitialized.expected b/tests/expected/uninit/contract-modes/replace-transfer-uninitialized.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ad037961fccd263c0e8d48797c74933563f63c00
+--- /dev/null
++++ b/tests/expected/uninit/contract-modes/replace-transfer-uninitialized.expected
+@@ -0,0 +1,11 @@
++Checking harness replace_transfer_uninitialized...
++replace_transfer_uninitialized.assertion.1\
++- Status: SUCCESS\
++- Description: "assertion failed: !initialized || payload_is_42(&result)"
++replace_transfer_uninitialized.cover.1\
++- Status: SATISFIED\
++- Description: "uninitialized storage returned"
++SUMMARY:\
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs b/tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..8f4d0bc36c096cb1b24cc22dc6ec2475f37efd10
+--- /dev/null
++++ b/tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs
+@@ -0,0 +1,57 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --harness replace_transfer_uninitialized --exact --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn relay(value: MaybeUninit<u8>) -> MaybeUninit<u8> {
++    value
++}
++
++#[inline(never)]
++fn payload_is_42(value: &MaybeUninit<u8>) -> bool {
++    unsafe { value.assume_init_read() == 42 }
++}
++
++fn input(initialized: bool) -> MaybeUninit<u8> {
++    if initialized { MaybeUninit::new(42) } else { MaybeUninit::uninit() }
++}
++
++#[kani::requires(!initialized || payload_is_42(&value))]
++#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_42(result))]
++fn passthrough(value: MaybeUninit<u8>, initialized: bool) -> MaybeUninit<u8> {
++    relay(value)
++}
++
++#[inline(never)]
++fn through_helper(value: MaybeUninit<u8>, initialized: bool) -> MaybeUninit<u8> {
++    passthrough(relay(value), initialized)
++}
++
++#[kani::proof]
++#[kani::stub_verified(passthrough)]
++#[kani::unwind(8)]
++fn replace_transfer_uninitialized() {
++    let initialized: bool = kani::any();
++    // Select only the uninitialized-return alternative of the full harness.
++    kani::assume(!initialized);
++    let value = input(initialized);
++    let result = through_helper(value, initialized);
++    assert!(!initialized || payload_is_42(&result));
++    kani::cover!(true, "uninitialized storage returned");
++}
++
++// A verified stub needs its contract proof in the same crate. The flags select
++// only the caller; the SimpleCheck oracle is exercised in its own fixture.
++#[kani::proof_for_contract(passthrough)]
++#[kani::unwind(8)]
++fn replace_simple_check() {
++    let initialized: bool = kani::any();
++    let value = input(initialized);
++    let result = through_helper(value, initialized);
++    if initialized {
++        assert!(payload_is_42(&result));
++    }
++}
+diff --git a/tests/expected/uninit/contract-modes/replace-transfer.expected b/tests/expected/uninit/contract-modes/replace-transfer.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..42ffd3b6f7a91139f858605c77bc0135d6eb6223
+--- /dev/null
++++ b/tests/expected/uninit/contract-modes/replace-transfer.expected
+@@ -0,0 +1,19 @@
++Checking harness replace_transfer...
++passthrough::\
++- Status: SUCCESS\
++- Description: "!initialized || payload_is_42(&value)"
++replace_transfer.assertion.1\
++- Status: SUCCESS\
++- Description: "assertion failed: payload_is_42(&result)"
++std::ptr::read::<u8>.safety_check.1\
++- Status: FAILURE\
++- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
++std::ptr::read::<u8>.safety_check.4\
++- Status: FAILURE\
++- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++SUMMARY:\
++** 2 of
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/contract-modes/replace-transfer.rs b/tests/expected/uninit/contract-modes/replace-transfer.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..80d90042dc366d128aff0021696766754890b497
+--- /dev/null
++++ b/tests/expected/uninit/contract-modes/replace-transfer.rs
+@@ -0,0 +1,58 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z stubbing -Z unstable-options --output-format=regular --harness-timeout 120 --harness replace_transfer --exact --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn relay(value: MaybeUninit<u8>) -> MaybeUninit<u8> {
++    value
++}
++
++#[inline(never)]
++fn payload_is_42(value: &MaybeUninit<u8>) -> bool {
++    unsafe { value.assume_init_read() == 42 }
++}
++
++fn input(initialized: bool) -> MaybeUninit<u8> {
++    if initialized { MaybeUninit::new(42) } else { MaybeUninit::uninit() }
++}
++
++#[kani::requires(!initialized || payload_is_42(&value))]
++#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_42(result))]
++fn passthrough(value: MaybeUninit<u8>, initialized: bool) -> MaybeUninit<u8> {
++    relay(value)
++}
++
++#[inline(never)]
++fn through_helper(value: MaybeUninit<u8>, initialized: bool) -> MaybeUninit<u8> {
++    passthrough(relay(value), initialized)
++}
++
++#[kani::proof]
++#[kani::stub_verified(passthrough)]
++#[kani::unwind(8)]
++fn replace_transfer() {
++    let initialized: bool = kani::any();
++    let value = input(initialized);
++    let result = through_helper(value, initialized);
++    if initialized {
++        assert!(payload_is_42(&result));
++    } else {
++        // Transferring uninitialized storage is legal; do not read its payload.
++    }
++}
++
++// A verified stub needs its contract proof in the same crate. The flags select
++// only the caller; the SimpleCheck oracle is exercised in its own fixture.
++#[kani::proof_for_contract(passthrough)]
++#[kani::unwind(8)]
++fn replace_simple_check() {
++    let initialized: bool = kani::any();
++    let value = input(initialized);
++    let result = through_helper(value, initialized);
++    if initialized {
++        assert!(payload_is_42(&result));
++    }
++}
+diff --git a/tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.expected b/tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..b2e1bab137a6556dbcb0ef70a59ef7c4095059a7
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.expected
+@@ -0,0 +1,8 @@
++Checking harness generated_modifies_no_shadow...
++generated_modifies_no_shadow.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: unsafe { out.assume_init() } == 7"
++SUMMARY:\
++ ** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.rs b/tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..b3d915e8cb3af4d158bb3bd15ec0b3b43ef82dc8
+--- /dev/null
++++ b/tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.rs
+@@ -0,0 +1,17 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++use std::mem::MaybeUninit;
++
++#[kani::modifies(out)]
++fn write(out: &mut MaybeUninit<u16>) {
++    *out = MaybeUninit::new(7);
++}
++
++#[kani::proof_for_contract(write)]
++fn generated_modifies_no_shadow() {
++    let mut out = MaybeUninit::uninit();
++    write(&mut out);
++    assert_eq!(unsafe { out.assume_init() }, 7);
++}
+diff --git a/tests/expected/uninit/maybe-uninit-contract-clause/expected b/tests/expected/uninit/maybe-uninit-contract-clause/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ea5bcfdb6bdf971937c1219ed5f995b2bc8e9a7b
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-contract-clause/expected
+@@ -0,0 +1,9 @@
++Checking harness clause_pfc_negative...
++std::mem::transmute_neo::<std::mem::MaybeUninit<u16>, u16>.safety_check.1\
++ - Status: FAILURE\
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
++SUMMARY:\
++ ** 1 of
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u16`
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-contract-clause/main.rs b/tests/expected/uninit/maybe-uninit-contract-clause/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..3dcd4aadd7ec818fe766c606c3b56682e275b5f0
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-contract-clause/main.rs
+@@ -0,0 +1,30 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn choose(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    let _first_argument = a;
++    b
++}
++
++#[inline(never)]
++fn relay(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    choose(a, b)
++}
++
++fn clause_helper() -> bool {
++    let input = MaybeUninit::<u16>::uninit();
++    unsafe { relay(input, input).assume_init() == 17 }
++}
++
++#[kani::requires(clause_helper())]
++fn clause_target() {}
++
++#[kani::proof_for_contract(clause_target)]
++fn clause_pfc_negative() {
++    clause_target();
++}
+diff --git a/tests/expected/uninit/maybe-uninit-contract-frame/expected b/tests/expected/uninit/maybe-uninit-contract-frame/expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..86cdc5de74b1bb6326cf83ea910e0885851fbd9a
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-contract-frame/expected
+@@ -0,0 +1,14 @@
++Checking harness frame_negative...
++frame_target::\
++ - Status: FAILURE\
++ - Description: "Check that *var_7 is assignable"\
++ - Location: tests/expected/uninit/maybe-uninit-contract-frame/main.rs:22:5
++frame_target::\
++ - Status: SUCCESS\
++ - Description: "Check that *var_8 is assignable"\
++ - Location: tests/expected/uninit/maybe-uninit-contract-frame/main.rs:23:5
++SUMMARY:\
++ ** 1 of
++Failed Checks: Check that *var_7 is assignable
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/maybe-uninit-contract-frame/main.rs b/tests/expected/uninit/maybe-uninit-contract-frame/main.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..c0854aa68d52a0f29693c554c6e9f758e2347b9d
+--- /dev/null
++++ b/tests/expected/uninit/maybe-uninit-contract-frame/main.rs
+@@ -0,0 +1,31 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn choose(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    let _first_argument = a;
++    b
++}
++
++#[inline(never)]
++fn relay(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    choose(a, b)
++}
++
++#[kani::modifies(out)]
++fn frame_target(out: &mut u16, outside: &mut u16) {
++    let value = relay(MaybeUninit::new(23), MaybeUninit::new(29));
++    *outside = unsafe { value.assume_init() };
++    *out = 1;
++}
++
++#[kani::proof_for_contract(frame_target)]
++fn frame_negative() {
++    let mut out = 0;
++    let mut outside = 0;
++    frame_target(&mut out, &mut outside);
++}
+diff --git a/tests/expected/uninit/ordinary-slots/positive.expected b/tests/expected/uninit/ordinary-slots/positive.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..7e504189571ad8ef2035a4e999998489ae823241
+--- /dev/null
++++ b/tests/expected/uninit/ordinary-slots/positive.expected
+@@ -0,0 +1,9 @@
++Checking harness scalar_parameters_true_false...
++VERIFICATION:- SUCCESSFUL
++Checking harness reference_copy_move_return...
++VERIFICATION:- SUCCESSFUL
++Checking harness capture_free_ordinary...
++VERIFICATION:- SUCCESSFUL
++Checking harness capture_free_simple_check...
++VERIFICATION:- SUCCESSFUL
++Complete - 4 successfully verified harnesses, 0 failures, 4 total.
+diff --git a/tests/expected/uninit/ordinary-slots/positive.rs b/tests/expected/uninit/ordinary-slots/positive.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..9247934d630c34d8789ae93274e8fec4ebc9a7a1
+--- /dev/null
++++ b/tests/expected/uninit/ordinary-slots/positive.rs
+@@ -0,0 +1,97 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn scalar_slot(initialized: bool) -> bool {
++    // Consume the parameter BEFORE taking its address. The local pointer pass
++    // can initialize addressed ordinary storage later; it cannot repair this read.
++    kani::cover!(initialized, "true scalar entry read before address");
++    kani::cover!(!initialized, "false scalar entry read before address");
++    // The changed-pointee cast selects the parameter's storage for tracking.
++    // Reading it as MU is legal; its payload is an already valid bool value.
++    let storage = std::ptr::addr_of!(initialized).cast::<MaybeUninit<bool>>();
++    let copied = unsafe { storage.read().assume_init() };
++    assert_eq!(copied, initialized, "scalar parameter slot read");
++    copied
++}
++
++#[inline(never)]
++fn reference_identity(value: &bool) -> &bool {
++    value
++}
++
++#[inline(never)]
++fn reference_slot(value: &bool) -> &bool {
++    // This by-value reference operand read also precedes the address setter.
++    let before_address = reference_identity(value);
++    let storage = std::ptr::addr_of!(value).cast::<MaybeUninit<&bool>>();
++    let copied = unsafe { storage.read().assume_init() };
++    assert_eq!(*copied, *before_address, "reference parameter slot read");
++    copied
++}
++
++// No Copy implementation: moving this wrapper also exercises an ordinary
++// aggregate argument/return with padding, independently of closure layout.
++#[repr(C)]
++struct RefWrapper<'a> {
++    tag: u8,
++    value: &'a bool,
++}
++
++#[inline(never)]
++fn move_wrapper(value: RefWrapper<'_>) -> RefWrapper<'_> {
++    assert!(value.tag == 7, "wrapper entry data read before address");
++    let storage = std::ptr::addr_of!(value).cast::<MaybeUninit<RefWrapper<'_>>>();
++    let moved = unsafe { storage.read().assume_init() };
++    assert_eq!(moved.tag, 7, "wrapper data read");
++    moved
++}
++
++#[kani::proof]
++#[kani::unwind(8)]
++fn scalar_parameters_true_false() {
++    let yes = scalar_slot(true);
++    let no = scalar_slot(false);
++    assert!(yes && !no, "scalar normal returns consumed");
++    kani::cover!(yes && !no, "true and false scalar slots reached");
++}
++
++#[kani::proof]
++#[kani::unwind(8)]
++fn reference_copy_move_return() {
++    let yes = true;
++    let no = false;
++    let copied = reference_slot(&yes);
++    let moved = move_wrapper(RefWrapper { tag: 7, value: reference_slot(&no) });
++    assert!(*copied && !*moved.value, "reference normal returns consumed");
++    kani::cover!(*copied && !*moved.value, "reference copy and wrapper move reached");
++}
++
++// Both generated body and ensures environments have zero upvars. All scalar/ref
++// slot work happens in ordinary helpers, isolating CC2 from nonzero layout CC3.
++#[kani::ensures(|result: &bool| *result)]
++fn capture_free_slots() -> bool {
++    let yes = scalar_slot(true);
++    let no = scalar_slot(false);
++    let copied = reference_slot(&yes);
++    let moved = move_wrapper(RefWrapper { tag: 7, value: reference_slot(&no) });
++    *copied && !*moved.value
++}
++
++#[kani::proof]
++#[kani::unwind(8)]
++fn capture_free_ordinary() {
++    assert!(capture_free_slots(), "ordinary slot body and return reached");
++    kani::cover!(true, "ordinary capture-free slots consumed");
++}
++
++#[kani::proof_for_contract(capture_free_slots)]
++#[kani::unwind(8)]
++fn capture_free_simple_check() {
++    assert!(capture_free_slots(), "SimpleCheck slot body and return reached");
++    kani::cover!(true, "SimpleCheck capture-free slots consumed");
++}
+diff --git a/tests/expected/uninit/part1-edges/README.md b/tests/expected/uninit/part1-edges/README.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..8434b1df36cc763d9ec510df4d42f94de82c3824
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/README.md
+@@ -0,0 +1,13 @@
++# Initialization edge fixtures
++
++These fixtures cover ordinary union constants, raw field stores, immutable origins,
++and unsized slot arguments. Each file selects one oracle root.
++
++The initialized nonzero-subrange fixture records a conservative uninitialized-read
++failure. The relocation and named-static companions use supported origin paths;
++their initialized cases succeed. Hole companions distinguish payload reads from
++origin or layout limitations.
++
++By-value unsized slot transfers have an explicit unsupported-size boundary for both
++initialized and hole inputs. Borrowed slice companions cover supported reference
++access without moving an unsized value.
+diff --git a/tests/expected/uninit/part1-edges/dst-by-reference-hole.expected b/tests/expected/uninit/part1-edges/dst-by-reference-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..aa234ba4bf2e64d3a5d4007a2ee1ecde5250b65e
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-reference-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness dst_by_reference_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - dst_by_reference_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/dst-by-reference-hole.rs b/tests/expected/uninit/part1-edges/dst-by-reference-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..0338f61523a15bb05c57de3f9b60e57d0b2b6489
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-reference-hole.rs
+@@ -0,0 +1,17 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn read(source: &mut [MaybeUninit<u8>]) -> u8 {
++    unsafe { source[1].assume_init() }
++}
++
++#[kani::proof]
++fn dst_by_reference_hole() {
++    let mut source = [MaybeUninit::new(0u8), MaybeUninit::uninit()];
++    let _read = read(&mut source);
++}
+diff --git a/tests/expected/uninit/part1-edges/dst-by-reference-legal.expected b/tests/expected/uninit/part1-edges/dst-by-reference-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..423c11a01fe08e2e48b264c554b6e4a1c7316cc9
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-reference-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness dst_by_reference_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/dst-by-reference-legal.rs b/tests/expected/uninit/part1-edges/dst-by-reference-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..22347fa9257aa26f52e0a9bb3b20eb41baf3b305
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-reference-legal.rs
+@@ -0,0 +1,17 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn read(source: &mut [MaybeUninit<u8>]) -> u8 {
++    unsafe { source[1].assume_init() }
++}
++
++#[kani::proof]
++fn dst_by_reference_legal() {
++    let mut source = [MaybeUninit::new(0u8), MaybeUninit::new(0u8)];
++    assert_eq!(read(&mut source), 0);
++}
+diff --git a/tests/expected/uninit/part1-edges/dst-by-value-hole.expected b/tests/expected/uninit/part1-edges/dst-by-value-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..60aa512d09e81fe666f84424fc3c7dbc91eaecc9
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-value-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness dst_by_value_hole...
++Failed Checks: Kani does not support unsized by-value shadow argument/return transfers.
++VERIFICATION:- FAILED
++Verification failed for - dst_by_value_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/dst-by-value-hole.rs b/tests/expected/uninit/part1-edges/dst-by-value-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..5c968da5973e02e94b0ee944fe7e7008bc0e380d
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-value-hole.rs
+@@ -0,0 +1,27 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(unsized_fn_params)]
++
++use std::mem::MaybeUninit;
++
++trait ReadSlot {
++    fn read(self) -> u8;
++}
++
++impl ReadSlot for [MaybeUninit<u8>] {
++    #[inline(never)]
++    fn read(self) -> u8 {
++        unsafe { self[1].assume_init() }
++    }
++}
++
++#[kani::proof]
++fn dst_by_value_hole() {
++    // Same source form as tests/kani/UnsizedFnParams: the ARGUMENT is *source,
++    // not the Box/fat pointer, so the slice storage is passed by value.
++    let source: Box<[MaybeUninit<u8>]> = Box::new([MaybeUninit::new(0u8), MaybeUninit::uninit()]);
++    let _read = (*source).read();
++}
+diff --git a/tests/expected/uninit/part1-edges/dst-by-value-legal.expected b/tests/expected/uninit/part1-edges/dst-by-value-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..358343dc65ce0adf19f8279453629c8b2b4d8784
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-value-legal.expected
+@@ -0,0 +1,5 @@
++Checking harness dst_by_value_legal...
++Failed Checks: Kani does not support unsized by-value shadow argument/return transfers.
++VERIFICATION:- FAILED
++Verification failed for - dst_by_value_legal
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/dst-by-value-legal.rs b/tests/expected/uninit/part1-edges/dst-by-value-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..6720a640d7f5fb29be778b19b73d435c4216498c
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/dst-by-value-legal.rs
+@@ -0,0 +1,27 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(unsized_fn_params)]
++
++use std::mem::MaybeUninit;
++
++trait ReadSlot {
++    fn read(self) -> u8;
++}
++
++impl ReadSlot for [MaybeUninit<u8>] {
++    #[inline(never)]
++    fn read(self) -> u8 {
++        unsafe { self[1].assume_init() }
++    }
++}
++
++#[kani::proof]
++fn dst_by_value_legal() {
++    // Same source form as tests/kani/UnsizedFnParams: the ARGUMENT is *source,
++    // not the Box/fat pointer, so the slice storage is passed by value.
++    let source: Box<[MaybeUninit<u8>]> = Box::new([MaybeUninit::new(0u8), MaybeUninit::new(0u8)]);
++    let _read = (*source).read();
++}
+diff --git a/tests/expected/uninit/part1-edges/raw-field-legal.expected b/tests/expected/uninit/part1-edges/raw-field-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..012cfa30f60ed20a7058a1d7d742976967fbe683
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/raw-field-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness raw_field_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/raw-field-legal.rs b/tests/expected/uninit/part1-edges/raw-field-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..80e04937174ea5d4dc81c246bd4adb17b513cdca
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/raw-field-legal.rs
+@@ -0,0 +1,28 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{MaybeUninit, offset_of, size_of};
++
++#[repr(C)]
++struct Pair {
++    head: u8,
++    value: u32,
++    tail: u8,
++}
++
++#[kani::proof]
++fn raw_field_legal() {
++    assert_eq!(offset_of!(Pair, value), 4);
++    assert_eq!(offset_of!(Pair, tail), 8);
++    assert_eq!(size_of::<Pair>(), 12);
++    let mut storage = MaybeUninit::<Pair>::uninit();
++    let pointer = storage.as_mut_ptr();
++    let alias = pointer;
++    // Raw address formation never constructs an initialized reference to Pair.
++    unsafe {
++        (*alias).value = 0x1234_5678u32;
++        assert_eq!(std::ptr::read_volatile(std::ptr::addr_of!((*pointer).value)), 0x1234_5678);
++    }
++}
+diff --git a/tests/expected/uninit/part1-edges/raw-field-neighbor-hole.expected b/tests/expected/uninit/part1-edges/raw-field-neighbor-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..29ed31243cf91f7b81fcc13bf3984c0965c22a68
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/raw-field-neighbor-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness raw_field_neighbor_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - raw_field_neighbor_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/raw-field-neighbor-hole.rs b/tests/expected/uninit/part1-edges/raw-field-neighbor-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..867caee01a9c6ae0d9201922a66222d60a418971
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/raw-field-neighbor-hole.rs
+@@ -0,0 +1,29 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{MaybeUninit, offset_of, size_of};
++
++#[repr(C)]
++struct Pair {
++    head: u8,
++    value: u32,
++    tail: u8,
++}
++
++#[kani::proof]
++fn raw_field_neighbor_hole() {
++    assert_eq!(offset_of!(Pair, value), 4);
++    assert_eq!(offset_of!(Pair, tail), 8);
++    assert_eq!(size_of::<Pair>(), 12);
++    let mut storage = MaybeUninit::<Pair>::uninit();
++    let pointer = storage.as_mut_ptr();
++    let alias = pointer;
++    // Raw address formation never constructs an initialized reference to Pair.
++    unsafe {
++        (*alias).value = 0x1234_5678u32;
++        assert_eq!(std::ptr::read_volatile(std::ptr::addr_of!((*pointer).value)), 0x1234_5678);
++        let _hole = std::ptr::read_volatile(std::ptr::addr_of!((*pointer).tail));
++    }
++}
+diff --git a/tests/expected/uninit/part1-edges/raw-field-padding-hole.expected b/tests/expected/uninit/part1-edges/raw-field-padding-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..ae4f942d0e8aa56531d5d70f514ce30990d92457
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/raw-field-padding-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness raw_field_padding_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - raw_field_padding_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/raw-field-padding-hole.rs b/tests/expected/uninit/part1-edges/raw-field-padding-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..c29ab2e6f23624f8255e19d935d43962d16ac776
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/raw-field-padding-hole.rs
+@@ -0,0 +1,29 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++use std::mem::{MaybeUninit, offset_of, size_of};
++
++#[repr(C)]
++struct Pair {
++    head: u8,
++    value: u32,
++    tail: u8,
++}
++
++#[kani::proof]
++fn raw_field_padding_hole() {
++    assert_eq!(offset_of!(Pair, value), 4);
++    assert_eq!(offset_of!(Pair, tail), 8);
++    assert_eq!(size_of::<Pair>(), 12);
++    let mut storage = MaybeUninit::<Pair>::uninit();
++    let pointer = storage.as_mut_ptr();
++    let alias = pointer;
++    // Raw address formation never constructs an initialized reference to Pair.
++    unsafe {
++        (*alias).value = 0x1234_5678u32;
++        assert_eq!(std::ptr::read_volatile(std::ptr::addr_of!((*pointer).value)), 0x1234_5678);
++        let _hole = std::ptr::read_volatile(pointer.cast::<u8>().add(1));
++    }
++}
+diff --git a/tests/expected/uninit/part1-edges/union-constant-hole.expected b/tests/expected/uninit/part1-edges/union-constant-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69c41480ff366ed4244e2fc00a525103d979a65
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-constant-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness union_constant_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - union_constant_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/union-constant-hole.rs b/tests/expected/uninit/part1-edges/union-constant-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..4741aae98ddb0fa48cffddb5aea34810867580a3
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-constant-hole.rs
+@@ -0,0 +1,39 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[derive(Clone, Copy)]
++#[allow(dead_code)]
++union Byte {
++    byte: u8,
++    empty: (),
++}
++
++#[inline(never)]
++fn consume(value: Byte) -> u8 {
++    unsafe { value.byte }
++}
++
++const VALUE: Byte = Byte { empty: () };
++
++// The call uses a constant ordinary union operand.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn transfer() -> u8 {
++    mir! {
++        {
++            Call(RET = consume(VALUE), ReturnTo(done), UnwindUnreachable())
++        }
++        done = { Return() }
++    }
++}
++
++#[kani::proof]
++fn union_constant_hole() {
++    let _read = transfer();
++}
+diff --git a/tests/expected/uninit/part1-edges/union-constant-legal.expected b/tests/expected/uninit/part1-edges/union-constant-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..d636400d7dcafc2cc92bf9910f236f277355176f
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-constant-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness union_constant_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/union-constant-legal.rs b/tests/expected/uninit/part1-edges/union-constant-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..00d535bb7bc6457e9dcf5afa31bccbba42ed8528
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-constant-legal.rs
+@@ -0,0 +1,39 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[derive(Clone, Copy)]
++#[allow(dead_code)]
++union Byte {
++    byte: u8,
++    empty: (),
++}
++
++#[inline(never)]
++fn consume(value: Byte) -> u8 {
++    unsafe { value.byte }
++}
++
++const VALUE: Byte = Byte { byte: 0 };
++
++// The call uses a constant ordinary union operand.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn transfer() -> u8 {
++    mir! {
++        {
++            Call(RET = consume(VALUE), ReturnTo(done), UnwindUnreachable())
++        }
++        done = { Return() }
++    }
++}
++
++#[kani::proof]
++fn union_constant_legal() {
++    assert_eq!(transfer(), 0);
++}
+diff --git a/tests/expected/uninit/part1-edges/union-variable-hole.expected b/tests/expected/uninit/part1-edges/union-variable-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..9789105ec330376ea6ce22b6be93905e44b0dd44
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-variable-hole.expected
+@@ -0,0 +1,5 @@
++Checking harness union_variable_hole...
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type
++VERIFICATION:- FAILED
++Verification failed for - union_variable_hole
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/union-variable-hole.rs b/tests/expected/uninit/part1-edges/union-variable-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..5fdc9c6510b08e1b4605760af1e59f359b992659
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-variable-hole.rs
+@@ -0,0 +1,37 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[derive(Clone, Copy)]
++#[allow(dead_code)]
++union Byte {
++    byte: u8,
++    empty: (),
++}
++
++#[inline(never)]
++fn consume(value: Byte) -> u8 {
++    unsafe { value.byte }
++}
++
++// The call copies an ordinary union operand.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn transfer(source: Byte) -> u8 {
++    mir! {
++        {
++            Call(RET = consume(source), ReturnTo(done), UnwindUnreachable())
++        }
++        done = { Return() }
++    }
++}
++
++#[kani::proof]
++fn union_variable_hole() {
++    let _read = transfer(Byte { empty: () });
++}
+diff --git a/tests/expected/uninit/part1-edges/union-variable-legal.expected b/tests/expected/uninit/part1-edges/union-variable-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..65ce4a61040e0a0f27e79ef735ece17464b6c609
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-variable-legal.expected
+@@ -0,0 +1,3 @@
++Checking harness union_variable_legal...
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/part1-edges/union-variable-legal.rs b/tests/expected/uninit/part1-edges/union-variable-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..2dad366532117ccae6ebd151247780c0eeafa8e8
+--- /dev/null
++++ b/tests/expected/uninit/part1-edges/union-variable-legal.rs
+@@ -0,0 +1,37 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021
++// kani-flags: -Z uninit-checks --output-format=regular
++
++#![feature(custom_mir, core_intrinsics)]
++#![allow(internal_features)]
++
++use std::intrinsics::mir::*;
++
++#[derive(Clone, Copy)]
++#[allow(dead_code)]
++union Byte {
++    byte: u8,
++    empty: (),
++}
++
++#[inline(never)]
++fn consume(value: Byte) -> u8 {
++    unsafe { value.byte }
++}
++
++// The call copies an ordinary union operand.
++#[custom_mir(dialect = "runtime", phase = "optimized")]
++fn transfer(source: Byte) -> u8 {
++    mir! {
++        {
++            Call(RET = consume(source), ReturnTo(done), UnwindUnreachable())
++        }
++        done = { Return() }
++    }
++}
++
++#[kani::proof]
++fn union_variable_legal() {
++    assert_eq!(transfer(Byte { byte: 0 }), 0);
++}
+diff --git a/tests/expected/uninit/points-to-cycles/capture-free.expected b/tests/expected/uninit/points-to-cycles/capture-free.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..4f4d7d4e2785bf15068021bf5ab58923ae5efd79
+--- /dev/null
++++ b/tests/expected/uninit/points-to-cycles/capture-free.expected
+@@ -0,0 +1,7 @@
++Checking harness capture_free_recursive_check...
++Kani delayed uninitialized-memory analysis detected an interprocedural cycle (repeats active frame
++root/active path: capture_free_recursive_check [provenance=source]
++[call at
++VERIFICATION:- FAILED
++Verification failed for - capture_free_recursive_check
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/points-to-cycles/capture-free.rs b/tests/expected/uninit/points-to-cycles/capture-free.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..5867c681e51d9b886238252939474ab1514b92ed
+--- /dev/null
++++ b/tests/expected/uninit/points-to-cycles/capture-free.rs
+@@ -0,0 +1,22 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++// No upvars in the contract predicate or body closure (no function arguments).
++// Partial correctness does not require termination of the nondeterministic branch.
++#[inline(never)]
++#[kani::ensures(|_result: &MaybeUninit<u8>| true)]
++#[kani::recursion]
++fn recursive_control() -> MaybeUninit<u8> {
++    if kani::any() { recursive_control() } else { MaybeUninit::new(42) }
++}
++
++#[kani::proof_for_contract(recursive_control)]
++#[kani::unwind(4)]
++fn capture_free_recursive_check() {
++    let _value = recursive_control();
++    kani::cover!(true, "legal recursive mode returned storage");
++}
+diff --git a/tests/expected/uninit/private-transfer-frame/lawful-modifies.expected b/tests/expected/uninit/private-transfer-frame/lawful-modifies.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..649f80412d890a6f8fb0f2bad4d1d159a379ddf6
+--- /dev/null
++++ b/tests/expected/uninit/private-transfer-frame/lawful-modifies.expected
+@@ -0,0 +1,21 @@
++Checking harness lawful_modifies_preserves_outside...
++frame_target::\
++ - Status: SUCCESS\
++ - Description: "|result: &u16| *result == 29 && *out == 29"
++frame_target::\
++ - Status: SUCCESS\
++ - Description: "Check that *var_8 is assignable"\
++ - Location: tests/expected/uninit/private-transfer-frame/lawful-modifies.rs:26:5
++lawful_modifies_preserves_outside.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: frame_target(&mut out, &mut outside) == 29"
++lawful_modifies_preserves_outside.assertion.2\
++ - Status: SUCCESS\
++ - Description: "assertion failed: out == 29"
++lawful_modifies_preserves_outside.assertion.3\
++ - Status: SUCCESS\
++ - Description: "assertion failed: outside == 41"
++SUMMARY:\
++ ** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/private-transfer-frame/lawful-modifies.rs b/tests/expected/uninit/private-transfer-frame/lawful-modifies.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..0a2dfa442b09a8ef813280844721b611129bdecc
+--- /dev/null
++++ b/tests/expected/uninit/private-transfer-frame/lawful-modifies.rs
+@@ -0,0 +1,37 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// This test exceeds the CI memory limit with 16 object bits because of the
++// contract write-set tables. Reducing the number of object bits to 12.
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn choose(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    let _first_argument = a;
++    b
++}
++
++#[inline(never)]
++fn relay(a: MaybeUninit<u16>, b: MaybeUninit<u16>) -> MaybeUninit<u16> {
++    choose(a, b)
++}
++
++#[kani::modifies(out)]
++#[kani::ensures(|result: &u16| *result == 29 && *out == 29)]
++fn frame_target(out: &mut u16, outside: &mut u16) -> u16 {
++    let value = relay(MaybeUninit::new(*outside), MaybeUninit::new(29));
++    let scalar = unsafe { value.assume_init() };
++    *out = scalar;
++    scalar
++}
++
++#[kani::proof_for_contract(frame_target)]
++fn lawful_modifies_preserves_outside() {
++    let mut out = 0u16;
++    let mut outside = 41u16;
++    assert_eq!(frame_target(&mut out, &mut outside), 29);
++    assert_eq!(out, 29);
++    assert_eq!(outside, 41);
++}
+diff --git a/tests/expected/uninit/root-composition/cycle-root.expected b/tests/expected/uninit/root-composition/cycle-root.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..983954d3c8f0a19cce7f41c1033109ba51b8e91a
+--- /dev/null
++++ b/tests/expected/uninit/root-composition/cycle-root.expected
+@@ -0,0 +1,12 @@
++Checking harness cycle_root...
++cycle_root.unsupported_construct.1\
++- Status: FAILURE\
++- Description: "Kani delayed uninitialized-memory analysis detected an interprocedural cycle
++root/active path: cycle_root [provenance=source] -> frame 1: cycle_relay [provenance=source]
++[provenance=registration-override; origin=kani::internal::run_contract_fn
++-> repeated: cycle_relay [provenance=source]
++Failed Checks: Kani delayed uninitialized-memory analysis detected an interprocedural cycle
++SUMMARY:\
++** 1 of
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/root-composition/cycle-root.rs b/tests/expected/uninit/root-composition/cycle-root.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..cc0d4ab4d6ba2f4215be596e39b659be7f876779
+--- /dev/null
++++ b/tests/expected/uninit/root-composition/cycle-root.rs
+@@ -0,0 +1,33 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn repeated_relay(value: MaybeUninit<u8>) -> MaybeUninit<u8> {
++    value
++}
++
++#[inline(never)]
++fn payload_is_53(value: &MaybeUninit<u8>) -> bool {
++    unsafe { value.assume_init_read() == 53 }
++}
++
++#[kani::requires(depth <= 1)]
++#[kani::requires(!initialized || payload_is_53(&value))]
++#[kani::ensures(|result: &MaybeUninit<u8>| !initialized || payload_is_53(result))]
++#[kani::recursion]
++fn cycle_relay(value: MaybeUninit<u8>, initialized: bool, depth: u8) -> MaybeUninit<u8> {
++    if depth == 0 {
++        repeated_relay(value)
++    } else {
++        cycle_relay(repeated_relay(value), initialized, depth - 1)
++    }
++}
++
++#[kani::proof_for_contract(cycle_relay)]
++fn cycle_root() {
++    cycle_relay(MaybeUninit::new(53), true, 1);
++}
+diff --git a/tests/expected/uninit/root-composition/immutable-hole-negative.expected b/tests/expected/uninit/root-composition/immutable-hole-negative.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..f0c810e35992307ffc78bd9e88f0f6b419e8b37c
+--- /dev/null
++++ b/tests/expected/uninit/root-composition/immutable-hole-negative.expected
+@@ -0,0 +1,13 @@
++Checking harness immutable_hole_negative...
++std::ptr::read::<u8>.safety_check.1\
++- Status: FAILURE\
++- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++std::ptr::read::<u8>.safety_check.4\
++- Status: FAILURE\
++- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++SUMMARY:\
++** 2 of
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/root-composition/immutable-hole-negative.rs b/tests/expected/uninit/root-composition/immutable-hole-negative.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..38fb170e704095f9e3dde55f061f4918fa60e062
+--- /dev/null
++++ b/tests/expected/uninit/root-composition/immutable-hole-negative.rs
+@@ -0,0 +1,14 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++static IMMUTABLE_HOLE: MaybeUninit<u8> = MaybeUninit::uninit();
++
++#[kani::proof]
++fn immutable_hole_negative() {
++    // Deliberate invalid read, isolated to this root.
++    let _ = unsafe { IMMUTABLE_HOLE.assume_init_read() };
++}
+diff --git a/tests/expected/uninit/root-composition/immutable-legal.expected b/tests/expected/uninit/root-composition/immutable-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..2497b18bd77f4477bf402d4f406fc640d09e132d
+--- /dev/null
++++ b/tests/expected/uninit/root-composition/immutable-legal.expected
+@@ -0,0 +1,8 @@
++Checking harness immutable_legal...
++immutable_legal.assertion.1\
++- Status: SUCCESS\
++- Description: "assertion failed: value == 17"
++SUMMARY:\
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/root-composition/immutable-legal.rs b/tests/expected/uninit/root-composition/immutable-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..5695fc82aa8e48a9e7a08e3fc289e6cc58d9fbdc
+--- /dev/null
++++ b/tests/expected/uninit/root-composition/immutable-legal.rs
+@@ -0,0 +1,15 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++static IMMUTABLE_LEGAL: MaybeUninit<u8> = MaybeUninit::new(17);
++
++#[kani::proof]
++fn immutable_legal() {
++    // Immutable named static, read only after its initialized construction.
++    let value = unsafe { IMMUTABLE_LEGAL.assume_init_read() };
++    assert_eq!(value, 17);
++}
+diff --git a/tests/expected/uninit/root-composition/ordinary-ensures-legal.expected b/tests/expected/uninit/root-composition/ordinary-ensures-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..fc063f03f8c1d248c88da964f7f04af986199aa7
+--- /dev/null
++++ b/tests/expected/uninit/root-composition/ordinary-ensures-legal.expected
+@@ -0,0 +1,11 @@
++Checking harness ordinary_ensures_legal...
++ordinary_contract::\
++- Status: SUCCESS\
++- Description: "|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 23 }"
++ordinary_ensures_legal.assertion.1\
++- Status: SUCCESS\
++- Description: "assertion failed: unsafe { result.assume_init_read() } == 23"
++SUMMARY:\
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/root-composition/ordinary-ensures-legal.rs b/tests/expected/uninit/root-composition/ordinary-ensures-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..e5bee294834aa8233dc98722c14cc98534223617
+--- /dev/null
++++ b/tests/expected/uninit/root-composition/ordinary-ensures-legal.rs
+@@ -0,0 +1,22 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn repeated_relay(value: MaybeUninit<u8>) -> MaybeUninit<u8> {
++    value
++}
++
++#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 23 })]
++fn ordinary_contract(value: MaybeUninit<u8>) -> MaybeUninit<u8> {
++    repeated_relay(value)
++}
++
++#[kani::proof]
++fn ordinary_ensures_legal() {
++    let result = ordinary_contract(MaybeUninit::new(23));
++    assert_eq!(unsafe { result.assume_init_read() }, 23);
++}
+diff --git a/tests/expected/uninit/root-composition/pfc-legal.expected b/tests/expected/uninit/root-composition/pfc-legal.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..a46470f61210491c754e695410562b88fd9f447e
+--- /dev/null
++++ b/tests/expected/uninit/root-composition/pfc-legal.expected
+@@ -0,0 +1,8 @@
++Checking harness pfc_legal...
++pfc_contract::\
++- Status: SUCCESS\
++- Description: "|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 31 }"
++SUMMARY:\
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/root-composition/pfc-legal.rs b/tests/expected/uninit/root-composition/pfc-legal.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..d770273edc8f330ab2c65999807d20d9add7cffe
+--- /dev/null
++++ b/tests/expected/uninit/root-composition/pfc-legal.rs
+@@ -0,0 +1,18 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[kani::requires(value == 31)]
++#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 31 })]
++fn pfc_contract(value: u8) -> MaybeUninit<u8> {
++    let _ = value;
++    MaybeUninit::new(31)
++}
++
++#[kani::proof_for_contract(pfc_contract)]
++fn pfc_legal() {
++    pfc_contract(31);
++}
+diff --git a/tests/expected/uninit/root-composition/pfc-negative.expected b/tests/expected/uninit/root-composition/pfc-negative.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..64ff01934cbe2f8e26bdb2783d354508849b7ec3
+--- /dev/null
++++ b/tests/expected/uninit/root-composition/pfc-negative.expected
+@@ -0,0 +1,17 @@
++Checking harness pfc_negative...
++std::ptr::read::<u8>.safety_check.1\
++- Status: FAILURE\
++- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++std::ptr::read::<u8>.safety_check.4\
++- Status: FAILURE\
++- Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++pfc_negative_contract::\
++- Status: FAILURE\
++- Description: "|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 41 }"
++Failed Checks: |result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 41 }
++SUMMARY:\
++** 3 of
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/root-composition/pfc-negative.rs b/tests/expected/uninit/root-composition/pfc-negative.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..030e13743c0ff0644b3383595306d3ad7c6e2bdc
+--- /dev/null
++++ b/tests/expected/uninit/root-composition/pfc-negative.rs
+@@ -0,0 +1,18 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[kani::requires(value == 41)]
++#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 41 })]
++fn pfc_negative_contract(value: u8) -> MaybeUninit<u8> {
++    let _ = value;
++    MaybeUninit::uninit()
++}
++
++#[kani::proof_for_contract(pfc_negative_contract)]
++fn pfc_negative() {
++    pfc_negative_contract(41);
++}
+diff --git a/tests/expected/uninit/root-composition/unrelated-legal-after-cycle.expected b/tests/expected/uninit/root-composition/unrelated-legal-after-cycle.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..86c162e8d7c7b3ff5d952083444674b1fc4c3e57
+--- /dev/null
++++ b/tests/expected/uninit/root-composition/unrelated-legal-after-cycle.expected
+@@ -0,0 +1,11 @@
++Checking harness unrelated_legal_after_cycle...
++unrelated_legal_after_cycle.assertion.1\
++- Status: SUCCESS\
++- Description: "assertion failed: unsafe { left.assume_init_read() } == 59"
++unrelated_legal_after_cycle.assertion.2\
++- Status: SUCCESS\
++- Description: "assertion failed: unsafe { right.assume_init_read() } == 61"
++SUMMARY:\
++** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/root-composition/unrelated-legal-after-cycle.rs b/tests/expected/uninit/root-composition/unrelated-legal-after-cycle.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..d6e19186e8856c8c7c7c07088ff6b470c147a924
+--- /dev/null
++++ b/tests/expected/uninit/root-composition/unrelated-legal-after-cycle.rs
+@@ -0,0 +1,19 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn repeated_relay(value: MaybeUninit<u8>) -> MaybeUninit<u8> {
++    value
++}
++
++#[kani::proof]
++fn unrelated_legal_after_cycle() {
++    let left = repeated_relay(MaybeUninit::new(59));
++    let right = repeated_relay(MaybeUninit::new(61));
++    assert_eq!(unsafe { left.assume_init_read() }, 59);
++    assert_eq!(unsafe { right.assume_init_read() }, 61);
++}
+diff --git a/tests/expected/uninit/transfer-qualification/legal-ordinary.expected b/tests/expected/uninit/transfer-qualification/legal-ordinary.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..4432022a5d70931dbe95e575d817fe7c826d78d1
+--- /dev/null
++++ b/tests/expected/uninit/transfer-qualification/legal-ordinary.expected
+@@ -0,0 +1,20 @@
++Checking harness legal_ordinary_transfer...
++write_initialized::\
++ - Status: SUCCESS\
++ - Description: "|result: &u8| *result == 7 && *out == [1, 2, 3]"
++write_initialized::\
++ - Status: SUCCESS\
++ - Description: "assertion failed: byte == 7"
++write_initialized::\
++ - Status: SUCCESS\
++ - Description: "assertion failed: value == [1, 2, 3]"
++legal_ordinary_transfer.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: write_initialized(&mut out) == 7"
++legal_ordinary_transfer.assertion.2\
++ - Status: SUCCESS\
++ - Description: "assertion failed: out == [1, 2, 3]"
++SUMMARY:\
++ ** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/transfer-qualification/legal-ordinary.rs b/tests/expected/uninit/transfer-qualification/legal-ordinary.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..db016fc17a2d51533201d386919e4d448d97d156
+--- /dev/null
++++ b/tests/expected/uninit/transfer-qualification/legal-ordinary.rs
+@@ -0,0 +1,42 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// This test exceeds the CI memory limit with 16 object bits because of the
++// contract write-set tables. Reducing the number of object bits to 12.
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++#[kani::modifies(out)]
++#[kani::ensures(|result: &u8| *result == 7 && *out == [1, 2, 3])]
++fn write_initialized(out: &mut [u8; 3]) -> u8 {
++    // Only the true arm is the initialized conditional-return control.
++    let selected = select(MaybeUninit::new(7), MaybeUninit::uninit(), true);
++    let byte = unsafe { selected.assume_init() };
++    assert_eq!(byte, 7);
++
++    let mut slot = MaybeUninit::<[u8; 3]>::uninit();
++    let data = slot.as_mut_ptr().cast::<u8>();
++    unsafe {
++        data.write(1);
++        data.add(1).write(2);
++        data.add(2).write(3);
++    }
++    let value = unsafe { slot.assume_init() };
++    // The RHS must bind to an anonymous immutable allocation in emitted MIR.
++    assert_eq!(value, [1, 2, 3]);
++    *out = value;
++    byte
++}
++
++#[kani::proof]
++fn legal_ordinary_transfer() {
++    let mut out = [0; 3];
++    assert_eq!(write_initialized(&mut out), 7);
++    assert_eq!(out, [1, 2, 3]);
++}
+diff --git a/tests/expected/uninit/transfer-qualification/legal-pfc.expected b/tests/expected/uninit/transfer-qualification/legal-pfc.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..64d529b28677daf660d7b6302bb1509d159a2989
+--- /dev/null
++++ b/tests/expected/uninit/transfer-qualification/legal-pfc.expected
+@@ -0,0 +1,24 @@
++Checking harness legal_pfc_transfer...
++write_initialized::\
++ - Status: SUCCESS\
++ - Description: "|result: &u8| *result == 7 && *out == [1, 2, 3]"
++write_initialized::\
++ - Status: SUCCESS\
++ - Description: "assertion failed: byte == 7"
++write_initialized::\
++ - Status: SUCCESS\
++ - Description: "assertion failed: value == [1, 2, 3]"
++write_initialized::\
++ - Status: SUCCESS\
++ - Description: "Check that *var_23 is assignable"\
++ - Location: tests/expected/uninit/transfer-qualification/legal-pfc.rs:33:5
++legal_pfc_transfer.assertion.1\
++ - Status: SUCCESS\
++ - Description: "assertion failed: write_initialized(&mut out) == 7"
++legal_pfc_transfer.assertion.2\
++ - Status: SUCCESS\
++ - Description: "assertion failed: out == [1, 2, 3]"
++SUMMARY:\
++ ** 0 of
++VERIFICATION:- SUCCESSFUL
++Complete - 1 successfully verified harnesses, 0 failures, 1 total.
+diff --git a/tests/expected/uninit/transfer-qualification/legal-pfc.rs b/tests/expected/uninit/transfer-qualification/legal-pfc.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..29f74e09734f9cc5dcd66a69a287c4e5c079f607
+--- /dev/null
++++ b/tests/expected/uninit/transfer-qualification/legal-pfc.rs
+@@ -0,0 +1,42 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// This test exceeds the CI memory limit with 16 object bits because of the
++// contract write-set tables. Reducing the number of object bits to 12.
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++#[kani::modifies(out)]
++#[kani::ensures(|result: &u8| *result == 7 && *out == [1, 2, 3])]
++fn write_initialized(out: &mut [u8; 3]) -> u8 {
++    // Only the true arm is the initialized conditional-return control.
++    let selected = select(MaybeUninit::new(7), MaybeUninit::uninit(), true);
++    let byte = unsafe { selected.assume_init() };
++    assert_eq!(byte, 7);
++
++    let mut slot = MaybeUninit::<[u8; 3]>::uninit();
++    let data = slot.as_mut_ptr().cast::<u8>();
++    unsafe {
++        data.write(1);
++        data.add(1).write(2);
++        data.add(2).write(3);
++    }
++    let value = unsafe { slot.assume_init() };
++    // The RHS must bind to an anonymous immutable allocation in emitted MIR.
++    assert_eq!(value, [1, 2, 3]);
++    *out = value;
++    byte
++}
++
++#[kani::proof_for_contract(write_initialized)]
++fn legal_pfc_transfer() {
++    let mut out = [0; 3];
++    assert_eq!(write_initialized(&mut out), 7);
++    assert_eq!(out, [1, 2, 3]);
++}
+diff --git a/tests/expected/uninit/transfer-qualification/postcondition-hole.expected b/tests/expected/uninit/transfer-qualification/postcondition-hole.expected
+new file mode 100644
+index 0000000000000000000000000000000000000000..409ebbe02c0384dcd6393ce8a4722b36c9509af7
+--- /dev/null
++++ b/tests/expected/uninit/transfer-qualification/postcondition-hole.expected
+@@ -0,0 +1,17 @@
++Checking harness postcondition_reads_returned_hole...
++std::ptr::read::<u8>.safety_check.1\
++ - Status: FAILURE\
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`"
++std::ptr::read::<u8>.safety_check.4\
++ - Status: FAILURE\
++ - Description: "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
++postcondition_target::\
++ - Status: FAILURE\
++ - Description: "|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }"
++SUMMARY:\
++ ** 3 of
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`
++Failed Checks: Undefined Behavior: Reading from an uninitialized pointer of type `u8`
++Failed Checks: |result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }
++VERIFICATION:- FAILED
++Complete - 0 successfully verified harnesses, 1 failures, 1 total.
+diff --git a/tests/expected/uninit/transfer-qualification/postcondition-hole.rs b/tests/expected/uninit/transfer-qualification/postcondition-hole.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..d7049d7a6a3c4c01dcdc88dc59fb209f6bf90985
+--- /dev/null
++++ b/tests/expected/uninit/transfer-qualification/postcondition-hole.rs
+@@ -0,0 +1,24 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++// compile-flags: --edition 2021 -D warnings
++// This test exceeds the CI memory limit with 16 object bits because of the
++// contract write-set tables. Reducing the number of object bits to 12.
++// kani-flags: -Z uninit-checks -Z function-contracts -Z unstable-options --output-format=regular --cbmc-args --object-bits 12
++
++use std::mem::MaybeUninit;
++
++#[inline(never)]
++fn select(a: MaybeUninit<u8>, b: MaybeUninit<u8>, first: bool) -> MaybeUninit<u8> {
++    if first { a } else { b }
++}
++
++// The returned MU value is valid. Its first payload read is in the postcondition.
++#[kani::ensures(|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 })]
++fn postcondition_target() -> MaybeUninit<u8> {
++    select(MaybeUninit::new(17), MaybeUninit::uninit(), false)
++}
++
++#[kani::proof_for_contract(postcondition_target)]
++fn postcondition_reads_returned_hole() {
++    let _unread = postcondition_target();
++}

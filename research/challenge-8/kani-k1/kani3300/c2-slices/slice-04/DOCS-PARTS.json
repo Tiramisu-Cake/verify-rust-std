@@ -1,0 +1,228 @@
+{
+  "canonical_map_sha256": "f41abc7b196249bc5c9a2639bb20460f7f3a6943d9865ba7de92c0bb01b5a678",
+  "documents": [
+    {
+      "path": "docs/src/rust-feature-support.md",
+      "added_segments": [
+        {
+          "F_line": 180,
+          "start_column_0": 0,
+          "end_column_0": 84,
+          "text": "The instrumentation tracks a top-level `MaybeUninit<T>` slot, `[MaybeUninit<T>; N]`,",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 181,
+          "start_column_0": 0,
+          "end_column_0": 92,
+          "text": "`[MaybeUninit<T>]`, and `MaybeUninit<[T; N]>` when Kani can compute the element's data mask.",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 182,
+          "start_column_0": 0,
+          "end_column_0": 89,
+          "text": "It tracks initialization through raw copies, typed moves of payload bytes (padding is not",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 183,
+          "start_column_0": 0,
+          "end_column_0": 101,
+          "text": "preserved by typed moves), and direct calls to ordinary functions whose MIR bodies execute, including",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 184,
+          "start_column_0": 0,
+          "end_column_0": 29,
+          "text": "arguments and return values. ",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 198,
+          "start_column_0": 0,
+          "end_column_0": 105,
+          "text": "Kani's typed marker-dispatched backend hooks do not support by-value shadow argument or return transfers.",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 199,
+          "start_column_0": 0,
+          "end_column_0": 82,
+          "text": "Some function-item trait shims have layout or shadow-transfer limitations; this is",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 200,
+          "start_column_0": 0,
+          "end_column_0": 78,
+          "text": "not a restriction on all direct calls to function items. Shadow transfer under",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 202,
+          "start_column_0": 0,
+          "end_column_0": 80,
+          "text": "nested `MaybeUninit` or union fields are also outside this support. Conservative",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 203,
+          "start_column_0": 0,
+          "end_column_0": 71,
+          "text": "resets at nested aggregate call boundaries can produce false positives.",
+          "owner_slice": 4,
+          "earliest_head": 4
+        }
+      ]
+    },
+    {
+      "path": "docs/src/reference/experimental/contracts.md",
+      "added_segments": [
+        {
+          "F_line": 73,
+          "start_column_0": 0,
+          "end_column_0": 14,
+          "text": "## Limitations",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 76,
+          "start_column_0": 0,
+          "end_column_0": 81,
+          "text": "apply to ordinary proof harnesses as well as contract checks. Supported top-level",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 77,
+          "start_column_0": 0,
+          "end_column_0": 95,
+          "text": "`MaybeUninit` storage can transfer initialization state through direct ordinary MIR-body calls,",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 78,
+          "start_column_0": 0,
+          "end_column_0": 73,
+          "text": "including arguments and return values, when its data mask is computable. ",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 95,
+          "start_column_0": 0,
+          "end_column_0": 78,
+          "text": "Initialization shadow transfer is also not implemented for by-value aggregates",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 96,
+          "start_column_0": 0,
+          "end_column_0": 76,
+          "text": "containing nested `MaybeUninit` or union slots, including call arguments and",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 97,
+          "start_column_0": 0,
+          "end_column_0": 80,
+          "text": "return values. This differs from passing a supported top-level slot. Whole-value",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 98,
+          "start_column_0": 0,
+          "end_column_0": 73,
+          "text": "assignments rejected by the nested-union layout check remain unsupported.",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 99,
+          "start_column_0": 0,
+          "end_column_0": 78,
+          "text": "For sized aggregates rejected by that check, calls with value-transfer effects",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 100,
+          "start_column_0": 0,
+          "end_column_0": 78,
+          "text": "conservatively reset the full storage shadow to uninitialized: the destination",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 101,
+          "start_column_0": 0,
+          "end_column_0": 75,
+          "text": "after a normal return, and a moved argument's source before the call. These",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 102,
+          "start_column_0": 0,
+          "end_column_0": 76,
+          "text": "resets do not transfer initialization state and may produce false positives.",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 103,
+          "start_column_0": 0,
+          "end_column_0": 78,
+          "text": "For example, repairing a moved source and returning an initialized slot inside",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 104,
+          "start_column_0": 0,
+          "end_column_0": 76,
+          "text": "a tuple may still report an uninitialized read. That result is a known false",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 105,
+          "start_column_0": 0,
+          "end_column_0": 80,
+          "text": "positive, not evidence of undefined behavior. Returning the slot directly avoids",
+          "owner_slice": 4,
+          "earliest_head": 4
+        },
+        {
+          "F_line": 106,
+          "start_column_0": 0,
+          "end_column_0": 31,
+          "text": "this nested aggregate boundary.",
+          "owner_slice": 4,
+          "earliest_head": 4
+        }
+      ]
+    }
+  ],
+  "adaptations": [
+    "rust-feature-support: owner4 prefix placed before inherited owner2 immutable paragraph, shared line184 split; later6 contract modes/link omitted by complete interim sentence By-value aggregates containing.",
+    "contracts: complete interim The limitations of + existing uninit link before owner4 apply-to sentence; inherited owner2 Whole immutable paragraph reflowed. Owner6 final link/modes remain absent."
+  ],
+  "future_scope": "Closure5 and general/mode/edge6 prose remains deferred; no whole-file restore."
+}
