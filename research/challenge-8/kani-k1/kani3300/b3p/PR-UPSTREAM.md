@@ -52,15 +52,13 @@ On `main`, four of the seven `zst-union-arm` harnesses and all five new arm-shap
 
 The perf job lost its runner in three fork executions. It also lost runners on branches without this change, while two runs of unmodified `main` passed ([first](https://github.com/Tiramisu-Cake/kani/actions/runs/43628958916), [second](https://github.com/Tiramisu-Cake/kani/actions/runs/43683645556)); the cause is not established.
 
-I also compared captured models for all 15 perf tests in an A/B/A run ([capture](https://github.com/Tiramisu-Cake/kani/actions/runs/43701550489), [symbol-table dumps](https://github.com/Tiramisu-Cake/kani/actions/runs/43708572925), [function-body dumps](https://github.com/Tiramisu-Cake/kani/actions/runs/43717071092)). Symbol tables and linked GOTO bodies matched after normalization for output nondeterminism, including rustc `AllocId` names (see #4821); the positive control retained exactly the expected padded-wrapper change. Post-instrumentation bodies had no B3-only differences, with residual A/A ordering noise. This comparison does not explain the runner losses or establish equal resource use.
+I also compared captured models for all 15 perf tests in an A/B/A run ([capture](https://github.com/Tiramisu-Cake/kani/actions/runs/43701550489), [symbol-table dumps](https://github.com/Tiramisu-Cake/kani/actions/runs/43708572925), [function-body dumps](https://github.com/Tiramisu-Cake/kani/actions/runs/43717071092)). Symbol tables and linked GOTO bodies matched after normalization for output nondeterminism, including rustc `AllocId` names (see #4821); the positive control retained exactly the expected padded-wrapper change. Post-instrumentation bodies had no differences specific to this change, with residual A/A ordering noise. This comparison does not explain the runner losses or establish equal resource use.
 
 ### Limitations
 
 A nonzero-width arm that contains a zero-sized array, such as `struct Tail { b: u8, z: [(); 2] }` or `(u64, [(); 2])`, still hits the same CBMC invariant after this change. It goes through the struct-field representation rather than the union wrapper, and is closer to #5085. With a CBMC build that includes diffblue/cbmc#9487, the `Tail` typed copy passes ([replay in #5085](https://github.com/model-checking/kani/issues/5085#issuecomment-6863856826)).
 
 ### Related
-
-TODO (owner): add `Resolves #<Kani issue>` after confirming or publishing the padded-union reproducer issue. #5085 is related but is not resolved by this workaround.
 
 - #5085 reports the same CBMC invariant for nested zero-width arrays in statics and constants. It is reached through a different lowering path, so this PR does not claim to fix it.
 - diffblue/cbmc#9487 fixes the invariant in CBMC itself. Once Kani's CBMC includes it, the special case here can be removed.
