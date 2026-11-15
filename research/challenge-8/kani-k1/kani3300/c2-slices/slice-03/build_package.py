@@ -14,7 +14,7 @@ spec = importlib.util.spec_from_file_location('extract3', HERE / 'extract_slice.
 e = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(e)
 git, digest = e.git, e.digest
-G0_INPUT = '02fada12bce9964f9cc7ca543c7c0914ec3f7bc9'
+G0_INPUT = '76ff7005a20b84d6b063994094091766b5963c2d'
 
 
 def dump(name, data):
@@ -36,6 +36,7 @@ def main():
     tree = git('rev-parse', head + '^{tree}').decode().strip()
     static = json.loads((HERE / 'STATIC-VALIDATION.json').read_text())
     assert static['source_sha'] == head and static['status'] == 'PASS_STATIC_ONLY'
+    assert static['validator_sha256'] == digest((HERE / 'validate_slice.py').read_bytes())
     maps = {name: digest((HERE.parent / name).read_bytes()) for name in [
         'source-map/B1--F.json', 'source-map/DEPENDENCIES.json', 'source-map/PRE-F7.json',
         'source-map/SEAMS.md', 'oracle-map/ORACLE-MAP.json', 'oracle-map/DOCS-MAP.json',
@@ -45,9 +46,8 @@ def main():
         'canonical_map_sha256': maps['source-map/B1--F.json'], 'parts': parts,
         'ownership_correction': 'SOURCE-MAP-CORRECTION.json',
         'semantics': 'Canonical20 owner3 parts plus exactly two import parts moved4 to3; inherited owners1/2 unchanged. Token/source attribution, not AST/MIR binding.'})
-    oracle = json.loads((HERE.parent / 'oracle-map/ORACLE-MAP.json').read_text())
-    selected = [r for r in oracle['fixtures'] if r['earliest_runnable_head'] == 3]
-    deferred = [r for r in oracle['fixtures'] if r['owner_slice'] == 3 and r['earliest_runnable_head'] > 3]
+    selected, deferred, moved = e.fixture_sets()
+    correction = json.loads((HERE / 'ORACLE-MAP-CORRECTION.json').read_text())
 
     def fixture(row, pending=False):
         result = copy.deepcopy(row)
@@ -61,12 +61,24 @@ def main():
 
     selected_records = [fixture(r) for r in selected]
     pending_records = [fixture(r, True) for r in deferred]
+    moved_records = [fixture(r, True) for r in moved]
+    dump('DEFERRED-OBLIGATIONS.json', {'source_sha': head, 'integration_status': 'PENDING',
+        'integration_heads': [4], 'qualification_kind_on3': 'NO_REGRESSION',
+        'reassigned_fixture_owner': 4, 'first_executable_head': 4,
+        'reassigned_fixtures': moved_records, 'layout_raw_obligations': pending_records,
+        'inherited_owner1': {'status': 'PENDING', 'heads': [4, 5],
+            'receipt': '../slice-01/DEFERRED-OBLIGATIONS.json'},
+        'closure_requires': 'Exact cumulative head4 receipts per complete F fixture/golden with useful successes and intended failures; no Unsupported substitution, no closure via aggregate exit0.',
+        'historical_run': correction['historical_run'],
+        'historical_assurance': correction['historical_result_assurance']})
     dump('ORACLE-DELTA.json', {'canonical_map': '../oracle-map/ORACLE-MAP.json',
         'canonical_map_sha256': maps['oracle-map/ORACLE-MAP.json'],
         'selected_complete_fixtures': selected_records, 'deferred_owner3_fixtures': pending_records,
         'closes_owner2_fixture_presence_only': [r['id'] for r in selected if r['owner_slice'] == 2],
         'historical_owner2_receipts': '../slice-02/SLICE.json (unchanged; later-head runtime closure still PENDING)',
-        'map_changes_required': [], 'status': 'EXTRACTION_MATCHES_ACCEPTED_MAP; native NOT_RUN',
+        'effective_map_correction': 'ORACLE-MAP-CORRECTION.json',
+        'reassigned_owner4_fixtures': moved_records,
+        'map_changes_required': correction['changes'], 'status': 'EXTRACTION_MATCHES_COORDINATOR_CORRECTED_MAP; native NOT_RUN',
         'worker15_area': 'UNMODIFIED'})
     docs = json.loads((HERE.parent / 'oracle-map/DOCS-MAP.json').read_text())
     doc_parts = [{'path': d['path'], 'added_segments': [r for r in d['added_segments'] if r['owner_slice'] == 3]}
@@ -75,7 +87,7 @@ def main():
         'documents': doc_parts, 'adaptations': [], 'intrinsics_exact_F': True,
         'general_scope_docs': 'Inherited owner2 paragraphs only; remaining scope belongs4/5/6.'})
     manifest = json.loads((HERE.parent / 'slice-02/TEST-MANIFEST.json').read_text())
-    manifest.update(source_sha=head, qualification_kind='TARGETED_U8_MIXED_PROMOTED_RAW_EQ_AND_CUMULATIVE_REGRESSION',
+    manifest.update(source_sha=head, qualification_kind='NO_REGRESSION',
         runtime='NOT_RUN', inherited_from={'head': e.BASE, 'accepted_run': '43701587141',
             'manifest_sha256': digest((HERE.parent / 'slice-02/TEST-MANIFEST.json').read_bytes())})
     for group in manifest['groups']:
@@ -89,7 +101,7 @@ def main():
                 group['selectors'].append({'selector': '[expected] ' + row['input'].removeprefix('tests/'),
                     'input': row['input'], 'files': records, 'existing_path_ignore': False, 'result': 'NOT_RUN'})
             group['selectors'].sort(key=lambda r: r['selector'])
-            assert len(group['selectors']) == 112
+            assert len(group['selectors']) == 94
             group['static_discovery_count'] = len(group['selectors'])
         for row in group['selectors']:
             for record in row['files']:
@@ -100,7 +112,7 @@ def main():
     manifest['deduplicated_suite_counts'] = {s: {'selectors': n, 'existing_path_ignored': ignored[s],
         'expected_passed_if_all_succeed': n - ignored[s]} for s, n in sorted(counts.items())}
     manifest['deduplicated_selector_count'] = len(unique)
-    assert len(unique) == 336
+    assert len(unique) == 318
     dump('TEST-MANIFEST.json', manifest)
     changed = git('diff', '--name-only', e.BASE, head).decode().splitlines()
     changed_records = [{'path': p, 'parent': identity(e.BASE, p), 'source': identity(head, p),
@@ -110,7 +122,9 @@ def main():
         'source_sha': head, 'source_tree': tree, 'maps': maps,
         'parent_acceptance': '../slice-02/ci-43701587141/ACCEPTANCE.md',
         'task': '../../../TASK-KANI3300-C2-SLICES.md', 'assigned_worktree': str(e.REPO),
-        'authority': 'worker14 writer, stage3 only; local Git/Python/static checks; no local native builds/push/CI',
+        'authority': 'worker14 writer, stage3 rework only; coordinator variant C analogue; local Git/Python/static checks; no local native builds/push/CI',
+        'rework_decision': {'path': 'ci-43704461635/RESULT.md', 'g0_sha': 'ddcc17f20e01c3073606d632a27e5fc9f5aea71b',
+            'assurance': 'SOURCE_REPORTED_COORDINATOR_RECORD', 'source_sha': correction['historical_source']},
         'upstream_status': 'Pinned U+B1 stack; historical snapshot not refreshed in this extraction session.'})
     dump('SLICE.json', {'slice': 3, 'name': 'LAYOUT-RAW A1/A2',
         'status': 'READY_FOR_WORKER15_REVIEW_AND_COORDINATOR_CI', 'source_sha': head, 'source_tree': tree,
@@ -128,12 +142,21 @@ def main():
         'selected_owner3_fixture_ids': [r['id'] for r in selected if r['owner_slice'] == 3],
         'owner2_consumers_introduced': [r['id'] for r in selected if r['owner_slice'] == 2],
         'deferred_owner3_fixtures': pending_records, 'deferred_integration_heads': [4],
+        'integration_status': 'PENDING', 'integration_heads': [4],
+        'deferred_obligations': 'DEFERRED-OBLIGATIONS.json',
+        'reassigned_owner4_fixture_ids': [r['id'] for r in moved],
+        'oracle_map_correction': 'ORACLE-MAP-CORRECTION.json',
+        'oracle_map_correction_sha256': digest((HERE / 'ORACLE-MAP-CORRECTION.json').read_bytes()),
+        'fixture_dependency_audit': 'FIXTURE-DEPENDENCY-AUDIT.json',
+        'supersedes': {'source_sha': correction['historical_source'],
+            'overlay_sha_prefix': correction['historical_overlay'], 'run': correction['historical_run'],
+            'result': correction['historical_result'], 'assurance': correction['historical_result_assurance']},
         'qualification_kind': manifest['qualification_kind'], 'qualification_status': 'NOT_RUN',
         'nested_offset_integration_status': 'PENDING', 'raw_eq_runtime_status': 'NOT_RUN',
         'seam_audit': {'tool': '../seam-audit/check_seams.py', 'report': 'SEAM-AUDIT-03.json',
             'contracts': 'CALL-CONTRACTS-03.json', 'manual_review': 'COMPILE-SEAMS.md',
             'status': 'PASS_BOUNDED_STATIC_SEAM_AUDIT', 'synthetic_tests': '10 PASS', 'native_compile': 'NOT_RUN'},
-        'closure_requires': 'Exact-head Quick plus reached useful SUCCESS/intended negatives for all19 fixtures; nested Pat/enum/raw-eq-uninit and four MU mixed fixtures require exact head4 receipts, unchanged source parts/goldens. No aggregate exit0 or u8 positive closes nested offsets.',
+        'closure_requires': 'Exact-head Quick NO_REGRESSION only on3; all18 reassigned fixtures plus nine nested Pat/enum/raw-eq-uninit/raw-MU obligations remain PENDING on4. Exact complete F fixture receipts with unchanged source parts/goldens required; no aggregate exit0 closes integration.',
         'no_native_execution': True, 'local_builds_push_CI': 'NOT_RUN', 'cloud_spend': 0,
         'worker15_review': 'PENDING', 'formal_proof_credit': 'NOT_ESTABLISHED',
         'patches': patches, 'dependents': [4, 5, 6, 7]})
@@ -144,7 +167,7 @@ def main():
         'source_map_area': 'UNMODIFIED; effective corrected inventory in this package', 'adaptations': [],
         'full_logical_stack_recomposition': 'NOT_RUN', 'residual_patch_endpoint_only': patches['residual-to-F.patch']})
     dump('CI-REQUEST.json', {'source_sha': head, 'source_tree': tree, 'parent': e.BASE,
-        'status': 'PREPARED_NOT_DISPATCHED', 'recipe': '0998b98867:.github/workflows/uninit-quick.yml',
+        'status': 'PREPARED_NOT_DISPATCHED', 'qualification_kind': 'NO_REGRESSION', 'recipe': '0998b98867:.github/workflows/uninit-quick.yml',
         'runner': 'ubuntu-24.04', 'env': {'RUST_TEST_THREADS': '2'}, 'job_timeout_minutes': 120,
         'test_timeout_seconds': 2400, 'auto_retries': False, 'test_manifest': 'TEST-MANIFEST.json',
         'static_counts': manifest['deduplicated_suite_counts'], 'selector_count': len(unique),

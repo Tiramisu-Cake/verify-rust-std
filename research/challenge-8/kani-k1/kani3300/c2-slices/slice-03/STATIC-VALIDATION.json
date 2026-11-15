@@ -1,6 +1,7 @@
 {
   "status": "PASS_STATIC_ONLY",
   "base_sha": "932fb8395a58f8c86c0d702ba2cae835823b2962",
+  "validator_sha256": "ea0a73b07535d9f6dd52f6513314f8452bc981aa345159ebafc42e55d1920ee8",
   "owner3_part_hashes_checked": 22,
   "changed_paths": [
     "docs/src/rust-feature-support/intrinsics.md",
@@ -10,47 +11,12 @@
     "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
     "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
     "tests/expected/uninit/immutable-masks/empty.expected",
-    "tests/expected/uninit/immutable-masks/empty.rs",
-    "tests/expected/uninit/immutable-masks/zero-byte-hole.expected",
-    "tests/expected/uninit/immutable-masks/zero-byte-hole.rs",
-    "tests/expected/uninit/immutable-masks/zero-bytes-legal.expected",
-    "tests/expected/uninit/immutable-masks/zero-bytes-legal.rs",
-    "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.expected",
-    "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-left.rs",
-    "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.expected",
-    "tests/expected/uninit/mixed-promoted-allocations/eq-u8-stack-right.rs",
-    "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.expected",
-    "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-left.rs",
-    "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.expected",
-    "tests/expected/uninit/mixed-promoted-allocations/raw-u8-stack-right.rs",
-    "tests/expected/uninit/part1-edges/immutable-relocation-hole.expected",
-    "tests/expected/uninit/part1-edges/immutable-relocation-hole.rs",
-    "tests/expected/uninit/part1-edges/immutable-relocation-legal.expected",
-    "tests/expected/uninit/part1-edges/immutable-relocation-legal.rs",
-    "tests/expected/uninit/part1-edges/immutable-static-hole.expected",
-    "tests/expected/uninit/part1-edges/immutable-static-hole.rs",
-    "tests/expected/uninit/part1-edges/immutable-static-legal.expected",
-    "tests/expected/uninit/part1-edges/immutable-static-legal.rs",
-    "tests/expected/uninit/part1-edges/immutable-subrange-hole.expected",
-    "tests/expected/uninit/part1-edges/immutable-subrange-hole.rs",
-    "tests/expected/uninit/part1-edges/immutable-subrange-legal.expected",
-    "tests/expected/uninit/part1-edges/immutable-subrange-legal.rs",
-    "tests/expected/uninit/promoted-allocations/direct-left-hole.expected",
-    "tests/expected/uninit/promoted-allocations/direct-left-hole.rs",
-    "tests/expected/uninit/promoted-allocations/direct-legal.expected",
-    "tests/expected/uninit/promoted-allocations/direct-legal.rs",
-    "tests/expected/uninit/promoted-allocations/direct-right-hole.expected",
-    "tests/expected/uninit/promoted-allocations/direct-right-hole.rs",
-    "tests/expected/uninit/promoted-allocations/helper-left-hole.expected",
-    "tests/expected/uninit/promoted-allocations/helper-left-hole.rs",
-    "tests/expected/uninit/promoted-allocations/helper-legal.expected",
-    "tests/expected/uninit/promoted-allocations/helper-legal.rs",
-    "tests/expected/uninit/promoted-allocations/helper-right-hole.expected",
-    "tests/expected/uninit/promoted-allocations/helper-right-hole.rs"
+    "tests/expected/uninit/immutable-masks/empty.rs"
   ],
-  "selected_whole_fixtures": 19,
-  "selected_owner2": 15,
-  "selected_owner3": 4,
+  "selected_whole_fixtures": 1,
+  "selected_owner2": 1,
+  "selected_owner3": 0,
+  "reassigned_owner4_whole_fixtures": 18,
   "deferred_owner3_whole_fixtures": 9,
   "deferred_integration_heads": [
     4
@@ -64,28 +30,28 @@
     "reference CheckAs reborrow and diagnostic type agree",
     "enum local-mask and Pat offsets preserved",
     "closure/storage/F7 features absent",
-    "all19 complete fixture/golden pairs exact F",
+    "sole selected fixture/golden pair exact F",
     "all existing tests/flags/goldens unchanged",
-    "nine deferred owner3 fixtures absent",
+    "nine deferred owner3 and18 reassigned owner4 fixtures absent",
     "protected paths identical to accepted parent",
     "git diff --check"
   ],
   "native_fmt_build_clippy_units_tests_verifier_CI_push": "NOT_RUN",
   "worker15_review": "PENDING",
   "formal_proof_credit": "NOT_ESTABLISHED",
-  "source_sha": "d0345ddf4f70d10caf5ee34ddca402867264379e",
-  "source_tree": "8ac48a5660a94de062919ebcf80fdcdef2cc2f03",
+  "source_sha": "5ca51679e3f433718807a2e44add0d5abac128e7",
+  "source_tree": "689644ab2140794e17948dac6e7beb48bc9ea7bb",
   "compile_seam_audit": {
     "status": "PASS_BOUNDED_STATIC_SEAM_AUDIT",
     "report": "SEAM-AUDIT-03.json",
     "native_compile": "NOT_RUN"
   },
   "source.patch": {
-    "sha256": "ae92d4b8da7cb6b93e26b64579e8287f0fec637f1d6e57b0c0443306fbc5267b",
-    "alternate_index_target_tree": "8ac48a5660a94de062919ebcf80fdcdef2cc2f03"
+    "sha256": "8796eb1e57287e0f67222c5d2038db5e1589596992b85ed39a821e8f624c360b",
+    "alternate_index_target_tree": "689644ab2140794e17948dac6e7beb48bc9ea7bb"
   },
   "residual-to-F.patch": {
-    "sha256": "b35db81adfb76c87d1111a18c36243b73b9d72e451abc04600a27cbbe548775b",
+    "sha256": "52e15149498b1390962b8dc5489a94eb111069201a7ec4b6d9c9c00c11ff5cc0",
     "alternate_index_target_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb"
   }
 }

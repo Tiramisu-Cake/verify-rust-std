@@ -16,6 +16,64 @@ spec.loader.exec_module(e)
 git, digest = e.git, e.digest
 
 
+def audit_fixture_dependencies():
+    head = git('rev-parse', 'HEAD').decode().strip()
+    oracle = e.effective_oracle()
+    trees = {}
+    for ref in [e.B1, e.BASE, head]:
+        trees[ref] = {line.split('\t', 1)[1]: line.split('\t', 1)[0]
+            for line in git('ls-tree', '-r', ref, '--', 'tests').decode().splitlines()}
+    future = [r for r in oracle['fixtures']
+        if isinstance(r['earliest_runnable_head'], int) and r['earliest_runnable_head'] >= 4]
+    inherited = []
+    for row in future:
+        paths = [row['input'], row['golden']]
+        present = [p in trees[head] for p in paths]
+        assert len(set(present)) == 1, row['id']  # no split fixture pairs
+        if any(present):
+            assert all(trees[head][p] == trees[e.BASE][p] == trees[e.B1][p] for p in paths)
+            inherited.append(row['id'])
+    expected_inherited = ['unresolved-calls/entry-' + state + '-' + mode
+        for state in ['initialized', 'partial'] for mode in ['plain', 'seeded']]
+    assert sorted(inherited) == sorted(expected_inherited)
+    added_inputs = [p for p in trees[head] if p.endswith('.rs') and p not in trees[e.B1]]
+    expected_added = sorted([r['input'] for r in oracle['fixtures']
+        if r['id'].startswith('immutable-descriptor-coalescing/')] +
+        ['tests/expected/uninit/immutable-masks/empty.rs'])
+    assert sorted(added_inputs) == expected_added and len(added_inputs) == 7
+    # Six accepted2 descriptor probes use initialized u8 referents; the seventh
+    # is the zero-extent RawEq control. Do not classify by a bare MaybeUninit token.
+    for path in added_inputs:
+        source = git('show', head + ':' + path)
+        if path.endswith('/immutable-masks/empty.rs'):
+            assert source.count(b'&[MaybeUninit<u8>; 0]') == 2
+            assessment = 'ZERO_EXTENT_ONLY; no nonempty MU storage or raw-pointer/union path'
+        else:
+            assert b'MaybeUninit' not in source and b'union ' not in source and b'||' not in source
+            assessment = 'ACCEPTED2_INITIALIZED_U8_DESCRIPTOR_PROBE; unchanged from base'
+            assert trees[head][path] == trees[e.BASE][path]
+        # Record exact source identities and manual shape assessment for review.
+        row = next(r for r in oracle['fixtures'] if r['input'] == path)
+        row['dependency_audit'] = assessment
+    report = {'status': 'PASS_STATIC_DEPENDENCY_AUDIT', 'source_sha': head,
+        'base_sha': e.BASE, 'B1': e.B1,
+        'effective_oracle_correction': 'ORACLE-MAP-CORRECTION.json',
+        'future_mapped_fixture_count': len(future),
+        'future_fixtures_absent': len(future) - len(inherited),
+        'future_fixtures_new_on3': [],
+        'inherited_B1_future_integration_fixtures': inherited,
+        'inherited_policy': 'Exact B1/base bytes retained; regression controls remain selected; target integration is still PENDING on4.',
+        'cumulative_added_inputs': [{'path': p, 'sha256': digest(git('show', head + ':' + p)),
+            'assessment': next(r['dependency_audit'] for r in oracle['fixtures'] if r['input'] == p)}
+            for p in sorted(added_inputs)],
+        'existing_closures': 'generated-positive-{plain,seeded}: function-item Fn and drop glue probes inherited unchanged from accepted2, not new closure memory-layout/mask qualification; prior coordinator Quick reports green.',
+        'remaining_new_fixture': 'immutable-masks/empty; exact F pair; owner2, first executable head3',
+        'removed_pairs': 18, 'preexisting_tests_modified_or_removed_on3': False,
+        'limits': 'Git/source/manual dependency audit only; no AST/MIR lowering or new native result. Zero extent source shape and historical success do not qualify nonempty MU/raw-union/closure support.',
+        'native_builds_push_CI': 'NOT_RUN'}
+    (HERE / 'FIXTURE-DEPENDENCY-AUDIT.json').write_text(json.dumps(report, indent=2) + '\n')
+
+
 def main():
     e.check_parent()
     expected = e.extract()
@@ -81,30 +139,32 @@ def main():
         'kani-compiler/src/codegen_cprover_gotoc', 'kani-compiler/src/codegen_aeneas_llbc',
         'docs/src/rust-feature-support.md', 'docs/src/reference/experimental/contracts.md']
     assert not git('diff', '--name-only', e.BASE, '--', *protected)
-    oracle = json.loads((HERE.parent / 'oracle-map/ORACLE-MAP.json').read_text())
-    selected = [r for r in oracle['fixtures'] if r['earliest_runnable_head'] == 3]
-    deferred = [r for r in oracle['fixtures'] if r['owner_slice'] == 3 and r['earliest_runnable_head'] > 3]
-    assert len(selected) == 19 and len(deferred) == 9
-    assert len([r for r in selected if r['owner_slice'] == 3]) == 4
+    selected, deferred, moved = e.fixture_sets()
+    assert len(selected) == 1 and len(deferred) == 9 and len(moved) == 18
+    assert selected[0]['id'] == 'immutable-masks/empty'
+    assert all(r['owner_slice'] == r['earliest_runnable_head'] == 4 for r in moved)
     for row in selected:
         for p in [row['input'], row['golden']]:
             assert expected[p] == git('show', e.F + ':' + p)
-    for row in deferred:
+    for row in deferred + moved:
         for p in [row['input'], row['golden']]:
             assert not (e.REPO / p).exists(), p
+    assert not git('diff', 'd0345ddf4f70d10caf5ee34ddca402867264379e', 'HEAD', '--', 'kani-compiler', 'docs')
     # Previously present tests, directives and goldens cannot be changed or removed.
     assert not git('diff', '--name-only', '--diff-filter=CDMRTUXB', e.BASE, '--', 'tests')
+    audit_fixture_dependencies()
     subprocess.run(['git', '-C', str(e.REPO), 'diff', '--check', e.BASE], check=True)
     report = {'status': 'PASS_STATIC_ONLY', 'base_sha': e.BASE,
+        'validator_sha256': digest(Path(__file__).read_bytes()),
         'owner3_part_hashes_checked': len(parts), 'changed_paths': sorted(intended),
-        'selected_whole_fixtures': len(selected), 'selected_owner2': 15, 'selected_owner3': 4,
+        'selected_whole_fixtures': len(selected), 'selected_owner2': 1, 'selected_owner3': 0, 'reassigned_owner4_whole_fixtures': len(moved),
         'deferred_owner3_whole_fixtures': len(deferred), 'deferred_integration_heads': [4],
         'checks': ['accepted parent reconstructed exactly', 'deterministic owners1+2+3 composition',
             'all22 effective owner3 part hashes/bijection (20 canonical + exact neutral UintTy import pair)', 'both raw_eq operands with complete byte extent and Unsupported path',
             'both relevance seeds', 'reference CheckAs reborrow and diagnostic type agree',
             'enum local-mask and Pat offsets preserved', 'closure/storage/F7 features absent',
-            'all19 complete fixture/golden pairs exact F', 'all existing tests/flags/goldens unchanged',
-            'nine deferred owner3 fixtures absent', 'protected paths identical to accepted parent', 'git diff --check'],
+            'sole selected fixture/golden pair exact F', 'all existing tests/flags/goldens unchanged',
+            'nine deferred owner3 and18 reassigned owner4 fixtures absent', 'protected paths identical to accepted parent', 'git diff --check'],
         'native_fmt_build_clippy_units_tests_verifier_CI_push': 'NOT_RUN',
         'worker15_review': 'PENDING', 'formal_proof_credit': 'NOT_ESTABLISHED'}
     head = git('rev-parse', 'HEAD').decode().strip()

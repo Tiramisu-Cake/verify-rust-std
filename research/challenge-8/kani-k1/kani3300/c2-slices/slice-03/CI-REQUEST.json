@@ -1,8 +1,9 @@
 {
-  "source_sha": "d0345ddf4f70d10caf5ee34ddca402867264379e",
-  "source_tree": "8ac48a5660a94de062919ebcf80fdcdef2cc2f03",
+  "source_sha": "5ca51679e3f433718807a2e44add0d5abac128e7",
+  "source_tree": "689644ab2140794e17948dac6e7beb48bc9ea7bb",
   "parent": "932fb8395a58f8c86c0d702ba2cae835823b2962",
   "status": "PREPARED_NOT_DISPATCHED",
+  "qualification_kind": "NO_REGRESSION",
   "recipe": "0998b98867:.github/workflows/uninit-quick.yml",
   "runner": "ubuntu-24.04",
   "env": {
@@ -14,9 +15,9 @@
   "test_manifest": "TEST-MANIFEST.json",
   "static_counts": {
     "expected": {
-      "selectors": 244,
+      "selectors": 226,
       "existing_path_ignored": 6,
-      "expected_passed_if_all_succeed": 238
+      "expected_passed_if_all_succeed": 220
     },
     "json-handler": {
       "selectors": 17,
@@ -44,7 +45,7 @@
       "expected_passed_if_all_succeed": 17
     }
   },
-  "selector_count": 336,
+  "selector_count": 318,
   "units": [
     {
       "filter": "active_call_tests",

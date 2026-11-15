@@ -1,0 +1,60 @@
+{
+  "status": "PASS_STATIC_DEPENDENCY_AUDIT",
+  "source_sha": "5ca51679e3f433718807a2e44add0d5abac128e7",
+  "base_sha": "932fb8395a58f8c86c0d702ba2cae835823b2962",
+  "B1": "6fe484b30043b3696b5f1ccc4bea0e42891ad012",
+  "effective_oracle_correction": "ORACLE-MAP-CORRECTION.json",
+  "future_mapped_fixture_count": 157,
+  "future_fixtures_absent": 153,
+  "future_fixtures_new_on3": [],
+  "inherited_B1_future_integration_fixtures": [
+    "unresolved-calls/entry-initialized-plain",
+    "unresolved-calls/entry-initialized-seeded",
+    "unresolved-calls/entry-partial-plain",
+    "unresolved-calls/entry-partial-seeded"
+  ],
+  "inherited_policy": "Exact B1/base bytes retained; regression controls remain selected; target integration is still PENDING on4.",
+  "cumulative_added_inputs": [
+    {
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/aggregate-constant-initializer.rs",
+      "sha256": "7fc584988149374b810d2566af19d7c79873ab827b88940f90c3767e7ffb4e31",
+      "assessment": "ACCEPTED2_INITIALIZED_U8_DESCRIPTOR_PROBE; unchanged from base"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/const-fn-initializer.rs",
+      "sha256": "8b20f7e2f71bfab156256d6cb15650960422e2362191e7cd396ad32ef35ca4ed",
+      "assessment": "ACCEPTED2_INITIALIZED_U8_DESCRIPTOR_PROBE; unchanged from base"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/direct-first-volatile.rs",
+      "sha256": "ea08ab9e2153e7e1d1c679d952d76297f09022691bf26cf3e46042a6e1ac19d9",
+      "assessment": "ACCEPTED2_INITIALIZED_U8_DESCRIPTOR_PROBE; unchanged from base"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/direct-first.rs",
+      "sha256": "ed8b142fd9b0757e6c5bc417833c22a25dcd44c91b2fd9b8f59c0cf50357ffb6",
+      "assessment": "ACCEPTED2_INITIALIZED_U8_DESCRIPTOR_PROBE; unchanged from base"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/nested-first-volatile.rs",
+      "sha256": "32edcafc0fea28ef14bf2535383760cd838f587afd3dcd59e00e55cd13d110e3",
+      "assessment": "ACCEPTED2_INITIALIZED_U8_DESCRIPTOR_PROBE; unchanged from base"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-descriptor-coalescing/nested-first.rs",
+      "sha256": "4247dc6c5a611f70dc3b9c5dcda15377ee9dde0efed42939058717cd9c99b001",
+      "assessment": "ACCEPTED2_INITIALIZED_U8_DESCRIPTOR_PROBE; unchanged from base"
+    },
+    {
+      "path": "tests/expected/uninit/immutable-masks/empty.rs",
+      "sha256": "1bf8317f916902caa504eae259e334a762328a307c845b087d13e8a7666bd84d",
+      "assessment": "ZERO_EXTENT_ONLY; no nonempty MU storage or raw-pointer/union path"
+    }
+  ],
+  "existing_closures": "generated-positive-{plain,seeded}: function-item Fn and drop glue probes inherited unchanged from accepted2, not new closure memory-layout/mask qualification; prior coordinator Quick reports green.",
+  "remaining_new_fixture": "immutable-masks/empty; exact F pair; owner2, first executable head3",
+  "removed_pairs": 18,
+  "preexisting_tests_modified_or_removed_on3": false,
+  "limits": "Git/source/manual dependency audit only; no AST/MIR lowering or new native result. Zero extent source shape and historical success do not qualify nonempty MU/raw-union/closure support.",
+  "native_builds_push_CI": "NOT_RUN"
+}

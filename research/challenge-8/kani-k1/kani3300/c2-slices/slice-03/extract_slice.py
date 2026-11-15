@@ -35,10 +35,52 @@ def parts_for(owner):
             for i, p in enumerate(h['parts']) if p['owner'] == owner]
 
 
+def effective_oracle():
+    data = json.loads((HERE.parent / 'oracle-map/ORACLE-MAP.json').read_text())
+    correction = json.loads((HERE / 'ORACLE-MAP-CORRECTION.json').read_text())
+    assert correction['canonical_map_sha256'] == digest(
+        (HERE.parent / 'oracle-map/ORACLE-MAP.json').read_bytes())
+    assert len(correction['changes']) == 18
+    for change in correction['changes']:
+        row = next(r for r in data['fixtures'] if r['id'] == change['id'])
+        for key in ['owner_slice', 'earliest_runnable_head', 'planned_introduction_head']:
+            assert row[key] == change['old_' + key]
+            row[key] = change[key]
+        for key in ['prerequisites', 'linked_source_features']:
+            assert 'STORAGE' not in row[key]
+            row[key].append('STORAGE')
+        row['dependency_correction'] = 'slice-03/ORACLE-MAP-CORRECTION.json'
+        row['attribution'] += '; coordinator rework: fixture owner/first executable head4'
+        paths = [r for r in data['paths'] if r['fixture_id'] == change['id']]
+        assert {r['path'] for r in paths} == {change['input'], change['golden']}
+        for path in paths:
+            assert path['owner_slice'] == change['old_owner_slice']
+            assert path['earliest_runnable_head'] == 3
+            path.update(owner_slice=4, earliest_runnable_head=4, final_fixture_runnable_head=4)
+    return data
+
+
+def fixture_sets():
+    oracle = effective_oracle()
+    selected = [r for r in oracle['fixtures'] if r['earliest_runnable_head'] == 3]
+    deferred = [r for r in oracle['fixtures'] if r['owner_slice'] == 3 and r['earliest_runnable_head'] > 3]
+    moved_ids = {r['id'] for r in json.loads((HERE / 'ORACLE-MAP-CORRECTION.json').read_text())['changes']}
+    moved = [r for r in oracle['fixtures'] if r['id'] in moved_ids]
+    assert [r['id'] for r in selected] == ['immutable-masks/empty']
+    assert len(deferred) == 9 and len(moved) == 18
+    return selected, deferred, moved
+
+
 def extract():
     # Reuse the reviewed line-part composer and its explicit pre-F7 seams.
     # Parent reconstruction is checked separately before writing anything.
     outputs = prior.extract(('1', '2', '3'))
+    # The canonical stage0 oracle map is historical. Remove only newly added
+    # pairs explicitly reassigned to owner4 by the coordinator's dependency review.
+    for row in fixture_sets()[2]:
+        for path in [row['input'], row['golden']]:
+            assert not git('ls-tree', BASE, '--', path)
+            assert outputs.pop(path) == git('show', F + ':' + path)
     # Exact one-line import correction from the compile-seam manual inventory.
     # Canonical stage0 map remains immutable; the stage3 ownership delta is explicit.
     changes = json.loads((HERE / 'SOURCE-MAP-CORRECTION.json').read_text())['owner_changes']
