@@ -1,0 +1,43 @@
+{
+  "status": "PASS_STATIC_AND_SYNTHETIC_ONLY",
+  "source_review_checks": {
+    "status": "PASS_STATIC_ONLY",
+    "source_sha": "b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12",
+    "source_tree": "03e33b5a3a8b3aa1fd5505467bbe869d1001b44e",
+    "parent": "d82752c8bc878398e672bffaa631ca6a28430acc",
+    "owner2_parts": 52,
+    "changed_files": 29,
+    "selected_fixtures": 6,
+    "deferred_owner2": 16,
+    "later_consumers": 11,
+    "inherited_selectors": 311,
+    "cumulative_selectors": 317,
+    "source_mutations": "NONE",
+    "native_build_units_verifier_CI": "NOT_RUN"
+  },
+  "overlay_sha": "83550218ea0dc6df4b5dbf78dcbf244a56645c2f",
+  "overlay_tree": "e69afc2eafcaced852c61dead92e5212303cb9c9",
+  "overlay_parent": "b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12",
+  "protected_source_entries": 3892,
+  "local_before_after_snapshots": "CLEAN_IDENTICAL_NO_PROBLEMS",
+  "synthetic_runner_checks": {
+    "passed": 19,
+    "failed": 0,
+    "scope": "success, original error/exit, timeout, launch error, partial/missing/null/wrong-type, NOT_RUN, wrong names/counts/ignores, source-stage-target mismatch, untracked source, immutable exact9, workflow/manifest hashes"
+  },
+  "development_check_correction": "Initial added assertion used argv index5 instead of4; test-only correction, final19/19 pass; overlay unchanged.",
+  "static_checks": [
+    "source owner52 hashes; all and only accepted parts/adaptations",
+    "all inherited311 selectors retained exactly; six added",
+    "all existing tests/flags/goldens unchanged",
+    "six fixture pairs exact F; owner2 deferred16 and later consumers11 tracked",
+    "Python AST / YAML parse",
+    "overlay diff only .github/workflows and .github/c2-slices",
+    "git diff --check",
+    "successful before/after snapshots"
+  ],
+  "native_fmt_rust_parse_build_clippy_units_compiletest_verifier_CI_push": "NOT_RUN",
+  "formal_proof_credit": "NOT_ESTABLISHED",
+  "cloud_spend": 0,
+  "g0_packet_whitespace_note": "git diff --cached --check excludes the byte-exact overlay.patch: its deleted upstream bench-compiler.yml lines contain two pre-existing trailing spaces (patch lines10945,10972). Source/overlay diffs and all remaining packet files pass normal whitespace checks; patch is intentionally not rewritten."
+}
