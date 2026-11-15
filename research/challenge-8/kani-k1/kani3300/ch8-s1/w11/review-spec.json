@@ -1,0 +1,28 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-ch8-s1-w11",
+  "baseline_commit": "872d5a43380752786415bc00d2a12ce0e930cb37",
+  "candidate_commit": "3f469d3ba2e94d7129e66e53ea76df883ff9c946",
+  "defect": "S1 preparation: verification-only sorting model, named FnOnce/FnMut comparator and opt-in positive/negative checker controls for actual generic SmallSort method integration.",
+  "applicability": "Only two new sorting_model*.rs files on std872d; exact u8/Cell<u8>/NonCopyByte with KeyLess<T>. No actual method contracts/registration changed. Worker13 integrates separately on Kani0aac.",
+  "invariants": [
+    "Unconditional generic facade, read-free inactive fallback, exact three active pairs, no new caller bounds.",
+    "CAP32 owned byte snapshot, length+adjacent sortedness+full multiset post, invalid/overflow active request false.",
+    "Stateless two-projection comparator, no runtime algorithm or signature edits."
+  ],
+  "controls": [
+    "12 opt-in roots: three N0..3 positives; inactive companion; three unsupported activation negatives; corruption companion plus order/count negatives; snapshot guards companion plus invalid-token negative. All Rust/Kani NOT_RUN."
+  ],
+  "dependencies": [
+    "library/core/src/lib.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "library/core/src/slice/sort/shared/mod.rs"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Local compilation/verifier execution forbidden. No claimed Rust/Kani qualification or six-body proof; requires combined worker13 CI.",
+    "Independent static review requested before handoff. fn_traits and sorting cfg/module registration belong to13.",
+    "Model is active N0..32, S1 symbolic controls N0..3; fixed N32 checker identity does not prove actual sort threshold domain."
+  ]
+}

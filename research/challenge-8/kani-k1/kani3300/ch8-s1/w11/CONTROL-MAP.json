@@ -1,0 +1,221 @@
+{
+  "schema": "ch8-s1-w11-control-map-v1",
+  "source_commit": "3f469d3ba2e94d7129e66e53ea76df883ff9c946",
+  "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "cfg": [
+    "kani",
+    "kani_smallsort_sorting",
+    "kani_smallsort_controls"
+  ],
+  "ordinary_inventory": false,
+  "selector_binding": "Prospective fully qualified source names; exact compiler inventory/actual property IDs must be reconciled in combined worker13 CI. No guessed IDs/counts.",
+  "total_rows": 12,
+  "positive_rows": 6,
+  "negative_rows": 6,
+  "hard_seconds_per_invocation": 600,
+  "separate_dispatch_authorized": false,
+  "property_ids": "NOT_RUN",
+  "rows": [
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
+      "mode": "proof",
+      "expected": "SUCCESS",
+      "outcome": "NOT_RUN",
+      "unwind": 5,
+      "expected_failure_message": null,
+      "companion": null,
+      "required_covers": [
+        "S1_model_N0_return",
+        "S1_model_N1_return",
+        "S1_model_N2_return",
+        "S1_model_N3_return",
+        "S1_duplicate_return",
+        "S1_unsorted_input_return"
+      ],
+      "required_success_messages": [
+        "S1_MODEL_ENABLED",
+        "S1_IDENTITY_CHECKER",
+        "S1_CONSTRUCTED_SORTED_PERMUTATION",
+        "S1_FNMUT_TWO_PROJECTIONS",
+        "S1_FNONCE_TWO_PROJECTIONS",
+        "S1_ELEMENT_LAYOUT",
+        "S1_COMPARATOR_ZST_ELEMENT_NO_DROP"
+      ]
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
+      "mode": "proof",
+      "expected": "SUCCESS",
+      "outcome": "NOT_RUN",
+      "unwind": 5,
+      "expected_failure_message": null,
+      "companion": null,
+      "required_covers": [
+        "S1_model_N0_return",
+        "S1_model_N1_return",
+        "S1_model_N2_return",
+        "S1_model_N3_return",
+        "S1_duplicate_return",
+        "S1_unsorted_input_return"
+      ],
+      "required_success_messages": [
+        "S1_MODEL_ENABLED",
+        "S1_IDENTITY_CHECKER",
+        "S1_CONSTRUCTED_SORTED_PERMUTATION",
+        "S1_FNMUT_TWO_PROJECTIONS",
+        "S1_FNONCE_TWO_PROJECTIONS",
+        "S1_ELEMENT_LAYOUT",
+        "S1_COMPARATOR_ZST_ELEMENT_NO_DROP"
+      ]
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3",
+      "mode": "proof",
+      "expected": "SUCCESS",
+      "outcome": "NOT_RUN",
+      "unwind": 5,
+      "expected_failure_message": null,
+      "companion": null,
+      "required_covers": [
+        "S1_model_N0_return",
+        "S1_model_N1_return",
+        "S1_model_N2_return",
+        "S1_model_N3_return",
+        "S1_duplicate_return",
+        "S1_unsorted_input_return"
+      ],
+      "required_success_messages": [
+        "S1_MODEL_ENABLED",
+        "S1_IDENTITY_CHECKER",
+        "S1_CONSTRUCTED_SORTED_PERMUTATION",
+        "S1_FNMUT_TWO_PROJECTIONS",
+        "S1_FNONCE_TWO_PROJECTIONS",
+        "S1_ELEMENT_LAYOUT",
+        "S1_COMPARATOR_ZST_ELEMENT_NO_DROP"
+      ]
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::inactive_pairs_read_free",
+      "mode": "proof",
+      "expected": "SUCCESS",
+      "outcome": "NOT_RUN",
+      "unwind": null,
+      "expected_failure_message": null,
+      "companion": null,
+      "required_covers": [
+        "S1_inactive_legal_storage_return"
+      ],
+      "required_success_messages": [
+        "S1_INACTIVE_PAIR",
+        "S1_INACTIVE_GUARDED_NO_CLAIM",
+        "S1_INACTIVE_TOKEN_INVALID",
+        "S1_INACTIVE_NEVER_CALLS_COMPARATOR"
+      ]
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
+      "mode": "proof",
+      "expected": "NAMED_ASSERTION_FAILURE",
+      "outcome": "NOT_RUN",
+      "unwind": null,
+      "expected_failure_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+      "companion": "inactive_pairs_read_free",
+      "required_covers": [],
+      "required_success_messages": []
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
+      "mode": "proof",
+      "expected": "NAMED_ASSERTION_FAILURE",
+      "outcome": "NOT_RUN",
+      "unwind": null,
+      "expected_failure_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+      "companion": "inactive_pairs_read_free",
+      "required_covers": [],
+      "required_success_messages": []
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::activation_unsupported_type_rejected",
+      "mode": "proof",
+      "expected": "NAMED_ASSERTION_FAILURE",
+      "outcome": "NOT_RUN",
+      "unwind": null,
+      "expected_failure_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+      "companion": "inactive_pairs_read_free",
+      "required_covers": [],
+      "required_success_messages": []
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+      "mode": "proof",
+      "expected": "SUCCESS",
+      "outcome": "NOT_RUN",
+      "unwind": 4,
+      "expected_failure_message": null,
+      "companion": null,
+      "required_covers": [
+        "S1_corruption_companion_return"
+      ],
+      "required_success_messages": [
+        "S1_CORRUPTION_LEGAL_COMPANION",
+        "S1_ORDER_REJECTED_WITH_COUNTS_PRESERVED",
+        "S1_COUNTS_REJECTED_WITH_ORDER_PRESERVED"
+      ]
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+      "mode": "proof",
+      "expected": "NAMED_ASSERTION_FAILURE",
+      "outcome": "NOT_RUN",
+      "unwind": 4,
+      "expected_failure_message": "S1_ORDER_CORRUPTION_ACCEPTED",
+      "companion": "corruption_companion",
+      "required_covers": [],
+      "required_success_messages": []
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+      "mode": "proof",
+      "expected": "NAMED_ASSERTION_FAILURE",
+      "outcome": "NOT_RUN",
+      "unwind": 4,
+      "expected_failure_message": "S1_COUNT_CORRUPTION_ACCEPTED",
+      "companion": "corruption_companion",
+      "required_covers": [],
+      "required_success_messages": [
+        "S1_COUNT_FIXTURE_STAYS_SORTED"
+      ]
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::snapshot_guards_companion",
+      "mode": "proof",
+      "expected": "SUCCESS",
+      "outcome": "NOT_RUN",
+      "unwind": 34,
+      "expected_failure_message": null,
+      "companion": null,
+      "required_covers": [
+        "S1_snapshot_guard_companion_return"
+      ],
+      "required_success_messages": [
+        "S1_ACTIVE_INVALID_REJECTED",
+        "S1_CAP32_IDENTITY",
+        "S1_LENGTH_CHANGE_REJECTED",
+        "S1_OVERFLOW_TOKEN_INVALID",
+        "S1_OVERFLOW_OUTPUT_REJECTED",
+        "S1_CELL_SNAPSHOT_OWNS_PRESTATE"
+      ]
+    },
+    {
+      "selector": "core::slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected",
+      "mode": "proof",
+      "expected": "NAMED_ASSERTION_FAILURE",
+      "outcome": "NOT_RUN",
+      "unwind": null,
+      "expected_failure_message": "S1_ACTIVE_INVALID_TOKEN_ACCEPTED",
+      "companion": "snapshot_guards_companion",
+      "required_covers": [],
+      "required_success_messages": []
+    }
+  ]
+}

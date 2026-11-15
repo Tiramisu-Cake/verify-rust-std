@@ -1,0 +1,352 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..0d0a9f1441e77acc793175a16270dd8ff9fac43d
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs
+@@ -0,0 +1,158 @@
++//! Verification-only full-value model for three exact SmallSort T/F pairs.
++//!
++//! The generic facade is deliberately unconditional. Inactive pairs read neither
++//! elements nor length and make no sorting claim. Contracts must guard with enabled.
++
++use crate::cell::Cell;
++use crate::marker::PhantomData;
++
++const CAP: usize = 32;
++
++/// Freeze, non-Copy, no-Drop byte; the whole logical value is its byte.
++#[repr(transparent)]
++pub(in crate::slice::sort::shared::smallsort) struct NonCopyByte(u8);
++
++impl NonCopyByte {
++    pub(in crate::slice::sort::shared::smallsort) const fn new(value: u8) -> Self {
++        Self(value)
++    }
++}
++
++/// A closed, stateless comparator. Its type identifies the exact pure order.
++pub(in crate::slice::sort::shared::smallsort) struct KeyLess<T>(PhantomData<fn() -> T>);
++
++impl<T> KeyLess<T> {
++    pub(in crate::slice::sort::shared::smallsort) const fn new() -> Self {
++        Self(PhantomData)
++    }
++}
++
++// Only the full logical value is Copy; elements need not be Copy or Freeze.
++trait Project {
++    fn value(&self) -> u8;
++}
++
++impl Project for u8 {
++    fn value(&self) -> u8 { *self }
++}
++impl Project for Cell<u8> {
++    fn value(&self) -> u8 { self.get() }
++}
++impl Project for NonCopyByte {
++    fn value(&self) -> u8 { self.0 }
++}
++
++macro_rules! key_less {
++    ($ty:ty) => {
++        impl<'a, 'b> FnOnce<(&'a $ty, &'b $ty)> for KeyLess<$ty> {
++            type Output = bool;
++            extern "rust-call" fn call_once(self, (a, b): (&'a $ty, &'b $ty)) -> bool {
++                a.value() < b.value()
++            }
++        }
++        impl<'a, 'b> FnMut<(&'a $ty, &'b $ty)> for KeyLess<$ty> {
++            extern "rust-call" fn call_mut(&mut self, (a, b): (&'a $ty, &'b $ty)) -> bool {
++                a.value() < b.value()
++            }
++        }
++    };
++}
++key_less!(u8);
++key_less!(Cell<u8>);
++key_less!(NonCopyByte);
++
++/// Owned pre-state: no references to mutable input or uninitialized scratch.
++#[derive(Clone, Copy)]
++pub(in crate::slice::sort::shared::smallsort) struct Snapshot {
++    values: [u8; CAP],
++    len: usize,
++    valid: bool,
++}
++
++impl Snapshot {
++    fn invalid() -> Self {
++        Self { values: [0; CAP], len: 0, valid: false }
++    }
++}
++
++fn active_snapshot<T: Project>(values: &[T]) -> Snapshot {
++    if values.len() > CAP {
++        return Snapshot::invalid();
++    }
++    let mut result = Snapshot { values: [0; CAP], len: values.len(), valid: true };
++    let mut i = 0;
++    while i < result.len {
++        result.values[i] = values[i].value();
++        i += 1;
++    }
++    result
++}
++
++fn active_post<T: Project>(before: Snapshot, values: &[T]) -> bool {
++    if !before.valid || before.len > CAP || values.len() > CAP || before.len != values.len() {
++        return false;
++    }
++    let mut i = 1;
++    while i < before.len {
++        if values[i].value() < values[i - 1].value() {
++            return false;
++        }
++        i += 1;
++    }
++    // Checking each input value (duplicates may repeat a check) covers the whole
++    // multiset: equal input/output lengths leave no room for a novel output value.
++    i = 0;
++    while i < before.len {
++        let query = before.values[i];
++        let mut old_count: usize = 0;
++        let mut new_count: usize = 0;
++        let mut j = 0;
++        while j < before.len {
++            if before.values[j] == query { old_count += 1; }
++            if values[j].value() == query { new_count += 1; }
++            j += 1;
++        }
++        if old_count != new_count {
++            return false;
++        }
++        i += 1;
++    }
++    true
++}
++
++// No trait bounds escape to a generic caller. Only concrete type substitutions
++// specialize the default; specialization does not depend on another trait bound.
++trait Model<T, F> {
++    fn enabled() -> bool;
++    fn snapshot(values: &[T]) -> Snapshot;
++    fn post(before: Snapshot, values: &[T]) -> bool;
++}
++
++impl<T, F> Model<T, F> for () {
++    default fn enabled() -> bool { false }
++    default fn snapshot(_values: &[T]) -> Snapshot { Snapshot::invalid() }
++    default fn post(_before: Snapshot, _values: &[T]) -> bool { true }
++}
++
++macro_rules! active_model {
++    ($ty:ty) => {
++        impl Model<$ty, KeyLess<$ty>> for () {
++            fn enabled() -> bool { true }
++            fn snapshot(values: &[$ty]) -> Snapshot { active_snapshot(values) }
++            fn post(before: Snapshot, values: &[$ty]) -> bool { active_post(before, values) }
++        }
++    };
++}
++active_model!(u8);
++active_model!(Cell<u8>);
++active_model!(NonCopyByte);
++
++pub(in crate::slice::sort::shared::smallsort) fn enabled<T, F>() -> bool {
++    <() as Model<T, F>>::enabled()
++}
++pub(in crate::slice::sort::shared::smallsort) fn snapshot<T, F>(values: &[T]) -> Snapshot {
++    <() as Model<T, F>>::snapshot(values)
++}
++pub(in crate::slice::sort::shared::smallsort) fn post<T, F>(before: Snapshot, values: &[T]) -> bool {
++    <() as Model<T, F>>::post(before, values)
++}
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs b/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..9b050c150f6c069f0f3efe8f9e0646f6e9bf6a6d
+--- /dev/null
++++ b/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs
+@@ -0,0 +1,182 @@
++//! Opt-in model controls; register only with sorting AND controls cfgs.
++//! These roots test the checker, not the six real SmallSort method contracts.
++
++use super::sorting_model::{KeyLess, NonCopyByte, enabled, post, snapshot};
++use crate::cell::Cell;
++use crate::kani;
++use crate::mem::{MaybeUninit, align_of, needs_drop, size_of};
++
++fn byte(value: u8) -> u8 { value }
++
++// Independent, tiny fixture constructor, not a replacement for actual sort proofs.
++fn sorted_prefix(mut values: [u8; 3], len: usize) -> [u8; 3] {
++    let mut i = 1;
++    while i < len {
++        let mut j = i;
++        while j > 0 && values[j] < values[j - 1] {
++            values.swap(j, j - 1);
++            j -= 1;
++        }
++        i += 1;
++    }
++    values
++}
++
++macro_rules! positive {
++    ($name:ident, $ty:ty, $new:path) => {
++        #[kani::proof]
++        #[kani::unwind(5)]
++        fn $name() {
++            let input: [u8; 3] = kani::any();
++            let len: usize = kani::any();
++            kani::assume(len <= 3);
++            let values = [$new(input[0]), $new(input[1]), $new(input[2])];
++            assert!(enabled::<$ty, KeyLess<$ty>>(), "S1_MODEL_ENABLED");
++            let before = snapshot::<$ty, KeyLess<$ty>>(&values[..len]);
++            let mut ordered = true;
++            let mut i = 1;
++            while i < len {
++                ordered = ordered && input[i - 1] <= input[i];
++                i += 1;
++            }
++            assert!(post::<$ty, KeyLess<$ty>>(before, &values[..len]) == ordered,
++                "S1_IDENTITY_CHECKER");
++            let sorted = sorted_prefix(input, len);
++            let output = [$new(sorted[0]), $new(sorted[1]), $new(sorted[2])];
++            assert!(post::<$ty, KeyLess<$ty>>(before, &output[..len]),
++                "S1_CONSTRUCTED_SORTED_PERMUTATION");
++            let mut less = KeyLess::<$ty>::new();
++            assert!(less(&values[0], &values[1]) == (input[0] < input[1]),
++                "S1_FNMUT_TWO_PROJECTIONS");
++            assert!(FnOnce::call_once(KeyLess::<$ty>::new(), (&values[1], &values[0]))
++                == (input[1] < input[0]), "S1_FNONCE_TWO_PROJECTIONS");
++            assert!(size_of::<$ty>() == 1 && align_of::<$ty>() == 1,
++                "S1_ELEMENT_LAYOUT");
++            assert!(size_of::<KeyLess<$ty>>() == 0 && !needs_drop::<$ty>(),
++                "S1_COMPARATOR_ZST_ELEMENT_NO_DROP");
++            kani::cover(len == 0, "S1_model_N0_return");
++            kani::cover(len == 1, "S1_model_N1_return");
++            kani::cover(len == 2, "S1_model_N2_return");
++            kani::cover(len == 3, "S1_model_N3_return");
++            kani::cover(len == 3 && input[0] == input[1], "S1_duplicate_return");
++            kani::cover(len == 3 && input[0] > input[1], "S1_unsorted_input_return");
++        }
++    };
++}
++positive!(model_u8_n0_3, u8, byte);
++positive!(model_cell_n0_3, Cell<u8>, Cell::new);
++positive!(model_noncopy_n0_3, NonCopyByte, NonCopyByte::new);
++
++fn inactive<T, F>(values: &[T], _comparator: &F) {
++    assert!(!enabled::<T, F>(), "S1_INACTIVE_PAIR");
++    let invalid = snapshot::<T, F>(values);
++    assert!(post::<T, F>(invalid, values), "S1_INACTIVE_GUARDED_NO_CLAIM");
++    assert!(!post::<u8, KeyLess<u8>>(invalid, &[]), "S1_INACTIVE_TOKEN_INVALID");
++}
++
++#[kani::proof]
++fn inactive_pairs_read_free() {
++    let values: [u8; 2] = kani::any();
++    inactive(&values, &|a: &u8, b: &u8| a > b);
++    let mut touched = false;
++    {
++        let effectful = |a: &u8, b: &u8| { touched = true; a < b };
++        inactive(&values, &effectful);
++    }
++    assert!(!touched, "S1_INACTIVE_NEVER_CALLS_COMPARATOR");
++    // The reference is valid: MaybeUninit itself is initialized, its payload is not.
++    // No invalid Rust reference or reference to an uninitialized u8 is constructed.
++    let storage = [MaybeUninit::<u8>::uninit(); 2];
++    inactive(&storage, &KeyLess::<MaybeUninit<u8>>::new());
++    kani::cover(true, "S1_inactive_legal_storage_return");
++}
++
++fn require_active<T, F>(_values: &[T], _comparator: &F) {
++    assert!(enabled::<T, F>(), "S1_ACTIVATION_UNSUPPORTED_PAIR");
++}
++
++#[kani::proof]
++fn activation_descending_rejected() {
++    require_active(&[0u8, 1], &|a: &u8, b: &u8| a > b);
++}
++
++#[kani::proof]
++fn activation_effectful_rejected() {
++    let mut touched = false;
++    let effectful = |a: &u8, b: &u8| { touched = true; a < b };
++    require_active(&[0u8, 1], &effectful);
++}
++
++#[kani::proof]
++fn activation_unsupported_type_rejected() {
++    let storage = [MaybeUninit::<u8>::uninit(); 2];
++    require_active(&storage, &KeyLess::<MaybeUninit<u8>>::new());
++}
++
++fn strict_pair() -> [u8; 2] {
++    let a: u8 = kani::any();
++    let b: u8 = kani::any();
++    kani::assume(a < b);
++    [a, b]
++}
++
++#[kani::proof]
++#[kani::unwind(4)]
++fn corruption_companion() {
++    let values = strict_pair();
++    let before = snapshot::<u8, KeyLess<u8>>(&values);
++    assert!(post::<u8, KeyLess<u8>>(before, &values), "S1_CORRUPTION_LEGAL_COMPANION");
++    assert!(!post::<u8, KeyLess<u8>>(before, &[values[1], values[0]]),
++        "S1_ORDER_REJECTED_WITH_COUNTS_PRESERVED");
++    assert!(!post::<u8, KeyLess<u8>>(before, &[values[0], values[0]]),
++        "S1_COUNTS_REJECTED_WITH_ORDER_PRESERVED");
++    kani::cover(true, "S1_corruption_companion_return");
++}
++
++#[kani::proof]
++#[kani::unwind(4)]
++fn order_corruption_rejected() {
++    let values = strict_pair();
++    let before = snapshot::<u8, KeyLess<u8>>(&values);
++    assert!(post::<u8, KeyLess<u8>>(before, &[values[1], values[0]]),
++        "S1_ORDER_CORRUPTION_ACCEPTED");
++}
++
++#[kani::proof]
++#[kani::unwind(4)]
++fn count_corruption_rejected() {
++    let values = strict_pair();
++    let corrupt = [values[0], values[0]];
++    assert!(corrupt[0] <= corrupt[1], "S1_COUNT_FIXTURE_STAYS_SORTED");
++    let before = snapshot::<u8, KeyLess<u8>>(&values);
++    assert!(post::<u8, KeyLess<u8>>(before, &corrupt),
++        "S1_COUNT_CORRUPTION_ACCEPTED");
++}
++
++#[kani::proof]
++#[kani::unwind(34)]
++fn snapshot_guards_companion() {
++    let invalid = snapshot::<u8, ()>(&[]);
++    assert!(!post::<u8, KeyLess<u8>>(invalid, &[]), "S1_ACTIVE_INVALID_REJECTED");
++    let full = [7u8; 32];
++    let before = snapshot::<u8, KeyLess<u8>>(&full);
++    assert!(post::<u8, KeyLess<u8>>(before, &full), "S1_CAP32_IDENTITY");
++    assert!(!post::<u8, KeyLess<u8>>(before, &full[..31]), "S1_LENGTH_CHANGE_REJECTED");
++    let overflow = [7u8; 33];
++    let overflow_snapshot = snapshot::<u8, KeyLess<u8>>(&overflow);
++    assert!(!post::<u8, KeyLess<u8>>(overflow_snapshot, &[]), "S1_OVERFLOW_TOKEN_INVALID");
++    assert!(!post::<u8, KeyLess<u8>>(before, &overflow), "S1_OVERFLOW_OUTPUT_REJECTED");
++    // Mutating Cell after snapshot must not mutate the owned pre-state.
++    let cells = [Cell::new(1u8), Cell::new(2u8)];
++    let cell_before = snapshot::<Cell<u8>, KeyLess<Cell<u8>>>(&cells);
++    cells[1].set(1);
++    assert!(!post::<Cell<u8>, KeyLess<Cell<u8>>>(cell_before, &cells),
++        "S1_CELL_SNAPSHOT_OWNS_PRESTATE");
++    kani::cover(true, "S1_snapshot_guard_companion_return");
++}
++
++#[kani::proof]
++fn invalid_snapshot_rejected() {
++    let invalid = snapshot::<u8, ()>(&[]);
++    assert!(post::<u8, KeyLess<u8>>(invalid, &[]), "S1_ACTIVE_INVALID_TOKEN_ACCEPTED");
++}

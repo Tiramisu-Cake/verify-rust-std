@@ -1,0 +1,38 @@
+{
+  "assurance": "STATIC_AND_PYTHON_SYNTHETIC_ONLY",
+  "rust_compilation": "NOT_RUN",
+  "kani": "NOT_RUN",
+  "ci": "NOT_RUN",
+  "sequence_pairs_n0_3": 7225,
+  "strict_byte_pairs": 32640,
+  "boundary_lengths": [
+    0,
+    1,
+    2,
+    3,
+    16,
+    31,
+    32,
+    33
+  ],
+  "opt_in_roots": [
+    "activation_descending_rejected",
+    "activation_effectful_rejected",
+    "activation_unsupported_type_rejected",
+    "corruption_companion",
+    "count_corruption_rejected",
+    "inactive_pairs_read_free",
+    "invalid_snapshot_rejected",
+    "model_cell_n0_3",
+    "model_noncopy_n0_3",
+    "model_u8_n0_3",
+    "order_corruption_rejected",
+    "snapshot_guards_companion"
+  ],
+  "source_sha256": {
+    "sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+    "sorting_model_controls.rs": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70"
+  },
+  "result": "PASS",
+  "limits": "Python is an independent finite sanity check, not Rust/Kani qualification."
+}

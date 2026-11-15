@@ -1,0 +1,45 @@
+{
+  "schema": "ch8-s1-w11-checkpoint-v1",
+  "worker": "worker11",
+  "stage": "S1",
+  "state": "READY_FOR_W13_INTEGRATION",
+  "source_commit": "3f469d3ba2e94d7129e66e53ea76df883ff9c946",
+  "source_tree": "08c51f3cbe8c2e0d053001ca9ed9e5a67e3576c0",
+  "base_commit": "872d5a43380752786415bc00d2a12ce0e930cb37",
+  "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "claims": [
+    {
+      "claim": "verification-only model and12 controls prepared on allowed two-file source scope",
+      "assurance": "SOURCE_STATIC_REVIEWED_NOT_COMPILED",
+      "evidence": [
+        "INPUTS.md",
+        "REVIEW.json",
+        "CONTROL-MAP.json"
+      ]
+    },
+    {
+      "claim": "finite Python model/source sanity cross-check passed",
+      "assurance": "SYNTHETIC_ONLY",
+      "evidence": [
+        "synthetic-result.json",
+        "check_model.py"
+      ]
+    }
+  ],
+  "open": [
+    "Core rust-call/min_specialization and actual six-body contract mechanism await combined W13 CI.",
+    "Compiler inventory and real property IDs/covers NOT_RUN."
+  ],
+  "blocker": null,
+  "next": "worker13 integrates frozen source, accepted interface and control manifest; coordinator CI only.",
+  "rejected_approaches": [
+    "No FnPtr/address-guard model substitution",
+    "No len<=3 activation guard",
+    "No T:Copy/Ord runtime bound",
+    "No fixed-probe multiset claim",
+    "No local compiler/verifier or standalone model dispatch"
+  ],
+  "cloud_budget_dollars": 0,
+  "dispatch_count": 0,
+  "proof_credit": "NONE"
+}

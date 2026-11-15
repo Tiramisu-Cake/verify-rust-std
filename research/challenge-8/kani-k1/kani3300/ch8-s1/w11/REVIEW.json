@@ -1,0 +1,24 @@
+{
+  "reviewer": "codex-subagent:s1_model_review",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "fork_turns": "none",
+  "candidate_commit": "3f469d3ba2e94d7129e66e53ea76df883ff9c946",
+  "spec_sha256": "a95f1fba3a6c28db8785f74efb67d5306fda4c97cdc637cee784606f503207da",
+  "packet_sha256": "8431cdaa0ec4f4e8eae7191ee88bef0998594f694d69493e500e5b45fcccb971",
+  "packet_check": "PACKET_VALID_NOT_REVIEWED",
+  "decision": "GO_WITH_NITS",
+  "proof_credit": "NONE",
+  "findings": [
+    {
+      "severity": "nit",
+      "text": "Controls do not explicitly record auto-trait expectations / assert NonCopyByte !Copy, although source declaration supports properties.",
+      "resolution": "TYPE-REVIEW.md and MODEL-SCOPE.md explicitly enumerate Freeze/Copy/noDrop and routing expectations. No source change; actual route checks assigned to13. Negative !Copy assertion is not claimed compiled."
+    }
+  ],
+  "conclusion": "No localized soundness, count completeness, inactive-read, lifetime, or control-distinguishability blocker on static inspection.",
+  "limits": [
+    "Registration, Fn ABI feature gates, actual method contracts/attachment outside reviewed diff.",
+    "Rust compilation, Kani, formal proof credit NOT_RUN/NONE."
+  ]
+}

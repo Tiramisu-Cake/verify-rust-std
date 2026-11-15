@@ -1,0 +1,70 @@
+{
+  "baseline_commit": "872d5a43380752786415bc00d2a12ce0e930cb37",
+  "candidate_commit": "3f469d3ba2e94d7129e66e53ea76df883ff9c946",
+  "candidate_tree": "08c51f3cbe8c2e0d053001ca9ed9e5a67e3576c0",
+  "changed_files": [
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "0d0a9f1441e77acc793175a16270dd8ff9fac43d",
+        "mode": "100644",
+        "sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18"
+      },
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "9b050c150f6c069f0f3efe8f9e0646f6e9bf6a6d",
+        "mode": "100644",
+        "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70"
+      },
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+      "status": "added"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "05f61eb68f667dc1cbb1cd0de7d02ba67d44c916",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "library/core/src/lib.rs",
+      "sha256": "f2145a4cf20ffdae768faabe8db8b32b67b58dd38883bb0d2bff91424dc440e1",
+      "size": 13691
+    },
+    {
+      "blob": "2430ea5ac9f41c5ccca7d7afb3e1d88b8b6889be",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "sha256": "221226eeb818b0120a23a24ab66c20c98aae1907252d4e57a4e1048fea3e6c25",
+      "size": 4673
+    },
+    {
+      "blob": "f8000328aae720a6ae7a6e81cd5d5816fd73df8c",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "sha256": "982449b95d4449807b55f6997f83c8cce6bb167e52a95b6e4342ab816d04ba84",
+      "size": 36982
+    },
+    {
+      "blob": "e1977d79f32076488e37048d17be77e37a321b0c",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "library/core/src/slice/sort/shared/mod.rs",
+      "sha256": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8",
+      "size": 1548
+    }
+  ],
+  "diff_sha256": "723b4eb2910ecbb2096536d7cfe77d1b2a3802ba1c7e68e6ec74fe06f5bc3e46",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "a95f1fba3a6c28db8785f74efb67d5306fda4c97cdc637cee784606f503207da",
+  "worktree": "/root/verify-rust-std-ch8-s1-w11"
+}
