@@ -1,0 +1,187 @@
+{
+  "schema": "kani3300-c2-gatea-ci-overlay-v1",
+  "status": "WORKER_READY_ONLY",
+  "gate_a": "NOT_RUN",
+  "formal_proof_credit": "NOT_ESTABLISHED",
+  "clone": "/root/kani-fix-3300-c2-gatea",
+  "branch": "ci/kani3300-c2-gatea-w15",
+  "commit": "e795403859f5b61e37b5bae9dce705b9a8ede8e0",
+  "parent": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "tree": "42ce47f065ae6aeb3c9ad23d1b15f95d7a0e82f7",
+  "export_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb",
+  "commit_count_over_export": 1,
+  "author": "Tiramisu-Cake <igkharin@gmail.com>",
+  "subject": "Prepare C2 Gate A CI-only full regression observation [skip ci]",
+  "changed_paths": [
+    {
+      "status": "D",
+      "path": ".github/workflows/bench-compiler.yml",
+      "export_blob": "0b30110c6ad5c105444045a94c801d153dde2725",
+      "export_sha256": "825d32f8e3d3949332417088fb0b096bb4b6f1819d8a0cb3c1e2cc666cd685cc"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/bench-e2e.yml",
+      "export_blob": "bc2db84b52fbb6f0c0017a67e94934662c0d9689",
+      "export_sha256": "e17c7ef9464ceec605771b9dade368122e250891526c6a0b0a9bb4b00a7a64ca"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/bench-pr.yml",
+      "export_blob": "d68534a54ffb3ce2f15671e941c84fc57af0e741",
+      "export_sha256": "eecc1509bcf9283e0d233b414af523f97a9f2a397e8766a558314f1a9f5a57d3"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/cargo-update.yml",
+      "export_blob": "1873a2ecdd83f97c37fb74b62a9e0c1d6b7728d7",
+      "export_sha256": "ac7f18f5fe4e685e5da609e5b2546503aab4cb5aa2f598c4a6df91b5d442c911"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/cbmc-latest.yml",
+      "export_blob": "223ec7f96ad8f3215216fc6b99a8337c650c8398",
+      "export_sha256": "ba39280e6ff9de85ccb5c14296d53845be7cc417baf683ddda56fe30767bbc48"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/cbmc-update.yml",
+      "export_blob": "90eea8a06f2a4af9b3d65befcc8fa9487699a982",
+      "export_sha256": "1b97bca1eb903ddf739d594830eb4b72b5ffc8c23ec7dc8c03c314c95cd0232f"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/charon-update.yml",
+      "export_blob": "70ad28901c1a7cfe617b98d4d35099da35659894",
+      "export_sha256": "d73125c239ffd2c2f68a7d41b703eb11bdbdefe97d3a3abc99ed0bbb2c1b7869"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/deny.yml",
+      "export_blob": "c54ce6bbcb075df881984f714589011c4b88d5e4",
+      "export_sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/extra_jobs.yml",
+      "export_blob": "157c5b2d967e8b9fcfddf8943c29495f0ac5e2fa",
+      "export_sha256": "12c3c6626e9ad806e7f7bf7f65cca7e2f12b2ccae9da82cc62802b92299369d8"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/format-check.yml",
+      "export_blob": "9d21eeb4569234292401f90c66c833f6960f06fb",
+      "export_sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/kani.yml",
+      "export_blob": "3e34d8ac3c0844d9ac9409790e7cb0a669381dad",
+      "export_sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303"
+    },
+    {
+      "status": "A",
+      "path": ".github/workflows/kani3300-c2-gatea.yml",
+      "sha256": "90d370b0aabd1d807fc5f8580699bc487c718fda639beac72be5dfcf17d97730",
+      "blob": "dc8913c5dc00868f4f4a3ab0743b46e673d6a18a"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/release.yml",
+      "export_blob": "f10833e3035641a9893e1f5171b0b86864ef5b0e",
+      "export_sha256": "b608d02a4ddbaa9a1e4b0db321bd1aeb268afe5f946a9de14e2778b9e803b9b3"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/slow-tests.yml",
+      "export_blob": "54952f59bd844273d208a75e62c571c48079d154",
+      "export_sha256": "d9775bd66ebb7b927c28346623f9e6e3374c82cee97921eac5fee828eba5ba7f"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/toolchain-upgrade.yml",
+      "export_blob": "55bcdda98ad65718c01b82da993cc5baccbeceb3",
+      "export_sha256": "bd9cc5f4f09c1e00223a627fedbd7fb522053c6258284304c1d509f83dbcfa6a"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/verify-std-check.yml",
+      "export_blob": "be07976f48e50269fceca068c7c71dd6428b3498",
+      "export_sha256": "37a122141be204e64c1eb75caf6a6f72b1e1c9ce68f642ef79ad80cd1da9ee60"
+    },
+    {
+      "status": "D",
+      "path": ".github/workflows/z3-update.yml",
+      "export_blob": "486105cd0bd8f8337b0ea31f7ee2bd8f48addb53",
+      "export_sha256": "83e06af88fe864b471d4b1af10022519c3f81cc63d62e00d64d73e77234a9553"
+    },
+    {
+      "status": "A",
+      "path": "scripts/kani3300-gate/binding.json",
+      "sha256": "99e6078c489605341489c3dca47c80b65182c1463d226119f56214fd4dc789b5",
+      "blob": "d5afa1aaf4f53a93781d8f0c6a15a11b33108164"
+    },
+    {
+      "status": "A",
+      "path": "scripts/kani3300-gate/lifecycle.py",
+      "sha256": "04aa0d82518b586ef67f996ab217befc7c2f088526a01d55e620d8e1a26c36d7",
+      "blob": "58fe3c86d1991ef106215a8246f025847f624f4f"
+    },
+    {
+      "status": "A",
+      "path": "scripts/kani3300-gate/receipt.py",
+      "sha256": "3a8255485f3c1e9b65a878368e4cd8396ea7a888a400a9d7de92297be1c35508",
+      "blob": "0cbe81c468a56fc89ab514e0fc4bc32cce164c7c"
+    },
+    {
+      "status": "A",
+      "path": "scripts/kani3300-gate/test_lifecycle.py",
+      "sha256": "f819936154ae574d810fcca1ea5ae93917c98e9dec25140b3fd5d6a28446fe1d",
+      "blob": "e1e0cae24fa423663726bdb1896b1e5f1f96933e"
+    },
+    {
+      "status": "A",
+      "path": "scripts/kani3300-gate/test_receipt.py",
+      "sha256": "f1011112c32937f9d4737bfe72d835572b44fe24a660f52e843681ab704326ce",
+      "blob": "1809f595dac27c75f13e63b7561c2a3934da2e21"
+    }
+  ],
+  "path_allowlist": [
+    ".github/workflows/*",
+    "scripts/kani3300-gate/*"
+  ],
+  "stock_workflow_deletions": 16,
+  "remaining_workflows": [
+    ".github/workflows/kani3300-c2-gatea.yml"
+  ],
+  "patch": {
+    "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/c2-gatea/ci-only-overlay.patch",
+    "sha256": "85dcce641c9587f22e0bbdf94137ede2299ed0e3adec77a03cdfd0f15ea371c2",
+    "bytes": 184542
+  },
+  "binding_sha256": "99e6078c489605341489c3dca47c80b65182c1463d226119f56214fd4dc789b5",
+  "source_unchanged": true,
+  "local_overlay_clean": true,
+  "research_committed": false,
+  "push_dispatch_ci": "NOT_RUN",
+  "coordinator_only": {
+    "repository": "Tiramisu-Cake/kani",
+    "before_publication": [
+      "Verify both fork refs fix/kani-3300-c2-s6 and freeze/kani-3300-c2 still equal ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+      "Verify dispatchable workflow availability; UNKNOWN locally. STOP if unavailable; no default-branch edit/settings/bootstrap run authorized.",
+      "One dispatch, run_attempt1 only; no retries/substitution."
+    ],
+    "push_command": "git -C /root/kani-fix-3300-c2-gatea push https://github.com/Tiramisu-Cake/kani.git e795403859f5b61e37b5bae9dce705b9a8ede8e0:refs/heads/ci/kani3300-c2-gatea-w15",
+    "after_push": "Verify remote refs/heads/ci/kani3300-c2-gatea-w15 equals e795403859f5b61e37b5bae9dce705b9a8ede8e0 immediately before dispatch; never use local origin pointing at read-only source. No force push and no freeze movement.",
+    "dispatch_command": "gh workflow run kani3300-c2-gatea.yml --repo Tiramisu-Cake/kani --ref ci/kani3300-c2-gatea-w15",
+    "expected_run_head_sha": "e795403859f5b61e37b5bae9dce705b9a8ede8e0",
+    "expected_workflow": ".github/workflows/kani3300-c2-gatea.yml",
+    "dispatch_count": 1,
+    "platforms": [
+      "ubuntu-24.04",
+      "ubuntu-24.04-arm",
+      "macos-15"
+    ],
+    "future_remote_state": "UNKNOWN; coordinator verifies; preparation grants no CI execution"
+  }
+}
