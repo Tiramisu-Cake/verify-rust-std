@@ -1,0 +1,54 @@
+{
+  "schema": "ch8-s1k-batch-identity-v1",
+  "original_control_sha": "f88bf3f0ea0ef1f87ca01ba5da11b57be574adf1",
+  "candidate_control_sha": "36db70978a16144624abf94d480a593dae684451",
+  "equal_files": {
+    "runner.py": {
+      "byte_equal": true,
+      "sha256": "b4a6541f11aa9ea0990a4bd9c1939b1cae4fddd9e6248fbc20e59db3d406f786"
+    },
+    "test_runner.py": {
+      "byte_equal": true,
+      "sha256": "99332ebca71669c53fc66463399231d1abeb0b1f6960ca6fe1096ae1347fe675"
+    },
+    "activation-default.patch": {
+      "byte_equal": true,
+      "sha256": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3"
+    },
+    "activation-override.patch": {
+      "byte_equal": true,
+      "sha256": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356"
+    }
+  },
+  "row_count": 23,
+  "literal_rows_byte_equal": true,
+  "literal_rows_sha256": "ec4617dfaf14dbc1b26ccd1485fe3ccf0e2bf2de8244a6f0963ee7551f3fd431",
+  "unchanged_request_keys": [
+    "authorization",
+    "base_std_sha",
+    "budgets",
+    "changed_file_sha256",
+    "flags",
+    "model_interface_sha256",
+    "model_source_sha",
+    "pre_dispatch_gate",
+    "property_binding",
+    "reservations",
+    "rows",
+    "schema",
+    "selector_binding",
+    "status",
+    "std_sha",
+    "std_tree",
+    "tool_sha",
+    "tool_tree",
+    "variants"
+  ],
+  "changed_request_keys": [
+    "ci_changed_paths",
+    "ci_payload_sha256"
+  ],
+  "all_non_host_request_fields_equal": true,
+  "proof_status": "NOT_RUN",
+  "proof_credit": "NONE"
+}

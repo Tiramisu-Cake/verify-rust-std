@@ -1,0 +1,26 @@
+{
+  "applicability": "One CI-only single-parent control; host migration from std control f88bf3f0ea0ef1f87ca01ba5da11b57be574adf1. Original control is available in /root/verify-rust-std-ch8-s1-w13 Git object store. Task /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/TASK-CH8-S1K-HOST-W13.md.",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "36db70978a16144624abf94d480a593dae684451",
+  "controls": [
+    "New host repository/ref/single parent/path inventory/payload/only-workflow checks; YAML sensitivity tests; original runner error paths.",
+    "Independent review must check workflow and host binding changes and exact immutable batch equality."
+  ],
+  "defect": "Prepare the same CH8 S1 batch on Kani host after absent std-fork Actions runs; preparation only.",
+  "dependencies": [
+    ".github/actions/setup/action.yml"
+  ],
+  "invariants": [
+    "Only .github/workflows and ch8-s1-control changed; stock workflows removed; single workflow push uninit-ci/ch8-s1k-* on Tiramisu-Cake/kani.",
+    "runner.py, test_runner.py, activation patches and all request non-host fields including rows/oracles/caps must match original control exactly.",
+    "Exact production std75a4 and stock tool0aac checkouts with sibling layout, paths normalized from cwd, runner.* step env only; no local tool execution."
+  ],
+  "known_limitations": [
+    "No push, CI, publication or ledger operations authorized; no local cargo/rustc/Kani/CBMC; no raw evidence logs.",
+    "Review author must not execute build subcommand; synthetic mocked build wrapper tests are allowed.",
+    "No proof credit; actual 23 rows remain NOT_RUN."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-s1k-w13"
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "ch8-s1k-static-validation-v1",
+  "candidate": "36db70978a16144624abf94d480a593dae684451",
+  "candidate_tree": "f3d36d51f58bf7937f6f8778260e3e2816996b48",
+  "checks": {
+    "synthetic_unittest": {
+      "result": "PASS",
+      "tests": 16,
+      "command": "cd /root/kani-ch8-s1k-w13/ch8-s1-control && PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_runner.py test_package.py",
+      "coverage": [
+        "original request/source binding; dirty/source drift; wrong root/mode/guard/unwind/export",
+        "success and named negative; missing/null/wrong-type/oversize export",
+        "subprocess exit/signal/timeout/output/export caps; original negative exit preserved",
+        "phase cap NOT_RUN tail; fallback preserves receipt and bounds artifact",
+        "Kani host/ref, wrong std-host prefix, event/attempt/SHA, tool parent, merge-parent rejection",
+        "changed-path allowlist/inventory, single workflow, payload drift, outer workspace",
+        "checkout repo/ref/depth/submodules, runner context, unsupported trigger/self-hosted",
+        "mocked setup build success/nonzero/timeout/signal/truncation/exception and expired setup; no actual build"
+      ]
+    },
+    "yaml": {
+      "result": "PASS",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 ch8-s1-control/check_package.py yaml .github/workflows/ch8-s1.yml"
+    },
+    "actionlint": {
+      "result": "PASS",
+      "version": "1.7.7",
+      "command": "/tmp/kani3300-d0-ci-tools/actionlint -shellcheck= -pyflakes= /root/kani-ch8-s1k-w13/.github/workflows/ch8-s1.yml",
+      "note": "Actionlint checks YAML, expressions and action usage; external shellcheck/pyflakes disabled."
+    },
+    "actual_committed_control_binding": "PASS; exact GitHub env for candidate; single parent tool0aac, clean tracked files, manifest hashes and only-workflow inventory",
+    "read_only_source_check": "PASS; runner.py check-source against sibling /root/verify-rust-std-ch8-s1-w13 and /root/kani-upstream-ch8-s1; clean exact std/tool SHAs and trees and changed-file hashes",
+    "manifest_sha256_check": "PASS; all 8 entries",
+    "batch_identity": "PASS; 4 source files byte-identical and complete literal 23-row section byte-identical; all other non-host fields unchanged",
+    "git_diff_check": "PASS for control candidate vs tool parent",
+    "review_packet_integrity": "PASS; PACKET_VALID_NOT_REVIEWED is packet integrity only, decision is in REVIEW.md",
+    "independent_review": {
+      "result": "APPROVED_PREPARATION_ONLY",
+      "reviewer": "GPT-6 Luna HIGH; separate context; no nested delegation",
+      "candidate": "36db70978a16144624abf94d480a593dae684451",
+      "report": "REVIEW.md",
+      "report_sha256": "88e4cb15928f2264774c222b25860edc1ec4fa43029f1ac4c29a0ab75a2961f7",
+      "findings": "No migration-scope blockers",
+      "proof_credit": "NONE",
+      "dispatch_authorization": false
+    },
+    "g0_diff_check": {
+      "result": "INHERITED_WHITESPACE_IN_EXACT_REVIEW_PACKET",
+      "locations": [
+        "review-packet/diff.patch:103",
+        "review-packet/diff.patch:130"
+      ],
+      "reason": "Exact generated review diff contains removed upstream bench-compiler.yml lines with trailing whitespace; packet bytes are preserved for inventory identity. No control candidate whitespace errors."
+    }
+  },
+  "execution": {
+    "cargo_rustc_kani_cbmc": "NOT_RUN",
+    "push_ci_publication_ledger": "NOT_RUN",
+    "proof_rows": "NOT_RUN",
+    "proof_credit": "NONE"
+  }
+}
