@@ -1,15 +1,21 @@
 # Slice 02 IMMUTABLE — exact-head CI request
 
-**READY_LOCAL_ONLY for coordinator.** Overlay `83550218ea0dc6df4b5dbf78dcbf244a56645c2f`,
-tree `e69afc2eafcaced852c61dead92e5212303cb9c9`, exact parent/source
-`b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12`, source tree `03e33b5a3a8b3aa1fd5505467bbe869d1001b44e`.
+**READY_LOCAL_ONLY for coordinator.** Overlay `536f1d20d127987cdd860bc6367acc9fff90c5cb`,
+tree `c0deb64a1f926785bc44688c4e74051468471dd3`, exact parent/source
+`932fb8395a58f8c86c0d702ba2cae835823b2962`, source tree `2c4d5ad4b72a7d07059f1461132a58da03f81ef9`.
 Source parent `d82752c8bc878398e672bffaa631ca6a28430acc` is the accepted slice1 from run43696666260;
 its parent remains B1 `6fe484b30043b3696b5f1ccc4bea0e42891ad012`. No rebase or source delta.
 
-Worktree `/root/kani-fix-3300-c2-slices-w15`, branch `uninit-ci/c2-slices-02-w15`.
-Input g0 `ff3ce29e4f6694f28b0d6fcf025e70cfeae8f378`. Source review:
+Worktree `/root/kani-fix-3300-c2-slices-w15`, branch `uninit-ci/c2-slices-02-w15-r2`.
+Input g0 `64b0170ee278dcbd31528dbc8c74f7d1352c8a7a`. Source review:
 [worker15 PASS_STATIC_ONLY](../../reviews/slice-02.md). Push/dispatch belong to the coordinator;
 no local Rust build, CI invocation or publication has occurred. Cloud $0; CI run NOT_RUN.
+
+This replaces superseded overlay `83550218ea0dc6df4b5dbf78dcbf244a56645c2f` on b0a5a4fff9.
+Coordinator reports run43699468860 failed E0726; no raw logs read. Revised source changes only
+`impl MirVisitor for InitialTargetVisitor` → `impl MirVisitor for InitialTargetVisitor<'_>`.
+[COMPILE-SEAMS](../../slice-02/COMPILE-SEAMS.md) and the correction review cover the compile seam;
+this replacement has no new native CI result. Runner/workflow and all317 selectors are unchanged.
 
 ## Recipe and commands
 
@@ -78,7 +84,7 @@ F7 structural isolation, all-SmallSort verification or formal proof credit.
 
 ## Local validation
 
-[STATIC-VALIDATION.json](STATIC-VALIDATION.json):52 owner parts/hashes and exact extraction PASS;
+[STATIC-VALIDATION.json](STATIC-VALIDATION.json):54 owner parts/hashes and exact extraction PASS;
 all source/golden/manifest identities and inherited selections checked; protected future scopes unchanged;
 Python AST/YAML and git diff --check PASS;19/19 Python synthetic runner checks PASS, including exact9 immutable,
 error/timeout/partial/missing/NOT_RUN and source mismatch paths. [overlay.patch](overlay.patch) pins the CI delta.

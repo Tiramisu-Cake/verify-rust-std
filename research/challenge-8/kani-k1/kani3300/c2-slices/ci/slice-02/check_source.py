@@ -6,11 +6,13 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import sys
+sys.dont_write_bytecode = True
 
 HERE = Path(__file__).resolve().parent
 PACKET = HERE.parent.parent
 REPO = Path('/root/kani-fix-3300-c2-slices-w15')
-SOURCE = 'b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12'
+SOURCE = '932fb8395a58f8c86c0d702ba2cae835823b2962'
 PARENT = 'd82752c8bc878398e672bffaa631ca6a28430acc'
 F = 'ad499e41dd2db9ccd432f89721638a1f3a0bbd44'
 B1 = '6fe484b30043b3696b5f1ccc4bea0e42891ad012'
@@ -44,7 +46,7 @@ def main():
                       for f in inventory['files'] for h in f['hunks']
                       for i, p in enumerate(h['parts']) if p['owner'] == '2']
     parts = read('slice-02/SOURCE-PARTS.json')['parts']
-    assert parts == expected_parts and len(parts) == 52
+    assert parts == expected_parts and len(parts) == 54
     for p in parts:
         data = blob(F if p['side'] == '+' else B1, p['path']).splitlines(keepends=True)
         assert sha(b''.join(data[p['start'] - 1:p['start'] - 1 + p['count']])) == p['sha256']

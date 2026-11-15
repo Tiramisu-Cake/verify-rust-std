@@ -69,3 +69,30 @@ Historical F acceptances do not qualify this intermediate head. No Gate A, struc
 SmallSort or formal proof credit. Coordinator must review reached assertions/negatives and native outputs;
 aggregate exit0 does not close deferred obligations. Ordinary regression, false SUCCESS, extra Unsupported,
 lost assertions, identity mismatch or missing/partial execution remains STOP.
+
+## Correction review — revised head 932fb8395a (2026-11-15)
+
+**Current verdict: PASS_STATIC_ONLY, fresh exact-head CI required.** New source
+`932fb8395a58f8c86c0d702ba2cae835823b2962`, tree `2c4d5ad4b72a7d07059f1461132a58da03f81ef9`,
+same accepted parent d82752c8bc. Coordinator reports run43699468860 failed E0726 on the superseded
+b0a5a4fff9/83550218 overlay. That native failure invalidates the old candidate's readiness; the original
+static review above missed the compile seam and remains historical. No raw CI logs were read.
+
+Exact old→new source diff is one line only: `impl MirVisitor for InitialTargetVisitor` becomes
+`impl MirVisitor for InitialTargetVisitor<'_>`. It pairs the trait impl with the existing lifetime-bearing
+struct/inherent impl; matches exact F. No body, behavior, fixture, flag, golden or later-slice/F7 code changes.
+Canonical source-map now assigns both impl-header replacement parts to2 and the adjacent raw_eq comment
+to3:54 owner2 parts, all hashes/coverage checked. The cumulative manifest remains317 selectors +9 ActiveCalls
++9 immutable units;16 owner2 and11 later-consumer deferred obligations remain unchanged and PENDING.
+
+[COMPILE-SEAMS](../slice-02/COMPILE-SEAMS.md) reviewed for bounded coverage: inventories cover all21
+changed Rust files on2, complete current imports/impls, changed declarations, generic impl consumers
+throughout the compiler and explicitly bound cross-file API calls; inherited1 interfaces are also covered.
+Report paths/hashes and call contracts match the exact revised head. The old-head regression report detects
+the missing explicit lifetime. No further missing prerequisite found in this bounded review. Token inventory,
+arity and reference agreement are not name resolution, borrow/trait checking or compile PASS; those limits
+are stated honestly. Original analysis integration PENDING4/5 is preserved.
+
+Replacement overlay/request supersedes only the old preparation: see [current CI-REQUEST](../ci/slice-02/CI-REQUEST.md).
+19/19 Python synthetic runner checks PASS. Local Rust builds and new native CI/push/dispatch remain NOT_RUN;
+new run acceptance belongs to the coordinator.

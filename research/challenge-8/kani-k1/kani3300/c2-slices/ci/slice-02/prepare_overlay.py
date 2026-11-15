@@ -8,7 +8,7 @@ import subprocess
 HERE = Path(__file__).resolve().parent
 PACKET = HERE.parent.parent
 WORKTREE = Path('/root/kani-fix-3300-c2-slices-w15')
-SOURCE = 'b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12'
+SOURCE = '932fb8395a58f8c86c0d702ba2cae835823b2962'
 RECIPE = '4f5dc3732c8fbaa94c814c41d184534148a1d312'
 
 
@@ -24,7 +24,7 @@ def main():
     config = json.loads(git('show', RECIPE + ':.github/c2-slices/inputs.json'))
     config.update(source_sha=SOURCE, source_tree=source_slice['source_tree'],
                   source_parent=source_slice['base_sha'],
-                  g0_input='ff3ce29e4f6694f28b0d6fcf025e70cfeae8f378',
+                  g0_input='64b0170ee278dcbd31528dbc8c74f7d1352c8a7a',
                   test_manifest_sha256=hashlib.sha256(manifest).hexdigest(),
                   qualification_kind=source_slice['qualification_kind'],
                   integration_status='PENDING', integration_heads=[3, 4, 5],

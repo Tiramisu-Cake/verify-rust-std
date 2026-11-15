@@ -2,10 +2,10 @@
   "status": "PASS_STATIC_AND_SYNTHETIC_ONLY",
   "source_review_checks": {
     "status": "PASS_STATIC_ONLY",
-    "source_sha": "b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12",
-    "source_tree": "03e33b5a3a8b3aa1fd5505467bbe869d1001b44e",
+    "source_sha": "932fb8395a58f8c86c0d702ba2cae835823b2962",
+    "source_tree": "2c4d5ad4b72a7d07059f1461132a58da03f81ef9",
     "parent": "d82752c8bc878398e672bffaa631ca6a28430acc",
-    "owner2_parts": 52,
+    "owner2_parts": 54,
     "changed_files": 29,
     "selected_fixtures": 6,
     "deferred_owner2": 16,
@@ -15,9 +15,9 @@
     "source_mutations": "NONE",
     "native_build_units_verifier_CI": "NOT_RUN"
   },
-  "overlay_sha": "83550218ea0dc6df4b5dbf78dcbf244a56645c2f",
-  "overlay_tree": "e69afc2eafcaced852c61dead92e5212303cb9c9",
-  "overlay_parent": "b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12",
+  "overlay_sha": "536f1d20d127987cdd860bc6367acc9fff90c5cb",
+  "overlay_tree": "c0deb64a1f926785bc44688c4e74051468471dd3",
+  "overlay_parent": "932fb8395a58f8c86c0d702ba2cae835823b2962",
   "protected_source_entries": 3892,
   "local_before_after_snapshots": "CLEAN_IDENTICAL_NO_PROBLEMS",
   "synthetic_runner_checks": {
@@ -25,9 +25,9 @@
     "failed": 0,
     "scope": "success, original error/exit, timeout, launch error, partial/missing/null/wrong-type, NOT_RUN, wrong names/counts/ignores, source-stage-target mismatch, untracked source, immutable exact9, workflow/manifest hashes"
   },
-  "development_check_correction": "Initial added assertion used argv index5 instead of4; test-only correction, final19/19 pass; overlay unchanged.",
+  "development_check_correction": "Historical test-only argv index correction retained; revised overlay runner/workflow byte-identical to83550218, final19/19 Python checks pass.",
   "static_checks": [
-    "source owner52 hashes; all and only accepted parts/adaptations",
+    "source owner54 hashes; all and only accepted parts/adaptations",
     "all inherited311 selectors retained exactly; six added",
     "all existing tests/flags/goldens unchanged",
     "six fixture pairs exact F; owner2 deferred16 and later consumers11 tracked",
@@ -39,5 +39,25 @@
   "native_fmt_rust_parse_build_clippy_units_compiletest_verifier_CI_push": "NOT_RUN",
   "formal_proof_credit": "NOT_ESTABLISHED",
   "cloud_spend": 0,
-  "g0_packet_whitespace_note": "git diff --cached --check excludes the byte-exact overlay.patch: its deleted upstream bench-compiler.yml lines contain two pre-existing trailing spaces (patch lines10945,10972). Source/overlay diffs and all remaining packet files pass normal whitespace checks; patch is intentionally not rewritten."
+  "g0_packet_whitespace_note": "git diff --cached --check excludes the byte-exact overlay.patch: its deleted upstream bench-compiler.yml lines contain two pre-existing trailing spaces (patch lines10945,10972). Source/overlay diffs and all remaining packet files pass normal whitespace checks; patch is intentionally not rewritten.",
+  "revision": {
+    "g0_input": "64b0170ee278dcbd31528dbc8c74f7d1352c8a7a",
+    "source_delta": "One impl header only, explicit lifetime",
+    "superseded_attempt": {
+      "source_sha": "b0a5a4fff9122ae4dabcc9808568c0d15fbe9b12",
+      "overlay_sha": "83550218ea0dc6df4b5dbf78dcbf244a56645c2f",
+      "run": "43699468860",
+      "outcome": "E0726_COMPILE_FAILURE",
+      "assurance": "COORDINATOR_REPORTED; no raw logs read",
+      "correction": "Only MirVisitor impl target gains explicit anonymous lifetime; all body/test/oracle bytes unchanged."
+    },
+    "compile_seams_sha256": "d2d57d8969377507144e1fe8bf1129ea678b93177144d88337bf08f5ffa1be3e",
+    "fresh_seam_audit": {
+      "status": "PASS_BOUNDED_STATIC_SEAM_AUDIT",
+      "result": "All fields reproduced from author SEAM-AUDIT-02 at exact932fb8395a;21 changed Rust files/hashes covered",
+      "report_ref": "../../slice-02/SEAM-AUDIT-02.json",
+      "report_sha256": "d86e47f4a1388adb1e28b710f86c0f021fc7d53c23a0e12dc4eabcfd523ba421",
+      "native_build": "NOT_RUN"
+    }
+  }
 }
