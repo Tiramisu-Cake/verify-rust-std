@@ -1,0 +1,3641 @@
+diff --git a/kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs b/kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs
+index aa65b0fbeb1912f7234d79f33e8cdf405137a0f3..cead741d8618551828063ed46c310c1f10f740b0 100644
+--- a/kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs
++++ b/kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs
+@@ -69,0 +70,3 @@ fn codegen_items(
++        // This backend owns its transformer, but delayed writes use the same
++        // scoped API as goto codegen, including the PubFns path.
++        let mut transformer = transformer.delayed_scope();
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs b/kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs
+index 98b1bb60a6f33fe65321f3fb6e4f67bed70e47a5..d9b965359021853ab94e905209a41b40d40549ef 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs
+@@ -94,0 +95 @@ pub fn codegen_const(&mut self, constant: &MirConst, loc: Location) -> Expr {
++        self.observe_immutable_origins(constant);
+@@ -338,0 +340 @@ fn codegen_const_ptr(
++                    self.bind_immutable_allocation(prov.0, &data, &mem_var);
+@@ -381 +383,3 @@ fn codegen_const_ptr(
+-                        self.codegen_const_allocation(&data, None, loc, false)
++                        let address = self.codegen_const_allocation(&data, None, loc, false);
++                        self.bind_immutable_allocation(prov.0, &data, &address);
++                        address
+@@ -460 +464,3 @@ fn codegen_alloc_pointer(
+-                    self.codegen_nested_static_allocation(&alloc, Some(name), loc)
++                    let address = self.codegen_nested_static_allocation(&alloc, Some(name), loc);
++                    self.bind_immutable_allocation(alloc_id, &alloc, &address);
++                    address
+@@ -470 +476,3 @@ fn codegen_alloc_pointer(
+-                self.codegen_const_allocation(&alloc, Some(name), loc, false)
++                let address = self.codegen_const_allocation(&alloc, Some(name), loc, false);
++                self.bind_immutable_allocation(alloc_id, &alloc, &address);
++                address
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs b/kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs
+index fa74a01b24b7316cad234662fd54868bb1a0dab2..5916a46bb4f4caafd53b9823c12ae7d61f6d0bf5 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs
+@@ -23 +23 @@ pub fn codegen_static(&mut self, def: StaticDef) {
+-            alloc,
++            alloc.clone(),
+@@ -28,0 +29 @@ pub fn codegen_static(&mut self, def: StaticDef) {
++        self.register_immutable_static(def, &alloc);
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+index 9c65098f23434fdb9fd4f1e803c452759e0df124..3461ada461b9d0f123f22d25274b000a7a789559 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs
+@@ -91,0 +92,5 @@ fn codegen_items<'tcx>(
++        // Restore only after reachability, codegen, and contract/model emission.
++        // Export workers receive owned, materialized symbols rather than MIR.
++        let mut delayed_scope = transformer.delayed_scope();
++        let transformer = &mut *delayed_scope;
++
+@@ -139,0 +145 @@ fn codegen_items<'tcx>(
++        gcx.prepare_immutable_allocations(&items);
+@@ -195,0 +202,9 @@ fn codegen_items<'tcx>(
++        // Post-pass: inline remaining function calls in quantifier bodies.
++        // build_quantifier_predicate handles checked arithmetic (StatementExpression
++        // flattening, overflow simplification), but user-defined function calls
++        // (e.g., comp(x, y)) require this post-pass because the called functions
++        // may not be in the symbol table when the quantifier hook runs.
++        gcx.handle_quantifiers();
++
++        gcx.finalize_immutable_allocations();
++
+@@ -211,7 +225,0 @@ fn codegen_items<'tcx>(
+-        // Post-pass: inline remaining function calls in quantifier bodies.
+-        // build_quantifier_predicate handles checked arithmetic (StatementExpression
+-        // flattening, overflow simplification), but user-defined function calls
+-        // (e.g., comp(x, y)) require this post-pass because the called functions
+-        // may not be in the symbol table when the quantifier hook runs.
+-        gcx.handle_quantifiers();
+-
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs b/kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs
+index fd44d0801fe6a6d976f7ea26a36fe2156e1cd8da..001e482a3653dff92c4c5bc1b5682e3c7c797d63 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs
+@@ -79,0 +80 @@ pub struct GotocCtx<'tcx, 'r> {
++    pub immutable_allocations: super::immutable_allocations::ImmutableAllocations,
+@@ -131,0 +133 @@ pub fn new(
++            immutable_allocations: Default::default(),
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs b/kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..779ba7a4666f62a75c75f186c8f7ce53ea71b587
+--- /dev/null
++++ b/kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs
+@@ -0,0 +1,599 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++//! Immutable byte masks belong to one GotocCtx/exported model. They are applied once, at each
++//! reset completion, never when a pointer is used or when a transfer has moved the witness.
++
++use super::GotocCtx;
++use crate::args::ExtraChecks;
++use crate::kani_middle::anonymous_allocations::{
++    AnonymousOrigin, anonymous_origins, target_matches,
++};
++use crate::kani_middle::kani_functions::KaniModel;
++use cbmc::InternedString;
++use cbmc::goto_program::{
++    DatatypeComponent, Expr, Location, Stmt, StmtBody, SwitchCase, SymbolValues, Type,
++};
++use rustc_middle::ty::TypingEnv;
++use rustc_public::mir::{
++    ConstOperand, MirVisitor, Mutability,
++    alloc::AllocId,
++    mono::{Instance, MonoItem, StaticDef},
++    visit::Location as MirLocation,
++};
++use rustc_public::rustc_internal;
++use rustc_public::ty::{Allocation, GenericArgs, MirConst};
++use std::collections::{BTreeMap, HashMap};
++
++#[derive(Clone, Debug, PartialEq, Eq)]
++struct Descriptor {
++    allocation: Allocation,
++    mask: Vec<bool>,
++    frozen: bool,
++    /// One byte array, field zero at offset zero, with no implicit/tail padding.
++    layout: Vec<(u64, u64)>,
++}
++
++#[derive(Default)]
++pub struct ImmutableAllocations {
++    origins: HashMap<AllocId, Vec<AnonymousOrigin>>,
++    bindings: HashMap<AllocId, InternedString>,
++    allocations: HashMap<AllocId, Allocation>,
++    symbols: BTreeMap<InternedString, Descriptor>,
++    /// Named statics retain their declared backend type rather than anonymous byte storage.
++    statics: BTreeMap<InternedString, (Allocation, Type)>,
++    sealed: bool,
++}
++
++impl Descriptor {
++    fn new(allocation: Allocation, frozen: bool) -> Self {
++        Self {
++            mask: allocation.bytes.iter().map(Option::is_some).collect(),
++            layout: vec![(0, allocation.bytes.len() as u64)],
++            allocation,
++            frozen,
++        }
++    }
++
++    fn admitted(&self) -> bool {
++        self.frozen
++            && self.allocation.mutability == Mutability::Not
++            && self.allocation.provenance.ptrs.is_empty()
++    }
++
++    /// Qualification can differ between keys for one exact emitted object.
++    fn compatible(&self, other: &Self) -> bool {
++        self.allocation == other.allocation
++            && self.mask == other.mask
++            && self.layout == other.layout
++    }
++}
++
++impl ImmutableAllocations {
++    /// Compatible aliases share exact storage and combine only proven origin qualification.
++    /// A conflicting descriptor never changes the first descriptor or its qualification.
++    fn register(
++        &mut self,
++        symbol: InternedString,
++        descriptor: Descriptor,
++    ) -> Result<(), Descriptor> {
++        if let Some(previous) = self.symbols.get_mut(&symbol) {
++            if previous.compatible(&descriptor) {
++                previous.frozen |= descriptor.frozen;
++            } else if previous.admitted() || descriptor.admitted() {
++                return Err(previous.clone());
++            }
++        } else {
++            self.symbols.insert(symbol, descriptor);
++        }
++        Ok(())
++    }
++}
++
++impl GotocCtx<'_, '_> {
++    pub fn observe_immutable_origins(&mut self, constant: &MirConst) {
++        if !self.queries.args().ub_check.contains(&ExtraChecks::Uninit) {
++            return;
++        }
++        assert!(
++            !self.immutable_allocations.sealed,
++            "anonymous allocation after immutable registry seal"
++        );
++        for origin in anonymous_origins(self.tcx, constant) {
++            let origins = self.immutable_allocations.origins.entry(origin.key).or_default();
++            if !origins.contains(&origin) {
++                origins.push(origin);
++            }
++        }
++    }
++
++    /// Register only a whole, immutable, relocation-free initializer after static emission.
++    /// Its Option bytes are the source mask, even when emission physically filled holes with zero.
++    pub fn register_immutable_static(&mut self, def: StaticDef, allocation: &Allocation) {
++        if !self.queries.args().ub_check.contains(&ExtraChecks::Uninit) {
++            return;
++        }
++        assert!(!self.immutable_allocations.sealed, "static after immutable registry seal");
++        let ty = def.ty();
++        let internal = rustc_internal::internal(self.tcx, ty);
++        if allocation.mutability != Mutability::Not
++            || !allocation.provenance.ptrs.is_empty()
++            || !crate::kani_middle::transform::immutable_origin_type_supported(self.tcx, ty)
++            || !internal.is_freeze(self.tcx, TypingEnv::fully_monomorphized())
++            || !ty.layout().ok().is_some_and(|layout| {
++                layout.shape().is_sized() && layout.shape().size.bytes() == allocation.bytes.len()
++            })
++        {
++            return;
++        }
++        let name = Instance::from(def).mangled_name();
++        let expected_ty = self.codegen_ty_stable(ty);
++        let symbol = self.symbol_table.lookup(&name).unwrap();
++        if symbol.typ != expected_ty
++            || !symbol.is_static_lifetime
++            || !symbol.is_static_const
++            || symbol.is_extern
++            || symbol.is_thread_local
++        {
++            return;
++        }
++        let origin = (allocation.clone(), expected_ty);
++        if let Some(previous) =
++            self.immutable_allocations.statics.insert(name.clone().into(), origin.clone())
++            && previous != origin
++        {
++            self.tcx.dcx().fatal(format!("immutable static {name} changed during emission"));
++        }
++    }
++
++    /// Collect typed origins before emission order can erase a reference type. The original
++    /// monomorphic bodies supply source provenance; this does not change the shared body cache.
++    pub fn prepare_immutable_allocations(&mut self, items: &[MonoItem]) {
++        if !self.queries.args().ub_check.contains(&ExtraChecks::Uninit) {
++            return;
++        }
++        for item in items {
++            let instance = match item {
++                MonoItem::Fn(instance) => *instance,
++                MonoItem::Static(def) => Instance::from(*def),
++                MonoItem::GlobalAsm(_) => continue,
++            };
++            if let Some(body) = crate::kani_middle::checked_body(self.tcx, instance) {
++                // Use a small collector without retaining any body/cache state in the registry.
++                let mut constants = ConstantCollector::default();
++                constants.visit_body(&body);
++                for constant in constants.0 {
++                    self.observe_immutable_origins(&constant);
++                }
++            }
++        }
++    }
++
++    /// Called on insertion AND reuse, with the address actually returned by alloc_map. The key
++    /// is deliberately separate from Allocation equality (including Option bytes before zero fill).
++    pub fn bind_immutable_allocation(
++        &mut self,
++        key: AllocId,
++        allocation: &Allocation,
++        address: &Expr,
++    ) {
++        if !self.queries.args().ub_check.contains(&ExtraChecks::Uninit) {
++            return;
++        }
++        if self.immutable_allocations.sealed {
++            self.tcx
++                .dcx()
++                .fatal(format!("immutable allocation {key:?} materialized after model seal"));
++        }
++        let cbmc::goto_program::ExprValue::AddressOf(object) = address.value() else {
++            self.tcx
++                .dcx()
++                .fatal(format!("anonymous allocation {key:?} has no direct symbol address"));
++        };
++        let cbmc::goto_program::ExprValue::Symbol { identifier: symbol } = object.value() else {
++            self.tcx.dcx().fatal(format!("anonymous allocation {key:?} has no canonical symbol"));
++        };
++        if let Some(previous) = self.immutable_allocations.bindings.insert(key, *symbol)
++            && previous != *symbol
++        {
++            self.tcx
++                .dcx()
++                .fatal(format!("anonymous allocation {key:?} rebound from {previous} to {symbol}"));
++        }
++        if let Some(previous) = self.immutable_allocations.allocations.get(&key) {
++            if previous != allocation {
++                self.tcx.dcx().fatal(format!(
++                    "anonymous allocation {key:?} descriptor changed during emission"
++                ));
++            }
++        } else {
++            self.immutable_allocations.allocations.insert(key, allocation.clone());
++        }
++    }
++
++    /// Seal only after every producer/contract/quantifier pass and before metadata snapshots/export.
++    pub fn finalize_immutable_allocations(&mut self) {
++        if !self.queries.args().ub_check.contains(&ExtraChecks::Uninit) {
++            return;
++        }
++        self.immutable_allocations.sealed = true;
++        // Qualify only after closure: typed origins can be discovered after a coalesced symbol
++        // was first requested through an erased view. Rebuild from every requested key and compare
++        // exact storage before combining qualification, so aliases alone cannot create a seed.
++        let bindings: Vec<_> = self
++            .immutable_allocations
++            .bindings
++            .iter()
++            .map(|(key, symbol)| (*key, *symbol))
++            .collect();
++        for (symbol, (allocation, _)) in self.immutable_allocations.statics.clone() {
++            if self
++                .immutable_allocations
++                .register(symbol, Descriptor::new(allocation, true))
++                .is_err()
++            {
++                self.tcx.dcx().fatal(format!("conflicting immutable static descriptor: {symbol}"));
++            }
++        }
++        for (key, symbol) in bindings {
++            let allocation = self.immutable_allocations.allocations[&key].clone();
++            let source = self.immutable_allocations.origins.get(&key).and_then(|origins| {
++                origins.iter().find(|o| o.allocation == allocation && o.frozen_origin.is_some())
++            });
++            // An anonymous cache hit can reuse named storage. Qualification belongs to the
++            // exact allocation, not the alias that happened to request its address first.
++            let static_source = self
++                .immutable_allocations
++                .statics
++                .get(&symbol)
++                .is_some_and(|(original, _)| original == &allocation);
++            let descriptor = Descriptor::new(allocation, source.is_some() || static_source);
++            if let Some(source) = source {
++                assert_eq!(descriptor.mask, source.mask, "source mask changed during emission");
++            }
++            if let Err(previous) = self.immutable_allocations.register(symbol, descriptor.clone()) {
++                let first_byte = previous
++                    .allocation
++                    .bytes
++                    .iter()
++                    .zip(&descriptor.allocation.bytes)
++                    .position(|(a, b)| a != b);
++                self.tcx.dcx().fatal(format!("conflicting immutable descriptors: symbol {symbol}, requested {key:?}, lengths {} / {}, first byte difference {first_byte:?}, mutability {:?} / {:?}, freeze {} / {}, relocation counts {} / {}, layouts {:?} / {:?}", previous.mask.len(), descriptor.mask.len(), previous.allocation.mutability, descriptor.allocation.mutability, previous.frozen, descriptor.frozen, previous.allocation.provenance.ptrs.len(), descriptor.allocation.provenance.ptrs.len(), previous.layout, descriptor.layout));
++            }
++        }
++        let model = self.symbol_table.machine_model();
++        if !target_matches(model.pointer_width, model.is_big_endian) {
++            self.tcx.dcx().fatal("immutable masks: rustc/backend target disagreement");
++        }
++        let seeds: Vec<_> = self
++            .immutable_allocations
++            .symbols
++            .iter()
++            .filter(|(_, d)| d.admitted() && !d.mask.is_empty())
++            .map(|(symbol, descriptor)| (*symbol, descriptor.clone()))
++            .collect();
++        if seeds.is_empty() {
++            return;
++        }
++
++        let reset_def = *self
++            .queries
++            .kani_functions()
++            .get(&KaniModel::InitializeMemoryInitializationState.into())
++            .unwrap_or_else(|| self.tcx.dcx().fatal("immutable masks: missing reset marker"));
++        let reset = Instance::resolve(reset_def, &GenericArgs(vec![]))
++            .unwrap_or_else(|_| self.tcx.dcx().fatal("immutable masks: unresolved reset marker"));
++        let reset_name = reset.mangled_name();
++        let reset_symbol = self.symbol_table.lookup(&reset_name).unwrap_or_else(|| {
++            self.tcx.dcx().fatal("immutable masks: reset is absent from this model")
++        });
++        let SymbolValues::Stmt(body) = &reset_symbol.value else {
++            self.tcx.dcx().fatal("immutable masks: reset has no definition in this model");
++        };
++        let body = body.clone();
++        let mut crates = rustc_public::find_crates("kani");
++        if crates.is_empty() {
++            crates.extend(rustc_public::find_crates("core"));
++        }
++        let states: Vec<_> = crates
++            .into_iter()
++            .flat_map(|krate| krate.statics())
++            .filter(|def| {
++                crate::kani_middle::attributes::fn_marker(*def).as_deref()
++                    == Some("KaniMemoryInitializationState")
++            })
++            .map(|def| Instance::from(def).mangled_name())
++            .filter(|name| self.symbol_table.lookup(name).is_some())
++            .collect();
++        if states.len() != 1 {
++            self.tcx.dcx().fatal("immutable masks: ambiguous/missing private state in this model");
++        }
++        let state = self.symbol_table.lookup(&states[0]).unwrap().to_expr();
++        let object = state.clone().member("tracked_object_id", &self.symbol_table);
++        let offset = state.clone().member("tracked_offset", &self.symbol_table);
++        let value = state.member("value", &self.symbol_table);
++        if object.typ() != &Type::size_t()
++            || offset.typ() != &Type::size_t()
++            || value.typ() != &Type::c_bool()
++        {
++            self.tcx.dcx().fatal("immutable masks: incompatible private state fields");
++        }
++        let mut seed_stmts = vec![];
++        for (name, descriptor) in seeds {
++            let symbol = self.symbol_table.lookup(name).unwrap();
++            let n = descriptor.mask.len();
++            if n as u128
++                > rustc_public::target::MachineInfo::target_pointer_width()
++                    .unsigned_int_max()
++                    .unwrap_or(u128::MAX)
++            {
++                self.tcx
++                    .dcx()
++                    .fatal(format!("immutable masks: extent for {name} exceeds target usize"));
++            }
++            // Anonymous storage is exactly one byte-array field. Named storage keeps its
++            // declared type; it was emitted from this exact relocation-free allocation.
++            let layout_matches = if let Some((allocation, expected_ty)) =
++                self.immutable_allocations.statics.get(&name)
++            {
++                allocation == &descriptor.allocation && symbol.typ == *expected_ty
++            } else if let Type::StructTag(tag) = &symbol.typ {
++                matches!(&self.symbol_table.lookup(*tag).unwrap().typ,
++                    Type::Struct { components, .. }
++                    if *components == vec![DatatypeComponent::field("0", Type::unsigned_int(8).array_of(n))])
++            } else {
++                false
++            };
++            if !layout_matches
++                || descriptor.layout != vec![(0, n as u64)]
++                || symbol.typ.sizeof(&self.symbol_table) != n as u64
++                || !symbol.is_static_lifetime
++                || !symbol.is_static_const
++                || symbol.is_extern
++                || symbol.is_thread_local
++            {
++                self.tcx
++                    .dcx()
++                    .fatal(format!("immutable masks: noncanonical layout/lifetime for {name}"));
++            }
++            let base = symbol.to_expr().address_of();
++            let in_object =
++                object.clone().eq(base.clone().pointer_object().cast_to(object.typ().clone()));
++            let at_base = base.pointer_offset().eq(Expr::int_constant(0, Type::ssize_t()));
++            let in_range = offset.clone().lt(Expr::int_constant(n, offset.typ().clone()));
++            // No addition can overflow, and the index is evaluated only inside 0 <= offset < n.
++            let mask = Expr::array_expr(
++                value.typ().clone().array_of(n),
++                descriptor.mask.into_iter().map(Expr::c_bool_constant).collect(),
++            );
++            let assign = Stmt::assign(value.clone(), mask.index(offset.clone()), Location::none());
++            seed_stmts.push(Stmt::if_then_else(
++                in_object.and(at_base).and(in_range),
++                assign,
++                None,
++                Location::none(),
++            ));
++        }
++        let mut completions = 0;
++        let patched = seed_returns(&body, &seed_stmts, &mut completions);
++        if completions == 0 {
++            self.tcx.dcx().fatal("immutable masks: reset has no normal completion");
++        }
++        self.symbol_table.lookup_mut(reset_name).unwrap().update(SymbolValues::Stmt(patched));
++    }
++}
++
++#[derive(Default)]
++struct ConstantCollector(Vec<MirConst>);
++impl MirVisitor for ConstantCollector {
++    fn visit_const_operand(&mut self, constant: &ConstOperand, _: MirLocation) {
++        self.0.push(constant.const_.clone());
++    }
++}
++
++/// Preserve every original reset instruction and control edge, inserting immediately before each
++/// normal return. Gotos still target the original labels, including a labeled return block.
++fn seed_returns(stmt: &Stmt, seeds: &[Stmt], count: &mut usize) -> Stmt {
++    let loc = *stmt.location();
++    match stmt.body() {
++        StmtBody::Return(_) => {
++            *count += 1;
++            Stmt::block(seeds.iter().cloned().chain([stmt.clone()]).collect(), loc)
++        }
++        StmtBody::Block(stmts) => {
++            Stmt::block(stmts.iter().map(|s| seed_returns(s, seeds, count)).collect(), loc)
++        }
++        StmtBody::Label { label, body } => seed_returns(body, seeds, count).with_label(*label),
++        StmtBody::Ifthenelse { i, t, e } => Stmt::if_then_else(
++            i.clone(),
++            seed_returns(t, seeds, count),
++            e.as_ref().map(|s| seed_returns(s, seeds, count)),
++            loc,
++        ),
++        StmtBody::Switch { control, cases, default } => Stmt::switch(
++            control.clone(),
++            cases
++                .iter()
++                .map(|c| SwitchCase::new(c.case().clone(), seed_returns(c.body(), seeds, count)))
++                .collect(),
++            default.as_ref().map(|s| seed_returns(s, seeds, count)),
++            loc,
++        ),
++        StmtBody::While { cond, body } => {
++            Stmt::while_loop(cond.clone(), seed_returns(body, seeds, count), loc)
++        }
++        StmtBody::For { init, cond, update, body } => Stmt::for_loop(
++            seed_returns(init, seeds, count),
++            cond.clone(),
++            seed_returns(update, seeds, count),
++            seed_returns(body, seeds, count),
++            loc,
++        ),
++        StmtBody::AtomicBlock(_) => panic!("immutable masks: unexpected atomic reset body"),
++        _ => stmt.clone(),
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++    use rustc_public::ty::ProvenanceMap;
++
++    fn descriptor(bytes: Vec<Option<u8>>, mutability: Mutability, frozen: bool) -> Descriptor {
++        Descriptor::new(
++            Allocation { bytes, provenance: ProvenanceMap { ptrs: vec![] }, align: 1, mutability },
++            frozen,
++        )
++    }
++
++    #[test]
++    fn zero_is_initialized_hole_is_not() {
++        let d = descriptor(vec![Some(0), None, Some(0)], Mutability::Not, true);
++        assert_eq!(d.mask, [true, false, true]);
++        assert!(d.admitted());
++    }
++
++    #[test]
++    fn compatible_reuse_and_conflict_preserve_first_descriptor() {
++        let mut registry = ImmutableAllocations::default();
++        let symbol = "immutable-mask-unit-test".into();
++        let original = descriptor(vec![Some(0), None], Mutability::Not, true);
++        assert!(registry.register(symbol, original.clone()).is_ok());
++        assert!(registry.register(symbol, original.clone()).is_ok());
++        assert_eq!(registry.symbols.len(), 1);
++        let conflict = descriptor(vec![None, Some(0)], Mutability::Not, true);
++        assert!(registry.register(symbol, conflict).is_err());
++        assert_eq!(registry.symbols[&symbol], original);
++    }
++
++    #[test]
++    fn compatible_aliases_combine_qualification_in_either_order() {
++        for qualifications in [[false, true], [true, false], [true, true], [false, false]] {
++            let mut registry = ImmutableAllocations::default();
++            let symbol = "coalesced-immutable-mask".into();
++            for frozen in qualifications {
++                let alias = descriptor(vec![Some(0), None], Mutability::Not, frozen);
++                assert!(registry.register(symbol, alias.clone()).is_ok());
++                assert!(registry.register(symbol, alias).is_ok());
++            }
++            let qualified = qualifications.into_iter().any(|frozen| frozen);
++            let expected = descriptor(vec![Some(0), None], Mutability::Not, qualified);
++            assert_eq!(registry.symbols.len(), 1);
++            assert_eq!(registry.symbols[&symbol], expected);
++            assert_eq!(registry.symbols[&symbol].mask, [true, false]);
++            assert_eq!(registry.symbols[&symbol].admitted(), qualified);
++        }
++    }
++
++    #[test]
++    fn incompatible_storage_never_overwrites_or_combines_qualification() {
++        let original = descriptor(vec![Some(0), None], Mutability::Not, false);
++        let mut conflicts = vec![
++            descriptor(vec![Some(1), None], Mutability::Not, false),
++            descriptor(vec![Some(0), Some(0)], Mutability::Not, false),
++            descriptor(vec![Some(0), None, None], Mutability::Not, false),
++        ];
++        // Isolate each compatibility field, including Option bytes before physical zero fill.
++        let mut option_bytes = original.clone();
++        option_bytes.allocation.bytes[1] = Some(0);
++        conflicts.push(option_bytes);
++        let mut mask = original.clone();
++        mask.mask[1] = true;
++        conflicts.push(mask);
++        let mut layout = original.clone();
++        layout.layout = vec![(1, 2)];
++        conflicts.push(layout);
++        let mut mutable = original.clone();
++        mutable.allocation.mutability = Mutability::Mut;
++        conflicts.push(mutable);
++        let mut alignment = original.clone();
++        alignment.allocation.align = 2;
++        conflicts.push(alignment);
++
++        for conflict in conflicts {
++            assert_ne!(original, conflict);
++            for qualifications in [[false, true], [true, false], [true, true], [false, false]] {
++                let mut registry = ImmutableAllocations::default();
++                let symbol = "conflicting-immutable-mask".into();
++                let mut first = original.clone();
++                first.frozen = qualifications[0];
++                let mut next = conflict.clone();
++                next.frozen = qualifications[1];
++                assert!(registry.register(symbol, first.clone()).is_ok());
++                let expected =
++                    if first.admitted() || next.admitted() { Err(first.clone()) } else { Ok(()) };
++                assert_eq!(registry.register(symbol, next), expected);
++                assert_eq!(registry.symbols.len(), 1);
++                assert_eq!(registry.symbols[&symbol], first);
++            }
++        }
++    }
++
++    #[test]
++    fn unqualified_conflict_keeps_existing_policy() {
++        let mut registry = ImmutableAllocations::default();
++        let symbol = "unqualified-immutable-mask".into();
++        let first = descriptor(vec![Some(0), None], Mutability::Not, false);
++        let conflict = descriptor(vec![None, Some(0)], Mutability::Not, false);
++        assert!(registry.register(symbol, first.clone()).is_ok());
++        assert!(registry.register(symbol, conflict).is_ok());
++        assert_eq!(registry.symbols[&symbol], first);
++        assert!(!registry.symbols[&symbol].admitted());
++    }
++
++    #[test]
++    fn compatible_mutable_aliases_remain_unadmitted() {
++        let mut registry = ImmutableAllocations::default();
++        let symbol = "mutable-mask".into();
++        for frozen in [false, true] {
++            assert!(
++                registry
++                    .register(symbol, descriptor(vec![Some(0)], Mutability::Mut, frozen))
++                    .is_ok()
++            );
++        }
++        assert!(registry.symbols[&symbol].frozen);
++        assert!(!registry.symbols[&symbol].admitted());
++    }
++
++    #[test]
++    fn mutable_or_unqualified_is_not_admitted() {
++        assert!(!descriptor(vec![Some(0)], Mutability::Mut, true).admitted());
++        assert!(!descriptor(vec![Some(0)], Mutability::Not, false).admitted());
++    }
++
++    #[test]
++    fn seed_preserves_labeled_reset_completion_and_original_edges() {
++        let loc = Location::none();
++        let original_reset =
++            Stmt::assign(Expr::symbol_expression("state", Type::c_bool()), Expr::c_false(), loc);
++        let seed =
++            Stmt::assign(Expr::symbol_expression("state", Type::c_bool()), Expr::c_true(), loc);
++        let body = Stmt::block(
++            vec![original_reset, Stmt::goto("done", loc), Stmt::ret(None, loc).with_label("done")],
++            loc,
++        );
++        let mut count = 0;
++        let patched = seed_returns(&body, &[seed], &mut count);
++        assert_eq!(count, 1);
++        let StmtBody::Block(stmts) = patched.body() else { panic!("missing reset block") };
++        assert!(
++            matches!(stmts[0].body(), StmtBody::Assign { rhs, .. } if matches!(rhs.value(), cbmc::goto_program::ExprValue::CBoolConstant(false)))
++        );
++        assert!(matches!(stmts[1].body(), StmtBody::Goto { dest, .. } if *dest == "done"));
++        let StmtBody::Label { label, body } = stmts[2].body() else { panic!("lost return label") };
++        assert_eq!(*label, "done");
++        let StmtBody::Block(completion) = body.body() else { panic!("missing completion block") };
++        assert!(
++            matches!(completion[0].body(), StmtBody::Assign { rhs, .. } if matches!(rhs.value(), cbmc::goto_program::ExprValue::CBoolConstant(true)))
++        );
++        assert!(matches!(completion[1].body(), StmtBody::Return(None)));
++    }
++
++    #[test]
++    fn empty_mask_has_no_seed_index_or_object_query() {
++        let d = descriptor(vec![], Mutability::Not, true);
++        assert!(d.admitted());
++        assert!(d.mask.is_empty());
++    }
++}
+diff --git a/kani-compiler/src/codegen_cprover_gotoc/context/mod.rs b/kani-compiler/src/codegen_cprover_gotoc/context/mod.rs
+index 0a9fcb8e88d048c24cab379988047ced932a2b10..5ab661787a5334b2560d51004e764518de5ebe2a 100644
+--- a/kani-compiler/src/codegen_cprover_gotoc/context/mod.rs
++++ b/kani-compiler/src/codegen_cprover_gotoc/context/mod.rs
+@@ -10,0 +11 @@
++mod immutable_allocations;
+diff --git a/kani-compiler/src/kani_middle/anonymous_allocations.rs b/kani-compiler/src/kani_middle/anonymous_allocations.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..52654193df9859dc03c1223184f6aa5705d511a9
+--- /dev/null
++++ b/kani-compiler/src/kani_middle/anonymous_allocations.rs
+@@ -0,0 +1,112 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++//! Source identities for anonymous data. These are compiler-local keys, never CBMC object IDs.
++//! The graph uses whole objects for relevance; byte ranges remain in the original MIR and in
++//! the runtime pointer expressions. In particular, an alias edge is not an exact byte offset.
++
++use rustc_middle::ty::{TyCtxt, TypingEnv};
++use rustc_public::CrateDef;
++use rustc_public::mir::Mutability;
++use rustc_public::mir::alloc::{AllocId, GlobalAlloc};
++use rustc_public::rustc_internal;
++use rustc_public::target::{Endian, MachineInfo};
++use rustc_public::ty::{Allocation, ConstantKind, MirConst, RigidTy, Ty, TyKind};
++
++#[derive(Clone, Debug, PartialEq, Eq)]
++pub struct AnonymousOrigin {
++    pub key: AllocId,
++    pub allocation: Allocation,
++    /// Captured before backend byte emission can replace None with physical zero bytes.
++    pub mask: Vec<bool>,
++    /// Offset of the pointer slot in the *carrier*, not in the referent.
++    pub carrier_slot: usize,
++    pub referent_offset: Option<u128>,
++    pub extent: Option<usize>,
++    /// A whole referent typed origin, retained independently of subsequent pointer erasure.
++    pub frozen_origin: Option<Ty>,
++}
++
++/// Keep every anonymous provenance alternative, including unqualified ones. Qualification never
++/// filters the relevance graph. Carrier relocations do not become referent-mask bits.
++pub fn anonymous_origins(tcx: TyCtxt<'_>, constant: &MirConst) -> Vec<AnonymousOrigin> {
++    let ConstantKind::Allocated(carrier) = constant.kind() else { return vec![] };
++    let pointer_size = MachineInfo::target_pointer_width().bytes();
++    carrier
++        .provenance
++        .ptrs
++        .iter()
++        .filter_map(|&(slot, prov)| {
++            let allocation = match GlobalAlloc::from(prov.0) {
++                GlobalAlloc::Memory(allocation) => allocation,
++                GlobalAlloc::Static(def)
++                    if crate::kani_middle::is_anon_static(tcx, def.def_id()) =>
++                {
++                    def.eval_initializer().ok()?
++                }
++                _ => return None,
++            };
++            let offset = slot
++                .checked_add(pointer_size)
++                .filter(|&end| end <= carrier.bytes.len())
++                .and_then(|end| carrier.read_partial_uint(slot..end).ok());
++            let pointee = match constant.ty().kind() {
++                TyKind::RigidTy(RigidTy::Ref(_, ty, Mutability::Not))
++                    if slot == 0
++                        && carrier.provenance.ptrs.len() == 1
++                        && constant.ty().layout().ok().is_some_and(|layout| {
++                            layout.shape().is_sized()
++                                && layout.shape().size.bytes() == carrier.bytes.len()
++                        }) =>
++                {
++                    Some(ty)
++                }
++                _ => None,
++            };
++            let extent = pointee.and_then(|ty| referent_extent(carrier, ty, pointer_size));
++            let frozen_origin = pointee.filter(|&ty| {
++                let internal = rustc_internal::internal(tcx, ty);
++                crate::kani_middle::transform::immutable_origin_type_supported(tcx, ty)
++                    && offset == Some(0)
++                    && extent == Some(allocation.bytes.len())
++                    && internal.is_freeze(tcx, TypingEnv::fully_monomorphized())
++            });
++            Some(AnonymousOrigin {
++                key: prov.0,
++                mask: allocation.bytes.iter().map(Option::is_some).collect(),
++                allocation,
++                carrier_slot: slot,
++                referent_offset: offset,
++                extent,
++                frozen_origin,
++            })
++        })
++        .collect()
++}
++
++fn referent_extent(carrier: &Allocation, ty: Ty, pointer_size: usize) -> Option<usize> {
++    match ty.kind() {
++        TyKind::RigidTy(RigidTy::Slice(element)) => {
++            let end = pointer_size.checked_mul(2)?;
++            let count: usize =
++                carrier.read_partial_uint(pointer_size..end).ok()?.try_into().ok()?;
++            let size = element.layout().ok()?.shape().size.bytes();
++            count.checked_mul(size)
++        }
++        TyKind::RigidTy(RigidTy::Str) => carrier
++            .read_partial_uint(pointer_size..pointer_size.checked_mul(2)?)
++            .ok()?
++            .try_into()
++            .ok(),
++        _ => {
++            let layout = ty.layout().ok()?;
++            layout.shape().is_sized().then(|| layout.shape().size.bytes())
++        }
++    }
++}
++
++/// The backend and rustc_public must interpret pointer carrier bytes on the same target.
++pub fn target_matches(pointer_width: u64, big_endian: bool) -> bool {
++    pointer_width as usize == MachineInfo::target_pointer_width().bits()
++        && big_endian == (MachineInfo::target_endianness() == Endian::Big)
++}
+diff --git a/kani-compiler/src/kani_middle/kani_functions.rs b/kani-compiler/src/kani_middle/kani_functions.rs
+index 94997512d78721fb09c6a94134a00c9a3a6be957..db31cea7c2aed570d11d1238a528ab29fe92813e 100644
+--- a/kani-compiler/src/kani_middle/kani_functions.rs
++++ b/kani-compiler/src/kani_middle/kani_functions.rs
+@@ -139,0 +140,2 @@ pub enum KaniModel {
++    #[strum(serialize = "BeginArgumentTransferModel")]
++    BeginArgumentTransfer,
+@@ -410,0 +413,24 @@ pub fn validate_kani_functions(kani_funcs: &HashMap<KaniFunction, FnDef>) {
++
++#[cfg(test)]
++mod marker_category_tests {
++    use super::*;
++
++    #[test]
++    fn typed_marker_categories_remain_distinct() {
++        for hook in KaniHook::iter() {
++            let marker: &'static str = hook.into();
++            assert_eq!(try_get_kani_function(marker), Some(KaniFunction::Hook(hook)));
++        }
++        for model in KaniModel::iter() {
++            let marker: &'static str = model.into();
++            assert_eq!(try_get_kani_function(marker), Some(KaniFunction::Model(model)));
++        }
++        for intrinsic in KaniIntrinsic::iter() {
++            let marker: &'static str = intrinsic.into();
++            assert_eq!(try_get_kani_function(marker), Some(KaniFunction::Intrinsic(intrinsic)));
++        }
++        for marker in ["ShadowTransferControl", "UnknownHook", "kani_register_loop_contract", ""] {
++            assert_eq!(try_get_kani_function(marker), None);
++        }
++    }
++}
+diff --git a/kani-compiler/src/kani_middle/mod.rs b/kani-compiler/src/kani_middle/mod.rs
+index 6093b083178e7b16e0f505d71c9438fdb924d334..2d537bc54ff5e1f7c86e26b6421dd0b06c80804a 100644
+--- a/kani-compiler/src/kani_middle/mod.rs
++++ b/kani-compiler/src/kani_middle/mod.rs
+@@ -67,0 +68 @@ pub fn strip_local_crate_prefix(name: String) -> String {
++pub mod anonymous_allocations;
+diff --git a/kani-compiler/src/kani_middle/points_to/mod.rs b/kani-compiler/src/kani_middle/points_to/mod.rs
+index 984bf086d0a5c57b97fc2f7b4fa40bfdf286c8b2..0df17815f36d16ab4788e83e6ea4c6808a47e382 100644
+--- a/kani-compiler/src/kani_middle/points_to/mod.rs
++++ b/kani-compiler/src/kani_middle/points_to/mod.rs
+@@ -10 +10,3 @@
+-pub use points_to_analysis::{run_points_to_analysis, unsupported_call};
++pub use points_to_analysis::{
++    AnalysisBodyOverride, BodyProvenance, resolve_call, run_points_to_analysis,
++};
+diff --git a/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs b/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
+index fbbe55c84c806526d34688fc246328f45b23e5c7..b4a740e9e4145b32f7aa165b543215b57110edd9 100644
+--- a/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
++++ b/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
+@@ -29,0 +30 @@
++        SourceLocation,
+@@ -31,0 +33 @@
++        readable_name,
+@@ -40 +42 @@
+-    ty::{Instance, InstanceKind, List, TyCtxt, TyKind, TypingEnv},
++    ty::{Instance, InstanceKind, List, TyCtxt},
+@@ -49,2 +51,140 @@
+-use rustc_span::{DUMMY_SP, Spanned};
+-use std::collections::HashSet;
++use rustc_span::Spanned;
++use std::cell::RefCell;
++use std::collections::{HashMap, HashSet};
++use std::fmt::{self, Display};
++
++/// A failed root has no usable points-to graph. Never export an unfinished summary.
++#[derive(Clone, Debug)]
++pub struct PointsToAnalysisError {
++    pub reason: String,
++}
++
++/// Diagnostic provenance of the existing immutable override selection. This does
++/// not select an additional body or introduce an analysis fallback.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub enum BodyProvenance {
++    Source,
++    RegistrationOverride(StableInstance),
++    DiscardedClosureOverride,
++}
++
++#[derive(Clone)]
++pub struct AnalysisBodyOverride {
++    pub body: StableBody,
++    pub provenance: BodyProvenance,
++}
++
++/// Exact Instance and selected snapshot, fixed for one root's immutable map.
++#[derive(Clone, Copy, PartialEq, Eq)]
++struct AnalysisKey<'tcx> {
++    instance: Instance<'tcx>,
++    provenance: BodyProvenance,
++}
++
++impl Display for AnalysisKey<'_> {
++    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
++        // Keep exact Instance/provenance equality for cycle detection, but never
++        // expose Debug IDs or compiler symbols in a user-facing diagnostic.
++        let owner = readable_name(rustc_internal::stable(self.instance));
++        match self.provenance {
++            BodyProvenance::Source => write!(f, "{owner} [provenance=source]"),
++            BodyProvenance::RegistrationOverride(origin) => write!(
++                f,
++                "{owner} [provenance=registration-override; origin={}]",
++                readable_name(origin)
++            ),
++            BodyProvenance::DiscardedClosureOverride => {
++                write!(f, "{owner} [provenance=discarded-closure-override]")
++            }
++        }
++    }
++}
++
++#[derive(Clone)]
++struct CallerLocation {
++    file: String,
++    line: usize,
++}
++
++impl Display for CallerLocation {
++    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
++        write!(f, "{}:{}", self.file, self.line)
++    }
++}
++
++/// Shared only by the synchronous, nested analyses of ONE entry root. This is an
++/// active stack, not a visited set or an input-independent summary cache.
++struct ActiveCalls<K> {
++    stack: Vec<K>,
++    callers: Vec<Option<CallerLocation>>,
++    error: Option<PointsToAnalysisError>,
++}
++
++impl<K: Display + Eq> ActiveCalls<K> {
++    fn new() -> Self {
++        Self { stack: Vec::new(), callers: Vec::new(), error: None }
++    }
++
++    #[cfg(test)]
++    fn enter(&mut self, key: K) -> Result<(), PointsToAnalysisError> {
++        self.enter_at(key, None)
++    }
++
++    fn enter_at(
++        &mut self,
++        key: K,
++        caller: Option<CallerLocation>,
++    ) -> Result<(), PointsToAnalysisError> {
++        if let Some(error) = &self.error {
++            return Err(error.clone());
++        }
++        if let Some(cycle_start) = self.stack.iter().position(|active| active == &key) {
++            // Keep the root and the end of the original active path, including the
++            // repeated call. Bound the diagnostic, never the analysis depth or key.
++            const MAX_FRAMES: usize = 12;
++            const MAX_FRAME_CHARS: usize = 4096;
++            let label = |frame: &K, caller: Option<&CallerLocation>| {
++                let text = match caller {
++                    Some(caller) => format!("{frame} [call at {caller}]"),
++                    None => format!("{frame}"),
++                };
++                let prefix: String = text.chars().take(MAX_FRAME_CHARS).collect();
++                if prefix.len() < text.len() {
++                    format!("{prefix}... [frame truncated; {} chars total]", text.chars().count())
++                } else {
++                    prefix
++                }
++            };
++            let mut path = vec![label(&self.stack[0], self.callers[0].as_ref())];
++            let tail_start = self.stack.len().saturating_sub(MAX_FRAMES - 2).max(1);
++            if tail_start > 1 {
++                path.push(format!("... {} frames omitted ...", tail_start - 1));
++            }
++            path.extend((tail_start..self.stack.len()).map(|idx| {
++                format!("frame {idx}: {}", label(&self.stack[idx], self.callers[idx].as_ref()))
++            }));
++            path.push(format!("repeated: {}", label(&key, caller.as_ref())));
++            let error = PointsToAnalysisError {
++                reason: format!(
++                    "Kani delayed uninitialized-memory analysis detected an interprocedural cycle \
++                     (repeats active frame {cycle_start}); root/active path: {}",
++                    path.join(" -> ")
++                ),
++            };
++            self.error = Some(error.clone());
++            return Err(error);
++        }
++        self.stack.push(key);
++        self.callers.push(caller);
++        Ok(())
++    }
++
++    fn exit(&mut self) -> Result<(), PointsToAnalysisError> {
++        self.stack.pop().expect("balanced points-to analysis entry/exit");
++        self.callers.pop().expect("balanced points-to caller metadata");
++        match &self.error {
++            Some(error) => Err(error.clone()),
++            None => Ok(()),
++        }
++    }
++}
+@@ -54,0 +195 @@ struct PointsToAnalysis<'a, 'tcx> {
++    active_calls: &'a RefCell<ActiveCalls<AnalysisKey<'tcx>>>,
+@@ -60,0 +202,2 @@ struct PointsToAnalysis<'a, 'tcx> {
++    /// Contract registration trampolines and discarded closures must agree with codegen.
++    body_overrides: &'a HashMap<StableInstance, AnalysisBodyOverride>,
+@@ -73 +216,2 @@ pub fn run_points_to_analysis<'tcx>(
+-) -> PointsToGraph<'tcx> {
++    body_overrides: &HashMap<StableInstance, AnalysisBodyOverride>,
++) -> Result<PointsToGraph<'tcx>, PointsToAnalysisError> {
+@@ -82,0 +227,2 @@ pub fn run_points_to_analysis<'tcx>(
++        body_overrides,
++        &RefCell::new(ActiveCalls::new()),
+@@ -83,0 +230 @@ pub fn run_points_to_analysis<'tcx>(
++        None,
+@@ -89,0 +237 @@ impl<'a, 'tcx> PointsToAnalysis<'a, 'tcx> {
++    #[allow(clippy::too_many_arguments)]
+@@ -94,0 +243,2 @@ pub fn run(
++        body_overrides: &'a HashMap<StableInstance, AnalysisBodyOverride>,
++        active_calls: &'a RefCell<ActiveCalls<AnalysisKey<'tcx>>>,
+@@ -96,2 +246,11 @@ pub fn run(
+-    ) -> PointsToGraph<'tcx> {
+-        let analysis = Self { body, tcx, instance, call_graph, initial_graph };
++        caller: Option<CallerLocation>,
++    ) -> Result<PointsToGraph<'tcx>, PointsToAnalysisError> {
++        let key = AnalysisKey {
++            instance,
++            provenance: body_overrides
++                .get(&rustc_internal::stable(instance))
++                .map_or(BodyProvenance::Source, |selected| selected.provenance),
++        };
++        active_calls.borrow_mut().enter_at(key, caller)?;
++        let analysis =
++            Self { body, tcx, instance, call_graph, body_overrides, active_calls, initial_graph };
+@@ -116 +275,4 @@ pub fn run(
+-        results
++        // Trait callbacks cannot return Result. A cycle latches the first error;
++        // callbacks then stop adding effects, and every active frame unwinds here.
++        // No partial graph can cross this Result boundary, even during cursor replay.
++        active_calls.borrow_mut().exit().map(|()| results)
+@@ -147,0 +310,3 @@ fn apply_primary_statement_effect(
++        if self.active_calls.borrow().error.is_some() {
++            return;
++        }
+@@ -193,0 +359,3 @@ fn apply_primary_terminator_effect(
++        if self.active_calls.borrow().error.is_some() {
++            return;
++        }
+@@ -197 +365,3 @@ fn apply_primary_terminator_effect(
+-            if unsupported_call(rustc_internal::stable(func.ty(self.body, self.tcx))).is_some() {
++            let Ok(instance) =
++                resolve_call(self.tcx, rustc_internal::stable(func.ty(self.body, self.tcx)))
++            else {
+@@ -199,2 +369,2 @@ fn apply_primary_terminator_effect(
+-            }
+-            let instance = try_resolve_instance(self.body, func, self.tcx);
++            };
++            let instance = rustc_internal::internal(self.tcx, instance);
+@@ -329 +499,7 @@ fn apply_primary_terminator_effect(
+-                        self.apply_regular_call_effect(state, instance, args, destination);
++                        self.apply_regular_call_effect(
++                            state,
++                            instance,
++                            args,
++                            destination,
++                            location,
++                        );
+@@ -346,11 +522,18 @@ fn apply_call_return_effect(
+-/// Why the analysis cannot follow a call to a callee of type `func_ty`, if it cannot: the callee of
+-/// a call through a function pointer or a vtable is not known statically. Callers that rely on the
+-/// analysis must guard such calls with an unsupported check.
+-pub fn unsupported_call(func_ty: StableTy) -> Option<String> {
+-    let reason = match func_ty.kind() {
+-        StableTyKind::RigidTy(StableRigidTy::FnDef(def, args)) => {
+-            match StableInstance::resolve(def, &args) {
+-                Ok(instance) if !matches!(instance.kind, StableInstanceKind::Virtual { .. }) => {
+-                    return None;
+-                }
+-                _ => "trait object method calls",
++/// Resolve calls whose effects the uninitialized-memory passes can follow.
++/// The local visitor owns the diagnostic on every rejected path, even without delayed-UB seeds.
++/// MIR-backed shims may be analyzed, but this does not grant them A3 shadow transfers.
++pub fn resolve_call(tcx: TyCtxt, func_ty: StableTy) -> Result<StableInstance, String> {
++    let StableTyKind::RigidTy(StableRigidTy::FnDef(def, args)) = func_ty.kind() else {
++        return Err(unsupported_call_reason("calls through function pointers"));
++    };
++    let instance = StableInstance::resolve(def, &args).map_err(|err| {
++        format!("Kani could not resolve function item `{func_ty:?}` for memory initialization checks: {err:?}.")
++    })?;
++    let reason = match instance.kind {
++        StableInstanceKind::Intrinsic => return Ok(instance),
++        StableInstanceKind::Item if instance.is_foreign_item() => return Ok(instance),
++        StableInstanceKind::Item | StableInstanceKind::Shim => {
++            // Query actual MIR availability, including empty compiler-generated shims.
++            // has_body alone describes the definition rather than the generated instance.
++            if crate::kani_middle::checked_body(tcx, instance).is_some() {
++                return Ok(instance);
+@@ -357,0 +541 @@ pub fn unsupported_call(func_ty: StableTy) -> Option<String> {
++            format!("calls to bodyless {:?} instances", instance.kind)
+@@ -359 +543,2 @@ pub fn unsupported_call(func_ty: StableTy) -> Option<String> {
+-        _ => "calls through function pointers",
++        StableInstanceKind::Virtual { .. } => "trait object method calls".to_string(),
++        StableInstanceKind::LlvmIntrinsic => "calls to LlvmIntrinsic instances".to_string(),
+@@ -361,3 +546 @@ pub fn unsupported_call(func_ty: StableTy) -> Option<String> {
+-    Some(format!(
+-        "Kani does not support memory initialization checks across {reason}. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+-    ))
++    Err(unsupported_call_reason(&reason))
+@@ -366,17 +549,3 @@ pub fn unsupported_call(func_ty: StableTy) -> Option<String> {
+-/// The instance a call operand refers to, which `unsupported_call` has checked is a function item.
+-fn try_resolve_instance<'tcx>(
+-    body: &Body<'tcx>,
+-    func: &Operand<'tcx>,
+-    tcx: TyCtxt<'tcx>,
+-) -> Instance<'tcx> {
+-    let TyKind::FnDef(def, args) = func.ty(body, tcx).kind() else {
+-        unreachable!("`unsupported_call` rejects callees that are not function items")
+-    };
+-    // Span here is used for error-reporting, which we don't expect to encounter anyway, so it is ok
+-    // to use a dummy.
+-    Instance::expect_resolve(
+-        tcx,
+-        TypingEnv::fully_monomorphized(),
+-        *def,
+-        args.skip_binder(),
+-        DUMMY_SP,
++fn unsupported_call_reason(kind: &str) -> String {
++    format!(
++        "Kani does not support memory initialization checks across {kind}. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+@@ -411,6 +580,2 @@ fn successors_for_operand(
+-                // Constants could point to a static, so need to check for that.
+-                if let Some(static_def_id) = const_operand.check_static_ptr(self.tcx) {
+-                    HashSet::from([MemLoc::new_static_allocation(static_def_id)])
+-                } else {
+-                    HashSet::new()
+-                }
++                let constant = rustc_internal::stable(const_operand.const_);
++                state.constant_successors(self.tcx, &constant)
+@@ -435,6 +600,2 @@ fn successors_for_deref(
+-                // Constants could point to a static, so need to check for that.
+-                if let Some(static_def_id) = const_operand.check_static_ptr(self.tcx) {
+-                    HashSet::from([MemLoc::new_static_allocation(static_def_id)])
+-                } else {
+-                    HashSet::new()
+-                }
++                let constant = rustc_internal::stable(const_operand.const_);
++                state.constant_successors(self.tcx, &constant)
+@@ -453,0 +615 @@ fn apply_regular_call_effect(
++        location: Location,
+@@ -458 +620,10 @@ fn apply_regular_call_effect(
+-            let stable_body = crate::kani_middle::checked_body(self.tcx, stable_instance).unwrap();
++            // The shared resolver also checks source MIR, so absence is guaranteed to have
++            // a local Unsupported check. Preserve the graph accumulated before that call.
++            let Some(stable_body) = self
++                .body_overrides
++                .get(&stable_instance)
++                .map(|selected| selected.body.clone())
++                .or_else(|| crate::kani_middle::checked_body(self.tcx, stable_instance))
++            else {
++                return;
++            };
+@@ -517,0 +689,4 @@ fn apply_regular_call_effect(
++        // Resolve the call site as source text, never as Debug MIR/span IDs.
++        let call_site = SourceLocation::new(rustc_internal::stable(
++            self.body.basic_blocks[location.block].terminator().source_info.span,
++        ));
+@@ -519,2 +694,14 @@ fn apply_regular_call_effect(
+-        let new_result =
+-            PointsToAnalysis::run(&new_body, self.tcx, instance, self.call_graph, initial_graph);
++        let Ok(new_result) = PointsToAnalysis::run(
++            &new_body,
++            self.tcx,
++            instance,
++            self.call_graph,
++            self.body_overrides,
++            self.active_calls,
++            initial_graph,
++            Some(CallerLocation { file: call_site.filename, line: call_site.start_line }),
++        ) else {
++            // The shared context carries the error through the dataflow callbacks.
++            // In particular, do not join this failed callee's partial graph.
++            return;
++        };
+@@ -763,0 +951,173 @@ fn is_identity_aliasing_intrinsic(intrinsic: Intrinsic) -> bool {
++
++#[cfg(test)]
++mod active_call_tests {
++    use super::{ActiveCalls, CallerLocation};
++    use std::fmt::{self, Display};
++
++    #[derive(PartialEq, Eq)]
++    struct TestKey(&'static str, bool);
++
++    impl Display for TestKey {
++        fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
++            write!(f, "{} [override={}]", self.0, self.1)
++        }
++    }
++
++    #[test]
++    fn self_cycle_is_an_error_without_pushing_another_frame() {
++        let mut calls = ActiveCalls::new();
++        calls.enter(TestKey("A::<u8>", false)).unwrap();
++        let error = calls.enter(TestKey("A::<u8>", false)).unwrap_err();
++        assert!(error.reason.contains("interprocedural cycle"));
++        assert_eq!(calls.stack.len(), 1);
++        assert!(calls.exit().is_err());
++        assert!(calls.stack.is_empty());
++    }
++
++    #[test]
++    fn mutual_cycle_retains_original_root_and_active_stack() {
++        let mut calls = ActiveCalls::new();
++        for name in ["root", "A", "B"] {
++            calls.enter(TestKey(name, true)).unwrap();
++        }
++        let error = calls.enter(TestKey("A", true)).unwrap_err();
++        assert!(error.reason.contains("repeats active frame 1"));
++        assert!(
++            error
++                .reason
++                .contains("root [override=true] -> frame 1: A [override=true] -> frame 2: B [override=true] -> repeated: A [override=true]")
++        );
++        // No ancestor may turn a failed child into a successful partial summary.
++        for _ in 0..3 {
++            assert_eq!(calls.exit().unwrap_err().reason, error.reason);
++        }
++        assert!(calls.stack.is_empty());
++    }
++
++    #[test]
++    fn caller_location_is_diagnostic_only_and_survives_repeated_entry() {
++        let mut calls = ActiveCalls::new();
++        calls.enter("root").unwrap();
++        let caller = CallerLocation { file: "src/cycle.rs".into(), line: 42 };
++        let error = calls.enter_at("root", Some(caller)).unwrap_err();
++        assert!(error.reason.contains("repeats active frame 0"));
++        assert!(error.reason.contains("repeated: root [call at src/cycle.rs:42]"));
++        assert!(!error.reason.contains("DefId"));
++        assert!(!error.reason.contains("AnalysisKey"));
++        assert_eq!(calls.stack.len(), 1);
++        assert_eq!(calls.callers.len(), 1);
++        assert!(calls.exit().is_err());
++        assert!(calls.callers.is_empty());
++    }
++
++    #[test]
++    fn diamond_and_repeated_completed_calls_are_allowed() {
++        let mut calls = ActiveCalls::new();
++        calls.enter("root").unwrap();
++        for branch in ["left", "right", "left"] {
++            calls.enter(branch).unwrap();
++            calls.enter("leaf").unwrap();
++            calls.exit().unwrap();
++            calls.exit().unwrap();
++        }
++        calls.exit().unwrap();
++        assert!(calls.stack.is_empty());
++        assert!(calls.error.is_none());
++    }
++
++    #[test]
++    fn exact_instance_and_body_selection_are_part_of_identity() {
++        let mut calls = ActiveCalls::new();
++        // Synthetic monomorphization/body keys; production uses rustc Instance.
++        for key in [("F::<u8>", false), ("F::<u16>", false), ("F::<u8>", true)] {
++            calls.enter(TestKey(key.0, key.1)).unwrap();
++        }
++        for _ in 0..3 {
++            calls.exit().unwrap();
++        }
++    }
++
++    #[test]
++    fn discarded_override_has_no_source_body_edges() {
++        let mut calls = ActiveCalls::new();
++        calls.enter(TestKey("root", false)).unwrap();
++        calls.enter(TestKey("discarded", true)).unwrap();
++        // An unreachable override is an empty traversal, not its recursive source.
++        calls.exit().unwrap();
++        calls.exit().unwrap();
++    }
++
++    #[test]
++    fn independent_roots_in_both_orders_do_not_share_errors() {
++        for order in [[true, false], [false, true]] {
++            for cyclic in order {
++                let mut calls = ActiveCalls::new();
++                calls.enter("root").unwrap();
++                if cyclic {
++                    assert!(calls.enter("root").is_err());
++                    assert!(calls.exit().is_err());
++                } else {
++                    calls.enter("leaf").unwrap();
++                    calls.exit().unwrap();
++                    calls.exit().unwrap();
++                }
++                assert!(calls.stack.is_empty());
++            }
++        }
++    }
++
++    #[test]
++    fn diagnostic_uses_display_without_exposing_internal_identity() {
++        #[derive(PartialEq, Eq)]
++        struct OpaqueKey {
++            id: usize,
++            name: &'static str,
++        }
++
++        impl Display for OpaqueKey {
++            fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
++                write!(f, "{} [provenance=source]", self.name)
++            }
++        }
++
++        let diagnostic = |id| {
++            let mut calls = ActiveCalls::new();
++            calls.enter(OpaqueKey { id, name: "cycle::<u8>" }).unwrap();
++            calls
++                .enter_at(
++                    OpaqueKey { id, name: "cycle::<u8>" },
++                    Some(CallerLocation { file: "src/cycle.rs".into(), line: 17 }),
++                )
++                .unwrap_err()
++                .reason
++        };
++        assert_eq!(diagnostic(62), diagnostic(93));
++        assert!(
++            diagnostic(62)
++                .contains("repeated: cycle::<u8> [provenance=source] [call at src/cycle.rs:17]")
++        );
++        // Readable names are diagnostic only: distinct exact keys still enter.
++        let mut calls = ActiveCalls::new();
++        calls.enter(OpaqueKey { id: 62, name: "same_name" }).unwrap();
++        calls.enter(OpaqueKey { id: 93, name: "same_name" }).unwrap();
++        calls.exit().unwrap();
++        calls.exit().unwrap();
++    }
++
++    #[test]
++    fn diagnostic_is_bounded_without_limiting_analysis_depth() {
++        let mut calls = ActiveCalls::new();
++        for i in 0..100 {
++            calls.enter(format!("frame-{i}-{}", "x".repeat(10000))).unwrap();
++        }
++        let error = calls.enter(format!("frame-50-{}", "x".repeat(10000))).unwrap_err();
++        assert!(error.reason.len() < 51000);
++        assert!(error.reason.contains("frames omitted"));
++        assert!(error.reason.contains("frame truncated"));
++        assert!(error.reason.contains("repeats active frame 50"));
++        for _ in 0..100 {
++            assert!(calls.exit().is_err());
++        }
++        assert!(calls.stack.is_empty());
++    }
++}
+diff --git a/kani-compiler/src/kani_middle/points_to/points_to_graph.rs b/kani-compiler/src/kani_middle/points_to/points_to_graph.rs
+index fa31ed48f8c378e6f36c985b8f91438532bab25c..6a539900c850f8e9d69775e18e6fd6fb8ab071e1 100644
+--- a/kani-compiler/src/kani_middle/points_to/points_to_graph.rs
++++ b/kani-compiler/src/kani_middle/points_to/points_to_graph.rs
+@@ -5,0 +6 @@
++use crate::kani_middle::anonymous_allocations::{AnonymousOrigin, anonymous_origins};
+@@ -11,0 +13 @@
++use rustc_public::mir::alloc::{AllocId, GlobalAlloc};
+@@ -16,0 +19 @@
++use rustc_public::ty::{ConstantKind, MirConst};
+@@ -29,0 +33,2 @@ pub enum MemLoc<'tcx> {
++    /// An anonymous/promoted referent; this is not a runtime object number.
++    Anonymous(AllocId),
+@@ -106,0 +112 @@ pub struct PointsToGraph<'tcx> {
++    pub anonymous: HashMap<AllocId, Vec<AnonymousOrigin>>,
+@@ -111 +117,25 @@ pub fn empty() -> Self {
+-        Self { nodes: HashMap::new() }
++        Self { nodes: HashMap::new(), anonymous: HashMap::new() }
++    }
++
++    /// Resolve all provenance alternatives without discarding immutable anonymous data.
++    pub fn constant_successors(
++        &mut self,
++        tcx: TyCtxt<'tcx>,
++        constant: &MirConst,
++    ) -> HashSet<MemLoc<'tcx>> {
++        let mut result = HashSet::new();
++        if let ConstantKind::Allocated(carrier) = constant.kind() {
++            for &(_, prov) in &carrier.provenance.ptrs {
++                if let GlobalAlloc::Static(def) = GlobalAlloc::from(prov.0) {
++                    result.insert(MemLoc::from_stable_static_allocation(def, tcx));
++                }
++            }
++        }
++        for origin in anonymous_origins(tcx, constant) {
++            result.insert(MemLoc::Anonymous(origin.key));
++            let origins = self.anonymous.entry(origin.key).or_default();
++            if !origins.contains(&origin) {
++                origins.push(origin);
++            }
++        }
++        result
+@@ -217,0 +248 @@ pub fn transitive_closure(&self, targets: HashSet<MemLoc<'tcx>>) -> PointsToGrap
++        result.anonymous.clone_from(&self.anonymous);
+@@ -241,0 +273,9 @@ fn join(&mut self, other: &Self) -> bool {
++        for (key, origins) in &other.anonymous {
++            let existing = self.anonymous.entry(*key).or_default();
++            for origin in origins {
++                if !existing.contains(origin) {
++                    existing.push(origin.clone());
++                    updated = true;
++                }
++            }
++        }
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+index 03b92f331064023b090ad5e6afc10fe0b9ff828e..9ee31b45ff621bfec61b3f873354bd9ddd340283 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+@@ -25,0 +26 @@ pub enum AnalysisTarget {
++    Anonymous(rustc_public::mir::alloc::AllocId),
+@@ -30 +31 @@ pub enum AnalysisTarget {
+-pub struct InitialTargetVisitor {
++pub struct InitialTargetVisitor<'tcx> {
+@@ -31,0 +33 @@ pub struct InitialTargetVisitor {
++    tcx: rustc_middle::ty::TyCtxt<'tcx>,
+@@ -35,3 +37,3 @@ pub struct InitialTargetVisitor {
+-impl InitialTargetVisitor {
+-    pub fn new(body: Body) -> Self {
+-        Self { body, targets: vec![] }
++impl<'tcx> InitialTargetVisitor<'tcx> {
++    pub fn new(body: Body, tcx: rustc_middle::ty::TyCtxt<'tcx>) -> Self {
++        Self { body, tcx, targets: vec![] }
+@@ -49,0 +52,6 @@ pub fn push_operand(&mut self, operand: &Operand) {
++                for origin in crate::kani_middle::anonymous_allocations::anonymous_origins(
++                    self.tcx,
++                    &constant.const_,
++                ) {
++                    self.targets.push(AnalysisTarget::Anonymous(origin.key));
++                }
+@@ -68 +76,2 @@ pub fn push_operand(&mut self, operand: &Operand) {
+-impl MirVisitor for InitialTargetVisitor {
++/// - both reference operands of `raw_eq`, which also reads padding bytes.
++impl MirVisitor for InitialTargetVisitor<'_> {
+@@ -106,3 +115,3 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-        // Only calls to the copy intrinsics write to a target here. A call through a function
+-        // pointer or a vtable cannot be one (intrinsics cannot be coerced to function pointers),
+-        // and whatever its callee writes is collected when visiting the callee's own body.
++        // Copy destinations and raw_eq operands need their prior writes tracked. A call through
++        // a function pointer or a vtable cannot be an intrinsic (intrinsics cannot be coerced to
++        // function pointers); effects in other callees are collected from their own bodies.
+@@ -113,0 +123,4 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
++                Intrinsic::RawEq => {
++                    self.push_operand(&args[0]);
++                    self.push_operand(&args[1]);
++                }
+@@ -132 +145,3 @@ fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Option<Instance
+-        TyKind::RigidTy(RigidTy::FnDef(def, args)) => Some(Instance::resolve(def, &args).unwrap()),
++        // A failed resolution is not an intrinsic seed. The local visitor will emit
++        // Unsupported at this call, preserving seeds already collected elsewhere.
++        TyKind::RigidTy(RigidTy::FnDef(def, args)) => Instance::resolve(def, &args).ok(),
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
+index 719832acf5d5090207ab71a30dbd44290fcd04dc..72331e10eff342af7fb0e427e8d418adb258cddb 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
+@@ -8 +8 @@
+-    points_to::{MemLoc, PointsToGraph, unsupported_call},
++    points_to::{MemLoc, PointsToGraph},
+@@ -12 +12 @@
+-            TargetFinder,
++            PointeeInfo, PointeeLayout, TargetFinder,
+@@ -19 +19 @@
+-    LocalDecl, MirVisitor, Operand, Place, Rvalue, Statement, Terminator, TerminatorKind,
++    MirVisitor, Operand, Place, Rvalue, Statement, Terminator,
+@@ -35,2 +34,0 @@ pub struct InstrumentationVisitor<'a, 'tcx> {
+-    /// The locals of the body being visited, to type call operands.
+-    locals: Vec<LocalDecl>,
+@@ -42 +39,0 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
+-        self.locals = body.locals().to_vec();
+@@ -48,0 +46,24 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
++            if bb_idx == 0 {
++                // Arguments have no defining assignment in this body. A valid ordinary
++                // value initializes its own data bytes on entry, even when aliasing
++                // overapproximation causes later reads to be tracked. Address the slot,
++                // not a reference/raw pointer's referent. Union/MU storage and nested
++                // unsupported layouts retain their existing transfer rules/diagnostics.
++                for (local, decl) in body.locals().iter().enumerate().skip(1).take(body.arg_count())
++                {
++                    let place = Place::from(local);
++                    if self.needs_set(&place)
++                        && !decl.ty.kind().is_union()
++                        && matches!(
++                            PointeeInfo::from_ty(decl.ty).as_ref().map(PointeeInfo::layout),
++                            Ok(PointeeLayout::Sized { .. })
++                        )
++                    {
++                        self.push_target(MemoryInitOp::SetRef {
++                            operand: Operand::Copy(place),
++                            value: true,
++                            position: InsertPosition::Before,
++                        });
++                    }
++                }
++            }
+@@ -72 +92,0 @@ pub fn new(
+-            locals: vec![],
+@@ -79,0 +100,23 @@ fn push_target(&mut self, source_op: MemoryInitOp) {
++
++    /// Whether a write to this storage can supply a checked alias at the same depth.
++    fn needs_set(&self, place: &Place) -> bool {
++        let mut self_ancestors =
++            self.points_to.resolve_place_stable(place.clone(), self.current_instance, self.tcx);
++        let mut target_ancestors = self.analysis_targets.clone();
++        // The graph is field/context insensitive and can be cyclic. Repeating a pair
++        // cannot reveal a new intersection; preserve the existing terminating walk.
++        let mut visited_pairs = Vec::new();
++        while !self_ancestors.is_empty() || !target_ancestors.is_empty() {
++            if self_ancestors.intersection(&target_ancestors).next().is_some() {
++                return true;
++            }
++            let state = (self_ancestors, target_ancestors);
++            if visited_pairs.contains(&state) {
++                break;
++            }
++            self_ancestors = self.points_to.ancestors(&state.0);
++            target_ancestors = self.points_to.ancestors(&state.1);
++            visited_pairs.push(state);
++        }
++        false
++    }
+@@ -102,5 +145,3 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-            self.current_target = InitRelevantInstruction {
+-                source: SourceInstruction::Terminator { bb },
+-                after_instruction: vec![],
+-                before_instruction: vec![],
+-            };
++            // Keep entry setters when bb0 has no statements. Other blocks have no
++            // pending operations here, since visit_statement already flushed them.
++            self.current_target.source = SourceInstruction::Terminator { bb };
+@@ -110,7 +151,2 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-        // The points-to analysis does not follow these calls, so the aliasing it computed is only
+-        // valid on paths that do not reach them.
+-        if let TerminatorKind::Call { func, .. } = &term.kind
+-            && let Some(reason) = unsupported_call(func.ty(&self.locals).unwrap())
+-        {
+-            self.push_target(MemoryInitOp::Unsupported { reason });
+-        }
++        // Unsupported calls are owned by the local visitor, which runs independently
++        // of delayed-UB seeds and preserves the operand reads before its diagnostic.
+@@ -168,29 +204 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+-        let needs_set = {
+-            let mut has_common_ancestor = false;
+-            let mut self_ancestors =
+-                self.points_to.resolve_place_stable(place.clone(), self.current_instance, self.tcx);
+-            let mut target_ancestors = self.analysis_targets.clone();
+-
+-            // The points-to graph can contain cycles (the analysis is field- and
+-            // context-insensitive, so e.g. a `Vec` can end up "pointing to" itself), in which
+-            // case the ancestor sets never become empty and this walk used to loop forever. Each
+-            // iteration is a deterministic function of the current pair of sets, so once a pair
+-            // repeats, no new intersection can be found: stop and report no common ancestor,
+-            // which is the answer the walk gives on every graph where it terminates.
+-            let mut visited_pairs = Vec::new();
+-            while !self_ancestors.is_empty() || !target_ancestors.is_empty() {
+-                if self_ancestors.intersection(&target_ancestors).next().is_some() {
+-                    has_common_ancestor = true;
+-                    break;
+-                }
+-                let state = (self_ancestors, target_ancestors);
+-                if visited_pairs.contains(&state) {
+-                    break;
+-                }
+-                self_ancestors = self.points_to.ancestors(&state.0);
+-                target_ancestors = self.points_to.ancestors(&state.1);
+-                visited_pairs.push(state);
+-            }
+-
+-            has_common_ancestor
+-        };
++        let needs_set = self.needs_set(place);
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+index ca96dabf6686ad6116bec9441c22544a0798f382..456b39de7fa3ace577f0cae44fdcf14c37dc887f 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs
+@@ -10 +10,2 @@
+-use crate::kani_middle::kani_functions::KaniFunction;
++use crate::kani_middle::attributes::KaniAttributes;
++use crate::kani_middle::kani_functions::{KaniFunction, KaniModel};
+@@ -12 +13,3 @@
+-    points_to::{MemLoc, PointsToGraph, run_points_to_analysis},
++    points_to::{
++        AnalysisBodyOverride, BodyProvenance, MemLoc, PointsToGraph, run_points_to_analysis,
++    },
+@@ -15 +18,2 @@
+-        BodyTransformation, GlobalPass, TransformationResult, body::CheckType,
++        BodyTransformation, GlobalPass,
++        body::{CheckType, InsertPosition, MutableBody, SourceInstruction},
+@@ -25 +28,0 @@
+-    mir::MirVisitor,
+@@ -26,0 +30 @@
++    mir::{MirVisitor, TerminatorKind},
+@@ -76 +80 @@ fn transform(
+-                let mut visitor = InitialTargetVisitor::new(body.clone());
++                let mut visitor = InitialTargetVisitor::new(body.clone(), tcx);
+@@ -83,0 +88 @@ fn transform(
++                    AnalysisTarget::Anonymous(key) => MemLoc::Anonymous(key),
+@@ -92,0 +98,27 @@ fn transform(
++            // The source register function only panics; the contract pass replaces it with
++            // the closure call. Following the source body loses the generated body's alias
++            // edges, hence its normal-return setters. Use the emitted trampoline, and keep
++            // discarded closures unreachable so analysis cannot re-enter unused contracts.
++            // Other bodies retain the existing analysis path; do not analyze injected checks.
++            let mut body_overrides = HashMap::new();
++            for instance in &instances {
++                let body = transformer.body_ref(tcx, *instance);
++                let is_registration = KaniAttributes::for_instance(tcx, *instance)
++                    .fn_marker()
++                    .is_some_and(|marker| marker.as_str() == "kani_register_contract");
++                let is_discarded_closure = instance.ty().kind().is_closure()
++                    && body.blocks.len() == 1
++                    && body.blocks[0].statements.is_empty()
++                    && matches!(body.blocks[0].terminator.kind, TerminatorKind::Unreachable);
++                if is_registration || is_discarded_closure {
++                    let provenance = if is_registration {
++                        let run = self.mem_init_fn_cache[&KaniModel::RunContract.into()];
++                        let origin = Instance::resolve(run, &instance.args()).unwrap();
++                        BodyProvenance::RegistrationOverride(origin)
++                    } else {
++                        BodyProvenance::DiscardedClosureOverride
++                    };
++                    body_overrides
++                        .insert(*instance, AnalysisBodyOverride { body: body.clone(), provenance });
++                }
++            }
+@@ -94,0 +127 @@ fn transform(
++            let mut unsupported_roots = Vec::new();
+@@ -107,3 +140,13 @@ fn transform(
+-                    let body = crate::kani_middle::checked_body(tcx, instance).unwrap();
+-                    let results = run_points_to_analysis(&body, tcx, instance, call_graph);
+-                    global_points_to_graph.join(&results);
++                    let body = body_overrides
++                        .get(&instance)
++                        .map(|selected| selected.body.clone())
++                        .unwrap_or_else(|| {
++                            crate::kani_middle::checked_body(tcx, instance).unwrap()
++                        });
++                    match run_points_to_analysis(&body, tcx, instance, call_graph, &body_overrides)
++                    {
++                        Ok(results) => {
++                            global_points_to_graph.join(&results);
++                        }
++                        Err(error) => unsupported_roots.push((instance, error)),
++                    }
+@@ -114,0 +158,4 @@ fn transform(
++            // Anonymous constant targets already denote their referent, not a stack pointer.
++            analysis_targets.extend(
++                targets.iter().filter(|target| matches!(target, MemLoc::Anonymous(_))).copied(),
++            );
+@@ -132,0 +180 @@ fn transform(
++                    tcx,
+@@ -143,3 +191 @@ fn transform(
+-                    transformer.cache.entry(instance).and_modify(|transformation_result| {
+-                        *transformation_result = TransformationResult(body, true);
+-                    });
++                    transformer.replace_delayed_body(instance, body);
+@@ -147,0 +194,21 @@ fn transform(
++
++            // Insert at the failed entry root, AFTER ordinary instrumentation. No
++            // partial summary was merged, and no shared callee is globally blocked.
++            // Continue processing other roots rather than issuing a compiler error.
++            for (instance, error) in unsupported_roots {
++                let mut body = MutableBody::from(transformer.body(tcx, instance));
++                let mut source = if body.blocks()[0].statements.is_empty() {
++                    SourceInstruction::Terminator { bb: 0 }
++                } else {
++                    SourceInstruction::Statement { bb: 0, idx: 0 }
++                };
++                body.insert_check(
++                    &self.unsupported_check_type,
++                    &mut source,
++                    InsertPosition::Before,
++                    None,
++                    &error.reason,
++                );
++                transformer.replace_delayed_body(instance, body.into());
++                modified = true;
++            }
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+index 5326c704e544bb85167b6e721e6706d0a908343a..0ab7059e422f54480dd62547df7aeed93c6bafe8 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/mod.rs
+@@ -11 +11,2 @@
+-use relevant_instruction::{InitRelevantInstruction, MemoryInitOp};
++use relevant_instruction::{InitRelevantInstruction, MemoryInitOp, constant_init_mask};
++use rustc_middle::ty::TyCtxt;
+@@ -19,0 +21 @@
++use ty_layout::maybe_uninit_storage;
+@@ -24,0 +27 @@
++use rustc_public_bridge::IndexedVal;
+@@ -53,0 +57,2 @@ pub trait TargetFinder {
++const KANI_BEGIN_ARGUMENT_TRANSFER: KaniFunction =
++    KaniFunction::Model(KaniModel::BeginArgumentTransfer);
+@@ -81,0 +87 @@ pub trait TargetFinder {
++    KANI_BEGIN_ARGUMENT_TRANSFER,
+@@ -91 +97,2 @@ pub trait TargetFinder {
+-pub struct UninitInstrumenter<'a> {
++pub struct UninitInstrumenter<'a, 'tcx> {
++    tcx: TyCtxt<'tcx>,
+@@ -98 +105 @@ pub struct UninitInstrumenter<'a> {
+-impl<'a> UninitInstrumenter<'a> {
++impl<'a, 'tcx> UninitInstrumenter<'a, 'tcx> {
+@@ -100,0 +108 @@ pub(crate) fn run(
++        tcx: TyCtxt<'tcx>,
+@@ -109 +117 @@ pub(crate) fn run(
+-            Self { safety_check_type, unsupported_check_type, mem_init_fn_cache };
++            Self { tcx, safety_check_type, unsupported_check_type, mem_init_fn_cache };
+@@ -157 +165 @@ fn build_check_for_operation(
+-        operation: MemoryInitOp,
++        mut operation: MemoryInitOp,
+@@ -158,0 +167,63 @@ fn build_check_for_operation(
++        if let MemoryInitOp::BeginArgumentTransfer { function, argument_count } = operation {
++            let span = source.span(body.blocks());
++            let ret_place = Place::from(body.new_local(Ty::new_tuple(&[]), span, Mutability::Not));
++            let instance = Instance::resolve(
++                get_mem_init_fn_def(KANI_BEGIN_ARGUMENT_TRANSFER, self.mem_init_fn_cache),
++                &GenericArgs(vec![]),
++            )
++            .unwrap();
++            // Interned function-item types uniquely identify the monomorphization within this
++            // compiler context. Caller and callee use the same context; this is not a persisted ID.
++            let signature = body.new_uint_operand(function.to_index() as u128, UintTy::Usize, span);
++            let count = body.new_uint_operand(argument_count as u128, UintTy::Usize, span);
++            body.insert_call(
++                &instance,
++                source,
++                InsertPosition::Before,
++                vec![signature, count],
++                ret_place,
++            );
++            return;
++        }
++
++        if let MemoryInitOp::StoreArgument { operand, .. } = &mut operation
++            && matches!(operand, Operand::Constant(_))
++        {
++            let Some(initialized) = constant_init_mask(operand) else {
++                self.inject_unsupported_check(
++                    body,
++                    source,
++                    InsertPosition::Before,
++                    "Kani cannot determine the initialization state of this constant shadow argument.",
++                );
++                return;
++            };
++            let ty = operand.ty(body.locals()).unwrap();
++            if !ty.layout().is_ok_and(|layout| {
++                layout.shape().is_sized() && layout.shape().size.bytes() == initialized.len()
++            }) {
++                self.inject_unsupported_check(
++                    body,
++                    source,
++                    InsertPosition::Before,
++                    "Kani cannot determine the complete storage mask of this constant shadow argument.",
++                );
++                return;
++            }
++            let local = body.insert_assignment(
++                Rvalue::Use(operand.clone(), WithRetag::No),
++                source,
++                InsertPosition::Before,
++            );
++            *operand = Operand::Copy(Place::from(local));
++            self.build_check_for_operation(
++                body,
++                source,
++                MemoryInitOp::SetStorage {
++                    operand: operand.clone(),
++                    initialized,
++                    position: InsertPosition::Before,
++                },
++            );
++        }
++
+@@ -184 +255,41 @@ fn build_check_for_operation(
+-            match PointeeInfo::from_ty(pointee_ty) {
++            let layout = if matches!(operation, MemoryInitOp::SetStorage { .. })
++                && pointee_ty.kind().is_union()
++                && maybe_uninit_storage(self.tcx, pointee_ty).is_none()
++            {
++                // A constant ordinary union supplies a mask for its entire storage,
++                // independent of a particular active field. Keep every None byte false.
++                PointeeInfo::for_deinit(pointee_ty)
++            } else if matches!(operation, MemoryInitOp::SetRef { value: false, .. }) {
++                // Deinitialization clears every byte, including union storage and padding;
++                // it does not need an active union field or a typed preserve mask.
++                PointeeInfo::for_deinit(pointee_ty)
++            } else if maybe_uninit_storage(self.tcx, pointee_ty).is_some() {
++                match &operation {
++                    // Reading a slot or slice of slots does not require initialized data.
++                    MemoryInitOp::Check { .. }
++                    | MemoryInitOp::CheckRef { .. }
++                    | MemoryInitOp::CheckAs { .. }
++                    | MemoryInitOp::CheckSliceChunk { .. } => {
++                        match PointeeInfo::for_storage(self.tcx, pointee_ty) {
++                            Ok(_) => return,
++                            Err(reason) => Err(reason),
++                        }
++                    }
++                    // The pointer visitor handles writes to this storage, including transfers.
++                    // A generic set from delayed UB instrumentation would erase that state.
++                    MemoryInitOp::SetRef { .. } => return,
++                    MemoryInitOp::SetStorage { .. }
++                    | MemoryInitOp::AssignUnion { .. }
++                    | MemoryInitOp::StoreArgument { .. }
++                    | MemoryInitOp::LoadArgument { .. } => {
++                        PointeeInfo::for_typed_storage(self.tcx, pointee_ty)
++                    }
++                    MemoryInitOp::Copy { .. } | MemoryInitOp::SetSliceChunk { .. } => {
++                        PointeeInfo::for_storage(self.tcx, pointee_ty)
++                    }
++                    _ => PointeeInfo::from_ty(pointee_ty),
++                }
++            } else {
++                PointeeInfo::from_ty(pointee_ty)
++            };
++            match layout {
+@@ -200 +311,2 @@ fn build_check_for_operation(
+-            | MemoryInitOp::CheckRef { .. } => {
++            | MemoryInitOp::CheckRef { .. }
++            | MemoryInitOp::CheckRefAs { .. } => {
+@@ -206 +318,2 @@ fn build_check_for_operation(
+-            | MemoryInitOp::CreateUnion { .. } => {
++            | MemoryInitOp::CreateUnion { .. }
++            | MemoryInitOp::SetStorage { .. } => {
+@@ -216 +329,3 @@ fn build_check_for_operation(
+-            MemoryInitOp::Unsupported { .. } | MemoryInitOp::TriviallyUnsafe { .. } => {
++            MemoryInitOp::BeginArgumentTransfer { .. }
++            | MemoryInitOp::Unsupported { .. }
++            | MemoryInitOp::TriviallyUnsafe { .. } => {
+@@ -247 +362,2 @@ fn build_get_and_check(
+-                    | MemoryInitOp::CheckRef { .. } => {
++                    | MemoryInitOp::CheckRef { .. }
++                    | MemoryInitOp::CheckRefAs { .. } => {
+@@ -336,0 +453,6 @@ fn build_get_and_check(
++            MemoryInitOp::CheckRefAs { pointee_ty, .. } => *pointee_ty,
++            MemoryInitOp::CheckAs { operand, pointee_ty }
++                if operand.ty(body.locals()).unwrap().kind().is_ref() =>
++            {
++                *pointee_ty
++            }
+@@ -371,0 +494,12 @@ fn build_set(
++                let initialized_mask;
++                let layout = if let MemoryInitOp::SetStorage { initialized, .. } = &operation {
++                    assert_eq!(layout.len(), initialized.len());
++                    initialized_mask = initialized
++                        .iter()
++                        .zip(layout)
++                        .map(|(initialized, data)| *initialized && *data)
++                        .collect::<Vec<_>>();
++                    &initialized_mask
++                } else {
++                    layout
++                };
+@@ -376 +510,3 @@ fn build_set(
+-                    MemoryInitOp::Set { .. } | MemoryInitOp::SetRef { .. } => {
++                    MemoryInitOp::Set { .. }
++                    | MemoryInitOp::SetRef { .. }
++                    | MemoryInitOp::SetStorage { .. } => {
+@@ -493 +629,11 @@ fn build_set(
+-                let layout = &field_layouts[union_field];
++                let field_layout = &field_layouts[union_field];
++                let mut storage_layout;
++                let layout = if maybe_uninit_storage(self.tcx, *pointee_info.ty()).is_some() {
++                    // An empty aggregate replaces the entire slot, even when its field is ().
++                    let size = pointee_info.ty().layout().unwrap().shape().size.bytes();
++                    storage_layout = field_layout.clone();
++                    storage_layout.resize(size, false);
++                    &storage_layout
++                } else {
++                    field_layout
++                };
+@@ -569,0 +716,11 @@ fn build_argument_operation(
++        // A slice's maybe_size is its ELEMENT size, never the size of a by-value argument.
++        // Reject it before creating locals, taking addresses or resolving sized model instances.
++        let Some(layout_size) = pointee_info.layout().argument_size() else {
++            self.inject_unsupported_check(
++                body,
++                source,
++                InsertPosition::Before,
++                "Kani does not support unsized by-value shadow argument/return transfers.",
++            );
++            return;
++        };
+@@ -575 +731,0 @@ fn build_argument_operation(
+-        let layout_size = pointee_info.layout().maybe_size().unwrap();
+@@ -587,0 +744,28 @@ fn build_argument_operation(
++        let mut args = vec![
++            operand,
++            Operand::Constant(ConstOperand {
++                span: source.span(body.blocks()),
++                user_ty: None,
++                const_: MirConst::try_from_uint(argument_no as u128, UintTy::Usize).unwrap(),
++            }),
++        ];
++        let function = match &operation {
++            MemoryInitOp::StoreArgument { function, .. }
++            | MemoryInitOp::LoadArgument { function, .. } => *function,
++            _ => unreachable!(),
++        };
++        args.push(body.new_uint_operand(
++            function.to_index() as u128,
++            UintTy::Usize,
++            source.span(body.blocks()),
++        ));
++        // Stores snapshot a live witness; loads apply the typed preserve mask.
++        if let MemoryInitOp::LoadArgument { argument_count, .. } = &operation {
++            args.push(body.new_uint_operand(
++                *argument_count as u128,
++                UintTy::Usize,
++                source.span(body.blocks()),
++            ));
++            let layout = transfer_mask(pointee_info.layout());
++            args.push(mk_layout_operand(body, &mut statements, source, &layout));
++        }
+@@ -595,9 +779 @@ fn build_argument_operation(
+-                args: vec![
+-                    operand,
+-                    Operand::Constant(ConstOperand {
+-                        span: source.span(body.blocks()),
+-                        user_ty: None,
+-                        const_: MirConst::try_from_uint(argument_no as u128, UintTy::Usize)
+-                            .unwrap(),
+-                    }),
+-                ],
++                args,
+@@ -634,0 +811,2 @@ fn build_assign_union(
++        let layout = transfer_mask(pointee_info.layout());
++        let layout_operand = mk_layout_operand(body, &mut statements, source, &layout);
+@@ -642 +820 @@ fn build_assign_union(
+-                args: vec![from, to],
++                args: vec![from, to, layout_operand],
+@@ -684,0 +863,11 @@ fn inject_unsupported_check(
++/// Keep the existing whole-storage policy for ordinary unions. MaybeUninit transfers use the
++/// payload mask computed by `for_typed_storage` instead.
++fn transfer_mask(layout: &PointeeLayout) -> Vec<bool> {
++    match layout {
++        PointeeLayout::Sized { layout } => layout.clone(),
++        PointeeLayout::Slice { element_layout } => element_layout.clone(),
++        PointeeLayout::Union { .. } => vec![true; layout.maybe_size().unwrap()],
++        PointeeLayout::TraitObject => unreachable!("Cannot transfer an arbitrary layout"),
++    }
++}
++
+@@ -746,0 +936,15 @@ pub fn resolve_mem_init_fn(fn_def: FnDef, layout_size: usize, associated_type: T
++
++/// Immutable origin admission reuses the existing flat MaybeUninit layout boundary. It does
++/// not make ordinary unions or new compound constant layouts eligible for immutable seeding.
++pub(crate) fn immutable_origin_type_supported(tcx: rustc_middle::ty::TyCtxt<'_>, ty: Ty) -> bool {
++    if ty_layout::maybe_uninit_storage(tcx, ty).is_some() {
++        return ty_layout::PointeeInfo::for_storage(tcx, ty).is_ok();
++    }
++    match ty.kind() {
++        TyKind::RigidTy(RigidTy::Array(element, _) | RigidTy::Slice(element)) => {
++            element.kind().is_primitive()
++        }
++        TyKind::RigidTy(RigidTy::Str) => true,
++        kind => kind.is_primitive(),
++    }
++}
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs
+index ad43d696568370539327776669b1bc6830e0f9bd..6cf42f45128b84f3090ccda9665e59c5daefb75d 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs
+@@ -67,0 +68 @@ fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, B
++            tcx,
+@@ -73 +74 @@ fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, B
+-            CheckUninitVisitor::new(),
++            CheckUninitVisitor::new(tcx, instance),
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 09346aa44bd2eabc50e97dba30c5295cfb0b29fb..11e154dffa21df1efbefe4f72ec157cd6981cf51 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -8 +7,0 @@
+-    kani_middle::nonnull_pointee,
+@@ -12,3 +11,6 @@
+-            PointeeInfo, TargetFinder,
+-            relevant_instruction::{InitRelevantInstruction, MemoryInitOp},
+-            ty_layout::{LayoutComputationError, tys_layout_compatible_to_size},
++            PointeeInfo, PointeeLayout, TargetFinder,
++            relevant_instruction::{InitRelevantInstruction, MemoryInitOp, constant_init_mask},
++            ty_layout::{
++                LayoutComputationError, maybe_uninit_storage, tys_layout_compatible_to_size,
++                wrapper_inner,
++            },
+@@ -16,0 +19 @@
++    kani_middle::{kani_functions::KaniFunction, nonnull_pointee, points_to::resolve_call},
+@@ -17,0 +21,2 @@
++use rustc_attr_ir::lang_items::LangItem;
++use rustc_middle::ty::TyCtxt;
+@@ -28 +33 @@
+-    ty::{AdtKind, ConstantKind, RigidTy, Ty, TyConstKind, TyKind},
++    ty::{AdtKind, ConstantKind, RigidTy, Ty, TyConstKind, TyKind, UintTy},
+@@ -31 +36,3 @@
+-pub struct CheckUninitVisitor {
++pub struct CheckUninitVisitor<'tcx> {
++    tcx: TyCtxt<'tcx>,
++    instance: Instance,
+@@ -39 +46 @@ pub struct CheckUninitVisitor {
+-impl TargetFinder for CheckUninitVisitor {
++impl TargetFinder for CheckUninitVisitor<'_> {
+@@ -64 +71 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
+-                    .filter(|(_, local)| local.ty.kind().is_union())
++                    .filter(|(_, local)| self.transfers_shadow(local.ty))
+@@ -66,6 +73,30 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
+-                if !union_args.is_empty() {
+-                    for (idx, _) in union_args {
+-                        self.push_target(MemoryInitOp::LoadArgument {
+-                            operand: Operand::Copy(Place { local: idx, projection: vec![] }),
+-                            argument_no: idx,
+-                        })
++                if self.instance.kind != InstanceKind::Intrinsic
++                    && (!union_args.is_empty() || self.transfers_shadow(body.locals()[0].ty))
++                {
++                    let unsized_transfer = union_args.iter().any(|(_, local)| {
++                        !local.ty.layout().is_ok_and(|layout| layout.shape().is_sized())
++                    }) || (self.transfers_shadow(body.locals()[0].ty)
++                        && !body.locals()[0]
++                            .ty
++                            .layout()
++                            .is_ok_and(|layout| layout.shape().is_sized()));
++                    if unsized_transfer {
++                        self.push_target(MemoryInitOp::Unsupported {
++                            reason: "Kani does not support unsized by-value shadow argument/return transfers."
++                                .to_string(),
++                        });
++                    } else if has_transfer_protocol(self.instance) {
++                        for (idx, _) in &union_args {
++                            self.push_target(MemoryInitOp::LoadArgument {
++                                operand: Operand::Copy(Place::from(*idx)),
++                                argument_no: *idx,
++                                function: self.instance.ty(),
++                                argument_count: union_args.len(),
++                                position: InsertPosition::Before,
++                            });
++                        }
++                    } else {
++                        self.push_target(MemoryInitOp::Unsupported {
++                            reason: "Kani does not support shadow transfers without a paired argument/return protocol."
++                                .to_string(),
++                        });
+@@ -81,2 +112,2 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
+-impl CheckUninitVisitor {
+-    pub fn new() -> Self {
++impl<'tcx> CheckUninitVisitor<'tcx> {
++    pub fn new(tcx: TyCtxt<'tcx>, instance: Instance) -> Self {
+@@ -83,0 +115,2 @@ pub fn new() -> Self {
++            tcx,
++            instance,
+@@ -96,0 +130,328 @@ fn push_target(&mut self, source_op: MemoryInitOp) {
++
++    fn transfers_shadow(&self, ty: Ty) -> bool {
++        ty.kind().is_union() || maybe_uninit_storage(self.tcx, ty).is_some()
++    }
++
++    /// Nested aggregates have no value-transfer protocol. Reuse the existing layout
++    /// boundary rather than treating every layout error (or generic argument) as a union.
++    fn needs_nested_call_reset(&self, ty: Ty) -> bool {
++        !self.transfers_shadow(ty)
++            && ty.layout().is_ok()
++            && matches!(PointeeInfo::from_ty(ty), Err(LayoutComputationError::UnionAsField(_)))
++    }
++
++    fn reset_nested_call(&mut self, args: &[Operand], destination: &Place, returns: bool) {
++        // The caller must have snapshotted ALL supported arguments before this helper.
++        // Take the address of the actual Move place while its storage is still live.
++        for operand in args {
++            if let Operand::Move(place) = operand
++                && self.needs_nested_call_reset(place.ty(&self.locals).unwrap())
++            {
++                self.push_target(MemoryInitOp::SetRef {
++                    operand: Operand::Copy(place.clone()),
++                    value: false,
++                    position: InsertPosition::Before,
++                });
++            }
++        }
++        if returns && self.needs_nested_call_reset(destination.ty(&self.locals).unwrap()) {
++            // After a Call means its normal continuation edge, never unwind/abort.
++            // Clear exactly this place's full storage, including padding, not pointees.
++            self.push_target(MemoryInitOp::SetRef {
++                operand: Operand::Copy(destination.clone()),
++                value: false,
++                position: InsertPosition::After,
++            });
++        }
++    }
++
++    /// Locate the first union on the projection path, including a union at the end.
++    fn enclosing_union(&self, place: &Place) -> Option<Ty> {
++        let mut prefix = Place::from(place.local);
++        for projection in &place.projection {
++            let ty = prefix.ty(&self.locals).unwrap();
++            if ty.kind().is_union() {
++                return Some(ty);
++            }
++            prefix.projection.push(projection.clone());
++        }
++        let ty = prefix.ty(&self.locals).unwrap();
++        ty.kind().is_union().then_some(ty)
++    }
++
++    fn assign_storage_operand(&mut self, place: &Place, operand: &Operand) {
++        if let Some(initialized) = constant_init_mask(operand) {
++            self.push_target(MemoryInitOp::SetStorage {
++                operand: Operand::Copy(place.clone()),
++                initialized,
++                position: InsertPosition::After,
++            });
++        } else if matches!(operand, Operand::Copy(_) | Operand::Move(_)) {
++            // Capture the source and destination addresses before the assignment can overwrite
++            // any part of either place.
++            self.push_target(MemoryInitOp::AssignUnion {
++                lvalue: place.clone(),
++                rvalue: operand.clone(),
++                position: InsertPosition::Before,
++            });
++        } else {
++            self.unsupported_storage_assignment();
++        }
++    }
++
++    fn unsupported_storage_assignment(&mut self) {
++        self.push_target(MemoryInitOp::Unsupported {
++            reason: "Kani does not support this assignment to MaybeUninit storage.".to_string(),
++        });
++    }
++
++    fn assign_storage(&mut self, place: &Place, ty: Ty, rvalue: &Rvalue) {
++        match rvalue {
++            Rvalue::Cast(CastKind::Transmute, operand, target)
++                if let Some(initialized) = self.typed_storage_mask(operand, *target) =>
++            {
++                // visit_rvalue preserves the typed source checks. A typed move
++                // can discard padding, so only T's data bytes are initialized in the slot.
++                // This is the sole destination update: do not run the generic union setter.
++                self.push_target(MemoryInitOp::SetStorage {
++                    operand: Operand::Copy(place.clone()),
++                    initialized,
++                    position: InsertPosition::After,
++                });
++            }
++            Rvalue::Use(operand, _) => self.assign_storage_operand(place, operand),
++            Rvalue::Aggregate(AggregateKind::Adt(def, _, _, _, Some(field)), _)
++                if def.kind() == AdtKind::Union =>
++            {
++                self.push_target(MemoryInitOp::CreateUnion {
++                    operand: Operand::Copy(place.clone()),
++                    field: *field,
++                });
++            }
++            Rvalue::Aggregate(AggregateKind::Array(_), operands)
++                if place.projection.is_empty()
++                    && operands.iter().all(|operand| match operand {
++                        Operand::Copy(src) | Operand::Move(src) => {
++                            src.local != place.local && src.projection.is_empty()
++                        }
++                        _ => constant_init_mask(operand).is_some(),
++                    }) =>
++            {
++                let len = operands.len().try_into().unwrap();
++                for (index, operand) in operands.iter().enumerate() {
++                    let mut element = place.clone();
++                    element.projection.push(ProjectionElem::ConstantIndex {
++                        offset: index.try_into().unwrap(),
++                        min_length: len,
++                        from_end: false,
++                    });
++                    self.assign_storage_operand(&element, operand);
++                }
++            }
++            Rvalue::Repeat(operand, _) => {
++                if let Some(mask) = constant_init_mask(operand) {
++                    let TyKind::RigidTy(RigidTy::Array(_, len)) = ty.kind() else { unreachable!() };
++                    self.push_target(MemoryInitOp::SetStorage {
++                        operand: Operand::Copy(place.clone()),
++                        initialized: mask
++                            .repeat(len.eval_target_usize().unwrap().try_into().unwrap()),
++                        position: InsertPosition::After,
++                    });
++                } else if place.projection.is_empty()
++                    && let Operand::Copy(source) | Operand::Move(source) = operand
++                    && source.projection.is_empty()
++                    && source.local != place.local
++                {
++                    // MIR may hold a const constructor result in a local before repeating it.
++                    // Copy its byte state to each slot using the array's static element stride.
++                    let TyKind::RigidTy(RigidTy::Array(_, len)) = ty.kind() else { unreachable!() };
++                    let len = len.eval_target_usize().unwrap();
++                    for index in 0..len {
++                        let mut element = place.clone();
++                        element.projection.push(ProjectionElem::ConstantIndex {
++                            offset: index,
++                            min_length: len,
++                            from_end: false,
++                        });
++                        self.assign_storage_operand(&element, operand);
++                    }
++                } else {
++                    self.unsupported_storage_assignment();
++                }
++            }
++            _ => self.unsupported_storage_assignment(),
++        }
++    }
++
++    /// Match only T -> MaybeUninit<T> or [T; N] -> [MaybeUninit<T>; N].
++    /// Both the cast visitor and assignment handler use this exact predicate and mask.
++    fn typed_storage_mask(&self, operand: &Operand, target: Ty) -> Option<Vec<bool>> {
++        let source = operand.ty(&self.locals).ok()?;
++        let matches = wrapper_inner(self.tcx, target, LangItem::MaybeUninit) == Some(source)
++            || match (source.kind(), target.kind()) {
++                (
++                    TyKind::RigidTy(RigidTy::Array(from, from_len)),
++                    TyKind::RigidTy(RigidTy::Array(to, to_len)),
++                ) => {
++                    from_len == to_len
++                        && wrapper_inner(self.tcx, to, LangItem::MaybeUninit) == Some(from)
++                }
++                _ => false,
++            };
++        if !matches || source.layout().ok()?.shape().size != target.layout().ok()?.shape().size {
++            return None;
++        }
++        let info = PointeeInfo::from_ty(source).ok()?;
++        let PointeeLayout::Sized { layout } = info.layout() else { return None };
++        Some(layout.clone())
++    }
++
++    /// Match only the transparent conversion from MaybeUninit<T> to T or ManuallyDrop<T>.
++    fn maybe_uninit_transmute(&mut self, operand: &Operand, target: Ty) -> bool {
++        let operand_ty = operand.ty(&self.locals).unwrap();
++        let Some(inner) = wrapper_inner(self.tcx, operand_ty, LangItem::MaybeUninit) else {
++            return false;
++        };
++        if target != inner && wrapper_inner(self.tcx, target, LangItem::ManuallyDrop) != Some(inner)
++        {
++            return false;
++        }
++        let Ok(info) = PointeeInfo::from_ty(inner) else { return false };
++        let PointeeLayout::Sized { layout } = info.layout() else { return false };
++        if matches!(operand, Operand::Copy(_) | Operand::Move(_)) {
++            self.push_target(MemoryInitOp::CheckRefAs {
++                operand: operand.clone(),
++                pointee_ty: inner,
++            });
++        } else if let Some(initialized) = constant_init_mask(operand)
++            && initialized.len() == layout.len()
++        {
++            if layout
++                .iter()
++                .zip(initialized)
++                .any(|(required, initialized)| *required && !initialized)
++            {
++                self.push_target(MemoryInitOp::TriviallyUnsafe {
++                    reason: format!(
++                        "Undefined Behavior: Reading from an uninitialized pointer of type `{inner}`"
++                    ),
++                });
++            }
++        } else {
++            self.push_target(MemoryInitOp::Unsupported {
++                reason:
++                    "Kani cannot determine the initialization state of this MaybeUninit constant."
++                        .to_string(),
++            });
++        }
++        true
++    }
++
++    fn address_of_raw_deref(&self, place: &Place) -> bool {
++        let mut prefix = Place::from(place.local);
++        for projection in &place.projection {
++            if *projection == ProjectionElem::Deref
++                && prefix.ty(&self.locals).unwrap().kind().is_raw_ptr()
++            {
++                return true;
++            }
++            prefix.projection.push(projection.clone());
++        }
++        false
++    }
++
++    fn visit_ordinary_assignment(
++        &mut self,
++        place: &Place,
++        rvalue: &Rvalue,
++        ty: Ty,
++        in_union: bool,
++    ) {
++        // Check pointers loaded while computing the destination address, but never read
++        // the final pointee before writing it. Fields/indices after Deref still designate
++        // a raw store: mark exactly that place's data, not its parent or its padding.
++        let last_deref = place.projection.iter().rposition(|p| *p == ProjectionElem::Deref);
++        let mut prefix = Place::from(place.local);
++        let mut raw_store = false;
++        for (index, projection) in place.projection.iter().enumerate() {
++            if *projection == ProjectionElem::Deref
++                && prefix.ty(&self.locals).unwrap().kind().is_raw_ptr()
++            {
++                raw_store = true;
++                if Some(index) != last_deref {
++                    self.push_target(MemoryInitOp::Check {
++                        operand: Operand::Copy(prefix.clone()),
++                    });
++                }
++            }
++            prefix.projection.push(projection.clone());
++        }
++        // Union assignments below carry their own field/copy masks.
++        if raw_store && !in_union {
++            self.push_target(MemoryInitOp::SetRef {
++                operand: Operand::Copy(place.clone()),
++                value: true,
++                position: InsertPosition::After,
++            });
++        }
++        // Check whether Rvalue creates a new initialized pointer previously not captured inside shadow memory.
++        if ty.kind().is_raw_ptr()
++            && let Rvalue::AddressOf(_, addressed) = rvalue
++            && !self.address_of_raw_deref(addressed)
++            && !self.enclosing_union(addressed).is_some_and(|union| {
++                wrapper_inner(self.tcx, union, LangItem::MaybeUninit).is_some()
++            })
++            && maybe_uninit_storage(self.tcx, addressed.ty(&self.locals).unwrap()).is_none()
++        {
++            self.push_target(MemoryInitOp::Set {
++                operand: Operand::Copy(place.clone()),
++                value: true,
++                position: InsertPosition::After,
++            });
++        }
++
++        // Need to copy some information about union initialization, since lvalue is
++        // either a union or a field inside a union.
++        if in_union {
++            match rvalue {
++                Rvalue::Use(operand, _) => {
++                    // This is a union-to-union assignment, so we need to copy the
++                    // initialization state.
++                    if place.ty(&self.locals).unwrap().kind().is_union()
++                        && matches!(operand, Operand::Constant(_))
++                    {
++                        self.assign_storage_operand(place, operand);
++                    } else if place.ty(&self.locals).unwrap().kind().is_union() {
++                        self.push_target(MemoryInitOp::AssignUnion {
++                            lvalue: place.clone(),
++                            rvalue: operand.clone(),
++                            position: InsertPosition::After,
++                        });
++                    } else {
++                        // This is assignment to a field of a union.
++                        self.push_target(MemoryInitOp::SetRef {
++                            operand: Operand::Copy(place.clone()),
++                            value: true,
++                            position: InsertPosition::After,
++                        });
++                    }
++                }
++                Rvalue::Aggregate(AggregateKind::Adt(adt_def, _, _, _, union_field), _) => {
++                    // Create a union from scratch as an aggregate. We handle it here because we
++                    // need to know which field is getting assigned.
++                    if adt_def.kind() == AdtKind::Union {
++                        self.push_target(MemoryInitOp::CreateUnion {
++                            operand: Operand::Copy(place.clone()),
++                            field: union_field.unwrap(), // Safe to unwrap because we know this is a union.
++                        });
++                    }
++                }
++                // TODO: add support for Rvalue::Cast, etc.
++                _ => self.push_target(MemoryInitOp::Unsupported {
++                    reason:
++                        "Performing a union assignment with a non-supported construct as an Rvalue"
++                            .to_string(),
++                }),
++            }
++        }
++    }
+@@ -99 +460 @@ fn push_target(&mut self, source_op: MemoryInitOp) {
+-impl MirVisitor for CheckUninitVisitor {
++impl MirVisitor for CheckUninitVisitor<'_> {
+@@ -117,4 +478,10 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+-                // Preemptively check if we do not support computing the layout of a type because of
+-                // inner union fields. This allows to inject `assert!(false)` early.
+-                if let Err(reason @ LayoutComputationError::UnionAsField(_)) =
+-                    PointeeInfo::from_ty(place.ty(&self.locals).unwrap())
++                let ty = place.ty(&self.locals).unwrap();
++                let union = self.enclosing_union(place);
++                let in_maybe_uninit = union
++                    .is_some_and(|ty| wrapper_inner(self.tcx, ty, LangItem::MaybeUninit).is_some());
++
++                // Reject nested unions before the generic shadow update can treat them as values.
++                if maybe_uninit_storage(self.tcx, ty).is_some() {
++                    self.assign_storage(place, ty, rvalue);
++                } else if let Err(reason @ LayoutComputationError::UnionAsField(_)) =
++                    PointeeInfo::from_ty(ty)
+@@ -124,3 +491 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+-                            "Checking memory initialization of type {} is not supported. {}",
+-                            place.ty(&self.locals).unwrap(),
+-                            reason
++                            "Checking memory initialization of type {ty} is not supported. {reason}"
+@@ -129,35 +494,2 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+-                    return;
+-                }
+-
+-                // Check whether we are assigning into a dereference (*ptr = _).
+-                if let Some(place_without_deref) = try_remove_topmost_deref(place) {
+-                    // First, check that we are not dereferencing extra pointers along the way
+-                    // (e.g., **ptr = _). If yes, check whether these pointers are initialized.
+-                    let mut place_to_add_projections =
+-                        Place { local: place_without_deref.local, projection: vec![] };
+-                    for projection_elem in place_without_deref.projection.iter() {
+-                        // If the projection is Deref and the current type is raw pointer, check
+-                        // if it points to initialized memory.
+-                        if *projection_elem == ProjectionElem::Deref
+-                            && let TyKind::RigidTy(RigidTy::RawPtr(..)) =
+-                                place_to_add_projections.ty(&self.locals).unwrap().kind()
+-                        {
+-                            self.push_target(MemoryInitOp::Check {
+-                                operand: Operand::Copy(place_to_add_projections.clone()),
+-                            });
+-                        };
+-                        place_to_add_projections.projection.push(projection_elem.clone());
+-                    }
+-                    if place_without_deref.ty(&self.locals).unwrap().kind().is_raw_ptr() {
+-                        self.push_target(MemoryInitOp::Set {
+-                            operand: Operand::Copy(place_without_deref),
+-                            value: true,
+-                            position: InsertPosition::After,
+-                        });
+-                    }
+-                }
+-                // Check whether Rvalue creates a new initialized pointer previously not captured inside shadow memory.
+-                if place.ty(&self.locals).unwrap().kind().is_raw_ptr()
+-                    && let Rvalue::AddressOf(..) = rvalue
+-                {
+-                    self.push_target(MemoryInitOp::Set {
++                } else if in_maybe_uninit {
++                    self.push_target(MemoryInitOp::SetRef {
+@@ -168,55 +500,2 @@ fn visit_statement(&mut self, stmt: &Statement, location: Location) {
+-                }
+-
+-                // TODO: add support for ADTs which could have unions as subfields. Currently,
+-                // if a union as a subfield is detected, `assert!(false)` will be injected from
+-                // the type layout code.
+-                let is_inside_union = {
+-                    let mut place_to_add_projections =
+-                        Place { local: place.local, projection: vec![] };
+-                    let mut contains_union =
+-                        place_to_add_projections.ty(&self.locals).unwrap().kind().is_union();
+-                    for projection_elem in place.projection.iter() {
+-                        if place_to_add_projections.ty(&self.locals).unwrap().kind().is_union() {
+-                            contains_union = true;
+-                            break;
+-                        }
+-                        place_to_add_projections.projection.push(projection_elem.clone());
+-                    }
+-                    contains_union
+-                };
+-
+-                // Need to copy some information about union initialization, since lvalue is
+-                // either a union or a field inside a union.
+-                if is_inside_union {
+-                    match rvalue {
+-                        Rvalue::Use(operand, _) => {
+-                            // This is a union-to-union assignment, so we need to copy the
+-                            // initialization state.
+-                            if place.ty(&self.locals).unwrap().kind().is_union() {
+-                                self.push_target(MemoryInitOp::AssignUnion {
+-                                    lvalue: place.clone(),
+-                                    rvalue: operand.clone(),
+-                                });
+-                            } else {
+-                                // This is assignment to a field of a union.
+-                                self.push_target(MemoryInitOp::SetRef {
+-                                    operand: Operand::Copy(place.clone()),
+-                                    value: true,
+-                                    position: InsertPosition::After,
+-                                });
+-                            }
+-                        }
+-                        Rvalue::Aggregate(AggregateKind::Adt(adt_def, _, _, _, union_field), _) => {
+-                            // Create a union from scratch as an aggregate. We handle it here because we
+-                            // need to know which field is getting assigned.
+-                            if adt_def.kind() == AdtKind::Union {
+-                                self.push_target(MemoryInitOp::CreateUnion {
+-                                    operand: Operand::Copy(place.clone()),
+-                                    field: union_field.unwrap(), // Safe to unwrap because we know this is a union.
+-                                });
+-                            }
+-                        }
+-                        // TODO: add support for Rvalue::Cast, etc.
+-                        _ => self
+-                            .push_target(MemoryInitOp::Unsupported { reason: "Performing a union assignment with a non-supported construct as an Rvalue".to_string() }),
+-                    }
++                } else {
++                    self.visit_ordinary_assignment(place, rvalue, ty, union.is_some());
+@@ -263 +542 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-            TerminatorKind::Call { func, args, destination, .. } => {
++            TerminatorKind::Call { func, args, destination, target, .. } => 'call: {
+@@ -265 +544 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-                let instance = match try_resolve_instance(&self.locals, func) {
++                let instance = match try_resolve_instance(self.tcx, &self.locals, func) {
+@@ -268 +546,0 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-                        self.super_terminator(term, location);
+@@ -270 +548,2 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-                        return;
++                        // Flush entry loads, operand reads and this diagnostic exactly once.
++                        break 'call;
+@@ -272,0 +552,40 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
++                // Intrinsics use their explicit models and value-transfer guard below.
++                // Only ordinary calls need a paired argument/return protocol.
++                let paired = has_transfer_protocol(instance);
++                let destination_ty = destination.ty(&self.locals).unwrap();
++                let shadow_return = self.transfers_shadow(destination_ty);
++                let shadow_args =
++                    args.iter().any(|arg| self.transfers_shadow(arg.ty(&self.locals).unwrap()));
++                let unsized_transfer = args.iter().any(|arg| {
++                    let ty = arg.ty(&self.locals).unwrap();
++                    self.transfers_shadow(ty)
++                        && !ty.layout().is_ok_and(|layout| layout.shape().is_sized())
++                }) || (shadow_return
++                    && !destination_ty.layout().is_ok_and(|layout| layout.shape().is_sized()));
++                if unsized_transfer {
++                    // Reject the entire transfer before ANY begin, load, snapshot or deinit.
++                    self.push_target(MemoryInitOp::Unsupported {
++                        reason: "Kani does not support unsized by-value shadow argument/return transfers."
++                            .to_string(),
++                    });
++                    break 'call;
++                }
++                if instance.kind != InstanceKind::Intrinsic
++                    && !paired
++                    && (shadow_args || shadow_return)
++                {
++                    self.push_target(MemoryInitOp::Unsupported {
++                        reason: "Kani does not support shadow transfers without a paired argument/return protocol."
++                            .to_string(),
++                    });
++                    break 'call;
++                }
++                if paired && shadow_return {
++                    self.push_target(MemoryInitOp::LoadArgument {
++                        operand: Operand::Copy(destination.clone()),
++                        argument_no: 0,
++                        function: instance.ty(),
++                        argument_count: 0,
++                        position: InsertPosition::After,
++                    });
++                }
+@@ -275,0 +595,16 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
++                            // Forget consumes without reading or returning any payload bytes.
++                            Intrinsic::Forget => {}
++                            // Pointer-effect models below do not transfer by-value shadow
++                            // storage. In particular, skipping black_box would lose its copy
++                            // effect. Reject such values until an explicit model exists.
++                            intrinsic if shadow_args || shadow_return => {
++                                self.push_target(MemoryInitOp::Unsupported {
++                                    reason: format!("Kani does not support shadow-carrying argument or return values of intrinsic `{intrinsic:?}`."),
++                                });
++                            }
++                            // black_box is a by-value identity in codegen, even though it
++                            // has no pointer-effect model. Its nested values need the same
++                            // conservative boundary as ordinary calls. Forget stays a no-op.
++                            Intrinsic::BlackBox => {
++                                self.reset_nested_call(args, destination, target.is_some());
++                            }
+@@ -313,0 +649,32 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
++                            Intrinsic::RawEq => {
++                                for operand in args {
++                                    let TyKind::RigidTy(RigidTy::Ref(_, pointee_ty, _)) =
++                                        operand.ty(&self.locals).unwrap().kind()
++                                    else {
++                                        unreachable!("raw_eq operands must be references")
++                                    };
++                                    // raw_eq reads the whole extent, including padding and union
++                                    // storage. A byte array selects every byte without imposing
++                                    // the pointee's typed data mask or reading its value.
++                                    // CheckAs reborrows reference places as &raw const *operand.
++                                    let bytes_ty = pointee_ty.layout().ok().and_then(|layout| {
++                                        Ty::try_new_array(
++                                            Ty::unsigned_ty(UintTy::U8),
++                                            layout.shape().size.bytes().try_into().unwrap(),
++                                        )
++                                        .ok()
++                                    });
++                                    if let Some(pointee_ty) = bytes_ty {
++                                        self.push_target(MemoryInitOp::CheckAs {
++                                            operand: operand.clone(),
++                                            pointee_ty,
++                                        });
++                                    } else {
++                                        self.push_target(MemoryInitOp::Unsupported {
++                                            reason: format!(
++                                                "Kani cannot determine the pointee layout for raw_eq of `{pointee_ty}`."
++                                            ),
++                                        });
++                                    }
++                                }
++                            }
+@@ -343,0 +711,11 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
++                            Intrinsic::TypedSwap
++                                if let TyKind::RigidTy(RigidTy::RawPtr(ty, _)) =
++                                    args[0].ty(&self.locals).unwrap().kind()
++                                    && maybe_uninit_storage(self.tcx, ty).is_some() =>
++                            {
++                                self.push_target(MemoryInitOp::Unsupported {
++                                    reason:
++                                        "Kani does not support typed_swap of MaybeUninit storage."
++                                            .to_string(),
++                                });
++                            }
+@@ -375 +753,3 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-                    InstanceKind::Item => {
++                    InstanceKind::Item | InstanceKind::Shim => {
++                        // Non-shadow MIR-backed shims are followed by points-to and the
++                        // local visitor. Only the shared protocol predicate grants pairing.
+@@ -401 +781 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-                        } else {
++                        } else if paired {
+@@ -405 +785,3 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-                                .filter(|(_, arg)| arg.ty(&self.locals).unwrap().kind().is_union())
++                                .filter(|(_, arg)| {
++                                    self.transfers_shadow(arg.ty(&self.locals).unwrap())
++                                })
+@@ -408 +790,5 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-                                for (idx, operand) in union_args {
++                                self.push_target(MemoryInitOp::BeginArgumentTransfer {
++                                    function: instance.ty(),
++                                    argument_count: union_args.len(),
++                                });
++                                for (idx, operand) in union_args.iter().copied() {
+@@ -411,2 +797,16 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-                                        argument_no: idx + 1, // since arguments are 1-indexed
+-                                    })
++                                        argument_no: idx + 1,
++                                        function: instance.ty(),
++                                    });
++                                }
++                                // Snapshot ALL argument witnesses before clearing ANY source.
++                                // Assignment moves, Copy operands and forget's intrinsic model
++                                // do not take this path. A usual by-value call moves a temporary,
++                                // so the original address-taken storage retains its state.
++                                for (_, operand) in union_args {
++                                    if let Operand::Move(place) = operand {
++                                        self.push_target(MemoryInitOp::SetRef {
++                                            operand: Operand::Copy(place.clone()),
++                                            value: false,
++                                            position: InsertPosition::Before,
++                                        });
++                                    }
+@@ -415,0 +816,4 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
++                        // Include accepted foreign calls and MIR-backed shims: neither has
++                        // a paired nested protocol. Resolver/early Unsupported paths above
++                        // remain unchanged. This also runs when union_args is empty.
++                        self.reset_nested_call(args, destination, target.is_some());
+@@ -417 +821,2 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-                    _ => {}
++                    // The shared resolver rejects these before any call-specific effects.
++                    InstanceKind::Virtual { .. } | InstanceKind::LlvmIntrinsic => unreachable!(),
+@@ -451,0 +857,18 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
++            TerminatorKind::Return => {
++                let return_place = Place::from(0);
++                if has_transfer_protocol(self.instance)
++                    && self.transfers_shadow(return_place.ty(&self.locals).unwrap())
++                    && return_place
++                        .ty(&self.locals)
++                        .unwrap()
++                        .layout()
++                        .is_ok_and(|layout| layout.shape().is_sized())
++                {
++                    self.push_target(MemoryInitOp::StoreArgument {
++                        operand: Operand::Copy(return_place),
++                        argument_no: 0,
++                        function: self.instance.ty(),
++                    });
++                }
++                self.super_terminator(term, location);
++            }
+@@ -456 +878,0 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-            | TerminatorKind::Return
+@@ -479,6 +901,5 @@ fn visit_place(&mut self, place: &Place, ptx: PlaceContext, location: Location)
+-                    if intermediate_place.ty(&self.locals).unwrap().kind().is_union()
+-                        && !ptx.is_mutating()
+-                    {
+-                        let contains_deref_projection =
+-                            { place.projection.contains(&ProjectionElem::Deref) };
+-                        if contains_deref_projection {
++                    let union_ty = intermediate_place.ty(&self.locals).unwrap();
++                    if union_ty.kind().is_union() && !ptx.is_mutating() {
++                        if wrapper_inner(self.tcx, union_ty, LangItem::MaybeUninit).is_none()
++                            && place.projection.contains(&ProjectionElem::Deref)
++                        {
+@@ -529,0 +951,25 @@ fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
++        if let Rvalue::AddressOf(_, place) = rvalue
++            && let Some(deref) = place.projection.iter().rposition(|p| *p == ProjectionElem::Deref)
++        {
++            // Forming an address does not read the final pointee. A pointer loaded while
++            // computing that address still needs the ordinary read checks.
++            let pointer =
++                Place { local: place.local, projection: place.projection[..deref].to_vec() };
++            self.visit_operand(&Operand::Copy(pointer), location);
++            return;
++        }
++        if let Rvalue::AddressOf(_, place) = rvalue
++            && self.enclosing_union(place).is_some_and(|union| {
++                wrapper_inner(self.tcx, union, LangItem::MaybeUninit).is_some()
++            })
++        {
++            // A raw address into the value field of a local slot also leaves shadow unchanged.
++            return;
++        }
++        if let Rvalue::Ref(_, _, place) = rvalue
++            && let Some(union) = self.enclosing_union(place)
++            && wrapper_inner(self.tcx, union, LangItem::MaybeUninit).is_some()
++        {
++            self.push_target(MemoryInitOp::CheckRef { operand: Operand::Copy(place.clone()) });
++            return;
++        }
+@@ -543 +989,19 @@ fn visit_rvalue(&mut self, rvalue: &Rvalue, location: Location) {
+-                    if !tys_layout_compatible_to_size(&operand_ty, ty) {
++                    if self.typed_storage_mask(operand, *ty).is_some() {
++                        // The ordinary operand traversal below retains raw-dereference and
++                        // union-field checks. Delayed UB still checks affected typed locals.
++                        // Only the layout rejection is bypassed; assign_storage installs T's
++                        // data mask once, including false padding bytes.
++                    } else if let (
++                        TyKind::RigidTy(RigidTy::Array(from, from_len)),
++                        TyKind::RigidTy(RigidTy::Array(to, to_len)),
++                    ) = (operand_ty.kind(), ty.kind())
++                        && from_len == to_len
++                        && wrapper_inner(self.tcx, from, LangItem::MaybeUninit) == Some(to)
++                    {
++                        self.push_target(MemoryInitOp::Unsupported {
++                            reason: "Kani does not support checking memory initialization of transmute from [MaybeUninit<T>; N] to [T; N]."
++                                .to_string(),
++                        });
++                    } else if self.maybe_uninit_transmute(operand, *ty) {
++                        // Initialization was checked against the destination's data bytes.
++                    } else if !tys_layout_compatible_to_size(&operand_ty, ty) {
+@@ -646 +1109,0 @@ fn can_skip_intrinsic(intrinsic: Intrinsic) -> bool {
+-        | Intrinsic::RawEq
+@@ -715,10 +1177,0 @@ fn can_skip_intrinsic(intrinsic: Intrinsic) -> bool {
+-/// Try removing a topmost deref projection from a place if it exists, returning a place without it.
+-fn try_remove_topmost_deref(place: &Place) -> Option<Place> {
+-    let mut new_place = place.clone();
+-    if let Some(ProjectionElem::Deref) = new_place.projection.pop() {
+-        Some(new_place)
+-    } else {
+-        None
+-    }
+-}
+-
+@@ -726,8 +1179,6 @@ fn try_remove_topmost_deref(place: &Place) -> Option<Place> {
+-fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Result<Instance, String> {
+-    let ty = func.ty(locals).unwrap();
+-    match ty.kind() {
+-        TyKind::RigidTy(RigidTy::FnDef(def, args)) => Ok(Instance::resolve(def, &args).unwrap()),
+-        _ => Err(format!(
+-            "Kani was not able to resolve the instance of the function operand `{ty:?}`. Currently, memory initialization checks in presence of function pointers and vtable calls are not supported. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+-        )),
+-    }
++fn try_resolve_instance(
++    tcx: TyCtxt,
++    locals: &[LocalDecl],
++    func: &Operand,
++) -> Result<Instance, String> {
++    resolve_call(tcx, func.ty(locals).unwrap())
+@@ -780,0 +1232,11 @@ fn single_field_ty(ty: Ty) -> Option<Ty> {
++
++/// Caller stores and callee loads must agree on exactly the same supported instance domain.
++/// Bodyful shims/intrinsics are not ordinary item calls and have no paired protocol here.
++/// Marker-dispatched hooks replace the MIR call during codegen, so their MIR body cannot
++/// consume argument snapshots or publish a return snapshot even when it exists.
++fn has_transfer_protocol(instance: Instance) -> bool {
++    instance.kind == InstanceKind::Item
++        && !instance.is_foreign_item()
++        && instance.has_body()
++        && !matches!(KaniFunction::try_from(instance), Ok(KaniFunction::Hook(_)))
++}
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+index 973dde0b840ab9eb975ee9efd3eb0650c8814748..88414a040a79ee34e99bc79bef8bc03317d6f76d 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs
+@@ -12,2 +12,2 @@
+-        CastKind, FieldIdx, Mutability, Operand, Place, RawPtrKind, Rvalue, Statement,
+-        StatementKind,
++        CastKind, FieldIdx, Mutability, Operand, Place, ProjectionElem, RawPtrKind, Rvalue,
++        Statement, StatementKind,
+@@ -15 +15 @@
+-    ty::{RigidTy, Ty},
++    ty::{ConstantKind, RigidTy, Ty},
+@@ -39,0 +40,2 @@ pub enum MemoryInitOp {
++    /// Check the destination type's data bytes at the address of a transmute source.
++    CheckRefAs { operand: Operand, pointee_ty: Ty },
+@@ -42,0 +45,2 @@ pub enum MemoryInitOp {
++    /// Replace the state of every byte in storage assigned from a MIR constant.
++    SetStorage { operand: Operand, initialized: Vec<bool>, position: InsertPosition },
+@@ -50 +54 @@ pub enum MemoryInitOp {
+-    AssignUnion { lvalue: Place, rvalue: Operand },
++    AssignUnion { lvalue: Place, rvalue: Operand, position: InsertPosition },
+@@ -53,6 +57,12 @@ pub enum MemoryInitOp {
+-    /// Load argument containing a union from the argument buffer together if the argument number
+-    /// provided matches.
+-    LoadArgument { operand: Operand, argument_no: usize },
+-    /// Store argument containing a union into the argument buffer together with the argument number
+-    /// provided.
+-    StoreArgument { operand: Operand, argument_no: usize },
++    /// Start a fresh argument protocol for a particular monomorphized function item.
++    BeginArgumentTransfer { function: Ty, argument_count: usize },
++    /// Load shadow storage. Index zero is the mandatory normal return.
++    LoadArgument {
++        operand: Operand,
++        argument_no: usize,
++        function: Ty,
++        argument_count: usize,
++        position: InsertPosition,
++    },
++    /// Snapshot a live source witness before any in-place call operand is deinitialized.
++    StoreArgument { operand: Operand, argument_no: usize, function: Ty },
+@@ -78,0 +89,4 @@ pub fn mk_operand(
++            MemoryInitOp::CheckRefAs { operand, pointee_ty } => {
++                let address = mk_ref(operand, body, statements, source);
++                mk_cast(&address, *pointee_ty, body, statements, source)
++            }
+@@ -80,0 +95 @@ pub fn mk_operand(
++            | MemoryInitOp::SetStorage { operand, .. }
+@@ -86 +101,2 @@ pub fn mk_operand(
+-            MemoryInitOp::Copy { .. }
++            MemoryInitOp::BeginArgumentTransfer { .. }
++            | MemoryInitOp::Copy { .. }
+@@ -111 +127 @@ pub fn expect_assign_union_operands(
+-            MemoryInitOp::AssignUnion { lvalue, rvalue } => {
++            MemoryInitOp::AssignUnion { lvalue, rvalue, .. } => {
+@@ -128 +144,4 @@ pub fn operand_ty(&self, body: &MutableBody) -> Ty {
+-            MemoryInitOp::CheckAs { pointee_ty, .. } => Ty::new_ptr(*pointee_ty, Mutability::Not),
++            MemoryInitOp::CheckAs { pointee_ty, .. }
++            | MemoryInitOp::CheckRefAs { pointee_ty, .. } => {
++                Ty::new_ptr(*pointee_ty, Mutability::Not)
++            }
+@@ -129,0 +149 @@ pub fn operand_ty(&self, body: &MutableBody) -> Ty {
++            | MemoryInitOp::SetStorage { operand, .. }
+@@ -141 +161,3 @@ pub fn operand_ty(&self, body: &MutableBody) -> Ty {
+-            MemoryInitOp::Unsupported { .. } | MemoryInitOp::TriviallyUnsafe { .. } => {
++            MemoryInitOp::BeginArgumentTransfer { .. }
++            | MemoryInitOp::Unsupported { .. }
++            | MemoryInitOp::TriviallyUnsafe { .. } => {
+@@ -176,0 +199 @@ pub fn expect_count(&self) -> Operand {
++            | MemoryInitOp::CheckRefAs { .. }
+@@ -177,0 +201 @@ pub fn expect_count(&self) -> Operand {
++            | MemoryInitOp::SetStorage { .. }
+@@ -181,0 +206 @@ pub fn expect_count(&self) -> Operand {
++            | MemoryInitOp::BeginArgumentTransfer { .. }
+@@ -192 +217 @@ pub fn expect_value(&self) -> bool {
+-            MemoryInitOp::CreateUnion { .. } => true,
++            MemoryInitOp::CreateUnion { .. } | MemoryInitOp::SetStorage { .. } => true,
+@@ -196,0 +222 @@ pub fn expect_value(&self) -> bool {
++            | MemoryInitOp::CheckRefAs { .. }
+@@ -200,0 +227 @@ pub fn expect_value(&self) -> bool {
++            | MemoryInitOp::BeginArgumentTransfer { .. }
+@@ -212,0 +240 @@ pub fn union_field(&self) -> Option<FieldIdx> {
++            | MemoryInitOp::CheckRefAs { .. }
+@@ -215,0 +244 @@ pub fn union_field(&self) -> Option<FieldIdx> {
++            | MemoryInitOp::SetStorage { .. }
+@@ -219,0 +249 @@ pub fn union_field(&self) -> Option<FieldIdx> {
++            | MemoryInitOp::BeginArgumentTransfer { .. }
+@@ -229 +259,4 @@ pub fn position(&self) -> InsertPosition {
+-            | MemoryInitOp::SetRef { position, .. } => *position,
++            | MemoryInitOp::SetRef { position, .. }
++            | MemoryInitOp::SetStorage { position, .. }
++            | MemoryInitOp::AssignUnion { position, .. }
++            | MemoryInitOp::LoadArgument { position, .. } => *position,
+@@ -233,0 +267 @@ pub fn position(&self) -> InsertPosition {
++            | MemoryInitOp::CheckRefAs { .. }
+@@ -236,5 +270,3 @@ pub fn position(&self) -> InsertPosition {
+-            | MemoryInitOp::StoreArgument { .. }
+-            | MemoryInitOp::LoadArgument { .. } => InsertPosition::Before,
+-            MemoryInitOp::Copy { .. }
+-            | MemoryInitOp::AssignUnion { .. }
+-            | MemoryInitOp::CreateUnion { .. } => InsertPosition::After,
++            | MemoryInitOp::BeginArgumentTransfer { .. }
++            | MemoryInitOp::StoreArgument { .. } => InsertPosition::Before,
++            MemoryInitOp::Copy { .. } | MemoryInitOp::CreateUnion { .. } => InsertPosition::After,
+@@ -275,2 +307,10 @@ pub fn push_operation(&mut self, source_op: MemoryInitOp) {
+-/// A helper to generate instrumentation for taking a reference to a given operand. Returns the
+-/// operand which is a reference and stores all instrumentation in the statements vector passed.
++/// The initialized byte mask of a fully evaluated MIR constant.
++pub(super) fn constant_init_mask(operand: &Operand) -> Option<Vec<bool>> {
++    let Operand::Constant(constant) = operand else { return None };
++    match constant.const_.kind() {
++        ConstantKind::Allocated(alloc) => Some(alloc.bytes.iter().map(Option::is_some).collect()),
++        ConstantKind::ZeroSized => Some(vec![]),
++        _ => None,
++    }
++}
++
+@@ -277,0 +318 @@ pub fn push_operation(&mut self, source_op: MemoryInitOp) {
++/// Reference places are reborrowed as raw pointers to their pointees, as in `CheckRef`.
+@@ -285,0 +327,12 @@ fn mk_cast(
++    let operand = if operand.ty(body.locals()).unwrap().kind().is_ref()
++        && let Operand::Copy(place) | Operand::Move(place) = operand
++    {
++        // AddressOf does not read the pointee. It also avoids introducing a read of the
++        // reference's storage for the later delayed-UB visitor to instrument. Constants
++        // have no reference place and can be cast directly.
++        let mut pointee = place.clone();
++        pointee.projection.push(ProjectionElem::Deref);
++        mk_ref(&Operand::Copy(pointee), body, statements, source)
++    } else {
++        operand.clone()
++    };
+@@ -291 +344 @@ fn mk_cast(
+-            Rvalue::Cast(CastKind::PtrToPtr, operand.clone(), ptr_ty),
++            Rvalue::Cast(CastKind::PtrToPtr, operand, ptr_ty),
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+index 3992e8b8d558db76a264d70a6e5c786ffd5db7b8..1cba3ff26fb96d4d9a248c4ef861d8c4d6c82e73 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs
+@@ -8 +8,3 @@
+-use rustc_public::CrateDefType;
++use rustc_attr_ir::lang_items::LangItem;
++use rustc_middle::ty::TyCtxt;
++use rustc_public::{CrateDef, CrateDefType, rustc_internal};
+@@ -12 +14 @@
+-    ty::{AdtKind, RigidTy, Ty, TyKind, UintTy, VariantIdx},
++    ty::{AdtKind, GenericArgKind, RigidTy, Ty, TyKind, UintTy, VariantIdx},
+@@ -55,0 +58,10 @@ impl PointeeLayout {
++    /// Size of the complete storage accepted by the sized argument/return protocol.
++    /// `maybe_size` also returns element sizes and must not be used for this admission.
++    pub(super) fn argument_size(&self) -> Option<usize> {
++        match self {
++            Self::Sized { layout } => Some(layout.len()),
++            Self::Union { field_layouts } => field_layouts.iter().map(Vec::len).max(),
++            Self::Slice { .. } | Self::TraitObject => None,
++        }
++    }
++
+@@ -106,0 +119,21 @@ fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
++/// Returns the type parameter of the specified standard-library wrapper.
++pub(super) fn wrapper_inner(tcx: TyCtxt, ty: Ty, wrapper: LangItem) -> Option<Ty> {
++    if let TyKind::RigidTy(RigidTy::Adt(def, args)) = ty.kind()
++        && tcx.is_lang_item(rustc_internal::internal(tcx, def.def_id()), wrapper)
++        && let Some(GenericArgKind::Type(inner)) = args.0.first()
++    {
++        Some(*inner)
++    } else {
++        None
++    }
++}
++
++/// Recognizes a slot or a flat sequence of slots. Other enclosing types keep their union error.
++pub(super) fn maybe_uninit_storage(tcx: TyCtxt, ty: Ty) -> Option<Ty> {
++    let slot_ty = match ty.kind() {
++        TyKind::RigidTy(RigidTy::Array(slot, _) | RigidTy::Slice(slot)) => slot,
++        _ => ty,
++    };
++    wrapper_inner(tcx, slot_ty, LangItem::MaybeUninit)
++}
++
+@@ -107,0 +141,52 @@ impl PointeeInfo {
++    /// Deinitializing a sized call operand clears its entire storage, regardless of field masks.
++    pub(super) fn for_deinit(ty: Ty) -> Result<Self, LayoutComputationError> {
++        let layout = ty.layout().map_err(|_| LayoutComputationError::UnknownUnsizedLayout(ty))?;
++        if !layout.shape().is_sized() {
++            return Err(LayoutComputationError::UnknownUnsizedLayout(ty));
++        }
++        let size = layout.shape().size.bytes();
++        Ok(Self { pointee_ty: ty, layout: PointeeLayout::Sized { layout: vec![true; size] } })
++    }
++
++    /// Typed slot transfers preserve only payload data, at the rustc stride of each slot.
++    pub(super) fn for_typed_storage(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputationError> {
++        let inner = maybe_uninit_storage(tcx, ty).unwrap();
++        let data_chunks = data_bytes_for_ty(&MachineInfo::target(), inner, 0)?;
++        let layout = match ty.kind() {
++            TyKind::RigidTy(RigidTy::Slice(slot)) => {
++                let stride = slot.layout().unwrap().shape().size.bytes();
++                PointeeLayout::Slice { element_layout: generate_byte_mask(stride, data_chunks) }
++            }
++            TyKind::RigidTy(RigidTy::Array(_, _)) => {
++                let shape = ty.layout().unwrap().shape();
++                let FieldsShape::Array { stride, count } = shape.fields else { unreachable!() };
++                let slot_mask = generate_byte_mask(stride.bytes(), data_chunks);
++                let mut layout = vec![false; shape.size.bytes()];
++                for index in 0..usize::try_from(count).unwrap() {
++                    let offset = index * stride.bytes();
++                    layout[offset..offset + stride.bytes()].copy_from_slice(&slot_mask);
++                }
++                PointeeLayout::Sized { layout }
++            }
++            _ => {
++                let size = ty.layout().unwrap().shape().size.bytes();
++                PointeeLayout::Sized { layout: generate_byte_mask(size, data_chunks) }
++            }
++        };
++        Ok(Self { pointee_ty: ty, layout })
++    }
++
++    /// Layout for copying storage or writing every byte with a bytewise intrinsic.
++    pub(super) fn for_storage(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputationError> {
++        let inner = maybe_uninit_storage(tcx, ty).unwrap();
++        data_bytes_for_ty(&MachineInfo::target(), inner, 0)?;
++        let layout = if let TyKind::RigidTy(RigidTy::Slice(slot)) = ty.kind() {
++            let size = slot.layout().unwrap().shape().size.bytes();
++            PointeeLayout::Slice { element_layout: vec![true; size] }
++        } else {
++            let size = ty.layout().unwrap().shape().size.bytes();
++            PointeeLayout::Sized { layout: vec![true; size] }
++        };
++        Ok(Self { pointee_ty: ty, layout })
++    }
++
+@@ -260 +345,2 @@ fn data_bytes_for_ty(
+-                                    // Retrieve data bytes for the fields.
++                                    // Compare variant layouts relative to the enum. Absolute
++                                    // offsets could be clipped by the enum-sized masks below.
+@@ -273 +359 @@ fn data_bytes_for_ty(
+-                                                    field_offset + current_offset,
++                                                    field_offset,
+@@ -302,0 +389,4 @@ fn data_bytes_for_ty(
++                                        // Compose the selected local layout exactly once.
++                                        for data_bytes in &mut field_data_bytes {
++                                            data_bytes.offset += current_offset;
++                                        }
+@@ -336,3 +426 @@ fn data_bytes_for_ty(
+-                    let mut pat_data_bytes = vec![];
+-                    pat_data_bytes.append(&mut data_bytes_for_ty(machine_info, *base_ty, 0)?);
+-                    Ok(pat_data_bytes)
++                    data_bytes_for_ty(machine_info, *base_ty, current_offset)
+@@ -392,0 +481,28 @@ fn data_bytes_for_ty(
++                // A sized closure with a zero-byte environment has no data bytes,
++                // including when it captures only zero-sized values.
++                RigidTy::Closure(_, _) if layout.is_sized() && layout.size.bytes() == 0 => {
++                    Ok(vec![])
++                }
++                RigidTy::Closure(_, _) => {
++                    // Use the same monomorphized captures as codegen_ty_closure.
++                    // Leave the internal context before recursing through public types.
++                    let upvar_tys: Vec<Ty> = rustc_middle::ty::tls::with(|tcx| {
++                        let internal_ty = rustc_internal::internal(tcx, ty);
++                        let rustc_middle::ty::Closure(_, args) = internal_ty.kind() else {
++                            unreachable!("Expected a closure type for {ty:?}")
++                        };
++                        args.as_closure().upvar_tys().iter().map(rustc_internal::stable).collect()
++                    });
++                    assert_eq!(upvar_tys.len(), offsets.len());
++                    let mut closure_data_bytes = vec![];
++                    // Field indices name logical captures; offsets and iteration order
++                    // come from the closure's own layout, not a substituted tuple.
++                    for idx in layout.fields.fields_by_offset_order() {
++                        closure_data_bytes.append(&mut data_bytes_for_ty(
++                            machine_info,
++                            upvar_tys[idx],
++                            current_offset + offsets[idx].bytes(),
++                        )?);
++                    }
++                    Ok(closure_data_bytes)
++                }
+@@ -395 +510,0 @@ fn data_bytes_for_ty(
+-                | RigidTy::Closure(_, _)
+@@ -451,0 +567,20 @@ fn tys_layout_cmp_to_size(from_ty: &Ty, to_ty: &Ty, cmp: impl Fn(bool, bool) ->
++
++#[cfg(test)]
++mod argument_size_tests {
++    use super::PointeeLayout;
++
++    #[test]
++    fn transfer_requires_complete_sized_storage() {
++        assert_eq!(PointeeLayout::Sized { layout: vec![] }.argument_size(), Some(0));
++        assert_eq!(
++            PointeeLayout::Union { field_layouts: vec![vec![], vec![true, false]] }.argument_size(),
++            Some(2)
++        );
++        // Even a known nonzero element size cannot stand in for a by-value slice size.
++        let slice = PointeeLayout::Slice { element_layout: vec![true, false] };
++        assert_eq!(slice.maybe_size(), Some(2));
++        assert_eq!(slice.argument_size(), None);
++        assert_eq!(PointeeLayout::Slice { element_layout: vec![] }.argument_size(), None);
++        assert_eq!(PointeeLayout::TraitObject.argument_size(), None);
++    }
++}
+diff --git a/kani-compiler/src/kani_middle/transform/delayed_cache.rs b/kani-compiler/src/kani_middle/transform/delayed_cache.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..6ba16800fba5cc1955094551acfd20e6c2e20065
+--- /dev/null
++++ b/kani-compiler/src/kani_middle/transform/delayed_cache.rs
+@@ -0,0 +1,144 @@
++// Copyright Kani Contributors
++// SPDX-License-Identifier: Apache-2.0 OR MIT
++
++//! First-write journal for the cache entries replaced by the delayed UB pass.
++//! Generic keys/values let the ownership lifecycle be tested without fabricating
++//! compiler Instances or MIR Bodies. Production stores exact TransformationResults.
++
++use std::collections::HashMap;
++use std::hash::Hash;
++
++#[derive(Debug)]
++pub(super) struct DelayedCache<K, V> {
++    originals: Option<HashMap<K, Option<V>>>,
++}
++
++impl<K, V> Default for DelayedCache<K, V> {
++    fn default() -> Self {
++        Self { originals: None }
++    }
++}
++
++impl<K: Copy + Eq + Hash, V> DelayedCache<K, V> {
++    pub(super) fn begin(&mut self) {
++        assert!(self.originals.is_none(), "previous delayed transformation scope is still active");
++        self.originals = Some(HashMap::new());
++    }
++
++    pub(super) fn replace(&mut self, cache: &mut HashMap<K, V>, key: K, value: V) {
++        let originals = self.originals.as_mut().expect("delayed replacement outside a model scope");
++        // Move the complete original, including the modified flag, without cloning
++        // MIR or replacing an earlier snapshot with an intermediate delayed body.
++        let previous = cache.insert(key, value);
++        originals.entry(key).or_insert(previous);
++    }
++
++    pub(super) fn restore(&mut self, cache: &mut HashMap<K, V>) {
++        let originals = self.originals.take().expect("no delayed transformation scope to restore");
++        for (key, original) in originals {
++            match original {
++                Some(value) => {
++                    cache.insert(key, value);
++                }
++                None => {
++                    cache.remove(&key);
++                }
++            }
++        }
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use super::DelayedCache;
++    use std::collections::HashMap;
++
++    // Deliberately non-Clone: restoration must move the exact original value.
++    #[derive(Debug, Eq, PartialEq)]
++    struct Result {
++        body: Vec<u8>,
++        modified: bool,
++    }
++
++    fn result(body: u8, modified: bool) -> Result {
++        Result { body: vec![body], modified }
++    }
++
++    #[test]
++    fn first_snapshot_restores_body_and_modified_flag() {
++        for modified in [false, true] {
++            let mut cache = HashMap::from([(1, result(10, modified))]);
++            let mut journal = DelayedCache::default();
++            journal.begin();
++            journal.replace(&mut cache, 1, result(20, true));
++            journal.replace(&mut cache, 1, result(30, true));
++            assert_eq!(cache[&1], result(30, true));
++            assert_eq!(journal.originals.as_ref().unwrap().len(), 1);
++            journal.restore(&mut cache);
++            assert_eq!(cache[&1], result(10, modified));
++            assert!(journal.originals.is_none());
++        }
++    }
++
++    #[test]
++    fn preserves_warm_untouched_and_new_regular_entries() {
++        let mut cache = HashMap::from([(1, result(10, true)), (2, result(11, false))]);
++        let mut journal = DelayedCache::default();
++        journal.begin();
++        journal.replace(&mut cache, 1, result(20, true));
++        cache.insert(3, result(12, true));
++        // A body first regular-transformed during this scope must stay regular.
++        cache.insert(4, result(13, false));
++        journal.replace(&mut cache, 4, result(21, true));
++        journal.restore(&mut cache);
++        assert_eq!(
++            cache,
++            HashMap::from([
++                (1, result(10, true)),
++                (2, result(11, false)),
++                (3, result(12, true)),
++                (4, result(13, false)),
++            ])
++        );
++    }
++
++    #[test]
++    fn removes_previously_absent_failed_root_and_repeats_cleanly() {
++        let mut cache = HashMap::new();
++        let mut journal = DelayedCache::default();
++        for _ in 0..3 {
++            journal.begin();
++            journal.replace(&mut cache, 1, result(99, true));
++            journal.replace(&mut cache, 1, result(100, true));
++            assert_eq!(cache[&1], result(100, true));
++            journal.restore(&mut cache);
++            assert!(cache.is_empty());
++            assert!(journal.originals.is_none());
++        }
++    }
++
++    #[test]
++    fn empty_scope_preserves_regular_cache() {
++        let mut cache = HashMap::from([(1, result(10, false))]);
++        let mut journal = DelayedCache::default();
++        for _ in 0..2 {
++            journal.begin();
++            journal.restore(&mut cache);
++            assert_eq!(cache[&1], result(10, false));
++        }
++    }
++
++    #[test]
++    #[should_panic(expected = "previous delayed transformation scope is still active")]
++    fn rejects_unclosed_scope() {
++        let mut journal = DelayedCache::<u8, Result>::default();
++        journal.begin();
++        journal.begin();
++    }
++
++    #[test]
++    #[should_panic(expected = "delayed replacement outside a model scope")]
++    fn rejects_unscoped_replacement() {
++        DelayedCache::default().replace(&mut HashMap::new(), 1, result(10, true));
++    }
++}
+diff --git a/kani-compiler/src/kani_middle/transform/mod.rs b/kani-compiler/src/kani_middle/transform/mod.rs
+index 2e0f44e455bf907d6499f8f3742746192d4e4dcb..4484375cea01d66a1545208238542815d0490896 100644
+--- a/kani-compiler/src/kani_middle/transform/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/mod.rs
+@@ -30,0 +31 @@
++use delayed_cache::DelayedCache;
+@@ -38,0 +40 @@
++use std::ops::{Deref, DerefMut};
+@@ -70,0 +73 @@ fn build_missing_body(tcx: TyCtxt, instance: Instance) -> Body {
++pub(crate) use check_uninit::immutable_origin_type_supported;
+@@ -72,0 +76 @@ fn build_missing_body(tcx: TyCtxt, instance: Instance) -> Body {
++mod delayed_cache;
+@@ -93,0 +98,2 @@ pub struct BodyTransformation {
++    /// Originals of entries replaced by delayed instrumentation in the current model.
++    delayed_cache: DelayedCache<Instance, TransformationResult>,
+@@ -109,0 +116 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {
++            delayed_cache: DelayedCache::default(),
+@@ -150,0 +158,13 @@ pub fn new(queries: &QueryDb, tcx: TyCtxt, unit: &CodegenUnit) -> Self {
++    /// Keep delayed replacements visible until the current model is fully materialized.
++    /// Regular transformations and their loop metadata remain cached between models.
++    pub fn delayed_scope(&mut self) -> DelayedTransformationScope<'_> {
++        self.delayed_cache.begin();
++        DelayedTransformationScope { transformer: self }
++    }
++
++    /// Replace only after `body()` has applied the regular transformations. Both
++    /// delayed instrumentation and failed-root Unsupported use the same journal.
++    fn replace_delayed_body(&mut self, instance: Instance, body: Body) {
++        self.delayed_cache.replace(&mut self.cache, instance, TransformationResult(body, true));
++    }
++
+@@ -215,0 +236,26 @@ fn add_pass<P: ClonableTransformPass + 'static>(&mut self, query_db: &QueryDb, p
++/// Restores delayed mutations on normal return, recoverable early return, or unwind.
++/// The exclusive borrow prevents another model from starting before this scope ends.
++pub struct DelayedTransformationScope<'a> {
++    transformer: &'a mut BodyTransformation,
++}
++
++impl Deref for DelayedTransformationScope<'_> {
++    type Target = BodyTransformation;
++
++    fn deref(&self) -> &Self::Target {
++        self.transformer
++    }
++}
++
++impl DerefMut for DelayedTransformationScope<'_> {
++    fn deref_mut(&mut self) -> &mut Self::Target {
++        self.transformer
++    }
++}
++
++impl Drop for DelayedTransformationScope<'_> {
++    fn drop(&mut self) {
++        self.transformer.delayed_cache.restore(&mut self.transformer.cache);
++    }
++}
++
+@@ -388,0 +435,43 @@ fn clone_back(&self) -> Box<dyn $new_trait_name> {
++
++#[cfg(test)]
++mod delayed_scope_tests {
++    use super::BodyTransformation;
++    use std::panic::{AssertUnwindSafe, catch_unwind};
++
++    // No compiler context or fabricated Instance/Body is needed to exercise
++    // the actual scope guard. Entry ownership is covered by delayed_cache tests.
++    fn transformer() -> BodyTransformation {
++        BodyTransformation {
++            stub_passes: vec![],
++            inst_passes: vec![],
++            cache: Default::default(),
++            delayed_cache: Default::default(),
++            generated_loop_modifies: Default::default(),
++            loop_modifies_bindings: Default::default(),
++        }
++    }
++
++    #[test]
++    fn normal_and_early_return_close_scope() {
++        fn early_return(transformer: &mut BodyTransformation) -> bool {
++            let _scope = transformer.delayed_scope();
++            false
++        }
++
++        let mut transformer = transformer();
++        drop(transformer.delayed_scope());
++        assert!(!early_return(&mut transformer));
++        drop(transformer.delayed_scope());
++    }
++
++    #[test]
++    fn unwind_closes_scope_before_transformer_reuse() {
++        let mut transformer = transformer();
++        let result = catch_unwind(AssertUnwindSafe(|| {
++            let _scope = transformer.delayed_scope();
++            panic!("simulated codegen unwind");
++        }));
++        assert!(result.is_err());
++        drop(transformer.delayed_scope());
++    }
++}
+diff --git a/library/kani_core/src/mem_init.rs b/library/kani_core/src/mem_init.rs
+index 37b9da8d674afb814f5024a20b77350ad5f82fd8..59f3e587c0645764cad4d48369f7bddf82a6d26e 100644
+--- a/library/kani_core/src/mem_init.rs
++++ b/library/kani_core/src/mem_init.rs
+@@ -21,3 +20,0 @@ macro_rules! kani_mem_init {
+-        /// Global object for tracking union initialization state across function boundaries.
+-        static mut ARGUMENT_BUFFER: Option<ArgumentBuffer> = None;
+-
+@@ -40,0 +38,14 @@ struct MemoryInitializationState {
++            /// Shadow initialization state currently being transferred across a function boundary.
++            /// Keep it in the marked state object so DFCC treats it as verifier-private state.
++            pub argument_buffer_active: bool,
++            pub argument_buffer_selected_argument: usize,
++            pub argument_buffer_signature: usize,
++            pub argument_buffer_count: usize,
++            pub argument_buffer_written: usize,
++            pub argument_buffer_remaining: usize,
++            pub argument_buffer_last_stored: usize,
++            pub argument_buffer_last_loaded: usize,
++            pub argument_buffer_has_witness: bool,
++            pub argument_buffer_value: bool,
++            pub argument_buffer_relative_offset: usize,
++            pub argument_buffer_layout_size: usize,
+@@ -47 +58,17 @@ pub const fn new() -> Self {
+-                Self { tracked_object_id: 0, tracked_offset: 0, value: false }
++                Self {
++                    tracked_object_id: 0,
++                    tracked_offset: 0,
++                    value: false,
++                    argument_buffer_active: false,
++                    argument_buffer_selected_argument: 0,
++                    argument_buffer_signature: 0,
++                    argument_buffer_count: 0,
++                    argument_buffer_written: 0,
++                    argument_buffer_remaining: 0,
++                    argument_buffer_last_stored: 0,
++                    argument_buffer_last_loaded: 0,
++                    argument_buffer_has_witness: false,
++                    argument_buffer_value: false,
++                    argument_buffer_relative_offset: 0,
++                    argument_buffer_layout_size: 0,
++                }
+@@ -97,2 +124,2 @@ pub fn set<const LAYOUT_SIZE: usize>(
+-            /// Copy memory initialization state by non-deterministically switching the tracked object and
+-            /// adjusting the tracked offset.
++            /// Copy memory initialization state by non-deterministically switching the tracked object
++            /// and adjusting the tracked offset. Only bytes selected by `layout` preserve their state.
+@@ -104,0 +132 @@ pub fn copy<const LAYOUT_SIZE: usize>(
++                layout: Layout<LAYOUT_SIZE>,
+@@ -108 +135,0 @@ pub fn copy<const LAYOUT_SIZE: usize>(
+-
+@@ -110,0 +138,9 @@ pub fn copy<const LAYOUT_SIZE: usize>(
++                self.copy_by_id::<LAYOUT_SIZE>(
++                    from_obj,
++                    from_offset,
++                    to_obj,
++                    to_offset,
++                    num_elts,
++                    layout,
++                );
++            }
+@@ -111,0 +148,16 @@ pub fn copy<const LAYOUT_SIZE: usize>(
++            /// Copy initialization state using object identities and offsets captured while the
++            /// source pointer was live. This also supports return-value transfers, whose source
++            /// stack slot is no longer live when the caller consumes the argument buffer.
++            #[kanitool::disable_checks(pointer)]
++            pub fn copy_by_id<const LAYOUT_SIZE: usize>(
++                &mut self,
++                from_obj: usize,
++                from_offset: usize,
++                to_obj: usize,
++                to_offset: usize,
++                num_elts: usize,
++                layout: Layout<LAYOUT_SIZE>,
++            ) {
++                if LAYOUT_SIZE == 0 {
++                    return;
++                }
+@@ -119,2 +171,4 @@ pub fn copy<const LAYOUT_SIZE: usize>(
+-                        self.tracked_offset += to_offset - from_offset;
+-                        // Note that this preserves the value.
++                        self.tracked_offset = to_offset + (self.tracked_offset - from_offset);
++                        // A preserve mask never initializes a source byte. It discards padding.
++                        self.value &= layout[(self.tracked_offset - to_offset) % LAYOUT_SIZE];
++                        return;
+@@ -122,2 +175,0 @@ pub fn copy<const LAYOUT_SIZE: usize>(
+-                } else {
+-                    self.bless::<LAYOUT_SIZE>(to_ptr, 1);
+@@ -125,13 +177,5 @@ pub fn copy<const LAYOUT_SIZE: usize>(
+-            }
+-
+-            /// Set currently tracked memory initialization state to `true` if `ptr` points to the
+-            /// currently tracked object and the tracked offset lies within `LAYOUT_SIZE * num_elts`
+-            /// bytes of `ptr`.
+-            #[kanitool::disable_checks(pointer)]
+-            pub fn bless<const LAYOUT_SIZE: usize>(&mut self, ptr: *const u8, num_elts: usize) {
+-                let obj = super::mem::pointer_object(ptr);
+-                let offset = super::mem::pointer_offset(ptr);
+-
+-                if self.tracked_object_id == obj
+-                    && self.tracked_offset >= offset
+-                    && self.tracked_offset < offset + num_elts * LAYOUT_SIZE
++                // If this path did not follow the source byte, do not retain the old state of
++                // overwritten destination bytes. Their new state is checked on the source path.
++                if self.tracked_object_id == to_obj
++                    && self.tracked_offset >= to_offset
++                    && self.tracked_offset < to_offset + num_elts * LAYOUT_SIZE
+@@ -139 +183 @@ pub fn bless<const LAYOUT_SIZE: usize>(&mut self, ptr: *const u8, num_elts: usiz
+-                    self.value = true;
++                    self.value = layout[(self.tracked_offset - to_offset) % LAYOUT_SIZE];
+@@ -200,0 +245,3 @@ fn initialize_memory_initialization_state() {
++                MEM_INIT_STATE.argument_buffer_active = false;
++                MEM_INIT_STATE.argument_buffer_selected_argument = usize::MAX;
++                MEM_INIT_STATE.argument_buffer_has_witness = false;
+@@ -348,0 +396 @@ fn copy_init_state<const LAYOUT_SIZE: usize, T>(
++                    [true; LAYOUT_SIZE],
+@@ -353,2 +401,2 @@ fn copy_init_state<const LAYOUT_SIZE: usize, T>(
+-        /// Copy initialization state of `size_of::<T>` bytes from one pointer to the other. Note that in
+-        /// this case `LAYOUT_SIZE == size_of::<T>`.
++        /// Transfer one typed value's initialization state, preserving only bytes selected by `layout`.
++        /// In this case `LAYOUT_SIZE == size_of::<T>`.
+@@ -357,2 +405,18 @@ fn copy_init_state<const LAYOUT_SIZE: usize, T>(
+-        fn copy_init_state_single<const LAYOUT_SIZE: usize, T>(from: *const T, to: *const T) {
+-            copy_init_state::<LAYOUT_SIZE, T>(from, to, 1);
++        fn copy_init_state_single<const LAYOUT_SIZE: usize, T>(
++            from: *const T,
++            to: *const T,
++            layout: Layout<LAYOUT_SIZE>,
++        ) {
++            if LAYOUT_SIZE == 0 {
++                return;
++            }
++            let (from_ptr, _) = from.to_raw_parts();
++            let (to_ptr, _) = to.to_raw_parts();
++            unsafe {
++                MEM_INIT_STATE.copy::<LAYOUT_SIZE>(
++                    from_ptr as *const u8,
++                    to_ptr as *const u8,
++                    1,
++                    layout,
++                );
++            }
+@@ -361,8 +425,18 @@ fn copy_init_state_single<const LAYOUT_SIZE: usize, T>(from: *const T, to: *cons
+-        /// Information about currently tracked argument, used for passing union initialization
+-        /// state across function boundaries. This struct is written to by the caller and read from
+-        /// by the callee.
+-        #[derive(Clone, Copy)]
+-        struct ArgumentBuffer {
+-            selected_argument: usize,
+-            saved_address: *const (),
+-            layout_size: usize,
++        /// Start one current-call protocol. No selected witness is different from no protocol.
++        /// The callee consumes every load before executing its body, so nested/recursive calls
++        /// need no stack of buffers. A normal return creates a separate, mandatory index-0 pair.
++        #[kanitool::fn_marker = "BeginArgumentTransferModel"]
++        fn begin_argument_transfer(signature: usize, argument_count: usize) {
++            unsafe {
++                assert!(!MEM_INIT_STATE.argument_buffer_active, "unfinished shadow transfer");
++                assert!(argument_count > 0);
++                MEM_INIT_STATE.argument_buffer_active = true;
++                MEM_INIT_STATE.argument_buffer_signature = signature;
++                MEM_INIT_STATE.argument_buffer_count = argument_count;
++                MEM_INIT_STATE.argument_buffer_written = 0;
++                MEM_INIT_STATE.argument_buffer_remaining = argument_count;
++                MEM_INIT_STATE.argument_buffer_last_stored = 0;
++                MEM_INIT_STATE.argument_buffer_last_loaded = 0;
++                MEM_INIT_STATE.argument_buffer_selected_argument = usize::MAX;
++                MEM_INIT_STATE.argument_buffer_has_witness = false;
++            }
+@@ -371,2 +445,2 @@ struct ArgumentBuffer {
+-        /// Non-deterministically store information about currently tracked argument in the argument
+-        /// buffer.
++        /// Snapshot the witness while the source is live and BEFORE Call(Move) deinitializes it.
++        /// All shadow arguments compete for one slot; no source state is reread at callee entry.
+@@ -375 +449,5 @@ struct ArgumentBuffer {
+-        fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument: usize) {
++        fn store_argument<const LAYOUT_SIZE: usize, T>(
++            from: *const T,
++            selected_argument: usize,
++            signature: usize,
++        ) {
+@@ -377,8 +455,37 @@ fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument
+-            let should_store: bool = super::any();
+-            if should_store {
+-                unsafe {
+-                    ARGUMENT_BUFFER = Some(ArgumentBuffer {
+-                        selected_argument,
+-                        saved_address: from_ptr,
+-                        layout_size: LAYOUT_SIZE,
+-                    })
++            let from_object = super::mem::pointer_object(from_ptr);
++            let from_offset = super::mem::pointer_offset(from_ptr);
++            unsafe {
++                if selected_argument == 0 {
++                    assert!(!MEM_INIT_STATE.argument_buffer_active, "unfinished shadow transfer");
++                    MEM_INIT_STATE.argument_buffer_active = true;
++                    MEM_INIT_STATE.argument_buffer_signature = signature;
++                    MEM_INIT_STATE.argument_buffer_count = 0;
++                    MEM_INIT_STATE.argument_buffer_remaining = 1;
++                    MEM_INIT_STATE.argument_buffer_written = 1;
++                    MEM_INIT_STATE.argument_buffer_last_loaded = 0;
++                } else {
++                    assert!(
++                        MEM_INIT_STATE.argument_buffer_active,
++                        "missing shadow transfer protocol"
++                    );
++                    assert!(MEM_INIT_STATE.argument_buffer_signature == signature);
++                    assert!(MEM_INIT_STATE.argument_buffer_count > 0);
++                    assert!(
++                        MEM_INIT_STATE.argument_buffer_written
++                            < MEM_INIT_STATE.argument_buffer_count
++                    );
++                    assert!(MEM_INIT_STATE.argument_buffer_last_stored < selected_argument);
++                    MEM_INIT_STATE.argument_buffer_last_stored = selected_argument;
++                    MEM_INIT_STATE.argument_buffer_written += 1;
++                }
++                // Return zero is mandatory; arguments are a demonic choice, including none.
++                if selected_argument == 0 || super::any() {
++                    MEM_INIT_STATE.argument_buffer_selected_argument = selected_argument;
++                    MEM_INIT_STATE.argument_buffer_layout_size = LAYOUT_SIZE;
++                    MEM_INIT_STATE.argument_buffer_has_witness = MEM_INIT_STATE.tracked_object_id
++                        == from_object
++                        && MEM_INIT_STATE.tracked_offset >= from_offset
++                        && MEM_INIT_STATE.tracked_offset - from_offset < LAYOUT_SIZE;
++                    MEM_INIT_STATE.argument_buffer_relative_offset =
++                        MEM_INIT_STATE.tracked_offset.wrapping_sub(from_offset);
++                    MEM_INIT_STATE.argument_buffer_value = MEM_INIT_STATE.value;
+@@ -389,4 +496,3 @@ fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument
+-        /// Load information from the argument buffer (if the argument position matches) via copying
+-        /// the memory initialization information from an address in the caller to an address in the
+-        /// callee. Otherwise, mark that the argument as initialized, as it will be checked by
+-        /// another non-deterministic branch. Reset the argument buffer after loading from it.
++        /// Consume the current protocol only. Unselected arguments get data-byte initialization
++        /// because another demonic path selects their source. Missing/mismatched protocol and
++        /// missing return zero are errors, never an initialized fallback.
+@@ -395 +501,7 @@ fn store_argument<const LAYOUT_SIZE: usize, T>(from: *const T, selected_argument
+-        fn load_argument<const LAYOUT_SIZE: usize, T>(to: *const T, selected_argument: usize) {
++        fn load_argument<const LAYOUT_SIZE: usize, T>(
++            to: *const T,
++            selected_argument: usize,
++            signature: usize,
++            argument_count: usize,
++            layout: Layout<LAYOUT_SIZE>,
++        ) {
+@@ -397,10 +508,0 @@ fn load_argument<const LAYOUT_SIZE: usize, T>(to: *const T, selected_argument: u
+-            if let Some(buffer) = unsafe { ARGUMENT_BUFFER } {
+-                if buffer.selected_argument == selected_argument {
+-                    assert!(buffer.layout_size == LAYOUT_SIZE);
+-                    copy_init_state_single::<LAYOUT_SIZE, ()>(buffer.saved_address, to_ptr);
+-                    unsafe {
+-                        ARGUMENT_BUFFER = None;
+-                    }
+-                    return;
+-                }
+-            }
+@@ -408 +510,39 @@ fn load_argument<const LAYOUT_SIZE: usize, T>(to: *const T, selected_argument: u
+-                MEM_INIT_STATE.bless::<LAYOUT_SIZE>(to_ptr as *const u8, 1);
++                assert!(MEM_INIT_STATE.argument_buffer_active, "missing shadow transfer protocol");
++                assert!(MEM_INIT_STATE.argument_buffer_signature == signature);
++                assert!(MEM_INIT_STATE.argument_buffer_count == argument_count);
++                assert!(MEM_INIT_STATE.argument_buffer_remaining > 0);
++                if selected_argument == 0 {
++                    assert!(argument_count == 0);
++                    assert!(MEM_INIT_STATE.argument_buffer_written == 1);
++                    assert!(
++                        MEM_INIT_STATE.argument_buffer_selected_argument == 0,
++                        "missing shadow return"
++                    );
++                } else {
++                    assert!(argument_count > 0);
++                    assert!(MEM_INIT_STATE.argument_buffer_written == argument_count);
++                    assert!(MEM_INIT_STATE.argument_buffer_last_loaded < selected_argument);
++                    MEM_INIT_STATE.argument_buffer_last_loaded = selected_argument;
++                }
++                let selected =
++                    MEM_INIT_STATE.argument_buffer_selected_argument == selected_argument;
++                if selected {
++                    assert!(MEM_INIT_STATE.argument_buffer_layout_size == LAYOUT_SIZE);
++                    MEM_INIT_STATE.argument_buffer_selected_argument = usize::MAX;
++                }
++                if selected && MEM_INIT_STATE.argument_buffer_has_witness && super::any() {
++                    let relative_offset = MEM_INIT_STATE.argument_buffer_relative_offset;
++                    MEM_INIT_STATE.tracked_object_id = super::mem::pointer_object(to_ptr);
++                    MEM_INIT_STATE.tracked_offset =
++                        super::mem::pointer_offset(to_ptr) + relative_offset;
++                    MEM_INIT_STATE.value =
++                        MEM_INIT_STATE.argument_buffer_value && layout[relative_offset];
++                } else {
++                    MEM_INIT_STATE.set::<LAYOUT_SIZE>(to_ptr as *const u8, layout, true);
++                }
++                MEM_INIT_STATE.argument_buffer_remaining -= 1;
++                if MEM_INIT_STATE.argument_buffer_remaining == 0 {
++                    assert!(MEM_INIT_STATE.argument_buffer_selected_argument == usize::MAX);
++                    MEM_INIT_STATE.argument_buffer_active = false;
++                    MEM_INIT_STATE.argument_buffer_has_witness = false;
++                }

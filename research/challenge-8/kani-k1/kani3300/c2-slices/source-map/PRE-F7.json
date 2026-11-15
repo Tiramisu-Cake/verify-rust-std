@@ -1,0 +1,52 @@
+{
+  "commit": "ad324418cdc66b18e9b71f76a412be6ccea20c7e",
+  "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+  "blob": "f7f5b0a20adf696ba1dea66e214d1612d77d633a",
+  "snippets": [
+    {
+      "name": "TransformationResult import",
+      "start": 18,
+      "count": 1,
+      "text": "        BodyTransformation, GlobalPass, TransformationResult,\n",
+      "sha256": "87749569a397d2b8a8d0b00f1be7b27bc3abf0965a514715aead977522981ee9",
+      "temporary_owner": "1..6",
+      "replacement_owner": "7"
+    },
+    {
+      "name": "ordinary delayed write",
+      "start": 191,
+      "count": 3,
+      "text": "                    transformer.cache.entry(instance).and_modify(|transformation_result| {\n                        *transformation_result = TransformationResult(body, true);\n                    });\n",
+      "sha256": "e15d43c884e6dfca5fe5ed6c8f25d84714da17cf4dbc6600dcb682316c1a0ffe",
+      "temporary_owner": "1..6",
+      "replacement_owner": "7"
+    },
+    {
+      "name": "failed-root delayed write",
+      "start": 214,
+      "count": 1,
+      "text": "                transformer.cache.insert(instance, TransformationResult(body.into(), true));\n",
+      "sha256": "965f6fd86cdadd7aa104867b9fb1879d7e235b941eb81bde2fb9d7670a76c428",
+      "temporary_owner": "1..6",
+      "replacement_owner": "7"
+    }
+  ],
+  "F_replacements": [
+    {
+      "start": 18,
+      "count": 1,
+      "role": "remove TransformationResult import"
+    },
+    {
+      "start": 191,
+      "count": 1,
+      "role": "replace ordinary delayed write"
+    },
+    {
+      "start": 213,
+      "count": 1,
+      "role": "replace failed-root write"
+    }
+  ],
+  "no_structural_isolation_credit_before_7": true
+}

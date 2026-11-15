@@ -1,0 +1,266 @@
+diff --git a/kani-compiler/src/kani_middle/points_to/mod.rs b/kani-compiler/src/kani_middle/points_to/mod.rs
+index 984bf086d0a5c57b97fc2f7b4fa40bfdf286c8b2..db9070b92e868cf67308b04e691ada034060a2a5 100644
+--- a/kani-compiler/src/kani_middle/points_to/mod.rs
++++ b/kani-compiler/src/kani_middle/points_to/mod.rs
+@@ -10 +10 @@
+-pub use points_to_analysis::{run_points_to_analysis, unsupported_call};
++pub use points_to_analysis::{resolve_call, run_points_to_analysis};
+diff --git a/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs b/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
+index fbbe55c84c806526d34688fc246328f45b23e5c7..d74f11eb15a7f95d136bfd67940e46cf4b7c0d84 100644
+--- a/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
++++ b/kani-compiler/src/kani_middle/points_to/points_to_analysis.rs
+@@ -40 +40 @@
+-    ty::{Instance, InstanceKind, List, TyCtxt, TyKind, TypingEnv},
++    ty::{Instance, InstanceKind, List, TyCtxt},
+@@ -49 +49 @@
+-use rustc_span::{DUMMY_SP, Spanned};
++use rustc_span::Spanned;
+@@ -197 +197,2 @@ fn apply_primary_terminator_effect(
+-            if unsupported_call(rustc_internal::stable(func.ty(self.body, self.tcx))).is_some() {
++            let Ok(instance) = resolve_call(rustc_internal::stable(func.ty(self.body, self.tcx)))
++            else {
+@@ -199,2 +200,2 @@ fn apply_primary_terminator_effect(
+-            }
+-            let instance = try_resolve_instance(self.body, func, self.tcx);
++            };
++            let instance = rustc_internal::internal(self.tcx, instance);
+@@ -346,11 +347,18 @@ fn apply_call_return_effect(
+-/// Why the analysis cannot follow a call to a callee of type `func_ty`, if it cannot: the callee of
+-/// a call through a function pointer or a vtable is not known statically. Callers that rely on the
+-/// analysis must guard such calls with an unsupported check.
+-pub fn unsupported_call(func_ty: StableTy) -> Option<String> {
+-    let reason = match func_ty.kind() {
+-        StableTyKind::RigidTy(StableRigidTy::FnDef(def, args)) => {
+-            match StableInstance::resolve(def, &args) {
+-                Ok(instance) if !matches!(instance.kind, StableInstanceKind::Virtual { .. }) => {
+-                    return None;
+-                }
+-                _ => "trait object method calls",
++/// Resolve calls whose effects the uninitialized-memory passes can follow.
++/// The local visitor owns the diagnostic on every rejected path, even without delayed-UB seeds.
++/// MIR-backed shims may be analyzed; their shadow-transfer boundary is guarded locally.
++pub fn resolve_call(func_ty: StableTy) -> Result<StableInstance, String> {
++    let StableTyKind::RigidTy(StableRigidTy::FnDef(def, args)) = func_ty.kind() else {
++        return Err(unsupported_call_reason("calls through function pointers"));
++    };
++    let instance = StableInstance::resolve(def, &args).map_err(|err| {
++        format!("Kani could not resolve function item `{func_ty:?}` for memory initialization checks: {err:?}.")
++    })?;
++    let reason = match instance.kind {
++        StableInstanceKind::Intrinsic => return Ok(instance),
++        StableInstanceKind::Item if instance.is_foreign_item() => return Ok(instance),
++        StableInstanceKind::Item | StableInstanceKind::Shim => {
++            // Query actual MIR availability, including empty compiler-generated shims.
++            // has_body alone describes the definition rather than the generated instance.
++            if instance.body().is_some() {
++                return Ok(instance);
+@@ -357,0 +366 @@ pub fn unsupported_call(func_ty: StableTy) -> Option<String> {
++            format!("calls to bodyless {:?} instances", instance.kind)
+@@ -359 +368,2 @@ pub fn unsupported_call(func_ty: StableTy) -> Option<String> {
+-        _ => "calls through function pointers",
++        StableInstanceKind::Virtual { .. } => "trait object method calls".to_string(),
++        StableInstanceKind::LlvmIntrinsic => "calls to LlvmIntrinsic instances".to_string(),
+@@ -361,3 +371 @@ pub fn unsupported_call(func_ty: StableTy) -> Option<String> {
+-    Some(format!(
+-        "Kani does not support memory initialization checks across {reason}. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+-    ))
++    Err(unsupported_call_reason(&reason))
+@@ -366,17 +374,3 @@ pub fn unsupported_call(func_ty: StableTy) -> Option<String> {
+-/// The instance a call operand refers to, which `unsupported_call` has checked is a function item.
+-fn try_resolve_instance<'tcx>(
+-    body: &Body<'tcx>,
+-    func: &Operand<'tcx>,
+-    tcx: TyCtxt<'tcx>,
+-) -> Instance<'tcx> {
+-    let TyKind::FnDef(def, args) = func.ty(body, tcx).kind() else {
+-        unreachable!("`unsupported_call` rejects callees that are not function items")
+-    };
+-    // Span here is used for error-reporting, which we don't expect to encounter anyway, so it is ok
+-    // to use a dummy.
+-    Instance::expect_resolve(
+-        tcx,
+-        TypingEnv::fully_monomorphized(),
+-        *def,
+-        args.skip_binder(),
+-        DUMMY_SP,
++fn unsupported_call_reason(kind: &str) -> String {
++    format!(
++        "Kani does not support memory initialization checks across {kind}. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+@@ -458 +452,5 @@ fn apply_regular_call_effect(
+-            let stable_body = crate::kani_middle::checked_body(self.tcx, stable_instance).unwrap();
++            // Unsupported callees leave previously accumulated edges intact.
++            let Some(stable_body) = crate::kani_middle::checked_body(self.tcx, stable_instance)
++            else {
++                return;
++            };
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+index 03b92f331064023b090ad5e6afc10fe0b9ff828e..b585f72370fb5ca06429286a6b3ffcc649d7ede3 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs
+@@ -132 +132,2 @@ fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Option<Instance
+-        TyKind::RigidTy(RigidTy::FnDef(def, args)) => Some(Instance::resolve(def, &args).unwrap()),
++        // A failed resolution cannot identify an intrinsic seed.
++        TyKind::RigidTy(RigidTy::FnDef(def, args)) => Instance::resolve(def, &args).ok(),
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
+index 719832acf5d5090207ab71a30dbd44290fcd04dc..7909418cb12719499de258247b89c9c8b5649e41 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs
+@@ -8 +8 @@
+-    points_to::{MemLoc, PointsToGraph, unsupported_call},
++    points_to::{MemLoc, PointsToGraph},
+@@ -19 +19 @@
+-    LocalDecl, MirVisitor, Operand, Place, Rvalue, Statement, Terminator, TerminatorKind,
++    MirVisitor, Operand, Place, Rvalue, Statement, Terminator,
+@@ -35,2 +34,0 @@ pub struct InstrumentationVisitor<'a, 'tcx> {
+-    /// The locals of the body being visited, to type call operands.
+-    locals: Vec<LocalDecl>,
+@@ -42 +39,0 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
+-        self.locals = body.locals().to_vec();
+@@ -72 +68,0 @@ pub fn new(
+-            locals: vec![],
+@@ -110,7 +106,2 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-        // The points-to analysis does not follow these calls, so the aliasing it computed is only
+-        // valid on paths that do not reach them.
+-        if let TerminatorKind::Call { func, .. } = &term.kind
+-            && let Some(reason) = unsupported_call(func.ty(&self.locals).unwrap())
+-        {
+-            self.push_target(MemoryInitOp::Unsupported { reason });
+-        }
++        // The local uninitialized-memory visitor owns unsupported-call checks. It runs
++        // even without delayed-UB targets, and preserves checks on the call's operands.
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs
+index ad43d696568370539327776669b1bc6830e0f9bd..206f71012a76e0d3445505a5aca98e8819ab4ae5 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs
+@@ -73 +73 @@ fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, B
+-            CheckUninitVisitor::new(),
++            CheckUninitVisitor::new(tcx, instance),
+diff --git a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+index 09346aa44bd2eabc50e97dba30c5295cfb0b29fb..121d61dbdb3f677c83edbd97618dfff7d789bf29 100644
+--- a/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
++++ b/kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs
+@@ -8 +7,0 @@
+-    kani_middle::nonnull_pointee,
+@@ -16,0 +16 @@
++    kani_middle::{nonnull_pointee, points_to::resolve_call},
+@@ -18 +18,2 @@
+-use rustc_public::CrateDefType;
++use rustc_middle::ty::TyCtxt;
++use rustc_public::{CrateDefType, rustc_internal};
+@@ -31 +32,3 @@
+-pub struct CheckUninitVisitor {
++pub struct CheckUninitVisitor<'tcx> {
++    tcx: TyCtxt<'tcx>,
++    instance: Instance,
+@@ -39 +42 @@ pub struct CheckUninitVisitor {
+-impl TargetFinder for CheckUninitVisitor {
++impl TargetFinder for CheckUninitVisitor<'_> {
+@@ -66 +69,13 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
+-                if !union_args.is_empty() {
++                // RustCall and other generated ABIs do not establish the legacy union
++                // slot pairing. Guard entry before any fallback LoadArgument can bless it.
++                if self.instance.kind == InstanceKind::Shim
++                    && body
++                        .locals()
++                        .iter()
++                        .take(body.arg_count() + 1)
++                        .any(|local| shim_type_may_carry_shadow(self.tcx, local.ty))
++                {
++                    self.push_target(MemoryInitOp::Unsupported {
++                        reason: unsupported_call_reason("shadow transfers through Shim instances"),
++                    });
++                } else if !union_args.is_empty() {
+@@ -81,2 +96,2 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {
+-impl CheckUninitVisitor {
+-    pub fn new() -> Self {
++impl<'tcx> CheckUninitVisitor<'tcx> {
++    pub fn new(tcx: TyCtxt<'tcx>, instance: Instance) -> Self {
+@@ -83,0 +99,2 @@ pub fn new() -> Self {
++            tcx,
++            instance,
+@@ -99 +116 @@ fn push_target(&mut self, source_op: MemoryInitOp) {
+-impl MirVisitor for CheckUninitVisitor {
++impl MirVisitor for CheckUninitVisitor<'_> {
+@@ -263 +280 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-            TerminatorKind::Call { func, args, destination, .. } => {
++            TerminatorKind::Call { func, args, destination, .. } => 'call: {
+@@ -268 +284,0 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-                        self.super_terminator(term, location);
+@@ -270 +286,3 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-                        return;
++                        // Keep entry loads and operations collected while visiting the call.
++                        // The common terminator epilogue must publish this target, even on error.
++                        break 'call;
+@@ -272,0 +291,15 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
++                // Inspect the source operands and destination before any StoreArgument.
++                // Tuple wrapping must not hide a union behind an unproved generated ABI.
++                if instance.kind == InstanceKind::Shim
++                    && (args.iter().any(|arg| {
++                        shim_type_may_carry_shadow(self.tcx, arg.ty(&self.locals).unwrap())
++                    }) || shim_type_may_carry_shadow(
++                        self.tcx,
++                        destination.ty(&self.locals).unwrap(),
++                    ))
++                {
++                    self.push_target(MemoryInitOp::Unsupported {
++                        reason: unsupported_call_reason("shadow transfers through Shim instances"),
++                    });
++                    break 'call;
++                }
+@@ -375 +408,3 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-                    InstanceKind::Item => {
++                    InstanceKind::Item | InstanceKind::Shim => {
++                        // The resolver checked actual instance body availability, with foreign
++                        // models retained. Non-shadow shims follow the ordinary MIR path.
+@@ -417 +452,3 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {
+-                    _ => {}
++                    InstanceKind::Virtual { .. } | InstanceKind::LlvmIntrinsic => {
++                        unreachable!("the shared resolver rejects unsupported callees")
++                    }
+@@ -727,6 +764,31 @@ fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Result<Instance
+-    let ty = func.ty(locals).unwrap();
+-    match ty.kind() {
+-        TyKind::RigidTy(RigidTy::FnDef(def, args)) => Ok(Instance::resolve(def, &args).unwrap()),
+-        _ => Err(format!(
+-            "Kani was not able to resolve the instance of the function operand `{ty:?}`. Currently, memory initialization checks in presence of function pointers and vtable calls are not supported. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
+-        )),
++    resolve_call(func.ty(locals).unwrap())
++}
++
++/// Conservative admission guard for generated ABIs, not an expansion of the shadow model.
++/// Inspect only by-value storage: references and pointers do not transfer their pointee shadow.
++/// Unknown storage is rejected rather than treated as an empty tuple or ordinary bytes.
++fn shim_type_may_carry_shadow(tcx: TyCtxt<'_>, ty: Ty) -> bool {
++    fn inspect<'tcx>(tcx: TyCtxt<'tcx>, ty: rustc_middle::ty::Ty<'tcx>) -> bool {
++        use rustc_middle::ty::TyKind;
++        match ty.kind() {
++            TyKind::Adt(def, args) => {
++                def.is_union()
++                    || def
++                        .all_fields()
++                        .any(|field| inspect(tcx, field.ty(tcx, args).skip_normalization()))
++            }
++            TyKind::Tuple(fields) => fields.iter().any(|field| inspect(tcx, field)),
++            TyKind::Array(element, _) | TyKind::Pat(element, _) => inspect(tcx, *element),
++            TyKind::Closure(_, args) => inspect(tcx, args.as_closure().tupled_upvars_ty()),
++            TyKind::Bool
++            | TyKind::Char
++            | TyKind::Int(_)
++            | TyKind::Uint(_)
++            | TyKind::Float(_)
++            | TyKind::Never
++            | TyKind::FnDef(..)
++            | TyKind::FnPtr(..)
++            | TyKind::RawPtr(..)
++            | TyKind::Ref(..) => false,
++            _ => true,
++        }
+@@ -733,0 +796,8 @@ fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Result<Instance
++    inspect(tcx, rustc_internal::internal(tcx, ty))
++}
++
++/// Describe a call whose memory effects cannot be tracked by the uninitialized-memory passes.
++fn unsupported_call_reason(kind: &str) -> String {
++    format!(
++        "Kani does not support memory initialization checks across {kind}. For more information about planned support, see https://github.com/model-checking/kani/issues/3300."
++    )

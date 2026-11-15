@@ -1,0 +1,1659 @@
+{
+  "source": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "scope": "all tracked kani-compiler/**/*.rs and library/**/*.rs in F",
+  "assurance": "LEXICAL_ONLY: includes declarations/comments/same-spelling unrelated items; SEAMS.md identifies semantic consumers",
+  "symbols": {
+    "resolve_call": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/mod.rs",
+        "line": 11,
+        "text": "AnalysisBodyOverride, BodyProvenance, resolve_call, run_points_to_analysis,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 366,
+        "text": "resolve_call(self.tcx, rustc_internal::stable(func.ty(self.body, self.tcx)))"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 525,
+        "text": "pub fn resolve_call(tcx: TyCtxt, func_ty: StableTy) -> Result<StableInstance, String> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 19,
+        "text": "kani_middle::{kani_functions::KaniFunction, nonnull_pointee, points_to::resolve_call},"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 1184,
+        "text": "resolve_call(tcx, func.ty(locals).unwrap())"
+      }
+    ],
+    "AnalysisBodyOverride": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/mod.rs",
+        "line": 11,
+        "text": "AnalysisBodyOverride, BodyProvenance, resolve_call, run_points_to_analysis,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 72,
+        "text": "pub struct AnalysisBodyOverride {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 203,
+        "text": "body_overrides: &'a HashMap<StableInstance, AnalysisBodyOverride>,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 216,
+        "text": "body_overrides: &HashMap<StableInstance, AnalysisBodyOverride>,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 243,
+        "text": "body_overrides: &'a HashMap<StableInstance, AnalysisBodyOverride>,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 14,
+        "text": "AnalysisBodyOverride, BodyProvenance, MemLoc, PointsToGraph, run_points_to_analysis,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 122,
+        "text": ".insert(*instance, AnalysisBodyOverride { body: body.clone(), provenance });"
+      }
+    ],
+    "BodyProvenance": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/mod.rs",
+        "line": 11,
+        "text": "AnalysisBodyOverride, BodyProvenance, resolve_call, run_points_to_analysis,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 65,
+        "text": "pub enum BodyProvenance {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 74,
+        "text": "pub provenance: BodyProvenance,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 81,
+        "text": "provenance: BodyProvenance,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 90,
+        "text": "BodyProvenance::Source => write!(f, \"{owner} [provenance=source]\"),"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 91,
+        "text": "BodyProvenance::RegistrationOverride(origin) => write!("
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 96,
+        "text": "BodyProvenance::DiscardedClosureOverride => {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 252,
+        "text": ".map_or(BodyProvenance::Source, |selected| selected.provenance),"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 14,
+        "text": "AnalysisBodyOverride, BodyProvenance, MemLoc, PointsToGraph, run_points_to_analysis,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 117,
+        "text": "BodyProvenance::RegistrationOverride(origin)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 119,
+        "text": "BodyProvenance::DiscardedClosureOverride"
+      }
+    ],
+    "AnalysisKey": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 79,
+        "text": "struct AnalysisKey<'tcx> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 84,
+        "text": "impl Display for AnalysisKey<'_> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 195,
+        "text": "active_calls: &'a RefCell<ActiveCalls<AnalysisKey<'tcx>>>,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 244,
+        "text": "active_calls: &'a RefCell<ActiveCalls<AnalysisKey<'tcx>>>,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 248,
+        "text": "let key = AnalysisKey {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1006,
+        "text": "assert!(!error.reason.contains(\"AnalysisKey\"));"
+      }
+    ],
+    "PointsToAnalysisError": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 58,
+        "text": "pub struct PointsToAnalysisError {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 120,
+        "text": "error: Option<PointsToAnalysisError>,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 129,
+        "text": "fn enter(&mut self, key: K) -> Result<(), PointsToAnalysisError> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 137,
+        "text": ") -> Result<(), PointsToAnalysisError> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 167,
+        "text": "let error = PointsToAnalysisError {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 182,
+        "text": "fn exit(&mut self) -> Result<(), PointsToAnalysisError> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 217,
+        "text": ") -> Result<PointsToGraph<'tcx>, PointsToAnalysisError> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 247,
+        "text": ") -> Result<PointsToGraph<'tcx>, PointsToAnalysisError> {"
+      }
+    ],
+    "ActiveCalls": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 117,
+        "text": "struct ActiveCalls<K> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 123,
+        "text": "impl<K: Display + Eq> ActiveCalls<K> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 195,
+        "text": "active_calls: &'a RefCell<ActiveCalls<AnalysisKey<'tcx>>>,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 228,
+        "text": "&RefCell::new(ActiveCalls::new()),"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 244,
+        "text": "active_calls: &'a RefCell<ActiveCalls<AnalysisKey<'tcx>>>,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 954,
+        "text": "use super::{ActiveCalls, CallerLocation};"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 968,
+        "text": "let mut calls = ActiveCalls::new();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 979,
+        "text": "let mut calls = ActiveCalls::new();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 999,
+        "text": "let mut calls = ActiveCalls::new();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1015,
+        "text": "let mut calls = ActiveCalls::new();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1030,
+        "text": "let mut calls = ActiveCalls::new();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1042,
+        "text": "let mut calls = ActiveCalls::new();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1054,
+        "text": "let mut calls = ActiveCalls::new();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1084,
+        "text": "let mut calls = ActiveCalls::new();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1100,
+        "text": "let mut calls = ActiveCalls::new();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1109,
+        "text": "let mut calls = ActiveCalls::new();"
+      }
+    ],
+    "CallerLocation": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 104,
+        "text": "struct CallerLocation {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 109,
+        "text": "impl Display for CallerLocation {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 119,
+        "text": "callers: Vec<Option<CallerLocation>>,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 136,
+        "text": "caller: Option<CallerLocation>,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 146,
+        "text": "let label = |frame: &K, caller: Option<&CallerLocation>| {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 246,
+        "text": "caller: Option<CallerLocation>,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 702,
+        "text": "Some(CallerLocation { file: call_site.filename, line: call_site.start_line }),"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 954,
+        "text": "use super::{ActiveCalls, CallerLocation};"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1001,
+        "text": "let caller = CallerLocation { file: \"src/cycle.rs\".into(), line: 42 };"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1089,
+        "text": "Some(CallerLocation { file: \"src/cycle.rs\".into(), line: 17 }),"
+      }
+    ],
+    "run_points_to_analysis": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/mod.rs",
+        "line": 11,
+        "text": "AnalysisBodyOverride, BodyProvenance, resolve_call, run_points_to_analysis,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 211,
+        "text": "pub fn run_points_to_analysis<'tcx>("
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 14,
+        "text": "AnalysisBodyOverride, BodyProvenance, MemLoc, PointsToGraph, run_points_to_analysis,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 146,
+        "text": "match run_points_to_analysis(&body, tcx, instance, call_graph, &body_overrides)"
+      }
+    ],
+    "anonymous_origins": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 10,
+        "text": "AnonymousOrigin, anonymous_origins, target_matches,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 102,
+        "text": "for origin in anonymous_origins(self.tcx, constant) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+        "line": 32,
+        "text": "pub fn anonymous_origins(tcx: TyCtxt<'_>, constant: &MirConst) -> Vec<AnonymousOrigin> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 6,
+        "text": "use crate::kani_middle::anonymous_allocations::{AnonymousOrigin, anonymous_origins};"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 134,
+        "text": "for origin in anonymous_origins(tcx, constant) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "line": 52,
+        "text": "for origin in crate::kani_middle::anonymous_allocations::anonymous_origins("
+      }
+    ],
+    "AnonymousOrigin": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 10,
+        "text": "AnonymousOrigin, anonymous_origins, target_matches,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 39,
+        "text": "origins: HashMap<AllocId, Vec<AnonymousOrigin>>,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+        "line": 17,
+        "text": "pub struct AnonymousOrigin {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+        "line": 32,
+        "text": "pub fn anonymous_origins(tcx: TyCtxt<'_>, constant: &MirConst) -> Vec<AnonymousOrigin> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+        "line": 74,
+        "text": "Some(AnonymousOrigin {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 6,
+        "text": "use crate::kani_middle::anonymous_allocations::{AnonymousOrigin, anonymous_origins};"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 112,
+        "text": "pub anonymous: HashMap<AllocId, Vec<AnonymousOrigin>>,"
+      }
+    ],
+    "referent_extent": [
+      {
+        "path": "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+        "line": 66,
+        "text": "let extent = pointee.and_then(|ty| referent_extent(carrier, ty, pointer_size));"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+        "line": 87,
+        "text": "fn referent_extent(carrier: &Allocation, ty: Ty, pointer_size: usize) -> Option<usize> {"
+      }
+    ],
+    "target_matches": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 10,
+        "text": "AnonymousOrigin, anonymous_origins, target_matches,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 265,
+        "text": "if !target_matches(model.pointer_width, model.is_big_endian) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+        "line": 109,
+        "text": "pub fn target_matches(pointer_width: u64, big_endian: bool) -> bool {"
+      }
+    ],
+    "constant_successors": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 581,
+        "text": "state.constant_successors(self.tcx, &constant)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 601,
+        "text": "state.constant_successors(self.tcx, &constant)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 121,
+        "text": "pub fn constant_successors("
+      }
+    ],
+    "ImmutableAllocations": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "line": 80,
+        "text": "pub immutable_allocations: super::immutable_allocations::ImmutableAllocations,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 38,
+        "text": "pub struct ImmutableAllocations {"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 72,
+        "text": "impl ImmutableAllocations {"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 458,
+        "text": "let mut registry = ImmutableAllocations::default();"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 472,
+        "text": "let mut registry = ImmutableAllocations::default();"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 516,
+        "text": "let mut registry = ImmutableAllocations::default();"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 534,
+        "text": "let mut registry = ImmutableAllocations::default();"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 546,
+        "text": "let mut registry = ImmutableAllocations::default();"
+      }
+    ],
+    "Descriptor": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 29,
+        "text": "struct Descriptor {"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 42,
+        "text": "symbols: BTreeMap<InternedString, Descriptor>,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 48,
+        "text": "impl Descriptor {"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 78,
+        "text": "descriptor: Descriptor,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 79,
+        "text": ") -> Result<(), Descriptor> {"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 232,
+        "text": ".register(symbol, Descriptor::new(allocation, true))"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 250,
+        "text": "let descriptor = Descriptor::new(allocation, source.is_some() || static_source);"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 442,
+        "text": "fn descriptor(bytes: Vec<Option<u8>>, mutability: Mutability, frozen: bool) -> Descriptor {"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 443,
+        "text": "Descriptor::new("
+      }
+    ],
+    "ConstantCollector": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 163,
+        "text": "let mut constants = ConstantCollector::default();"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 387,
+        "text": "struct ConstantCollector(Vec<MirConst>);"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 388,
+        "text": "impl MirVisitor for ConstantCollector {"
+      }
+    ],
+    "seed_returns": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 378,
+        "text": "let patched = seed_returns(&body, &seed_stmts, &mut completions);"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 396,
+        "text": "fn seed_returns(stmt: &Stmt, seeds: &[Stmt], count: &mut usize) -> Stmt {"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 404,
+        "text": "Stmt::block(stmts.iter().map(|s| seed_returns(s, seeds, count)).collect(), loc)"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 406,
+        "text": "StmtBody::Label { label, body } => seed_returns(body, seeds, count).with_label(*label),"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 409,
+        "text": "seed_returns(t, seeds, count),"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 410,
+        "text": "e.as_ref().map(|s| seed_returns(s, seeds, count)),"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 417,
+        "text": ".map(|c| SwitchCase::new(c.case().clone(), seed_returns(c.body(), seeds, count)))"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 419,
+        "text": "default.as_ref().map(|s| seed_returns(s, seeds, count)),"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 423,
+        "text": "Stmt::while_loop(cond.clone(), seed_returns(body, seeds, count), loc)"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 426,
+        "text": "seed_returns(init, seeds, count),"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 428,
+        "text": "seed_returns(update, seeds, count),"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 429,
+        "text": "seed_returns(body, seeds, count),"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 577,
+        "text": "let patched = seed_returns(&body, &[seed], &mut count);"
+      }
+    ],
+    "observe_immutable_origins": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+        "line": 95,
+        "text": "self.observe_immutable_origins(constant);"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 94,
+        "text": "pub fn observe_immutable_origins(&mut self, constant: &MirConst) {"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 166,
+        "text": "self.observe_immutable_origins(&constant);"
+      }
+    ],
+    "register_immutable_static": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+        "line": 29,
+        "text": "self.register_immutable_static(def, &alloc);"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 112,
+        "text": "pub fn register_immutable_static(&mut self, def: StaticDef, allocation: &Allocation) {"
+      }
+    ],
+    "prepare_immutable_allocations": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 145,
+        "text": "gcx.prepare_immutable_allocations(&items);"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 151,
+        "text": "pub fn prepare_immutable_allocations(&mut self, items: &[MonoItem]) {"
+      }
+    ],
+    "bind_immutable_allocation": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+        "line": 340,
+        "text": "self.bind_immutable_allocation(prov.0, &data, &mem_var);"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+        "line": 384,
+        "text": "self.bind_immutable_allocation(prov.0, &data, &address);"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+        "line": 465,
+        "text": "self.bind_immutable_allocation(alloc_id, &alloc, &address);"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+        "line": 477,
+        "text": "self.bind_immutable_allocation(alloc_id, &alloc, &address);"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 174,
+        "text": "pub fn bind_immutable_allocation("
+      }
+    ],
+    "finalize_immutable_allocations": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 209,
+        "text": "gcx.finalize_immutable_allocations();"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 215,
+        "text": "pub fn finalize_immutable_allocations(&mut self) {"
+      }
+    ],
+    "immutable_origin_type_supported": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "line": 121,
+        "text": "|| !crate::kani_middle::transform::immutable_origin_type_supported(self.tcx, ty)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+        "line": 69,
+        "text": "crate::kani_middle::transform::immutable_origin_type_supported(tcx, ty)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 939,
+        "text": "pub(crate) fn immutable_origin_type_supported(tcx: rustc_middle::ty::TyCtxt<'_>, ty: Ty) -> bool {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 73,
+        "text": "pub(crate) use check_uninit::immutable_origin_type_supported;"
+      }
+    ],
+    "wrapper_inner": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 15,
+        "text": "wrapper_inner,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 290,
+        "text": "let matches = wrapper_inner(self.tcx, target, LangItem::MaybeUninit) == Some(source)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 297,
+        "text": "&& wrapper_inner(self.tcx, to, LangItem::MaybeUninit) == Some(from)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 312,
+        "text": "let Some(inner) = wrapper_inner(self.tcx, operand_ty, LangItem::MaybeUninit) else {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 315,
+        "text": "if target != inner && wrapper_inner(self.tcx, target, LangItem::ManuallyDrop) != Some(inner)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 402,
+        "text": "wrapper_inner(self.tcx, union, LangItem::MaybeUninit).is_some()"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 481,
+        "text": ".is_some_and(|ty| wrapper_inner(self.tcx, ty, LangItem::MaybeUninit).is_some());"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 903,
+        "text": "if wrapper_inner(self.tcx, union_ty, LangItem::MaybeUninit).is_none()"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 963,
+        "text": "wrapper_inner(self.tcx, union, LangItem::MaybeUninit).is_some()"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 971,
+        "text": "&& wrapper_inner(self.tcx, union, LangItem::MaybeUninit).is_some()"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 999,
+        "text": "&& wrapper_inner(self.tcx, from, LangItem::MaybeUninit) == Some(to)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 120,
+        "text": "pub(super) fn wrapper_inner(tcx: TyCtxt, ty: Ty, wrapper: LangItem) -> Option<Ty> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 137,
+        "text": "wrapper_inner(tcx, slot_ty, LangItem::MaybeUninit)"
+      }
+    ],
+    "maybe_uninit_storage": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 21,
+        "text": "use ty_layout::maybe_uninit_storage;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 257,
+        "text": "&& maybe_uninit_storage(self.tcx, pointee_ty).is_none()"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 266,
+        "text": "} else if maybe_uninit_storage(self.tcx, pointee_ty).is_some() {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 631,
+        "text": "let layout = if maybe_uninit_storage(self.tcx, *pointee_info.ty()).is_some() {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 940,
+        "text": "if ty_layout::maybe_uninit_storage(tcx, ty).is_some() {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 14,
+        "text": "LayoutComputationError, maybe_uninit_storage, tys_layout_compatible_to_size,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 132,
+        "text": "ty.kind().is_union() || maybe_uninit_storage(self.tcx, ty).is_some()"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 404,
+        "text": "&& maybe_uninit_storage(self.tcx, addressed.ty(&self.locals).unwrap()).is_none()"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 484,
+        "text": "if maybe_uninit_storage(self.tcx, ty).is_some() {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 714,
+        "text": "&& maybe_uninit_storage(self.tcx, ty).is_some() =>"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 132,
+        "text": "pub(super) fn maybe_uninit_storage(tcx: TyCtxt, ty: Ty) -> Option<Ty> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 153,
+        "text": "let inner = maybe_uninit_storage(tcx, ty).unwrap();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 181,
+        "text": "let inner = maybe_uninit_storage(tcx, ty).unwrap();"
+      }
+    ],
+    "for_storage": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 273,
+        "text": "match PointeeInfo::for_storage(self.tcx, pointee_ty) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 288,
+        "text": "PointeeInfo::for_storage(self.tcx, pointee_ty)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 941,
+        "text": "return ty_layout::PointeeInfo::for_storage(tcx, ty).is_ok();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 180,
+        "text": "pub(super) fn for_storage(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputationError> {"
+      }
+    ],
+    "for_typed_storage": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 285,
+        "text": "PointeeInfo::for_typed_storage(self.tcx, pointee_ty)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 864,
+        "text": "/// payload mask computed by `for_typed_storage` instead."
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 152,
+        "text": "pub(super) fn for_typed_storage(tcx: TyCtxt, ty: Ty) -> Result<Self, LayoutComputationError> {"
+      }
+    ],
+    "for_deinit": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 261,
+        "text": "PointeeInfo::for_deinit(pointee_ty)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 265,
+        "text": "PointeeInfo::for_deinit(pointee_ty)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 142,
+        "text": "pub(super) fn for_deinit(ty: Ty) -> Result<Self, LayoutComputationError> {"
+      }
+    ],
+    "argument_size": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 718,
+        "text": "let Some(layout_size) = pointee_info.layout().argument_size() else {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 60,
+        "text": "pub(super) fn argument_size(&self) -> Option<usize> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 574,
+        "text": "assert_eq!(PointeeLayout::Sized { layout: vec![] }.argument_size(), Some(0));"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 576,
+        "text": "PointeeLayout::Union { field_layouts: vec![vec![], vec![true, false]] }.argument_size(),"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 582,
+        "text": "assert_eq!(slice.argument_size(), None);"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 583,
+        "text": "assert_eq!(PointeeLayout::Slice { element_layout: vec![] }.argument_size(), None);"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 584,
+        "text": "assert_eq!(PointeeLayout::TraitObject.argument_size(), None);"
+      }
+    ],
+    "constant_init_mask": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 11,
+        "text": "use relevant_instruction::{InitRelevantInstruction, MemoryInitOp, constant_init_mask};"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 192,
+        "text": "let Some(initialized) = constant_init_mask(operand) else {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 12,
+        "text": "relevant_instruction::{InitRelevantInstruction, MemoryInitOp, constant_init_mask},"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 183,
+        "text": "if let Some(initialized) = constant_init_mask(operand) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 237,
+        "text": "_ => constant_init_mask(operand).is_some(),"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 252,
+        "text": "if let Some(mask) = constant_init_mask(operand) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 326,
+        "text": "} else if let Some(initialized) = constant_init_mask(operand)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 308,
+        "text": "pub(super) fn constant_init_mask(operand: &Operand) -> Option<Vec<bool>> {"
+      }
+    ],
+    "SetStorage": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 222,
+        "text": "MemoryInitOp::SetStorage {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 255,
+        "text": "let layout = if matches!(operation, MemoryInitOp::SetStorage { .. })"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 281,
+        "text": "MemoryInitOp::SetStorage { .. }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 319,
+        "text": "| MemoryInitOp::SetStorage { .. } => {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 495,
+        "text": "let layout = if let MemoryInitOp::SetStorage { initialized, .. } = &operation {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 512,
+        "text": "| MemoryInitOp::SetStorage { .. } => {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 184,
+        "text": "self.push_target(MemoryInitOp::SetStorage {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 216,
+        "text": "self.push_target(MemoryInitOp::SetStorage {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 254,
+        "text": "self.push_target(MemoryInitOp::SetStorage {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 46,
+        "text": "SetStorage { operand: Operand, initialized: Vec<bool>, position: InsertPosition },"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 95,
+        "text": "| MemoryInitOp::SetStorage { operand, .. }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 149,
+        "text": "| MemoryInitOp::SetStorage { operand, .. }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 201,
+        "text": "| MemoryInitOp::SetStorage { .. }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 217,
+        "text": "MemoryInitOp::CreateUnion { .. } | MemoryInitOp::SetStorage { .. } => true,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 244,
+        "text": "| MemoryInitOp::SetStorage { .. }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 260,
+        "text": "| MemoryInitOp::SetStorage { position, .. }"
+      }
+    ],
+    "CheckRefAs": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 312,
+        "text": "| MemoryInitOp::CheckRefAs { .. } => {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 363,
+        "text": "| MemoryInitOp::CheckRefAs { .. } => {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 453,
+        "text": "MemoryInitOp::CheckRefAs { pointee_ty, .. } => *pointee_ty,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 322,
+        "text": "self.push_target(MemoryInitOp::CheckRefAs {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 41,
+        "text": "CheckRefAs { operand: Operand, pointee_ty: Ty },"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 89,
+        "text": "MemoryInitOp::CheckRefAs { operand, pointee_ty } => {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 145,
+        "text": "| MemoryInitOp::CheckRefAs { pointee_ty, .. } => {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 199,
+        "text": "| MemoryInitOp::CheckRefAs { .. }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 222,
+        "text": "| MemoryInitOp::CheckRefAs { .. }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 240,
+        "text": "| MemoryInitOp::CheckRefAs { .. }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 267,
+        "text": "| MemoryInitOp::CheckRefAs { .. }"
+      }
+    ],
+    "BeginArgumentTransfer": [
+      {
+        "path": "kani-compiler/src/kani_middle/kani_functions.rs",
+        "line": 141,
+        "text": "BeginArgumentTransfer,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 58,
+        "text": "KaniFunction::Model(KaniModel::BeginArgumentTransfer);"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 167,
+        "text": "if let MemoryInitOp::BeginArgumentTransfer { function, argument_count } = operation {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 329,
+        "text": "MemoryInitOp::BeginArgumentTransfer { .. }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 790,
+        "text": "self.push_target(MemoryInitOp::BeginArgumentTransfer {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 58,
+        "text": "BeginArgumentTransfer { function: Ty, argument_count: usize },"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 101,
+        "text": "MemoryInitOp::BeginArgumentTransfer { .. }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 161,
+        "text": "MemoryInitOp::BeginArgumentTransfer { .. }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 206,
+        "text": "| MemoryInitOp::BeginArgumentTransfer { .. }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 227,
+        "text": "| MemoryInitOp::BeginArgumentTransfer { .. }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 249,
+        "text": "| MemoryInitOp::BeginArgumentTransfer { .. }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "line": 270,
+        "text": "| MemoryInitOp::BeginArgumentTransfer { .. }"
+      }
+    ],
+    "transfer_mask": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 769,
+        "text": "let layout = transfer_mask(pointee_info.layout());"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 811,
+        "text": "let layout = transfer_mask(pointee_info.layout());"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "line": 865,
+        "text": "fn transfer_mask(layout: &PointeeLayout) -> Vec<bool> {"
+      }
+    ],
+    "has_transfer_protocol": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 88,
+        "text": "} else if has_transfer_protocol(self.instance) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 554,
+        "text": "let paired = has_transfer_protocol(instance);"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 859,
+        "text": "if has_transfer_protocol(self.instance)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 1237,
+        "text": "fn has_transfer_protocol(instance: Instance) -> bool {"
+      }
+    ],
+    "transfers_shadow": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 71,
+        "text": ".filter(|(_, local)| self.transfers_shadow(local.ty))"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 74,
+        "text": "&& (!union_args.is_empty() || self.transfers_shadow(body.locals()[0].ty))"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 78,
+        "text": "}) || (self.transfers_shadow(body.locals()[0].ty)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 131,
+        "text": "fn transfers_shadow(&self, ty: Ty) -> bool {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 138,
+        "text": "!self.transfers_shadow(ty)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 556,
+        "text": "let shadow_return = self.transfers_shadow(destination_ty);"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 558,
+        "text": "args.iter().any(|arg| self.transfers_shadow(arg.ty(&self.locals).unwrap()));"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 561,
+        "text": "self.transfers_shadow(ty)"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 786,
+        "text": "self.transfers_shadow(arg.ty(&self.locals).unwrap())"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 860,
+        "text": "&& self.transfers_shadow(return_place.ty(&self.locals).unwrap())"
+      }
+    ],
+    "needs_nested_call_reset": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 137,
+        "text": "fn needs_nested_call_reset(&self, ty: Ty) -> bool {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 148,
+        "text": "&& self.needs_nested_call_reset(place.ty(&self.locals).unwrap())"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 157,
+        "text": "if returns && self.needs_nested_call_reset(destination.ty(&self.locals).unwrap()) {"
+      }
+    ],
+    "reset_nested_call": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 143,
+        "text": "fn reset_nested_call(&mut self, args: &[Operand], destination: &Place, returns: bool) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 609,
+        "text": "self.reset_nested_call(args, destination, target.is_some());"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 819,
+        "text": "self.reset_nested_call(args, destination, target.is_some());"
+      }
+    ],
+    "enclosing_union": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 169,
+        "text": "fn enclosing_union(&self, place: &Place) -> Option<Ty> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 401,
+        "text": "&& !self.enclosing_union(addressed).is_some_and(|union| {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 479,
+        "text": "let union = self.enclosing_union(place);"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 962,
+        "text": "&& self.enclosing_union(place).is_some_and(|union| {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 970,
+        "text": "&& let Some(union) = self.enclosing_union(place)"
+      }
+    ],
+    "assign_storage_operand": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 182,
+        "text": "fn assign_storage_operand(&mut self, place: &Place, operand: &Operand) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 222,
+        "text": "Rvalue::Use(operand, _) => self.assign_storage_operand(place, operand),"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 248,
+        "text": "self.assign_storage_operand(&element, operand);"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 276,
+        "text": "self.assign_storage_operand(&element, operand);"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 423,
+        "text": "self.assign_storage_operand(place, operand);"
+      }
+    ],
+    "unsupported_storage_assignment": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 198,
+        "text": "self.unsupported_storage_assignment();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 202,
+        "text": "fn unsupported_storage_assignment(&mut self) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 279,
+        "text": "self.unsupported_storage_assignment();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 282,
+        "text": "_ => self.unsupported_storage_assignment(),"
+      }
+    ],
+    "assign_storage": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 208,
+        "text": "fn assign_storage(&mut self, place: &Place, ty: Ty, rvalue: &Rvalue) {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 485,
+        "text": "self.assign_storage(place, ty, rvalue);"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 992,
+        "text": "// Only the layout rejection is bypassed; assign_storage installs T's"
+      }
+    ],
+    "typed_storage_mask": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 211,
+        "text": "if let Some(initialized) = self.typed_storage_mask(operand, *target) =>"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 288,
+        "text": "fn typed_storage_mask(&self, operand: &Operand, target: Ty) -> Option<Vec<bool>> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 989,
+        "text": "if self.typed_storage_mask(operand, *ty).is_some() {"
+      }
+    ],
+    "maybe_uninit_transmute": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 310,
+        "text": "fn maybe_uninit_transmute(&mut self, operand: &Operand, target: Ty) -> bool {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 1005,
+        "text": "} else if self.maybe_uninit_transmute(operand, *ty) {"
+      }
+    ],
+    "address_of_raw_deref": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 350,
+        "text": "fn address_of_raw_deref(&self, place: &Place) -> bool {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 400,
+        "text": "&& !self.address_of_raw_deref(addressed)"
+      }
+    ],
+    "visit_ordinary_assignment": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 363,
+        "text": "fn visit_ordinary_assignment("
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "line": 501,
+        "text": "self.visit_ordinary_assignment(place, rvalue, ty, union.is_some());"
+      }
+    ],
+    "DelayedCache": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 12,
+        "text": "pub(super) struct DelayedCache<K, V> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 16,
+        "text": "impl<K, V> Default for DelayedCache<K, V> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 22,
+        "text": "impl<K: Copy + Eq + Hash, V> DelayedCache<K, V> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 53,
+        "text": "use super::DelayedCache;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 71,
+        "text": "let mut journal = DelayedCache::default();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 86,
+        "text": "let mut journal = DelayedCache::default();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 108,
+        "text": "let mut journal = DelayedCache::default();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 123,
+        "text": "let mut journal = DelayedCache::default();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 134,
+        "text": "let mut journal = DelayedCache::<u8, Result>::default();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "line": 142,
+        "text": "DelayedCache::default().replace(&mut HashMap::new(), 1, result(10, true));"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 31,
+        "text": "use delayed_cache::DelayedCache;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 99,
+        "text": "delayed_cache: DelayedCache<Instance, TransformationResult>,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 116,
+        "text": "delayed_cache: DelayedCache::default(),"
+      }
+    ],
+    "DelayedTransformationScope": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 160,
+        "text": "pub fn delayed_scope(&mut self) -> DelayedTransformationScope<'_> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 162,
+        "text": "DelayedTransformationScope { transformer: self }"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 238,
+        "text": "pub struct DelayedTransformationScope<'a> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 242,
+        "text": "impl Deref for DelayedTransformationScope<'_> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 250,
+        "text": "impl DerefMut for DelayedTransformationScope<'_> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 256,
+        "text": "impl Drop for DelayedTransformationScope<'_> {"
+      }
+    ],
+    "delayed_scope": [
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "line": 72,
+        "text": "let mut transformer = transformer.delayed_scope();"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 94,
+        "text": "let mut delayed_scope = transformer.delayed_scope();"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "line": 95,
+        "text": "let transformer = &mut *delayed_scope;"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 160,
+        "text": "pub fn delayed_scope(&mut self) -> DelayedTransformationScope<'_> {"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 457,
+        "text": "let _scope = transformer.delayed_scope();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 462,
+        "text": "drop(transformer.delayed_scope());"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 464,
+        "text": "drop(transformer.delayed_scope());"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 471,
+        "text": "let _scope = transformer.delayed_scope();"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 475,
+        "text": "drop(transformer.delayed_scope());"
+      }
+    ],
+    "replace_delayed_body": [
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 191,
+        "text": "transformer.replace_delayed_body(instance, body);"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "line": 212,
+        "text": "transformer.replace_delayed_body(instance, body.into());"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "line": 167,
+        "text": "fn replace_delayed_body(&mut self, instance: Instance, body: Body) {"
+      }
+    ],
+    "begin_argument_transfer": [
+      {
+        "path": "library/kani_core/src/mem_init.rs",
+        "line": 429,
+        "text": "fn begin_argument_transfer(signature: usize, argument_count: usize) {"
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "checked_at_utc": "2026-11-15T08:11:07.805736+00:00",
+  "status": "PASS_STATIC_RESEARCH_CONSISTENCY",
+  "checks": [
+    "exact saved Git patches",
+    "hunk and part hashes/ranges",
+    "complete unique changed-line ownership",
+    "all original U/B1/F blobs/modes/digests",
+    "dependency owner-part bijection",
+    "exact head6 F7 residual list",
+    "historical pre-F7 snippets",
+    "B1 excludes runtime/marker delta",
+    "remote snapshot identity/no-drift",
+    "key seam definition owners",
+    "all three source worktrees clean/pinned"
+  ],
+  "line_counts": {
+    "U--B1:-": 73,
+    "U--B1:+": 133,
+    "B1--F:+": 2841,
+    "B1--F:-": 420
+  },
+  "manifest_sha256": "ac5ac75116cdfe009061d2e4e605f803464d3c97e47d39387637d46fed11d3f6",
+  "build_CI_push": "NOT_RUN",
+  "oracle_docs_map": "worker15 separate; not accepted by this validation",
+  "intermediate_heads": "NOT_CREATED_NOT_QUALIFIED",
+  "full_recompose": "NOT_RUN"
+}

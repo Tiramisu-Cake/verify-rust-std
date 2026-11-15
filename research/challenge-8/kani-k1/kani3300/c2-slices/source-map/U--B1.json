@@ -1,0 +1,1486 @@
+{
+  "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "target": "6fe484b30043b3696b5f1ccc4bea0e42891ad012",
+  "diff_algorithm": "git default/myers, --no-renames -U0",
+  "patch_sha256": "fe9adc1ad4b8a8956391a5e8d36038e60a20d7f104f630557ee486fd8bfd9e16",
+  "files": [
+    {
+      "path": "kani-compiler/src/kani_middle/points_to/mod.rs",
+      "hunks": [
+        {
+          "header": "@@ -10 +10 @@",
+          "old": [
+            10,
+            1
+          ],
+          "new": [
+            10,
+            1
+          ],
+          "id": "U--B1:01:001",
+          "sha256": "72fd053be9e28ac23960966ee4e6bf29469df7269532195c98622d4b96cab89b",
+          "symbol_old": {
+            "line": 8,
+            "declaration": "mod points_to_graph;"
+          },
+          "symbol_new": {
+            "line": 8,
+            "declaration": "mod points_to_graph;"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 10,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "e546ee1529f2d749c40e209d41507b9ced76e68542b9dbb0e7c4721e33fcf27b"
+            },
+            {
+              "side": "+",
+              "start": 10,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "d55c34f5c00920eb9ca0d4033e38db91b85063dc5f38b5a544377b853bad1bd7"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        }
+      ],
+      "identities": {
+        "U": {
+          "mode": "100644",
+          "blob": "984bf086d0a5c57b97fc2f7b4fa40bfdf286c8b2",
+          "sha256": "738450b46997007c931d9c2d03e25e8025e0cb2c93db28ad0d097c8f9839a0e5",
+          "lines": 11
+        },
+        "B1": {
+          "mode": "100644",
+          "blob": "db9070b92e868cf67308b04e691ada034060a2a5",
+          "sha256": "f42097f7d8f4b9c2bef756217716183e39bbaf603fb34268883e6f1245fdb6fc",
+          "lines": 11
+        },
+        "F": {
+          "mode": "100644",
+          "blob": "0df17815f36d16ab4788e83e6ea4c6808a47e382",
+          "sha256": "d0c9169a1c1f1476f1bdd5ef6d42040ed4587b9a86bb2891a1b312568aa98128",
+          "lines": 13
+        }
+      }
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "hunks": [
+        {
+          "header": "@@ -40 +40 @@",
+          "old": [
+            40,
+            1
+          ],
+          "new": [
+            40,
+            1
+          ],
+          "id": "U--B1:02:001",
+          "sha256": "1fd0fbcf6931aa217b3b8722be66c76b4b770200d76240e965383cea631b4e3e",
+          "symbol_old": null,
+          "symbol_new": null,
+          "parts": [
+            {
+              "side": "-",
+              "start": 40,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "697fdcd31d3991ffeaa936a22097c575d4b49964e52f74a862508a4d5aa35470"
+            },
+            {
+              "side": "+",
+              "start": 40,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "c3a3c47f90f04bbe35266677e14379d98f1690b976abc22770aa3e44119be0ea"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -49 +49 @@",
+          "old": [
+            49,
+            1
+          ],
+          "new": [
+            49,
+            1
+          ],
+          "id": "U--B1:02:002",
+          "sha256": "c6f00276e89b2cebdcb843436e6cfd0ca969821944bd0a1e2b58a3394f8a83a8",
+          "symbol_old": null,
+          "symbol_new": null,
+          "parts": [
+            {
+              "side": "-",
+              "start": 49,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "22883d9cd80cb30677174ad9c62ec899672317e230b9e2b5dbeff3371b434181"
+            },
+            {
+              "side": "+",
+              "start": 49,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "70844a45f3a4c5f6ce4f01ef089ea1d5fa2d2362fd68d18b7cefb90215cff66f"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -197 +197,2 @@ fn apply_primary_terminator_effect(",
+          "old": [
+            197,
+            1
+          ],
+          "new": [
+            197,
+            2
+          ],
+          "id": "U--B1:02:003",
+          "sha256": "8a93bb1baa41997329ccfaa66833ae4efdc3092402163e0ef776d1a31c3dbee0",
+          "symbol_old": {
+            "line": 188,
+            "declaration": "fn apply_primary_terminator_effect("
+          },
+          "symbol_new": {
+            "line": 188,
+            "declaration": "fn apply_primary_terminator_effect("
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 197,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "effef7c0dc23584fecab69ed4127985096f47ad9efde3c905706eacb12c9c1a8"
+            },
+            {
+              "side": "+",
+              "start": 197,
+              "count": 2,
+              "owner": "B1",
+              "sha256": "7483f1f260203597153d8557310e08cc6e9642598058559b00375477ae33b46a"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -199,2 +200,2 @@ fn apply_primary_terminator_effect(",
+          "old": [
+            199,
+            2
+          ],
+          "new": [
+            200,
+            2
+          ],
+          "id": "U--B1:02:004",
+          "sha256": "1e069684667e966ef62e5e2ef6d5489b2cf19effab041710657838bf6a61a2b2",
+          "symbol_old": {
+            "line": 188,
+            "declaration": "fn apply_primary_terminator_effect("
+          },
+          "symbol_new": {
+            "line": 188,
+            "declaration": "fn apply_primary_terminator_effect("
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 199,
+              "count": 2,
+              "owner": "B1",
+              "sha256": "a38f116919e52764cadf39eed715c36dbb5f4788174d0fcf2e3a3d41cf301fea"
+            },
+            {
+              "side": "+",
+              "start": 200,
+              "count": 2,
+              "owner": "B1",
+              "sha256": "09108f97935877e3ed7db536e6308931608cab8f1c60378a77fd6139a0b7d498"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -346,11 +347,18 @@ fn apply_call_return_effect(",
+          "old": [
+            346,
+            11
+          ],
+          "new": [
+            347,
+            18
+          ],
+          "id": "U--B1:02:005",
+          "sha256": "236910bdf2f12a3b2ae765b52ecec9199160426ff43df6456688e78c281ffcae",
+          "symbol_old": {
+            "line": 337,
+            "declaration": "fn apply_call_return_effect("
+          },
+          "symbol_new": {
+            "line": 338,
+            "declaration": "fn apply_call_return_effect("
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 346,
+              "count": 11,
+              "owner": "B1",
+              "sha256": "a5f64ebe7fad7e73c6b5933eb76460be17e008ddae9fed860d8665a02fd9cf31"
+            },
+            {
+              "side": "+",
+              "start": 347,
+              "count": 18,
+              "owner": "B1",
+              "sha256": "031b94707cd4bd3622026803cdabc00324ded051c97bcbeacb19e70f47497753"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -357,0 +366 @@ pub fn unsupported_call(func_ty: StableTy) -> Option<String> {",
+          "old": [
+            357,
+            0
+          ],
+          "new": [
+            366,
+            1
+          ],
+          "id": "U--B1:02:006",
+          "sha256": "696ba76427f94f409dff86c686a298da61fe120a5dd46bcad1c222a89b14a399",
+          "symbol_old": {
+            "line": 349,
+            "declaration": "pub fn unsupported_call(func_ty: StableTy) -> Option<String> {"
+          },
+          "symbol_new": {
+            "line": 350,
+            "declaration": "pub fn resolve_call(func_ty: StableTy) -> Result<StableInstance, String> {"
+          },
+          "parts": [
+            {
+              "side": "+",
+              "start": 366,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "35ceb1b1359c295679dd25c63b767d5253df9c93634b439105d9c90385a602d9"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -359 +368,2 @@ pub fn unsupported_call(func_ty: StableTy) -> Option<String> {",
+          "old": [
+            359,
+            1
+          ],
+          "new": [
+            368,
+            2
+          ],
+          "id": "U--B1:02:007",
+          "sha256": "54a5f9ed47d0c9810c96ba9daacf97039e86e414b7ee376ad4ab7e6774c63436",
+          "symbol_old": {
+            "line": 349,
+            "declaration": "pub fn unsupported_call(func_ty: StableTy) -> Option<String> {"
+          },
+          "symbol_new": {
+            "line": 350,
+            "declaration": "pub fn resolve_call(func_ty: StableTy) -> Result<StableInstance, String> {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 359,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "f8e0678e40369b3e381d952f715117d07fb03538d7c3708dd1117db9eb40f8e9"
+            },
+            {
+              "side": "+",
+              "start": 368,
+              "count": 2,
+              "owner": "B1",
+              "sha256": "cab5d13a8193c5f787106b4a9333a04d032ee847285515999cd1d7d8f4190e6c"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -361,3 +371 @@ pub fn unsupported_call(func_ty: StableTy) -> Option<String> {",
+          "old": [
+            361,
+            3
+          ],
+          "new": [
+            371,
+            1
+          ],
+          "id": "U--B1:02:008",
+          "sha256": "609e68d59fb960ea5091af187de7102139682e5788fb5e688b2ebe0a64f3d85c",
+          "symbol_old": {
+            "line": 349,
+            "declaration": "pub fn unsupported_call(func_ty: StableTy) -> Option<String> {"
+          },
+          "symbol_new": {
+            "line": 350,
+            "declaration": "pub fn resolve_call(func_ty: StableTy) -> Result<StableInstance, String> {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 361,
+              "count": 3,
+              "owner": "B1",
+              "sha256": "3bdb04732cfd6af0bc7e566bdf0579f749334f121bdb2fdea0a42f8671c9a86e"
+            },
+            {
+              "side": "+",
+              "start": 371,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "534112115d833977add453a58a9ce0605b5b61700b041d2fbce0d49a8a828dee"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -366,17 +374,3 @@ pub fn unsupported_call(func_ty: StableTy) -> Option<String> {",
+          "old": [
+            366,
+            17
+          ],
+          "new": [
+            374,
+            3
+          ],
+          "id": "U--B1:02:009",
+          "sha256": "b835763d35c8b48de276b0195bbcb1912ece7ca4a87a4c7ac8e2f45dce59b937",
+          "symbol_old": {
+            "line": 349,
+            "declaration": "pub fn unsupported_call(func_ty: StableTy) -> Option<String> {"
+          },
+          "symbol_new": {
+            "line": 374,
+            "declaration": "fn unsupported_call_reason(kind: &str) -> String {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 366,
+              "count": 17,
+              "owner": "B1",
+              "sha256": "d7321fbc6504faf1aed9b9b0e3a31e9d7fefa2a5adbe3869e07c089e0c0c1cce"
+            },
+            {
+              "side": "+",
+              "start": 374,
+              "count": 3,
+              "owner": "B1",
+              "sha256": "0a2e3d78e603316efeb1134d647679c7d6d2b2770b7ab4e2b8b153d07a636659"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -458 +452,5 @@ fn apply_regular_call_effect(",
+          "old": [
+            458,
+            1
+          ],
+          "new": [
+            452,
+            5
+          ],
+          "id": "U--B1:02:010",
+          "sha256": "0cd91cc8ef7b384e23b674bf667a4a3fbbe85809290a59f811bd43aa0b553d86",
+          "symbol_old": {
+            "line": 448,
+            "declaration": "fn apply_regular_call_effect("
+          },
+          "symbol_new": {
+            "line": 442,
+            "declaration": "fn apply_regular_call_effect("
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 458,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "f4c99b2cfaa1c119a4fabe22199a2b718ada82ce5e8c69102d0313c8b605ba31"
+            },
+            {
+              "side": "+",
+              "start": 452,
+              "count": 5,
+              "owner": "B1",
+              "sha256": "c4a09ee21df3956e7a9d7d7194030f4685c3fd32f682dd8be754053cb089008f"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        }
+      ],
+      "identities": {
+        "U": {
+          "mode": "100644",
+          "blob": "fbbe55c84c806526d34688fc246328f45b23e5c7",
+          "sha256": "b4c70ed1f2e2ea61f7c0965ce6d2db3cf03aeb991bbe3649ea3e57649527f823",
+          "lines": 763
+        },
+        "B1": {
+          "mode": "100644",
+          "blob": "d74f11eb15a7f95d136bfd67940e46cf4b7c0d84",
+          "sha256": "77dbb700ab1f5a0be39a1289ff9f9b4a59a678bb9ffd1004bd5053426d9db712",
+          "lines": 761
+        },
+        "F": {
+          "mode": "100644",
+          "blob": "b4a740e9e4145b32f7aa165b543215b57110edd9",
+          "sha256": "82ce460dd51984ca62f8f9bafb4043597ae8e90c75fa4fdce0d0091681b9c2ad",
+          "lines": 1123
+        }
+      }
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "hunks": [
+        {
+          "header": "@@ -132 +132,2 @@ fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Option<Instance",
+          "old": [
+            132,
+            1
+          ],
+          "new": [
+            132,
+            2
+          ],
+          "id": "U--B1:03:001",
+          "sha256": "b604eb71567bbabb2e62e5284df53592e28bc0d9d7502f77b63985388b4a330e",
+          "symbol_old": {
+            "line": 130,
+            "declaration": "fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Option<Instance> {"
+          },
+          "symbol_new": {
+            "line": 130,
+            "declaration": "fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Option<Instance> {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 132,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "e4a1cb3c13a426cd2e24e68096b31c6436fac8fa67414483ef0ec0ef76a9f3aa"
+            },
+            {
+              "side": "+",
+              "start": 132,
+              "count": 2,
+              "owner": "B1",
+              "sha256": "7523463d28fa33e3bbacbeabe086cdf8e8c610a521db876e33a2c1381007351b"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        }
+      ],
+      "identities": {
+        "U": {
+          "mode": "100644",
+          "blob": "03b92f331064023b090ad5e6afc10fe0b9ff828e",
+          "sha256": "0f32763a6981ae6269d4b938302ac106ff6ebaa19df9fa413765a982f1390277",
+          "lines": 135
+        },
+        "B1": {
+          "mode": "100644",
+          "blob": "b585f72370fb5ca06429286a6b3ffcc649d7ede3",
+          "sha256": "9a24f37920c6cd1bfedac17dd0d47f1526d8a570661edcd66a3d3379d207245e",
+          "lines": 136
+        },
+        "F": {
+          "mode": "100644",
+          "blob": "9ee31b45ff621bfec61b3f873354bd9ddd340283",
+          "sha256": "ecc52ea5051460be8be2bdfbff17e94d0f62fa0f7e292854c1e8ce21e3764970",
+          "lines": 150
+        }
+      }
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+      "hunks": [
+        {
+          "header": "@@ -8 +8 @@",
+          "old": [
+            8,
+            1
+          ],
+          "new": [
+            8,
+            1
+          ],
+          "id": "U--B1:04:001",
+          "sha256": "5df09e57f13fcecf6ae902fa46a849ccc9018328b408ad597cbf57c4c88e802f",
+          "symbol_old": null,
+          "symbol_new": null,
+          "parts": [
+            {
+              "side": "-",
+              "start": 8,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "9f227d175ae14fc454980bd8344b0f9d430cd2bafa7713fc24b7e3a251574f38"
+            },
+            {
+              "side": "+",
+              "start": 8,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "5e9f4d8f6bd6affa8f02bee1976f488f9262f630db507f2ba247160ea5a17aaf"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -19 +19 @@",
+          "old": [
+            19,
+            1
+          ],
+          "new": [
+            19,
+            1
+          ],
+          "id": "U--B1:04:002",
+          "sha256": "6e4090c5e3b16d0ec3956e3a93518723812043b195b466a1a56087a3de2fb6e2",
+          "symbol_old": null,
+          "symbol_new": null,
+          "parts": [
+            {
+              "side": "-",
+              "start": 19,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "6a313db492b6937e8ddab84fba49a33ef409540ac0ecedd0aaaf1847f2065966"
+            },
+            {
+              "side": "+",
+              "start": 19,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "e4489750927a0eee8a9304bad45156f03246beef6d321ff1f62f2d5ba237f606"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -35,2 +34,0 @@ pub struct InstrumentationVisitor<'a, 'tcx> {",
+          "old": [
+            35,
+            2
+          ],
+          "new": [
+            34,
+            0
+          ],
+          "id": "U--B1:04:003",
+          "sha256": "ae3619fe6864a77b89a187147a3cce18a948177fe4681e48dd77fcd747e13b99",
+          "symbol_old": {
+            "line": 25,
+            "declaration": "pub struct InstrumentationVisitor<'a, 'tcx> {"
+          },
+          "symbol_new": {
+            "line": 25,
+            "declaration": "pub struct InstrumentationVisitor<'a, 'tcx> {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 35,
+              "count": 2,
+              "owner": "B1",
+              "sha256": "45f868d861467521fd46cc7bb7707b44708af9ee4191b8d50b165d9710c0b946"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -42 +39,0 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {",
+          "old": [
+            42,
+            1
+          ],
+          "new": [
+            39,
+            0
+          ],
+          "id": "U--B1:04:004",
+          "sha256": "f4bc74dd6c3859154ea7aaa4cb249ea0057ad888a5cc228072eaf995d571e825",
+          "symbol_old": {
+            "line": 41,
+            "declaration": "fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {"
+          },
+          "symbol_new": {
+            "line": 39,
+            "declaration": "fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 42,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "680f5ea739b47b4650797cc9cbe95a05506bef93494da8bf1a9d69693500e2fd"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -72 +68,0 @@ pub fn new(",
+          "old": [
+            72,
+            1
+          ],
+          "new": [
+            68,
+            0
+          ],
+          "id": "U--B1:04:005",
+          "sha256": "71c0c93627a2d20e3545db90ca6a1dbc373c7480e97dfda046e21c9a7f9cdcee",
+          "symbol_old": {
+            "line": 56,
+            "declaration": "pub fn new("
+          },
+          "symbol_new": {
+            "line": 53,
+            "declaration": "pub fn new("
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 72,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "4467970957a68f3ce650f8a5c51fa7604d6402d8f4f41742dac368d90a97e265"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -110,7 +106,2 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {",
+          "old": [
+            110,
+            7
+          ],
+          "new": [
+            106,
+            2
+          ],
+          "id": "U--B1:04:006",
+          "sha256": "8b27681331c1d685ced0a5dee6940afdc58593d7ef64b021b6b2c456831e3548",
+          "symbol_old": {
+            "line": 98,
+            "declaration": "fn visit_terminator(&mut self, term: &Terminator, location: Location) {"
+          },
+          "symbol_new": {
+            "line": 94,
+            "declaration": "fn visit_terminator(&mut self, term: &Terminator, location: Location) {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 110,
+              "count": 7,
+              "owner": "B1",
+              "sha256": "1cd4edc5475a37e868184bec65cde7e14ceecb1c4099a60741d92ae7d8d5c16c"
+            },
+            {
+              "side": "+",
+              "start": 106,
+              "count": 2,
+              "owner": "B1",
+              "sha256": "72e59bb69be1a3b412d161b657ec7d764b17febed54d4dc1025a73b1b50170a1"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        }
+      ],
+      "identities": {
+        "U": {
+          "mode": "100644",
+          "blob": "719832acf5d5090207ab71a30dbd44290fcd04dc",
+          "sha256": "354079ebb24304c7f8dc6516ba2e50dad70f0e30466f9660d17ecece01bc7277",
+          "lines": 211
+        },
+        "B1": {
+          "mode": "100644",
+          "blob": "7909418cb12719499de258247b89c9c8b5649e41",
+          "sha256": "6facb556d7b898a15e9d72e073d4da2ea5658deefbe4ef00a8963ab281de5d26",
+          "lines": 202
+        },
+        "F": {
+          "mode": "100644",
+          "blob": "72331e10eff342af7fb0e427e8d418adb258cddb",
+          "sha256": "53064d8de9417f1c2ffb33675a5679767a4e6e14052f0dfff233e38739408217",
+          "lines": 219
+        }
+      }
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "hunks": [
+        {
+          "header": "@@ -73 +73 @@ fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, B",
+          "old": [
+            73,
+            1
+          ],
+          "new": [
+            73,
+            1
+          ],
+          "id": "U--B1:05:001",
+          "sha256": "eeda2fd25193ea106da822f17a33a61f8eea38b910caa1e8fab0587bc8d06023",
+          "symbol_old": {
+            "line": 54,
+            "declaration": "fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {"
+          },
+          "symbol_new": {
+            "line": 54,
+            "declaration": "fn transform(&mut self, tcx: TyCtxt, body: Body, instance: Instance) -> (bool, Body) {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 73,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "7a117ff038edac73dc5a5559f5efda90e4a1bd1c86db7bf5d54866331d18b501"
+            },
+            {
+              "side": "+",
+              "start": 73,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "21e497abb3bca3b9e0a8ad79b9149c00e886b7c1c4430cbb4268af8c6abe2af8"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        }
+      ],
+      "identities": {
+        "U": {
+          "mode": "100644",
+          "blob": "ad43d696568370539327776669b1bc6830e0f9bd",
+          "sha256": "acd93cd4351eaff1ba8365ccc2298b560854aa9c95311204203a3c3485afa971",
+          "lines": 138
+        },
+        "B1": {
+          "mode": "100644",
+          "blob": "206f71012a76e0d3445505a5aca98e8819ab4ae5",
+          "sha256": "57e5c95bd75dcb55d5b2fd04cf912faffd2ea7e6bdca9beeef233662f42fa1eb",
+          "lines": 138
+        },
+        "F": {
+          "mode": "100644",
+          "blob": "6cf42f45128b84f3090ccda9665e59c5daefb75d",
+          "sha256": "d85c1adf759d9913e05c2a4effbb47cf66b3f35a11d2f198c12a9497d7d96dba",
+          "lines": 139
+        }
+      }
+    },
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "hunks": [
+        {
+          "header": "@@ -8 +7,0 @@",
+          "old": [
+            8,
+            1
+          ],
+          "new": [
+            7,
+            0
+          ],
+          "id": "U--B1:06:001",
+          "sha256": "1b59f6865409e2e7ca9e558c9aeba46152991a9b201c5026d1d284731fd19395",
+          "symbol_old": null,
+          "symbol_new": null,
+          "parts": [
+            {
+              "side": "-",
+              "start": 8,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "787edd466ee6be6472468df67e9ba03b21962d7cc246f9646128f80449155943"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -16,0 +16 @@",
+          "old": [
+            16,
+            0
+          ],
+          "new": [
+            16,
+            1
+          ],
+          "id": "U--B1:06:002",
+          "sha256": "b74edda38e69d694bc77c6fe503a817d2128ddfccf518b1c065d15ebef8dd616",
+          "symbol_old": null,
+          "symbol_new": null,
+          "parts": [
+            {
+              "side": "+",
+              "start": 16,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "dbef51b805d61840b7a90723bb7e15fc70a5bb8266fd484c0888a87979d7bc03"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -18 +18,2 @@",
+          "old": [
+            18,
+            1
+          ],
+          "new": [
+            18,
+            2
+          ],
+          "id": "U--B1:06:003",
+          "sha256": "b204312a9a6853299e5367bc06e9ecfb0e1d5e67d9d53c2e1b506955115fbac2",
+          "symbol_old": null,
+          "symbol_new": null,
+          "parts": [
+            {
+              "side": "-",
+              "start": 18,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "25729cb66f99dff62ebadf47b48df3784fdde8775377fd2ddce37975d3e3acdb"
+            },
+            {
+              "side": "+",
+              "start": 18,
+              "count": 2,
+              "owner": "B1",
+              "sha256": "1b7bc6e52fa16dbe7b288fe7da99c5bcbff13d1d158c72e3db74fd9d4e7b87d7"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -31 +32,3 @@",
+          "old": [
+            31,
+            1
+          ],
+          "new": [
+            32,
+            3
+          ],
+          "id": "U--B1:06:004",
+          "sha256": "eda49fc54dc8cfd88cae93518a9f72be2cae7a8fe16708e53fb6395b9ead2a63",
+          "symbol_old": {
+            "line": 31,
+            "declaration": "pub struct CheckUninitVisitor {"
+          },
+          "symbol_new": {
+            "line": 32,
+            "declaration": "pub struct CheckUninitVisitor<'tcx> {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 31,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "533773d75c9824f6a6478dc81f293176701a0e8f4b65ae05e7526839ce556ee8"
+            },
+            {
+              "side": "+",
+              "start": 32,
+              "count": 3,
+              "owner": "B1",
+              "sha256": "3de85ad0f77cb8d55adc3a551964198fd2ec9b4b1489941093128d065f0770e9"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -39 +42 @@ pub struct CheckUninitVisitor {",
+          "old": [
+            39,
+            1
+          ],
+          "new": [
+            42,
+            1
+          ],
+          "id": "U--B1:06:005",
+          "sha256": "de72a08260ae624d752e218431ddac12431b1bad1f1986a8a166ba7e763615e7",
+          "symbol_old": {
+            "line": 39,
+            "declaration": "impl TargetFinder for CheckUninitVisitor {"
+          },
+          "symbol_new": {
+            "line": 42,
+            "declaration": "impl TargetFinder for CheckUninitVisitor<'_> {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 39,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "0c70ff93f8414c943f82e253967b5881355c641873acecf7401e02da25e75ac6"
+            },
+            {
+              "side": "+",
+              "start": 42,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "043cf333c91c1d3b1ee74b8bd84642a5bd7b340417bfcb3e0b8551898cd505ad"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -66 +69,13 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {",
+          "old": [
+            66,
+            1
+          ],
+          "new": [
+            69,
+            13
+          ],
+          "id": "U--B1:06:006",
+          "sha256": "e022ddd29eead3a6218e13397039d74f21a5013912bfef90e6bf46387ba78964",
+          "symbol_old": {
+            "line": 40,
+            "declaration": "fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {"
+          },
+          "symbol_new": {
+            "line": 43,
+            "declaration": "fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 66,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "4be7769114c9d1d04b64e4261f9a5bda89d7380099ef305c93ebfb159d155205"
+            },
+            {
+              "side": "+",
+              "start": 69,
+              "count": 13,
+              "owner": "B1",
+              "sha256": "76cccefd8eded5e1ad8dd028957b80620564e0de5a7f90eaba936d4924194a6c"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -81,2 +96,2 @@ fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {",
+          "old": [
+            81,
+            2
+          ],
+          "new": [
+            96,
+            2
+          ],
+          "id": "U--B1:06:007",
+          "sha256": "b2011bf8faef2ae656cf81bd962b74c82ae27e6d169ab4e9feaec5aa06dbbfad",
+          "symbol_old": {
+            "line": 81,
+            "declaration": "impl CheckUninitVisitor {"
+          },
+          "symbol_new": {
+            "line": 43,
+            "declaration": "fn find_all(mut self, body: &MutableBody) -> Vec<InitRelevantInstruction> {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 81,
+              "count": 2,
+              "owner": "B1",
+              "sha256": "0a0c2711025edf05a1dd0ddb17abafa4f2da37aa60b24b3974389466acba63a4"
+            },
+            {
+              "side": "+",
+              "start": 96,
+              "count": 2,
+              "owner": "B1",
+              "sha256": "72d3785ca915cc82169d991efcc0b7fb893cd0051a427804130e57a23e7fd24c"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -83,0 +99,2 @@ pub fn new() -> Self {",
+          "old": [
+            83,
+            0
+          ],
+          "new": [
+            99,
+            2
+          ],
+          "id": "U--B1:06:008",
+          "sha256": "5ad090af9af4d44f8a7db22a9b67a638fdd5dacb463fe918dcf9bdf85a530bb9",
+          "symbol_old": {
+            "line": 82,
+            "declaration": "pub fn new() -> Self {"
+          },
+          "symbol_new": {
+            "line": 97,
+            "declaration": "pub fn new(tcx: TyCtxt<'tcx>, instance: Instance) -> Self {"
+          },
+          "parts": [
+            {
+              "side": "+",
+              "start": 99,
+              "count": 2,
+              "owner": "B1",
+              "sha256": "5d9128dfb6247ae2d8ae13e145637d866bbbc051c6c5a0eb621e277074ed7f28"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -99 +116 @@ fn push_target(&mut self, source_op: MemoryInitOp) {",
+          "old": [
+            99,
+            1
+          ],
+          "new": [
+            116,
+            1
+          ],
+          "id": "U--B1:06:009",
+          "sha256": "77c47170bef9ad1d6ea43e855a702e6b8725c91b57f232d25fa4d7d7a675deb4",
+          "symbol_old": {
+            "line": 99,
+            "declaration": "impl MirVisitor for CheckUninitVisitor {"
+          },
+          "symbol_new": {
+            "line": 116,
+            "declaration": "impl MirVisitor for CheckUninitVisitor<'_> {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 99,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "ee2d182eff78dab01dcda25dd9b52054cd3e0849d08164a3603949f08502d41e"
+            },
+            {
+              "side": "+",
+              "start": 116,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "6aca31eb616a84cdcf0b67ecc0892ef23652f9a9cd4627573f3a39ea93a9a7ab"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -263 +280 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {",
+          "old": [
+            263,
+            1
+          ],
+          "new": [
+            280,
+            1
+          ],
+          "id": "U--B1:06:010",
+          "sha256": "4f26948d16414ec442b62842c23bbb3528e7312c8f7efdb05a2c3f1bb25a3396",
+          "symbol_old": {
+            "line": 249,
+            "declaration": "fn visit_terminator(&mut self, term: &Terminator, location: Location) {"
+          },
+          "symbol_new": {
+            "line": 266,
+            "declaration": "fn visit_terminator(&mut self, term: &Terminator, location: Location) {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 263,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "8387f9279bc991910531be1283a4d5d61322a22dd2065efdf58ba833f5285362"
+            },
+            {
+              "side": "+",
+              "start": 280,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "f1f3bed0e5814ad32b65bb6e86a8357e30f114578e6a1b67a24c65bdc28e69ff"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -268 +284,0 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {",
+          "old": [
+            268,
+            1
+          ],
+          "new": [
+            284,
+            0
+          ],
+          "id": "U--B1:06:011",
+          "sha256": "b525c3096d07e66072bea12101c06cd865a722be6d013fb068814e9510a57b60",
+          "symbol_old": {
+            "line": 249,
+            "declaration": "fn visit_terminator(&mut self, term: &Terminator, location: Location) {"
+          },
+          "symbol_new": {
+            "line": 266,
+            "declaration": "fn visit_terminator(&mut self, term: &Terminator, location: Location) {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 268,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "4b3567c74d8b9773dd94fe6b63f9af2f19a971cf1182d8b217bcae16853528d1"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -270 +286,3 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {",
+          "old": [
+            270,
+            1
+          ],
+          "new": [
+            286,
+            3
+          ],
+          "id": "U--B1:06:012",
+          "sha256": "4836448a0dea6c36a9ca76ebbb67986dedcf372ee37a404deaaeded7ef746ee3",
+          "symbol_old": {
+            "line": 249,
+            "declaration": "fn visit_terminator(&mut self, term: &Terminator, location: Location) {"
+          },
+          "symbol_new": {
+            "line": 266,
+            "declaration": "fn visit_terminator(&mut self, term: &Terminator, location: Location) {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 270,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "a2f9a01acb0027419a7bddaf1e1e0981ffad6e78b71ce4d2beecf41cf556a4a3"
+            },
+            {
+              "side": "+",
+              "start": 286,
+              "count": 3,
+              "owner": "B1",
+              "sha256": "f85dbd88ee61b5460a993334c44a8ff5d5da8d86cfc5a4c75756540b12c5b0ec"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -272,0 +291,15 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {",
+          "old": [
+            272,
+            0
+          ],
+          "new": [
+            291,
+            15
+          ],
+          "id": "U--B1:06:013",
+          "sha256": "470aa03de613f58e68dbc6acf75433a48d820e2c0d9ef7ea249c6a30e2a523e6",
+          "symbol_old": {
+            "line": 249,
+            "declaration": "fn visit_terminator(&mut self, term: &Terminator, location: Location) {"
+          },
+          "symbol_new": {
+            "line": 266,
+            "declaration": "fn visit_terminator(&mut self, term: &Terminator, location: Location) {"
+          },
+          "parts": [
+            {
+              "side": "+",
+              "start": 291,
+              "count": 15,
+              "owner": "B1",
+              "sha256": "a58241810ac7ff272110c77d0a17ced66a148168c0b875d0d7b334ef83af1124"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -375 +408,3 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {",
+          "old": [
+            375,
+            1
+          ],
+          "new": [
+            408,
+            3
+          ],
+          "id": "U--B1:06:014",
+          "sha256": "29472443856275cc43d9d84f6ef7a327f10e1d1a71e82cadc6fc622e9f1b2920",
+          "symbol_old": {
+            "line": 249,
+            "declaration": "fn visit_terminator(&mut self, term: &Terminator, location: Location) {"
+          },
+          "symbol_new": {
+            "line": 266,
+            "declaration": "fn visit_terminator(&mut self, term: &Terminator, location: Location) {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 375,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "9974a386098e448d27073c0224ad9c6261cd39a5ff270aed4a0c29400663a4f2"
+            },
+            {
+              "side": "+",
+              "start": 408,
+              "count": 3,
+              "owner": "B1",
+              "sha256": "a60651bc4c9f6c2dac56c9d33990bb054862090f493308194cb85d7a1a7ea807"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -417 +452,3 @@ fn visit_terminator(&mut self, term: &Terminator, location: Location) {",
+          "old": [
+            417,
+            1
+          ],
+          "new": [
+            452,
+            3
+          ],
+          "id": "U--B1:06:015",
+          "sha256": "f0d00e298a041396c5b995b107bb998348227f032218525f8f8b199f14135600",
+          "symbol_old": {
+            "line": 249,
+            "declaration": "fn visit_terminator(&mut self, term: &Terminator, location: Location) {"
+          },
+          "symbol_new": {
+            "line": 266,
+            "declaration": "fn visit_terminator(&mut self, term: &Terminator, location: Location) {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 417,
+              "count": 1,
+              "owner": "B1",
+              "sha256": "8e850fb5d742ff708e5c9156f80958311580c34244696a6fe1b02cc21d1cfc4b"
+            },
+            {
+              "side": "+",
+              "start": 452,
+              "count": 3,
+              "owner": "B1",
+              "sha256": "6f9e5e2c4812a7966bb8ee8a7c3c507dec3dd2ca05f5ef70614c8bda32199bde"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -727,6 +764,31 @@ fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Result<Instance",
+          "old": [
+            727,
+            6
+          ],
+          "new": [
+            764,
+            31
+          ],
+          "id": "U--B1:06:016",
+          "sha256": "3b649254f84a49133aeba5908d43fe6939a46c8f9f8f0ac34014173e1e7f1931",
+          "symbol_old": {
+            "line": 726,
+            "declaration": "fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Result<Instance, String> {"
+          },
+          "symbol_new": {
+            "line": 763,
+            "declaration": "fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Result<Instance, String> {"
+          },
+          "parts": [
+            {
+              "side": "-",
+              "start": 727,
+              "count": 6,
+              "owner": "B1",
+              "sha256": "c802f3952afa4f951cf4ea2656ab4a288327c062c619fb6ff92d4240f9d42fe5"
+            },
+            {
+              "side": "+",
+              "start": 764,
+              "count": 31,
+              "owner": "B1",
+              "sha256": "6c797d39d25e67c4bdbd9ed7a226c1fe427cfa191e6ff7d309e4045fc4d5b22d"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        },
+        {
+          "header": "@@ -733,0 +796,8 @@ fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Result<Instance",
+          "old": [
+            733,
+            0
+          ],
+          "new": [
+            796,
+            8
+          ],
+          "id": "U--B1:06:017",
+          "sha256": "79a88fb2511edb0861564cfc5befdd128d897264f73be72f5bf5acf458ea5c88",
+          "symbol_old": {
+            "line": 726,
+            "declaration": "fn try_resolve_instance(locals: &[LocalDecl], func: &Operand) -> Result<Instance, String> {"
+          },
+          "symbol_new": {
+            "line": 771,
+            "declaration": "fn inspect<'tcx>(tcx: TyCtxt<'tcx>, ty: rustc_middle::ty::Ty<'tcx>) -> bool {"
+          },
+          "parts": [
+            {
+              "side": "+",
+              "start": 796,
+              "count": 8,
+              "owner": "B1",
+              "sha256": "e65b6039b1e687bc54db44c930436caa4aee33fc7af48d04bb0dad5465ce41f1"
+            }
+          ],
+          "owners": [
+            "B1"
+          ]
+        }
+      ],
+      "identities": {
+        "U": {
+          "mode": "100644",
+          "blob": "09346aa44bd2eabc50e97dba30c5295cfb0b29fb",
+          "sha256": "125d8da2c5d41dc2fdad2bf935d528e5501ba013d1edd332f62f3795c751a0db",
+          "lines": 780
+        },
+        "B1": {
+          "mode": "100644",
+          "blob": "121d61dbdb3f677c83edbd97618dfff7d789bf29",
+          "sha256": "5525eca743006cf711eb9dc9de2181c43e4c8b07c1ff4e97996a516e46bc44f2",
+          "lines": 850
+        },
+        "F": {
+          "mode": "100644",
+          "blob": "11e154dffa21df1efbefe4f72ec157cd6981cf51",
+          "sha256": "749184ebc7cab75494400034a8050e145bf2f3bb85290e12d8b31fa6cbd0c3cc",
+          "lines": 1242
+        }
+      }
+    }
+  ]
+}

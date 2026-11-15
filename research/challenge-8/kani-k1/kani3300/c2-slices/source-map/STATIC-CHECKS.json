@@ -1,0 +1,192 @@
+{
+  "checked_at_utc": "2026-11-15T08:10:21.864718+00:00",
+  "B1_parent_is_U": true,
+  "B1_ancestor_of_F": true,
+  "F_tree_exact": true,
+  "production_paths": 24,
+  "U_to_B1_source_hunks": 36,
+  "B1_to_F_source_hunks": 225,
+  "owned_changed_line_counts": {
+    "1+": 518,
+    "1-": 63,
+    "2+": 857,
+    "2-": 31,
+    "3+": 70,
+    "3-": 13,
+    "4+": 1120,
+    "4-": 308,
+    "5+": 28,
+    "5-": 1,
+    "6+": 5,
+    "7+": 243,
+    "7-": 4
+  },
+  "unassigned_changed_source_lines": 0,
+  "duplicate_owned_changed_source_lines": 0,
+  "delegated_test_doc_paths": 368,
+  "all_other_U_to_F_paths_are_tests_or_docs": true,
+  "in_memory_reconstruction": {
+    "U_to_B1": [
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/mod.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "f42097f7d8f4b9c2bef756217716183e39bbaf603fb34268883e6f1245fdb6fc"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "77dbb700ab1f5a0be39a1289ff9f9b4a59a678bb9ffd1004bd5053426d9db712"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "9a24f37920c6cd1bfedac17dd0d47f1526d8a570661edcd66a3d3379d207245e"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "6facb556d7b898a15e9d72e073d4da2ea5658deefbe4ef00a8963ab281de5d26"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "57e5c95bd75dcb55d5b2fd04cf912faffd2ea7e6bdca9beeef233662f42fa1eb"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "5525eca743006cf711eb9dc9de2181c43e4c8b07c1ff4e97996a516e46bc44f2"
+      }
+    ],
+    "B1_to_F": [
+      {
+        "path": "kani-compiler/src/codegen_aeneas_llbc/compiler_interface.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "8b34ef8cae9b80e54d132fc96de1ec36d5138b52c30ff41955b8fb33c52336e4"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "add9326d0250c7645ac8570bca1357d94072e9182ea64f1c2bf1a908fd99860f"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "5dd5ee125b11f77fe37684e75bf1e4c155f2196c1688c6d2ba0099e43497f71b"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "146965fae7b375da7bc4641c140b2f3729a1f328ce142919541d78f0950b2fd7"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/goto_ctx.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "cf0433855bf460b679d6202effbece3dcdd4d2f920cff274b53e359cfeb21957"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "9d6a4883c29c0ac042bf26a39eb86b5079f7bfded4ca81d6dfd11eac463ba587"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/context/mod.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "adba628bfd3c4f58eb16befb2cd187ff9b0b89db46667e4a3024c2da9121a072"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "daacc82f429cbf3d21e877731ddbb34c55e21ef788e05d177da8656b22baeea8"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/kani_functions.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "8ce5cc4c35cdf6aee23e4ebb13b0c55b609b181f7c73e9942dc5bd00ca7c3d21"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "c6babe17803b4f2f352b4162770a283c162ad4fe9249622c00b746b16d2a5c1b"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/mod.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "d0c9169a1c1f1476f1bdd5ef6d42040ed4587b9a86bb2891a1b312568aa98128"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "82ce460dd51984ca62f8f9bafb4043597ae8e90c75fa4fdce0d0091681b9c2ad"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "70a5e3d4d6818208c9b8f3f6fa19834b3763d1faffc54071fb3372cd09fc4a61"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "ecc52ea5051460be8be2bdfbff17e94d0f62fa0f7e292854c1e8ce21e3764970"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/instrumentation_visitor.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "53064d8de9417f1c2ffb33675a5679767a4e6e14052f0dfff233e38739408217"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "97b6e96c8cea78becdecd9670a96976d08647c673637b60630a48620ce3d917b"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "1371e9059e45cff62f8be3d5323cc866ce74a4e67a6f3e69bf98372462bd3853"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "d85c1adf759d9913e05c2a4effbb47cf66b3f35a11d2f198c12a9497d7d96dba"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "749184ebc7cab75494400034a8050e145bf2f3bb85290e12d8b31fa6cbd0c3cc"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "e888310d3f46c1bdbfc39a091ddeebd29c9173694da25db0132f654cbf775d37"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "8337bd6afe093594855a9e7061ccb408f7a181ec7b0305c736f994df0c6f6a45"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/delayed_cache.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "d5b402951626f44e1dcf9838f2a6d60c70e55a00a468429e0dca77dfd6c8ed89"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "ddfd490640612de988662e1b39557ed1011271b502fca42c052f3945af93b88c"
+      },
+      {
+        "path": "library/kani_core/src/mem_init.rs",
+        "in_memory_patch_reconstruction": "EXACT",
+        "sha256": "383f50193d267e4d7cf1a0fbf5ef36a9ad5adf626a8be5a9acc27bdf3b6a9150"
+      }
+    ]
+  },
+  "U_to_F_patch_sha256": "dc472e4d4925db8f6c097efef6860fbc7a069a63f66fc6b5f8e4b09c5b9ebe90",
+  "slice_code_written": false,
+  "native_builds": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "push": "NOT_RUN",
+  "intermediate_compile_behavior": "NOT_ESTABLISHED",
+  "final_recomposed_head": "NOT_CREATED",
+  "worker15_oracle_map": "INDEPENDENT_PARALLEL_SCOPE_NOT_ACCEPTED_HERE"
+}
