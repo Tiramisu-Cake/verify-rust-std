@@ -94,3 +94,11 @@ source-clean/binary hashes. Verifier intended failure, workflow failure и proof
 Последняя сверка: создание ledger после принятия P0, CI в этой planner-сессии не выполнялся.
 Расход обновляется по actual runs, не по запланированным строкам. Full old C2/SEL1 Gate A не повторять
 автоматически для S annotations; quality/combined-ON — отдельные будущие решения, не скрытые S1 jobs.
+
+## Coordinator note 2026-11-16 ~01:45 UTC — branch-creation side effect (not a planned dispatch)
+
+Creating fork branches `fix/kani-3300-init-01-analysis` (`d82752c8bc`) and `fix/kani-3300-init-02-immutable` (`932fb8395a`) for the
+owner's PR-01/02 triggered the stock workflows (Kani CI, Format Check, Cargo Deny) on both heads: runs 43770775497/532/486 and
+43770775542/591/535. All six were cancelled within ~1 minute; no results are used as evidence. Not counted against any track cap
+(no planned evidence produced). Lesson: create PR branches only when the owner opens the PR, or push a commit whose workflows are
+inactive; upstream PR CI provides the full matrix.
