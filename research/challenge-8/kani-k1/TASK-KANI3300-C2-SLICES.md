@@ -49,14 +49,60 @@ worker15 — `oracle-map/`, `reviews/`, `ci/`, `f7/`. Каждый пишет т
 | Стадия / одна сессия | Worker14 | Worker15 | STOP / передача |
 |---|---|---|---|
 | 0, карта до кода | Фиксирует refs, полный source-hunk/dependency map U→B1→F | Полная test/oracle/docs map, план Quick и F7 extraction | Координатор принимает карту; не начинать сразу все срезы |
-| 1, ANALYSIS | Один coherent S3/CC candidate поверх B1 | Read-only review, exact-head CI-only overlay/request | Targeted fork Quick принимает координатор до следующего head |
+| 1, ANALYSIS | Один coherent S3/CC candidate поверх B1 | Read-only review, exact-head CI-only overlay/request | No-regression + units принимает координатор; целевая integration qualification остаётся PENDING до4/5, см. решение ниже |
 | 2, IMMUTABLE | M1/E2+F5 поверх принятого1 | Review provenance/masks/тестов, CI request | Нет смешения descriptors и потери false |
-| 3, LAYOUT-RAW | A1/A2/layout/raw_eq поверх принятого2 | Review padding/extents/negative oracles, CI request | Нет нового false SUCCESS или раннего чужого Unsupported |
+| 3, LAYOUT-RAW | A1/A2/layout/raw_eq поверх принятого2 | Review padding/extents/negative oracles, CI request | Прямой u8 mixed/promoted raw_eq; nested offsets/multi-root oracle явно отложены до4 |
 | 4, STORAGE | Storage/protocol+F6+hook fix поверх принятого3 | Review pairing/Move/Copy/DFCC/oracles, CI request | Не выпускать paired caller без paired callee/return |
 | 5, CLOSURE | Zero-sized/upvar layout поверх принятого4 | Review capture masks/offsets и CI request | Captures не заменяются layout tuple/all-true |
-| 6, E1 + остаток docs | Semantic edges, завершение Scope A/docs поверх принятого5 | Review полноты oracle map, CI request | Все оставшиеся хунки объяснены, не dump остатка в E1 |
+| 6, E1 + остаток docs | Semantic edge tests, завершение Scope A/docs поверх принятого5 | Review полноты oracle map, CI request | Общие production guards уже4; отсутствие новой production delta допустимо, не dump остатка в E1 |
 | 7, F7 отдельно | Read-only integration/recompose review | Отдельный F7 commit поверх принятого6, CI request | Final composed tree и controls согласованы с F |
 | 8, сверка | Recompose exact-tree/diff receipt | Независимая проверка ownership/CI lineage | Handoff координатору; PR-тексты позже |
+
+### Решение dependency review после стадии0 — вариант C
+
+Входы: worker14 source-map @`bf455494e4`, worker15 oracle-map/Quick plan @`d1dbc70afd`;
+`source-map/DEPENDENCIES.md`, `oracle-map/DEPENDENCY-REVIEW.md`. Это static inventory, не новые CI observations.
+Приняты следующие уточнения без изменения F и порядка PR:
+
+1. Exact qualification/recognition helpers `immutable_origin_type_supported`, export, `wrapper_inner`,
+   `maybe_uninit_storage`, `for_storage` и необходимые imports принадлежат2; typed/deinit/protocol helpers —4.
+2. Все projected-raw/address guards принадлежат4. Пятистрочная ordinary-union constant branch V420–424
+   (F coordinates, source-map `B1--F:19:009`, part +420/count5) также переходит6→4 вместе с её prerequisites.
+   Поэтому `marker-hook-calls/marked-model-{initialized,hole}` назначаются для исполнения на4; будущий CI должен это подтвердить.
+3. На3 квалифицируются u8 mixed + promoted raw_eq. `nested-pat-{data,padding}/main`,
+   `nested-enum-{same,different}-padding/main`, полный `raw-eq-uninit/main` требуют4 и исполняются там без разрезания fixtures.
+   Source ownership offset fixes остаётся3; их integration qualification до4 — PENDING.
+4. `marker-hook-calls/generated-modifies-no-shadow` исполняется на5: это captured PFC companion,
+   не обязательство получить тот же final fixture на4. Остальные hook controls, включая marked-model пару, —4.
+
+**Для ANALYSIS выбран C: no-regression на1, интеграционные оракулы на4/5.** Не вводить новые non-MU fixtures,
+не удалять позднее дополнительные тесты и не сливать/переставлять production slices ради отсутствующего раннего oracle.
+Это изменение прежнего условия «обязательный reached positive/negative уже на1», а не утверждение, что ActiveCalls unit
+или FunctionContracts без uninit флага проверяет selected contract MIR/обычные entry setters.
+
+На1 обязательны полный присутствующий upstream uninit/delayed-UB набор по manifest, унаследованные B1 controls,
+весь kani FunctionContracts и expected/function-contract с их штатными flags/goldens, ActiveCalls units9 и общий Quick.
+Не добавлять uninit flags в штатные contract tests. Это **регрессионная и unit-проверка**, не целевая интеграционная квалификация S3/CC.
+Для `SLICE.json` головы1 записать `qualification_kind: NO_REGRESSION`, `integration_status: PENDING`,
+`integration_heads: [4,5]`, exact tested selectors и deferred obligations со source-hunk/fixture/golden hashes:
+
+- На4: `points-to-cycles/{dag,self-cycle,mutual-cycle,roots-acyclic-first,roots-cycle-first}` и
+  `ordinary-slots/{payload,padding}` — actual traversal/cycles/error, сброс cycle state между roots и ordinary entry/pointee distinction.
+- На5: `ordinary-slots/positive` целиком, `points-to-cycles/capture-free`, contract-immutable/strong/mode/root fixtures
+  по полной oracle map — selected contract bodies, ordinary/PFC paths, scalar/ref entry seeding и captured environments.
+
+До4/5 отсутствие этих final fixtures на1 — разрешённая dependency граница, не пропуск уже имеющегося failing test.
+Каждая отложенная обязанность закрывается **явным результатом** на exact cumulative head4/5 с достигнутыми полезными
+SUCCESS/задуманными negatives и ссылкой на неизменённые source-hunk parts среза1 (для nested layouts —3).
+Одно aggregate CI exit0 или synthetic ActiveCalls PASS не закрывает её. Не называть1 standalone fully qualified;
+при закрытии хранить provenance «integration-tested on head4/5», не переписывать историю проверки головы1.
+До закрытия обязательств нельзя завершать upstream-submission handoff/PR-text stage как будто каждый срез уже получил
+собственную интеграционную квалификацию. В будущих PR-текстах раздельно раскрыть проверенное на1 и integration на4/5.
+
+Вариант C снимает **плановый STOP отсутствия раннего oracle**, но не разрешает реальные ordinary/layout regressions,
+false SUCCESS, дополнительные Unsupported или ослабление goldens: при таком наблюдении остаётся STOP.
+Worker14/15 сначала согласованно обновляют каждый свою source/oracle/Quick/dependency map и hashes/manifests по этому решению;
+исходные stage0 findings не выдавать за ошибочные runtime результаты. Затем координатор выдаёт стадию1 отдельно.
 
 Worker14 — единственный writer production/tests/docs в основной линии стадий1–6.
 Worker15 не дописывает эти же файлы параллельно: замечания возвращает worker14; его overlay живёт в другом clone/ref.
@@ -74,12 +120,12 @@ F7 карту и static review можно готовить параллельн�
 | Срез | Production ownership | Зависимости / граница |
 |---|---|---|
 | B1, уже #5172 | U→6fe: unresolved-call resolution/one walk+flush, points-to no-body guard, соответствующие visitors и baseline fixtures | Не добавлять к B1 поздние entry/return/tuple controls из C2. B1 **не меняет** `mem_init.rs`/`kani_functions.rs`; их поздние хунки не выдавать за поданный B1 |
-| 1 ANALYSIS, S3+CC1/2/4 | `M/points_to/{mod.rs,points_to_analysis.rs,points_to_graph.rs}`: selected registration bodies, body/override provenance, call-cycle tracking, receiver/argument paths; `check_uninit/delayed_ub/{mod.rs,initial_target_visitor.rs,instrumentation_visitor.rs}`: согласованная delayed registration traversal; V: ordinary scalar/ref entry seeding и mode/cycle handling | S3 без CC fixes не отдельный кандидат. Сохранить B1 Err/no-body/flush, upstream checked_body/tail-call/atomic fixes. Anonymous immutable arms — срез2, storage assignment arms — срез4 |
-| 2 IMMUTABLE, M1/E2+F5 | `M/anonymous_allocations.rs`, `M/mod.rs`; `C/context/immutable_allocations.rs`, context mod/state; `C/codegen/{operand.rs,static_var.rs}`, `C/context/goto_ctx.rs`; prepare/finalize hooks в `C/compiler_interface.rs`; anonymous-origin target/graph/delayed arms в общих файлах | Registry descriptors+alias coalescing+finalize/seal идут вместе. Использовать существующие U reset/private-state markers; расширенный transfer runtime не prerequisite B1. Не включать F7 scope wrapper из того же codegen_items |
-| 3 LAYOUT-RAW, A1/A2 | L: nested Pat offsets, enum local-mask offsets/сравнение masks; V: raw_eq checked byte extent/оба operand и can_skip_intrinsic; согласованные layout/relevance/operation-builder хунки для этих операций | M1 уже присутствует, иначе вернутся ложные raw_eq failures на promoted RHS. Raw byte extent не тождествен typed data mask. Closure arms L — срез5; storage helpers L — срез4 |
-| 4 STORAGE/protocol+F6 | V: storage recognition/typed assignment/transmute, raw vs typed copy, paired direct Item argument/return0, live-source snapshots, Copy/Move/deinit, nested resets, has_transfer_protocol Hook exclusion; `ptr_uninit/mod.rs`; `check_uninit/{mod.rs,relevant_instruction.rs}`: MemoryInitOp/builders/signatures, общий constant_init_mask/SetStorage; L: wrapper_inner/maybe_uninit_storage/for_storage/for_typed_storage/for_deinit/argument_size; согласованные ранние unsized guards и argument_size unit; `M/kani_functions.rs`: BeginArgumentTransfer и marker classifier tests; `library/kani_core/src/mem_init.rs`: runtime masks/copy/buffer/private state/normal-edge protocol | Caller/callee/runtime/signature changes атомарны, вместе с preservation of false, full overwrite/reset и F6. Hook exclusion ровно `KaniFunction::Hook`, не все markers. Никакого R7/R8 experimental runtime/SEL1. Общие mask/setter и unsized guards имеют единственного владельца4, не оставляются до E1 |
+| 1 ANALYSIS, S3+CC1/2/4 | `M/points_to/{mod.rs,points_to_analysis.rs,points_to_graph.rs}`: selected registration bodies, body/override provenance, call-cycle tracking, receiver/argument paths; `check_uninit/delayed_ub/{mod.rs,initial_target_visitor.rs,instrumentation_visitor.rs}`: согласованная registration traversal и ordinary scalar/ref entry seeding; resolver signature/call sites V по source map | S3 без CC fixes не отдельный кандидат. Сохранить B1 Err/no-body/flush, upstream checked_body/tail-call/atomic fixes. Anonymous immutable arms — срез2, storage entry protocol —4. Ранняя проверка no-regression, integration obligations —4/5 |
+| 2 IMMUTABLE, M1/E2+F5 | `M/anonymous_allocations.rs`, `M/mod.rs`; `C/context/immutable_allocations.rs`, context mod/state; `C/codegen/{operand.rs,static_var.rs}`, `C/context/goto_ctx.rs`; prepare/finalize hooks в `C/compiler_interface.rs`; anonymous-origin target/graph/delayed arms; `immutable_origin_type_supported`, export и L::wrapper_inner/maybe_uninit_storage/for_storage с imports | Registry descriptors+alias coalescing+finalize/seal идут вместе. Использовать существующие U reset/private-state markers. Qualification/raw storage helpers имеют одного владельца2 и потребителей4; extended runtime не переносить из4. Не включать F7 scope wrapper из того же codegen_items |
+| 3 LAYOUT-RAW, A1/A2 | L: nested Pat offsets, enum local-mask offsets/сравнение masks; V: raw_eq checked byte extent/оба operand и can_skip_intrinsic; согласованные layout/relevance/operation-builder хунки для этих операций | M1 уже присутствует, иначе вернутся ложные raw_eq failures на promoted RHS. Raw byte extent не тождествен typed data mask. Qualification helpers L уже2, typed/deinit/protocol helpers —4, closure arms —5 |
+| 4 STORAGE/protocol+F6 | V: storage recognition consumers/typed assignment/transmute, raw vs typed copy, paired direct Item argument/return0, live-source snapshots, Copy/Move/deinit, nested resets, has_transfer_protocol Hook exclusion, все projected-raw/address guards и ordinary-union constant branch V420–424; `ptr_uninit/mod.rs`; `check_uninit/{mod.rs,relevant_instruction.rs}`: MemoryInitOp/builders/signatures, общий constant_init_mask/SetStorage; L: for_typed_storage/for_deinit/argument_size; ранние unsized guards и argument_size unit; `M/kani_functions.rs`: BeginArgumentTransfer и marker classifier tests; `library/kani_core/src/mem_init.rs`: runtime masks/copy/buffer/private state/normal-edge protocol | Wrapper/raw qualification helpers уже2, не копируются. Caller/callee/runtime/signature changes атомарны, вместе с false/full overwrite/F6. Hook exclusion ровно `KaniFunction::Hook`, не все markers. Никакого R7/R8 runtime/SEL1. Общие маски, guards и последняя ordinary-union ветка не оставляются до E1 |
 | 5 CLOSURE | L::data_bytes_for_ty: sized zero-byte Closure и monomorphized upvar layout с реальными offsets; согласованные imports/internal type context | Отдельно от wrapper/storage layout. Протокол и relevant-body paths уже есть; captured ordinary/PFC paths получают верные masks, не blanket admission union/UnsafeCell |
-| 6 E1 | Только ordinary-union/projected-raw edge-specific остаток V::{visit_ordinary_assignment,address_of_raw_deref,visit_rvalue}, использующий constant_init_mask/SetStorage/layout из4; semantic edge tests/docs, включая unsized boundaries | Общие const-mask/SetStorage и argument_size/build_argument_operation/ранний unsized guard уже принадлежат4. Если edge-specific delta тоже обязательна для корректного4, перенести её owner в4 в стадии0; E1 остаётся отдельной edge qualification. Не дублировать guard/operation и не вносить новый aggregate Unsupported |
+| 6 E1 | Отдельная semantic edge qualification: final edge tests/docs, включая ordinary-union constants, projected raw fields и unsized boundaries | После stage0 решения вся соответствующая production delta уже4, включая V420–424. Нулевой production остаток допустим; не придумывать новый fix, не дублировать guard/operation и не вносить aggregate Unsupported |
 | 7 F7, отдельный PR | `M/transform/delayed_cache.rs`; scoped API/RAII и unit tests в `M/transform/mod.rs`; delayed writer `replace_delayed_body`; cprover и `codegen_aeneas_llbc/compiler_interface.rs` scope вокруг каждого model codegen | Восстанавливать только delayed mutations на всех выходах, не убирать regular/stub transforms. Сохранить immutable prepare/finalize из2. Срез не содержит SEL1 и не сохраняет T1b allowlist |
 
 ### Правила для хунков на стыке
@@ -108,11 +154,11 @@ F7 карту и static review можно готовить параллельн�
 | Срез / группа | Что переносить / чего не потерять |
 |---|---|
 | B1 dependency | Точные тесты из B1 `unresolved-calls/**`. Поздние `item-return-*`, `tuple-maybe-uninit-*` и правки entry fixtures требуют отдельной attribution к1/4, не изменения #5172 |
-| 1 ANALYSIS | Первичная карта: `points-to-cycles/{dag,self-cycle,mutual-cycle,roots-acyclic-first,roots-cycle-first}`, non-contract roots из `ordinary-slots/{positive,payload,padding}`. Эти final fixtures тоже используют MU: проверить prerequisites до переноса, не обещать green без4. Capture-free recursive PFC, contract-modes и root-composition не назначать1 автоматически — ниже5. Для1 нужен достигнутый позитивный/негативный oracle по его собственному поведению; если имеющихся final fixtures недостаточно без поздних хунков — STOP dependency/test-map review, не только compile-only acceptance |
+| 1 ANALYSIS | На1 — baseline/B1 uninit+delayed-UB, полные штатные FunctionContracts и active_call_tests9: NO_REGRESSION, не MIR integration credit. Owner1 integration fixtures `points-to-cycles/{dag,self-cycle,mutual-cycle,roots-acyclic-first,roots-cycle-first}` и `ordinary-slots/{payload,padding}` исполняются на4; `ordinary-slots/positive` и capture-free/contract paths —5. Эти обязательства остаются в SLICE.json до закрытия |
 | 2 IMMUTABLE | `immutable-masks/**`, `immutable-descriptor-coalescing/**`, `promoted-allocations/**`; unit immutable_allocations9; `part1-edges/immutable-{static,subrange,relocation}-*`; `mixed-promoted-allocations`/`contract-immutable-masks` распределить с учётом3/4/5, не ждать SUCCESS от неподдержанного raw_eq/closure |
-| 3 LAYOUT-RAW | `raw-eq-uninit/**`, `nested-pat-{data,padding}/**`, `nested-enum-{same,different}-padding/**`; u8 raw/eq mixed controls и immutable legal/hole source bindings при наличии нужных prerequisites |
-| 4 STORAGE | Все `maybe-uninit-*` storage/argument/return/pairing/Copy/Move/reset/transmute/typed-padding/data controls; `nested-aggregate-reset/**`; `copy-source-arguments/**`, `padded-slice-extents/**`, `marker-hook-calls/**`; marker_category unit1, argument_size unit. `part1-composition/**`, strong contract/transfer cases — при наличии closure prerequisites5 |
-| 5 CLOSURE | `closure-zst/**`, `closure-upvars/**`; `points-to-cycles/capture-free`; delayed contract+transfer controls с closure layout: `contract-immutable-masks/**`, `transfer-qualification/**`, `private-transfer-frame/**`, `maybe-uninit-contract-{clause,frame}`, все7 `contract-modes` и все7 `root-composition` fixtures. Сохранить CC4 различие recursive ordinary/check Unsupported vs simple-check legal; accepted cycle boundary — не новый release blocker |
+| 3 LAYOUT-RAW | На3 — u8 raw/eq mixed + promoted raw_eq и доступные immutable source controls. Owner3 `raw-eq-uninit/main`, `nested-pat-{data,padding}/main`, `nested-enum-{same,different}-padding/main` исполняются целыми fixtures на4: они требуют MU storage. До4 nested offset qualification PENDING, не считать её покрытой u8 raw_eq |
+| 4 STORAGE | Все `maybe-uninit-*` storage/argument/return/pairing/Copy/Move/reset/transmute/typed-padding/data controls; `nested-aggregate-reset/**`; `copy-source-arguments/**`, `padded-slice-extents/**`, все `marker-hook-calls` **кроме generated-modifies-no-shadow**; marked-model пара теперь4 благодаря V420–424. marker_category unit1, argument_size unit; отложенные owner1/3 fixtures по строкам выше. `part1-composition/**`, strong contract/transfer cases — при наличии closure prerequisites5 |
+| 5 CLOSURE | `closure-zst/**`, `closure-upvars/**`; `ordinary-slots/positive`, `points-to-cycles/capture-free`, `marker-hook-calls/generated-modifies-no-shadow`; delayed contract+transfer controls с closure layout: `contract-immutable-masks/**`, `transfer-qualification/**`, `private-transfer-frame/**`, `maybe-uninit-contract-{clause,frame}`, все7 `contract-modes` и все7 `root-composition` fixtures. Закрыть соответствующие owner1/4 obligations. Сохранить CC4 recursive ordinary/check Unsupported vs simple-check legal; accepted cycle boundary — не новый release blocker |
 | 6 E1 | `part1-edges/{union-constant,union-variable,raw-field,dst-by-reference,dst-by-value}-*`, README; дополнительные unsized edge controls используют production guard/unit из4; оставшиеся composition/semantic edge fixtures из полной карты |
 | 7 F7 | delayed_cache6/delayed_scope2 и исходные структурные regression tests из C2-S4; mapping mixed-vs-isolated и обоих порядков из `c2-s4/ci-1/` как baseline/review inputs; portable tests без старого T1b allowance |
 
@@ -156,16 +202,17 @@ compiler/runtime/tests/docs. Stock workflows удаляются только и�
 - ui: quantifier-safety-checks, explicit-tail-calls;
 - script-based-pre: mem-init-reinstrumentation, autoharness_explicit_tail_call;
 - json-handler: весь штатный suite; никаких трёх старых Part1 JSON suites;
-- relevant unit tests: immutable_allocations при2, argument_size при первом guard, marker_category при4,
+- relevant unit tests: active_call_tests9 начиная с1, immutable_allocations при2, argument_size при первом guard, marker_category при4,
   delayed_cache/delayed_scope при7; фильтр с 0 tests — **не** успешная проверка заявленного unit.
 
-Дополнительно:1 — достигнутые ordinary/mode/cycle regressions и bounded `FunctionContracts`/expected function-contract
-smoke: kani `FunctionContracts` (существующие fixme остаются fixme), expected
-`function-contract/{clause_context_no_assert,clause_calls_check_target,capture_load_,gcd_rec_simple_pass,gcd_rec_replacement_pass,gcd_rec_contract_fail}`
-и `function-contract/as-assertions/{assert-preconditions,assert-postconditions}`. Это compiletest selectors/prefixes,
-не новые flags/изменённые goldens; точный expanded список записать в CI-REQUEST, не объявлять весь suite проверенным;
-2 — masks/aliases/source qualification9;3 — Pat/enum offsets и оба raw_eq operands/extent;
-4 — paired/false/Move/Copy/padding/F6/hook controls;5 — весь closure/capture и P1/P2/frame/clause;
+Дополнительно:1 — полный штатный kani `FunctionContracts` и expected `function-contract` (существующие fixme
+остаются fixme), все существующие upstream uninit/delayed-UB selectors по manifest + ActiveCalls9;
+не ограничиваться прежним списком12 expected smoke. Original flags/goldens, без добавления uninit флага;
+это no-regression, не обещание выполнения нового contract MIR/entry path. Расширенный набор может занять дольше≈7 min,
+не урезать его ради прежней оценки. На2 — masks/aliases/source qualification9;
+на3 — оба raw_eq operands/extent в u8 mixed/promoted; на4 — отложенные Pat/enum/raw-eq-uninit и owner1 traversal/entry cases,
+paired/false/Move/Copy/padding/F6/hook включая marked-model; на5 — весь closure/capture, generated-modifies и P1/P2/frame/clause,
+закрытие оставшихся owner1 integration obligations;
 6 — все E1/composition границы;7 — structural isolation units и то же cumulative Quick.
 На head с полным strong-oracle набором квалифицировать S5 sensitivity mutations4/4 через --force-rerun;
 не считать compile failure, timeout или ранний Unsupported обнаружением нужной мутации.
@@ -202,6 +249,8 @@ Fork Quick здесь — регрессия/targeted qualification, **не Gate
 
 Для каждого принятого среза: `SLICE.json` (source/base/tree/parents, dependents, changed hunks/tests/docs, borrowed prerequisite),
 source patch, `SOURCE-MAP`/`ORACLE-MAP` updates, `REVIEW.md`, `CI-REQUEST.md`, затем coordinator acceptance с exact run/head.
+SLICE.json различает no-regression/unit results и integration qualification на другом cumulative head;
+для1 (и nested layout части3) обязательны pending obligations/heads, затем exact closure receipts, без заднего числа.
 Общий пакет: `INPUTS`, `FILE-HUNK-MAP`, `SEAMS`, `DEPENDENCIES`, `UPSTREAM-DRIFT` при необходимости,
 `RECOMPOSE.json`/остаточный diff и `VALIDATION-SUMMARY` с NOT_RUN отдельно от принятых результатов.
 Карта должна позволять reviewer проверить каждый срез без чтения исторического mega-commit ba0e5cfedf.
