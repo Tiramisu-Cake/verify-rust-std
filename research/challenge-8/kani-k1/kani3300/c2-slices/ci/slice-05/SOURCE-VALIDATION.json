@@ -1,0 +1,76 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "source_sha": "96f5d5dc8dedd369c6986a4f1dd5e698b6167f0f",
+  "source_tree": "445fe95f622016728286e2b820c52b626809923b",
+  "base_sha": "345cedfd67df679e326474385308349d609fc43d",
+  "changed_files": 95,
+  "production_files": 1,
+  "owner5_parts": [
+    {
+      "hunk_id": "B1--F:21:010",
+      "part_index": 0,
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "side": "+",
+      "start": 481,
+      "count": 28,
+      "owner": "5",
+      "sha256": "c4ee0fcdcfef4052ab15524ef0a9724e3f3198ecc844685ea4e2786699894ab3"
+    },
+    {
+      "hunk_id": "B1--F:21:011",
+      "part_index": 0,
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "side": "-",
+      "start": 395,
+      "count": 1,
+      "owner": "5",
+      "sha256": "8db26d029b042bbaef24ece98b2f5c0025c5ad74e75f9b09ecce768e84b20364"
+    }
+  ],
+  "exact_F_fixture_pairs": 47,
+  "new_fixture_pairs": 47,
+  "inherited_selectors_unchanged": 413,
+  "manifest_file_identities": 897,
+  "cumulative_selectors": 460,
+  "preexisting_ignores": 9,
+  "suite_counts": {
+    "kani": [
+      53,
+      3
+    ],
+    "expected": [
+      368,
+      6
+    ],
+    "ui": [
+      17,
+      0
+    ],
+    "script-based-pre": [
+      3,
+      0
+    ],
+    "json-handler": [
+      17,
+      0
+    ],
+    "std-checks": [
+      2,
+      0
+    ]
+  },
+  "present_uninit_selectors": 201,
+  "all_head5_pairs_present": true,
+  "E1_F7_imported": false,
+  "effective_targeted_units": 20,
+  "historical_obligations": "PENDING_NATIVE_EXACT_HEAD5; history unchanged",
+  "checks": [
+    "read-only owner1..5 composition and accepted4 reconstruction",
+    "2 owner5 source parts; only layout production delta",
+    "47 exact-F pairs; all413 inherited selectors unchanged; all deferred5 fixture IDs present",
+    "all manifest hashes and full present expected/uninit discovery",
+    "git diff --check"
+  ],
+  "native_checks": "NOT_RUN",
+  "formal_proof_credit": "NOT_ESTABLISHED"
+}

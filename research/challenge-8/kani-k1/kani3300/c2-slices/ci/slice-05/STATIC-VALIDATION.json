@@ -1,0 +1,31 @@
+{
+  "status": "PASS_STATIC_AND_SYNTHETIC_ONLY",
+  "source_sha": "96f5d5dc8dedd369c6986a4f1dd5e698b6167f0f",
+  "source_tree": "445fe95f622016728286e2b820c52b626809923b",
+  "overlay_sha": "ce56d3d467dd9aeec0fc7abc6a2444ee066e85f6",
+  "overlay_tree": "5af225d7acb261064e63d41aa7bd2a516edea01a",
+  "accepted_recipe": "4f00e47d81da1e8849551e748ed378edbf868be1",
+  "accepted_run": "43710024495",
+  "runner_synthetic_checks": 23,
+  "sensitivity_synthetic_checks": 11,
+  "seam_checker_synthetic_checks": 10,
+  "generator_reproduction": "PASS byte-identical CI overlay files",
+  "protected_source_entries": 4178,
+  "source_snapshot_problems": [],
+  "manifest_byte_identical": true,
+  "cumulative_selectors": 460,
+  "existing_ignores": 9,
+  "all_compiler_units": 68,
+  "explicit_relevant_units": 20,
+  "sensitivity_status": "REQUIRED4_OF4_NATIVE_NOT_RUN",
+  "native_checks": "NOT_RUN",
+  "push_dispatch": "NOT_RUN",
+  "cloud_spend": 0,
+  "formal_proof_credit": "NOT_ESTABLISHED",
+  "notes": [
+    "Synthetic tests execute only Python and Git on temporary fake repositories, never Rust/Kani.",
+    "Runner parsing uses actual SUMMARY N of TOTAL failed with numeric unreachable suffix and adjacent native status/description.",
+    "User assert literal is stringified by library/std/src/lib.rs:100, so the added-failure description retains literal quotes.",
+    "Before/after source snapshots and input/golden bytes restored for every mutation; original per-stage argv/exits/termination/environment preserved."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "status": "PASS_BOUNDED_STATIC_DEPENDENCY_REVIEW",
+  "source_sha": "96f5d5dc8dedd369c6986a4f1dd5e698b6167f0f",
+  "reviewers": [
+    "worker15",
+    "independent Luna HIGH read-only fixture reviewer"
+  ],
+  "fixture_pairs": 47,
+  "new_fixture_pairs": 47,
+  "findings": [],
+  "reviewed": [
+    "zero-byte and aligned-ZST captures",
+    "padded/reordered/nested upvars with nonzero offsets",
+    "capture reference versus pointee; MU value/reference; raw and union boundaries",
+    "all owner1 head5 plus owner4 deferred fixture IDs including generated-modifies-no-shadow",
+    "7 modes and7 roots; Replace local PFC companion not execution credit",
+    "all4 mapped test-only mutation patches and exact verdict/N/intended mismatch"
+  ],
+  "E1_F7_dependency_found": false,
+  "runtime": "NOT_RUN",
+  "obligation_status": "PENDING_EXPLICIT_NATIVE_EXACT_HEAD5",
+  "limits": "Static source inspection cannot establish actual lowering, intended checks, lack of runtime Unsupported, or sensitivity detection."
+}
