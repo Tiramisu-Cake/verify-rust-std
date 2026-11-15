@@ -1,0 +1,43 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "base_sha": "345cedfd67df679e326474385308349d609fc43d",
+  "validator_sha256": "49fe760d286f2155dc3d609a61be037129c66ca72812250d7489b16eb54a5e97",
+  "changed_paths": 95,
+  "owner5_parts": [
+    {
+      "hunk_id": "B1--F:21:010",
+      "part_index": 0,
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "side": "+",
+      "start": 481,
+      "count": 28,
+      "owner": "5",
+      "sha256": "c4ee0fcdcfef4052ab15524ef0a9724e3f3198ecc844685ea4e2786699894ab3"
+    },
+    {
+      "hunk_id": "B1--F:21:011",
+      "part_index": 0,
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "side": "-",
+      "start": 395,
+      "count": 1,
+      "owner": "5",
+      "sha256": "8db26d029b042bbaef24ece98b2f5c0025c5ad74e75f9b09ecce768e84b20364"
+    }
+  ],
+  "complete_exact_F_fixtures": 47,
+  "all_owner1_head5_and_owner4_pending_present": true,
+  "E1_F7_imported": false,
+  "native_fmt_build_clippy_units_tests_verifier_CI_push": "NOT_RUN",
+  "formal_proof_credit": "NOT_ESTABLISHED",
+  "source_sha": "96f5d5dc8dedd369c6986a4f1dd5e698b6167f0f",
+  "source_tree": "445fe95f622016728286e2b820c52b626809923b",
+  "source.patch": {
+    "sha256": "ec59cbb723cb312bc444db7d1089d2020f915c12e939295f720c38ddcab0762c",
+    "alternate_index_target_tree": "445fe95f622016728286e2b820c52b626809923b"
+  },
+  "residual-to-F.patch": {
+    "sha256": "778cff2f812e7ba3ca49552c93d5642487a7faacbee698aaa510c32352cfe2fd",
+    "alternate_index_target_tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb"
+  }
+}

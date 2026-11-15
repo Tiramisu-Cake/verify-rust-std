@@ -1,0 +1,77 @@
+{
+  "source_sha": "96f5d5dc8dedd369c6986a4f1dd5e698b6167f0f",
+  "source_tree": "445fe95f622016728286e2b820c52b626809923b",
+  "parent": "345cedfd67df679e326474385308349d609fc43d",
+  "status": "PREPARED_NOT_DISPATCHED",
+  "qualification_kind": "TARGETED_INTEGRATION_PLUS_NO_REGRESSION",
+  "recipe": "0998b98867:.github/workflows/uninit-quick.yml",
+  "runner": "ubuntu-24.04",
+  "env": {
+    "RUST_TEST_THREADS": "2"
+  },
+  "job_timeout_minutes": 120,
+  "test_timeout_seconds": 2400,
+  "auto_retries": false,
+  "test_manifest": "TEST-MANIFEST.json",
+  "static_counts": {
+    "expected": {
+      "selectors": 368,
+      "existing_path_ignored": 6,
+      "expected_passed_if_all_succeed": 362
+    },
+    "json-handler": {
+      "selectors": 17,
+      "existing_path_ignored": 0,
+      "expected_passed_if_all_succeed": 17
+    },
+    "kani": {
+      "selectors": 53,
+      "existing_path_ignored": 3,
+      "expected_passed_if_all_succeed": 50
+    },
+    "script-based-pre": {
+      "selectors": 3,
+      "existing_path_ignored": 0,
+      "expected_passed_if_all_succeed": 3
+    },
+    "std-checks": {
+      "selectors": 2,
+      "existing_path_ignored": 0,
+      "expected_passed_if_all_succeed": 2
+    },
+    "ui": {
+      "selectors": 17,
+      "existing_path_ignored": 0,
+      "expected_passed_if_all_succeed": 17
+    }
+  },
+  "selector_count": 460,
+  "units": [
+    {
+      "filter": "active_call_tests",
+      "expected": 9,
+      "result": "NOT_RUN"
+    },
+    {
+      "filter": "immutable_allocations::tests",
+      "expected": 9,
+      "result": "NOT_RUN"
+    },
+    {
+      "filter": "argument_size_tests",
+      "expected": 1,
+      "result": "NOT_RUN"
+    },
+    {
+      "filter": "marker_category_tests",
+      "expected": 1,
+      "result": "NOT_RUN"
+    }
+  ],
+  "targeted_oracles": "ORACLE-DELTA.json:selected_complete_fixtures",
+  "integration_closure": "CLOSURE-OBLIGATIONS.json",
+  "native_results": "NOT_RUN",
+  "worker15_overlay": "NOT_PREPARED_BY_WORKER14",
+  "no_authorization_to_dispatch": true,
+  "S5_sensitivity": "S5-MUTATIONS-READINESS.json; 4/4 required via --force-rerun after clean suite"
+}

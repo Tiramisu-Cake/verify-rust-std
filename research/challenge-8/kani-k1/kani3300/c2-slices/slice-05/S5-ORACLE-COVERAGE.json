@@ -1,0 +1,1167 @@
+{
+  "source_sha": "96f5d5dc8dedd369c6986a4f1dd5e698b6167f0f",
+  "reference_manifest_sha256": "6676df668844c9b2de3b236c3654e43dda28578146dbe3c4a055ba58ff6b2acf",
+  "previous_semantic_roots": 21,
+  "rows": [
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/0",
+      "root": "postcondition_reads_initialized_return",
+      "role": "p1",
+      "operation_contract_mode": "select(new17,uninit,true); first u8 read in ensures",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs",
+          "golden": "tests/expected/uninit/closure-zst/scalar-pfc-legal.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "8fc4bed8fc3e9bf9538269bc77a7c0ffa67d6db6",
+            "sha256": "439c9c9817875a0554fbf43a14eb7f871a3ab23cc038605afcead23a719ee4f0"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "b203f9aa03118ad269cdd7ac344c998f4dbf1f8b",
+            "sha256": "bbb0702f4dfb3bf0487b79fb5c29ef3c138582e4279ce2eb52a4070bc3cb2c40"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs",
+            "exact_failure_N": 0,
+            "required_consecutive_property_blocks": [
+              [
+                "postcondition_target::",
+                " - Status: SUCCESS",
+                " - Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 0 of"
+            ],
+            "verdict": "SUCCESSFUL",
+            "one_harness_completion": "Complete - 1 successfully verified harnesses, 0 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/1",
+      "root": "legal_ordinary_transfer",
+      "role": "ordinary",
+      "operation_contract_mode": "ordinary original body; select true initialized7; written [1,2,3]",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/transfer-qualification/legal-ordinary.rs",
+          "golden": "tests/expected/uninit/transfer-qualification/legal-ordinary.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "db016fc17a2d51533201d386919e4d448d97d156",
+            "sha256": "7595b7fae268fff14aa6225c14f9dfbdc4de5f811995683acf54832ba68b7eb8"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "4432022a5d70931dbe95e575d817fe7c826d78d1",
+            "sha256": "eaf4d5106a6bbfda3b5fa2c56489b50235484fed5847957332c5d54dd1663293"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/transfer-qualification/legal-ordinary.rs",
+            "exact_failure_N": 0,
+            "required_consecutive_property_blocks": [
+              [
+                "write_initialized::",
+                " - Status: SUCCESS",
+                " - Description: \"|result: &u8| *result == 7 && *out == [1, 2, 3]\""
+              ],
+              [
+                "write_initialized::",
+                " - Status: SUCCESS",
+                " - Description: \"assertion failed: byte == 7\""
+              ],
+              [
+                "write_initialized::",
+                " - Status: SUCCESS",
+                " - Description: \"assertion failed: value == [1, 2, 3]\""
+              ],
+              [
+                "legal_ordinary_transfer.assertion.1",
+                " - Status: SUCCESS",
+                " - Description: \"assertion failed: write_initialized(&mut out) == 7\""
+              ],
+              [
+                "legal_ordinary_transfer.assertion.2",
+                " - Status: SUCCESS",
+                " - Description: \"assertion failed: out == [1, 2, 3]\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 0 of"
+            ],
+            "verdict": "SUCCESSFUL",
+            "one_harness_completion": "Complete - 1 successfully verified harnesses, 0 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/2",
+      "root": "legal_pfc_transfer",
+      "role": "pfc",
+      "operation_contract_mode": "PFC original body and frame; same initialized select/array",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/transfer-qualification/legal-pfc.rs",
+          "golden": "tests/expected/uninit/transfer-qualification/legal-pfc.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "29f74e09734f9cc5dcd66a69a287c4e5c079f607",
+            "sha256": "f8d7df3947347609f1f18b98f002bd5f0095ff323d1b6d2a778479b953b7f349"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "64d529b28677daf660d7b6302bb1509d159a2989",
+            "sha256": "04b48b5af6a406980ee62d208978f82487f43e9ddd950d07b9e56748bc6a3c00"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/transfer-qualification/legal-pfc.rs",
+            "exact_failure_N": 0,
+            "required_consecutive_property_blocks": [
+              [
+                "write_initialized::",
+                " - Status: SUCCESS",
+                " - Description: \"|result: &u8| *result == 7 && *out == [1, 2, 3]\""
+              ],
+              [
+                "write_initialized::",
+                " - Status: SUCCESS",
+                " - Description: \"assertion failed: byte == 7\""
+              ],
+              [
+                "write_initialized::",
+                " - Status: SUCCESS",
+                " - Description: \"assertion failed: value == [1, 2, 3]\""
+              ],
+              [
+                "write_initialized::",
+                " - Status: SUCCESS",
+                " - Description: \"Check that *var_23 is assignable\"",
+                " - Location: tests/expected/uninit/transfer-qualification/legal-pfc.rs:33:5"
+              ],
+              [
+                "legal_pfc_transfer.assertion.1",
+                " - Status: SUCCESS",
+                " - Description: \"assertion failed: write_initialized(&mut out) == 7\""
+              ],
+              [
+                "legal_pfc_transfer.assertion.2",
+                " - Status: SUCCESS",
+                " - Description: \"assertion failed: out == [1, 2, 3]\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 0 of"
+            ],
+            "verdict": "SUCCESSFUL",
+            "one_harness_completion": "Complete - 1 successfully verified harnesses, 0 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/3",
+      "root": "lawful_modifies_preserves_outside",
+      "role": "lawful-modifies",
+      "operation_contract_mode": "relay/choose(new(*outside),new29); assume_init; only *out written",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs",
+          "golden": "tests/expected/uninit/private-transfer-frame/lawful-modifies.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "0a2dfa442b09a8ef813280844721b611129bdecc",
+            "sha256": "32c1342513dd0588d0e3f5ea5991f64538b0506964fc821d4bc201bb66cc5fc0"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "649f80412d890a6f8fb0f2bad4d1d159a379ddf6",
+            "sha256": "3c69a644f3542e6cdd941deb81a355068c68e7de7b62e71aef94371d16e94861"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs",
+            "exact_failure_N": 0,
+            "required_consecutive_property_blocks": [
+              [
+                "frame_target::",
+                " - Status: SUCCESS",
+                " - Description: \"|result: &u16| *result == 29 && *out == 29\""
+              ],
+              [
+                "frame_target::",
+                " - Status: SUCCESS",
+                " - Description: \"Check that *var_8 is assignable\"",
+                " - Location: tests/expected/uninit/private-transfer-frame/lawful-modifies.rs:26:5"
+              ],
+              [
+                "lawful_modifies_preserves_outside.assertion.1",
+                " - Status: SUCCESS",
+                " - Description: \"assertion failed: frame_target(&mut out, &mut outside) == 29\""
+              ],
+              [
+                "lawful_modifies_preserves_outside.assertion.2",
+                " - Status: SUCCESS",
+                " - Description: \"assertion failed: out == 29\""
+              ],
+              [
+                "lawful_modifies_preserves_outside.assertion.3",
+                " - Status: SUCCESS",
+                " - Description: \"assertion failed: outside == 41\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 0 of"
+            ],
+            "verdict": "SUCCESSFUL",
+            "one_harness_completion": "Complete - 1 successfully verified harnesses, 0 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/4",
+      "root": "postcondition_reads_returned_hole",
+      "role": "p2",
+      "operation_contract_mode": "PFC valid MU hole return; first u8 payload read in ensures17; exact current outcome2 intended read failures plus outer ensures consequence = N3",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/closure-zst/scalar-pfc-hole.rs",
+          "golden": "tests/expected/uninit/closure-zst/scalar-pfc-hole.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "77861141370900aefd1aca932b2c3983d507433a",
+            "sha256": "6c7eadadb7ca5ecf36babd733a9b2878928718c0f54696bc0b1e5c7dafc902a4"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "409ebbe02c0384dcd6393ce8a4722b36c9509af7",
+            "sha256": "742cd8f652e98a4b0a9526a1bbdb61e73cc2c115093926e2a432c33bec243698"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/closure-zst/scalar-pfc-hole.rs",
+            "exact_failure_N": 3,
+            "required_consecutive_property_blocks": [
+              [
+                "std::ptr::read::<u8>.safety_check.1",
+                " - Status: FAILURE",
+                " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\""
+              ],
+              [
+                "std::ptr::read::<u8>.safety_check.4",
+                " - Status: FAILURE",
+                " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\""
+              ],
+              [
+                "postcondition_target::",
+                " - Status: FAILURE",
+                " - Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [
+              "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+              "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+              "|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }"
+            ],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 3 of"
+            ],
+            "verdict": "FAILED",
+            "one_harness_completion": "Complete - 0 successfully verified harnesses, 1 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/5",
+      "root": "postcondition_reads_returned_hole",
+      "role": "postcondition-hole",
+      "operation_contract_mode": "PFC valid MU hole return; first u8 payload read in ensures17; exact current outcome2 intended read failures plus outer ensures consequence = N3",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+          "golden": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "d7049d7a6a3c4c01dcdc88dc59fb209f6bf90985",
+            "sha256": "92cfe76cd0e627656c9f55b3f4c7703d9cd112043d2cfb01a5a2459bb9b561b2"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "409ebbe02c0384dcd6393ce8a4722b36c9509af7",
+            "sha256": "742cd8f652e98a4b0a9526a1bbdb61e73cc2c115093926e2a432c33bec243698"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+            "exact_failure_N": 3,
+            "required_consecutive_property_blocks": [
+              [
+                "std::ptr::read::<u8>.safety_check.1",
+                " - Status: FAILURE",
+                " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\""
+              ],
+              [
+                "std::ptr::read::<u8>.safety_check.4",
+                " - Status: FAILURE",
+                " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\""
+              ],
+              [
+                "postcondition_target::",
+                " - Status: FAILURE",
+                " - Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [
+              "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+              "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+              "|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 17 }"
+            ],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 3 of"
+            ],
+            "verdict": "FAILED",
+            "one_harness_completion": "Complete - 0 successfully verified harnesses, 1 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/6",
+      "root": "frame_negative",
+      "role": "frame",
+      "operation_contract_mode": "relay/choose(new23,new29); initialized u16 read; forbidden user *outside assignment, not shadow write; historical var_7 not authoritative",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+          "golden": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+          "source": {
+            "mode": "100644",
+            "blob": "c0854aa68d52a0f29693c554c6e9f758e2347b9d",
+            "sha256": "207273b3c629331304441126e3a6411c316cdab084a06ca936ffc18139cc1440"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "86cdc5de74b1bb6326cf83ea910e0885851fbd9a",
+            "sha256": "8d1b564b94ce7346a69c0993151e861f277c05f465495b55c965a08807d54eb2"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+            "exact_failure_N": 1,
+            "required_consecutive_property_blocks": [
+              [
+                "frame_target::",
+                " - Status: FAILURE",
+                " - Description: \"Check that *var_7 is assignable\"",
+                " - Location: tests/expected/uninit/maybe-uninit-contract-frame/main.rs:22:5"
+              ],
+              [
+                "frame_target::",
+                " - Status: SUCCESS",
+                " - Description: \"Check that *var_8 is assignable\"",
+                " - Location: tests/expected/uninit/maybe-uninit-contract-frame/main.rs:23:5"
+              ]
+            ],
+            "required_failed_checks_descriptions": [
+              "Check that *var_7 is assignable"
+            ],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 1 of"
+            ],
+            "verdict": "FAILED",
+            "one_harness_completion": "Complete - 0 successfully verified harnesses, 1 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-oracles/oracles.json",
+      "old_pointer": "/cases/7",
+      "root": "clause_pfc_negative",
+      "role": "clause",
+      "operation_contract_mode": "valid uninit MU<u16>; relay(input,input).assume_init in requires helper line22; no earlier frame/protocol failure",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+          "golden": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+          "source": {
+            "mode": "100644",
+            "blob": "3dcd4aadd7ec818fe766c606c3b56682e275b5f0",
+            "sha256": "16cbc2c27e1c1d6b3edd45573536b769ef7b48be781c341fa755263d25d018ad"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "ea5bcfdb6bdf971937c1219ed5f995b2bc8e9a7b",
+            "sha256": "a31748d88e349e90aa9770ed669350efb1f4064c0dad723fa6716a716eb54c4c"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+            "exact_failure_N": 1,
+            "required_consecutive_property_blocks": [
+              [
+                "std::mem::transmute_neo::<std::mem::MaybeUninit<u16>, u16>.safety_check.1",
+                " - Status: FAILURE",
+                " - Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u16`\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [
+              "Undefined Behavior: Reading from an uninitialized pointer of type `u16`"
+            ],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 1 of"
+            ],
+            "verdict": "FAILED",
+            "one_harness_completion": "Complete - 0 successfully verified harnesses, 1 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+      "old_pointer": "/roots/0",
+      "root": "replace_transfer",
+      "role": "replace_transfer",
+      "operation_contract_mode": "Replace target passthrough",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/contract-modes/replace-transfer.rs",
+          "golden": "tests/expected/uninit/contract-modes/replace-transfer.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "80d90042dc366d128aff0021696766754890b497",
+            "sha256": "d6673e266993cf7fc9b1606022d53424adde373ba6e3815ba7dfe796090b42b4"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "42ffd3b6f7a91139f858605c77bc0135d6eb6223",
+            "sha256": "61c6c43754c416856102967388b117647b9f79c2e860b80e1e14271d4f34567b"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/contract-modes/replace-transfer.rs",
+            "exact_failure_N": 2,
+            "required_consecutive_property_blocks": [
+              [
+                "passthrough::",
+                "- Status: SUCCESS",
+                "- Description: \"!initialized || payload_is_42(&value)\""
+              ],
+              [
+                "replace_transfer.assertion.1",
+                "- Status: SUCCESS",
+                "- Description: \"assertion failed: payload_is_42(&result)\""
+              ],
+              [
+                "std::ptr::read::<u8>.safety_check.1",
+                "- Status: FAILURE",
+                "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\""
+              ],
+              [
+                "std::ptr::read::<u8>.safety_check.4",
+                "- Status: FAILURE",
+                "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [
+              "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+              "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+            ],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 2 of"
+            ],
+            "verdict": "FAILED",
+            "one_harness_completion": "Complete - 0 successfully verified harnesses, 1 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        },
+        {
+          "input": "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs",
+          "golden": "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "8f4d0bc36c096cb1b24cc22dc6ec2475f37efd10",
+            "sha256": "1ceb347fd29b394e7f2005752f597bee435723adc78d56ace33d479286440cba"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "ad037961fccd263c0e8d48797c74933563f63c00",
+            "sha256": "43abe4527007c5e2456d2732274830b73a52c25f1c44c682daa9cec6ee0a05ac"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs",
+            "exact_failure_N": 0,
+            "required_consecutive_property_blocks": [
+              [
+                "replace_transfer_uninitialized.assertion.1",
+                "- Status: SUCCESS",
+                "- Description: \"assertion failed: !initialized || payload_is_42(&result)\""
+              ],
+              [
+                "replace_transfer_uninitialized.cover.1",
+                "- Status: SATISFIED",
+                "- Description: \"uninitialized storage returned\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 0 of"
+            ],
+            "verdict": "SUCCESSFUL",
+            "one_harness_completion": "Complete - 1 successfully verified harnesses, 0 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+      "old_pointer": "/roots/1",
+      "root": "replace_ordinary",
+      "role": "replace_ordinary",
+      "operation_contract_mode": "Assert target passthrough",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/contract-modes/replace-ordinary.rs",
+          "golden": "tests/expected/uninit/contract-modes/replace-ordinary.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "4506f31c73a7ab86ce4f2b5250407b120227c48d",
+            "sha256": "72d45eaffa6771cbae294e91cb29919316a77c67e2b03451e5f717d10638a576"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "feb69f74dd7c18264c29bfa4939457438aacfaed",
+            "sha256": "2ad109c9eab0e59959d75beb355a942e8350d005cc5b55d3d91aabd0e24d07d5"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/contract-modes/replace-ordinary.rs",
+            "exact_failure_N": 0,
+            "required_consecutive_property_blocks": [
+              [
+                "passthrough::",
+                "- Status: SUCCESS",
+                "- Description: \"|result: &MaybeUninit<u8>| !initialized || payload_is_42(result)\""
+              ],
+              [
+                "replace_ordinary.assertion.1",
+                "- Status: SUCCESS",
+                "- Description: \"assertion failed: payload_is_42(&result)\""
+              ],
+              [
+                "replace_ordinary.cover.1",
+                "- Status: SATISFIED",
+                "- Description: \"initialized return consumed\""
+              ],
+              [
+                "replace_ordinary.cover.2",
+                "- Status: SATISFIED",
+                "- Description: \"uninitialized storage returned\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 0 of"
+            ],
+            "verdict": "SUCCESSFUL",
+            "one_harness_completion": "Complete - 1 successfully verified harnesses, 0 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+      "old_pointer": "/roots/2",
+      "root": "replace_simple_check",
+      "role": "replace_simple_check",
+      "operation_contract_mode": "SimpleCheck target passthrough",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/contract-modes/replace-simple-check.rs",
+          "golden": "tests/expected/uninit/contract-modes/replace-simple-check.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "058058220f0cde926aa0fd4e46f49cb9974df36a",
+            "sha256": "cc01f62ee65b9b1f54020b229dce71d29d486ea9aee9fb5ee0d210fae5466cd8"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "60f5499fc65121d95dda9e1bf29a5c2f34219e2d",
+            "sha256": "dd843ecd361eea23d95fc6aaaa119f597c544fe09eb7659e0a01c673e9942b03"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/contract-modes/replace-simple-check.rs",
+            "exact_failure_N": 0,
+            "required_consecutive_property_blocks": [
+              [
+                "passthrough::",
+                "- Status: SUCCESS",
+                "- Description: \"|result: &MaybeUninit<u8>| !initialized || payload_is_42(result)\""
+              ],
+              [
+                "replace_simple_check.assertion.1",
+                "- Status: SUCCESS",
+                "- Description: \"assertion failed: payload_is_42(&result)\""
+              ],
+              [
+                "replace_simple_check.cover.1",
+                "- Status: SATISFIED",
+                "- Description: \"initialized return consumed\""
+              ],
+              [
+                "replace_simple_check.cover.2",
+                "- Status: SATISFIED",
+                "- Description: \"uninitialized storage returned\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 0 of"
+            ],
+            "verdict": "SUCCESSFUL",
+            "one_harness_completion": "Complete - 1 successfully verified harnesses, 0 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+      "old_pointer": "/roots/3",
+      "root": "recursive_check",
+      "role": "recursive_check",
+      "operation_contract_mode": "RecursiveCheck target recursive_transfer",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/contract-modes/recursive-check.rs",
+          "golden": "tests/expected/uninit/contract-modes/recursive-check.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "901fc3ecb948d587690db84813846766e5c158db",
+            "sha256": "7f4bfe55ba02710cff817a661233559e1422deafa8be264fadd22995fea200eb"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "c9304e8a50e0f432049839ab2ac00a5659e95dff",
+            "sha256": "38d5797de81544aea8b7927fd80f902993bd79d307563f83dce69405d068869f"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/contract-modes/recursive-check.rs",
+            "exact_failure_N": 1,
+            "required_consecutive_property_blocks": [
+              [
+                "recursive_check.unsupported_construct.1",
+                "- Status: FAILURE",
+                "- Description: \"Kani delayed uninitialized-memory analysis detected an interprocedural cycle"
+              ]
+            ],
+            "required_failed_checks_descriptions": [
+              "Kani delayed uninitialized-memory analysis detected an interprocedural cycle"
+            ],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 1 of"
+            ],
+            "verdict": "FAILED",
+            "one_harness_completion": "Complete - 0 successfully verified harnesses, 1 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+      "old_pointer": "/roots/4",
+      "root": "recursive_ordinary",
+      "role": "recursive_ordinary",
+      "operation_contract_mode": "Assert target recursive_transfer",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/contract-modes/recursive-ordinary.rs",
+          "golden": "tests/expected/uninit/contract-modes/recursive-ordinary.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "7faabc02097d36e11fd3e49e13a8f394b4f8665b",
+            "sha256": "ae47705a06682e319f3ffd104853397546164ea3f6add61e98eaa3f40230e559"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "c35fa9c27bfcad4d7d208532ef275d79764878c1",
+            "sha256": "0212a134db9a9a8bf797f1213ea5781a5c6a6c88aa457d32961f0be781dd803d"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/contract-modes/recursive-ordinary.rs",
+            "exact_failure_N": 1,
+            "required_consecutive_property_blocks": [
+              [
+                "recursive_ordinary.unsupported_construct.1",
+                "- Status: FAILURE",
+                "- Description: \"Kani delayed uninitialized-memory analysis detected an interprocedural cycle"
+              ]
+            ],
+            "required_failed_checks_descriptions": [
+              "Kani delayed uninitialized-memory analysis detected an interprocedural cycle"
+            ],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 1 of"
+            ],
+            "verdict": "FAILED",
+            "one_harness_completion": "Complete - 0 successfully verified harnesses, 1 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-contract-mode-boundaries/roots.json",
+      "old_pointer": "/roots/5",
+      "root": "recursive_simple_check",
+      "role": "recursive_simple_check",
+      "operation_contract_mode": "SimpleCheck target bounded_transfer",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/contract-modes/recursive-simple-check.rs",
+          "golden": "tests/expected/uninit/contract-modes/recursive-simple-check.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "704aa3ddb8bd0a2565e28c0c58d0b1d2c4d05433",
+            "sha256": "7e5a8eede08b3c5793e637de19aa64bf6394e098c9768904d458469b1edf1a7c"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "792adfa3e920140793b6946caa6bb7b6b0da6831",
+            "sha256": "8eaa8afb0d03867d74b947269a5f4a7dd1483343ebb8eb6ac62adf724644d720"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/contract-modes/recursive-simple-check.rs",
+            "exact_failure_N": 0,
+            "required_consecutive_property_blocks": [
+              [
+                "bounded_transfer::",
+                "- Status: SUCCESS",
+                "- Description: \"|result: &MaybeUninit<u8>| !initialized || payload_is_42(result)\""
+              ],
+              [
+                "recursive_simple_check.assertion.1",
+                "- Status: SUCCESS",
+                "- Description: \"assertion failed: payload_is_42(&result)\""
+              ],
+              [
+                "recursive_simple_check.cover.1",
+                "- Status: SATISFIED",
+                "- Description: \"initialized return consumed\""
+              ],
+              [
+                "recursive_simple_check.cover.2",
+                "- Status: SATISFIED",
+                "- Description: \"uninitialized storage returned\""
+              ],
+              [
+                "bounded_transfer::",
+                "- Status: SATISFIED",
+                "- Description: \"base body reached\""
+              ],
+              [
+                "bounded_transfer::",
+                "- Status: SATISFIED",
+                "- Description: \"unrolled body edge reached\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 0 of"
+            ],
+            "verdict": "SUCCESSFUL",
+            "one_harness_completion": "Complete - 1 successfully verified harnesses, 0 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+      "old_pointer": "/roots/0",
+      "root": "immutable_legal",
+      "role": "immutable_legal",
+      "operation_contract_mode": "Assert",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/root-composition/immutable-legal.rs",
+          "golden": "tests/expected/uninit/root-composition/immutable-legal.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "5695fc82aa8e48a9e7a08e3fc289e6cc58d9fbdc",
+            "sha256": "55aaf26e48072720c1a2b04de1be483d55b27bf91152bbbb7bfc8bea7566a49a"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "2497b18bd77f4477bf402d4f406fc640d09e132d",
+            "sha256": "38245e6a42448202b3a1b46c77c232239630a04e85cb5ced4411dfd12edcff0f"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/root-composition/immutable-legal.rs",
+            "exact_failure_N": 0,
+            "required_consecutive_property_blocks": [
+              [
+                "immutable_legal.assertion.1",
+                "- Status: SUCCESS",
+                "- Description: \"assertion failed: value == 17\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 0 of"
+            ],
+            "verdict": "SUCCESSFUL",
+            "one_harness_completion": "Complete - 1 successfully verified harnesses, 0 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+      "old_pointer": "/roots/1",
+      "root": "immutable_hole_negative",
+      "role": "immutable_hole_negative",
+      "operation_contract_mode": "Assert",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/root-composition/immutable-hole-negative.rs",
+          "golden": "tests/expected/uninit/root-composition/immutable-hole-negative.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "38fb170e704095f9e3dde55f061f4918fa60e062",
+            "sha256": "2834ee12307663fd98bb44e03812c021400aa8c68fc064594a73f25097678f17"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "f0c810e35992307ffc78bd9e88f0f6b419e8b37c",
+            "sha256": "3e7a1ea0aa56c17832d4000a9be5e08ce09363dc134f59397abc5ed57f564c33"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/root-composition/immutable-hole-negative.rs",
+            "exact_failure_N": 2,
+            "required_consecutive_property_blocks": [
+              [
+                "std::ptr::read::<u8>.safety_check.1",
+                "- Status: FAILURE",
+                "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\""
+              ],
+              [
+                "std::ptr::read::<u8>.safety_check.4",
+                "- Status: FAILURE",
+                "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [
+              "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+              "Undefined Behavior: Reading from an uninitialized pointer of type `u8`"
+            ],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 2 of"
+            ],
+            "verdict": "FAILED",
+            "one_harness_completion": "Complete - 0 successfully verified harnesses, 1 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+      "old_pointer": "/roots/2",
+      "root": "ordinary_ensures_legal",
+      "role": "ordinary_ensures_legal",
+      "operation_contract_mode": "Assert+ensures",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/root-composition/ordinary-ensures-legal.rs",
+          "golden": "tests/expected/uninit/root-composition/ordinary-ensures-legal.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "e5bee294834aa8233dc98722c14cc98534223617",
+            "sha256": "7424cf66ef558e8e91d94df8e6cbb4aa554f3b6f43b57a7c3750b6406f9d1542"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "fc063f03f8c1d248c88da964f7f04af986199aa7",
+            "sha256": "4b9d8cb0e2ecc5d0a23e23fe556a2624f7e8dc3b1a99083837d406ddfc54082d"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/root-composition/ordinary-ensures-legal.rs",
+            "exact_failure_N": 0,
+            "required_consecutive_property_blocks": [
+              [
+                "ordinary_contract::",
+                "- Status: SUCCESS",
+                "- Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 23 }\""
+              ],
+              [
+                "ordinary_ensures_legal.assertion.1",
+                "- Status: SUCCESS",
+                "- Description: \"assertion failed: unsafe { result.assume_init_read() } == 23\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 0 of"
+            ],
+            "verdict": "SUCCESSFUL",
+            "one_harness_completion": "Complete - 1 successfully verified harnesses, 0 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+      "old_pointer": "/roots/3",
+      "root": "pfc_legal",
+      "role": "pfc_legal",
+      "operation_contract_mode": "PFC",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/root-composition/pfc-legal.rs",
+          "golden": "tests/expected/uninit/root-composition/pfc-legal.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "d770273edc8f330ab2c65999807d20d9add7cffe",
+            "sha256": "45b6525e939c3931f197530079ee994e571c0796e14da420bbe84bbd4c9bab8b"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "a46470f61210491c754e695410562b88fd9f447e",
+            "sha256": "a8dc5664c93b42baaa969f7b8169058f2247db2d20faeb95a0eb33a26cd4f49b"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/root-composition/pfc-legal.rs",
+            "exact_failure_N": 0,
+            "required_consecutive_property_blocks": [
+              [
+                "pfc_contract::",
+                "- Status: SUCCESS",
+                "- Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 31 }\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 0 of"
+            ],
+            "verdict": "SUCCESSFUL",
+            "one_harness_completion": "Complete - 1 successfully verified harnesses, 0 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+      "old_pointer": "/roots/4",
+      "root": "pfc_negative",
+      "role": "pfc_negative",
+      "operation_contract_mode": "PFC",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/root-composition/pfc-negative.rs",
+          "golden": "tests/expected/uninit/root-composition/pfc-negative.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "030e13743c0ff0644b3383595306d3ad7c6e2bdc",
+            "sha256": "81adfe8b2eaa4dd464c8b9597d482f13f94459a1b3eca63eebc61f907e6474d3"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "64ff01934cbe2f8e26bdb2783d354508849b7ec3",
+            "sha256": "3f44aff7d460ff39b28cd695ef65babdd6f31b55481057871bb4085ef142405f"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/root-composition/pfc-negative.rs",
+            "exact_failure_N": 3,
+            "required_consecutive_property_blocks": [
+              [
+                "std::ptr::read::<u8>.safety_check.1",
+                "- Status: FAILURE",
+                "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`\""
+              ],
+              [
+                "std::ptr::read::<u8>.safety_check.4",
+                "- Status: FAILURE",
+                "- Description: \"Undefined Behavior: Reading from an uninitialized pointer of type `u8`\""
+              ],
+              [
+                "pfc_negative_contract::",
+                "- Status: FAILURE",
+                "- Description: \"|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 41 }\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [
+              "Undefined Behavior: Reading from an uninitialized pointer of type `*const u8`",
+              "Undefined Behavior: Reading from an uninitialized pointer of type `u8`",
+              "|result: &MaybeUninit<u8>| unsafe { result.assume_init_read() == 41 }"
+            ],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 3 of"
+            ],
+            "verdict": "FAILED",
+            "one_harness_completion": "Complete - 0 successfully verified harnesses, 1 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+      "old_pointer": "/roots/5",
+      "root": "cycle_root",
+      "role": "cycle_root",
+      "operation_contract_mode": "PFC+recursion",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/root-composition/cycle-root.rs",
+          "golden": "tests/expected/uninit/root-composition/cycle-root.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "cc0d4ab4d6ba2f4215be596e39b659be7f876779",
+            "sha256": "417976207cfda5d1be3b6fe6136be7044b9d9d9c680006aad2f420eb7a5f7b17"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "983954d3c8f0a19cce7f41c1033109ba51b8e91a",
+            "sha256": "ad85a681a9b43f0e66ee340651a415cb541f0727c3895e78eb144d5ad5142b50"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/root-composition/cycle-root.rs",
+            "exact_failure_N": 1,
+            "required_consecutive_property_blocks": [
+              [
+                "cycle_root.unsupported_construct.1",
+                "- Status: FAILURE",
+                "- Description: \"Kani delayed uninitialized-memory analysis detected an interprocedural cycle"
+              ]
+            ],
+            "required_failed_checks_descriptions": [
+              "Kani delayed uninitialized-memory analysis detected an interprocedural cycle"
+            ],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 1 of"
+            ],
+            "verdict": "FAILED",
+            "one_harness_completion": "Complete - 0 successfully verified harnesses, 1 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    },
+    {
+      "old_file": "tests/json-handler/uninit-part1-composition/roots.json",
+      "old_pointer": "/roots/6",
+      "root": "unrelated_legal_after_cycle",
+      "role": "unrelated_legal_after_cycle",
+      "operation_contract_mode": "Assert",
+      "portable_oracles": [
+        {
+          "input": "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.rs",
+          "golden": "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.expected",
+          "source": {
+            "mode": "100644",
+            "blob": "d6e19186e8856c8c7c7c07088ff6b470c147a924",
+            "sha256": "3a9b119ab84fe086413da6e0a16dab8f445f048409d81fc91347d5228c4c00a9"
+          },
+          "golden_identity": {
+            "mode": "100644",
+            "blob": "86c162e8d7c7b3ff5d952083444674b1fc4c3e57",
+            "sha256": "427fee2f9302164f014a0174dcba2c6c0d279395c9adf163280c3078d37db458"
+          },
+          "oracle": {
+            "input": "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.rs",
+            "exact_failure_N": 0,
+            "required_consecutive_property_blocks": [
+              [
+                "unrelated_legal_after_cycle.assertion.1",
+                "- Status: SUCCESS",
+                "- Description: \"assertion failed: unsafe { left.assume_init_read() } == 59\""
+              ],
+              [
+                "unrelated_legal_after_cycle.assertion.2",
+                "- Status: SUCCESS",
+                "- Description: \"assertion failed: unsafe { right.assume_init_read() } == 61\""
+              ]
+            ],
+            "required_failed_checks_descriptions": [],
+            "required_summary_block": [
+              "SUMMARY:",
+              "** 0 of"
+            ],
+            "verdict": "SUCCESSFUL",
+            "one_harness_completion": "Complete - 1 successfully verified harnesses, 0 failures, 1 total.",
+            "native_candidate_execution": "NOT_RUN"
+          }
+        }
+      ],
+      "runtime": "NOT_RUN"
+    }
+  ],
+  "status": "PRESENT_EXACT_F_NOT_RUNTIME_QUALIFIED",
+  "note": "8 strong cases + 6 old mode roots represented by7 fixtures +7 composition roots. Replace companion presence is not execution."
+}

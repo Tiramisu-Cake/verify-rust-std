@@ -1,0 +1,963 @@
+{
+  "source_sha": "96f5d5dc8dedd369c6986a4f1dd5e698b6167f0f",
+  "status": "PASS_BOUNDED_STATIC_FIXTURE_DEPENDENCY_AUDIT",
+  "count": 47,
+  "fixtures": [
+    {
+      "id": "closure-upvars/holes",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-upvars/holes.rs",
+      "golden": "tests/expected/uninit/closure-upvars/holes.expected",
+      "source_sha256": "6da4a03e0e5d5691cce5bd4f851da704ea275a18f50fa109fd666678182fd45a",
+      "golden_sha256": "6a2cb7887112bf40562cf518d0c299616cc0c178244f3d0a98425b5f875e863e",
+      "dependency_analysis": "Actual monomorphized fields, reordered/nested upvars and nonzero enclosing offset. Own closure-layout masks plus storage4 suffice; no isolation API.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-upvars/layout",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-upvars/layout.rs",
+      "golden": "tests/expected/uninit/closure-upvars/layout.expected",
+      "source_sha256": "6c2aec8a236599cb99c87fd1adf1ac53eea996583cef82c93db413ed5bb51312",
+      "golden_sha256": "6831eace839b67fb557d75246986db191d921e37b54f3c1f1a676af1b0d2cec3",
+      "dependency_analysis": "Actual monomorphized fields, reordered/nested upvars and nonzero enclosing offset. Own closure-layout masks plus storage4 suffice; no isolation API.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-upvars/ordinary",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-upvars/ordinary.rs",
+      "golden": "tests/expected/uninit/closure-upvars/ordinary.expected",
+      "source_sha256": "49a56d035fc87de378521881f4d49166e59423fd90a8b88514608719ad1e4f5e",
+      "golden_sha256": "e5f601472ef5f6423a8329c1b136a90bf818d1c0ec38636314a97d3e5954f1e0",
+      "dependency_analysis": "Actual monomorphized fields, reordered/nested upvars and nonzero enclosing offset. Own closure-layout masks plus storage4 suffice; no isolation API.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-aligned-hole",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-aligned-hole.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-aligned-hole.expected",
+      "source_sha256": "6575e558829ccfd38c7e51416b2540e6d6d6a8419673f39801a7501768a7e919",
+      "golden_sha256": "1d1f8adf5f03cce85533ad7b66ceca4db84fda4e05e95f9bed523a3dac9be32d",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-aligned-legal",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-aligned-legal.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-aligned-legal.expected",
+      "source_sha256": "4134d44f0b01e31532074affa6d16e18909e84f2a15d14a4cc3f4bb8fec1b724",
+      "golden_sha256": "50609c1c9ed50aaaef1bbd2f5925fbf5a0b784ee2669e3312dcf4e6fd5ccbba6",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-mu-reference-new",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-mu-reference-new.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-mu-reference-new.expected",
+      "source_sha256": "79af8c65910124b0cb0b32b0aec053829706df386d4a240a9bdef820798ccc37",
+      "golden_sha256": "486487e7a8e3c4e425cdfd5ff0a80cefb891525fde4ecc34444a20a8832d46e6",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-mu-reference-uninit",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-mu-reference-uninit.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-mu-reference-uninit.expected",
+      "source_sha256": "dc7156cc3c7d73cf99eb1ba25c304edb16c52a1d62bf1ce52ff07bf1fd68d7ae",
+      "golden_sha256": "5bb65539db89d1487324617fd4bfda81f26e660b9e1d9d2af153f96114ef2f42",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-mu-value-new",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-mu-value-new.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-mu-value-new.expected",
+      "source_sha256": "64a4d95ff93a91527bacffc06ffa84143031fb36fd30b9d0eefd6a0d6abde2a4",
+      "golden_sha256": "f2ae3629eb78f40f568bb7c371b601439e629001a8031218a2bc4bed1aa5a246",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-mu-value-uninit",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-mu-value-uninit.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-mu-value-uninit.expected",
+      "source_sha256": "997d4d0b05a6eb8ede32f819a3d31109fe58fb5af7337be97a3885377c4cd45d",
+      "golden_sha256": "37bdd5c5d5aa454cec1dd4bcff275f6e08052d9be60c861f6fee6c0c965806fa",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-padded",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-padded.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-padded.expected",
+      "source_sha256": "68a6397a2ee8f9c2c1c6c928b3cbb77dfa3bbd74e8cf696fd8bf632798eb76d4",
+      "golden_sha256": "c07f12d4a288634ef41538885b0247dfd738e99bdf8b8f232f60f3dfe737a53f",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-raw-hole",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-raw-hole.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-raw-hole.expected",
+      "source_sha256": "a5bb0b83afb23a95a2511c34513c53bb95686c5cca06e1986ab08ccbc4f5637d",
+      "golden_sha256": "b384ce683b2f16142243ef5958ebef2a760215ad704d827453d8d79b7a58342f",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-raw-legal",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-raw-legal.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-raw-legal.expected",
+      "source_sha256": "4e35e57c4b50e4d591efecf10a3b402b963045b2ed62bb08b99be23cbb9da65b",
+      "golden_sha256": "c4907fcc009f37229abf998fd5fe0129b53f04f24b212fd01f6c806f07d188c7",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-reference-hole",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-reference-hole.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-reference-hole.expected",
+      "source_sha256": "b01315a14b6a7bac3c5846ea30e656c7f9d8712d8886e3641462a89175494bad",
+      "golden_sha256": "a59acfb8885e021f2ac5573558a39326497766d21452ee24984d3b1743c59be3",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-reference-legal",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-reference-legal.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-reference-legal.expected",
+      "source_sha256": "5ed5c749247eaca38e5107b0c875efb8c49a232a6840d7d78f7f01d4b90439a1",
+      "golden_sha256": "62164ea9e366e5dd1ac99da27b7ff7d6b3d36c241b695c666af93a837c215a5b",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-scalar",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-scalar.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-scalar.expected",
+      "source_sha256": "6fd868a4b0363c68d84d56efcce9da6e639f3c1e7e9e5acf16c01d0ffbf1e5c2",
+      "golden_sha256": "03b188faa7f7ae3c49205b6931f3201dd31d7b71edb9afbf480bfc50022a0c4e",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-union-reference",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-union-reference.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-union-reference.expected",
+      "source_sha256": "9373e13da78a5487aedee7e7abd039f42c1c2a443e23c288b65c64e2cf02fcc2",
+      "golden_sha256": "65aaa9a08dd62e364c924ce9cda114a9ecfbe3fc1db382dd4f839046b230bf65",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-union-value",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-union-value.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-union-value.expected",
+      "source_sha256": "a5bdf2f7f5c263b4580e7c6cd1dc765a92ceb3c3f83e181bb9b4f05f095ccef1",
+      "golden_sha256": "1625e9e44b90f14416b302203a6ec2d5f952cd2d9689af3729297961741ce148",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-unit-hole",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-unit-hole.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-unit-hole.expected",
+      "source_sha256": "f4934b5d6e8b708bf65688718ac60d6bdfe8202d8757ce2b9610ad4a925989cd",
+      "golden_sha256": "e4a557521b82386f46c2238617a4dc85f749bedaca50f325231bd60d8f2d3923",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/capture-unit-legal",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/capture-unit-legal.rs",
+      "golden": "tests/expected/uninit/closure-zst/capture-unit-legal.expected",
+      "source_sha256": "62e582812a3f88a89eea98b7c2ddbf26aad8ac3f21b9c3201a88307cd700a9da",
+      "golden_sha256": "8a1572b39b750f5a26fba68dd38301a57e4bbddf9c8c7898b74b745021133b23",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/scalar-pfc-hole",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/scalar-pfc-hole.rs",
+      "golden": "tests/expected/uninit/closure-zst/scalar-pfc-hole.expected",
+      "source_sha256": "6c7eadadb7ca5ecf36babd733a9b2878928718c0f54696bc0b1e5c7dafc902a4",
+      "golden_sha256": "742cd8f652e98a4b0a9526a1bbdb61e73cc2c115093926e2a432c33bec243698",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "closure-zst/scalar-pfc-legal",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs",
+      "golden": "tests/expected/uninit/closure-zst/scalar-pfc-legal.expected",
+      "source_sha256": "439c9c9817875a0554fbf43a14eb7f871a3ab23cc038605afcead23a719ee4f0",
+      "golden_sha256": "bbb0702f4dfb3bf0487b79fb5c29ef3c138582e4279ce2eb52a4070bc3cb2c40",
+      "dependency_analysis": "Zero-sized environment or recursive actual capture mask. Preserve MU/union field refusals and reference/pointee distinction; no blanket storage admission.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "contract-immutable-masks/ensures-left-hole",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "IMMUTABLE",
+        "LAYOUT_RAW",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs",
+      "golden": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.expected",
+      "source_sha256": "47e48e69bff71f92f9f098acbea449cb44ce40034d9bea6eb6f3818bc6b3838f",
+      "golden_sha256": "4bedbd7632f8f9775f5f07a39430cb5b2e26c623bc551896b6ce9e395a9e1467",
+      "dependency_analysis": "Selected ordinary/ensures bodies from1, immutable origin masks2, raw_eq3 and storage4; generated environments now supported5.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "contract-immutable-masks/ensures-right-hole",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "IMMUTABLE",
+        "LAYOUT_RAW",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs",
+      "golden": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.expected",
+      "source_sha256": "6e0cb23853ca8954b1824adb5375df8c141da6fc2653f89c75eb96e0b9f10bda",
+      "golden_sha256": "e4c29764a41c9f1483b87dbeb5ad4268bc3b8ea952a5d6b9730326bf0c8d9b2a",
+      "dependency_analysis": "Selected ordinary/ensures bodies from1, immutable origin masks2, raw_eq3 and storage4; generated environments now supported5.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "contract-immutable-masks/ordinary-singleton",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "IMMUTABLE",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs",
+      "golden": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.expected",
+      "source_sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4",
+      "golden_sha256": "6fb62c8154c9248d51f319458e7caacfb13ded674d377a0e60d240f21ab31228",
+      "dependency_analysis": "Selected ordinary/ensures bodies from1, immutable origin masks2, raw_eq3 and storage4; generated environments now supported5.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "contract-modes/recursive-check",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/contract-modes/recursive-check.rs",
+      "golden": "tests/expected/uninit/contract-modes/recursive-check.expected",
+      "source_sha256": "7f4bfe55ba02710cff817a661233559e1422deafa8be264fadd22995fea200eb",
+      "golden_sha256": "38d5797de81544aea8b7927fd80f902993bd79d307563f83dce69405d068869f",
+      "dependency_analysis": "One oracle root per fixture. Recursive ordinary/check retain cycle Unsupported; simple-check positive. Replace callers select exact root with local PFC companion; no companion execution or mode support credit.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "contract-modes/recursive-ordinary",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/contract-modes/recursive-ordinary.rs",
+      "golden": "tests/expected/uninit/contract-modes/recursive-ordinary.expected",
+      "source_sha256": "ae47705a06682e319f3ffd104853397546164ea3f6add61e98eaa3f40230e559",
+      "golden_sha256": "0212a134db9a9a8bf797f1213ea5781a5c6a6c88aa457d32961f0be781dd803d",
+      "dependency_analysis": "One oracle root per fixture. Recursive ordinary/check retain cycle Unsupported; simple-check positive. Replace callers select exact root with local PFC companion; no companion execution or mode support credit.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "contract-modes/recursive-simple-check",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/contract-modes/recursive-simple-check.rs",
+      "golden": "tests/expected/uninit/contract-modes/recursive-simple-check.expected",
+      "source_sha256": "7e5a8eede08b3c5793e637de19aa64bf6394e098c9768904d458469b1edf1a7c",
+      "golden_sha256": "8eaa8afb0d03867d74b947269a5f4a7dd1483343ebb8eb6ac62adf724644d720",
+      "dependency_analysis": "One oracle root per fixture. Recursive ordinary/check retain cycle Unsupported; simple-check positive. Replace callers select exact root with local PFC companion; no companion execution or mode support credit.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "contract-modes/replace-ordinary",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/contract-modes/replace-ordinary.rs",
+      "golden": "tests/expected/uninit/contract-modes/replace-ordinary.expected",
+      "source_sha256": "72d45eaffa6771cbae294e91cb29919316a77c67e2b03451e5f717d10638a576",
+      "golden_sha256": "2ad109c9eab0e59959d75beb355a942e8350d005cc5b55d3d91aabd0e24d07d5",
+      "dependency_analysis": "One oracle root per fixture. Recursive ordinary/check retain cycle Unsupported; simple-check positive. Replace callers select exact root with local PFC companion; no companion execution or mode support credit.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "contract-modes/replace-simple-check",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/contract-modes/replace-simple-check.rs",
+      "golden": "tests/expected/uninit/contract-modes/replace-simple-check.expected",
+      "source_sha256": "cc01f62ee65b9b1f54020b229dce71d29d486ea9aee9fb5ee0d210fae5466cd8",
+      "golden_sha256": "dd843ecd361eea23d95fc6aaaa119f597c544fe09eb7659e0a01c673e9942b03",
+      "dependency_analysis": "One oracle root per fixture. Recursive ordinary/check retain cycle Unsupported; simple-check positive. Replace callers select exact root with local PFC companion; no companion execution or mode support credit.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "contract-modes/replace-transfer-uninitialized",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs",
+      "golden": "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.expected",
+      "source_sha256": "1ceb347fd29b394e7f2005752f597bee435723adc78d56ace33d479286440cba",
+      "golden_sha256": "43abe4527007c5e2456d2732274830b73a52c25f1c44c682daa9cec6ee0a05ac",
+      "dependency_analysis": "One oracle root per fixture. Recursive ordinary/check retain cycle Unsupported; simple-check positive. Replace callers select exact root with local PFC companion; no companion execution or mode support credit.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "contract-modes/replace-transfer",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/contract-modes/replace-transfer.rs",
+      "golden": "tests/expected/uninit/contract-modes/replace-transfer.expected",
+      "source_sha256": "d6673e266993cf7fc9b1606022d53424adde373ba6e3815ba7dfe796090b42b4",
+      "golden_sha256": "61c6c43754c416856102967388b117647b9f79c2e860b80e1e14271d4f34567b",
+      "dependency_analysis": "One oracle root per fixture. Recursive ordinary/check retain cycle Unsupported; simple-check positive. Replace callers select exact root with local PFC companion; no companion execution or mode support credit.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "marker-hook-calls/generated-modifies-no-shadow",
+      "owner_slice": 4,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.rs",
+      "golden": "tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.expected",
+      "source_sha256": "f25fbf6a45e2e1e5dd334f0c14261e08122a3e265dde289fe2aa8dd47acc9a7f",
+      "golden_sha256": "942538b26c5a61be8333400fdec082c6a017f76ad4e4f50b6926357df37005d7",
+      "dependency_analysis": "Generated modifies environment captures out; exact Hook noncarrier behavior and payload SUCCESS from4/5. No F7 API.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "maybe-uninit-contract-clause/main",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-contract-clause/expected",
+      "source_sha256": "16cbc2c27e1c1d6b3edd45573536b769ef7b48be781c341fa755263d25d018ad",
+      "golden_sha256": "a31748d88e349e90aa9770ed669350efb1f4064c0dad723fa6716a716eb54c4c",
+      "dependency_analysis": "Preserve clause intended negative and exact N1; closure support is final prerequisite.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "maybe-uninit-contract-frame/main",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+      "golden": "tests/expected/uninit/maybe-uninit-contract-frame/expected",
+      "source_sha256": "207273b3c629331304441126e3a6411c316cdab084a06ca936ffc18139cc1440",
+      "golden_sha256": "8d1b564b94ce7346a69c0993151e861f277c05f465495b55c965a08807d54eb2",
+      "dependency_analysis": "Preserve outside-assigns failure and exact N1 with useful legal initialization/allowed write controls; no private shadow frame pollution.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "ordinary-slots/positive",
+      "owner_slice": 1,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/ordinary-slots/positive.rs",
+      "golden": "tests/expected/uninit/ordinary-slots/positive.expected",
+      "source_sha256": "599877efcbd1f8bda19ec28b954f412ab0a03fd06c470f12043206bdbcf88759",
+      "golden_sha256": "4f462c309bd7c89f204dd837a4e6df2fc577f1bf3d3034b48f51947a865d09e6",
+      "dependency_analysis": "Scalar/ref entry before address setters, wrapper move/return and capture-free ordinary/PFC paths. Exact4 prerequisites plus empty closure layout5.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "points-to-cycles/capture-free",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/points-to-cycles/capture-free.rs",
+      "golden": "tests/expected/uninit/points-to-cycles/capture-free.expected",
+      "source_sha256": "2b785e11971bc41a8e0b351f788433c014968eb286069c262a3b87b21c95bf2a",
+      "golden_sha256": "5c0b0828683686f67ceaff2accd66e66dbd34228cbfda4055eecf901ba083d1c",
+      "dependency_analysis": "Capture-free recursive PFC boundary retains accepted cycle-analysis semantics; no new recursion/isolation requirement.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "private-transfer-frame/lawful-modifies",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs",
+      "golden": "tests/expected/uninit/private-transfer-frame/lawful-modifies.expected",
+      "source_sha256": "32c1342513dd0588d0e3f5ea5991f64538b0506964fc821d4bc201bb66cc5fc0",
+      "golden_sha256": "3c69a644f3542e6cdd941deb81a355068c68e7de7b62e71aef94371d16e94861",
+      "dependency_analysis": "Legal modifies with verifier-private transfer state excluded from user frame; exact N0 and useful outside assertion. Storage4 plus captured PFC5.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "root-composition/cycle-root",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "IMMUTABLE",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/root-composition/cycle-root.rs",
+      "golden": "tests/expected/uninit/root-composition/cycle-root.expected",
+      "source_sha256": "417976207cfda5d1be3b6fe6136be7044b9d9d9c680006aad2f420eb7a5f7b17",
+      "golden_sha256": "ad85a681a9b43f0e66ee340651a415cb541f0727c3895e78eb144d5ad5142b50",
+      "dependency_analysis": "Each exported root is a separate fixture/model; cycle and unrelated legal root are separate source files. Does not assert mixed-vs-singleton inventory or F7 structural isolation.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "root-composition/immutable-hole-negative",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "IMMUTABLE",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/root-composition/immutable-hole-negative.rs",
+      "golden": "tests/expected/uninit/root-composition/immutable-hole-negative.expected",
+      "source_sha256": "2834ee12307663fd98bb44e03812c021400aa8c68fc064594a73f25097678f17",
+      "golden_sha256": "3e7a1ea0aa56c17832d4000a9be5e08ce09363dc134f59397abc5ed57f564c33",
+      "dependency_analysis": "Each exported root is a separate fixture/model; cycle and unrelated legal root are separate source files. Does not assert mixed-vs-singleton inventory or F7 structural isolation.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "root-composition/immutable-legal",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "IMMUTABLE",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/root-composition/immutable-legal.rs",
+      "golden": "tests/expected/uninit/root-composition/immutable-legal.expected",
+      "source_sha256": "55aaf26e48072720c1a2b04de1be483d55b27bf91152bbbb7bfc8bea7566a49a",
+      "golden_sha256": "38245e6a42448202b3a1b46c77c232239630a04e85cb5ced4411dfd12edcff0f",
+      "dependency_analysis": "Each exported root is a separate fixture/model; cycle and unrelated legal root are separate source files. Does not assert mixed-vs-singleton inventory or F7 structural isolation.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "root-composition/ordinary-ensures-legal",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "IMMUTABLE",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/root-composition/ordinary-ensures-legal.rs",
+      "golden": "tests/expected/uninit/root-composition/ordinary-ensures-legal.expected",
+      "source_sha256": "7424cf66ef558e8e91d94df8e6cbb4aa554f3b6f43b57a7c3750b6406f9d1542",
+      "golden_sha256": "4b9d8cb0e2ecc5d0a23e23fe556a2624f7e8dc3b1a99083837d406ddfc54082d",
+      "dependency_analysis": "Each exported root is a separate fixture/model; cycle and unrelated legal root are separate source files. Does not assert mixed-vs-singleton inventory or F7 structural isolation.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "root-composition/pfc-legal",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "IMMUTABLE",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/root-composition/pfc-legal.rs",
+      "golden": "tests/expected/uninit/root-composition/pfc-legal.expected",
+      "source_sha256": "45b6525e939c3931f197530079ee994e571c0796e14da420bbe84bbd4c9bab8b",
+      "golden_sha256": "a8dc5664c93b42baaa969f7b8169058f2247db2d20faeb95a0eb33a26cd4f49b",
+      "dependency_analysis": "Each exported root is a separate fixture/model; cycle and unrelated legal root are separate source files. Does not assert mixed-vs-singleton inventory or F7 structural isolation.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "root-composition/pfc-negative",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "IMMUTABLE",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/root-composition/pfc-negative.rs",
+      "golden": "tests/expected/uninit/root-composition/pfc-negative.expected",
+      "source_sha256": "81adfe8b2eaa4dd464c8b9597d482f13f94459a1b3eca63eebc61f907e6474d3",
+      "golden_sha256": "3f44aff7d460ff39b28cd695ef65babdd6f31b55481057871bb4085ef142405f",
+      "dependency_analysis": "Each exported root is a separate fixture/model; cycle and unrelated legal root are separate source files. Does not assert mixed-vs-singleton inventory or F7 structural isolation.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "root-composition/unrelated-legal-after-cycle",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "IMMUTABLE",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.rs",
+      "golden": "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.expected",
+      "source_sha256": "3a9b119ab84fe086413da6e0a16dab8f445f048409d81fc91347d5228c4c00a9",
+      "golden_sha256": "427fee2f9302164f014a0174dcba2c6c0d279395c9adf163280c3078d37db458",
+      "dependency_analysis": "Each exported root is a separate fixture/model; cycle and unrelated legal root are separate source files. Does not assert mixed-vs-singleton inventory or F7 structural isolation.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "transfer-qualification/legal-ordinary",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/transfer-qualification/legal-ordinary.rs",
+      "golden": "tests/expected/uninit/transfer-qualification/legal-ordinary.expected",
+      "source_sha256": "7595b7fae268fff14aa6225c14f9dfbdc4de5f811995683acf54832ba68b7eb8",
+      "golden_sha256": "eaf4d5106a6bbfda3b5fa2c56489b50235484fed5847957332c5d54dd1663293",
+      "dependency_analysis": "Ordinary/PFC valid transfer and outer ensures-hole exact N3. Existing normal-abort/out-pointer cases remain unchanged at4.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "transfer-qualification/legal-pfc",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/transfer-qualification/legal-pfc.rs",
+      "golden": "tests/expected/uninit/transfer-qualification/legal-pfc.expected",
+      "source_sha256": "f8d7df3947347609f1f18b98f002bd5f0095ff323d1b6d2a778479b953b7f349",
+      "golden_sha256": "04b48b5af6a406980ee62d208978f82487f43e9ddd950d07b9e56748bc6a3c00",
+      "dependency_analysis": "Ordinary/PFC valid transfer and outer ensures-hole exact N3. Existing normal-abort/out-pointer cases remain unchanged at4.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    },
+    {
+      "id": "transfer-qualification/postcondition-hole",
+      "owner_slice": 5,
+      "first_executable_head": 5,
+      "prerequisites": [
+        "ANALYSIS",
+        "STORAGE",
+        "CLOSURE"
+      ],
+      "input": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+      "golden": "tests/expected/uninit/transfer-qualification/postcondition-hole.expected",
+      "source_sha256": "92cfe76cd0e627656c9f55b3f4c7703d9cd112043d2cfb01a5a2459bb9b561b2",
+      "golden_sha256": "742cd8f652e98a4b0a9526a1bbdb61e73cc2c115093926e2a432c33bec243698",
+      "dependency_analysis": "Ordinary/PFC valid transfer and outer ensures-hole exact N3. Existing normal-abort/out-pointer cases remain unchanged at4.",
+      "E1_required": false,
+      "F7_required": false,
+      "exact_F_pair": true,
+      "oracle_source": "ORACLE-DELTA.json",
+      "native_expansion_MIR_runtime": "NOT_RUN"
+    }
+  ],
+  "independent_review": "INDEPENDENT-SEAM-REVIEW.json",
+  "E1_production_prerequisites": "All projected-raw/address, ordinary-union constant and unsized guards already accepted4; no owner6 production residual.",
+  "F7_scope": "No F7 API/wrappers imported. Exact goldens do not claim structural root isolation. Native unexpected accumulation/extra check/refusal remains a STOP, not a golden update.",
+  "limits": "Source and map analysis, exact identity only; no Rust expansion/typechecking/MIR binding or runtime proof."
+}

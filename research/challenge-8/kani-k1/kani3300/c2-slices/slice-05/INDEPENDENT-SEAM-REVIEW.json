@@ -1,0 +1,31 @@
+{
+  "status": "NO_ACTIONABLE_FINDINGS_BOUNDED_STATIC_REVIEW",
+  "reviewer": {
+    "task": "/root/closure_seam_review",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "fork_turns": "none",
+    "nested_delegation": false
+  },
+  "source_sha": "96f5d5dc8dedd369c6986a4f1dd5e698b6167f0f",
+  "base_sha": "345cedfd67df679e326474385308349d609fc43d",
+  "reference_F": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "production": {
+    "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+    "candidate_blob": "1cba3ff26fb96d4d9a248c4ef861d8c4d6c82e73",
+    "base_blob": "b9daefb9368cfcba03e99c8cde34dc61952c4497",
+    "candidate_equals_F": true
+  },
+  "findings": [],
+  "scope": [
+    "Existing imports and public/internal type context conversion, TLS exit before public recursion",
+    "Monomorphized captures agree with codegen_ty_closure; closure layout field indices/order/offsets/current_offset; zero-byte sized environment",
+    "All47 candidate source/golden pairs read;94 blobs compared to F with no mismatch",
+    "No apparent stage6 dependency or F7 delayed-isolation API expectation",
+    "Multi-harness closure/ordinary fixtures and their golden harness counts; Replace exact caller selector/local PFC companions",
+    "Separate roots preserve cycle boundary, unrelated legal root, immutable and PFC negatives/positives",
+    "Union capture refusals; recursive ordinary/check Unsupported vs simple-check legal",
+    "DOCS-MAP has zero owner5 segments; no export prose added"
+  ],
+  "limits": "Static source review only; no compile, native tests, build, CI or proof result. Full worker15 review remains PENDING."
+}

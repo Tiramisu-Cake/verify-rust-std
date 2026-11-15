@@ -1,0 +1,5038 @@
+{
+  "status": "FAIL",
+  "base": "345cedfd67df679e326474385308349d609fc43d",
+  "head": "96f5d5dc8dedd369c6986a4f1dd5e698b6167f0f",
+  "reference": "ad499e41dd2db9ccd432f89721638a1f3a0bbd44",
+  "changed_rust_file_count": 48,
+  "generic_types_checked_repo_wide": [
+    "Offset",
+    "RefWrapper"
+  ],
+  "files": [
+    {
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "head_sha256": "8337bd6afe093594855a9e7061ccb408f7a181ec7b0305c736f994df0c6f6a45",
+      "declarations_impls_uses_total": 33,
+      "changed_or_added": [],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: fmt :: Display",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: fmt :: Display",
+          "token_start": 0,
+          "token_end": 6
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_attr_ir :: lang_items :: LangItem",
+          "container": [],
+          "line": 8,
+          "signature": "use rustc_attr_ir :: lang_items :: LangItem",
+          "token_start": 7,
+          "token_end": 13
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_middle :: ty :: TyCtxt",
+          "container": [],
+          "line": 9,
+          "signature": "use rustc_middle :: ty :: TyCtxt",
+          "token_start": 14,
+          "token_end": 20
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: { CrateDef , CrateDefType , rustc_internal }",
+          "container": [],
+          "line": 10,
+          "signature": "use rustc_public :: { CrateDef , CrateDefType , rustc_internal }",
+          "token_start": 21,
+          "token_end": 31
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public :: { abi :: { FieldsShape , Scalar , TagEncoding , ValueRepr , VariantsShape } , target :: { MachineInfo , MachineSize } , ty :: { AdtKind , GenericArgKind , RigidTy , Ty , TyKind , UintTy , VariantIdx } , }",
+          "container": [],
+          "line": 11,
+          "signature": "use rustc_public :: { abi :: { FieldsShape , Scalar , TagEncoding , ValueRepr , VariantsShape } , target :: { MachineInfo , MachineSize } , ty :: { AdtKind , GenericArgKind , RigidTy , Ty , TyKind , UintTy , VariantIdx } , }",
+          "token_start": 32,
+          "token_end": 77
+        },
+        {
+          "kind": "use",
+          "name": "use rustc_public_bridge :: IndexedVal",
+          "container": [],
+          "line": 16,
+          "signature": "use rustc_public_bridge :: IndexedVal",
+          "token_start": 78,
+          "token_end": 82
+        },
+        {
+          "kind": "use",
+          "name": "use super :: PointeeLayout",
+          "container": [
+            "mod argument_size_tests"
+          ],
+          "line": 570,
+          "signature": "use super :: PointeeLayout",
+          "token_start": 3784,
+          "token_end": 3788
+        }
+      ],
+      "impls_current": [
+        {
+          "kind": "impl",
+          "name": "impl PointeeLayout",
+          "container": [],
+          "line": 57,
+          "signature": "impl PointeeLayout",
+          "token_start": 226,
+          "token_end": 228
+        },
+        {
+          "kind": "impl",
+          "name": "impl Display for LayoutComputationError",
+          "container": [],
+          "line": 95,
+          "signature": "impl Display for LayoutComputationError",
+          "token_start": 440,
+          "token_end": 444
+        },
+        {
+          "kind": "impl",
+          "name": "impl PointeeInfo",
+          "container": [],
+          "line": 140,
+          "signature": "impl PointeeInfo",
+          "token_start": 720,
+          "token_end": 722
+        }
+      ]
+    },
+    {
+      "path": "tests/expected/uninit/closure-upvars/holes.rs",
+      "head_sha256": "6da4a03e0e5d5691cce5bd4f851da704ea275a18f50fa109fd666678182fd45a",
+      "declarations_impls_uses_total": 9,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 9,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 14,
+          "token_end": 25,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_call",
+          "container": [],
+          "line": 12,
+          "signature": "fn copy_call < F : Copy + Fn ( ) -> u8 > ( callback : F ) -> u8",
+          "token_start": 34,
+          "token_end": 54,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "two_refs",
+          "container": [],
+          "line": 18,
+          "signature": "fn two_refs ( initialized : bool ) -> u8",
+          "token_start": 86,
+          "token_end": 95,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "two_refs_initialized",
+          "container": [],
+          "line": 37,
+          "signature": "fn two_refs_initialized ( )",
+          "token_start": 222,
+          "token_end": 226,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "two_refs_preserve_hole",
+          "container": [],
+          "line": 44,
+          "signature": "fn two_refs_preserve_hole ( )",
+          "token_start": 264,
+          "token_end": 268,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "struct",
+          "name": "Padded",
+          "container": [],
+          "line": 51,
+          "signature": "struct Padded",
+          "token_start": 306,
+          "token_end": 308,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "read_closure_padding",
+          "container": [],
+          "line": 57,
+          "signature": "fn read_closure_padding < F : Copy + Fn ( ) -> * const u8 > ( callback : F ) -> u8",
+          "token_start": 325,
+          "token_end": 347,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_padding_stays_false",
+          "container": [],
+          "line": 67,
+          "signature": "fn capture_padding_stays_false ( )",
+          "token_start": 408,
+          "token_end": 412,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-upvars/layout.rs",
+      "head_sha256": "6c2aec8a236599cb99c87fd1adf1ac53eea996583cef82c93db413ed5bb51312",
+      "declarations_impls_uses_total": 8,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 9,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 14,
+          "token_end": 25,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "struct",
+          "name": "Padded",
+          "container": [],
+          "line": 13,
+          "signature": "struct Padded",
+          "token_start": 43,
+          "token_end": 45,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "struct",
+          "name": "Unit",
+          "container": [],
+          "line": 19,
+          "signature": "struct Unit",
+          "token_start": 64,
+          "token_end": 66,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "struct",
+          "name": "Offset",
+          "container": [],
+          "line": 23,
+          "signature": "struct Offset < F >",
+          "token_start": 83,
+          "token_end": 88,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "offset_copy_call",
+          "container": [],
+          "line": 29,
+          "signature": "fn offset_copy_call < F : Copy + Fn ( ) -> bool > ( callback : F ) -> bool",
+          "token_start": 105,
+          "token_end": 125,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "mixed_scalar_ref_padding",
+          "container": [],
+          "line": 39,
+          "signature": "fn mixed_scalar_ref_padding ( )",
+          "token_start": 192,
+          "token_end": 196,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "reordered_nested_captures",
+          "container": [],
+          "line": 68,
+          "signature": "fn reordered_nested_captures ( )",
+          "token_start": 386,
+          "token_end": 390,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-upvars/ordinary.rs",
+      "head_sha256": "49a56d035fc87de378521881f4d49166e59423fd90a8b88514608719ad1e4f5e",
+      "declarations_impls_uses_total": 10,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 9,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 14,
+          "token_end": 25,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_call",
+          "container": [],
+          "line": 12,
+          "signature": "fn copy_call < F : Copy + Fn ( ) -> bool > ( callback : F ) -> bool",
+          "token_start": 34,
+          "token_end": 54,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "captured_bool",
+          "container": [],
+          "line": 19,
+          "signature": "fn captured_bool ( flag : bool ) -> bool",
+          "token_start": 86,
+          "token_end": 95,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "bool_captures_true_false",
+          "container": [],
+          "line": 31,
+          "signature": "fn bool_captures_true_false ( )",
+          "token_start": 157,
+          "token_end": 161,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "payload_is_17",
+          "container": [],
+          "line": 38,
+          "signature": "fn payload_is_17 ( value : & MaybeUninit < u8 > ) -> bool",
+          "token_start": 200,
+          "token_end": 213,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "captured_contract",
+          "container": [],
+          "line": 44,
+          "signature": "fn captured_contract ( value : MaybeUninit < u8 > , initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 268,
+          "token_end": 287,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "exercise_contract",
+          "container": [],
+          "line": 49,
+          "signature": "fn exercise_contract ( initialized : bool )",
+          "token_start": 290,
+          "token_end": 297,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "ordinary_captured_contract",
+          "container": [],
+          "line": 62,
+          "signature": "fn ordinary_captured_contract ( )",
+          "token_start": 382,
+          "token_end": 386,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "simple_check_captured_contract",
+          "container": [],
+          "line": 68,
+          "signature": "fn simple_check_captured_contract ( )",
+          "token_start": 415,
+          "token_end": 419,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-aligned-hole.rs",
+      "head_sha256": "6575e558829ccfd38c7e51416b2540e6d6d6a8419673f39801a7501768a7e919",
+      "declarations_impls_uses_total": 6,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "struct",
+          "name": "Aligned",
+          "container": [],
+          "line": 30,
+          "signature": "struct Aligned",
+          "token_start": 160,
+          "token_end": 162,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_aligned_hole",
+          "container": [],
+          "line": 33,
+          "signature": "fn capture_aligned_hole ( )",
+          "token_start": 169,
+          "token_end": 173,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-aligned-legal.rs",
+      "head_sha256": "4134d44f0b01e31532074affa6d16e18909e84f2a15d14a4cc3f4bb8fec1b724",
+      "declarations_impls_uses_total": 6,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "struct",
+          "name": "Aligned",
+          "container": [],
+          "line": 30,
+          "signature": "struct Aligned",
+          "token_start": 160,
+          "token_end": 162,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_aligned_legal",
+          "container": [],
+          "line": 33,
+          "signature": "fn capture_aligned_legal ( )",
+          "token_start": 169,
+          "token_end": 173,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-mu-reference-new.rs",
+      "head_sha256": "79af8c65910124b0cb0b32b0aec053829706df386d4a240a9bdef820798ccc37",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_mu_reference_new",
+          "container": [],
+          "line": 29,
+          "signature": "fn capture_mu_reference_new ( )",
+          "token_start": 147,
+          "token_end": 151,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-mu-reference-uninit.rs",
+      "head_sha256": "dc7156cc3c7d73cf99eb1ba25c304edb16c52a1d62bf1ce52ff07bf1fd68d7ae",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_mu_reference_uninit",
+          "container": [],
+          "line": 29,
+          "signature": "fn capture_mu_reference_uninit ( )",
+          "token_start": 147,
+          "token_end": 151,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-mu-value-new.rs",
+      "head_sha256": "64a4d95ff93a91527bacffc06ffa84143031fb36fd30b9d0eefd6a0d6abde2a4",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_mu_value_new",
+          "container": [],
+          "line": 29,
+          "signature": "fn capture_mu_value_new ( )",
+          "token_start": 147,
+          "token_end": 151,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-mu-value-uninit.rs",
+      "head_sha256": "997d4d0b05a6eb8ede32f819a3d31109fe58fb5af7337be97a3885377c4cd45d",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_mu_value_uninit",
+          "container": [],
+          "line": 29,
+          "signature": "fn capture_mu_value_uninit ( )",
+          "token_start": 147,
+          "token_end": 151,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-padded.rs",
+      "head_sha256": "68a6397a2ee8f9c2c1c6c928b3cbb77dfa3bbd74e8cf696fd8bf632798eb76d4",
+      "declarations_impls_uses_total": 6,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "struct",
+          "name": "Padded",
+          "container": [],
+          "line": 30,
+          "signature": "struct Padded ( u32 , u8 )",
+          "token_start": 157,
+          "token_end": 164,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_padded",
+          "container": [],
+          "line": 33,
+          "signature": "fn capture_padded ( )",
+          "token_start": 171,
+          "token_end": 175,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-raw-hole.rs",
+      "head_sha256": "a5bb0b83afb23a95a2511c34513c53bb95686c5cca06e1986ab08ccbc4f5637d",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_raw_hole",
+          "container": [],
+          "line": 29,
+          "signature": "fn capture_raw_hole ( )",
+          "token_start": 147,
+          "token_end": 151,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-raw-legal.rs",
+      "head_sha256": "4e35e57c4b50e4d591efecf10a3b402b963045b2ed62bb08b99be23cbb9da65b",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_raw_legal",
+          "container": [],
+          "line": 29,
+          "signature": "fn capture_raw_legal ( )",
+          "token_start": 147,
+          "token_end": 151,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-reference-hole.rs",
+      "head_sha256": "b01315a14b6a7bac3c5846ea30e656c7f9d8712d8886e3641462a89175494bad",
+      "declarations_impls_uses_total": 6,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "use",
+          "name": "use std :: cell :: Cell",
+          "container": [],
+          "line": 28,
+          "signature": "use std :: cell :: Cell",
+          "token_start": 141,
+          "token_end": 147,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "capture_reference_hole",
+          "container": [],
+          "line": 31,
+          "signature": "fn capture_reference_hole ( )",
+          "token_start": 154,
+          "token_end": 158,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        },
+        {
+          "kind": "use",
+          "name": "use std :: cell :: Cell",
+          "container": [],
+          "line": 28,
+          "signature": "use std :: cell :: Cell",
+          "token_start": 141,
+          "token_end": 147
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-reference-legal.rs",
+      "head_sha256": "5ed5c749247eaca38e5107b0c875efb8c49a232a6840d7d78f7f01d4b90439a1",
+      "declarations_impls_uses_total": 6,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "use",
+          "name": "use std :: cell :: Cell",
+          "container": [],
+          "line": 28,
+          "signature": "use std :: cell :: Cell",
+          "token_start": 141,
+          "token_end": 147,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "capture_reference_legal",
+          "container": [],
+          "line": 31,
+          "signature": "fn capture_reference_legal ( )",
+          "token_start": 154,
+          "token_end": 158,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        },
+        {
+          "kind": "use",
+          "name": "use std :: cell :: Cell",
+          "container": [],
+          "line": 28,
+          "signature": "use std :: cell :: Cell",
+          "token_start": 141,
+          "token_end": 147
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-scalar.rs",
+      "head_sha256": "6fd868a4b0363c68d84d56efcce9da6e639f3c1e7e9e5acf16c01d0ffbf1e5c2",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_scalar",
+          "container": [],
+          "line": 29,
+          "signature": "fn capture_scalar ( )",
+          "token_start": 147,
+          "token_end": 151,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-union-reference.rs",
+      "head_sha256": "9373e13da78a5487aedee7e7abd039f42c1c2a443e23c288b65c64e2cf02fcc2",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_union_reference",
+          "container": [],
+          "line": 36,
+          "signature": "fn capture_union_reference ( )",
+          "token_start": 175,
+          "token_end": 179,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-union-value.rs",
+      "head_sha256": "a5bdf2f7f5c263b4580e7c6cd1dc765a92ceb3c3f83e181bb9b4f05f095ccef1",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_union_value",
+          "container": [],
+          "line": 36,
+          "signature": "fn capture_union_value ( )",
+          "token_start": 175,
+          "token_end": 179,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-unit-hole.rs",
+      "head_sha256": "f4934b5d6e8b708bf65688718ac60d6bdfe8202d8757ce2b9610ad4a925989cd",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_unit_hole",
+          "container": [],
+          "line": 29,
+          "signature": "fn capture_unit_hole ( )",
+          "token_start": 147,
+          "token_end": 151,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/capture-unit-legal.rs",
+      "head_sha256": "62e582812a3f88a89eea98b7c2ddbf26aad8ac3f21b9c3201a88307cd700a9da",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "touch",
+          "container": [],
+          "line": 15,
+          "signature": "fn touch < T > ( _ : & T )",
+          "token_start": 58,
+          "token_end": 69,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "copy_and_call",
+          "container": [],
+          "line": 20,
+          "signature": "fn copy_and_call < F : Copy + Fn ( & MaybeUninit < u8 > ) -> bool > ( callback : F , payload : & MaybeUninit < u8 > , ) -> bool",
+          "token_start": 78,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_unit_legal",
+          "container": [],
+          "line": 29,
+          "signature": "fn capture_unit_legal ( )",
+          "token_start": 147,
+          "token_end": 151,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/scalar-pfc-hole.rs",
+      "head_sha256": "6c7eadadb7ca5ecf36babd733a9b2878928718c0f54696bc0b1e5c7dafc902a4",
+      "declarations_impls_uses_total": 4,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "postcondition_target",
+          "container": [],
+          "line": 15,
+          "signature": "fn postcondition_target ( ) -> MaybeUninit < u8 >",
+          "token_start": 79,
+          "token_end": 88,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "postcondition_reads_returned_hole",
+          "container": [],
+          "line": 20,
+          "signature": "fn postcondition_reads_returned_hole ( )",
+          "token_start": 116,
+          "token_end": 120,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/closure-zst/scalar-pfc-legal.rs",
+      "head_sha256": "439c9c9817875a0554fbf43a14eb7f871a3ab23cc038605afcead23a719ee4f0",
+      "declarations_impls_uses_total": 4,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "postcondition_target",
+          "container": [],
+          "line": 15,
+          "signature": "fn postcondition_target ( ) -> MaybeUninit < u8 >",
+          "token_start": 79,
+          "token_end": 88,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "postcondition_reads_initialized_return",
+          "container": [],
+          "line": 20,
+          "signature": "fn postcondition_reads_initialized_return ( )",
+          "token_start": 116,
+          "token_end": 120,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-left-hole.rs",
+      "head_sha256": "47e48e69bff71f92f9f098acbea449cb44ce40034d9bea6eb6f3818bc6b3838f",
+      "declarations_impls_uses_total": 4,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: intrinsics :: raw_eq",
+          "container": [],
+          "line": 9,
+          "signature": "use std :: intrinsics :: raw_eq",
+          "token_start": 16,
+          "token_end": 22,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 10,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 23,
+          "token_end": 29,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "promoted_hole",
+          "container": [],
+          "line": 17,
+          "signature": "fn promoted_hole ( ) -> & 'static [ MaybeUninit < u8 > ; 3 ]",
+          "token_start": 73,
+          "token_end": 88,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "ensures_left_hole",
+          "container": [],
+          "line": 25,
+          "signature": "fn ensures_left_hole ( )",
+          "token_start": 134,
+          "token_end": 138,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: intrinsics :: raw_eq",
+          "container": [],
+          "line": 9,
+          "signature": "use std :: intrinsics :: raw_eq",
+          "token_start": 16,
+          "token_end": 22
+        },
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 10,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 23,
+          "token_end": 29
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ensures-right-hole.rs",
+      "head_sha256": "6e0cb23853ca8954b1824adb5375df8c141da6fc2653f89c75eb96e0b9f10bda",
+      "declarations_impls_uses_total": 4,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: intrinsics :: raw_eq",
+          "container": [],
+          "line": 9,
+          "signature": "use std :: intrinsics :: raw_eq",
+          "token_start": 16,
+          "token_end": 22,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 10,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 23,
+          "token_end": 29,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "promoted_hole",
+          "container": [],
+          "line": 17,
+          "signature": "fn promoted_hole ( ) -> & 'static [ MaybeUninit < u8 > ; 3 ]",
+          "token_start": 73,
+          "token_end": 88,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "ensures_right_hole",
+          "container": [],
+          "line": 25,
+          "signature": "fn ensures_right_hole ( )",
+          "token_start": 134,
+          "token_end": 138,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: intrinsics :: raw_eq",
+          "container": [],
+          "line": 9,
+          "signature": "use std :: intrinsics :: raw_eq",
+          "token_start": 16,
+          "token_end": 22
+        },
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 10,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 23,
+          "token_end": 29
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/contract-immutable-masks/ordinary-singleton.rs",
+      "head_sha256": "99014f12f17699d257b9ddd44a4de05d24ca5c375863b0505b02f298a97c1bb4",
+      "declarations_impls_uses_total": 4,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 9,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "write_initialized",
+          "container": [],
+          "line": 15,
+          "signature": "fn write_initialized ( out : & mut [ u8 ; 3 ] ) -> u8",
+          "token_start": 92,
+          "token_end": 107,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "legal_ordinary_transfer",
+          "container": [],
+          "line": 36,
+          "signature": "fn legal_ordinary_transfer ( )",
+          "token_start": 257,
+          "token_end": 261,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/contract-modes/recursive-check.rs",
+      "head_sha256": "7f4bfe55ba02710cff817a661233559e1422deafa8be264fadd22995fea200eb",
+      "declarations_impls_uses_total": 6,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "relay",
+          "container": [],
+          "line": 9,
+          "signature": "fn relay ( value : MaybeUninit < u8 > ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 29,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "payload_is_42",
+          "container": [],
+          "line": 14,
+          "signature": "fn payload_is_42 ( value : & MaybeUninit < u8 > ) -> bool",
+          "token_start": 39,
+          "token_end": 52,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "input",
+          "container": [],
+          "line": 18,
+          "signature": "fn input ( initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 65,
+          "token_end": 77,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "recursive_transfer",
+          "container": [],
+          "line": 26,
+          "signature": "fn recursive_transfer ( value : MaybeUninit < u8 > , initialized : bool , depth : u8 ) -> MaybeUninit < u8 >",
+          "token_start": 157,
+          "token_end": 180,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "recursive_check",
+          "container": [],
+          "line": 32,
+          "signature": "fn recursive_check ( )",
+          "token_start": 227,
+          "token_end": 231,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/contract-modes/recursive-ordinary.rs",
+      "head_sha256": "ae47705a06682e319f3ffd104853397546164ea3f6add61e98eaa3f40230e559",
+      "declarations_impls_uses_total": 6,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "relay",
+          "container": [],
+          "line": 9,
+          "signature": "fn relay ( value : MaybeUninit < u8 > ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 29,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "payload_is_42",
+          "container": [],
+          "line": 14,
+          "signature": "fn payload_is_42 ( value : & MaybeUninit < u8 > ) -> bool",
+          "token_start": 39,
+          "token_end": 52,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "input",
+          "container": [],
+          "line": 18,
+          "signature": "fn input ( initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 65,
+          "token_end": 77,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "recursive_transfer",
+          "container": [],
+          "line": 26,
+          "signature": "fn recursive_transfer ( value : MaybeUninit < u8 > , initialized : bool , depth : u8 ) -> MaybeUninit < u8 >",
+          "token_start": 157,
+          "token_end": 180,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "recursive_ordinary",
+          "container": [],
+          "line": 32,
+          "signature": "fn recursive_ordinary ( )",
+          "token_start": 224,
+          "token_end": 228,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/contract-modes/recursive-simple-check.rs",
+      "head_sha256": "7e5a8eede08b3c5793e637de19aa64bf6394e098c9768904d458469b1edf1a7c",
+      "declarations_impls_uses_total": 6,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "relay",
+          "container": [],
+          "line": 9,
+          "signature": "fn relay ( value : MaybeUninit < u8 > ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 29,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "payload_is_42",
+          "container": [],
+          "line": 14,
+          "signature": "fn payload_is_42 ( value : & MaybeUninit < u8 > ) -> bool",
+          "token_start": 39,
+          "token_end": 52,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "input",
+          "container": [],
+          "line": 18,
+          "signature": "fn input ( initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 65,
+          "token_end": 77,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "bounded_transfer",
+          "container": [],
+          "line": 25,
+          "signature": "fn bounded_transfer ( value : MaybeUninit < u8 > , initialized : bool , depth : u8 ) -> MaybeUninit < u8 >",
+          "token_start": 151,
+          "token_end": 174,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "recursive_simple_check",
+          "container": [],
+          "line": 38,
+          "signature": "fn recursive_simple_check ( )",
+          "token_start": 233,
+          "token_end": 237,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/contract-modes/replace-ordinary.rs",
+      "head_sha256": "72d45eaffa6771cbae294e91cb29919316a77c67e2b03451e5f717d10638a576",
+      "declarations_impls_uses_total": 7,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "relay",
+          "container": [],
+          "line": 9,
+          "signature": "fn relay ( value : MaybeUninit < u8 > ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 29,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "payload_is_42",
+          "container": [],
+          "line": 14,
+          "signature": "fn payload_is_42 ( value : & MaybeUninit < u8 > ) -> bool",
+          "token_start": 39,
+          "token_end": 52,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "input",
+          "container": [],
+          "line": 18,
+          "signature": "fn input ( initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 65,
+          "token_end": 77,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "passthrough",
+          "container": [],
+          "line": 24,
+          "signature": "fn passthrough ( value : MaybeUninit < u8 > , initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 139,
+          "token_end": 158,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "through_helper",
+          "container": [],
+          "line": 29,
+          "signature": "fn through_helper ( value : MaybeUninit < u8 > , initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 171,
+          "token_end": 190,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "replace_ordinary",
+          "container": [],
+          "line": 35,
+          "signature": "fn replace_ordinary ( )",
+          "token_start": 216,
+          "token_end": 220,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/contract-modes/replace-simple-check.rs",
+      "head_sha256": "cc01f62ee65b9b1f54020b229dce71d29d486ea9aee9fb5ee0d210fae5466cd8",
+      "declarations_impls_uses_total": 7,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "relay",
+          "container": [],
+          "line": 9,
+          "signature": "fn relay ( value : MaybeUninit < u8 > ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 29,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "payload_is_42",
+          "container": [],
+          "line": 14,
+          "signature": "fn payload_is_42 ( value : & MaybeUninit < u8 > ) -> bool",
+          "token_start": 39,
+          "token_end": 52,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "input",
+          "container": [],
+          "line": 18,
+          "signature": "fn input ( initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 65,
+          "token_end": 77,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "passthrough",
+          "container": [],
+          "line": 24,
+          "signature": "fn passthrough ( value : MaybeUninit < u8 > , initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 139,
+          "token_end": 158,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "through_helper",
+          "container": [],
+          "line": 29,
+          "signature": "fn through_helper ( value : MaybeUninit < u8 > , initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 171,
+          "token_end": 190,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "replace_simple_check",
+          "container": [],
+          "line": 35,
+          "signature": "fn replace_simple_check ( )",
+          "token_start": 219,
+          "token_end": 223,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/contract-modes/replace-transfer-uninitialized.rs",
+      "head_sha256": "1ceb347fd29b394e7f2005752f597bee435723adc78d56ace33d479286440cba",
+      "declarations_impls_uses_total": 8,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "relay",
+          "container": [],
+          "line": 9,
+          "signature": "fn relay ( value : MaybeUninit < u8 > ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 29,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "payload_is_42",
+          "container": [],
+          "line": 14,
+          "signature": "fn payload_is_42 ( value : & MaybeUninit < u8 > ) -> bool",
+          "token_start": 39,
+          "token_end": 52,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "input",
+          "container": [],
+          "line": 18,
+          "signature": "fn input ( initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 65,
+          "token_end": 77,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "passthrough",
+          "container": [],
+          "line": 24,
+          "signature": "fn passthrough ( value : MaybeUninit < u8 > , initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 139,
+          "token_end": 158,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "through_helper",
+          "container": [],
+          "line": 29,
+          "signature": "fn through_helper ( value : MaybeUninit < u8 > , initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 171,
+          "token_end": 190,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "replace_transfer_uninitialized",
+          "container": [],
+          "line": 36,
+          "signature": "fn replace_transfer_uninitialized ( )",
+          "token_start": 225,
+          "token_end": 229,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "replace_simple_check",
+          "container": [],
+          "line": 50,
+          "signature": "fn replace_simple_check ( )",
+          "token_start": 309,
+          "token_end": 313,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/contract-modes/replace-transfer.rs",
+      "head_sha256": "d6673e266993cf7fc9b1606022d53424adde373ba6e3815ba7dfe796090b42b4",
+      "declarations_impls_uses_total": 8,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "relay",
+          "container": [],
+          "line": 9,
+          "signature": "fn relay ( value : MaybeUninit < u8 > ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 29,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "payload_is_42",
+          "container": [],
+          "line": 14,
+          "signature": "fn payload_is_42 ( value : & MaybeUninit < u8 > ) -> bool",
+          "token_start": 39,
+          "token_end": 52,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "input",
+          "container": [],
+          "line": 18,
+          "signature": "fn input ( initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 65,
+          "token_end": 77,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "passthrough",
+          "container": [],
+          "line": 24,
+          "signature": "fn passthrough ( value : MaybeUninit < u8 > , initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 139,
+          "token_end": 158,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "through_helper",
+          "container": [],
+          "line": 29,
+          "signature": "fn through_helper ( value : MaybeUninit < u8 > , initialized : bool ) -> MaybeUninit < u8 >",
+          "token_start": 171,
+          "token_end": 190,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "replace_transfer",
+          "container": [],
+          "line": 36,
+          "signature": "fn replace_transfer ( )",
+          "token_start": 225,
+          "token_end": 229,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "replace_simple_check",
+          "container": [],
+          "line": 51,
+          "signature": "fn replace_simple_check ( )",
+          "token_start": 295,
+          "token_end": 299,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/marker-hook-calls/generated-modifies-no-shadow.rs",
+      "head_sha256": "f25fbf6a45e2e1e5dd334f0c14261e08122a3e265dde289fe2aa8dd47acc9a7f",
+      "declarations_impls_uses_total": 3,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 5,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "write",
+          "container": [],
+          "line": 8,
+          "signature": "fn write ( out : & mut MaybeUninit < u16 > )",
+          "token_start": 16,
+          "token_end": 28,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "generated_modifies_no_shadow",
+          "container": [],
+          "line": 13,
+          "signature": "fn generated_modifies_no_shadow ( )",
+          "token_start": 49,
+          "token_end": 53,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 5,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-clause/main.rs",
+      "head_sha256": "16cbc2c27e1c1d6b3edd45573536b769ef7b48be781c341fa755263d25d018ad",
+      "declarations_impls_uses_total": 6,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "choose",
+          "container": [],
+          "line": 9,
+          "signature": "fn choose ( a : MaybeUninit < u16 > , b : MaybeUninit < u16 > ) -> MaybeUninit < u16 >",
+          "token_start": 14,
+          "token_end": 36,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "relay",
+          "container": [],
+          "line": 15,
+          "signature": "fn relay ( a : MaybeUninit < u16 > , b : MaybeUninit < u16 > ) -> MaybeUninit < u16 >",
+          "token_start": 51,
+          "token_end": 73,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "clause_helper",
+          "container": [],
+          "line": 19,
+          "signature": "fn clause_helper ( ) -> bool",
+          "token_start": 81,
+          "token_end": 87,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "clause_target",
+          "container": [],
+          "line": 25,
+          "signature": "fn clause_target ( )",
+          "token_start": 129,
+          "token_end": 133,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "clause_pfc_negative",
+          "container": [],
+          "line": 28,
+          "signature": "fn clause_pfc_negative ( )",
+          "token_start": 144,
+          "token_end": 148,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/maybe-uninit-contract-frame/main.rs",
+      "head_sha256": "207273b3c629331304441126e3a6411c316cdab084a06ca936ffc18139cc1440",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "choose",
+          "container": [],
+          "line": 9,
+          "signature": "fn choose ( a : MaybeUninit < u16 > , b : MaybeUninit < u16 > ) -> MaybeUninit < u16 >",
+          "token_start": 14,
+          "token_end": 36,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "relay",
+          "container": [],
+          "line": 15,
+          "signature": "fn relay ( a : MaybeUninit < u16 > , b : MaybeUninit < u16 > ) -> MaybeUninit < u16 >",
+          "token_start": 51,
+          "token_end": 73,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "frame_target",
+          "container": [],
+          "line": 20,
+          "signature": "fn frame_target ( out : & mut u16 , outside : & mut u16 )",
+          "token_start": 90,
+          "token_end": 105,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "frame_negative",
+          "container": [],
+          "line": 27,
+          "signature": "fn frame_negative ( )",
+          "token_start": 153,
+          "token_end": 157,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/ordinary-slots/positive.rs",
+      "head_sha256": "599877efcbd1f8bda19ec28b954f412ab0a03fd06c470f12043206bdbcf88759",
+      "declarations_impls_uses_total": 11,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "scalar_slot",
+          "container": [],
+          "line": 9,
+          "signature": "fn scalar_slot ( initialized : bool ) -> bool",
+          "token_start": 14,
+          "token_end": 23,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "reference_identity",
+          "container": [],
+          "line": 23,
+          "signature": "fn reference_identity ( value : & bool ) -> & bool",
+          "token_start": 101,
+          "token_end": 112,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "reference_slot",
+          "container": [],
+          "line": 28,
+          "signature": "fn reference_slot ( value : & bool ) -> & bool",
+          "token_start": 122,
+          "token_end": 133,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "struct",
+          "name": "RefWrapper",
+          "container": [],
+          "line": 40,
+          "signature": "struct RefWrapper < 'a >",
+          "token_start": 203,
+          "token_end": 208,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "move_wrapper",
+          "container": [],
+          "line": 46,
+          "signature": "fn move_wrapper ( value : RefWrapper < '_ > ) -> RefWrapper < '_ >",
+          "token_start": 227,
+          "token_end": 242,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "scalar_parameters_true_false",
+          "container": [],
+          "line": 56,
+          "signature": "fn scalar_parameters_true_false ( )",
+          "token_start": 326,
+          "token_end": 330,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "reference_copy_move_return",
+          "container": [],
+          "line": 65,
+          "signature": "fn reference_copy_move_return ( )",
+          "token_start": 387,
+          "token_end": 391,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_free_slots",
+          "container": [],
+          "line": 77,
+          "signature": "fn capture_free_slots ( ) -> bool",
+          "token_start": 481,
+          "token_end": 487,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_free_ordinary",
+          "container": [],
+          "line": 87,
+          "signature": "fn capture_free_ordinary ( )",
+          "token_start": 559,
+          "token_end": 563,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_free_simple_check",
+          "container": [],
+          "line": 94,
+          "signature": "fn capture_free_simple_check ( )",
+          "token_start": 601,
+          "token_end": 605,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/points-to-cycles/capture-free.rs",
+      "head_sha256": "2b785e11971bc41a8e0b351f788433c014968eb286069c262a3b87b21c95bf2a",
+      "declarations_impls_uses_total": 3,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "recursive_control",
+          "container": [],
+          "line": 13,
+          "signature": "fn recursive_control ( ) -> MaybeUninit < u8 >",
+          "token_start": 38,
+          "token_end": 47,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "capture_free_recursive_check",
+          "container": [],
+          "line": 19,
+          "signature": "fn capture_free_recursive_check ( )",
+          "token_start": 87,
+          "token_end": 91,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/private-transfer-frame/lawful-modifies.rs",
+      "head_sha256": "32c1342513dd0588d0e3f5ea5991f64538b0506964fc821d4bc201bb66cc5fc0",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 8,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "choose",
+          "container": [],
+          "line": 11,
+          "signature": "fn choose ( a : MaybeUninit < u16 > , b : MaybeUninit < u16 > ) -> MaybeUninit < u16 >",
+          "token_start": 14,
+          "token_end": 36,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "relay",
+          "container": [],
+          "line": 17,
+          "signature": "fn relay ( a : MaybeUninit < u16 > , b : MaybeUninit < u16 > ) -> MaybeUninit < u16 >",
+          "token_start": 51,
+          "token_end": 73,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "frame_target",
+          "container": [],
+          "line": 23,
+          "signature": "fn frame_target ( out : & mut u16 , outside : & mut u16 ) -> u16",
+          "token_start": 116,
+          "token_end": 133,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "lawful_modifies_preserves_outside",
+          "container": [],
+          "line": 31,
+          "signature": "fn lawful_modifies_preserves_outside ( )",
+          "token_start": 183,
+          "token_end": 187,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 8,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/root-composition/cycle-root.rs",
+      "head_sha256": "417976207cfda5d1be3b6fe6136be7044b9d9d9c680006aad2f420eb7a5f7b17",
+      "declarations_impls_uses_total": 5,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "repeated_relay",
+          "container": [],
+          "line": 9,
+          "signature": "fn repeated_relay ( value : MaybeUninit < u8 > ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 29,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "payload_is_53",
+          "container": [],
+          "line": 14,
+          "signature": "fn payload_is_53 ( value : & MaybeUninit < u8 > ) -> bool",
+          "token_start": 39,
+          "token_end": 52,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "cycle_relay",
+          "container": [],
+          "line": 22,
+          "signature": "fn cycle_relay ( value : MaybeUninit < u8 > , initialized : bool , depth : u8 ) -> MaybeUninit < u8 >",
+          "token_start": 125,
+          "token_end": 148,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "cycle_root",
+          "container": [],
+          "line": 31,
+          "signature": "fn cycle_root ( )",
+          "token_start": 186,
+          "token_end": 190,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/root-composition/immutable-hole-negative.rs",
+      "head_sha256": "2834ee12307663fd98bb44e03812c021400aa8c68fc064594a73f25097678f17",
+      "declarations_impls_uses_total": 2,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "immutable_hole_negative",
+          "container": [],
+          "line": 11,
+          "signature": "fn immutable_hole_negative ( )",
+          "token_start": 27,
+          "token_end": 31,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/root-composition/immutable-legal.rs",
+      "head_sha256": "55aaf26e48072720c1a2b04de1be483d55b27bf91152bbbb7bfc8bea7566a49a",
+      "declarations_impls_uses_total": 2,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "immutable_legal",
+          "container": [],
+          "line": 11,
+          "signature": "fn immutable_legal ( )",
+          "token_start": 28,
+          "token_end": 32,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/root-composition/ordinary-ensures-legal.rs",
+      "head_sha256": "7424cf66ef558e8e91d94df8e6cbb4aa554f3b6f43b57a7c3750b6406f9d1542",
+      "declarations_impls_uses_total": 4,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "repeated_relay",
+          "container": [],
+          "line": 9,
+          "signature": "fn repeated_relay ( value : MaybeUninit < u8 > ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 29,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "ordinary_contract",
+          "container": [],
+          "line": 14,
+          "signature": "fn ordinary_contract ( value : MaybeUninit < u8 > ) -> MaybeUninit < u8 >",
+          "token_start": 60,
+          "token_end": 75,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "ordinary_ensures_legal",
+          "container": [],
+          "line": 19,
+          "signature": "fn ordinary_ensures_legal ( )",
+          "token_start": 87,
+          "token_end": 91,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/root-composition/pfc-legal.rs",
+      "head_sha256": "45b6525e939c3931f197530079ee994e571c0796e14da420bbe84bbd4c9bab8b",
+      "declarations_impls_uses_total": 3,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "pfc_contract",
+          "container": [],
+          "line": 10,
+          "signature": "fn pfc_contract ( value : u8 ) -> MaybeUninit < u8 >",
+          "token_start": 47,
+          "token_end": 59,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "pfc_legal",
+          "container": [],
+          "line": 16,
+          "signature": "fn pfc_legal ( )",
+          "token_start": 81,
+          "token_end": 85,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/root-composition/pfc-negative.rs",
+      "head_sha256": "81adfe8b2eaa4dd464c8b9597d482f13f94459a1b3eca63eebc61f907e6474d3",
+      "declarations_impls_uses_total": 3,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "pfc_negative_contract",
+          "container": [],
+          "line": 10,
+          "signature": "fn pfc_negative_contract ( value : u8 ) -> MaybeUninit < u8 >",
+          "token_start": 47,
+          "token_end": 59,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "pfc_negative",
+          "container": [],
+          "line": 16,
+          "signature": "fn pfc_negative ( )",
+          "token_start": 80,
+          "token_end": 84,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/root-composition/unrelated-legal-after-cycle.rs",
+      "head_sha256": "3a9b119ab84fe086413da6e0a16dab8f445f048409d81fc91347d5228c4c00a9",
+      "declarations_impls_uses_total": 3,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "repeated_relay",
+          "container": [],
+          "line": 9,
+          "signature": "fn repeated_relay ( value : MaybeUninit < u8 > ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 29,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "unrelated_legal_after_cycle",
+          "container": [],
+          "line": 14,
+          "signature": "fn unrelated_legal_after_cycle ( )",
+          "token_start": 38,
+          "token_end": 42,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 6,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/legal-ordinary.rs",
+      "head_sha256": "7595b7fae268fff14aa6225c14f9dfbdc4de5f811995683acf54832ba68b7eb8",
+      "declarations_impls_uses_total": 4,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 8,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 11,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "write_initialized",
+          "container": [],
+          "line": 17,
+          "signature": "fn write_initialized ( out : & mut [ u8 ; 3 ] ) -> u8",
+          "token_start": 92,
+          "token_end": 107,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "legal_ordinary_transfer",
+          "container": [],
+          "line": 38,
+          "signature": "fn legal_ordinary_transfer ( )",
+          "token_start": 257,
+          "token_end": 261,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 8,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/legal-pfc.rs",
+      "head_sha256": "f8d7df3947347609f1f18b98f002bd5f0095ff323d1b6d2a778479b953b7f349",
+      "declarations_impls_uses_total": 4,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 8,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 11,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "write_initialized",
+          "container": [],
+          "line": 17,
+          "signature": "fn write_initialized ( out : & mut [ u8 ; 3 ] ) -> u8",
+          "token_start": 92,
+          "token_end": 107,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "legal_pfc_transfer",
+          "container": [],
+          "line": 38,
+          "signature": "fn legal_pfc_transfer ( )",
+          "token_start": 260,
+          "token_end": 264,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 8,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    },
+    {
+      "path": "tests/expected/uninit/transfer-qualification/postcondition-hole.rs",
+      "head_sha256": "92cfe76cd0e627656c9f55b3f4c7703d9cd112043d2cfb01a5a2459bb9b561b2",
+      "declarations_impls_uses_total": 4,
+      "changed_or_added": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 8,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6,
+          "reference_match": true,
+          "baseline_F_import_union_match": true
+        },
+        {
+          "kind": "fn",
+          "name": "select",
+          "container": [],
+          "line": 11,
+          "signature": "fn select ( a : MaybeUninit < u8 > , b : MaybeUninit < u8 > , first : bool ) -> MaybeUninit < u8 >",
+          "token_start": 14,
+          "token_end": 40,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "postcondition_target",
+          "container": [],
+          "line": 17,
+          "signature": "fn postcondition_target ( ) -> MaybeUninit < u8 >",
+          "token_start": 79,
+          "token_end": 88,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        },
+        {
+          "kind": "fn",
+          "name": "postcondition_reads_returned_hole",
+          "container": [],
+          "line": 22,
+          "signature": "fn postcondition_reads_returned_hole ( )",
+          "token_start": 116,
+          "token_end": 120,
+          "reference_match": true,
+          "baseline_F_import_union_match": false
+        }
+      ],
+      "removed_or_replaced": [],
+      "imports_current": [
+        {
+          "kind": "use",
+          "name": "use std :: mem :: MaybeUninit",
+          "container": [],
+          "line": 8,
+          "signature": "use std :: mem :: MaybeUninit",
+          "token_start": 0,
+          "token_end": 6
+        }
+      ],
+      "impls_current": []
+    }
+  ],
+  "bound_api_calls": [
+    {
+      "contract": "observe-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 95,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "bind-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 340,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "bind-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 384,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "bind-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 465,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "bind-at-emission",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand.rs",
+      "line": 477,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "static-registration",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var.rs",
+      "line": 29,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "prepare",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "line": 140,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "finalize",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface.rs",
+      "line": 204,
+      "arity": 0,
+      "expected": 0
+    },
+    {
+      "contract": "observe-at-prepare",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "line": 166,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "static-qualification",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "line": 121,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "origin-registry",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "line": 102,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "target-compatibility",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "line": 265,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "origin-qualification",
+      "path": "kani-compiler/src/kani_middle/anonymous_allocations.rs",
+      "line": 69,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "analysis-root-and-recursive",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 222,
+      "arity": 8,
+      "expected": 8
+    },
+    {
+      "contract": "analysis-root-and-recursive",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 694,
+      "arity": 8,
+      "expected": 8
+    },
+    {
+      "contract": "analysis-resolver",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 366,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "graph-successors",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 581,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "graph-successors",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 601,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "regular-call-effects",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+      "line": 499,
+      "arity": 5,
+      "expected": 5
+    },
+    {
+      "contract": "origin-graph",
+      "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+      "line": 134,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "distinct-initial-target-helper",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 119,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "origin-target",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 52,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "raw-eq-and-existing-relevance-seeds",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 96,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "raw-eq-and-existing-relevance-seeds",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 109,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "raw-eq-and-existing-relevance-seeds",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 124,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "raw-eq-and-existing-relevance-seeds",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 125,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "raw-eq-and-existing-relevance-seeds",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 129,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "raw-eq-and-existing-relevance-seeds",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor.rs",
+      "line": 133,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "root-analysis",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "line": 146,
+      "arity": 5,
+      "expected": 5
+    },
+    {
+      "contract": "initial-target-constructor",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "line": 80,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "instrumenter-run-callers-with-tcx",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod.rs",
+      "line": 179,
+      "arity": 7,
+      "expected": 7
+    },
+    {
+      "contract": "qualification-storage",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 273,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "qualification-storage",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 288,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "qualification-storage",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 941,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "qualification-recognition",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 940,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "check-builder-dispatch",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 313,
+      "arity": 4,
+      "expected": 4
+    },
+    {
+      "contract": "operation-materialization",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 353,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "operation-materialization",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 490,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "operation-materialization",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 742,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "operation-type-dispatch-and-check-diagnostic",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 241,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "operation-type-dispatch-and-check-diagnostic",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 459,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "transfer-layout-boundary-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 718,
+      "arity": 0,
+      "expected": 0
+    },
+    {
+      "contract": "full-storage-deinitialization",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 261,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "full-storage-deinitialization",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 265,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "typed-payload-layout",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 285,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "builder-constant-mask",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "line": 192,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "instrumenter-run-callers-with-tcx",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "line": 67,
+      "arity": 7,
+      "expected": 7
+    },
+    {
+      "contract": "pointer-visitor-constructor",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "line": 74,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "pointer-resolver",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 1184,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "pointer-local-resolver",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 544,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "raw-byte-extent-type",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 661,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "transfer-storage-recognition-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 88,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "transfer-storage-recognition-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 554,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "transfer-storage-recognition-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 859,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "visitor-constant-mask",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 183,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "visitor-constant-mask",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 237,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "visitor-constant-mask",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 252,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "visitor-constant-mask",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 326,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "nested-reset-blackbox-and-ordinary",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 609,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "nested-reset-blackbox-and-ordinary",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 819,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "typed-transmute-predicate-shared",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 211,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "typed-transmute-predicate-shared",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor.rs",
+      "line": 989,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "reference-checkas-cast",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "line": 87,
+      "arity": 5,
+      "expected": 5
+    },
+    {
+      "contract": "reference-checkas-cast",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "line": 91,
+      "arity": 5,
+      "expected": 5
+    },
+    {
+      "contract": "reference-reborrow-and-existing-ref-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "line": 90,
+      "arity": 4,
+      "expected": 4
+    },
+    {
+      "contract": "reference-reborrow-and-existing-ref-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "line": 99,
+      "arity": 4,
+      "expected": 4
+    },
+    {
+      "contract": "reference-reborrow-and-existing-ref-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "line": 130,
+      "arity": 4,
+      "expected": 4
+    },
+    {
+      "contract": "reference-reborrow-and-existing-ref-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "line": 131,
+      "arity": 4,
+      "expected": 4
+    },
+    {
+      "contract": "reference-reborrow-and-existing-ref-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction.rs",
+      "line": 335,
+      "arity": 4,
+      "expected": 4
+    },
+    {
+      "contract": "storage-recognition",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 153,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "storage-recognition",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 181,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "wrapper-recognition",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 137,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 154,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 182,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 206,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 218,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 226,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 238,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 283,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 318,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 356,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 414,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 426,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 433,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 501,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 158,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 163,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 173,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 207,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 220,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 228,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 240,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 372,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "enum-local-mask-and-existing-generators",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 377,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "closure-recursive-data-mask-and-ancestor-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 154,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "closure-recursive-data-mask-and-ancestor-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 182,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "closure-recursive-data-mask-and-ancestor-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 206,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "closure-recursive-data-mask-and-ancestor-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 218,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "closure-recursive-data-mask-and-ancestor-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 226,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "closure-recursive-data-mask-and-ancestor-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 238,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "closure-recursive-data-mask-and-ancestor-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 283,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "closure-recursive-data-mask-and-ancestor-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 318,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "closure-recursive-data-mask-and-ancestor-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 356,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "closure-recursive-data-mask-and-ancestor-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 414,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "closure-recursive-data-mask-and-ancestor-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 426,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "closure-recursive-data-mask-and-ancestor-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 433,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "closure-recursive-data-mask-and-ancestor-callers",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 501,
+      "arity": 3,
+      "expected": 3
+    },
+    {
+      "contract": "closure-tls-type-context",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 489,
+      "arity": 1,
+      "expected": 1
+    },
+    {
+      "contract": "public-to-internal-type-and-wrapper",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 122,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "public-to-internal-type-and-wrapper",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 490,
+      "arity": 2,
+      "expected": 2
+    },
+    {
+      "contract": "monomorphized-upvar-list",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 494,
+      "arity": 0,
+      "expected": 0
+    },
+    {
+      "contract": "stable-upvars-before-public-recursion",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+      "line": 494,
+      "arity": 1,
+      "expected": 1
+    }
+  ],
+  "all_same_spelling_references": {
+    "bool_captures_true_false": [],
+    "bounded_transfer": [],
+    "capture_aligned_hole": [],
+    "capture_aligned_legal": [],
+    "capture_free_ordinary": [],
+    "capture_free_recursive_check": [],
+    "capture_free_simple_check": [],
+    "capture_free_slots": [],
+    "capture_mu_reference_new": [],
+    "capture_mu_reference_uninit": [],
+    "capture_mu_value_new": [],
+    "capture_mu_value_uninit": [],
+    "capture_padded": [],
+    "capture_padding_stays_false": [],
+    "capture_raw_hole": [],
+    "capture_raw_legal": [],
+    "capture_reference_hole": [],
+    "capture_reference_legal": [],
+    "capture_scalar": [],
+    "capture_union_reference": [],
+    "capture_union_value": [],
+    "capture_unit_hole": [],
+    "capture_unit_legal": [],
+    "captured_bool": [],
+    "captured_contract": [],
+    "choose": [],
+    "clause_helper": [],
+    "clause_pfc_negative": [],
+    "clause_target": [],
+    "copy_and_call": [],
+    "copy_call": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+        "line": 1159,
+        "context": "} ; let copy_call = copy_builtin . call"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs",
+        "line": 1168,
+        "context": "( dst , copy_call ) ; let copy_expr"
+      }
+    ],
+    "cycle_relay": [],
+    "cycle_root": [],
+    "ensures_left_hole": [],
+    "ensures_right_hole": [],
+    "exercise_contract": [],
+    "frame_negative": [],
+    "frame_target": [],
+    "generated_modifies_no_shadow": [],
+    "immutable_hole_negative": [],
+    "immutable_legal": [],
+    "input": [
+      {
+        "path": "kani-compiler/build.rs",
+        "line": 8,
+        "context": "{ ( $ input : expr ) =>"
+      },
+      {
+        "path": "kani-compiler/build.rs",
+        "line": 10,
+        "context": "from ( $ input . iter ( )"
+      },
+      {
+        "path": "kani-compiler/build.rs",
+        "line": 14,
+        "context": "! ( $ input ) ) ) ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "line": 699,
+        "context": "all ( | input | { ! has_escaping_bound_vars"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "line": 700,
+        "context": "tcx , * input ) & & implements_arbitrary"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "line": 701,
+        "context": "implements_arbitrary ( * input , kani_any_def , ty_arbitrary_cache"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "line": 801,
+        "context": "all ( | input | { ! has_escaping_bound_vars"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "line": 802,
+        "context": "tcx , * input ) & & implements_arbitrary"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/mod.rs",
+        "line": 803,
+        "context": "implements_arbitrary ( * input , kani_any_def , ty_arbitrary_cache"
+      }
+    ],
+    "lawful_modifies_preserves_outside": [],
+    "legal_ordinary_transfer": [],
+    "legal_pfc_transfer": [],
+    "mixed_scalar_ref_padding": [],
+    "move_wrapper": [],
+    "offset_copy_call": [],
+    "ordinary_captured_contract": [],
+    "ordinary_contract": [],
+    "ordinary_ensures_legal": [],
+    "passthrough": [],
+    "payload_is_17": [],
+    "payload_is_42": [],
+    "payload_is_53": [],
+    "pfc_contract": [],
+    "pfc_legal": [],
+    "pfc_negative": [],
+    "pfc_negative_contract": [],
+    "postcondition_reads_initialized_return": [],
+    "postcondition_reads_returned_hole": [],
+    "postcondition_target": [],
+    "promoted_hole": [],
+    "read_closure_padding": [],
+    "recursive_check": [],
+    "recursive_control": [],
+    "recursive_ordinary": [],
+    "recursive_simple_check": [],
+    "recursive_transfer": [],
+    "reference_copy_move_return": [],
+    "reference_identity": [],
+    "reference_slot": [],
+    "relay": [],
+    "reordered_nested_captures": [],
+    "repeated_relay": [],
+    "replace_ordinary": [],
+    "replace_simple_check": [],
+    "replace_transfer": [],
+    "replace_transfer_uninitialized": [],
+    "scalar_parameters_true_false": [],
+    "scalar_slot": [],
+    "select": [],
+    "simple_check_captured_contract": [],
+    "through_helper": [],
+    "touch": [],
+    "two_refs": [],
+    "two_refs_initialized": [],
+    "two_refs_preserve_hole": [],
+    "unrelated_legal_after_cycle": [],
+    "write": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/cache/impl_stats.rs",
+        "line": 181,
+        "context": "100 _f64 ; write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/cache/impl_stats.rs",
+        "line": 184,
+        "context": "= 0 { write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/source_region.rs",
+        "line": 25,
+        "context": "= self ; write ! ( fmt ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 112,
+        "context": "} => { write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 114,
+        "context": ") ? ; write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 116,
+        "context": ":: Bool => write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 118,
+        "context": "} => { write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 120,
+        "context": ") ? ; write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 131,
+        "context": ", } ; write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 133,
+        "context": ".. } => write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 135,
+        "context": ":: Double => write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 138,
+        "context": ":: Float => write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 139,
+        "context": ":: Float16 => write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 140,
+        "context": ":: Float128 => write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 144,
+        "context": ":: Integer => write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 146,
+        "context": "} => { write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 149,
+        "context": "width } => write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 161,
+        "context": "} => { write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 166,
+        "context": "} => { write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 180,
+        "context": "} } } write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 187,
+        "context": "} => { write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 189,
+        "context": ") ? ; write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 202,
+        "context": "} => { write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 207,
+        "context": "} => { write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 221,
+        "context": "} } } write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 227,
+        "context": "width } => write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/typ.rs",
+        "line": 228,
+        "context": ".. } => write ! ( out ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 90,
+        "context": ":: Source => write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 91,
+        "context": "origin ) => write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 97,
+        "context": "DiscardedClosureOverride => { write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 111,
+        "context": ":: Result { write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 962,
+        "context": ":: Result { write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_analysis.rs",
+        "line": 1079,
+        "context": ":: Result { write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/points_to/points_to_graph.rs",
+        "line": 241,
+        "context": ":: fs :: write ( file_path , format"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 679,
+        "context": "instance ) => write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 680,
+        "context": "def ) => write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 681,
+        "context": "asm ) => write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 689,
+        "context": "instance ) => write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 690,
+        "context": "def ) => write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/reachability.rs",
+        "line": 691,
+        "context": "asm ) => write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 216,
+        "context": "ExtraSuper => { write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 220,
+        "context": "base ) ; write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 232,
+        "context": "base ) ; write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 243,
+        "context": "} => { write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 245,
+        "context": "msg } => write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 246,
+        "context": "expected } => write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 254,
+        "context": "base ) ; write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 258,
+        "context": "trait_fn_id ) ; write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 261,
+        "context": "} => { write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 264,
+        "context": "} => { write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/resolve.rs",
+        "line": 267,
+        "context": "UnsupportedTraitConstGenerics => { write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 99,
+        "context": ") => { write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 102,
+        "context": ") => { write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 104,
+        "context": "ty ) => write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 109,
+        "context": ") => { write ! ( f ,"
+      },
+      {
+        "path": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout.rs",
+        "line": 111,
+        "context": "ty ) => write ! ( f ,"
+      }
+    ],
+    "write_initialized": []
+  },
+  "errors": [
+    {
+      "contract": "recursive-layout-and-existing-mask-users",
+      "actual_count": 13,
+      "expected_count": 12,
+      "reason": "bound callsite coverage mismatch"
+    }
+  ],
+  "limits": "Source-token inventory, local generic impl checks and explicitly bound call arities; no Rust name resolution/typecheck, macro expansion, trait resolution or native build. Whole-file signature/import inventory and lexical references require human review.",
+  "tool_sha256": "f2db55dbfbdfabad8eb3ac53cd1d4cf147c3339420736e1a5c36003be07f9fe4",
+  "contracts_sha256": "f59bd84433764283a8fc36e7c71c6c2356761cad6981df8f22eb48a8d7033aee",
+  "native_build": "NOT_RUN"
+}

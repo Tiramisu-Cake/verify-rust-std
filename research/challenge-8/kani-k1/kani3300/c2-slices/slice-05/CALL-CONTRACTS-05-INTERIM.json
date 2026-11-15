@@ -1,0 +1,523 @@
+[
+  {
+    "id": "root-analysis",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod\\.rs",
+    "tokens": [
+      "run_points_to_analysis"
+    ],
+    "arity": 5,
+    "count": 1
+  },
+  {
+    "id": "analysis-root-and-recursive",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "PointsToAnalysis",
+      "::",
+      "run"
+    ],
+    "arity": 8,
+    "count": 2
+  },
+  {
+    "id": "analysis-resolver",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "resolve_call"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "pointer-resolver",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "resolve_call"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "pointer-local-resolver",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "try_resolve_instance"
+    ],
+    "arity": 3,
+    "count": 1
+  },
+  {
+    "id": "distinct-initial-target-helper",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor\\.rs",
+    "tokens": [
+      "try_resolve_instance"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "initial-target-constructor",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/mod\\.rs",
+    "tokens": [
+      "InitialTargetVisitor",
+      "::",
+      "new"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "graph-successors",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "state",
+      ".",
+      "constant_successors"
+    ],
+    "arity": 2,
+    "count": 2
+  },
+  {
+    "id": "observe-at-emission",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "observe_immutable_origins"
+    ],
+    "arity": 1,
+    "count": 1
+  },
+  {
+    "id": "observe-at-prepare",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "observe_immutable_origins"
+    ],
+    "arity": 1,
+    "count": 1
+  },
+  {
+    "id": "bind-at-emission",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/codegen/operand\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "bind_immutable_allocation"
+    ],
+    "arity": 3,
+    "count": 4
+  },
+  {
+    "id": "static-registration",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/codegen/static_var\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "register_immutable_static"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "prepare",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface\\.rs",
+    "tokens": [
+      "gcx",
+      ".",
+      "prepare_immutable_allocations"
+    ],
+    "arity": 1,
+    "count": 1
+  },
+  {
+    "id": "finalize",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/compiler_interface\\.rs",
+    "tokens": [
+      "gcx",
+      ".",
+      "finalize_immutable_allocations"
+    ],
+    "arity": 0,
+    "count": 1
+  },
+  {
+    "id": "origin-qualification",
+    "path_regex": "kani-compiler/src/kani_middle/anonymous_allocations\\.rs",
+    "tokens": [
+      "immutable_origin_type_supported"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "static-qualification",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations\\.rs",
+    "tokens": [
+      "immutable_origin_type_supported"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "origin-graph",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_graph\\.rs",
+    "tokens": [
+      "anonymous_origins"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "origin-target",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor\\.rs",
+    "tokens": [
+      "anonymous_origins"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "origin-registry",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations\\.rs",
+    "tokens": [
+      "anonymous_origins"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "target-compatibility",
+    "path_regex": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations\\.rs",
+    "tokens": [
+      "target_matches"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "qualification-storage",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/mod\\.rs",
+    "tokens": [
+      "PointeeInfo",
+      "::",
+      "for_storage"
+    ],
+    "arity": 2,
+    "count": 3
+  },
+  {
+    "id": "qualification-recognition",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/mod\\.rs",
+    "tokens": [
+      "ty_layout",
+      "::",
+      "maybe_uninit_storage"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "storage-recognition",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout\\.rs",
+    "tokens": [
+      "maybe_uninit_storage"
+    ],
+    "arity": 2,
+    "count": 2
+  },
+  {
+    "id": "wrapper-recognition",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout\\.rs",
+    "tokens": [
+      "wrapper_inner"
+    ],
+    "arity": 3,
+    "count": 1
+  },
+  {
+    "id": "regular-call-effects",
+    "path_regex": "kani-compiler/src/kani_middle/points_to/points_to_analysis\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "apply_regular_call_effect"
+    ],
+    "arity": 5,
+    "count": 1
+  },
+  {
+    "id": "reference-checkas-cast",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction\\.rs",
+    "tokens": [
+      "mk_cast"
+    ],
+    "arity": 5,
+    "count": 2
+  },
+  {
+    "id": "reference-reborrow-and-existing-ref-users",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/relevant_instruction\\.rs",
+    "tokens": [
+      "mk_ref"
+    ],
+    "arity": 4,
+    "count": 5
+  },
+  {
+    "id": "recursive-layout-and-existing-mask-users",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout\\.rs",
+    "tokens": [
+      "data_bytes_for_ty"
+    ],
+    "arity": 3,
+    "count": 12
+  },
+  {
+    "id": "enum-local-mask-and-existing-generators",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout\\.rs",
+    "tokens": [
+      "generate_byte_mask"
+    ],
+    "arity": 2,
+    "count": 9
+  },
+  {
+    "id": "check-builder-dispatch",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/mod\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "build_get_and_check"
+    ],
+    "arity": 4,
+    "count": 1
+  },
+  {
+    "id": "operation-materialization",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/mod\\.rs",
+    "tokens": [
+      "operation",
+      ".",
+      "mk_operand"
+    ],
+    "arity": 3,
+    "count": 3
+  },
+  {
+    "id": "operation-type-dispatch-and-check-diagnostic",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/mod\\.rs",
+    "tokens": [
+      "operation",
+      ".",
+      "operand_ty"
+    ],
+    "arity": 1,
+    "count": 2
+  },
+  {
+    "id": "raw-eq-and-existing-relevance-seeds",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/delayed_ub/initial_target_visitor\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "push_operand"
+    ],
+    "arity": 1,
+    "count": 6
+  },
+  {
+    "id": "raw-byte-extent-type",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "Ty",
+      "::",
+      "try_new_array"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "instrumenter-run-callers-with-tcx",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/(delayed_ub|ptr_uninit)/mod\\.rs",
+    "tokens": [
+      "UninitInstrumenter",
+      "::",
+      "run"
+    ],
+    "arity": 7,
+    "count": 2
+  },
+  {
+    "id": "transfer-layout-boundary-callers",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/mod\\.rs",
+    "tokens": [
+      "pointee_info",
+      ".",
+      "layout",
+      "(",
+      ")",
+      ".",
+      "argument_size"
+    ],
+    "arity": 0,
+    "count": 1
+  },
+  {
+    "id": "transfer-storage-recognition-callers",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "has_transfer_protocol"
+    ],
+    "arity": 1,
+    "count": 3
+  },
+  {
+    "id": "full-storage-deinitialization",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/mod\\.rs",
+    "tokens": [
+      "PointeeInfo",
+      "::",
+      "for_deinit"
+    ],
+    "arity": 1,
+    "count": 2
+  },
+  {
+    "id": "typed-payload-layout",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/mod\\.rs",
+    "tokens": [
+      "PointeeInfo",
+      "::",
+      "for_typed_storage"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "builder-constant-mask",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/mod\\.rs",
+    "tokens": [
+      "constant_init_mask"
+    ],
+    "arity": 1,
+    "count": 1
+  },
+  {
+    "id": "visitor-constant-mask",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "constant_init_mask"
+    ],
+    "arity": 1,
+    "count": 4
+  },
+  {
+    "id": "nested-reset-blackbox-and-ordinary",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "reset_nested_call"
+    ],
+    "arity": 3,
+    "count": 2
+  },
+  {
+    "id": "typed-transmute-predicate-shared",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/uninit_visitor\\.rs",
+    "tokens": [
+      "self",
+      ".",
+      "typed_storage_mask"
+    ],
+    "arity": 2,
+    "count": 2
+  },
+  {
+    "id": "pointer-visitor-constructor",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod\\.rs",
+    "tokens": [
+      "CheckUninitVisitor",
+      "::",
+      "new"
+    ],
+    "arity": 2,
+    "count": 1
+  },
+  {
+    "id": "closure-recursive-data-mask-and-ancestor-callers",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout\\.rs",
+    "tokens": [
+      "data_bytes_for_ty"
+    ],
+    "arity": 3,
+    "count": 13
+  },
+  {
+    "id": "closure-tls-type-context",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout\\.rs",
+    "tokens": [
+      "rustc_middle",
+      "::",
+      "ty",
+      "::",
+      "tls",
+      "::",
+      "with"
+    ],
+    "arity": 1,
+    "count": 1
+  },
+  {
+    "id": "public-to-internal-type-and-wrapper",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout\\.rs",
+    "tokens": [
+      "rustc_internal",
+      "::",
+      "internal"
+    ],
+    "arity": 2,
+    "count": 2
+  },
+  {
+    "id": "monomorphized-upvar-list",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout\\.rs",
+    "tokens": [
+      "args",
+      ".",
+      "as_closure",
+      "(",
+      ")",
+      ".",
+      "upvar_tys"
+    ],
+    "arity": 0,
+    "count": 1
+  },
+  {
+    "id": "stable-upvars-before-public-recursion",
+    "path_regex": "kani-compiler/src/kani_middle/transform/check_uninit/ty_layout\\.rs",
+    "tokens": [
+      "args",
+      ".",
+      "as_closure",
+      "(",
+      ")",
+      ".",
+      "upvar_tys",
+      "(",
+      ")",
+      ".",
+      "iter",
+      "(",
+      ")",
+      ".",
+      "map"
+    ],
+    "arity": 1,
+    "count": 1
+  }
+]
