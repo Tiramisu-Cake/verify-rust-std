@@ -48,7 +48,7 @@ Seven more single-harness tests cover the ZST arm declared first, nested `[[(); 
 
 On `main`, four of the seven `zst-union-arm` harnesses and all five new arm-shape tests fail with the CBMC invariant; the two recursive tests pass. With this change all of them pass.
 
-[Fork CI on 3d9a180938](https://github.com/Tiramisu-Cake/kani/actions/runs/43605511755) passes regression on Ubuntu 22.04, Ubuntu 24.04, Ubuntu 24.04 ARM, macOS 15 and macOS 15 Intel, plus documentation, LLBC and benchcomp; Clippy, Format Check and Cargo Deny also pass. The Intel job [passed on rerun](https://github.com/Tiramisu-Cake/kani/actions/runs/43605511755/job/132504301511). The `cargo_autoharness_multichareq_searcher` timeout on this runner is tracked in #5162; the earlier disable proposal #5163 was closed.
+[Fork CI on 3d9a180938](https://github.com/Tiramisu-Cake/kani/actions/runs/43605511755) passes regression on Ubuntu 22.04, Ubuntu 24.04, Ubuntu 24.04 ARM, macOS 15 and macOS 15 Intel, plus documentation, LLBC and benchcomp; Clippy, Format Check and Cargo Deny also pass. The first Intel job failed only `script-based-pre/cargo_autoharness_multichareq_searcher` with a CBMC timeout, matching the known flakiness in #5162; it [passed on rerun](https://github.com/Tiramisu-Cake/kani/actions/runs/43605511755/job/132504301511). The earlier proposal to disable that test, #5163, was closed.
 
 The perf job lost its runner in three fork executions. It also lost runners on branches without this change, while two runs of unmodified `main` passed ([first](https://github.com/Tiramisu-Cake/kani/actions/runs/43628958916), [second](https://github.com/Tiramisu-Cake/kani/actions/runs/43683645556)); the cause is not established.
 
