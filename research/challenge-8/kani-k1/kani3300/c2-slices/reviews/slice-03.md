@@ -1,5 +1,9 @@
 # Slice 03 LAYOUT-RAW — worker15 independent review
 
+**Current head: `5ca51679e3`; see the rework addendum below.** The original
+fixture-placement conclusions are superseded by coordinator run43704461635 and
+the explicit dependency correction; the original static production review remains.
+
 2026-11-15. **PASS_STATIC_ONLY; no blocking findings.** Candidate
 `d0345ddf4f70d10caf5ee34ddca402867264379e`, tree
 `8ac48a5660a94de062919ebcf80fdcdef2cc2f03`, sole parent
@@ -78,3 +82,33 @@ byte identity and19 Python synthetic checks PASS. Source production/tests/docs u
 
 Ready for coordinator's exact-head Quick after overlay preparation. Native qualification
 NOT_RUN; push/dispatch NOT_RUN. This is neither Gate A nor independent formal proof credit.
+
+## Rework addendum — 2026-11-15, g0 input98e5403395
+
+Current candidate `5ca51679e3f433718807a2e44add0d5abac128e7`, tree
+`689644ab2140794e17948dac6e7beb48bc9ea7bb`, retains sole parent932fb8395a.
+**PASS_STATIC_DELTA_ONLY; qualification NO_REGRESSION; integration PENDING on4.**
+Compared directly with d0345ddf4f: only36 fixture files removed (18 whole pairs),
+all absent from the accepted parent. Production/docs and their compile seams are
+byte-identical; the production review is retained without a second semantic review.
+
+Coordinator [run43704461635 result](../slice-03/ci-43704461635/RESULT.md) reports
+18 early Unsupported failures from missing storage/raw-pointer+union support, not
+intended read failures. The original earliest-head3 plan and its static review
+did not establish that prerequisite. No native logs were independently retrieved
+in this rework. Old run/overlay does not qualify the rewritten head.
+
+All18 pairs are now owner4 / first executable head4 under ORACLE-MAP-CORRECTION.json;
+their exact F oracles remain in DEFERRED-OBLIGATIONS.json alongside nine prior
+layout/raw obligations. Only exact-F `immutable-masks/empty` remains at3, giving
+zero-extent regression coverage without nonempty storage/layout/raw integration
+credit. No inherited test or golden is changed. Canonical stage0 Quick/oracle maps
+remain historical; current manifest applies the explicit correction.
+
+Current static validation confirms8 changed paths,22 production parts,613 manifest
+file hashes, all317 inherited selectors unchanged plus empty, and all27 deferred
+pairs absent. Expected318 selectors =309 passes +9 existing ignores; units9+9.
+Bounded seam checker errors[] and19 synthetic runner checks PASS on the revised
+inputs. Current receipts in ci/slice-03 supersede its old-head static receipts;
+the earlier versions remain in Git history. Rewritten-head native checks, push
+and dispatch remain NOT_RUN; no formal proof credit is established.

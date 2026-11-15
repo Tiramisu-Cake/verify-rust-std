@@ -109,7 +109,7 @@ class RunnerChecks(unittest.TestCase):
         config, manifest = ci.inputs()
         groups = ci.suites(manifest)
         self.assertEqual({suite: (len(items), sum(i['existing_path_ignore'] for i in items.values())) for (suite, _), items in groups.items()},
-                         {'kani': (53, 3), 'expected': (244, 6), 'ui': (17, 0), 'script-based-pre': (3, 0), 'json-handler': (17, 0), 'std-checks': (2, 0)})
+                         {'kani': (53, 3), 'expected': (226, 6), 'ui': (17, 0), 'script-based-pre': (3, 0), 'json-handler': (17, 0), 'std-checks': (2, 0)})
         self.assertEqual(len(manifest['active_call_units']), 9)
         self.assertEqual(len(manifest['immutable_unit_names']), 9)
         # Validate every input/golden/helper identity in the exact source commit.

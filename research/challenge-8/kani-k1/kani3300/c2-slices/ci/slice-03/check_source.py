@@ -11,7 +11,7 @@ sys.dont_write_bytecode = True
 HERE = Path(__file__).resolve().parent
 PACKET = HERE.parent.parent
 REPO = Path('/root/kani-fix-3300-c2-slices-w15')
-SOURCE = 'd0345ddf4f70d10caf5ee34ddca402867264379e'
+SOURCE = '5ca51679e3f433718807a2e44add0d5abac128e7'
 BASE = '932fb8395a58f8c86c0d702ba2cae835823b2962'
 F = 'ad499e41dd2db9ccd432f89721638a1f3a0bbd44'
 
@@ -61,8 +61,26 @@ def main():
     assert len(extraction.parts_for('3')) == 22
     quick = load('ci/QUICK-PLAN.json')
     head3 = next(h for h in quick['heads'] if h['head'] == 3)
-    selected = head3['new_or_changed_final_fixture_pairs']
-    assert len(selected) == 19
+    correction = load('slice-03/ORACLE-MAP-CORRECTION.json')
+    moved = correction['changes']
+    assert len(moved) == 18
+    moved_inputs = {r['input'] for r in moved}
+    selected = [r for r in head3['new_or_changed_final_fixture_pairs'] if r['input'] not in moved_inputs]
+    assert len(selected) == 1 and selected[0]['input'].endswith('immutable-masks/empty.rs')
+    old_source = 'd0345ddf4f70d10caf5ee34ddca402867264379e'
+    deleted = {r[key] for r in moved for key in ['input', 'golden']}
+    delta = git('diff', '--name-status', old_source, SOURCE).decode().splitlines()
+    assert {line[2:] for line in delta} == deleted
+    assert all(line.startswith('D\t') for line in delta)
+    for row in moved:
+        assert row['owner_slice'] == row['earliest_runnable_head'] == 4
+        for key in ['input', 'golden']:
+            assert not git('ls-tree', BASE, '--', row[key])
+            assert not git('ls-tree', SOURCE, '--', row[key])
+            assert git('show', old_source + ':' + row[key]) == git('show', F + ':' + row[key])
+    assert not git('diff', '--name-only', old_source, SOURCE, '--', 'kani-compiler', 'library', 'docs')
+    assert source['qualification_kind'] == 'NO_REGRESSION'
+    assert source['integration_status'] == 'PENDING' and source['integration_heads'] == [4]
     fixtures = {r[k] for r in selected for k in ['input', 'golden']}
     assert changed == production | fixtures | {'docs/src/rust-feature-support/intrinsics.md'}
     verdicts = {'SUCCESSFUL': 0, 'FAILED': 0}
@@ -71,7 +89,7 @@ def main():
         if path.endswith('.expected'):
             data = git('show', SOURCE + ':' + path).decode()
             verdicts['SUCCESSFUL' if 'VERIFICATION:- SUCCESSFUL' in data else 'FAILED'] += 1
-    assert verdicts == {'SUCCESSFUL': 10, 'FAILED': 9}
+    assert verdicts == {'SUCCESSFUL': 1, 'FAILED': 0}
     assert not git('diff', '--name-only', '--diff-filter=CDMRTUXB', BASE, SOURCE, '--', 'tests')
     for row in source['deferred_owner3_fixtures']:
         for key in ['input', 'golden']:
@@ -91,17 +109,17 @@ def main():
         assert hashlib.sha256(git('show', SOURCE + ':' + path)).hexdigest() == identity['sha256'], path
     counts = {key[0]: [len(rows), sum(r['existing_path_ignore'] for r in rows.values())]
               for key, rows in current.items()}
-    assert counts == {'kani': [53, 3], 'expected': [244, 6], 'ui': [17, 0],
+    assert counts == {'kani': [53, 3], 'expected': [226, 6], 'ui': [17, 0],
                       'script-based-pre': [3, 0], 'json-handler': [17, 0], 'std-checks': [2, 0]}
     subprocess.run(['git', '-C', str(REPO), 'diff', '--check', BASE, SOURCE], check=True)
     report = dict(status='PASS_STATIC_ONLY', source_sha=SOURCE, source_tree=source['source_tree'],
         base_sha=BASE, changed_files=len(changed), production_files=len(production), owner3_parts=22,
-        selected_whole_fixture_pairs=19, deferred_whole_fixture_pairs=9,
-        golden_verdicts=verdicts, cumulative_selectors=336, preexisting_ignores=9,
+        selected_whole_fixture_pairs=1, moved_fixture_pairs=18, deferred_whole_fixture_pairs=9,
+        golden_verdicts=verdicts, cumulative_selectors=318, preexisting_ignores=9,
         manifest_file_identities=len(files), suite_counts=counts,
         checks=['read-only line-part recomposition', 'effective part hashes with neutral import correction',
-                'exact changed-path boundary', 'all existing tests unchanged', '19 pairs exact F',
-                'all inherited selectors/identities unchanged', 'Quick head3 additions exact',
+                'exact changed-path boundary', 'all existing tests unchanged', 'empty pair exact F', 'rewrite only removes18 not-in-parent pairs; production/docs unchanged',
+                'all inherited selectors/identities unchanged', 'Quick head3 plus explicit oracle correction additions exact',
                 'all manifest file hashes', 'deferred9 absent', 'git diff --check'],
         native_compile_tests='NOT_RUN', formal_proof_credit='NOT_ESTABLISHED')
     (HERE / 'SOURCE-VALIDATION.json').write_text(json.dumps(report, indent=2) + '\n')

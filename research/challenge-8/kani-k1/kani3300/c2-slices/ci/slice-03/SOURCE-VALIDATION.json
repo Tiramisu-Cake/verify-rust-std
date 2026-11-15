@@ -1,27 +1,28 @@
 {
   "status": "PASS_STATIC_ONLY",
-  "source_sha": "d0345ddf4f70d10caf5ee34ddca402867264379e",
-  "source_tree": "8ac48a5660a94de062919ebcf80fdcdef2cc2f03",
+  "source_sha": "5ca51679e3f433718807a2e44add0d5abac128e7",
+  "source_tree": "689644ab2140794e17948dac6e7beb48bc9ea7bb",
   "base_sha": "932fb8395a58f8c86c0d702ba2cae835823b2962",
-  "changed_files": 44,
+  "changed_files": 8,
   "production_files": 5,
   "owner3_parts": 22,
-  "selected_whole_fixture_pairs": 19,
+  "selected_whole_fixture_pairs": 1,
+  "moved_fixture_pairs": 18,
   "deferred_whole_fixture_pairs": 9,
   "golden_verdicts": {
-    "SUCCESSFUL": 10,
-    "FAILED": 9
+    "SUCCESSFUL": 1,
+    "FAILED": 0
   },
-  "cumulative_selectors": 336,
+  "cumulative_selectors": 318,
   "preexisting_ignores": 9,
-  "manifest_file_identities": 649,
+  "manifest_file_identities": 613,
   "suite_counts": {
     "kani": [
       53,
       3
     ],
     "expected": [
-      244,
+      226,
       6
     ],
     "ui": [
@@ -46,9 +47,10 @@
     "effective part hashes with neutral import correction",
     "exact changed-path boundary",
     "all existing tests unchanged",
-    "19 pairs exact F",
+    "empty pair exact F",
+    "rewrite only removes18 not-in-parent pairs; production/docs unchanged",
     "all inherited selectors/identities unchanged",
-    "Quick head3 additions exact",
+    "Quick head3 plus explicit oracle correction additions exact",
     "all manifest file hashes",
     "deferred9 absent",
     "git diff --check"
