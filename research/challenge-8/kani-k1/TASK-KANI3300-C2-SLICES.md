@@ -40,7 +40,8 @@ base main/U. Это snapshot, не обещание неизменности ref
 
 ## 2. Рабочие области, владельцы, порядок
 
-Создать отдельные чистые clone/worktrees, не использовать существующие dirty paths:
+Создать отдельные чистые **worktrees** (`git worktree add` от `/root/kani-fix-3300-c2-s6`; диск ~96%, новые полные
+clone не делать, target/артефакты не копировать), не использовать существующие dirty paths:
 worker14 `/root/kani-fix-3300-c2-slices-w14`; worker15 `/root/kani-fix-3300-c2-slices-w15`.
 Research `kani3300/c2-slices/` в g0: worker14 — `source-map/`, `slice-01..06/`, `recompose/`;
 worker15 — `oracle-map/`, `reviews/`, `ci/`, `f7/`. Каждый пишет только свою область.
