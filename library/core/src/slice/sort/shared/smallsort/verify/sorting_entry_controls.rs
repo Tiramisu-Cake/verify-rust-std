@@ -29,6 +29,6 @@ fn stable_freeze_activation() {
     let mut scratch: [MaybeUninit<u8>; 18] = [MaybeUninit::uninit(); 18];
     <u8 as StableSmallSortTypeImpl>::small_sort(
         &mut v, &mut scratch, &mut KeyLess::<u8>::new());
-    assert!(post::<u8, KeyLess<u8>>>(before, &v), "S1_OVERRIDE_COMPANION_POST");
+    assert!(post::<u8, KeyLess<u8>>(before, &v), "S1_OVERRIDE_COMPANION_POST");
     kani::cover(true, "S1_actual_override_companion_return");
 }
