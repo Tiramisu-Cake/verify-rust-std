@@ -1,0 +1,40 @@
+{
+  "schema": "sel1-c2-worker15-replay-v1",
+  "status": "READY_PREPARATION_GATE_A_ACCEPTANCE_REQUIRED",
+  "task": "TASK-KANI3300-SEL1-C2.md section5; coordinator requests B preparation while A runs",
+  "g0_input": "d883be5f2ba715df244be9708eaefb67a904a087",
+  "source_freeze": {
+    "sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+    "tree": "1efb6e4dfa69d346df8e23741d11839b1932403d"
+  },
+  "overlay": {
+    "trigger_sha": "1ce0b1e5b62660bdc5809318689eeea287af064c",
+    "package_sha": "fff42ed46992c7d00463a21561093cfde5dce330",
+    "package_parent": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+    "tree": "6f118da84a311c0e28316fb80f4020122535592d",
+    "path": "/root/kani-fix-3300-sel1-c2-w15",
+    "branch": "uninit-ci/sel1-c2-replay-w15"
+  },
+  "gate_a": {
+    "run": "43744142824",
+    "trigger_prefix": "ce2227aa9b",
+    "status": "COORDINATOR_REPORTED_RUNNING",
+    "assurance": "current user message; no independent query or acceptance"
+  },
+  "claims": [
+    {
+      "claim": "Six-row freeze binding and empty local trigger prepared",
+      "assurance": "Git identities/hashes, offline static checks, synthetic controls and independent static review",
+      "evidence": ["CI-OVERLAY.json", "CI-REQUEST.json", "VALIDATION.json", "REVIEW.md"]
+    }
+  ],
+  "runtime": "NOT_RUN",
+  "formal_proof_credit": "NOT_ESTABLISHED",
+  "open": [
+    "Coordinator Gate A acceptance before B publication",
+    "Coordinator review and one push of prepared trigger",
+    "Six complete replay receipts and check/source/body inventory review"
+  ],
+  "next": "HANDOFF.md; coordinator-only push/CI, no retry",
+  "closure_reason": "Authorized B preparation completed without push/build; next steps require coordinator A acceptance and CI execution."
+}

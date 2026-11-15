@@ -17,6 +17,11 @@ Property/name/location binding надо подтвердить на source opera
 Requires/layout/frame/comparator/select Unsupported не заменяют intended negative.
 Сохранять полный failed inventory, полезные SUCCESS/ensures/covers и unreachable. Unreachable return запрещает legal PASS.
 
+Статически перепроверено на std70ba: smallsort.rs:751 содержит
+`let c1 = is_less(&*v_base.add(1), &*v_base);` — чтение source[1] соответствует исходному oracle.
+Exact test-only patch6075 и пять patched-file hashes не изменились. Generated property/name/trace остаются UNKNOWN до CI;
+эта source-coordinate проверка не устанавливает связь с новым generated artifact.
+
 Сравнение с C2 B′43683557088: merge572/1030 (0 failures), sort4 — одна select boundary760 и return UNREACHABLE.
 После SEL1 обе merge должны сохранить obligations; sort4 должен стать SUCCESS с reached return.
 SEL1 replay43611601987 — ориентиры: sort4 0/753, swap0/585, raw legal0/382, raw negative1/382,

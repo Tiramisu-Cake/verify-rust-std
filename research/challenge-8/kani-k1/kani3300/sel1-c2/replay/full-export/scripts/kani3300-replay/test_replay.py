@@ -40,6 +40,18 @@ class ExportTests(unittest.TestCase):
     def test_wrong_source(self):
         self.check_state(b'{"selector":"other::root"}', "WRONG_SOURCE_OR_SELECTOR")
 
+    def test_sort4_review_requires_success_and_all_covers(self):
+        selector = "slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64"
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "export.json"
+            path.write_text(json.dumps({"harness": selector, "result": "SUCCESS"}))
+            result = parse_export(path, selector)
+            review = " ".join(result["review_required"])
+            self.assertIn("zero failures", review)
+            self.assertIn("all 3 covers reached, including return", review)
+            self.assertNotIn("Unsupported", review)
+            self.assertEqual(result["outcome"], "UNKNOWN")
+
 
     def test_malformed_success_exit_is_nonzero(self):
         for state in ("EMPTY", "INVALID_OR_PARTIAL", "NULL", "WRONG_TOP_LEVEL_TYPE",
@@ -188,10 +200,10 @@ class ExecutionTests(unittest.TestCase):
 
 
 class C2BindingTests(unittest.TestCase):
-    def test_request_and_observer_have_unbound_sel1_c2_identity(self):
+    def test_request_and_observer_have_frozen_sel1_c2_identity(self):
         req = load_request()
-        self.assertEqual(replay.SEL1_C2_SHA, "PENDING_SEL1_FREEZE_SHA")
-        self.assertEqual(replay.SEL1_C2_TREE, "PENDING_SEL1_FREEZE_TREE")
+        self.assertEqual(replay.SEL1_C2_SHA, "14bc57fdb99960240c4944845a3d985c8af4dcf7")
+        self.assertEqual(replay.SEL1_C2_TREE, "1efb6e4dfa69d346df8e23741d11839b1932403d")
         self.assertEqual(req["tool_export_sha"], replay.SEL1_C2_SHA)
         self.assertEqual(req["tool_export_tree"], replay.SEL1_C2_TREE)
         self.assertEqual(replay.SOURCE_BINDING.name, "sel1-c2-source-binding.json")
@@ -256,12 +268,13 @@ class C2BindingTests(unittest.TestCase):
         workflow = replay.HERE.parent.parent / ".github/workflows/kani3300-replay.yml"
         if not workflow.exists(): self.skipTest("workflow checked in full export validation")
         text = workflow.read_text()
-        for required in ("workflow_dispatch", "runs-on: ubuntu-24.04", "max-parallel: 1",
+        for required in ("uninit-ci/sel1-c2-replay-*", "runs-on: ubuntu-24.04", "max-parallel: 1",
                          "timeout-minutes: 60", "uses: ./export/.github/actions/setup", "kani_dir: export",
                          "--destination", "https://github.com/Tiramisu-Cake/verify-rust-std.git"):
             self.assertIn(required, text)
         self.assertLess(text.index("Python-only wrapper preflight"), text.index("Setup pinned Kani dependencies"))
-        self.assertNotIn("  push:", text)
+        self.assertIn("  push:", text)
+        self.assertNotIn("workflow_dispatch", text)
 
     def test_run_root_substitutes_exact_c2_binary_and_preserves_exit(self):
         import subprocess
@@ -283,13 +296,24 @@ class C2BindingTests(unittest.TestCase):
                 if path.is_relative_to(std): return replay.PATCHED_FILE_HASHES[path.relative_to(std).as_posix()]
                 return original_hash(path)
 
-            def fake_git(repo, *args):
-                return {("rev-parse", "HEAD"): replay.STD_SHA,
-                        ("rev-parse", "HEAD:library"): replay.STD_TREE}[args]
+            cases = [(row, None) for row in req["roots"]] + [
+                (req["roots"][0], field) for field in ("HEAD", "HEAD^{tree}", "HEAD:library")]
+            for case_index, (row, drift) in enumerate(cases):
+                head_calls = 0
 
-            for row in req["roots"]:
-                with self.subTest(row=row["id"]):
-                    out = base / row["id"]
+                def fake_git(repo, *args):
+                    nonlocal head_calls
+                    if args == ("rev-parse", "HEAD"):
+                        head_calls += 1
+                    post_run = head_calls > 1
+                    if post_run and args == ("rev-parse", drift):
+                        return "0" * 40
+                    return {("rev-parse", "HEAD"): replay.STD_SHA,
+                            ("rev-parse", "HEAD^{tree}"): replay.STD_COMMIT_TREE,
+                            ("rev-parse", "HEAD:library"): replay.STD_TREE}[args]
+
+                with self.subTest(row=row["id"], post_run_std_drift=drift):
+                    out = base / (row["id"] + ("-drift-" + str(case_index) if drift else ""))
                     execution = {"original_exit_code": 7, "timed_out": False, "runner_error": None,
                                  "signal": None, "rss_max_bytes": 100,
                                  "rss_status": "OBSERVED_WAIT4_LINUX_RU_MAXRSS"}
@@ -308,16 +332,21 @@ class C2BindingTests(unittest.TestCase):
                     self.assertEqual(receipt["original_exit_code"], 7)
                     self.assertEqual(receipt["outcome"], "UNKNOWN")
                     self.assertEqual(root_exit_code(receipt), 7)
-                    self.assertTrue(receipt["post_run_validation"]["std_test_only_overlay_valid"])
+                    self.assertEqual(receipt["post_run_validation"]["std_test_only_overlay_valid"], drift is None)
                     self.assertEqual(json.loads((out / "receipt.json").read_text()), receipt)
 
 
 class PreparationGuardTests(unittest.TestCase):
     def test_unbound_source_is_rejected_before_git_or_execution(self):
-        with mock.patch.object(replay, "git") as git_mock:
-            with self.assertRaisesRegex(ValueError, "PENDING_FREEZE"):
-                replay.verify_source(Path("/must/not/run"))
-            git_mock.assert_not_called()
+        binding = json.loads(replay.SOURCE_BINDING.read_text())
+        binding["state"] = "PENDING_FREEZE"
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "binding.json"
+            path.write_text(json.dumps(binding))
+            with mock.patch.object(replay, "SOURCE_BINDING", path), mock.patch.object(replay, "git") as git_mock:
+                with self.assertRaisesRegex(ValueError, "PENDING_FREEZE"):
+                    replay.verify_source(Path("/must/not/run"))
+                git_mock.assert_not_called()
 
     def test_duplicate_selector_rejected_even_with_valid_request_checksum(self):
         req = json.loads(replay.REQUEST.read_text())

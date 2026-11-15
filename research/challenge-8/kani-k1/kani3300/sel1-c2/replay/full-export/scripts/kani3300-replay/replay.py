@@ -25,13 +25,13 @@ HERE = Path(__file__).resolve().parent
 REQUEST = HERE / "CI-REQUEST.json"
 SOURCE_BINDING = HERE / "sel1-c2-source-binding.json"
 PATCH = HERE / "sel1-test-only.patch"
-SEL1_C2_SHA = "PENDING_SEL1_FREEZE_SHA"
-SEL1_C2_TREE = "PENDING_SEL1_FREEZE_TREE"
+SEL1_C2_SHA = "14bc57fdb99960240c4944845a3d985c8af4dcf7"
+SEL1_C2_TREE = "1efb6e4dfa69d346df8e23741d11839b1932403d"
 STD_SHA = "70ba5befc617627073738e26cb1466bd4fb76e41"
 STD_TREE = "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f"
 STD_COMMIT_TREE = "84ab170ccdcc29fba69e55e0a46e6acdf52d9704"
 PATCH_SHA = "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06"
-REQUEST_SHA = "c594d607da812e08e91688173ddfa74eb889227557f78f0d16a6b3b20f73d36f"
+REQUEST_SHA = "180b8447384a9f4f9113cbf271b049c766c6c40b873f98720ff7a45f473ee357"
 ROOT_CAP_SECONDS = 2400
 INVALID_EXPORT_STATES = {
     "MISSING", "EMPTY", "INVALID_OR_PARTIAL", "NULL", "WRONG_TOP_LEVEL_TYPE",
@@ -225,7 +225,7 @@ def parse_export(path: Path, expected_selector: str) -> dict[str, Any]:
             "outcome": "UNKNOWN", "generated_property_binding": None,
             "review_required": ["selected Check body", "useful reached checks/ensures and covers",
                                 "complete artifact coverage; no proof credit from this envelope parse"] +
-                               (["sort4 expected boundary: exactly one named select_unpredictable Unsupported at library/core/src/hint.rs:871"]
+                               (["sort4 requires SUCCESS with zero failures and all 3 covers reached, including return; the prior select boundary is unexpected"]
                                 if expected_selector.endswith("helper_contracts::sort4_safety_u64") else [])}
 
 
@@ -402,13 +402,19 @@ def run_root(repo: Path, std: Path, root_id: str, binary: Path, out: Path) -> di
                                          check=True, stdout=subprocess.PIPE).stdout
         post_std_paths = [entry[3:].decode() for entry in post_std_status.split(b"\0") if entry]
         post_std_hashes = {rel: sha256(std / rel) for rel in expected_paths if (std / rel).is_file()}
-        post_std_valid = sorted(post_std_paths) == sorted(expected_paths) and post_std_hashes == PATCHED_FILE_HASHES
+        post_std_identity = {"head": git(std, "rev-parse", "HEAD"),
+                             "tree": git(std, "rev-parse", "HEAD^{tree}"),
+                             "library_tree": git(std, "rev-parse", "HEAD:library")}
+        post_std_valid = (sorted(post_std_paths) == sorted(expected_paths) and post_std_hashes == PATCHED_FILE_HASHES
+                          and post_std_identity == {"head": STD_SHA, "tree": STD_COMMIT_TREE,
+                                                    "library_tree": STD_TREE})
         return {
             "export": receipt["export"],
             "post_run_validation": {
                 "sel1_c2_source_valid": post_source_state,
                 "std_overlay_paths": sorted(post_std_paths),
                 "std_overlay_sha256": post_std_hashes,
+                "std_identity": post_std_identity,
                 "std_test_only_overlay_valid": post_std_valid,
             },
             "runtime_identity_file": "runtime-identities.json",

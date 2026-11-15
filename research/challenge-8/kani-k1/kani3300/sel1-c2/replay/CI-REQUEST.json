@@ -2,7 +2,7 @@
   "authorization": "PREPARATION_ONLY",
   "dependencies": {
     "cbmc": "6.11.0",
-    "hash_binding": "PENDING_SEL1_C2_BUILD",
+    "hash_binding": "UNKNOWN_UNTIL_EXACT_FREEZE_CI_BUILD",
     "kissat": "4.0.1"
   },
   "flags": {
@@ -16,7 +16,7 @@
     "solver": "DEFAULT_CADICAL",
     "standard_checks": "DEFAULTS_ON"
   },
-  "lane": "EXISTING_COORDINATOR_ONLY",
+  "lane": "FORK_CI_COORDINATOR_ONLY",
   "ledger": null,
   "library_pin_confirmation": null,
   "nightly": "nightly-2026-10-23",
@@ -27,10 +27,10 @@
     "rss": "Capture per-child max RSS through wait4; if unavailable record null with UNKNOWN status. Do not wrap or alter Kani argv.",
     "scope": "Exactly six unique ON rows; sort4-closure-on once. No retries.",
     "sort4": "Expected SUCCESS,0 failed checks and useful comparator/frame/readback/return properties reached.",
-    "source_binding": "PENDING_FREEZE: regenerate all source file/subtree hashes; old C2/SEL1 receipts are reference only.",
+    "source_binding": "Regenerated570 exact file hashes including raw symlink bytes and7 subtrees on accepted SEL1-C2 freeze; runtime proof remains NOT_RUN.",
     "source_overlay": "Apply sel1-test-only.patch once to exact frozen std70ba; validate all five file hashes and base/library identities."
   },
-  "owner": "COORDINATOR_ASSIGNMENT_REQUIRED",
+  "owner": "COORDINATOR",
   "patched_file_sha256": {
     "library/core/src/slice/sort/shared/smallsort/verify.rs": "506644ad92ed4872af19bd1d302b439ff5e1d4dd850e9e9f149d429286065a95",
     "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "22de8b24f6adf35b633b2962d9873a349041a18cca9d580944d2d4a3c9ad0655",
@@ -38,7 +38,7 @@
     "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs": "c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1",
     "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs": "c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39"
   },
-  "phase": "UNASSIGNED",
+  "phase": "B_PREPARATION_PENDING_GATE_A_ACCEPTANCE",
   "preparation_cloud_cap_usd": 0,
   "proposal": {
     "aggregate_cap": "360MIN_TOTAL_6_SERIAL_60MIN_JOBS",
@@ -412,7 +412,7 @@
     }
   ],
   "run_budget": {
-    "aggregate_envelope_note": "PREPARATION_ONLY_360_MINUTES_INCLUDING_SETUP_AND_REPORTING; inherited60min job/2400s harness caps, coordinator owns execution",
+    "aggregate_envelope_note": "6 serial60min jobs including setup/reporting;360runner-min maximum; coordinator launch only after Gate A acceptance.",
     "aggregate_job_envelope": "6 serial jobs x 60 minutes = 360 minutes maximum",
     "aggregate_job_envelope_seconds": 21600,
     "harness_cap_seconds": 2400,
@@ -424,11 +424,11 @@
   "schema": "kani3300-sel1-c2-replay-request-v1",
   "selected_library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
   "slot": null,
-  "status": "PENDING_FREEZE",
+  "status": "BOUND_FREEZE_GATE_A_ACCEPTANCE_REQUIRED",
   "test_only_library_tree": "12e87bd4a4e141a8f829d8a0519efc09260c5059",
   "test_overlay_commit": "6075e7ce17179f45642c9ffe8fe09e3ec9395726",
   "test_patch_sha256": "473526895d6d57a99bd356a060195745cc6aba9ee2b70fcc7ae90fecb6676f06",
   "tool_binary_model_hashes": null,
-  "tool_export_sha": "PENDING_SEL1_FREEZE_SHA",
-  "tool_export_tree": "PENDING_SEL1_FREEZE_TREE"
+  "tool_export_sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "tool_export_tree": "1efb6e4dfa69d346df8e23741d11839b1932403d"
 }

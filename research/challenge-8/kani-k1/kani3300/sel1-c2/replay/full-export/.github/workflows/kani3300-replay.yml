@@ -1,17 +1,22 @@
 # Copyright Kani Contributors
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-name: Kani 3300 SEL1-C2 Gate B-prime replay (preparation candidate)
+name: Kani 3300 SEL1-C2 six-row SmallSort replay
 
 on:
-  workflow_dispatch:
+  push:
+    branches: ["uninit-ci/sel1-c2-replay-*"]
 
 permissions:
   contents: read
 
+concurrency:
+  group: kani3300-sel1-c2-replay
+  cancel-in-progress: false
+
 jobs:
   replay:
-    # Coordinator-owned fork lane only. This candidate is intentionally not dispatchable.
-    if: ${{ false && github.repository == 'Tiramisu-Cake/kani' }}
+    # Coordinator publishes only after accepted Gate A on this exact source freeze.
+    if: ${{ github.repository == 'Tiramisu-Cake/kani' }}
     runs-on: ubuntu-24.04
     # One 60-minute job per row; six serial jobs bound the proposed envelope to 360 minutes.
     timeout-minutes: 60
@@ -27,14 +32,26 @@ jobs:
           - raw-legal-on
           - raw-negative-on
     steps:
-      - name: Checkout CI-only overlay
+      - name: Checkout CI-only control
         uses: actions/checkout@v6
         with:
-          path: overlay
-          fetch-depth: 0
+          ref: ${{ github.sha }}
+          path: control
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Require single attempt and exact control head
+        working-directory: control
+        run: |
+          python3 - <<'PY'
+          import os, subprocess
+          assert os.environ["GITHUB_RUN_ATTEMPT"] == "1", "No replay retries authorized"
+          head = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+          assert head == os.environ["GITHUB_SHA"], "Control HEAD differs from trigger SHA"
+          PY
 
       - name: Python-only wrapper preflight
-        working-directory: overlay/scripts/kani3300-replay
+        working-directory: control/scripts/kani3300-replay
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python3 -m unittest -v test_replay.py
@@ -44,7 +61,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, os
-          req = json.load(open('overlay/scripts/kani3300-replay/CI-REQUEST.json'))
+          req = json.load(open('control/scripts/kani3300-replay/CI-REQUEST.json'))
           with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
               out.write('sha=' + req['tool_export_sha'] + '\n')
           PY
@@ -54,9 +71,11 @@ jobs:
         with:
           ref: ${{ steps.export.outputs.sha }}
           path: export
+          fetch-depth: 2
+          persist-credentials: false
 
       - name: Verify immutable SEL1-C2 source bindings
-        run: python3 overlay/scripts/kani3300-replay/replay.py verify-source --repo export
+        run: python3 control/scripts/kani3300-replay/replay.py verify-source --repo export
 
       - name: Setup pinned Kani dependencies
         uses: ./export/.github/actions/setup
@@ -70,13 +89,13 @@ jobs:
 
       - name: Prepare isolated selected std snapshot
         run: >-
-          python3 overlay/scripts/kani3300-replay/replay.py prepare-std
+          python3 control/scripts/kani3300-replay/replay.py prepare-std
           --repo https://github.com/Tiramisu-Cake/verify-rust-std.git
           --destination "$RUNNER_TEMP/kani3300-std"
 
       - name: Execute one exact replay row
         run: >-
-          python3 overlay/scripts/kani3300-replay/replay.py run-root
+          python3 control/scripts/kani3300-replay/replay.py run-root
           --repo "$GITHUB_WORKSPACE/export"
           --std "$RUNNER_TEMP/kani3300-std"
           --root "${{ matrix.root }}"
@@ -110,8 +129,10 @@ jobs:
       - name: Upload bounded receipts and retained failure artifacts
         if: always()
         uses: actions/upload-artifact@v4
+        env:
+          RECEIPT_ROOT: ${{ runner.temp }}/kani3300-receipt
         with:
-          name: kani3300-sel1-c2-replay-${{ matrix.root }}
-          path: ${{ runner.temp }}/kani3300-receipt/${{ matrix.root }}/
+          name: kani3300-sel1-c2-replay-${{ matrix.root }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.RECEIPT_ROOT }}/${{ matrix.root }}/
           if-no-files-found: error
           retention-days: 7
