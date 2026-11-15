@@ -1,0 +1,46 @@
+{
+  "schema": "ch8-profiles-source-audit-v1",
+  "candidate": "9fa2f7f97760584f38738909625c064006d8a936",
+  "tree": "2faa473adeb0172e0f5a5e75fa2d759b20902e6d",
+  "baseline": "c5ff36ff433692140605891f646043f991db05de",
+  "checks": [
+    "exact five-file scope",
+    "clean source worktree",
+    "smallsort.rs byte-identical",
+    "verification subtree + actual smallsort.rs: no explicit FnPtr/function-pointer type, function-address or as-fn coercion",
+    "four typed direct profile closures",
+    "seven contract attribute sets preserved except identity requires",
+    "old roots retained",
+    "removed literal allowlist checked"
+  ],
+  "removed_literals_mapped_in": "CONTROL-MAP.md",
+  "removed_literals": [
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs",
+      "literal": "canonical comparator required"
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs",
+      "literal": "invalid Freeze comparator reaches guard"
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs",
+      "literal": "invalid stable comparator reaches guard"
+    },
+    {
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs",
+      "literal": "invalid unstable comparator reaches guard"
+    }
+  ],
+  "source_sha256": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "4b7de384148af4b588eb41add0e22c6c3e6efb398926978ff5c1d7ebff4ca6f4",
+    "library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs": "185406a7eab60351f509734b2124f8f1d96d59b0080bb077536ee56ac8497886",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge.rs": "56429213d03535c0fb3b8e11d90b356efafeab39c6a150aee3f5fcc5559464a7",
+    "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs": "8f4b2a7f97aec5420e18e864d5756765181a4a78f2b27c9b9cdbbcbbeb40f12a",
+    "library/core/src/slice/sort/shared/smallsort/verify/network.rs": "b8976eaa4ad4b0dd4869463c2b123f07534de6e09a142dcc0dd0439e5e5cf6cc"
+  },
+  "actual_helper_sha256": "982449b95d4449807b55f6997f83c8cce6bb167e52a95b6e4342ab816d04ba84",
+  "assurance": "STATIC_SOURCE_ONLY",
+  "compiler_mir_layout_dispatch": "NOT_RUN",
+  "proof_credit": "NONE"
+}

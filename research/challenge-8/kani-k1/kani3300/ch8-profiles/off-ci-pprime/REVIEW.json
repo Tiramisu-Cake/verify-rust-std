@@ -1,0 +1,44 @@
+{
+  "schema": "smallsort-static-review-v1",
+  "reviewer": "codex-subagent:profiles_pprime_review",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "source": {
+    "baseline_commit": "c5ff36ff433692140605891f646043f991db05de",
+    "candidate_commit": "9fa2f7f97760584f38738909625c064006d8a936",
+    "candidate_tree": "2faa473adeb0172e0f5a5e75fa2d759b20902e6d",
+    "diff_sha256": "d3c40c3ffd76d89a7cf5eefe80fc0ee5aad8592ca85d4138682eadf11450011b",
+    "migration_patch_matches_prior_review_byte_for_byte": true,
+    "changed_files": 5,
+    "dependencies_verified": 5
+  },
+  "control": {
+    "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "candidate_commit": "6269319aecfb3328a2cffe8e2779432dbc346322",
+    "candidate_tree": "3c0864f161e79779c6fff0b1c17e14d5e01d0771",
+    "single_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "diff_sha256": "888b42d222eafe114565167463abeb89115a59e885414bc075ef23de71651638",
+    "rows": 62,
+    "rows_and_manifest_unchanged_from_reviewed_control": true,
+    "tool_pin_unchanged": true,
+    "fallback_cleans_list_and_row_targets": true,
+    "artifact_upload_excludes_target_directories": true
+  },
+  "verdict": "GO_STATIC_REVIEW_ONLY",
+  "findings": [],
+  "checks": [
+    "Confirmed candidate commits, trees, clean worktrees, and required parent identities.",
+    "Verified source patch is byte-identical to the previously reviewed migration patch; exact five-file scope retained.",
+    "Ran audit_static.py: actual smallsort.rs and declared helper dependencies remain unchanged; comparator contracts, roots, and migration scope satisfy its static assertions.",
+    "Verified all five packet dependency SHA256 values against baseline blobs.",
+    "Compared control to prior reviewed commit: only workflow, request, package checker, and runner changed; manifest, tests, tool pin, and 62 rows are unchanged.",
+    "Inspected fallback cleanup for list/target and each row target plus upload exclusion **/target/**.",
+    "Packet diff/spec hashes match metadata; git diff --check passes for both candidates."
+  ],
+  "limitations": [
+    "Static review only. No Rust compilation, Kani, CBMC, CI, or proof execution was performed; all proof results remain NOT_RUN and proof credit is NONE.",
+    "FnDef shim/layout/codegen lowering, PFC/Replace behavior, covers, and ON safety qualification remain unverified.",
+    "Closed profiles do not establish arbitrary FnMut footprint or purity, nor lawful ordering."
+  ],
+  "proof_credit": "NONE"
+}

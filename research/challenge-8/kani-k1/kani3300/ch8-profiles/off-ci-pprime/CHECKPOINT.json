@@ -1,0 +1,66 @@
+{
+  "schema": "ch8-profiles-pprime-w11-checkpoint-v1",
+  "worker": "worker11",
+  "runtime": "Codex",
+  "state": "READY_SOURCE_AND_OFF_CONTROL_PPRIME",
+  "g0_input": "34fb6ac87607be8e27634245c68331853142ed02",
+  "source_worktree": "/root/verify-rust-std-ch8-profiles-w11",
+  "source_branch": "work/ch8-profiles-pprime-w11",
+  "base_commit": "c5ff36ff433692140605891f646043f991db05de",
+  "source_commit": "9fa2f7f97760584f38738909625c064006d8a936",
+  "source_tree": "2faa473adeb0172e0f5a5e75fa2d759b20902e6d",
+  "control_worktree": "/root/kani-ch8-prof-off-w11",
+  "control_branch": "work/ch8-prof-off-pprime-w11",
+  "control_commit": "6269319aecfb3328a2cffe8e2779432dbc346322",
+  "control_tree": "3c0864f161e79779c6fff0b1c17e14d5e01d0771",
+  "control_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "authority": {
+    "push": false,
+    "ci": false,
+    "ledger": false,
+    "local_compiler_verifier": false
+  },
+  "dispatch_count": 0,
+  "push_count": 0,
+  "local_build_count": 0,
+  "ledger_writes": 0,
+  "proof_credit": "NONE",
+  "claims": [
+    {
+      "claim": "Profiles source migrated onto P-prime with exactly the original five-file patch; dependency blobs unchanged.",
+      "assurance": "STATIC_REVIEWED_NOT_COMPILED",
+      "evidence": [
+        "source.patch",
+        "static-audit.json",
+        "VALIDATION.json",
+        "REVIEW.json"
+      ]
+    },
+    {
+      "claim": "OFF control rebinds new source SHA/tree; manifest62 rows, checks and caps unchanged. List/row target build directories excluded from artifact.",
+      "assurance": "STATIC_REVIEWED_AND_SYNTHETIC_NOT_RUN",
+      "evidence": [
+        "control-delta.patch",
+        "ci-only.patch",
+        "VALIDATION.json",
+        "REVIEW.json"
+      ]
+    }
+  ],
+  "open": [
+    "Rust compilation, selected-instance lowering, all62 OFF rows and proof/cover/property acceptance NOT_RUN.",
+    "ON qualification remains separately deferred; no evidence transfer.",
+    "Remote source reachability not established; only coordinator may reserve/dispatch after separate authority."
+  ],
+  "review": {
+    "state": "GO_STATIC_REVIEW_ONLY",
+    "path": "REVIEW.json",
+    "sha256": "0f9f27936516dbbbbd2bd4b8f3e70091232b9bdaea64e28d64e3f74c4394a5c5",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "findings": []
+  },
+  "blocker": null,
+  "next": "Coordinator uses exact new source/control pins after separate publication/reservation/dispatch authorization. No old evidence transfers.",
+  "closure_reason": "Assigned preparation complete: clean cherry-pick onto P-prime, exact original migration patch, reviewed OFF control with target directory exclusion, static/synthetic validation and path-only g0 handoff. No push/CI/ledger/local compiler-verifier; proof credit NONE."
+}

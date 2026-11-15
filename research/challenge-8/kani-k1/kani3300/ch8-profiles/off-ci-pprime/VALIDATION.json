@@ -1,0 +1,43 @@
+{
+  "schema": "ch8-prof-off-pprime-static-validation-v1",
+  "source_sha": "9fa2f7f97760584f38738909625c064006d8a936",
+  "source_tree": "2faa473adeb0172e0f5a5e75fa2d759b20902e6d",
+  "control_sha": "6269319aecfb3328a2cffe8e2779432dbc346322",
+  "control_tree": "3c0864f161e79779c6fff0b1c17e14d5e01d0771",
+  "result": "PASS",
+  "checks": [
+    "exact source parent P-prime; five verification files only",
+    "source.patch byte-identical to 872d..b5cf migration",
+    "manifest byte-identical; all62 rows/checks/caps unchanged",
+    "exact source/tool SHA and tree, clean source/control worktrees",
+    "single stock-tool parent; control-only changed path inventory",
+    "all control payload hashes",
+    "26 synthetic service tests PASS",
+    {
+      "control_sha": "6269319aecfb3328a2cffe8e2779432dbc346322",
+      "parent_tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "status": "PASS"
+    },
+    {
+      "checkout_depth": "AT_LEAST_2",
+      "dispatch": "NOT_RUN",
+      "layout": [
+        "control",
+        "export",
+        "tool"
+      ],
+      "runner_context": "STEP_ENV_ONLY",
+      "yaml": "PASS"
+    },
+    "actionlint PASS",
+    "fallback: list/row target removed; original receipt+stderr preserved; all62 receipts retained/materialized",
+    "all five source review dependency blobs unchanged by P-prime rebase",
+    "source/control git diff --check PASS; g0 documents excluding archived *.patch PASS. Exact archived patches retain Git context blank-line prefixes and upstream deleted whitespace; these are not source whitespace defects.",
+    "source/control review packets validated against exact candidate/spec hashes"
+  ],
+  "local_compiler_verifier": "NOT_RUN",
+  "ci": "NOT_RUN",
+  "pushes": 0,
+  "ledger_writes": 0,
+  "proof_credit": "NONE"
+}

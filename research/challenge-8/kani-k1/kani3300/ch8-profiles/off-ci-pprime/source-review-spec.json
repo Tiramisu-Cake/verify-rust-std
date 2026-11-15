@@ -1,0 +1,31 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-ch8-profiles-w11",
+  "baseline_commit": "c5ff36ff433692140605891f646043f991db05de",
+  "candidate_commit": "9fa2f7f97760584f38738909625c064006d8a936",
+  "defect": "Rebase exact previously reviewed static profile migration onto P-prime, with unchanged migration patch.",
+  "applicability": "Verification modules only: profiles, network/merge callers and covers, N2 forwarding contracts, new matched profile summary consumers and relation roots. Existing SmallSort bodies and real helper frame contracts must be preserved.",
+  "invariants": [
+    "Preserve every P-specific order and full-value model, probe and volatile reads.",
+    "Preserve geometry, modifies and ordered/full-value postconditions; only comparator-identity requires replaced by callback-free type/API guarantee.",
+    "Bad profiles are cfg-only real-body negative tests, never authorized summary domains.",
+    "No local builds, push, CI or modifications of smallsort.rs."
+  ],
+  "controls": [
+    "Retain four historical profile wrong-F roots, map to three bad-comparator and one bad-model-relation real-wrapper controls.",
+    "Retain forwarding wrong-F root as three real-entry bad-static-adapter branches; payload and existing helper frame controls retained.",
+    "New positive relation checks for all eleven closed profiles and matched swap/sort4/insert/merge summary consumers."
+  ],
+  "dependencies": [
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "library/core/src/slice/sort/shared/mod.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/insert_tail_contracts.rs"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Static review only; Rust compilation, shim/layout lowering, PFC/Replace evidence, covers and ON safety qualification NOT_RUN.",
+    "Closed profiles do not prove arbitrary FnMut footprint/purity or lawful order. Stop on hidden indirect edge, FnDef-shim/layout/codegen blocker, weakened properties/frame."
+  ]
+}
