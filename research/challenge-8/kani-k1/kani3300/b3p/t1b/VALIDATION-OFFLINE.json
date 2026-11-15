@@ -1,0 +1,77 @@
+{
+  "AA_cumulative": {
+    "allocations": {
+      "final": 92,
+      "linked": 131,
+      "symtab": 131
+    },
+    "builtin_location": {
+      "final": 92,
+      "linked": 92,
+      "symtab": 92
+    },
+    "initialize_order": {
+      "final": 131,
+      "linked": 131,
+      "symtab": 131
+    },
+    "legacy_first_occurrence": {
+      "final": 80,
+      "linked": 92,
+      "symtab": 92
+    },
+    "local_names": {
+      "final": 131,
+      "linked": 131,
+      "symtab": 131
+    },
+    "vtable_comment": {
+      "final": 92,
+      "linked": 92,
+      "symtab": 92
+    }
+  },
+  "AA_symbol_residual_keys": [],
+  "all_assertions_passed": true,
+  "allocation_definition_names_checked": 5937,
+  "compiled_Value_markers_by_kind_all_arms": {
+    "final": 196587,
+    "linked": 194364,
+    "symtab": 0
+  },
+  "control_AA_equal_AB_different_at_every_stage": {
+    "final/control/array_typed_copy": {
+      "allocations": true,
+      "builtin_location": true,
+      "initialize_order": true,
+      "legacy_first_occurrence": true,
+      "local_names": true,
+      "vtable_comment": true
+    },
+    "linked/control/t1-control/main__RNvCs4mluHxTdfxx_4main16array_typed_copy.out": {
+      "allocations": true,
+      "builtin_location": true,
+      "initialize_order": true,
+      "legacy_first_occurrence": true,
+      "local_names": true,
+      "vtable_comment": true
+    },
+    "symtab/control/t1-control/main__RNvCs4mluHxTdfxx_4main16array_typed_copy.symtab.out": {
+      "allocations": true,
+      "builtin_location": true,
+      "initialize_order": true,
+      "legacy_first_occurrence": true,
+      "local_names": true,
+      "vtable_comment": true
+    }
+  },
+  "noncontrol_AB_before_local_alpha": [
+    "symtab/s2n-quic/common/s2n-codec/build/tests/perf/s2n-quic/common/s2n-codec/expected/target/kani/x86_64-unknown-linux-gnu/debug/build/s2n-codec/b83384ce362cebb6/out/s2n_codec-b83384ce362cebb6__RNvNtNtCs9WApEdsonjX_9s2n_codec9unaligned5testss_12i48_from_i16.symtab.out",
+    "symtab/s2n-quic/quic/s2n-quic-core/build/tests/perf/s2n-quic/quic/s2n-quic-core/expected/target/kani/x86_64-unknown-linux-gnu/debug/build/s2n-quic-core/a6a922933150dc09/out/s2n_quic_core-a6a922933150dc09__RNvNtNtCseXG3gylKtuC_13s2n_quic_core6varint5testss_22two_byte_sequence_test.symtab.out"
+  ],
+  "normalizer_sha256": "e1dd06ab4159ee530a52db89bde8e9e8e46b78233c1c54f81927efe2bf00b608",
+  "printed_allocation_name_collisions": [],
+  "result_sha256": "da2602996fd73adb834d04dd88b13c360b8750fe951d9c534462c7c1ae1c3b6c",
+  "unique_symbol_dumps_scanned": 683,
+  "validation_script_sha256": "2428ed30f330169afe99719e5b3d2dd38fc8a3e0d03de86fd540f6471b55c11c"
+}
