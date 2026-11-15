@@ -1,0 +1,52 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-ch8-pr02-reset-ci-w15",
+  "baseline_commit": "f695f653efaa1f7ac6774a079104de8cc0ff81fc",
+  "candidate_commit": "b4edbb18bc8a490197420aac0964a7d55b284380",
+  "defect": "CI-only source/reset and matched old/new package, one matrix run with two capped arms; review continuation after source scope GO.",
+  "applicability": "Dedicated CI-only worktree; stock workflows removed here only. Source worktree and existing stack unchanged.",
+  "invariants": [
+    "Exact PR02 and SEL1 base SHA/tree and source patch digest/resulting tree bindings.",
+    "One matrix run, push trigger limited to uninit-ci/ch8-pr02-reset-*, same-tree non-skip child of skip package, first attempt only.",
+    "Arm A full checks/new and existing regressions plus seven exact old-source controls; old seeded cases require fatal.",
+    "Arm B exact A1 original fixture and explicit companion, no empty or wrong-target result accepted.",
+    "No push, CI, local Rust/compiler/verifier runs, no ledger or PR text changes."
+  ],
+  "controls": [
+    "Source candidate unchanged from source-scope GO.",
+    "Seven new expected fixtures; affected uninit/function-contract/autoharness suites and compiler lib tests queued for CI.",
+    "Seven old fixtures with identical argv; three seeded fatal controls; old negative observed without new proof credit.",
+    "Exact A1 #4854 autoharness and explicit proof companion hashed and result-bound.",
+    "Offline package/YAML/embedded output, source invariants and five synthetic runner error-path tests PASS; native/CI NOT_RUN."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/automatic.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+    "library/kani_core/src/mem_init.rs",
+    "kani-driver/src/args/mod.rs",
+    "kani-driver/src/args/autoharness_args.rs",
+    "kani-driver/src/autoharness/mod.rs",
+    "tools/compiletest/src/runtest.rs",
+    ".github/actions/setup/action.yml",
+    "scripts/kani",
+    "scripts/validate_json_export.py",
+    "tools/compiletest/src/common.rs",
+    "kani-driver/src/frontend/schema_utils.rs",
+    "kani-driver/src/sarif.rs",
+    "kani-compiler/src/kani_middle/metadata.rs"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/ch8-pr02-reset-review-source/REVIEW.md",
+      "sha256": "b83a6399850a04dfe817b5116be7ec01f3489d18340495dd252970c770a49524"
+    }
+  ],
+  "known_limitations": [
+    "All compile/regression/native proof outcomes are NOT_RUN; static/synthetic checks do not grant proof credit.",
+    "Source-level reset ordering/count/OFF absence gate; emitted model evidence has not been inspected."
+  ]
+}

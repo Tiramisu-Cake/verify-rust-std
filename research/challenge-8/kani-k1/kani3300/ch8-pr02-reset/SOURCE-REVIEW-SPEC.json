@@ -1,0 +1,35 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-ch8-pr02-reset-w15",
+  "baseline_commit": "932fb8395a58f8c86c0d702ba2cae835823b2962",
+  "candidate_commit": "f695f653efaa1f7ac6774a079104de8cc0ff81fc",
+  "defect": "Automatic harness entry reset omitted with Uninit checks; PR02 seeded finalizer rejects missing reset.",
+  "applicability": "PR02 generated AutomaticHarness intrinsic wrapper only. Package under preparation will be submitted as delta to same reviewer.",
+  "invariants": [
+    "Recognize exactly AutomaticHarness intrinsic through existing try_from; preserve both proof attributes.",
+    "One entry reset before argument generation and contract setup only when Uninit enabled.",
+    "Do not reset target/callee, weaken finalizer or materialize reset without a call."
+  ],
+  "controls": [
+    "Seven upstream script-based-pre fixtures and expected files; CI NOT_RUN.",
+    "Full patch applies without conflicts to C2 final and SEL1; no stack rewrite."
+  ],
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/automatic.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+    "library/kani_core/src/mem_init.rs",
+    "kani-driver/src/args/mod.rs",
+    "kani-driver/src/args/autoharness_args.rs",
+    "kani-driver/src/autoharness/mod.rs",
+    "tools/compiletest/src/runtest.rs"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "No local compilation or proof tool use authorized.",
+    "CI package review is pending as delta; this source packet alone is not final GO."
+  ]
+}
