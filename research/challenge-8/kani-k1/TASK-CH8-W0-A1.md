@@ -3,7 +3,9 @@
 2026-11-16. Worker15, одна сессия подготовки; после reviewable package STOP до запуска координатором.
 Это верификация корректности, не security-работа.
 
-Владелец подтвердил решения `PLAN-CH8-ITEM1-REMAINING-v2.md` @ `dea4b12168`, волна0 выдана.
+Владелец подтвердил решения `PLAN-CH8-ITEM1-REMAINING-v2.md` @ `dea4b12168`, затем P0 пункта2
+и поправки §7 `ROADMAP-CH8-ITEMS1-2-FOUR-WORKERS.md`. Это единая обновлённая редакция W0-A1,
+не дополнительная стадия/квота. Четыре роли:11 модели S,13 core-интегратор,14 U/CI inventory,15 A1→merge→E.
 **WIP: никакого нового compiler/runtime-кода, моделей, summaries, contracts или алгоритмических изменений.**
 Разрешены test-only fixtures, CI-only обвязка и research. Локальные cargo/rustc/Kani/CBMC/Miri/builds запрещены.
 Fork CI, Cloud $0. Push, non-skip trigger, remote branches и все запуски — координатор; публикаций нет.
@@ -32,6 +34,14 @@ Fork CI, Cloud $0. Push, non-skip trigger, remote branches и все запус�
 Не checkout/reset/clean/stash чужие области. Новые области — только worktrees, без полных clones/копий target:
 Kani `/root/kani-fix-ch8-w0-a1-w15` от candidate; std `/root/verify-rust-std-ch8-w0-a1-w15` от6075.
 Занятый/dirty путь или неверный SHA/tree — STOP без перезаписи. Git object transfer из локального repo допустим.
+Создавать отдельную локальную std-ветку `work/ch8-w0-a1-w15` от exact6075; это safety campaign A,
+не sorting-ветка S от#752. Единственное registration exception worker15 — `verify.rs` в этой A1-ветке
+и новый `verify/wave0_a1.rs`; не переносить регистрацию в S и не править `smallsort.rs`.
+Любые будущие core/helper/loop attrs передаются единственному интегратору worker13 отдельным заданием.
+
+Чистый upstream0aac одновременно выбран tool pin для S, но совпадение tool source не переносит verdict
+между разными std sources, flags, comparator и свойствами. Новый KeyLess из S в A1 не подставлять:
+остаётся прежняя actual-body closure; её отдельная ON квалификация не подразумевается S1 smoke.
 
 Research write scope: **`research/challenge-8/kani-k1/kani3300/w0-a1/`** в g0.
 Worker14 владеет W0-U/pr-texts; туда не писать. Исторические receipts и задачи не менять.
@@ -79,6 +89,8 @@ explicit `panic_on_ord_violation` stub, если он нужен для normal-r
 
 Первый future dispatch: восемь строк ON из §2, самые дорогие N32 — в начале очереди.
 Три N32 нужны, чтобы не объявлять один маршрут «самым тяжёлым» без сравнения flat/general/network.
+Это восемь ON safety cases пункта1 и три его N32 samples, **не** три функциональных R6/S2 probes пункта2:
+arbitrary-bool normal-return cost не измеряет lawful sortedness/multiset consumer.
 Записать max complete elapsed/RSS и censored timeout/OOM отдельно; после cap нельзя ранжировать неизвестные времена как измеренные.
 «Как есть» означает реальные тела без composition/новых stubs или ослабления checks ради масштабирования.
 
@@ -124,7 +136,7 @@ Expected baseline outcomes из issue — **hypotheses**: если дефект 
 тот же std/fixture/root, только uninit flag удалён. Никаких иных изменений comparator, unwind, slicing, solver, geometry.
 Это сравнение стоимости/фазы, не новый proof и не разрешение ковырять исходники при timeout.
 
-## 5. Бюджет: максимум три fork dispatch A1 из общего потолка18
+## 5. Бюджет: максимум три A1 dispatch из прежних18, общий ceiling32
 
 - **R1:** один dispatch std scale/landmarks, §3.
 - **R2:** один dispatch original native cases/companions на двух pins + при необходимости один std OFF companion.
@@ -134,9 +146,12 @@ Expected baseline outcomes из issue — **hypotheses**: если дефект 
   дополнительный C2 middle-pin comparison для атрибуции. Не использовать резерв на compiler patch, иной solver или новый sweep.
 
 Это 2 обязательных и до1 резервного dispatch, **не число verifier invocations**. В READY-пакете runtime ещё NOT_RUN;
-координатор списывает фактически начатые dispatch, включая infrastructure failure, в общий счёт18.
+координатор списывает фактически начатые dispatch, включая infrastructure failure, в единый
+`CH8-DISPATCH-LEDGER.md`: A1 cap3 внутри прежнего item1 cap18; item2 получил отдельные14, всего≤32.
 Нет auto-rerun, увеличения caps, новых historical pins или расходования резерва по умолчанию.
 Если A1 выдаёт named blocker, handoff в U/E/решение по Replace, а не новый compiler feature от worker15.
+R1/R2 dispatch планирует координатор рядом с S1 smoke/S2 cost jobs; готовый A1 workflow не резервирует
+все CI slots и не даёт приоритета над S. Общее расписание, а не worker, решает одновременность тяжёлых jobs.
 
 ## 6. CI-only overlay и обязательный control/export чек-лист
 

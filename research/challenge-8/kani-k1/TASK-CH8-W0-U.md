@@ -4,7 +4,7 @@
 
 **Worker:** worker14
 **Window:** one bounded session; stop after the deliverables below are reviewable.
-**Authority:** the owner approved all six decisions in `PLAN-CH8-ITEM1-REMAINING-v2.md` at `dea4b12168` and launched wave 0. This assignment prepares the W0-U submission package only. It does not authorize publication, CI, or implementation work.
+**Authority:** the owner approved all six decisions in `PLAN-CH8-ITEM1-REMAINING-v2.md` at `dea4b12168`, and has now accepted P0 of `PLAN-CH8-ITEM2-SORTING-v2.md` and §7 of `ROADMAP-CH8-ITEMS1-2-FOUR-WORKERS.md`. This is the single revised W0-U assignment, not an additional session or dispatch allowance. It prepares the submission package only; no publication, CI, or implementation work is authorized here.
 
 ## Objective
 
@@ -20,6 +20,7 @@ Read `/root/AGENTS.md`, this task, and the relevant sections of `PLAN-CH8-ITEM1-
 - Existing dependency: Kani `#5172`, source head `6fe484b30043b3696b5f1ccc4bea0e42891ad012`, based on upstream `0aac16ef62da9e9d5645782d458593e5d78143ba`. It is not to be resubmitted. Refresh current upstream and GitHub PR metadata read-only if available; record timestamp and exact metadata. Do not inspect CI logs.
 - Current accepted SEL1 evidence: `kani3300/sel1-c2/quick/ci-43740679160/ACCEPTANCE.md`, `kani3300/sel1-c2/gatea/run-43744142824/ACCEPTANCE.md`, and `kani3300/sel1-c2/replay/run-43751703000/RESULT.md`.
 - Use the accepted source maps, design/review notes, and bounded run summaries for the C2 stack. Keep each evidence item tied to its exact source/pin and distinguish fork evidence, bounded challenge results, and organizer integration evidence.
+- Read the accepted P0 profiles and §7 amendments in the two documents above. Sorting campaign S starts from std `872d5a43380752786415bc00d2a12ce0e930cb37` with clean upstream Kani `0aac16ef62da9e9d5645782d458593e5d78143ba`, without uninit/value checks. Its threshold16/32 proof work does not wait for C2/SEL1 to merge. Safety campaign A retains SEL1 and its own source/flags/evidence. Consult `CH8-DISPATCH-LEDGER.md`; U has at most one coordinator-authorized dispatch in the existing item1 allocation, not a CI allowance for this text session.
 
 If any pinned source identity or accepted receipt does not match, stop that claim, record the mismatch, and do not move, rewrite, recommit, rebase, or cherry-pick accepted source. Text-only work may continue where the mismatch does not affect it.
 
@@ -57,6 +58,7 @@ Use an RFC structure with a clear problem statement, goals/non-goals, proposed a
 - selected contract/closure bodies, initialization of ordinary argument slots, delayed-body mutation and per-root isolation, and what the structural isolation checks actually establish;
 - alternatives considered and why they are deferred or rejected, without proposing a new compiler model or expanding the accepted source scope;
 - the precise bounded challenge harness outcomes and measured costs supported by accepted receipts, with exact run/source associations. Include geometry/target limits and `-Z valid-value-checks` status where relevant. Do not imply that a bounded replay is a whole-module proof or that it supplies organizer CI integration;
+- the independent sorting path on the stock upstream pin: its pin-bump request does not depend on completion of the seven-PR initialization series, and its functional evidence without extra UB checks cannot be combined with SEL1 results merely because root names match;
 - known unsupported or unqualified cases: function-pointer/trait-object call dispatch, `stub_verified` (Replace) and `kani::recursion` shadow transfer, delayed-analysis cycles, and other source/evidence limits. Treat loop-contract havoc interactions as unqualified/open unless an actual control establishes their behavior;
 - the SEL1 Quick, Gate A, and replay chain with their counts, platforms, flags, and explicit boundaries: bounded closure-comparator evidence, `-Z valid-value-checks` OFF, not all `T/N`, not the function-pointer comparator profile, not the whole module, and `#5104` not addressed. Gate A's curated acceptance reports 41/40/76 minutes for ubuntu-24.04, ubuntu-24.04-arm, and macos-15. The replay result does not report timing or RSS; record those costs as unknown. Do not attribute an older C2 B′ measurement to SEL1. Older measured costs may be included only when clearly pinned to their own source/run and scope.
 
@@ -64,7 +66,16 @@ Do not turn source-reported claims into independent proof credit. Do not call th
 
 ## Organizer question
 
-Prepare one short, respectful draft for verify-rust-std issue `#56` or our verify-rust-std PR `#752`, asking whether the challenge requires `insertion_sort_shift_left` for arbitrary valid length/offset beyond the caller's representative thresholds; whether representative types covering all observed type/size/specialization branches suffice or a generic-`T` theorem is required; and whether selected SmallSort harnesses may use a separate `-Z uninit-checks` CI step, with any later `-Z valid-value-checks` step separately qualified. Ask which upstream pin/integration route is expected. Preserve the distinction between a proposal and an accepted ruling. Include the required disclosure. The owner posts it; worker14 does not.
+Prepare **one combined U/A7 message**, in either verify-rust-std issue `#56` or our PR `#752`; do not create a second organizer draft elsewhere. Start from the published interpretation, citing the organizer's answer in `#56` and the requirements/review archive referenced by the item2 plan: item2 uses the valid threshold domain (16 fallback, 32 general/network), primitive values with their usual ordering, and actual checked trait-method contracts. Present symbolic-length harnesses and accounting for six implementation bodies as our proposed coverage strategy, not as a verbatim organizer requirement. Invite correction instead of asking as though no prior answer exists.
+
+In the same concise message ask:
+
+- whether item1 additionally requires insertion-helper safety for lengths/offsets beyond all caller thresholds;
+- whether the proposed primitive instances plus Cell/non-Copy route representatives and six-body accounting meet the intended type coverage, and which additional instances would be required;
+- which total time, worst-shard, RSS and concurrency budget to target, and whether selected harnesses may run in a separate `-Z uninit-checks` step; keep any later value-validity step separately qualified;
+- for a pin bump to **clean upstream Kani `0aac16ef62da9e9d5645782d458593e5d78143ba`**, containing the fixes for issues `#4908` and `#5116` (including specialization-contract fix `063204a177272585352b6942ae2b04709fe58b48`). Explain that this enables sorting contracts independently of the pending initialization stack. Request the adoption route; do not state the bump is already adopted.
+
+Clearly distinguish S without extra UB checks from the separate proposed organizer safety step. Use issue links, not links to other people's PRs. Include the exact disclosure. The owner alone posts the message; worker14 does not.
 
 ## Checklist and INDEX handoff
 
