@@ -1,0 +1,40 @@
+{
+  "schema": "ch8-s1k-pprime-validation-v1",
+  "std_sha": "f22f84f316ad8ef6f3fccce86424bad927b09f78",
+  "control_sha": "8c8ac10d675fff41d5ec1b2684c6f673cd6bfaf2",
+  "state": "PASS_STATIC_ONLY",
+  "checks": {
+    "source": "SOURCE-VALIDATION.json",
+    "exact_rebase_and_batch": "REBASE-VALIDATION.json",
+    "synthetic_tests": {
+      "result": "PASS",
+      "tests": 16,
+      "command": "cd /root/kani-ch8-s1k-pprime-w13/ch8-s1-control && PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_runner.py test_package.py",
+      "actual_build": "NOT_RUN; build wrapper mocked"
+    },
+    "yaml": "PASS; check_package.py yaml .github/workflows/ch8-s1.yml",
+    "actionlint": "PASS; /tmp/kani3300-d0-ci-tools/actionlint -shellcheck= -pyflakes= .github/workflows/ch8-s1.yml",
+    "actual_source_identity": "PASS; runner.py check-source --std /root/verify-rust-std-ch8-s1-pprime-w13 --tool /root/kani-upstream-ch8-s1",
+    "actual_control_identity": "PASS; check_rebase.py supplies exact synthetic GitHub env to read-only control check",
+    "manifest": "PASS; sha256sum -c MANIFEST.sha256, all8 entries",
+    "source_control_git_diff_check": "PASS",
+    "manual_source_diff_read": "COMPLETE; extra > fixed; no further analogous syntax typos found; compilation unverified",
+    "independent_review": {
+      "result": "APPROVED_PREPARATION_ONLY",
+      "reviewer": "GPT-6 Luna HIGH; isolated context; no nested delegation",
+      "report": "REVIEW.md",
+      "sha256": "77bdf105d6cec395f263e4efe26992125bce3ace475f305bc0a93444ad325f5b",
+      "packets": "BOTH_VALIDATED_BY_REVIEWER"
+    },
+    "g0_diff_check": {
+      "result": "PASS_EXCLUDING_IMMUTABLE_REVIEW_PACKETS",
+      "note": "Inherited whitespace in exact source dependency scripts/run-kani.sh (source-review-packet/dependencies/0001.bin), plus original upstream workflow context in exact review patches. Packet bytes preserved for hashes; source/control candidates themselves pass diff --check."
+    }
+  },
+  "execution": {
+    "push_ci_publication_ledger": "NOT_RUN",
+    "cargo_rustc_kani_cbmc": "NOT_RUN",
+    "proof_rows": "ALL_23_NOT_RUN",
+    "proof_credit": "NONE"
+  }
+}

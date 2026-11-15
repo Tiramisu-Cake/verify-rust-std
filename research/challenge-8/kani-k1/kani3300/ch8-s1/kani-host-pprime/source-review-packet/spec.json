@@ -1,0 +1,27 @@
+{
+  "applicability": "TASK-CH8-PPRIME-REBASE.md item 13; preparation only; no push/CI/ledger or local compiler/verifier. Old source75a4 and control36db available in local Git stores for exact comparison.",
+  "baseline_commit": "c5ff36ff433692140605891f646043f991db05de",
+  "candidate_commit": "f22f84f316ad8ef6f3fccce86424bad927b09f78",
+  "controls": [
+    "Static source runtime-body comparison; exact old/new source delta; literal rows equality; workflow exclusion matches list/target and nested target paths; synthetic runner/error paths, actionlint, source and control identity checks."
+  ],
+  "defect": "CH8 S1 P-prime rebase: 872d/0aac nightly mismatch and extra generic closing angle in override companion; exclude target build directories from artifact upload.",
+  "dependencies": [
+    "library/core/src/slice/sort/shared/mod.rs",
+    "scripts/run-kani.sh",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "S-prime is cherry-pick of 1313f7c329 and 75a4d1ea6e on c5ff36ff433692140605891f646043f991db05de, pin resolved to tool0aac; only additional source change removes one extra > at sorting_entry_controls.rs:32. Read full source diff for similar syntax errors.",
+    "Runtime algorithms/bodies/signatures/thresholds unchanged relative to P-prime. All old 23 rows/oracles/caps/flags/activation patches unchanged.",
+    "Control is single child of tool0aac; relative to old36db only std SHA/tree bindings, mechanically derived source/payload hashes and workflow target upload exclusion may differ. runner.py differs only STD_SHA/STD_TREE constants. Historical base_std_sha/model_source_sha retained as provenance."
+  ],
+  "known_limitations": [
+    "No Rust/Kani compilation or proof run; all 23 rows NOT_RUN and no proof credit.",
+    "Do not run build/list/run or actual compiler/exporter; mocked synthetic service tests allowed.",
+    "No nested delegation. Return compact findings, validation and preparation-only decision."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-ch8-s1-pprime-w13"
+}
