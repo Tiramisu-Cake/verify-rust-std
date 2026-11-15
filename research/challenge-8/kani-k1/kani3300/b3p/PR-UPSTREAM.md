@@ -58,6 +58,8 @@ A nonzero-width arm that contains a zero-sized array, such as `struct Tail { b: 
 
 ### Related
 
+Resolves #5175
+
 - #5085 reports the same CBMC invariant for nested zero-width arrays in statics and constants. It is reached through a different lowering path, so this PR does not claim to fix it.
 - diffblue/cbmc#9487 fixes the invariant in CBMC itself. Once Kani's CBMC includes it, the special case here can be removed.
 - With `-Z uninit-checks`, the same unions hit a separate compiler panic in `relevant_instruction.rs` (similar to #4854; seen on bf9c58e662, not rechecked on current `main`). It occurs both with and without this change and is not addressed here.
