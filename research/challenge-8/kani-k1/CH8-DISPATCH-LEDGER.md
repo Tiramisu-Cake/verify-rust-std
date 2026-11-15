@@ -128,4 +128,6 @@ Outcomes:
 
 | ~00:10Z | S1-02 | S1 (item 2) | S′ `f22f84f316` (P′ + S commits + E0369 fix; std fork `experiment/ch8-s1-pprime-20261116`); control `8c8ac10d67` (tree `f0a7d1d51f`) → sibling `79542c7733` on Tiramisu-Cake/kani `uninit-ci/ch8-s1k-b` | 43777127361 | Same 23 rows/caps; upload excludes target/. g0 `e766e3993f` kani-host-pprime. Profiles OFF (source `9fa2f7f977`, control `6269319aec`) held until S1-02 passes the core compile. |
 
-Item 1 used: 3 of 18 (A1 2 of 3, B 1 of 3). Item 2 used: 2 of 14 (S1 2 of 2). Total 5 of 32.
+| ~00:20Z | U-01 | U (item 1) | source `f695f653ef` (PR-02 `932fb8395a` + entry-reset fix + 7 fixtures); CI pkg `b4edbb18bc` (tree `a5a1c0b0b0`) → trigger `e4bf2df0ca` on Tiramisu-Cake/kani `uninit-ci/ch8-pr02-reset-a` | 43777434715 | Arm A PR-02+fix vs old PR-02 matched; arm B SEL1+fix with original #4854 autoharness + explicit companion. g0 `21b3174275` ch8-pr02-reset/. |
+
+Item 1 used: 4 of 18 (A1 2 of 3, B 1 of 3, U 1 of 1). Item 2 used: 2 of 14 (S1 2 of 2). Total 6 of 32.
