@@ -1,0 +1,29 @@
+{
+  "control_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+  "result": "PASS",
+  "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_runner.py test_package.py test_s104.py",
+  "working_directory": "/root/kani-ch8-s1-04-depth-w13/ch8-s1-control",
+  "exit_code": 0,
+  "tests_run": 38,
+  "elapsed_seconds": 137.334,
+  "local_output_sha256": "295513ce6d82bf24e69e791e49cd3b4e96e01a7014aa0646ab0ca6c48b4d0e9e",
+  "new_tests": [
+    "test_checkout_depth_policy_in_every_job",
+    "test_every_checkout_shallow_clone_runs_real_identity_operations"
+  ],
+  "shallow_clone_transport": "file:// --no-local --single-branch --depth <actual YAML depth>",
+  "per_job_checkouts_exercised": 12,
+  "depth_policy_mutations": 40,
+  "negative_regressions": [
+    "depth2 control retains HEAD^ but control diff tool..HEAD raises original CalledProcessError exit128",
+    "depth1 HEAD^ unavailable"
+  ],
+  "original_tests": "All 36 previous tests retained and passed; only two added",
+  "limits": [
+    "Synthetic Git histories only; no production shallow clone, compiler, proof tool, network or CI.",
+    "Local 137.334s is not a GitHub runner timing measurement; existing CI synthetic step cap of 1 minute unchanged."
+  ],
+  "proof_execution": "NOT_RUN",
+  "proof_credit": "NONE",
+  "dispatch": "NOT_RUN"
+}

@@ -1,0 +1,97 @@
+{
+  "offline_closure": "PASS",
+  "control_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+  "control_parent": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+  "control_tree": "27692f2145d4faec363ba04faea9feb775cccd5f",
+  "prior_control_sha": "2a532e5913173d6af4490c25d74c587f7bf1a749",
+  "delta_paths": [
+    ".github/workflows/ch8-s1.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/test_package.py"
+  ],
+  "updated_payload_hash_paths": [
+    ".github/workflows/ch8-s1.yml",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/test_package.py"
+  ],
+  "request_sha256": "fce0e446f1506d0aebf4afc9929075843beed69c01a626391f119e18125850b7",
+  "std_sha": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "checkout_rows": [
+    {
+      "job": "s1_light",
+      "path": "control",
+      "depth": 3
+    },
+    {
+      "job": "s1_light",
+      "path": "export",
+      "depth": 2
+    },
+    {
+      "job": "s1_light",
+      "path": "tool",
+      "depth": 2
+    },
+    {
+      "job": "s1_activation",
+      "path": "control",
+      "depth": 3
+    },
+    {
+      "job": "s1_activation",
+      "path": "export",
+      "depth": 2
+    },
+    {
+      "job": "s1_activation",
+      "path": "tool",
+      "depth": 2
+    },
+    {
+      "job": "s1_cell",
+      "path": "control",
+      "depth": 3
+    },
+    {
+      "job": "s1_cell",
+      "path": "export",
+      "depth": 2
+    },
+    {
+      "job": "s1_cell",
+      "path": "tool",
+      "depth": 2
+    },
+    {
+      "job": "s1_heavy",
+      "path": "control",
+      "depth": 3
+    },
+    {
+      "job": "s1_heavy",
+      "path": "export",
+      "depth": 2
+    },
+    {
+      "job": "s1_heavy",
+      "path": "tool",
+      "depth": 2
+    }
+  ],
+  "workflow_other_fields": "UNCHANGED_TYPED_DOCUMENT_EQUALITY",
+  "control_preflight": "PASS",
+  "source_identity_preflight": "PASS_LOCAL_READ_ONLY",
+  "shallow_simulation": "12 real file:// synthetic clones, depths from each job; TESTS.json",
+  "old_depth_2_regression": "diff against tool endpoint exits 128; HEAD^ still available",
+  "synthetic_tests": 38,
+  "scheduled_rows": 35,
+  "groups": 14,
+  "unions": 4,
+  "production_shallow_clone": "NOT_RUN; synthetic graph simulation only",
+  "github_server_acceptance": "NOT_RUN",
+  "proof_execution": "NOT_RUN",
+  "proof_credit": "NONE",
+  "dispatch": "NOT_RUN"
+}
