@@ -149,6 +149,9 @@ S1 list fix (a) `c03363b3b0` (list timeout 1500 s) rejected by coordinator: orga
 - U-03 43783429976: units 66/66, uninit 56/0, contracts 134/0, autoharness suite 54 passed + new entry_reset 6/7; only `uninit_read` fixture failed (padding read not treated as uninit → SUCCESS). Matched old PR-02: seed_only/argument_seed/contract_seed fatal `reset is absent`, no_seed completed. Coordinator: drop uninit_read, finalize PR-02 with 6 fixtures (no further CI). TASK-CH8-PR02-FINAL-W11.
 - E-01 intake (g0 `4596de81f5`): STOP E for current encoding — loop frame lacks shadow-memory allowance under uninit ON (function contracts have it); `kani::exists` ignored OFF; E-S fixture namespace error (E0425). Issue draft unpublished.
 - PROF-OFF-02 43784551069: batch mode works — group-00 53/53 SUCCESS (covers 179/179), group-01 9/9 FAILURE on their named checks; compile 53 s/33 s; phase 1661 s; group RSS 4.0 GiB. Runner classified all 62 rows UNKNOWN (`SOURCE_STAGE_TARGET_MISMATCH`) — binding defect under investigation (TASK-CH8-PROF-OFF-INTAKE-W11).
-C-01 held: C controls (std `d073585946` on P′, control `cdd3c6d041`, g0 `425f10fbfd`) use the same global `kani list` that timed out in S1-02 — dispatch after the list fix.
+| ~01:50Z (02:… local next day) | C-01 | C (item 1) | std `d073585946` (P′ + c_controls; std fork `experiment/ch8-c-ctl-pprime-20261116`); batch control `64ec781bc1` (tree `33e95dc779`) → sibling `d224c83361` (parent 0aac) on `uninit-ci/ch8-c-ctl-a` | 43788110742 | Batch mode. g0 `7577118b79` ch8-c-ctl/batch/. |
+| ~01:50Z | B-02 | B (item 1) | std P′ `c5ff36ff43`; batch pkg `99dbb2157b` (tree `10421f334c`) → child trigger `f601ca74ca` on `uninit-ci/ch8-b-census-b` | 43788110361 | 235 roots, one multi-harness invocation per shard. g0 `7577118b79` ch8-b/pprime-batch/. |
+C-01 dispatched (was held for the list fix; now batch, no global list).
+C-01 held (superseded): C controls (std `d073585946` on P′, control `cdd3c6d041`, g0 `425f10fbfd`) use the same global `kani list` that timed out in S1-02 — dispatch after the list fix.
 
-Item 1 used: 10 of 18 (A1 3, B 1, U 3, Profiles 2, E 1). Item 2 used: 3 of 14 (S1 3). Total 13 of 32.
+Item 1 used: 12 of 18 (A1 3, B 2, U 3, Profiles 2, E 1, C 1). Item 2 used: 3 of 14 (S1 3). Total 15 of 32.
