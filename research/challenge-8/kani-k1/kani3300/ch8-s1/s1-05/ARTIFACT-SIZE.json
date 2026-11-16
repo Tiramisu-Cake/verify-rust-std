@@ -1,0 +1,162 @@
+{
+  "schema": "s105-artifact-sizing-v1",
+  "expected_files": 14,
+  "filename_per_group": "group-evidence.json.gz",
+  "actual_future_bytes": "UNKNOWN_UNTIL_AUTHORIZED_RUN; cannot precompute property descriptions/locations or compression",
+  "compressed_cap_per_group_bytes": 8388608,
+  "uncompressed_cap_per_group_bytes": 33554432,
+  "exact_aggregate_compressed_reservation_bytes": 117440512,
+  "exact_aggregate_uncompressed_cap_bytes": 469762048,
+  "basis_s104_properties": 9986,
+  "basis_s104_checks": 9871,
+  "basis_s104_covers": 115,
+  "planning_assumption_rich_bytes_per_property": 1536,
+  "planning_rich_json_bytes_all_groups": 15338496,
+  "planning_size_assurance": "HEURISTIC_UNCOMPRESSED_BUDGET; not reconstructed missing metadata; reserve hard caps",
+  "s104_projection_compressed_bytes_total": 60570,
+  "s104_projection_uncompressed_bytes_total": 355044,
+  "s104_projection_warning": "Only retained exact export/group/compile JSON projections. No rich missing success/unreachable/cover metadata; no terminal/per-row/setup duplication. NOT a future size prediction.",
+  "groups": [
+    {
+      "group": "light-model-u5",
+      "s104_structured_projection_only": {
+        "artifact": "group-evidence.json.gz",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 25098,
+        "compressed_bytes": 4022,
+        "sha256": "0f2ce83918e65fd23546886661538814ebdb7c88e1d428bb546d889e0549357b"
+      }
+    },
+    {
+      "group": "light-corruption-u4",
+      "s104_structured_projection_only": {
+        "artifact": "group-evidence.json.gz",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 20337,
+        "compressed_bytes": 3762,
+        "sha256": "0577a2663d7eea9599c310d28a05ff8cba122ef0b5ce7870627a6f0a4faf2ebc"
+      }
+    },
+    {
+      "group": "light-controls-u34",
+      "s104_structured_projection_only": {
+        "artifact": "group-evidence.json.gz",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 43515,
+        "compressed_bytes": 5549,
+        "sha256": "f400fbfa0931dcbd704e904c38881175ca882a3f8e44f8c8f2ced448a9dbb04f"
+      }
+    },
+    {
+      "group": "activation-default-u34",
+      "s104_structured_projection_only": {
+        "artifact": "group-evidence.json.gz",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 18336,
+        "compressed_bytes": 4247,
+        "sha256": "3959c7f3b6665f060734de21ec5fbca2e4d7ce5e83729ab6a27356a82b0698b6"
+      }
+    },
+    {
+      "group": "activation-override-u34",
+      "s104_structured_projection_only": {
+        "artifact": "group-evidence.json.gz",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 18659,
+        "compressed_bytes": 4302,
+        "sha256": "9405e5e51338df312ac7385a35a0c4492c3c5952af0608e0dc81583ecc636221"
+      }
+    },
+    {
+      "group": "cell-u34",
+      "s104_structured_projection_only": {
+        "artifact": "group-evidence.json.gz",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 22522,
+        "compressed_bytes": 4169,
+        "sha256": "0c4c3a405072b86770f2fdd87972a0fc5abb438e2d50dc02fc2cf16091df44d4"
+      }
+    },
+    {
+      "group": "freeze_copy_u8-n01-u34",
+      "s104_structured_projection_only": {
+        "artifact": "group-evidence.json.gz",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 26927,
+        "compressed_bytes": 4354,
+        "sha256": "79de97150db3b1d59a28f5c9b712cea3c1d57716ca57b81984042d520c7e4a9a"
+      }
+    },
+    {
+      "group": "freeze_copy_u8-n23-u34",
+      "s104_structured_projection_only": {
+        "artifact": "group-evidence.json.gz",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 26543,
+        "compressed_bytes": 4385,
+        "sha256": "24dcbcbf5e9be14a9ce40e04a2645d34d7ba29872d16c614ad7a8c77396dddde"
+      }
+    },
+    {
+      "group": "freeze_default_noncopy-n01-u34",
+      "s104_structured_projection_only": {
+        "artifact": "group-evidence.json.gz",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 28846,
+        "compressed_bytes": 4356,
+        "sha256": "f44c2f8667685dca23c0bc7ca618f191c7e81605daed3b81348dbb93a92df52a"
+      }
+    },
+    {
+      "group": "freeze_default_noncopy-n23-u34",
+      "s104_structured_projection_only": {
+        "artifact": "group-evidence.json.gz",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 24165,
+        "compressed_bytes": 4256,
+        "sha256": "1a61617a25d5bfe18a8ec5560fcde9cfcf9b640db8c406b5bb9fb4a9dd88eec7"
+      }
+    },
+    {
+      "group": "stable_freeze_u8-n01-u34",
+      "s104_structured_projection_only": {
+        "artifact": "group-evidence.json.gz",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 25525,
+        "compressed_bytes": 4304,
+        "sha256": "a9d8064296e293cf242dea1725fa317eef273de9158b73ee84fc30f0874dfebb"
+      }
+    },
+    {
+      "group": "stable_freeze_u8-n23-u34",
+      "s104_structured_projection_only": {
+        "artifact": "group-evidence.json.gz",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 22519,
+        "compressed_bytes": 4187,
+        "sha256": "ac1a4a0a18517cec60f8d722edfb556afb529c2984e4682a76521d1411ddaf90"
+      }
+    },
+    {
+      "group": "unstable_freeze_u8-n01-u34",
+      "s104_structured_projection_only": {
+        "artifact": "group-evidence.json.gz",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 26203,
+        "compressed_bytes": 4334,
+        "sha256": "aa7d713342a736e4e361001bca3e67a2b51f3df58272c252d60d12ae7cdc7eab"
+      }
+    },
+    {
+      "group": "unstable_freeze_u8-n23-u34",
+      "s104_structured_projection_only": {
+        "artifact": "group-evidence.json.gz",
+        "state": "PACKAGED",
+        "uncompressed_bytes": 25849,
+        "compressed_bytes": 4343,
+        "sha256": "aba5488888a4eb8e79d3b9257762ab16b143befe59bccf8f825e4f785bd7a09e"
+      }
+    }
+  ],
+  "raw_logs_opened": false
+}

@@ -1,0 +1,70 @@
+{
+  "offline_closure": "PASS",
+  "control": {
+    "control_sha": "8860d38558651f7cf2e292d57b06b378c6ad3b94",
+    "control_parent": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "status": "PASS"
+  },
+  "source": {
+    "std_sha": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+    "std_tree": "a9caaa953d579641ecc6a4b84b5c16fa1d23563b",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "changed_file_sha256": {
+      "library/core/Cargo.toml": "e39cf8ab243e1ac210fb79d91a9fc0742d0c17a985ff83376f0b7bb17996d2fb",
+      "library/core/src/lib.rs": "cab6061d100493bec1b820356a54e64c5d923c63fb830bb86250d12124f91504",
+      "library/core/src/slice/sort/shared/smallsort.rs": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "9aaa5be83f61212030183c75af7a9aaf0713abed798f250e83a2202f111ed958",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+      "tool_config/kani-version.toml": "16415c6185a21d873f6e4d6d1dc3058f71380e5537a5a9bb77efae857bf66717"
+    }
+  },
+  "rows": 35,
+  "groups": 14,
+  "artifact_policy": {
+    "file": "group-evidence.json.gz",
+    "files_per_group": 1,
+    "groups": 14,
+    "compressed_cap_per_group": 8388608,
+    "uncompressed_cap_per_group": 33554432,
+    "aggregate_compressed_cap": 117440512,
+    "raw_stdout_uploaded": false
+  },
+  "local_verifier_execution": "NOT_RUN",
+  "preflight_context": "SYNTHETIC_GITHUB_ENV_ONLY; no dispatch",
+  "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+  "proof_credit": "NONE",
+  "schema": "ch8-s1-05-package-validation-v1",
+  "entry_g0": "6521d03ed1b429354f9b8cb2d0119061bdbff17e",
+  "tests": {
+    "state": "PASS",
+    "count": 46,
+    "elapsed_seconds": 27.526,
+    "result": "OK",
+    "output_sha256": "ac749a293fc3d26b05b231b6e47025eb855336448f5af35ff0a8ac8f4ee8ab2c",
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_runner.py test_package.py test_s104.py test_s105.py",
+    "scope": "Python synthetic/service tests and temporary actual Git shallow fixtures; no verifier"
+  },
+  "independent_review": {
+    "state": "ACCEPTED_PREPARATION_ONLY",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "candidate_commit": "8860d38558651f7cf2e292d57b06b378c6ad3b94",
+    "file": "independent-review.md",
+    "sha256": "c4e457fd4bb025c31d749a4e1f20b3f4c84bc82926af2ead409385962d4b8159"
+  },
+  "push": "NOT_RUN",
+  "ci": "NOT_RUN",
+  "publication": "NOT_RUN",
+  "ledger": "UNCHANGED",
+  "raw_ci_logs_opened": false,
+  "review_packet": {
+    "packet_sha256": "34dbe0d22ee9214dbcd372c626c5172d3a1a1ed3353814953b8a7bf73b5b2461",
+    "spec_sha256": "620d299673ae0727695cda8f20cc38037af06c0407c96054b9bd4aa6546c15b1",
+    "check": "PACKET_VALID_NOT_REVIEWED; separate independent review accepted"
+  }
+}

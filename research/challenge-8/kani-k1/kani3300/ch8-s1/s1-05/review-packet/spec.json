@@ -1,0 +1,30 @@
+{
+  "applicability": "S1-05 preparation only; stock 0aac tool and unchanged std 5be85699, same35 rows,14groups; no dispatch.",
+  "baseline_commit": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+  "candidate_commit": "8860d38558651f7cf2e292d57b06b378c6ad3b94",
+  "controls": [
+    "Synthetic success/error/timeout/partial/missing/null/wrong-type/NOT_RUN/source-target mismatch tests",
+    "Real S1-04 rich object fragment with multiline description; reject missing location/description for every record",
+    "Preserve native YAML and actual shallow-clone regressions; frozen F1-F8 oracle and companion declarations"
+  ],
+  "defect": "S1-04 terse output lost full check/cover descriptions and locations; stale runner oracle/veto made all jobs fail.",
+  "dependencies": [
+    "ch8-s1-control/activation-default.patch",
+    "ch8-s1-control/activation-override.patch",
+    "ch8-s1-control/fixtures/s104-rich-fragment.json"
+  ],
+  "invariants": [
+    "No source/tool changes, no relaxed proof checks, exact rows/groups/pins/timeout/unwind/memory retained",
+    "Single-parent control40b5, changed paths, attempt1, typed YAML, depth3 retained",
+    "Runner records evidence only; ACCEPTANCE-POLICY-BATCH/w11 offline classification; no acceptance/proof credit",
+    "Each rich property must have exact ID/class/description/file/line/status and same-invocation stock reconciliation"
+  ],
+  "known_limitations": [
+    "No actual Kani execution in this stage; future regular output may expose missing locations and must fail closed",
+    "B1/B2/general theorem NOT_ESTABLISHED; exact future artifact byte length unknown; bounded8MiB compressed32MiB uncompressed/group",
+    "Raw regular display is unescaped; malformed or ambiguous records rejected, unknown status restored only from same-row stock ID; unsupported/mandatory unreachable role review offline"
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-s1-05-w13"
+}
