@@ -1,0 +1,34 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "defect": "Prepare the assigned correctness-verification harness workarounds A/B/C and PROF-ON-02 without compiler changes or execution.",
+  "applicability": "Continuation of the same connected semantic review: localized test restoration and payload hashes only. Verify diff contains no workflow/runner/source/oracle changes; final candidate must be covered by prior semantic packet plus this test-only delta.",
+  "invariants": [
+    "No compiler/runtime algorithm changes, new trust, narrower input domain, weakened oracle/check/cover, or initialized true output.",
+    "No push, CI, ledger, local Rust/compiler/verifier or raw-artifact reading. Static Git and isolated Python synthetic tests only.",
+    "Original 62 rows retained with the extra exact-length merge4 leaf. Fresh exact row source/property/role/cover/frame binding; zero historical admissions."
+  ],
+  "controls": [
+    "Inspect all changed reachable array constructors and independent generation, including B16 raw u8 any_array override.",
+    "Compare sort4 thin writeset to old slice frame; inspect new merge4 real-body PFC and exact consumer dependency. General merge2..32 must remain unchanged.",
+    "Check comparator factory monomorphization for every matching leaf/consumer, volatile reads and per-call nondeterminism; reject function-item carry-forward.",
+    "Check source coordinates and frame write binding, fresh post/covers, new leaf oracle, retained PolymorphicIter rows and NOT_RUN distinctions.",
+    "Inspect synthetic failure paths; a binding-only function is not an acceptance decision.",
+    "Verify baseline imported package7d90 tree equals prior d569db0c package, and complete candidate tool/compiler/library sources unchanged from SEL1.",
+    "Check control checkout depth includes SEL1 ancestor, exact control full diff/payload guards, distinct per-lane tool/std identities/features/receipts/fallback and cross-lane refusal.",
+    "Inspect one dispatch ON\u2192OFF with always dependency, two sequential jobs180min each/maxactive1, per-lane caps preserved and total360 disclosed.",
+    "Synthetic paths must retain success/error/timeout/partial/missing/null/wrong-type/NOT_RUN/source-stage-target mismatch and no historical accept carry-forward. Compare reductions in test count to verify controls are retained."
+  ],
+  "dependencies": [
+    "ch8-prof-on-control/workflow_repo.py",
+    "ch8-prof-on-control/check_package.py",
+    "ch8-prof-on-control/test_workflow_repo.py",
+    "ch8-prof-on-control/CI-REQUEST.json"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "No runtime compilation, verifier execution or proof credit; actual generated closure rendering/frame variable spelling must bind afresh."
+  ],
+  "worktree": "/root/kani-ch8-prof02-w11",
+  "baseline_commit": "bbd75af8cafbeb7906744149aed3832636494c30",
+  "candidate_commit": "1352f9d15d08cd77a1453760a254408a18f3cfb4"
+}

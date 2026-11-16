@@ -1,0 +1,300 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
+index 52977f4b1f39637dc16c1620390a16c47dc48edb..e14f097709d7c50a3a9ffa0f27dc66b85d5e65a7 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
+@@ -18,8 +18,8 @@ fn arbitrary_less<T>(a: &T, b: &T) -> bool {
+     answer
+ }
+ 
+-// A coverage-only hook lets stubbed consumers omit unreachable callback covers while retaining
+-// the same arbitrary_less::<u8> function-item type as their matching ordinary PFCs.
++// A coverage-only hook lets stubbed consumers omit unreachable callback covers. The shared
++// reading_comparator factory gives each matching leaf and consumer the same closure type.
+ fn comparison_covers(answer: bool) {
+     kani::cover(answer, "helper contract comparator true");
+     kani::cover(!answer, "helper contract comparator false");
+@@ -27,6 +27,10 @@ fn comparison_covers(answer: bool) {
+ 
+ fn omit_comparison_covers(_answer: bool) {}
+ 
++fn reading_comparator<T>() -> impl FnMut(&T, &T) -> bool {
++    |a, b| arbitrary_less::<T>(a, b)
++}
++
+ fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
+     let mut v: [T; 4] = kani::any();
+     let before = v;
+@@ -36,7 +40,8 @@ fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
+     // SAFETY: both positions are initialized, aligned, readable and writable
+     // and belong to this allocation.
+     // Equality is allowed by the real helper's safety condition.
+-    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut arbitrary_less::<T>) };
++    let mut cmp = reading_comparator::<T>();
++    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut cmp) };
+     for i in 0..4 {
+         kani::assert(i == a || i == b || v[i] == before[i], "helper contract swap frame");
+     }
+@@ -69,10 +74,11 @@ fn swap_safety_bytes17_backing4() {
+ #[kani::stub_verified(swap_if_less)]
+ fn rejects_swap_outside_backing_u8() {
+     let mut v: [u8; 4] = kani::any();
++    let mut cmp = reading_comparator::<u8>();
+     kani::cover(true, "helper contract invalid swap consumer reached");
+     // Deliberate contract violation: b == 4 is one-past-end, so it cannot be dereferenced.
+     // The verified stub must reject its requires before havoc or any real-body access.
+-    unsafe { swap_if_less(v.as_mut_ptr(), 0, 4, &mut arbitrary_less::<u8>) };
++    unsafe { swap_if_less(v.as_mut_ptr(), 0, 4, &mut cmp) };
+ }
+ 
+ // These lengths finish after the network: insertion starts at the end and no merge runs.
+@@ -80,7 +86,8 @@ fn rejects_swap_outside_backing_u8() {
+ // a four-element proof is insufficient.
+ fn exercise_unstable_network_u8<const N: usize>() {
+     let mut v: [u8; N] = kani::any();
+-    <u8 as super::super::UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut arbitrary_less::<u8>);
++    let mut cmp = reading_comparator::<u8>();
++    <u8 as super::super::UnstableSmallSortTypeImpl>::small_sort(&mut v, &mut cmp);
+     kani::cover(true, "helper contract unstable network consumer returns");
+ }
+ 
+@@ -108,7 +115,8 @@ fn exercise_swap_u8_backing<const N: usize>() {
+     let b: usize = kani::any();
+     kani::assume(a < N && b < N);
+     // SAFETY: both positions are initialized writable elements of this allocation.
+-    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut arbitrary_less::<u8>) };
++    let mut cmp = reading_comparator::<u8>();
++    unsafe { swap_if_less(v.as_mut_ptr(), a, b, &mut cmp) };
+     for i in 0..N {
+         kani::assert(i == a || i == b || v[i] == before[i], "helper contract swap frame");
+     }
+@@ -135,7 +143,8 @@ fn exercise_insertion_fixed<const N: usize>() {
+     let mut v: [u64; N] = kani::any();
+     let offset: usize = kani::any();
+     kani::assume(offset != 0 && offset <= N);
+-    insertion_sort_shift_left(&mut v, offset, &mut arbitrary_less::<u64>);
++    let mut cmp = reading_comparator::<u64>();
++    insertion_sort_shift_left(&mut v, offset, &mut cmp);
+     kani::cover(offset == 1, "helper contract insertion offset one returns");
+     kani::cover(offset == N, "helper contract insertion final offset returns");
+     kani::cover(offset < N, "helper contract insertion below final offset returns");
+@@ -164,7 +173,8 @@ fn insert_tail_safety_u64_tail1_to4_backing5() {
+     let begin = v.as_mut_ptr();
+     // SAFETY: begin < tail, and the inclusive region is initialized, readable and writable,
+     // aligned and within this one allocation. No sorted-prefix premise is needed for safety.
+-    unsafe { insert_tail(begin, begin.add(tail), &mut arbitrary_less::<u64>) };
++    let mut cmp = reading_comparator::<u64>();
++    unsafe { insert_tail(begin, begin.add(tail), &mut cmp) };
+     for i in 0..5 {
+         kani::assert(i <= tail || v[i] == before[i], "helper contract insert_tail frame");
+     }
+@@ -185,7 +195,8 @@ fn rejects_insert_tail_equal_begin_u64() {
+     kani::cover(true, "helper contract invalid insert_tail consumer reached");
+     // Deliberate contract violation: initialized pointers in one allocation, but tail == begin.
+     // The stub must fail the begin < tail requires, before any real-body access.
+-    unsafe { insert_tail(begin, begin, &mut arbitrary_less::<u64>) };
++    let mut cmp = reading_comparator::<u64>();
++    unsafe { insert_tail(begin, begin, &mut cmp) };
+ }
+ 
+ #[kani::proof_for_contract(sort4_stable)]
+@@ -194,9 +205,10 @@ fn sort4_safety_u64() {
+     let src: [u64; 4] = kani::any();
+     let before = src;
+     let mut dst = crate::mem::MaybeUninit::<[u64; 4]>::uninit();
++    let mut cmp = reading_comparator::<u64>();
+     // SAFETY: four initialized source values and a distinct allocation writable for four
+     // destination values. The destination need not be initialized before the call.
+-    unsafe { sort4_stable(src.as_ptr(), dst.as_mut_ptr().cast(), &mut arbitrary_less::<u64>) };
++    unsafe { sort4_stable(src.as_ptr(), dst.as_mut_ptr().cast(), &mut cmp) };
+     for i in 0..4 {
+         kani::assert(src[i] == before[i], "helper contract sort4 source frame");
+     }
+@@ -221,9 +233,10 @@ fn exercise_merge_u64<const N: usize>() {
+     let src: [u64; N] = kani::any();
+     let before = src;
+     let mut dst = crate::mem::MaybeUninit::<[u64; N]>::uninit();
++    let mut cmp = reading_comparator::<u64>();
+     // SAFETY: N is 2 or 4 in these PFCs; src is an initialized Freeze u64 slice,
+     // and a distinct destination allocation has space for exactly N values.
+-    unsafe { bidirectional_merge(&src, dst.as_mut_ptr().cast(), &mut arbitrary_less::<u64>) };
++    unsafe { bidirectional_merge(&src, dst.as_mut_ptr().cast(), &mut cmp) };
+     for i in 0..N {
+         kani::assert(src[i] == before[i], "helper contract merge source frame");
+     }
+@@ -260,10 +273,11 @@ fn rejects_merge_overlapping_dst_u64() {
+     let base = backing.as_mut_ptr();
+     // SAFETY: source is the first two initialized values of this allocation.
+     let src = unsafe { crate::slice::from_raw_parts(base as *const u64, 2) };
++    let mut cmp = reading_comparator::<u64>();
+     kani::cover(true, "helper contract overlapping merge consumer reached");
+     // Deliberate contract violation: dst[0..2] covers backing[1..3], so it is writable
+     // and in bounds but overlaps source[0..2] at backing[1]. Only disjointness fails.
+-    unsafe { bidirectional_merge(src, base.add(1), &mut arbitrary_less::<u64>) };
++    unsafe { bidirectional_merge(src, base.add(1), &mut cmp) };
+ }
+ 
+ // The order is lawful; only the captured counter lies outside the helper's write set.
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
+index b0c6777added9c36716c8aa4a6616facc1a00899..5ea201e14512b4b2f915382e6aafe3159bc1863d 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
+@@ -17,6 +17,10 @@ fn arbitrary_less<T>(a: &T, b: &T) -> bool {
+     answer
+ }
+ 
++fn reading_comparator<T>() -> impl FnMut(&T, &T) -> bool {
++    |a, b| arbitrary_less::<T>(a, b)
++}
++
+ fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
+     let mut backing: [T; 32] = kani::any();
+     let before = backing;
+@@ -27,7 +31,8 @@ fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
+     kani::assume(a < 32 - start && b < 32 - start);
+     // SAFETY: both possibly equal relative positions are initialized writable elements
+     // in this allocation, including when the base is an interior pointer.
+-    unsafe { swap_if_less(backing.as_mut_ptr().add(start), a, b, &mut arbitrary_less::<T>) };
++    let mut cmp = reading_comparator::<T>();
++    unsafe { swap_if_less(backing.as_mut_ptr().add(start), a, b, &mut cmp) };
+     for i in 0..32 {
+         kani::assert(
+             i == start + a || i == start + b || backing[i] == before[i],
+@@ -92,8 +97,9 @@ fn swap_safety_u64_backing32() {
+ #[kani::unwind(50)]
+ fn unstable_network_safety_u8_n32_stubbed() {
+     let mut backing: [u8; 32] = kani::any();
++    let mut cmp = reading_comparator::<u8>();
+     kani::cover(backing.len() == 32, "network maximum length entered");
+-    <u8 as UnstableSmallSortTypeImpl>::small_sort(&mut backing, &mut arbitrary_less::<u8>);
++    <u8 as UnstableSmallSortTypeImpl>::small_sort(&mut backing, &mut cmp);
+     kani::cover(true, "network maximum length returns");
+ }
+ 
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/merge.rs b/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
+index 85753df0d1fb3e30840c91d5a4a424933fba3610..1f9b701c1709f343b73bc641240e0c13267ea6db 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/merge.rs
+@@ -4,7 +4,10 @@
+ 
+ pub(super) mod profiles;
+ 
+-use profiles::{LtU8, LtU64, Profile, Sort4ReadB16, Sort4ReadU64, merge_profile, sort4_profile};
++use profiles::{
++    LtU8, LtU64, Profile, Sort4ReadB16, Sort4ReadU64, merge4_profile, merge_profile,
++    sort4_profile,
++};
+ 
+ use super::super::{
+     SMALL_SORT_GENERAL_SCRATCH_LEN, StableSmallSortTypeImpl, UnstableSmallSortTypeImpl,
+@@ -153,13 +156,24 @@ where
+     P::Model: kani::Arbitrary,
+ {
+     P::set_probe(kani::any());
+-    let v: [P::Elem; 4] = kani::any();
++    let v: [P::Elem; 4] = [kani::any(), kani::any(), kani::any(), kani::any()];
+     let mut dst = MaybeUninit::<[P::Elem; 4]>::uninit();
+     // SAFETY: the profile contract is checked by the enclosing proof_for_contract harness.
+     unsafe { sort4_profile::<P>(v.as_ptr(), dst.as_mut_ptr() as *mut P::Elem) };
+     kani::cover(true, "four-element stable sort returns");
+ }
+ 
++#[kani::proof_for_contract(profiles::merge4_profile)]
++#[kani::unwind(34)]
++fn profile_merge4_contract_u8_len4() {
++    LtU8::set_probe(kani::any());
++    let v: [u8; 4] = [kani::any(), kani::any(), kani::any(), kani::any()];
++    let mut dst = MaybeUninit::<[u8; 4]>::uninit();
++    // SAFETY: exact source and disjoint exact destination, matching len4 profile requires.
++    unsafe { merge4_profile::<LtU8>(&v, dst.as_mut_ptr().cast()) };
++    kani::cover(true, "four-element merge returns");
++}
++
+ // Separate sort4 checks: ordered profile contract with the reading fixture order (a checked
+ // profile tag), and real-body safety and permutation with arbitrary comparison results.
+ fn read_sort4_arguments<T: Copy>(a: &T, b: &T) {
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs b/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs
+index 9818c2f94039f7051cbdc9093b4dac681512c2df..1bda8c7906c09608f8558ec4bbf2250ba8ad0c60 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/merge/profiles.rs
+@@ -225,7 +225,7 @@ pub(crate) fn sort4_regions<T>(src: *const T, dst: *mut T) -> bool {
+ }
+ 
+ #[kani::requires(sort4_regions::<P::Elem>(src, dst))]
+-#[kani::modifies(ptr::slice_from_raw_parts_mut(dst, 4))]
++#[kani::modifies(dst, dst.wrapping_add(1), dst.wrapping_add(2), dst.wrapping_add(3))]
+ #[kani::ensures(|_| model_sorted::<P>(dst, 4))]
+ #[kani::ensures(|_| model_count::<P>(src, 4) == model_count::<P>(dst, 4))]
+ pub(crate) unsafe fn sort4_profile<P: Profile>(
+@@ -310,6 +310,26 @@ pub(crate) unsafe fn merge_profile<P: Profile>(
+     unsafe { bidirectional_merge(v, dst, &mut is_less) }
+ }
+ 
++/// Exact four-element merge profile used by the bounded consumer below. The shared
++/// variable-length profile retains its full slice frame for lengths 2 through 32.
++#[kani::requires(
++    merge_regions::<P::Elem>(v, dst)
++        && merge_halves_sorted::<P>(v)
++)]
++#[kani::modifies(dst, dst.wrapping_add(1), dst.wrapping_add(2), dst.wrapping_add(3))]
++#[kani::ensures(|_| model_sorted::<P>(dst, 4))]
++#[kani::ensures(|_| model_count::<P>(v.as_ptr(), 4) == model_count::<P>(dst, 4))]
++pub(crate) unsafe fn merge4_profile<P: Profile>(
++    v: &[P::Elem; 4],
++    dst: *mut P::Elem,
++) where
++    P::Elem: FreezeMarker,
++{
++    let mut is_less = |a: &P::Elem, b: &P::Elem| P::cmp(a, b);
++    // SAFETY: fixtures initialize v and own dst; requires check exact len4 geometry.
++    unsafe { bidirectional_merge(v, dst, &mut is_less) }
++}
++
+ // Matched summary consumers: the wrapper itself owns the closure expression, so a leaf and
+ // its consumer instantiate the same P/Elem/closure even when the wrapper is replaced. These
+ // roots require new qualification; no result for the former fn-pointer signature is reused.
+@@ -338,7 +358,7 @@ where
+     P::Model: kani::Arbitrary,
+ {
+     P::set_probe(kani::any());
+-    let src: [P::Elem; 4] = kani::any();
++    let src: [P::Elem; 4] = [kani::any(), kani::any(), kani::any(), kani::any()];
+     let before = model_count::<P>(src.as_ptr(), 4);
+     let mut dst = MaybeUninit::<[P::Elem; 4]>::uninit();
+     let out = dst.as_mut_ptr().cast::<P::Elem>();
+@@ -390,7 +410,7 @@ fn profile_insert_consumer_u8_backing17() {
+ }
+ 
+ #[kani::proof]
+-#[kani::stub_verified(merge_profile)]
++#[kani::stub_verified(merge4_profile)]
+ #[kani::unwind(34)]
+ fn profile_merge_consumer_u8_len4() {
+     LtU8::set_probe(kani::any());
+@@ -400,8 +420,8 @@ fn profile_merge_consumer_u8_len4() {
+     let count = model_count::<LtU8>(src.as_ptr(), 4);
+     let mut dst = MaybeUninit::<[u8; 4]>::uninit();
+     let out = dst.as_mut_ptr().cast::<u8>();
+-    // SAFETY: separate exact arrays and sorted halves, matching the len2-to4 leaf's len4 arm.
+-    unsafe { merge_profile::<LtU8>(&src, out) };
++    // SAFETY: separate exact arrays and sorted halves, matching the exact len4 leaf.
++    unsafe { merge4_profile::<LtU8>(&src, out) };
+     kani::assert(model_sorted::<LtU8>(out, 4), "static merge consumer ordered");
+     kani::assert(count == model_count::<LtU8>(out, 4), "static merge consumer full values");
+     kani::assert(src == before, "static merge source frame");
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/network.rs b/library/core/src/slice/sort/shared/smallsort/verify/network.rs
+index f688e6453af72459de3c8923190d7bb3e27e890d..925b3d5152a84bd883237f6904573e8922fe6798 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/network.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/network.rs
+@@ -905,8 +905,10 @@ fn swap_contract_fixed<P: Profile>()
+ where
+     P::Elem: ArbitraryValue,
+ {
+-    let mut v: [P::Elem; 2] =
+-        crate::array::from_fn(|_| <P::Elem as ArbitraryValue>::arbitrary_value());
++    let mut v: [P::Elem; 2] = [
++        <P::Elem as ArbitraryValue>::arbitrary_value(),
++        <P::Elem as ArbitraryValue>::arbitrary_value(),
++    ];
+     let reverse: bool = kani::any();
+     let (a, b) = if reverse { (1, 0) } else { (0, 1) };
+     let taken = P::cmp(&v[b], &v[a]);

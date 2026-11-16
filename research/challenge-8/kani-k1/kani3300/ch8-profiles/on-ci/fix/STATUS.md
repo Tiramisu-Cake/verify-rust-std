@@ -1,0 +1,1 @@
+READY_STATIC_REVIEWED_NOT_RUN. Source166a406e2203, control1352f9d15d08; independent Luna HIGH GO,98 synthetic tests PASS. Two ON PolyIter rows BLOCKED_TOOL; compile/proof NOT_RUN, credit NONE. No push/CI/publication/ledger/local compiler-verifier. See HANDOFF.md and CI-REQUEST.json.

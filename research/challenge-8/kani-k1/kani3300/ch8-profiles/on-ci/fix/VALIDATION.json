@@ -1,0 +1,47 @@
+{
+  "schema": "prof-on-02-validation-v1",
+  "assurance": "STATIC_AND_SYNTHETIC_ONLY",
+  "source": "166a406e2203bae2fc9246ba00c00b944b364445",
+  "checks": [
+    {
+      "kind": "source diff and invariants",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 audit_source.py",
+      "state": "PASS",
+      "report": "static-audit.json"
+    },
+    {
+      "kind": "fresh binding adapter",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_binding_v02.py",
+      "tests": 10,
+      "state": "PASS"
+    },
+    {
+      "kind": "historical accept-v4 functions regression (no artifact/replay)",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s accept-v4 -p 'test_*.py' -v",
+      "tests": 20,
+      "state": "PASS"
+    },
+    {
+      "kind": "paired control ON runner/profile/batch/workflow tests",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest test_runner.py test_profiles.py test_batch.py test_workflow_repo.py test_on.py",
+      "tests": 48,
+      "state": "PASS"
+    },
+    {
+      "kind": "paired control OFF runner/batch/lane tests",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest test_runner.py test_batch.py test_lane.py",
+      "tests": 20,
+      "state": "PASS"
+    },
+    {
+      "kind": "CI-only control/YAML preflight",
+      "state": "PASS",
+      "assurance": "Main executed check_package.py control --repo .. with synthetic GitHub env on committed final candidate; static Git/identity/YAML/payload checks only"
+    }
+  ],
+  "qualification": "NOT_RUN",
+  "proof_credit": "NONE",
+  "local_compiler_verifier_invocations": 0,
+  "control": "1352f9d15d08cd77a1453760a254408a18f3cfb4",
+  "total_synthetic_tests": 98
+}

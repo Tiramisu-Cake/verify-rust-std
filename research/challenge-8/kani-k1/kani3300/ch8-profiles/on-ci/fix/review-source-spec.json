@@ -1,0 +1,29 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "defect": "Prepare the assigned correctness-verification harness workarounds A/B/C and PROF-ON-02 without compiler changes or execution.",
+  "applicability": "One connected semantic candidate; review source, fresh binding adapter and forthcoming paired-lane CI packet together. Treat implementation narrative as claims to verify.",
+  "invariants": [
+    "No compiler/runtime algorithm changes, new trust, narrower input domain, weakened oracle/check/cover, or initialized true output.",
+    "No push, CI, ledger, local Rust/compiler/verifier or raw-artifact reading. Static Git and isolated Python synthetic tests only.",
+    "Original 62 rows retained with the extra exact-length merge4 leaf. Fresh exact row source/property/role/cover/frame binding; zero historical admissions."
+  ],
+  "controls": [
+    "Inspect all changed reachable array constructors and independent generation, including B16 raw u8 any_array override.",
+    "Compare sort4 thin writeset to old slice frame; inspect new merge4 real-body PFC and exact consumer dependency. General merge2..32 must remain unchanged.",
+    "Check comparator factory monomorphization for every matching leaf/consumer, volatile reads and per-call nondeterminism; reject function-item carry-forward.",
+    "Check source coordinates and frame write binding, fresh post/covers, new leaf oracle, retained PolymorphicIter rows and NOT_RUN distinctions.",
+    "Inspect synthetic failure paths; a binding-only function is not an acceptance decision."
+  ],
+  "dependencies": [
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/forwarding_contracts.rs",
+    "library/core/src/array/mod.rs"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "No runtime compilation, verifier execution or proof credit; actual generated closure rendering/frame variable spelling must bind afresh."
+  ],
+  "worktree": "/root/verify-rust-std-ch8-profiles-w11",
+  "baseline_commit": "9fa2f7f97760584f38738909625c064006d8a936",
+  "candidate_commit": "166a406e2203bae2fc9246ba00c00b944b364445"
+}

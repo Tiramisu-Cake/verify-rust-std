@@ -1,0 +1,80 @@
+{
+  "schema": "prof-on-02-independent-review-v1",
+  "decision": "GO_STATIC_PACKET",
+  "scope": "Static source, fresh binding, and paired-lane control review only. This is not formal verification, acceptance, proof credit, or dispatch authorization.",
+  "identities": {
+    "source": {
+      "commit": "166a406e2203bae2fc9246ba00c00b944b364445",
+      "tree": "460029c0d95fa7ef04eb7da0115f6fa2792c3b0b",
+      "parent": "9fa2f7f97760584f38738909625c064006d8a936"
+    },
+    "binding_g0_candidate": {
+      "commit": "72dc8894f647e3fa255f49b49e40dd8e96bbf7c8",
+      "tree": "ba3efc4e94766a3030fa72745fafef24e0c7bbd8",
+      "parent": "4873891f7355da8424c56f6bdbd3490a868731bc"
+    },
+    "control": {
+      "commit": "1352f9d15d08cd77a1453760a254408a18f3cfb4",
+      "tree": "1352d0b759cb68026168f811f4de93a5a1ac4cf4",
+      "parent": "bbd75af8cafbeb7906744149aed3832636494c30",
+      "imported_baseline_tree_matches": "d569db0c tree 660633a37fb527dae4bdc2d9c845bd65ca578cdb"
+    },
+    "g0_packet_commit": "72dc8894f647e3fa255f49b49e40dd8e96bbf7c8"
+  },
+  "review_findings": [],
+  "source_review": {
+    "result": "PASS_STATIC",
+    "details": [
+      "Six exact-N2 swap fixtures replace from_fn with two independent ArbitraryValue calls; sort4 array constructors use four independent element generators.",
+      "B16 uses the unchanged raw u8 any_array override; source equality was checked at the pinned tool commits.",
+      "sort4_profile uses four thin destination targets equivalent to its former four-element frame.",
+      "merge4_profile is an exact-length leaf that calls the real bidirectional_merge body, has sorted-halves precondition and sorted/full-value posts; the len4 consumer stubs this exact target.",
+      "General merge_profile 2..=32 is unchanged. Runtime implementation, trait bounds, input domains, assumptions, and existing covers are unchanged; one new merge4 return cover is added.",
+      "reading_comparator is a shared stateless closure factory in both matching helper modules. arbitrary_less keeps both volatile reads and a fresh nondeterministic answer per invocation."
+    ],
+    "source_audit": "STATIC_PASS",
+    "proof_credit": "NONE"
+  },
+  "binding_review": {
+    "result": "PASS_STATIC_SYNTHETIC",
+    "tests": "10 passed",
+    "checks": [
+      "fresh row/source hashes and original oracle retention across 62 rows plus the new merge4 leaf",
+      "exact target/profile/closure binding and rejection of function-item substitution",
+      "new leaf posts/covers and exact consumer stub dependency",
+      "bad/missing/unknown/unreachable postconditions and wrong/unsatisfied covers fail closed",
+      "relocated frame write site and negative oracle binding"
+    ],
+    "proof_credit": "NONE"
+  },
+  "polyiter": {
+    "freeze_noncopy_n2": "BLOCKED_TOOL",
+    "rejects_always_true": "BLOCKED_TOOL",
+    "reason": "The existing general-scratch path consumes the offset array; avoiding it would change the selected route or reduce the randomized control's branches, so no equivalent harness-only workaround preserves the row and oracle."
+  },
+  "control_review": {
+    "result": "PASS_STATIC_SYNTHETIC",
+    "on": {
+      "std": "166a406e2203bae2fc9246ba00c00b944b364445 / 460029c0d95fa7ef04eb7da0115f6fa2792c3b0b",
+      "tool": "14bc57fdb99960240c4944845a3d985c8af4dcf7 / 1efb6e4dfa69d346df8e23741d11839b1932403d"
+    },
+    "off": {
+      "std": "166a406e2203bae2fc9246ba00c00b944b364445 / 460029c0d95fa7ef04eb7da0115f6fa2792c3b0b",
+      "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba / 9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+    },
+    "dispatch": "PREPARATION_ONLY_NO_DISPATCH; one push runs serialized ON then OFF; OFF is configured to continue after ON failure.",
+    "caps": "Each lane: 180-minute workflow cap, max_parallel=1, same 63-row manifest and per-row/setup/proof/output/RSS caps; aggregate serial wall cap 360 minutes.",
+    "control_preflight": "PASS",
+    "on_synthetic_tests": "48 passed",
+    "off_synthetic_tests": "20 passed",
+    "test_only_delta": "Final control continuation changes only test_workflow_repo.py and ON/OFF request hashes/path inventories; no workflow, runner, source, oracle, or cap change.",
+    "source_tool_paths_changed_from_sel1": [],
+    "tool_source_dependencies_match_sel1": true,
+    "proof_credit": "NONE"
+  },
+  "limitations": [
+    "No CI, compiler, Rust, Kani, CBMC, or proof execution was performed.",
+    "Generated closure demangler spelling and generated frame variable binding remain NOT_RUN; fresh lane exports must bind them exactly or fail closed.",
+    "Static GO applies to packet preparation only. It does not make any row ACCEPTED or remove the two BLOCKED_TOOL statuses."
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "schema": "prof-on-02-ci-handoff-v1",
+  "state": "READY_STATIC_REVIEWED_NOT_RUN",
+  "source_repository": "Tiramisu-Cake/verify-rust-std",
+  "source_commit": "166a406e2203bae2fc9246ba00c00b944b364445",
+  "source_tree": "460029c0d95fa7ef04eb7da0115f6fa2792c3b0b",
+  "source_branch": "work/ch8-profiles-pprime-w11",
+  "control_repository": "Tiramisu-Cake/kani",
+  "control_branch": "work/ch8-prof02-w11",
+  "control_commit": "1352f9d15d08cd77a1453760a254408a18f3cfb4",
+  "control_tree": "1352d0b759cb68026168f811f4de93a5a1ac4cf4",
+  "control_baseline_sel1": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "g0_binding_candidate": "72dc8894f647e3fa255f49b49e40dd8e96bbf7c8",
+  "dispatch": {
+    "proposed_count": 1,
+    "order": [
+      "on",
+      "off"
+    ],
+    "mechanism": "profiles-off needs profiles-on, always() with repository/event/attempt guards",
+    "total_jobs": 2,
+    "max_active_jobs": 1,
+    "max_concurrent_runs": 1,
+    "job_minutes_per_lane": 180,
+    "aggregate_job_minutes_cap": 360,
+    "state": "PREPARATION_ONLY_NO_DISPATCH"
+  },
+  "rows": 63,
+  "original_rows_retained": 62,
+  "new_leaf": "profile_merge4_contract_u8_len4",
+  "cfg_group_counts": [
+    54,
+    9
+  ],
+  "lanes": {
+    "on": {
+      "tool_commit": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+      "tool_tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
+      "request_path": "ch8-prof-on-control/CI-REQUEST.json",
+      "request_sha256": "b3714a13cff56c278fc3cac9fdc8df9efc8428e63bd48496076327001556711b",
+      "manifest_sha256": "a14783b093b32944440bd53c1b734be8ccde54baff053df25fcf959cb7a8cc0a",
+      "budgets": {
+        "phase_seconds": 8400,
+        "rss_kib": 6291456,
+        "stdout_bytes": 1048576,
+        "stderr_bytes": 1048576,
+        "export_bytes": 8388608,
+        "artifact_bytes": 268435456,
+        "row_seconds": 600
+      },
+      "flags": {
+        "object_bits": 12,
+        "uninit": true,
+        "valid_value": false,
+        "slicing": "default",
+        "checks": "default",
+        "unwinding_assertions": true,
+        "no_assert_contracts": true,
+        "source_unwind": "honor each source attr; none means default, no new bound"
+      }
+    },
+    "off": {
+      "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+      "request_path": "ch8-prof-on-control/off/CI-REQUEST.json",
+      "request_sha256": "22f9d675279993ad2bf4cd28bf264a601e3671671b85793483c49a22e950d21d",
+      "manifest_sha256": "a14783b093b32944440bd53c1b734be8ccde54baff053df25fcf959cb7a8cc0a",
+      "budgets": {
+        "phase_seconds": 8400,
+        "rss_kib": 6291456,
+        "stdout_bytes": 1048576,
+        "stderr_bytes": 1048576,
+        "export_bytes": 8388608,
+        "artifact_bytes": 268435456,
+        "row_seconds": 600
+      },
+      "flags": {
+        "object_bits": 12,
+        "uninit": false,
+        "valid_value": false,
+        "slicing": "default",
+        "checks": "default",
+        "unwinding_assertions": true,
+        "no_assert_contracts": true,
+        "source_unwind": "honor each source attr; none means default, no new bound"
+      }
+    }
+  },
+  "binding_spec_sha256": "b1b7a19463953a8ec5ff0b316f4b8e07959599ec45b84806a18a8155cd7910a5",
+  "binding_adapter_sha256": "a580246f5fac57d07779ccbe566bc1add155baf4c46e4273859e8e705c2fca76",
+  "classification": "CLASSIFICATION.md",
+  "historical_admissions_reused": 0,
+  "known_on_blocked_tool": [
+    "freeze_noncopy_n2",
+    "rejects_always_true"
+  ],
+  "qualification": "NOT_RUN",
+  "proof_credit": "NONE",
+  "authority": {
+    "push": false,
+    "ci": false,
+    "publication": false,
+    "ledger": false,
+    "local_compiler_verifier": false
+  },
+  "executed": {
+    "pushes": 0,
+    "dispatches": 0,
+    "publications": 0,
+    "ledger_writes": 0,
+    "local_compiler_verifier_invocations": 0
+  },
+  "coordinator_pushes": [
+    {
+      "repository": "Tiramisu-Cake/verify-rust-std",
+      "branch": "work/ch8-profiles-pprime-w11"
+    },
+    {
+      "repository": "Tiramisu-Cake/kani",
+      "branch": "work/ch8-prof02-w11"
+    },
+    {
+      "repository": "g0",
+      "branch": "experiment/kani-k1-kani3300g0-20261111"
+    }
+  ],
+  "review": {
+    "decision": "GO_STATIC_PACKET",
+    "path": "REVIEW.json",
+    "sha256": "332349f582f902187ad1eb711a2e9d87bb90c9ff0caeaf1ca71c96d4f4cd9b09",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "fork_turns": "none",
+    "nested_delegation": false,
+    "findings": []
+  },
+  "validation_sha256": "a78bd6bb92508ba800ea77fd84eecc31d0e23b1e82618640b6b7dac6aded826b",
+  "patches_sha256": {
+    "source.patch": "be8b457c587496458f608a5247e449a436657c487ade8b306f7d5be0aa014526",
+    "control.patch": "e23670c12ff6dac4e7a5b9f957993c8e38d6e13994711d04bbb80ade2ec1f49b"
+  }
+}

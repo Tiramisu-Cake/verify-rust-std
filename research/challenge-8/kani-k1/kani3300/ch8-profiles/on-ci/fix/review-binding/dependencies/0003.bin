@@ -1,0 +1,355 @@
+{
+  "schema": "ch8-unreachable-role-rules-v3",
+  "rules": [
+    {
+      "id": "required-postcondition",
+      "function": ".*smallsort.*",
+      "file": "library/core/src/slice/sort/shared/smallsort(?:/.*|\\.rs)",
+      "lines": null,
+      "property_id": ".*",
+      "description": "(?i).*(?:postcondition).*",
+      "role": "postcondition",
+      "reason": "Explicit mandatory target/wrapper obligation; it must execute in the declared scenario.",
+      "target_wrapper_relation": "REQUIRED_TARGET_WRAPPER_OBLIGATION"
+    },
+    {
+      "id": "required-frame",
+      "function": ".*smallsort.*",
+      "file": "library/core/src/slice/sort/shared/smallsort(?:/.*|\\.rs)",
+      "lines": null,
+      "property_id": ".*",
+      "description": "(?i).*(?:frame|modifies|assigns).*",
+      "role": "frame",
+      "reason": "Explicit mandatory target/wrapper obligation; it must execute in the declared scenario.",
+      "target_wrapper_relation": "REQUIRED_TARGET_WRAPPER_OBLIGATION"
+    },
+    {
+      "id": "required-relation",
+      "function": ".*smallsort.*",
+      "file": "library/core/src/slice/sort/shared/smallsort(?:/.*|\\.rs)",
+      "lines": null,
+      "property_id": ".*",
+      "description": "(?i).*(?:relation assertion).*",
+      "role": "relation",
+      "reason": "Explicit mandatory target/wrapper obligation; it must execute in the declared scenario.",
+      "target_wrapper_relation": "REQUIRED_TARGET_WRAPPER_OBLIGATION"
+    },
+    {
+      "id": "required-required_section",
+      "function": ".*smallsort.*",
+      "file": "library/core/src/slice/sort/shared/smallsort(?:/.*|\\.rs)",
+      "lines": null,
+      "property_id": ".*",
+      "description": "(?i).*(?:required section).*",
+      "role": "required_section",
+      "reason": "Explicit mandatory target/wrapper obligation; it must execute in the declared scenario.",
+      "target_wrapper_relation": "REQUIRED_TARGET_WRAPPER_OBLIGATION"
+    },
+    {
+      "id": "fmt-static-shift",
+      "function": "fmt::Arguments::<'_>::from_str",
+      "file": "library/core/src/fmt/mod\\.rs",
+      "lines": [
+        820
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ shift\\ left\\ with\\ overflow",
+      "role": "defensive_branch",
+      "reason": "Formatting error guard, not a sorting/frame/relation obligation. Static panic messages use shift count 1; no invalid shift is in the declared bounded scenario.",
+      "target_wrapper_relation": "LIBRARY_FORMATTING_GUARD_OUTSIDE_REQUIRED_SCENARIO"
+    },
+    {
+      "id": "alignment-sub",
+      "function": "ptr::const_ptr::<impl \\*const \\(\\)>::is_aligned_to",
+      "file": "library/core/src/ptr/const_ptr\\.rs",
+      "lines": [
+        1479
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ subtract\\ with\\ overflow",
+      "role": "defensive_branch",
+      "reason": "align - 1 follows the power-of-two check, which excludes zero; unreachable subtraction-error branch is defensive.",
+      "target_wrapper_relation": "LIBRARY_ARITHMETIC_GUARD"
+    },
+    {
+      "id": "usize-abs-diff",
+      "function": "num::<impl usize>::abs_diff",
+      "file": "library/core/src/num/uint_macros\\.rs",
+      "lines": [
+        3222,
+        3224
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ subtract\\ with\\ overflow",
+      "role": "defensive_branch",
+      "reason": "Both subtractions are selected by operand ordering; the underflow error branch is impossible.",
+      "target_wrapper_relation": "LIBRARY_ARITHMETIC_GUARD"
+    },
+    {
+      "id": "usize-multiple",
+      "function": "num::<impl usize>::is_multiple_of",
+      "file": "library/core/src/num/uint_macros\\.rs",
+      "lines": [
+        3916
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ calculate\\ the\\ remainder\\ with\\ a\\ divisor\\ of\\ zero",
+      "role": "defensive_branch",
+      "reason": "The rhs == 0 match arm returns before remainder; zero-divisor error branch is defensive.",
+      "target_wrapper_relation": "LIBRARY_ARITHMETIC_GUARD"
+    },
+    {
+      "id": "allocation-size",
+      "function": "ub_checks::is_valid_allocation_size",
+      "file": "library/core/src/ub_checks\\.rs",
+      "lines": [
+        148
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ divide\\ by\\ zero",
+      "role": "defensive_branch",
+      "reason": "size == 0 selects usize::MAX; division is in the nonzero arm. The actual validity result/check is not exempted.",
+      "target_wrapper_relation": "LIBRARY_ARITHMETIC_GUARD"
+    },
+    {
+      "id": "model-sorted-index",
+      "function": "slice::sort::shared::smallsort::verify::merge::profiles::model_sorted::<.+>",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles\\.rs",
+      "lines": [
+        134
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ subtract\\ with\\ overflow",
+      "role": "defensive_branch",
+      "reason": "Macro index i is a literal in 1..31, so i - 1 cannot underflow. This is an arithmetic error guard, not the model_sorted result or required relation assertion.",
+      "target_wrapper_relation": "DEFENSIVE_CHECK_WITHIN_TARGET_OR_MODEL"
+    },
+    {
+      "id": "model-count-add",
+      "function": "slice::sort::shared::smallsort::verify::merge::profiles::model_count::<.+>",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge/profiles\\.rs",
+      "lines": [
+        153
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ add\\ with\\ overflow",
+      "role": "defensive_branch",
+      "reason": "c starts at zero and has at most 32 single increments; overflow is outside the bounded model. The required model-count equality is not exempted.",
+      "target_wrapper_relation": "DEFENSIVE_CHECK_WITHIN_TARGET_OR_MODEL"
+    },
+    {
+      "id": "region-distance-negate",
+      "function": "slice::sort::shared::smallsort::verify::merge::regions_are_disjoint::<(?:u8|u64|\\[u8; 16\\])>",
+      "file": "library/core/src/slice/sort/shared/smallsort/verify/merge\\.rs",
+      "lines": [
+        111
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ negate\\ with\\ overflow",
+      "role": "defensive_branch",
+      "reason": "Negation guard in optional same-allocation geometry arm; offsets in these bounded initialized buffers cannot be isize::MIN. The geometry result is not an unreachable mandatory post/frame assertion.",
+      "target_wrapper_relation": "DEFENSIVE_CHECK_WITHIN_TARGET_OR_MODEL"
+    },
+    {
+      "id": "dispatch-stack-size",
+      "function": "<(?:u8|slice::sort::shared::smallsort::verify::forwarding_contracts::NonCopyU8) as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<.+>",
+      "file": "library/core/src/slice/sort/shared/smallsort\\.rs",
+      "lines": [
+        130,
+        164,
+        167
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ multiply\\ with\\ overflow",
+      "role": "defensive_branch",
+      "reason": "Only fixed one-byte u8/NonCopyU8 instances; element size times the fixed scratch length fits usize. This generated arithmetic guard is not a required dispatch/return section.",
+      "target_wrapper_relation": "DEFENSIVE_CHECK_WITHIN_TARGET_OR_MODEL"
+    },
+    {
+      "id": "general-add",
+      "function": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<.+>",
+      "file": "library/core/src/slice/sort/shared/smallsort\\.rs",
+      "lines": [
+        232,
+        249
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ add\\ with\\ overflow",
+      "role": "defensive_branch",
+      "reason": "Bounded forwarding buffers have len <= 16 and fixed scratch; len + 16 / len + 8 cannot overflow. No body/cover obligation is waived.",
+      "target_wrapper_relation": "DEFENSIVE_CHECK_WITHIN_TARGET_OR_MODEL"
+    },
+    {
+      "id": "general-div",
+      "function": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<.+>",
+      "file": "library/core/src/slice/sort/shared/smallsort\\.rs",
+      "lines": [
+        237
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ divide\\ by\\ zero",
+      "role": "defensive_branch",
+      "reason": "Divisor is literal 2; zero-divisor error branch is impossible.",
+      "target_wrapper_relation": "DEFENSIVE_CHECK_WITHIN_TARGET_OR_MODEL"
+    },
+    {
+      "id": "general-sub",
+      "function": "slice::sort::shared::smallsort::small_sort_general_with_scratch::<.+>",
+      "file": "library/core/src/slice/sort/shared/smallsort\\.rs",
+      "lines": [
+        272
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ subtract\\ with\\ overflow",
+      "role": "defensive_branch",
+      "reason": "len_div_2 = len / 2 <= len, so len - len_div_2 cannot underflow.",
+      "target_wrapper_relation": "DEFENSIVE_CHECK_WITHIN_TARGET_OR_MODEL"
+    },
+    {
+      "id": "network-div",
+      "function": "slice::sort::shared::smallsort::small_sort_network::<.+>",
+      "file": "library/core/src/slice/sort/shared/smallsort\\.rs",
+      "lines": [
+        331
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ divide\\ by\\ zero",
+      "role": "defensive_branch",
+      "reason": "Divisor is literal 2; zero-divisor error branch is impossible.",
+      "target_wrapper_relation": "DEFENSIVE_CHECK_WITHIN_TARGET_OR_MODEL"
+    },
+    {
+      "id": "network-sub",
+      "function": "slice::sort::shared::smallsort::small_sort_network::<.+>",
+      "file": "library/core/src/slice/sort/shared/smallsort\\.rs",
+      "lines": [
+        362
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ subtract\\ with\\ overflow",
+      "role": "defensive_branch",
+      "reason": "len_div_2 = len / 2 <= len; right-region length subtraction cannot underflow. Required network execution covers remain separate.",
+      "target_wrapper_relation": "DEFENSIVE_CHECK_WITHIN_TARGET_OR_MODEL"
+    },
+    {
+      "id": "sort4-bool-index",
+      "function": "slice::sort::shared::smallsort::sort4_stable::<.+>",
+      "file": "library/core/src/slice/sort/shared/smallsort\\.rs",
+      "lines": [
+        715,
+        716
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ add\\ with\\ overflow",
+      "role": "defensive_branch",
+      "reason": "2 + bool-as-usize is in {2,3}; index-add overflow guard is impossible, not a sorting postcondition.",
+      "target_wrapper_relation": "DEFENSIVE_CHECK_WITHIN_TARGET_OR_MODEL"
+    },
+    {
+      "id": "merge-div",
+      "function": "slice::sort::shared::smallsort::bidirectional_merge::<.+>",
+      "file": "library/core/src/slice/sort/shared/smallsort\\.rs",
+      "lines": [
+        898
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ divide\\ by\\ zero",
+      "role": "defensive_branch",
+      "reason": "Divisor is literal 2; zero-divisor error branch is impossible.",
+      "target_wrapper_relation": "DEFENSIVE_CHECK_WITHIN_TARGET_OR_MODEL"
+    },
+    {
+      "id": "merge-sub",
+      "function": "slice::sort::shared::smallsort::bidirectional_merge::<.+>",
+      "file": "library/core/src/slice/sort/shared/smallsort\\.rs",
+      "lines": [
+        914,
+        915,
+        916
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt\\ to\\ subtract\\ with\\ overflow",
+      "role": "defensive_branch",
+      "reason": "Declared merge lengths are >= 2; len_div_2 and len are >= 1. Subtraction error guards lie outside the declared merge domain, not the required merge postcondition.",
+      "target_wrapper_relation": "DEFENSIVE_CHECK_WITHIN_TARGET_OR_MODEL"
+    },
+    {
+      "id": "offset-nonzst",
+      "function": "kani::rustc_intrinsics::ptr_offset_from::<(?:u8|u64|\\[u8; 16\\]|cell::Cell<u8>)>",
+      "file": "library/core/src/lib\\.rs",
+      "lines": [
+        357
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "Cannot\\ compute\\ offset\\ of\\ a\\ ZST",
+      "role": "defensive_branch",
+      "reason": "Optional offset helper guard, not a mandatory target/wrapper section. These four concrete element types are non-ZST; the ZST rejection case is outside the scenario. Other offset/provenance/same-allocation checks receive no exemption.",
+      "target_wrapper_relation": "OPTIONAL_MODEL_GUARD_NONZST_DOMAIN"
+    },
+    {
+      "id": "offset-remainder",
+      "function": "kani::rustc_intrinsics::ptr_offset_from::<(?:u8|u64|\\[u8; 16\\]|cell::Cell<u8>)>",
+      "file": "library/kani_core/src/models\\.rs",
+      "lines": [
+        93
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt to calculate the remainder with (?:a divisor of zero|overflow)",
+      "role": "defensive_branch",
+      "reason": "Concrete type sizes are 1, 8 or 16, hence positive and never -1 as isize. Remainder error guards are impossible; actual same-allocation/divisibility assertions are not exempted.",
+      "target_wrapper_relation": "OPTIONAL_MODEL_ARITHMETIC_GUARD"
+    },
+    {
+      "id": "offset-division",
+      "function": "kani::rustc_intrinsics::ptr_offset_from::<(?:u8|u64|\\[u8; 16\\]|cell::Cell<u8>)>",
+      "file": "library/kani_core/src/models\\.rs",
+      "lines": [
+        97
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt to divide (?:by zero|with overflow)",
+      "role": "defensive_branch",
+      "reason": "Concrete type sizes are positive 1, 8 or 16, never zero or -1; division error branches are outside these concrete instances. No provenance premise is added.",
+      "target_wrapper_relation": "OPTIONAL_MODEL_ARITHMETIC_GUARD"
+    },
+    {
+      "id": "offset-zst-forbidden-call-entry",
+      "function": "kani::rustc_intrinsics::ptr_offset_from::<\\(\\)>",
+      "file": "library/core/src/lib\\.rs",
+      "lines": [
+        357
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "Cannot compute offset of a ZST",
+      "role": "defensive_branch",
+      "target_wrapper_relation": "FORBIDDEN_ZST_OFFSET_MODEL_CALL_OUTSIDE_SCENARIO",
+      "reason": "Unit is a ZST: the model entry assertion is always false. Executing offset_from::<()> is forbidden by this API, never a required sorting/wrapper section. Its unreachable entry guard and subsequent zero-size arithmetic are the excluded invalid-operation path; no mandatory post/frame/relation property is exempted."
+    },
+    {
+      "id": "offset-zst-forbidden-call-remainder",
+      "function": "kani::rustc_intrinsics::ptr_offset_from::<\\(\\)>",
+      "file": "library/kani_core/src/models\\.rs",
+      "lines": [
+        93
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt to calculate the remainder with (?:a divisor of zero|overflow)",
+      "role": "defensive_branch",
+      "target_wrapper_relation": "FORBIDDEN_ZST_OFFSET_MODEL_CALL_OUTSIDE_SCENARIO",
+      "reason": "Unit is a ZST: the model entry assertion is always false. Executing offset_from::<()> is forbidden by this API, never a required sorting/wrapper section. Its unreachable entry guard and subsequent zero-size arithmetic are the excluded invalid-operation path; no mandatory post/frame/relation property is exempted."
+    },
+    {
+      "id": "offset-zst-forbidden-call-division",
+      "function": "kani::rustc_intrinsics::ptr_offset_from::<\\(\\)>",
+      "file": "library/kani_core/src/models\\.rs",
+      "lines": [
+        97
+      ],
+      "property_id": ".*\\.assertion\\.[1-9][0-9]*",
+      "description": "attempt to divide (?:by zero|with overflow)",
+      "role": "defensive_branch",
+      "target_wrapper_relation": "FORBIDDEN_ZST_OFFSET_MODEL_CALL_OUTSIDE_SCENARIO",
+      "reason": "Unit is a ZST: the model entry assertion is always false. Executing offset_from::<()> is forbidden by this API, never a required sorting/wrapper section. Its unreachable entry guard and subsequent zero-size arithmetic are the excluded invalid-operation path; no mandatory post/frame/relation property is exempted."
+    }
+  ]
+}

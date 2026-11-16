@@ -1,0 +1,42 @@
+{
+  "schema": "prof-on-02-checkpoint-v1",
+  "runtime": "Codex",
+  "state": "READY_STATIC_REVIEWED_NOT_RUN",
+  "source": "166a406e2203bae2fc9246ba00c00b944b364445",
+  "source_tree": "460029c0d95fa7ef04eb7da0115f6fa2792c3b0b",
+  "control": "1352f9d15d08cd77a1453760a254408a18f3cfb4",
+  "control_tree": "1352d0b759cb68026168f811f4de93a5a1ac4cf4",
+  "binding_g0_candidate": "72dc8894f647e3fa255f49b49e40dd8e96bbf7c8",
+  "review": {
+    "decision": "GO_STATIC_PACKET",
+    "path": "REVIEW.json",
+    "sha256": "332349f582f902187ad1eb711a2e9d87bb90c9ff0caeaf1ca71c96d4f4cd9b09",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "fork_turns": "none",
+    "nested_delegation": false,
+    "findings": []
+  },
+  "manifest_rows": 63,
+  "synthetic_tests": 98,
+  "qualification": "NOT_RUN",
+  "proof_credit": "NONE",
+  "blocked_on_rows": [
+    "freeze_noncopy_n2",
+    "rejects_always_true"
+  ],
+  "open": [
+    "Actual compile/proof not run by this stage.",
+    "Fresh exact generated closure/frame/role/cover/property binding and accepted lane-local leaf dependencies required after future CI.",
+    "PolymorphicIter on freeze_noncopy_n2 and rejects_always_true: no equivalent harness-only bypass established."
+  ],
+  "next": "Coordinator may publish listed branches and arrange a separately authorized paired CI stage with exact remote identities and unchanged controls/caps.",
+  "closure_reason": "One assigned preparation/review stage complete: A/B/C source candidate, retained PolyIter blockers, paired ON\u2192OFF batch package, fresh63-row oracle/binding/covers, independent static GO and98 synthetic tests. Further compiler changes/push/CI/publication/ledger/local compiler-verifier are outside explicit task authority.",
+  "executed": {
+    "pushes": 0,
+    "dispatches": 0,
+    "publications": 0,
+    "ledger_writes": 0,
+    "local_compiler_verifier_invocations": 0
+  }
+}
