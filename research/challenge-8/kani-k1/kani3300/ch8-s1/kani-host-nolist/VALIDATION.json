@@ -1,0 +1,39 @@
+{
+  "schema": "ch8-s1-nolist-validation-v1",
+  "state": "PASS_STATIC_ONLY",
+  "candidate": "801c2634cee3f3f39cb20146a1080e016a59e048",
+  "checks": {
+    "exact_frozen_batch_source_payload": "STATIC-VALIDATION.json",
+    "synthetic_tests": {
+      "result": "PASS",
+      "tests": 25,
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s ch8-s1-control -p 'test_*.py' -q",
+      "actual_build": "NOT_RUN; only Python subprocesses and mocked tool execution"
+    },
+    "yaml": "PASS; check_package.py yaml .github/workflows/ch8-s1.yml",
+    "actionlint": "PASS; /tmp/kani3300-d0-ci-tools/actionlint -shellcheck= -pyflakes= .github/workflows/ch8-s1.yml (workflow unchanged by final token-comparison delta)",
+    "candidate_diff_check": "PASS",
+    "source_cache_path": "PASS; git check-ignore target/ch8-s1-cargo in exact clean S-prime",
+    "review_packet_integrity": {
+      "result": "PASS",
+      "packet_sha256": "3e9446ae81a93a1572f542dea85bdcd9a59003d8308c9dd05c5372b61a8bf851",
+      "spec_sha256": "8a9c9b5ac4ae20e207637566770329819877dce855a9edfe870873d10408ba30"
+    },
+    "prior_candidate": "2a15c9b545016619c3ab069d5272fc985ac87dc7; preserved on local branch and REVIEW-r1.md/review-packet-r1",
+    "independent_review": {
+      "result": "APPROVED_PREPARATION_ONLY",
+      "reviewer": "GPT-6 Luna HIGH; isolated context, no nested delegation",
+      "report": "REVIEW.md",
+      "sha256": "69af3295f85667375823d08d7058a30cc892b33ad67b037c8c324d7b1d128b64",
+      "candidate": "801c2634cee3f3f39cb20146a1080e016a59e048"
+    },
+    "g0_authored_diff_check": "PASS excluding exact generated patches, immutable source/review packets and reviewer reports; reviewer Markdown hard-break spaces and original source bytes intentionally preserved.",
+    "manifest": "MANIFEST.sha256; local handoff artifacts and immutable review packets, excludes manifest itself"
+  },
+  "execution": {
+    "push_ci_publication_ledger": "NOT_RUN",
+    "cargo_rustc_kani_cbmc": "NOT_RUN",
+    "proof_rows": "ALL_23_NOT_RUN",
+    "proof_credit": "NONE"
+  }
+}

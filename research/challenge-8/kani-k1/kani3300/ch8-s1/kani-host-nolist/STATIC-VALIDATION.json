@@ -1,0 +1,50 @@
+{
+  "state": "PASS_STATIC_ONLY",
+  "candidate": "801c2634cee3f3f39cb20146a1080e016a59e048",
+  "tree": "48e10e55668ca1b351e9b6d20466c9ffd803dc9d",
+  "parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "delta_vs_previous": [
+    ".github/workflows/ch8-s1.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/runner.py",
+    "ch8-s1-control/test_package.py",
+    "ch8-s1-control/test_runner.py"
+  ],
+  "row_count": 23,
+  "literal_rows_sha256": "4a392837eed3ee6e8b67812ed3c7d22001796efe9d98d6aa02d8ef165d6f9856",
+  "unchanged_functions": [
+    "build_argv",
+    "execute",
+    "_run_variant",
+    "_variant_info",
+    "_source_root",
+    "_row_base",
+    "_artifact_size",
+    "binary_fingerprints",
+    "_read_pipe"
+  ],
+  "source_and_payload_identity": "PASS",
+  "budgets": {
+    "jobs": 1,
+    "max_parallel": 1,
+    "workflow_minutes": 120,
+    "setup_seconds": 1800,
+    "phase_seconds": 4500,
+    "reserve_seconds": 900,
+    "row_seconds": 600,
+    "rss_kib": 6291456,
+    "stdout_bytes": 1048576,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456,
+    "planned_rows_seconds": 2760,
+    "rss_cap_kib": 6291456,
+    "warmup_seconds": 900,
+    "planned_warmup_seconds": 600
+  },
+  "source_bindings": 23,
+  "global_list": "REMOVED",
+  "proof_rows": "ALL_23_NOT_RUN",
+  "proof_credit": "NONE"
+}

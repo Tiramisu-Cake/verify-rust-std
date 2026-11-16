@@ -1,0 +1,37 @@
+{
+  "applicability": "TASK-CH8-S1-LIST2-W13.md at g0 task commit43344a5de8. Preparation only: no push, CI, publication, ledger or local cargo/rustc/Kani/CBMC. Previous control c03363b3b0a83fa9e78c4841720cb48ee7638c6a is sibling baseline for delta comparison; stock tool is sole parent.",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "2a15c9b545016619c3ab069d5272fc985ac87dc7",
+  "controls": [
+    "24 synthetic unit tests; execution uses only Python subprocesses and mocks. Static row/source/payload/AST comparison, YAML checks and actionlint. Review critical error paths and source evidence independently; do not rely on author test outcomes."
+  ],
+  "defect": "Global list codegens all std harnesses; task rejects1500s list and requires per-row export binding with separate first std compilation accounting.",
+  "dependencies": [
+    ".github/actions/setup/action.yml",
+    "kani-driver/src/frontend/schema_utils.rs",
+    "kani_metadata/src/harness.rs",
+    "kani-compiler/src/kani_middle/metadata.rs",
+    "kani-compiler/src/kani_middle/attributes.rs",
+    "library/kani_macros/src/sysroot/contracts/mod.rs",
+    "kani-driver/src/call_single_file.rs",
+    "kani-driver/src/call_cargo.rs",
+    "kani-driver/src/project.rs",
+    "kani-driver/src/main.rs",
+    "kani-driver/src/args/mod.rs",
+    "kani-driver/src/sarif.rs"
+  ],
+  "invariants": [
+    "Source S-prime f22f84f316ad8ef6f3fccce86424bad927b09f78 treee0dc89592926571e823797f8618cd6b4a7e11ff6 and all23 literal rows/oracles/root caps remain fixed. Source checkout /root/verify-rust-std-ch8-s1-pprime-w13 is available read-only. Do not invoke any compiler/verifier.",
+    "Per-row single manual harness, exact name/requested filter, matched_count int1, unmatched_filters empty, exact true, core crate and pinned source file/line. PFC source expression target_fn equals frozen expected target (whitespace normalization only) plus nonempty generated wrapper; proof contract explicitly null.",
+    "Export does NOT expose list resolved definition-level function mapping or target function source location. target_fn is stringify!(source attribute), contract.contracted_function_name is mangled generated closure. Source file/line/hash anchors replace resolved list mapping for preparation; this does not independently prove AST/callee binding or six resolved distinct definitions. Macro definition and exact invocation positions are explicitly enumerated, actual unknown location must fail closed.",
+    "Warm-up900s --only-codegen for first exact selector retains all compiler flags, removes only driver export path and adds only-codegen; no proof credit. Same job-local CARGO_TARGET_DIR outside deleted std_project dummy crate. First proof root remains600s; phase4500 starts before warm-up, job120min unchanged. Other selectors change compiler flags and can recompile; no claim all23 will finish.",
+    "Each row and warm-up bounded head+tail stdout/stderr and durable receipts, incomplete/invalid/missing/timeout/signal UNKNOWN, original exits retained; fallback records interrupted rows. Existing property/coverage/control oracles remain."
+  ],
+  "known_limitations": [
+    "No actual std compilation or proof locally. all23 actual proof rows NOT_RUN, proof credit NONE. Named successes remain PENDING_REVIEW because schema does not export names, as in previous candidate.",
+    "No nested delegation or expensive substitute. Return compact actionable findings and exact candidate identity. Write report only to /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s1/kani-host-nolist/REVIEW.md; do not edit candidate."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-s1k-nolist-w13"
+}

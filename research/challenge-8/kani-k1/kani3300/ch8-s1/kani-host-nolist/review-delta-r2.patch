@@ -1,0 +1,90 @@
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index f74afe12f..ea388bde4 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -639,9 +639,9 @@
+     "ch8-s1-control/activation-default.patch": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+     "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+     "ch8-s1-control/check_package.py": "047be75be2dcccfef2bf5728282698946ae85251995926a85955b3f3d9b49441",
+-    "ch8-s1-control/runner.py": "37eb6be1a9abe21e07af28046568f689d061c747e9778e89f53aef47fc45d327",
++    "ch8-s1-control/runner.py": "37d590d0c646b82b8607ffbe1dd0dd3d0d76af22871c34bb995f60dc7e5efc94",
+     "ch8-s1-control/test_package.py": "8e2a7f4cd5526c06f6db9c08124a711ab56623e70b359c2739d8c3b0a07c030e",
+-    "ch8-s1-control/test_runner.py": "fa2d726a920bdc669d04191b13c17b5870b866d5b8e73f36ffefbc33ae140406"
++    "ch8-s1-control/test_runner.py": "956c38a061057ffa2711616810785f32177943fe56baa6d47eac069f0af041e5"
+   },
+   "budgets": {
+     "jobs": 1,
+@@ -691,7 +691,7 @@
+     ]
+   },
+   "property_binding": "NOT_RUN; generated IDs/counts not invented; exported successes/covers require reviewer binding",
+-  "selector_binding": "Per-row export: exact selector/name, core crate, manual harness, pinned file/line anchors, ProofForContract.target_fn equals expected source expression (whitespace only normalized); proof contract must be null. No global list or resolved-definition inventory.",
++  "selector_binding": "Per-row export: exact selector/name, core crate, manual harness, pinned file/line anchors, ProofForContract.target_fn equals expected source expression (tokens compared; whitespace may differ, identifier boundaries retained); proof contract must be null. No global list or resolved-definition inventory.",
+   "pre_dispatch_gate": "Independent review of frozen CI package plus worker14/coordinator inventory review; preparation grants no dispatch permission",
+   "ci_changed_paths": [
+     ".github/workflows/bench-compiler.yml",
+diff --git a/ch8-s1-control/runner.py b/ch8-s1-control/runner.py
+index 3a654f2ff..f33b8dad5 100644
+--- a/ch8-s1-control/runner.py
++++ b/ch8-s1-control/runner.py
+@@ -10,6 +10,7 @@ import argparse
+ import hashlib
+ import json
+ import os
++import re
+ from pathlib import Path
+ import shutil
+ import signal
+@@ -380,6 +381,16 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+     return info
+ 
+ 
++def _target_tokens(value: Any) -> list[str] | None:
++    """Compare the frozen ASCII Rust path syntax without merging identifiers."""
++    if not isinstance(value, str):
++        return None
++    tokens = re.findall(r"::|[A-Za-z_][A-Za-z_0-9]*|[<>]", value)
++    if not tokens or "".join(tokens) != "".join(value.split()):
++        return None
++    return tokens
++
++
+ def parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BYTES,
+                  source_binding: dict[str, Any] | None = None, std: Path | None = None) -> dict[str, Any]:
+     if not path.is_file():
+@@ -434,9 +445,10 @@ def parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BY
+         exported_target = kind["ProofForContract"].get("target_fn")
+         expected_target = binding.get("target")
+         reported_contract_function = contract.get("contracted_function_name")
+-        # stringify!(TokenStream) changes whitespace, not tokens. No suffix/regex matching.
++        # stringify!(TokenStream) changes whitespace, not token boundaries.
+         if (not isinstance(exported_target, str) or not isinstance(expected_target, str) or
+-                "".join(exported_target.split()) != "".join(expected_target.split()) or
++                _target_tokens(exported_target) is None or
++                _target_tokens(exported_target) != _target_tokens(expected_target) or
+                 not isinstance(reported_contract_function, str) or not reported_contract_function.strip()):
+             return {"state": "CONTRACT_TARGET_BINDING_MISMATCH", "outcome": "UNKNOWN",
+                     "expected_target": expected_target, "exported_target": exported_target,
+diff --git a/ch8-s1-control/test_runner.py b/ch8-s1-control/test_runner.py
+index 2e6d0d43b..c7a762d2f 100644
+--- a/ch8-s1-control/test_runner.py
++++ b/ch8-s1-control/test_runner.py
+@@ -393,6 +393,18 @@ class NoListBindingTests(unittest.TestCase):
+         self.assertEqual(self.parse(value)['outcome'],'UNKNOWN')
+         self.assertNotEqual(self.parse(value)['outcome'],'EXPECTED')
+ 
++    def test_target_tokens_preserve_identifier_boundaries(self):
++        r=row(); b=binding(r,"<u8 as Trait>::small_sort")
++        v=export(); kind=v['harnesses'][0]['attributes']['kind']['ProofForContract']
++        for target in ('< u8 as Trait > :: small_sort','<u8 as Trait>::small_sort'):
++            kind['target_fn']=target
++            self.assertEqual(self.parse(v,r,b)['outcome'],'EXPECTED')
++        for target in ('<u8asTrait>::small_sort','<u8 asTrait>::small_sort',
++                       '<u8 as Trait>::other','<u8 as Trait>::small_sort()',
++                       '<u8 as Trait>::small_sort/*comment*/','',None):
++            kind['target_fn']=target
++            self.assertEqual(self.parse(v,r,b)['outcome'],'UNKNOWN')
++
+     def test_source_anchor_and_request_binding_mutations(self):
+         import copy
+         original=runner.load_request()

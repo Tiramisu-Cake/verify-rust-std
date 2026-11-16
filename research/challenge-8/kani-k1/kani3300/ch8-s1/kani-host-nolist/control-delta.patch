@@ -1,0 +1,1500 @@
+diff --git a/.github/workflows/ch8-s1.yml b/.github/workflows/ch8-s1.yml
+index 0d8972a20..778f6b656 100644
+--- a/.github/workflows/ch8-s1.yml
++++ b/.github/workflows/ch8-s1.yml
+@@ -88,13 +88,13 @@ jobs:
+         run: >-
+           python3 ../control/ch8-s1-control/check_package.py build
+           --tool . --epoch "$SETUP_EPOCH" --out "$RECEIPT_ROOT/setup"
+-      - name: List once and run fixed S1 batch
++      - name: Compile first exact root and run fixed S1 batch
+         timeout-minutes: 75
+         env:
+           RECEIPT_ROOT: ${{ runner.temp }}/ch8-s1-receipts
+           PYTHONDONTWRITEBYTECODE: "1"
+         run: |
+-          python3 control/ch8-s1-control/runner.py list --std export --tool tool --out "$RECEIPT_ROOT"
++          python3 control/ch8-s1-control/runner.py warmup --std export --tool tool --out "$RECEIPT_ROOT"
+           python3 control/ch8-s1-control/runner.py run --std export --tool tool --out "$RECEIPT_ROOT"
+       - name: Materialize bounded fallback
+         if: always()
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index ff8f64468..ea388bde4 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -635,13 +635,13 @@
+     }
+   ],
+   "ci_payload_sha256": {
+-    ".github/workflows/ch8-s1.yml": "8c396c715dc65add25a7a28e6812824d45ae1eb263456a85e567864516f41a6f",
++    ".github/workflows/ch8-s1.yml": "736575bc1f5c3fc2f8bfaf9f83a4d697bdd20d5bf8b6227e91bb9cf280b10d69",
+     "ch8-s1-control/activation-default.patch": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+     "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+-    "ch8-s1-control/check_package.py": "2eb01abbb16f70388450cfcff6deb64045762360c115794aa20aecf3c89d0699",
+-    "ch8-s1-control/runner.py": "2b89b56982bf07649c1e35dbdb128cad21b92e579dbc1e7ce05b9440b9660703",
+-    "ch8-s1-control/test_package.py": "5bc08e71b387242f0aa5f91dbc121dc02606971f3a264d6b0a059d168bce9c3c",
+-    "ch8-s1-control/test_runner.py": "cafc30c1e7875a5aad5e506502df531b96393806903a134ae1eb340dfaf7463b"
++    "ch8-s1-control/check_package.py": "047be75be2dcccfef2bf5728282698946ae85251995926a85955b3f3d9b49441",
++    "ch8-s1-control/runner.py": "37d590d0c646b82b8607ffbe1dd0dd3d0d76af22871c34bb995f60dc7e5efc94",
++    "ch8-s1-control/test_package.py": "8e2a7f4cd5526c06f6db9c08124a711ab56623e70b359c2739d8c3b0a07c030e",
++    "ch8-s1-control/test_runner.py": "956c38a061057ffa2711616810785f32177943fe56baa6d47eac069f0af041e5"
+   },
+   "budgets": {
+     "jobs": 1,
+@@ -656,10 +656,10 @@
+     "stderr_bytes": 1048576,
+     "export_bytes": 8388608,
+     "artifact_bytes": 268435456,
+-    "list_seconds": 1500,
+     "planned_rows_seconds": 2760,
+-    "planned_list_seconds": 1500,
+-    "rss_cap_kib": 6291456
++    "rss_cap_kib": 6291456,
++    "warmup_seconds": 900,
++    "planned_warmup_seconds": 600
+   },
+   "reservations": {
+     "S1-01": "NOT_RESERVED/NOT_RUN; coordinator only after review",
+@@ -691,7 +691,7 @@
+     ]
+   },
+   "property_binding": "NOT_RUN; generated IDs/counts not invented; exported successes/covers require reviewer binding",
+-  "selector_binding": "Stock compiler kani_middle::readable_name strips local crate prefix (mod.rs:30-64, metadata.rs:25); exact source-qualified core:: names mapped once to crate-relative slice:: selectors before dispatch. Actual list must confirm; no runtime fallback matching.",
++  "selector_binding": "Per-row export: exact selector/name, core crate, manual harness, pinned file/line anchors, ProofForContract.target_fn equals expected source expression (tokens compared; whitespace may differ, identifier boundaries retained); proof contract must be null. No global list or resolved-definition inventory.",
+   "pre_dispatch_gate": "Independent review of frozen CI package plus worker14/coordinator inventory review; preparation grants no dispatch permission",
+   "ci_changed_paths": [
+     ".github/workflows/bench-compiler.yml",
+@@ -718,5 +718,365 @@
+     "ch8-s1-control/runner.py",
+     "ch8-s1-control/test_package.py",
+     "ch8-s1-control/test_runner.py"
+-  ]
++  ],
++  "source_bindings": {
++    "stable_default_cell": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
++      "mode": "PFC",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
++      "sha256": "b3fa030187e4b6dbc1a9bcd6b84fc51fb657a1ee8be13d150c5870275da2725f",
++      "locations": [
++        {
++          "line": 84,
++          "source": "smoke!(stable_default_cell, Cell<u8>, Cell::new, StableSmallSortTypeImpl, 16, stable_empty);"
++        },
++        {
++          "line": 36,
++          "source": "        fn $name() {"
++        }
++      ],
++      "target": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort"
++    },
++    "stable_freeze_u8": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8",
++      "mode": "PFC",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
++      "sha256": "b3fa030187e4b6dbc1a9bcd6b84fc51fb657a1ee8be13d150c5870275da2725f",
++      "locations": [
++        {
++          "line": 85,
++          "source": "smoke!(stable_freeze_u8, u8, byte, StableSmallSortTypeImpl, 32, stable_general);"
++        },
++        {
++          "line": 36,
++          "source": "        fn $name() {"
++        }
++      ],
++      "target": "<u8 as StableSmallSortTypeImpl>::small_sort"
++    },
++    "unstable_default_cell": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
++      "mode": "PFC",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
++      "sha256": "b3fa030187e4b6dbc1a9bcd6b84fc51fb657a1ee8be13d150c5870275da2725f",
++      "locations": [
++        {
++          "line": 86,
++          "source": "smoke!(unstable_default_cell, Cell<u8>, Cell::new, UnstableSmallSortTypeImpl, 16, unstable);"
++        },
++        {
++          "line": 36,
++          "source": "        fn $name() {"
++        }
++      ],
++      "target": "<Cell<u8> as UnstableSmallSortTypeImpl>::small_sort"
++    },
++    "unstable_freeze_u8": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8",
++      "mode": "PFC",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
++      "sha256": "b3fa030187e4b6dbc1a9bcd6b84fc51fb657a1ee8be13d150c5870275da2725f",
++      "locations": [
++        {
++          "line": 87,
++          "source": "smoke!(unstable_freeze_u8, u8, byte, UnstableSmallSortTypeImpl, 32, unstable);"
++        },
++        {
++          "line": 36,
++          "source": "        fn $name() {"
++        }
++      ],
++      "target": "<u8 as UnstableSmallSortTypeImpl>::small_sort"
++    },
++    "freeze_default_noncopy": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy",
++      "mode": "PFC",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
++      "sha256": "b3fa030187e4b6dbc1a9bcd6b84fc51fb657a1ee8be13d150c5870275da2725f",
++      "locations": [
++        {
++          "line": 88,
++          "source": "smoke!(freeze_default_noncopy, NonCopyByte, NonCopyByte::new,"
++        },
++        {
++          "line": 36,
++          "source": "        fn $name() {"
++        }
++      ],
++      "target": "<NonCopyByte as UnstableSmallSortFreezeTypeImpl>::small_sort"
++    },
++    "freeze_copy_u8": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8",
++      "mode": "PFC",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
++      "sha256": "b3fa030187e4b6dbc1a9bcd6b84fc51fb657a1ee8be13d150c5870275da2725f",
++      "locations": [
++        {
++          "line": 90,
++          "source": "smoke!(freeze_copy_u8, u8, byte, UnstableSmallSortFreezeTypeImpl, 32, unstable);"
++        },
++        {
++          "line": 36,
++          "source": "        fn $name() {"
++        }
++      ],
++      "target": "<u8 as UnstableSmallSortFreezeTypeImpl>::small_sort"
++    },
++    "model_u8_n0_3": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
++      "mode": "Original",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++      "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
++      "locations": [
++        {
++          "line": 66,
++          "source": "positive!(model_u8_n0_3, u8, byte);"
++        },
++        {
++          "line": 29,
++          "source": "        fn $name() {"
++        }
++      ],
++      "target": null
++    },
++    "model_cell_n0_3": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
++      "mode": "Original",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++      "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
++      "locations": [
++        {
++          "line": 67,
++          "source": "positive!(model_cell_n0_3, Cell<u8>, Cell::new);"
++        },
++        {
++          "line": 29,
++          "source": "        fn $name() {"
++        }
++      ],
++      "target": null
++    },
++    "model_noncopy_n0_3": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3",
++      "mode": "Original",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++      "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
++      "locations": [
++        {
++          "line": 68,
++          "source": "positive!(model_noncopy_n0_3, NonCopyByte, NonCopyByte::new);"
++        },
++        {
++          "line": 29,
++          "source": "        fn $name() {"
++        }
++      ],
++      "target": null
++    },
++    "inactive_pairs_read_free": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::inactive_pairs_read_free",
++      "mode": "Original",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++      "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
++      "locations": [
++        {
++          "line": 78,
++          "source": "fn inactive_pairs_read_free() {"
++        }
++      ],
++      "target": null
++    },
++    "activation_descending_rejected": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
++      "mode": "Original",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++      "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
++      "locations": [
++        {
++          "line": 99,
++          "source": "fn activation_descending_rejected() {"
++        }
++      ],
++      "target": null
++    },
++    "activation_effectful_rejected": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
++      "mode": "Original",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++      "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
++      "locations": [
++        {
++          "line": 104,
++          "source": "fn activation_effectful_rejected() {"
++        }
++      ],
++      "target": null
++    },
++    "activation_unsupported_type_rejected": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_unsupported_type_rejected",
++      "mode": "Original",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++      "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
++      "locations": [
++        {
++          "line": 111,
++          "source": "fn activation_unsupported_type_rejected() {"
++        }
++      ],
++      "target": null
++    },
++    "corruption_companion": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
++      "mode": "Original",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++      "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
++      "locations": [
++        {
++          "line": 125,
++          "source": "fn corruption_companion() {"
++        }
++      ],
++      "target": null
++    },
++    "order_corruption_rejected": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
++      "mode": "Original",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++      "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
++      "locations": [
++        {
++          "line": 138,
++          "source": "fn order_corruption_rejected() {"
++        }
++      ],
++      "target": null
++    },
++    "count_corruption_rejected": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
++      "mode": "Original",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++      "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
++      "locations": [
++        {
++          "line": 147,
++          "source": "fn count_corruption_rejected() {"
++        }
++      ],
++      "target": null
++    },
++    "snapshot_guards_companion": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::snapshot_guards_companion",
++      "mode": "Original",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++      "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
++      "locations": [
++        {
++          "line": 158,
++          "source": "fn snapshot_guards_companion() {"
++        }
++      ],
++      "target": null
++    },
++    "invalid_snapshot_rejected": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected",
++      "mode": "Original",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
++      "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
++      "locations": [
++        {
++          "line": 179,
++          "source": "fn invalid_snapshot_rejected() {"
++        }
++      ],
++      "target": null
++    },
++    "stable_default_activation-legal": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
++      "mode": "PFC",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
++      "sha256": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
++      "locations": [
++        {
++          "line": 12,
++          "source": "fn stable_default_activation() {"
++        }
++      ],
++      "target": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort"
++    },
++    "stable_freeze_activation-legal": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
++      "mode": "PFC",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
++      "sha256": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
++      "locations": [
++        {
++          "line": 25,
++          "source": "fn stable_freeze_activation() {"
++        }
++      ],
++      "target": "<u8 as StableSmallSortTypeImpl>::small_sort"
++    },
++    "activation-default": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
++      "mode": "PFC",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
++      "sha256": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
++      "locations": [
++        {
++          "line": 12,
++          "source": "fn stable_default_activation() {"
++        }
++      ],
++      "target": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort"
++    },
++    "activation-override": {
++      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
++      "mode": "PFC",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
++      "sha256": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
++      "locations": [
++        {
++          "line": 25,
++          "source": "fn stable_freeze_activation() {"
++        }
++      ],
++      "target": "<u8 as StableSmallSortTypeImpl>::small_sort"
++    },
++    "ordinary-bridge": {
++      "selector": "slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
++      "mode": "Original",
++      "crate": "core",
++      "file": "library/core/src/slice/sort/shared/smallsort/verify/smoke.rs",
++      "sha256": "f576bfa8185c3ded0a27374dd4904db52f9711102a62c37f10406b2ccbd87f23",
++      "locations": [
++        {
++          "line": 15,
++          "source": "fn predicate_efficient_swap_type_matrix() {"
++        }
++      ],
++      "target": null
++    }
++  }
+ }
+diff --git a/ch8-s1-control/check_package.py b/ch8-s1-control/check_package.py
+index 989558a0c..994d1e780 100644
+--- a/ch8-s1-control/check_package.py
++++ b/ch8-s1-control/check_package.py
+@@ -53,6 +53,10 @@ def check_yaml(path):
+     # Build wrapper uses the remaining absolute30min setup budget; step caps overlap it.
+     assert int(steps[build_index]['timeout-minutes'])==15
+     assert int(steps[build_index+1]['timeout-minutes'])==75
++    recipe=steps[build_index+1]['run']
++    assert 'runner.py warmup --std export --tool tool' in recipe
++    assert 'runner.py run --std export --tool tool' in recipe
++    assert 'runner.py list' not in recipe
+     assert sum(int(s['timeout-minutes']) for s in steps[-2:])==15
+     assert steps[-1]['with']['retention-days']=='7'
+     return {'yaml':'PASS','runner_context':'STEP_ENV_ONLY','checkout_depth':'AT_LEAST_2',
+@@ -102,21 +106,21 @@ def build(tool, epoch, out):
+ def fallback(out):
+     out.mkdir(parents=True,exist_ok=True)
+     r=json.loads((HERE/'CI-REQUEST.json').read_text())
+-    # SIGKILL/job cancellation cannot run Python finally blocks. Preserve the
+-    # last atomic list observation and make the missing completion explicit.
+-    list_dir=out/'list'; list_dir.mkdir(exist_ok=True)
+-    list_receipt=list_dir/'receipt.json'
+-    if list_receipt.exists():
+-        value=json.loads(list_receipt.read_text())
++    # SIGKILL cannot run finally: retain observations and mark incomplete work UNKNOWN.
++    from runner import _write_json, _bounded_log
++    warmup_dir=out/'warmup'; warmup_dir.mkdir(exist_ok=True)
++    warmup_receipt=warmup_dir/'receipt.json'
++    if warmup_receipt.exists():
++        value=json.loads(warmup_receipt.read_text())
+         if value.get('state')=='IN_PROGRESS':
+-            value.update(state='INTERRUPTED', reason='No completed list receipt; execution outcome UNKNOWN')
+-            list_receipt.write_text(json.dumps(value,indent=2)+'\n')
++            value.update(state='INTERRUPTED', reason='No completed warm-up; outcome UNKNOWN')
++            for stream in ('stdout','stderr'):
++                value[stream]=_bounded_log(warmup_dir/(stream+'.log'),None)
++            _write_json(warmup_receipt,value)
+     else:
+-        list_receipt.write_text(json.dumps({'schema':'ch8-s1-list-receipt-v1',
++        _write_json(warmup_receipt,{'schema':'ch8-s1-warmup-v1',
+             'state':'NOT_RUN_OR_INTERRUPTED','proof_credit':'NONE',
+-            'reason':'No list receipt (setup/preflight failure or interruption)',
+-            'execution':{'original_exit_code':None,'signal':None,'timed_out':None,
+-                         'elapsed_seconds':None,'rss_peak_kib':None,'rss_status':'UNKNOWN'}},indent=2)+'\n')
++            'execution':{'original_exit_code':None,'signal':None,'timed_out':None}})
+     # Materialize every absent row, preserving any execution receipt already captured.
+     for row in r['rows']:
+         dest=out/row['id']; dest.mkdir(exist_ok=True)
+@@ -126,6 +130,14 @@ def fallback(out):
+                 'mode':row['mode'],'variant':row['variant'],'status':'NOT_RUN',
+                 'outcome':'UNKNOWN','original_exit':None,'signal':None,
+                 'reason':'No complete row receipt (setup/preflight/build/phase interruption)'},indent=2)+'\n')
++        else:
++            value=json.loads(receipt.read_text())
++            if value.get('status')=='IN_PROGRESS':
++                value.update(status='INTERRUPTED',outcome='UNKNOWN',
++                             reason='No completed row receipt; original execution outcome UNKNOWN')
++                for stream in ('stdout','stderr'):
++                    value[stream]=_bounded_log(dest/(stream+'.log'),None)
++                _write_json(receipt,value)
+     (out/'job-status.json').write_text(json.dumps({'job_status':os.environ.get('JOB_STATUS','UNKNOWN'),
+         'request_sha256':hashlib.sha256((HERE/'CI-REQUEST.json').read_bytes()).hexdigest(),
+         'acceptance':'PENDING_INDEPENDENT_REVIEW','credit':'NONE'})+'\n')
+diff --git a/ch8-s1-control/runner.py b/ch8-s1-control/runner.py
+index 9def9f723..f33b8dad5 100644
+--- a/ch8-s1-control/runner.py
++++ b/ch8-s1-control/runner.py
+@@ -10,6 +10,7 @@ import argparse
+ import hashlib
+ import json
+ import os
++import re
+ from pathlib import Path
+ import shutil
+ import signal
+@@ -26,7 +27,7 @@ STD_TREE = "e0dc89592926571e823797f8618cd6b4a7e11ff6"
+ TOOL_SHA = "0aac16ef62da9e9d5645782d458593e5d78143ba"
+ TOOL_TREE = "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+ MAX_ROW_SECONDS = 600
+-LIST_SECONDS = 1500
++WARMUP_SECONDS = 900
+ PHASE_SECONDS = 4500
+ PHASE_CLEANUP_MARGIN = 10
+ RSS_CAP_KIB = 6 * 1024 * 1024
+@@ -104,8 +105,31 @@ def load_request(path: Path = REQUEST_PATH) -> dict[str, Any]:
+             "phase_seconds": PHASE_SECONDS, "rss_kib": RSS_CAP_KIB,
+             "stdout_bytes": STDOUT_CAP_BYTES, "stderr_bytes": STDERR_CAP_BYTES,
+             "export_bytes": EXPORT_CAP_BYTES, "artifact_bytes": ARTIFACT_CAP_BYTES,
+-            "row_seconds": MAX_ROW_SECONDS, "list_seconds": LIST_SECONDS}.items()):
++            "row_seconds": MAX_ROW_SECONDS, "warmup_seconds": WARMUP_SECONDS}.items()):
+         raise RunnerError("request budget mismatch")
++    bindings = request.get("source_bindings")
++    if not isinstance(bindings, dict) or set(bindings) != seen_ids:
++        raise RunnerError("source binding row inventory mismatch")
++    for row in rows:
++        binding = bindings[row["id"]]
++        if (not isinstance(binding, dict) or binding.get("selector") != row["selector"] or
++                binding.get("mode") != row["mode"] or binding.get("crate") != "core" or
++                not isinstance(binding.get("file"), str) or
++                not isinstance(binding.get("locations"), list) or not binding["locations"] or
++                any(not isinstance(loc, dict) or type(loc.get("line")) is not int or
++                    loc["line"] < 1 or not isinstance(loc.get("source"), str)
++                    for loc in binding["locations"]) or
++                (row["mode"] == "PFC" and not isinstance(binding.get("target"), str)) or
++                (row["mode"] == "Original" and binding.get("target") is not None)):
++            raise RunnerError(f"invalid source binding: {row['id']}")
++    smoke_ids = {"stable_default_cell", "stable_freeze_u8", "unstable_default_cell",
++                 "unstable_freeze_u8", "freeze_default_noncopy", "freeze_copy_u8"}
++    if not smoke_ids.issubset(bindings) or len({bindings[k]["target"] for k in smoke_ids}) != 6:
++        raise RunnerError("six distinct PFC source targets required")
++    for diagnostic, positive in (("activation-default", "stable_default_cell"),
++                                 ("activation-override", "stable_freeze_u8")):
++        if bindings.get(diagnostic, {}).get("target") != bindings[positive]["target"]:
++            raise RunnerError("activation source target mismatch")
+     return request
+ 
+ 
+@@ -137,6 +161,15 @@ def verify_source(std: Path, tool: Path, request: dict[str, Any]) -> dict[str, A
+         path = (std / rel).resolve()
+         if std.resolve() not in path.parents or not path.is_file() or sha256(path) != digest:
+             raise RunnerError(f"std changed-file SHA drift: {rel}")
++    for binding in request.get("source_bindings", {}).values():
++        path = (std / binding["file"]).resolve()
++        if (std.resolve() not in path.parents or not path.is_file() or
++                sha256(path) != binding["sha256"]):
++            raise RunnerError("harness source binding SHA drift")
++        lines = path.read_text(encoding="utf-8").splitlines()
++        for loc in binding["locations"]:
++            if loc["line"] > len(lines) or lines[loc["line"]-1] != loc["source"]:
++                raise RunnerError("harness source location anchor drift")
+     # Variants may describe test overlays; their path/hash are checked when selected.
+     return {"std_sha": STD_SHA, "std_tree": STD_TREE, "tool_sha": TOOL_SHA,
+             "tool_tree": TOOL_TREE, "changed_file_sha256": request["changed_file_sha256"]}
+@@ -168,13 +201,17 @@ def build_argv(std: Path, tool: Path, selector: str, unwind: int, export: Path)
+     return argv
+ 
+ 
+-def ci_env() -> dict[str, str]:
++def ci_env(std: Path | None = None) -> dict[str, str]:
+     env = os.environ.copy()
+     fixed = "--cfg=kani_smallsort_sorting --cfg=kani_smallsort_controls"
+     inherited = env.get("RUSTFLAGS", "").strip()
+     if inherited and inherited != fixed:
+         raise RunnerError("refusing inherited RUSTFLAGS outside the frozen sorting+controls cfg")
+     env["RUSTFLAGS"] = fixed
++    if std is not None:
++        # std_project deletes its dummy crate on every invocation, including its
++        # default target directory. Keep this job-local cache outside that tree.
++        env["CARGO_TARGET_DIR"] = str(std.resolve() / "target/ch8-s1-cargo")
+     return env
+ 
+ 
+@@ -344,8 +381,18 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+     return info
+ 
+ 
++def _target_tokens(value: Any) -> list[str] | None:
++    """Compare the frozen ASCII Rust path syntax without merging identifiers."""
++    if not isinstance(value, str):
++        return None
++    tokens = re.findall(r"::|[A-Za-z_][A-Za-z_0-9]*|[<>]", value)
++    if not tokens or "".join(tokens) != "".join(value.split()):
++        return None
++    return tokens
++
++
+ def parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BYTES,
+-                 contract_binding: dict[str, str] | None = None) -> dict[str, Any]:
++                 source_binding: dict[str, Any] | None = None, std: Path | None = None) -> dict[str, Any]:
+     if not path.is_file():
+         return {"state": "MISSING", "outcome": "UNKNOWN"}
+     try:
+@@ -369,7 +416,7 @@ def parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BY
+     selection = value.get("harness_selection")
+     if (not isinstance(selection, dict) or selection.get("requested_filters") != [row["selector"]] or
+             selection.get("exact") is not True or selection.get("unmatched_filters") != [] or
+-            selection.get("matched_count") != 1):
++            type(selection.get("matched_count")) is not int or selection.get("matched_count") != 1):
+         return {"state": "WRONG_ROOT_OR_SELECTION", "outcome": "UNKNOWN"}
+     harnesses = value.get("harnesses")
+     if not isinstance(harnesses, list) or len(harnesses) != 1:
+@@ -377,23 +424,36 @@ def parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BY
+     harness = harnesses[0]
+     if not isinstance(harness, dict) or harness.get("name") != row["selector"]:
+         return {"state": "WRONG_ROOT_OR_SELECTION", "outcome": "UNKNOWN"}
++    binding = source_binding or {}
++    file = harness.get("file")
++    if (harness.get("is_automatically_generated") is not False or
++            harness.get("crate_name") != binding.get("crate") or
++            binding.get("selector") != row["selector"] or binding.get("mode") != row["mode"] or
++            not isinstance(file, str) or std is None or
++            (std / file).resolve() != (std / binding.get("file", "")).resolve() or
++            type(harness.get("line")) is not int or
++            harness["line"] not in [loc["line"] for loc in binding.get("locations", [])]):
++        return {"state": "WRONG_SOURCE_BINDING", "outcome": "UNKNOWN"}
+     attrs = harness.get("attributes")
+     kind = attrs.get("kind") if isinstance(attrs, dict) else None
+     contract = harness.get("contract")
+     reported_contract_function = None
+     if row["mode"] == "PFC":
+         if (not isinstance(kind, dict) or len(kind) != 1 or "ProofForContract" not in kind or
+-                not isinstance(kind["ProofForContract"], dict) or contract is None):
++                not isinstance(kind["ProofForContract"], dict) or not isinstance(contract, dict)):
+             return {"state": "WRONG_MODE", "outcome": "UNKNOWN"}
+-        list_target = (contract_binding or {}).get(row["selector"])
+         exported_target = kind["ProofForContract"].get("target_fn")
+-        reported_contract_function = contract.get("contracted_function_name") if isinstance(contract, dict) else None
+-        if (not isinstance(list_target, str) or exported_target != list_target or
++        expected_target = binding.get("target")
++        reported_contract_function = contract.get("contracted_function_name")
++        # stringify!(TokenStream) changes whitespace, not token boundaries.
++        if (not isinstance(exported_target, str) or not isinstance(expected_target, str) or
++                _target_tokens(exported_target) is None or
++                _target_tokens(exported_target) != _target_tokens(expected_target) or
+                 not isinstance(reported_contract_function, str) or not reported_contract_function.strip()):
+             return {"state": "CONTRACT_TARGET_BINDING_MISMATCH", "outcome": "UNKNOWN",
+-                    "list_target": list_target, "exported_target": exported_target,
++                    "expected_target": expected_target, "exported_target": exported_target,
+                     "contracted_function_name": reported_contract_function}
+-    elif kind != "Proof":
++    elif kind != "Proof" or "contract" not in harness or contract is not None:
+         return {"state": "WRONG_MODE", "outcome": "UNKNOWN"}
+     config = value.get("configuration")
+     if (not isinstance(config, dict) or not isinstance(config.get("checks"), dict) or
+@@ -441,6 +501,8 @@ def parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BY
+     outcome = harness.get("outcome")
+     is_success = isinstance(outcome, dict) and outcome.get("kind") == "COMPLETED" and outcome.get("verdict") == "SUCCESS"
+     is_failure = isinstance(outcome, dict) and outcome.get("kind") == "COMPLETED" and outcome.get("verdict") == "FAILURE"
++    if not is_success and not is_failure:
++        return {"state": "NOT_COMPLETED", "outcome": "UNKNOWN"}
+     named = harness.get("failed_properties")
+     if not isinstance(named, list):
+         return {"state": "WRONG_EXPORT_SHAPE", "outcome": "UNKNOWN"}
+@@ -468,7 +530,8 @@ def parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BY
+             "checks": checks, "covers": covers, "checks_success": checks.get("success"),
+             "checks_total": checks.get("total"), "satisfied_cover_ids": satisfied,
+             "selected_root": harness.get("name"), "selected_mode": kind,
+-            "list_target_fn": (contract_binding or {}).get(row["selector"]) if row["mode"] == "PFC" else None,
++            "expected_target_fn": binding.get("target"),
++            "source_binding": binding,
+             "reported_contracted_function_name": reported_contract_function,
+             "contract_wrapper_correlation": "PENDING_REVIEW",
+             "required_success_messages": row.get("required_success_messages", []),
+@@ -498,7 +561,7 @@ def binary_fingerprints(tool: Path, export: dict[str, Any]) -> dict[str, Any]:
+             "reported_versions": tools if isinstance(tools, dict) else None}
+ 
+ 
+-def _list_log(path: Path, total_bytes: int | None) -> dict[str, Any]:
++def _bounded_log(path: Path, total_bytes: int | None) -> dict[str, Any]:
+     """Inline bounded head/tail of the bounded capture, including omissions."""
+     if not path.is_file():
+         return {"path": path.name, "state": "MISSING", "original_bytes": total_bytes,
+@@ -517,126 +580,64 @@ def _list_log(path: Path, total_bytes: int | None) -> dict[str, Any]:
+             "sha256": sha256(path)}
+ 
+ 
+-def list_inventory(std: Path, tool: Path, out: Path, request: dict[str, Any]) -> None:
+-    list_dir = out / "list"
+-    list_dir.mkdir(parents=True, exist_ok=True)
+-    # A failed new attempt must never leave an earlier frozen inventory usable.
+-    (out / "inventory.json").unlink(missing_ok=True)
+-    for name in ("stdout.log", "stderr.log"):
+-        (list_dir / name).write_bytes(b"")
+-    (list_dir / "kani-list.json").unlink(missing_ok=True)
+-    list_argv = [str(tool.resolve() / "scripts/kani"), "list", str(std.resolve() / "library"),
+-                 "--std", "--format", "json", "--quiet", "-Z", "unstable-options"]
+-    for feature in UNSTABLE:
+-        list_argv += ["-Z", feature]
++def build_warmup_argv(std: Path, tool: Path, row: dict[str, Any], export: Path) -> list[str]:
++    # Keep compiler flags (including -Z export-json and the exact selector) identical.
++    # --export-json conflicts with --only-codegen; its path is driver-only.
++    argv = build_argv(std, tool, row["selector"], row["unwind"], export)
++    index = argv.index("--export-json")
++    del argv[index:index+2]
++    argv.insert(argv.index("--cbmc-args"), "--only-codegen")
++    return argv
++
++
++def warmup(std: Path, tool: Path, out: Path, request: dict[str, Any]) -> None:
++    dest = out / "warmup"
++    dest.mkdir(parents=True, exist_ok=True)
+     phase_started = time.time()
+-    started = time.monotonic()
+-    listing: dict[str, Any] = {"original_exit_code": None, "signal": None, "timed_out": False,
+-                               "elapsed_seconds": 0, "rss_peak_kib": None,
+-                               "rss_status": "NOT_RUN"}
+-    receipt = {"schema": "ch8-s1-list-receipt-v1", "state": "IN_PROGRESS",
+-               "stage": "SOURCE_PREFLIGHT", "argv": list_argv, "timeout_seconds": LIST_SECONDS,
+-               "phase_seconds": PHASE_SECONDS, "phase_started_unix": phase_started,
+-               "std_sha": STD_SHA, "tool_sha": TOOL_SHA, "proof_credit": "NONE",
+-               "execution": listing}
+-    receipt_path = list_dir / "receipt.json"
++    for name in ("stdout.log", "stderr.log"):
++        (dest / name).write_bytes(b"")
++    receipt_path = dest / "receipt.json"
++    row = request["rows"][0]
++    argv = build_warmup_argv(std, tool, row, dest / "unused.json")
++    receipt = {"schema": "ch8-s1-warmup-v1", "state": "IN_PROGRESS",
++               "stage": "SOURCE_PREFLIGHT", "argv": argv, "selector": row["selector"],
++               "timeout_seconds": WARMUP_SECONDS, "phase_started_unix": phase_started,
++               "request_sha256": sha256(REQUEST_PATH), "std_sha": STD_SHA, "tool_sha": TOOL_SHA,
++               "proof_credit": "NONE", "purpose": "COMPILATION_ONLY_NOT_PROOF",
++               "execution": {"original_exit_code": None, "signal": None, "timed_out": None}}
+     _write_json(receipt_path, receipt)
+     try:
+         verify_source(std, tool, request)
+-        child_env = ci_env()
+-        receipt["stage"] = "EXECUTING"
+-        listing.update(elapsed_seconds=None, timed_out=None, rss_status="UNKNOWN_UNTIL_COMPLETION")
++        child_env = ci_env(std)
++        before = binary_fingerprints(tool, {})
++        receipt.update(stage="EXECUTING", tool_fingerprints_before=before,
++                       cargo_target_dir=child_env["CARGO_TARGET_DIR"])
+         _write_json(receipt_path, receipt)
+-        listing = execute(list_argv, list_dir, list_dir, timeout=LIST_SECONDS,
+-                          env=child_env, stdout_cap=STDOUT_CAP_BYTES,
+-                          stderr_cap=STDERR_CAP_BYTES, capture_tail=True)
+-        receipt.update(stage="VALIDATING", execution=listing)
++        invocation = execute(argv, std.resolve(), dest, WARMUP_SECONDS,
++                             env=child_env, capture_tail=True)
++        receipt.update(stage="VALIDATING", execution=invocation)
+         _write_json(receipt_path, receipt)
+-        _freeze_inventory(std, tool, out, request, list_argv, phase_started, listing)
+-        receipt.update(state="COMPLETE", stage="INVENTORY_FROZEN")
++        if (invocation.get("original_exit_code") != 0 or invocation.get("timed_out") or
++                invocation.get("termination_reason") or invocation.get("signal") or
++                invocation.get("stdout_truncated") or invocation.get("stderr_truncated")):
++            raise RunnerError("std compilation warm-up failed or incomplete")
++        verify_source(std, tool, request)
++        after = binary_fingerprints(tool, {})
++        if not after["required_hashes_present"] or before != after:
++            raise RunnerError("warm-up tool binary missing or drifted")
++        if time.time() - phase_started > PHASE_SECONDS - MAX_ROW_SECONDS - PHASE_CLEANUP_MARGIN:
++            raise RunnerError("phase budget exhausted by warm-up")
++        receipt.update(state="COMPLETE", stage="COMPILATION_COMPLETE")
+     except BaseException as exc:
+         receipt.update(state="FAILED", error=f"{type(exc).__name__}: {exc}")
+         raise
+     finally:
+-        receipt["elapsed_seconds"] = round(time.monotonic() - started, 3)
+-        receipt["execution"] = listing
++        invocation = receipt["execution"]
+         for name in ("stdout", "stderr"):
+-            receipt[name] = _list_log(list_dir / (name + ".log"), listing.get(name + "_bytes"))
++            receipt[name] = _bounded_log(dest / (name + ".log"), invocation.get(name + "_bytes"))
+         _write_json(receipt_path, receipt)
+ 
+ 
+-def _freeze_inventory(std: Path, tool: Path, out: Path, request: dict[str, Any],
+-                      list_argv: list[str], phase_started: float, listing: dict[str, Any]) -> None:
+-    list_dir = out / "list"
+-    if (listing.get("original_exit_code") != 0 or listing.get("timed_out") or
+-            listing.get("termination_reason") or listing.get("stdout_truncated") or listing.get("stderr_truncated")):
+-        raise RunnerError(f"Kani std list inventory failed: {listing}")
+-    list_json = list_dir / "kani-list.json"
+-    if not list_json.is_file() or list_json.stat().st_size > EXPORT_CAP_BYTES:
+-        raise RunnerError("Kani list JSON is missing or exceeds export cap")
+-    try:
+-        listed = json.loads(list_json.read_text(encoding="utf-8"))
+-    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+-        raise RunnerError(f"Kani list JSON is invalid: {exc}") from exc
+-    if not isinstance(listed, dict) or listed.get("file-version") != "0.1":
+-        raise RunnerError("Kani list file-version mismatch")
+-    def names(field: str) -> set[str]:
+-        value = listed.get(field)
+-        found: set[str] = set()
+-        if not isinstance(value, dict):
+-            return found
+-        for files in value.values():
+-            if not isinstance(files, list) or any(not isinstance(n, str) for n in files):
+-                raise RunnerError(f"Kani list field malformed: {field}")
+-            found.update(files)
+-        return found
+-    standard_names = names("standard-harnesses")
+-    contract_names = names("contract-harnesses")
+-    contracts = listed.get("contracts")
+-    if not isinstance(contracts, list):
+-        raise RunnerError("Kani list contracts field malformed")
+-    contract_binding: dict[str, str] = {}
+-    for item in contracts:
+-        if not isinstance(item, dict) or not isinstance(item.get("function"), str) or not isinstance(item.get("harnesses"), list):
+-            raise RunnerError("Kani list contract item malformed")
+-        for harness_name in item["harnesses"]:
+-            if not isinstance(harness_name, str):
+-                raise RunnerError("Kani list contract harness name malformed")
+-            previous = contract_binding.setdefault(harness_name, item["function"])
+-            if previous != item["function"]:
+-                raise RunnerError(f"PFC selector maps to multiple contracted functions: {harness_name}")
+-    for row in request["rows"]:
+-        inventory_names = contract_names if row["mode"] == "PFC" else standard_names
+-        if row["selector"] not in inventory_names:
+-            raise RunnerError(f"requested selector absent from {row['mode']} list inventory: {row['selector']}")
+-        if row["mode"] == "PFC" and row["selector"] not in contract_binding:
+-            raise RunnerError(f"PFC selector has no actual contracted-function mapping: {row['selector']}")
+-    smoke_ids = {"stable_default_cell", "stable_freeze_u8", "unstable_default_cell",
+-                 "unstable_freeze_u8", "freeze_default_noncopy", "freeze_copy_u8"}
+-    smoke_targets = {contract_binding[row["selector"]] for row in request["rows"] if row["id"] in smoke_ids}
+-    if len(smoke_targets) != 6 or {row["id"] for row in request["rows"] if row["id"] in smoke_ids} != smoke_ids:
+-        raise RunnerError("six smoke PFC roots do not map to six distinct actual contract targets")
+-    for diagnostic_id, smoke_id in (("activation-default", "stable_default_cell"),
+-                                    ("activation-override", "stable_freeze_u8")):
+-        diag = next((r for r in request["rows"] if r["id"] == diagnostic_id), None)
+-        positive = next((r for r in request["rows"] if r["id"] == smoke_id), None)
+-        if diag is None or positive is None or contract_binding.get(diag["selector"]) != contract_binding.get(positive["selector"]):
+-            raise RunnerError(f"activation diagnostic does not bind to the positive target: {diagnostic_id}")
+-    verify_source(std, tool, request)
+-    inventory = []
+-    for row in sorted(request["rows"], key=lambda r: (r["id"], r["selector"])):
+-        inventory.append({"id": row["id"], "selector": row["selector"], "mode": row["mode"],
+-                          "variant": row["variant"], "argv": build_argv(std, tool, row["selector"],
+-                                                                       row["unwind"], out / row["id"] / "export.json"),
+-                          "status": "NOT_RUN", "outcome": "UNKNOWN"})
+-    _write_json(out / "inventory.json", {"state": "INVENTORY_FROZEN_NOT_RUN",
+-                      "phase_started_unix": phase_started, "list_argv": list_argv,
+-                      "list_execution": listing, "list_json_sha256": sha256(list_json),
+-                      "listed_standard": sorted(standard_names), "listed_contract": sorted(contract_names),
+-                      "contract_binding": contract_binding,
+-                      "std_sha": STD_SHA, "tool_sha": TOOL_SHA, "rows": inventory})
+-
+-
+ def _run_variant(std: Path, name: str, request: dict[str, Any]) -> tuple[Path | None, dict[str, str]]:
+     if name == "production":
+         return None, request["changed_file_sha256"]
+@@ -682,23 +683,20 @@ def run_rows(std: Path, tool: Path, out: Path, request: dict[str, Any]) -> int:
+     fatal: str | None = None
+     try:
+         verify_source(std, tool, request)
+-        inventory = json.loads((out / "inventory.json").read_text(encoding="utf-8"))
+-        if inventory.get("state") != "INVENTORY_FROZEN_NOT_RUN":
+-            raise RunnerError("missing completed list inventory")
+-        list_file = out / "list" / "kani-list.json"
+-        if sha256(list_file) != inventory.get("list_json_sha256"):
+-            raise RunnerError("Kani list inventory drift")
+-        contract_binding = inventory.get("contract_binding")
+-        if not isinstance(contract_binding, dict):
+-            raise RunnerError("list inventory lacks PFC contract bindings")
+-        phase_started = inventory.get("phase_started_unix")
+-        if not isinstance(phase_started, (int, float)):
+-            raise RunnerError("list inventory lacks shared phase start")
++        receipt = json.loads((out / "warmup/receipt.json").read_text(encoding="utf-8"))
++        if (receipt.get("schema") != "ch8-s1-warmup-v1" or receipt.get("state") != "COMPLETE" or
++                receipt.get("request_sha256") != sha256(REQUEST_PATH) or
++                receipt.get("std_sha") != STD_SHA or receipt.get("tool_sha") != TOOL_SHA or
++                receipt.get("argv") != build_warmup_argv(std, tool, request["rows"][0], out / "warmup/unused.json")):
++            raise RunnerError("missing complete bound std warm-up receipt")
++        phase_started = receipt.get("phase_started_unix")
++        if type(phase_started) not in (int, float) or not 0 < phase_started <= time.time():
++            raise RunnerError("invalid shared phase start")
+     except Exception as exc:
+         fatal = f"preflight: {type(exc).__name__}: {exc}"
+         phase_started = time.time()
+     try:
+-        child_env = ci_env()
++        child_env = ci_env(std)
+     except Exception as exc:
+         child_env = None
+         fatal = f"environment: {type(exc).__name__}: {exc}"
+@@ -744,18 +742,26 @@ def run_rows(std: Path, tool: Path, out: Path, request: dict[str, Any]) -> int:
+                 result["reason"] = fatal
+                 raise RunnerError(fatal)
+             result["argv"] = argv
++            result["cargo_target_dir"] = child_env["CARGO_TARGET_DIR"]
++            export_path.unlink(missing_ok=True)
++            for name in ("stdout.log", "stderr.log"):
++                (row_out / name).write_bytes(b"")
++            result["status"] = "IN_PROGRESS"
++            _write_json(receipt_path, result)
+             invocation = execute(argv, std.resolve(), row_out,
+                                  row["timeout_seconds"],
+                                  rss_cap_kib=RSS_CAP_KIB, stdout_cap=STDOUT_CAP_BYTES,
+                                  stderr_cap=STDERR_CAP_BYTES, export_path=export_path,
+-                                 export_cap=EXPORT_CAP_BYTES, env=child_env)
++                                 export_cap=EXPORT_CAP_BYTES, env=child_env, capture_tail=True)
+             result["execution"] = invocation
++            for name in ("stdout", "stderr"):
++                result[name] = _bounded_log(row_out / (name + ".log"), invocation.get(name + "_bytes"))
+             result["original_exit"] = invocation.get("original_exit_code")
+             result["signal"] = invocation.get("signal")
+             result["status"] = "OBSERVED"
+             _write_json(receipt_path, result)
+             parsed = parse_export(export_path, row, max_bytes=EXPORT_CAP_BYTES,
+-                                  contract_binding=contract_binding)
++                                  source_binding=request["source_bindings"][row["id"]], std=std.resolve())
+             result["export"] = parsed
+             if export_path.is_file() and export_path.stat().st_size <= EXPORT_CAP_BYTES:
+                 try:
+@@ -793,6 +799,10 @@ def run_rows(std: Path, tool: Path, out: Path, request: dict[str, Any]) -> int:
+             result.update(status="RUNNER_ERROR", reason=f"{type(exc).__name__}: {exc}")
+             fatal = fatal or "fatal_source_or_variant_drift"
+         finally:
++            if result.get("status") in ("IN_PROGRESS", "RUNNER_ERROR", "OBSERVED"):
++                for name in ("stdout", "stderr"):
++                    result[name] = _bounded_log(row_out / (name + ".log"),
++                                               result.get("execution", {}).get(name + "_bytes"))
+             if patch is not None:
+                 try:
+                     subprocess.run(["git", "-C", str(std), "apply", "--reverse", "--check", str(patch)], check=True)
+@@ -837,7 +847,7 @@ def run_rows(std: Path, tool: Path, out: Path, request: dict[str, Any]) -> int:
+ def main(argv: list[str] | None = None) -> int:
+     parser = argparse.ArgumentParser()
+     sub = parser.add_subparsers(dest="command", required=True)
+-    for command in ("check-source", "list", "run"):
++    for command in ("check-source", "warmup", "run"):
+         p = sub.add_parser(command)
+         p.add_argument("--std", required=True, type=Path)
+         p.add_argument("--tool", required=True, type=Path)
+@@ -847,8 +857,8 @@ def main(argv: list[str] | None = None) -> int:
+         request = load_request()
+         if args.command == "check-source":
+             print(json.dumps(verify_source(args.std, args.tool, request), sort_keys=True))
+-        elif args.command == "list":
+-            list_inventory(args.std, args.tool, args.out, request)
++        elif args.command == "warmup":
++            warmup(args.std, args.tool, args.out, request)
+         else:
+             return run_rows(args.std, args.tool, args.out, request)
+     except Exception as exc:
+diff --git a/ch8-s1-control/test_package.py b/ch8-s1-control/test_package.py
+index 8da1a00a5..22afaa1fb 100644
+--- a/ch8-s1-control/test_package.py
++++ b/ch8-s1-control/test_package.py
+@@ -19,6 +19,7 @@ class PackageTests(unittest.TestCase):
+         with tempfile.TemporaryDirectory() as d:
+             p=Path(d)/'workflow.yml'
+             for mutate in [lambda x:x['on'].update({'workflow_dispatch':{}}),
++                lambda x:next(s for s in x['jobs']['s1']['steps'] if s['name']=='Compile first exact root and run fixed S1 batch').update({'run':'python3 runner.py list'}),
+                 lambda x:x['jobs']['s1'].update({'env':{'TEMP':'${{ runner.temp }}'}}),
+                 lambda x:x['jobs']['s1']['steps'][1]['with'].update({'fetch-depth':'1'}),
+                 lambda x:x['jobs']['s1'].update({'runs-on':'self-hosted'}),
+@@ -103,7 +104,7 @@ class PackageTests(unittest.TestCase):
+                 c.fallback(out)
+                 self.assertEqual(json.loads((done/'receipt.json').read_text())['original_exit_code'],42)
+                 self.assertEqual(json.loads((out/'tail/receipt.json').read_text())['status'],'NOT_RUN')
+-                list_receipt=out/'list/receipt.json'
++                list_receipt=out/'warmup/receipt.json'
+                 self.assertEqual(json.loads(list_receipt.read_text())['state'],'NOT_RUN_OR_INTERRUPTED')
+                 list_receipt.write_text(json.dumps({'state':'IN_PROGRESS','execution':{'signal':None}}))
+                 c.fallback(out)
+@@ -112,6 +113,15 @@ class PackageTests(unittest.TestCase):
+                 list_receipt.write_text(complete)
+                 c.fallback(out)
+                 self.assertEqual(list_receipt.read_text(),complete)
++                pending=out/'tail/receipt.json'
++                pending.write_text(json.dumps({'status':'IN_PROGRESS','original_exit':None,'signal':None}))
++                (out/'tail/stdout.log').write_text('row interrupted tail')
++                c.fallback(out)
++                value=json.loads(pending.read_text())
++                self.assertEqual(value['status'],'INTERRUPTED')
++                self.assertEqual(value['outcome'],'UNKNOWN')
++                self.assertIn('row interrupted tail',value['stdout']['head'])
++                self.assertFalse((out/'list').exists())
+                 (out/'oversize.log').write_bytes(b'x'*20000)
+                 c.fallback(out)
+                 self.assertTrue((out/'TRUNCATED.json').is_file())
+diff --git a/ch8-s1-control/test_runner.py b/ch8-s1-control/test_runner.py
+index 7e092b9f6..c7a762d2f 100644
+--- a/ch8-s1-control/test_runner.py
++++ b/ch8-s1-control/test_runner.py
+@@ -10,7 +10,6 @@ import sys
+ import tempfile
+ import unittest
+ from unittest import mock
+-from unittest import mock
+ 
+ import runner
+ 
+@@ -40,8 +39,9 @@ def export(*, selector="slice::sort::root", mode="pfc", schema="0.1.0", state="C
+             "enabled_unstable_features": sorted(set(runner.UNSTABLE) | {"export-json"}),
+             "harness_selection": {"requested_filters": [selector], "exact": True,
+                                   "unmatched_filters": [], "matched_count": 1},
+-            "harnesses": [{"name": selector, "attributes": {"kind": kind},
+-                           "contract": {"requires": [], "ensures": [], "contracted_function_name": wrapper},
++            "harnesses": [{"name": selector, "crate_name": "core", "file": "source.rs", "line": 7,
++                           "is_automatically_generated": False, "attributes": {"kind": kind},
++                           "contract": {"contracted_function_name": wrapper, "recursion_tracker": None} if mode == "pfc" else None,
+                            "resolved_unwind": 4,
+                            "outcome": {"kind": "COMPLETED", "verdict": verdict},
+                            "n_properties": 6,
+@@ -62,7 +62,7 @@ class RequestTests(unittest.TestCase):
+                 "budgets": {"phase_seconds": runner.PHASE_SECONDS, "rss_kib": runner.RSS_CAP_KIB,
+                             "stdout_bytes": runner.STDOUT_CAP_BYTES, "stderr_bytes": runner.STDERR_CAP_BYTES,
+                             "export_bytes": runner.EXPORT_CAP_BYTES, "artifact_bytes": runner.ARTIFACT_CAP_BYTES,
+-                            "row_seconds": runner.MAX_ROW_SECONDS, "list_seconds": runner.LIST_SECONDS}}
++                            "row_seconds": runner.MAX_ROW_SECONDS, "warmup_seconds": runner.WARMUP_SECONDS}}
+ 
+     def test_request_binding_and_guard(self):
+         with tempfile.TemporaryDirectory() as d:
+@@ -108,20 +108,38 @@ class RequestTests(unittest.TestCase):
+                 runner.ci_env()
+ 
+ 
++def binding(selected_row=None, target="slice::sort::body"):
++    r = selected_row or row()
++    return {"selector": r["selector"], "mode": r["mode"], "crate": "core", "file": "source.rs",
++            "locations": [{"line": 7, "source": "fn root() {}"}],
++            "target": target if r["mode"] == "PFC" else None}
++
++
++def ready_warmup(out, std, tool, rows, *, start=None):
++    runner._write_json(out/'warmup/receipt.json', {
++        "schema": "ch8-s1-warmup-v1", "state": "COMPLETE",
++        "std_sha": runner.STD_SHA, "tool_sha": runner.TOOL_SHA,
++        "request_sha256": runner.sha256(runner.REQUEST_PATH),
++        "argv": runner.build_warmup_argv(std,tool,rows[0],out/'warmup/unused.json'),
++        "phase_started_unix": __import__('time').time() if start is None else start})
++
++
+ class ExportTests(unittest.TestCase):
+     def parse(self, value, selected_row=None, contract_binding=None):
+         with tempfile.TemporaryDirectory() as d:
+             p = Path(d) / "export.json"
+             p.write_text(json.dumps(value))
+-            return runner.parse_export(p, selected_row or row(), contract_binding=contract_binding)
++            r = selected_row or row()
++            target = (contract_binding or {}).get(r["selector"], "slice::sort::body")
++            return runner.parse_export(p, r, source_binding=binding(r, target), std=Path("/std"))
+ 
+     def test_success_and_named_negative(self):
+         binding = {row()["selector"]: "slice::sort::body"}
+         accepted = self.parse(export(), contract_binding=binding)
+         self.assertEqual(accepted["outcome"], "EXPECTED")
+-        self.assertEqual(accepted["list_target_fn"], "slice::sort::body")
++        self.assertEqual(accepted["expected_target_fn"], "slice::sort::body")
+         self.assertEqual(accepted["reported_contracted_function_name"], "_RNvNtCs1kani4sort6modify")
+-        self.assertNotEqual(accepted["reported_contracted_function_name"], accepted["list_target_fn"])
++        self.assertNotEqual(accepted["reported_contracted_function_name"], accepted["expected_target_fn"])
+         negative_row = row(expected="DETECTED", failure_description="S1 semantic check")
+         negative = export(verdict="FAILURE", failures=["property-7"], named=[
+             {"id": "property-7", "description": "S1 semantic check failed"}])
+@@ -211,166 +229,78 @@ class ExecutionTests(unittest.TestCase):
+             self.assertEqual(result["termination_reason"], "external_signal")
+ 
+ 
+-class ListTests(unittest.TestCase):
+-    def test_list_rss_and_external_interruption_are_receipted(self):
+-        request = runner.load_request()
+-        real_execute = runner.execute
+-        with tempfile.TemporaryDirectory() as d:
+-            root = Path(d)
+-            for name in ('rss_cap', 'external_signal', 'exec_failure'):
+-                out = root/name
+-                timer = None
+-                def synthetic(argv, cwd, dest, **kwargs):
+-                    nonlocal timer
+-                    if name == 'external_signal':
+-                        timer = threading.Timer(0.25, lambda: os.kill(os.getpid(), runner.signal.SIGTERM))
+-                        timer.start()
+-                    argv = ([str(root/'no-such-executable')] if name == 'exec_failure' else
+-                            [sys.executable, '-c', 'import time; time.sleep(4)'])
+-                    return real_execute(argv, cwd, dest, timeout=5, capture_tail=True)
+-                try:
+-                    with mock.patch.object(runner, 'verify_source', return_value={}), \
+-                         mock.patch.object(runner, 'execute', side_effect=synthetic), \
+-                         mock.patch.object(runner, '_group_rss_kib', return_value=(
+-                             runner.RSS_CAP_KIB+1 if name == 'rss_cap' else 1)):
+-                        with self.assertRaises(runner.RunnerError):
+-                            runner.list_inventory(root/'std', root/'tool', out, request)
+-                finally:
+-                    if timer: timer.cancel()
+-                receipt = json.loads((out/'list/receipt.json').read_text())
+-                self.assertEqual(receipt['state'], 'FAILED')
+-                execution = receipt['execution']
+-                if name == 'exec_failure':
+-                    self.assertIn('exec failed', execution['runner_error'])
+-                    self.assertIsNone(execution['original_exit_code'])
+-                else:
+-                    self.assertEqual(execution['termination_reason'], name)
+-                if name == 'external_signal': self.assertEqual(execution['interrupted_by_signal'], 15)
+-
+-    def fixture(self, request):
+-        bindings = {r["selector"]: "target::" + r["id"] for r in request["rows"] if r["mode"] == "PFC"}
+-        for diag, positive in (("activation-default", "stable_default_cell"),
+-                               ("activation-override", "stable_freeze_u8")):
+-            by_id = {r["id"]: r for r in request["rows"]}
+-            bindings[by_id[diag]["selector"]] = bindings[by_id[positive]["selector"]]
+-        return {"file-version": "0.1", "standard-harnesses": {"source.rs": [
+-                    r["selector"] for r in request["rows"] if r["mode"] == "Original"]},
+-                "contract-harnesses": {"source.rs": list(bindings)},
+-                "contracts": [{"function": target, "harnesses": [selector]}
+-                              for selector, target in bindings.items()]}
+-
+-    def test_list_receipts_success_and_process_failures(self):
+-        request = runner.load_request()
+-        payload = json.dumps(self.fixture(request))
+-        real_execute = runner.execute
+-        cases = {
+-            "success": "from pathlib import Path; Path('kani-list.json').write_text(" + repr(payload) + ")",
+-            "exit": "raise SystemExit(42)",
+-            "signal": "import os,signal; os.kill(os.getpid(), signal.SIGTERM)",
+-            "timeout": "import time; time.sleep(5)",
+-            "stdout_cap": "import sys; sys.stdout.write('HEAD'+'x'*10000+'TAIL'); sys.stdout.flush()",
+-            "stderr_cap": "import sys; sys.stderr.write('HEAD'+'x'*10000+'TAIL'); sys.stderr.flush()",
+-            "missing_json": "pass",
+-            "bad_json": "from pathlib import Path; Path('kani-list.json').write_text('{')",
++class WarmupTests(unittest.TestCase):
++    def test_compilation_flags_and_budget(self):
++        request=runner.load_request(); r=request['rows'][0]
++        argv=runner.build_warmup_argv(Path('/std'),Path('/tool'),r,Path('/unused.json'))
++        proof=runner.build_argv(Path('/std'),Path('/tool'),r['selector'],r['unwind'],Path('/unused.json'))
++        i=proof.index('--export-json'); del proof[i:i+2]
++        proof.insert(proof.index('--cbmc-args'),'--only-codegen')
++        self.assertEqual(argv,proof)
++        env=runner.ci_env(Path('/std'))
++        self.assertEqual(env['CARGO_TARGET_DIR'],'/std/target/ch8-s1-cargo')
++        self.assertNotIn('kani_verify_std',env['CARGO_TARGET_DIR'])
++        self.assertIn('export-json',argv)
++        self.assertEqual(runner.MAX_ROW_SECONDS,600)
++        self.assertEqual(runner.RSS_CAP_KIB,6*1024*1024)
++        self.assertLess(runner.WARMUP_SECONDS+request['budgets']['planned_rows_seconds']+610,
++                        runner.PHASE_SECONDS)
++
++    def test_success_and_process_failures_receipted(self):
++        request=runner.load_request(); real=runner.execute
++        cases={
++            'success': "print('compiled')",
++            'exit': "raise SystemExit(42)",
++            'signal': "import os,signal; os.kill(os.getpid(),signal.SIGTERM)",
++            'timeout': "import time; time.sleep(3)",
++            'stdout_cap': "import sys; sys.stdout.write('HEAD'+'x'*10000+'TAIL'); sys.stdout.flush()",
++            'stderr_cap': "import sys; sys.stderr.write('HEAD'+'x'*10000+'TAIL'); sys.stderr.flush()",
+         }
++        fp={'required_hashes_present':True,'binaries':{}}
+         with tempfile.TemporaryDirectory() as d:
+-            root = Path(d)
+-            for name, code in cases.items():
++            root=Path(d);std=root/'std';std.mkdir()
++            for name,code in cases.items():
+                 with self.subTest(name=name):
+-                    out = root / name
+-                    def synthetic(argv, cwd, dest, timeout, **kwargs):
+-                        self.assertEqual(timeout, 1500)
+-                        self.assertTrue(kwargs['capture_tail'])
+-                        return real_execute([sys.executable, '-c', code], cwd, dest,
+-                                            timeout=1, stdout_cap=4096, stderr_cap=4096,
+-                                            capture_tail=True, env=kwargs['env'])
+-                    with mock.patch.object(runner, 'verify_source', return_value={}), \
+-                         mock.patch.object(runner, 'execute', side_effect=synthetic):
+-                        if name == 'success':
+-                            runner.list_inventory(root/'std', root/'tool', out, request)
++                    out=root/name
++                    def execute(argv,cwd,dest,timeout,**kw):
++                        self.assertEqual(timeout,900);self.assertEqual(cwd,std.resolve())
++                        self.assertTrue(kw['capture_tail'])
++                        return real([sys.executable,'-c',code],cwd,dest,timeout=1,
++                                    stdout_cap=4096,stderr_cap=4096,capture_tail=True)
++                    with mock.patch.object(runner,'verify_source',return_value={}), \
++                         mock.patch.object(runner,'binary_fingerprints',return_value=fp), \
++                         mock.patch.object(runner,'execute',side_effect=execute):
++                        if name=='success':runner.warmup(std,root/'tool',out,request)
+                         else:
+-                            with self.assertRaises(runner.RunnerError):
+-                                runner.list_inventory(root/'std', root/'tool', out, request)
+-                    receipt = json.loads((out/'list/receipt.json').read_text())
+-                    self.assertEqual(receipt['state'], 'COMPLETE' if name == 'success' else 'FAILED')
+-                    self.assertIn('rss_peak_kib', receipt['execution'])
+-                    self.assertIn('elapsed_seconds', receipt['execution'])
+-                    self.assertLessEqual(len(receipt['stdout']['head']), 2048)
+-                    self.assertLessEqual(len(receipt['stderr']['tail']), 2048)
+-                    if name == 'success':
+-                        inv = json.loads((out/'inventory.json').read_text())
+-                        self.assertEqual(len(inv['rows']), 23)
+-                        self.assertEqual(inv['list_execution']['original_exit_code'], 0)
+-                        self.assertGreaterEqual(inv['phase_started_unix'], receipt['phase_started_unix'])
+-                    else:
+-                        self.assertFalse((out/'inventory.json').exists())
+-                    if name == 'exit': self.assertEqual(receipt['execution']['original_exit_code'], 42)
+-                    if name == 'signal': self.assertEqual(receipt['execution']['signal'], 15)
+-                    if name == 'timeout': self.assertTrue(receipt['execution']['timed_out'])
++                            with self.assertRaises(runner.RunnerError):runner.warmup(std,root/'tool',out,request)
++                    receipt=json.loads((out/'warmup/receipt.json').read_text())
++                    self.assertEqual(receipt['state'],'COMPLETE' if name=='success' else 'FAILED')
++                    self.assertIn('elapsed_seconds',receipt['execution'])
++                    if name=='exit':self.assertEqual(receipt['execution']['original_exit_code'],42)
++                    if name=='signal':self.assertEqual(receipt['execution']['signal'],15)
++                    if name=='timeout':self.assertTrue(receipt['execution']['timed_out'])
+                     if name.endswith('_cap'):
+-                        stream = name.split('_')[0]
++                        stream=name.split('_')[0]
+                         self.assertTrue(receipt[stream]['head'].startswith('HEAD'))
+                         self.assertTrue(receipt[stream]['tail'].endswith('TAIL'))
+-                        self.assertGreater(receipt[stream]['capture_omitted_bytes'], 0)
++                        self.assertGreater(receipt[stream]['capture_omitted_bytes'],0)
+ 
+-    def test_preflight_launch_and_unexpected_errors_leave_receipt(self):
+-        request = runner.load_request()
++    def test_source_environment_launch_and_binary_errors(self):
++        request=runner.load_request()
+         with tempfile.TemporaryDirectory() as d:
+-            root = Path(d)
+-            for name in ('preflight', 'environment', 'launch', 'exception'):
+-                out = root/name; out.mkdir()
+-                (out/'inventory.json').write_text('{"state":"stale"}')
+-                with mock.patch.object(runner, 'verify_source', side_effect=(
+-                        runner.RunnerError('synthetic source drift') if name == 'preflight' else None)), \
+-                     mock.patch.object(runner, 'ci_env', side_effect=(
+-                        runner.RunnerError('synthetic env drift') if name == 'environment' else lambda: {})), \
+-                     mock.patch.object(runner, 'execute', side_effect=(
+-                        OSError('unexpected execution error') if name == 'exception' else None),
+-                        return_value={'original_exit_code': None, 'signal': None, 'timed_out': False,
+-                                      'elapsed_seconds': 0, 'rss_peak_kib': 0, 'runner_error': 'exec failed'}):
+-                    with self.assertRaises((runner.RunnerError, OSError)):
+-                        runner.list_inventory(root/'std', root/'tool', out, request)
+-                receipt = json.loads((out/'list/receipt.json').read_text())
+-                self.assertEqual(receipt['state'], 'FAILED')
+-                self.assertFalse((out/'inventory.json').exists())
+-                self.assertIn('error', receipt)
+-
+-    def test_invalid_inventory_binding_and_budget_fail_closed(self):
+-        import copy
+-        request = runner.load_request()
+-        with tempfile.TemporaryDirectory() as d:
+-            root = Path(d)
+-            for name in ('version', 'selector', 'mapping', 'six_targets', 'activation', 'oversize'):
+-                payload = self.fixture(request)
+-                if name == 'version': payload['file-version'] = 'wrong'
+-                if name == 'selector': payload['standard-harnesses'] = {}
+-                if name == 'mapping': payload['contracts'] = []
+-                if name == 'six_targets':
+-                    for contract in payload['contracts']: contract['function'] = 'one_target'
+-                if name == 'activation':
+-                    by_id = {r['id']: r for r in request['rows']}
+-                    for contract in payload['contracts']:
+-                        if by_id['activation-default']['selector'] in contract['harnesses']:
+-                            contract['function'] = 'wrong_activation_target'
+-                out = root/name
+-                def synthetic(argv, cwd, dest, **kwargs):
+-                    (dest/'kani-list.json').write_text('x'*(runner.EXPORT_CAP_BYTES+1)
+-                                                       if name == 'oversize' else json.dumps(payload))
+-                    return {'original_exit_code': 0, 'signal': None, 'timed_out': False,
+-                            'elapsed_seconds': 1, 'rss_peak_kib': 5}
+-                with mock.patch.object(runner, 'verify_source', return_value={}), \
+-                     mock.patch.object(runner, 'execute', side_effect=synthetic):
+-                    with self.assertRaises(runner.RunnerError):
+-                        runner.list_inventory(root/'std', root/'tool', out, request)
+-                self.assertEqual(json.loads((out/'list/receipt.json').read_text())['state'], 'FAILED')
+-                self.assertFalse((out/'inventory.json').exists())
+-            bad = copy.deepcopy(request); bad['budgets']['list_seconds'] = 600
+-            p = root/'request.json'; p.write_text(json.dumps(bad))
+-            with self.assertRaisesRegex(runner.RunnerError, 'budget mismatch'): runner.load_request(p)
+-        self.assertEqual(runner.MAX_ROW_SECONDS, 600)
+-        self.assertEqual(runner.RSS_CAP_KIB, 6*1024*1024)
+-        self.assertLess(runner.LIST_SECONDS + runner.MAX_ROW_SECONDS + runner.PHASE_CLEANUP_MARGIN,
+-                        runner.PHASE_SECONDS)
++            root=Path(d)
++            for name in ('source','environment','launch','binary'):
++                with self.subTest(name=name), \
++                     mock.patch.object(runner,'verify_source',side_effect=runner.RunnerError('source drift') if name=='source' else None), \
++                     mock.patch.object(runner,'ci_env',side_effect=runner.RunnerError('env drift') if name=='environment' else lambda std: {'CARGO_TARGET_DIR':'synthetic'}), \
++                     mock.patch.object(runner,'execute',side_effect=OSError('launch error') if name=='launch' else None,
++                                       return_value={'original_exit_code':0}), \
++                     mock.patch.object(runner,'binary_fingerprints',return_value={'required_hashes_present':False,'binaries':{}}):
++                    with self.assertRaises((runner.RunnerError,OSError)):
++                        runner.warmup(root/'std',root/'tool',root/name,request)
++                receipt=json.loads((root/name/'warmup/receipt.json').read_text())
++                self.assertEqual(receipt['state'],'FAILED')
++                self.assertIn('error',receipt)
+ 
+ 
+ class BatchTests(unittest.TestCase):
+@@ -388,12 +318,10 @@ class BatchTests(unittest.TestCase):
+                               f"p.write_text({json.dumps(payload)!r})\n"
+                               "raise SystemExit(1)\n")
+             script.chmod(script.stat().st_mode | stat.S_IXUSR)
+-            out.mkdir(); list_dir = out / "list"; list_dir.mkdir()
+-            list_json = list_dir / "kani-list.json"; list_json.write_text("{}")
+-            (out / "inventory.json").write_text(json.dumps({"state": "INVENTORY_FROZEN_NOT_RUN",
+-                "phase_started_unix": __import__("time").time(), "list_json_sha256": runner.sha256(list_json),
+-                "contract_binding": {row_obj["selector"]: "slice::sort::body"}}))
+-            request = {"rows": [row_obj], "changed_file_sha256": {}, "variants": {}}
++            out.mkdir()
++            ready_warmup(out,std,tool,[row_obj])
++            request = {"rows": [row_obj], "changed_file_sha256": {}, "variants": {},
++                       "source_bindings": {row_obj["id"]: binding(row_obj)}}
+             fp = {"required_hashes_present": True, "binaries": {}, "reported_versions": {}}
+             with mock.patch.object(runner, "verify_source", return_value={}), \
+                  mock.patch.object(runner, "binary_fingerprints", return_value=fp):
+@@ -407,12 +335,9 @@ class BatchTests(unittest.TestCase):
+     def test_phase_cap_writes_all_rows_not_run(self):
+         with tempfile.TemporaryDirectory() as d:
+             root = Path(d); std = root / "std"; tool = root / "tool"; out = root / "out"
+-            std.mkdir(); tool.mkdir(); out.mkdir(); (out / "list").mkdir()
+-            list_json = out / "list/kani-list.json"; list_json.write_text("{}")
++            std.mkdir(); tool.mkdir(); out.mkdir()
+             rows = [row(id="one"), row(id="two", selector="slice::sort::other")]
+-            (out / "inventory.json").write_text(json.dumps({"state": "INVENTORY_FROZEN_NOT_RUN",
+-                "phase_started_unix": __import__("time").time() - runner.PHASE_SECONDS - 1,
+-                "list_json_sha256": runner.sha256(list_json), "contract_binding": {}}))
++            ready_warmup(out,std,tool,rows,start=__import__('time').time()-runner.PHASE_SECONDS-1)
+             with mock.patch.object(runner, "verify_source", return_value={}):
+                 code = runner.run_rows(std, tool, out, {"rows": rows, "changed_file_sha256": {}, "variants": {}})
+             self.assertEqual(code, 1)
+@@ -421,5 +346,174 @@ class BatchTests(unittest.TestCase):
+                 self.assertEqual(receipt["status"], "NOT_RUN")
+ 
+ 
++class NoListBindingTests(unittest.TestCase):
++    def parse(self, value, r=None, b=None):
++        r=r or row()
++        with tempfile.TemporaryDirectory() as d:
++            path=Path(d)/'export.json';path.write_text(json.dumps(value))
++            return runner.parse_export(path,r,source_binding=b or binding(r),std=Path('/std'))
++
++    def test_selection_mode_source_and_manual_harness_fail_closed(self):
++        import copy
++        mutations=[
++            lambda v:v['harness_selection'].update(exact=False),
++            lambda v:v['harness_selection'].update(matched_count=0),
++            lambda v:v['harness_selection'].update(matched_count=2),
++            lambda v:v['harness_selection'].update(matched_count=True),
++            lambda v:v['harness_selection'].update(unmatched_filters=['other']),
++            lambda v:v['harness_selection'].update(requested_filters=['other']),
++            lambda v:v.update(harnesses=[]),
++            lambda v:v['harnesses'].append(copy.deepcopy(v['harnesses'][0])),
++            lambda v:v['harnesses'][0].update(name='other::root'),
++            lambda v:v['harnesses'][0].update(is_automatically_generated=True),
++            lambda v:v['harnesses'][0].pop('is_automatically_generated'),
++            lambda v:v['harnesses'][0].update(crate_name='std'),
++            lambda v:v['harnesses'][0].update(file='../other/source.rs'),
++            lambda v:v['harnesses'][0].update(line=8),
++            lambda v:v['harnesses'][0].update(line=True),
++            lambda v:v['harnesses'][0].pop('contract'),
++            lambda v:v['harnesses'][0].update(contract=None),
++            lambda v:v['harnesses'][0]['attributes']['kind']['ProofForContract'].update(target_fn='wrong'),
++        ]
++        for i,mutate in enumerate(mutations):
++            value=export();mutate(value)
++            with self.subTest(case=i):self.assertEqual(self.parse(value)['outcome'],'UNKNOWN')
++        for missing in ('schema_version','run_state','kani_commit','harness_selection','harnesses'):
++            value=export();value.pop(missing)
++            self.assertEqual(self.parse(value)['outcome'],'UNKNOWN')
++        value=export();value['harnesses'][0]['attributes']['kind']['ProofForContract']['target_fn']='slice :: sort :: body'
++        self.assertEqual(self.parse(value)['outcome'],'EXPECTED')
++        ordinary=row(mode='Original');value=export(mode='ordinary')
++        self.assertEqual(self.parse(value,ordinary)['outcome'],'EXPECTED')
++        value['harnesses'][0]['contract']={}
++        self.assertEqual(self.parse(value,ordinary)['outcome'],'UNKNOWN')
++        value['harnesses'][0].pop('contract')
++        self.assertEqual(self.parse(value,ordinary)['outcome'],'UNKNOWN')
++        value=export();value['harnesses'][0]['outcome']={'kind':'NOT_RUN'}
++        self.assertEqual(self.parse(value)['outcome'],'UNKNOWN')
++        self.assertNotEqual(self.parse(value)['outcome'],'EXPECTED')
++
++    def test_target_tokens_preserve_identifier_boundaries(self):
++        r=row(); b=binding(r,"<u8 as Trait>::small_sort")
++        v=export(); kind=v['harnesses'][0]['attributes']['kind']['ProofForContract']
++        for target in ('< u8 as Trait > :: small_sort','<u8 as Trait>::small_sort'):
++            kind['target_fn']=target
++            self.assertEqual(self.parse(v,r,b)['outcome'],'EXPECTED')
++        for target in ('<u8asTrait>::small_sort','<u8 asTrait>::small_sort',
++                       '<u8 as Trait>::other','<u8 as Trait>::small_sort()',
++                       '<u8 as Trait>::small_sort/*comment*/','',None):
++            kind['target_fn']=target
++            self.assertEqual(self.parse(v,r,b)['outcome'],'UNKNOWN')
++
++    def test_source_anchor_and_request_binding_mutations(self):
++        import copy
++        original=runner.load_request()
++        mutations=[
++            lambda r:r['source_bindings'].pop(r['rows'][0]['id']),
++            lambda r:r['source_bindings'][r['rows'][0]['id']].update(selector='other'),
++            lambda r:r['source_bindings'][r['rows'][0]['id']].update(mode='Original'),
++            lambda r:r['source_bindings'][r['rows'][0]['id']].update(locations=[]),
++            lambda r:r['source_bindings']['stable_freeze_u8'].update(target=r['source_bindings']['stable_default_cell']['target']),
++            lambda r:r['source_bindings']['activation-default'].update(target='other'),
++            lambda r:r['budgets'].update(warmup_seconds=1500),
++        ]
++        with tempfile.TemporaryDirectory() as d:
++            p=Path(d)/'request.json'
++            for mutate in mutations:
++                request=copy.deepcopy(original);mutate(request);p.write_text(json.dumps(request))
++                with self.assertRaises(runner.RunnerError):runner.load_request(p)
++
++    def test_batch_errors_preserve_execution_and_stop_remaining(self):
++        import copy
++        fp={'required_hashes_present':True,'binaries':{},'reported_versions':{}}
++        base={'original_exit_code':0,'signal':None,'timed_out':False,
++              'elapsed_seconds':0.01,'rss_peak_kib':1,'stdout_bytes':8,'stderr_bytes':8}
++        for name in ('success','exit','signal','timeout','rss_cap','external_signal','missing','partial','null','wrong_type','not_run','wrong_target','exception','fingerprint'):
++            with self.subTest(name=name), tempfile.TemporaryDirectory() as d:
++                root=Path(d);std=root/'std';std.mkdir();tool=root/'tool';out=root/'out'
++                rows=[row(id='first'),row(id='second')]
++                ready_warmup(out,std,tool,rows)
++                request={'rows':rows,'changed_file_sha256':{},'variants':{},
++                         'source_bindings':{r['id']:binding(r) for r in rows}}
++                def execute(argv,cwd,dest,timeout,**kw):
++                    self.assertTrue(kw['capture_tail']);self.assertEqual(timeout,30)
++                    self.assertFalse(kw['export_path'].exists())
++                    (dest/'stdout.log').write_text('HEADTAIL');(dest/'stderr.log').write_text('HEADTAIL')
++                    if name=='exception':raise OSError('synthetic execution exception')
++                    v=copy.deepcopy(export())
++                    if name=='not_run':v['harnesses'][0]['outcome']={'kind':'NOT_RUN'}
++                    if name=='wrong_target':v['harnesses'][0]['attributes']['kind']['ProofForContract']['target_fn']='wrong'
++                    if name!='missing':
++                        text='{' if name=='partial' else 'null' if name=='null' else '[]' if name=='wrong_type' else json.dumps(v)
++                        kw['export_path'].write_text(text)
++                    result=base.copy()
++                    if name=='exit':result['original_exit_code']=42
++                    if name=='signal':result.update(original_exit_code=-15,signal=15)
++                    if name in ('timeout','rss_cap','external_signal'):result.update(original_exit_code=-15,termination_reason=name,timed_out=name=='timeout')
++                    return result
++                # A stale valid export must be removed before every invocation.
++                (out/'first').mkdir();(out/'first/export.json').write_text(json.dumps(export()))
++                with mock.patch.object(runner,'verify_source',return_value={}), \
++                     mock.patch.object(runner,'binary_fingerprints',return_value={**fp,'required_hashes_present':name!='fingerprint'}), \
++                     mock.patch.object(runner,'execute',side_effect=execute) as call:
++                    code=runner.run_rows(std,tool,out,request)
++                receipt=json.loads((out/'first/receipt.json').read_text())
++                if name=='success':self.assertEqual(code,0)
++                else:
++                    self.assertEqual(code,1);self.assertNotEqual(receipt['outcome'],'EXPECTED')
++                self.assertEqual(receipt['stdout']['head'],'HEADTAIL')
++                self.assertEqual(receipt['stderr']['head'],'HEADTAIL')
++                if name=='exit':self.assertEqual(receipt['original_exit'],42)
++                if name=='signal':self.assertEqual(receipt['signal'],15)
++                if name=='exception':self.assertIn('synthetic execution exception',receipt['reason'])
++                if name in ('signal','timeout','rss_cap','external_signal','missing','partial','null','wrong_type','wrong_target','exception'):
++                    self.assertEqual(call.call_count,1)
++                    self.assertEqual(json.loads((out/'second/receipt.json').read_text())['status'],'NOT_RUN')
++
++    def test_missing_interrupted_and_wrong_warmup_stop_without_execution(self):
++        with tempfile.TemporaryDirectory() as d:
++            root=Path(d);std=root/'std';tool=root/'tool';rows=[row()]
++            for name in ('missing','interrupted','wrong_source','wrong_target','wrong_request','future'):
++                out=root/name
++                if name!='missing':
++                    ready_warmup(out,std,tool,rows)
++                    p=out/'warmup/receipt.json';v=json.loads(p.read_text())
++                    if name=='interrupted':v['state']='INTERRUPTED'
++                    if name=='wrong_source':v['std_sha']='other'
++                    if name=='wrong_target':v['argv']=['other']
++                    if name=='wrong_request':v['request_sha256']='other'
++                    if name=='future':v['phase_started_unix']=__import__('time').time()+1000
++                    p.write_text(json.dumps(v))
++                with mock.patch.object(runner,'verify_source',return_value={}),mock.patch.object(runner,'execute') as execute:
++                    self.assertEqual(runner.run_rows(std,tool,out,{'rows':rows}),1)
++                    execute.assert_not_called()
++                self.assertEqual(json.loads((out/'synthetic/receipt.json').read_text())['status'],'NOT_RUN')
++
++    def test_warmup_rss_interruption_and_exec_failure(self):
++        request=runner.load_request();real=runner.execute
++        with tempfile.TemporaryDirectory() as d:
++            root=Path(d);std=root/'std';std.mkdir()
++            for name in ('rss_cap','external_signal','exec_failure'):
++                timer=None
++                def execute(argv,cwd,dest,timeout,**kw):
++                    nonlocal timer
++                    if name=='external_signal':
++                        timer=threading.Timer(0.2,lambda:os.kill(os.getpid(),runner.signal.SIGTERM));timer.start()
++                    argv=[str(root/'absent')] if name=='exec_failure' else [sys.executable,'-c','import time; time.sleep(3)']
++                    return real(argv,cwd,dest,5,capture_tail=True)
++                try:
++                    with mock.patch.object(runner,'verify_source',return_value={}), \
++                         mock.patch.object(runner,'binary_fingerprints',return_value={'required_hashes_present':True,'binaries':{}}), \
++                         mock.patch.object(runner,'_group_rss_kib',return_value=runner.RSS_CAP_KIB+1 if name=='rss_cap' else 1), \
++                         mock.patch.object(runner,'execute',side_effect=execute):
++                        with self.assertRaises(runner.RunnerError):runner.warmup(std,root/'tool',root/name,request)
++                finally:
++                    if timer:timer.cancel()
++                receipt=json.loads((root/name/'warmup/receipt.json').read_text())
++                self.assertEqual(receipt['state'],'FAILED')
++                if name=='exec_failure':self.assertIn('exec failed',receipt['execution']['runner_error'])
++                else:self.assertEqual(receipt['execution']['termination_reason'],name)
++
++
+ if __name__ == "__main__":
+     unittest.main()
