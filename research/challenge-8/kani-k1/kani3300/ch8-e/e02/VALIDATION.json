@@ -16,7 +16,11 @@
     "version": "1.7.7",
     "result": "PASS"
   },
-  "diff_check": "PASS",
+  "diff_check": {
+    "control_candidate": "PASS",
+    "g0_bundle_sources_and_docs": "PASS",
+    "literal_patch_artifacts": "Excluded from g0 textual whitespace check: preserve exact patch context and deleted upstream lines. Both patches reconstruct exact reviewed tree; git apply --whitespace=error succeeds."
+  },
   "package_static": "PASS",
   "control_environment": {
     "state": "SYNTHETIC_PASS",
