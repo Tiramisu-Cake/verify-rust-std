@@ -1,0 +1,4546 @@
+diff --git a/.github/workflows/bench-compiler.yml b/.github/workflows/bench-compiler.yml
+deleted file mode 100644
+index 0b30110c6..000000000
+--- a/.github/workflows/bench-compiler.yml
++++ /dev/null
+@@ -1,148 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Run performance benchmarks comparing the compiler performance of two different Kani versions.
+-name: Kani Compiler Performance Benchmarks
+-permissions:
+-  contents: read
+-on:
+-  push:
+-    branches:
+-      - 'main'
+-  workflow_call:
+-
+-jobs:
+-  compile-timer-short:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Save push event HEAD and HEAD~ to environment variables
+-        if: ${{ github.event_name == 'push' }}
+-        run: |
+-          echo "NEW_REF=${{ github.event.after}}" | tee -a "$GITHUB_ENV"
+-          echo "OLD_REF=${{ github.event.before }}" | tee -a "$GITHUB_ENV"
+-      # Note: in reusable workflows, github.event_name and github.event are
+-      # those of the caller; when invoked from bench-pr.yml this is a
+-      # pull_request event.
+-      - name: Save pull request HEAD and base to environment variables
+-        if: ${{ github.event_name == 'pull_request' }}
+-        run: |
+-          echo "OLD_REF=${{ github.event.pull_request.base.sha }}" | tee -a "$GITHUB_ENV"
+-          echo "NEW_REF=${{ github.event.pull_request.head.sha }}" | tee -a "$GITHUB_ENV"
+-      - name: Check out Kani (old variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./old
+-          ref: ${{ env.OLD_REF }}
+-          fetch-depth: 2
+-
+-      - name: Check out Kani (new variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./new
+-          ref: ${{ env.NEW_REF }}
+-          fetch-depth: 1
+-
+-      - name: Set up Kani Dependencies (old variant)
+-        uses: ./old/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: old
+-
+-      - name: Set up Kani Dependencies (new variant)
+-        uses: ./new/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: new
+-
+-      - name: Copy benchmarks from new to old
+-        run: rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/
+-
+-      - name: Build `compile-timer` in old
+-        run: cd old/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in old
+-        run: cd old && cargo build-dev --release
+-
+-      - name: Build `compile-timer` in new
+-        run: cd new/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in new
+-        run: cd new && cargo build-dev --release
+-
+-      - name: Run `compile-timer` on old
+-        run: |
+-          export PATH="${{ github.workspace }}/old/scripts:$PATH"
+-          cd old/tests/perf && ../../target/release/compile-timer --out-path compile-times-old.json --ignore kani-lib --ignore display_trait --ignore s2n-quic
+-      - name: Run `compile-timer` on new
+-        run: |
+-          export PATH="${{ github.workspace }}/new/scripts:$PATH"
+-          cd new/tests/perf && ../../target/release/compile-timer --out-path compile-times-new.json --ignore kani-lib --ignore display_trait --ignore s2n-quic
+-      - name: Run analysis between the two
+-        run: ./new/target/release/compile-analyzer --path-pre old/tests/perf/compile-times-old.json --path-post new/tests/perf/compile-times-new.json --only-markdown --suite-name short >> "$GITHUB_STEP_SUMMARY"
+-
+-  compile-timer-long:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Save push event HEAD and HEAD~ to environment variables
+-        if: ${{ github.event_name == 'push' }}
+-        run: |
+-          echo "NEW_REF=${{ github.event.after}}" | tee -a "$GITHUB_ENV"
+-          echo "OLD_REF=${{ github.event.before }}" | tee -a "$GITHUB_ENV"
+-      # Note: in reusable workflows, github.event_name and github.event are
+-      # those of the caller; when invoked from bench-pr.yml this is a
+-      # pull_request event.
+-      - name: Save pull request HEAD and base to environment variables
+-        if: ${{ github.event_name == 'pull_request' }}
+-        run: |
+-          echo "OLD_REF=${{ github.event.pull_request.base.sha }}" | tee -a "$GITHUB_ENV"
+-          echo "NEW_REF=${{ github.event.pull_request.head.sha }}" | tee -a "$GITHUB_ENV"
+-      
+-      - name: Check out Kani (old variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./old
+-          ref: ${{ env.OLD_REF }}
+-          fetch-depth: 2
+-
+-      - name: Check out Kani (new variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./new
+-          ref: ${{ env.NEW_REF }}
+-          fetch-depth: 1
+-
+-      - name: Set up Kani Dependencies (old variant)
+-        uses: ./old/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: old
+-
+-      - name: Set up Kani Dependencies (new variant)
+-        uses: ./new/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: new
+-
+-      # Ensures that a PR changing the benchmarks will have the new benchmarks run 
+-      # for both commits.
+-      - name: Copy benchmarks from new to old
+-        run: rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/
+-
+-      - name: Build `compile-timer` in old
+-        run: cd old/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in old
+-        run: cd old && cargo build-dev --release
+-
+-      - name: Build `compile-timer` in new
+-        run: cd new/tools/compile-timer && cargo build --release
+-      - name: Build `kani` in new
+-        run: cd new && cargo build-dev --release
+-
+-      - name: Run `compile-timer` on old
+-        run: |
+-          export PATH="${{ github.workspace }}/old/scripts:$PATH"
+-          cd old/tests/perf/s2n-quic && ../../../target/release/compile-timer --out-path compile-times-old.json --also-visit quic/s2n-quic-core --also-visit quic/s2n-quic-platform --also-visit common/s2n-codec --skip-current
+-      - name: Run `compile-timer` on new
+-        run: |
+-          export PATH="${{ github.workspace }}/new/scripts:$PATH"
+-          cd new/tests/perf/s2n-quic && ../../../target/release/compile-timer --out-path compile-times-new.json --also-visit quic/s2n-quic-core --also-visit quic/s2n-quic-platform --also-visit common/s2n-codec --skip-current
+-      - name: Run analysis between the two
+-        run: ./new/target/release/compile-analyzer --path-pre old/tests/perf/s2n-quic/compile-times-old.json --path-post new/tests/perf/s2n-quic/compile-times-new.json --only-markdown --suite-name long >> "$GITHUB_STEP_SUMMARY"
+diff --git a/.github/workflows/bench-e2e.yml b/.github/workflows/bench-e2e.yml
+deleted file mode 100644
+index bc2db84b5..000000000
+--- a/.github/workflows/bench-e2e.yml
++++ /dev/null
+@@ -1,85 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Run performance benchmarks comparing two different Kani versions.
+-# This workflow takes much longer than other workflows, so we don't run it by default.
+-# This workflow will run when:
+-#  - Changes are pushed to 'main'.
+-#  - Triggered by another workflow
+-name: Kani End-To-End Performance Benchmarks
+-permissions:
+-  contents: read
+-on:
+-  push:
+-    branches:
+-      - 'main'
+-  workflow_call:
+-
+-jobs:
+-  perf-benchcomp:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Save push event HEAD and HEAD~ to environment variables
+-        if: ${{ github.event_name == 'push' }}
+-        run: |
+-          echo "NEW_REF=${{ github.event.after}}" | tee -a "$GITHUB_ENV"
+-          echo "OLD_REF=${{ github.event.before }}" | tee -a "$GITHUB_ENV"
+-
+-      # Note: in reusable workflows, github.event_name and github.event are
+-      # those of the caller; when invoked from bench-pr.yml this is a
+-      # pull_request event.
+-      - name: Save pull request HEAD and base to environment variables
+-        if: ${{ github.event_name == 'pull_request' }}
+-        run: |
+-          echo "OLD_REF=${{ github.event.pull_request.base.sha }}" | tee -a "$GITHUB_ENV"
+-          echo "NEW_REF=${{ github.event.pull_request.head.sha }}" | tee -a "$GITHUB_ENV"
+-
+-      - name: Check out Kani (old variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./old
+-          ref: ${{ env.OLD_REF }}
+-          fetch-depth: 2
+-
+-      - name: Check out Kani (new variant)
+-        uses: actions/checkout@v6
+-        with:
+-          path: ./new
+-          ref: ${{ env.NEW_REF }}
+-          fetch-depth: 1
+-
+-      - name: Set up Kani Dependencies (old variant)
+-        uses: ./old/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: old
+-
+-      - name: Set up Kani Dependencies (new variant)
+-        uses: ./new/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: new
+-
+-      - name: Copy benchmarks from new to old
+-        run: rm -rf ./old/tests/perf ; cp -r ./new/tests/perf ./old/tests/
+-
+-      - name: Run benchcomp
+-        run: |
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            run
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            collate
+-
+-      - name: Perf Regression Results Table
+-        run: |
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            visualize --only dump_markdown_results_table >> "$GITHUB_STEP_SUMMARY"
+-
+-      - name: Run other visualizations
+-        run: |
+-          new/tools/benchcomp/bin/benchcomp \
+-            --config new/tools/benchcomp/configs/perf-regression.yaml \
+-            visualize --except dump_markdown_results_table
+diff --git a/.github/workflows/bench-pr.yml b/.github/workflows/bench-pr.yml
+deleted file mode 100644
+index d68534a54..000000000
+--- a/.github/workflows/bench-pr.yml
++++ /dev/null
+@@ -1,40 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Run the performance benchmark workflows for pull requests that carry the
+-# corresponding Z-*BenchCI label (applied automatically by the labeler in
+-# extra_jobs.yml based on the changed files, or manually).
+-#
+-# This runs on `pull_request` (not `pull_request_target`) on purpose: the
+-# benchmark workflows build and execute the code proposed in the pull
+-# request, which must not happen in the trusted `pull_request_target`
+-# context (actions/checkout v6.1.0/v5.1.0/v4.4.0 refuse to do so; see
+-# https://github.blog/changelog/2026-06-18-safer-pull_request_target-defaults-for-github-actions-checkout/).
+-#
+-# Note on the `labeled` trigger: labels added by the auto-labeler do not
+-# re-trigger this workflow (events created with the default GITHUB_TOKEN
+-# never trigger new workflow runs), so on freshly opened pull requests the
+-# benchmarks only start with the next push to the pull request. Manually
+-# adding the label triggers them immediately.
+-
+-name: Kani Benchmarks
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-    types: [opened, synchronize, reopened, labeled]
+-
+-concurrency:
+-  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+-  cancel-in-progress: true
+-
+-jobs:
+-  end-to-end-bench:
+-    name: End-to-End Benchmarks
+-    if: ${{ contains(github.event.pull_request.labels.*.name, 'Z-EndToEndBenchCI') }}
+-    uses: ./.github/workflows/bench-e2e.yml
+-
+-  compiler-bench:
+-    name: Compiler Benchmarks
+-    if: ${{ contains(github.event.pull_request.labels.*.name, 'Z-CompilerBenchCI') }}
+-    uses: ./.github/workflows/bench-compiler.yml
+diff --git a/.github/workflows/cargo-update.yml b/.github/workflows/cargo-update.yml
+deleted file mode 100644
+index 1873a2ecd..000000000
+--- a/.github/workflows/cargo-update.yml
++++ /dev/null
+@@ -1,51 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt cargo update
+-
+-on:
+-  schedule:
+-    - cron: "30 3 * * Mon" # Run this every Monday at 03:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  pull-requests: write
+-
+-jobs:
+-  create-cargo-update-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The cargo update action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Run cargo update
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          today=$(date +%Y-%m-%d)
+-          echo "today=$today" >> $GITHUB_ENV
+-          if ! git ls-remote --exit-code origin cargo-update-$today ; then
+-            cargo update
+-            cargo build-dev
+-            git diff
+-          fi
+-      - name: Create Pull Request
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade cargo dependencies to ${{ env.today }}
+-          branch: cargo-update-${{ env.today }}
+-          delete-branch: true
+-          title: 'Automatic cargo update to ${{ env.today }}'
+-          body: >
+-            Dependency upgrade resulting from `cargo update`.
+diff --git a/.github/workflows/cbmc-latest.yml b/.github/workflows/cbmc-latest.yml
+deleted file mode 100644
+index 223ec7f96..000000000
+--- a/.github/workflows/cbmc-latest.yml
++++ /dev/null
+@@ -1,123 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# We use block scalar notation to allow us to add ":" to the workflow name.
+-name: >-
+-  Nightly: CBMC Latest
+-
+-permissions:
+-  contents: read
+-
+-on:
+-  schedule:
+-    - cron: "0 9 * * *" # Run this every day at 9 AM UTC (4 AM ET/1 AM PT)
+-  workflow_dispatch:    # Allow manual dispatching for a custom branch / tag.
+-
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  regression:
+-    runs-on: ${{ matrix.os }}
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, ubuntu-22.04, ubuntu-24.04]
+-    steps:
+-      - name: Checkout Kani under "kani"
+-        uses: actions/checkout@v6
+-        with:
+-          path: kani
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./kani/.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-          kani_dir: 'kani'
+-
+-      - name: Checkout CBMC under "cbmc"
+-        uses: actions/checkout@v6
+-        with:
+-          repository: diffblue/cbmc
+-          path: cbmc
+-
+-      - name: Build CBMC (Linux)
+-        if: ${{ startsWith(matrix.os, 'ubuntu') }}
+-        working-directory: ./cbmc
+-        run: |
+-          cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl="minisat2;cadical"
+-          cmake --build build -- -j 4
+-          # Prepend the bin directory to $PATH
+-          echo "${GITHUB_WORKSPACE}/cbmc/build/bin" >> $GITHUB_PATH
+-
+-      - name: Build CBMC (macOS)
+-        if: ${{ startsWith(matrix.os, 'macos') }}
+-        working-directory: ./cbmc
+-        run: |
+-          cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl="minisat2;cadical" -DCMAKE_CXX_COMPILER=$(which clang++)
+-          cmake --build build -- -j 4
+-          # Prepend the bin directory to $PATH
+-          echo "${GITHUB_WORKSPACE}/cbmc/build/bin" >> $GITHUB_PATH
+-
+-      - name: Execute Kani regressions
+-        working-directory: ./kani
+-        run: ./scripts/kani-regression.sh
+-
+-  perf:
+-    runs-on: ubuntu-24.04
+-    # The perf suite is memory-hungry: the s2n-quic harnesses solve large
+-    # formulas, and running them concurrently exhausts a standard runner, which
+-    # shows up as an unattributable SIGTERM (exit 143) or "the hosted runner
+-    # lost communication with the server" a few minutes into the step rather
+-    # than as a test failure. Run serially instead, as kani.yml does. That takes
+-    # ~45 min, so the 180-min step timeout leaves ample headroom, and the job
+-    # timeout sits above (step timeout) x (max_attempts) so a retry can land.
+-    timeout-minutes: 380
+-    steps:
+-      - name: Checkout Kani under "kani"
+-        uses: actions/checkout@v6
+-        with:
+-          path: kani
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./kani/.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-          kani_dir: 'kani'
+-
+-      - name: Build Kani using release mode
+-        working-directory: ./kani
+-        run: cargo build-dev -- --release
+-
+-      - name: Checkout CBMC under "cbmc"
+-        uses: actions/checkout@v6
+-        with:
+-          repository: diffblue/cbmc
+-          path: cbmc
+-
+-      - name: Build CBMC
+-        working-directory: ./cbmc
+-        run: |
+-          cmake -S . -Bbuild -DWITH_JBMC=OFF -Dsat_impl="minisat2;cadical"
+-          cmake --build build -- -j 4
+-          # Prepend the bin directory to $PATH
+-          echo "${GITHUB_WORKSPACE}/cbmc/build/bin" >> $GITHUB_PATH
+-
+-      - name: Execute Kani performance tests
+-        # Run the suite serially and allow one retry, matching the perf job in
+-        # kani.yml. `working-directory` is not valid on a `uses` step, so the
+-        # command changes directory itself.
+-        uses: nick-fields/retry@v4
+-        with:
+-          timeout_minutes: 180
+-          max_attempts: 2
+-          command: cd kani && ./scripts/kani-perf.sh
+-        env:
+-          RUST_TEST_THREADS: 1
+-
+-      - name: Execute Kani performance ignored tests
+-        working-directory: ./kani
+-        continue-on-error: true
+-        run: cargo run -p compiletest -- --suite perf --mode cargo-kani-test ignore --ignored --no-fail-fast
+-        env:
+-          RUST_TEST_THREADS: 1
+diff --git a/.github/workflows/cbmc-update.yml b/.github/workflows/cbmc-update.yml
+deleted file mode 100644
+index 90eea8a06..000000000
+--- a/.github/workflows/cbmc-update.yml
++++ /dev/null
+@@ -1,91 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt CBMC update
+-
+-on:
+-  schedule:
+-    - cron: "30 4 * * Mon" # Run this every Monday at 04:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-cbmc-update-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The CBMC update action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Compare CBMC versions and determine next step
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          grep ^CBMC_VERSION kani-dependencies | sed 's/"//g' >> $GITHUB_ENV
+-          CBMC_LATEST=$(gh -R diffblue/cbmc release list | grep Latest | awk '{print $1}' | cut -f2 -d-)
+-          echo "CBMC_LATEST=$CBMC_LATEST" >> $GITHUB_ENV
+-          # check whether the version has changed at all
+-          if [ x$CBMC_LATEST = x$CBMC_VERSION ] ; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # check whether we already have an existing issue for a failing
+-          # upgrade
+-          elif gh issue list -S \
+-              "CBMC upgrade to $CBMC_LATEST failed" \
+-              --json number,title | grep title ; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # check whether we already have a branch (and thus: a PR) for a
+-          # successful upgrade
+-          elif ! git ls-remote --exit-code origin cbmc-$CBMC_LATEST ; then
+-            CBMC_LATEST_MAJOR=$(echo $CBMC_LATEST | cut -f1 -d.)
+-            CBMC_LATEST_MINOR=$(echo $CBMC_LATEST | cut -f2 -d.)
+-            sed -i "s/^CBMC_MAJOR=.*/CBMC_MAJOR=\"$CBMC_LATEST_MAJOR\"/" kani-dependencies
+-            sed -i "s/^CBMC_MINOR=.*/CBMC_MINOR=\"$CBMC_LATEST_MINOR\"/" kani-dependencies
+-            sed -i "s/^CBMC_VERSION=.*/CBMC_VERSION=\"$CBMC_LATEST\"/" kani-dependencies
+-            git diff
+-            # install the newer CBMC version
+-            ./scripts/setup/ubuntu/install_cbmc.sh
+-            if ! ./scripts/kani-regression.sh ; then
+-              echo "next_step=create_issue" >> $GITHUB_ENV
+-            else
+-              echo "next_step=create_pr" >> $GITHUB_ENV
+-            fi
+-          # we already have a PR, nothing to be done
+-          else
+-            echo "next_step=none" >> $GITHUB_ENV
+-          fi
+-
+-      - name: Create Pull Request
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }}
+-          branch: cbmc-${{ env.CBMC_LATEST }}
+-          delete-branch: true
+-          title: 'Automatic upgrade of CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }}'
+-          body: >
+-            Upgrade CBMC to its latest release.
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        uses: dacbd/create-issue-action@main
+-        with:
+-          token: ${{ github.token }}
+-          title: 'CBMC upgrade to ${{ env.CBMC_LATEST }} failed'
+-          body: >
+-            Updating CBMC from ${{ env.CBMC_VERSION }} to ${{ env.CBMC_LATEST }} failed.
+-
+-            The failed automated run
+-            [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+diff --git a/.github/workflows/ch8-b-census.yml b/.github/workflows/ch8-b-census.yml
+new file mode 100644
+index 000000000..c4edb15bc
+--- /dev/null
++++ b/.github/workflows/ch8-b-census.yml
+@@ -0,0 +1,105 @@
++# CI-only package. The coordinator creates a same-tree non-skip trigger after review/ledger GO.
++name: Challenge 8 B valid-value census
++'on':
++  push:
++    branches: ['uninit-ci/ch8-b-census-*']
++permissions:
++  contents: read
++concurrency:
++  group: ch8-b-census
++  cancel-in-progress: false
++jobs:
++  census:
++    if: ${{ github.repository == 'Tiramisu-Cake/kani' }}
++    runs-on: ubuntu-24.04
++    timeout-minutes: 210
++    strategy:
++      fail-fast: false
++      max-parallel: 1
++      matrix:
++        shard: [2, 4]
++    steps:
++      - name: Checkout CI control
++        uses: actions/checkout@v6
++        with:
++          ref: ${{ github.sha }}
++          path: control
++          fetch-depth: 2
++          persist-credentials: false
++      - name: Bind coordinator trigger and seed NOT_RUN receipts
++        env:
++          RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
++          SHARD: ${{ matrix.shard }}
++        run: |
++          python3 - <<'PYCODE'
++          import os, subprocess
++          from pathlib import Path
++          def git(*args):
++              return subprocess.check_output(['git','-C','control',*args],text=True).strip()
++          assert os.environ['GITHUB_RUN_ATTEMPT'] == '1', 'Reruns are not authorized'
++          assert git('rev-parse','HEAD') == os.environ['GITHUB_SHA']
++          assert git('rev-parse','HEAD^{tree}') == git('rev-parse','HEAD^1^{tree}'), 'Require same-tree coordinator trigger'
++          assert '[skip ci]' in git('show','-s','--format=%B','HEAD^1')
++          Path(os.environ['RECEIPTS']).mkdir(parents=True,exist_ok=True)
++          PYCODE
++          python3 control/scripts/ch8-b-census/census.py seed --shard "$SHARD" --out "$RECEIPTS"
++      - name: Synthetic service preflight
++        working-directory: control/scripts/ch8-b-census
++        env:
++          PYTHONDONTWRITEBYTECODE: '1'
++        run: python3 -m unittest -v test_census.py
++      - name: Checkout pristine Kani export
++        uses: actions/checkout@v6
++        with:
++          repository: model-checking/kani
++          ref: 0aac16ef62da9e9d5645782d458593e5d78143ba
++          path: export
++          fetch-depth: 2
++          persist-credentials: false
++      - name: Checkout P-prime std
++        uses: actions/checkout@v6
++        with:
++          repository: Tiramisu-Cake/verify-rust-std
++          ref: c5ff36ff433692140605891f646043f991db05de
++          path: std
++          submodules: true
++          fetch-depth: 2
++          persist-credentials: false
++      - name: Bind source identities
++        env:
++          RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
++        run: python3 control/scripts/ch8-b-census/census.py bind --out "$RECEIPTS" --export export --std std
++      - name: Setup exact export dependencies
++        timeout-minutes: 25
++        uses: ./export/.github/actions/setup
++        with:
++          os: ubuntu-24.04
++          kani_dir: export
++      - name: Build pristine export with bounds
++        timeout-minutes: 36
++        env:
++          RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
++        run: python3 control/scripts/ch8-b-census/census.py build --out "$RECEIPTS" --export export
++      - name: Census ordinary roots once
++        timeout-minutes: 122
++        env:
++          RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
++          SHARD: ${{ matrix.shard }}
++        run: python3 control/scripts/ch8-b-census/census.py run --shard "$SHARD" --out "$RECEIPTS" --export export --std std
++      - name: Finalize complete or PARTIAL census
++        if: always()
++        env:
++          RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
++          SHARD: ${{ matrix.shard }}
++          JOB_STATUS: ${{ job.status }}
++        run: python3 control/scripts/ch8-b-census/census.py finalize --shard "$SHARD" --out "$RECEIPTS" --job-status "$JOB_STATUS"
++      - name: Upload bounded curated receipts
++        if: always()
++        uses: actions/upload-artifact@v4
++        env:
++          RECEIPTS: ${{ runner.temp }}/ch8-b-receipts
++        with:
++          name: ch8-b-census-shard-${{ matrix.shard }}-${{ github.run_id }}-${{ github.run_attempt }}
++          path: ${{ env.RECEIPTS }}/*.json
++          if-no-files-found: error
++          retention-days: 7
+diff --git a/.github/workflows/charon-update.yml b/.github/workflows/charon-update.yml
+deleted file mode 100644
+index 70ad28901..000000000
+--- a/.github/workflows/charon-update.yml
++++ /dev/null
+@@ -1,93 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt Charon update
+-
+-on:
+-  schedule:
+-    - cron: "30 4 * * Wed" # Run this every Wednesday at 04:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-charon-update-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The Charon update action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Update the Charon pin and determine next step
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: ./scripts/charon_update.sh
+-
+-      - name: Clean untracked files
+-        run: git clean -f
+-
+-      - name: Create Pull Request
+-        id: create_pr
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade Charon from ${{ env.current_charon }} to ${{ env.next_charon }}
+-          branch: charon-${{ env.next_charon }}
+-          delete-branch: true
+-          title: 'Automatic upgrade of Charon from ${{ env.current_charon }} to ${{ env.next_charon }}'
+-          body: |
+-            Update the Charon pin (used by the LLBC backend) from ${{ env.current_charon }} to its
+-            latest tag, ${{ env.next_charon }}. Only the `charon` submodule and `Cargo.lock` change.
+-            `kani-llbc-regression.sh` passed in the
+-            [automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+-
+-            ${{ env.charon_log }}
+-
+-      - name: Point the open failure issue to the PR
+-        if: ${{ steps.create_pr.outputs.pull-request-number && env.failure_issue != '' }}
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-          PR_NUMBER: ${{ steps.create_pr.outputs.pull-request-number }}
+-        run: |
+-          gh issue comment "$failure_issue" --body \
+-            "Charon $next_charon passes the LLBC regression: see #$PR_NUMBER."
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        uses: dacbd/create-issue-action@main
+-        with:
+-          token: ${{ github.token }}
+-          # Keep in sync with `failure_title` in scripts/charon_update.sh.
+-          title: 'Automatic Charon upgrade failed'
+-          body: |
+-            Updating Charon from ${{ env.current_charon }} to ${{ env.next_charon }} requires
+-            source changes: `kani-llbc-regression.sh` failed in the
+-            [automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+-
+-            This issue stays open across Charon tags: later failing attempts add a comment here
+-            rather than filing a new issue. Close it once the pin is updated.
+-
+-            ${{ env.charon_log }}
+-
+-      - name: Comment on the open failure issue
+-        if: ${{ env.next_step == 'comment_issue' }}
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-          BODY: |
+-            Updating Charon from ${{ env.current_charon }} to ${{ env.next_charon }} failed as well:
+-            [automated run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+-
+-            ${{ env.charon_log }}
+-        run: gh issue comment "$failure_issue" --body "$BODY"
+diff --git a/.github/workflows/deny.yml b/.github/workflows/deny.yml
+deleted file mode 100644
+index c54ce6bbc..000000000
+--- a/.github/workflows/deny.yml
++++ /dev/null
+@@ -1,30 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# 1. Checks licenses for allowed license.
+-# 2. Checks Rust-Sec registry for security advisories.
+-
+-name: Cargo Deny
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    # Run on changes to branches but not tags.
+-    branches:
+-      - '**'
+-
+-jobs:
+-  audit:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - uses: actions/checkout@v6
+-        with:
+-          submodules: recursive
+-      - uses: EmbarkStudios/cargo-deny-action@v2
+-        env:
+-          RUSTUP_TOOLCHAIN: stable
+-        with:
+-          arguments: --all-features --workspace
+-          command-arguments: -s
+diff --git a/.github/workflows/extra_jobs.yml b/.github/workflows/extra_jobs.yml
+deleted file mode 100644
+index 157c5b2d9..000000000
+--- a/.github/workflows/extra_jobs.yml
++++ /dev/null
+@@ -1,51 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# Workflow that execute jobs based on the files that were changed or some label configuration.
+-#
+-# The first job in this workflow will auto label the PR, while the following jobs will conditionally
+-# run according to the auto-label result.
+-#
+-# This workflow runs on `pull_request_target` because the labeler needs extra write permission.
+-# Thus, we keep this job minimal, and the only actions used are from the same verified publisher.
+-#
+-# Other jobs should not require extra permissions, so be careful when adding new jobs to not propagate write
+-# permissions.
+-#
+-# Note that this also means that the workflow version run is the one currently in `main`,
+-# not the one from the PR. This is only relevant if a PR is changing this workflow.
+-#
+-# See https://github.com/actions/labeler?tab=readme-ov-file#recommended-permissions for more details.
+-
+-name: Kani Extra
+-permissions:
+-  contents: read
+-on:
+-  pull_request_target:
+-  merge_group:
+-
+-jobs:
+-  # Keep this job minimal since it requires extra permission
+-  auto-label:
+-    name: Auto Label
+-    permissions:
+-      pull-requests: write
+-    outputs:
+-      all-labels: ${{ steps.labeler.outputs.all-labels }}
+-      new-labels: ${{ steps.labeler.outputs.new-labels }}
+-    runs-on: ubuntu-latest
+-    steps:
+-    - name: Checkout Kani
+-      uses: actions/checkout@v6
+-
+-    - name: Label PR
+-      id: labeler
+-      uses: actions/labeler@v7
+-      with:
+-        dot: true
+-
+-  # Note: the label-gated benchmark workflows (bench-pr.yml) used to be
+-  # invoked from here, but they build and run the code proposed in the pull
+-  # request, which must not happen in this workflow's trusted
+-  # `pull_request_target` context. They now trigger on `pull_request`
+-  # events directly.
+diff --git a/.github/workflows/format-check.yml b/.github/workflows/format-check.yml
+deleted file mode 100644
+index 9d21eeb45..000000000
+--- a/.github/workflows/format-check.yml
++++ /dev/null
+@@ -1,60 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-name: Kani Format Check
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    # Not just any push, as that includes tags.
+-    # We don't want to re-trigger this workflow when tagging an existing commit.
+-    branches:
+-      - '**'
+-
+-jobs:
+-  format-check:
+-    runs-on: ubuntu-latest
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Execute copyright check
+-        run: ./scripts/ci/run-copyright-check.sh
+-
+-      # Ignore failures here for now until we can pindown a version.
+-      - name: Check C code formatting
+-        continue-on-error: true
+-        run: ./scripts/run-clang-format.sh -d
+-
+-      - name: Check Python code formatting
+-        run: |
+-          pip3 install --upgrade autopep8
+-          ./scripts/run-autopep8.sh
+-
+-  clippy-check:
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: 'Install jq for parsing.'
+-        run: |
+-          sudo apt-get install -y jq
+-
+-      - name: 'Run Clippy'
+-        run: |
+-          cargo clippy --workspace --tests -- -D warnings
+-          RUSTFLAGS="--cfg=kani_sysroot" cargo clippy --workspace -- -D warnings
+-
+-      - name: 'Print Clippy Statistics'
+-        run: |
+-          rm .cargo/config.toml
+-          (cargo clippy --all --message-format=json 2>/dev/null  | \
+-          jq 'select(.message!=null) | .message.code.code' | grep -v '^null$' | \
+-          sort | uniq -c) || true
+diff --git a/.github/workflows/kani.yml b/.github/workflows/kani.yml
+deleted file mode 100644
+index 3e34d8ac3..000000000
+--- a/.github/workflows/kani.yml
++++ /dev/null
+@@ -1,136 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-name: Kani CI
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    # Not just any push, as that includes tags.
+-    # We don't want to re-trigger this workflow when tagging an existing commit.
+-    branches:
+-      - '**'
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  regression:
+-    runs-on: ${{ matrix.os }}
+-    permissions:
+-      contents: read
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, ubuntu-22.04, ubuntu-24.04, macos-15, ubuntu-24.04-arm]
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-
+-      - name: Execute Kani regression
+-        run: ./scripts/kani-regression.sh
+-
+-  benchcomp-tests:
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: read
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Install benchcomp dependencies
+-        run: |
+-          sudo apt-get update
+-          sudo apt-get install -y python3-pip
+-          pushd tools/benchcomp && pip3 install -r requirements.txt
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: Build Kani using release mode
+-        run: cargo build-dev -- --release
+-
+-      - name: Run benchcomp unit and regression tests
+-        run: pushd tools/benchcomp && PATH=$(realpath ../../scripts):$PATH test/run
+-
+-  perf:
+-    runs-on: ubuntu-24.04
+-    # The full perf suite runs in ~45 min (matching main): most cases finish in
+-    # seconds; the heaviest, s2n-quic-core, runs 34 harnesses in ~1500s. The
+-    # per-test guardrail in scripts/kani-perf.sh (2400s) sits above that. The
+-    # 180-min step timeout leaves ample headroom over that realistic runtime,
+-    # and the job timeout sits above (step timeout) x (max_attempts) so a retry
+-    # can still land.
+-    timeout-minutes: 380
+-    permissions:
+-      contents: read
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: Execute Kani performance tests
+-        # Retry on infra-driven failures (spot preemption / runner shutdown).
+-        # The script itself bounds per-test wall time, so functional regressions
+-        # surface as normal test failures and are not retried indefinitely.
+-        uses: nick-fields/retry@v4
+-        with:
+-          timeout_minutes: 180
+-          max_attempts: 2
+-          command: ./scripts/kani-perf.sh
+-        env:
+-          RUST_TEST_THREADS: 1
+-
+-  llbc-regression:
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: read
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: Build Kani with Charon
+-        run: cargo build-dev -- --features cprover --features llbc
+-
+-      - name: Run tests
+-        run: ./scripts/kani-llbc-regression.sh
+-
+-  documentation:
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: write
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-        with:
+-          submodules: recursive
+-
+-      - name: Install book dependencies
+-        run: ./scripts/setup/ubuntu/install_doc_deps.sh
+-
+-      # On one OS only, build the documentation, too.
+-      - name: Build Documentation
+-        run: ./scripts/build-docs.sh
+-
+-      # When we're pushed to main branch, only then actually publish the docs.
+-      - name: Publish Documentation
+-        if: ${{ github.event_name == 'push' && startsWith('refs/heads/main', github.ref) }}
+-        uses: JamesIves/github-pages-deploy-action@v4
+-        with:
+-          branch: gh-pages
+-          folder: docs/book/
+-          single-commit: true
+diff --git a/.github/workflows/release.yml b/.github/workflows/release.yml
+deleted file mode 100644
+index f10833e30..000000000
+--- a/.github/workflows/release.yml
++++ /dev/null
+@@ -1,394 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# This workflow will build, and, optionally, release Kani bundles in this order.
+-#
+-# The release will create a draft release and upload the bundles to it, and it will only run when we push a new
+-# release tag (i.e.: tag named `kani-*`).
+-name: Release Bundle
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  merge_group:
+-  push:
+-    branches:
+-      - 'main'
+-    tags:
+-      - kani-*
+-
+-env:
+-  RUST_BACKTRACE: 1
+-  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+-
+-jobs:
+-  build_bundle_macos_x86_64:
+-    name: BuildBundle-MacOs-x86_64
+-    runs-on: macos-15-intel
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: macos-15-intel
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: x86_64-apple-darwin
+-
+-  build_bundle_macos_aarch64:
+-    name: BuildBundle-MacOs-aarch64
+-    runs-on: macos-15
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: macos-15
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: aarch64-apple-darwin
+-
+-  build_bundle_linux_x86_64:
+-    name: BuildBundle-Linux-x86_64
+-    runs-on: ubuntu-22.04
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: x86_64-unknown-linux-gnu
+-
+-  build_bundle_linux_aarch64:
+-    name: BuildBundle-Linux-aarch64
+-    runs-on: ubuntu-24.04-arm
+-    outputs:
+-      version: ${{ steps.bundle.outputs.version }}
+-      bundle: ${{ steps.bundle.outputs.bundle }}
+-      package: ${{ steps.bundle.outputs.package }}
+-      crate_version: ${{ steps.bundle.outputs.crate_version }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04-arm
+-
+-      - name: Build bundle
+-        id: bundle
+-        uses: ./.github/actions/build-bundle
+-        with:
+-          platform: aarch64-unknown-linux-gnu
+-
+-  test-use-local-toolchain:
+-    name: TestLocalToolchain
+-    needs: [build_bundle_macos_x86_64, build_bundle_macos_aarch64, build_bundle_linux_x86_64, build_bundle_linux_aarch64]
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, macos-15, ubuntu-22.04, ubuntu-24.04, ubuntu-24.04-arm]
+-        include:
+-        - os: macos-15-intel
+-          rust_target: x86_64-apple-darwin
+-          prev_job: ${{ needs.build_bundle_macos_x86_64.outputs }}
+-        - os: macos-15
+-          rust_target: aarch64-apple-darwin
+-          prev_job: ${{ needs.build_bundle_macos_aarch64.outputs }}
+-        - os: ubuntu-22.04
+-          rust_target: x86_64-unknown-linux-gnu
+-          prev_job: ${{ needs.build_bundle_linux_x86_64.outputs }}
+-        - os: ubuntu-24.04
+-          rust_target: x86_64-unknown-linux-gnu
+-          prev_job: ${{ needs.build_bundle_linux_x86_64.outputs }}
+-        - os: ubuntu-24.04-arm
+-          rust_target: aarch64-unknown-linux-gnu
+-          prev_job: ${{ needs.build_bundle_linux_aarch64.outputs }}
+-    runs-on: ${{ matrix.os }}
+-    steps:
+-      - name: Download bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.bundle }}
+-
+-      - name: Download kani-verifier crate
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.package }}
+-
+-      - name: Check download
+-        run: |
+-          ls -lh .
+-
+-      - name: Get toolchain version used to setup kani
+-        run: |
+-          tar zxvf ${{ matrix.prev_job.bundle }}
+-          DATE=$(cat ./kani-${{ matrix.prev_job.version }}/rust-toolchain-version | cut -d'-' -f2,3,4)
+-          echo "Nightly date: $DATE"
+-          echo "DATE=$DATE" >> $GITHUB_ENV
+-
+-      - name: Install Kani from path
+-        run: |
+-          tar zxvf ${{ matrix.prev_job.package }}
+-          cargo install --locked --path kani-verifier-${{ matrix.prev_job.crate_version }}
+-
+-      - name: Create a custom toolchain directory
+-        run: mkdir -p ${{ github.workspace }}/../custom_toolchain
+-
+-      - name: Fetch the nightly tarball
+-        run: |
+-          echo "Downloading Rust toolchain from rust server."
+-          curl --proto '=https' --tlsv1.2 -O https://static.rust-lang.org/dist/$DATE/rust-nightly-${{ matrix.rust_target }}.tar.gz
+-          tar -xzf rust-nightly-${{ matrix.rust_target }}.tar.gz
+-          ./rust-nightly-${{ matrix.rust_target }}/install.sh --prefix=${{ github.workspace }}/../custom_toolchain
+-
+-      - name: Ensure installation is correct
+-        run: |
+-          cargo kani setup --use-local-bundle ./${{ matrix.prev_job.bundle }} --use-local-toolchain ${{ github.workspace }}/../custom_toolchain/
+-
+-      - name: Ensure that the rustup toolchain is not present
+-        run: |
+-          if [ ! -e "~/.rustup/toolchains/" ]; then
+-            echo "Default toolchain file does not exist. Proceeding with running tests."
+-          else
+-            echo "::error::Default toolchain exists despite not installing."
+-            exit 1
+-          fi
+-
+-      - name: Checkout tests
+-        uses: actions/checkout@v6
+-
+-      - name: Move rust-toolchain file to outside kani
+-        run: |
+-          mkdir -p ${{ github.workspace }}/../post-setup-tests
+-          cp -r tests/cargo-ui ${{ github.workspace }}/../post-setup-tests
+-          cp -r tests/kani/Assert ${{ github.workspace }}/../post-setup-tests
+-          ls ${{ github.workspace }}/../post-setup-tests
+-
+-      - name: Run cargo-kani tests after moving
+-        run: |
+-          for dir in supported-lib-types/rlib multiple-harnesses verbose; do
+-            >&2 echo "Running test $dir"
+-            pushd ${{ github.workspace }}/../post-setup-tests/cargo-ui/$dir
+-            cargo kani
+-            popd
+-          done
+-
+-      - name: Check --help and --version
+-        run: |
+-          >&2 echo "Running cargo kani --help and --version"
+-          pushd ${{ github.workspace }}/../post-setup-tests/Assert
+-          cargo kani --help && cargo kani --version
+-          popd
+-
+-      - name: Run standalone kani test
+-        run: |
+-          >&2 echo "Running test on file bool_ref"
+-          pushd ${{ github.workspace }}/../post-setup-tests/Assert
+-          kani bool_ref.rs
+-          popd
+-
+-  test_bundle:
+-    name: TestBundle
+-    needs: [build_bundle_macos_x86_64, build_bundle_macos_aarch64, build_bundle_linux_x86_64, build_bundle_linux_aarch64]
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, macos-15, ubuntu-22.04, ubuntu-24.04, ubuntu-24.04-arm]
+-        include:
+-          # Stores the output of the previous job conditional to the OS
+-          - prev_job: ${{ needs.build_bundle_linux_x86_64.outputs }}
+-          - os: macos-15-intel
+-            prev_job: ${{ needs.build_bundle_macos_x86_64.outputs }}
+-          - os: macos-15
+-            prev_job: ${{ needs.build_bundle_macos_aarch64.outputs }}
+-          - os: ubuntu-24.04-arm
+-            prev_job: ${{ needs.build_bundle_linux_aarch64.outputs }}
+-    runs-on: ${{ matrix.os }}
+-    steps:
+-      - name: Download bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.bundle }}
+-
+-      - name: Download kani-verifier crate
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ matrix.prev_job.package }}
+-
+-      - name: Check download
+-        run: |
+-          ls -lh .
+-
+-      - name: Install from bundle
+-        run: |
+-          tar zxvf ${{ matrix.prev_job.package }}
+-          cargo install --locked --path kani-verifier-${{ matrix.prev_job.crate_version }}
+-          cargo kani setup --use-local-bundle ./${{ matrix.prev_job.bundle }}
+-
+-      - name: Checkout tests
+-        uses: actions/checkout@v6
+-
+-      - name: Run tests
+-        # TODO: Customize compiletest to run custom kani. For now, just run a few cargo kani tests.
+-        run: |
+-          for dir in simple-lib build-rs-works simple-kissat; do
+-            >&2 echo "Running test $dir"
+-            pushd tests/cargo-kani/$dir
+-            cargo kani
+-            popd
+-          done
+-
+-  kani_release:
+-    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/kani-') }}
+-    name: Release
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: write
+-    needs: [build_bundle_macos_x86_64, build_bundle_macos_aarch64, build_bundle_linux_x86_64, build_bundle_linux_aarch64, test_bundle]
+-    outputs:
+-      version: ${{ steps.versioning.outputs.version }}
+-      upload_url: ${{ steps.create_release.outputs.upload_url }}
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Get version
+-        run: |
+-          # pkgid is something like file:///home/ubuntu/kani#kani-verifier:0.1.0
+-          echo "CRATE_VERSION=$(cargo pkgid | cut -d@ -f2)" >> $GITHUB_ENV
+-          # GITHUB_REF is something like refs/tags/kani-0.1.0
+-          echo "TAG_VERSION=$(echo ${{ github.ref }} | cut -d "-" -f 2)" >> $GITHUB_ENV
+-
+-      - name: Check Version
+-        id: versioning
+-        run: |
+-          # Validate git tag & Cargo.toml are in sync on version number
+-          if [[ ${{ env.CRATE_VERSION }} != ${{ env.TAG_VERSION }} ]]; then
+-            echo "Git tag ${{env.TAG_VERSION}} did not match crate version ${{env.CRATE_VERSION}}"
+-            exit 1
+-          fi
+-          echo "version=${{ env.TAG_VERSION }}" >> $GITHUB_OUTPUT
+-
+-      - name: Download MacOS bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_macos_x86_64.outputs.bundle }}
+-
+-      - name: Download MacOS ARM bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_macos_aarch64.outputs.bundle }}
+-
+-      - name: Download Linux bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_linux_x86_64.outputs.bundle }}
+-
+-      - name: Download Linux Arm bundle
+-        uses: actions/download-artifact@v8
+-        with:
+-          name: ${{ needs.build_bundle_linux_aarch64.outputs.bundle }}
+-
+-      - name: Create release
+-        id: create_release
+-        uses: ncipollo/release-action@v1.21.0
+-        env:
+-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+-        with:
+-          name: kani-${{ env.TAG_VERSION }}
+-          tag: kani-${{ env.TAG_VERSION }}
+-          artifacts: "${{ needs.build_bundle_linux_x86_64.outputs.bundle }},${{ needs.build_bundle_linux_aarch64.outputs.bundle }},${{ needs.build_bundle_macos_x86_64.outputs.bundle }},${{ needs.build_bundle_macos_aarch64.outputs.bundle }}"
+-          body: |
+-            Kani Rust verifier release bundle version ${{ env.TAG_VERSION }}.
+-          draft: true
+-
+-  package_docker:
+-    name: Package Docker
+-    needs: kani_release
+-    runs-on: ubuntu-24.04
+-    permissions:
+-      contents: write
+-      packages: write
+-    env:
+-      os: ubuntu-24.04
+-      target: x86_64-unknown-linux-gnu
+-    steps:
+-      - name: Checkout code
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-24.04
+-
+-      - name: 'Build release bundle'
+-        run: |
+-          cargo bundle
+-          cargo package -p kani-verifier
+-
+-      - name: 'Login to GitHub Container Registry'
+-        uses: docker/login-action@v4
+-        with:
+-          registry: ghcr.io
+-          username: ${{ github.repository_owner }}
+-          password: ${{ secrets.GITHUB_TOKEN }}
+-
+-      - name: 'Set lower case owner name. Needed for docker push.'
+-        run: |
+-          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+-        env:
+-          OWNER: '${{ github.repository_owner }}'
+-
+-      - name: Build and push
+-        uses: docker/build-push-action@v7
+-        with:
+-          context: .
+-          file: scripts/ci/Dockerfile.bundle-release-24-04
+-          push: true
+-          github-token: ${{ secrets.GITHUB_TOKEN }}
+-          tags: |
+-            ghcr.io/${{ env.OWNER_LC }}/kani-${{ env.os }}:${{ needs.kani_release.outputs.version }}
+-            ghcr.io/${{ env.OWNER_LC }}/kani-${{ env.os }}:latest
+-          labels: |
+-            org.opencontainers.image.source=${{ github.repositoryUrl }}
+-            org.opencontainers.image.version=${{ needs.kani_release.outputs.version }}
+-            org.opencontainers.image.licenses=Apache-2.0 OR MIT
+-
+-      # This check will not work until #1655 is completed.
+-      # - name: Check action and image is updated.
+-      #   uses: ./.
+-      #   with:
+-      #     command: |
+-      #       [[ "$(cargo kani --version)" == 'cargo-kani ${{ needs.Release.outputs.version }}' ]]
+diff --git a/.github/workflows/slow-tests.yml b/.github/workflows/slow-tests.yml
+deleted file mode 100644
+index 54952f59b..000000000
+--- a/.github/workflows/slow-tests.yml
++++ /dev/null
+@@ -1,38 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# We use block scalar notation to allow us to add ":" to the workflow name.
+-name: >-
+-  Nightly: Slow tests
+-
+-permissions:
+-  contents: read
+-
+-on:
+-  schedule:
+-    - cron: "30 5 * * *" # Run this every day at 05:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  regression:
+-    runs-on: ${{ matrix.os }}
+-    strategy:
+-      matrix:
+-        os: [macos-15-intel, ubuntu-22.04, ubuntu-24.04]
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-
+-      - name: Build Kani
+-        run: cargo build-dev
+-
+-      - name: Run Kani's slow tests
+-        run: ./scripts/kani-slow-tests.sh
+diff --git a/.github/workflows/toolchain-upgrade.yml b/.github/workflows/toolchain-upgrade.yml
+deleted file mode 100644
+index 55bcdda98..000000000
+--- a/.github/workflows/toolchain-upgrade.yml
++++ /dev/null
+@@ -1,93 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-name: Attempt toolchain update
+-
+-on:
+-  schedule:
+-    - cron: "30 2 * * *" # Run this every day at 02:30 UTC
+-  workflow_dispatch:     # Allow manual dispatching for a custom branch / tag.
+-
+-permissions:
+-  checks: write
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-toolchain-pr:
+-    # This workflow is restricted to the main repository (model-checking/kani) to prevent
+-    # unnecessary PRs being created in forks. The toolchain upgrade action should only run in
+-    # the main repository context.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-22.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./.github/actions/setup
+-        with:
+-          os: ubuntu-22.04
+-
+-      - name: Update toolchain config
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          source scripts/toolchain_update.sh
+-
+-      - name: Clean untracked files
+-        run: git clean -f
+-
+-      - name: Create Pull Request
+-        id: create_pr
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade Rust toolchain to nightly-${{ env.next_toolchain_date }}
+-          branch: toolchain-${{ env.next_toolchain_date }}
+-          delete-branch: true
+-          title: 'Automatic toolchain upgrade to nightly-${{ env.next_toolchain_date }}'
+-          body: >
+-            Update Rust toolchain from nightly-${{ env.current_toolchain_date }} to
+-            nightly-${{ env.next_toolchain_date }} without any other source changes.
+-
+-      - name: Add debugging hints
+-        if: ${{ steps.create_pr.outputs.pull-request-number }}
+-        uses: actions/github-script@v9
+-        with:
+-          script: |
+-            github.rest.issues.createComment({
+-              issue_number: ${{ steps.create_pr.outputs.pull-request-number }},
+-              owner: context.repo.owner,
+-              repo: context.repo.repo,
+-              body: `This is an automatically generated pull request. If any of the CI checks fail,
+-                manual intervention is required. In such a case, review the changes at
+-                https://github.com/rust-lang/rust from
+-                https://github.com/rust-lang/rust/commit/${{ env.current_toolchain_hash }} up to
+-                https://github.com/rust-lang/rust/commit/${{ env.next_toolchain_hash }}. The log
+-                for this commit range is:
+-
+-                ` + process.env.git_log
+-            })
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        uses: dacbd/create-issue-action@main
+-        with:
+-          token: ${{ github.token }}
+-          title: 'Toolchain upgrade to nightly-${{ env.next_toolchain_date }} failed'
+-          body: >
+-            Updating Rust toolchain from nightly-${{ env.current_toolchain_date }} to
+-            nightly-${{ env.next_toolchain_date }} requires source changes.
+-
+-            The failed automated run
+-            [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+-
+-            Please review the changes at
+-            https://github.com/rust-lang/rust from
+-            https://github.com/rust-lang/rust/commit/${{ env.current_toolchain_hash }} up to
+-            https://github.com/rust-lang/rust/commit/${{ env.next_toolchain_hash }}. The log
+-            for this commit range is:
+-
+-            ${{ env.git_log }}
+diff --git a/.github/workflows/verify-std-check.yml b/.github/workflows/verify-std-check.yml
+deleted file mode 100644
+index be07976f4..000000000
+--- a/.github/workflows/verify-std-check.yml
++++ /dev/null
+@@ -1,103 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-#
+-# This workflow will try to build and run the `verify-rust-std` repository.
+-#
+-# This check should be optional, but it has been added to help provide
+-# visibility to when a PR may break the `verify-rust-std` repository.
+-#
+-# We expect toolchain updates to potentially break this workflow in cases where
+-# the version tracked in the `verify-rust-std` is not compatible with newer
+-# versions of the Rust toolchain.
+-#
+-# Changes unrelated to the toolchain should match the current status of main.
+-
+-name: Check Std Verification
+-permissions:
+-  contents: read
+-on:
+-  pull_request:
+-  workflow_call:
+-
+-env:
+-  RUST_BACKTRACE: 1
+-
+-jobs:
+-  verify-std:
+-    runs-on: ${{ matrix.os }}
+-    strategy:
+-      matrix:
+-        # Kani does not support windows.
+-        os: [ ubuntu-22.04, macos-15 ]
+-    steps:
+-      - name: Checkout Library
+-        uses: actions/checkout@v6
+-        with:
+-          repository: model-checking/verify-rust-std
+-          path: verify-rust-std
+-          submodules: true
+-
+-      - name: Checkout `Kani`
+-        uses: actions/checkout@v6
+-        with:
+-          path: kani
+-          fetch-depth: 0
+-
+-      - name: Setup Kani Dependencies
+-        uses: ./kani/.github/actions/setup
+-        with:
+-          os: ${{ matrix.os }}
+-          kani_dir: kani
+-
+-      - name: Build Kani
+-        working-directory: kani
+-        run: |
+-          cargo build-dev
+-          echo "$(pwd)/scripts" >> $GITHUB_PATH
+-
+-      - name: Run verification with HEAD
+-        id: check-head
+-        working-directory: verify-rust-std
+-        continue-on-error: true
+-        run: |
+-          kani verify-std -Z unstable-options ./library --target-dir ${{ runner.temp }} -Z function-contracts \
+-            -Z mem-predicates -Z loop-contracts --cbmc-args --object-bits 12
+-
+-      # If the head failed, check if it's a new failure.
+-      - name: Checkout BASE
+-        working-directory: kani
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        run: |
+-          BASE_REF=${{ github.event.pull_request.base.sha }}
+-          git checkout ${BASE_REF}
+-
+-      - name: Setup Kani Dependencies BASE
+-        uses: ./kani/.github/actions/setup
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        with:
+-          os: ${{ matrix.os }}
+-          kani_dir: kani
+-
+-      - name: Build Kani BASE
+-        working-directory: kani
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        run: |
+-          cargo build-dev
+-
+-      - name: Run verification with BASE
+-        id: check-base
+-        if: steps.check-head.outcome != 'success' && github.event_name == 'pull_request'
+-        working-directory: verify-rust-std
+-        continue-on-error: true
+-        run: |
+-          kani verify-std -Z unstable-options ./library --target-dir ${{ runner.temp }} -Z function-contracts \
+-            -Z mem-predicates -Z loop-contracts --cbmc-args --object-bits 12
+-
+-      - name: Compare PR results
+-        if: steps.check-head.outcome != 'success' && steps.check-head.outcome != steps.check-base.outcome
+-        run: |
+-          echo "New failure introduced by this change"
+-          echo "HEAD: ${{ steps.check-head.outcome }}"
+-          echo "BASE: ${{ steps.check-base.outcome }}"
+-          exit 1
+-
+diff --git a/.github/workflows/z3-update.yml b/.github/workflows/z3-update.yml
+deleted file mode 100644
+index 486105cd0..000000000
+--- a/.github/workflows/z3-update.yml
++++ /dev/null
+@@ -1,86 +0,0 @@
+-# Copyright Kani Contributors
+-# SPDX-License-Identifier: Apache-2.0 OR MIT
+-
+-# Opens a PR that bumps `Z3_VERSION` in `kani-dependencies` when Z3 publishes a release. Only the
+-# macOS setup installs that release (Ubuntu uses the distribution's package), so the PR's macOS CI
+-# jobs are what test it; this job only checks that the release has the macOS binaries the setup
+-# script downloads.
+-name: Attempt Z3 update
+-
+-on:
+-  schedule:
+-    - cron: "45 4 * * Mon" # Run this every Monday at 04:45 UTC
+-  workflow_dispatch:
+-
+-permissions:
+-  contents: write
+-  issues: write
+-  pull-requests: write
+-
+-jobs:
+-  create-z3-update-pr:
+-    # Restricted to the main repository so that forks do not open update PRs.
+-    if: github.repository == 'model-checking/kani'
+-    runs-on: ubuntu-24.04
+-    steps:
+-      - name: Checkout Kani
+-        uses: actions/checkout@v6
+-
+-      - name: Compare Z3 versions and determine next step
+-        env:
+-          GH_TOKEN: ${{ github.token }}
+-        run: |
+-          source kani-dependencies
+-          echo "Z3_VERSION=$Z3_VERSION" >> $GITHUB_ENV
+-          # The latest release that is not a pre-release (Z3 also publishes nightly builds).
+-          Z3_LATEST=$(gh release view -R Z3Prover/z3 --json tagName --jq .tagName | sed 's/^z3-//')
+-          echo "Z3_LATEST=$Z3_LATEST" >> $GITHUB_ENV
+-          assets=$(gh release view -R Z3Prover/z3 "z3-$Z3_LATEST" --json assets --jq '.assets[].name')
+-          # How many open issues already report a failed upgrade to this version. This is its own
+-          # command, not part of the `elif` below, so that a failing `gh` call fails the step
+-          # instead of reading as "no issue".
+-          failure_issues=$(gh issue list -S "Z3 upgrade to $Z3_LATEST failed" --json title --jq length)
+-          if [ "x$Z3_LATEST" = "x$Z3_VERSION" ]; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # A PR or a failure issue for this version already exists.
+-          elif git ls-remote --exit-code origin "z3-$Z3_LATEST" > /dev/null || \
+-              [ "$failure_issues" -gt 0 ]; then
+-            echo "next_step=none" >> $GITHUB_ENV
+-          # `scripts/setup/macos/install_deps.sh` downloads these two archives.
+-          elif ! echo "$assets" | grep -qx "z3-$Z3_LATEST-arm64-osx-13.3.zip" || \
+-              ! echo "$assets" | grep -qx "z3-$Z3_LATEST-x64-osx-13.3.zip"; then
+-            echo "next_step=create_issue" >> $GITHUB_ENV
+-          else
+-            sed -i "s/^Z3_VERSION=.*/Z3_VERSION=\"$Z3_LATEST\"/" kani-dependencies
+-            git diff
+-            echo "next_step=create_pr" >> $GITHUB_ENV
+-          fi
+-
+-      - name: Create Pull Request
+-        if: ${{ env.next_step == 'create_pr' }}
+-        uses: peter-evans/create-pull-request@v8
+-        with:
+-          commit-message: Upgrade Z3 from ${{ env.Z3_VERSION }} to ${{ env.Z3_LATEST }}
+-          branch: z3-${{ env.Z3_LATEST }}
+-          delete-branch: true
+-          title: 'Automatic upgrade of Z3 from ${{ env.Z3_VERSION }} to ${{ env.Z3_LATEST }}'
+-          body: >
+-            Upgrade the Z3 release that the macOS CI jobs install to its latest version. The macOS
+-            regression jobs on this PR are what test it.
+-
+-      - name: Create Issue
+-        if: ${{ env.next_step == 'create_issue' }}
+-        # Pinned to the commit of v2.0.0, the latest release. `main` has only README changes
+-        # since, and an unpinned third-party action could change under this token.
+-        uses: dacbd/create-issue-action@cdb57ab6ff8862aa09fee2be6ba77a59581921c2 # v2.0.0
+-        with:
+-          token: ${{ github.token }}
+-          title: 'Z3 upgrade to ${{ env.Z3_LATEST }} failed'
+-          body: >
+-            Z3 ${{ env.Z3_LATEST }} does not have the `arm64-osx-13.3` and `x64-osx-13.3` archives
+-            that `scripts/setup/macos/install_deps.sh` downloads, so the pin in `kani-dependencies`
+-            stays at ${{ env.Z3_VERSION }}. Update the asset names in that script, then bump
+-            `Z3_VERSION`.
+-
+-            The automated run
+-            [can be found here.](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+diff --git a/scripts/ch8-b-census/CI-REQUEST.json b/scripts/ch8-b-census/CI-REQUEST.json
+new file mode 100644
+index 000000000..00a0910a6
+--- /dev/null
++++ b/scripts/ch8-b-census/CI-REQUEST.json
+@@ -0,0 +1,77 @@
++{
++  "schema": "ch8-b-census-request-v1",
++  "authorization": "PREPARATION_ONLY; coordinator reserves, reviews, pushes and creates trigger",
++  "bucket": "B",
++  "dispatch_count": 1,
++  "bucket_cap": 3,
++  "retry": false,
++  "std": {
++    "repository": "Tiramisu-Cake/verify-rust-std",
++    "sha": "c5ff36ff433692140605891f646043f991db05de",
++    "tree": "1302063846873aa300f8bac64fe09e8a3ed1280f"
++  },
++  "kani": {
++    "repository": "model-checking/kani",
++    "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
++    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
++  },
++  "inventory": {
++    "g0_sha": "904bc1e4583800a8152cbe5296bfc48c56b8643e",
++    "path": "research/challenge-8/kani-k1/kani3300/ch8-s1/w14",
++    "baseline_sha256": "0737675fac5b717d51e2b74272d5de9269670be4dc1b6ac9772f6c4b8361a25b",
++    "count": 235,
++    "manifest_sha256": "7dee264da4c0afecb75e55b962520a1f14d5ef569a9bd1ca51ad70d206f78a85",
++    "shards": {
++      "1": 0,
++      "2": 183,
++      "3": 0,
++      "4": 52
++    }
++  },
++  "organizer_features": [
++    "function-contracts",
++    "mem-predicates",
++    "float-lib",
++    "c-ffi",
++    "loop-contracts",
++    "quantifiers",
++    "stubbing"
++  ],
++  "diagnostic_feature": "valid-value-checks",
++  "transport_features": [
++    "export-json"
++  ],
++  "jobs": 2,
++  "os": "ubuntu-24.04",
++  "target": "x86_64-unknown-linux-gnu",
++  "max_parallel_shards": 1,
++  "job_minutes": 210,
++  "stage_seconds": {
++    "build": 2100,
++    "verify": 7200
++  },
++  "root_seconds": 600,
++  "root_rss_bytes": 6442450944,
++  "aggregate_rss_bytes": 12884901888,
++  "os_reserve_bytes": 2147483648,
++  "stdout_cap_bytes": 2097152,
++  "export_cap_bytes": 262144,
++  "artifact_cap_bytes": 134217728,
++  "cfg_on": false,
++  "autoharness": false,
++  "uninit_checks": false,
++  "object_bits": 12,
++  "runtime": "NOT_RUN",
++  "credit": "NO_PROOF_CREDIT",
++  "notes": [
++    "Stock235 ordinary roots retained byte-for-byte; P-prime std, pristine compiler and models.",
++    "Historic4-way shard membership retained, empty1/3 omitted. Ubuntu-only diagnostic, not cross-OS/R8 qualification.",
++    "Transport export-json preserves reached checks/covers; no semantic flags beyond organizer set plus valid-value-checks.",
++    "No intentional invalid-value root in the ordinary235. Such a failure is unexpected unless independently source-qualified; no name-based oracle.",
++    "Per-root invocations with2 slots and separate reusable target directories. Shard membership retained, scheduling is bounded census scheduling, not historical cost comparability."
++  ],
++  "aggregate_job_minutes": 420,
++  "per_root_jobs": 1,
++  "diagnostic_transport": "-Z export-json --export-json <path>; stock structured report only, no additional verification behavior",
++  "global_inventory": "NONE; direct exact per-root verify-std; does not call scripts/run-kani.sh"
++}
+diff --git a/scripts/ch8-b-census/README.md b/scripts/ch8-b-census/README.md
+new file mode 100644
+index 000000000..04a0bbbf3
+--- /dev/null
++++ b/scripts/ch8-b-census/README.md
+@@ -0,0 +1,92 @@
++# B P-prime diagnostic census — preparation only
++
++Coordinator request: one B dispatch (lane cap3; item1 cap18; combined cap32),
++not reserved or charged here. No retry. User authorization is package preparation;
++coordinator alone reviews current ledger/slots, reserves, publishes and creates the
++same-tree non-skip trigger on `uninit-ci/ch8-b-census-*`. Package commits use `[skip ci]`.
++The kani-host control contains only this workflow. The separate pristine upstream
++export keeps all compiler/model sources and upstream workflows unchanged.
++Never push this work branch as a trigger. No Cloud or compiler patch is included.
++
++Inputs: unchanged std `c5ff36ff433692140605891f646043f991db05de`, pristine Kani
++`0aac16ef62da9e9d5645782d458593e5d78143ba`, worker14 inventory from g0
++`904bc1e4583800a8152cbe5296bfc48c56b8643e`. All235 roots retained;
++183 in historic shard2 and52 in shard4. Shards1/3 contain zero SmallSort roots.
++Ubuntu24.04 only. This diagnostic does not qualify macOS, R8 costs, or B2 proof.
++
++The organizer semantic flags are copied from pinned std `scripts/run-kani.sh`:
++`-Z unstable-options -Z function-contracts -Z mem-predicates -Z float-lib -Z c-ffi
++-Z loop-contracts -Z quantifiers -Z stubbing --no-assert-contracts`, CBMC
++`--object-bits 12`. Add exactly the diagnostic `-Z valid-value-checks`.
++`-Z export-json --export-json PATH` is report transport through the unchanged stock
++exporter; it does not add a proof premise/check. Use exact full root selectors and
++terse text as in the organizer runner. No default-unwind override, check suppression,
++uninit-checks, std autoharness, cfg-on controls, patch or model change.
++
++Two root invocations per shard run concurrently, each `--jobs=1`, with separate
++reusable target directories. This preserves the Ubuntu organizer jobs2 upper bound
++and historic shard membership, while keeping an independent receipt for each root
++if compilation fails. It changes scheduling and is not a matched cost measurement.
++Each invocation has a600s outer wall cap (including compile) and stock600s harness
++timeout. No shortened last-root envelope. Each shard verification stage<=7200s,
++build<=2100s, setup<=25min; job<=210min, max-parallel shards1, total<=420 runner-min.
++Root process-tree summed RSS<=6GiB; aggregate concurrently observed process-tree
++RSS<=min(12GiB, available-at-stage minus2GiB), tightened before invocation.
++Sampling0.1s can overshoot; RSS sums shared pages and is not PSS or kernel enforcement.
++Kernel OOM/runner loss remains PARTIAL, never success. `/proc` figures are bytes.
++
++The three checkouts are siblings `control/`, `export/`, `std/`. Build cwd is pristine
++`export`; verify cwd is pristine `std` and library path `./library`. Target/export
++scratch is in runner temp, outside all Cargo workspaces. All checkout depths>=2;
++`runner.*` expressions appear only in step env. Setup is the exact export's action.
++Only a same-tree child of the `[skip ci]` package on attempt1 is accepted.
++
++Every shard seeds all expected NOT_RUN receipts before setup. Each attempted root
++records actual argv/cwd, exit/signal/exception, wall/RSS/output caps and full stock
++checks/covers/failures/warnings when a bounded, bound export is available. Root export
++cap256KiB; output cap2MiB with4096-byte diagnostic tail. Oversize/malformed/missing
++exports cannot become PASS. No raw logs, target trees, evidence archives or binaries
++are uploaded. Curated JSON upper bound<128MiB per shard (static checked).
++All source SHA/tree/clean checks and binary SHA256 are recorded before/after execution.
++
++Classification: PASS; copy Unsupported; casts; other Unsupported; intended invalid-value
++failure; compile-resource-not-run. Mixed failures retain every observed class/property;
++primary order is catchall, other Unsupported, casts, copy Unsupported, intended failure.
++All completed unsupported properties are diagnostics, never proof acceptance.
++Unknown/undetermined property buckets make the census PARTIAL while preserving observed
++failure families. The catchall includes unexpected assertions/invalid-value failures
++and requires review; its reason is never an assertion that compilation failed.
++There is no source-qualified intentional invalid-value root among ordinary235;
++all manifest oracles are false. Do not infer intent from a name or classify an unexpected
++validity failure as intended. A future canary needs separate scope/GO and an explicit oracle.
++
++Overall COMPLETE requires both shard summaries COMPLETE, exactly183+52 unique bound
++receipts, post-source checks and no failure of setup/upload. Any missing shard/root,
++time/resource/output cut, runner loss, unknown schema/identity or unclassified failure
++means PARTIAL. Do not fill remaining rows with PASS. Workflow success is diagnostic
++execution completeness, not all-root PASS or independent correctness credit.
++
++STOP B from plan§8 remains binding: Unknown treated as NoConstraints, rejection of legal
++delayed raw copy, premature uninitialized read, lost intentional validity check, a new
++shadow model, or overlap with active upstream design requires STOP/design note. This
++package implements no compiler fast path or canary and cannot claim those gates passed.
++
++Offline validation (no rustc/Cargo/Kani/CBMC):
++
++```sh
++PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/ch8-b-census -v
++PYTHONDONTWRITEBYTECODE=1 python3 scripts/ch8-b-census/static_check.py
++actionlint -shellcheck= .github/workflows/ch8-b-census.yml
++git diff --check
++```
++
++Coordinator handoff: bind CI package SHA/tree, g0 report SHA, exact request SHA256,
++manifest SHA256 and review before reserving the next B run. Create the trigger only after GO.
++No reservation, trigger, push or CI was performed by worker14.
++
++Global inventory: NONE. The runner never invokes `kani list` or `run-kani.sh`;
++it calls `verify-std --harness SELECTOR --exact` directly for each frozen root.
++Worker13 list receipts are therefore not imported: there is no list phase to cap.
++Compilation of each selected invocation remains charged to its unchanged 600s cap.
++The P-prime source/module audit is in the g0 pprime handoff; this is static source
++identity, not independently observed compiler harness binding.
+diff --git a/scripts/ch8-b-census/census.py b/scripts/ch8-b-census/census.py
+new file mode 100644
+index 000000000..53b7083cf
+--- /dev/null
++++ b/scripts/ch8-b-census/census.py
+@@ -0,0 +1,375 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""CI-only census; local use is limited to static/synthetic checks."""
++import argparse
++import concurrent.futures
++import hashlib
++import json
++import os
++from pathlib import Path
++import selectors
++import signal
++import subprocess
++import threading
++import time
++
++HERE = Path(__file__).resolve().parent
++PREFIX = 'slice::sort::shared::smallsort::verify::'
++KANI = '0aac16ef62da9e9d5645782d458593e5d78143ba'
++STD = 'c5ff36ff433692140605891f646043f991db05de'
++CATCHALL = 'compile-resource-not-run'
++GROUPS = set()
++LOCK = threading.Lock()
++
++
++def digest(p):
++    return hashlib.sha256(Path(p).read_bytes()).hexdigest()
++
++
++def write(p, obj):
++    p = Path(p)
++    p.parent.mkdir(parents=True, exist_ok=True)
++    tmp = p.with_suffix('.tmp')
++    tmp.write_text(json.dumps(obj, indent=2, sort_keys=True) + '\n')
++    tmp.replace(p)
++
++
++def load():
++    req = json.loads((HERE / 'CI-REQUEST.json').read_text())
++    roots = json.loads((HERE / 'roots.json').read_text())
++    assert req['kani']['sha'] == KANI and req['std']['sha'] == STD
++    assert digest(HERE / 'roots.json') == req['inventory']['manifest_sha256']
++    assert len(roots) == 235 and len({r['selector'] for r in roots}) == 235
++    assert [r['id'] for r in roots] == list(range(1, 236))
++    assert {s: sum(r['shard'] == s for r in roots) for s in range(1, 5)} == {1: 0, 2: 183, 3: 0, 4: 52}
++    assert all(r['selector'] == PREFIX + r['root'] and r['intended_invalid_value'] is False for r in roots)
++    assert req['organizer_features'] == ['function-contracts', 'mem-predicates', 'float-lib', 'c-ffi', 'loop-contracts', 'quantifiers', 'stubbing']
++    assert req['jobs'] == 2 and req['object_bits'] == 12
++    assert req['cfg_on'] is False and req['autoharness'] is False and req['uninit_checks'] is False
++    return req, roots
++
++
++def git(repo, *args):
++    return subprocess.check_output(['git', '-C', str(repo), *args], text=True).strip()
++
++
++def bind(repo, pin):
++    assert git(repo, 'rev-parse', 'HEAD') == pin['sha'], 'source SHA mismatch'
++    assert git(repo, 'rev-parse', 'HEAD^{tree}') == pin['tree'], 'source tree mismatch'
++    assert git(repo, 'status', '--porcelain', '--untracked-files=no') == '', 'tracked source dirty'
++    return {'sha': pin['sha'], 'tree': pin['tree'], 'tracked_clean': True}
++
++
++def binary_hashes(export):
++    export = Path(export).resolve()
++    binaries = {str(p.relative_to(export)): digest(p) for p in (export/'target/kani/bin').glob('*') if p.is_file()}
++    assert binaries, 'no built binaries found'
++    return binaries
++
++
++def clean_env():
++    env = dict(os.environ)
++    # No inherited cfg, feature flags, compiler wrappers, cargo target or injected Kani/CBMC flags.
++    for key in list(env):
++        if key.startswith(('RUST', 'CARGO_ENCODED_', 'KANI_', 'CBMC_')) or key in ('CARGO_BUILD_TARGET', 'CARGO_TARGET_DIR'):
++            env.pop(key, None)
++    env['NO_COLOR'] = '1'
++    return env
++
++
++def rss_groups(groups):
++    sums = {p: 0 for p in groups}
++    for entry in Path('/proc').iterdir():
++        if not entry.name.isdigit():
++            continue
++        try:
++            stat = (entry / 'stat').read_text().rsplit(')', 1)[1].split()
++            group = int(stat[2])
++            if group in sums:
++                sums[group] += int((entry / 'statm').read_text().split()[1]) * os.sysconf('SC_PAGE_SIZE')
++        except (OSError, ValueError, IndexError):
++            continue
++    return sums
++
++
++def kill_group(pid):
++    try:
++        os.killpg(pid, signal.SIGKILL)
++    except ProcessLookupError:
++        pass
++
++
++def guarded(argv, cwd, seconds, req):
++    """Drain bounded output and monitor all invocation process groups; keep actual exit/signal."""
++    started = time.monotonic()
++    if Path('/proc/meminfo').is_file():
++        available = next(int(l.split()[1])*1024 for l in Path('/proc/meminfo').read_text().splitlines() if l.startswith('MemAvailable:'))
++        req = dict(req, aggregate_rss_bytes=min(req['aggregate_rss_bytes'], max(1, available-req['os_reserve_bytes'])))
++    receipt = {'argv': argv, 'cwd': str(cwd), 'exit': None, 'signal': None,
++               'stop': None, 'peak_rss_bytes': 0, 'peak_aggregate_rss_bytes': 0,
++               'stdout_bytes': 0, 'diagnostic_tail': '', 'exception': None}
++    try:
++        proc = subprocess.Popen(argv, cwd=cwd, env=clean_env(), stdout=subprocess.PIPE,
++                                stderr=subprocess.STDOUT, start_new_session=True)
++    except Exception as exc:
++        receipt.update(stop='SPAWN_ERROR', exception=repr(exc), wall_s=time.monotonic() - started)
++        return receipt
++    with LOCK:
++        GROUPS.add(proc.pid)
++    tail = bytearray()
++    sel = selectors.DefaultSelector()
++    sel.register(proc.stdout, selectors.EVENT_READ)
++    try:
++        while proc.poll() is None or sel.get_map():
++            for key, _ in sel.select(0.1):
++                chunk = os.read(key.fd, 65536)
++                if not chunk:
++                    sel.unregister(key.fileobj)
++                else:
++                    receipt['stdout_bytes'] += len(chunk)
++                    tail.extend(chunk)
++                    del tail[:-4096]
++            with LOCK:
++                values = rss_groups(GROUPS)
++            rss, total = values.get(proc.pid, 0), sum(values.values())
++            receipt['peak_rss_bytes'] = max(receipt['peak_rss_bytes'], rss)
++            receipt['peak_aggregate_rss_bytes'] = max(receipt['peak_aggregate_rss_bytes'], total)
++            why = ('TIMEOUT' if time.monotonic() - started > seconds else
++                   'RSS_LIMIT' if rss > req['root_rss_bytes'] or total > req['aggregate_rss_bytes'] else
++                   'OUTPUT_LIMIT' if receipt['stdout_bytes'] > req['stdout_cap_bytes'] else None)
++            if why and receipt['stop'] is None:
++                receipt['stop'] = why
++                kill_group(proc.pid)
++        code = proc.wait()
++        receipt['exit'] = code
++        receipt['signal'] = -code if code < 0 else None
++    except BaseException as exc:
++        kill_group(proc.pid)
++        receipt.update(stop='WRAPPER_EXCEPTION', exception=repr(exc), exit=proc.wait())
++        receipt['signal'] = -receipt['exit'] if receipt['exit'] < 0 else None
++    finally:
++        # Do not let orphan verifier children survive a successful parent exit.
++        kill_group(proc.pid)
++        with LOCK:
++            GROUPS.discard(proc.pid)
++        sel.close()
++        proc.stdout.close()
++    receipt['wall_s'] = time.monotonic() - started
++    receipt['diagnostic_tail'] = tail.decode(errors='replace')
++    receipt['diagnostic_tail_truncated'] = receipt['stdout_bytes'] > len(tail)
++    return receipt
++
++
++def argv_for(req, row, binary, target, export):
++    argv = [str(binary), 'verify-std', '-Z', 'unstable-options', './library']
++    for feature in req['organizer_features'] + ['valid-value-checks', 'export-json']:
++        argv += ['-Z', feature]
++    return argv + ['--no-assert-contracts', '--harness', row['selector'], '--exact', '--jobs=1',
++                   '--harness-timeout', '600s', '--target-dir', str(target), '--export-json', str(export),
++                   '--output-format=terse', '--cbmc-args', '--object-bits', '12']
++
++
++def unknown(reason):
++    return {'classification': CATCHALL, 'complete': False, 'reason': reason, 'observed_classes': []}
++
++
++def classify(data, row, execution, req):
++    """Only complete, exactly bound structured results can receive a scientific class."""
++    retained = {}
++    try:
++        assert isinstance(data, dict) and data['schema_version'] == '0.1.0', 'schema'
++        assert data['kani_commit'] == KANI and data['kani_commit_dirty'] is False, 'tool'
++        assert data['target'] == req['target'], 'target'
++        assert data['enabled_unstable_features'] == sorted(req['organizer_features'] + ['unstable-options', 'valid-value-checks', 'export-json']), 'features'
++        cfg = data['configuration']
++        expected = dict(memory_safety=True, overflow=True, unwinding=True, undefined_function=True,
++                        assertion_reach_checks=True, ignore_global_asm=False, extra_pointer_checks=False,
++                        assert_contracts=False, prove_safety_only=False)
++        assert isinstance(cfg['checks'], dict) and all(type(cfg['checks'].get(k)) is bool for k in expected), 'check-flag-types'
++        assert cfg['checks'] == expected and cfg['cbmc_args'] == ['--object-bits', '12'] and cfg['coverage_enabled'] is False, 'checks'
++        selection = data['harness_selection']
++        assert isinstance(selection, dict) and type(selection.get('matched_count')) is int and type(selection.get('exact')) is bool, 'selection-types'
++        assert selection == dict(requested_filters=[row['selector']], exact=True, unmatched_filters=[], matched_count=1), 'selection'
++        assert data['run_state'] == 'COMPLETE' and data['outcome'] == {'kind': 'COMPLETED'}, 'run-state'
++        hs = data['harnesses']
++        assert isinstance(hs, list) and len(hs) == 1, 'harness-count'
++        h = hs[0]
++        assert h['name'] == row['selector'] and h['crate_name'] == 'core' and h['is_automatically_generated'] is False, 'harness-binding'
++        assert h['outcome']['kind'] == 'COMPLETED', 'harness-not-completed'
++        retained['harness'] = h
++        checks, covers = h['checks'], h['covers']
++        property_partial = False
++        for obj, specific in ((checks, ('failure',)), (covers, ('satisfied','unsatisfiable'))):
++            assert isinstance(obj, dict), 'property-object'
++            for k in specific + ('unreachable','undetermined','error','unknown','other'):
++                assert isinstance(obj.get(k), list), 'property-bucket-type'
++                if k != 'other':
++                    assert all(isinstance(v, str) and v for v in obj[k]) and len(set(obj[k])) == len(obj[k]), 'property-id-types'
++            ids = [v for k in specific + ('unreachable','undetermined','error','unknown') for v in obj[k]]
++            assert len(set(ids)) == len(ids), 'duplicate-property-ids'
++            assert type(obj['total']) is int and obj['total'] >= 0, 'property-total'
++            for k in ('unreachable', 'undetermined', 'error', 'unknown', 'other'):
++                assert isinstance(obj[k], list), 'property-buckets'
++            property_partial |= any(obj[k] for k in ('undetermined', 'error', 'unknown', 'other'))
++        failed = h['failed_properties']
++        unsupported = h['unsupported_constructs']
++        assert isinstance(failed, list) and isinstance(unsupported, list), 'property-lists'
++        assert type(h['n_failed']) is int and h['n_failed'] == len(failed) == len(checks['failure']), 'failure-count'
++        assert type(checks['success']) is int and checks['success'] >= 0, 'success-count'
++        assert checks['total'] == checks['success'] + sum(len(checks[k]) for k in ('failure','unreachable','undetermined','error','unknown','other')), 'check-partition'
++        assert covers['total'] == sum(len(covers[k]) for k in ('satisfied', 'unsatisfiable', 'unreachable','undetermined','error','unknown','other')), 'cover-partition'
++        assert type(h['n_properties']) is int, 'property-count-type'
++        assert h['n_properties'] == checks['total'] + covers['total'] and checks['total'] > 0, 'properties'
++        assert all(isinstance(p, dict) and all(isinstance(p.get(k), str) for k in ('id','description','class','status')) for p in failed + unsupported), 'property-entry-types'
++        assert {p['id'] for p in failed} == set(checks['failure']), 'failed-property-ids'
++        assert {p['id'] for p in unsupported if p['status']=='FAILURE'} == {p['id'] for p in failed if p['class']=='unsupported_construct'}, 'unsupported-failure-partition'
++        assert all(p['status'] == 'FAILURE' and isinstance(p['description'], str) for p in failed), 'failed-properties'
++        classes = set()
++        for p in failed:
++            desc = p['description']
++            if p['class'] == 'unsupported_construct':
++                classes.add('copy Unsupported' if 'checking validity of `copy_nonoverlapping`' in desc else
++                            'casts' if 'checking validity of `mutable cast`' in desc else 'other Unsupported')
++            elif 'Undefined Behavior: Invalid value of type `' in desc and row['intended_invalid_value'] is True:
++                classes.add('intended invalid-value failure')
++            else:
++                classes.add(CATCHALL)
++        verdict = h['outcome']['verdict']
++        assert verdict in ('SUCCESS', 'FAILURE'), 'verdict'
++        assert verdict == ('FAILURE' if failed else 'SUCCESS'), 'verdict-properties'
++        assert execution['exit'] == (1 if failed else 0), 'exit-verdict'
++        assert execution['stop'] is None, 'wrapper-stop'
++        if not classes:
++            result = {'classification': 'PASS', 'complete': True, 'reason': 'bound completed verdict', 'observed_classes': ['PASS']}
++        else:
++            order = [CATCHALL, 'other Unsupported', 'casts', 'copy Unsupported', 'intended invalid-value failure']
++            result = {'classification': next(c for c in order if c in classes), 'complete': CATCHALL not in classes,
++                      'reason': 'completed failure; unexpected scientific failures require review' if CATCHALL in classes else 'completed diagnostic failure',
++                      'observed_classes': sorted(classes)}
++        if property_partial:
++            result['complete'] = False
++            result['reason'] += '; PARTIAL property buckets'
++            if result['classification'] == 'PASS':
++                result['classification'] = CATCHALL
++                result['observed_classes'] = []
++        result['harness'] = h  # Preserve all checks, useful covers, failures and warnings, including mixed classes.
++        result['export_identity'] = {k: data[k] for k in ('kani_commit', 'kani_commit_dirty', 'target', 'configuration', 'enabled_unstable_features', 'harness_selection', 'run_state')}
++        return result
++    except (AssertionError, KeyError, TypeError, ValueError) as exc:
++        return dict(unknown('EXPORT_REJECTED: ' + str(exc)), **retained)
++
++
++def initial(row):
++    return dict(schema='ch8-b-root-v1', **row, **unknown('NOT_RUN'), runtime_proof_status='NOT_RUN')
++
++
++def seed(out, roots):
++    out.mkdir(parents=True, exist_ok=True)
++    for row in roots:
++        p = out / ('root-%03d.json' % row['id'])
++        if not p.exists():
++            write(p, initial(row))
++
++
++def run_census(args, req, roots):
++    assert os.environ.get('GITHUB_ACTIONS') == 'true', 'actual invocations CI-only'
++    out, std, export = Path(args.out).resolve(), Path(args.std).resolve(), Path(args.export).resolve()
++    assert std.parent == export.parent and std != export, 'sibling std/export layout required'
++    binding = {'std': bind(std, req['std']), 'kani': bind(export, req['kani'])}
++    seed(out, roots)
++    before_binaries = json.loads((out/'binary-hashes.json').read_text())
++    assert before_binaries == binary_hashes(export), 'binary changed between build and census'
++    available = next(int(l.split()[1]) * 1024 for l in Path('/proc/meminfo').read_text().splitlines() if l.startswith('MemAvailable:'))
++    req = dict(req, aggregate_rss_bytes=min(req['aggregate_rss_bytes'], available - req['os_reserve_bytes']))
++    assert req['aggregate_rss_bytes'] > 0, 'no RAM after OS reserve'
++    write(out / 'binding.json', dict(binding, available_bytes=available, aggregate_cap_bytes=req['aggregate_rss_bytes'], request_sha256=digest(HERE/'CI-REQUEST.json'), inventory_sha256=digest(HERE/'roots.json')))
++    deadline = time.monotonic() + req['stage_seconds']['verify']
++    slots = [roots[i::req['jobs']] for i in range(req['jobs'])]
++
++    def lane(slot, rows):
++        target = out.parent / ('target-shard-%s-slot-%s' % (args.shard, slot))
++        for row in rows:
++            remaining = deadline - time.monotonic()
++            if remaining < req['root_seconds'] + 5:
++                break  # Keep full root envelope; all untouched receipts remain NOT_RUN.
++            if sum(p.stat().st_size for p in out.glob('*.json')) > req['artifact_cap_bytes'] - req['export_cap_bytes']:
++                break
++            raw = target.parent / ('export-%03d.json' % row['id'])
++            assert not raw.exists(), 'stale export'
++            argv = argv_for(req, row, export/'scripts/kani', target, raw)
++            execution = guarded(argv, std, req['root_seconds'], req)
++            receipt = initial(row)
++            receipt['runtime_proof_status'] = 'ATTEMPTED'
++            receipt['execution'] = execution
++            if raw.exists() and raw.stat().st_size <= req['export_cap_bytes']:
++                receipt['export_sha256'] = digest(raw)
++                try:
++                    result = classify(json.loads(raw.read_text()), row, execution, req)
++                except (ValueError, OSError) as exc:
++                    result = unknown('INVALID_EXPORT: ' + repr(exc))
++                receipt.update(result)
++            else:
++                receipt.update(unknown('MISSING_OR_OVERSIZE_EXPORT'))
++            if raw.exists():
++                raw.unlink()  # Only curated bounded receipts are uploaded; no target/raw logs/archives.
++            write(out / ('root-%03d.json' % row['id']), receipt)
++    with concurrent.futures.ThreadPoolExecutor(max_workers=req['jobs']) as pool:
++        futures = [pool.submit(lane, i, r) for i, r in enumerate(slots)]
++        for f in futures:
++            f.result()
++    after_binaries = binary_hashes(export)
++    write(out/'post-binary-hashes.json', after_binaries)
++    assert before_binaries == after_binaries, 'binary changed during census'
++    write(out / 'post-source.json', {'std': bind(std, req['std']), 'kani': bind(export, req['kani']), 'binary_hashes_unchanged': True})
++
++
++def finalize(out, roots, status):
++    seed(out, roots)
++    receipts = [json.loads((out / ('root-%03d.json' % r['id'])).read_text()) for r in roots]
++    assert all(p['selector'] == r['selector'] and p['shard'] == r['shard'] for p,r in zip(receipts, roots))
++    complete = all(p['complete'] is True for p in receipts) and status == 'success' and (out/'post-source.json').is_file()
++    counts = {}
++    for p in receipts:
++        counts[p['classification']] = counts.get(p['classification'], 0) + 1
++    result = {'schema': 'ch8-b-shard-v1', 'status': 'COMPLETE' if complete else 'PARTIAL',
++              'expected': len(roots), 'completed': sum(p['complete'] is True for p in receipts),
++              'counts': counts, 'job_status': status, 'runtime_credit': 'SOURCE_REPORTED_DIAGNOSTIC_ONLY'}
++    write(out / 'summary.json', result)
++    return result
++
++
++def main():
++    parser = argparse.ArgumentParser()
++    parser.add_argument('action', choices=['seed', 'run', 'finalize', 'bind', 'build'])
++    parser.add_argument('--shard', type=int, choices=[2,4], default=2)
++    parser.add_argument('--out', required=True)
++    parser.add_argument('--std')
++    parser.add_argument('--export')
++    parser.add_argument('--job-status', default='unknown')
++    args = parser.parse_args()
++    req, roots = load()
++    roots = [r for r in roots if r['shard'] == args.shard]
++    out = Path(args.out).resolve()
++    if args.action == 'seed':
++        seed(out, roots)
++    elif args.action == 'bind':
++        write(out/'source.json', {'std': bind(args.std, req['std']), 'kani': bind(args.export, req['kani'])})
++    elif args.action == 'build':
++        assert os.environ.get('GITHUB_ACTIONS') == 'true', 'build CI-only'
++        bind(args.export, req['kani'])
++        execution = guarded(['cargo', 'build-dev', '--', '--release'], Path(args.export).resolve(), req['stage_seconds']['build'], dict(req, root_rss_bytes=req['aggregate_rss_bytes']))
++        write(out/'build.json', execution)
++        assert execution['exit'] == 0 and execution['stop'] is None, 'build incomplete'
++        bind(args.export, req['kani'])
++        write(out/'binary-hashes.json', binary_hashes(args.export))
++    elif args.action == 'run':
++        run_census(args, req, roots)
++    else:
++        result = finalize(out, roots, args.job_status)
++        print(json.dumps(result))
++        return 0 if result['status'] == 'COMPLETE' else 1
++    return 0
++
++
++if __name__ == '__main__':
++    raise SystemExit(main())
+diff --git a/scripts/ch8-b-census/roots.json b/scripts/ch8-b-census/roots.json
+new file mode 100644
+index 000000000..24c8556ea
+--- /dev/null
++++ b/scripts/ch8-b-census/roots.json
+@@ -0,0 +1,1882 @@
++[
++  {
++    "id": 1,
++    "root": "fixed_inputs::advancement_merge_up_u8_n2",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::advancement_merge_up_u8_n2",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 2,
++    "root": "fixed_inputs::permutation_merge_u8_n4",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::permutation_merge_u8_n4",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 3,
++    "root": "fixed_inputs::safety_stable_unit_n1",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n1",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 4,
++    "root": "fixed_inputs::safety_stable_unit_n16",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 5,
++    "root": "fixed_inputs::safety_stable_unit_n17",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 6,
++    "root": "fixed_inputs::safety_stable_unit_n2",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n2",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 7,
++    "root": "fixed_inputs::safety_stable_unit_n31",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n31",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 8,
++    "root": "fixed_inputs::safety_stable_unit_n32",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 9,
++    "root": "fixed_inputs::safety_stable_unit_n7",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n7",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 10,
++    "root": "fixed_inputs::safety_stable_unit_n8",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::safety_stable_unit_n8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 11,
++    "root": "fixed_inputs::sorted_network_prefix_u8_n10",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::sorted_network_prefix_u8_n10",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 12,
++    "root": "fixed_inputs::sorted_permutation_insert_tail_u8_n2",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::sorted_permutation_insert_tail_u8_n2",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 13,
++    "root": "fixed_inputs::sorted_permutation_swap_u8_n2",
++    "selector": "slice::sort::shared::smallsort::verify::fixed_inputs::sorted_permutation_swap_u8_n2",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 14,
++    "root": "forwarding_contracts::freeze_noncopy_n2",
++    "selector": "slice::sort::shared::smallsort::verify::forwarding_contracts::freeze_noncopy_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 15,
++    "root": "forwarding_contracts::stable_cell_n2",
++    "selector": "slice::sort::shared::smallsort::verify::forwarding_contracts::stable_cell_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 16,
++    "root": "forwarding_contracts::unstable_byte_n2",
++    "selector": "slice::sort::shared::smallsort::verify::forwarding_contracts::unstable_byte_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 17,
++    "root": "helper_contracts::insert_tail_safety_u64_tail1_to4_backing5",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::insert_tail_safety_u64_tail1_to4_backing5",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 18,
++    "root": "helper_contracts::insertion_safety_u64_len2",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::insertion_safety_u64_len2",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 19,
++    "root": "helper_contracts::insertion_safety_u64_len3",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::insertion_safety_u64_len3",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 20,
++    "root": "helper_contracts::merge_safety_u64_len2",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len2",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 21,
++    "root": "helper_contracts::merge_safety_u64_len4",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::merge_safety_u64_len4",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 22,
++    "root": "helper_contracts::sort4_safety_u64",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::sort4_safety_u64",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 23,
++    "root": "helper_contracts::swap_safety_bytes17_backing4",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_bytes17_backing4",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 24,
++    "root": "helper_contracts::swap_safety_u64_backing4",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u64_backing4",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 25,
++    "root": "helper_contracts::swap_safety_u8_backing13",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing13",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 26,
++    "root": "helper_contracts::swap_safety_u8_backing4",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing4",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 27,
++    "root": "helper_contracts::swap_safety_u8_backing9",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::swap_safety_u8_backing9",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 28,
++    "root": "helper_contracts::unstable_network_safety_u8_n13_stubbed",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::unstable_network_safety_u8_n13_stubbed",
++    "shard": 2,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 29,
++    "root": "helper_contracts::unstable_network_safety_u8_n9_stubbed",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts::unstable_network_safety_u8_n9_stubbed",
++    "shard": 2,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 30,
++    "root": "helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::merge_safety_u64_len8_scratch48_src32_dst0",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 31,
++    "root": "helper_contracts_wide::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::sort8_safety_u64_scratch48_src32_dst0_merge_stubbed",
++    "shard": 2,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 32,
++    "root": "helper_contracts_wide::swap_safety_u64_backing32",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::swap_safety_u64_backing32",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 33,
++    "root": "helper_contracts_wide::swap_safety_u8_backing32",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::swap_safety_u8_backing32",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 34,
++    "root": "helper_contracts_wide::unstable_network_safety_u8_n32_stubbed",
++    "selector": "slice::sort::shared::smallsort::verify::helper_contracts_wide::unstable_network_safety_u8_n32_stubbed",
++    "shard": 2,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 35,
++    "root": "insert_tail_contracts::insert_tail_safety_u64_backing17_tail1_to7",
++    "selector": "slice::sort::shared::smallsort::verify::insert_tail_contracts::insert_tail_safety_u64_backing17_tail1_to7",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 36,
++    "root": "insert_tail_contracts::insert_tail_safety_u64_backing17_tail8_to15",
++    "selector": "slice::sort::shared::smallsort::verify::insert_tail_contracts::insert_tail_safety_u64_backing17_tail8_to15",
++    "shard": 4,
++    "class": "real_helper_contracts",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 37,
++    "root": "merge::drop_fallback_drop_count_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n2",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 38,
++    "root": "merge::drop_fallback_drop_count_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n4",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 39,
++    "root": "merge::drop_fallback_drop_count_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_fallback_drop_count_n8",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 40,
++    "root": "merge::drop_fallback_tag_permutation_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n2",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 41,
++    "root": "merge::drop_fallback_tag_permutation_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n4",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 42,
++    "root": "merge::drop_fallback_tag_permutation_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_fallback_tag_permutation_n8",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 43,
++    "root": "merge::drop_general_drop_count_n16",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n16",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 44,
++    "root": "merge::drop_general_drop_count_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n2",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 45,
++    "root": "merge::drop_general_drop_count_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n4",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 46,
++    "root": "merge::drop_general_drop_count_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_general_drop_count_n8",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 47,
++    "root": "merge::drop_general_tag_permutation_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n2",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 48,
++    "root": "merge::drop_general_tag_permutation_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n4",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 49,
++    "root": "merge::drop_general_tag_permutation_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::drop_general_tag_permutation_n8",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 50,
++    "root": "merge::fallback_sorted_permutation_u8_u64_n0",
++    "selector": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n0",
++    "shard": 2,
++    "class": "fallback",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 51,
++    "root": "merge::fallback_sorted_permutation_u8_u64_n1",
++    "selector": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n1",
++    "shard": 2,
++    "class": "fallback",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 52,
++    "root": "merge::fallback_sorted_permutation_u8_u64_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n2",
++    "shard": 2,
++    "class": "fallback",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 53,
++    "root": "merge::fallback_sorted_permutation_u8_u64_n3",
++    "selector": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n3",
++    "shard": 2,
++    "class": "fallback",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 54,
++    "root": "merge::fallback_sorted_permutation_u8_u64_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n4",
++    "shard": 2,
++    "class": "fallback",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 55,
++    "root": "merge::fallback_sorted_permutation_u8_u64_n5",
++    "selector": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n5",
++    "shard": 2,
++    "class": "fallback",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 56,
++    "root": "merge::fallback_sorted_permutation_u8_u64_n6",
++    "selector": "slice::sort::shared::smallsort::verify::merge::fallback_sorted_permutation_u8_u64_n6",
++    "shard": 2,
++    "class": "fallback",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 57,
++    "root": "merge::general_direct_u64_n6",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n6",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 58,
++    "root": "merge::general_direct_u64_n7",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n7",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 59,
++    "root": "merge::general_direct_u64_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n8",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 60,
++    "root": "merge::general_direct_u64_n9",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_direct_u64_n9",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 61,
++    "root": "merge::general_direct_u8_n9",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_direct_u8_n9",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 62,
++    "root": "merge::general_stable_direct_u64_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n2",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 63,
++    "root": "merge::general_stable_direct_u64_n3",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n3",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 64,
++    "root": "merge::general_stable_direct_u64_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n4",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 65,
++    "root": "merge::general_stable_direct_u64_n5",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u64_n5",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 66,
++    "root": "merge::general_stable_direct_u8_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n2",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 67,
++    "root": "merge::general_stable_direct_u8_n3",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n3",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 68,
++    "root": "merge::general_stable_direct_u8_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n4",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 69,
++    "root": "merge::general_stable_direct_u8_n5",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n5",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 70,
++    "root": "merge::general_stable_direct_u8_n6",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n6",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 71,
++    "root": "merge::general_stable_direct_u8_n7",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n7",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 72,
++    "root": "merge::general_stable_direct_u8_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_direct_u8_n8",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 73,
++    "root": "merge::general_stable_sorted_permutation_u64_n0",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n0",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 74,
++    "root": "merge::general_stable_sorted_permutation_u64_n1",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u64_n1",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 75,
++    "root": "merge::general_stable_sorted_permutation_u8_n0",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n0",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 76,
++    "root": "merge::general_stable_sorted_permutation_u8_n1",
++    "selector": "slice::sort::shared::smallsort::verify::merge::general_stable_sorted_permutation_u8_n1",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 77,
++    "root": "merge::merge_contract_u64_n2_to4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n2_to4",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 78,
++    "root": "merge::merge_contract_u64_n5",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n5",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 79,
++    "root": "merge::merge_contract_u64_n6",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n6",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 80,
++    "root": "merge::merge_contract_u64_n7",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n7",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 81,
++    "root": "merge::merge_contract_u64_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u64_n8",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 82,
++    "root": "merge::merge_contract_u8_n2_to4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n2_to4",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 83,
++    "root": "merge::merge_contract_u8_n5",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n5",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 84,
++    "root": "merge::merge_contract_u8_n6",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n6",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 85,
++    "root": "merge::merge_contract_u8_n7",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n7",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 86,
++    "root": "merge::merge_contract_u8_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n8",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 87,
++    "root": "merge::merge_contract_u8_n9",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_contract_u8_n9",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 88,
++    "root": "merge::merge_scratch48_contract_u8_n9",
++    "selector": "slice::sort::shared::smallsort::verify::merge::merge_scratch48_contract_u8_n9",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 89,
++    "root": "merge::route_safety_all_routes_n16",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 90,
++    "root": "merge::route_safety_all_routes_n2",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n2",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 91,
++    "root": "merge::route_safety_all_routes_n3",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n3",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 92,
++    "root": "merge::route_safety_all_routes_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 93,
++    "root": "merge::route_safety_all_routes_n5",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n5",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 94,
++    "root": "merge::route_safety_all_routes_n6",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n6",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 95,
++    "root": "merge::route_safety_all_routes_n7",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n7",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 96,
++    "root": "merge::route_safety_all_routes_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::route_safety_all_routes_n8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 97,
++    "root": "merge::sort4_arbitrary_comparator_bytes16_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::sort4_arbitrary_comparator_bytes16_n4",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 98,
++    "root": "merge::sort4_arbitrary_comparator_u64_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::sort4_arbitrary_comparator_u64_n4",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 99,
++    "root": "merge::sort4_contract_bytes16_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::sort4_contract_bytes16_n4",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 100,
++    "root": "merge::sort4_contract_u64_n4",
++    "selector": "slice::sort::shared::smallsort::verify::merge::sort4_contract_u64_n4",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 101,
++    "root": "merge::stable_direct_nonconst_u8_n9",
++    "selector": "slice::sort::shared::smallsort::verify::merge::stable_direct_nonconst_u8_n9",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 102,
++    "root": "merge::stable_direct_u64_n6",
++    "selector": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n6",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 103,
++    "root": "merge::stable_direct_u64_n7",
++    "selector": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n7",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 104,
++    "root": "merge::stable_direct_u64_n8",
++    "selector": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n8",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 105,
++    "root": "merge::stable_direct_u64_n9",
++    "selector": "slice::sort::shared::smallsort::verify::merge::stable_direct_u64_n9",
++    "shard": 2,
++    "class": "general_stable",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 106,
++    "root": "network::contract_insert_tail_u8_prefix",
++    "selector": "slice::sort::shared::smallsort::verify::network::contract_insert_tail_u8_prefix",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 107,
++    "root": "network::dispatch_reachability_general_bytes16_n17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_reachability_general_bytes16_n17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 108,
++    "root": "network::dispatch_reachability_network_u8_n18",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_reachability_network_u8_n18",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 109,
++    "root": "network::dispatch_reachability_stable_u8_n17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_reachability_stable_u8_n17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 110,
++    "root": "network::dispatch_safety_stable_bytes16_n32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes16_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 111,
++    "root": "network::dispatch_safety_stable_bytes17_n32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_bytes17_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 112,
++    "root": "network::dispatch_safety_stable_u8_n0_1_2_7_8",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n0_1_2_7_8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 113,
++    "root": "network::dispatch_safety_stable_u8_n15_16_17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n15_16_17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 114,
++    "root": "network::dispatch_safety_stable_u8_n31_32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_u8_n31_32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 115,
++    "root": "network::dispatch_safety_stable_unstable_bytes16_n0_1_2_7_8",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n0_1_2_7_8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 116,
++    "root": "network::dispatch_safety_stable_unstable_bytes16_n15",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n15",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 117,
++    "root": "network::dispatch_safety_stable_unstable_bytes16_n16",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 118,
++    "root": "network::dispatch_safety_stable_unstable_bytes16_n17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes16_n17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 119,
++    "root": "network::dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n0_1_2_7_8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 120,
++    "root": "network::dispatch_safety_stable_unstable_bytes17_n15",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n15",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 121,
++    "root": "network::dispatch_safety_stable_unstable_bytes17_n16",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 122,
++    "root": "network::dispatch_safety_stable_unstable_bytes17_n17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes17_n17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 123,
++    "root": "network::dispatch_safety_stable_unstable_bytes85_n0_1_2_7_8",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes85_n0_1_2_7_8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 124,
++    "root": "network::dispatch_safety_stable_unstable_bytes85_n15_16_17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes85_n15_16_17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 125,
++    "root": "network::dispatch_safety_stable_unstable_bytes85_n32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_bytes85_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 126,
++    "root": "network::dispatch_safety_stable_unstable_drop_u8_n0_1_2_7_8",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_drop_u8_n0_1_2_7_8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 127,
++    "root": "network::dispatch_safety_stable_unstable_drop_u8_n15_16_17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_drop_u8_n15_16_17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 128,
++    "root": "network::dispatch_safety_stable_unstable_drop_u8_n32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_stable_unstable_drop_u8_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 129,
++    "root": "network::dispatch_safety_unstable_bytes16_n32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes16_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 130,
++    "root": "network::dispatch_safety_unstable_bytes17_n32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes17_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 131,
++    "root": "network::dispatch_safety_unstable_bytes86_n0_1_2_15_16",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_bytes86_n0_1_2_15_16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 132,
++    "root": "network::dispatch_safety_unstable_u8_n18_31_32",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_u8_n18_31_32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 133,
++    "root": "network::dispatch_safety_unstable_u8_n8_9_12_13_17",
++    "selector": "slice::sort::shared::smallsort::verify::network::dispatch_safety_unstable_u8_n8_9_12_13_17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 134,
++    "root": "network::insert_tail_contract_u64_start1_tail13_to14",
++    "selector": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail13_to14",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 135,
++    "root": "network::insert_tail_contract_u64_start1_tail15_to16",
++    "selector": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail15_to16",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 136,
++    "root": "network::insert_tail_contract_u64_start1_tail2_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail2_to8",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 137,
++    "root": "network::insert_tail_contract_u64_start1_tail9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insert_tail_contract_u64_start1_tail9_to12",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 138,
++    "root": "network::insertion_permutation_u64_n10",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n10",
++    "shard": 2,
++    "class": "insertion_count",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 139,
++    "root": "network::insertion_permutation_u64_n14",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u64_n14",
++    "shard": 2,
++    "class": "insertion_count",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 140,
++    "root": "network::insertion_permutation_u8_n10",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n10",
++    "shard": 2,
++    "class": "insertion_count",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 141,
++    "root": "network::insertion_permutation_u8_n11",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n11",
++    "shard": 2,
++    "class": "insertion_count",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 142,
++    "root": "network::insertion_permutation_u8_n14",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_permutation_u8_n14",
++    "shard": 2,
++    "class": "insertion_count",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 143,
++    "root": "network::insertion_safety_u64_n11_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n11_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 144,
++    "root": "network::insertion_safety_u64_n13",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n13",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 145,
++    "root": "network::insertion_safety_u64_n14",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n14",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 146,
++    "root": "network::insertion_safety_u64_n15_offsets13_to15",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets13_to15",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 147,
++    "root": "network::insertion_safety_u64_n15_offsets1_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets1_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 148,
++    "root": "network::insertion_safety_u64_n15_offsets5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 149,
++    "root": "network::insertion_safety_u64_n15_offsets9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n15_offsets9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 150,
++    "root": "network::insertion_safety_u64_n16_offsets13_to16",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets13_to16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 151,
++    "root": "network::insertion_safety_u64_n16_offsets1_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets1_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 152,
++    "root": "network::insertion_safety_u64_n16_offsets5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 153,
++    "root": "network::insertion_safety_u64_n16_offsets9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n16_offsets9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 154,
++    "root": "network::insertion_safety_u64_n17_offsets13_to15",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets13_to15",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 155,
++    "root": "network::insertion_safety_u64_n17_offsets16_to17",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets16_to17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 156,
++    "root": "network::insertion_safety_u64_n17_offsets1_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets1_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 157,
++    "root": "network::insertion_safety_u64_n17_offsets5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 158,
++    "root": "network::insertion_safety_u64_n17_offsets9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n17_offsets9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 159,
++    "root": "network::insertion_safety_u64_n18_offsets13_to16",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets13_to16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 160,
++    "root": "network::insertion_safety_u64_n18_offsets17_to18",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets17_to18",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 161,
++    "root": "network::insertion_safety_u64_n18_offsets1_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets1_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 162,
++    "root": "network::insertion_safety_u64_n18_offsets5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 163,
++    "root": "network::insertion_safety_u64_n18_offsets9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n18_offsets9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 164,
++    "root": "network::insertion_safety_u64_n19_offsets13_to16",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets13_to16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 165,
++    "root": "network::insertion_safety_u64_n19_offsets17_to19",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets17_to19",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 166,
++    "root": "network::insertion_safety_u64_n19_offsets1_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets1_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 167,
++    "root": "network::insertion_safety_u64_n19_offsets5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 168,
++    "root": "network::insertion_safety_u64_n19_offsets9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n19_offsets9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 169,
++    "root": "network::insertion_safety_u64_n1_to5",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n1_to5",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 170,
++    "root": "network::insertion_safety_u64_n20_offsets13_to16",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets13_to16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 171,
++    "root": "network::insertion_safety_u64_n20_offsets17_to20",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets17_to20",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 172,
++    "root": "network::insertion_safety_u64_n20_offsets1_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets1_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 173,
++    "root": "network::insertion_safety_u64_n20_offsets5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 174,
++    "root": "network::insertion_safety_u64_n20_offsets9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n20_offsets9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 175,
++    "root": "network::insertion_safety_u64_n6_to10",
++    "selector": "slice::sort::shared::smallsort::verify::network::insertion_safety_u64_n6_to10",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 176,
++    "root": "network::mutating_insertion_safety_cell_n1_to5",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n1_to5",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 177,
++    "root": "network::mutating_insertion_safety_cell_n20_offsets13_to16",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets13_to16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 178,
++    "root": "network::mutating_insertion_safety_cell_n20_offsets17_to20",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets17_to20",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 179,
++    "root": "network::mutating_insertion_safety_cell_n20_offsets1_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets1_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 180,
++    "root": "network::mutating_insertion_safety_cell_n20_offsets5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 181,
++    "root": "network::mutating_insertion_safety_cell_n20_offsets9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_insertion_safety_cell_n20_offsets9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 182,
++    "root": "network::mutating_route_permutation_cell_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n2",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 183,
++    "root": "network::mutating_route_permutation_cell_n3",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n3",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 184,
++    "root": "network::mutating_route_permutation_cell_n4",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_route_permutation_cell_n4",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 185,
++    "root": "network::mutating_route_safety_cell_n0_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n0_to4",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 186,
++    "root": "network::mutating_route_safety_cell_n13_to16",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n13_to16",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 187,
++    "root": "network::mutating_route_safety_cell_n5_to8",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n5_to8",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 188,
++    "root": "network::mutating_route_safety_cell_n9_to12",
++    "selector": "slice::sort::shared::smallsort::verify::network::mutating_route_safety_cell_n9_to12",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 189,
++    "root": "network::network_correctness_u64_n0_to2",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n0_to2",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 190,
++    "root": "network::network_correctness_u64_n3_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n3_to4",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 191,
++    "root": "network::network_correctness_u64_n5",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n5",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 192,
++    "root": "network::network_correctness_u64_n6",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n6",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 193,
++    "root": "network::network_correctness_u64_n7",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n7",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 194,
++    "root": "network::network_correctness_u64_n9",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u64_n9",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 195,
++    "root": "network::network_correctness_u8_n0_to2",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n0_to2",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 196,
++    "root": "network::network_correctness_u8_n10",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n10",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 197,
++    "root": "network::network_correctness_u8_n11",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n11",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 198,
++    "root": "network::network_correctness_u8_n12",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n12",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 199,
++    "root": "network::network_correctness_u8_n13",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n13",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 200,
++    "root": "network::network_correctness_u8_n3_to4",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n3_to4",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 201,
++    "root": "network::network_correctness_u8_n5",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n5",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 202,
++    "root": "network::network_correctness_u8_n6",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n6",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 203,
++    "root": "network::network_correctness_u8_n7",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n7",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 204,
++    "root": "network::network_correctness_u8_n9",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_correctness_u8_n9",
++    "shard": 2,
++    "class": "network_order",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 205,
++    "root": "network::network_safety_unstable_u64_n0_to17",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n0_to17",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 206,
++    "root": "network::network_safety_unstable_u64_n30",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n30",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 207,
++    "root": "network::network_safety_unstable_u64_n31",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n31",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 208,
++    "root": "network::network_safety_unstable_u64_n32",
++    "selector": "slice::sort::shared::smallsort::verify::network::network_safety_unstable_u64_n32",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 209,
++    "root": "network::swap_contract_bytes16_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_bytes16_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 210,
++    "root": "network::swap_contract_bytes17_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_bytes17_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 211,
++    "root": "network::swap_contract_cell_i32_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_cell_i32_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 212,
++    "root": "network::swap_contract_drop_u8_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_drop_u8_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 213,
++    "root": "network::swap_contract_four_positions_i32",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_i32",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 214,
++    "root": "network::swap_contract_four_positions_u64",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u64",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 215,
++    "root": "network::swap_contract_four_positions_u8",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_four_positions_u8",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 216,
++    "root": "network::swap_contract_u64_indices_n17",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_u64_indices_n17",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 217,
++    "root": "network::swap_contract_u64_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_u64_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 218,
++    "root": "network::swap_contract_u64_n9",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_u64_n9",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 219,
++    "root": "network::swap_contract_u8_indices_n17",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_indices_n17",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 220,
++    "root": "network::swap_contract_u8_n13",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n13",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 221,
++    "root": "network::swap_contract_u8_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n2",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 222,
++    "root": "network::swap_contract_u8_n9",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_contract_u8_n9",
++    "shard": 4,
++    "class": "profile_pfc",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 223,
++    "root": "network::swap_same_position_u8",
++    "selector": "slice::sort::shared::smallsort::verify::network::swap_same_position_u8",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 224,
++    "root": "network::unstable_freeze_noncopy_bytes86_fallback_n2",
++    "selector": "slice::sort::shared::smallsort::verify::network::unstable_freeze_noncopy_bytes86_fallback_n2",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 225,
++    "root": "scratch_geometry::stable_u64_min_scratch_n2",
++    "selector": "slice::sort::shared::smallsort::verify::scratch_geometry::stable_u64_min_scratch_n2",
++    "shard": 2,
++    "class": "safety",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 226,
++    "root": "smoke::predicate_efficient_swap_type_matrix",
++    "selector": "slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
++    "shard": 2,
++    "class": "helpers",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 227,
++    "root": "tag_permutation::network_u8_n13",
++    "selector": "slice::sort::shared::smallsort::verify::tag_permutation::network_u8_n13",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 228,
++    "root": "tag_permutation::network_u8_n9",
++    "selector": "slice::sort::shared::smallsort::verify::tag_permutation::network_u8_n9",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 229,
++    "root": "tag_permutation::tag_types_preserve_source_routes",
++    "selector": "slice::sort::shared::smallsort::verify::tag_permutation::tag_types_preserve_source_routes",
++    "shard": 2,
++    "class": "drop_tag",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 230,
++    "root": "types::sorted_permutation_traits_fallback_cell_u8_n0_to2",
++    "selector": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n0_to2",
++    "shard": 2,
++    "class": "logical_traits",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 231,
++    "root": "types::sorted_permutation_traits_fallback_cell_u8_n7",
++    "selector": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_fallback_cell_u8_n7",
++    "shard": 2,
++    "class": "logical_traits",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 232,
++    "root": "types::sorted_permutation_traits_general_drop_u8_n0_to2",
++    "selector": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n0_to2",
++    "shard": 2,
++    "class": "logical_traits",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 233,
++    "root": "types::sorted_permutation_traits_general_drop_u8_n8",
++    "selector": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_general_drop_u8_n8",
++    "shard": 2,
++    "class": "logical_traits",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 234,
++    "root": "types::sorted_permutation_traits_stable_fallback_cell_u8_n8",
++    "selector": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_stable_fallback_cell_u8_n8",
++    "shard": 2,
++    "class": "logical_traits",
++    "intended_invalid_value": false
++  },
++  {
++    "id": 235,
++    "root": "types::sorted_permutation_traits_unstable_fallback_cell_u8_n8",
++    "selector": "slice::sort::shared::smallsort::verify::types::sorted_permutation_traits_unstable_fallback_cell_u8_n8",
++    "shard": 2,
++    "class": "logical_traits",
++    "intended_invalid_value": false
++  }
++]
+diff --git a/scripts/ch8-b-census/static_check.py b/scripts/ch8-b-census/static_check.py
+new file mode 100644
+index 000000000..22d598be3
+--- /dev/null
++++ b/scripts/ch8-b-census/static_check.py
+@@ -0,0 +1,71 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Offline YAML/identity checks; PyYAML and actionlint are static tooling only."""
++import ast
++import hashlib
++import json
++from pathlib import Path
++import re
++import yaml
++import census
++
++ROOT=Path(__file__).resolve().parents[2]
++WORKFLOW=ROOT/'.github/workflows/ch8-b-census.yml'
++req,roots=census.load()
++w=yaml.safe_load(WORKFLOW.read_text())
++assert w['on']=={'push':{'branches':['uninit-ci/ch8-b-census-*']}}
++assert w['permissions']=={'contents':'read'}
++class Loader(yaml.SafeLoader):
++    pass
++Loader.yaml_implicit_resolvers = {k:[(tag,pattern) for tag,pattern in values if tag!='tag:yaml.org,2002:bool'] for k,values in Loader.yaml_implicit_resolvers.items()}
++import fnmatch
++matched=[]
++for p in (ROOT/'.github/workflows').glob('*.yml'):
++    events=yaml.load(p.read_text(),Loader=Loader).get('on',{})
++    push=events.get('push') if isinstance(events,dict) else None
++    if push is None: continue
++    branches=push.get('branches',['**'])
++    active=False
++    for pattern in branches:
++        if fnmatch.fnmatchcase('uninit-ci/ch8-b-census-example',pattern.lstrip('!')):
++            active=not pattern.startswith('!')
++    if active: matched.append(p.name)
++assert sorted(p.name for p in (ROOT/'.github/workflows').glob('*')) == ['ch8-b-census.yml']
++assert matched==['ch8-b-census.yml'], 'extra workflow push triggers: '+repr(matched)
++job=w['jobs']['census']
++assert job['timeout-minutes']==req['job_minutes']==210
++assert job['runs-on']==req['os']
++assert job['strategy']=={'fail-fast':False,'max-parallel':1,'matrix':{'shard':[2,4]}}
++steps=job['steps']
++for step in steps:
++    if step.get('uses','').startswith('actions/checkout@'):
++        assert step['with']['fetch-depth']>=2
++        assert step['with']['persist-credentials'] is False
++    for key,value in step.items():
++        if key!='env':
++            assert 'runner.' not in json.dumps(value), 'runner.* outside step env'
++    if 'run' in step:
++        # Parse every embedded Python heredoc as Python, independent of indentation.
++        match=re.search(r"python3 - <<'PYCODE'\n(.*?)\nPYCODE",step['run'],re.S)
++        if match: ast.parse(match.group(1))
++assert [s['with']['path'] for s in steps if s.get('uses','').startswith('actions/checkout@')]==['control','export','std']
++assert next(s for s in steps if s.get('uses')=='./export/.github/actions/setup')['with']['kani_dir']=='export'
++assert not any(p.exists() for p in (ROOT/'control',ROOT/'export',ROOT/'std')), 'nested workspace'
++for p in census.HERE.glob('*.py'): ast.parse(p.read_text())
++# Protocol upper bound; two writers cannot exceed it even at the per-root export cap.
++assert 235*(req['export_cap_bytes']+32768)+1024**2 < req['artifact_cap_bytes']
++result = ({'status':'PASS','roots':235,'shards':req['inventory']['shards'],
++    'checks':['YAML parse','runner context','checkout depth','trigger','cwd prefixes','no nested workspace','Python AST','artifact envelope'],
++    'workflow_sha256':hashlib.sha256(WORKFLOW.read_bytes()).hexdigest()})
++
++by_path={s['with']['path']:s['with'] for s in steps if s.get('uses','').startswith('actions/checkout@')}
++assert by_path['std']['ref']==req['std']['sha']
++assert by_path['export']['ref']==req['kani']['sha']
++assert by_path['export']['repository']==req['kani']['repository']=='model-checking/kani'
++assert req['root_seconds']==600 and req['root_rss_bytes']==6*1024**3
++# Only direct selected verification and bounded build are invocation entry points.
++tree=ast.parse((census.HERE/'census.py').read_text())
++assert not any(isinstance(n,ast.Constant) and n.value in ('list','metrics','run-kani.sh') for n in ast.walk(tree))
++assert census.argv_for(req,roots[0],Path('/tool/scripts/kani'),Path('/target'),Path('/export.json'))[1]=='verify-std'
++
++print(json.dumps(result))
+diff --git a/scripts/ch8-b-census/test_census.py b/scripts/ch8-b-census/test_census.py
+new file mode 100644
+index 000000000..67db336de
+--- /dev/null
++++ b/scripts/ch8-b-census/test_census.py
+@@ -0,0 +1,184 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Isolated synthetic service tests. Never invokes a compiler or verifier."""
++import copy
++import json
++import os
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++from unittest.mock import patch
++import census as c
++
++
++class CensusTests(unittest.TestCase):
++    def setUp(self):
++        self.req, roots = c.load()
++        self.row = roots[0]
++        self.execution = {'exit':0, 'stop':None}
++        self.data = dict(schema_version='0.1.0', kani_commit=c.KANI, kani_commit_dirty=False,
++            target=self.req['target'], run_state='COMPLETE', outcome={'kind':'COMPLETED'},
++            enabled_unstable_features=sorted(self.req['organizer_features']+['unstable-options','valid-value-checks','export-json']),
++            configuration={'checks':dict(memory_safety=True,overflow=True,unwinding=True,undefined_function=True,
++                assertion_reach_checks=True,ignore_global_asm=False,extra_pointer_checks=False,assert_contracts=False,prove_safety_only=False),
++                'cbmc_args':['--object-bits','12'],'coverage_enabled':False},
++            harness_selection=dict(requested_filters=[self.row['selector']],exact=True,unmatched_filters=[],matched_count=1),
++            harnesses=[dict(name=self.row['selector'],crate_name='core',is_automatically_generated=False,
++                outcome={'kind':'COMPLETED','verdict':'SUCCESS'},n_properties=2,n_failed=0,failed_properties=[],unsupported_constructs=[],
++                checks=dict(total=1,success=1,failure=[],unreachable=[],undetermined=[],error=[],unknown=[],other=[]),
++                covers=dict(total=1,satisfied=['read-cover'],unsatisfiable=[],unreachable=[],undetermined=[],error=[],unknown=[],other=[]))])
++
++    def classify(self):
++        return c.classify(self.data,self.row,self.execution,self.req)
++
++    def fail(self,desc,cls='unsupported_construct'):
++        h=self.data['harnesses'][0]
++        p=dict(id='p.1',description=desc,**{'class':cls},status='FAILURE')
++        h.update(outcome={'kind':'COMPLETED','verdict':'FAILURE'},n_failed=1,failed_properties=[p],unsupported_constructs=[p] if cls=='unsupported_construct' else [])
++        h['checks'].update(success=0,failure=['p.1'])
++        self.execution['exit']=1
++
++    def test_pass_preserves_checks_and_reads(self):
++        out=self.classify()
++        self.assertEqual(out['classification'],'PASS')
++        self.assertEqual(out['harness']['covers']['satisfied'],['read-cover'])
++
++    def test_unsupported_families(self):
++        for text,expected in [('copy_nonoverlapping','copy Unsupported'),('mutable cast','casts'),('transmute','other Unsupported')]:
++            self.fail("Kani currently doesn't support checking validity of `"+text+"` for `u8`")
++            self.assertEqual(self.classify()['classification'],expected)
++
++    def test_intent_is_explicit_not_inferred(self):
++        self.fail('Undefined Behavior: Invalid value of type `bool`','assertion')
++        self.assertEqual(self.classify()['classification'],c.CATCHALL)
++        self.assertFalse(self.classify()['complete'])
++        self.row=dict(self.row,intended_invalid_value=True)
++        self.assertEqual(self.classify()['classification'],'intended invalid-value failure')
++
++    def test_partial_timeout_crash_null_wrong_type_not_run(self):
++        original=copy.deepcopy(self.data)
++        for value in [None,[],{},'SUCCESS',False]:
++            self.assertFalse(c.classify(value,self.row,self.execution,self.req)['complete'])
++        mutations=[('run_state','PARTIAL'),('run_state','INCOMPLETE'),('run_state','NOT_RUN'),('harnesses',None),('harnesses',[])]
++        for k,v in mutations:
++            self.data=copy.deepcopy(original); self.data[k]=v
++            self.assertFalse(self.classify()['complete'])
++        self.data=copy.deepcopy(original)
++        self.data['harnesses'][0]['outcome']={'kind':'TIMEOUT'}
++        self.assertFalse(self.classify()['complete'])
++        self.data['harnesses'][0]['outcome']={'kind':'CRASHED','code':-9}
++        self.assertFalse(self.classify()['complete'])
++
++    def test_source_stage_target_selection_flags_mismatch(self):
++        original=copy.deepcopy(self.data)
++        for k,v in [('kani_commit','0'*40),('kani_commit_dirty',True),('target','other'),('schema_version','future')]:
++            self.data=copy.deepcopy(original); self.data[k]=v
++            self.assertFalse(self.classify()['complete'])
++        for path,value in [('matched_count',0),('exact',False),('requested_filters',['wrong']),('unmatched_filters',['wrong'])]:
++            self.data=copy.deepcopy(original); self.data['harness_selection'][path]=value
++            self.assertFalse(self.classify()['complete'])
++        self.data=copy.deepcopy(original); self.data['enabled_unstable_features'].append('uninit-checks')
++        self.assertFalse(self.classify()['complete'])
++        self.data=copy.deepcopy(original); self.data['configuration']['checks']['unwinding']=False
++        self.assertFalse(self.classify()['complete'])
++        self.data=copy.deepcopy(original); self.data['harnesses'][0]['is_automatically_generated']=True
++        self.assertFalse(self.classify()['complete'])
++
++    def test_checks_and_exit_disagreement(self):
++        self.execution['exit']=1
++        self.assertFalse(self.classify()['complete'])
++        self.execution['exit']=0; self.execution['stop']='OUTPUT_LIMIT'
++        self.assertFalse(self.classify()['complete'])
++        self.execution['stop']=None; self.data['harnesses'][0]['checks']['total']=20
++        self.assertFalse(self.classify()['complete'])
++
++    def test_malformed_buckets_and_boolean_numbers_cannot_pass(self):
++        original=copy.deepcopy(self.data)
++        for group,fields in [('checks',['failure','unreachable','undetermined','error','unknown','other']),('covers',['satisfied','unsatisfiable','unreachable','undetermined','error','unknown','other'])]:
++            for key in fields:
++                for value in ['',None,{},0,False]:
++                    self.data=copy.deepcopy(original)
++                    h=self.data['harnesses'][0]
++                    h[group][key]=value
++                    if group=='covers':
++                        h['covers']['total']=0; h['n_properties']=1
++                    result=self.classify()
++                    self.assertFalse(result['complete'],(group,key,value))
++        for key in original['configuration']['checks']:
++            self.data=copy.deepcopy(original)
++            self.data['configuration']['checks'][key]=int(self.data['configuration']['checks'][key])
++            self.assertFalse(self.classify()['complete'],key)
++        self.data=copy.deepcopy(original); self.data['harness_selection']['matched_count']=True
++        self.assertFalse(self.classify()['complete'])
++        self.data=copy.deepcopy(original); self.data['harnesses'][0]['n_properties']=True
++        self.assertFalse(self.classify()['complete'])
++
++    def test_observed_unsupported_survives_unknown_checks(self):
++        self.fail("Kani currently doesn't support checking validity of `copy_nonoverlapping` for `u8`")
++        h=self.data['harnesses'][0]
++        h['checks']['unknown']=['p.2']; h['checks']['total']+=1; h['n_properties']+=1
++        result=self.classify()
++        self.assertEqual(result['classification'],'copy Unsupported')
++        self.assertFalse(result['complete'])
++        self.assertEqual(result['harness']['checks']['unknown'],['p.2'])
++        self.assertEqual(len(result['harness']['failed_properties']),1)
++
++    def test_binary_hash_snapshot_detects_changes_and_missing(self):
++        with tempfile.TemporaryDirectory() as td:
++            root=Path(td); folder=root/'target/kani/bin'; folder.mkdir(parents=True)
++            with self.assertRaises(AssertionError): c.binary_hashes(root)
++            exe=folder/'kani-driver'; exe.write_bytes(b'fixture-v1')
++            first=c.binary_hashes(root)
++            self.assertEqual(first,c.binary_hashes(root))
++            exe.write_bytes(b'fixture-v2')
++            self.assertNotEqual(first,c.binary_hashes(root))
++
++    def test_missing_receipt_fallback_and_partial(self):
++        with tempfile.TemporaryDirectory() as td:
++            out=Path(td)
++            result=c.finalize(out,[self.row],'success')
++            self.assertEqual(result['status'],'PARTIAL')
++            self.assertEqual(result['counts'],{c.CATCHALL:1})
++            self.assertEqual(json.loads(next(out.glob('root-*.json')).read_text())['runtime_proof_status'],'NOT_RUN')
++
++    def test_guard_original_exits_exception_timeout_output_rss(self):
++        req=dict(self.req,stdout_cap_bytes=1024)
++        with tempfile.TemporaryDirectory() as td:
++            run=lambda code, seconds=2: c.guarded([sys.executable,'-c',code],Path(td),seconds,req)
++            self.assertEqual(run('raise SystemExit(7)')['exit'],7)
++            self.assertEqual(run('print("success")')['exit'],0)
++            timed=run('import time; time.sleep(3)',.05)
++            self.assertEqual(timed['stop'],'TIMEOUT'); self.assertEqual(timed['signal'],9)
++            self.assertEqual(run('print("x"*2048)')['stop'],'OUTPUT_LIMIT')
++            with patch.object(c,'rss_groups',side_effect=lambda groups:{p:7*1024**3 for p in groups}):
++                self.assertEqual(run('import time; time.sleep(3)')['stop'],'RSS_LIMIT')
++            failed=c.guarded(['/does-not-exist'],Path(td),1,req)
++            self.assertEqual(failed['stop'],'SPAWN_ERROR'); self.assertIsNone(failed['exit'])
++            self.assertIsNotNone(failed['exception'])
++
++    def test_pprime_and_no_inventory_phase(self):
++        import ast
++        self.assertEqual(c.STD, 'c5ff36ff433692140605891f646043f991db05de')
++        self.assertEqual(self.req['std']['tree'], '1302063846873aa300f8bac64fe09e8a3ed1280f')
++        self.assertEqual(self.req['kani']['repository'], 'model-checking/kani')
++        tree = ast.parse(Path(c.__file__).read_text())
++        literals = [n.value for n in ast.walk(tree) if isinstance(n, ast.Constant) and isinstance(n.value, str)]
++        self.assertFalse(set(literals) & {'list', 'metrics', 'run-kani.sh'})
++        argv = c.argv_for(self.req, self.row, Path('/tool/scripts/kani'), Path('/target'), Path('/out'))
++        self.assertEqual(argv[1], 'verify-std')
++        self.assertEqual(argv[argv.index('--harness') + 1], self.row['selector'])
++        self.assertIn('--exact', argv)
++
++    def test_argv_has_only_frozen_semantics_and_no_cfg(self):
++        argv=c.argv_for(self.req,self.row,Path('/export/scripts/kani'),Path('/target'),Path('/out.json'))
++        self.assertEqual(argv[-3:],['--cbmc-args','--object-bits','12'])
++        self.assertNotIn('--default-unwind',argv)
++        self.assertNotIn('autoharness',argv)
++        with patch.dict(os.environ,{'RUSTFLAGS':'--cfg kani_smallsort_controls','KANI_FLAGS':'bad','CARGO_ENCODED_RUSTFLAGS':'bad'}):
++            env=c.clean_env()
++            self.assertNotIn('RUSTFLAGS',env); self.assertNotIn('KANI_FLAGS',env)
++
++
++if __name__=='__main__':
++    unittest.main()

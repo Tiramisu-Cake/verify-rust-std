@@ -1,0 +1,33 @@
+{
+  "status": "PASS_STATIC_ONLY",
+  "control_sha": "4d7e34383a3af504a261228fdee59e6c7093e633",
+  "control_tree": "18796b2baeee695aa180c4f8e83da2009f179df6",
+  "synthetic_tests": {
+    "passed": 13,
+    "original_retained": 12,
+    "uses": "Only isolated Python subprocesses and temporary fixtures; no compiler/verifier"
+  },
+  "source_audit": {
+    "roots": 235,
+    "byte_identical_files": 16,
+    "renamed_roots": 0,
+    "changed_modules": 0
+  },
+  "checks": {
+    "static_check.py": "PASS",
+    "actionlint": "PASS (/tmp/kani3300-d0-ci-tools/actionlint -shellcheck= .github/workflows/ch8-b-census.yml)",
+    "git diff --check": "PASS",
+    "pprime/validate.py": "PASS",
+    "runner_delta_vs_previous_B": "Only STD constant; classification/receipts/caps byte-identical"
+  },
+  "manifest_sha256": "7dee264da4c0afecb75e55b962520a1f14d5ef569a9bd1ca51ad70d206f78a85",
+  "global_inventory": "NONE",
+  "runtime": "ALL_235_NOT_RUN",
+  "proof_credit": "NONE",
+  "accounting": {
+    "dispatches": 0,
+    "pushes": 0,
+    "local_builds": 0,
+    "ledger_writes": 0
+  }
+}

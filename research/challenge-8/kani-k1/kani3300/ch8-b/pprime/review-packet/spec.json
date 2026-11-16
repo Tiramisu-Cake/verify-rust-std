@@ -1,0 +1,22 @@
+{
+  "applicability": "One stage TASK-CH8-B-PPRIME-W14; preparation only. Compare previous B candidate 5ee153ec2b22f1f7a0e174a985369b2280d8d296 for delta. No nested delegation. No local cargo/rustc/Kani/CBMC.",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "44f528237653b986ae3dcc44e682dc21e6a6eb03",
+  "controls": [
+    "13 synthetic tests, static_check.py, actionlint and diff check; no actual compiler. Source audit and unchanged manifest available at /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-b/pprime"
+  ],
+  "defect": "B census used std872d incompatible with stock0aac; rebase to P-prime and isolated kani-host workflow with separate pristine tool checkout. Assess source/manifest binding and absence of global inventory.",
+  "dependencies": [],
+  "invariants": [
+    "All235 roots byte-identical and historical shards183/52, organizer flags plus valid-value-checks, exact selectors.",
+    "P-prime c5ff36ff source with pristine model-checking/kani0aac; code changes only in host workflow and B scripts.",
+    "Keep600s/root6GiB, existing stage/job caps, strict export classifier and all12 original tests.",
+    "No list phase; directly selected verify-std, no stock run-kani.sh. Receipt/unknown semantics unchanged."
+  ],
+  "known_limitations": [
+    "Static package only; runtime235 NOT_RUN; no proof credit."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-b-pprime-w14"
+}
