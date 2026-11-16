@@ -49,8 +49,9 @@ property for captured comparisons». Единственный failure — exact 
 Manifest placeholder, historical outcome и descriptions не переписаны, произвольный
 FAILURE не принимается. Подробная связь и ограничения — BINDING.md.
 
-20 targeted synthetic tests PASS. Offline replay на pinned ZIP даёт 62/62;
-независимое review фиксируется отдельным REVIEW.json после проверки candidate.
+20 targeted synthetic tests и 56 unchanged v2/v3 tests PASS. Независимое Luna HIGH
+review GO (REVIEW.json): reviewer повторил offline replay, ACCEPT.json совпал
+побайтно, SHA256 `969ca037f9dd7fac67cc337efb92117e4bafb744128422cea841636936722911`.
 Новый runner/export не требуется для текущего policy scope; желаемое компактное
 расширение следующего export перечислено в BINDING.md. CI сейчас не запускался.
 

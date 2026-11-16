@@ -1,0 +1,41 @@
+{
+  "baseline_commit": "57ff2242017bf6356f78245d92d871e2534c2c7d",
+  "candidate_commit": "4f22d7199e11171e5c32b43c617d46c5ced244ec",
+  "checks": [
+    "Exact target/profile full instance versus raw metadata symbol and two same-row DFCC properties",
+    "Pinned checked_with -> modifies_wrapper -> exported contract -> one enforce-contract source chain",
+    "Source clause/function/location ownership; PFC assumes requires/asserts ensures; Replace dual roles",
+    "Macro cover literal/template/invocation mapping, including merge ID1->length4 and ID3->length2",
+    "Predeclared captured-counter frame oracle and sole named assigns failure",
+    "Consumers evaluated after accepted exact-instance matching leaves"
+  ],
+  "findings": [],
+  "independent_replay": {
+    "bound": 43,
+    "byte_equal": true,
+    "negative": 9,
+    "pending": 0,
+    "positive": 53,
+    "result": "PASS",
+    "reviewer_output": "/tmp/accept-v4-reviewer-replay.json",
+    "rows": 62,
+    "sha256": "969ca037f9dd7fac67cc337efb92117e4bafb744128422cea841636936722911",
+    "unknown": 0
+  },
+  "model": "gpt-6-luna",
+  "nested_delegation": false,
+  "packet_sha256": "3573b1a3b4f2dc91b4dc9095aa707ec87db74c5bf81495ce8e88bf2c88d9a70a",
+  "prohibited_actions_executed": false,
+  "proof_credit": "NONE",
+  "reasoning_effort": "high",
+  "record_assurance": "Root records the independent reviewer delivered tool message; reviewer did not write this JSON.",
+  "reviewer": "/root/acceptance_review",
+  "schema": "ch8-prof-off-accept-v4-independent-review-v1",
+  "scope": "Bounded source-reported policy admission; 19 reviewed v3 carry-forwards, 43 newly bound observations. No independent MIR/object binding, compiler correctness or B2 proof.",
+  "spec_sha256": "d22c9dc69f3bc8c31162e620998d329f8dbdb579a51cead98e6c6d26b24922d8",
+  "tests": {
+    "python_unit_tests": 20,
+    "result": "PASS"
+  },
+  "verdict": "GO"
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-g0",
+  "baseline_commit": "57ff2242017bf6356f78245d92d871e2534c2c7d",
+  "candidate_commit": "4f22d7199e11171e5c32b43c617d46c5ced244ec",
+  "defect": "Assigned acceptance-v4: establish exact PFC/Replace contract-wrapper specialization, cover reach and predeclared frame negative binding without CI.",
+  "applicability": "Five source-only files committed; generated ACCEPT.json remains untracked to avoid packet size limit. Independently replay supplied existing ZIP and compare generated file byte-for-byte. Inspect all new admissions and bounded assurance without relying on author conclusions. Prior v3 ACCEPT.json (SHA256 947e1bb9c615d61007fc97ada6a732c098fd69c5d9085268fe5310999b0d4396) is also excluded from packet due tool 1MiB per-git-output limit; verify via filesystem/hash.",
+  "invariants": [
+    "Do not execute cargo/rustc/Kani/CBMC or dispatch/push/download; no ledger writes. No nested delegation.",
+    "Retain prior policy gates and historical data; source-reported bounded admission only, independent proof credit NONE.",
+    "Closure ordinals/demangling do not by themselves establish semantic role. Keep check versus modifies versus replace distinctions."
+  ],
+  "controls": [
+    "Check target/profile full paths, metadata raw symbol and DFCC property descriptions/Locations; source macro/compiler/driver chain at exact pins.",
+    "Check postconditions by clause/site rather than ordinal, PFC requires assumptions versus Replace assertions, consumers after accepted exact-instance matching leaves.",
+    "Assess frame oracle predeclared criterion and sole failure class/site/contract relation; reject retrospective selection or unsupported independent-credit claims.",
+    "Inspect macro cover location and literal binding, especially observed merge lengths2/4 versus prior lexical mapping.",
+    "Run 20 isolated unit tests and independent offline replay; mutation tests should fail closed."
+  ],
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-CH8-PROF-OFF-ACCEPT4-W11.md",
+    "research/challenge-8/kani-k1/ACCEPTANCE-POLICY-BATCH.md",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/SOURCE-MAP.json",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v3/classifier_v3.py"
+  ],
+  "known_limitations": [
+    "Existing v3 19 accepted observations are hash-pinned carry-forward, not independently re-proved.",
+    "No independent MIR/codegen/trace pointer object identity; assess whether same-run property binding meets accepted policy scope.",
+    "Artifact ZIP outside repo: /tmp/ch8-prof-off-intake-w11/artifact.zip; control /root/kani-ch8-prof-off-intake-w11; source /root/verify-rust-std-ch8-profiles-w11."
+  ],
+  "prior_reviews": []
+}

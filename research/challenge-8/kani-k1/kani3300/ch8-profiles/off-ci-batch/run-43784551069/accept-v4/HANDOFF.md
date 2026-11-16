@@ -26,8 +26,10 @@ PYTHONDONTWRITEBYTECODE=1 python3 reclassify_v4.py \
   --output /tmp/accept-v4-reproduced.json
 ```
 
-20 targeted tests PASS; independent review/validation receipts прилагаются после
-проверки candidate. Полный compiler/verifier локально не запускался.
+20 targeted и 56 unchanged v2/v3 tests PASS. Independent Luna HIGH review GO;
+reviewer повторил replay и получил побайтно тот же ACCEPT.json (SHA256
+`969ca037f9dd7fac67cc337efb92117e4bafb744128422cea841636936722911`).
+REVIEW.json / VALIDATION.json и packet metadata фиксируют candidate `4f22d7199e`. Полный compiler/verifier локально не запускался.
 Существующего artifact достаточно для принятой batch policy; предложение следующего
 export не означает необходимость/разрешение нового CI. Одна стадия завершена.
 Push / CI / публикаций / ledger / local cargo-rustc-Kani-CBMC: 0.

@@ -1,0 +1,49 @@
+{
+  "candidate": "4f22d7199e11171e5c32b43c617d46c5ced244ec",
+  "g0_input": "57ff2242017bf6356f78245d92d871e2534c2c7d",
+  "independent_review": {
+    "file": "REVIEW.json",
+    "reviewer_replay_byte_equal": true,
+    "verdict": "GO"
+  },
+  "invariants": {
+    "exact_matching_accepted_consumer_leaf_instances": 5,
+    "historical_files_modified": false,
+    "new_binding_records": 43,
+    "prior_v3_accepted_rows_byte_equivalent_structures": 19,
+    "rows_preserving_check_cover_unsupported_unreachable_oracle_stdout_inventories": 62
+  },
+  "offline_replay": {
+    "accept_sha256": "969ca037f9dd7fac67cc337efb92117e4bafb744128422cea841636936722911",
+    "negative": 9,
+    "positive": 53,
+    "result": "PASS",
+    "rows": 62,
+    "statuses": {
+      "ACCEPTED": 62
+    }
+  },
+  "prohibited_actions": {
+    "ci": 0,
+    "ledger_writes": 0,
+    "local_compiler_verifier": 0,
+    "publications": 0,
+    "push": 0
+  },
+  "proof_credit": "NONE",
+  "schema": "ch8-prof-off-accept-v4-validation-v1",
+  "tests": {
+    "unchanged_v2": {
+      "count": 31,
+      "result": "PASS"
+    },
+    "unchanged_v3": {
+      "count": 25,
+      "result": "PASS"
+    },
+    "v4_targeted": {
+      "count": 20,
+      "result": "PASS"
+    }
+  }
+}
