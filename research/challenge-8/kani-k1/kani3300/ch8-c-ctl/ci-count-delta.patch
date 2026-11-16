@@ -1,0 +1,109 @@
+diff --git a/ch8-c-control/CI-REQUEST.json b/ch8-c-control/CI-REQUEST.json
+index b3fbe5692..c49ce5887 100644
+--- a/ch8-c-control/CI-REQUEST.json
++++ b/ch8-c-control/CI-REQUEST.json
+@@ -201,9 +201,9 @@
+   "ci_payload_sha256": {
+     ".github/workflows/ch8-c.yml": "84b468016771483b67094f71dc466866d68ff0c61ab9772722d3e69bc768a5dd",
+     "ch8-c-control/check_package.py": "a89513f3a1e936787892cb4e1fe6b0df7a4dd642f3070e5971204aed17744e07",
+-    "ch8-c-control/runner.py": "d974fa4b393cf5ec4011272790b4964a73b0b58461e8d64d4d42cc70d2fea687",
++    "ch8-c-control/runner.py": "9d68c8d28146aeb1e59211c494d0f3945990d39600e4eea91a05bf68ed426c73",
+     "ch8-c-control/test_package.py": "4ca40f4bb1f96e8bc84e619f9ffc411a8ec4d6d35acf94e78ea2d5c2f1307b5e",
+-    "ch8-c-control/test_runner.py": "3e96aa80a51f7a06d9a35b29820bf299052a586d7366ae22b2624370651dd9cd"
++    "ch8-c-control/test_runner.py": "a78b00555dd07efeb55c00d536396bc73588ef6ad693dfb46cd4d049908c2806"
+   },
+   "flags": {
+     "cli": [
+@@ -235,6 +235,6 @@
+     "max_root_seconds": 600
+   },
+   "payload_manifest": "MANIFEST.sha256",
+-  "payload_manifest_sha256": "7c7a347b93dcf07a16f0037778b359f313c1360f45104a5b456a7dee96a0fd1d",
++  "payload_manifest_sha256": "024d6cf0df0f8b407c093f0ad18a886bd7fc4cc94799264b1e633a2d0c630418",
+   "variants": {}
+ }
+diff --git a/ch8-c-control/MANIFEST.sha256 b/ch8-c-control/MANIFEST.sha256
+index aaa7eb437..da07e482d 100644
+--- a/ch8-c-control/MANIFEST.sha256
++++ b/ch8-c-control/MANIFEST.sha256
+@@ -1,5 +1,5 @@
+ 84b468016771483b67094f71dc466866d68ff0c61ab9772722d3e69bc768a5dd  .github/workflows/ch8-c.yml
+ a89513f3a1e936787892cb4e1fe6b0df7a4dd642f3070e5971204aed17744e07  ch8-c-control/check_package.py
+-d974fa4b393cf5ec4011272790b4964a73b0b58461e8d64d4d42cc70d2fea687  ch8-c-control/runner.py
++9d68c8d28146aeb1e59211c494d0f3945990d39600e4eea91a05bf68ed426c73  ch8-c-control/runner.py
+ 4ca40f4bb1f96e8bc84e619f9ffc411a8ec4d6d35acf94e78ea2d5c2f1307b5e  ch8-c-control/test_package.py
+-3e96aa80a51f7a06d9a35b29820bf299052a586d7366ae22b2624370651dd9cd  ch8-c-control/test_runner.py
++a78b00555dd07efeb55c00d536396bc73588ef6ad693dfb46cd4d049908c2806  ch8-c-control/test_runner.py
+diff --git a/ch8-c-control/runner.py b/ch8-c-control/runner.py
+index adf4629a7..026a617a0 100644
+--- a/ch8-c-control/runner.py
++++ b/ch8-c-control/runner.py
+@@ -385,7 +385,7 @@ def parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BY
+     selection = value.get("harness_selection")
+     if (not isinstance(selection, dict) or selection.get("requested_filters") != [row["selector"]] or
+             selection.get("exact") is not True or selection.get("unmatched_filters") != [] or
+-            selection.get("matched_count") != 1):
++            type(selection.get("matched_count")) is not int or selection.get("matched_count") != 1):
+         return {"state": "WRONG_ROOT_OR_SELECTION", "outcome": "UNKNOWN"}
+     harnesses = value.get("harnesses")
+     if not isinstance(harnesses, list) or len(harnesses) != 1:
+@@ -426,7 +426,10 @@ def parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BY
+     if (not isinstance(enabled_features, list) or not required_features.issubset(set(enabled_features)) or
+             any(feature in enabled_features for feature in ("uninit-checks", "valid-value-checks"))):
+         return {"state": "WRONG_UNSTABLE_FEATURE_SET", "outcome": "UNKNOWN"}
+-    if harness.get("resolved_unwind") != row["unwind"]:
++    resolved_unwind = harness.get("resolved_unwind")
++    if (type(resolved_unwind) is not int or resolved_unwind < 1 or
++            type(row["unwind"]) is not int or row["unwind"] < 1 or
++            resolved_unwind != row["unwind"]):
+         return {"state": "WRONG_UNWIND", "outcome": "UNKNOWN"}
+     reported_tools = value.get("tools")
+     if not isinstance(reported_tools, dict) or any(not isinstance(reported_tools.get(k), str) or not reported_tools[k]
+@@ -440,11 +443,11 @@ def parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BY
+     if not isinstance(failures, list) or not isinstance(unsupported, list):
+         return {"state": "WRONG_EXPORT_SHAPE", "outcome": "UNKNOWN"}
+     bad_fields = ("unreachable", "undetermined", "error", "unknown")
++    count_values = (checks.get("total"), checks.get("success"), covers.get("total"),
++                    harness.get("n_properties"), harness.get("n_failed"))
++    valid_counts = all(type(count) is int and count >= 0 for count in count_values)
+     incomplete = (any(checks.get(key) != [] for key in bad_fields) or
+-                  checks.get("other") != [] or not isinstance(checks.get("total"), int) or
+-                  not isinstance(checks.get("success"), int) or
+-                  type(covers.get("total")) is not int or
+-                  not isinstance(harness.get("n_properties"), int) or
++                  checks.get("other") != [] or not valid_counts or
+                   harness.get("n_properties") != checks["total"] + covers["total"])
+     if unsupported or incomplete:
+         return {"state": "INCOMPLETE_CHECK_INVENTORY", "outcome": "UNKNOWN",
+diff --git a/ch8-c-control/test_runner.py b/ch8-c-control/test_runner.py
+index c61a3e595..35f9913a9 100644
+--- a/ch8-c-control/test_runner.py
++++ b/ch8-c-control/test_runner.py
+@@ -201,6 +201,27 @@ class ExportTests(unittest.TestCase):
+         bad = export(); bad["configuration"]["checks"]["assert_contracts"] = True
+         self.assertEqual(self.parse(bad, contract_binding=binding)["state"], "WRONG_CONFIGURATION")
+ 
++    def test_export_counts_and_selection_are_strict_integers(self):
++        binding = {row()["selector"]: "slice::sort::body"}
++        count_fields = [
++            ("harness", "n_properties"), ("harness", "n_failed"),
++            ("checks", "total"), ("checks", "success"), ("covers", "total")]
++        for group, field in count_fields:
++            for value in (True, -1):
++                payload = export()
++                target = payload["harnesses"][0] if group == "harness" else payload["harnesses"][0][group]
++                target[field] = value
++                with self.subTest(group=group, field=field, value=value):
++                    parsed = self.parse(payload, contract_binding=binding)
++                    self.assertEqual(parsed["outcome"], "UNKNOWN")
++                    self.assertEqual(parsed["state"], "INCOMPLETE_CHECK_INVENTORY")
++        payload = export(); payload["harness_selection"]["matched_count"] = True
++        self.assertEqual(self.parse(payload, contract_binding=binding)["state"], "WRONG_ROOT_OR_SELECTION")
++        for value in (True, -1):
++            payload = export(); payload["harnesses"][0]["resolved_unwind"] = value
++            with self.subTest(resolved_unwind=value):
++                self.assertEqual(self.parse(payload, contract_binding=binding)["state"], "WRONG_UNWIND")
++
+     def test_invalid_export_shapes_and_size(self):
+         with tempfile.TemporaryDirectory() as d:
+             p = Path(d) / "e.json"

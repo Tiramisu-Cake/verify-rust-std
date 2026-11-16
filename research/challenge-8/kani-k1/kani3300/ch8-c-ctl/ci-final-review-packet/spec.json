@@ -1,0 +1,31 @@
+{
+  "applicability": "TASK-CH8-C-CONTROLS-W14.md, design ch8-c-now/CONTROLS-DESIGN.md. Exact std source 56df5b34e4946ceddd231456737e9167a10d666a tree2952c7b664cf04d79de31f865d185362f21f7e3a in /root/verify-rust-std-ch8-c-ctl-w14. Reviewed S1 runner origin control36db70978a16144624abf94d480a593dae684451 in /root/kani-ch8-s1k-w13.",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "7a4f8086e6989dbae10a49b26e83feea8ad34193",
+  "controls": [
+    "Synthetic success/error/timeout/partial/missing/null/wrong-type/NOT_RUN/source-stage-target mismatch; frame classification and alias gap; YAML/actionlint/host/attempt guards."
+  ],
+  "defect": "Reject boolean/negative counts in malformed export and strict numeric matched-count/unwind; bounded follow-up to remaining independent review finding.",
+  "dependencies": [
+    ".github/actions/setup/action.yml",
+    "kani-driver/src/frontend/schema_utils.rs",
+    "kani-driver/src/cbmc_output_parser.rs",
+    "kani-compiler/src/kani_middle/metadata.rs"
+  ],
+  "invariants": [
+    "Only workflows and one control directory change; delete stock workflows; control sole parent tool0aac; preparation skip-ci commit. No push/CI/local Rust/compiler/verifier or ledger.",
+    "Exact std/tool SHA+tree, clean sibling checkouts, cwd path normalization; runner.* expressions step env only; fetch depth>=2; host Tiramisu-Cake/kani push uninit-ci/ch8-c-ctl-* attempt1.",
+    "Caps600/root,6GiB process group,jobs1,job<=60min; absolute setup/proof/reserve envelope; preserve exits/errors/snapshots, NOT_RUN tail and incomplete UNKNOWN.",
+    "PFC target matches expected definition-level target plus list/export agreement; no summaries or source overlays enabled. N1 only assigns/frame-class failures at exact source writes with named description; unrelated failures UNKNOWN. N2 stock PASS ALIAS_GAP, no C PASS.",
+    "Export provides cover IDs without descriptions and no named success records: require complete counts, retain IDs, mapping pending independent runtime review; no manufactured runtime binding or proof credit."
+  ],
+  "known_limitations": [
+    "Static/synthetic-only; 8 proof roots ALL_NOT_RUN. Do not invoke build or any verifier. CI must establish generated wrappers, retained writes and exact source-cover/property correlation.",
+    "Delta from initial reviewed control044b6b0c; final commit sole parent remains tool0aac. Original packet and source review are retained; source unchanged56df5b34.",
+    "Packet baseline uses tool parent because review tool requires ancestry; supplemental ci-delta.patch is exact old-reviewed044b6b0c-to-final delta for bounded follow-up review.",
+    "ci-count-delta.patch compares prior correction e664f9a1 to final7a4f8086; inspect only this delta and final identities, previous semantic review retained."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-c-ctl-w14"
+}

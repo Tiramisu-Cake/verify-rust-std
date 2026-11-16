@@ -1,0 +1,26 @@
+{
+  "applicability": "TASK-CH8-C-CONTROLS-W14.md; isolated A1 exception source branch outside S. Design /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-c-now/CONTROLS-DESIGN.md.",
+  "baseline_commit": "872d5a43380752786415bc00d2a12ce0e930cb37",
+  "candidate_commit": "56df5b34e4946ceddd231456737e9167a10d666a",
+  "controls": [
+    "Eight source roots; review design adherence, geometry, PFC target, references, retained effects, reachability and false-oracle risks."
+  ],
+  "defect": "Implement diagnostic C controls N1/N2/L3/L4 without widening the production C claim.",
+  "dependencies": [
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs"
+  ],
+  "invariants": [
+    "Only one new cfg(kani_smallsort_controls) module and its registration may change; smallsort.rs and all models remain identical to production.",
+    "N1 PFC real bidirectional_merge with dst-only frame, immutable raw capture made before shared source, volatile write then restore followed by live input read; lawful comparator, disjoint initialized geometry.",
+    "N2 PFC outer frame exactly v, real helper and closure, raw alias retained before reborrow; no summaries/counters/local-temporary masking frame; legal companion differs only writes.",
+    "L3 permits separate mutable/Cell storage explicitly in outer frame; L4 executes actual MD/guard graph and legal subsequent reuse, no escaped stale reference.",
+    "No local rustc/Cargo/Kani/CBMC, push, CI, publication, ledger or model changes. All proof states NOT_RUN; stock N2 PASS is ALIAS_GAP, no proof credit."
+  ],
+  "known_limitations": [
+    "Static and synthetic only. Exact generated property IDs, write retention and cover bindings must be established from future CI, never fabricated."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-ch8-c-ctl-w14"
+}

@@ -1,0 +1,78 @@
+{
+  "schema": "ch8-c-ctl-validation-v1",
+  "scope": "Static metadata and isolated synthetic service tests only",
+  "source": {
+    "sha": "56df5b34e4946ceddd231456737e9167a10d666a",
+    "tree": "2952c7b664cf04d79de31f865d185362f21f7e3a",
+    "root_count": 8,
+    "proof_for_contract_roots": 6,
+    "ordinary_roots": 2,
+    "changed_paths": [
+      "library/core/src/slice/sort/shared/smallsort/verify.rs",
+      "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs"
+    ],
+    "git_diff_check": "PASS",
+    "smallsort_and_models": "UNCHANGED",
+    "volatile_write_sites": 4,
+    "summary_and_abort_stubs": "NONE",
+    "independent_source_review": "NO_BLOCKING_FINDINGS"
+  },
+  "prohibited_operations": {
+    "push": "NOT_PERFORMED",
+    "ci": "NOT_PERFORMED",
+    "publications": "NOT_PERFORMED",
+    "ledger": "UNTOUCHED",
+    "local_cargo_rustc_kani_cbmc": "NOT_RUN",
+    "B-01_intake": "NOT_PERFORMED"
+  },
+  "proof": {
+    "all_roots": "NOT_RUN",
+    "retained_write_binding": "UNKNOWN_NOT_RUN",
+    "generated_frame_property_binding": "UNKNOWN_NOT_RUN",
+    "cover_binding": "UNKNOWN_NOT_RUN",
+    "compile": "NOT_RUN",
+    "B1": "NO_NEW_CREDIT",
+    "B2": "NO_NEW_CREDIT",
+    "proof_credit": "NONE"
+  },
+  "ci_candidate": {
+    "sha": "7a4f8086e6989dbae10a49b26e83feea8ad34193",
+    "tree": "2ed1a5a98f5009265405b6a5b52b652aea9e8365",
+    "status": "ACCEPTED_PREPARATION_ONLY",
+    "synthetic_suite": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_runner.py test_package.py",
+      "cwd": "/root/kani-ch8-c-ctl-w14/ch8-c-control",
+      "tests": 18,
+      "result": "PASS",
+      "assurance": "worker and independent reviewer executed isolated Python suite; both 18/18 PASS; no verifier"
+    },
+    "yaml": "PASS",
+    "actionlint": {
+      "command": "/tmp/kani3300-d0-ci-tools/actionlint .github/workflows/ch8-c.yml",
+      "result": "PASS"
+    },
+    "post_commit_control_identity": "PASS",
+    "caps": {
+      "root_seconds": 600,
+      "phase_seconds": 1500,
+      "setup_seconds": 1800,
+      "reserve_seconds": 300,
+      "rss_kib": 6291456,
+      "jobs": 1,
+      "job_minutes": 60,
+      "attempt": 1
+    },
+    "payload_manifest_sha256": "024d6cf0df0f8b407c093f0ad18a886bd7fc4cc94799264b1e633a2d0c630418",
+    "request_sha256": "97bad6162ef2c1b90c5f477c972d2be418524d00e73531c212bbd76a1716c009",
+    "final_manifest_check": "PASS_ALL_7_FILES",
+    "independent_review": "ACCEPTED_ALL_FINDINGS_FIXED"
+  },
+  "integration_corrections": [
+    "Required source cover labels kept separate from exported cover IDs; runtime mapping pending.",
+    "Use exact exported frame class assigns, not dot-prefixed suffix.",
+    "Use 600s/root within shared absolute phase and 60-minute job envelope.",
+    "Include staged stock-workflow deletions in committed changed-path inventory.",
+    "Independent finding: require exact cover total, unique string IDs and strict nonnegative integer counts.",
+    "Independent finding: remove extra runtime actionlint action; retain explicit-path local static actionlint."
+  ]
+}

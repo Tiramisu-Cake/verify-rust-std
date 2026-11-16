@@ -1,0 +1,28 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-c-ctl-w14",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "044b6b0c4ca0247005eacef495f961e64c820405",
+  "defect": "Prepare one diagnostic C control batch on Kani CI host, source isolated outside S; source packet is a separately reviewed connected dependency.",
+  "applicability": "TASK-CH8-C-CONTROLS-W14.md, design ch8-c-now/CONTROLS-DESIGN.md. Exact std source 56df5b34e4946ceddd231456737e9167a10d666a tree2952c7b664cf04d79de31f865d185362f21f7e3a in /root/verify-rust-std-ch8-c-ctl-w14. Reviewed S1 runner origin control36db70978a16144624abf94d480a593dae684451 in /root/kani-ch8-s1k-w13.",
+  "invariants": [
+    "Only workflows and one control directory change; delete stock workflows; control sole parent tool0aac; preparation skip-ci commit. No push/CI/local Rust/compiler/verifier or ledger.",
+    "Exact std/tool SHA+tree, clean sibling checkouts, cwd path normalization; runner.* expressions step env only; fetch depth>=2; host Tiramisu-Cake/kani push uninit-ci/ch8-c-ctl-* attempt1.",
+    "Caps600/root,6GiB process group,jobs1,job<=60min; absolute setup/proof/reserve envelope; preserve exits/errors/snapshots, NOT_RUN tail and incomplete UNKNOWN.",
+    "PFC target matches expected definition-level target plus list/export agreement; no summaries or source overlays enabled. N1 only assigns/frame-class failures at exact source writes with named description; unrelated failures UNKNOWN. N2 stock PASS ALIAS_GAP, no C PASS.",
+    "Export provides cover IDs without descriptions and no named success records: require complete counts, retain IDs, mapping pending independent runtime review; no manufactured runtime binding or proof credit."
+  ],
+  "controls": [
+    "Synthetic success/error/timeout/partial/missing/null/wrong-type/NOT_RUN/source-stage-target mismatch; frame classification and alias gap; YAML/actionlint/host/attempt guards."
+  ],
+  "dependencies": [
+    ".github/actions/setup/action.yml",
+    "kani-driver/src/frontend/schema_utils.rs",
+    "kani-driver/src/cbmc_output_parser.rs",
+    "kani-compiler/src/kani_middle/metadata.rs"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Static/synthetic-only; 8 proof roots ALL_NOT_RUN. Do not invoke build or any verifier. CI must establish generated wrappers, retained writes and exact source-cover/property correlation."
+  ]
+}

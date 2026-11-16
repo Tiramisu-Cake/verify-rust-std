@@ -1,0 +1,44 @@
+# Bounded candidate review packet
+
+Review the exact committed candidate named below.
+This packet is a review handoff only: it grants no proof credit, admission, or authorization.
+
+- Baseline: `0aac16ef62da9e9d5645782d458593e5d78143ba`
+- Candidate: `044b6b0c4ca0247005eacef495f961e64c820405`
+- Candidate tree: `cc24233cd7c31200922c6acf0ce0ee7a8df8d56f`
+- Diff SHA256: `69d6ce3783007dd03b1bff4897a0876a4e870126d2eca7a7af4cb431c6ace13a`
+
+## Defect
+
+Prepare one diagnostic C control batch on Kani CI host, source isolated outside S; source packet is a separately reviewed connected dependency.
+
+## Applicability
+
+TASK-CH8-C-CONTROLS-W14.md, design ch8-c-now/CONTROLS-DESIGN.md. Exact std source 56df5b34e4946ceddd231456737e9167a10d666a tree2952c7b664cf04d79de31f865d185362f21f7e3a in /root/verify-rust-std-ch8-c-ctl-w14. Reviewed S1 runner origin control36db70978a16144624abf94d480a593dae684451 in /root/kani-ch8-s1k-w13.
+
+## Invariants
+- Only workflows and one control directory change; delete stock workflows; control sole parent tool0aac; preparation skip-ci commit. No push/CI/local Rust/compiler/verifier or ledger.
+- Exact std/tool SHA+tree, clean sibling checkouts, cwd path normalization; runner.* expressions step env only; fetch depth>=2; host Tiramisu-Cake/kani push uninit-ci/ch8-c-ctl-* attempt1.
+- Caps600/root,6GiB process group,jobs1,job<=60min; absolute setup/proof/reserve envelope; preserve exits/errors/snapshots, NOT_RUN tail and incomplete UNKNOWN.
+- PFC target matches expected definition-level target plus list/export agreement; no summaries or source overlays enabled. N1 only assigns/frame-class failures at exact source writes with named description; unrelated failures UNKNOWN. N2 stock PASS ALIAS_GAP, no C PASS.
+- Export provides cover IDs without descriptions and no named success records: require complete counts, retain IDs, mapping pending independent runtime review; no manufactured runtime binding or proof credit.
+
+## Required controls
+- Synthetic success/error/timeout/partial/missing/null/wrong-type/NOT_RUN/source-stage-target mismatch; frame classification and alias gap; YAML/actionlint/host/attempt guards.
+
+## Declared dependencies
+- `.github/actions/setup/action.yml` → `dependencies/0000.bin` (mode 100644, SHA256 6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307)
+- `kani-driver/src/frontend/schema_utils.rs` → `dependencies/0001.bin` (mode 100644, SHA256 6cf7b1311b3ebfd6ec1ce61efb1875b33d067fc2a89d2e7d1ccf8bf6995b1a64)
+- `kani-driver/src/cbmc_output_parser.rs` → `dependencies/0002.bin` (mode 100644, SHA256 efdc704e083c0a9b357e6258ef6312669091dca4fbbe102852c94c5e1fd7bfc1)
+- `kani-compiler/src/kani_middle/metadata.rs` → `dependencies/0003.bin` (mode 100644, SHA256 c0253feeab3b326236fff1fbf6be23c5a7b4cd58c118577923ed0a74c10ad36d)
+
+## Scope and limitations
+
+The packet includes the complete baseline-to-candidate Git diff and every changed path. Deleted paths are identified in metadata. Local dirty and untracked files are excluded.
+Start with `metadata.json` and `inventory.json` for the compact scope and identities. Review the listed changed files and declared dependency snapshots, then consult the complete `diff.patch` where needed; the full patch is retained for inspection and need not be read all at once.
+A successful `review check` means only that packet structure and committed inputs match. It is not reviewer approval, a GO decision, evidence validation, or formal verification credit.
+Prior review references are handoff pointers only. A prior decision applies only when its candidate digest and baseline match; dependency changes invalidate it.
+
+- Static/synthetic-only; 8 proof roots ALL_NOT_RUN. Do not invoke build or any verifier. CI must establish generated wrappers, retained writes and exact source-cover/property correlation.
+
+Do not execute source or evidence from this packet. Do not claim new proof credit.

@@ -1,0 +1,259 @@
+{
+  "schema": "ch8-c-ctl-ci-request-v1",
+  "status": "READY_PREPARATION_ONLY",
+  "task": "TASK-CH8-C-CONTROLS-W14.md",
+  "input_g0": "0a57f9f52b184c27bb3c14d86f48a0b5a2401551",
+  "std_repository": "Tiramisu-Cake/verify-rust-std",
+  "std_branch": "work/ch8-c-ctl-w14",
+  "std_sha": "56df5b34e4946ceddd231456737e9167a10d666a",
+  "std_tree": "2952c7b664cf04d79de31f865d185362f21f7e3a",
+  "std_base": "872d5a43380752786415bc00d2a12ce0e930cb37",
+  "std_changed_file_sha256": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "cda65f8214b25d522a3fce607b824e7960e9f1fef999ee350d44e7952cb24a6a",
+    "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs": "c2fb42a47e7c14a630412e5e1cd44d60f524484e265f78b170d230413c0d0f1b"
+  },
+  "control_repository": "Tiramisu-Cake/kani",
+  "control_branch": "uninit-ci/ch8-c-ctl-w14",
+  "control_sha": "7a4f8086e6989dbae10a49b26e83feea8ad34193",
+  "control_tree": "2ed1a5a98f5009265405b6a5b52b652aea9e8365",
+  "control_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_repository": "model-checking/kani",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+  "manifest": "MANIFEST.sha256",
+  "manifest_sha256": "22919d0b64acd2ca012f76dd28e666b0125d702befb89e34b2cf64e3f8a05bd4",
+  "control_request_sha256": "97bad6162ef2c1b90c5f477c972d2be418524d00e73531c212bbd76a1716c009",
+  "runner_reused_from_control": "36db70978a16144624abf94d480a593dae684451",
+  "runner_reuse": "Reviewed S1 runner with bounded C schema/oracle/coverage/target/budget changes; see review packet diff.",
+  "bucket": "C",
+  "planned_dispatch": "C-01",
+  "bucket_cap": "1-2",
+  "attempt": 1,
+  "reservation": "NOT_REGISTERED",
+  "dispatch_authorized": false,
+  "push_performed": false,
+  "ci_performed": false,
+  "committed_skip_ci": true,
+  "row_count": 8,
+  "proof_status": "ALL_NOT_RUN",
+  "proof_credit": "NONE",
+  "caps": {
+    "row_seconds": 600,
+    "rss_bytes": 6442450944,
+    "jobs": 1,
+    "job_minutes": 60
+  },
+  "flags": {
+    "cli": [
+      "--no-assert-contracts",
+      "--jobs=1",
+      "--cbmc-args",
+      "--object-bits",
+      "12"
+    ],
+    "unstable_features": [
+      "function-contracts",
+      "mem-predicates",
+      "float-lib",
+      "c-ffi",
+      "loop-contracts",
+      "quantifiers",
+      "stubbing",
+      "export-json"
+    ],
+    "cfg": [
+      "kani_smallsort_controls"
+    ],
+    "sorting_cfg": false,
+    "assert_contracts": false,
+    "uninit_checks": false,
+    "valid_value_checks": false,
+    "jobs": 1,
+    "attempt": 1,
+    "max_root_seconds": 600
+  },
+  "rows": [
+    {
+      "id": "c_merge_source_write_restore",
+      "selector": "slice::sort::shared::smallsort::verify::c_controls::c_merge_source_write_restore",
+      "mode": "PFC",
+      "variant": "production",
+      "target": "slice::sort::shared::smallsort::bidirectional_merge",
+      "unwind": 8,
+      "expected": "DETECTED",
+      "failure_match": {
+        "description_regex": "^Check that .+ is assignable$",
+        "locations": [
+          {
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs",
+            "line": "23"
+          },
+          {
+            "file": "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs",
+            "line": "25"
+          }
+        ],
+        "class": "assigns"
+      },
+      "required_cover_count": 4,
+      "required_cover_descriptions": [
+        "C_merge_callback",
+        "C_N1_transient_write",
+        "C_merge_live_read_after_restore",
+        "C_merge_return"
+      ],
+      "timeout_seconds": 600,
+      "state": "NOT_RUN"
+    },
+    {
+      "id": "c_merge_source_read_only",
+      "selector": "slice::sort::shared::smallsort::verify::c_controls::c_merge_source_read_only",
+      "mode": "PFC",
+      "variant": "production",
+      "target": "slice::sort::shared::smallsort::bidirectional_merge",
+      "unwind": 8,
+      "expected": "SUCCESS",
+      "required_cover_count": 3,
+      "required_cover_descriptions": [
+        "C_merge_callback",
+        "C_merge_live_read_after_restore",
+        "C_merge_return"
+      ],
+      "timeout_seconds": 600,
+      "state": "NOT_RUN"
+    },
+    {
+      "id": "c_callback_live_shared_in_outer_frame",
+      "selector": "slice::sort::shared::smallsort::verify::c_controls::c_callback_live_shared_in_outer_frame",
+      "mode": "PFC",
+      "variant": "production",
+      "target": "slice::sort::shared::smallsort::verify::c_controls::callback_outer",
+      "unwind": 8,
+      "expected": "ALIAS_GAP",
+      "required_cover_count": 4,
+      "required_cover_descriptions": [
+        "C_outer_callback",
+        "C_N2_transient_write",
+        "C_outer_live_read_after_restore",
+        "C_outer_return"
+      ],
+      "timeout_seconds": 600,
+      "state": "NOT_RUN"
+    },
+    {
+      "id": "c_callback_read_only_in_outer_frame",
+      "selector": "slice::sort::shared::smallsort::verify::c_controls::c_callback_read_only_in_outer_frame",
+      "mode": "PFC",
+      "variant": "production",
+      "target": "slice::sort::shared::smallsort::verify::c_controls::callback_outer",
+      "unwind": 8,
+      "expected": "SUCCESS",
+      "required_cover_count": 3,
+      "required_cover_descriptions": [
+        "C_outer_callback",
+        "C_outer_live_read_after_restore",
+        "C_outer_return"
+      ],
+      "timeout_seconds": 600,
+      "state": "NOT_RUN"
+    },
+    {
+      "id": "c_external_mut_state",
+      "selector": "slice::sort::shared::smallsort::verify::c_controls::c_external_mut_state",
+      "mode": "PFC",
+      "variant": "production",
+      "target": "slice::sort::shared::smallsort::verify::c_controls::external_mut",
+      "unwind": 8,
+      "expected": "SUCCESS",
+      "required_cover_count": 2,
+      "required_cover_descriptions": [
+        "C_L3_mut_changed",
+        "C_L3_mut_return"
+      ],
+      "timeout_seconds": 600,
+      "state": "NOT_RUN"
+    },
+    {
+      "id": "c_external_cell_state",
+      "selector": "slice::sort::shared::smallsort::verify::c_controls::c_external_cell_state",
+      "mode": "PFC",
+      "variant": "production",
+      "target": "slice::sort::shared::smallsort::verify::c_controls::external_cell",
+      "unwind": 8,
+      "expected": "SUCCESS",
+      "required_cover_count": 2,
+      "required_cover_descriptions": [
+        "C_L3_cell_changed",
+        "C_L3_cell_return"
+      ],
+      "timeout_seconds": 600,
+      "state": "NOT_RUN"
+    },
+    {
+      "id": "c_insert_tail_local_lifetime",
+      "selector": "slice::sort::shared::smallsort::verify::c_controls::c_insert_tail_local_lifetime",
+      "mode": "Original",
+      "variant": "production",
+      "target": "slice::sort::shared::smallsort::verify::c_controls::c_insert_tail_local_lifetime",
+      "unwind": 12,
+      "expected": "SUCCESS",
+      "required_cover_count": 3,
+      "required_cover_descriptions": [
+        "C_L4_tmp_comparison_after_gap_shift",
+        "C_L4_gap_shift_and_copy_back",
+        "C_L4_next_insertion_return"
+      ],
+      "timeout_seconds": 600,
+      "state": "NOT_RUN"
+    },
+    {
+      "id": "c_local_storage_reuse",
+      "selector": "slice::sort::shared::smallsort::verify::c_controls::c_local_storage_reuse",
+      "mode": "Original",
+      "variant": "production",
+      "target": "slice::sort::shared::smallsort::verify::c_controls::c_local_storage_reuse",
+      "unwind": 8,
+      "expected": "SUCCESS",
+      "required_cover_count": 2,
+      "required_cover_descriptions": [
+        "C_L4_scoped_read",
+        "C_L4_reinitialized_read_return"
+      ],
+      "timeout_seconds": 600,
+      "state": "NOT_RUN"
+    }
+  ],
+  "ci_changed_paths": [
+    ".github/workflows/bench-compiler.yml",
+    ".github/workflows/bench-e2e.yml",
+    ".github/workflows/bench-pr.yml",
+    ".github/workflows/cargo-update.yml",
+    ".github/workflows/cbmc-latest.yml",
+    ".github/workflows/cbmc-update.yml",
+    ".github/workflows/ch8-c.yml",
+    ".github/workflows/charon-update.yml",
+    ".github/workflows/deny.yml",
+    ".github/workflows/extra_jobs.yml",
+    ".github/workflows/format-check.yml",
+    ".github/workflows/kani.yml",
+    ".github/workflows/release.yml",
+    ".github/workflows/slow-tests.yml",
+    ".github/workflows/toolchain-upgrade.yml",
+    ".github/workflows/verify-std-check.yml",
+    ".github/workflows/z3-update.yml",
+    "ch8-c-control/CI-REQUEST.json",
+    "ch8-c-control/MANIFEST.sha256",
+    "ch8-c-control/check_package.py",
+    "ch8-c-control/runner.py",
+    "ch8-c-control/test_package.py",
+    "ch8-c-control/test_runner.py"
+  ],
+  "activation": "Separate authorization required: same-tree sibling without skip-ci marker and sole parent tool SHA; never child commit.",
+  "source_oracles": "ORACLES.md",
+  "control_payload_manifest_sha256": "024d6cf0df0f8b407c093f0ad18a886bd7fc4cc94799264b1e633a2d0c630418",
+  "source_review": "NO_BLOCKING_FINDINGS",
+  "ci_review": "ACCEPTED_FINAL_DELTA",
+  "control_worktree": "/root/kani-ch8-c-ctl-w14",
+  "std_worktree": "/root/verify-rust-std-ch8-c-ctl-w14",
+  "review": "REVIEW.md"
+}
