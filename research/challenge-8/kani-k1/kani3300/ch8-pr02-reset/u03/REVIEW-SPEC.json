@@ -1,0 +1,58 @@
+{
+  "applicability": "One local U-03 preparation stage. g0 input f3658d28cd. Source f7e89f1942fa6f671f20ec45fde98d9d736dc122 directly on PR02 932fb8395a. Source worktree /root/kani-fix-ch8-pr02-reset-u03-source. Review package delta from U02 and included source patch. No dispatch, push, CI or local native verification.",
+  "baseline_commit": "952ea771be3827a495a9c9f29ad6a015bd796fc7",
+  "candidate_commit": "80d0d98529445088db2fd2941fe9370ba6c0eaa6",
+  "controls": [
+    "Offline check_package/source_structure; compiler SHA equality U01/U02/U03; 26 other fixture files and modes unchanged; isolated PR02/SEL1 patch application.",
+    "Five existing B result tests, two A receipt tests retained. Two new A shell-runner tests use only Python substitutes: all success, each failed gate, simultaneous failures, missing executable, build prerequisite failure, original exits and final NOT_RUN."
+  ],
+  "defect": "U02 two read fixtures use unsupported raw-pointer-to-union reads. Gates stop after reset regression failure, leaving generic autoharness and old-controls NOT_RUN. Replace only two main.rs with offset-1 repr(C) padding reads, initializing the same byte in companion; execute gates independently after successful patched build and aggregate failure.",
+  "dependencies": [
+    "kani-compiler/src/kani_middle/transform/automatic.rs",
+    "kani-compiler/src/kani_middle/transform/mod.rs",
+    "kani-compiler/src/kani_middle/transform/body.rs",
+    "kani-compiler/src/kani_middle/kani_functions.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+    "library/kani_core/src/mem_init.rs",
+    "kani-driver/src/args/mod.rs",
+    "kani-driver/src/args/autoharness_args.rs",
+    "kani-driver/src/autoharness/mod.rs",
+    "tools/compiletest/src/runtest.rs",
+    ".github/actions/setup/action.yml",
+    "scripts/kani",
+    "scripts/validate_json_export.py",
+    "tools/compiletest/src/common.rs",
+    "kani-driver/src/frontend/schema_utils.rs",
+    "kani-driver/src/sarif.rs",
+    "kani-compiler/src/kani_middle/metadata.rs",
+    "tools/compiletest/src/main.rs",
+    "scripts/ch8-pr02-reset/run_arm_b.py",
+    "scripts/ch8-pr02-reset/test_runner.py",
+    "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+    "scripts/ch8-pr02-reset/bounded_step.py",
+    "scripts/ch8-pr02-reset/finalize_arm_a.py",
+    "scripts/ch8-pr02-reset/run_old_control.py"
+  ],
+  "invariants": [
+    "Compiler diff from PR02 must equal U01/U02; no compiler or memory-model change in U03.",
+    "Only uninit_read/main.rs and initialized_read/main.rs change among seven fixtures; all expected output, shell scripts and five other fixtures unchanged. Negative requires uninit FAILURE, companion SUCCESS.",
+    "All original A gates/checks retained. No fail-fast after a successful source build, including compiletest-build failure; original per-gate exits preserved. Old-controls runs last within runner.",
+    "Workflow A runner starts after successful patched apply/setup despite unrelated structure, runner-test or old-build failure; job retains earlier failures. Failed source build leaves dependent gates NOT_RUN.",
+    "Arm A only; arm B retains task-reported U01 outcome without new proof credit. B runner and issue fixture files unchanged.",
+    "First attempt, same-tree child gate, dedicated push pattern, max-parallel1, 120 minute cap, jobs2/threads2, no retries; bounded receipts/finalize/upload preserved."
+  ],
+  "known_limitations": [
+    "U01/U02 outcomes are task-reported facts, not audited native evidence here. No local native tools or CI. Static/synthetic checks give no proof credit.",
+    "Padding at offset 1 relies on pinned x86_64 target; runtime negative/companion outcomes remain NOT_RUN.",
+    "GitHub always() cannot recover artifacts if initial checkout fails or the runner is lost. Per-gate default timeout does not override overall 120-minute job limit."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-pr02-reset-u02/research/challenge-8/kani-k1/kani3300/ch8-pr02-reset/PACKAGE-REVIEW.md",
+      "sha256": "0cb98c35613d86d03288b4369c4339959071d4d8f98b39bc6e9cf93a00e4d64d"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-ch8-pr02-reset-u03-ci"
+}

@@ -1,0 +1,229 @@
+{
+  "schema": "ch8-pr02-reset-u03-compatibility-v1",
+  "base": "932fb8395a58f8c86c0d702ba2cae835823b2962",
+  "source": "f7e89f1942fa6f671f20ec45fde98d9d736dc122",
+  "compiler_diff_sha256_by_source": {
+    "f695f653efaa1f7ac6774a079104de8cc0ff81fc": "f7beb5f9fc63e3a0a63536c44b922f07937d91829ecb551a3cbea3d517f232da",
+    "09a6d1cb2cba63e67e60aeefbd909d1f64849b76": "f7beb5f9fc63e3a0a63536c44b922f07937d91829ecb551a3cbea3d517f232da",
+    "f7e89f1942fa6f671f20ec45fde98d9d736dc122": "f7beb5f9fc63e3a0a63536c44b922f07937d91829ecb551a3cbea3d517f232da"
+  },
+  "fixture_files": [
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_argument_seed/config.yml",
+      "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_argument_seed/expected",
+      "sha256": "6971bc6f59c3f536fadec9d0eee2d6f5b09204e74f2d44aec5a5e72004758423",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_argument_seed/main.rs",
+      "sha256": "7cf1881b211c46b816086e190c9e6b165c4421494c53e554cdfd46d37cbfca64",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_argument_seed/run.sh",
+      "sha256": "f2c148c36483a257517e32e1ef10de9169337bcb4c0fe79f3d2af5977cadd91b",
+      "mode": "100755",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_contract_seed/config.yml",
+      "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_contract_seed/expected",
+      "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_contract_seed/main.rs",
+      "sha256": "3a970577523e0c5c4b652c7437627a7f5fb400111e12b45adde5112afad199cd",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_contract_seed/run.sh",
+      "sha256": "08224e79cbac0b8283a903bd5065533f42321d9f5907e26215b79b8835267d77",
+      "mode": "100755",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_initialized_read/config.yml",
+      "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_initialized_read/expected",
+      "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_initialized_read/main.rs",
+      "sha256": "27f29c2ba17dc60349f5b246b790e8588d3a7792ebd6f22a32674ea05e6072b4",
+      "mode": "100644",
+      "same_as_u02": false
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_initialized_read/run.sh",
+      "sha256": "a71322d2895511411d7807867cee2e42f4eda120057f28417a73cfd4a5c6f383",
+      "mode": "100755",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_no_seed/config.yml",
+      "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_no_seed/expected",
+      "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_no_seed/main.rs",
+      "sha256": "efcf52bb6e653ca78a59b0b8157514c6b3fb5fe9986c4be70df25466f2b6d471",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_no_seed/run.sh",
+      "sha256": "5bb6f63995b1e716d7e89b1f5eff65b82eda6e9eb63902838b722970fa64802e",
+      "mode": "100755",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_seed_only/config.yml",
+      "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_seed_only/expected",
+      "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_seed_only/main.rs",
+      "sha256": "e11f8cd3788d7ac6debb2ab089cd60751a8c03046761923030277a837fde5404",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_seed_only/run.sh",
+      "sha256": "0f2c9206b95087882f50b13adc1cb012f9ddd5b066ab862ae52f4b6a69c412d0",
+      "mode": "100755",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_off/config.yml",
+      "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_off/expected",
+      "sha256": "bd740a4425509359e9e341cec3030ac90e299ed9635b8b6bf2feb69ccf1baa84",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_off/main.rs",
+      "sha256": "492524571f780de0716c378f70e2a5ed84df31460b021d40d5bef5f88965c30b",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_off/run.sh",
+      "sha256": "fe5be1ab5fe7279fa45947c8ab216bb186dc3f4aaa75c0f94b01f1f7afee6ecc",
+      "mode": "100755",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_read/config.yml",
+      "sha256": "00e9504001960ae960235c3e76d5c6566c5fb5be5bd399412105390de1626de9",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_read/expected",
+      "sha256": "3a0e3c314782ac6b6ed331a6a0ebcc39f6408c510570e09a86476c96c28f4cf7",
+      "mode": "100644",
+      "same_as_u02": true
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_read/main.rs",
+      "sha256": "f9c8f9965c76543aadbebc0a5f57657c58a384172b31add3526cb88b96b91e17",
+      "mode": "100644",
+      "same_as_u02": false
+    },
+    {
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_read/run.sh",
+      "sha256": "fa7de964f6d82b8f08bd472a4927a249a52820f35e1ae66add217f25d623fe81",
+      "mode": "100755",
+      "same_as_u02": true
+    }
+  ],
+  "arm_b_runner_and_inputs_identical": [
+    {
+      "path": "scripts/ch8-pr02-reset/run_arm_b.py",
+      "sha256": "394e40784c5f0745ce292b3c2190a30749ae8694251387791e2b49224454b2e4",
+      "identical_to": "U01 and U02"
+    },
+    {
+      "path": "scripts/ch8-pr02-reset/test_runner.py",
+      "sha256": "27d21358f01c943cc1138bddae74803a07d25c84bc9571185f0d86e470b60dcd",
+      "identical_to": "U01 and U02"
+    },
+    {
+      "path": "scripts/ch8-pr02-reset/fixtures/issue-4854-autoharness.rs",
+      "sha256": "8a5b94bfb1af4eca980c1e20358ea66c9ecbc7f3df2b7e4d7b3af43c5c828bd2",
+      "identical_to": "U01 and U02"
+    },
+    {
+      "path": "scripts/ch8-pr02-reset/fixtures/issue-4854-explicit-proof-companion.rs",
+      "sha256": "7b8c87634051e6bb26ba0d0b0a42ebc5b5a8e01ab4878b5c6f227d5d346fc009",
+      "identical_to": "U01 and U02"
+    }
+  ],
+  "source_patch_sha256": "e9f639ad9bbb2a18deb388d693ecd19efc2d50f0257472850dc07d3815acb58d",
+  "apply_checks": [
+    {
+      "pin": "pr02",
+      "sha": "932fb8395a58f8c86c0d702ba2cae835823b2962",
+      "tree": "2c4d5ad4b72a7d07059f1461132a58da03f81ef9",
+      "patched_tree": "b6b84905327747cf1970ffe78c1266eeff2a7c56",
+      "observed_patched_tree": "b6b84905327747cf1970ffe78c1266eeff2a7c56",
+      "check": "PASS_ISOLATED_INDEX"
+    },
+    {
+      "pin": "sel1",
+      "sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+      "tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
+      "patched_tree": "a91feaf733188595e10e74922406d6b06076e67b",
+      "observed_patched_tree": "a91feaf733188595e10e74922406d6b06076e67b",
+      "check": "PASS_ISOLATED_INDEX"
+    }
+  ],
+  "ci_only_portability": {
+    "base": "f7e89f1942fa6f671f20ec45fde98d9d736dc122",
+    "expected_tree": "4237f7d2c8d86f28655a88824480da2e7c911b6b",
+    "observed_tree": "4237f7d2c8d86f28655a88824480da2e7c911b6b",
+    "patch_sha256": "13c9d5e7df852e77b824aa009fb91889315d071b5dee193dd1293fbc32689a55",
+    "check": "PASS_ISOLATED_INDEX"
+  },
+  "assurance": "STATIC_ONLY_NO_NEW_PROOF_CREDIT"
+}

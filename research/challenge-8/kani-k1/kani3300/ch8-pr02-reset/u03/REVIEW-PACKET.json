@@ -1,0 +1,367 @@
+{
+  "baseline_commit": "952ea771be3827a495a9c9f29ad6a015bd796fc7",
+  "candidate_commit": "80d0d98529445088db2fd2941fe9370ba6c0eaa6",
+  "candidate_tree": "4237f7d2c8d86f28655a88824480da2e7c911b6b",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "dcdd8a1d6bc7afa0b0900128b872853c7824b5b1",
+        "mode": "100644",
+        "sha256": "302e9c616d2302da9482fa65ff6c65cd77fde118833ceeb0239bc020ad894ed5"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "6b73536141ef7e15516c54133a111faf5ad5a31f",
+        "mode": "100644",
+        "sha256": "a2076b65a6be5059a9a8e2c94b709cfab9bbec4fb9193cb89623d431e6146959"
+      },
+      "path": ".github/workflows/ch8-pr02-reset.yml",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "f68bd4c9177b51c0a322234f5e20165b2eca72ae",
+        "mode": "100644",
+        "sha256": "0917d44eb664bd4896f554187e161ba05a9ba09edf95cf49ff3a91370703fa63"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "79d700e158ea0e6d7948502a39defa64beabf336",
+        "mode": "100644",
+        "sha256": "a256a4dd8c767fe6c557a0805605251a7513848f42c835af43149666dfc5cc36"
+      },
+      "path": "CI-REQUEST.json",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "e049407d2418c96f9d534c4584de2ef2f2b8e9de",
+        "mode": "100644",
+        "sha256": "87661bd48e05cd2f0c1f15c5d799e7d809a1872bdb7915275200a45b3f637384"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "3960a58acea6d70ff515490b59c3ed36097edf59",
+        "mode": "100644",
+        "sha256": "3c974cc4dc2accbc9b8871924c44124f4ab887ddff802d80d6abbcd7a37ddaa1"
+      },
+      "path": "scripts/ch8-pr02-reset/README.md",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "3dffc3df088b63e3d4798be045dd21e2d215880e",
+        "mode": "100755",
+        "sha256": "c39dc125f49f172f7dd6c55a7e8432a115afb19c73934b6aab6b8beaa5929f51"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "d83ae9a71419a24fcb1ab5e2bad8b13942ca81dc",
+        "mode": "100755",
+        "sha256": "3c22457ae608634bd4de1d82a9afb2b68a8632d1a5d09aafc159b15f494e5af4"
+      },
+      "path": "scripts/ch8-pr02-reset/check_package.py",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "90e0f5da8759f70c446b70155f7c69d58be15481",
+        "mode": "100755",
+        "sha256": "fb6b4afb0ffbe014d1733c2a62df971e3838d175bd24f42e28fea178f8f88325"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "139eb4d74be5929c6767c9fa44fb7552d8c48b7e",
+        "mode": "100755",
+        "sha256": "fefacc7a69b4861ffbaccb6c1683c5fa1be8376f76806b7c9519987b65974db7"
+      },
+      "path": "scripts/ch8-pr02-reset/check_source_structure.py",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "c14290fb786c96d68780a40591d2585abde5a20e",
+        "mode": "100644",
+        "sha256": "d43f251e5694c9ca5f15ee20134f5035009223bdd1d50b9b79c1d0b30093e0cd"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "ea1b030cdc26d212cf141862a55e2dde49e1a05f",
+        "mode": "100644",
+        "sha256": "e9f639ad9bbb2a18deb388d693ecd19efc2d50f0257472850dc07d3815acb58d"
+      },
+      "path": "scripts/ch8-pr02-reset/reset.patch",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "f143eb637d21af0cbc52d653a920bd258455e375",
+        "mode": "100755",
+        "sha256": "f91b837a6de2b81295167046128072d52dd14035466b2d2f8291b04966351740"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "093e35b4be2c68e98cee39b95616695ed9841828",
+        "mode": "100755",
+        "sha256": "5de570f7a2bef84c6233ffeeba40854b71d214a5e54c93d11474c2e5b3781174"
+      },
+      "path": "scripts/ch8-pr02-reset/run_arm_a.sh",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "a807acbd309740044e4f69fc11d48afc2e86bf80",
+        "mode": "100644",
+        "sha256": "e81507504470c3b569825da8792310556aa5f662bb3c5f7f547422d275b402ec"
+      },
+      "path": "scripts/ch8-pr02-reset/test_arm_a_gates.py",
+      "status": "added"
+    },
+    {
+      "baseline": {
+        "blob": "1a347d4dbc65a57638fce3653271226bd9656958",
+        "mode": "100644",
+        "sha256": "07ef2f58ed29019ffe83007dee3e08f28459f85c59713847f8013a28a6192837"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "c78d4367222df3659d72e303110c4d67a981e895",
+        "mode": "100644",
+        "sha256": "27f29c2ba17dc60349f5b246b790e8588d3a7792ebd6f22a32674ea05e6072b4"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_initialized_read/main.rs",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "afe7cc5cf046f7fda28740513491572393fa4417",
+        "mode": "100644",
+        "sha256": "925f3de4fac706ce29eb7b41b953ba9dc2a775cc8111f30627aaf4ce837fcc69"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "4b99b2aadb68d7c41d900819b005d43787631cef",
+        "mode": "100644",
+        "sha256": "f9c8f9965c76543aadbebc0a5f57657c58a384172b31add3526cb88b96b91e17"
+      },
+      "path": "tests/script-based-pre/autoharness_entry_reset_uninit_read/main.rs",
+      "status": "modified"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "689afc7831f071f2f08ef82e6c342d716bb3b6f3",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/automatic.rs",
+      "sha256": "e4e867eb8334624894705c065fd75c32a4171e3cc9c0c8ee46e6544cb68b960f",
+      "size": 115286
+    },
+    {
+      "blob": "db2466bbe8b834bfe57d8b295aa0a78bbb4a043d",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/mod.rs",
+      "sha256": "8dc76ebe25ce1e05db3a98613011ed3258280ef57c2be336ab84ed97f7f46ba8",
+      "size": 16993
+    },
+    {
+      "blob": "ae984c26e220b2fc689c7f16fecd970b7cbe0a20",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/body.rs",
+      "sha256": "930636ad1ab2290fb2b10f1970f2283f6e29c52de9a7b1696c7767c041a469d5",
+      "size": 26496
+    },
+    {
+      "blob": "94997512d78721fb09c6a94134a00c9a3a6be957",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/kani_functions.rs",
+      "sha256": "4fc4ef480440d05432e1f5b2245be83bd7c70b3cd547c57442c901457feb3ab4",
+      "size": 14997
+    },
+    {
+      "blob": "dbec042343bd430eb71a7c10af1bc0c328a2fdb6",
+      "member": "dependencies/0004.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+      "sha256": "26ab4fe3184b0558f95a023fee56a16ce2b12068c10165c5f0e6202bd3a6cd10",
+      "size": 34189
+    },
+    {
+      "blob": "779ba7a4666f62a75c75f186c8f7ce53ea71b587",
+      "member": "dependencies/0005.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/context/immutable_allocations.rs",
+      "sha256": "9d6a4883c29c0ac042bf26a39eb86b5079f7bfded4ca81d6dfd11eac463ba587",
+      "size": 26566
+    },
+    {
+      "blob": "37b9da8d674afb814f5024a20b77350ad5f82fd8",
+      "member": "dependencies/0006.bin",
+      "mode": "100644",
+      "path": "library/kani_core/src/mem_init.rs",
+      "sha256": "88f260ddc5b315a32e64b0f6f396451373d2fb54f1a4898233508ebd81cd993c",
+      "size": 17920
+    },
+    {
+      "blob": "ebf620d9edc467760e96372cbf13ec28bc60763e",
+      "member": "dependencies/0007.bin",
+      "mode": "100644",
+      "path": "kani-driver/src/args/mod.rs",
+      "sha256": "ba665a7270786a30b4ffe3cf1bf0b5dc971023901c8ee110de8c6a79b3ae4d7e",
+      "size": 59912
+    },
+    {
+      "blob": "4d1442b8dbe52db68ae629f48c79a77df41f3ebf",
+      "member": "dependencies/0008.bin",
+      "mode": "100644",
+      "path": "kani-driver/src/args/autoharness_args.rs",
+      "sha256": "c2a4afac17730af0b2fc15d24b8465cbe09d7f6df82562a029d55b21288dafa8",
+      "size": 16225
+    },
+    {
+      "blob": "d63c4bb7ac02c240cb1aa973fee9a711f246a710",
+      "member": "dependencies/0009.bin",
+      "mode": "100644",
+      "path": "kani-driver/src/autoharness/mod.rs",
+      "sha256": "5802be39929e79154c2fbf8e2b2b0fd9e05ae54c68f53d38f46b5a595daddcfa",
+      "size": 14542
+    },
+    {
+      "blob": "4438547071f5426caa8f0990fecfd727cf86352b",
+      "member": "dependencies/0010.bin",
+      "mode": "100644",
+      "path": "tools/compiletest/src/runtest.rs",
+      "sha256": "7ab3d25a027144d8b4b669990793d8f76b980d7a9f9ed59130af8a95749797a4",
+      "size": 29489
+    },
+    {
+      "blob": "7e781d3c6f853811cb39b29839ff4e452436ae2e",
+      "member": "dependencies/0011.bin",
+      "mode": "100644",
+      "path": ".github/actions/setup/action.yml",
+      "sha256": "6ee9af29eb091ce92cb819deb205f1f07895e8bbdb02d0c5e510de85025dc307",
+      "size": 1510
+    },
+    {
+      "blob": "6b1106e39d0e22a020ac7b5a2e4c5427a1b47391",
+      "member": "dependencies/0012.bin",
+      "mode": "100755",
+      "path": "scripts/kani",
+      "sha256": "28a81c48fd72627ed2449993730636bc830abeffeaea4d85d9297b2ec4393af2",
+      "size": 513
+    },
+    {
+      "blob": "51341393540c3884b48bc053a4e9170e259532ce",
+      "member": "dependencies/0013.bin",
+      "mode": "100755",
+      "path": "scripts/validate_json_export.py",
+      "sha256": "af2a207bafbe4fd66254d40a0c022bfa4b51a76a426aedfc9f27ed14388e8b7d",
+      "size": 13484
+    },
+    {
+      "blob": "cbd8f2f9b474d44d886d1eb348f20b109eda6fb8",
+      "member": "dependencies/0014.bin",
+      "mode": "100644",
+      "path": "tools/compiletest/src/common.rs",
+      "sha256": "97c6201dc6aff338b1615a2040cb0447a26c7524bea28dcc138139543a4de7ff",
+      "size": 6294
+    },
+    {
+      "blob": "24901f7cf98213cd76cfa3b200bb07f2c6a181b0",
+      "member": "dependencies/0015.bin",
+      "mode": "100644",
+      "path": "kani-driver/src/frontend/schema_utils.rs",
+      "sha256": "6cf7b1311b3ebfd6ec1ce61efb1875b33d067fc2a89d2e7d1ccf8bf6995b1a64",
+      "size": 107906
+    },
+    {
+      "blob": "0a624be6498327c8ed3f3b7429109eb3397f578c",
+      "member": "dependencies/0016.bin",
+      "mode": "100644",
+      "path": "kani-driver/src/sarif.rs",
+      "sha256": "8fcb54a329b9c47e82dfdfb4113f595233c9bb0cd54b53500a65e0a87bc62b77",
+      "size": 14028
+    },
+    {
+      "blob": "86c3341cd505db05f8593014307bf39e3ac62f66",
+      "member": "dependencies/0017.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/metadata.rs",
+      "sha256": "c0253feeab3b326236fff1fbf6be23c5a7b4cd58c118577923ed0a74c10ad36d",
+      "size": 8557
+    },
+    {
+      "blob": "d60c3bbc7f49117b04b083cbce7e0384167950dd",
+      "member": "dependencies/0018.bin",
+      "mode": "100644",
+      "path": "tools/compiletest/src/main.rs",
+      "sha256": "9e15ceb4c5dc7bc505081d3ec2be8a4af8bdb8fdf0cd0e5ffcbc137ea36dc412",
+      "size": 23324
+    },
+    {
+      "blob": "592515493eb431cdd5fbb9eeae08ef74128b47fc",
+      "member": "dependencies/0019.bin",
+      "mode": "100755",
+      "path": "scripts/ch8-pr02-reset/run_arm_b.py",
+      "sha256": "394e40784c5f0745ce292b3c2190a30749ae8694251387791e2b49224454b2e4",
+      "size": 10269
+    },
+    {
+      "blob": "5d0e713286412db2e28ee1e70f231a014a94cfb5",
+      "member": "dependencies/0020.bin",
+      "mode": "100644",
+      "path": "scripts/ch8-pr02-reset/test_runner.py",
+      "sha256": "27d21358f01c943cc1138bddae74803a07d25c84bc9571185f0d86e470b60dcd",
+      "size": 3969
+    },
+    {
+      "blob": "3d53567d7c2db9767b0ca6c44ca05fd04b29b5cf",
+      "member": "dependencies/0021.bin",
+      "mode": "100644",
+      "path": "kani-compiler/src/kani_middle/transform/check_uninit/ptr_uninit/mod.rs",
+      "sha256": "7adb8aa87530e797aa3b1dff994c21408c00343cba7ebc052a6268cf5e805f8c",
+      "size": 4588
+    },
+    {
+      "blob": "13bebc28459d8d81ac4e55f777b2cd4ed4cc5644",
+      "member": "dependencies/0022.bin",
+      "mode": "100644",
+      "path": "scripts/ch8-pr02-reset/bounded_step.py",
+      "sha256": "c37c1eaf7c150683f4c947536bd3675d2c71b4ed134d947e453d3bb559e81704",
+      "size": 2735
+    },
+    {
+      "blob": "ab4e6fde5f44ce64fe7d58d2f5943a868565395a",
+      "member": "dependencies/0023.bin",
+      "mode": "100644",
+      "path": "scripts/ch8-pr02-reset/finalize_arm_a.py",
+      "sha256": "4793cd7f84d0701e5fe5ffe4ae2adbacdcd77ab40b2ff794f40748a5d53f97e6",
+      "size": 2339
+    },
+    {
+      "blob": "7f142e4caa0ebf22fe44825517e591d81c682646",
+      "member": "dependencies/0024.bin",
+      "mode": "100755",
+      "path": "scripts/ch8-pr02-reset/run_old_control.py",
+      "sha256": "41d75a8c699c79fd94bb7bbdd4098a80fb582e3e6d716f5ca1827518d363f9f2",
+      "size": 3262
+    }
+  ],
+  "diff_sha256": "d4a6d62e8adbb331aec94b4a3384fd6f7c7a88505e21bdc301803c4c69ef6faf",
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-pr02-reset-u02/research/challenge-8/kani-k1/kani3300/ch8-pr02-reset/PACKAGE-REVIEW.md",
+      "sha256": "0cb98c35613d86d03288b4369c4339959071d4d8f98b39bc6e9cf93a00e4d64d"
+    }
+  ],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "c93869867dadb17bd1e646c988fd93687724986410cdd21b745f67cd139995c0",
+  "worktree": "/root/kani-fix-ch8-pr02-reset-u03-ci"
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "ch8-pr02-reset-u03-validation-v1",
+  "source_commit": "f7e89f1942fa6f671f20ec45fde98d9d736dc122",
+  "ci_package_commit": "80d0d98529445088db2fd2941fe9370ba6c0eaa6",
+  "g0_input": "f3658d28cd",
+  "whitespace": "PASS_GIT_DIFF_CHECK_SOURCE_AND_PACKAGE",
+  "fixture_shell_syntax": "PASS_ALL_SEVEN",
+  "package_YAML_AST_embedded_python_output_binding": "PASS",
+  "source_structure_gate": "PASS_STATIC_UPDATED_PADDING_FIXTURES",
+  "compiler_diff_identical_to_U01_U02": true,
+  "compiler_diff_sha256": "f7beb5f9fc63e3a0a63536c44b922f07937d91829ecb551a3cbea3d517f232da",
+  "fixture_files_identical_with_modes": 26,
+  "fixture_files_changed": [
+    "uninit_read/main.rs",
+    "initialized_read/main.rs"
+  ],
+  "other_five_fixtures_and_all_expected_oracles": "UNCHANGED",
+  "source_patch_PR02_SEL1": "PASS_ISOLATED_INDEX_EXACT_PATCHED_TREES",
+  "ci_only_patch_exact_package_tree": "PASS_ISOLATED_INDEX",
+  "synthetic_runner_tests": {
+    "existing_B": 5,
+    "existing_A_receipts": 2,
+    "new_A_gate_methods": 2,
+    "new_A_gate_scenarios": 13,
+    "failed": 0,
+    "scope": "Isolated Python substitutes exercise actual A shell runner; no native compiler/verifier",
+    "coverage": [
+      "all-success",
+      "each gate failure with original exit retained",
+      "fmt failure still permits build and all later gates",
+      "reset slice failure still permits generic autoharness and old-controls",
+      "compiletest-build failure does not suppress later slices",
+      "multiple simultaneous failures aggregate",
+      "missing compiletest executable yields ERROR and permits old-controls",
+      "failed source build leaves dependent gates NOT_RUN",
+      "existing receipt timeout/exception/partial/missing/null/wrong-type/gate mismatch checks",
+      "existing B source-stage-target and property identity mismatch checks"
+    ]
+  },
+  "compiler": "NOT_RUN",
+  "regressions": "NOT_RUN",
+  "emitted_model": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "push": "NOT_RUN",
+  "publication": "NOT_RUN",
+  "ledger_changes": "NONE",
+  "proof_credit": "NONE",
+  "independent_review": "GO_PREPARATION_ONLY",
+  "review_sha256": "0f38dfb72397bbbd9f54ab3a793865bcc25a381c71049911b02333804d38931b"
+}

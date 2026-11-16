@@ -1,0 +1,99 @@
+{
+  "schema": "ch8-pr02-reset-u03-ci-request-v1",
+  "status": "READY_COORDINATOR_REVIEW_SINGLE_ARM_A_RUN",
+  "runtime": "NOT_RUN",
+  "package_identity": "Bound externally by g0 CI-REQUEST.json and same-tree child workflow gate",
+  "source_fix": {
+    "commit": "f7e89f1942fa6f671f20ec45fde98d9d736dc122",
+    "tree": "b6b84905327747cf1970ffe78c1266eeff2a7c56"
+  },
+  "expected_target": "x86_64-unknown-linux-gnu",
+  "pins": {
+    "pr02": {
+      "sha": "932fb8395a58f8c86c0d702ba2cae835823b2962",
+      "tree": "2c4d5ad4b72a7d07059f1461132a58da03f81ef9",
+      "patched_tree": "b6b84905327747cf1970ffe78c1266eeff2a7c56"
+    },
+    "sel1": {
+      "sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+      "tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
+      "patched_tree": "a91feaf733188595e10e74922406d6b06076e67b"
+    }
+  },
+  "patch": {
+    "path": "scripts/ch8-pr02-reset/reset.patch",
+    "sha256": "e9f639ad9bbb2a18deb388d693ecd19efc2d50f0257472850dc07d3815acb58d"
+  },
+  "fixtures": {
+    "issue-4854-autoharness.rs": "8a5b94bfb1af4eca980c1e20358ea66c9ecbc7f3df2b7e4d7b3af43c5c828bd2",
+    "issue-4854-explicit-proof-companion.rs": "7b8c87634051e6bb26ba0d0b0a42ebc5b5a8e01ab4878b5c6f227d5d346fc009"
+  },
+  "trigger": "uninit-ci/ch8-pr02-reset-*",
+  "workflow": ".github/workflows/ch8-pr02-reset.yml",
+  "arms": {
+    "A": "PR02+fix all existing gates and seven fixtures; independent gate execution after successful source build, including autoharness and old-controls; aggregate exit and bounded always-upload receipts; padding negative/initialized companion",
+    "B": "NOT_REPEATED: retain U-01 task-reported SUCCESS; compiler diff and B runner/input files unchanged; changed A-only fixtures do not run in B"
+  },
+  "static_model_gate": "PASS_REQUIRED: exact source checks for auto wrapper recognition, setup-before-instrumentation, Uninit ON guard, nondeterministic object/offset and false reset value; emitted wrapper/model evidence NOT_RUN",
+  "stock_workflows": "REMOVE_FROM_CI_ONLY_COMMIT; retain only this workflow under .github/workflows",
+  "limits": {
+    "job_timeout_minutes": 120,
+    "max_parallel": 1,
+    "cargo_build_jobs": 2,
+    "rust_test_threads": 2,
+    "retry": "NONE"
+  },
+  "retained_u01": {
+    "run_id": "43777434715",
+    "package": "b4edbb18bc8a490197420aac0964a7d55b284380",
+    "arm_b": "SUCCESS_REPORTED_BY_TASK",
+    "new_proof_credit": "NONE"
+  },
+  "retained_u02": {
+    "run_id": "43780092728",
+    "trigger_prefix": "235b30ffb8",
+    "package": "952ea771be3827a495a9c9f29ad6a015bd796fc7",
+    "facts": "See g0 RESULT-U02.md; task-reported bounded artifact, no new independent proof credit"
+  },
+  "ci_package": {
+    "commit": "80d0d98529445088db2fd2941fe9370ba6c0eaa6",
+    "tree": "4237f7d2c8d86f28655a88824480da2e7c911b6b",
+    "parent": "952ea771be3827a495a9c9f29ad6a015bd796fc7",
+    "branch": "work/ch8-pr02-reset-u03-ci",
+    "worktree": "/root/kani-fix-ch8-pr02-reset-u03-ci",
+    "patch": "ci-only.patch",
+    "patch_sha256": "13c9d5e7df852e77b824aa009fb91889315d071b5dee193dd1293fbc32689a55",
+    "source_delta_base": "f7e89f1942fa6f671f20ec45fde98d9d736dc122"
+  },
+  "source_patch": {
+    "path": "source.patch",
+    "sha256": "e9f639ad9bbb2a18deb388d693ecd19efc2d50f0257472850dc07d3815acb58d"
+  },
+  "g0_input": "f3658d28cd9e211cb71e7b005dade67da5571216",
+  "source_worktree": {
+    "path": "/root/kani-fix-ch8-pr02-reset-u03-source",
+    "branch": "work/ch8-pr02-reset-u03-source",
+    "parent": "932fb8395a58f8c86c0d702ba2cae835823b2962"
+  },
+  "review": "REVIEW.md",
+  "portability_checks": "COMPATIBILITY.json",
+  "CI": "NOT_RUN",
+  "push": "NOT_RUN",
+  "publication": "NOT_RUN",
+  "ledger_changes": "NONE",
+  "Cloud_spend": 0,
+  "dispatch": "COORDINATOR_ONLY_PUSH_SAME_TREE_CHILD_IF_SEPARATELY_AUTHORIZED",
+  "attempts": 1,
+  "automatic_retry": false,
+  "assurance": "STATIC_AND_SYNTHETIC_ONLY_NO_NEW_PROOF_CREDIT",
+  "review_bindings": {
+    "candidate": "80d0d98529445088db2fd2941fe9370ba6c0eaa6",
+    "reviewer": "Independent GPT-6 Luna HIGH, separate context, no nested delegation",
+    "review_sha256": "0f38dfb72397bbbd9f54ab3a793865bcc25a381c71049911b02333804d38931b",
+    "packet_sha256": "6c828b3ccc9bf353c17b936a952034c0f4d749c3de1dcf3952be587ed6add054",
+    "spec_sha256": "c93869867dadb17bd1e646c988fd93687724986410cdd21b745f67cd139995c0",
+    "recommendation": "GO_PREPARATION_ONLY",
+    "full_local_packet": "/root/ch8-pr02-reset-u03-review-packet",
+    "metadata": "REVIEW-PACKET.json"
+  }
+}
