@@ -110,13 +110,12 @@ macro_rules! exact_n_covers {
 
 macro_rules! smoke_exact_n {
     ($name:ident, $type:ty, $new:path, $trait:ident, $threshold:literal,
-        $route:ident, $exact_n:literal) => {
+        $route:ident, $exact_n:tt) => {
         #[kani::proof_for_contract(<$type as $trait>::small_sort)]
         #[kani::unwind(34)]
         fn $name() {
             let input: [u8; 3] = kani::any();
-            let n: usize = kani::any();
-            kani::assume(n == $exact_n);
+            let n: usize = $exact_n;
             let mut backing = [$new(0xa5), $new(input[0]), $new(input[1]),
                 $new(input[2]), $new(0x5a)];
             assert!(enabled::<$type, KeyLess<$type>>(), "S1_ENTRY_MODEL_ENABLED");
