@@ -1,0 +1,46 @@
+{
+  "schema": "ch8-prof-off-batch-validation-v1",
+  "candidate": "242ca631743080daa98850d9d385a8079fbe581f",
+  "state": "PASS_STATIC_AND_SYNTHETIC_ONLY",
+  "checks": {
+    "frozen_rows_caps_budgets_source": "PASS",
+    "manifest_bytes": "IDENTICAL_TO_PREVIOUS_CONTROL",
+    "payload_hashes": "PASS",
+    "single_parent_stock_tool": "PASS",
+    "workflow_yaml": "PASS",
+    "diff_check": "PASS",
+    "independent_review": "GO_STATIC_REVIEW_ONLY",
+    "batch_output_receipt_counters_and_truncation": "PASS"
+  },
+  "synthetic_tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s ch8-prof-off-control -p test_*.py",
+    "count": 32,
+    "result": "PASS",
+    "children": "ISOLATED_PYTHON_ONLY"
+  },
+  "rust_compilation": "NOT_RUN",
+  "Kani_CBMC": "NOT_RUN",
+  "push": 0,
+  "ci_dispatch": 0,
+  "ledger_writes": 0,
+  "proof_credit": "NONE",
+  "actionlint": "NOT_AVAILABLE_IN_PATH; no dependencies installed",
+  "patch_reconstruction": {
+    "ci-only.patch": {
+      "state": "PASS",
+      "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "reconstructed_tree": "41888f1116eb898f3b33fb963f74d4739354ac31"
+    },
+    "control-delta.patch": {
+      "state": "PASS",
+      "base": "6269319aecfb3328a2cffe8e2779432dbc346322",
+      "reconstructed_tree": "41888f1116eb898f3b33fb963f74d4739354ac31"
+    },
+    "receipt-delta.patch": {
+      "state": "PASS",
+      "base": "cb17a0dc0f235e2992ddfcb9a945f633236f0e00",
+      "reconstructed_tree": "41888f1116eb898f3b33fb963f74d4739354ac31"
+    }
+  },
+  "review_sha256": "8fbcce1603e788e71351803b2689852608b2546c97fc98009cf7867b1881f7a6"
+}

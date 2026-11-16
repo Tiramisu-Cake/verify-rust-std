@@ -1,0 +1,42 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-prof-off-w11",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "242ca631743080daa98850d9d385a8079fbe581f",
+  "defect": "Global kani list and per-row verify-std recompile std. Batch frozen OFF rows by identical cfg/RUSTFLAGS, bind each row from its exported harness entry. Delta from cb17a0dc0f235e2992ddfcb9a945f633236f0e00 fixes batch output_bytes and stdout/stderr/output_truncated receipts after row caps; adds one isolated Python regression test.",
+  "applicability": "Profiles OFF P-prime source 9fa2f7f977, stock tool 0aac; no Rust source/tool changes. This candidate is a single-parent sibling of prior control. Compare runner delta to prior control 6269319aecfb3328a2cffe8e2779432dbc346322 when useful; packet baseline is exact stock-tool ancestor.",
+  "invariants": [
+    "No push, CI, ledger or local cargo/rustc/Kani/CBMC. Only Git, static parsing and isolated Python synthetic children. No nested delegation.",
+    "Manifest all62 rows, selectors, source attributes/unwind, cfg flags, expected oracles, per-row600s/6GiB/1MiB stdout/1MiB stderr/8MiB export unchanged; source/tool pins/checks unchanged.",
+    "One verify-std per identical cfg/RUSTFLAGS group (53 positive,9 controls); multiple --harness, --exact, --jobs1, --harness-timeout600s, one export; no global list.",
+    "Std compilation once per group; separate900s pre-harness limit and bounded head/tail receipt; full group wall sum(row caps)+compile limited by original8400s phase.",
+    "Group RSS <=min(12GiB, available-2GiB); active CBMC sampled cap6GiB. Exact per-row RSS UNKNOWN. stdout marker routes output for caps, never establishes proof binding.",
+    "Binding and verdict from unique export harnesses[]; name, contract target, automatic generation flag, checks/covers/failed properties per row; group exit cannot substitute for row verdict.",
+    "Kani source location sorting is admitted; consumers only accepted after matching leaf observation in manifest order; failure/timeout/missing/partial/wrong-type/NOT_RUN preserved. Generated frame identity remains independent review required.",
+    "One workflow, attempt1, pinned sibling checkouts, parent exact stock tool; no automatic proof credit."
+  ],
+  "controls": [
+    "Synthetic mixed positive/negative group exit; all62 with two cfg invocations; leaf failure and post-batch acceptance.",
+    "Success/error/timeout/missing/null/wrong-type/partial/NOT_RUN, root/source/stage/target mismatch, duplicate/missing harness, resource caps, compilation deadline and bounded receipts.",
+    "Manifest/request rows/caps/budgets equality to prior control, exact payload hashes, workflow YAML gates."
+  ],
+  "dependencies": [
+    "ch8-prof-off-control/manifest.json",
+    "ch8-prof-off-control/kani-version.toml",
+    "kani-driver/src/project.rs",
+    "kani-driver/src/call_cargo.rs",
+    "kani-driver/src/harness_runner.rs",
+    "kani-driver/src/frontend/schema_utils.rs"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/REVIEW-v1.json",
+      "sha256": "d455a62f3e61d396e0caa69593b66a8de6a8bd79db9172db75b0a05cfacfc2e2"
+    }
+  ],
+  "known_limitations": [
+    "Compilation boundary is conservative first Checking harness after compile+link+first instrumentation, source-reported marker; actual compiler/proof execution NOT_RUN.",
+    "stderr latest stdout marker exact attribution UNKNOWN due to pipe scheduling. Exact per-row RSS UNKNOWN; group peak and sampled aggregate active CBMC cap reported.",
+    "Original8400s phase can interrupt groups before sum of all row worst-case budgets; results then UNKNOWN/NOT_RUN, never assumed pass."
+  ]
+}

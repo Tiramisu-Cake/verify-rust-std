@@ -1,0 +1,73 @@
+{
+  "schema": "ch8-profiles-off-batch-checkpoint-v1",
+  "runtime": "Codex",
+  "state": "READY_STATIC_REVIEWED_NOT_RUN",
+  "g0_input": "82cc48368e1e3aec544975831bc9595d26f5781d",
+  "control_worktree": "/root/kani-ch8-prof-off-w11",
+  "control_branch": "work/ch8-prof-off-batch-r2-w11",
+  "control_commit": "242ca631743080daa98850d9d385a8079fbe581f",
+  "control_tree": "41888f1116eb898f3b33fb963f74d4739354ac31",
+  "control_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "previous_control": "6269319aecfb3328a2cffe8e2779432dbc346322",
+  "source_commit": "9fa2f7f97760584f38738909625c064006d8a936",
+  "source_tree": "2faa473adeb0172e0f5a5e75fa2d759b20902e6d",
+  "authority": {
+    "push": false,
+    "ci": false,
+    "ledger": false,
+    "local_compiler_verifier": false
+  },
+  "push_count": 0,
+  "dispatch_count": 0,
+  "ledger_writes": 0,
+  "local_compiler_verifier_count": 0,
+  "proof_credit": "NONE",
+  "claims": [
+    {
+      "claim": "No global list; two cfg/RUSTFLAGS verify-std groups53+9 with one std compilation per group and per-harness600s cap.",
+      "assurance": "STATIC_REVIEWED_SYNTHETIC_NOT_COMPILED",
+      "evidence": [
+        "control-delta.patch",
+        "ci-only.patch",
+        "static-audit.json",
+        "VALIDATION.json",
+        "REVIEW.json"
+      ]
+    },
+    {
+      "claim": "All62 manifest rows/oracles/caps/budgets/source/tool pins unchanged from previous control. Unique export harness binding/verdict and post-batch leaf-consumer gate retained.",
+      "assurance": "STATIC_REVIEWED_AND_SYNTHETIC_ONLY",
+      "evidence": [
+        "static-audit.json",
+        "VALIDATION.json",
+        "REVIEW.json"
+      ]
+    }
+  ],
+  "review": {
+    "state": "GO_STATIC_REVIEW_ONLY",
+    "path": "REVIEW.json",
+    "candidate": "242ca631743080daa98850d9d385a8079fbe581f",
+    "tree": "41888f1116eb898f3b33fb963f74d4739354ac31",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "sha256": "8fbcce1603e788e71351803b2689852608b2546c97fc98009cf7867b1881f7a6",
+    "spec_sha256": "13aa430f5d1f0eef0ba3942c04dfe4e32a81a4d883a6aa971ad3f99c5ec6d2df",
+    "packet_sha256": "707929a3a342aead16e532ec0b34a716ad188755a38d04bc24ee56240401d836",
+    "findings": []
+  },
+  "validation": {
+    "path": "VALIDATION.json",
+    "sha256": "b896fe559a0f0de7d27ef86c81c85abeb5695c9c64e5f1a31b7bb711b17c016f"
+  },
+  "open": [
+    "Actual std compilation, selected-instance lowering and all proof/cover/property qualification NOT_RUN.",
+    "Generated frame property identities, named successful-property binding and contract mangled-wrapper correlation require independent post-CI review.",
+    "Per-row RSS and exact stderr attribution UNKNOWN; group peak and sampled active-CBMC cap reported.",
+    "Original8400s phase may interrupt group worst-case envelope; preserve UNKNOWN/NOT_RUN.",
+    "Source remote reachability NOT_ESTABLISHED; publication/CI requires separate coordinator authority."
+  ],
+  "blocker": null,
+  "next": "Coordinator may use exact reviewed source/control pins and handoff only after separate publication/reservation/dispatch authority.",
+  "closure_reason": "Assigned runner redesign, frozen-manifest audit,32 isolated Python synthetic tests, independent Luna HIGH initial/delta review and exact patch reconstruction complete. Handoff only; no push/CI/ledger/local compiler-verifier; no proof credit."
+}

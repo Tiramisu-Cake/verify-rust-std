@@ -1,0 +1,52 @@
+{
+  "state": "PASS_STATIC_ONLY",
+  "previous_control": "6269319aecfb3328a2cffe8e2779432dbc346322",
+  "control": "242ca631743080daa98850d9d385a8079fbe581f",
+  "control_tree": "41888f1116eb898f3b33fb963f74d4739354ac31",
+  "control_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "source": "9fa2f7f97760584f38738909625c064006d8a936",
+  "manifest_rows": 62,
+  "manifest_rows_caps_budgets_source": "BYTE_OR_STRUCTURAL_IDENTICAL",
+  "manifest_sha256": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273",
+  "groups": [
+    {
+      "cfg": [],
+      "rows": 53
+    },
+    {
+      "cfg": [
+        "kani_smallsort_controls"
+      ],
+      "rows": 9
+    }
+  ],
+  "changed_paths": [
+    ".github/workflows/bench-compiler.yml",
+    ".github/workflows/bench-e2e.yml",
+    ".github/workflows/bench-pr.yml",
+    ".github/workflows/cargo-update.yml",
+    ".github/workflows/cbmc-latest.yml",
+    ".github/workflows/cbmc-update.yml",
+    ".github/workflows/ch8-prof-off.yml",
+    ".github/workflows/charon-update.yml",
+    ".github/workflows/deny.yml",
+    ".github/workflows/extra_jobs.yml",
+    ".github/workflows/format-check.yml",
+    ".github/workflows/kani.yml",
+    ".github/workflows/release.yml",
+    ".github/workflows/slow-tests.yml",
+    ".github/workflows/toolchain-upgrade.yml",
+    ".github/workflows/verify-std-check.yml",
+    ".github/workflows/z3-update.yml",
+    "ch8-prof-off-control/CI-REQUEST.json",
+    "ch8-prof-off-control/check_package.py",
+    "ch8-prof-off-control/kani-version.toml",
+    "ch8-prof-off-control/manifest.json",
+    "ch8-prof-off-control/runner.py",
+    "ch8-prof-off-control/test_batch.py",
+    "ch8-prof-off-control/test_profiles.py",
+    "ch8-prof-off-control/test_runner.py"
+  ],
+  "local_compiler_verifier": "NOT_RUN",
+  "proof_credit": "NONE"
+}

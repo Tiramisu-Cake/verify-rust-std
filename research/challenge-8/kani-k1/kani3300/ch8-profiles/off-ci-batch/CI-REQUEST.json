@@ -1,0 +1,102 @@
+{
+  "schema": "ch8-prof-off-ci-batch-handoff-v1",
+  "state": "READY_STATIC_REVIEWED_NOT_RUN",
+  "g0_input": "82cc48368e1e3aec544975831bc9595d26f5781d",
+  "previous_control": "6269319aecfb3328a2cffe8e2779432dbc346322",
+  "control_worktree": "/root/kani-ch8-prof-off-w11",
+  "control_branch": "work/ch8-prof-off-batch-r2-w11",
+  "control_sha": "242ca631743080daa98850d9d385a8079fbe581f",
+  "control_tree": "41888f1116eb898f3b33fb963f74d4739354ac31",
+  "control_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "source_repository": "Tiramisu-Cake/verify-rust-std",
+  "source_sha": "9fa2f7f97760584f38738909625c064006d8a936",
+  "source_tree": "2faa473adeb0172e0f5a5e75fa2d759b20902e6d",
+  "source_worktree": "/root/verify-rust-std-ch8-profiles-w11",
+  "tool_repository": "model-checking/kani",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+  "host_repository": "Tiramisu-Cake/kani",
+  "source_publication": "NOT_ESTABLISHED",
+  "manifest_rows": 62,
+  "manifest_sha256": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273",
+  "caps": {
+    "runner": "ubuntu-24.04",
+    "jobs": 1,
+    "max_parallel": 1,
+    "concurrent_runs": 1,
+    "workflow_minutes": 180,
+    "setup_seconds": 1800,
+    "row_seconds": 600,
+    "proof_phase_seconds": 8400,
+    "closeout_seconds": 600,
+    "rss_kib": 6291456,
+    "rss_gib": 6,
+    "stdout_bytes_per_row": 1048576,
+    "stderr_bytes_per_row": 1048576,
+    "export_bytes_per_row": 8388608,
+    "artifact_bytes": 268435456,
+    "planned_row_seconds": 3720,
+    "cost_assurance": "UNMEASURED_ESTIMATE; hard caps do not promise completion"
+  },
+  "budgets": {
+    "phase_seconds": 8400,
+    "rss_kib": 6291456,
+    "stdout_bytes": 1048576,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456,
+    "row_seconds": 600
+  },
+  "batching": {
+    "mode": "VERIFY_STD_MULTI_HARNESS_NO_GLOBAL_LIST",
+    "compile_seconds_per_group": 900,
+    "groups": [
+      {
+        "cfg": [],
+        "rows": 53
+      },
+      {
+        "cfg": [
+          "kani_smallsort_controls"
+        ],
+        "rows": 9
+      }
+    ],
+    "group_wall": "min(sum(row timeout budgets) + compile, remaining phase minus cleanup margin)",
+    "group_rss": "min(12 GiB, available minus 2 GiB); sampled CBMC cap 6 GiB; exact per-row RSS UNKNOWN",
+    "consumer_gate": "POST_BATCH_IN_MANIFEST_ORDER",
+    "stdout_stderr_attribution": "latest stdout harness marker; stderr exact per-row UNKNOWN"
+  },
+  "authority": {
+    "push": false,
+    "ci": false,
+    "ledger": false,
+    "local_compiler_verifier": false
+  },
+  "dispatches": 0,
+  "proof_credit": "NONE",
+  "control_request_sha256": "ec9d82e174dec8ae9302d45751b90482105648075ea4f689211c555a51a7dd00",
+  "patches": {
+    "control-delta.patch": "7df30dfa5792670ce6adc1c56a97ec68bc8116b6f71d70b8fbeaeba864bf2b93",
+    "ci-only.patch": "8396b4689606d862a70114d6c02e4ec623434b6a32de7b02efcbb4d4ba35fdd7",
+    "receipt-delta.patch": "8917a80231609d91047333eeca5d34a39d4a82dd6e0e7683de89729798f55c78"
+  },
+  "review": {
+    "state": "GO_STATIC_REVIEW_ONLY",
+    "path": "REVIEW.json",
+    "candidate": "242ca631743080daa98850d9d385a8079fbe581f",
+    "tree": "41888f1116eb898f3b33fb963f74d4739354ac31",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "sha256": "8fbcce1603e788e71351803b2689852608b2546c97fc98009cf7867b1881f7a6",
+    "spec_sha256": "13aa430f5d1f0eef0ba3942c04dfe4e32a81a4d883a6aa971ad3f99c5ec6d2df",
+    "packet_sha256": "707929a3a342aead16e532ec0b34a716ad188755a38d04bc24ee56240401d836",
+    "findings": []
+  },
+  "qualification": "NOT_RUN; no prior proof credit transfers",
+  "historical_packages": "unchanged; source-review fingerprints in control request remain historical, not this candidate review",
+  "validation": {
+    "path": "VALIDATION.json",
+    "sha256": "b896fe559a0f0de7d27ef86c81c85abeb5695c9c64e5f1a31b7bb711b17c016f"
+  }
+}

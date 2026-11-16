@@ -1,0 +1,19 @@
+# Profiles OFF — batch preparation
+
+Exact source remains 9fa2f7f97760584f38738909625c064006d8a936 (tree 2faa473adeb0172e0f5a5e75fa2d759b20902e6d). Stock tool remains 0aac16ef62da9e9d5645782d458593e5d78143ba. The new control identity, tree and review binding are in CI-REQUEST.json. Parent is exactly stock0aac; author Tiramisu-Cake <igkharin@gmail.com>; local commit includes [skip ci]. Prior packages are unchanged.
+
+Global `kani list` is removed. Two verify-std calls select53 ordinary and9 controls-cfg rows, respectively, using multiple --harness selectors, --exact, --jobs1, --harness-timeout600s and one export per group. No per-row invocation or compile-only invocation is added. New target directory per group ensures one std compilation per group. All62 manifest rows, expected oracles, original caps/budgets/source pins and verification checks are unchanged (audit_static.py/static-audit.json).
+
+Each row binds its unique export harness entry (name, source file, contract target/mode, automatic-generation flag, unwind, checks/covers, failed properties and outcome). Group exit/signal is recorded with GROUP_NOT_ROW scope; negative siblings do not replace positive-row verdicts. Kani sorts harnesses by source location. After batches finish, admission runs in manifest leaf→consumer order; a consumer stays UNKNOWN unless its matching real-body leaf has an accepted observation and a hashed receipt. Observation acceptance is not independent proof credit.
+
+Each group has a900s compile/pre-harness deadline and a bounded head/tail compile receipt. Its boundary is the first `Checking harness` after cargo std build, all linking and first-harness instrumentation; this is a conservative source-reported boundary, not independently timed pure cargo compilation. Missing/duplicate/unexpected resource boundaries prevent acceptance. Std/target outputs are disposable and excluded/removed before artifact upload. Receipts preserve original execution exits/signals/errors before parsing/postflight.
+
+Group wall envelope is sum(row600s budgets)+900s compile, capped by remaining original8400s phase with cleanup margin. Full worst-case row budgets do not fit that phase: interruption must remain UNKNOWN/NOT_RUN. No timeout is silently reduced in Kani: every harness still requests600s. Compile/proof runtime and cost remain unmeasured.
+
+Group RSS is sampled and capped at min(12GiB, available memory−2GiB), considering host/cgroup limits. Active CBMC aggregate RSS is sampled against6GiB with jobs1. Exact per-row RSS remains UNKNOWN; group peak is retained. stdout/stderr each keep the original1MiB row cap using stdout harness markers; stderr uses the latest stdout marker and exact per-row stderr attribution remains UNKNOWN because pipes drain independently. Compile logs retain64KiB head/tail per stream plus separator. Each serialized harness export keeps the original8MiB cap; group export also has an aggregate bound and the original256MiB artifact cap remains.
+
+Generated modifies/frame-negative identity, named successful-property binding and mangled-wrapper correlation remain independent post-CI review obligations. No old proof evidence transfers; OFF does not qualify ON. CI/proof/compiler execution NOT_RUN; credit NONE.
+
+Coordinator continuation requires separate publication/reservation/dispatch authority. Verify exact source remote reachability (not established here), exact reviewed control tree and attempt1. If preparing the dispatch sibling, retain stock0aac as its single parent and the reviewed tree; rebind only the local [skip ci] commit metadata as previously required. This task performs no push/CI/ledger mutation.
+
+Files: control-delta.patch compares6269319aec to the batch candidate; ci-only.patch compares stock0aac to the complete control; review-packet pins committed diff/dependencies. Static audit and synthetic validation are separate from independent REVIEW.json.

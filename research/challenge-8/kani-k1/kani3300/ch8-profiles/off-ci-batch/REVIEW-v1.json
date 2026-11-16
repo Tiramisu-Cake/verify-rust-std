@@ -1,0 +1,27 @@
+{
+  "schema": "smallsort-static-review-v1",
+  "reviewed_commit": "cb17a0dc0f235e2992ddfcb9a945f633236f0e00",
+  "reviewed_tree": "9d382acfcf8cebb98190694684f6ce439ee42d16",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "prior_control": "6269319aecfb3328a2cffe8e2779432dbc346322",
+  "spec_sha256": "d599fe8372e441ae494c1373a6605039eb9c6d5f4d5160ca6510e84ae9ae6f83",
+  "packet_sha256": "659064863f62f568313204fdba6ce3f9653e3451f837f5995e527c9e78e45a03",
+  "verdict": "GO_STATIC_REVIEW_ONLY",
+  "findings": [],
+  "checks": [
+    "smallsort-session review check verified the exact candidate and spec identities; packet state was PACKET_VALID_NOT_REVIEWED and proof_credit NONE.",
+    "Compared the batching delta with prior control: request rows, budgets, caps, manifest SHA, source/tool pins, changed-file hashes, and variants are unchanged.",
+    "Confirmed two cfg/RUSTFLAGS groups (53 and 9 rows), repeated --harness filters, --exact, --jobs 1, 600s harness timeout, a single export per group, and removal of the global list path.",
+    "Inspected pinned Kani sources: --harness is repeatable into a Vec, harness selection metadata records requested filters and exact matches, harness execution sorts by source location, export rows are sorted separately, and Checking harness markers are emitted immediately before per-harness execution.",
+    "Reviewed row export parsing, named failure/covers/oracles, source/stage/target binding, missing/null/wrong-type/partial/NOT_RUN handling, mixed group exit handling, leaf-to-consumer post-batch gating, and preservation of original group exits.",
+    "Reviewed compile deadline and bounded head/tail receipts, group RSS and active CBMC caps, per-row output/export caps, phase budget, artifact budget, and explicit UNKNOWN attribution for per-row RSS and stderr scheduling.",
+    "check_package control passed with the pinned commit context; workflow YAML preflight passed.",
+    "31 isolated synthetic Python tests passed across test_runner.py, test_profiles.py, and test_batch.py."
+  ],
+  "limitations": [
+    "Static review only. No cargo, rustc, Kani, CBMC, CI, push, or proof execution was performed; results remain NOT_RUN and proof credit is NONE.",
+    "Compilation boundary is the source-reported first harness marker after build, link, and instrumentation. Per-row stderr and RSS attribution remain UNKNOWN as declared.",
+    "Generated frame-property identity still requires independent review; the parser correctly leaves those rows UNKNOWN pending that review."
+  ],
+  "proof_credit": "NONE"
+}

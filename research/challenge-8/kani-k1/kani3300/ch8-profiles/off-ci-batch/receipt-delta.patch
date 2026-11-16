@@ -1,0 +1,59 @@
+diff --git a/ch8-prof-off-control/CI-REQUEST.json b/ch8-prof-off-control/CI-REQUEST.json
+index 43af78d16..79525db3b 100644
+--- a/ch8-prof-off-control/CI-REQUEST.json
++++ b/ch8-prof-off-control/CI-REQUEST.json
+@@ -1382,10 +1382,10 @@
+     "ch8-prof-off-control/check_package.py": "774fc5a8a1885f7f945bbcdbe818ee785da036bea141be0162b8f7dc802d5d24",
+     "ch8-prof-off-control/kani-version.toml": "57d2640bfcac7029ceaf91bfc9e061f57f34fa9944e5929155a4fae528a8c0be",
+     "ch8-prof-off-control/manifest.json": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273",
+-    "ch8-prof-off-control/runner.py": "61dbc2a1d462bc6beef17d79df60c43d772abed80ef261e1efb20301a5496d6c",
++    "ch8-prof-off-control/runner.py": "e866a565788f1f41e4cfb26e9880a44a9cd09713d82b323de3508032bca066be",
+     "ch8-prof-off-control/test_profiles.py": "9726fad1363cdb75628d4560426271125b2dd5e3928ca525571b1e079633a972",
+     "ch8-prof-off-control/test_runner.py": "ff0cbfc4c1c5bb8ea569bece890d0bf9368d95c8c0fa55bf03d9624f2eac929d",
+-    "ch8-prof-off-control/test_batch.py": "895a50be56d1266f77c1a9903eb5dbd5cb848b12754926abd12142b901ab8e34"
++    "ch8-prof-off-control/test_batch.py": "4f1a1f735474bf3f554fac87f23ec3c9fa1ae292438bf76292b9ca0ba015907c"
+   },
+   "ci_changed_paths": [
+     ".github/workflows/bench-compiler.yml",
+diff --git a/ch8-prof-off-control/runner.py b/ch8-prof-off-control/runner.py
+index c369c4393..36aae7238 100644
+--- a/ch8-prof-off-control/runner.py
++++ b/ch8-prof-off-control/runner.py
+@@ -519,6 +519,13 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+             info["termination_reason"] = capture.reason
+         if compile_receipt["elapsed_seconds"] > COMPILE_SECONDS:
+             info["termination_reason"] = info.get("termination_reason") or "compile_timeout"
++        info["output_bytes"] = (sum(stream["bytes"] for stream in compile_receipt["logs"].values()) +
++                                sum(sum(counts.values()) for counts in compile_receipt["row_output_bytes"].values()))
++        info["stdout_truncated"] = any(counts["stdout"] > STDOUT_CAP_BYTES
++                                       for counts in compile_receipt["row_output_bytes"].values())
++        info["stderr_truncated"] = any(counts["stderr"] > STDERR_CAP_BYTES
++                                       for counts in compile_receipt["row_output_bytes"].values())
++        info["output_truncated"] = info["stdout_truncated"] or info["stderr_truncated"]
+         info["compilation"] = compile_receipt
+         _write_json(out / "compile-receipt.json", compile_receipt)
+         info["per_row_rss"] = "UNKNOWN"
+diff --git a/ch8-prof-off-control/test_batch.py b/ch8-prof-off-control/test_batch.py
+index b989359ce..33249696e 100644
+--- a/ch8-prof-off-control/test_batch.py
++++ b/ch8-prof-off-control/test_batch.py
+@@ -184,6 +184,19 @@ class BatchTests(unittest.TestCase):
+                                         rss_cap_kib=10, batch_rows=[row()], receipt_root=root)
+             self.assertEqual(result['termination_reason'], 'rss_cap')
+ 
++    def test_batch_execution_reports_output_bytes_and_truncation(self):
++        with tempfile.TemporaryDirectory() as d:
++            root = Path(d)
++            script = ("import sys; print('Checking harness slice::sort::root...', flush=True); "
++                      "sys.stdout.write('x' * 1200000); sys.stdout.flush()")
++            result = runner.execute([sys.executable, '-c', script], root, root/'group', 5,
++                                    batch_rows=[row()], receipt_root=root)
++            self.assertEqual(result['termination_reason'], 'row_stdout_cap')
++            self.assertGreater(result['output_bytes'], runner.STDOUT_CAP_BYTES)
++            self.assertTrue(result['stdout_truncated'])
++            self.assertTrue(result['output_truncated'])
++            self.assertFalse(result['stderr_truncated'])
++
+     def test_output_row_caps_and_compile_head_tail(self):
+         with tempfile.TemporaryDirectory() as d:
+             root = Path(d); group = root/'group'; group.mkdir()

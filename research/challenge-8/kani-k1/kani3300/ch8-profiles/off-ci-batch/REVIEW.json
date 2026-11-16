@@ -1,0 +1,31 @@
+{
+  "schema": "smallsort-static-review-v1",
+  "reviewed_commit": "242ca631743080daa98850d9d385a8079fbe581f",
+  "reviewed_tree": "41888f1116eb898f3b33fb963f74d4739354ac31",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "prior_control": "6269319aecfb3328a2cffe8e2779432dbc346322",
+  "spec_sha256": "13aa430f5d1f0eef0ba3942c04dfe4e32a81a4d883a6aa971ad3f99c5ec6d2df",
+  "packet_sha256": "707929a3a342aead16e532ec0b34a716ad188755a38d04bc24ee56240401d836",
+  "prior_review": {
+    "path": "REVIEW-v1.json",
+    "reviewed_commit": "cb17a0dc0f235e2992ddfcb9a945f633236f0e00",
+    "sha256": "d455a62f3e61d396e0caa69593b66a8de6a8bd79db9172db75b0a05cfacfc2e2"
+  },
+  "verdict": "GO_STATIC_REVIEW_ONLY",
+  "findings": [],
+  "checks": [
+    "smallsort-session review check verified the exact refreshed candidate and spec identities; packet state was PACKET_VALID_NOT_REVIEWED and proof_credit NONE.",
+    "The only code delta from the previously reviewed batching candidate is seven runner lines aggregating capture receipt byte counts and setting stdout/stderr/output truncation flags, plus one isolated synthetic regression test; manifest, tool pin, other tests, and batching/verdict paths are unchanged.",
+    "The byte total adds pre-harness compile stream byte counts to all row-assigned stream byte counts. BatchCapture counts include bytes beyond retained per-row log caps, so output_bytes remains a total while logs stay bounded.",
+    "The new regression emits over the row stdout cap and checks row_stdout_cap, output_bytes above the cap, stdout_truncated and output_truncated true, and stderr_truncated false.",
+    "Re-ran all 32 isolated synthetic Python tests across test_runner.py, test_profiles.py, and test_batch.py; all passed.",
+    "Prior static review remains applicable to the unchanged batching, export binding, per-row verdict, failure/timeout/partial handling, consumer gate, workflow, and source dependency checks."
+  ],
+  "limitations": [
+    "Static review only. No cargo, rustc, Kani, CBMC, CI, push, or proof execution was performed; results remain NOT_RUN and proof credit is NONE.",
+    "Compilation boundary is the source-reported first harness marker after build, link, and instrumentation. Compile logs intentionally retain bounded head and tail with original byte counts; this retention is described by their receipts.",
+    "Per-row stderr attribution and per-row RSS remain UNKNOWN as declared; group peak and sampled aggregate active CBMC cap are reported.",
+    "Generated frame-property identity still requires independent review; the parser leaves those rows UNKNOWN pending that review."
+  ],
+  "proof_credit": "NONE"
+}
