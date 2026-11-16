@@ -1,0 +1,127 @@
+{
+  "schema": "kani-confirm-main-static-validation-v1",
+  "status": "PASS",
+  "control": "6b653427d2911cb61c14757908e5e19491add138",
+  "tree": "72669e959de2879606f8eaad1bbfb0de31ffe1cd",
+  "checks": [
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "0aac16ef62da9e9d5645782d458593e5d78143ba",
+        "HEAD"
+      ],
+      "exit": 0,
+      "output": ""
+    },
+    {
+      "argv": [
+        "python3",
+        ".github/confirm-main/check_service.py"
+      ],
+      "exit": 0,
+      "output": "{\"status\": \"PASS\", \"checks\": [\"completed success and failure\", \"original exits\", \"timeouts\", \"spawn errors\", \"partial and missing exports\", \"null and wrong types\", \"NOT_RUN\", \"unsupported constructs\", \"source-stage-target selection mismatch\", \"compiler stack overflow versus generic or verification-stage crash\", \"stock-based control and single same-tree trigger child; changed-tree rejection\"]}"
+    },
+    {
+      "argv": [
+        "python3",
+        "tests/script-based-pre/delayed-harness-order/compare.py",
+        "--self-test"
+      ],
+      "exit": 0,
+      "output": "F4 comparator synthetic checks passed"
+    },
+    {
+      "argv": [
+        "python3",
+        ".github/confirm-main/confirm.py",
+        "before"
+      ],
+      "exit": 0,
+      "output": ""
+    }
+  ],
+  "source_identity": {
+    "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "base_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+    "binaries_sha256": {},
+    "changed_paths": [
+      ".github/confirm-main/check_service.py",
+      ".github/confirm-main/confirm.py",
+      ".github/workflows/bench-compiler.yml",
+      ".github/workflows/bench-e2e.yml",
+      ".github/workflows/bench-pr.yml",
+      ".github/workflows/cargo-update.yml",
+      ".github/workflows/cbmc-latest.yml",
+      ".github/workflows/cbmc-update.yml",
+      ".github/workflows/charon-update.yml",
+      ".github/workflows/deny.yml",
+      ".github/workflows/extra_jobs.yml",
+      ".github/workflows/format-check.yml",
+      ".github/workflows/kani.yml",
+      ".github/workflows/release.yml",
+      ".github/workflows/slow-tests.yml",
+      ".github/workflows/toolchain-upgrade.yml",
+      ".github/workflows/uninit-quick.yml",
+      ".github/workflows/verify-std-check.yml",
+      ".github/workflows/z3-update.yml",
+      "tests/expected/uninit/pattern-offset/pattern-offset.expected",
+      "tests/expected/uninit/pattern-offset/pattern-offset.rs",
+      "tests/expected/uninit/recursive-delayed/recursive-delayed.expected",
+      "tests/expected/uninit/recursive-delayed/recursive-delayed.rs",
+      "tests/script-based-pre/autoharness-uninit-padding/config.yml",
+      "tests/script-based-pre/autoharness-uninit-padding/fixture.rs",
+      "tests/script-based-pre/autoharness-uninit-padding/test.sh",
+      "tests/script-based-pre/delayed-harness-order/Cargo.toml",
+      "tests/script-based-pre/delayed-harness-order/compare.py",
+      "tests/script-based-pre/delayed-harness-order/config.yml",
+      "tests/script-based-pre/delayed-harness-order/expected",
+      "tests/script-based-pre/delayed-harness-order/src/lib.rs",
+      "tests/script-based-pre/delayed-harness-order/test.sh"
+    ],
+    "control": "6b653427d2911cb61c14757908e5e19491add138",
+    "head": "6b653427d2911cb61c14757908e5e19491add138",
+    "problems": [],
+    "tree": "72669e959de2879606f8eaad1bbfb0de31ffe1cd"
+  },
+  "static_checks": [
+    "Python AST parse",
+    "YAML parse and workflow trigger/fetch-depth assertions",
+    "bash -n for both test scripts",
+    "Rust copyright headers and no MaybeUninit",
+    "stock parent and allowed delta paths",
+    "sole targeted workflow",
+    "exact copied-file bytes and git modes",
+    "control patch check/apply in isolated Git index"
+  ],
+  "reconstructed_tree": "72669e959de2879606f8eaad1bbfb0de31ffe1cd",
+  "compiler_library_existing_tests": "UNCHANGED_FROM_STOCK",
+  "review": {
+    "reviewer": "GPT-6 Luna, high reasoning, separate context, read-only",
+    "scope": "F4 collector/fixture/CLI/export compatibility",
+    "result": "NO_RUNTIME_OR_CLI_BLOCKERS",
+    "limitations": [
+      "F4 compilation order remains UNESTABLISHED",
+      "Synthetic checks provide no Kani proof credit"
+    ],
+    "addressed": "F4 records the actual RUSTFLAGS value"
+  },
+  "Rust_compilation": "NOT_RUN",
+  "Kani": "NOT_RUN",
+  "CBMC": "NOT_RUN",
+  "CI": "NOT_RUN",
+  "push": "NOT_RUN",
+  "publication": "NOT_RUN",
+  "ledger_changes": "NONE",
+  "g0_diff_check": {
+    "status": "PASS_EXCLUDING_VERBATIM_CONTROL_PATCH",
+    "patch_note": "Two deleted stock workflow lines contain trailing whitespace. The exact patch preserves original bytes; isolated-index replay matches the control tree.",
+    "diagnostics": [
+      "research/challenge-8/kani-k1/kani3300/wave0/confirm-main/control.patch:518: trailing whitespace.",
+      "+-      ",
+      "research/challenge-8/kani-k1/kani3300/wave0/confirm-main/control.patch:545: trailing whitespace.",
+      "+-      # Ensures that a PR changing the benchmarks will have the new benchmarks run"
+    ]
+  }
+}

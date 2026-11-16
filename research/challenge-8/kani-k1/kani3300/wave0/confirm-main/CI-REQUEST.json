@@ -1,0 +1,83 @@
+{
+  "schema": "ch8-w0-confirm-main-ci-request-v1",
+  "status": "READY_FOR_REVIEW_PREPARATION_ONLY",
+  "runtime": "NOT_RUN",
+  "task": "research/challenge-8/kani-k1/TASK-CH8-W0-CONFIRM-MAIN-W15.md",
+  "g0_input": "0a237225f10a96b808df91e8a8ba62d5023a1dcd",
+  "task_reported_g0_input": "18743fb816465180215fcd86410ecfd46763b0ed",
+  "stock": {
+    "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+  },
+  "control": {
+    "commit": "6b653427d2911cb61c14757908e5e19491add138",
+    "tree": "72669e959de2879606f8eaad1bbfb0de31ffe1cd",
+    "parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "branch": "uninit-ci/confirm-main-w15",
+    "worktree": "/root/kani-confirm-main-w15",
+    "author": "Tiramisu-Cake <igkharin@gmail.com>",
+    "patch": "control.patch",
+    "patch_sha256": "2491df7e003d94ee3a47e594c8b2105b32f2aaf0eec14f382e7c29be667028b9"
+  },
+  "workflow": ".github/workflows/uninit-quick.yml",
+  "trigger": "uninit-ci/**",
+  "future_trigger": {
+    "authorization": "REQUIRES_SEPARATE_AUTHORIZATION",
+    "method": "push one empty same-tree non-skip child of control, or workflow_dispatch on control when available",
+    "accepted_source": "control directly based on stock, or a single child with identical tree",
+    "fetch_depth": 3
+  },
+  "runner": "ubuntu-24.04",
+  "expected_target": "x86_64-unknown-linux-gnu",
+  "command": [
+    "python3",
+    ".github/confirm-main/confirm.py",
+    "run"
+  ],
+  "build": "cargo build-dev (future CI only; once)",
+  "suites": {
+    "expected": [
+      "tests/expected/uninit/access-padding-uninit/access-padding-uninit.rs",
+      "tests/expected/uninit/pattern-offset/pattern-offset.rs",
+      "tests/expected/uninit/recursive-delayed/recursive-delayed.rs"
+    ],
+    "script-based-pre": [
+      "tests/script-based-pre/autoharness-uninit-padding",
+      "tests/script-based-pre/delayed-harness-order"
+    ],
+    "execution": "targeted native commands and script; no full regression matrix"
+  },
+  "expectations": "PACKAGE.md; fixed before execution",
+  "limits": {
+    "attempts": 1,
+    "automatic_retry": false,
+    "job_timeout_minutes": 90,
+    "per_native_probe_seconds": 180,
+    "f4_per_run_seconds": 120,
+    "f4_total_seconds": 900,
+    "builds": 1,
+    "jobs": 1
+  },
+  "artifacts": {
+    "name": "confirm-main-${github.run_id}-${github.run_attempt}",
+    "retention_days": 7,
+    "format": "compact per-test/source/summary JSON; full native logs and exports are temporary",
+    "f4_order_coverage": "UNESTABLISHED"
+  },
+  "stock_workflows": "removed only in control branch; retain uninit-quick.yml",
+  "sources": {
+    "path": "SOURCES.json",
+    "sha256": "29f0fc831eba57adc6fca467160b2efd5062bfed3b27649e2913c0565a062b31"
+  },
+  "validation": {
+    "path": "STATIC-VALIDATION.json",
+    "sha256": "47dd87310f7774b8851e8b96b9b16da06654d598974f135488c1609a060dabf0",
+    "assurance": "STATIC_AND_SYNTHETIC_ONLY"
+  },
+  "CI": "NOT_RUN",
+  "push": "NOT_RUN",
+  "publication": "NOT_RUN",
+  "local_cargo_rustc_Kani_CBMC": "NOT_RUN",
+  "ledger_changes": "NONE",
+  "Cloud_spend": 0
+}
