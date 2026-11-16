@@ -20,7 +20,7 @@ jobs:
       RUSTFLAGS: ''
       KANIFLAGS: ''
       KANI_LOG: ''
-      CONFIRM_EVIDENCE_DIR: ${{ runner.temp }}/confirm-main-evidence
+      CONFIRM_EVIDENCE_DIR: ${{ github.workspace }}/../confirm-main-evidence
     steps:
       - uses: actions/checkout@v6
         with:
@@ -51,6 +51,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: confirm-main-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/confirm-main-evidence/
+          path: ${{ env.CONFIRM_EVIDENCE_DIR }}/
           if-no-files-found: error
           retention-days: 7

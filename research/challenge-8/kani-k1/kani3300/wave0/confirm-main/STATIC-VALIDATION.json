@@ -1,8 +1,8 @@
 {
   "schema": "kani-confirm-main-static-validation-v1",
   "status": "PASS",
-  "control": "6b653427d2911cb61c14757908e5e19491add138",
-  "tree": "72669e959de2879606f8eaad1bbfb0de31ffe1cd",
+  "control": "bb427b45f38d05697e5b8bc0f15ff5e57eba7c19",
+  "tree": "622d35a8fe4289dd16c76cb027998caf3252c13a",
   "checks": [
     {
       "argv": [
@@ -21,16 +21,7 @@
         ".github/confirm-main/check_service.py"
       ],
       "exit": 0,
-      "output": "{\"status\": \"PASS\", \"checks\": [\"completed success and failure\", \"original exits\", \"timeouts\", \"spawn errors\", \"partial and missing exports\", \"null and wrong types\", \"NOT_RUN\", \"unsupported constructs\", \"source-stage-target selection mismatch\", \"compiler stack overflow versus generic or verification-stage crash\", \"stock-based control and single same-tree trigger child; changed-tree rejection\"]}"
-    },
-    {
-      "argv": [
-        "python3",
-        "tests/script-based-pre/delayed-harness-order/compare.py",
-        "--self-test"
-      ],
-      "exit": 0,
-      "output": "F4 comparator synthetic checks passed"
+      "output": "{\"status\": \"PASS\", \"checks\": [\"completed success and failure\", \"original exits\", \"timeouts\", \"spawn errors\", \"partial and missing exports\", \"null and wrong types\", \"NOT_RUN\", \"unsupported constructs\", \"source-stage-target selection mismatch\", \"compiler stack overflow versus generic or verification-stage crash\", \"stock-based control and single same-tree trigger child; changed-tree rejection\", \"workflow expression availability and rejected job-env runner regression\"], \"workflow_expressions\": [{\"line\": 23, \"key\": \"jobs.confirm.env.CONFIRM_EVIDENCE_DIR\", \"expression\": \"github.workspace\"}, {\"line\": 45, \"key\": \"jobs.confirm.steps.if\", \"expression\": \"always()\"}, {\"line\": 47, \"key\": \"jobs.confirm.steps.env.CONFIRM_JOB_STATUS\", \"expression\": \"job.status\"}, {\"line\": 50, \"key\": \"jobs.confirm.steps.if\", \"expression\": \"always()\"}, {\"line\": 53, \"key\": \"jobs.confirm.steps.with.name\", \"expression\": \"github.run_id\"}, {\"line\": 53, \"key\": \"jobs.confirm.steps.with.name\", \"expression\": \"github.run_attempt\"}, {\"line\": 54, \"key\": \"jobs.confirm.steps.with.path\", \"expression\": \"env.CONFIRM_EVIDENCE_DIR\"}]}"
     },
     {
       "argv": [
@@ -80,10 +71,10 @@
       "tests/script-based-pre/delayed-harness-order/src/lib.rs",
       "tests/script-based-pre/delayed-harness-order/test.sh"
     ],
-    "control": "6b653427d2911cb61c14757908e5e19491add138",
-    "head": "6b653427d2911cb61c14757908e5e19491add138",
+    "control": "bb427b45f38d05697e5b8bc0f15ff5e57eba7c19",
+    "head": "bb427b45f38d05697e5b8bc0f15ff5e57eba7c19",
     "problems": [],
-    "tree": "72669e959de2879606f8eaad1bbfb0de31ffe1cd"
+    "tree": "622d35a8fe4289dd16c76cb027998caf3252c13a"
   },
   "static_checks": [
     "Python AST parse",
@@ -93,35 +84,93 @@
     "stock parent and allowed delta paths",
     "sole targeted workflow",
     "exact copied-file bytes and git modes",
-    "control patch check/apply in isolated Git index"
+    "control patch check/apply in isolated Git index",
+    "all seven expressions match parsed YAML paths; documented context availability; original runner-in-job-env regression rejected"
   ],
-  "reconstructed_tree": "72669e959de2879606f8eaad1bbfb0de31ffe1cd",
-  "compiler_library_existing_tests": "UNCHANGED_FROM_STOCK",
-  "review": {
-    "reviewer": "GPT-6 Luna, high reasoning, separate context, read-only",
-    "scope": "F4 collector/fixture/CLI/export compatibility",
-    "result": "NO_RUNTIME_OR_CLI_BLOCKERS",
-    "limitations": [
-      "F4 compilation order remains UNESTABLISHED",
-      "Synthetic checks provide no Kani proof credit"
+  "workflow_context_review": {
+    "documentation": [
+      "https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability",
+      "https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#github-context",
+      "https://docs.github.com/en/actions/reference/workflows-and-actions/expressions#status-check-functions"
     ],
-    "addressed": "F4 records the actual RUSTFLAGS value"
+    "expressions": [
+      {
+        "line": 23,
+        "key": "jobs.confirm.env.CONFIRM_EVIDENCE_DIR",
+        "expression": "github.workspace"
+      },
+      {
+        "line": 45,
+        "key": "jobs.confirm.steps.if",
+        "expression": "always()"
+      },
+      {
+        "line": 47,
+        "key": "jobs.confirm.steps.env.CONFIRM_JOB_STATUS",
+        "expression": "job.status"
+      },
+      {
+        "line": 50,
+        "key": "jobs.confirm.steps.if",
+        "expression": "always()"
+      },
+      {
+        "line": 53,
+        "key": "jobs.confirm.steps.with.name",
+        "expression": "github.run_id"
+      },
+      {
+        "line": 53,
+        "key": "jobs.confirm.steps.with.name",
+        "expression": "github.run_attempt"
+      },
+      {
+        "line": 54,
+        "key": "jobs.confirm.steps.with.path",
+        "expression": "env.CONFIRM_EVIDENCE_DIR"
+      }
+    ],
+    "coverage": "ALL_EXPRESSIONS_IN_UNINIT_QUICK_YML",
+    "synthetic_checker_scope": "Simple dotted context lookups and zero-argument status functions at the reviewed job-env and step keys; other syntax/locations raise ValueError. Dependency-free indentation scanner, cross-checked locally against parsed YAML paths; not a full GitHub workflow validator.",
+    "negative_checks": [
+      "runner.temp in jobs.confirm.env (original failure)",
+      "job.status, env.*, unknown context or always() in job env",
+      "secrets in step if",
+      "status function in step env",
+      "malformed delimiters",
+      "unreviewed workflow-level location"
+    ],
+    "positive_checks": [
+      "github.workspace in job env",
+      "job.status in step env",
+      "always() in step if",
+      "github run identities and env evidence path in step with",
+      "runner.temp in step with"
+    ]
+  },
+  "reconstructed_tree": "622d35a8fe4289dd16c76cb027998caf3252c13a",
+  "compiler_library_existing_tests": "UNCHANGED_FROM_STOCK",
+  "prior_F4_review": {
+    "control": "6b653427d2911cb61c14757908e5e19491add138",
+    "result": "NO_RUNTIME_OR_CLI_BLOCKERS",
+    "reviewer": "GPT-6 Luna, high reasoning, separate context, read-only",
+    "scope": "F4 collector/fixture/CLI/export compatibility; all F4 files unchanged in this revision"
+  },
+  "prior_F4_synthetic_validation": {
+    "control": "6b653427d2911cb61c14757908e5e19491add138",
+    "result": "PASS_RETAINED",
+    "scope": "unchanged compare.py --self-test; original report is in g0 commit ab2535905e880222fcab015becb1382bd8c1ea53"
   },
   "Rust_compilation": "NOT_RUN",
   "Kani": "NOT_RUN",
   "CBMC": "NOT_RUN",
-  "CI": "NOT_RUN",
-  "push": "NOT_RUN",
+  "CI": "NOT_RUN_FOR_NEW_CONTROL",
+  "push": "NOT_RUN_FOR_NEW_CONTROL",
   "publication": "NOT_RUN",
   "ledger_changes": "NONE",
   "g0_diff_check": {
-    "status": "PASS_EXCLUDING_VERBATIM_CONTROL_PATCH",
-    "patch_note": "Two deleted stock workflow lines contain trailing whitespace. The exact patch preserves original bytes; isolated-index replay matches the control tree.",
-    "diagnostics": [
-      "research/challenge-8/kani-k1/kani3300/wave0/confirm-main/control.patch:518: trailing whitespace.",
-      "+-      ",
-      "research/challenge-8/kani-k1/kani3300/wave0/confirm-main/control.patch:545: trailing whitespace.",
-      "+-      # Ensures that a PR changing the benchmarks will have the new benchmarks run"
-    ]
+    "status": "PASS",
+    "exit": 0,
+    "scope": "all changed package files including control.patch"
   }
 }

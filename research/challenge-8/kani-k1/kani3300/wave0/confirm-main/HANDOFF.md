@@ -1,17 +1,19 @@
 # Передача пакета worker15
 
-Статус: подготовка для одного будущего CI-прогона, **NOT_RUN**.
+Статус новой редакции: подготовка для будущего CI-прогона; Kani **NOT_RUN**.
 
-Исходный вход g0 задания: `18743fb816465180215fcd86410ecfd46763b0ed`; HEAD при завершении пакета: `0a237225f10a96b808df91e8a8ba62d5023a1dcd`. Kani stock: `0aac16ef62da9e9d5645782d458593e5d78143ba`. Отдельный Kani worktree: `/root/kani-confirm-main-w15`, ветка `uninit-ci/confirm-main-w15`.
+Исходный вход g0 задания: `18743fb816465180215fcd86410ecfd46763b0ed`; HEAD g0 при обновлении: `83c101ca810a24f14f932f6e5bb96dc6571d3872`. Kani stock: `0aac16ef62da9e9d5645782d458593e5d78143ba`. Worktree: `/root/kani-confirm-main-w15`, ветка `uninit-ci/confirm-main-w15-context-fix`.
 
-Control SHA и tree записаны в `CI-REQUEST.json`; `control.patch` содержит точный diff от stock. Author обоих коммитов: `Tiramisu-Cake <igkharin@gmail.com>`, сообщения содержат `[skip ci]`.
+Control: `bb427b45f38d05697e5b8bc0f15ff5e57eba7c19`; tree: `622d35a8fe4289dd16c76cb027998caf3252c13a`; единственный parent — stock `0aac16ef62`. Прежний control `6b653427d2911cb61c14757908e5e19491add138` сохранён на ветке `uninit-ci/confirm-main-w15`. Author control и g0: `Tiramisu-Cake <igkharin@gmail.com>`; сообщения содержат `[skip ci]`.
 
-Control: `6b653427d2911cb61c14757908e5e19491add138`; tree: `72669e959de2879606f8eaad1bbfb0de31ffe1cd`. Patch проверен и применён в изолированном Git index поверх stock; получен тот же tree. `STATIC-VALIDATION.json` фиксирует успешные проверки синтаксиса Python/YAML/shell, source identity и синтетические проверки обработчиков. `SOURCES.json` связывает копии тестов и CI-файлов с control по SHA-256 и Git modes. Компиляция Rust: **NOT_RUN**.
+По сообщению пользователя, push-запуск `43878357528`, trigger `fd036c225f` (same-tree child прежнего control), отклонён при проверке workflow, jobs: 0. Выводов F1–F4 этот отказ не даёт. Причина в исходном YAML согласуется с документацией GitHub: `runner` недоступен в `jobs.<job_id>.env`.
 
-Будущий push-запуск потребует отдельного пустого дочернего коммита без `[skip ci]` с тем же tree. Source gate принимает исходный control или ровно одного такого потомка; workflow загружает три коммита. Trigger-коммит в этой стадии не создан. Возможен `workflow_dispatch` на control, если workflow доступен для dispatch в репозитории.
+Исправление: job env `CONFIRM_EVIDENCE_DIR` задаётся через `${{ github.workspace }}/../confirm-main-evidence`; upload читает `${{ env.CONFIRM_EVIDENCE_DIR }}/`. Все семь выражений сверены с [таблицей доступности контекстов](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability): `github.workspace` в job env, `always()` в step if, `job.status` в step env, `github.run_id`, `github.run_attempt` и `env.CONFIRM_EVIDENCE_DIR` в step with.
 
-Следующая стадия: проверить identities и результаты статического review, отдельно получить полномочия публикации/одного запуска, затем выполнить подготовленный workflow и прочитать компактные JSON по F1–F4. Для F4 учитывать фактическое покрытие порядка компиляции. Не публиковать отдельный fix PR до воспроизводимого неверного результата main и проверки исправления на этом тесте.
+`check_service.py` проверяет выражения текущего workflow и отвергает исходный `runner.temp` в job env, другие недоступные контексты/функции и неподдержанный синтаксис/расположение. Проверка не требует внешних Python-пакетов. Список всех выражений дополнительно сопоставлен с локальным YAML-разбором. Область проверки и ссылки на документацию: `STATIC-VALIDATION.json#/workflow_context_review`.
 
-На этой стадии нет push, CI, публикаций и изменений ledger; локальные cargo/rustc/Kani/CBMC не запускались. Исходники компилятора и библиотеки не менялись. Синтетические Python-процессы проверяют только обработку результатов/ошибок, без proof credit.
+Статические и синтетические проверки прошли. `control.patch` применён в изолированном Git index поверх stock и восстановил точный control tree. `SOURCES.json` фиксирует SHA-256 и Git modes копий. Тесты F1–F4 и исходники компилятора/библиотеки в этой доработке не менялись. Совместимость F4 и его синтетический результат сохранены из предыдущего пакета с отдельной привязкой к прежнему control.
 
-В общем g0 во время подготовки появились чужие коммиты и правки в других каталогах wave0; они сохранены. Этот пакет добавляется отдельным коммитом только в `wave0/confirm-main/`; исходный pin задания остаётся входной identity.
+Следующая стадия: отдельно авторизованный push одного пустого дочернего trigger-коммита без `[skip ci]` с тем же tree; source gate принимает control или ровно одного такого потомка, fetch depth — 3. Возможен `workflow_dispatch` на control, если workflow доступен для dispatch. Новый trigger не создан; push, CI, публикации и ledger в этой доработке не выполнялись. Локальные cargo/rustc/Kani/CBMC не запускались. Для F4 покрытие порядка компиляции остаётся **UNESTABLISHED**.
+
+Обновляется только `wave0/confirm-main/`; соседние изменения общего g0 сохранены.

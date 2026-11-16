@@ -3,21 +3,21 @@
   "status": "READY_FOR_REVIEW_PREPARATION_ONLY",
   "runtime": "NOT_RUN",
   "task": "research/challenge-8/kani-k1/TASK-CH8-W0-CONFIRM-MAIN-W15.md",
-  "g0_input": "0a237225f10a96b808df91e8a8ba62d5023a1dcd",
+  "g0_input": "83c101ca810a24f14f932f6e5bb96dc6571d3872",
   "task_reported_g0_input": "18743fb816465180215fcd86410ecfd46763b0ed",
   "stock": {
     "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
     "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
   },
   "control": {
-    "commit": "6b653427d2911cb61c14757908e5e19491add138",
-    "tree": "72669e959de2879606f8eaad1bbfb0de31ffe1cd",
+    "commit": "bb427b45f38d05697e5b8bc0f15ff5e57eba7c19",
+    "tree": "622d35a8fe4289dd16c76cb027998caf3252c13a",
     "parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
-    "branch": "uninit-ci/confirm-main-w15",
+    "branch": "uninit-ci/confirm-main-w15-context-fix",
     "worktree": "/root/kani-confirm-main-w15",
     "author": "Tiramisu-Cake <igkharin@gmail.com>",
     "patch": "control.patch",
-    "patch_sha256": "2491df7e003d94ee3a47e594c8b2105b32f2aaf0eec14f382e7c29be667028b9"
+    "patch_sha256": "f5f24ed3cf6493cc0c351e29002a10f5cad77671184f613e147c99096dad304c"
   },
   "workflow": ".github/workflows/uninit-quick.yml",
   "trigger": "uninit-ci/**",
@@ -67,17 +67,41 @@
   "stock_workflows": "removed only in control branch; retain uninit-quick.yml",
   "sources": {
     "path": "SOURCES.json",
-    "sha256": "29f0fc831eba57adc6fca467160b2efd5062bfed3b27649e2913c0565a062b31"
+    "sha256": "2a1b798f6c8dcace213d1654bcc311876718b20e4c7482e0059e0c271dd11db6"
   },
   "validation": {
     "path": "STATIC-VALIDATION.json",
-    "sha256": "47dd87310f7774b8851e8b96b9b16da06654d598974f135488c1609a060dabf0",
+    "sha256": "dbe1e8eb3cbfc07896efaebac54d69e1f0a1a9fa8371d7ec3a2369c52994c04d",
     "assurance": "STATIC_AND_SYNTHETIC_ONLY"
   },
-  "CI": "NOT_RUN",
-  "push": "NOT_RUN",
+  "CI": "NOT_RUN_FOR_NEW_CONTROL",
+  "push": "NOT_RUN_FOR_NEW_CONTROL",
   "publication": "NOT_RUN",
   "local_cargo_rustc_Kani_CBMC": "NOT_RUN",
   "ledger_changes": "NONE",
-  "Cloud_spend": 0
+  "Cloud_spend": 0,
+  "previous_package": {
+    "g0_commit": "ab2535905e880222fcab015becb1382bd8c1ea53",
+    "control": "6b653427d2911cb61c14757908e5e19491add138",
+    "tree": "72669e959de2879606f8eaad1bbfb0de31ffe1cd"
+  },
+  "previous_attempt": {
+    "run_id": "43878357528",
+    "trigger_prefix": "fd036c225f",
+    "trigger_relation": "same-tree child of previous control, user-reported",
+    "outcome": "WORKFLOW_REJECTED_ZERO_JOBS",
+    "jobs": 0,
+    "evidence": "USER_REPORTED; no job logs or artifacts inspected",
+    "cause": "runner context is unavailable in jobs.<job_id>.env per GitHub context availability documentation",
+    "proof_runtime": "NOT_RUN"
+  },
+  "workflow_contexts": {
+    "review": "STATIC-VALIDATION.json#/workflow_context_review",
+    "job_evidence_path": "${{ github.workspace }}/../confirm-main-evidence",
+    "upload_path": "${{ env.CONFIRM_EVIDENCE_DIR }}/",
+    "synthetic_check": [
+      "python3",
+      ".github/confirm-main/check_service.py"
+    ]
+  }
 }
