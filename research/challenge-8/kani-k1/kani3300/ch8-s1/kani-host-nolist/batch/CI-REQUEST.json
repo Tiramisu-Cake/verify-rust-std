@@ -1,0 +1,71 @@
+{
+  "schema": "ch8-s1-batch-preparation-v1",
+  "authorization": "PREPARATION_ONLY_NO_DISPATCH",
+  "control_sha": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+  "control_tree": "c17af287534589256ea5db86a60763e2832a88f3",
+  "control_branch": "uninit-ci/ch8-s1k-batch-w13",
+  "control_worktree": "/root/kani-ch8-s1k-batch-w13",
+  "parent_tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+  "std_sha": "f22f84f316ad8ef6f3fccce86424bad927b09f78",
+  "std_tree": "e0dc89592926571e823797f8618cd6b4a7e11ff6",
+  "supersedes_control": "801c2634cee3f3f39cb20146a1080e016a59e048",
+  "task_note_g0": "82cc48368e1e3aec544975831bc9595d26f5781d",
+  "control_request_sha256": "963b32d7751e5bc45604138e2e473d0bd9fe56e9966a30771583dbbb7c9413fa",
+  "rows": 23,
+  "row_oracles_source_bindings_variants": "UNCHANGED",
+  "groups": [
+    {
+      "id": "production-u34",
+      "rows": 15
+    },
+    {
+      "id": "production-u5",
+      "rows": 3
+    },
+    {
+      "id": "production-u4",
+      "rows": 3
+    },
+    {
+      "id": "activation-default-u34",
+      "rows": 1
+    },
+    {
+      "id": "activation-override-u34",
+      "rows": 1
+    }
+  ],
+  "one_verify_std_invocation_per_group": true,
+  "harness_timeout_seconds": 600,
+  "compile_limit_seconds": 900,
+  "compile_boundary": "Stock initial export marker, in the same process",
+  "budgets": {
+    "jobs": 1,
+    "max_parallel": 1,
+    "workflow_minutes": 120,
+    "setup_seconds": 1800,
+    "phase_seconds": 4500,
+    "reserve_seconds": 900,
+    "row_seconds": 600,
+    "rss_kib": 6291456,
+    "stdout_bytes": 1048576,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456,
+    "planned_rows_seconds": 2760,
+    "rss_cap_kib": 6291456,
+    "compile_seconds": 900,
+    "planned_compile_seconds_per_group": 330,
+    "group_rss_max_kib": 12582912,
+    "memory_reserve_kib": 2097152
+  },
+  "per_root_rss": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+  "group_rss_cap": "min(12GiB,MemAvailable-2GiB,cgroup_headroom-2GiB when finite)",
+  "proof_rows": "ALL_23_NOT_RUN",
+  "proof_credit": "NONE",
+  "dispatches": 0,
+  "cloud_dollars": 0,
+  "independent_review": "APPROVED_PREPARATION_ONLY",
+  "publication": "NOT_PERFORMED"
+}

@@ -1,0 +1,37 @@
+{
+  "schema": "ch8-s1-batch-checkpoint-v1",
+  "state": "READY_PREPARATION_ONLY",
+  "task": "../../../../CH8-RUNNER-BATCH-NOTE.md",
+  "task_note_g0": "82cc48368e1e3aec544975831bc9595d26f5781d",
+  "original_task": "../../../../TASK-CH8-S1-LIST2-W13.md",
+  "g0_input": "a284417c71ac03e82790be621d72c42180e903b0",
+  "control_sha": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+  "control_tree": "c17af287534589256ea5db86a60763e2832a88f3",
+  "parent_tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "std_sha": "f22f84f316ad8ef6f3fccce86424bad927b09f78",
+  "std_tree": "e0dc89592926571e823797f8618cd6b4a7e11ff6",
+  "supersedes_control": "801c2634cee3f3f39cb20146a1080e016a59e048",
+  "proof_rows": "ALL_23_NOT_RUN",
+  "proof_obligations_closed": 0,
+  "proof_credit": "NONE",
+  "dispatches": 0,
+  "cloud_dollars": 0,
+  "assurance": "Static identity/source/argv comparisons and28 synthetic Python tests; actual Kani/std/CBMC not run.",
+  "independent_review": "REVIEW.md",
+  "independent_review_result": "APPROVED_PREPARATION_ONLY",
+  "independent_review_sha256": "4d765cd5b44435f1aa00d3a153a0401f9aa1e8d0d85efa70cb48ec89c273506f",
+  "choices": [
+    "Five groups by variant/unwind retain literal flags; one verify-std process/group.",
+    "Same-process900s compile/link monitor uses stock initial export boundary; no separate warm-up.",
+    "Binding/verdict by unique exact harness name in complete group export, independent of group exit/order.",
+    "Group memory cap uses available headroom minus2GiB; per-root RSS explicitly UNKNOWN.",
+    "Group wall compile+row budgets remains subject to existing4500s phase; a cutoff cannot grant proof credit."
+  ],
+  "open": [
+    "Actual compile/runtime/cache and group memory behavior are unmeasured.",
+    "Per-root RSS6GiB condition is UNKNOWN; no exact harness attribution from the stock export.",
+    "Stock export lacks resolved target DefId/AST/MIR binding and named successful assertion descriptions.",
+    "Full23-row completion within phase is an estimate, not established evidence."
+  ],
+  "next": "One supplemented preparation stage complete. Hand off reviewed local batch control; no current push/CI/publication/ledger authorization."
+}

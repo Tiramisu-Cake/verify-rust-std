@@ -1,0 +1,90 @@
+{
+  "state": "PASS_STATIC_ONLY",
+  "candidate": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+  "tree": "c17af287534589256ea5db86a60763e2832a88f3",
+  "parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "delta_vs_previous": [
+    ".github/workflows/ch8-s1.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/runner.py",
+    "ch8-s1-control/test_package.py",
+    "ch8-s1-control/test_runner.py"
+  ],
+  "row_count": 23,
+  "literal_rows_sha256": "4a392837eed3ee6e8b67812ed3c7d22001796efe9d98d6aa02d8ef165d6f9856",
+  "unchanged_functions": [
+    "verify_source",
+    "ci_env",
+    "_run_variant",
+    "_variant_info",
+    "_source_root",
+    "_row_base",
+    "_artifact_size",
+    "binary_fingerprints",
+    "_target_tokens",
+    "_bounded_log"
+  ],
+  "source_and_payload_identity": "PASS",
+  "budgets": {
+    "jobs": 1,
+    "max_parallel": 1,
+    "workflow_minutes": 120,
+    "setup_seconds": 1800,
+    "phase_seconds": 4500,
+    "reserve_seconds": 900,
+    "row_seconds": 600,
+    "rss_kib": 6291456,
+    "stdout_bytes": 1048576,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456,
+    "planned_rows_seconds": 2760,
+    "rss_cap_kib": 6291456,
+    "compile_seconds": 900,
+    "planned_compile_seconds_per_group": 330,
+    "group_rss_max_kib": 12582912,
+    "memory_reserve_kib": 2097152
+  },
+  "source_bindings": 23,
+  "global_list": "REMOVED",
+  "separate_warmup": "REMOVED",
+  "groups": [
+    {
+      "id": "production-u34",
+      "variant": "production",
+      "unwind": 34,
+      "rows": 15
+    },
+    {
+      "id": "production-u5",
+      "variant": "production",
+      "unwind": 5,
+      "rows": 3
+    },
+    {
+      "id": "production-u4",
+      "variant": "production",
+      "unwind": 4,
+      "rows": 3
+    },
+    {
+      "id": "activation-default-u34",
+      "variant": "activation-default",
+      "unwind": 34,
+      "rows": 1
+    },
+    {
+      "id": "activation-override-u34",
+      "variant": "activation-override",
+      "unwind": 34,
+      "rows": 1
+    }
+  ],
+  "per_row_argv_flags": "IDENTICAL_AFTER_PROJECTING_BATCH_SELECTORS_AND_ADDED_HARNESS_TIMEOUT",
+  "binding_oracle_tail": "BYTE_IDENTICAL",
+  "planned_compile_plus_rows_seconds": 4410,
+  "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+  "proof_rows": "ALL_23_NOT_RUN",
+  "proof_credit": "NONE"
+}

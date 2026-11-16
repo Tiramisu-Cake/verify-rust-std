@@ -1,0 +1,38 @@
+{
+  "schema": "ch8-s1-batch-validation-v1",
+  "state": "PASS_STATIC_ONLY",
+  "candidate": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+  "checks": {
+    "exact_frozen_batch_source_payload_argv": "STATIC-VALIDATION.json",
+    "synthetic_tests": {
+      "result": "PASS",
+      "tests": 28,
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s ch8-s1-control -p 'test_*.py' -q",
+      "actual_build": "NOT_RUN; synthetic Python/mocks only"
+    },
+    "yaml": "PASS; check_package.py yaml .github/workflows/ch8-s1.yml",
+    "actionlint": "PASS; /tmp/kani3300-d0-ci-tools/actionlint -shellcheck= -pyflakes= .github/workflows/ch8-s1.yml",
+    "candidate_diff_check": "PASS",
+    "review_packet_integrity": {
+      "result": "PASS",
+      "packet_sha256": "8a69ec07410257e1cc1007a56ae69a8d3ae4f0a9d9107604a4c14ab23261b58d",
+      "spec_sha256": "3b0814ecb12e854f9462923eff044fc564330b6c954db60f64ef3054757c89f6"
+    },
+    "independent_review": {
+      "result": "APPROVED_PREPARATION_ONLY",
+      "reviewer": "GPT-6 Luna HIGH; isolated context, no nested delegation",
+      "report": "REVIEW.md",
+      "sha256": "4d765cd5b44435f1aa00d3a153a0401f9aa1e8d0d85efa70cb48ec89c273506f",
+      "candidate": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5"
+    },
+    "g0_authored_diff_check": "PASS excluding exact generated patches/source packets and immutable reviewer Markdown hard-break spaces; original bytes preserved.",
+    "manifest": "MANIFEST.sha256; excludes manifest itself"
+  },
+  "execution": {
+    "push_ci_publication_ledger": "NOT_RUN",
+    "cargo_rustc_kani_cbmc": "NOT_RUN",
+    "proof_rows": "ALL_23_NOT_RUN",
+    "per_root_rss": "UNKNOWN",
+    "proof_credit": "NONE"
+  }
+}

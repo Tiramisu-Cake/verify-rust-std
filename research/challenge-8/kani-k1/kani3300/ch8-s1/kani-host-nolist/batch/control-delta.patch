@@ -1,0 +1,1415 @@
+diff --git a/.github/workflows/ch8-s1.yml b/.github/workflows/ch8-s1.yml
+index 778f6b656..06cefb2ca 100644
+--- a/.github/workflows/ch8-s1.yml
++++ b/.github/workflows/ch8-s1.yml
+@@ -88,13 +88,12 @@ jobs:
+         run: >-
+           python3 ../control/ch8-s1-control/check_package.py build
+           --tool . --epoch "$SETUP_EPOCH" --out "$RECEIPT_ROOT/setup"
+-      - name: Compile first exact root and run fixed S1 batch
++      - name: Run grouped S1 batch with per-harness timeout
+         timeout-minutes: 75
+         env:
+           RECEIPT_ROOT: ${{ runner.temp }}/ch8-s1-receipts
+           PYTHONDONTWRITEBYTECODE: "1"
+         run: |
+-          python3 control/ch8-s1-control/runner.py warmup --std export --tool tool --out "$RECEIPT_ROOT"
+           python3 control/ch8-s1-control/runner.py run --std export --tool tool --out "$RECEIPT_ROOT"
+       - name: Materialize bounded fallback
+         if: always()
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index ea388bde4..ed1fa9f99 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -635,13 +635,13 @@
+     }
+   ],
+   "ci_payload_sha256": {
+-    ".github/workflows/ch8-s1.yml": "736575bc1f5c3fc2f8bfaf9f83a4d697bdd20d5bf8b6227e91bb9cf280b10d69",
++    ".github/workflows/ch8-s1.yml": "7e9f05d73aaffc79584fb01cb8a6e2d8275e64c823226e89b77abfd1404d1da7",
+     "ch8-s1-control/activation-default.patch": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+     "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+-    "ch8-s1-control/check_package.py": "047be75be2dcccfef2bf5728282698946ae85251995926a85955b3f3d9b49441",
+-    "ch8-s1-control/runner.py": "37d590d0c646b82b8607ffbe1dd0dd3d0d76af22871c34bb995f60dc7e5efc94",
+-    "ch8-s1-control/test_package.py": "8e2a7f4cd5526c06f6db9c08124a711ab56623e70b359c2739d8c3b0a07c030e",
+-    "ch8-s1-control/test_runner.py": "956c38a061057ffa2711616810785f32177943fe56baa6d47eac069f0af041e5"
++    "ch8-s1-control/check_package.py": "4c840d8a2fa0a1627ba030b3c2d387a6b36630653dc49136f9b5f55442ffad25",
++    "ch8-s1-control/runner.py": "91531badd212f7bae16bd5e86acd8a57e864f2862b329a896235704bcd8384a6",
++    "ch8-s1-control/test_package.py": "d4f9617d746185773c96ae1588de21f6831c05399128003822eeb04613f970d7",
++    "ch8-s1-control/test_runner.py": "b11fc658205335eb535acafffdc7a0bc4c8eb0734cd6272a12ca9f5c708c9b96"
+   },
+   "budgets": {
+     "jobs": 1,
+@@ -658,8 +658,10 @@
+     "artifact_bytes": 268435456,
+     "planned_rows_seconds": 2760,
+     "rss_cap_kib": 6291456,
+-    "warmup_seconds": 900,
+-    "planned_warmup_seconds": 600
++    "compile_seconds": 900,
++    "planned_compile_seconds_per_group": 330,
++    "group_rss_max_kib": 12582912,
++    "memory_reserve_kib": 2097152
+   },
+   "reservations": {
+     "S1-01": "NOT_RESERVED/NOT_RUN; coordinator only after review",
+@@ -691,7 +693,7 @@
+     ]
+   },
+   "property_binding": "NOT_RUN; generated IDs/counts not invented; exported successes/covers require reviewer binding",
+-  "selector_binding": "Per-row export: exact selector/name, core crate, manual harness, pinned file/line anchors, ProofForContract.target_fn equals expected source expression (tokens compared; whitespace may differ, identifier boundaries retained); proof contract must be null. No global list or resolved-definition inventory.",
++  "selector_binding": "Grouped exact requested_filters and matched_count, one unique manual harness entry per selector; each row binds to its entry in harnesses[] with retained source anchors/PFC tokens or null proof contract. Group exit is not per-root verdict.",
+   "pre_dispatch_gate": "Independent review of frozen CI package plus worker14/coordinator inventory review; preparation grants no dispatch permission",
+   "ci_changed_paths": [
+     ".github/workflows/bench-compiler.yml",
+@@ -1078,5 +1080,18 @@
+       ],
+       "target": null
+     }
++  },
++  "batch_policy": {
++    "group_by": [
++      "variant",
++      "unwind"
++    ],
++    "harness_timeout": "600s",
++    "jobs": 1,
++    "compile_boundary": "Stock initial export marker after std_project, before verification;900s cap in same process",
++    "per_root_rss": "UNKNOWN; group process peak is not per-root RSS",
++    "group_rss_cap": "min(12GiB,available-2GiB); cgroup headroom considered",
++    "phase_seconds": 4500,
++    "group_wall_seconds": "compile_seconds + sum(row timeout_seconds), bounded additionally by shared phase"
+   }
+ }
+diff --git a/ch8-s1-control/check_package.py b/ch8-s1-control/check_package.py
+index 994d1e780..6246ebdba 100644
+--- a/ch8-s1-control/check_package.py
++++ b/ch8-s1-control/check_package.py
+@@ -54,7 +54,8 @@ def check_yaml(path):
+     assert int(steps[build_index]['timeout-minutes'])==15
+     assert int(steps[build_index+1]['timeout-minutes'])==75
+     recipe=steps[build_index+1]['run']
+-    assert 'runner.py warmup --std export --tool tool' in recipe
++    assert 'runner.py warmup' not in recipe
++    assert recipe.count('runner.py run') == 1
+     assert 'runner.py run --std export --tool tool' in recipe
+     assert 'runner.py list' not in recipe
+     assert sum(int(s['timeout-minutes']) for s in steps[-2:])==15
+@@ -108,19 +109,19 @@ def fallback(out):
+     r=json.loads((HERE/'CI-REQUEST.json').read_text())
+     # SIGKILL cannot run finally: retain observations and mark incomplete work UNKNOWN.
+     from runner import _write_json, _bounded_log
+-    warmup_dir=out/'warmup'; warmup_dir.mkdir(exist_ok=True)
+-    warmup_receipt=warmup_dir/'receipt.json'
+-    if warmup_receipt.exists():
+-        value=json.loads(warmup_receipt.read_text())
+-        if value.get('state')=='IN_PROGRESS':
+-            value.update(state='INTERRUPTED', reason='No completed warm-up; outcome UNKNOWN')
+-            for stream in ('stdout','stderr'):
+-                value[stream]=_bounded_log(warmup_dir/(stream+'.log'),None)
+-            _write_json(warmup_receipt,value)
+-    else:
+-        _write_json(warmup_receipt,{'schema':'ch8-s1-warmup-v1',
+-            'state':'NOT_RUN_OR_INTERRUPTED','proof_credit':'NONE',
+-            'execution':{'original_exit_code':None,'signal':None,'timed_out':None}})
++    from runner import group_rows
++    for group in group_rows(r['rows']):
++        dest=out/'groups'/group['id'];dest.mkdir(parents=True,exist_ok=True)
++        for path in (dest/'receipt.json',dest/'compile/receipt.json'):
++            if path.is_file():
++                value=json.loads(path.read_text())
++                if value.get('state')=='IN_PROGRESS':
++                    value.update(state='INTERRUPTED',outcome='UNKNOWN')
++                    for stream in ('stdout','stderr'):
++                        value[stream]=_bounded_log(dest/(stream+'.log'),None)
++                    _write_json(path,value)
++            else:
++                _write_json(path,{'state':'NOT_RUN_OR_INTERRUPTED','outcome':'UNKNOWN','proof_credit':'NONE'})
+     # Materialize every absent row, preserving any execution receipt already captured.
+     for row in r['rows']:
+         dest=out/row['id']; dest.mkdir(exist_ok=True)
+@@ -136,7 +137,9 @@ def fallback(out):
+                 value.update(status='INTERRUPTED',outcome='UNKNOWN',
+                              reason='No completed row receipt; original execution outcome UNKNOWN')
+                 for stream in ('stdout','stderr'):
+-                    value[stream]=_bounded_log(dest/(stream+'.log'),None)
++                    # Row diagnostics belong to the group, never claim per-root output.
++                    group_dir=out/'groups'/value.get('group','unknown')
++                    value[stream]=_bounded_log(group_dir/(stream+'.log'),None)
+                 _write_json(receipt,value)
+     (out/'job-status.json').write_text(json.dumps({'job_status':os.environ.get('JOB_STATUS','UNKNOWN'),
+         'request_sha256':hashlib.sha256((HERE/'CI-REQUEST.json').read_bytes()).hexdigest(),
+diff --git a/ch8-s1-control/runner.py b/ch8-s1-control/runner.py
+index f33b8dad5..89a27184d 100644
+--- a/ch8-s1-control/runner.py
++++ b/ch8-s1-control/runner.py
+@@ -27,7 +27,9 @@ STD_TREE = "e0dc89592926571e823797f8618cd6b4a7e11ff6"
+ TOOL_SHA = "0aac16ef62da9e9d5645782d458593e5d78143ba"
+ TOOL_TREE = "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+ MAX_ROW_SECONDS = 600
+-WARMUP_SECONDS = 900
++COMPILE_SECONDS = 900
++GROUP_RSS_MAX_KIB = 12 * 1024 * 1024
++MEMORY_RESERVE_KIB = 2 * 1024 * 1024
+ PHASE_SECONDS = 4500
+ PHASE_CLEANUP_MARGIN = 10
+ RSS_CAP_KIB = 6 * 1024 * 1024
+@@ -93,7 +95,7 @@ def load_request(path: Path = REQUEST_PATH) -> dict[str, Any]:
+         if not isinstance(row.get("required_cover_count"), int) or row["required_cover_count"] < 0:
+             raise RunnerError(f"invalid cover count for {rid}")
+         timeout = row.get("timeout_seconds")
+-        if not isinstance(timeout, int) or not 1 <= timeout <= MAX_ROW_SECONDS:
++        if type(timeout) is not int or timeout != MAX_ROW_SECONDS:
+             raise RunnerError(f"timeout outside 1..{MAX_ROW_SECONDS} for {rid}")
+         if row["expected"] == "DETECTED" and not isinstance(row.get("failure_description"), str):
+             raise RunnerError(f"negative row lacks named failure description: {rid}")
+@@ -105,7 +107,9 @@ def load_request(path: Path = REQUEST_PATH) -> dict[str, Any]:
+             "phase_seconds": PHASE_SECONDS, "rss_kib": RSS_CAP_KIB,
+             "stdout_bytes": STDOUT_CAP_BYTES, "stderr_bytes": STDERR_CAP_BYTES,
+             "export_bytes": EXPORT_CAP_BYTES, "artifact_bytes": ARTIFACT_CAP_BYTES,
+-            "row_seconds": MAX_ROW_SECONDS, "warmup_seconds": WARMUP_SECONDS}.items()):
++            "row_seconds": MAX_ROW_SECONDS, "compile_seconds": COMPILE_SECONDS,
++            "group_rss_max_kib": GROUP_RSS_MAX_KIB,
++            "memory_reserve_kib": MEMORY_RESERVE_KIB}.items()):
+         raise RunnerError("request budget mismatch")
+     bindings = request.get("source_bindings")
+     if not isinstance(bindings, dict) or set(bindings) != seen_ids:
+@@ -190,12 +194,31 @@ def _variant_info(request: dict[str, Any], name: str) -> tuple[Path, str, dict[s
+     return path, patch_sha, files
+ 
+ 
+-def build_argv(std: Path, tool: Path, selector: str, unwind: int, export: Path) -> list[str]:
++def group_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
++    groups: dict[tuple[str, int], dict[str, Any]] = {}
++    seen: set[tuple[str, int, str]] = set()
++    for row in rows:
++        key = (row["variant"], row["unwind"])
++        identity = (*key, row["selector"])
++        if identity in seen:
++            raise RunnerError("duplicate selector in invocation group")
++        seen.add(identity)
++        group = groups.setdefault(key, {"id": f"{key[0]}-u{key[1]}",
++                                        "variant": key[0], "unwind": key[1], "rows": []})
++        group["rows"].append(row)
++    return list(groups.values())
++
++
++def build_argv(std: Path, tool: Path, selectors: list[str], unwind: int, export: Path) -> list[str]:
++    if not selectors or len(set(selectors)) != len(selectors):
++        raise RunnerError("nonempty unique exact group selectors required")
+     argv = [str((tool.resolve() / "scripts/kani")), "verify-std", "-Z", "unstable-options"]
+     for feature in UNSTABLE:
+         argv += ["-Z", feature]
+-    argv += ["--no-assert-contracts", "--jobs=1", "--harness", selector,
+-             "--exact", "--default-unwind", str(unwind), "-Z", "export-json",
++    argv += ["--no-assert-contracts", "--jobs=1", "--harness-timeout", "600s"]
++    for selector in selectors:
++        argv += ["--harness", selector]
++    argv += ["--exact", "--default-unwind", str(unwind), "-Z", "export-json",
+              "--export-json", str(export.resolve()), "--output-format=terse", str((std.resolve() / "library")),
+              "--cbmc-args", "--object-bits", "12"]
+     return argv
+@@ -232,12 +255,24 @@ def _read_pipe(pipe, target: Path, cap: int, state: dict[str, Any], lock: thread
+                     state[key + "_cap"] = True
+                 state[key + "_kept"] += min(room, len(data))
+                 state[key + "_bytes"] += len(data)
++                head = state.setdefault(key + "_preview_head", bytearray())
++                head.extend(data[:max(0, 2048-len(head))])
++                tail_preview = state.setdefault(key + "_preview_tail", bytearray())
++                tail_preview.extend(data)
++                del tail_preview[:-2048]
+             head = min(len(data), head_cap - head_kept)
++            output.seek(head_kept)
+             output.write(data[:head])
+             head_kept += head
+             if tail_cap:
+                 tail.extend(data[head:])
+                 del tail[:-tail_cap]
++                # Keep the latest bounded tail durable for a SIGKILL fallback.
++                output.seek(head_kept)
++                output.write(tail)
++                output.truncate()
++                output.flush()
++        output.seek(head_kept)
+         output.write(tail)
+     pipe.close()
+ 
+@@ -291,11 +326,94 @@ def _kill_group(pgid: int, grace: float = 5.0) -> None:
+         pass
+ 
+ 
++def _stream_preview(state: dict[str, Any], stream: str) -> dict[str, Any]:
++    return {"head": bytes(state.get(stream + "_preview_head", b"")).decode("utf-8", errors="replace"),
++            "tail": bytes(state.get(stream + "_preview_tail", b"")).decode("utf-8", errors="replace"),
++            "observed_bytes": state.get(stream + "_bytes", 0),
++            "scope": "PIPE_BYTES_OBSERVED_AT_SNAPSHOT_NOT_PER_HARNESS"}
++
++
++class CompileMonitor:
++    """The stock initial export marker is written after std_project, before verification."""
++    def __init__(self, receipt_path: Path, export: Path, selectors: list[str],
++                 seconds: float = COMPILE_SECONDS):
++        self.path, self.export, self.selectors, self.seconds = receipt_path, export, selectors, seconds
++        self.receipt: dict[str, Any] = {
++            "schema": "ch8-s1-compile-receipt-v1", "state": "IN_PROGRESS",
++            "limit_seconds": seconds, "std_sha": STD_SHA, "tool_sha": TOOL_SHA,
++            "request_sha256": sha256(REQUEST_PATH), "selectors": selectors,
++            "scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
++            "proof_credit": "NONE", "elapsed_upper_bound_seconds": None}
++        _write_json(self.path, self.receipt)
++
++    def poll(self, elapsed: float, state: dict[str, Any]) -> bool:
++        if self.receipt["state"] != "IN_PROGRESS":
++            return False
++        if elapsed >= self.seconds:
++            return True
++        try:
++            if self.export.stat().st_size > EXPORT_CAP_BYTES:
++                return False
++            data = self.export.read_bytes()
++            value = json.loads(data)
++        except (OSError, UnicodeError, ValueError):
++            return False
++        if not _selection_matches(value, self.selectors, marker=True):
++            return False
++        self.receipt.update(state="COMPLETE", boundary="STOCK_INITIAL_EXPORT_OBSERVED",
++                            observed_run_state=value["run_state"],
++                            elapsed_upper_bound_seconds=round(elapsed, 3),
++                            marker_sha256=hashlib.sha256(data).hexdigest())
++        for name in ("stdout", "stderr"):
++            self.receipt[name] = _stream_preview(state, name)
++        _write_json(self.path, self.receipt)
++        return False
++
++    def finish(self, execution: dict[str, Any], state: dict[str, Any]) -> None:
++        if self.receipt["state"] == "IN_PROGRESS":
++            # A very fast child may have exited between polling iterations.
++            elapsed = execution.get("elapsed_seconds", self.seconds)
++            self.poll(elapsed, state)
++        if self.receipt["state"] == "IN_PROGRESS":
++            self.receipt.update(state="FAILED", reason=execution.get("termination_reason") or
++                                execution.get("runner_error") or "NO_VALID_INITIAL_EXPORT_BOUNDARY")
++            for name in ("stdout", "stderr"):
++                self.receipt[name] = _stream_preview(state, name)
++        self.receipt["group_execution"] = execution
++        _write_json(self.path, self.receipt)
++
++
++def group_memory_budget(meminfo: Path = Path("/proc/meminfo"),
++                        cgroup: Path = Path("/sys/fs/cgroup")) -> dict[str, Any]:
++    values = {}
++    for line in meminfo.read_text().splitlines():
++        if line.startswith("MemAvailable:"):
++            values["mem_available_kib"] = int(line.split()[1])
++    available = values.get("mem_available_kib")
++    if not isinstance(available, int):
++        raise RunnerError("cannot establish available memory for group cap")
++    # A cgroup can have less headroom than the host's MemAvailable.
++    limit = cgroup / "memory.max"
++    current = cgroup / "memory.current"
++    if limit.is_file() and current.is_file():
++        value = limit.read_text().strip()
++        if value != "max":
++            headroom = max(0, (int(value)-int(current.read_text().strip())) // 1024)
++            values["cgroup_headroom_kib"] = headroom
++            available = min(available, headroom)
++    cap = min(GROUP_RSS_MAX_KIB, available-MEMORY_RESERVE_KIB)
++    if cap <= 0:
++        raise RunnerError("less than 2 GiB memory reserve available")
++    return {**values, "available_kib": available, "reserve_kib": MEMORY_RESERVE_KIB,
++            "group_cap_kib": cap, "per_root_cap_kib": RSS_CAP_KIB,
++            "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION"}
++
++
+ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+             rss_cap_kib: int = RSS_CAP_KIB, stdout_cap: int = STDOUT_CAP_BYTES,
+             stderr_cap: int = STDERR_CAP_BYTES, export_path: Path | None = None,
+             export_cap: int = EXPORT_CAP_BYTES, env: dict[str, str] | None = None,
+-            capture_tail: bool = False) -> dict[str, Any]:
++            capture_tail: bool = False, compile_monitor: CompileMonitor | None = None) -> dict[str, Any]:
+     out.mkdir(parents=True, exist_ok=True)
+     started = time.monotonic()
+     info: dict[str, Any] = {"original_exit_code": None, "signal": None, "timed_out": False,
+@@ -310,6 +428,8 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+                                 start_new_session=True, bufsize=0)
+     except OSError as exc:
+         info.update(runner_error=f"exec failed: {exc}", elapsed_seconds=time.monotonic() - started)
++        if compile_monitor is not None:
++            compile_monitor.finish(info, state)
+         return info
+     threads = [threading.Thread(target=_read_pipe, args=(proc.stdout, out / "stdout.log", stdout_cap,
+                                                          state, lock, "stdout", capture_tail), daemon=True),
+@@ -341,6 +461,11 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+                         killed_for = "export_cap"
+                 except OSError:
+                     pass
++            if compile_monitor is not None:
++                with lock:
++                    compile_expired = compile_monitor.poll(time.monotonic()-started, state)
++                if compile_expired:
++                    killed_for = "compile_timeout"; info["timed_out"] = True
+             if killed_for:
+                 break
+             if time.monotonic() >= deadline:
+@@ -378,6 +503,8 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+     if export_path is not None and export_path.exists() and export_path.stat().st_size > export_cap:
+         info["termination_reason"] = "export_cap"
+     info["elapsed_seconds"] = round(time.monotonic() - started, 3)
++    if compile_monitor is not None:
++        compile_monitor.finish(info, state)
+     return info
+ 
+ 
+@@ -391,8 +518,22 @@ def _target_tokens(value: Any) -> list[str] | None:
+     return tokens
+ 
+ 
++def _selection_matches(value: Any, selectors: list[str], *, marker: bool = False) -> bool:
++    if (not isinstance(value, dict) or value.get("schema_version") != "0.1.0" or
++            value.get("kani_commit") != TOOL_SHA or value.get("kani_commit_dirty") is not False or
++            value.get("run_state") not in (("INCOMPLETE", "COMPLETE") if marker else ("COMPLETE",)) or
++            type(value.get("harness_timeout_s")) not in (int, float) or
++            value["harness_timeout_s"] != MAX_ROW_SECONDS):
++        return False
++    selection = value.get("harness_selection")
++    return (isinstance(selection, dict) and selection.get("requested_filters") == selectors and
++            selection.get("exact") is True and selection.get("unmatched_filters") == [] and
++            type(selection.get("matched_count")) is int and selection["matched_count"] == len(selectors))
++
++
+ def parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BYTES,
+-                 source_binding: dict[str, Any] | None = None, std: Path | None = None) -> dict[str, Any]:
++                 source_binding: dict[str, Any] | None = None, std: Path | None = None,
++                 group_selectors: list[str] | None = None) -> dict[str, Any]:
+     if not path.is_file():
+         return {"state": "MISSING", "outcome": "UNKNOWN"}
+     try:
+@@ -413,17 +554,17 @@ def parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_BY
+         return {"state": "INCOMPLETE_OR_SCHEMA_DRIFT", "outcome": "UNKNOWN"}
+     if value.get("kani_commit") != TOOL_SHA or value.get("kani_commit_dirty") is not False:
+         return {"state": "WRONG_TOOL_BINDING", "outcome": "UNKNOWN"}
+-    selection = value.get("harness_selection")
+-    if (not isinstance(selection, dict) or selection.get("requested_filters") != [row["selector"]] or
+-            selection.get("exact") is not True or selection.get("unmatched_filters") != [] or
+-            type(selection.get("matched_count")) is not int or selection.get("matched_count") != 1):
++    selectors = group_selectors or [row["selector"]]
++    if not _selection_matches(value, selectors) or row["selector"] not in selectors:
+         return {"state": "WRONG_ROOT_OR_SELECTION", "outcome": "UNKNOWN"}
+     harnesses = value.get("harnesses")
+-    if not isinstance(harnesses, list) or len(harnesses) != 1:
++    if (not isinstance(harnesses, list) or len(harnesses) != len(selectors) or
++            any(not isinstance(h, dict) or not isinstance(h.get("name"), str) for h in harnesses)):
+         return {"state": "WRONG_ROOT_OR_SELECTION", "outcome": "UNKNOWN"}
+-    harness = harnesses[0]
+-    if not isinstance(harness, dict) or harness.get("name") != row["selector"]:
++    names = [h["name"] for h in harnesses]
++    if len(set(names)) != len(names) or set(names) != set(selectors):
+         return {"state": "WRONG_ROOT_OR_SELECTION", "outcome": "UNKNOWN"}
++    harness = next(h for h in harnesses if h["name"] == row["selector"])
+     binding = source_binding or {}
+     file = harness.get("file")
+     if (harness.get("is_automatically_generated") is not False or
+@@ -580,64 +721,6 @@ def _bounded_log(path: Path, total_bytes: int | None) -> dict[str, Any]:
+             "sha256": sha256(path)}
+ 
+ 
+-def build_warmup_argv(std: Path, tool: Path, row: dict[str, Any], export: Path) -> list[str]:
+-    # Keep compiler flags (including -Z export-json and the exact selector) identical.
+-    # --export-json conflicts with --only-codegen; its path is driver-only.
+-    argv = build_argv(std, tool, row["selector"], row["unwind"], export)
+-    index = argv.index("--export-json")
+-    del argv[index:index+2]
+-    argv.insert(argv.index("--cbmc-args"), "--only-codegen")
+-    return argv
+-
+-
+-def warmup(std: Path, tool: Path, out: Path, request: dict[str, Any]) -> None:
+-    dest = out / "warmup"
+-    dest.mkdir(parents=True, exist_ok=True)
+-    phase_started = time.time()
+-    for name in ("stdout.log", "stderr.log"):
+-        (dest / name).write_bytes(b"")
+-    receipt_path = dest / "receipt.json"
+-    row = request["rows"][0]
+-    argv = build_warmup_argv(std, tool, row, dest / "unused.json")
+-    receipt = {"schema": "ch8-s1-warmup-v1", "state": "IN_PROGRESS",
+-               "stage": "SOURCE_PREFLIGHT", "argv": argv, "selector": row["selector"],
+-               "timeout_seconds": WARMUP_SECONDS, "phase_started_unix": phase_started,
+-               "request_sha256": sha256(REQUEST_PATH), "std_sha": STD_SHA, "tool_sha": TOOL_SHA,
+-               "proof_credit": "NONE", "purpose": "COMPILATION_ONLY_NOT_PROOF",
+-               "execution": {"original_exit_code": None, "signal": None, "timed_out": None}}
+-    _write_json(receipt_path, receipt)
+-    try:
+-        verify_source(std, tool, request)
+-        child_env = ci_env(std)
+-        before = binary_fingerprints(tool, {})
+-        receipt.update(stage="EXECUTING", tool_fingerprints_before=before,
+-                       cargo_target_dir=child_env["CARGO_TARGET_DIR"])
+-        _write_json(receipt_path, receipt)
+-        invocation = execute(argv, std.resolve(), dest, WARMUP_SECONDS,
+-                             env=child_env, capture_tail=True)
+-        receipt.update(stage="VALIDATING", execution=invocation)
+-        _write_json(receipt_path, receipt)
+-        if (invocation.get("original_exit_code") != 0 or invocation.get("timed_out") or
+-                invocation.get("termination_reason") or invocation.get("signal") or
+-                invocation.get("stdout_truncated") or invocation.get("stderr_truncated")):
+-            raise RunnerError("std compilation warm-up failed or incomplete")
+-        verify_source(std, tool, request)
+-        after = binary_fingerprints(tool, {})
+-        if not after["required_hashes_present"] or before != after:
+-            raise RunnerError("warm-up tool binary missing or drifted")
+-        if time.time() - phase_started > PHASE_SECONDS - MAX_ROW_SECONDS - PHASE_CLEANUP_MARGIN:
+-            raise RunnerError("phase budget exhausted by warm-up")
+-        receipt.update(state="COMPLETE", stage="COMPILATION_COMPLETE")
+-    except BaseException as exc:
+-        receipt.update(state="FAILED", error=f"{type(exc).__name__}: {exc}")
+-        raise
+-    finally:
+-        invocation = receipt["execution"]
+-        for name in ("stdout", "stderr"):
+-            receipt[name] = _bounded_log(dest / (name + ".log"), invocation.get(name + "_bytes"))
+-        _write_json(receipt_path, receipt)
+-
+-
+ def _run_variant(std: Path, name: str, request: dict[str, Any]) -> tuple[Path | None, dict[str, str]]:
+     if name == "production":
+         return None, request["changed_file_sha256"]
+@@ -677,177 +760,177 @@ def _artifact_size(out: Path) -> int:
+     return total
+ 
+ 
+-def run_rows(std: Path, tool: Path, out: Path, request: dict[str, Any]) -> int:
+-    out.mkdir(parents=True, exist_ok=True)
+-    results: list[dict[str, Any]] = []
+-    fatal: str | None = None
+-    try:
+-        verify_source(std, tool, request)
+-        receipt = json.loads((out / "warmup/receipt.json").read_text(encoding="utf-8"))
+-        if (receipt.get("schema") != "ch8-s1-warmup-v1" or receipt.get("state") != "COMPLETE" or
+-                receipt.get("request_sha256") != sha256(REQUEST_PATH) or
+-                receipt.get("std_sha") != STD_SHA or receipt.get("tool_sha") != TOOL_SHA or
+-                receipt.get("argv") != build_warmup_argv(std, tool, request["rows"][0], out / "warmup/unused.json")):
+-            raise RunnerError("missing complete bound std warm-up receipt")
+-        phase_started = receipt.get("phase_started_unix")
+-        if type(phase_started) not in (int, float) or not 0 < phase_started <= time.time():
+-            raise RunnerError("invalid shared phase start")
+-    except Exception as exc:
+-        fatal = f"preflight: {type(exc).__name__}: {exc}"
+-        phase_started = time.time()
++def _run_group(std: Path, tool: Path, out: Path, request: dict[str, Any],
++               group: dict[str, Any], phase_deadline: float) -> tuple[list[dict[str, Any]], str | None]:
++    dest = out / "groups" / group["id"]
++    dest.mkdir(parents=True, exist_ok=True)
++    selectors = [row["selector"] for row in group["rows"]]
++    export = (dest / "export.json").resolve()
++    argv = build_argv(std, tool, selectors, group["unwind"], export)
++    results = [{**_row_base(row, "IN_PROGRESS"), "group": group["id"],
++                "per_root_rss_kib": None, "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
++                "proof_credit": "NONE"} for row in group["rows"]]
++    receipt = {"schema": "ch8-s1-group-v1", "state": "IN_PROGRESS", "group": group["id"],
++               "argv": argv, "selectors": selectors, "variant": group["variant"],
++               "unwind": group["unwind"], "proof_credit": "NONE",
++               "compile_limit_seconds": COMPILE_SECONDS,
++               "group_budget_seconds": COMPILE_SECONDS + sum(r["timeout_seconds"] for r in group["rows"]),
++               "std_sha": STD_SHA, "tool_sha": TOOL_SHA,
++               "request_sha256": sha256(REQUEST_PATH)}
++    patch = None
++    fatal = None
++    monitor = CompileMonitor(dest / "compile/receipt.json", export, selectors)
+     try:
++        _write_json(dest / "receipt.json", receipt)
++        for result in results:
++            _write_json(out / result["id"] / "receipt.json", result)
++        source_before = verify_source(std, tool, request)
++        before = binary_fingerprints(tool, {})
++        if not before["required_hashes_present"]:
++            raise RunnerError("missing required tool binary hash")
++        memory = group_memory_budget()
++        patch, variant_files = _run_variant(std, group["variant"], request)
++        receipt.update(source_before=source_before, tool_fingerprints_before=before,
++                       memory=memory, source_under_test={"base_std_sha": STD_SHA,
++                       "variant": group["variant"], "file_sha256": {**request["changed_file_sha256"], **variant_files},
++                       "patch_sha256": sha256(patch) if patch is not None else None})
+         child_env = ci_env(std)
+-    except Exception as exc:
+-        child_env = None
+-        fatal = f"environment: {type(exc).__name__}: {exc}"
+-
+-    for row in request["rows"]:
+-        row_out = out / row["id"]
+-        row_out.mkdir(parents=True, exist_ok=True)
+-        receipt_path = row_out / "receipt.json"
+-        result = _row_base(row)
+-        patch: Path | None = None
+-        if fatal:
+-            result["reason"] = fatal
+-            _write_json(receipt_path, result)
+-            results.append(result)
+-            _write_json(out / "receipt.json", {"state": "STOPPED", "stop_reason": fatal,
+-                         "proof_credit": "PENDING_REVIEW", "rows": results})
+-            continue
+-        remaining_phase = PHASE_SECONDS - (time.time() - phase_started)
+-        if remaining_phase <= MAX_ROW_SECONDS + PHASE_CLEANUP_MARGIN:
+-            fatal = "phase_seconds_cap"
+-            result["reason"] = fatal
+-            _write_json(receipt_path, result)
+-            results.append(result)
+-            _write_json(out / "receipt.json", {"state": "STOPPED", "stop_reason": fatal,
+-                         "proof_credit": "PENDING_REVIEW", "rows": results})
+-            continue
+-        try:
+-            source_before = verify_source(std, tool, request)
+-            result["source_before"] = source_before
+-            tool_before = binary_fingerprints(tool, {})
+-            result["tool_fingerprints_before"] = tool_before
+-            patch, variant_files = _run_variant(std, row["variant"], request)
+-            result["source_under_test"] = {
+-                "base_std_sha": STD_SHA, "variant": row["variant"],
+-                "file_sha256": {**request["changed_file_sha256"], **variant_files},
+-                "patch_sha256": sha256(patch) if patch is not None else None,
+-            }
+-            export_path = (row_out / "export.json").resolve()
+-            argv = build_argv(std, tool, row["selector"], row["unwind"], export_path)
+-            remaining = PHASE_SECONDS - (time.time() - phase_started) - PHASE_CLEANUP_MARGIN
+-            if remaining < row["timeout_seconds"]:
+-                fatal = "phase_seconds_cap"
+-                result["reason"] = fatal
+-                raise RunnerError(fatal)
+-            result["argv"] = argv
+-            result["cargo_target_dir"] = child_env["CARGO_TARGET_DIR"]
+-            export_path.unlink(missing_ok=True)
+-            for name in ("stdout.log", "stderr.log"):
+-                (row_out / name).write_bytes(b"")
+-            result["status"] = "IN_PROGRESS"
+-            _write_json(receipt_path, result)
+-            invocation = execute(argv, std.resolve(), row_out,
+-                                 row["timeout_seconds"],
+-                                 rss_cap_kib=RSS_CAP_KIB, stdout_cap=STDOUT_CAP_BYTES,
+-                                 stderr_cap=STDERR_CAP_BYTES, export_path=export_path,
+-                                 export_cap=EXPORT_CAP_BYTES, env=child_env, capture_tail=True)
+-            result["execution"] = invocation
+-            for name in ("stdout", "stderr"):
+-                result[name] = _bounded_log(row_out / (name + ".log"), invocation.get(name + "_bytes"))
+-            result["original_exit"] = invocation.get("original_exit_code")
+-            result["signal"] = invocation.get("signal")
+-            result["status"] = "OBSERVED"
+-            _write_json(receipt_path, result)
+-            parsed = parse_export(export_path, row, max_bytes=EXPORT_CAP_BYTES,
+-                                  source_binding=request["source_bindings"][row["id"]], std=std.resolve())
+-            result["export"] = parsed
+-            if export_path.is_file() and export_path.stat().st_size <= EXPORT_CAP_BYTES:
+-                try:
+-                    raw_export = json.loads(export_path.read_text(encoding="utf-8"))
+-                    if isinstance(raw_export, dict):
+-                        fingerprints = binary_fingerprints(tool, raw_export)
+-                        result["tool_fingerprints"] = fingerprints
+-                        before_hashes = {k: v.get("sha256") for k, v in tool_before["binaries"].items()}
+-                        after_hashes = {k: v.get("sha256") for k, v in fingerprints["binaries"].items()}
+-                        if not fingerprints["required_hashes_present"]:
+-                            parsed["outcome"] = "UNKNOWN"
+-                            parsed["fingerprint_state"] = "MISSING_REQUIRED_BINARY_HASH"
+-                        if before_hashes != after_hashes:
+-                            parsed["outcome"] = "UNKNOWN"
+-                            parsed["fingerprint_state"] = "TOOL_BINARY_DRIFT"
+-                            fatal = "tool_binary_drift"
+-                except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+-                    pass
+-            output_capped = invocation.get("stdout_truncated") or invocation.get("stderr_truncated")
+-            killed = invocation.get("termination_reason") is not None or invocation.get("timed_out") or output_capped
+-            if killed or invocation.get("signal") is not None:
+-                parsed["outcome"] = "UNKNOWN"
+-                fatal = invocation.get("termination_reason") or ("output_cap" if output_capped else
+-                                                                    f"child_signal_{invocation.get('signal')}")
+-            if parsed.get("state") != "VALIDATED_OBSERVATION":
+-                fatal = fatal or f"invalid_export_{parsed.get('state')}"
+-            elif parsed.get("outcome") == "EXPECTED":
+-                if row["expected"] != "DETECTED" and invocation.get("original_exit_code") != 0:
+-                    parsed["outcome"] = "UNKNOWN"
+-                elif row["expected"] == "DETECTED" and invocation.get("original_exit_code") in (None, 0):
+-                    parsed["outcome"] = "UNKNOWN"
+-            result["outcome"] = parsed.get("outcome", "UNKNOWN")
+-            result["reviewer_binding"] = "PENDING; no automatic proof credit"
+-        except Exception as exc:
+-            result.update(status="RUNNER_ERROR", reason=f"{type(exc).__name__}: {exc}")
+-            fatal = fatal or "fatal_source_or_variant_drift"
+-        finally:
+-            if result.get("status") in ("IN_PROGRESS", "RUNNER_ERROR", "OBSERVED"):
+-                for name in ("stdout", "stderr"):
+-                    result[name] = _bounded_log(row_out / (name + ".log"),
+-                                               result.get("execution", {}).get(name + "_bytes"))
+-            if patch is not None:
+-                try:
+-                    subprocess.run(["git", "-C", str(std), "apply", "--reverse", "--check", str(patch)], check=True)
+-                    subprocess.run(["git", "-C", str(std), "apply", "--reverse", str(patch)], check=True)
+-                except Exception as exc:
+-                    result["variant_cleanup_error"] = str(exc)
+-                    fatal = "variant_cleanup_failed"
++        receipt["cargo_target_dir"] = child_env["CARGO_TARGET_DIR"]
++        remaining = phase_deadline-time.monotonic()-PHASE_CLEANUP_MARGIN
++        if remaining <= 0:
++            raise RunnerError("phase_seconds_cap_before_group")
++        # Group envelope is compile + all row budgets; the separate phase deadline is authoritative.
++        timeout = min(receipt["group_budget_seconds"], remaining)
++        receipt.update(timeout_seconds=timeout, phase_limited=timeout < receipt["group_budget_seconds"])
++        export.unlink(missing_ok=True)
++        for stream in ("stdout", "stderr"):
++            (dest / (stream+".log")).write_bytes(b"")
++        _write_json(dest / "receipt.json", receipt)
++        invocation = execute(argv, std.resolve(), dest, timeout,
++                             rss_cap_kib=memory["group_cap_kib"], stdout_cap=STDOUT_CAP_BYTES,
++                             stderr_cap=STDERR_CAP_BYTES, export_path=export, export_cap=EXPORT_CAP_BYTES,
++                             env=child_env, capture_tail=True, compile_monitor=monitor)
++        receipt["execution"] = invocation
++        # Synthetic execution substitutes must also supply a bound compile receipt.
++        if monitor.receipt["state"] != "COMPLETE":
++            raise RunnerError("compilation_not_complete")
++        if (invocation.get("termination_reason") or invocation.get("timed_out") or
++                invocation.get("signal") or invocation.get("stdout_truncated") or invocation.get("stderr_truncated")):
++            raise RunnerError("group_execution_interrupted_or_capped")
++        raw = json.loads(export.read_text()) if export.is_file() and export.stat().st_size <= EXPORT_CAP_BYTES else None
++        if not _selection_matches(raw, selectors):
++            raise RunnerError("invalid_group_export")
++        harnesses = raw.get("harnesses")
++        if (not isinstance(harnesses, list) or len(harnesses) != len(selectors) or
++                any(not isinstance(h, dict) or not isinstance(h.get("name"), str) for h in harnesses) or
++                len({h["name"] for h in harnesses}) != len(selectors) or
++                {h["name"] for h in harnesses} != set(selectors)):
++            raise RunnerError("invalid_group_harness_inventory")
++        all_success = all(h.get("outcome") == {"kind": "COMPLETED", "verdict": "SUCCESS"} for h in harnesses)
++        if invocation.get("original_exit_code") != (0 if all_success else 1):
++            raise RunnerError("group_exit_export_mismatch")
++        after = binary_fingerprints(tool, raw)
++        receipt["tool_fingerprints_after"] = after
++        if (not after["required_hashes_present"] or
++                {k:v.get("sha256") for k,v in before["binaries"].items()} !=
++                {k:v.get("sha256") for k,v in after["binaries"].items()}):
++            raise RunnerError("tool_binary_drift")
++        receipt["export_sha256"] = sha256(export)
++        for row, result in zip(group["rows"], results):
++            parsed = parse_export(export, row, source_binding=request["source_bindings"][row["id"]],
++                                  std=std.resolve(), group_selectors=selectors)
++            result.update(status="OBSERVED", outcome=parsed["outcome"], export=parsed,
++                          group_export_sha256=receipt["export_sha256"],
++                          group_original_exit=invocation.get("original_exit_code"),
++                          original_exit=None, original_exit_scope="PER_ROOT_DRIVER_EXIT_UNAVAILABLE_IN_BATCH",
++                          signal=invocation.get("signal"), group_rss_peak_kib=invocation.get("rss_peak_kib"),
++                          group_rss_cap_kib=memory["group_cap_kib"],
++                          root_timeout_seconds=MAX_ROW_SECONDS,
++                          timeout_scope="STOCK_KANI_CBMC_TIMEOUT_NOT_FULL_INSTRUMENTATION_WALL",
++                          diagnostics=f"groups/{group['id']}")
++    except BaseException as exc:
++        fatal = f"{type(exc).__name__}: {exc}"
++        receipt.update(state="FAILED", reason=fatal)
++        for result in results:
++            result.update(status="UNKNOWN", outcome="UNKNOWN", reason=fatal)
++    finally:
++        if patch is not None:
++            try:
++                subprocess.run(["git", "-C", str(std), "apply", "--reverse", "--check", str(patch)], check=True)
++                subprocess.run(["git", "-C", str(std), "apply", "--reverse", str(patch)], check=True)
++            except Exception as exc:
++                fatal = f"variant_cleanup_failed: {exc}"
+         try:
+             source_after = verify_source(std, tool, request)
+-            result["source_after"] = source_after
+-            if source_after != result.get("source_before"):
+-                fatal = "source_identity_drift"
+-                result["outcome"] = "UNKNOWN"
++            receipt["source_after"] = source_after
++            if source_after != receipt.get("source_before"):
++                raise RunnerError("source_identity_drift")
+         except Exception as exc:
+-            result["post_run_source_drift"] = str(exc)
+-            fatal = "source_drift"
++            fatal = f"source_drift: {exc}"
++        if fatal:
++            receipt.update(state="FAILED", reason=fatal)
++            for result in results:
++                result.update(outcome="UNKNOWN", reason=fatal)
++        else:
++            receipt["state"] = "COMPLETE"
++        execution = receipt.get("execution", {})
++        if monitor.receipt["state"] == "IN_PROGRESS":
++            monitor.finish({**execution, "runner_error": fatal or "NO_COMPLETION"}, {})
++        for stream in ("stdout", "stderr"):
++            receipt[stream] = _bounded_log(dest / (stream+".log"), execution.get(stream+"_bytes"))
++        receipt["compilation"] = "compile/receipt.json"
++        for result in results:
++            result.update(group_original_exit=execution.get("original_exit_code"), signal=execution.get("signal"),
++                          group_rss_peak_kib=execution.get("rss_peak_kib"),
++                          stdout=receipt["stdout"], stderr=receipt["stderr"],
++                          diagnostic_scope="SHARED_GROUP_CAPTURE_NOT_PER_ROOT")
++            _write_json(out / result["id"] / "receipt.json", result)
++        _write_json(dest / "receipt.json", receipt)
++    if _artifact_size(out) > ARTIFACT_CAP_BYTES:
++        fatal = "artifact_bytes_cap"
++        receipt.update(state="FAILED", reason=fatal)
++        for result in results:
++            result.update(outcome="UNKNOWN", reason=fatal)
++            _write_json(out / result["id"] / "receipt.json", result)
++        _write_json(dest / "receipt.json", receipt)
++    return results, fatal
++
++
++def run_rows(std: Path, tool: Path, out: Path, request: dict[str, Any]) -> int:
++    out.mkdir(parents=True, exist_ok=True)
++    phase_started = time.monotonic()
++    deadline = phase_started+PHASE_SECONDS
++    groups = group_rows(request["rows"])
++    results: dict[str, dict[str, Any]] = {}
++    fatal = None
++    for group in groups:
+         if _artifact_size(out) > ARTIFACT_CAP_BYTES:
+             fatal = "artifact_bytes_cap"
+-        if fatal and result.get("status") == "OBSERVED":
+-            result["outcome"] = "UNKNOWN"
+-            result["stop_reason"] = fatal
+-        results.append(result)
+-        _write_json(receipt_path, result)
++        if deadline-time.monotonic() <= PHASE_CLEANUP_MARGIN:
++            fatal = fatal or "phase_seconds_cap_before_group"
++        if not fatal:
++            observed, fatal = _run_group(std, tool, out, request, group, deadline)
++            results.update((r["id"], r) for r in observed)
++        else:
++            for row in group["rows"]:
++                result = {**_row_base(row), "reason": fatal, "group": group["id"], "proof_credit": "NONE"}
++                results[row["id"]] = result
++                _write_json(out / row["id"] / "receipt.json", result)
+         _write_json(out / "receipt.json", {"state": "STOPPED" if fatal else "IN_PROGRESS",
+-                     "stop_reason": fatal, "proof_credit": "PENDING_REVIEW", "rows": results})
+-
+-    for row in request["rows"][len(results):]:
+-        result = _row_base(row)
+-        result["reason"] = fatal or "not reached"
+-        _write_json(out / row["id"] / "receipt.json", result)
+-        results.append(result)
+-    unknown = any(result.get("outcome") != "EXPECTED" for result in results)
+-    final_state = "STOPPED" if fatal else ("COMPLETE" if not unknown else "COMPLETE_WITH_UNKNOWN")
+-    _write_json(out / "receipt.json", {"state": final_state, "stop_reason": fatal,
+-                 "proof_credit": "PENDING_REVIEW", "std_sha": STD_SHA, "std_tree": STD_TREE,
+-                 "tool_sha": TOOL_SHA, "tool_tree": TOOL_TREE,
+-                 "phase_elapsed_seconds": round(max(0, time.time() - phase_started), 3),
+-                 "rows": results})
++                    "stop_reason": fatal, "proof_credit": "NONE", "rows": list(results.values())})
++    ordered = [results[row["id"]] for row in request["rows"]]
++    unknown = any(r.get("outcome") != "EXPECTED" for r in ordered)
++    _write_json(out / "receipt.json", {"state": "STOPPED" if fatal else "COMPLETE_WITH_UNKNOWN" if unknown else "COMPLETE",
++                "stop_reason": fatal, "std_sha": STD_SHA, "tool_sha": TOOL_SHA,
++                "phase_elapsed_seconds": round(time.monotonic()-phase_started, 3),
++                "proof_credit": "NONE", "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION", "rows": ordered})
+     return 1 if fatal or unknown else 0
+ 
+ 
+ def main(argv: list[str] | None = None) -> int:
+     parser = argparse.ArgumentParser()
+     sub = parser.add_subparsers(dest="command", required=True)
+-    for command in ("check-source", "warmup", "run"):
++    for command in ("check-source", "run"):
+         p = sub.add_parser(command)
+         p.add_argument("--std", required=True, type=Path)
+         p.add_argument("--tool", required=True, type=Path)
+@@ -857,8 +940,6 @@ def main(argv: list[str] | None = None) -> int:
+         request = load_request()
+         if args.command == "check-source":
+             print(json.dumps(verify_source(args.std, args.tool, request), sort_keys=True))
+-        elif args.command == "warmup":
+-            warmup(args.std, args.tool, args.out, request)
+         else:
+             return run_rows(args.std, args.tool, args.out, request)
+     except Exception as exc:
+diff --git a/ch8-s1-control/test_package.py b/ch8-s1-control/test_package.py
+index 22afaa1fb..7974b9991 100644
+--- a/ch8-s1-control/test_package.py
++++ b/ch8-s1-control/test_package.py
+@@ -19,7 +19,7 @@ class PackageTests(unittest.TestCase):
+         with tempfile.TemporaryDirectory() as d:
+             p=Path(d)/'workflow.yml'
+             for mutate in [lambda x:x['on'].update({'workflow_dispatch':{}}),
+-                lambda x:next(s for s in x['jobs']['s1']['steps'] if s['name']=='Compile first exact root and run fixed S1 batch').update({'run':'python3 runner.py list'}),
++                lambda x:next(s for s in x['jobs']['s1']['steps'] if s['name']=='Run grouped S1 batch with per-harness timeout').update({'run':'python3 runner.py list'}),
+                 lambda x:x['jobs']['s1'].update({'env':{'TEMP':'${{ runner.temp }}'}}),
+                 lambda x:x['jobs']['s1']['steps'][1]['with'].update({'fetch-depth':'1'}),
+                 lambda x:x['jobs']['s1'].update({'runs-on':'self-hosted'}),
+@@ -96,7 +96,7 @@ class PackageTests(unittest.TestCase):
+     def test_fallback_preserves_receipt_materializes_tail_and_bounds(self):
+         with tempfile.TemporaryDirectory() as d:
+             root=Path(d);here=root/'control';here.mkdir();out=root/'receipts';out.mkdir()
+-            request={'rows':[{'id':s,'selector':'x::'+s,'mode':'Original','variant':'production'} for s in ['done','tail']],
++            request={'rows':[{'id':s,'selector':'x::'+s,'mode':'Original','variant':'production','unwind':34} for s in ['done','tail']],
+                      'budgets':{'artifact_bytes':10000}}
+             (here/'CI-REQUEST.json').write_text(json.dumps(request))
+             done=out/'done';done.mkdir();(done/'receipt.json').write_text('{"original_exit_code":42}')
+@@ -104,7 +104,7 @@ class PackageTests(unittest.TestCase):
+                 c.fallback(out)
+                 self.assertEqual(json.loads((done/'receipt.json').read_text())['original_exit_code'],42)
+                 self.assertEqual(json.loads((out/'tail/receipt.json').read_text())['status'],'NOT_RUN')
+-                list_receipt=out/'warmup/receipt.json'
++                list_receipt=out/'groups/production-u34/compile/receipt.json'
+                 self.assertEqual(json.loads(list_receipt.read_text())['state'],'NOT_RUN_OR_INTERRUPTED')
+                 list_receipt.write_text(json.dumps({'state':'IN_PROGRESS','execution':{'signal':None}}))
+                 c.fallback(out)
+@@ -114,8 +114,8 @@ class PackageTests(unittest.TestCase):
+                 c.fallback(out)
+                 self.assertEqual(list_receipt.read_text(),complete)
+                 pending=out/'tail/receipt.json'
+-                pending.write_text(json.dumps({'status':'IN_PROGRESS','original_exit':None,'signal':None}))
+-                (out/'tail/stdout.log').write_text('row interrupted tail')
++                pending.write_text(json.dumps({'status':'IN_PROGRESS','original_exit':None,'signal':None,'group':'production-u34'}))
++                (out/'groups/production-u34/stdout.log').write_text('row interrupted tail')
+                 c.fallback(out)
+                 value=json.loads(pending.read_text())
+                 self.assertEqual(value['status'],'INTERRUPTED')
+diff --git a/ch8-s1-control/test_runner.py b/ch8-s1-control/test_runner.py
+index c7a762d2f..88e113534 100644
+--- a/ch8-s1-control/test_runner.py
++++ b/ch8-s1-control/test_runner.py
+@@ -18,7 +18,7 @@ def row(**updates):
+     value = {"id": "synthetic", "selector": "slice::sort::root", "mode": "PFC",
+              "variant": "production", "unwind": 4, "expected": "SUCCESS",
+              "failure_description": "expected semantic failure", "required_cover_count": 2,
+-             "timeout_seconds": 30}
++             "timeout_seconds": 600}
+     value.update(updates)
+     return value
+ 
+@@ -31,7 +31,7 @@ def export(*, selector="slice::sort::root", mode="pfc", schema="0.1.0", state="C
+     failures = failures or []
+     named = named or []
+     return {"schema_version": schema, "run_state": state, "kani_commit": runner.TOOL_SHA,
+-            "kani_commit_dirty": False,
++            "kani_commit_dirty": False, "harness_timeout_s": 600.0,
+             "tools": {"kani": "kani synthetic", "rustc": "rustc synthetic", "cbmc": "CBMC synthetic"},
+             "configuration": {"checks": {"assert_contracts": False, "memory_safety": True,
+                                             "overflow": True, "unwinding": True, "undefined_function": True},
+@@ -62,7 +62,9 @@ class RequestTests(unittest.TestCase):
+                 "budgets": {"phase_seconds": runner.PHASE_SECONDS, "rss_kib": runner.RSS_CAP_KIB,
+                             "stdout_bytes": runner.STDOUT_CAP_BYTES, "stderr_bytes": runner.STDERR_CAP_BYTES,
+                             "export_bytes": runner.EXPORT_CAP_BYTES, "artifact_bytes": runner.ARTIFACT_CAP_BYTES,
+-                            "row_seconds": runner.MAX_ROW_SECONDS, "warmup_seconds": runner.WARMUP_SECONDS}}
++                            "row_seconds": runner.MAX_ROW_SECONDS, "compile_seconds": runner.COMPILE_SECONDS,
++                            "group_rss_max_kib": runner.GROUP_RSS_MAX_KIB,
++                            "memory_reserve_kib": runner.MEMORY_RESERVE_KIB}}
+ 
+     def test_request_binding_and_guard(self):
+         with tempfile.TemporaryDirectory() as d:
+@@ -75,7 +77,7 @@ class RequestTests(unittest.TestCase):
+             path.write_text(json.dumps(request))
+             with self.assertRaisesRegex(runner.RunnerError, "variant"):
+                 runner.load_request(path)
+-        argv = runner.build_argv(Path("/std"), Path("/tool"), "x::root", 3, Path("/tmp/e.json"))
++        argv = runner.build_argv(Path("/std"), Path("/tool"), ["x::root"], 3, Path("/tmp/e.json"))
+         self.assertIn("--no-assert-contracts", argv)
+         self.assertLess(argv.index("-Z"), argv.index("--cbmc-args"))
+         self.assertEqual(argv[-3:], ["--cbmc-args", "--object-bits", "12"])
+@@ -115,15 +117,6 @@ def binding(selected_row=None, target="slice::sort::body"):
+             "target": target if r["mode"] == "PFC" else None}
+ 
+ 
+-def ready_warmup(out, std, tool, rows, *, start=None):
+-    runner._write_json(out/'warmup/receipt.json', {
+-        "schema": "ch8-s1-warmup-v1", "state": "COMPLETE",
+-        "std_sha": runner.STD_SHA, "tool_sha": runner.TOOL_SHA,
+-        "request_sha256": runner.sha256(runner.REQUEST_PATH),
+-        "argv": runner.build_warmup_argv(std,tool,rows[0],out/'warmup/unused.json'),
+-        "phase_started_unix": __import__('time').time() if start is None else start})
+-
+-
+ class ExportTests(unittest.TestCase):
+     def parse(self, value, selected_row=None, contract_binding=None):
+         with tempfile.TemporaryDirectory() as d:
+@@ -229,123 +222,6 @@ class ExecutionTests(unittest.TestCase):
+             self.assertEqual(result["termination_reason"], "external_signal")
+ 
+ 
+-class WarmupTests(unittest.TestCase):
+-    def test_compilation_flags_and_budget(self):
+-        request=runner.load_request(); r=request['rows'][0]
+-        argv=runner.build_warmup_argv(Path('/std'),Path('/tool'),r,Path('/unused.json'))
+-        proof=runner.build_argv(Path('/std'),Path('/tool'),r['selector'],r['unwind'],Path('/unused.json'))
+-        i=proof.index('--export-json'); del proof[i:i+2]
+-        proof.insert(proof.index('--cbmc-args'),'--only-codegen')
+-        self.assertEqual(argv,proof)
+-        env=runner.ci_env(Path('/std'))
+-        self.assertEqual(env['CARGO_TARGET_DIR'],'/std/target/ch8-s1-cargo')
+-        self.assertNotIn('kani_verify_std',env['CARGO_TARGET_DIR'])
+-        self.assertIn('export-json',argv)
+-        self.assertEqual(runner.MAX_ROW_SECONDS,600)
+-        self.assertEqual(runner.RSS_CAP_KIB,6*1024*1024)
+-        self.assertLess(runner.WARMUP_SECONDS+request['budgets']['planned_rows_seconds']+610,
+-                        runner.PHASE_SECONDS)
+-
+-    def test_success_and_process_failures_receipted(self):
+-        request=runner.load_request(); real=runner.execute
+-        cases={
+-            'success': "print('compiled')",
+-            'exit': "raise SystemExit(42)",
+-            'signal': "import os,signal; os.kill(os.getpid(),signal.SIGTERM)",
+-            'timeout': "import time; time.sleep(3)",
+-            'stdout_cap': "import sys; sys.stdout.write('HEAD'+'x'*10000+'TAIL'); sys.stdout.flush()",
+-            'stderr_cap': "import sys; sys.stderr.write('HEAD'+'x'*10000+'TAIL'); sys.stderr.flush()",
+-        }
+-        fp={'required_hashes_present':True,'binaries':{}}
+-        with tempfile.TemporaryDirectory() as d:
+-            root=Path(d);std=root/'std';std.mkdir()
+-            for name,code in cases.items():
+-                with self.subTest(name=name):
+-                    out=root/name
+-                    def execute(argv,cwd,dest,timeout,**kw):
+-                        self.assertEqual(timeout,900);self.assertEqual(cwd,std.resolve())
+-                        self.assertTrue(kw['capture_tail'])
+-                        return real([sys.executable,'-c',code],cwd,dest,timeout=1,
+-                                    stdout_cap=4096,stderr_cap=4096,capture_tail=True)
+-                    with mock.patch.object(runner,'verify_source',return_value={}), \
+-                         mock.patch.object(runner,'binary_fingerprints',return_value=fp), \
+-                         mock.patch.object(runner,'execute',side_effect=execute):
+-                        if name=='success':runner.warmup(std,root/'tool',out,request)
+-                        else:
+-                            with self.assertRaises(runner.RunnerError):runner.warmup(std,root/'tool',out,request)
+-                    receipt=json.loads((out/'warmup/receipt.json').read_text())
+-                    self.assertEqual(receipt['state'],'COMPLETE' if name=='success' else 'FAILED')
+-                    self.assertIn('elapsed_seconds',receipt['execution'])
+-                    if name=='exit':self.assertEqual(receipt['execution']['original_exit_code'],42)
+-                    if name=='signal':self.assertEqual(receipt['execution']['signal'],15)
+-                    if name=='timeout':self.assertTrue(receipt['execution']['timed_out'])
+-                    if name.endswith('_cap'):
+-                        stream=name.split('_')[0]
+-                        self.assertTrue(receipt[stream]['head'].startswith('HEAD'))
+-                        self.assertTrue(receipt[stream]['tail'].endswith('TAIL'))
+-                        self.assertGreater(receipt[stream]['capture_omitted_bytes'],0)
+-
+-    def test_source_environment_launch_and_binary_errors(self):
+-        request=runner.load_request()
+-        with tempfile.TemporaryDirectory() as d:
+-            root=Path(d)
+-            for name in ('source','environment','launch','binary'):
+-                with self.subTest(name=name), \
+-                     mock.patch.object(runner,'verify_source',side_effect=runner.RunnerError('source drift') if name=='source' else None), \
+-                     mock.patch.object(runner,'ci_env',side_effect=runner.RunnerError('env drift') if name=='environment' else lambda std: {'CARGO_TARGET_DIR':'synthetic'}), \
+-                     mock.patch.object(runner,'execute',side_effect=OSError('launch error') if name=='launch' else None,
+-                                       return_value={'original_exit_code':0}), \
+-                     mock.patch.object(runner,'binary_fingerprints',return_value={'required_hashes_present':False,'binaries':{}}):
+-                    with self.assertRaises((runner.RunnerError,OSError)):
+-                        runner.warmup(root/'std',root/'tool',root/name,request)
+-                receipt=json.loads((root/name/'warmup/receipt.json').read_text())
+-                self.assertEqual(receipt['state'],'FAILED')
+-                self.assertIn('error',receipt)
+-
+-
+-class BatchTests(unittest.TestCase):
+-    def test_expected_negative_nonzero_exit_is_preserved(self):
+-        with tempfile.TemporaryDirectory() as d:
+-            root = Path(d); std = root / "std"; tool = root / "tool"; out = root / "out"
+-            std.mkdir(); tool.mkdir(); (tool / "scripts").mkdir(parents=True)
+-            row_obj = row(id="negative", expected="DETECTED", failure_description="S1 negative marker",
+-                          required_cover_count=0)
+-            payload = export(verdict="FAILURE", failures=["property-1"], named=[
+-                {"id": "property-1", "description": "S1 negative marker failed"}])
+-            script = tool / "scripts/kani"
+-            script.write_text("#!" + sys.executable + "\nimport json,sys\nfrom pathlib import Path\n"
+-                              "p=Path(sys.argv[sys.argv.index('--export-json')+1])\n"
+-                              f"p.write_text({json.dumps(payload)!r})\n"
+-                              "raise SystemExit(1)\n")
+-            script.chmod(script.stat().st_mode | stat.S_IXUSR)
+-            out.mkdir()
+-            ready_warmup(out,std,tool,[row_obj])
+-            request = {"rows": [row_obj], "changed_file_sha256": {}, "variants": {},
+-                       "source_bindings": {row_obj["id"]: binding(row_obj)}}
+-            fp = {"required_hashes_present": True, "binaries": {}, "reported_versions": {}}
+-            with mock.patch.object(runner, "verify_source", return_value={}), \
+-                 mock.patch.object(runner, "binary_fingerprints", return_value=fp):
+-                code = runner.run_rows(std, tool, out, request)
+-            receipt = json.loads((out / "negative/receipt.json").read_text())
+-            self.assertEqual(code, 0, json.dumps(receipt, sort_keys=True))
+-            self.assertEqual(receipt["outcome"], "EXPECTED")
+-            self.assertEqual(receipt["original_exit"], 1)
+-            self.assertIsNone(receipt["signal"])
+-
+-    def test_phase_cap_writes_all_rows_not_run(self):
+-        with tempfile.TemporaryDirectory() as d:
+-            root = Path(d); std = root / "std"; tool = root / "tool"; out = root / "out"
+-            std.mkdir(); tool.mkdir(); out.mkdir()
+-            rows = [row(id="one"), row(id="two", selector="slice::sort::other")]
+-            ready_warmup(out,std,tool,rows,start=__import__('time').time()-runner.PHASE_SECONDS-1)
+-            with mock.patch.object(runner, "verify_source", return_value={}):
+-                code = runner.run_rows(std, tool, out, {"rows": rows, "changed_file_sha256": {}, "variants": {}})
+-            self.assertEqual(code, 1)
+-            for rid in ("one", "two"):
+-                receipt = json.loads((out / rid / "receipt.json").read_text())
+-                self.assertEqual(receipt["status"], "NOT_RUN")
+-
+-
+ class NoListBindingTests(unittest.TestCase):
+     def parse(self, value, r=None, b=None):
+         r=r or row()
+@@ -415,7 +291,7 @@ class NoListBindingTests(unittest.TestCase):
+             lambda r:r['source_bindings'][r['rows'][0]['id']].update(locations=[]),
+             lambda r:r['source_bindings']['stable_freeze_u8'].update(target=r['source_bindings']['stable_default_cell']['target']),
+             lambda r:r['source_bindings']['activation-default'].update(target='other'),
+-            lambda r:r['budgets'].update(warmup_seconds=1500),
++            lambda r:r['budgets'].update(compile_seconds=1500),
+         ]
+         with tempfile.TemporaryDirectory() as d:
+             p=Path(d)/'request.json'
+@@ -423,96 +299,275 @@ class NoListBindingTests(unittest.TestCase):
+                 request=copy.deepcopy(original);mutate(request);p.write_text(json.dumps(request))
+                 with self.assertRaises(runner.RunnerError):runner.load_request(p)
+ 
+-    def test_batch_errors_preserve_execution_and_stop_remaining(self):
++def batch_export(rows, bindings=None):
++    value=export()
++    value['harness_selection'].update(requested_filters=[r['selector'] for r in rows],matched_count=len(rows))
++    value['harnesses']=[]
++    for r in rows:
++        neg=r['expected']=='DETECTED'
++        h=export(selector=r['selector'],mode='pfc' if r['mode']=='PFC' else 'ordinary',
++                 verdict='FAILURE' if neg else 'SUCCESS',failures=['failure-1'] if neg else [],
++                 named=[{'id':'failure-1','description':r['failure_description']}] if neg else [])['harnesses'][0]
++        b=(bindings or {}).get(r['id'],binding(r))
++        h.update(file=b['file'],line=b['locations'][0]['line'],resolved_unwind=r['unwind'])
++        if r['mode']=='PFC':h['attributes']['kind']['ProofForContract']['target_fn']=b['target']
++        covers=list(r.get('required_covers',[]))
++        while len(covers)<r['required_cover_count']:covers.append('cover-'+str(len(covers)))
++        h['covers'].update(total=len(covers),satisfied=covers)
++        h['n_properties']=h['checks']['total']+len(covers)
++        value['harnesses'].append(h)
++    value['harnesses'].reverse()  # Mapping must never depend on export order.
++    return value
++
++
++class GroupTests(unittest.TestCase):
++    def test_groups_keep_rows_flags_variants_and_every_selector(self):
++        request=runner.load_request();groups=runner.group_rows(request['rows'])
++        self.assertEqual([(g['variant'],g['unwind'],len(g['rows'])) for g in groups],
++                         [('production',34,15),('production',5,3),('production',4,3),
++                          ('activation-default',34,1),('activation-override',34,1)])
++        self.assertEqual(sorted(r['id'] for g in groups for r in g['rows']),sorted(r['id'] for r in request['rows']))
++        for g in groups:
++            selectors=[r['selector'] for r in g['rows']]
++            argv=runner.build_argv(Path('/std'),Path('/tool'),selectors,g['unwind'],Path('/tmp/export.json'))
++            self.assertEqual(argv.count('verify-std'),1)
++            self.assertEqual(argv.count('--harness'),len(selectors))
++            self.assertEqual([argv[i+1] for i,a in enumerate(argv) if a=='--harness'],selectors)
++            self.assertEqual(argv[argv.index('--harness-timeout')+1],'600s')
++            self.assertIn('--jobs=1',argv);self.assertNotIn('--fail-fast',argv)
++            self.assertNotIn('--only-codegen',argv);self.assertNotIn('list',argv)
++            self.assertEqual(argv[argv.index('--default-unwind')+1],str(g['unwind']))
++        duplicate=[row(id='a'),row(id='b')]
++        with self.assertRaises(runner.RunnerError):runner.group_rows(duplicate)
++
++    def test_batch_mapping_mixed_positive_negative_and_bad_inventory(self):
++        rows=[row(id='ok'),row(id='bad',selector='slice::sort::bad',expected='DETECTED')]
++        value=batch_export(rows);selectors=[r['selector'] for r in rows]
++        with tempfile.TemporaryDirectory() as d:
++            path=Path(d)/'export.json'
++            def parse(v,r):
++                path.write_text(json.dumps(v))
++                return runner.parse_export(path,r,source_binding=binding(r),std=Path('/std'),group_selectors=selectors)
++            for r in rows:self.assertEqual(parse(value,r)['outcome'],'EXPECTED')
++            import copy
++            mutations=[lambda v:v['harnesses'].append(v['harnesses'][0]),
++                       lambda v:v['harnesses'].pop(),
++                       lambda v:v['harnesses'][0].update(name=v['harnesses'][1]['name']),
++                       lambda v:v['harness_selection'].update(matched_count=1),
++                       lambda v:v['harness_selection'].update(unmatched_filters=['unknown']),
++                       lambda v:v['harness_selection'].update(requested_filters=selectors[::-1]),
++                       lambda v:v.update(harness_timeout_s=None),
++                       lambda v:v.update(harness_timeout_s=300),
++                       lambda v:v.update(run_state='PARTIAL')]
++            for mutate in mutations:
++                v=copy.deepcopy(value);mutate(v)
++                for r in rows:self.assertEqual(parse(v,r)['outcome'],'UNKNOWN')
++            v=copy.deepcopy(value);v['harnesses'][0]['attributes']['kind']['ProofForContract']['target_fn']='wrong'
++            self.assertEqual(parse(v,rows[0])['outcome'],'EXPECTED')
++            self.assertEqual(parse(v,rows[1])['outcome'],'UNKNOWN')
++            for kind in ('TIMEOUT','OUT_OF_MEMORY','CRASHED','NOT_RUN'):
++                v=copy.deepcopy(value);v['harnesses'][0]['outcome']={'kind':kind}
++                self.assertEqual(parse(v,rows[1])['outcome'],'UNKNOWN')
++
++    def run_mock_batch(self, root, request, *, case='success'):
+         import copy
+-        fp={'required_hashes_present':True,'binaries':{},'reported_versions':{}}
+-        base={'original_exit_code':0,'signal':None,'timed_out':False,
+-              'elapsed_seconds':0.01,'rss_peak_kib':1,'stdout_bytes':8,'stderr_bytes':8}
+-        for name in ('success','exit','signal','timeout','rss_cap','external_signal','missing','partial','null','wrong_type','not_run','wrong_target','exception','fingerprint'):
+-            with self.subTest(name=name), tempfile.TemporaryDirectory() as d:
+-                root=Path(d);std=root/'std';std.mkdir();tool=root/'tool';out=root/'out'
+-                rows=[row(id='first'),row(id='second')]
+-                ready_warmup(out,std,tool,rows)
+-                request={'rows':rows,'changed_file_sha256':{},'variants':{},
+-                         'source_bindings':{r['id']:binding(r) for r in rows}}
+-                def execute(argv,cwd,dest,timeout,**kw):
+-                    self.assertTrue(kw['capture_tail']);self.assertEqual(timeout,30)
+-                    self.assertFalse(kw['export_path'].exists())
+-                    (dest/'stdout.log').write_text('HEADTAIL');(dest/'stderr.log').write_text('HEADTAIL')
+-                    if name=='exception':raise OSError('synthetic execution exception')
+-                    v=copy.deepcopy(export())
+-                    if name=='not_run':v['harnesses'][0]['outcome']={'kind':'NOT_RUN'}
+-                    if name=='wrong_target':v['harnesses'][0]['attributes']['kind']['ProofForContract']['target_fn']='wrong'
+-                    if name!='missing':
+-                        text='{' if name=='partial' else 'null' if name=='null' else '[]' if name=='wrong_type' else json.dumps(v)
+-                        kw['export_path'].write_text(text)
+-                    result=base.copy()
+-                    if name=='exit':result['original_exit_code']=42
+-                    if name=='signal':result.update(original_exit_code=-15,signal=15)
+-                    if name in ('timeout','rss_cap','external_signal'):result.update(original_exit_code=-15,termination_reason=name,timed_out=name=='timeout')
+-                    return result
+-                # A stale valid export must be removed before every invocation.
+-                (out/'first').mkdir();(out/'first/export.json').write_text(json.dumps(export()))
+-                with mock.patch.object(runner,'verify_source',return_value={}), \
+-                     mock.patch.object(runner,'binary_fingerprints',return_value={**fp,'required_hashes_present':name!='fingerprint'}), \
+-                     mock.patch.object(runner,'execute',side_effect=execute) as call:
+-                    code=runner.run_rows(std,tool,out,request)
+-                receipt=json.loads((out/'first/receipt.json').read_text())
+-                if name=='success':self.assertEqual(code,0)
++        std=root/'std';std.mkdir();tool=root/'tool';out=root/'out'
++        fp={'required_hashes_present':True,'binaries':{'driver':{'sha256':'a'}},'reported_versions':None}
++        calls=[]
++        def execute(argv,cwd,dest,timeout,**kw):
++            selectors=[argv[i+1] for i,a in enumerate(argv) if a=='--harness']
++            rows=[r for r in request['rows'] if r['selector'] in selectors and r['variant'] in dest.name]
++            # Exact request group order is authoritative, variants may share selectors.
++            g=next(g for g in runner.group_rows(request['rows']) if g['id']==dest.name)
++            rows=g['rows'];calls.append((argv,timeout,kw))
++            self.assertTrue(kw['capture_tail']);self.assertNotIn('--only-codegen',argv)
++            self.assertEqual(cwd,std.resolve());self.assertFalse(kw['export_path'].exists())
++            (dest/'stdout.log').write_text('HEAD-COMPILE-TAIL');(dest/'stderr.log').write_text('HEAD-STDERR-TAIL')
++            initial=batch_export(rows,request['source_bindings']);initial['run_state']='INCOMPLETE';initial.pop('harnesses')
++            kw['export_path'].write_text(json.dumps(initial))
++            kw['compile_monitor'].poll(0.01,{})
++            final=batch_export(rows,request['source_bindings'])
++            if case=='exception':raise OSError('synthetic execution exception')
++            if case=='partial':final={'run_state':'PARTIAL'}
++            if case=='null':final=None
++            if case=='wrong_type':final=[]
++            if case=='timeout_row':final['harnesses'][0]['outcome']={'kind':'TIMEOUT'}
++            if case=='wrong_target':final['harnesses'][0]['attributes']['kind']['ProofForContract']['target_fn']='other'
++            if case=='not_run':final['harnesses'][0]['outcome']={'kind':'NOT_RUN'}
++            if case=='duplicate':final['harnesses'][0]['name']=final['harnesses'][1]['name']
++            if case=='missing':kw['export_path'].unlink()
++            else:kw['export_path'].write_text('{' if case=='invalid_json' else json.dumps(final))
++            code=1 if any(r['expected']=='DETECTED' for r in rows) or case in ('timeout_row','not_run') else 0
++            result={'original_exit_code':code,'signal':None,'timed_out':False,'rss_peak_kib':100,
++                    'elapsed_seconds':0.02,'stdout_bytes':17,'stderr_bytes':16}
++            if case=='exit':result['original_exit_code']=42
++            if case=='signal':result.update(original_exit_code=-15,signal=15)
++            if case in ('timeout','rss_cap','external_signal','stdout_cap','export_cap'):
++                result.update(original_exit_code=-15,termination_reason=case,timed_out=case=='timeout')
++            return result
++        fingerprints=[fp,fp]
++        if case=='fingerprint':fingerprints=[fp,{**fp,'binaries':{'driver':{'sha256':'drift'}}}]
++        with mock.patch.object(runner,'verify_source',side_effect=runner.RunnerError('source drift') if case=='source' else [{},runner.RunnerError('post source drift')] if case=='post_source' else None,return_value={}), \
++             mock.patch.object(runner,'binary_fingerprints',side_effect=(fingerprints if case=='fingerprint' else None),return_value=fp), \
++             mock.patch.object(runner,'group_memory_budget',return_value={'group_cap_kib':runner.GROUP_RSS_MAX_KIB}), \
++             mock.patch.object(runner,'_run_variant',side_effect=lambda std,name,req:(None,{})), \
++             mock.patch.object(runner,'execute',side_effect=execute):
++            code=runner.run_rows(std,tool,out,request)
++        return code,json.loads((out/'receipt.json').read_text()),calls,out
++
++    def test_all23_rows_five_invocations_mixed_group_exit_and_unknown_rss(self):
++        request=runner.load_request()
++        with tempfile.TemporaryDirectory() as d:
++            code,summary,calls,out=self.run_mock_batch(Path(d),request)
++            self.assertEqual(code,0,json.dumps(summary))
++            self.assertEqual(len(calls),5)
++            self.assertEqual([r['id'] for r in summary['rows']],[r['id'] for r in request['rows']])
++            for r in summary['rows']:
++                self.assertEqual(r['outcome'],'EXPECTED');self.assertIsNone(r['original_exit'])
++                self.assertIsNone(r['per_root_rss_kib']);self.assertIn('UNKNOWN',r['per_root_rss_status'])
++                self.assertEqual(r['group_rss_peak_kib'],100);self.assertEqual(r['proof_credit'],'NONE')
++                self.assertEqual(r['diagnostic_scope'],'SHARED_GROUP_CAPTURE_NOT_PER_ROOT')
++            self.assertEqual(summary['rows'][0]['group_original_exit'],1) # positive root in mixed failure group
++            for g in runner.group_rows(request['rows']):
++                receipt=json.loads((out/'groups'/g['id']/'receipt.json').read_text())
++                self.assertEqual(receipt['group_budget_seconds'],900+600*len(g['rows']))
++                self.assertEqual(json.loads((out/'groups'/g['id']/'compile/receipt.json').read_text())['state'],'COMPLETE')
++
++    def test_group_and_row_errors_keep_original_group_exit_and_unknown(self):
++        rows=[row(id='positive'),row(id='negative',selector='slice::sort::negative',expected='DETECTED')]
++        request={'rows':rows,'source_bindings':{r['id']:binding(r) for r in rows},'changed_file_sha256':{},'variants':{}}
++        for case in ('exit','signal','timeout','rss_cap','external_signal','stdout_cap','export_cap','missing',
++                     'invalid_json','partial','null','wrong_type','duplicate','timeout_row','wrong_target',
++                     'not_run','exception','fingerprint','source','post_source'):
++            with self.subTest(case=case),tempfile.TemporaryDirectory() as d:
++                code,summary,calls,out=self.run_mock_batch(Path(d),request,case=case)
++                self.assertEqual(code,1)
++                if case in ('timeout_row','wrong_target','not_run'):
++                    self.assertEqual(summary['rows'][0]['outcome'],'EXPECTED')
++                    self.assertEqual(summary['rows'][1]['outcome'],'UNKNOWN')
+                 else:
+-                    self.assertEqual(code,1);self.assertNotEqual(receipt['outcome'],'EXPECTED')
+-                self.assertEqual(receipt['stdout']['head'],'HEADTAIL')
+-                self.assertEqual(receipt['stderr']['head'],'HEADTAIL')
+-                if name=='exit':self.assertEqual(receipt['original_exit'],42)
+-                if name=='signal':self.assertEqual(receipt['signal'],15)
+-                if name=='exception':self.assertIn('synthetic execution exception',receipt['reason'])
+-                if name in ('signal','timeout','rss_cap','external_signal','missing','partial','null','wrong_type','wrong_target','exception'):
+-                    self.assertEqual(call.call_count,1)
+-                    self.assertEqual(json.loads((out/'second/receipt.json').read_text())['status'],'NOT_RUN')
+-
+-    def test_missing_interrupted_and_wrong_warmup_stop_without_execution(self):
++                    self.assertTrue(all(r['outcome']=='UNKNOWN' for r in summary['rows']))
++                if case=='exit':self.assertEqual(summary['rows'][0]['group_original_exit'],42)
++                if case=='signal':self.assertEqual(summary['rows'][0]['signal'],15)
++                if case=='exception':self.assertIn('synthetic execution exception',summary['stop_reason'])
++                if case=='source':self.assertFalse(calls)
++
++    def test_phase_reserve_does_not_launch_group(self):
++        rows=[row(id='a')]
++        with tempfile.TemporaryDirectory() as d, mock.patch.object(runner,'PHASE_SECONDS',0),mock.patch.object(runner,'execute') as execute:
++            out=Path(d)/'out'
++            self.assertEqual(runner.run_rows(Path('/std'),Path('/tool'),out,{'rows':rows}),1)
++            execute.assert_not_called()
++            self.assertEqual(json.loads((out/'a/receipt.json').read_text())['status'],'NOT_RUN')
++
++    def test_phase_limit_is_separate_from_kani_harness_limit(self):
++        request=runner.load_request()
++        with tempfile.TemporaryDirectory() as d,mock.patch.object(runner,'PHASE_SECONDS',50):
++            code,summary,calls,out=self.run_mock_batch(Path(d),request)
++            self.assertEqual(code,0)
++            for argv,timeout,kw in calls:
++                self.assertLess(timeout,50)
++                self.assertEqual(argv[argv.index('--harness-timeout')+1],'600s')
++
++    def test_overlay_cleanup_failure_invalidates_entire_group(self):
++        r=row(variant='activation-default')
++        request={'rows':[r],'source_bindings':{r['id']:binding(r)},'changed_file_sha256':{},'variants':{}}
++        with tempfile.TemporaryDirectory() as d:
++            root=Path(d);std=root/'std';std.mkdir();out=root/'out';patchfile=root/'overlay.patch';patchfile.write_text('synthetic overlay')
++            fp={'required_hashes_present':True,'binaries':{}}
++            def execute(argv,cwd,dest,timeout,**kw):
++                value=batch_export([r]);kw['export_path'].write_text(json.dumps(value));kw['compile_monitor'].poll(0.01,{})
++                return {'original_exit_code':0,'signal':None,'rss_peak_kib':1,'elapsed_seconds':0.02}
++            with mock.patch.object(runner,'verify_source',return_value={}), \
++                 mock.patch.object(runner,'binary_fingerprints',return_value=fp), \
++                 mock.patch.object(runner,'group_memory_budget',return_value={'group_cap_kib':runner.RSS_CAP_KIB}), \
++                 mock.patch.object(runner,'_run_variant',return_value=(patchfile,{})), \
++                 mock.patch.object(runner,'execute',side_effect=execute), \
++                 mock.patch.object(runner.subprocess,'run',side_effect=RuntimeError('cleanup broken')) as cleanup:
++                code=runner.run_rows(std,root/'tool',out,request)
++            self.assertEqual(code,1);self.assertIn('--reverse',cleanup.call_args.args[0])
++            result=json.loads((out/'synthetic/receipt.json').read_text())
++            self.assertEqual(result['outcome'],'UNKNOWN');self.assertEqual(result['group_original_exit'],0)
++            self.assertIn('variant_cleanup_failed',result['reason'])
++
++    def test_group_memory_budget_host_and_cgroup(self):
+         with tempfile.TemporaryDirectory() as d:
+-            root=Path(d);std=root/'std';tool=root/'tool';rows=[row()]
+-            for name in ('missing','interrupted','wrong_source','wrong_target','wrong_request','future'):
+-                out=root/name
+-                if name!='missing':
+-                    ready_warmup(out,std,tool,rows)
+-                    p=out/'warmup/receipt.json';v=json.loads(p.read_text())
+-                    if name=='interrupted':v['state']='INTERRUPTED'
+-                    if name=='wrong_source':v['std_sha']='other'
+-                    if name=='wrong_target':v['argv']=['other']
+-                    if name=='wrong_request':v['request_sha256']='other'
+-                    if name=='future':v['phase_started_unix']=__import__('time').time()+1000
+-                    p.write_text(json.dumps(v))
+-                with mock.patch.object(runner,'verify_source',return_value={}),mock.patch.object(runner,'execute') as execute:
+-                    self.assertEqual(runner.run_rows(std,tool,out,{'rows':rows}),1)
+-                    execute.assert_not_called()
+-                self.assertEqual(json.loads((out/'synthetic/receipt.json').read_text())['status'],'NOT_RUN')
+-
+-    def test_warmup_rss_interruption_and_exec_failure(self):
+-        request=runner.load_request();real=runner.execute
++            root=Path(d);mem=root/'meminfo';cg=root/'cgroup';cg.mkdir()
++            mem.write_text('MemAvailable: 20971520 kB\n')
++            self.assertEqual(runner.group_memory_budget(mem,cg)['group_cap_kib'],12*1024*1024)
++            (cg/'memory.max').write_text(str(8*1024**3));(cg/'memory.current').write_text(str(1024**3))
++            value=runner.group_memory_budget(mem,cg)
++            self.assertEqual(value['group_cap_kib'],5*1024*1024)
++            self.assertIn('UNKNOWN',value['per_root_rss_status'])
++            mem.write_text('MemAvailable: 1048576 kB\n')
++            with self.assertRaises(runner.RunnerError):runner.group_memory_budget(mem,cg)
++            mem.write_text('No available field\n')
++            with self.assertRaises(runner.RunnerError):runner.group_memory_budget(mem,cg)
++
++
++class CompileTests(unittest.TestCase):
++    def test_single_process_compile_then_two_harnesses_and_bounded_previews(self):
+         with tempfile.TemporaryDirectory() as d:
+-            root=Path(d);std=root/'std';std.mkdir()
+-            for name in ('rss_cap','external_signal','exec_failure'):
+-                timer=None
+-                def execute(argv,cwd,dest,timeout,**kw):
+-                    nonlocal timer
+-                    if name=='external_signal':
+-                        timer=threading.Timer(0.2,lambda:os.kill(os.getpid(),runner.signal.SIGTERM));timer.start()
+-                    argv=[str(root/'absent')] if name=='exec_failure' else [sys.executable,'-c','import time; time.sleep(3)']
+-                    return real(argv,cwd,dest,5,capture_tail=True)
+-                try:
+-                    with mock.patch.object(runner,'verify_source',return_value={}), \
+-                         mock.patch.object(runner,'binary_fingerprints',return_value={'required_hashes_present':True,'binaries':{}}), \
+-                         mock.patch.object(runner,'_group_rss_kib',return_value=runner.RSS_CAP_KIB+1 if name=='rss_cap' else 1), \
+-                         mock.patch.object(runner,'execute',side_effect=execute):
+-                        with self.assertRaises(runner.RunnerError):runner.warmup(std,root/'tool',root/name,request)
+-                finally:
+-                    if timer:timer.cancel()
+-                receipt=json.loads((root/name/'warmup/receipt.json').read_text())
+-                self.assertEqual(receipt['state'],'FAILED')
+-                if name=='exec_failure':self.assertIn('exec failed',receipt['execution']['runner_error'])
+-                else:self.assertEqual(receipt['execution']['termination_reason'],name)
++            root=Path(d);path=root/'export.json';rows=[row(),row(id='b',selector='slice::sort::b')]
++            marker=batch_export(rows);marker.update(run_state='INCOMPLETE');marker.pop('harnesses')
++            final=batch_export(rows);selectors=[r['selector'] for r in rows]
++            monitor=runner.CompileMonitor(root/'compile/receipt.json',path,selectors,seconds=1)
++            code="from pathlib import Path; import time,sys; p=Path("+repr(str(path))+"); "
++            code+="sys.stderr.write('COMPILE-HEAD'+'x'*5000+'COMPILE-TAIL');sys.stderr.flush(); "
++            code+='p.write_text('+repr(json.dumps(marker))+'); time.sleep(0.15); '
++            code+='p.write_text('+repr(json.dumps(final))+'); print("proof finished")'
++            result=runner.execute([sys.executable,'-c',code],root,root,timeout=2,compile_monitor=monitor,export_path=path,capture_tail=True)
++            self.assertEqual(result['original_exit_code'],0)
++            value=json.loads((root/'compile/receipt.json').read_text())
++            self.assertEqual(value['state'],'COMPLETE');self.assertLess(value['elapsed_upper_bound_seconds'],1)
++            self.assertTrue(value['stderr']['head'].startswith('COMPILE-HEAD'))
++            self.assertTrue(value['stderr']['tail'].endswith('COMPILE-TAIL'))
++            self.assertLessEqual(len(value['stderr']['head']),2048);self.assertLessEqual(len(value['stderr']['tail']),2048)
++            self.assertEqual(value['proof_credit'],'NONE')
++
++    def test_live_head_tail_capture_survives_missing_finalization(self):
++        ready=threading.Event();release=threading.Event()
++        class Pipe:
++            calls=0
++            def read(self,n):
++                self.calls+=1
++                if self.calls==1:return b'HEAD'+b'x'*6000+b'TAIL'
++                ready.set();release.wait(2);return b''
++            def close(self):pass
++        with tempfile.TemporaryDirectory() as d:
++            path=Path(d)/'live.log';state={'stdout_kept':0,'stdout_bytes':0,'stdout_cap':False}
++            thread=threading.Thread(target=runner._read_pipe,args=(Pipe(),path,4096,state,threading.Lock(),'stdout',True))
++            thread.start()
++            try:
++                self.assertTrue(ready.wait(2))
++                data=path.read_bytes()
++                self.assertLessEqual(len(data),4096);self.assertTrue(data.startswith(b'HEAD'));self.assertTrue(data.endswith(b'TAIL'))
++            finally:release.set();thread.join()
++
++    def test_compile_timeout_missing_wrong_marker_and_process_failures(self):
++        selectors=[row()['selector']]
++        for name in ('missing','wrong_selection','wrong_tool','wrong_timeout','exit','signal','launch','rss'):
++            with self.subTest(case=name),tempfile.TemporaryDirectory() as d:
++                root=Path(d);path=root/'export.json';monitor=runner.CompileMonitor(root/'compile/receipt.json',path,selectors,seconds=0.2)
++                marker=export(state='INCOMPLETE');marker.pop('harnesses')
++                if name=='wrong_selection':marker['harness_selection']['matched_count']=2
++                if name=='wrong_tool':marker['kani_commit']='other'
++                if name=='wrong_timeout':marker['harness_timeout_s']=300
++                code='import time; time.sleep(2)'
++                if name.startswith('wrong_'):code='from pathlib import Path; Path('+repr(str(path))+').write_text('+repr(json.dumps(marker))+'); '+code
++                if name=='exit':code='raise SystemExit(42)'
++                if name=='signal':code='import os,signal; os.kill(os.getpid(),signal.SIGTERM)'
++                argv=[str(root/'absent')] if name=='launch' else [sys.executable,'-c',code]
++                with mock.patch.object(runner,'_group_rss_kib',return_value=runner.RSS_CAP_KIB+1 if name=='rss' else 1):
++                    result=runner.execute(argv,root,root,timeout=2,compile_monitor=monitor,export_path=path)
++                value=json.loads((root/'compile/receipt.json').read_text())
++                self.assertEqual(value['state'],'FAILED')
++                if name in ('missing','wrong_selection','wrong_tool','wrong_timeout'):
++                    self.assertEqual(result['termination_reason'],'compile_timeout')
++                if name=='exit':self.assertEqual(value['group_execution']['original_exit_code'],42)
++                if name=='signal':self.assertEqual(value['group_execution']['signal'],15)
++                if name=='launch':self.assertIn('exec failed',value['group_execution']['runner_error'])
++                if name=='rss':self.assertEqual(value['group_execution']['termination_reason'],'rss_cap')
+ 
+ 
+ if __name__ == "__main__":

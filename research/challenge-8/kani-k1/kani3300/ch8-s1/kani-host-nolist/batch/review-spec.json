@@ -1,0 +1,44 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-s1k-batch-w13",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+  "defect": "Per-row --harness changes compiler flags and rebuilds core/alloc/std per row. User supplement replaces per-row execution by grouped invocations.",
+  "applicability": "CH8-RUNNER-BATCH-NOTE.md at g0 82cc48368e1e3aec544975831bc9595d26f5781d supplements TASK-CH8-S1-LIST2-W13.md. Same S-prime f22f84f316,23 rows/oracles. Preparation only; no push/CI/publication/ledger/local cargo/rustc/Kani/CBMC.",
+  "invariants": [
+    "Candidate sole parent exact stock0aac16ef62da9e9d5645782d458593e5d78143ba; 801c263 is previous sibling control, reviewed. No tool/source changes; source S-prime f22f84f316ad8ef6f3fccce86424bad927b09f78 treee0dc89592926571e823797f8618cd6b4a7e11ff6 at /root/verify-rust-std-ch8-s1-pprime-w13 read-only.",
+    "Group by exact variant/unwind to retain all literal flags. Five groups: production34(15),production5(3),production4(3),activation-default34(1),activation-override34(1). Exactly one verify-std invocation/group; no separate warm-up/list. Repeat --harness, exact, jobs1, harness-timeout600s, one export JSON.",
+    "Per-row exact manual/core/source/contract/token binding and property/coverage/negative oracles retained. Group selection exact count/set, unique names, full COMPLETE export. Order of harnesses[] must not matter. Missing/invalid/duplicate/unexpected inventory UNKNOWN. Positive root may be EXPECTED despite group exit1 when another root failed as expected. Driver exit is group-only; per-root exit unavailable.",
+    "CompileMonitor caps compile+project-link until stock initial export marker at900s inside the SAME process; initial marker is written before harness verification by main.rs/begin_export_json. It writes bounded compilation receipt on observed boundary/failure; fast COMPLETE export before cap is an upper bound. A missing/late/invalid marker is UNKNOWN, not proof. No compiler rerun.",
+    "Group wall budget900+sum(row600); shared4500 phase separately limits actual execution. Root600 timeout is stock Kani CBMC timeout, not full instrumentation wall; no fail-fast. Phase cut can leave an INCOMPLETE marker and all rows of that group UNKNOWN. Job120min and existing payload caps retained.",
+    "RSS group cap min(12GiB,MemAvailable-2GiB,cgroup_headroom-2GiB) determined before launch; sampled process-group peak only. Exact per-harness attribution is unavailable, so each root RSS is explicitly UNKNOWN, not claimed below6GiB. Group observations grant no automatic proof/resource credit.",
+    "Atomic group/compile/row receipts, bounded head+tail logs. Live bounded tail flush survives missing finalization. Source/tool drift, malformed export, exit mismatch, caps and interrupted groups invalidate rows; overlay cleanup in finally. Individual TIMEOUT/invalid row cannot become PASS; other completed rows in a complete export remain individually inspectable."
+  ],
+  "controls": [
+    "28 synthetic Python unit tests (process/compile-boundary success/error/timeout/signal/launch/RSS, batch order and mixed verdicts, group+row malformed exports/bindings, source/fingerprint/overlay cleanup errors, phase limit and cgroup budget, fallback and durable live head+tail). Review source and controls independently; author outcomes are not proof."
+  ],
+  "dependencies": [
+    "kani-driver/src/frontend/schema_utils.rs",
+    "kani-driver/src/main.rs",
+    "kani-driver/src/project.rs",
+    "kani-driver/src/call_cargo.rs",
+    "kani-driver/src/call_single_file.rs",
+    "kani-driver/src/call_cbmc.rs",
+    "kani-driver/src/harness_runner.rs",
+    "kani-driver/src/args/mod.rs",
+    "kani-driver/src/metadata.rs",
+    "kani_metadata/src/harness.rs",
+    "kani-driver/src/sarif.rs",
+    ".github/actions/setup/action.yml"
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s1/kani-host-nolist/REVIEW.md",
+      "sha256": "69af3295f85667375823d08d7058a30cc892b33ad67b037c8c324d7b1d128b64"
+    }
+  ],
+  "known_limitations": [
+    "Actual compilation/runtime/cache/memory/source-coordinate behavior is NOT_RUN. Stock export does not establish resolved target DefId/AST/MIR target binding, nor named successful assertion descriptions. Existing explicit no-list limitations remain.",
+    "No nested delegation/model escalation; no actual compiler/verifier/full runner. Review this exact committed candidate and return compact concrete findings or approval PREPARATION_ONLY. Write only /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s1/kani-host-nolist/batch/REVIEW.md. Do not edit candidate."
+  ]
+}
