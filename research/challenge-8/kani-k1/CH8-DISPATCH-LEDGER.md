@@ -145,4 +145,4 @@ S1 list fix (a) `c03363b3b0` (list timeout 1500 s) rejected by coordinator: orga
 | ~01:55Z | E-01 | E (item 1) | control `628ba7fd9b` (tree `72cbddf7e0`, parent 0aac) → sibling `3219b3f220` on `uninit-ci/ch8-e-ctl-a` | 43783430196 | Isolated single-file E-Q/E-S/E-H controls, matrix upstream 0aac + SEL1; no std build. g0 `74e78ab8cb`. |
 C-01 held: C controls (std `d073585946` on P′, control `cdd3c6d041`, g0 `425f10fbfd`) use the same global `kani list` that timed out in S1-02 — dispatch after the list fix.
 
-Item 1 used: 9 of 18 (A1 3, B 1, U 3, Profiles 1, E 1); PROF-OFF-02 pending. Item 2 used: 2 of 14 (S1 2 of 2) + S1-03 reserved. Total 8 dispatched + 1 reserved of 32.
+Item 1 used: 9 of 18 (A1 3, B 1, U 3, Profiles 1, E 1) + PROF-OFF-02 reserved. Item 2 used: 2 of 14 (S1 2) + S1-03 reserved. Total 11 dispatched + 2 reserved of 32.
