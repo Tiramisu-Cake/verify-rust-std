@@ -1,0 +1,2127 @@
+{
+  "all_nonresource_stock_differences_are_list_order_only": true,
+  "all_property_counts_equal": true,
+  "all_rich_records_equal": true,
+  "all_verdicts_equal": true,
+  "nonproof_request_changes": {
+    "binary_snapshot_policy": {
+      "s106": null,
+      "s107": "Fixed kani-driver/kani-compiler/CBMC before and protected after child shutdown; independent of export/rich validation; missing/drift/error => UNKNOWN"
+    },
+    "binding_metadata_policy": {
+      "s106": null,
+      "s107": "Same-invocation fresh target namespace; bounded exact native kani-metadata JSON bytes plus export/rich/compile manifest and input/config/source/variant/binary hashes; runner UUID is not compiler-instance identity. Missing compiler-instance/impl/substitution/clause/expansion/property-MIR edges remain UNKNOWN for offline w11."
+    },
+    "binding_metadata_requirements_sha256": {
+      "s106": null,
+      "s107": "48dba27cacf1933770e4ec61c257a24318456ce5096cac949f9ad886887e3589"
+    },
+    "ci_changed_paths": {
+      "s106": [
+        ".github/workflows/bench-compiler.yml",
+        ".github/workflows/bench-e2e.yml",
+        ".github/workflows/bench-pr.yml",
+        ".github/workflows/cargo-update.yml",
+        ".github/workflows/cbmc-latest.yml",
+        ".github/workflows/cbmc-update.yml",
+        ".github/workflows/ch8-s1.yml",
+        ".github/workflows/charon-update.yml",
+        ".github/workflows/deny.yml",
+        ".github/workflows/extra_jobs.yml",
+        ".github/workflows/format-check.yml",
+        ".github/workflows/kani.yml",
+        ".github/workflows/release.yml",
+        ".github/workflows/slow-tests.yml",
+        ".github/workflows/toolchain-upgrade.yml",
+        ".github/workflows/verify-std-check.yml",
+        ".github/workflows/z3-update.yml",
+        "ch8-s1-control/CI-REQUEST.json",
+        "ch8-s1-control/activation-default.patch",
+        "ch8-s1-control/activation-override.patch",
+        "ch8-s1-control/check_package.py",
+        "ch8-s1-control/collect.py",
+        "ch8-s1-control/fixtures/s104-rich-fragment.json",
+        "ch8-s1-control/negative_oracle.py",
+        "ch8-s1-control/pack_evidence.py",
+        "ch8-s1-control/rich_evidence.py",
+        "ch8-s1-control/runner.py",
+        "ch8-s1-control/test_package.py",
+        "ch8-s1-control/test_runner.py",
+        "ch8-s1-control/test_s104.py",
+        "ch8-s1-control/test_s105.py"
+      ],
+      "s107": [
+        ".github/workflows/bench-compiler.yml",
+        ".github/workflows/bench-e2e.yml",
+        ".github/workflows/bench-pr.yml",
+        ".github/workflows/cargo-update.yml",
+        ".github/workflows/cbmc-latest.yml",
+        ".github/workflows/cbmc-update.yml",
+        ".github/workflows/ch8-s1.yml",
+        ".github/workflows/charon-update.yml",
+        ".github/workflows/deny.yml",
+        ".github/workflows/extra_jobs.yml",
+        ".github/workflows/format-check.yml",
+        ".github/workflows/kani.yml",
+        ".github/workflows/release.yml",
+        ".github/workflows/slow-tests.yml",
+        ".github/workflows/toolchain-upgrade.yml",
+        ".github/workflows/verify-std-check.yml",
+        ".github/workflows/z3-update.yml",
+        "ch8-s1-control/CI-REQUEST.json",
+        "ch8-s1-control/activation-default.patch",
+        "ch8-s1-control/activation-override.patch",
+        "ch8-s1-control/binding_metadata.py",
+        "ch8-s1-control/check_package.py",
+        "ch8-s1-control/collect.py",
+        "ch8-s1-control/fixtures/s104-rich-fragment.json",
+        "ch8-s1-control/negative_oracle.py",
+        "ch8-s1-control/pack_evidence.py",
+        "ch8-s1-control/rich_evidence.py",
+        "ch8-s1-control/runner.py",
+        "ch8-s1-control/test_package.py",
+        "ch8-s1-control/test_runner.py",
+        "ch8-s1-control/test_s104.py",
+        "ch8-s1-control/test_s105.py",
+        "ch8-s1-control/test_s107.py"
+      ]
+    },
+    "ci_payload_sha256": {
+      "s106": {
+        ".github/workflows/ch8-s1.yml": "eebf582b1c96cef1972a5b07a39bc1a3c5684d5d932b33b848abfa29514dd254",
+        "ch8-s1-control/activation-default.patch": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+        "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+        "ch8-s1-control/check_package.py": "6d87bdc922af8dcd750512fcccf6b1cb2ff97f554e3fa6b352257980b60b7139",
+        "ch8-s1-control/collect.py": "e5127d7fd1982eaac300cf1a0abe4897c28751aaae3bd914b3de8a9492f17dee",
+        "ch8-s1-control/fixtures/s104-rich-fragment.json": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc",
+        "ch8-s1-control/negative_oracle.py": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c",
+        "ch8-s1-control/pack_evidence.py": "5343a2e17bb71baa06b74413ae3ff6adc8b678c91af7e343e018e7ad7001b408",
+        "ch8-s1-control/rich_evidence.py": "60833d357aae37877842b6cb7278bd9098dcfec81291aa2164c2203802099882",
+        "ch8-s1-control/runner.py": "d3010c4f629bcba93ef88820915fabebdca36b88110296e1d21fc61220ab1374",
+        "ch8-s1-control/test_package.py": "f1a05ece77d37b657701d0b173e364a1ac6e3f02f61fd6c8dc426f9c18de7cc2",
+        "ch8-s1-control/test_runner.py": "b8de6214486b13460d6bf30d65da48a762b5ac0c0e086f2a34e5f3a1cfd22632",
+        "ch8-s1-control/test_s104.py": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+        "ch8-s1-control/test_s105.py": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e"
+      },
+      "s107": {
+        ".github/workflows/ch8-s1.yml": "2f51f3793567fb000337ae384375dbc0622729d57193236e80763a5d4f1cea38",
+        "ch8-s1-control/activation-default.patch": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+        "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+        "ch8-s1-control/binding_metadata.py": "8af48498fe256283dcbe7a1f7bd766e213c2ab83e28008e23bd6bb9811c57030",
+        "ch8-s1-control/check_package.py": "092be5eb1c4862a3081445a53cf2f129d0c419c3f130a81da761de11472a81e5",
+        "ch8-s1-control/collect.py": "bb9170a58af1e0cfcb93d9758730265f2ae78b019c7a0a9b50d348cca45cd6e7",
+        "ch8-s1-control/fixtures/s104-rich-fragment.json": "08958a31eb173ce59173a588ffd9e785ed9cef0086a733b7fc998af843c054cc",
+        "ch8-s1-control/negative_oracle.py": "fabd41fb31e37ea79239e4798f38aa81cd068abad0d00281d1d93d936f59681c",
+        "ch8-s1-control/pack_evidence.py": "833004929291e3a6a96011c8579852fce7520e5dea6abd3af2c7611675619e8b",
+        "ch8-s1-control/rich_evidence.py": "1c778852fd6c7d4542634424af7801e49e2f7074574b411f6c34a9fb86ab5139",
+        "ch8-s1-control/runner.py": "8c35580085d490ae42053d8064b3a35a21ad457d9c80440f595efe095ab8edb7",
+        "ch8-s1-control/test_package.py": "ab1dac733bf15fe43e7b62fa66f384ce8ef8c6c8910045262e227b21d1dd44c7",
+        "ch8-s1-control/test_runner.py": "d8e9e479c4dbf21178f6d28b0e68bbddf6defe8d8ffc2e003fa31bb5e838c55a",
+        "ch8-s1-control/test_s104.py": "cf729fca7df6db47628bb2c17dda1eececf80ddaaa2dc07de57e0731ba16e59d",
+        "ch8-s1-control/test_s105.py": "588a346818b33e00fb02b510d616b7b787f184b00ac5a5b10cfad8b8cf46455e",
+        "ch8-s1-control/test_s107.py": "07f08fba39af05d4745b524ddc18e21edcc776a8b7d487a1fea49ac88afaf5f0"
+      }
+    },
+    "control_parent": {
+      "s106": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+      "s107": "b25dd39a46ba90b167500997d546a5f2f5bd8f3b"
+    },
+    "location_exception_policy": {
+      "s106": null,
+      "s107": "S1-07_EXACT_STOCK_UNREACHABLE_LOCATION_ONLY_V1: exact 18 row/variant observations, 2 IDs, class/description/SUCCESS/original display; null sites retained; offline w11 admission"
+    },
+    "schema": {
+      "s106": "ch8-s1-05-ready-v1",
+      "s107": "ch8-s1-07-ready-v1"
+    }
+  },
+  "note": "All differing rich fields and non-resource stock harness fields retained; measurement changes reported separately.",
+  "proof_request_changes": {},
+  "rich_record_order_changed_rows": 17,
+  "rows": [
+    {
+      "group": "activation-default-u34",
+      "id": "activation-default",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 1.374055042,
+        "s107": 1.455605912
+      }
+    },
+    {
+      "group": "activation-override-u34",
+      "id": "activation-override",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 17.482348686,
+        "s107": 14.447088629
+      }
+    },
+    {
+      "group": "cell-u34",
+      "id": "stable_default_cell",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {
+        "checks": {
+          "s106": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 286,
+            "total": 290,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+            ]
+          },
+          "s107": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 286,
+            "total": 290,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "fmt::Arguments::<'_>::from_str.assertion.1"
+            ]
+          }
+        },
+        "unsupported_constructs": {
+          "s106": [
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "s107": [
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ]
+        }
+      },
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 349.965947895,
+        "s107": 367.259887864
+      }
+    },
+    {
+      "group": "cell-u34",
+      "id": "unstable_default_cell",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {
+        "checks": {
+          "s106": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 286,
+            "total": 290,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "fmt::Arguments::<'_>::from_str.assertion.1"
+            ]
+          },
+          "s107": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 286,
+            "total": 290,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "fmt::Arguments::<'_>::from_str.assertion.1"
+            ]
+          }
+        }
+      },
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 350.809025539,
+        "s107": 368.802323945
+      }
+    },
+    {
+      "group": "freeze_copy_u8-n01-u34",
+      "id": "freeze_copy_u8_n0",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 0.959094886,
+        "s107": 0.99423352
+      }
+    },
+    {
+      "group": "freeze_copy_u8-n01-u34",
+      "id": "freeze_copy_u8_n1",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 1.072345461,
+        "s107": 1.2017655
+      }
+    },
+    {
+      "group": "freeze_copy_u8-n23-u34",
+      "id": "freeze_copy_u8_n2",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {
+        "checks": {
+          "s106": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 461,
+            "total": 483,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n2.assertion.11",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.assertion.2",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "num::<impl usize>::is_multiple_of.assertion.1"
+            ]
+          },
+          "s107": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 461,
+            "total": 483,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "num::<impl usize>::is_multiple_of.assertion.1",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n2.assertion.11",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.assertion.2",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2"
+            ]
+          }
+        },
+        "unsupported_constructs": {
+          "s106": [
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "s107": [
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ]
+        }
+      },
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 15.700979595,
+        "s107": 14.206170832
+      }
+    },
+    {
+      "group": "freeze_copy_u8-n23-u34",
+      "id": "freeze_copy_u8_n3",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {
+        "checks": {
+          "s106": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 477,
+            "total": 499,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n3.assertion.11",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+              "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.assertion.2",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "num::<impl usize>::is_multiple_of.assertion.1"
+            ]
+          },
+          "s107": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 477,
+            "total": 499,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "num::<impl usize>::is_multiple_of.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n3.assertion.11",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}::{closure#1}.assertion.2"
+            ]
+          }
+        },
+        "unsupported_constructs": {
+          "s106": [
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "s107": [
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ]
+        }
+      },
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 41.136077611,
+        "s107": 37.895709414
+      }
+    },
+    {
+      "group": "freeze_default_noncopy-n01-u34",
+      "id": "freeze_default_noncopy_n0",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {
+        "checks": {
+          "s106": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 421,
+            "total": 443,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n0.assertion.11",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.5",
+              "<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.4",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.2",
+              "num::<impl usize>::is_multiple_of.assertion.1"
+            ]
+          },
+          "s107": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 421,
+            "total": 443,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n0.assertion.11",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.4",
+              "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.2",
+              "<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.5",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.4",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "num::<impl usize>::is_multiple_of.assertion.1"
+            ]
+          }
+        },
+        "unsupported_constructs": {
+          "s106": [
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "s107": [
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ]
+        }
+      },
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 0.997038459,
+        "s107": 0.954558841
+      }
+    },
+    {
+      "group": "freeze_default_noncopy-n01-u34",
+      "id": "freeze_default_noncopy_n1",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {
+        "checks": {
+          "s106": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 422,
+            "total": 443,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.4",
+              "num::<impl usize>::is_multiple_of.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.5",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.4",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2"
+            ]
+          },
+          "s107": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 422,
+            "total": 443,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.4",
+              "<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>.assertion.4",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<slice::sort::shared::smallsort::verify::sorting_model::NonCopyByte>>.assertion.5",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "num::<impl usize>::is_multiple_of.assertion.1"
+            ]
+          }
+        },
+        "unsupported_constructs": {
+          "s106": [
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "s107": [
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ]
+        }
+      },
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 1.078918418,
+        "s107": 1.065181515
+      }
+    },
+    {
+      "group": "freeze_default_noncopy-n23-u34",
+      "id": "freeze_default_noncopy_n2",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 95.546977887,
+        "s107": 94.481682235
+      }
+    },
+    {
+      "group": "freeze_default_noncopy-n23-u34",
+      "id": "freeze_default_noncopy_n3",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 168.912438013,
+        "s107": 169.525287946
+      }
+    },
+    {
+      "group": "light-controls-u34",
+      "id": "ordinary-bridge",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 0.052052294,
+        "s107": 0.049704996
+      }
+    },
+    {
+      "group": "light-controls-u34",
+      "id": "stable_default_activation-legal",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {
+        "checks": {
+          "s106": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 202,
+            "total": 206,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "fmt::Arguments::<'_>::from_str.assertion.1"
+            ]
+          },
+          "s107": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 202,
+            "total": 206,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2"
+            ]
+          }
+        }
+      },
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 6.443451153,
+        "s107": 6.1781473160000004
+      }
+    },
+    {
+      "group": "light-controls-u34",
+      "id": "stable_freeze_activation-legal",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {
+        "checks": {
+          "s106": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 386,
+            "total": 394,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2"
+            ]
+          },
+          "s107": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 386,
+            "total": 394,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2"
+            ]
+          }
+        },
+        "unsupported_constructs": {
+          "s106": [
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "s107": [
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ]
+        }
+      },
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 36.085454585,
+        "s107": 35.176588124
+      }
+    },
+    {
+      "group": "light-controls-u34",
+      "id": "inactive_pairs_read_free",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {
+        "checks": {
+          "s106": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 18,
+            "total": 30,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11",
+              "fmt::Arguments::<'_>::from_str.assertion.1"
+            ]
+          },
+          "s107": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 18,
+            "total": 30,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11"
+            ]
+          }
+        }
+      },
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 0.06743769,
+        "s107": 0.067437097
+      }
+    },
+    {
+      "group": "light-controls-u34",
+      "id": "activation_descending_rejected",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 0.015589997,
+        "s107": 0.015098755
+      }
+    },
+    {
+      "group": "light-controls-u34",
+      "id": "activation_effectful_rejected",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 0.016581994,
+        "s107": 0.015210069
+      }
+    },
+    {
+      "group": "light-controls-u34",
+      "id": "activation_unsupported_type_rejected",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 0.017335241,
+        "s107": 0.017260671
+      }
+    },
+    {
+      "group": "light-controls-u34",
+      "id": "snapshot_guards_companion",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 6.444409525,
+        "s107": 5.252434308
+      }
+    },
+    {
+      "group": "light-controls-u34",
+      "id": "invalid_snapshot_rejected",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 0.028899704,
+        "s107": 0.028737654
+      }
+    },
+    {
+      "group": "light-corruption-u4",
+      "id": "corruption_companion",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 0.165590649,
+        "s107": 0.161020599
+      }
+    },
+    {
+      "group": "light-corruption-u4",
+      "id": "order_corruption_rejected",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 0.064893579,
+        "s107": 0.064083404
+      }
+    },
+    {
+      "group": "light-corruption-u4",
+      "id": "count_corruption_rejected",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 0.088331974,
+        "s107": 0.093102512
+      }
+    },
+    {
+      "group": "light-model-u5",
+      "id": "model_cell_n0_3",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 4.077628795,
+        "s107": 2.170727448
+      }
+    },
+    {
+      "group": "light-model-u5",
+      "id": "model_noncopy_n0_3",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 3.883915144,
+        "s107": 2.128976
+      }
+    },
+    {
+      "group": "light-model-u5",
+      "id": "model_u8_n0_3",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 3.732186592,
+        "s107": 1.965570777
+      }
+    },
+    {
+      "group": "stable_freeze_u8-n01-u34",
+      "id": "stable_freeze_u8_n0",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {
+        "checks": {
+          "s106": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 419,
+            "total": 442,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0.assertion.7",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0.assertion.13",
+              "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "num::<impl usize>::is_multiple_of.assertion.1"
+            ]
+          },
+          "s107": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 419,
+            "total": 442,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0.assertion.7",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0.assertion.13",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "num::<impl usize>::is_multiple_of.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+            ]
+          }
+        },
+        "unsupported_constructs": {
+          "s106": [
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "s107": [
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ]
+        }
+      },
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 1.012568353,
+        "s107": 0.971449037
+      }
+    },
+    {
+      "group": "stable_freeze_u8-n01-u34",
+      "id": "stable_freeze_u8_n1",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {
+        "checks": {
+          "s106": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 420,
+            "total": 442,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n1.assertion.7",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "num::<impl usize>::is_multiple_of.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "fmt::Arguments::<'_>::from_str.assertion.1"
+            ]
+          },
+          "s107": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 420,
+            "total": 442,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "<u8 as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>::{closure#2}.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n1.assertion.7",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "num::<impl usize>::is_multiple_of.assertion.1"
+            ]
+          }
+        },
+        "unsupported_constructs": {
+          "s106": [
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "s107": [
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ]
+        }
+      },
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 1.312978502,
+        "s107": 1.099786876
+      }
+    },
+    {
+      "group": "stable_freeze_u8-n23-u34",
+      "id": "stable_freeze_u8_n2",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 91.684045591,
+        "s107": 79.106090736
+      }
+    },
+    {
+      "group": "stable_freeze_u8-n23-u34",
+      "id": "stable_freeze_u8_n3",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 166.001259515,
+        "s107": 140.914022496
+      }
+    },
+    {
+      "group": "unstable_freeze_u8-n01-u34",
+      "id": "unstable_freeze_u8_n0",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {
+        "checks": {
+          "s106": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 448,
+            "total": 473,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n0.assertion.11",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "num::<impl usize>::is_multiple_of.assertion.1"
+            ]
+          },
+          "s107": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 448,
+            "total": 473,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n0.assertion.11",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "num::<impl usize>::is_multiple_of.assertion.1"
+            ]
+          }
+        },
+        "unsupported_constructs": {
+          "s106": [
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "s107": [
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ]
+        }
+      },
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 1.050469441,
+        "s107": 1.185000736
+      }
+    },
+    {
+      "group": "unstable_freeze_u8-n01-u34",
+      "id": "unstable_freeze_u8_n1",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": false,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {
+        "checks": {
+          "s106": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 449,
+            "total": 473,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "num::<impl usize>::is_multiple_of.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+            ]
+          },
+          "s107": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 449,
+            "total": 473,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::small_sort_general_with_scratch::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.5",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::bidirectional_merge::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.4",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "ub_checks::is_valid_allocation_size.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::sort4_stable::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "<u8 as slice::sort::shared::smallsort::UnstableSmallSortFreezeTypeImpl>::small_sort_threshold.assertion.2",
+              "num::<impl usize>::is_multiple_of.assertion.1",
+              "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::small_sort_network::<u8, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2"
+            ]
+          }
+        },
+        "unsupported_constructs": {
+          "s106": [
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "s107": [
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ]
+        }
+      },
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 1.151309582,
+        "s107": 1.302523182
+      }
+    },
+    {
+      "group": "unstable_freeze_u8-n23-u34",
+      "id": "unstable_freeze_u8_n2",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 15.123915389,
+        "s107": 15.434502635
+      }
+    },
+    {
+      "group": "unstable_freeze_u8-n23-u34",
+      "id": "unstable_freeze_u8_n3",
+      "property_count_equal": true,
+      "rich_inventory": {
+        "added": [],
+        "changed": [],
+        "order_equal": true,
+        "removed": []
+      },
+      "stock_harness_changes_except_resources": {},
+      "stock_harness_differences_are_list_order_only": true,
+      "verdict_equal": true,
+      "verification_time_s": {
+        "s106": 40.072194584,
+        "s107": 40.596121231
+      }
+    }
+  ],
+  "s106_run": 43889560779,
+  "s107_run": 43923266772,
+  "stock_harness_list_order_changed_rows": 13
+}
