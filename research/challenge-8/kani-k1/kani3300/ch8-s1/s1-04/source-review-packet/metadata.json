@@ -1,0 +1,55 @@
+{
+  "baseline_commit": "f22f84f316ad8ef6f3fccce86424bad927b09f78",
+  "candidate_commit": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+  "candidate_tree": "a9caaa953d579641ecc6a4b84b5c16fa1d23563b",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "08ad1aebf318dc9522bae2e64510a61ececf2fe5",
+        "mode": "100644",
+        "sha256": "b3fa030187e4b6dbc1a9bcd6b84fc51fb657a1ee8be13d150c5870275da2725f"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "8ae08599ad8a7886f6b9a67e7ba3dedf52c57a75",
+        "mode": "100644",
+        "sha256": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f"
+      },
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+      "status": "modified"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "4587a72c51325a25cca1c20138a6ee1d1aa2233f",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "library/core/src/slice/sort/shared/smallsort.rs",
+      "sha256": "45ae77ad0bb2a74cfab1aa53d5e1c48311f0b483c94eb52d96d97f680bd39651",
+      "size": 39572
+    },
+    {
+      "blob": "0d0a9f1441e77acc793175a16270dd8ff9fac43d",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+      "sha256": "a04f72d0a4f8c42fadc6639ead77e215dc46264096e8e998903bfe1be9ca0a18",
+      "size": 4816
+    },
+    {
+      "blob": "70f8b5e30aa345868f6165acbc434bf030c4a7b5",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+      "sha256": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+      "size": 1589
+    }
+  ],
+  "diff_sha256": "f135f71cc9ece1675ac5fb19a4e16cfe2b3ef9d4f50daab26f3a490dbf2f2c60",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "6a607e8ac24911da97f2f7790eb8f5271ccc832f9244e6cd7774beb47d794f44",
+  "worktree": "/root/verify-rust-std-ch8-s1-04-w13"
+}

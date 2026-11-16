@@ -1,0 +1,24 @@
+{
+  "applicability": "S1-04 bounded Python runner, immutable request and group workflow; source is separately frozen/reviewed5be85699b8826e3286c0bf89efb9affefac0acb5.",
+  "baseline_commit": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+  "candidate_commit": "5fd538730869103cb7108cd823f58b1dac924960",
+  "controls": [
+    "Synthetic runner/package/service tests plus static source/YAML/identity closure; no Rust or Kani execution."
+  ],
+  "defect": "S1-03 variant restoration/source snapshot diagnostics and negative description oracle fail; heavy symbolic roots timeout and grouping hides partial results.",
+  "dependencies": [
+    "ch8-s1-control/activation-default.patch",
+    "ch8-s1-control/activation-override.patch"
+  ],
+  "invariants": [
+    "same checks root timeout600 compile900 jobs1 unwind source bounds and arbitrary values",
+    "no proof credit; incomplete source/export/negative oracle and union fail closed",
+    "no push/dispatch or ledger authorization; full14group coverage and exact identities"
+  ],
+  "known_limitations": [
+    "Actual proof NOT_RUN; false-ensures wrapper IDs unbound; named success/cover binding and exception-role review pending; no runtime-cost claim from split."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-s1-04-w13"
+}

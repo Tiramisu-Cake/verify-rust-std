@@ -1,0 +1,25 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-ch8-s1-04-w13",
+  "baseline_commit": "f22f84f316ad8ef6f3fccce86424bad927b09f78",
+  "candidate_commit": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+  "defect": "Four symbolic N0..3 S1 smoke roots timeout at600s; split exact-N experiment for scheduling and qualification.",
+  "applicability": "Only bounded verification fixtures under verify/. Runtime and existing symbolic roots preserved.",
+  "invariants": [
+    "arbitrary bytes and KeyLess unchanged; exact PFC target",
+    "same scratch geometry canaries independent post unwind34",
+    "union N0/1/2/3 with all11 meaningful covers before replacement acceptance"
+  ],
+  "controls": [
+    "Original roots retained; fixed-N covers by applicability; no proof execution authorized."
+  ],
+  "dependencies": [
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Static review only; no local Rust/Kani/CBMC permitted; runner/control integration follows separately in same review."
+  ]
+}

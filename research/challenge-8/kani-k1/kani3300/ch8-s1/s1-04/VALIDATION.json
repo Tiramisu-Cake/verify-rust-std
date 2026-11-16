@@ -1,0 +1,24 @@
+{
+  "offline_closure": "PASS",
+  "std_sha": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+  "control_sha": "5fd538730869103cb7108cd823f58b1dac924960",
+  "request_sha256": "c2a8ddea7e5f21c5ffe77a8b99c70bfbcdd1e61344345700ccccdc636264f3fb",
+  "scheduled_rows": 35,
+  "groups": 14,
+  "unions": 4,
+  "proof_execution": "NOT_RUN",
+  "proof_credit": "NONE",
+  "dispatch": "NOT_RUN",
+  "synthetic_tests": {
+    "result": "PASS",
+    "count": 35,
+    "command": "python3 -m unittest -q test_runner.py test_package.py test_s104.py",
+    "scope": "Isolated Python/git fixtures only; no Rust/Kani/CBMC",
+    "final_metadata_delta_package_tests": 7
+  },
+  "source_identity_preflight": "PASS_LOCAL_READ_ONLY",
+  "control_identity_preflight": "PASS_LOCAL_SIMULATED_CI_ENV_ONLY",
+  "diff_check": "PASS",
+  "review": "ACCEPT_STATIC_WITH_LIMITATIONS",
+  "g0_patch_note": "Exact generated review diff.patch context lines retained byte-for-byte; whitespace check excludes embedded patch data."
+}

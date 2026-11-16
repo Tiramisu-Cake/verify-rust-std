@@ -1,0 +1,15 @@
+# S1-04 — ready preparation, no dispatch
+
+Purpose: exact-N0/1/2/3 experiment for four heavy S1 PFC rows; corrected runner/oracles and explicit14-group schedule. No runtime smallsort changes. Original symbolic roots remain. `CI-REQUEST.json` is the exact mirrored control request; status READY means offline package readiness only.
+
+Source candidate: `5be85699b8826e3286c0bf89efb9affefac0acb5` based on S′ `f22f84f316ad8ef6f3fccce86424bad927b09f78`. Tool remains upstream stock `0aac16ef62da9e9d5645782d458593e5d78143ba`. Control parent remains S1-03 `40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5`; tool checkout/build is separately pinned, and control preflight inventories cumulative changes from stock.
+
+35 active roots represent23 original obligations:19 retained rows and16 exact-N cases replacing4 scheduled symbolic rows. Four union records retain all original11 meaningful cover messages; no one-N or partial-union acceptance. All types/arbitrary bytes/KeyLess, target tokens/PFC, fixture/scratch geometry/canaries/caller posts/checks/unwind34 remain. The original symbolic harnesses still compile as source but are excluded from selected execution filters until union qualification.
+
+Schedule: light model3 → corruption3 → other light/companions9 → activation-default1 → activation-override1 → Cell2 → eight heavy pairs. YAML enforces ordering between stages; within light/activation/heavy matrices max-parallel1 and fail-fastfalse. One authorized publication would create one workflow with14 jobs; no publication performed. See ENVELOPE.md for full job/window/aggregate arithmetic and max-parallel2/single-job alternatives.
+
+Runner changes: porcelain read without strip; source snapshot before overlay; restoration and primary exceptions retained. Exact six property-ID/file/line/class negative oracles from S1-03 replace description matching. Activation false-ensures properties remain UNBOUND and cannot produce accepted detection. TIMEOUT/NOT_RUN/missing/null/partial export and mismatched identities fail closed. Source/target/config and original exits remain in receipts. Named success/cover binding and unreachable/unsupported role qualification remain independent pending gates.
+
+Collection (after authorized CI and authorized receipt retrieval): use control `ch8-s1-control/collect.py --root DIR` repeated once per job artifact, `--out collected.json`. Only structured receipts are read; no log/archive reader is invoked. Collector rejects wrong pins/request SHA, duplicate groups/rows, incomplete source snapshots and wrong row identities, retains missing groups, and emits union status with proof credit NONE. Exact message→SAT-ID correlations are required for union review eligibility; stock success exports do not provide them, so no acceptance is inferred from counts.
+
+Pre-dispatch requirements: owner GO plus new full budget/window/lane, exact published std/control identities, independent inventory/property binding review as applicable, and existing coordinator controls. This preparation does not register a phase, reserve slots or change ledgers. Unmeasured split costs and R8 remain UNKNOWN.
