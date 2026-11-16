@@ -1,0 +1,56 @@
+{
+  "schema": "prof-on-02-source-v1",
+  "source_sha": "166a406e2203bae2fc9246ba00c00b944b364445",
+  "source_tree": "460029c0d95fa7ef04eb7da0115f6fa2792c3b0b",
+  "parent": "9fa2f7f97760584f38738909625c064006d8a936",
+  "branch": "work/ch8-profiles-pprime-w11",
+  "worktree": "/root/verify-rust-std-ch8-profiles-w11",
+  "patch_sha256": "be8b457c587496458f608a5247e449a436657c487ade8b306f7d5be0aa014526",
+  "compiler_changes": 0,
+  "domain": "UNCHANGED",
+  "runtime_algorithm_changes": 0,
+  "qualification": "NOT_RUN",
+  "proof_credit": "NONE",
+  "A": {
+    "source": "PROF-ON-01 coordinator bounded summary + pinned source traversal",
+    "previous_failures": [
+      "swap_contract_u8_n2",
+      "swap_contract_u64_n2",
+      "swap_contract_drop_u8_n2",
+      "swap_contract_cell_i32_n2",
+      "swap_contract_bytes16_n2",
+      "swap_contract_bytes17_n2",
+      "sort4_contract_bytes16_n4",
+      "profile_sort4_consumer_b16"
+    ],
+    "paths": [
+      "swap_contract_fixed \u2192 from_fn \u2192 try_from_fn \u2192 array_assume_init (replaced by literal of two independent ArbitraryValue calls)",
+      "sort4_length_body \u2192 any<[Elem;4]> \u2192 Elem::any_array default map \u2192 array_assume_init (replaced by four independent Elem any calls)",
+      "sort4_consumer \u2192 any<[Elem;4]> \u2192 Elem::any_array default map \u2192 array_assume_init (same literal replacement)"
+    ],
+    "remaining_scalar_arrays": "u8/u64 any_array raw override; any<[u8;16]> calls u8 override, not array-valued element default map",
+    "postcondition": "No implicit Copy/Clone/Freeze bounds, repeated chosen values, or initialization of true output added"
+  },
+  "B": {
+    "sort4_modifies": "dst,dst+1,dst+2,dst+3",
+    "new_target": "merge4_profile<LtU8>",
+    "new_leaf": "profile_merge4_contract_u8_len4",
+    "consumer": "profile_merge_consumer_u8_len4",
+    "general_merge_2_to_32": "UNCHANGED",
+    "output": "MaybeUninit remains uninitialized"
+  },
+  "C": {
+    "factory": "reading_comparator<T> single closure expression per existing helper module",
+    "arbitrary_less": "UNCHANGED; both volatile reads, fresh bool every call",
+    "matching_pairs": "helper_contracts ordinary/wide leaf and consumers kept in their existing modules; captured counter negative unchanged"
+  },
+  "PolyIter": {
+    "rows": [
+      "freeze_noncopy_n2",
+      "rejects_always_true"
+    ],
+    "on_state": "BLOCKED_TOOL",
+    "reason": "Runtime general scratch consumes offset array; changing root/input, replacing iterator, adding Copy, or rewriting runtime does not preserve original claim",
+    "source_changed": false
+  }
+}
