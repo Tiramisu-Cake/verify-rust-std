@@ -1,0 +1,38 @@
+--- a/ch8-s1-control/runner.py
++++ b/ch8-s1-control/runner.py
+@@ -728,7 +728,9 @@
+     subprocess.run(["git", "-C", str(std), "apply", "--check", str(patch)], check=True)
+     subprocess.run(["git", "-C", str(std), "apply", str(patch)], check=True)
+     try:
+-        status = git(std, "status", "--porcelain=v1", "-z")
++        status = subprocess.run(["git", "-C", str(std), "status", "--porcelain=v1", "-z"],
++                                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
++                                text=True, check=True).stdout
+         changed_paths = {item[3:] for item in status.split("\0") if item}
+         if changed_paths != set(changed):
+             raise RunnerError(f"variant changed unexpected paths ({name}): {sorted(changed_paths ^ set(changed))}")
+@@ -785,6 +787,7 @@
+         for result in results:
+             _write_json(out / result["id"] / "receipt.json", result)
+         source_before = verify_source(std, tool, request)
++        receipt["source_before"] = source_before
+         before = binary_fingerprints(tool, {})
+         if not before["required_hashes_present"]:
+             raise RunnerError("missing required tool binary hash")
+@@ -859,14 +862,14 @@
+                 subprocess.run(["git", "-C", str(std), "apply", "--reverse", "--check", str(patch)], check=True)
+                 subprocess.run(["git", "-C", str(std), "apply", "--reverse", str(patch)], check=True)
+             except Exception as exc:
+-                fatal = f"variant_cleanup_failed: {exc}"
++                fatal = (fatal + "; " if fatal else "") + f"variant_cleanup_failed: {exc}"
+         try:
+             source_after = verify_source(std, tool, request)
+             receipt["source_after"] = source_after
+             if source_after != receipt.get("source_before"):
+                 raise RunnerError("source_identity_drift")
+         except Exception as exc:
+-            fatal = f"source_drift: {exc}"
++            fatal = (fatal + "; " if fatal else "") + f"source_drift: {exc}"
+         if fatal:
+             receipt.update(state="FAILED", reason=fatal)
+             for result in results:

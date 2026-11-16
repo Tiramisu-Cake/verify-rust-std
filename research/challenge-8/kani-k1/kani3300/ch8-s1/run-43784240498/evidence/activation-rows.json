@@ -1,0 +1,33 @@
+[
+  {
+    "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+    "group": "activation-default-u34",
+    "group_original_exit": null,
+    "group_rss_peak_kib": null,
+    "id": "activation-default",
+    "mode": "PFC",
+    "original_exit": null,
+    "outcome": "UNKNOWN",
+    "per_root_rss_kib": null,
+    "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+    "proof_credit": "NONE",
+    "reason": "source_drift: source_identity_drift",
+    "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+    "signal": null,
+    "status": "UNKNOWN",
+    "variant": "activation-default"
+  },
+  {
+    "group": "activation-override-u34",
+    "id": "activation-override",
+    "mode": "PFC",
+    "original_exit": null,
+    "outcome": "UNKNOWN",
+    "proof_credit": "NONE",
+    "reason": "source_drift: source_identity_drift",
+    "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+    "signal": null,
+    "status": "NOT_RUN",
+    "variant": "activation-override"
+  }
+]

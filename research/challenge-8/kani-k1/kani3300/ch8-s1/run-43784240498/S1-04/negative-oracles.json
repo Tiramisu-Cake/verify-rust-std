@@ -1,0 +1,115 @@
+{
+  "activation_descending_rejected": {
+    "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
+    "group": "production-u34",
+    "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:100:32: 100:48}>.assertion.1",
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+    "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+    "line": 95,
+    "class": "assertion",
+    "source_sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+    "source_line": "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+    "assertion_context": [
+      "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+      "}",
+      ""
+    ],
+    "intended_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+    "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
+    "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching"
+  },
+  "activation_effectful_rejected": {
+    "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
+    "group": "production-u34",
+    "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<u8, {closure@/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs:106:21: 106:37}>.assertion.1",
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+    "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+    "line": 95,
+    "class": "assertion",
+    "source_sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+    "source_line": "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+    "assertion_context": [
+      "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+      "}",
+      ""
+    ],
+    "intended_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+    "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
+    "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching"
+  },
+  "activation_unsupported_type_rejected": {
+    "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_unsupported_type_rejected",
+    "group": "production-u34",
+    "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::require_active::<mem::maybe_uninit::MaybeUninit<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<mem::maybe_uninit::MaybeUninit<u8>>>.assertion.1",
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+    "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+    "line": 95,
+    "class": "assertion",
+    "source_sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+    "source_line": "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+    "assertion_context": [
+      "    assert!(enabled::<T, F>(), \"S1_ACTIVATION_UNSUPPORTED_PAIR\");",
+      "}",
+      ""
+    ],
+    "intended_message": "S1_ACTIVATION_UNSUPPORTED_PAIR",
+    "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
+    "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching"
+  },
+  "order_corruption_rejected": {
+    "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+    "group": "production-u4",
+    "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.3",
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+    "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+    "line": 141,
+    "class": "assertion",
+    "source_sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+    "source_line": "    assert!(post::<u8, KeyLess<u8>>(before, &[values[1], values[0]]),",
+    "assertion_context": [
+      "    assert!(post::<u8, KeyLess<u8>>(before, &[values[1], values[0]]),",
+      "        \"S1_ORDER_CORRUPTION_ACCEPTED\");",
+      "}"
+    ],
+    "intended_message": "S1_ORDER_CORRUPTION_ACCEPTED",
+    "export_sha256": "5e9b3be21f70c341a42e5d75d1c32d4d15a646a10a9fb1fe1ccade22459dc485",
+    "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching"
+  },
+  "count_corruption_rejected": {
+    "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+    "group": "production-u4",
+    "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.5",
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+    "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+    "line": 152,
+    "class": "assertion",
+    "source_sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+    "source_line": "    assert!(post::<u8, KeyLess<u8>>(before, &corrupt),",
+    "assertion_context": [
+      "    assert!(post::<u8, KeyLess<u8>>(before, &corrupt),",
+      "        \"S1_COUNT_CORRUPTION_ACCEPTED\");",
+      "}"
+    ],
+    "intended_message": "S1_COUNT_CORRUPTION_ACCEPTED",
+    "export_sha256": "5e9b3be21f70c341a42e5d75d1c32d4d15a646a10a9fb1fe1ccade22459dc485",
+    "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching"
+  },
+  "invalid_snapshot_rejected": {
+    "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected",
+    "group": "production-u34",
+    "property_id": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected.assertion.1",
+    "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+    "export_file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+    "line": 181,
+    "class": "assertion",
+    "source_sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+    "source_line": "    assert!(post::<u8, KeyLess<u8>>(invalid, &[]), \"S1_ACTIVE_INVALID_TOKEN_ACCEPTED\");",
+    "assertion_context": [
+      "    assert!(post::<u8, KeyLess<u8>>(invalid, &[]), \"S1_ACTIVE_INVALID_TOKEN_ACCEPTED\");",
+      "}"
+    ],
+    "intended_message": "S1_ACTIVE_INVALID_TOKEN_ACCEPTED",
+    "export_sha256": "f90815bd756f8cdf5065db3ccfaa65770686484be0f48ee6153ff0dd1ca98f57",
+    "binding": "EXACT_ID_LOCATION_AND_PINNED_ASSERT; not description matching"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "status": "PASS_SYNTHETIC_ONLY",
+  "scratch": "/tmp/ch8-s1-w13-43784240498/patched-synthetic/ch8-s1-control",
+  "base_control": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+  "patch": "runner-fix.patch",
+  "tests": 27,
+  "base_tests": 24,
+  "new_tests": 3,
+  "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s /tmp/ch8-s1-w13-43784240498/patched-synthetic/ch8-s1-control -p test_runner*.py -q",
+  "scope": [
+    "original synthetic runner success/error/timeout/export corruption/NOT_RUN and mode/source target checks",
+    "real temporary git porcelain path including spaces, overlay success and bad-hash restoration",
+    "initial variant exception retention; no fabricated source drift",
+    "initial exception retained if a real later source check also fails"
+  ],
+  "integration_of_new_classifier_and_explicit_groups": "NOT_IMPLEMENTED",
+  "local_compilers_or_verifiers": 0,
+  "production_control_modified": false,
+  "patch_sha256": "2f86a7e27e8747edeeca8c87d10bed77c9f836293f80d5fc9deeac3af5e42f3f",
+  "regression_tests_sha256": "329f815ed0068a788439015bd3ee0bec1461e8f9d6e9bf977950ce8c8de80719"
+}
