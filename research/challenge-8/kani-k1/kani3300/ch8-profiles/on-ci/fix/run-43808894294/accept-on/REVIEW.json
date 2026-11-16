@@ -1,0 +1,20 @@
+{
+  "reviewer": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "fork_turns": "none",
+  "nested_delegation": false,
+  "scope": "Static audit intake.py/ACCEPT.json and exact runner inputs/binding/dependencies; no CI or compiler",
+  "candidate_sha256": "6bf6d27a442f57aaca5732f9b1828dd63ff657a813e314c29f80da7b4c6dfecc",
+  "accept_sha256": "b1e5a4e16fb9ea971f19b3c06da1537e770d6588eb55651dce769b50488bdc7d",
+  "findings": [
+    {
+      "id": "duplicate-marker-cap",
+      "state": "RESOLVED",
+      "problem": "old seven-match cap without exact count could hide later duplicate markers",
+      "resolution": "six-match sentinel, exactly five markers and exact category counts incl Verification Time; regression test"
+    }
+  ],
+  "decision": "NO_OPEN_FINDINGS_IN_REVIEWED_INTAKE",
+  "proof_credit": "NONE",
+  "final_delta": "Exact failed-export/stdout and named oracle source assertion/function/site checks;16synthetic tests PASS"
+}

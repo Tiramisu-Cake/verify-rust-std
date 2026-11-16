@@ -1,0 +1,28 @@
+{
+  "schema": "prof-on-02-intake-validation-v1",
+  "replay_rows": 63,
+  "statuses": {
+    "ACCEPTED": 61,
+    "BLOCKED_TOOL": 2,
+    "PENDING": 0,
+    "REJECTED": 0
+  },
+  "synthetic_tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s research/challenge-8/kani-k1/kani3300/ch8-profiles/on-ci/fix/run-43808894294/accept-on -p test_intake.py",
+    "tests": 16,
+    "exit_code": 0,
+    "result": "PASS"
+  },
+  "intake_sha256": "6bf6d27a442f57aaca5732f9b1828dd63ff657a813e314c29f80da7b4c6dfecc",
+  "test_sha256": "4cc290f19d91126a02655010b276c27009d14ab8d6ec2be119b38474c3588ed3",
+  "accept_sha256": "b1e5a4e16fb9ea971f19b3c06da1537e770d6588eb55651dce769b50488bdc7d",
+  "review": "REVIEW.json",
+  "executed": {
+    "pushes": 0,
+    "ci_dispatches": 0,
+    "publications": 0,
+    "ledger_writes": 0,
+    "local_compiler_verifier_invocations": 0
+  },
+  "proof_credit": "NONE"
+}
