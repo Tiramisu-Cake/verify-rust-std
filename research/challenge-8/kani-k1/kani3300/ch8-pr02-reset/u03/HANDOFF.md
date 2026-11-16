@@ -30,3 +30,8 @@ same-tree trigger child.
 Independent Luna High review: GO for this preparation/handoff only, no blockers.
 The exact candidate and review/packet/spec SHA256 values are bound in
 CI-REQUEST.json. Offline/static checks and nine synthetic test methods passed.
+
+Stored patch files retain canonical Git context/deletion lines, so a generic
+g0 diff whitespace check flags those embedded lines. Actual source/package
+whitespace checks and exact-tree patch reproduction passed; patch bytes were
+not rewritten to hide those diagnostics. Other g0 files pass whitespace checks.
