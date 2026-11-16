@@ -1,0 +1,1872 @@
+{
+  "missing_groups": [],
+  "proof_credit": "NONE",
+  "qualified_acceptance": "PENDING_INDEPENDENT_BINDING_AND_EXCEPTION_REVIEW",
+  "replacement_unions": [
+    {
+      "eligible_for_review": false,
+      "id": "freeze_copy_u8",
+      "member_row_ids": [
+        "freeze_copy_u8_n0",
+        "freeze_copy_u8_n1",
+        "freeze_copy_u8_n2",
+        "freeze_copy_u8_n3"
+      ],
+      "proof_credit": "NONE",
+      "state": "PENDING_OFFLINE_ACCEPTANCE"
+    },
+    {
+      "eligible_for_review": false,
+      "id": "freeze_default_noncopy",
+      "member_row_ids": [
+        "freeze_default_noncopy_n0",
+        "freeze_default_noncopy_n1",
+        "freeze_default_noncopy_n2",
+        "freeze_default_noncopy_n3"
+      ],
+      "proof_credit": "NONE",
+      "state": "PENDING_OFFLINE_ACCEPTANCE"
+    },
+    {
+      "eligible_for_review": false,
+      "id": "stable_freeze_u8",
+      "member_row_ids": [
+        "stable_freeze_u8_n0",
+        "stable_freeze_u8_n1",
+        "stable_freeze_u8_n2",
+        "stable_freeze_u8_n3"
+      ],
+      "proof_credit": "NONE",
+      "state": "PENDING_OFFLINE_ACCEPTANCE"
+    },
+    {
+      "eligible_for_review": false,
+      "id": "unstable_freeze_u8",
+      "member_row_ids": [
+        "unstable_freeze_u8_n0",
+        "unstable_freeze_u8_n1",
+        "unstable_freeze_u8_n2",
+        "unstable_freeze_u8_n3"
+      ],
+      "proof_credit": "NONE",
+      "state": "PENDING_OFFLINE_ACCEPTANCE"
+    }
+  ],
+  "request_sha256": "0ff35bdc40434ac6b22b4f4b5919923ab09d849c08c9930f291c014f8b96fe7b",
+  "rows": [
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "diagnostics": "groups/cell-u34",
+      "export": {
+        "expected_target_fn": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort",
+        "harness": {
+          "attributes": {
+            "kind": {
+              "ProofForContract": {
+                "target_fn": "< Cell<u8> as StableSmallSortTypeImpl > :: small_sort"
+              }
+            },
+            "should_panic": false,
+            "solver": null,
+            "stubs": [],
+            "unwind_value": 34,
+            "verified_stubs": []
+          },
+          "checks": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 286,
+            "total": 290,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+            ]
+          },
+          "contract": {
+            "contracted_function_name": "_RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_",
+            "recursion_tracker": null
+          },
+          "covers": {
+            "error": [],
+            "other": [],
+            "satisfied": [
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.1",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.2",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.3",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.4",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.5",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.6",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.7",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.8",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.9",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.10",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell.cover.11"
+            ],
+            "total": 11,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [],
+            "unsatisfiable": []
+          },
+          "crate_name": "core",
+          "failed_properties": [],
+          "failure_kind": "NONE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "generated_concrete_test": false,
+          "has_loop_contracts": false,
+          "is_automatically_generated": false,
+          "is_bounded": false,
+          "line": 36,
+          "n_failed": 0,
+          "n_properties": 301,
+          "name": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+          "outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "resolved_solver": "cadical",
+          "resolved_unwind": 34,
+          "resources": {
+            "verification_time_s": 349.965947895
+          },
+          "unsupported_constructs": [
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "warnings": [],
+          "warnings_truncated": 0
+        },
+        "outcome": "RECORDED",
+        "proof_credit": "NONE",
+        "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+        "reported_contracted_function_name": "_RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_",
+        "reported_outcome": {
+          "kind": "COMPLETED",
+          "verdict": "SUCCESS"
+        },
+        "selected_mode": {
+          "ProofForContract": {
+            "target_fn": "< Cell<u8> as StableSmallSortTypeImpl > :: small_sort"
+          }
+        },
+        "selected_root": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+        "source_binding": {
+          "crate": "core",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "locations": [
+            {
+              "line": 151,
+              "source": "smoke!(stable_default_cell, Cell<u8>, Cell::new, StableSmallSortTypeImpl, 16, stable_empty);"
+            },
+            {
+              "line": 36,
+              "source": "        fn $name() {"
+            }
+          ],
+          "mode": "PFC",
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+          "sha256": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "target": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort"
+        },
+        "state": "RECORDED_OBSERVATION"
+      },
+      "group": "cell-u34",
+      "group_export_sha256": "79f74a0cbe7e83d2b6eca2e85769aebdba541aeceb62014583fd4a8a7d70f319",
+      "group_original_exit": 0,
+      "group_rss_cap_kib": 12582912,
+      "group_rss_peak_kib": 8138992,
+      "id": "stable_default_cell",
+      "mode": "PFC",
+      "original_exit": null,
+      "original_exit_scope": "PER_ROOT_DRIVER_EXIT_UNAVAILABLE_IN_BATCH",
+      "outcome": "RECORDED",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "rich_evidence": "groups/cell-u34/properties.json",
+      "rich_evidence_sha256": "9481545ff7b7ba239236a3c552629227d613de71864e85200a7921ad68efacf2",
+      "root_timeout_seconds": 600,
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_default_cell",
+      "signal": null,
+      "status": "OBSERVED",
+      "timeout_scope": "STOCK_KANI_CBMC_TIMEOUT_NOT_FULL_INSTRUMENTATION_WALL",
+      "variant": "production",
+      "verification_time_s": 349.965947895
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "diagnostics": "groups/cell-u34",
+      "export": {
+        "expected_target_fn": "<Cell<u8> as UnstableSmallSortTypeImpl>::small_sort",
+        "harness": {
+          "attributes": {
+            "kind": {
+              "ProofForContract": {
+                "target_fn": "< Cell<u8> as UnstableSmallSortTypeImpl > :: small_sort"
+              }
+            },
+            "should_panic": false,
+            "solver": null,
+            "stubs": [],
+            "unwind_value": 34,
+            "verified_stubs": []
+          },
+          "checks": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 286,
+            "total": 290,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "fmt::Arguments::<'_>::from_str.assertion.1"
+            ]
+          },
+          "contract": {
+            "contracted_function_name": "_RNCNCINvXs0_NtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBi_4cell4CellhENtBa_25UnstableSmallSortTypeImpl10small_sortINtNtNtBa_6verify13sorting_model7KeyLessB13_EEs0_0s_0Bi_",
+            "recursion_tracker": null
+          },
+          "covers": {
+            "error": [],
+            "other": [],
+            "satisfied": [
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.1",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.2",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.3",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.4",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.5",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.6",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.7",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.8",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.9",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.10",
+              "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell.cover.11"
+            ],
+            "total": 11,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [],
+            "unsatisfiable": []
+          },
+          "crate_name": "core",
+          "failed_properties": [],
+          "failure_kind": "NONE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "generated_concrete_test": false,
+          "has_loop_contracts": false,
+          "is_automatically_generated": false,
+          "is_bounded": false,
+          "line": 36,
+          "n_failed": 0,
+          "n_properties": 301,
+          "name": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+          "outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "resolved_solver": "cadical",
+          "resolved_unwind": 34,
+          "resources": {
+            "verification_time_s": 350.809025539
+          },
+          "unsupported_constructs": [
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "warnings": [],
+          "warnings_truncated": 0
+        },
+        "outcome": "RECORDED",
+        "proof_credit": "NONE",
+        "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+        "reported_contracted_function_name": "_RNCNCINvXs0_NtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBi_4cell4CellhENtBa_25UnstableSmallSortTypeImpl10small_sortINtNtNtBa_6verify13sorting_model7KeyLessB13_EEs0_0s_0Bi_",
+        "reported_outcome": {
+          "kind": "COMPLETED",
+          "verdict": "SUCCESS"
+        },
+        "selected_mode": {
+          "ProofForContract": {
+            "target_fn": "< Cell<u8> as UnstableSmallSortTypeImpl > :: small_sort"
+          }
+        },
+        "selected_root": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+        "source_binding": {
+          "crate": "core",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_smoke.rs",
+          "locations": [
+            {
+              "line": 153,
+              "source": "smoke!(unstable_default_cell, Cell<u8>, Cell::new, UnstableSmallSortTypeImpl, 16, unstable);"
+            },
+            {
+              "line": 36,
+              "source": "        fn $name() {"
+            }
+          ],
+          "mode": "PFC",
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+          "sha256": "e011ce9ee899a6ed380a2f89983b0eb9253ca67cf7d29c6c12c4e2967552560f",
+          "target": "<Cell<u8> as UnstableSmallSortTypeImpl>::small_sort"
+        },
+        "state": "RECORDED_OBSERVATION"
+      },
+      "group": "cell-u34",
+      "group_export_sha256": "79f74a0cbe7e83d2b6eca2e85769aebdba541aeceb62014583fd4a8a7d70f319",
+      "group_original_exit": 0,
+      "group_rss_cap_kib": 12582912,
+      "group_rss_peak_kib": 8138992,
+      "id": "unstable_default_cell",
+      "mode": "PFC",
+      "original_exit": null,
+      "original_exit_scope": "PER_ROOT_DRIVER_EXIT_UNAVAILABLE_IN_BATCH",
+      "outcome": "RECORDED",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "rich_evidence": "groups/cell-u34/properties.json",
+      "rich_evidence_sha256": "9481545ff7b7ba239236a3c552629227d613de71864e85200a7921ad68efacf2",
+      "root_timeout_seconds": 600,
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_default_cell",
+      "signal": null,
+      "status": "OBSERVED",
+      "timeout_scope": "STOCK_KANI_CBMC_TIMEOUT_NOT_FULL_INSTRUMENTATION_WALL",
+      "variant": "production",
+      "verification_time_s": 350.809025539
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "diagnostics": "groups/light-model-u5",
+      "export": {
+        "expected_target_fn": null,
+        "harness": {
+          "attributes": {
+            "kind": "Proof",
+            "should_panic": false,
+            "solver": null,
+            "stubs": [],
+            "unwind_value": 5,
+            "verified_stubs": []
+          },
+          "checks": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 131,
+            "total": 135,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2"
+            ]
+          },
+          "contract": null,
+          "covers": {
+            "error": [],
+            "other": [],
+            "satisfied": [
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3.cover.1",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3.cover.2",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3.cover.3",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3.cover.4",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3.cover.5",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3.cover.6"
+            ],
+            "total": 6,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [],
+            "unsatisfiable": []
+          },
+          "crate_name": "core",
+          "failed_properties": [],
+          "failure_kind": "NONE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "generated_concrete_test": false,
+          "has_loop_contracts": false,
+          "is_automatically_generated": false,
+          "is_bounded": false,
+          "line": 29,
+          "n_failed": 0,
+          "n_properties": 141,
+          "name": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
+          "outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "resolved_solver": "cadical",
+          "resolved_unwind": 5,
+          "resources": {
+            "verification_time_s": 3.732186592
+          },
+          "unsupported_constructs": [
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "warnings": [],
+          "warnings_truncated": 0
+        },
+        "outcome": "RECORDED",
+        "proof_credit": "NONE",
+        "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+        "reported_contracted_function_name": null,
+        "reported_outcome": {
+          "kind": "COMPLETED",
+          "verdict": "SUCCESS"
+        },
+        "selected_mode": "Proof",
+        "selected_root": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
+        "source_binding": {
+          "crate": "core",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "locations": [
+            {
+              "line": 66,
+              "source": "positive!(model_u8_n0_3, u8, byte);"
+            },
+            {
+              "line": 29,
+              "source": "        fn $name() {"
+            }
+          ],
+          "mode": "Original",
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
+          "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "target": null
+        },
+        "state": "RECORDED_OBSERVATION"
+      },
+      "group": "light-model-u5",
+      "group_export_sha256": "777cecce43b86e49f6cde27f26ae248b1fe61828043e01860632618cf0d99f10",
+      "group_original_exit": 0,
+      "group_rss_cap_kib": 12582912,
+      "group_rss_peak_kib": 2480800,
+      "id": "model_u8_n0_3",
+      "mode": "Original",
+      "original_exit": null,
+      "original_exit_scope": "PER_ROOT_DRIVER_EXIT_UNAVAILABLE_IN_BATCH",
+      "outcome": "RECORDED",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "rich_evidence": "groups/light-model-u5/properties.json",
+      "rich_evidence_sha256": "d7a4039bc733daa60a7dadfbfe7314243009c355d80d32acfa20bd786c005f84",
+      "root_timeout_seconds": 600,
+      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_u8_n0_3",
+      "signal": null,
+      "status": "OBSERVED",
+      "timeout_scope": "STOCK_KANI_CBMC_TIMEOUT_NOT_FULL_INSTRUMENTATION_WALL",
+      "variant": "production",
+      "verification_time_s": 3.732186592
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "diagnostics": "groups/light-model-u5",
+      "export": {
+        "expected_target_fn": null,
+        "harness": {
+          "attributes": {
+            "kind": "Proof",
+            "should_panic": false,
+            "solver": null,
+            "stubs": [],
+            "unwind_value": 5,
+            "verified_stubs": []
+          },
+          "checks": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 131,
+            "total": 135,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2"
+            ]
+          },
+          "contract": null,
+          "covers": {
+            "error": [],
+            "other": [],
+            "satisfied": [
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3.cover.1",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3.cover.2",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3.cover.3",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3.cover.4",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3.cover.5",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3.cover.6"
+            ],
+            "total": 6,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [],
+            "unsatisfiable": []
+          },
+          "crate_name": "core",
+          "failed_properties": [],
+          "failure_kind": "NONE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "generated_concrete_test": false,
+          "has_loop_contracts": false,
+          "is_automatically_generated": false,
+          "is_bounded": false,
+          "line": 29,
+          "n_failed": 0,
+          "n_properties": 141,
+          "name": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
+          "outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "resolved_solver": "cadical",
+          "resolved_unwind": 5,
+          "resources": {
+            "verification_time_s": 4.077628795
+          },
+          "unsupported_constructs": [
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "warnings": [],
+          "warnings_truncated": 0
+        },
+        "outcome": "RECORDED",
+        "proof_credit": "NONE",
+        "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+        "reported_contracted_function_name": null,
+        "reported_outcome": {
+          "kind": "COMPLETED",
+          "verdict": "SUCCESS"
+        },
+        "selected_mode": "Proof",
+        "selected_root": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
+        "source_binding": {
+          "crate": "core",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "locations": [
+            {
+              "line": 67,
+              "source": "positive!(model_cell_n0_3, Cell<u8>, Cell::new);"
+            },
+            {
+              "line": 29,
+              "source": "        fn $name() {"
+            }
+          ],
+          "mode": "Original",
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
+          "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "target": null
+        },
+        "state": "RECORDED_OBSERVATION"
+      },
+      "group": "light-model-u5",
+      "group_export_sha256": "777cecce43b86e49f6cde27f26ae248b1fe61828043e01860632618cf0d99f10",
+      "group_original_exit": 0,
+      "group_rss_cap_kib": 12582912,
+      "group_rss_peak_kib": 2480800,
+      "id": "model_cell_n0_3",
+      "mode": "Original",
+      "original_exit": null,
+      "original_exit_scope": "PER_ROOT_DRIVER_EXIT_UNAVAILABLE_IN_BATCH",
+      "outcome": "RECORDED",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "rich_evidence": "groups/light-model-u5/properties.json",
+      "rich_evidence_sha256": "d7a4039bc733daa60a7dadfbfe7314243009c355d80d32acfa20bd786c005f84",
+      "root_timeout_seconds": 600,
+      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_cell_n0_3",
+      "signal": null,
+      "status": "OBSERVED",
+      "timeout_scope": "STOCK_KANI_CBMC_TIMEOUT_NOT_FULL_INSTRUMENTATION_WALL",
+      "variant": "production",
+      "verification_time_s": 4.077628795
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "diagnostics": "groups/light-model-u5",
+      "export": {
+        "expected_target_fn": null,
+        "harness": {
+          "attributes": {
+            "kind": "Proof",
+            "should_panic": false,
+            "solver": null,
+            "stubs": [],
+            "unwind_value": 5,
+            "verified_stubs": []
+          },
+          "checks": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 131,
+            "total": 135,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "fmt::Arguments::<'_>::from_str.assertion.1"
+            ]
+          },
+          "contract": null,
+          "covers": {
+            "error": [],
+            "other": [],
+            "satisfied": [
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3.cover.1",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3.cover.2",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3.cover.3",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3.cover.4",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3.cover.5",
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3.cover.6"
+            ],
+            "total": 6,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [],
+            "unsatisfiable": []
+          },
+          "crate_name": "core",
+          "failed_properties": [],
+          "failure_kind": "NONE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "generated_concrete_test": false,
+          "has_loop_contracts": false,
+          "is_automatically_generated": false,
+          "is_bounded": false,
+          "line": 29,
+          "n_failed": 0,
+          "n_properties": 141,
+          "name": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3",
+          "outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "resolved_solver": "cadical",
+          "resolved_unwind": 5,
+          "resources": {
+            "verification_time_s": 3.883915144
+          },
+          "unsupported_constructs": [
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "warnings": [],
+          "warnings_truncated": 0
+        },
+        "outcome": "RECORDED",
+        "proof_credit": "NONE",
+        "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+        "reported_contracted_function_name": null,
+        "reported_outcome": {
+          "kind": "COMPLETED",
+          "verdict": "SUCCESS"
+        },
+        "selected_mode": "Proof",
+        "selected_root": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3",
+        "source_binding": {
+          "crate": "core",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "locations": [
+            {
+              "line": 68,
+              "source": "positive!(model_noncopy_n0_3, NonCopyByte, NonCopyByte::new);"
+            },
+            {
+              "line": 29,
+              "source": "        fn $name() {"
+            }
+          ],
+          "mode": "Original",
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3",
+          "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "target": null
+        },
+        "state": "RECORDED_OBSERVATION"
+      },
+      "group": "light-model-u5",
+      "group_export_sha256": "777cecce43b86e49f6cde27f26ae248b1fe61828043e01860632618cf0d99f10",
+      "group_original_exit": 0,
+      "group_rss_cap_kib": 12582912,
+      "group_rss_peak_kib": 2480800,
+      "id": "model_noncopy_n0_3",
+      "mode": "Original",
+      "original_exit": null,
+      "original_exit_scope": "PER_ROOT_DRIVER_EXIT_UNAVAILABLE_IN_BATCH",
+      "outcome": "RECORDED",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "rich_evidence": "groups/light-model-u5/properties.json",
+      "rich_evidence_sha256": "d7a4039bc733daa60a7dadfbfe7314243009c355d80d32acfa20bd786c005f84",
+      "root_timeout_seconds": 600,
+      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::model_noncopy_n0_3",
+      "signal": null,
+      "status": "OBSERVED",
+      "timeout_scope": "STOCK_KANI_CBMC_TIMEOUT_NOT_FULL_INSTRUMENTATION_WALL",
+      "variant": "production",
+      "verification_time_s": 3.883915144
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "light-controls-u34",
+      "group_original_exit": 1,
+      "group_rss_peak_kib": 2344080,
+      "id": "inactive_pairs_read_free",
+      "mode": "Original",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::inactive_pairs_read_free",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "light-controls-u34",
+      "group_original_exit": 1,
+      "group_rss_peak_kib": 2344080,
+      "id": "activation_descending_rejected",
+      "mode": "Original",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "light-controls-u34",
+      "group_original_exit": 1,
+      "group_rss_peak_kib": 2344080,
+      "id": "activation_effectful_rejected",
+      "mode": "Original",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "light-controls-u34",
+      "group_original_exit": 1,
+      "group_rss_peak_kib": 2344080,
+      "id": "activation_unsupported_type_rejected",
+      "mode": "Original",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_unsupported_type_rejected",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "diagnostics": "groups/light-corruption-u4",
+      "export": {
+        "expected_target_fn": null,
+        "harness": {
+          "attributes": {
+            "kind": "Proof",
+            "should_panic": false,
+            "solver": null,
+            "stubs": [],
+            "unwind_value": 4,
+            "verified_stubs": []
+          },
+          "checks": {
+            "error": [],
+            "failure": [],
+            "other": [],
+            "success": 34,
+            "total": 35,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "fmt::Arguments::<'_>::from_str.assertion.1"
+            ]
+          },
+          "contract": null,
+          "covers": {
+            "error": [],
+            "other": [],
+            "satisfied": [
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion.cover.1"
+            ],
+            "total": 1,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [],
+            "unsatisfiable": []
+          },
+          "crate_name": "core",
+          "failed_properties": [],
+          "failure_kind": "NONE",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "generated_concrete_test": false,
+          "has_loop_contracts": false,
+          "is_automatically_generated": false,
+          "is_bounded": false,
+          "line": 125,
+          "n_failed": 0,
+          "n_properties": 36,
+          "name": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "outcome": {
+            "kind": "COMPLETED",
+            "verdict": "SUCCESS"
+          },
+          "resolved_solver": "cadical",
+          "resolved_unwind": 4,
+          "resources": {
+            "verification_time_s": 0.165590649
+          },
+          "unsupported_constructs": [],
+          "warnings": [],
+          "warnings_truncated": 0
+        },
+        "outcome": "RECORDED",
+        "proof_credit": "NONE",
+        "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+        "reported_contracted_function_name": null,
+        "reported_outcome": {
+          "kind": "COMPLETED",
+          "verdict": "SUCCESS"
+        },
+        "selected_mode": "Proof",
+        "selected_root": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+        "source_binding": {
+          "crate": "core",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "locations": [
+            {
+              "line": 125,
+              "source": "fn corruption_companion() {"
+            }
+          ],
+          "mode": "Original",
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+          "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "target": null
+        },
+        "state": "RECORDED_OBSERVATION"
+      },
+      "group": "light-corruption-u4",
+      "group_export_sha256": "b73e35fc1a03c284f824e38e0473274869f87bc3251f84ab4c94cd8370c89a6c",
+      "group_original_exit": 1,
+      "group_rss_cap_kib": 12582912,
+      "group_rss_peak_kib": 1943668,
+      "id": "corruption_companion",
+      "mode": "Original",
+      "original_exit": null,
+      "original_exit_scope": "PER_ROOT_DRIVER_EXIT_UNAVAILABLE_IN_BATCH",
+      "outcome": "RECORDED",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "rich_evidence": "groups/light-corruption-u4/properties.json",
+      "rich_evidence_sha256": "24888228fafc5f7e3a3866b0b676c732fe3afd238b8644d188298ebf9411f799",
+      "root_timeout_seconds": 600,
+      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::corruption_companion",
+      "signal": null,
+      "status": "OBSERVED",
+      "timeout_scope": "STOCK_KANI_CBMC_TIMEOUT_NOT_FULL_INSTRUMENTATION_WALL",
+      "variant": "production",
+      "verification_time_s": 0.165590649
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "diagnostics": "groups/light-corruption-u4",
+      "export": {
+        "expected_target_fn": null,
+        "harness": {
+          "attributes": {
+            "kind": "Proof",
+            "should_panic": false,
+            "solver": null,
+            "stubs": [],
+            "unwind_value": 4,
+            "verified_stubs": []
+          },
+          "checks": {
+            "error": [],
+            "failure": [
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.3"
+            ],
+            "other": [],
+            "success": 20,
+            "total": 29,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.4",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.5",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.6",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.7",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.8",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.9",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.10",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11"
+            ]
+          },
+          "contract": null,
+          "covers": {
+            "error": [],
+            "other": [],
+            "satisfied": [],
+            "total": 0,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [],
+            "unsatisfiable": []
+          },
+          "crate_name": "core",
+          "failed_properties": [
+            {
+              "class": "assertion",
+              "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected.assertion.3",
+              "line": "141",
+              "status": "FAILURE",
+              "trace_available": true
+            }
+          ],
+          "failure_kind": "PANICS_ONLY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "generated_concrete_test": false,
+          "has_loop_contracts": false,
+          "is_automatically_generated": false,
+          "is_bounded": false,
+          "line": 138,
+          "n_failed": 1,
+          "n_properties": 29,
+          "name": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+          "outcome": {
+            "kind": "COMPLETED",
+            "verdict": "FAILURE"
+          },
+          "resolved_solver": "cadical",
+          "resolved_unwind": 4,
+          "resources": {
+            "verification_time_s": 0.064893579
+          },
+          "unsupported_constructs": [],
+          "warnings": [],
+          "warnings_truncated": 0
+        },
+        "outcome": "RECORDED",
+        "proof_credit": "NONE",
+        "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+        "reported_contracted_function_name": null,
+        "reported_outcome": {
+          "kind": "COMPLETED",
+          "verdict": "FAILURE"
+        },
+        "selected_mode": "Proof",
+        "selected_root": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+        "source_binding": {
+          "crate": "core",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "locations": [
+            {
+              "line": 138,
+              "source": "fn order_corruption_rejected() {"
+            }
+          ],
+          "mode": "Original",
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+          "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "target": null
+        },
+        "state": "RECORDED_OBSERVATION"
+      },
+      "group": "light-corruption-u4",
+      "group_export_sha256": "b73e35fc1a03c284f824e38e0473274869f87bc3251f84ab4c94cd8370c89a6c",
+      "group_original_exit": 1,
+      "group_rss_cap_kib": 12582912,
+      "group_rss_peak_kib": 1943668,
+      "id": "order_corruption_rejected",
+      "mode": "Original",
+      "original_exit": null,
+      "original_exit_scope": "PER_ROOT_DRIVER_EXIT_UNAVAILABLE_IN_BATCH",
+      "outcome": "RECORDED",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "rich_evidence": "groups/light-corruption-u4/properties.json",
+      "rich_evidence_sha256": "24888228fafc5f7e3a3866b0b676c732fe3afd238b8644d188298ebf9411f799",
+      "root_timeout_seconds": 600,
+      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::order_corruption_rejected",
+      "signal": null,
+      "status": "OBSERVED",
+      "timeout_scope": "STOCK_KANI_CBMC_TIMEOUT_NOT_FULL_INSTRUMENTATION_WALL",
+      "variant": "production",
+      "verification_time_s": 0.064893579
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "diagnostics": "groups/light-corruption-u4",
+      "export": {
+        "expected_target_fn": null,
+        "harness": {
+          "attributes": {
+            "kind": "Proof",
+            "should_panic": false,
+            "solver": null,
+            "stubs": [],
+            "unwind_value": 4,
+            "verified_stubs": []
+          },
+          "checks": {
+            "error": [],
+            "failure": [
+              "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.5"
+            ],
+            "other": [],
+            "success": 32,
+            "total": 34,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<u8>.assertion.11"
+            ]
+          },
+          "contract": null,
+          "covers": {
+            "error": [],
+            "other": [],
+            "satisfied": [],
+            "total": 0,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [],
+            "unsatisfiable": []
+          },
+          "crate_name": "core",
+          "failed_properties": [
+            {
+              "class": "assertion",
+              "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+              "id": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected.assertion.5",
+              "line": "152",
+              "status": "FAILURE",
+              "trace_available": true
+            }
+          ],
+          "failure_kind": "PANICS_ONLY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "generated_concrete_test": false,
+          "has_loop_contracts": false,
+          "is_automatically_generated": false,
+          "is_bounded": false,
+          "line": 147,
+          "n_failed": 1,
+          "n_properties": 34,
+          "name": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "outcome": {
+            "kind": "COMPLETED",
+            "verdict": "FAILURE"
+          },
+          "resolved_solver": "cadical",
+          "resolved_unwind": 4,
+          "resources": {
+            "verification_time_s": 0.088331974
+          },
+          "unsupported_constructs": [],
+          "warnings": [],
+          "warnings_truncated": 0
+        },
+        "outcome": "RECORDED",
+        "proof_credit": "NONE",
+        "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+        "reported_contracted_function_name": null,
+        "reported_outcome": {
+          "kind": "COMPLETED",
+          "verdict": "FAILURE"
+        },
+        "selected_mode": "Proof",
+        "selected_root": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+        "source_binding": {
+          "crate": "core",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model_controls.rs",
+          "locations": [
+            {
+              "line": 147,
+              "source": "fn count_corruption_rejected() {"
+            }
+          ],
+          "mode": "Original",
+          "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+          "sha256": "90105d9a3ead4ee642fdf519a51e6d218d12484c03c1a98f0704daed3db4dc70",
+          "target": null
+        },
+        "state": "RECORDED_OBSERVATION"
+      },
+      "group": "light-corruption-u4",
+      "group_export_sha256": "b73e35fc1a03c284f824e38e0473274869f87bc3251f84ab4c94cd8370c89a6c",
+      "group_original_exit": 1,
+      "group_rss_cap_kib": 12582912,
+      "group_rss_peak_kib": 1943668,
+      "id": "count_corruption_rejected",
+      "mode": "Original",
+      "original_exit": null,
+      "original_exit_scope": "PER_ROOT_DRIVER_EXIT_UNAVAILABLE_IN_BATCH",
+      "outcome": "RECORDED",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "rich_evidence": "groups/light-corruption-u4/properties.json",
+      "rich_evidence_sha256": "24888228fafc5f7e3a3866b0b676c732fe3afd238b8644d188298ebf9411f799",
+      "root_timeout_seconds": 600,
+      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::count_corruption_rejected",
+      "signal": null,
+      "status": "OBSERVED",
+      "timeout_scope": "STOCK_KANI_CBMC_TIMEOUT_NOT_FULL_INSTRUMENTATION_WALL",
+      "variant": "production",
+      "verification_time_s": 0.088331974
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "light-controls-u34",
+      "group_original_exit": 1,
+      "group_rss_peak_kib": 2344080,
+      "id": "snapshot_guards_companion",
+      "mode": "Original",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::snapshot_guards_companion",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "light-controls-u34",
+      "group_original_exit": 1,
+      "group_rss_peak_kib": 2344080,
+      "id": "invalid_snapshot_rejected",
+      "mode": "Original",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "light-controls-u34",
+      "group_original_exit": 1,
+      "group_rss_peak_kib": 2344080,
+      "id": "stable_default_activation-legal",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "light-controls-u34",
+      "group_original_exit": 1,
+      "group_rss_peak_kib": 2344080,
+      "id": "stable_freeze_activation-legal",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "diagnostics": "groups/activation-default-u34",
+      "export": {
+        "expected_target_fn": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort",
+        "harness": {
+          "attributes": {
+            "kind": {
+              "ProofForContract": {
+                "target_fn": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort"
+              }
+            },
+            "should_panic": false,
+            "solver": null,
+            "stubs": [],
+            "unwind_value": 34,
+            "verified_stubs": []
+          },
+          "checks": {
+            "error": [],
+            "failure": [
+              "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.assertion.1"
+            ],
+            "other": [],
+            "success": 166,
+            "total": 182,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "fmt::Arguments::<'_>::from_str.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.1",
+              "num::<impl usize>::abs_diff.assertion.2",
+              "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.1",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.2",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.3",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.4",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.5",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.6",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.7",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.8",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.9",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.10",
+              "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.11"
+            ]
+          },
+          "contract": {
+            "contracted_function_name": "_RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_",
+            "recursion_tracker": null
+          },
+          "covers": {
+            "error": [],
+            "other": [],
+            "satisfied": [],
+            "total": 1,
+            "undetermined": [],
+            "unknown": [],
+            "unreachable": [
+              "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.cover.1"
+            ],
+            "unsatisfiable": []
+          },
+          "crate_name": "core",
+          "failed_properties": [
+            {
+              "class": "assertion",
+              "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\n{ const S1_ATTACHMENT_DEFAULT: bool = false; S1_ATTACHMENT_DEFAULT }",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+              "id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.assertion.1",
+              "line": "41",
+              "status": "FAILURE",
+              "trace_available": true
+            }
+          ],
+          "failure_kind": "PANICS_ONLY",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+          "generated_concrete_test": false,
+          "has_loop_contracts": false,
+          "is_automatically_generated": false,
+          "is_bounded": false,
+          "line": 12,
+          "n_failed": 1,
+          "n_properties": 183,
+          "name": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "outcome": {
+            "kind": "COMPLETED",
+            "verdict": "FAILURE"
+          },
+          "resolved_solver": "cadical",
+          "resolved_unwind": 34,
+          "resources": {
+            "verification_time_s": 1.374055042
+          },
+          "unsupported_constructs": [
+            {
+              "class": "unsupported_construct",
+              "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+              "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+              "line": "185",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "Kani does not support reasoning about pointer to unallocated memory",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+              "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+              "line": "358",
+              "status": "SUCCESS",
+              "trace_available": false
+            },
+            {
+              "class": "unsupported_construct",
+              "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+              "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+              "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+              "line": "110",
+              "status": "SUCCESS",
+              "trace_available": false
+            }
+          ],
+          "warnings": [],
+          "warnings_truncated": 0
+        },
+        "outcome": "RECORDED",
+        "proof_credit": "NONE",
+        "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+        "reported_contracted_function_name": "_RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_",
+        "reported_outcome": {
+          "kind": "COMPLETED",
+          "verdict": "FAILURE"
+        },
+        "selected_mode": {
+          "ProofForContract": {
+            "target_fn": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort"
+          }
+        },
+        "selected_root": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+        "source_binding": {
+          "crate": "core",
+          "file": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+          "locations": [
+            {
+              "line": 12,
+              "source": "fn stable_default_activation() {"
+            }
+          ],
+          "mode": "PFC",
+          "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "sha256": "7cb487628b9e93a086c09fc59cfc54aaeb12e12a3f917f67009f378e722d29ff",
+          "target": "<Cell<u8> as StableSmallSortTypeImpl>::small_sort"
+        },
+        "state": "RECORDED_OBSERVATION"
+      },
+      "group": "activation-default-u34",
+      "group_export_sha256": "b16c04a5619e373ed014b7510232539433c0d56ad097ecd5b6376df0f477a401",
+      "group_original_exit": 1,
+      "group_rss_cap_kib": 12582912,
+      "group_rss_peak_kib": 1935360,
+      "id": "activation-default",
+      "mode": "PFC",
+      "original_exit": null,
+      "original_exit_scope": "PER_ROOT_DRIVER_EXIT_UNAVAILABLE_IN_BATCH",
+      "outcome": "RECORDED",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "rich_evidence": "groups/activation-default-u34/properties.json",
+      "rich_evidence_sha256": "9a1f436074799d247759c93e98948576b3e804d9c390512aaf259f6041fdc959",
+      "root_timeout_seconds": 600,
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+      "signal": null,
+      "status": "OBSERVED",
+      "timeout_scope": "STOCK_KANI_CBMC_TIMEOUT_NOT_FULL_INSTRUMENTATION_WALL",
+      "variant": "activation-default",
+      "verification_time_s": 1.374055042
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "activation-override-u34",
+      "group_original_exit": 1,
+      "group_rss_peak_kib": 1930560,
+      "id": "activation-override",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "activation-override"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "light-controls-u34",
+      "group_original_exit": 1,
+      "group_rss_peak_kib": 2344080,
+      "id": "ordinary-bridge",
+      "mode": "Original",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "freeze_copy_u8-n01-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2612792,
+      "id": "freeze_copy_u8_n0",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n0",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "freeze_copy_u8-n01-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2612792,
+      "id": "freeze_copy_u8_n1",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n1",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "freeze_copy_u8-n23-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2670224,
+      "id": "freeze_copy_u8_n2",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n2",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "freeze_copy_u8-n23-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2670224,
+      "id": "freeze_copy_u8_n3",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_copy_u8_n3",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "freeze_default_noncopy-n01-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2664388,
+      "id": "freeze_default_noncopy_n0",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n0",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "freeze_default_noncopy-n01-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2664388,
+      "id": "freeze_default_noncopy_n1",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n1",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "freeze_default_noncopy-n23-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2639156,
+      "id": "freeze_default_noncopy_n2",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n2",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "freeze_default_noncopy-n23-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2639156,
+      "id": "freeze_default_noncopy_n3",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::freeze_default_noncopy_n3",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "stable_freeze_u8-n01-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2601632,
+      "id": "stable_freeze_u8_n0",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n0",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "stable_freeze_u8-n01-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2601632,
+      "id": "stable_freeze_u8_n1",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n1",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "stable_freeze_u8-n23-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2667624,
+      "id": "stable_freeze_u8_n2",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n2",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "stable_freeze_u8-n23-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2667624,
+      "id": "stable_freeze_u8_n3",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::stable_freeze_u8_n3",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "unstable_freeze_u8-n01-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2632980,
+      "id": "unstable_freeze_u8_n0",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n0",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "unstable_freeze_u8-n01-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2632980,
+      "id": "unstable_freeze_u8_n1",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n1",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "unstable_freeze_u8-n23-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2642528,
+      "id": "unstable_freeze_u8_n2",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n2",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    },
+    {
+      "diagnostic_scope": "SHARED_GROUP_CAPTURE_NOT_PER_ROOT",
+      "group": "unstable_freeze_u8-n23-u34",
+      "group_original_exit": 0,
+      "group_rss_peak_kib": 2642528,
+      "id": "unstable_freeze_u8_n3",
+      "mode": "PFC",
+      "original_exit": null,
+      "outcome": "UNKNOWN",
+      "per_root_rss_kib": null,
+      "per_root_rss_status": "UNKNOWN_NO_EXACT_HARNESS_ATTRIBUTION",
+      "proof_credit": "NONE",
+      "reason": "group source/completion mismatch",
+      "selector": "slice::sort::shared::smallsort::verify::sorting_entry_smoke::unstable_freeze_u8_n3",
+      "signal": null,
+      "status": "UNKNOWN",
+      "variant": "production"
+    }
+  ],
+  "state": "COLLECTED_OBSERVATIONS_PENDING_REVIEW",
+  "std_sha": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+  "std_tree": "a9caaa953d579641ecc6a4b84b5c16fa1d23563b",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+}

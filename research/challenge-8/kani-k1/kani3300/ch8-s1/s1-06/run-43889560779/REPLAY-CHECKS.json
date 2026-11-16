@@ -1,0 +1,28 @@
+{
+  "schema": "s106-intake-negative-checks-v1",
+  "state": "PASS",
+  "original_missing_coordinate_gate": "FAIL_CLOSED_RETAINED",
+  "synthetic_mutations": {
+    "lost_record": {
+      "state": "REJECTED_AS_REQUIRED",
+      "reason": "unexpected inventory error: regular inventory count/duplicate"
+    },
+    "duplicate_record": {
+      "state": "REJECTED_AS_REQUIRED",
+      "reason": "unexpected inventory error: regular inventory count/duplicate"
+    },
+    "changed_status": {
+      "state": "REJECTED_AS_REQUIRED",
+      "reason": "unexpected inventory error: regular SUCCESS count"
+    },
+    "missing_harness": {
+      "state": "REJECTED_AS_REQUIRED",
+      "reason": "unexpected inventory error: regular/stock roots differ"
+    },
+    "false_complete_state": {
+      "state": "REJECTED_AS_REQUIRED",
+      "reason": "saved completeness mismatch"
+    }
+  },
+  "scope": "IN_MEMORY_STRUCTURED_EVIDENCE_ONLY_NO_TOOL_EXECUTION"
+}

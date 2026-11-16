@@ -1,0 +1,104 @@
+{
+  "schema": "s106-stock-role-evidence-v1",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "source": "PINNED_LOCAL_GIT_OBJECTS",
+  "excerpts": [
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs",
+      "file_sha256": "3cf2e75c171e3ffa78b68f8cf0006e7eee00756822928bdc5cfbab96e9860278",
+      "start_line": 512,
+      "end_line": 516,
+      "lines": [
+        "            TerminatorKind::Unreachable => self.codegen_assert_assume_false(",
+        "                PropertyClass::Unreachable,",
+        "                \"unreachable code\",",
+        "                loc,",
+        "            ),"
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs",
+      "file_sha256": "0a4db90716504402fae801e39481d1afabb18b2b8b6e8d65a4c68ed4ef56c1c6",
+      "start_line": 96,
+      "end_line": 101,
+      "lines": [
+        "    /// When Rust determines code is unreachable, this is the `assert(false)` we emit.",
+        "    ///",
+        "    /// SPECIAL BEHAVIOR: Kinda should be a SanityCheck, except that we emit it also for",
+        "    /// `std::intrinsics::unreachable()` and can't tell the difference between that case",
+        "    /// and other cases where the Rust compiler thinks things should be unreachable.",
+        "    Unreachable,"
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs",
+      "file_sha256": "0a4db90716504402fae801e39481d1afabb18b2b8b6e8d65a4c68ed4ef56c1c6",
+      "start_line": 129,
+      "end_line": 150,
+      "lines": [
+        "    pub fn codegen_assert_assume(",
+        "        &self,",
+        "        cond: Expr,",
+        "        property_class: PropertyClass,",
+        "        message: &str,",
+        "        loc: Location,",
+        "    ) -> Stmt {",
+        "        if property_class == PropertyClass::Assertion && self.queries.args().prove_safety_only {",
+        "            Stmt::assume(cond, loc)",
+        "        } else {",
+        "            let property_name = property_class.as_str();",
+        "            Stmt::block(",
+        "                vec![",
+        "                    Stmt::assert(cond.clone(), property_name, message, loc),",
+        "                    Stmt::assume(cond, loc),",
+        "                ],",
+        "                loc,",
+        "            )",
+        "        }",
+        "    }",
+        "",
+        "    /// Generate code to cover the given condition at the current location"
+      ]
+    },
+    {
+      "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs",
+      "file_sha256": "0a4db90716504402fae801e39481d1afabb18b2b8b6e8d65a4c68ed4ef56c1c6",
+      "start_line": 213,
+      "end_line": 222,
+      "lines": [
+        "    /// A shorthand for generating a CBMC assert-assume(false)",
+        "    pub fn codegen_assert_assume_false(",
+        "        &self,",
+        "        property_class: PropertyClass,",
+        "        message: &str,",
+        "        loc: Location,",
+        "    ) -> Stmt {",
+        "        self.codegen_assert_assume(Expr::bool_false(), property_class, message, loc)",
+        "    }",
+        ""
+      ]
+    }
+  ],
+  "finding": "MIR TerminatorKind::Unreachable emits PropertyClass::Unreachable with description unreachable code and assert(false) followed by assume(false). Successful matching records are stock reachability checks, not required user post/frame/relation/cover assertions. They remain checks and must not be discarded.",
+  "limits": [
+    "Exact originating MIR block and cause of lib.rs:0:0 source span are UNKNOWN.",
+    "Class unreachable and status SUCCESS must not be confused with status UNREACHABLE.",
+    "No coordinate exception or change to policy is applied.",
+    "Pinned source review is static evidence; not independent formal proof credit."
+  ],
+  "only_property_class_emission": {
+    "command_kind": "STATIC_GIT_GREP",
+    "pattern": "PropertyClass::Unreachable",
+    "matches": [
+      {
+        "path": "kani-compiler/src/codegen_cprover_gotoc/codegen/statement.rs",
+        "line": 513
+      }
+    ],
+    "scope": "kani-compiler/src at pinned tool commit"
+  }
+}

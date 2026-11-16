@@ -1,0 +1,1846 @@
+{
+  "error": null,
+  "harnesses": [
+    {
+      "name": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+      "properties": [
+        {
+          "class": "assertion",
+          "description": "attempt to shift left with overflow",
+          "display_id": "fmt::Arguments::<'_>::from_str.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/fmt/mod.rs",
+          "id": "fmt::Arguments::<'_>::from_str.assertion.1",
+          "line": "820",
+          "location_display": "library/core/src/fmt/mod.rs:820:38 in function fmt::Arguments::<'_>::from_str",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset in bytes overflows isize",
+          "display_id": "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, usize>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, usize>.safety_check.1",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, usize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset result address must equal original pointer address plus offset",
+          "display_id": "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, usize>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, usize>.safety_check.2",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, usize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset result and original pointer must point to the same allocation",
+          "display_id": "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, usize>.safety_check.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, usize>.safety_check.3",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, usize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "ptr NULL or writable up to size",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.4",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.4",
+          "line": "805",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:805 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "CAR size is less than __CPROVER_max_malloc_size",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.5",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.5",
+          "line": "822",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:822 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "no offset bits overflow on CAR upper bound computation",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.6",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.6",
+          "line": "828",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:828 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unwind",
+          "description": "unwinding assertion loop 0",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.unwind.2",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.unwind.2",
+          "line": "837",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:837 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assigns",
+          "description": "Check that array_copy((const void *)src_n, ...) is allowed by the assigns clause",
+          "display_id": "memcpy.assigns.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-memcpy>",
+          "id": "memcpy.assigns.1",
+          "line": "46",
+          "location_display": "<builtin-library-memcpy>:46 in function memcpy",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assigns",
+          "description": "Check that array_replace((const void *)(unsigned char *)dst, ...) is allowed by the assigns clause",
+          "display_id": "memcpy.assigns.2",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-memcpy>",
+          "id": "memcpy.assigns.2",
+          "line": "47",
+          "location_display": "<builtin-library-memcpy>:47 in function memcpy",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#3}.unreachable.1",
+          "line": "39",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:39:51 in function <cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "ptr NULL or writable up to size",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.1",
+          "line": "805",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:805 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "CAR size is less than __CPROVER_max_malloc_size",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.2",
+          "line": "822",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:822 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "no offset bits overflow on CAR upper bound computation",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.3",
+          "line": "828",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:828 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unwind",
+          "description": "unwinding assertion loop 0",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.unwind.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.unwind.1",
+          "line": "837",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:837 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/models.rs",
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1",
+          "line": "203",
+          "location_display": "library/kani_core/src/models.rs:203:17 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset value overflows isize",
+          "display_id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.safety_check.1",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "internal error: entered unreachable code",
+          "display_id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "<usize as kani::rustc_intrinsics::ToISize>::to_isize.assertion.1",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#1}.unreachable.1",
+          "line": "39",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:39:51 in function <cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "kani::internal::exit_contract_clause.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::exit_contract_clause.assertion.1",
+          "line": "851",
+          "location_display": "library/kani_core/src/lib.rs:851:49 in function kani::internal::exit_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#1}.unreachable.1",
+          "line": "665",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:665:1 in function slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#0}.unreachable.1",
+          "line": "665",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:665:1 in function slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#0}.unreachable.1",
+          "line": "39",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:39:51 in function <cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "cover",
+          "description": "S1_actual_default_companion_return",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.cover.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.cover.1",
+          "line": "20",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs:20:5 in function slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.assertion.1",
+          "line": "19",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs:19:5 in function slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.assertion.2",
+          "line": "14",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs:14:5 in function slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub::{closure#1}.unreachable.1",
+          "line": "1107",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:1107:5 in function ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "ptr NULL or writable up to size",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.7",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.7",
+          "line": "805",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:805 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "CAR size is less than __CPROVER_max_malloc_size",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.8",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.8",
+          "line": "822",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:822 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "no offset bits overflow on CAR upper bound computation",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.assertion.9",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.assertion.9",
+          "line": "828",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:828 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unwind",
+          "description": "unwinding assertion loop 0",
+          "display_id": "__CPROVER_contracts_write_set_check_assignment.unwind.3",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_check_assignment.unwind.3",
+          "line": "837",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:837 in function __CPROVER_contracts_write_set_check_assignment",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::add::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::add::{closure#1}.unreachable.1",
+          "line": "991",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:991:5 in function ptr::mut_ptr::<impl *mut cell::Cell<u8>>::add::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "single_top_level_call",
+          "description": "Only a single top-level call to function _RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_ when checking contract _RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_",
+          "display_id": "<core::cell::Cell<u8> as core::slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<core::cell::Cell<u8>>>::{closure#2}::{closure#1}.single_top_level_call.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<core::cell::Cell<u8> as core::slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<core::cell::Cell<u8>>>::{closure#2}::{closure#1}.single_top_level_call.1",
+          "line": "40",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:40:5 in function <core::cell::Cell<u8> as core::slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<core::cell::Cell<u8>>>::{closure#2}::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "no_alloc_dealloc_in_requires",
+          "description": "Check that requires do not allocate or deallocate memory",
+          "display_id": "<core::cell::Cell<u8> as core::slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<core::cell::Cell<u8>>>::{closure#2}::{closure#1}.no_alloc_dealloc_in_requires.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<core::cell::Cell<u8> as core::slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<core::cell::Cell<u8>>>::{closure#2}::{closure#1}.no_alloc_dealloc_in_requires.1",
+          "line": "40",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:40:5 in function <core::cell::Cell<u8> as core::slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<core::cell::Cell<u8>>>::{closure#2}::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "no_alloc_dealloc_in_ensures",
+          "description": "Check that ensures do not allocate or deallocate memory",
+          "display_id": "<core::cell::Cell<u8> as core::slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<core::cell::Cell<u8>>>::{closure#2}::{closure#1}.no_alloc_dealloc_in_ensures.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<core::cell::Cell<u8> as core::slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<core::cell::Cell<u8>>>::{closure#2}::{closure#1}.no_alloc_dealloc_in_ensures.1",
+          "line": "40",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:40:5 in function <core::cell::Cell<u8> as core::slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<core::cell::Cell<u8>>>::{closure#2}::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "no_recursive_call",
+          "description": "No recursive call to function _RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_ when checking contract _RNCNCINvXNtNtNtNtCs2wYQt4fy6md_4core5slice4sort6shared9smallsortINtNtBf_4cell4CellhENtB7_23StableSmallSortTypeImpl10small_sortINtNtNtB7_6verify13sorting_model7KeyLessB10_EEs0_0s_0Bf_",
+          "display_id": "<core::cell::Cell<u8> as core::slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<core::cell::Cell<u8>>>::{closure#2}::{closure#1}.no_recursive_call.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<core::cell::Cell<u8> as core::slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<core::cell::Cell<u8>>>::{closure#2}::{closure#1}.no_recursive_call.1",
+          "line": "40",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:40:5 in function <core::cell::Cell<u8> as core::slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<core::slice::sort::shared::smallsort::verify::sorting_model::KeyLess<core::cell::Cell<u8>>>::{closure#2}::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "`src` must be properly aligned",
+          "display_id": "ptr::copy_nonoverlapping::<cell::Cell<u8>>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::copy_nonoverlapping::<cell::Cell<u8>>.safety_check.1",
+          "line": "578",
+          "location_display": "library/core/src/ptr/mod.rs:578:14 in function ptr::copy_nonoverlapping::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "`dst` must be properly aligned",
+          "display_id": "ptr::copy_nonoverlapping::<cell::Cell<u8>>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::copy_nonoverlapping::<cell::Cell<u8>>.safety_check.2",
+          "line": "578",
+          "location_display": "library/core/src/ptr/mod.rs:578:14 in function ptr::copy_nonoverlapping::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "arithmetic_overflow",
+          "description": "copy_nonoverlapping: attempt to compute number in bytes which would overflow",
+          "display_id": "ptr::copy_nonoverlapping::<cell::Cell<u8>>.arithmetic_overflow.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::copy_nonoverlapping::<cell::Cell<u8>>.arithmetic_overflow.1",
+          "line": "578",
+          "location_display": "library/core/src/ptr/mod.rs:578:14 in function ptr::copy_nonoverlapping::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#1}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#1}.unreachable.1",
+          "line": "607",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:607:1 in function slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#1}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "frees",
+          "description": "Check that ptr is freeable",
+          "display_id": "free.frees.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-free>",
+          "id": "free.frees.1",
+          "line": "43",
+          "location_display": "<builtin-library-free>:43 in function free",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset in bytes overflows isize",
+          "display_id": "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, isize>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, isize>.safety_check.1",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, isize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset result address must equal original pointer address plus offset",
+          "display_id": "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, isize>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, isize>.safety_check.2",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, isize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "Offset result and original pointer must point to the same allocation",
+          "display_id": "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, isize>.safety_check.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, isize>.safety_check.3",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::rustc_intrinsics::offset::<cell::Cell<u8>, *mut cell::Cell<u8>, isize>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unsupported_construct",
+          "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+          "display_id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+          "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+          "line": "185",
+          "location_display": "library/core/src/panic/location.rs:185:9 in function panic::location::Location::<'_>::caller",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut T>::sub::runtime_sub_nowrap::runtime.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/intrinsics/mod.rs",
+          "id": "ptr::mut_ptr::<impl *mut T>::sub::runtime_sub_nowrap::runtime.unreachable.1",
+          "line": "2748",
+          "location_display": "library/core/src/intrinsics/mod.rs:2748:9 in function ptr::mut_ptr::<impl *mut T>::sub::runtime_sub_nowrap::runtime",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "|_| !verify::sorting_model::enabled::<T, F>() ||\n{ const S1_ATTACHMENT_DEFAULT: bool = false; S1_ATTACHMENT_DEFAULT }",
+          "display_id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.assertion.1",
+          "line": "41",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:41:5 in function <cell::Cell<u8> as slice::sort::shared::smallsort::StableSmallSortTypeImpl>::small_sort::<slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}",
+          "status": "FAILURE"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#0}.unreachable.1",
+          "line": "607",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:607:1 in function slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unsupported_construct",
+          "description": "Kani does not support reasoning about pointer to unallocated memory",
+          "display_id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/lib.rs",
+          "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+          "line": "358",
+          "location_display": "library/core/src/lib.rs:358:1 in function kani::mem::cbmc::same_allocation",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "kani::internal::enter_contract_clause.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::enter_contract_clause.assertion.1",
+          "line": "835",
+          "location_display": "library/kani_core/src/lib.rs:835:49 in function kani::internal::enter_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.unreachable.1",
+          "line": "607",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:607:1 in function slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "num::<impl usize>::abs_diff.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+          "id": "num::<impl usize>::abs_diff.assertion.1",
+          "line": "3222",
+          "location_display": "library/core/src/num/uint_macros.rs:3222:21 in function num::<impl usize>::abs_diff",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "num::<impl usize>::abs_diff.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/num/uint_macros.rs",
+          "id": "num::<impl usize>::abs_diff.assertion.2",
+          "line": "3224",
+          "location_display": "library/core/src/num/uint_macros.rs:3224:21 in function num::<impl usize>::abs_diff",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "ptr NULL or writable up to size",
+          "display_id": "__CPROVER_contracts_car_set_insert.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_car_set_insert.assertion.1",
+          "line": "174",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:174 in function __CPROVER_contracts_car_set_insert",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "CAR size is less than __CPROVER_max_malloc_size",
+          "display_id": "__CPROVER_contracts_car_set_insert.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_car_set_insert.assertion.2",
+          "line": "177",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:177 in function __CPROVER_contracts_car_set_insert",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "no offset bits overflow on CAR upper bound computation",
+          "display_id": "__CPROVER_contracts_car_set_insert.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_car_set_insert.assertion.3",
+          "line": "181",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:181 in function __CPROVER_contracts_car_set_insert",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unwind",
+          "description": "unwinding assertion loop 0",
+          "display_id": "__CPROVER_contracts_write_set_record_deallocated.unwind.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_write_set_record_deallocated.unwind.1",
+          "line": "740",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:740 in function __CPROVER_contracts_write_set_record_deallocated",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}.unreachable.1",
+          "line": "665",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:665:1 in function slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::add::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::add::{closure#2}.unreachable.1",
+          "line": "991",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:991:5 in function ptr::mut_ptr::<impl *mut cell::Cell<u8>>::add::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>.assertion.1",
+          "line": "85",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:85:28 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>.assertion.2",
+          "line": "85",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:85:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>.assertion.3",
+          "line": "86",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:86:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#3}.unreachable.1",
+          "line": "607",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:607:1 in function slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unsupported_construct",
+          "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+          "display_id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+          "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+          "line": "110",
+          "location_display": "library/core/src/panicking.rs:110:17 in function panicking::panic_nounwind_fmt::runtime",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub::{closure#2}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub::{closure#2}.unreachable.1",
+          "line": "1107",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:1107:5 in function ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub::{closure#2}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#3}.unreachable.1",
+          "line": "665",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:665:1 in function slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::add::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::add::{closure#3}.unreachable.1",
+          "line": "991",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:991:5 in function ptr::mut_ptr::<impl *mut cell::Cell<u8>>::add::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ub_checks::maybe_is_nonoverlapping::runtime.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/intrinsics/mod.rs",
+          "id": "ub_checks::maybe_is_nonoverlapping::runtime.unreachable.1",
+          "line": "2748",
+          "location_display": "library/core/src/intrinsics/mod.rs:2748:9 in function ub_checks::maybe_is_nonoverlapping::runtime",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/const_ptr.rs",
+          "id": "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1",
+          "line": "1479",
+          "location_display": "library/core/src/ptr/const_ptr.rs:1479:23 in function ptr::const_ptr::<impl *const ()>::is_aligned_to",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "This is a placeholder message; Kani doesn't support message formatted at runtime",
+          "display_id": "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/const_ptr.rs",
+          "id": "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.2",
+          "line": "1476",
+          "location_display": "library/core/src/ptr/const_ptr.rs:1476:13 in function ptr::const_ptr::<impl *const ()>::is_aligned_to",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::add::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::add::{closure#0}.unreachable.1",
+          "line": "991",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:991:5 in function ptr::mut_ptr::<impl *mut cell::Cell<u8>>::add::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "reached intrinsic::abort_immediate",
+          "display_id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>.assertion.1",
+          "line": "674",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:674:9 in function slice::sort::shared::smallsort::insertion_sort_shift_left::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.1",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:12 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to subtract with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.2",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:39 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.3",
+          "line": "97",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:97:32 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.4",
+          "line": "100",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:100:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.5",
+          "line": "106",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:106:21 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.6",
+          "line": "111",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.7",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.7",
+          "line": "111",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:44 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.8",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.8",
+          "line": "112",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.9",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.9",
+          "line": "112",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:112:45 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.10",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.10",
+          "line": "113",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:113:13 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "assertion",
+          "description": "attempt to add with overflow",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.11",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.assertion.11",
+          "line": "118",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:118:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>",
+          "status": "UNREACHABLE"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>.safety_check.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>.safety_check.1",
+          "line": "631",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:631:21 in function slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>.safety_check.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>.safety_check.2",
+          "line": "631",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:631:21 in function slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>.safety_check.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>.safety_check.3",
+          "line": "631",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:631:29 in function slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>.safety_check.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>.safety_check.4",
+          "line": "631",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:631:29 in function slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "misaligned pointer to reference cast: address must be a multiple of its type's alignment",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>.safety_check.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>.safety_check.5",
+          "line": "656",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:656:31 in function slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "safety_check",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>.safety_check.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>.safety_check.6",
+          "line": "656",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:656:31 in function slice::sort::shared::smallsort::insert_tail::<cell::Cell<u8>, slice::sort::shared::smallsort::verify::sorting_model::KeyLess<cell::Cell<u8>>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "arithmetic_overflow",
+          "description": "attempt to compute `unchecked_sub` which would overflow",
+          "display_id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub.arithmetic_overflow.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub.arithmetic_overflow.1",
+          "line": "1166",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:1166:47 in function ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut T>::add::runtime_add_nowrap::runtime.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/intrinsics/mod.rs",
+          "id": "ptr::mut_ptr::<impl *mut T>::add::runtime_add_nowrap::runtime.unreachable.1",
+          "line": "2748",
+          "location_display": "library/core/src/intrinsics/mod.rs:2748:9 in function ptr::mut_ptr::<impl *mut T>::add::runtime_add_nowrap::runtime",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "assigns",
+          "description": "Check that *var_1 is assignable",
+          "display_id": "kani::internal::reset_contract_clause_depth.assigns.1",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::reset_contract_clause_depth.assigns.1",
+          "line": "807",
+          "location_display": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub::{closure#3}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub::{closure#3}.unreachable.1",
+          "line": "1107",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:1107:5 in function ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub::{closure#3}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "unreachable",
+          "description": "unreachable code",
+          "display_id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub::{closure#0}.unreachable.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mut_ptr.rs",
+          "id": "ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub::{closure#0}.unreachable.1",
+          "line": "1107",
+          "location_display": "library/core/src/ptr/mut_ptr.rs:1107:5 in function ptr::mut_ptr::<impl *mut cell::Cell<u8>>::sub::{closure#0}",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer",
+          "description": "same object violation in (const unsigned char *)(void *)src >= (const unsigned char *)(void *)dst + (signed long int)(count * sizeof(struct _111386363932662115359629942833752549357) /*1*/ )",
+          "display_id": "memcpy.pointer.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-memcpy>",
+          "id": "memcpy.pointer.1",
+          "line": "33",
+          "location_display": "<builtin-library-memcpy>:33 in function memcpy",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer",
+          "description": "same object violation in (const unsigned char *)(void *)dst >= (const unsigned char *)(void *)src + (signed long int)(count * sizeof(struct _111386363932662115359629942833752549357) /*1*/ )",
+          "display_id": "memcpy.pointer.2",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-memcpy>",
+          "id": "memcpy.pointer.2",
+          "line": "34",
+          "location_display": "<builtin-library-memcpy>:34 in function memcpy",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "precondition_instance",
+          "description": "memcpy src/dst overlap",
+          "display_id": "ptr::copy_nonoverlapping::<cell::Cell<u8>>.precondition_instance.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::copy_nonoverlapping::<cell::Cell<u8>>.precondition_instance.1",
+          "line": "578",
+          "location_display": "library/core/src/ptr/mod.rs:578:14 in function ptr::copy_nonoverlapping::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "precondition_instance",
+          "description": "memcpy source region readable",
+          "display_id": "ptr::copy_nonoverlapping::<cell::Cell<u8>>.precondition_instance.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::copy_nonoverlapping::<cell::Cell<u8>>.precondition_instance.2",
+          "line": "578",
+          "location_display": "library/core/src/ptr/mod.rs:578:14 in function ptr::copy_nonoverlapping::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "precondition_instance",
+          "description": "memcpy destination region writeable",
+          "display_id": "ptr::copy_nonoverlapping::<cell::Cell<u8>>.precondition_instance.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::copy_nonoverlapping::<cell::Cell<u8>>.precondition_instance.3",
+          "line": "578",
+          "location_display": "library/core/src/ptr/mod.rs:578:14 in function ptr::copy_nonoverlapping::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "ptr::read::<cell::Cell<u8>>.pointer_dereference.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::read::<cell::Cell<u8>>.pointer_dereference.1",
+          "line": "1769",
+          "location_display": "library/core/src/ptr/mod.rs:1769:9 in function ptr::read::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "ptr::read::<cell::Cell<u8>>.pointer_dereference.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::read::<cell::Cell<u8>>.pointer_dereference.2",
+          "line": "1769",
+          "location_display": "library/core/src/ptr/mod.rs:1769:9 in function ptr::read::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "ptr::read::<cell::Cell<u8>>.pointer_dereference.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::read::<cell::Cell<u8>>.pointer_dereference.3",
+          "line": "1769",
+          "location_display": "library/core/src/ptr/mod.rs:1769:9 in function ptr::read::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "ptr::read::<cell::Cell<u8>>.pointer_dereference.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::read::<cell::Cell<u8>>.pointer_dereference.4",
+          "line": "1769",
+          "location_display": "library/core/src/ptr/mod.rs:1769:9 in function ptr::read::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "ptr::read::<cell::Cell<u8>>.pointer_dereference.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::read::<cell::Cell<u8>>.pointer_dereference.5",
+          "line": "1769",
+          "location_display": "library/core/src/ptr/mod.rs:1769:9 in function ptr::read::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "ptr::read::<cell::Cell<u8>>.pointer_dereference.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "id": "ptr::read::<cell::Cell<u8>>.pointer_dereference.6",
+          "line": "1769",
+          "location_display": "library/core/src/ptr/mod.rs:1769:9 in function ptr::read::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.array_bounds.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.array_bounds.1",
+          "line": "106",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:106:21 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.array_bounds.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>.array_bounds.2",
+          "line": "111",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:111:16 in function slice::sort::shared::smallsort::verify::sorting_model::active_post::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "array_bounds",
+          "description": "index out of bounds: the length is less than or equal to the given index",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>.array_bounds.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>.array_bounds.1",
+          "line": "85",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_model.rs:85:9 in function slice::sort::shared::smallsort::verify::sorting_model::active_snapshot::<cell::Cell<u8>>",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "cell::Cell::<u8>::get.pointer_dereference.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/cell.rs",
+          "id": "cell::Cell::<u8>::get.pointer_dereference.1",
+          "line": "558",
+          "location_display": "library/core/src/cell.rs:558:18 in function cell::Cell::<u8>::get",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "cell::Cell::<u8>::get.pointer_dereference.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/cell.rs",
+          "id": "cell::Cell::<u8>::get.pointer_dereference.2",
+          "line": "558",
+          "location_display": "library/core/src/cell.rs:558:18 in function cell::Cell::<u8>::get",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "cell::Cell::<u8>::get.pointer_dereference.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/cell.rs",
+          "id": "cell::Cell::<u8>::get.pointer_dereference.3",
+          "line": "558",
+          "location_display": "library/core/src/cell.rs:558:18 in function cell::Cell::<u8>::get",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "cell::Cell::<u8>::get.pointer_dereference.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/cell.rs",
+          "id": "cell::Cell::<u8>::get.pointer_dereference.4",
+          "line": "558",
+          "location_display": "library/core/src/cell.rs:558:18 in function cell::Cell::<u8>::get",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "cell::Cell::<u8>::get.pointer_dereference.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/cell.rs",
+          "id": "cell::Cell::<u8>::get.pointer_dereference.5",
+          "line": "558",
+          "location_display": "library/core/src/cell.rs:558:18 in function cell::Cell::<u8>::get",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "cell::Cell::<u8>::get.pointer_dereference.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/cell.rs",
+          "id": "cell::Cell::<u8>::get.pointer_dereference.6",
+          "line": "558",
+          "location_display": "library/core/src/cell.rs:558:18 in function cell::Cell::<u8>::get",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "kani::internal::in_contract_clause.pointer_dereference.1",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::in_contract_clause.pointer_dereference.1",
+          "line": "898",
+          "location_display": "library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "kani::internal::in_contract_clause.pointer_dereference.2",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::in_contract_clause.pointer_dereference.2",
+          "line": "898",
+          "location_display": "library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "kani::internal::in_contract_clause.pointer_dereference.3",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::in_contract_clause.pointer_dereference.3",
+          "line": "898",
+          "location_display": "library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "kani::internal::in_contract_clause.pointer_dereference.4",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::in_contract_clause.pointer_dereference.4",
+          "line": "898",
+          "location_display": "library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "kani::internal::in_contract_clause.pointer_dereference.5",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::in_contract_clause.pointer_dereference.5",
+          "line": "898",
+          "location_display": "library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "kani::internal::in_contract_clause.pointer_dereference.6",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::in_contract_clause.pointer_dereference.6",
+          "line": "898",
+          "location_display": "library/kani_core/src/lib.rs:898:26 in function kani::internal::in_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "kani::internal::reset_contract_clause_depth.pointer_dereference.1",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::reset_contract_clause_depth.pointer_dereference.1",
+          "line": "807",
+          "location_display": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "kani::internal::reset_contract_clause_depth.pointer_dereference.2",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::reset_contract_clause_depth.pointer_dereference.2",
+          "line": "807",
+          "location_display": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "kani::internal::reset_contract_clause_depth.pointer_dereference.3",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::reset_contract_clause_depth.pointer_dereference.3",
+          "line": "807",
+          "location_display": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "kani::internal::reset_contract_clause_depth.pointer_dereference.4",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::reset_contract_clause_depth.pointer_dereference.4",
+          "line": "807",
+          "location_display": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "kani::internal::reset_contract_clause_depth.pointer_dereference.5",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::reset_contract_clause_depth.pointer_dereference.5",
+          "line": "807",
+          "location_display": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "kani::internal::reset_contract_clause_depth.pointer_dereference.6",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::reset_contract_clause_depth.pointer_dereference.6",
+          "line": "807",
+          "location_display": "library/kani_core/src/lib.rs:807:21 in function kani::internal::reset_contract_clause_depth",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "precondition_instance",
+          "description": "free argument must be NULL or valid pointer",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.precondition_instance.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.precondition_instance.1",
+          "line": "10",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs:10:1 in function slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "precondition_instance",
+          "description": "free argument must be dynamic object",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.precondition_instance.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.precondition_instance.2",
+          "line": "10",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs:10:1 in function slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "precondition_instance",
+          "description": "free argument has offset zero",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.precondition_instance.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.precondition_instance.3",
+          "line": "10",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs:10:1 in function slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "precondition_instance",
+          "description": "double free",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.precondition_instance.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.precondition_instance.4",
+          "line": "10",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs:10:1 in function slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "precondition_instance",
+          "description": "free called for new[] object",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.precondition_instance.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.precondition_instance.5",
+          "line": "10",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs:10:1 in function slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "precondition_instance",
+          "description": "free called for stack-allocated object",
+          "display_id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.precondition_instance.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs",
+          "id": "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation.precondition_instance.6",
+          "line": "10",
+          "location_display": "library/core/src/slice/sort/shared/smallsort/verify/sorting_entry_controls.rs:10:1 in function slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.1",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.1",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:38 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.2",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.2",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:38 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.3",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.3",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:38 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.4",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.4",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:38 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.5",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.5",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:38 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.6",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.6",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:38 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.7",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.7",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:48 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.8",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.8",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:48 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.9",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.9",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:48 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.10",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.10",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:48 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.11",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.11",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:48 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.12",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.12",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:48 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.13",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.13",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:58 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.14",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.14",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:58 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.15",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.15",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:58 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.16",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.16",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:58 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.17",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.17",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:58 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.18",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/slice/sort/shared/smallsort.rs",
+          "id": "<slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop.pointer_dereference.18",
+          "line": "327",
+          "location_display": "library/core/src/slice/sort/shared/smallsort.rs:327:58 in function <slice::sort::shared::smallsort::CopyOnDrop<cell::Cell<u8>> as ops::drop::Drop>::drop",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.1",
+          "line": "1186",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:1186 in function __CPROVER_contracts_make_invalid_pointer",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.2",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.2",
+          "line": "1186",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:1186 in function __CPROVER_contracts_make_invalid_pointer",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.3",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.3",
+          "line": "1186",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:1186 in function __CPROVER_contracts_make_invalid_pointer",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.4",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.4",
+          "line": "1186",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:1186 in function __CPROVER_contracts_make_invalid_pointer",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.5",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.5",
+          "line": "1186",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:1186 in function __CPROVER_contracts_make_invalid_pointer",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.6",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_make_invalid_pointer.pointer_dereference.6",
+          "line": "1186",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:1186 in function __CPROVER_contracts_make_invalid_pointer",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "bit_count",
+          "description": "count leading zeros is undefined for value zero",
+          "display_id": "__CPROVER_contracts_obj_set_create_indexed_by_object_id.bit_count.1",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_obj_set_create_indexed_by_object_id.bit_count.1",
+          "line": "264",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:264 in function __CPROVER_contracts_obj_set_create_indexed_by_object_id",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "bit_count",
+          "description": "count leading zeros is undefined for value zero",
+          "display_id": "__CPROVER_contracts_obj_set_create_indexed_by_object_id.bit_count.2",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_obj_set_create_indexed_by_object_id.bit_count.2",
+          "line": "264",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:264 in function __CPROVER_contracts_obj_set_create_indexed_by_object_id",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "bit_count",
+          "description": "count leading zeros is undefined for value zero",
+          "display_id": "__CPROVER_contracts_obj_set_create_indexed_by_object_id.bit_count.3",
+          "file": "/home/runner/work/kani/kani/export/<builtin-library-__CPROVER_contracts_library>",
+          "id": "__CPROVER_contracts_obj_set_create_indexed_by_object_id.bit_count.3",
+          "line": "264",
+          "location_display": "<builtin-library-__CPROVER_contracts_library>:264 in function __CPROVER_contracts_obj_set_create_indexed_by_object_id",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "kani::internal::enter_contract_clause.pointer_dereference.1",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::enter_contract_clause.pointer_dereference.1",
+          "line": "833",
+          "location_display": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "kani::internal::enter_contract_clause.pointer_dereference.2",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::enter_contract_clause.pointer_dereference.2",
+          "line": "833",
+          "location_display": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "kani::internal::enter_contract_clause.pointer_dereference.3",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::enter_contract_clause.pointer_dereference.3",
+          "line": "833",
+          "location_display": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "kani::internal::enter_contract_clause.pointer_dereference.4",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::enter_contract_clause.pointer_dereference.4",
+          "line": "833",
+          "location_display": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "kani::internal::enter_contract_clause.pointer_dereference.5",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::enter_contract_clause.pointer_dereference.5",
+          "line": "833",
+          "location_display": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "kani::internal::enter_contract_clause.pointer_dereference.6",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::enter_contract_clause.pointer_dereference.6",
+          "line": "833",
+          "location_display": "library/kani_core/src/lib.rs:833:33 in function kani::internal::enter_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "kani::internal::enter_contract_clause.pointer_dereference.7",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::enter_contract_clause.pointer_dereference.7",
+          "line": "835",
+          "location_display": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "kani::internal::enter_contract_clause.pointer_dereference.8",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::enter_contract_clause.pointer_dereference.8",
+          "line": "835",
+          "location_display": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "kani::internal::enter_contract_clause.pointer_dereference.9",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::enter_contract_clause.pointer_dereference.9",
+          "line": "835",
+          "location_display": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "kani::internal::enter_contract_clause.pointer_dereference.10",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::enter_contract_clause.pointer_dereference.10",
+          "line": "835",
+          "location_display": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "kani::internal::enter_contract_clause.pointer_dereference.11",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::enter_contract_clause.pointer_dereference.11",
+          "line": "835",
+          "location_display": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "kani::internal::enter_contract_clause.pointer_dereference.12",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::enter_contract_clause.pointer_dereference.12",
+          "line": "835",
+          "location_display": "library/kani_core/src/lib.rs:835:25 in function kani::internal::enter_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "kani::internal::exit_contract_clause.pointer_dereference.1",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::exit_contract_clause.pointer_dereference.1",
+          "line": "849",
+          "location_display": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "kani::internal::exit_contract_clause.pointer_dereference.2",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::exit_contract_clause.pointer_dereference.2",
+          "line": "849",
+          "location_display": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "kani::internal::exit_contract_clause.pointer_dereference.3",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::exit_contract_clause.pointer_dereference.3",
+          "line": "849",
+          "location_display": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "kani::internal::exit_contract_clause.pointer_dereference.4",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::exit_contract_clause.pointer_dereference.4",
+          "line": "849",
+          "location_display": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "kani::internal::exit_contract_clause.pointer_dereference.5",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::exit_contract_clause.pointer_dereference.5",
+          "line": "849",
+          "location_display": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "kani::internal::exit_contract_clause.pointer_dereference.6",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::exit_contract_clause.pointer_dereference.6",
+          "line": "849",
+          "location_display": "library/kani_core/src/lib.rs:849:33 in function kani::internal::exit_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer NULL",
+          "display_id": "kani::internal::exit_contract_clause.pointer_dereference.7",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::exit_contract_clause.pointer_dereference.7",
+          "line": "851",
+          "location_display": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer invalid",
+          "display_id": "kani::internal::exit_contract_clause.pointer_dereference.8",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::exit_contract_clause.pointer_dereference.8",
+          "line": "851",
+          "location_display": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: deallocated dynamic object",
+          "display_id": "kani::internal::exit_contract_clause.pointer_dereference.9",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::exit_contract_clause.pointer_dereference.9",
+          "line": "851",
+          "location_display": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: dead object",
+          "display_id": "kani::internal::exit_contract_clause.pointer_dereference.10",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::exit_contract_clause.pointer_dereference.10",
+          "line": "851",
+          "location_display": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: pointer outside object bounds",
+          "display_id": "kani::internal::exit_contract_clause.pointer_dereference.11",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::exit_contract_clause.pointer_dereference.11",
+          "line": "851",
+          "location_display": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+          "status": "SUCCESS"
+        },
+        {
+          "class": "pointer_dereference",
+          "description": "dereference failure: invalid integer address",
+          "display_id": "kani::internal::exit_contract_clause.pointer_dereference.12",
+          "file": "/home/runner/work/kani/kani/export/library/kani_core/src/lib.rs",
+          "id": "kani::internal::exit_contract_clause.pointer_dereference.12",
+          "line": "851",
+          "location_display": "library/kani_core/src/lib.rs:851:25 in function kani::internal::exit_contract_clause",
+          "status": "SUCCESS"
+        }
+      ]
+    }
+  ],
+  "missing_sites": [],
+  "observed_stdout_bytes": 146400,
+  "proof_credit": "NONE",
+  "qualified_acceptance": "PENDING_OFFLINE_ACCEPTANCE",
+  "schema": "ch8-s1-05-rich-v1",
+  "state": "COMPLETE"
+}

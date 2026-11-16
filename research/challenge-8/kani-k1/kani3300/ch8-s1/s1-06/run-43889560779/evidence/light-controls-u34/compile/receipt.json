@@ -1,0 +1,41 @@
+{
+  "boundary": "STOCK_INITIAL_EXPORT_OBSERVED",
+  "elapsed_upper_bound_seconds": 31.278,
+  "group_execution": {
+    "elapsed_seconds": 84.423,
+    "original_exit_code": 1,
+    "output_bytes": 781682,
+    "output_truncated": false,
+    "rss_peak_gib": 2.2354888916015625,
+    "rss_peak_kib": 2344080,
+    "rss_sample_period_seconds": 0.05,
+    "rss_status": "SAMPLED_PROCESS_GROUP",
+    "signal": null,
+    "stderr_bytes": 2493,
+    "stderr_truncated": false,
+    "stdout_bytes": 779189,
+    "stdout_truncated": false,
+    "timed_out": false
+  },
+  "limit_seconds": 900,
+  "marker_sha256": "8c1dee12934353b5bc2da7e9b41f698a8d052d11e085d9b0df15171a5450d294",
+  "observed_run_state": "INCOMPLETE",
+  "proof_credit": "NONE",
+  "request_sha256": "0ff35bdc40434ac6b22b4f4b5919923ab09d849c08c9930f291c014f8b96fe7b",
+  "schema": "ch8-s1-compile-receipt-v1",
+  "scope": "STD_PROJECT_COMPILATION_AND_LINK_UNTIL_INITIAL_EXPORT",
+  "selectors": [
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::inactive_pairs_read_free",
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_descending_rejected",
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_effectful_rejected",
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::activation_unsupported_type_rejected",
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::snapshot_guards_companion",
+    "slice::sort::shared::smallsort::verify::sorting_model_controls::invalid_snapshot_rejected",
+    "slice::sort::shared::smallsort::verify::smoke::predicate_efficient_swap_type_matrix",
+    "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_default_activation",
+    "slice::sort::shared::smallsort::verify::sorting_entry_controls::stable_freeze_activation"
+  ],
+  "state": "COMPLETE",
+  "std_sha": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "s106-intake-checkpoint-v1",
+  "state": "COMPLETE_INTAKE_AND_OFFLINE_ACCEPTANCE_REVIEW",
+  "entry_g0": "f58f131cfa575698617e551707f665445a454625",
+  "control_sha": "a14a513eb7a77297a0cc10ff6eefa7577c2c383c",
+  "fix_control_sha": "b25dd39a46ba90b167500997d546a5f2f5bd8f3b",
+  "std_sha": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "request_sha256": "0ff35bdc40434ac6b22b4f4b5919923ab09d849c08c9930f291c014f8b96fe7b",
+  "claims": [
+    {
+      "claim": "14 original artifacts obtained, all ZIP digests checked before extraction; all compact entries integrity verified",
+      "assurance": "ARTIFACT_INTEGRITY_ONLY",
+      "evidence": "PROVENANCE.json"
+    },
+    {
+      "claim": "9986/9986 property records retained;27SUCCESS8FAILURE,18 invalid sites remain fail-closed",
+      "assurance": "SOURCE_REPORTED_STRUCTURED_INVENTORY_RECONCILIATION",
+      "evidence": "collected.json"
+    },
+    {
+      "claim": "Missing-site class is stock MIR unreachable guard, not user post/frame/relation/cover",
+      "assurance": "PINNED_STATIC_COMPILER_SOURCE_AND_EXACT_RICH_RECORDS",
+      "evidence": [
+        "STOCK-ROLE.json",
+        "missing-sites.json"
+      ]
+    },
+    {
+      "claim": "Offline w11 classification:0qualified,8/8exactnegativeobservations,113/113requiredSATcovers,13/127requiredsuccessbindings",
+      "assurance": "OFFLINE_PINNED_STRUCTURED_OBSERVATIONS_NOT_INDEPENDENT_PROOF",
+      "evidence": "accept/ACCEPT.json"
+    }
+  ],
+  "open": [
+    "Coordinator decision on narrow stock successful-check location exception; NOT_APPLIED",
+    "10 same-run after binary snapshots absent",
+    "Remaining offline source/contract/wrapper/message/role gates; see accept/ACCEPT.json"
+  ],
+  "next": "Review offline acceptance handoff and policy question; any new measurement/CI requires a separate authorized stage",
+  "qualified_acceptance": "PENDING",
+  "proof_credit": "NONE",
+  "policy_exception_applied": false,
+  "new_control_fix": null,
+  "dispatch_authorized": false,
+  "local_verifier_execution": "NOT_RUN",
+  "historical_receipts_and_ledgers_changed": false,
+  "closed_stage": "ONE_STAGE_INTAKE_AND_HANDOFF",
+  "closure_reason": "Assigned intake, missing-site role analysis, offline classification and coordinator policy options prepared; no dispatch/policy-change authorization in this task."
+}
