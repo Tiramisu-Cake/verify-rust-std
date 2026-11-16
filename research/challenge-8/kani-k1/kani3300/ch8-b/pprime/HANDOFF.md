@@ -20,8 +20,15 @@ Std P′ `c5ff36ff433692140605891f646043f991db05de`, tree
 B runner не вызывает `kani list`, metrics/autoharness или `scripts/run-kani.sh`.
 Единственный proof entry — прямой `verify-std ./library --harness SELECTOR --exact`
 на каждый frozen root. Поэтому дефект глобального list из S1 здесь отсутствует.
-Решение worker13 (`kani-host-list`, control `a18502a710...`) изучено;
-перенос его list runner/1800s cap создал бы новую ненужную фазу и не применяется.
+Дополнение координатора и `TASK-CH8-S1-LIST2-W13.md` принято: вариант worker13
+с list timeout 1500s отклонён. По сообщённым в задании данным организатора,
+глобальный list занимает 73 мин; это source-reported факт, здесь не перепроверенный.
+Никакой list runner/timeout в B не переносится. Binding каждой строки берётся
+из её собственного export JSON: ровно один harness, полное `name` = selector,
+`crate_name=core`, `is_automatically_generated=false`, точные requested_filters,
+`exact=true`, `matched_count=1`, `unmatched_filters=[]`. Отсутствующий, невалидный
+или несовпадающий export оставляет `complete=false` и catchall
+`compile-resource-not-run` (UNKNOWN по смыслу), никогда PASS.
 Фильтрация manual harnesses выполняется stock Kani в
 `kani-compiler/src/kani_middle/codegen_units.rs::CodegenUnits::new` /
 `determine_targets`; фактическая работоспособность на P′ остаётся NOT_RUN.
