@@ -1,0 +1,167 @@
+diff --git a/.github/workflows/ch8-c.yml b/.github/workflows/ch8-c.yml
+index 2145f5b0d..438764784 100644
+--- a/.github/workflows/ch8-c.yml
++++ b/.github/workflows/ch8-c.yml
+@@ -111,6 +111,8 @@ jobs:
+           RECEIPT_ROOT: ${{ runner.temp }}/ch8-c-receipts
+         with:
+           name: ch8-c-${{ github.run_id }}-${{ github.run_attempt }}
+-          path: ${{ env.RECEIPT_ROOT }}/
++          path: |
++            ${{ env.RECEIPT_ROOT }}/
++            !${{ env.RECEIPT_ROOT }}/**/target/**
+           if-no-files-found: error
+           retention-days: 7
+diff --git a/ch8-c-control/CI-REQUEST.json b/ch8-c-control/CI-REQUEST.json
+index c49ce5887..55d06fe3e 100644
+--- a/ch8-c-control/CI-REQUEST.json
++++ b/ch8-c-control/CI-REQUEST.json
+@@ -2,9 +2,9 @@
+   "schema": "ch8-c-ci-request-v1",
+   "status": "READY",
+   "authorization": "PREPARATION_ONLY",
+-  "std_sha": "56df5b34e4946ceddd231456737e9167a10d666a",
+-  "std_tree": "2952c7b664cf04d79de31f865d185362f21f7e3a",
+-  "base_std_sha": "872d5a43380752786415bc00d2a12ce0e930cb37",
++  "std_sha": "d073585946093071b696eada41b8c8cac18362a7",
++  "std_tree": "e8e9fa63b59ff886077e938d40cffe7ce8c12d42",
++  "base_std_sha": "c5ff36ff433692140605891f646043f991db05de",
+   "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+   "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+   "changed_file_sha256": {
+@@ -199,10 +199,10 @@
+     "ch8-c-control/test_runner.py"
+   ],
+   "ci_payload_sha256": {
+-    ".github/workflows/ch8-c.yml": "84b468016771483b67094f71dc466866d68ff0c61ab9772722d3e69bc768a5dd",
+-    "ch8-c-control/check_package.py": "a89513f3a1e936787892cb4e1fe6b0df7a4dd642f3070e5971204aed17744e07",
+-    "ch8-c-control/runner.py": "9d68c8d28146aeb1e59211c494d0f3945990d39600e4eea91a05bf68ed426c73",
+-    "ch8-c-control/test_package.py": "4ca40f4bb1f96e8bc84e619f9ffc411a8ec4d6d35acf94e78ea2d5c2f1307b5e",
++    ".github/workflows/ch8-c.yml": "ac99393b81393f842a00e9f3c68a667229c28c616eabf09ca5a0d20ddee1fa34",
++    "ch8-c-control/check_package.py": "45212db6d88b16f9082522255b490ae297f1343a49f1e5bf1e49f51cacc4beef",
++    "ch8-c-control/runner.py": "c919083af4f15b74d68761ce41b8cd2b8fa07b2f21a428364f9c2ecc10d73d93",
++    "ch8-c-control/test_package.py": "b24f9b6b477d26680df7d666906a4ef11c1cdf7e0a5b932cfda280aeaad12e7f",
+     "ch8-c-control/test_runner.py": "a78b00555dd07efeb55c00d536396bc73588ef6ad693dfb46cd4d049908c2806"
+   },
+   "flags": {
+@@ -235,6 +235,9 @@
+     "max_root_seconds": 600
+   },
+   "payload_manifest": "MANIFEST.sha256",
+-  "payload_manifest_sha256": "024d6cf0df0f8b407c093f0ad18a886bd7fc4cc94799264b1e633a2d0c630418",
+-  "variants": {}
++  "payload_manifest_sha256": "e26e64539d3935cfdbc42a30967b0a39e08486272239a7ba58f260aa2005093b",
++  "variants": {},
++  "base_std_tree": "1302063846873aa300f8bac64fe09e8a3ed1280f",
++  "supersedes_control": "7a4f8086e6989dbae10a49b26e83feea8ad34193",
++  "artifact_exclusion": "Build directories named target are removed before fallback artifact accounting; upload also excludes **/target/**."
+ }
+diff --git a/ch8-c-control/MANIFEST.sha256 b/ch8-c-control/MANIFEST.sha256
+index da07e482d..3b4a442bb 100644
+--- a/ch8-c-control/MANIFEST.sha256
++++ b/ch8-c-control/MANIFEST.sha256
+@@ -1,5 +1,5 @@
+-84b468016771483b67094f71dc466866d68ff0c61ab9772722d3e69bc768a5dd  .github/workflows/ch8-c.yml
+-a89513f3a1e936787892cb4e1fe6b0df7a4dd642f3070e5971204aed17744e07  ch8-c-control/check_package.py
+-9d68c8d28146aeb1e59211c494d0f3945990d39600e4eea91a05bf68ed426c73  ch8-c-control/runner.py
+-4ca40f4bb1f96e8bc84e619f9ffc411a8ec4d6d35acf94e78ea2d5c2f1307b5e  ch8-c-control/test_package.py
++ac99393b81393f842a00e9f3c68a667229c28c616eabf09ca5a0d20ddee1fa34  .github/workflows/ch8-c.yml
++45212db6d88b16f9082522255b490ae297f1343a49f1e5bf1e49f51cacc4beef  ch8-c-control/check_package.py
++c919083af4f15b74d68761ce41b8cd2b8fa07b2f21a428364f9c2ecc10d73d93  ch8-c-control/runner.py
++b24f9b6b477d26680df7d666906a4ef11c1cdf7e0a5b932cfda280aeaad12e7f  ch8-c-control/test_package.py
+ a78b00555dd07efeb55c00d536396bc73588ef6ad693dfb46cd4d049908c2806  ch8-c-control/test_runner.py
+diff --git a/ch8-c-control/check_package.py b/ch8-c-control/check_package.py
+index de314407a..04b331835 100644
+--- a/ch8-c-control/check_package.py
++++ b/ch8-c-control/check_package.py
+@@ -5,6 +5,7 @@ import hashlib
+ import json
+ import os
+ import re
++import shutil
+ from pathlib import Path
+ import subprocess
+ import time
+@@ -49,6 +50,8 @@ def check_yaml(path):
+     assert all(s['with']['persist-credentials'] == 'false' for s in checkouts)
+     assert all(s.get('if') == 'always()' for s in steps[-2:])
+     assert steps[-1]['with']['retention-days'] == '7'
++    assert steps[-1]['with']['path'].splitlines() == [
++        '${{ env.RECEIPT_ROOT }}/', '!${{ env.RECEIPT_ROOT }}/**/target/**']
+     return {'yaml': 'PASS', 'runner_context': 'STEP_ENV_ONLY',
+             'checkout_depth': 'AT_LEAST_2', 'layout': ['control', 'export', 'tool'],
+             'job_timeout_minutes': 60, 'dispatch': 'NOT_RUN'}
+@@ -120,8 +123,20 @@ def fallback(out):
+                 'mode': row['mode'], 'variant': row['variant'], 'status': 'NOT_RUN',
+                 'outcome': 'UNKNOWN', 'original_exit': None, 'signal': None,
+                 'reason': 'No complete row receipt (setup/preflight/build/phase interruption)'}, indent=2) + '\n')
++    # Kani list may create a build directory in its cwd. It is not evidence and
++    # must not consume the artifact budget or enter the upload. Preserve siblings.
++    excluded_targets = []
++    for path in sorted(out.rglob('target'), key=lambda p: len(p.parts), reverse=True):
++        if path.is_symlink():
++            path.unlink()
++        elif path.is_dir():
++            shutil.rmtree(path)
++        else:
++            continue
++        excluded_targets.append(str(path.relative_to(out)))
+     (out / 'job-status.json').write_text(json.dumps({'job_status': os.environ.get('JOB_STATUS', 'UNKNOWN'),
+         'request_sha256': hashlib.sha256((HERE / 'CI-REQUEST.json').read_bytes()).hexdigest(),
++        'excluded_build_directories': excluded_targets,
+         'acceptance': 'PENDING_INDEPENDENT_REVIEW', 'credit': 'NONE'}) + '\n')
+     cap = r['budgets']['artifact_bytes']
+     files = [p for p in out.rglob('*') if p.is_file()]
+diff --git a/ch8-c-control/runner.py b/ch8-c-control/runner.py
+index 026a617a0..1fcb3c1d2 100644
+--- a/ch8-c-control/runner.py
++++ b/ch8-c-control/runner.py
+@@ -22,8 +22,8 @@ from typing import Any
+ 
+ HERE = Path(__file__).resolve().parent
+ REQUEST_PATH = HERE / "CI-REQUEST.json"
+-STD_SHA = "56df5b34e4946ceddd231456737e9167a10d666a"
+-STD_TREE = "2952c7b664cf04d79de31f865d185362f21f7e3a"
++STD_SHA = "d073585946093071b696eada41b8c8cac18362a7"
++STD_TREE = "e8e9fa63b59ff886077e938d40cffe7ce8c12d42"
+ TOOL_SHA = "0aac16ef62da9e9d5645782d458593e5d78143ba"
+ TOOL_TREE = "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+ MAX_ROW_SECONDS = 600
+diff --git a/ch8-c-control/test_package.py b/ch8-c-control/test_package.py
+index ca7a0f8cd..3c4d587c4 100644
+--- a/ch8-c-control/test_package.py
++++ b/ch8-c-control/test_package.py
+@@ -25,6 +25,7 @@ class PackageTests(unittest.TestCase):
+                 lambda x: x['jobs']['c-controls'].update({'runs-on': 'self-hosted'}),
+                 lambda x: x['on']['push'].update({'branches': ['uninit-ci/ch8-s1-*']}),
+                 lambda x: x['jobs']['c-controls'].update({'timeout-minutes': '61'}),
++                lambda x: x['jobs']['c-controls']['steps'][-1]['with'].update({'path': '${{ env.RECEIPT_ROOT }}/'}),
+                 lambda x: x['jobs']['c-controls']['steps'][1]['with'].update({'ref': 'main'}),
+                 lambda x: next(s for s in x['jobs']['c-controls']['steps']
+                                if s.get('with', {}).get('path') == 'export')['with'].update({'repository': 'Tiramisu-Cake/kani'}),
+@@ -123,6 +124,25 @@ class PackageTests(unittest.TestCase):
+                 self.assertTrue((out/'TRUNCATED.json').is_file())
+                 self.assertFalse((out/'oversize.log').exists())
+ 
++    def test_fallback_excludes_build_targets_and_preserves_evidence(self):
++        with tempfile.TemporaryDirectory() as d:
++            root = Path(d); here = root/'control'; here.mkdir(); out = root/'receipts'; out.mkdir()
++            (here/'CI-REQUEST.json').write_text(json.dumps({'rows': [], 'budgets': {'artifact_bytes': 10000}}))
++            listed = out/'list'; listed.mkdir()
++            evidence = listed/'kani-list.json'; evidence.write_text('{"original":42}')
++            target = listed/'target'/'debug'; target.mkdir(parents=True)
++            (target/'build.bin').write_bytes(b'x'*20000)
++            with patch.object(c, 'HERE', here):
++                c.fallback(out)
++                self.assertFalse((listed/'target').exists())
++                self.assertEqual(evidence.read_text(), '{"original":42}')
++                self.assertEqual(json.loads((out/'job-status.json').read_text())['excluded_build_directories'], ['list/target'])
++                self.assertFalse((out/'TRUNCATED.json').exists())
++                (listed/'target').mkdir()
++                with patch.object(c.shutil, 'rmtree', side_effect=OSError('synthetic cleanup failure')):
++                    with self.assertRaisesRegex(OSError, 'synthetic cleanup failure'): c.fallback(out)
++                self.assertEqual(evidence.read_text(), '{"original":42}')
++
+ 
+ if __name__ == '__main__':
+     unittest.main()

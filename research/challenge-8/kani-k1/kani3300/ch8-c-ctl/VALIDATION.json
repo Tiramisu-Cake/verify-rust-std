@@ -2,8 +2,8 @@
   "schema": "ch8-c-ctl-validation-v1",
   "scope": "Static metadata and isolated synthetic service tests only",
   "source": {
-    "sha": "56df5b34e4946ceddd231456737e9167a10d666a",
-    "tree": "2952c7b664cf04d79de31f865d185362f21f7e3a",
+    "sha": "d073585946093071b696eada41b8c8cac18362a7",
+    "tree": "e8e9fa63b59ff886077e938d40cffe7ce8c12d42",
     "root_count": 8,
     "proof_for_contract_roots": 6,
     "ordinary_roots": 2,
@@ -15,7 +15,10 @@
     "smallsort_and_models": "UNCHANGED",
     "volatile_write_sites": 4,
     "summary_and_abort_stubs": "NONE",
-    "independent_source_review": "NO_BLOCKING_FINDINGS"
+    "independent_source_review": "ACCEPTED_PPRIME_DELTA_BYTE_IDENTICAL_CONTROLS",
+    "parent": "c5ff36ff433692140605891f646043f991db05de",
+    "base_tree": "1302063846873aa300f8bac64fe09e8a3ed1280f",
+    "source_delta": "Byte-identical controls/registration and actual smallsort helper bodies relative to prior reviewed candidate"
   },
   "prohibited_operations": {
     "push": "NOT_PERFORMED",
@@ -36,15 +39,15 @@
     "proof_credit": "NONE"
   },
   "ci_candidate": {
-    "sha": "7a4f8086e6989dbae10a49b26e83feea8ad34193",
-    "tree": "2ed1a5a98f5009265405b6a5b52b652aea9e8365",
+    "sha": "cdd3c6d04112cc1b1e1a80a850389236647bc849",
+    "tree": "c6f0606358d088a82129b70d2f1bd081de9e5e7e",
     "status": "ACCEPTED_PREPARATION_ONLY",
     "synthetic_suite": {
       "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_runner.py test_package.py",
-      "cwd": "/root/kani-ch8-c-ctl-w14/ch8-c-control",
-      "tests": 18,
+      "cwd": "/root/kani-ch8-c-ctl-w14-pprime/ch8-c-control",
+      "tests": 19,
       "result": "PASS",
-      "assurance": "worker and independent reviewer executed isolated Python suite; both 18/18 PASS; no verifier"
+      "assurance": "Main and independent reviewer executed isolated Python suite; both19/19 PASS; no verifier"
     },
     "yaml": "PASS",
     "actionlint": {
@@ -62,10 +65,10 @@
       "job_minutes": 60,
       "attempt": 1
     },
-    "payload_manifest_sha256": "024d6cf0df0f8b407c093f0ad18a886bd7fc4cc94799264b1e633a2d0c630418",
-    "request_sha256": "97bad6162ef2c1b90c5f477c972d2be418524d00e73531c212bbd76a1716c009",
+    "payload_manifest_sha256": "e26e64539d3935cfdbc42a30967b0a39e08486272239a7ba58f260aa2005093b",
+    "request_sha256": "f7f5fec776e88d2ad9825595910749706888c0fa55ab0405e8c844949f9344e5",
     "final_manifest_check": "PASS_ALL_7_FILES",
-    "independent_review": "ACCEPTED_ALL_FINDINGS_FIXED"
+    "independent_review": "ACCEPTED_PPRIME_DELTA"
   },
   "integration_corrections": [
     "Required source cover labels kept separate from exported cover IDs; runtime mapping pending.",
@@ -73,6 +76,7 @@
     "Use 600s/root within shared absolute phase and 60-minute job envelope.",
     "Include staged stock-workflow deletions in committed changed-path inventory.",
     "Independent finding: require exact cover total, unique string IDs and strict nonnegative integer counts.",
-    "Independent finding: remove extra runtime actionlint action; retain explicit-path local static actionlint."
+    "Independent finding: remove extra runtime actionlint action; retain explicit-path local static actionlint.",
+    "Coordinator supplement: source on P-prime, same 8 roots/oracles/caps/flags; prune target build dirs before fallback artifact accounting and exclude **/target/** in upload."
   ]
 }

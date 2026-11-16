@@ -1,5 +1,8 @@
 # Independent review — C controls
 
+Current P′ supplement supersedes the prior 872d preparation pins. Historical review
+records below remain unchanged; the P′ delta decision is appended at the end.
+
 Reviewer: independent GPT-6 Luna, HIGH, separate context, no nested delegation.
 Source packet created by `smallsort-session review create`; immutable identities:
 
@@ -85,3 +88,37 @@ and named successful assertions still need actual CI evidence and runtime review
 The `[skip ci]` upload commits suppress activation; the handoff specifies a later,
 separately authorized same-tree sibling on a fresh activation branch, preserving
 the required sole tool parent. No dispatch authority is conferred by this review.
+
+## Coordinator P′ supplement — ACCEPTED, supersedes earlier dispatch pins
+
+Task: `TASK-CH8-PPRIME-REBASE.md` point14. Source
+`d073585946093071b696eada41b8c8cac18362a7`, tree
+`e8e9fa63b59ff886077e938d40cffe7ce8c12d42`, sole parent P′
+`c5ff36ff433692140605891f646043f991db05de` (tree
+`1302063846873aa300f8bac64fe09e8a3ed1280f`). Control
+`cdd3c6d04112cc1b1e1a80a850389236647bc849`, tree
+`c6f0606358d088a82129b70d2f1bd081de9e5e7e`, sole parent unchanged tool0aac.
+
+Independent reviewer: same GPT-6 Luna HIGH, separate context, no nested delegation.
+Spec SHA256 `9d7f053682060cbd992994915f48de5731223e5d4e316d311c59fda76c241447`;
+packet SHA256 `90a56349d8ac7cc8afff8d3466e0907099807bc24f6e07c1ba0d0c0edca92fa0`;
+bounded control delta SHA256
+`3836e778b857801413c75a928242ea51572ebd07c76fd42bef9c5a93c2c24ca7`.
+
+Reviewer confirmed the P′ source differs only in the two authorized control files;
+both are byte-identical to the previously accepted C source. P′ leaves the actual
+smallsort/helper-contract dependency bytes unchanged, so the original body review
+remains applicable. Runner source pins/request bind the new source/base; all eight
+rows, oracles, flags and caps remain unchanged.
+
+Artifact change accepted: fallback removes build directories named `target` before
+size accounting and records removals; adjacent original evidence/receipts remain.
+Cleanup errors propagate; an independent upload glob excludes `**/target/**` even
+if cleanup fails. YAML sensitivity and synthetic cleanup-error tests cover this.
+Main and reviewer each ran the offline suite: **19/19 PASS**. Static YAML,
+explicit-path local actionlint, committed control identity and manifest checks PASS.
+No remaining concrete blocker for this preparation package.
+
+Earlier872d-based dispatch pins are superseded, not evidence of compilation.
+P′ compatibility is coordinator-supplied context. Compilation and all actual proof
+rows remain **NOT_RUN**, proof credit **NONE**. No push, CI or ledger changes.

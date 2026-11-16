@@ -1,0 +1,25 @@
+{
+  "applicability": "Supplement to TASK-CH8-C-CONTROLS-W14.md. Source /root/verify-rust-std-ch8-c-ctl-w14-pprime candidate d073585946093071b696eada41b8c8cac18362a7 treee8e9fa63b59ff886077e938d40cffe7ce8c12d42, parent P-primec5ff36ff433692140605891f646043f991db05de tree1302063846873aa300f8bac64fe09e8a3ed1280f. Prior reviewed control7a4f8086e6989dbae10a49b26e83feea8ad34193 in /root/kani-ch8-c-ctl-w14; old source56df5b34e4946ceddd231456737e9167a10d666a.",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "cdd3c6d04112cc1b1e1a80a850389236647bc849",
+  "controls": [
+    "Source identity/parent checks; diff old-to-new rows/flags/caps/body. Synthetic target pruning before cap, sibling evidence preservation, cleanup OSError propagation, YAML sensitivity to missing upload exclusion; existing runner service error paths."
+  ],
+  "defect": "Apply coordinator TASK-CH8-PPRIME-REBASE.md point14: C source controls on P-prime, update CI source pins, exclude generated target build directories from evidence upload.",
+  "dependencies": [
+    ".github/actions/setup/action.yml"
+  ],
+  "invariants": [
+    "Source changes relative to P-prime only control module and verify.rs registration; byte-identical roots and production smallsort/helper bodies relative to prior reviewed candidate. No model/algorithm edit.",
+    "Control sole parent upstream tool0aac; changes only workflows and ch8-c-control; stock workflows removed; skip-ci, no push/CI/ledger/local compiler.",
+    "Only runner source SHA/tree constants change; rows/oracles/caps/flags remain identical. Same target/export/error-path guards, six PFC and two ordinary roots, NOT_RUN and no proof credit.",
+    "Fallback excludes build directories named target before artifact-size accounting and preserves adjacent original evidence/receipts; cleanup failures retain original exception. Upload glob independently excludes **/target/**.",
+    "Local synthetic19 tests/YAML/actionlint only; source compilation is NOT_RUN. Coordinator compilation claims are supplied context, not independently requalified proof."
+  ],
+  "known_limitations": [
+    "Prior reviews retained in g0 ch8-c-ctl/REVIEW.md and packets. New pprime-control-delta.patch records old control7a4 to candidatecdd3; full packet baseline tool for ancestry constraint. No formal proof or CI compilation in this stage."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-c-ctl-w14-pprime"
+}
