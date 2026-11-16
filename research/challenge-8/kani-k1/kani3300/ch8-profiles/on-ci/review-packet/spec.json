@@ -1,0 +1,41 @@
+{
+  "applicability": "Review one committed CI-only candidate against SEL1 parent; compare behavior to accepted OFF control112fcc9ada in /root/kani-ch8-prof-off-w11. Full patch includes sole workflow + CI package and removal of unrelated workflows, as in OFF. Source unchanged9fa2f7f977. Required task at g0 research/challenge-8/kani-k1/TASK-CH8-PROF-ON-W15.md. Focus semantic delta after mechanical OFF-to-ON renaming, exact frozen manifest/oracles/bounds/caps, actual fork tool checkout/build and classification reuse without OFF admissions.",
+  "baseline_commit": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "candidate_commit": "d569db0c1f98e26573d0d15d022e9ac0c6d877fb",
+  "controls": [
+    "Check workflow repo path --repo .. and old ../.. rejection; checkout/build exact fork SEL1 source outside control.",
+    "Run46 runner/profile/batch/path/ON synthetic tests; inspect success/error/timeout/partial/missing/null/wrong-type/NOT_RUN and source-stage-target mismatch coverage.",
+    "Independently inspect static call reachability of general-scratch PolymorphicIter and networkN32 risk by row; RISKS.json/md are claimed static analysis to verify, not proof.",
+    "Assess accept-v4 functions/source-chain applicability and fresh exact symbol/role/property/cover/frame/leaf constraints; new uninit properties cannot inherit OFF admission.",
+    "Review ON export/request feature mismatch guards and budgets; inspect patch reconstruction/static-audit identity checks.",
+    "Recheck prior finding delta in review-fix.patch: exact exported unstable-feature set (including requested unstable-options), reject unknown extras/duplicates/ghost-state/missing unstable-options. Trace SEL1 schema_utils.rs:95-101 and call_single_file.rs:161-166: ghost-state is added only to compiler flags, not the exported driver feature set. Confirm from source."
+  ],
+  "defect": "Assigned preparation of Profiles ON qualification using accepted OFF runner with SEL1 exact fork tool pin and uninit checks; no CI execution in this stage.",
+  "dependencies": [
+    "ch8-prof-on-control/CI-REQUEST.json",
+    "ch8-prof-on-control/manifest.json",
+    "ch8-prof-on-control/runner.py",
+    "ch8-prof-on-control/check_package.py",
+    "rust-toolchain.toml"
+  ],
+  "invariants": [
+    "No push, CI, publications, ledger, cargo/rustc/Kani/CBMC, raw evidence download/read, or nested delegation. Git/static Python/small synthetic tests only.",
+    "Keep all62 rows, sourceP-prime9fa2f7f977, manifest byte equality,9 negative oracle descriptions and frame pending binding; no check weakening.",
+    "Tool14bc57fdb99960240c4944845a3d985c8af4dcf7 from Tiramisu-Cake/kani nightly-2026-10-23; -Z uninit-checks ON and valid-value OFF; all other OFF flags/cfg/source unwind preserved.",
+    "Keep two cfg batches53+9, per-row bindings, regular stdout receipts, source/tool/target/stage guards, original exits/exceptions, timeout/partial/missing/NOT_RUN handling.",
+    "Static preparation NOT_RUN; proof credit NONE. Existing accept-v4 code reuse requires fresh ON bindings; never reuse historical OFF ACCEPT rows."
+  ],
+  "known_limitations": [
+    "No actual compile/proof/CI qualification. Source reachability does not predict verifier outcome.",
+    "Post-CI fresh evidence/admission is a separate stage. Historical accept-v4 replay is OFF-bound, not an ON command.",
+    "G0 auxiliary files at /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-profiles/on-ci; use supplied paths as static data only."
+  ],
+  "prior_reviews": [
+    {
+      "path": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-profiles/on-ci/REVIEW-v1.json",
+      "sha256": "6667922b0b0a9d91ed1c0b758c3e2809932e4be667a7a76e4069d4386ca5c976"
+    }
+  ],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-prof-on-w15"
+}

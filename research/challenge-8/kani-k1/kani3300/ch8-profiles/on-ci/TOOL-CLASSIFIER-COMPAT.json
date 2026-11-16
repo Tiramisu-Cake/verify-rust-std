@@ -1,0 +1,83 @@
+{
+  "schema": "ch8-prof-on-source-compat-v1",
+  "stock": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "sel1": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "files": {
+    "library/kani_macros/src/sysroot/contracts/mod.rs": {
+      "stock_sha256": "7ec87e829711d05928c3026249e6c79bd20e5c7e9499fe401b53a3647cd76979",
+      "sel1_sha256": "7ec87e829711d05928c3026249e6c79bd20e5c7e9499fe401b53a3647cd76979",
+      "byte_identical": true
+    },
+    "library/kani_macros/src/sysroot/contracts/initialize.rs": {
+      "stock_sha256": "dad2dcfdd2aa348a33f0162a81459ae4539946bc027ccac7d2593bf09bd2e95b",
+      "sel1_sha256": "dad2dcfdd2aa348a33f0162a81459ae4539946bc027ccac7d2593bf09bd2e95b",
+      "byte_identical": true
+    },
+    "library/kani_macros/src/sysroot/contracts/bootstrap.rs": {
+      "stock_sha256": "d9e0988bfe8eef7f90b9378300ec4b77d425677ee60dc845f841939d073e9507",
+      "sel1_sha256": "d9e0988bfe8eef7f90b9378300ec4b77d425677ee60dc845f841939d073e9507",
+      "byte_identical": true
+    },
+    "library/kani_macros/src/sysroot/contracts/check.rs": {
+      "stock_sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+      "sel1_sha256": "de97631cb1e6881361a66f5b0e3b633fd8162ea5171d918770315a5d5def951f",
+      "byte_identical": true
+    },
+    "library/kani_macros/src/sysroot/contracts/replace.rs": {
+      "stock_sha256": "6bd51d3234c0778c5e0a465d1009d4efdee21dc2565e626b6d309f25c6791f05",
+      "sel1_sha256": "6bd51d3234c0778c5e0a465d1009d4efdee21dc2565e626b6d309f25c6791f05",
+      "byte_identical": true
+    },
+    "kani-compiler/src/kani_middle/attributes.rs": {
+      "stock_sha256": "0b7cfe3b74e1958770b94a763fc89bc5b8156a1d120a69e8bdac67ada630078e",
+      "sel1_sha256": "0b7cfe3b74e1958770b94a763fc89bc5b8156a1d120a69e8bdac67ada630078e",
+      "byte_identical": true
+    },
+    "kani-compiler/src/kani_middle/resolve.rs": {
+      "stock_sha256": "160a9d6b29db2acb3e4dbf61ea03bbe3ca8e3c1de4ef3aedf6bba808fd24a51f",
+      "sel1_sha256": "160a9d6b29db2acb3e4dbf61ea03bbe3ca8e3c1de4ef3aedf6bba808fd24a51f",
+      "byte_identical": true
+    },
+    "kani-compiler/src/kani_middle/codegen_units.rs": {
+      "stock_sha256": "bb573077d6d0e20349ffa0ff17756b9cc03ef1d21de783c5d5ca11dd7016514c",
+      "sel1_sha256": "bb573077d6d0e20349ffa0ff17756b9cc03ef1d21de783c5d5ca11dd7016514c",
+      "byte_identical": true
+    },
+    "kani-compiler/src/kani_middle/transform/contracts.rs": {
+      "stock_sha256": "06523bc56804fae5a4e6b484ef4e2ecedf34dbc046b29e02608e9ccdb3660cc9",
+      "sel1_sha256": "06523bc56804fae5a4e6b484ef4e2ecedf34dbc046b29e02608e9ccdb3660cc9",
+      "byte_identical": true
+    },
+    "kani-compiler/src/codegen_cprover_gotoc/codegen/contract.rs": {
+      "stock_sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+      "sel1_sha256": "df0b9b50b8d035aa9b447ec0af648b7466cdc74a30ed34c85a08dc9cffec5789",
+      "byte_identical": true
+    },
+    "kani-driver/src/call_goto_instrument.rs": {
+      "stock_sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+      "sel1_sha256": "981387b38ad3455a440aecb606266f546423084b69ece1ab47711e05e3cd68c2",
+      "byte_identical": true
+    },
+    "kani-driver/src/cbmc_output_parser.rs": {
+      "stock_sha256": "efdc704e083c0a9b357e6258ef6312669091dca4fbbe102852c94c5e1fd7bfc1",
+      "sel1_sha256": "efdc704e083c0a9b357e6258ef6312669091dca4fbbe102852c94c5e1fd7bfc1",
+      "byte_identical": true
+    },
+    "kani-driver/src/frontend/schema_utils.rs": {
+      "stock_sha256": "6cf7b1311b3ebfd6ec1ce61efb1875b33d067fc2a89d2e7d1ccf8bf6995b1a64",
+      "sel1_sha256": "6cf7b1311b3ebfd6ec1ce61efb1875b33d067fc2a89d2e7d1ccf8bf6995b1a64",
+      "byte_identical": true
+    },
+    "kani_metadata/src/harness.rs": {
+      "stock_sha256": "133e43a5cab35920fbbfb0d99df6ff71610ebc31e8f8d63607331e155c20d740",
+      "sel1_sha256": "133e43a5cab35920fbbfb0d99df6ff71610ebc31e8f8d63607331e155c20d740",
+      "byte_identical": true
+    },
+    "library/kani_core/src/models.rs": {
+      "stock_sha256": "547ff8ab08feb9d26cc70d03f4be9b8267a52148695ddb10264c75f81ee4a39f",
+      "sel1_sha256": "547ff8ab08feb9d26cc70d03f4be9b8267a52148695ddb10264c75f81ee4a39f",
+      "byte_identical": true
+    }
+  },
+  "assurance": "GIT_BYTE_IDENTITY_ONLY; not compiler correctness or ON proof; new uninit properties still require fresh role/source binding"
+}

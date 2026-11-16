@@ -1,0 +1,64 @@
+{
+  "schema": "ch8-prof-on-checkpoint-v1",
+  "runtime": "Codex",
+  "state": "READY_STATIC_REVIEWED_NOT_RUN",
+  "g0_input": "ff62cd43d6c565ec93d8bc9f3c671c1e99d9d971",
+  "control": "d569db0c1f98e26573d0d15d022e9ac0c6d877fb",
+  "control_tree": "660633a37fb527dae4bdc2d9c845bd65ca578cdb",
+  "source": "9fa2f7f97760584f38738909625c064006d8a936",
+  "tool": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "qualification": "NOT_RUN",
+  "proof_credit": "NONE",
+  "pushes": 0,
+  "dispatches": 0,
+  "publications": 0,
+  "ledger_writes": 0,
+  "local_compiler_verifier_invocations": 0,
+  "claims": [
+    {
+      "claim": "62 frozen manifest rows/oracles/cfg/bounds/budgets and mature batch/receipt controls preserved; flags changed only to uninit ON with exact SEL1",
+      "assurance": "STATIC_AND_SYNTHETIC_ONLY",
+      "evidence": [
+        "static-audit.json",
+        "VALIDATION.json",
+        "normalized-control-delta.patch"
+      ]
+    },
+    {
+      "claim": "Source risk map marks PolymorphicIter routes47/59; no network N32 route",
+      "assurance": "STATIC_SOURCE_REACHABILITY_ONLY",
+      "evidence": [
+        "RISKS.md",
+        "RISKS.json"
+      ]
+    }
+  ],
+  "open": [
+    "Runtime compile/proof/ON qualification NOT_RUN.",
+    "Future evidence stage must bind all ON properties/roles/wrappers/covers/frame and dependencies afresh; no historical OFF admissions carry forward."
+  ],
+  "next": "Separate coordinator stage for publication/one proposed dispatch, only with current authority and budget.",
+  "review": {
+    "state": "GO_STATIC_REVIEW_ONLY",
+    "path": "REVIEW.json",
+    "sha256": "ff4537bc1aa02ac6d20821ac294a95eb6d12907a605adeead601ad77c2cefbcc",
+    "candidate": "d569db0c1f98e26573d0d15d022e9ac0c6d877fb",
+    "tree": "660633a37fb527dae4bdc2d9c845bd65ca578cdb",
+    "baseline": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+    "packet_sha256": "12fa5f1e6ff4502b57149bb8dee56c29e03bea2e96966682f0a1e62265d0453b",
+    "spec_sha256": "8ce7714332eca6bcc4363b8bdc2b5c1368b7ee279867e7572722ad62f1734033",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "findings": []
+  },
+  "validation": {
+    "path": "VALIDATION.json",
+    "sha256": "9ba380af301e81f762c61a486c5f2a5514ce698a5d79a015f2d42c2a9f23cdf4"
+  },
+  "static_audit": {
+    "path": "static-audit.json",
+    "sha256": "3eba4ce8ddb79f1d3ad34035133309cd285f95c11bd21cd2162a9775f034dd97"
+  },
+  "blocker": null,
+  "closure_reason": "One assigned stage complete: exact SEL1 CI-only candidate committed locally,62 frozen rows preserved,122 synthetic tests PASS, static paths/identities/patch reconstruction PASS, independent Luna HIGH GO after localized guard fix. No dispatch/publication/ledger/local compiler-verifier."
+}

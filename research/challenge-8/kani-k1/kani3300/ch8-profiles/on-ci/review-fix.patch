@@ -1,0 +1,66 @@
+diff --git a/ch8-prof-on-control/CI-REQUEST.json b/ch8-prof-on-control/CI-REQUEST.json
+index 8a3623c98..705e4cfae 100644
+--- a/ch8-prof-on-control/CI-REQUEST.json
++++ b/ch8-prof-on-control/CI-REQUEST.json
+@@ -1332,11 +1332,11 @@
+     "ch8-prof-on-control/check_package.py": "6712a13bde9b46bfda19e3946de6ee91b9fe0b94f98c688471bb4db948b12b52",
+     "ch8-prof-on-control/kani-version.toml": "b0d01e939cb5010ec7af5e62a0ddeab67f8c59eae47e467c7da2d4298a0611da",
+     "ch8-prof-on-control/manifest.json": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273",
+-    "ch8-prof-on-control/runner.py": "f83ebf8a54f4ca595ea550d1294b67452cd8fa950b51784fb2bdfdbdd746a5ae",
++    "ch8-prof-on-control/runner.py": "d1ce6261a7426d76f2525b28a15fa1db456ee05426efcc2fcd28924c1659ce3c",
+     "ch8-prof-on-control/test_batch.py": "6c699bdff24ed9bc86a806d497659f605f5301c6a862053bfd3881eae3d58296",
+-    "ch8-prof-on-control/test_on.py": "f69babd5c3d3afec6f5aa5f0101e6adffc821e7752574a9e9d7d8d9f1859d1a0",
++    "ch8-prof-on-control/test_on.py": "10a31bf4d42628cb3eaea52c643c60fcd1bda846c5de8b75da79cbd880e3a99d",
+     "ch8-prof-on-control/test_profiles.py": "07314375947b55d207b7d98092763c2677aee92ec722f4a52ec293ba7821ee73",
+-    "ch8-prof-on-control/test_runner.py": "ff0cbfc4c1c5bb8ea569bece890d0bf9368d95c8c0fa55bf03d9624f2eac929d",
++    "ch8-prof-on-control/test_runner.py": "a62f2766c7421f043ef7948ee6db9e2ee15ef8753727700600416e783d0b3124",
+     "ch8-prof-on-control/test_workflow_repo.py": "dd0583eeaa4de2ba4905dd3075ba12b46c706fa205364496f058c4233d597a3c",
+     "ch8-prof-on-control/workflow_repo.py": "e38ce725569e5f4ec66ff2d45a786099fc5f338e16e57f33369fb4f85d4bdb66",
+     ".github/workflows/ch8-prof-on.yml": "046a212b729a421895729a89a39a5fc4a390e8c2a9329134280c667807cdc9a7"
+diff --git a/ch8-prof-on-control/runner.py b/ch8-prof-on-control/runner.py
+index dd918ba68..abf2d6e25 100644
+--- a/ch8-prof-on-control/runner.py
++++ b/ch8-prof-on-control/runner.py
+@@ -650,9 +650,9 @@ def _parse_export(path: Path, row: dict[str, Any], max_bytes: int = EXPORT_CAP_B
+             config.get("cbmc_args") != ["--object-bits", "12"]):
+         return {"state": "WRONG_CONFIGURATION", "outcome": "UNKNOWN"}
+     enabled_features = value.get("enabled_unstable_features")
+-    required_features = set(UNSTABLE) | {"export-json"}
+-    if (not isinstance(enabled_features, list) or any(not isinstance(f, str) for f in enabled_features) or not required_features.issubset(set(enabled_features)) or
+-            any(feature in enabled_features for feature in ("valid-value-checks",))):
++    required_features = set(UNSTABLE) | {"export-json", "unstable-options"}
++    if (not isinstance(enabled_features, list) or any(not isinstance(f, str) for f in enabled_features) or set(enabled_features) != required_features or
++            len(enabled_features) != len(required_features)):
+         return {"state": "WRONG_UNSTABLE_FEATURE_SET", "outcome": "UNKNOWN"}
+     if "resolved_unwind" not in harness or harness["resolved_unwind"] != row["unwind"]:
+         return {"state": "WRONG_UNWIND", "outcome": "UNKNOWN"}
+diff --git a/ch8-prof-on-control/test_on.py b/ch8-prof-on-control/test_on.py
+index 0f4497463..83e4afac4 100644
+--- a/ch8-prof-on-control/test_on.py
++++ b/ch8-prof-on-control/test_on.py
+@@ -34,7 +34,11 @@ class OnTests(unittest.TestCase):
+             self.assertEqual(runner.parse_export(p, row())['outcome'], 'EXPECTED')
+             for features in (None, {}, [], [None],
+                              [f for f in good['enabled_unstable_features'] if f != 'uninit-checks'],
+-                             good['enabled_unstable_features'] + ['valid-value-checks']):
++                             good['enabled_unstable_features'] + ['valid-value-checks'],
++                             good['enabled_unstable_features'] + ['unexpected-feature'],
++                             good['enabled_unstable_features'] + ['ghost-state'],
++                             good['enabled_unstable_features'] + ['uninit-checks'],
++                             [f for f in good['enabled_unstable_features'] if f != 'unstable-options']):
+                 bad = copy.deepcopy(good); bad['enabled_unstable_features'] = features
+                 p.write_text(json.dumps(bad))
+                 self.assertEqual(runner.parse_export(p, row())['state'], 'WRONG_UNSTABLE_FEATURE_SET')
+diff --git a/ch8-prof-on-control/test_runner.py b/ch8-prof-on-control/test_runner.py
+index decffeb89..8584c16b2 100644
+--- a/ch8-prof-on-control/test_runner.py
++++ b/ch8-prof-on-control/test_runner.py
+@@ -40,7 +40,7 @@ def export(*, selector="slice::sort::root", mode="pfc", schema="0.1.0", state="C
+                                             "assertion_reach_checks": True, "prove_safety_only": False,
+                                             "ignore_global_asm": False, "extra_pointer_checks": False},
+                               "cbmc_args": ["--object-bits", "12"], "coverage_enabled": False},
+-            "enabled_unstable_features": sorted(set(runner.UNSTABLE) | {"export-json"}),
++            "enabled_unstable_features": sorted(set(runner.UNSTABLE) | {"export-json", "unstable-options"}),
+             "harness_selection": {"requested_filters": [selector], "exact": True,
+                                   "unmatched_filters": [], "matched_count": 1},
+             "harnesses": [{"name": selector, "attributes": {"kind": kind},

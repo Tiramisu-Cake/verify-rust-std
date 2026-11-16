@@ -1,0 +1,40 @@
+{
+  "schema": "ch8-prof-on-independent-review-v1",
+  "verdict": "GO",
+  "state": "GO_STATIC_REVIEW_ONLY",
+  "candidate_commit": "d569db0c1f98e26573d0d15d022e9ac0c6d877fb",
+  "candidate_tree": "660633a37fb527dae4bdc2d9c845bd65ca578cdb",
+  "baseline_commit": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "model": "gpt-6-luna",
+  "reasoning_effort": "high",
+  "reviewer": "/root/on_review",
+  "nested_delegation": false,
+  "packet_sha256": "12fa5f1e6ff4502b57149bb8dee56c29e03bea2e96966682f0a1e62265d0453b",
+  "spec_sha256": "8ce7714332eca6bcc4363b8bdc2b5c1368b7ee279867e7572722ad62f1734033",
+  "diff_sha256": "62b13fcbfcd120faca8e8aadeb967c0bd55b361e8a22756eabd5b575975001d1",
+  "findings": [],
+  "resolved_findings": [
+    {
+      "prior_review": "REVIEW-v1.json",
+      "issue": "Unexpected extra unstable features accepted",
+      "resolution": "Exact driver feature set incl requested unstable-options required, duplicates rejected; extra/ghost-state/duplicate/missing unstable-options controls pass. SEL1 ghost-state compiler-only source chain verified."
+    }
+  ],
+  "tests": {
+    "runner_synthetic": 46,
+    "state": "PASS"
+  },
+  "static_audit": "PASS_STATIC_ONLY",
+  "checks": [
+    "Exact candidate/tree/sole parent and packet/spec hashes",
+    "Source/tool pins, manifest62 byte identity; unchanged oracle/cfg/bounds/caps/budgets",
+    "Actual fork SEL1 checkout/build, sibling paths and fix1 --repo preflight",
+    "15 source-chain file identities and fresh ON classification constraint; no prior admission carry-forward",
+    "Source-reachability risks47/59 PolymorphicIter,0 Network N32",
+    "Prior finding fixed; exact exported feature set verified from pinned source"
+  ],
+  "qualification": "NOT_RUN",
+  "proof_credit": "NONE",
+  "prohibited_actions_executed": false,
+  "record_assurance": "Root records delivered independent reviewer tool messages; reviewer made no writes."
+}

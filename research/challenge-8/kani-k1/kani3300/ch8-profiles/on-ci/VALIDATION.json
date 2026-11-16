@@ -1,0 +1,29 @@
+{
+  "schema": "ch8-prof-on-static-validation-v1",
+  "control": "d569db0c1f98e26573d0d15d022e9ac0c6d877fb",
+  "runner_synthetic_tests": {
+    "count": 46,
+    "state": "PASS"
+  },
+  "reused_classifier_synthetic_tests": {
+    "v2": 31,
+    "v3": 25,
+    "v4": 20,
+    "state": "PASS"
+  },
+  "static_path_preflight": "PASS --repo ..; old ../.. rejected by tests",
+  "actual_control_identity_preflight": "PASS under synthetic GitHub push/attempt1 env against real committed control",
+  "static_audit": "static-audit.json",
+  "dispatches": 0,
+  "local_compiler_verifier_invocations": 0,
+  "proof_credit": "NONE",
+  "qualification": "NOT_RUN",
+  "preparation_failures_resolved": [
+    "Initial request payload rehash command used wrong cwd; host-guard test failed with stale OFF inventory. Correct cwd, rehashed request; all46 tests passed.",
+    "Initial audit ancestor search began above g0; fixed starting directory, audit passes."
+  ],
+  "ci_only_patch_reconstructed_tree": "660633a37fb527dae4bdc2d9c845bd65ca578cdb",
+  "review_finding_fixed": "Initial review NO_GO for unexpected unstable features; candidate now requires exact driver export set.46 synthetic tests including unknown/duplicate/ghost-state/missing unstable-options controls PASS.",
+  "review_fix_patch_reconstructed_tree": "660633a37fb527dae4bdc2d9c845bd65ca578cdb",
+  "review_packet_check": "PACKET_VALID_NOT_REVIEWED (tool integrity check); independent GO separately in REVIEW.json"
+}

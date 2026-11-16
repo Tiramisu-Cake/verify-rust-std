@@ -1,0 +1,160 @@
+{
+  "schema": "ch8-prof-on-ci-handoff-v1",
+  "state": "READY_STATIC_REVIEWED_NOT_RUN",
+  "g0_input": "ff62cd43d6c565ec93d8bc9f3c671c1e99d9d971",
+  "control_worktree": "/root/kani-ch8-prof-on-w15",
+  "control_branch": "work/ch8-prof-on-w15",
+  "control_sha": "d569db0c1f98e26573d0d15d022e9ac0c6d877fb",
+  "control_tree": "660633a37fb527dae4bdc2d9c845bd65ca578cdb",
+  "control_parent": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "baseline_control": "112fcc9ada67ee2bb8e1712d47983d6717487b78",
+  "source_repository": "Tiramisu-Cake/verify-rust-std",
+  "source_sha": "9fa2f7f97760584f38738909625c064006d8a936",
+  "source_tree": "2faa473adeb0172e0f5a5e75fa2d759b20902e6d",
+  "tool_repository": "Tiramisu-Cake/kani",
+  "tool_sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "tool_tree": "1efb6e4dfa69d346df8e23741d11839b1932403d",
+  "toolchain": "nightly-2026-10-23",
+  "manifest_rows": 62,
+  "manifest_sha256": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273",
+  "flags": {
+    "object_bits": 12,
+    "uninit": true,
+    "valid_value": false,
+    "slicing": "default",
+    "checks": "default",
+    "unwinding_assertions": true,
+    "no_assert_contracts": true,
+    "source_unwind": "honor each source attr; none means default, no new bound"
+  },
+  "caps": {
+    "runner": "ubuntu-24.04",
+    "jobs": 1,
+    "max_parallel": 1,
+    "concurrent_runs": 1,
+    "workflow_minutes": 180,
+    "setup_seconds": 1800,
+    "row_seconds": 600,
+    "proof_phase_seconds": 8400,
+    "closeout_seconds": 600,
+    "rss_kib": 6291456,
+    "rss_gib": 6,
+    "stdout_bytes_per_row": 1048576,
+    "stderr_bytes_per_row": 1048576,
+    "export_bytes_per_row": 8388608,
+    "artifact_bytes": 268435456,
+    "planned_row_seconds": 3720,
+    "cost_assurance": "UNMEASURED_ESTIMATE; hard caps do not promise completion"
+  },
+  "budgets": {
+    "phase_seconds": 8400,
+    "rss_kib": 6291456,
+    "stdout_bytes": 1048576,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456,
+    "row_seconds": 600
+  },
+  "batching": {
+    "mode": "VERIFY_STD_MULTI_HARNESS_NO_GLOBAL_LIST",
+    "compile_seconds_per_group": 900,
+    "groups": [
+      {
+        "cfg": [],
+        "rows": 53
+      },
+      {
+        "cfg": [
+          "kani_smallsort_controls"
+        ],
+        "rows": 9
+      }
+    ],
+    "group_wall": "min(sum(row timeout budgets) + compile, remaining phase minus cleanup margin)",
+    "group_rss": "min(12 GiB, available minus 2 GiB); sampled CBMC cap 6 GiB; exact per-row RSS UNKNOWN",
+    "consumer_gate": "POST_BATCH_IN_MANIFEST_ORDER",
+    "stdout_stderr_attribution": "latest stdout harness marker; stderr exact per-row UNKNOWN"
+  },
+  "dispatch_cap_proposed": 1,
+  "dispatches": 0,
+  "authority": {
+    "push": false,
+    "ci": false,
+    "publication": false,
+    "ledger": false,
+    "local_compiler_verifier": false
+  },
+  "control_request_sha256": "eb18c312eb0cd5d3c41e0d7252fd453b85c63fe3a417a3b3a8c37c0da81968ba",
+  "ci_payload_sha256": {
+    "ch8-prof-on-control/check_package.py": "6712a13bde9b46bfda19e3946de6ee91b9fe0b94f98c688471bb4db948b12b52",
+    "ch8-prof-on-control/kani-version.toml": "b0d01e939cb5010ec7af5e62a0ddeab67f8c59eae47e467c7da2d4298a0611da",
+    "ch8-prof-on-control/manifest.json": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273",
+    "ch8-prof-on-control/runner.py": "d1ce6261a7426d76f2525b28a15fa1db456ee05426efcc2fcd28924c1659ce3c",
+    "ch8-prof-on-control/test_batch.py": "6c699bdff24ed9bc86a806d497659f605f5301c6a862053bfd3881eae3d58296",
+    "ch8-prof-on-control/test_on.py": "10a31bf4d42628cb3eaea52c643c60fcd1bda846c5de8b75da79cbd880e3a99d",
+    "ch8-prof-on-control/test_profiles.py": "07314375947b55d207b7d98092763c2677aee92ec722f4a52ec293ba7821ee73",
+    "ch8-prof-on-control/test_runner.py": "a62f2766c7421f043ef7948ee6db9e2ee15ef8753727700600416e783d0b3124",
+    "ch8-prof-on-control/test_workflow_repo.py": "dd0583eeaa4de2ba4905dd3075ba12b46c706fa205364496f058c4233d597a3c",
+    "ch8-prof-on-control/workflow_repo.py": "e38ce725569e5f4ec66ff2d45a786099fc5f338e16e57f33369fb4f85d4bdb66",
+    ".github/workflows/ch8-prof-on.yml": "046a212b729a421895729a89a39a5fc4a390e8c2a9329134280c667807cdc9a7"
+  },
+  "classification": {
+    "policy": "ACCEPTANCE-POLICY-BATCH.md",
+    "implementation_g0": "ff62cd43d6c565ec93d8bc9f3c671c1e99d9d971",
+    "implementation_path": "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v4/",
+    "mode": "POST_CI_FRESH_BINDING_REQUIRED",
+    "prior_row_admissions_reused": false,
+    "proof_credit": "NONE",
+    "note": "Retain accept-v4 source-chain, exact row property/role/covers/frame and accepted matching-leaf gates. Historical replay is OFF-only; do not run it on ON artifacts. New IDs, wrapper symbols and ON-only checks require fresh per-row binding. Runner observations remain conservative; UNKNOWN never becomes PASS from group exit.",
+    "sources_sha256": {
+      "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v4/reclassify_v4.py": "cc87f6ed6b98be1ed9aeec5903c573003bc0b499c1c4054c9e8d76b1c85579dd",
+      "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v4/test_binding_v4.py": "de18184cd83cd97e27074d87b0cb508f53f3d738aade9c34b547f9816ce2c463",
+      "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v3/classifier_v3.py": "a6a462e7ac6604ed2205a25d879c108784684e45b040d77ae7a52d398d68eb3c",
+      "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v3/ROLE-RULES.json": "9f3130849cdb4cdc45a655241fcce29a87824eb960c8d66772fe591085a04ac6",
+      "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v3/test_classifier_v3.py": "fdd6c1b2eec6f880f2c31f0e1480426f35d67303775cb3f8148383c54912a094",
+      "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/classifier_v2.py": "b73a69f54df81cdd1b27bd3d970ac6911e161738815d1600fa7e5ba4ef6e7eb2",
+      "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/test_classifier_v2.py": "e684fc2fd4ba05c47b817f73c4bcbabcbd81b4f1bca83ce04eb806c903cbd6b2",
+      "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/SOURCE-MAP.json": "de253321477ef4e6c45c7d90a0afda7bf2e4fdba3c2dbd989aa598dee08be7e7"
+    },
+    "compatibility_record_sha256": "7bc8629bb3b9d375ad4326046758fa2845f520e8ac9894d5c733fee277b8ef1e"
+  },
+  "known_risks": {
+    "PolymorphicIter": [
+      "freeze_noncopy_n2",
+      "rejects_always_true"
+    ],
+    "network_n32": []
+  },
+  "source_flag_cfg_conflicts": [],
+  "patches": {
+    "ci-only.patch": "1c4435f1f03a4a7605845822f510cfac917c97e38b1e298295a98538cace4287",
+    "normalized-control-delta.patch": "3716bee9dcedb915dd2f38fe9e7f8af60ceeff48b547216dbd9f4a8e1a47eb3b",
+    "review-fix.patch": "e12972fa5e6eff36829bfb8edfbdbac1acd94f49527f8c321f7b6413e94b4680"
+  },
+  "qualification": "NOT_RUN",
+  "proof_credit": "NONE",
+  "review": {
+    "state": "GO_STATIC_REVIEW_ONLY",
+    "path": "REVIEW.json",
+    "sha256": "ff4537bc1aa02ac6d20821ac294a95eb6d12907a605adeead601ad77c2cefbcc",
+    "candidate": "d569db0c1f98e26573d0d15d022e9ac0c6d877fb",
+    "tree": "660633a37fb527dae4bdc2d9c845bd65ca578cdb",
+    "baseline": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+    "packet_sha256": "12fa5f1e6ff4502b57149bb8dee56c29e03bea2e96966682f0a1e62265d0453b",
+    "spec_sha256": "8ce7714332eca6bcc4363b8bdc2b5c1368b7ee279867e7572722ad62f1734033",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "findings": []
+  },
+  "validation": {
+    "path": "VALIDATION.json",
+    "sha256": "9ba380af301e81f762c61a486c5f2a5514ce698a5d79a015f2d42c2a9f23cdf4"
+  },
+  "static_audit": {
+    "path": "static-audit.json",
+    "sha256": "3eba4ce8ddb79f1d3ad34035133309cd285f95c11bd21cd2162a9775f034dd97"
+  },
+  "risk_map_sha256": "8bdd9b4c6eb04cd1e568c160f96fc071304d8743654d582053424c7aae1d8e0b",
+  "classifier_reuse_sha256": "d7eba6c3c7eb85dacabfdc372059b6e18a4c930a7373165853b67edbbe4b88e2",
+  "tool_classifier_compat_sha256": "7bc8629bb3b9d375ad4326046758fa2845f520e8ac9894d5c733fee277b8ef1e"
+}

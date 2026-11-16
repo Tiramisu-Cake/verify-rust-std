@@ -1,0 +1,364 @@
+{
+  "baseline_commit": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+  "candidate_commit": "1199f601c31da8e7e5985631ba200856319d146f",
+  "candidate_tree": "29cc0cc0af7ea9276e2ad7c8e6f3cf941007ce36",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "0b30110c6ad5c105444045a94c801d153dde2725",
+        "mode": "100644",
+        "sha256": "825d32f8e3d3949332417088fb0b096bb4b6f1819d8a0cb3c1e2cc666cd685cc"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/bench-compiler.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "bc2db84b52fbb6f0c0017a67e94934662c0d9689",
+        "mode": "100644",
+        "sha256": "e17c7ef9464ceec605771b9dade368122e250891526c6a0b0a9bb4b00a7a64ca"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/bench-e2e.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "d68534a54ffb3ce2f15671e941c84fc57af0e741",
+        "mode": "100644",
+        "sha256": "eecc1509bcf9283e0d233b414af523f97a9f2a397e8766a558314f1a9f5a57d3"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/bench-pr.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "1873a2ecdd83f97c37fb74b62a9e0c1d6b7728d7",
+        "mode": "100644",
+        "sha256": "ac7f18f5fe4e685e5da609e5b2546503aab4cb5aa2f598c4a6df91b5d442c911"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/cargo-update.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "223ec7f96ad8f3215216fc6b99a8337c650c8398",
+        "mode": "100644",
+        "sha256": "ba39280e6ff9de85ccb5c14296d53845be7cc417baf683ddda56fe30767bbc48"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/cbmc-latest.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "90eea8a06f2a4af9b3d65befcc8fa9487699a982",
+        "mode": "100644",
+        "sha256": "1b97bca1eb903ddf739d594830eb4b72b5ffc8c23ec7dc8c03c314c95cd0232f"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/cbmc-update.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "521f892482ebbe855f26b13d386cca942bb65990",
+        "mode": "100644",
+        "sha256": "046a212b729a421895729a89a39a5fc4a390e8c2a9329134280c667807cdc9a7"
+      },
+      "path": ".github/workflows/ch8-prof-on.yml",
+      "status": "added"
+    },
+    {
+      "baseline": {
+        "blob": "70ad28901c1a7cfe617b98d4d35099da35659894",
+        "mode": "100644",
+        "sha256": "d73125c239ffd2c2f68a7d41b703eb11bdbdefe97d3a3abc99ed0bbb2c1b7869"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/charon-update.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "c54ce6bbcb075df881984f714589011c4b88d5e4",
+        "mode": "100644",
+        "sha256": "a0281a141d3de247e256b69d5f77c85cb83471d6d2813976123cec86b99969bf"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/deny.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "157c5b2d967e8b9fcfddf8943c29495f0ac5e2fa",
+        "mode": "100644",
+        "sha256": "12c3c6626e9ad806e7f7bf7f65cca7e2f12b2ccae9da82cc62802b92299369d8"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/extra_jobs.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "9d21eeb4569234292401f90c66c833f6960f06fb",
+        "mode": "100644",
+        "sha256": "866ef2c33f5d56e5f3e9e792960afc04ee0a2a5005f08b4fa40fe6012c59ebd8"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/format-check.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "3e34d8ac3c0844d9ac9409790e7cb0a669381dad",
+        "mode": "100644",
+        "sha256": "92b7c9cc33de52171fd628aedeb2fc9e2b06c4c6db81f6b7e9c41b9fd9d4a303"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/kani.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "f10833e3035641a9893e1f5171b0b86864ef5b0e",
+        "mode": "100644",
+        "sha256": "b608d02a4ddbaa9a1e4b0db321bd1aeb268afe5f946a9de14e2778b9e803b9b3"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/release.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "54952f59bd844273d208a75e62c571c48079d154",
+        "mode": "100644",
+        "sha256": "d9775bd66ebb7b927c28346623f9e6e3374c82cee97921eac5fee828eba5ba7f"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/slow-tests.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "55bcdda98ad65718c01b82da993cc5baccbeceb3",
+        "mode": "100644",
+        "sha256": "bd9cc5f4f09c1e00223a627fedbd7fb522053c6258284304c1d509f83dbcfa6a"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/toolchain-upgrade.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "be07976f48e50269fceca068c7c71dd6428b3498",
+        "mode": "100644",
+        "sha256": "37a122141be204e64c1eb75caf6a6f72b1e1c9ce68f642ef79ad80cd1da9ee60"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/verify-std-check.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": {
+        "blob": "486105cd0bd8f8337b0ea31f7ee2bd8f48addb53",
+        "mode": "100644",
+        "sha256": "83e06af88fe864b471d4b1af10022519c3f81cc63d62e00d64d73e77234a9553"
+      },
+      "binary": false,
+      "candidate": null,
+      "path": ".github/workflows/z3-update.yml",
+      "status": "deleted"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "8a3623c98a36601b0ae4c15af9b44ab5b9fc54fa",
+        "mode": "100644",
+        "sha256": "47bd0b13f0158a5a95f22fa030f852ff94d0b7cf49a62767b48c4fe347c51a87"
+      },
+      "path": "ch8-prof-on-control/CI-REQUEST.json",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "8d4335d27976c6540351bbe35e4fda5929c02400",
+        "mode": "100644",
+        "sha256": "6712a13bde9b46bfda19e3946de6ee91b9fe0b94f98c688471bb4db948b12b52"
+      },
+      "path": "ch8-prof-on-control/check_package.py",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "01938dbee0aeefb0f5ed016c9ab705bd2dc50a90",
+        "mode": "100644",
+        "sha256": "b0d01e939cb5010ec7af5e62a0ddeab67f8c59eae47e467c7da2d4298a0611da"
+      },
+      "path": "ch8-prof-on-control/kani-version.toml",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "d37e81f4d2b27c21845288b1a93e7305a9c90cfc",
+        "mode": "100644",
+        "sha256": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273"
+      },
+      "path": "ch8-prof-on-control/manifest.json",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "dd918ba683bd5baf3fd8dac6994f66f117eff818",
+        "mode": "100644",
+        "sha256": "f83ebf8a54f4ca595ea550d1294b67452cd8fa950b51784fb2bdfdbdd746a5ae"
+      },
+      "path": "ch8-prof-on-control/runner.py",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "483796b554f1a4b364775f0402c3cf89d8c846ad",
+        "mode": "100644",
+        "sha256": "6c699bdff24ed9bc86a806d497659f605f5301c6a862053bfd3881eae3d58296"
+      },
+      "path": "ch8-prof-on-control/test_batch.py",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "0f449746313561c0ca17e4c35a7c817927f7f9b9",
+        "mode": "100644",
+        "sha256": "f69babd5c3d3afec6f5aa5f0101e6adffc821e7752574a9e9d7d8d9f1859d1a0"
+      },
+      "path": "ch8-prof-on-control/test_on.py",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "87280996be2005499670d8d899a8e9c1da977d79",
+        "mode": "100644",
+        "sha256": "07314375947b55d207b7d98092763c2677aee92ec722f4a52ec293ba7821ee73"
+      },
+      "path": "ch8-prof-on-control/test_profiles.py",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "decffeb89efffa3efaed8ab8fab93c44fa2594dc",
+        "mode": "100644",
+        "sha256": "ff0cbfc4c1c5bb8ea569bece890d0bf9368d95c8c0fa55bf03d9624f2eac929d"
+      },
+      "path": "ch8-prof-on-control/test_runner.py",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "b4a3b88485155b7b87735c15b07364a84703f79a",
+        "mode": "100644",
+        "sha256": "dd0583eeaa4de2ba4905dd3075ba12b46c706fa205364496f058c4233d597a3c"
+      },
+      "path": "ch8-prof-on-control/test_workflow_repo.py",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "0af83968f210ffb706f8c2006c79712dec7eec01",
+        "mode": "100644",
+        "sha256": "e38ce725569e5f4ec66ff2d45a786099fc5f338e16e57f33369fb4f85d4bdb66"
+      },
+      "path": "ch8-prof-on-control/workflow_repo.py",
+      "status": "added"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "8a3623c98a36601b0ae4c15af9b44ab5b9fc54fa",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "ch8-prof-on-control/CI-REQUEST.json",
+      "sha256": "47bd0b13f0158a5a95f22fa030f852ff94d0b7cf49a62767b48c4fe347c51a87",
+      "size": 74167
+    },
+    {
+      "blob": "d37e81f4d2b27c21845288b1a93e7305a9c90cfc",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "ch8-prof-on-control/manifest.json",
+      "sha256": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273",
+      "size": 62835
+    },
+    {
+      "blob": "dd918ba683bd5baf3fd8dac6994f66f117eff818",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "ch8-prof-on-control/runner.py",
+      "sha256": "f83ebf8a54f4ca595ea550d1294b67452cd8fa950b51784fb2bdfdbdd746a5ae",
+      "size": 53075
+    },
+    {
+      "blob": "8d4335d27976c6540351bbe35e4fda5929c02400",
+      "member": "dependencies/0003.bin",
+      "mode": "100644",
+      "path": "ch8-prof-on-control/check_package.py",
+      "sha256": "6712a13bde9b46bfda19e3946de6ee91b9fe0b94f98c688471bb4db948b12b52",
+      "size": 9230
+    },
+    {
+      "blob": "4edc84573b03d2b923d584f5df144274c435f693",
+      "member": "dependencies/0004.bin",
+      "mode": "100644",
+      "path": "rust-toolchain.toml",
+      "sha256": "8ae6767838d7384b2b764bda9262793d4861a798e49e57dc965fe37ead8e65df",
+      "size": 183
+    }
+  ],
+  "diff_sha256": "28ab64d905e08dadeacd9452f7f20bf3617cd183671e0abb2fa7c469bf26731a",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "e00cb192e64684b3c614ec1efa088eee2f17860021b36ea48beb5adbb7c669a3",
+  "worktree": "/root/kani-ch8-prof-on-w15"
+}

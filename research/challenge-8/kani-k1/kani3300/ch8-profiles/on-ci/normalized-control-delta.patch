@@ -1,0 +1,222 @@
+--- normalized-off/.github/workflows/ch8-prof-on.yml
++++ on/.github/workflows/ch8-prof-on.yml
+@@ -15,7 +15,7 @@
+     strategy:
+       max-parallel: 1
+       matrix:
+-        lane: [off]
++        lane: [on]
+     steps:
+       - name: Begin setup budget
+         timeout-minutes: 1
+@@ -37,7 +37,7 @@
+           PYTHONDONTWRITEBYTECODE: "1"
+         run: |
+           python3 check_package.py control --repo ..
+-          python3 -m unittest -v test_runner.py test_profiles.py test_batch.py test_workflow_repo.py
++          python3 -m unittest -v test_runner.py test_profiles.py test_batch.py test_workflow_repo.py test_on.py
+       - name: Read immutable export pins
+         timeout-minutes: 1
+         id: pins
+@@ -60,11 +60,11 @@
+           fetch-depth: 2
+           persist-credentials: false
+           submodules: true
+-      - name: Checkout immutable upstream tool
++      - name: Checkout immutable SEL1 tool
+         timeout-minutes: 2
+         uses: actions/checkout@v6
+         with:
+-          repository: model-checking/kani
++          repository: Tiramisu-Cake/kani
+           ref: ${{ steps.pins.outputs.tool }}
+           path: tool
+           fetch-depth: 2
+@@ -72,13 +72,13 @@
+       - name: Check all source identities
+         timeout-minutes: 1
+         run: python3 control/ch8-prof-on-control/runner.py check-source --std export --tool tool
+-      - name: Setup exact stock tool
++      - name: Setup exact SEL1 tool
+         timeout-minutes: 15
+         uses: ./tool/.github/actions/setup
+         with:
+           os: ubuntu-24.04
+           kani_dir: tool
+-      - name: Build exact stock tool once
++      - name: Build exact SEL1 tool once
+         timeout-minutes: 15
+         working-directory: tool
+         env:
+--- normalized-off/ch8-prof-on-control/check_package.py
++++ on/ch8-prof-on-control/check_package.py
+@@ -32,7 +32,7 @@
+     assert "github.repository == 'Tiramisu-Cake/kani'" in job['if']
+     assert "github.event_name == 'push'" in job['if']
+     assert int(job['strategy']['max-parallel']) == 1
+-    assert job['strategy']['matrix'] == {'lane': ['off']}
++    assert job['strategy']['matrix'] == {'lane': ['on']}
+     assert not re.search(r'\$\{\{\s*runner\.', json.dumps({k:v for k,v in job.items() if k!='steps'}))
+     steps=job['steps']
+     for step in steps:
+@@ -43,7 +43,7 @@
+     assert all(s['with']['persist-credentials']=='false' for s in checkouts)
+     assert all(s.get('if') == 'always()' for s in steps[-2:])
+     assert all('timeout-minutes' in s for s in steps)
+-    build_index=next(i for i,s in enumerate(steps) if s['name']=='Build exact stock tool once')
++    build_index=next(i for i,s in enumerate(steps) if s['name']=='Build exact SEL1 tool once')
+     assert sum(int(s['timeout-minutes']) for s in steps[:build_index]) <= 30
+     # Build wrapper uses the remaining absolute30min setup budget; step caps overlap it.
+     assert int(steps[build_index]['timeout-minutes'])==15
+@@ -57,7 +57,9 @@
+     assert steps[-1]['with']['retention-days']=='7'
+     assert "github.run_attempt == 1" in job['if']
+     assert next(s for s in checkouts if s['with']['path']=='export')['with']['repository']=='Tiramisu-Cake/verify-rust-std'
+-    assert next(s for s in checkouts if s['with']['path']=='tool')['with']['repository']=='model-checking/kani'
++    assert next(s for s in checkouts if s['with']['path']=='tool')['with']['repository']=='Tiramisu-Cake/kani'
++    assert next(s for s in checkouts if s['with']['path']=='tool')['with']['ref']=='${{ steps.pins.outputs.tool }}'
++    assert any(s.get('uses') == './tool/.github/actions/setup' for s in steps)
+     return {'yaml':'PASS' ,'runner_context':'STEP_ENV_ONLY','checkout_depth':'AT_LEAST_2',
+             'layout':['control','export','tool'],'dispatch':'NOT_RUN', 'control_repo_paths':repo_paths}
+ 
+@@ -72,7 +74,7 @@
+     assert os.environ['GITHUB_REF'].startswith('refs/heads/uninit-ci/ch8-prof-on-')
+     assert os.environ['GITHUB_RUN_ATTEMPT']=='1', 'Every rerun needs another coordinator reservation'
+     assert git(repo,'rev-parse','HEAD')==os.environ['GITHUB_SHA']
+-    assert git(repo,'rev-parse','HEAD^')==r['tool_sha'], 'control parent must be exact stock tool'
++    assert git(repo,'rev-parse','HEAD^')==r['tool_sha'], 'control parent must be exact SEL1 tool'
+     assert git(repo,'rev-list','--parents','-n','1','HEAD').split()==[os.environ['GITHUB_SHA'],r['tool_sha']], 'single-parent control required'
+     assert not git(repo,'status','--porcelain','--untracked-files=no')
+     changed=git(repo,'diff','--name-only','HEAD^','HEAD').splitlines()
+--- normalized-off/ch8-prof-on-control/runner.py
++++ on/ch8-prof-on-control/runner.py
+@@ -42,7 +42,7 @@
+ EXPORT_CAP_BYTES = 8 * 1024 * 1024
+ ARTIFACT_CAP_BYTES = 256 * 1024 * 1024
+ UNSTABLE = ("function-contracts", "mem-predicates", "float-lib", "c-ffi",
+-            "loop-contracts", "quantifiers", "stubbing")
++            "loop-contracts", "quantifiers", "stubbing", "uninit-checks")
+ 
+ 
+ class RunnerError(RuntimeError):
+@@ -75,6 +75,14 @@
+     for key, value in expected.items():
+         if request.get(key) != value:
+             raise RunnerError(f"request binding mismatch: {key}")
++    if (request.get("tool_repository") != "Tiramisu-Cake/kani" or
++            request.get("toolchain") != "nightly-2026-10-23" or
++            request.get("on_flags") != {
++                "object_bits": 12, "uninit": True, "valid_value": False,
++                "slicing": "default", "checks": "default", "unwinding_assertions": True,
++                "no_assert_contracts": True,
++                "source_unwind": "honor each source attr; none means default, no new bound"}):
++        raise RunnerError("request ON profile mismatch")
+     rows = request.get("rows")
+     if not isinstance(rows, list) or not rows:
+         raise RunnerError("request rows must be a non-empty array")
+@@ -642,9 +650,9 @@
+             config.get("cbmc_args") != ["--object-bits", "12"]):
+         return {"state": "WRONG_CONFIGURATION", "outcome": "UNKNOWN"}
+     enabled_features = value.get("enabled_unstable_features")
+-    required_features = set(UNSTABLE) | {"export-json"}
+-    if (not isinstance(enabled_features, list) or any(not isinstance(f, str) for f in enabled_features) or not required_features.issubset(set(enabled_features)) or
+-            any(feature in enabled_features for feature in ("uninit-checks", "valid-value-checks"))):
++    required_features = set(UNSTABLE) | {"export-json", "unstable-options"}
++    if (not isinstance(enabled_features, list) or any(not isinstance(f, str) for f in enabled_features) or set(enabled_features) != required_features or
++            len(enabled_features) != len(required_features)):
+         return {"state": "WRONG_UNSTABLE_FEATURE_SET", "outcome": "UNKNOWN"}
+     if "resolved_unwind" not in harness or harness["resolved_unwind"] != row["unwind"]:
+         return {"state": "WRONG_UNWIND", "outcome": "UNKNOWN"}
+--- normalized-off/ch8-prof-on-control/test_on.py
++++ on/ch8-prof-on-control/test_on.py
+@@ -0,0 +1,79 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""ON guards with synthetic data only; never executes a compiler/verifier."""
++import copy
++import json
++from pathlib import Path
++import tempfile
++import unittest
++
++import runner
++import check_package
++from test_runner import export, row
++
++
++class OnTests(unittest.TestCase):
++    def test_all_rows_receive_on_without_changing_cfg_or_bounds(self):
++        request = runner.load_request()
++        for group in runner.batch_groups(request['rows']):
++            argv = runner.build_argv(Path('/std'), Path('/tool'),
++                                     [r['selector'] for r in group], None, Path('/out/export.json'))
++            features = [argv[i+1] for i, a in enumerate(argv[:-1]) if a == '-Z']
++            self.assertEqual(features.count('uninit-checks'), 1)
++            self.assertNotIn('valid-value-checks', features)
++            self.assertNotIn('--default-unwind', argv)
++            self.assertIn('--output-format=regular', argv)
++            self.assertEqual(argv[-3:], ['--cbmc-args', '--object-bits', '12'])
++            self.assertEqual(argv.count('--harness'), len(group))
++
++    def test_export_requires_on_and_refuses_validity_and_stock(self):
++        with tempfile.TemporaryDirectory() as d:
++            p = Path(d)/'export.json'
++            good = export()
++            p.write_text(json.dumps(good))
++            self.assertEqual(runner.parse_export(p, row())['outcome'], 'EXPECTED')
++            for features in (None, {}, [], [None],
++                             [f for f in good['enabled_unstable_features'] if f != 'uninit-checks'],
++                             good['enabled_unstable_features'] + ['valid-value-checks'],
++                             good['enabled_unstable_features'] + ['unexpected-feature'],
++                             good['enabled_unstable_features'] + ['ghost-state'],
++                             good['enabled_unstable_features'] + ['uninit-checks'],
++                             [f for f in good['enabled_unstable_features'] if f != 'unstable-options']):
++                bad = copy.deepcopy(good); bad['enabled_unstable_features'] = features
++                p.write_text(json.dumps(bad))
++                self.assertEqual(runner.parse_export(p, row())['state'], 'WRONG_UNSTABLE_FEATURE_SET')
++            good['kani_commit'] = '0aac16ef62da9e9d5645782d458593e5d78143ba'
++            p.write_text(json.dumps(good))
++            self.assertEqual(runner.parse_export(p, row())['state'], 'WRONG_TOOL_BINDING')
++
++    def test_request_profile_drift_stops_whole_manifest(self):
++        original = json.loads(runner.REQUEST_PATH.read_bytes())
++        for key, value in (('on_flags', None), ('on_flags', {}),
++                           ('tool_repository', 'model-checking/kani'), ('toolchain', 'other')):
++            bad = copy.deepcopy(original); bad[key] = value
++            with tempfile.TemporaryDirectory() as d:
++                p = Path(d)/'CI-REQUEST.json'; p.write_text(json.dumps(bad))
++                with self.assertRaisesRegex(runner.RunnerError, 'ON profile'):
++                    runner.load_request(p)
++        for key, value in (('uninit', False), ('valid_value', True)):
++            bad = copy.deepcopy(original); bad['on_flags'][key] = value
++            with tempfile.TemporaryDirectory() as d:
++                p = Path(d)/'CI-REQUEST.json'; p.write_text(json.dumps(bad))
++                with self.assertRaisesRegex(runner.RunnerError, 'ON profile'):
++                    runner.load_request(p)
++
++    def test_yaml_old_repo_and_old_checkout_rejected(self):
++        path = runner.HERE.parent/'.github/workflows/ch8-prof-on.yml'
++        good = path.read_text()
++        self.assertEqual(check_package.check_yaml(path)['yaml'], 'PASS')
++        for bad in (good.replace('--repo ..\n', '--repo ../..\n'),
++                    good.replace('repository: Tiramisu-Cake/kani', 'repository: model-checking/kani'),
++                    good.replace('ref: ${{ steps.pins.outputs.tool }}', 'ref: main')):
++            with tempfile.TemporaryDirectory() as d:
++                p = Path(d)/'workflow.yml'; p.write_text(bad)
++                with self.assertRaises(AssertionError):
++                    check_package.check_yaml(p)
++
++
++if __name__ == '__main__':
++    unittest.main()
+--- normalized-off/ch8-prof-on-control/test_runner.py
++++ on/ch8-prof-on-control/test_runner.py
+@@ -40,7 +40,7 @@
+                                             "assertion_reach_checks": True, "prove_safety_only": False,
+                                             "ignore_global_asm": False, "extra_pointer_checks": False},
+                               "cbmc_args": ["--object-bits", "12"], "coverage_enabled": False},
+-            "enabled_unstable_features": sorted(set(runner.UNSTABLE) | {"export-json"}),
++            "enabled_unstable_features": sorted(set(runner.UNSTABLE) | {"export-json", "unstable-options"}),
+             "harness_selection": {"requested_filters": [selector], "exact": True,
+                                   "unmatched_filters": [], "matched_count": 1},
+             "harnesses": [{"name": selector, "attributes": {"kind": kind},
