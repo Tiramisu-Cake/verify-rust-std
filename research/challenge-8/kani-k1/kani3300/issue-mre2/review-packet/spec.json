@@ -1,0 +1,33 @@
+{
+  "applicability": "TASK-CH8-ISSUE-MRE2-W14.md, one preparation stage. No push/CI/publication/ledger or local compiler/verifier. Clean upstream 0aac; same kani-host workflow/runner template as /root/kani-ch8-issue-mre-w14. Review exact committed candidate, including source, oracles and runner changes; no runtime evidence is available.",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "47616f4105697ae3b6bc9a2203b53ccdf69168df",
+  "controls": [
+    "Synthetic success/error/timeout/partial/missing/null/wrong-type/NOT_RUN and source/selection/metadata mismatch; new stubbing flags/branch family/allocation-only sources/write_any_slice function and safety class checks. Offline Python synthetic tests only."
+  ],
+  "defect": "MRE v1 did not activate unstable stubbing and used union-backed storage unsupported by clean upstream uninit instrumentation. Prepare alloc-based slice havoc MRE v2 only.",
+  "dependencies": [
+    ".github/actions/setup/action.yml",
+    "scripts/validate_json_export.py",
+    "tests/json-handler/schema-validation/kani_json_schema.json",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "library/kani_core/src/lib.rs",
+    "library/kani_macros/src/sysroot/contracts/mod.rs",
+    "tests/kani/Uninit/alloc-to-slice.rs",
+    "tests/kani/FunctionContracts/modify_slice_elem.rs"
+  ],
+  "invariants": [
+    "Sole parent clean upstream0aac; changes only .github/workflows and ch8-issue-mre2-control. Stock workflows removed. Tiramisu-Cake <igkharin@gmail.com>, [skip ci]. Trigger uninit-ci/ch8-issue-mre2-* only; attempt1; no dispatch authority.",
+    "Four no-union alloc-based files, seven invocations: original/initialized/thin each body and stub harness, true uninitialized byte read on same alloc. Two-byte allocation, raw writes, dealloc; initialized variant differs only in pre-call writes, thin variant only modifies. No valid-value invocations; no issue edits.",
+    "Exactly -Z function-contracts -Z uninit-checks -Z stubbing plus export transport. All other Kani checks/options default. No local cargo/rustc/Kani/CBMC.",
+    "Predeclared five SUCCESS, two UNINIT_FAILURE; slice oracle exact uninitialized *mut [u8] safety_check in write_any_slice. Negative control exact *const u8 safety_check. Preserve IDs/class/descriptions/locations and exit/exception/argv/snapshots. Unexpected failures and incomplete/stage/source identity mismatches never reproduction credit.",
+    "No proof credit: concrete diagnostic harnesses are not a general unsafe function contract theorem. Alloc failure returns normally. write_any_slice property ID matching is conservative; unknown mangling stays UNKNOWN.",
+    "Unchanged external build720s/row30s/phase330s/job30min caps and fallback/upload; no completion guarantee. RFC0015 validation, inventory and default checks remain enabled."
+  ],
+  "known_limitations": [
+    "All runtime results ALL_NOT_RUN, expected outcomes are predictions. Unknown generated ID spelling fails closed. No B1/B2 credit."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-issue-mre2-w14"
+}

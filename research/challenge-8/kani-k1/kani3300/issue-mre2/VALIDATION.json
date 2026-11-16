@@ -1,0 +1,30 @@
+{
+  "assurance": "OFFLINE_STATIC_AND_SYNTHETIC_ONLY",
+  "candidate": "47616f4105697ae3b6bc9a2203b53ccdf69168df",
+  "candidate_tree": "4700ee944e19804dd4d7374a6635754044f9c1a3",
+  "tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v",
+    "cwd": "/root/kani-ch8-issue-mre2-w14/ch8-issue-mre2-control",
+    "count": 31,
+    "result": "PASS",
+    "exit_code": 0
+  },
+  "static_check": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 ch8-issue-mre2-control/check_package.py control --repo .",
+    "result": "PASS",
+    "exit_code": 0
+  },
+  "actionlint": {
+    "version": "1.7.7",
+    "command": "/tmp/arrayrepro-actionlint -config-file /tmp/ch8-b-actionlint.yaml ../.github/workflows/ch8-issue-mre2.yml",
+    "cwd": "/root/kani-ch8-issue-mre2-w14/ch8-issue-mre2-control",
+    "result": "PASS",
+    "exit_code": 0,
+    "note": "Existing local binary/config; no dependencies installed."
+  },
+  "initial_test_adjustment": "An inherited synthetic assertion still expected COPY_UNSUPPORTED after conversion to uninit; corrected expectation, then all31 passed.",
+  "runtime": "ALL_NOT_RUN",
+  "runtime_obligations_closed": 0,
+  "proof_credit": "NONE",
+  "local_compiler_verifier_invocations": 0
+}
