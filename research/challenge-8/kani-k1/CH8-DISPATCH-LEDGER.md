@@ -158,6 +158,7 @@ S1 list fix (a) `c03363b3b0` (list timeout 1500 s) rejected by coordinator: orga
 - C-02 43790257718: N1 write-restore FAILURE exactly `Check that *dst is assignable` (covers 4/4); read-only companion SUCCESS (covers 3/4). C cap exhausted. Intake TASK-CH8-C02-INTAKE-W14.
 | ~02:40Z | E-02 | E (item 1) | control `79baf66106` (tree `c07b5aded5`, parent 0aac) → sibling `4a8f7e7b10` on `uninit-ci/ch8-e-ctl-b` | 43792979809 | E-S namespace fix + primitive H positive/no-write/OFF + MRE row; pins 0aac + SEL1. g0 `39c756108c`. |
 - E-02 43792979809: success (runner). primitive_write ON fails exactly `Check that self->value is assignable` on **upstream 0aac and SEL1**; OFF / no_write / no_loop SUCCESS → loop contracts × uninit-checks defect is upstream. E-S positive OFF fails offset check; ON unsupported intrinsic. Intake TASK-CH8-E02-INTAKE-W15.
+- PROF-OFF-02 acceptance v4 (offline, g0 `9c7ffcb385`, accept-v4/): **62 ACCEPTED / 0 PENDING / 0 UNKNOWN** (53 positive, 9 negative) under ACCEPTANCE-POLICY-BATCH.md; exact contract-wrapper binding, unsupported/unreachable roles, cover→obligation mapping established. Proof credit NONE (bounded source-reported observations).
 C-01 dispatched (was held for the list fix; now batch, no global list).
 C-01 held (superseded): C controls (std `d073585946` on P′, control `cdd3c6d041`, g0 `425f10fbfd`) use the same global `kani list` that timed out in S1-02 — dispatch after the list fix.
 
