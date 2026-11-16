@@ -134,4 +134,7 @@ Outcomes:
 
 - U-01 43777434715: arm B SUCCESS — SEL1+fix: original #4854 autoharness SUCCESS 154/0 (was fatal `reset is absent`), explicit companion SUCCESS 156/0. Arm A FAILURE (packaging): compiler units 66/66, suites 56/0 and 134/0, then compiletest rejected nested `script-based-pre/autoharness_entry_reset/<case>/` (no config.yml) → new regressions + old-PR-02 controls NOT_RUN; arm A had no upload step. Charged 1. U-02 (arm A only) reserved from the item-1 pool (U 2, item 1 ≤18 unchanged). Task TASK-CH8-PR02-RESET-FIX2-W15.
 
-Item 1 used: 4 of 18 (A1 2 of 3, B 1 of 3, U 1 of 1). Item 2 used: 2 of 14 (S1 2 of 2). Total 6 of 32.
+| ~00:40Z | A1-R3 | A1 (item 1) | pkg `e3e9f138b7` (tree `483b25c43c`, parent `bf81a1f14f`; std fix `312ff625b9` = `super::super` trait import in wave0_a1.rs, #5151 edition fixture, bounded stdout head/tail, fail-fast) → trigger `efddfd120b` on Tiramisu-Cake/kani `uninit-ci/ch8-w0-a1-r3-a` | 43779285270 | Last A1 credit; ≤230 runner-min. g0 `724a115fd0` w0-a1/r3/. |
+C-01 held: C controls (std `d073585946` on P′, control `cdd3c6d041`, g0 `425f10fbfd`) use the same global `kani list` that timed out in S1-02 — dispatch after the list fix.
+
+Item 1 used: 5 of 18 (A1 3 of 3, B 1 of 3, U 1 of 2). Item 2 used: 2 of 14 (S1 2 of 2; S1-03 reserved). Total 7 of 32.
