@@ -1,0 +1,36 @@
+{
+  "applicability": "R3 preparation only. Single serial eight-row SEL1 job and two5151 fixtures on both frozen source pins; std312ff625 dependency.",
+  "baseline_commit": "bf81a1f14f9468c5b25d3ee33f7dafbf2bca131e",
+  "candidate_commit": "e3e9f138b77d81ae7f75d3a6ec910e9c27eb3a8e",
+  "controls": [
+    "24 isolated Python synthetic service tests passed: success/error/signal/timeout/partial/missing/null/wrong-type/source drift/NOT_RUN and excerpt/upload cases.",
+    "Offline workflow/request/std patch checker: shell syntax, inlinePython AST,4 negative workflow mutations, unchanged R1 row specs."
+  ],
+  "defect": "Compile diagnostics were removed by upload bounding; std rows repeated core compilation failure; standalone5151 fixtures lack edition2021.",
+  "dependencies": [
+    "scripts/ch8-w0-a1/replay_origin.py",
+    "scripts/ch8-w0-a1/native/issue-5151-empty-drop.rs",
+    "scripts/ch8-w0-a1/native/issue-5151-initialized-slot-companion.rs",
+    "scripts/ch8-w0-a1/native/MANIFEST.json",
+    "scripts/ch8-w0-a1/baseline-source-binding.json",
+    "scripts/ch8-w0-a1/sel1-source-binding.json",
+    "kani-driver/src/call_cargo.rs",
+    "kani-driver/src/call_single_file.rs",
+    "kani-driver/src/util.rs",
+    "kani-driver/src/project.rs"
+  ],
+  "invariants": [
+    "Frozen Kani source/compiler/runtime and all eight A1 verification profiles unchanged. No proof credit from wrapper exits.",
+    "Keep original exits/signals/exceptions and incomplete evidence; no retry; N32 first; source-stage-target identities checked.",
+    "Stream32MiB, metadata16MiB, upload256MiB, group timeout600s and frozenRSS reserve preserved; intended target dirs excluded.",
+    "Preserve all issue fixture source bytes; edition2021 scoped identically to both5151 cases and both pins.",
+    "No push, CI, ledger or local Rust/compiler/verifier execution."
+  ],
+  "known_limitations": [
+    "R1 first8652 diagnostics unavailable. Static bad import fix does not establish entire error cause.",
+    "No actual compile/verifier/CI result.230 runner-min is a proposed coordinator envelope, no budget authorization."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-ch8-w0-a1-r3-w15"
+}

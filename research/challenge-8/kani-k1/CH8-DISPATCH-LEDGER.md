@@ -132,4 +132,6 @@ Outcomes:
 
 - S1-02 43777127361: FAILURE at list phase — P′ + Kani 0aac **compiles** (core/alloc/std Finished in 5m22s; setup 215.6 s, 1.39 GiB), but `kani list` over verify-std does per-harness codegen and was killed at the 600 s per-invocation timeout; 23/23 NOT_RUN. Charged 1. Coordinator reserves S1-03 from the item-2 pool (≤14 unchanged) as a retry after infra-only failures; S1-03 is the last S1 attempt without owner input. Fix task TASK-CH8-S1-LIST-W13.
 
+- U-01 43777434715: arm B SUCCESS — SEL1+fix: original #4854 autoharness SUCCESS 154/0 (was fatal `reset is absent`), explicit companion SUCCESS 156/0. Arm A FAILURE (packaging): compiler units 66/66, suites 56/0 and 134/0, then compiletest rejected nested `script-based-pre/autoharness_entry_reset/<case>/` (no config.yml) → new regressions + old-PR-02 controls NOT_RUN; arm A had no upload step. Charged 1. U-02 (arm A only) reserved from the item-1 pool (U 2, item 1 ≤18 unchanged). Task TASK-CH8-PR02-RESET-FIX2-W15.
+
 Item 1 used: 4 of 18 (A1 2 of 3, B 1 of 3, U 1 of 1). Item 2 used: 2 of 14 (S1 2 of 2). Total 6 of 32.

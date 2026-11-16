@@ -1,0 +1,53 @@
+{
+  "artifacts_sha256": {
+    "CI-REQUEST.json": "f4114738bf1ed15ec91049ef0ceb6b7f66b0550603b67ac514b5edc00366cb56",
+    "CONTROL-CHECKSUMS.json": "b6e29547907639869571df69f55c7e1dcce159c7bafef2719c01fb251a0d5b2e",
+    "ci-delta-from-bf81.patch": "19d00bdb512488e14514ab1f2f69399ba76f24ee50b2aab9e1dc033836ad1414",
+    "std-fix.patch": "a5194e7328b20b74f4555d75dd0d0ba4c5e4b8eaa8127441fbc9fd1b9005d9f6",
+    "std-test-only.patch": "ae3a538be5a91891d6ac5499b688495376d8c6343ccca927c651388c57436d83"
+  },
+  "assurance": "STATIC_AND_SYNTHETIC_ONLY",
+  "ci": {
+    "branch": "work/ch8-w0-a1-r3-w15",
+    "compiler_runtime_diff": false,
+    "parent": "bf81a1f14f9468c5b25d3ee33f7dafbf2bca131e",
+    "patch": "ci-delta-from-bf81.patch",
+    "sha": "e3e9f138b77d81ae7f75d3a6ec910e9c27eb3a8e",
+    "source_sha": "14bc57fdb99960240c4944845a3d985c8af4dcf7",
+    "tree": "483b25c43c2a4c44f8107b33cdd764b027cc6d1f",
+    "worktree": "/root/kani-fix-ch8-w0-a1-r3-w15"
+  },
+  "cloud_dollars": 0,
+  "dispatches_started": 0,
+  "g0_base": "2ff42c1c8349972ec7ad60a68bbfafd32f903612",
+  "ledger_modified": false,
+  "proof_credit": "NOT_ESTABLISHED",
+  "push_or_publication": false,
+  "runtime": "NOT_RUN",
+  "schema": "ch8-w0-a1-r3-package-v1",
+  "std": {
+    "a1_only_patch_sha256": "44263be0739d2a04b2f0472a5952a91e768f3ff838536c570af5f4f4026fae6c",
+    "accepted_overlay_parent": "6075e7ce17179f45642c9ffe8fe09e3ec9395726",
+    "base_library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+    "base_sha": "70ba5befc617627073738e26cb1466bd4fb76e41",
+    "base_tree": "84ab170ccdcc29fba69e55e0a46e6acdf52d9704",
+    "branch": "work/ch8-w0-a1-r3-std-w15",
+    "fix_parent": "65864680a145c90c583dcba7efd1d569475519fc",
+    "fix_patch": "std-fix.patch",
+    "package_library_tree": "54c4873f693f1d420a5ac505660ab460c8aa1f96",
+    "package_sha": "312ff625b9b3338281d899cca47d72c24d5a2539",
+    "package_tree": "44bf49c77a2f5157bc051002dfd8b162f36bc649",
+    "patch": "std-test-only.patch",
+    "patch_sha256": "ae3a538be5a91891d6ac5499b688495376d8c6343ccca927c651388c57436d83",
+    "patched_files": {
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "f7741fde76545b53c98742149c2081c3ef6de8c7f004fe4522473cd64a611f1c",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "22de8b24f6adf35b633b2962d9873a349041a18cca9d580944d2d4a3c9ad0655",
+      "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "b2d71e6e61b4130a95dda6daac3cd5f0970f9daf7b0f7bfa8a9f99d9c3c29844",
+      "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs": "c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1",
+      "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs": "c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39",
+      "library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs": "73fae915bbcaeb773cfed559610215969019b5050fefe83615c139ddb394526e"
+    },
+    "worktree": "/root/verify-rust-std-ch8-w0-a1-r3-w15"
+  },
+  "task": "TASK-CH8-A1-R1-TRIAGE-W15.md"
+}

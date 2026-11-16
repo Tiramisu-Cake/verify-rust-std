@@ -1,0 +1,40 @@
+{
+  "candidate_sha": "e3e9f138b77d81ae7f75d3a6ec910e9c27eb3a8e",
+  "checks": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_a1.py",
+      "cwd": "/root/kani-fix-ch8-w0-a1-r3-w15/scripts/ch8-w0-a1",
+      "exit_code": 0,
+      "reported_seconds": 6.048,
+      "result": "OK",
+      "tests": 24
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 check_r3.py",
+      "exit_code": 0,
+      "proof_profile_rows_unchanged": true,
+      "result": "PASS_STATIC_ONLY",
+      "shell_syntax_and_inline_python_ast": true,
+      "std_patch_reconstruction": "Git temporary index yields exact package library tree",
+      "workflow_mutations_rejected": [
+        "dispatch",
+        "matrix-breaks-failfast",
+        "wrong-binary",
+        "unexcluded-target"
+      ]
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "repositories": [
+        "/root/kani-fix-ch8-w0-a1-r3-w15",
+        "/root/verify-rust-std-ch8-w0-a1-r3-w15"
+      ]
+    }
+  ],
+  "local_compiler_verifier_execution": "NONE",
+  "review": "PASS_STATIC_PREPARATION_ONLY; REVIEW.md",
+  "runtime_proof": "NOT_RUN",
+  "schema": "ch8-w0-a1-r3-validation-v1",
+  "std_sha": "312ff625b9b3338281d899cca47d72c24d5a2539"
+}

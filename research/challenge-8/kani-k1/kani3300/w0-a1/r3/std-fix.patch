@@ -1,0 +1,13 @@
+diff --git a/library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs b/library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs
+index 8226194452..7202969769 100644
+--- a/library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs
++++ b/library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs
+@@ -1,7 +1,7 @@
+ //! A1 bounded scale probes: actual trait entry points with arbitrary-bool comparators.
+ //! These roots are opt-in and intentionally make no sortedness or permutation claim.
+ 
+-use super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
++use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
+ use crate::kani;
+ use crate::mem::MaybeUninit;
+ use crate::ptr;

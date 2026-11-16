@@ -1,0 +1,25 @@
+{
+  "applicability": "cfg(kani_smallsort_controls), frozen std70ba plus accepted SEL1+A1 overlay.",
+  "baseline_commit": "65864680a145c90c583dcba7efd1d569475519fc",
+  "candidate_commit": "312ff625b9b3338281d899cca47d72c24d5a2539",
+  "controls": [
+    "Static module scope lookup and exact one-line source diff.",
+    "No local Rust/Kani execution or CI; future coordinator firstN32 compile retains bounded diagnostics."
+  ],
+  "defect": "A1 child module imports the smallsort traits from verify, which only declares child modules.",
+  "dependencies": [
+    "library/core/src/slice/sort/shared/smallsort.rs",
+    "library/core/src/slice/sort/shared/smallsort/verify.rs",
+    "library/core/src/slice/sort/shared/mod.rs"
+  ],
+  "invariants": [
+    "Only the name-resolution path changes. Preserve every body, assertion, cover, stub, domain, layout and unwind bound.",
+    "No claims that this explains all8652 errors or proves compilation."
+  ],
+  "known_limitations": [
+    "Static preparation only; first R1 diagnostics lost. No compile/proof credit."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-ch8-w0-a1-r3-w15"
+}

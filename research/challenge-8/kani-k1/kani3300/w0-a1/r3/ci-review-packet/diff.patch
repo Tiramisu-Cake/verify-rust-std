@@ -1,0 +1,1006 @@
+diff --git a/.github/workflows/ch8-w0-a1.yml b/.github/workflows/ch8-w0-a1.yml
+index 14a0b517db3f9298c037608767a2f5a8a5d3312e..469d3ab0adf1431a37c0b2948ff843367b971b93 100644
+--- a/.github/workflows/ch8-w0-a1.yml
++++ b/.github/workflows/ch8-w0-a1.yml
+@@ -1,10 +1,9 @@
+-# CI-only; coordinator publishes same-tree non-skip trigger.
++# CI-only; coordinator publishes same-tree non-skip trigger. R3 reserve only.
+ name: Challenge 8 W0 A1 bounded safety probes
+ 'on':
+   push:
+     branches:
+-    - uninit-ci/ch8-w0-a1-r1-*
+-    - uninit-ci/ch8-w0-a1-r2-*
++    - uninit-ci/ch8-w0-a1-r3-*
+ permissions:
+   contents: read
+ concurrency:
+@@ -12,22 +11,10 @@ concurrency:
+   cancel-in-progress: false
+ jobs:
+   r1:
+-    if: ${{ github.repository == 'Tiramisu-Cake/kani' && startsWith(github.ref, 'refs/heads/uninit-ci/ch8-w0-a1-r1-') }}
++    if: ${{ github.repository == 'Tiramisu-Cake/kani' && startsWith(github.ref, 'refs/heads/uninit-ci/ch8-w0-a1-r3-')
++      }}
+     runs-on: ubuntu-24.04
+-    timeout-minutes: 60
+-    strategy:
+-      fail-fast: false
+-      max-parallel: 1
+-      matrix:
+-        root:
+-        - stable_freeze_u64_n32
+-        - unstable_general_nocopy_u64_n32
+-        - unstable_network_u64_n32
+-        - stable_freeze_u64_n8
+-        - stable_freeze_u64_n16
+-        - unstable_general_nocopy_u64_n8
+-        - unstable_general_nocopy_u64_n16
+-        - unstable_network_u64_n18
++    timeout-minutes: 130
+     steps:
+     - name: Checkout exact CI control
+       uses: actions/checkout@v6
+@@ -96,9 +83,9 @@ jobs:
+       run: |-
+         python3 - <<'PYCODE'
+         import os, time
+-        assert time.time() - float(os.environ['A1_JOB_BEGIN']) <= 2340, 'Cannot retain 10min verifier plus 10min upload reserve'
++        assert time.time() - float(os.environ['A1_JOB_BEGIN']) <= 2340, 'Cannot retain eight 10min invocations plus 10min upload reserve'
+         PYCODE
+-        python3 control/scripts/ch8-w0-a1/a1.py run --repo "$GITHUB_WORKSPACE/export" --pin sel1 --stage r1 --row "${{ matrix.root }}" --std "$RUNNER_TEMP/ch8-a1-std" --binary "$GITHUB_WORKSPACE/export/scripts/kani" --out "$RUNNER_TEMP/ch8-a1-receipt/${{ matrix.root }}"
++        python3 control/scripts/ch8-w0-a1/a1.py run-r1-sequence --repo "$GITHUB_WORKSPACE/export" --pin sel1 --std "$RUNNER_TEMP/ch8-a1-std" --binary "$GITHUB_WORKSPACE/export/scripts/kani" --out "$RUNNER_TEMP/ch8-a1-receipt"
+     - name: Fallback NOT_RUN receipts
+       if: always()
+       env:
+@@ -109,9 +96,9 @@ jobs:
+         from pathlib import Path
+         req = json.load(open('control/scripts/ch8-w0-a1/CI-REQUEST.json'))
+         root = Path(os.environ['RUNNER_TEMP']) / 'ch8-a1-receipt'
+-        rows = [r for r in req['r1']['rows'] if r['id'] == '${{ matrix.root }}'] if 'r1' == 'r1' else req['r2']['rows']
++        rows = req['r1']['rows']
+         for row in rows:
+-            out = root / row['id'] if 'r1' == 'r1' else root / 'sel1' / row['id']
++            out = root / row['id']
+             out.mkdir(parents=True, exist_ok=True)
+             receipt = out / 'receipt.json'
+             if not receipt.exists():
+@@ -127,14 +114,17 @@ jobs:
+       env:
+         RECEIPT_ROOT: ${{ runner.temp }}/ch8-a1-receipt
+       with:
+-        name: ch8-a1-r1-${{ matrix.root }}-${{ github.run_id }}-${{ github.run_attempt }}
+-        path: ${{ env.RECEIPT_ROOT }}/
++        name: ch8-a1-r3-std-${{ github.run_id }}-${{ github.run_attempt }}
++        path: |-
++          ${{ env.RECEIPT_ROOT }}/
++          !${{ env.RECEIPT_ROOT }}/**/target/**
+         if-no-files-found: error
+         retention-days: 7
+   r2:
+-    if: ${{ github.repository == 'Tiramisu-Cake/kani' && startsWith(github.ref, 'refs/heads/uninit-ci/ch8-w0-a1-r2-') }}
++    if: ${{ github.repository == 'Tiramisu-Cake/kani' && startsWith(github.ref, 'refs/heads/uninit-ci/ch8-w0-a1-r3-')
++      }}
+     runs-on: ubuntu-24.04
+-    timeout-minutes: 90
++    timeout-minutes: 50
+     strategy:
+       fail-fast: false
+       max-parallel: 1
+@@ -208,10 +198,12 @@ jobs:
+         python3 - <<'PYCODE'
+         import json, os, subprocess, time
+         from pathlib import Path
+-        assert time.time() - float(os.environ['A1_JOB_BEGIN']) <= 1140, 'Cannot retain six 10min verifiers plus 10min upload reserve'
++        assert time.time() - float(os.environ['A1_JOB_BEGIN']) <= 1140, 'Cannot retain two 10min verifiers plus 10min upload reserve'
+         req = json.load(open('control/scripts/ch8-w0-a1/CI-REQUEST.json'))
+         exits = []
+         for row in req['r2']['rows']:
++            if row['id'] not in req['r3']['native_row_ids']:
++                continue
+             out = Path(os.environ['RUNNER_TEMP']) / 'ch8-a1-receipt' / '${{ matrix.pin }}' / row['id']
+             argv = ['python3', 'control/scripts/ch8-w0-a1/a1.py', 'run', '--repo', str(Path(os.environ['GITHUB_WORKSPACE']) / 'export'), '--pin', '${{ matrix.pin }}', '--stage', 'r2', '--row', row['id'], '--binary', str(Path(os.environ['GITHUB_WORKSPACE']) / 'export/scripts/kani'), '--out', str(out)]
+             exits.append({'row': row['id'], 'wrapper_exit': subprocess.run(argv).returncode})
+@@ -230,9 +222,9 @@ jobs:
+         from pathlib import Path
+         req = json.load(open('control/scripts/ch8-w0-a1/CI-REQUEST.json'))
+         root = Path(os.environ['RUNNER_TEMP']) / 'ch8-a1-receipt'
+-        rows = [r for r in req['r1']['rows'] if r['id'] == '${{ matrix.root }}'] if 'r2' == 'r1' else req['r2']['rows']
++        rows = [r for r in req['r2']['rows'] if r['id'] in req['r3']['native_row_ids']]
+         for row in rows:
+-            out = root / row['id'] if 'r2' == 'r1' else root / '${{ matrix.pin }}' / row['id']
++            out = root / '${{ matrix.pin }}' / row['id']
+             out.mkdir(parents=True, exist_ok=True)
+             receipt = out / 'receipt.json'
+             if not receipt.exists():
+@@ -248,7 +240,9 @@ jobs:
+       env:
+         RECEIPT_ROOT: ${{ runner.temp }}/ch8-a1-receipt
+       with:
+-        name: ch8-a1-r2-${{ matrix.pin }}-${{ github.run_id }}-${{ github.run_attempt }}
+-        path: ${{ env.RECEIPT_ROOT }}/
++        name: ch8-a1-r3-native-${{ matrix.pin }}-${{ github.run_id }}-${{ github.run_attempt }}
++        path: |-
++          ${{ env.RECEIPT_ROOT }}/
++          !${{ env.RECEIPT_ROOT }}/**/target/**
+         if-no-files-found: error
+         retention-days: 7
+diff --git a/scripts/ch8-w0-a1/CI-REQUEST.json b/scripts/ch8-w0-a1/CI-REQUEST.json
+index 22b5dbb6deb7ac4eb3486f44bc1eb51ea458ef6d..e69349a8f12e462b0e1d87920dfc1895bf0e3f34 100644
+--- a/scripts/ch8-w0-a1/CI-REQUEST.json
++++ b/scripts/ch8-w0-a1/CI-REQUEST.json
+@@ -4,9 +4,11 @@
+   "cloud_dollars": 0,
+   "dispatches": {
+     "a1_cap": 3,
++    "already_used": 2,
+     "item1_cap": 18,
+-    "mandatory": 2,
++    "mandatory": 0,
+     "overall_cap": 32,
++    "prepared_dispatches": 1,
+     "reserve": 1,
+     "retry": "NONE"
+   },
+@@ -23,9 +25,9 @@
+     }
+   },
+   "r1": {
+-    "aggregate_job_minutes": 480,
++    "aggregate_job_minutes": 130,
+     "invocation_seconds": 600,
+-    "job_minutes": 60,
++    "job_minutes": 130,
+     "jobs": 1,
+     "max_parallel": 1,
+     "rows": [
+@@ -630,15 +632,17 @@
+         "uninit": true
+       }
+     ],
++    "sequence": "SINGLE_JOB_SERIAL_N32_FIRST",
+     "setup_max_before_invocation_seconds": 2340,
+-    "stop": "First cap/runner loss/unexpected failure/Unsupported/missing cover or binding => named blocker, no retry; independent already prepared rows may finish.",
++    "stop": "Confirmed core(lib) compile failure => remaining rows NOT_RUN; runner loss/cap/partial => fail closed; no retry",
+     "upload_reserve_minutes": 10
+   },
+   "r2": {
+-    "aggregate_job_minutes": 180,
++    "aggregate_job_minutes": 100,
++    "execution_filter": "r3.native_row_ids; six historical fixture definitions retained",
+     "invocation_seconds": 600,
+-    "invocations_per_pin": 6,
+-    "job_minutes": 90,
++    "invocations_per_pin": 2,
++    "job_minutes": 50,
+     "max_parallel": 1,
+     "native_manifest_sha256": "aa0e4cbde9973ac4c8ba727dd6349a0c63b97febf870685049f963cf58309a4a",
+     "off_companion": "NOT_PREPARED; optional one same N32 after R1 selection requires coordinator frozen exact-delta request. This package runs zero OFF rows.",
+@@ -890,7 +894,8 @@
+         ],
+         "cwd": "<OUT>/cwd",
+         "environment": {
+-          "NO_COLOR": "1"
++          "NO_COLOR": "1",
++          "RUSTFLAGS": "--edition=2021"
+         },
+         "file": "issue-5151-empty-drop.rs",
+         "fixture": "native/issue-5151-empty-drop.rs",
+@@ -947,7 +952,8 @@
+         ],
+         "cwd": "<OUT>/cwd",
+         "environment": {
+-          "NO_COLOR": "1"
++          "NO_COLOR": "1",
++          "RUSTFLAGS": "--edition=2021"
+         },
+         "file": "issue-5151-initialized-slot-companion.rs",
+         "fixture": "native/issue-5151-initialized-slot-companion.rs",
+@@ -979,36 +985,50 @@
+     "setup_max_before_invocation_seconds": 1140,
+     "upload_reserve_minutes": 10
+   },
+-  "r3": "RESERVE_ONLY_COORDINATOR_DECISION_AFTER_R1_R2; fixture/wiring fix OR C2 attribution pin, no automatic dispatch",
++  "r3": {
++    "already_used": 2,
++    "automatic_retry": false,
++    "branch_prefix": "uninit-ci/ch8-w0-a1-r3-*",
++    "compile_fix": "wave0_a1 trait import super::super; full diagnostic cause not established",
++    "dispatch": "LAST_A1_RESERVE_COORDINATOR_ONLY",
++    "maximum_runner_minutes": 230,
++    "native_row_ids": [
++      "kani-5151-empty-drop-negative",
++      "kani-5151-initialized-slot-companion"
++    ],
++    "remaining": 1
++  },
+   "resource_limits": {
+     "artifact_bytes_per_job": 268435456,
++    "diagnostic_head_tail_bytes_each": 65536,
+     "metadata_bytes_per_job": 16777216,
+     "rss_os_reserve_bytes": 2147483648,
+     "rss_threshold_policy": "Before setup capture MemAvailable once, reserve2GiB, freeze available-minus-reserve in GITHUB_ENV for entire job. No raising after kill. Formula frozen before dispatch; numeric UNKNOWN until runner assigned.",
+     "stderr_bytes_per_invocation": 33554432,
+-    "stdout_bytes_per_invocation": 33554432
++    "stdout_bytes_per_invocation": 33554432,
++    "upload_excludes": "all target/ directories"
+   },
+   "retry": "NONE",
+   "runtime": "NOT_RUN",
+   "schema": "ch8-w0-a1-ci-request-v1",
+   "std": {
+-    "a1_only_patch_sha256": "05da44f4ded67994140025607666037911e2105ae613c002451dea39618fa2d5",
++    "a1_only_patch_sha256": "44263be0739d2a04b2f0472a5952a91e768f3ff838536c570af5f4f4026fae6c",
+     "accepted_overlay_parent": "6075e7ce17179f45642c9ffe8fe09e3ec9395726",
+     "base_library_tree": "6ea9d3425f6d0478cfc2517cbdd2fb7d7b32a53f",
+     "base_sha": "70ba5befc617627073738e26cb1466bd4fb76e41",
+     "base_tree": "84ab170ccdcc29fba69e55e0a46e6acdf52d9704",
+-    "package_library_tree": "93d2f428370a2a9dbedafd6dd598305b46aac50c",
+-    "package_sha": "65864680a145c90c583dcba7efd1d569475519fc",
+-    "package_tree": "318753826afce4c952e8210b67a8b5919f646f9b",
++    "package_library_tree": "54c4873f693f1d420a5ac505660ab460c8aa1f96",
++    "package_sha": "312ff625b9b3338281d899cca47d72c24d5a2539",
++    "package_tree": "44bf49c77a2f5157bc051002dfd8b162f36bc649",
+     "patch": "std-test-only.patch",
+-    "patch_sha256": "bb076677040e5da399df6a1751814add5ba4f2a8d4c58ee02e78a95022ac918a",
++    "patch_sha256": "ae3a538be5a91891d6ac5499b688495376d8c6343ccca927c651388c57436d83",
+     "patched_files": {
+       "library/core/src/slice/sort/shared/smallsort/verify.rs": "f7741fde76545b53c98742149c2081c3ef6de8c7f004fe4522473cd64a611f1c",
+       "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs": "22de8b24f6adf35b633b2962d9873a349041a18cca9d580944d2d4a3c9ad0655",
+       "library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs": "b2d71e6e61b4130a95dda6daac3cd5f0970f9daf7b0f7bfa8a9f99d9c3c29844",
+       "library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs": "c585f3d0c74879cb21e8f09204f52d59b7aa4948a2e17541a94e162b3ffb10a1",
+       "library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs": "c186a086dadba038ff5ad7ca823e52e1e807758a92b1a46cf4c807fc07d96a39",
+-      "library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs": "453218bd78b39d8e30881ada9bc442b50d3e1d63b81151410ec25b2ecf467299"
++      "library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs": "73fae915bbcaeb773cfed559610215969019b5050fefe83615c139ddb394526e"
+     }
+   }
+ }
+diff --git a/scripts/ch8-w0-a1/CONTROL-CHECKSUMS.json b/scripts/ch8-w0-a1/CONTROL-CHECKSUMS.json
+index 459f27af99785c677289880d724afe5edaa5b9cf..2b9e44aa62d0d8ff1eac1c0fd6be37f1b460c19f 100644
+--- a/scripts/ch8-w0-a1/CONTROL-CHECKSUMS.json
++++ b/scripts/ch8-w0-a1/CONTROL-CHECKSUMS.json
+@@ -1,9 +1,9 @@
+ {
+   "authorization": "COORDINATOR_PUBLICATION_ONLY",
+   "files_sha256": {
+-    ".github/workflows/ch8-w0-a1.yml": "c75ec17b97a2af2a47197343ec70fd677d2a264f8653e3eeb850df44c3f3a875",
+-    "scripts/ch8-w0-a1/CI-REQUEST.json": "6f49f0dec801a14f4dd33205620d0114a606959a2d2f0ad7c677d6bbd2e26e71",
+-    "scripts/ch8-w0-a1/a1.py": "8bc4787c3703dc2ea59408e3d38e6da7f50ad9cd8fe938ed9e964211f212454f",
++    ".github/workflows/ch8-w0-a1.yml": "2f1a97d2566e397cadb3ae1e76e3631144221fda0f47c29128b8cb6e15a03149",
++    "scripts/ch8-w0-a1/CI-REQUEST.json": "f4114738bf1ed15ec91049ef0ceb6b7f66b0550603b67ac514b5edc00366cb56",
++    "scripts/ch8-w0-a1/a1.py": "feafc08a3cf4e7a06dcd02e33859f6f162fb18f2ae7a1044e377c517c1c6b538",
+     "scripts/ch8-w0-a1/baseline-source-binding.json": "d3de2bc1fa15080475d125bb7325bbab26d061ccc4a9f40ecf43916516bc49aa",
+     "scripts/ch8-w0-a1/native/COMPANION-DIFFS.txt": "5830c7fcff73df36f62be0a6d55d05ce00eff992b0901c7701964a5ee2eb912e",
+     "scripts/ch8-w0-a1/native/MANIFEST.json": "aa0e4cbde9973ac4c8ba727dd6349a0c63b97febf870685049f963cf58309a4a",
+@@ -18,10 +18,10 @@
+     "scripts/ch8-w0-a1/native/source-bodies/issue-5151.md": "36ff4cf4b67cfeeb99ea280cb4cd85373aeec5f3e7015d5ffd6c7490c4882f1c",
+     "scripts/ch8-w0-a1/replay_origin.py": "aa5d3484421c8266ff2aebfeafabc395740133b4625c28e345b5c7fcfbb78ec0",
+     "scripts/ch8-w0-a1/sel1-source-binding.json": "d4ed00227c03cd59c759c2551064d362c03b7a2f356cd13bf24ac16dbe59630b",
+-    "scripts/ch8-w0-a1/std-test-only.patch": "bb076677040e5da399df6a1751814add5ba4f2a8d4c58ee02e78a95022ac918a",
+-    "scripts/ch8-w0-a1/test_a1.py": "64bc2dec0f304083ed674d70660931bc968e32e6bc2f394c21c5283d981e6c58"
++    "scripts/ch8-w0-a1/std-test-only.patch": "ae3a538be5a91891d6ac5499b688495376d8c6343ccca927c651388c57436d83",
++    "scripts/ch8-w0-a1/test_a1.py": "efd9d838667337e3ee6821b01da5d2e2ea0ed5423c923e44a53fd87c156d082b"
+   },
+   "runtime": "NOT_RUN",
+-  "schema": "ch8-w0-a1-ci-control-checksums-v1",
++  "schema": "ch8-w0-a1-r3-ci-control-checksums-v1",
+   "source_unchanged": true
+ }
+diff --git a/scripts/ch8-w0-a1/a1.py b/scripts/ch8-w0-a1/a1.py
+index c1ab9462fcd43b0d4b3bbb02b0d80c68c6af6502..7d2f34c1e38f829f48b1650f2dc67cb404a3153a 100644
+--- a/scripts/ch8-w0-a1/a1.py
++++ b/scripts/ch8-w0-a1/a1.py
+@@ -48,6 +48,10 @@ R2_FIXTURES = {
+     "drop_uninit_in_array": "native/issue-5151-empty-drop.rs",
+     "drop_initialized_slot_in_array": "native/issue-5151-initialized-slot-companion.rs",
+ }
++EXCERPT_LIMIT = 64 * 1024
++DIAGNOSTIC_ENV_KEYS = ("RUSTFLAGS", "CARGO_ENCODED_RUSTFLAGS", "CARGO_TARGET_DIR",
++                       "CARGO_BUILD_TARGET", "RUSTC", "RUSTC_WRAPPER",
++                       "RUSTC_WORKSPACE_WRAPPER", "RUSTUP_TOOLCHAIN")
+ INVALID_EXPORT_STATES = set(origin.INVALID_EXPORT_STATES) | {
+     "UNKNOWN_SCHEMA", "PARTIAL", "NO_HARNESSES_SELECTED", "UNKNOWN_WRONG_SELECTOR",
+     "UNKNOWN_HARNESS_SELECTION", "UNKNOWN_HARNESS_SCHEMA",
+@@ -151,6 +155,8 @@ def validate_row(stage: str, row: Any) -> dict[str, Any]:
+     if stage == "r1":
+         if "verify-std" not in argv or "./library" not in argv or "<FIXTURE>" in argv or row.get("fixture") is not None:
+             raise ValueError("r1 must be verify-std ./library and cannot name a native fixture")
++        if any(a == "--target" or a.startswith("--target=") for a in argv):
++            raise ValueError("r1 host-default target policy forbids an explicit --target override")
+         if row.get("mode") != "actual-body" or argv[1] != "verify-std":
+             raise ValueError("r1 must use the pinned actual-body verify-std mode")
+         if row["selector"].rsplit("::", 1)[-1] not in R1_SUFFIXES:
+@@ -161,8 +167,9 @@ def validate_row(stage: str, row: Any) -> dict[str, Any]:
+         uninit_on = "-Zuninit-checks" in argv or any(argv[i:i+2] == ["-Z", "uninit-checks"] for i in range(len(argv)-1))
+         if (not uninit_on or "--no-assert-contracts" not in argv or
+                 "--object-bits" not in argv or argv.index("--object-bits") + 1 >= len(argv) or argv[argv.index("--object-bits") + 1] != "12" or
+-                "--harness-timeout" not in argv or argv.index("--harness-timeout") + 1 >= len(argv) or argv[argv.index("--harness-timeout") + 1] != "600s" or
+-                row["environment"].get("RUSTFLAGS") != "--cfg kani_smallsort_controls"):
++                "--harness-timeout" not in argv or argv.index("--harness-timeout") + 1 >= len(argv) or argv[argv.index("--harness-timeout") + 1] != "600s"):
++            raise ValueError("r1 controls/profile flags or environment differ from the frozen request")
++        if row["environment"].get("RUSTFLAGS") != "--cfg kani_smallsort_controls":
+             raise ValueError("r1 controls/profile flags or environment differ from the frozen request")
+         export_index = argv.index("--export-json") if "--export-json" in argv else -1
+         if export_index < 0 or export_index + 1 >= len(argv) or argv[export_index + 1] != "<OUT>/export.json":
+@@ -192,8 +199,11 @@ def validate_row(stage: str, row: Any) -> dict[str, Any]:
+                 raise ValueError("#4854 original scoped RUSTFLAGS/RUST_BACKTRACE differ from request")
+         elif "--harness" not in argv or argv.index("--harness") + 1 >= len(argv) or argv[argv.index("--harness") + 1] != row["selector"]:
+             raise ValueError("r2 proof selector/mode argv mismatch")
++        elif row["selector"] in ("drop_uninit_in_array", "drop_initialized_slot_in_array"):
++            if env.get("RUSTFLAGS") != "--edition=2021" or "RUST_BACKTRACE" in env:
++                raise ValueError("#5151 rows require scoped RUSTFLAGS=--edition=2021 only")
+         elif "RUSTFLAGS" in env or "RUST_BACKTRACE" in env:
+-            raise ValueError("native non-#4854 rows cannot receive the issue-only compiler environment")
++            raise ValueError("native non-#4854/#5151 rows cannot receive issue-only compiler environment")
+         export_index = argv.index("--export-json") if "--export-json" in argv else -1
+         if export_index < 0 or export_index + 1 >= len(argv) or argv[export_index + 1] != "<OUT>/export.json":
+             raise ValueError("native row export path must be isolated at <OUT>/export.json")
+@@ -463,6 +473,8 @@ def _tree_bytes(root: Path) -> tuple[int, int, list[str]]:
+     if not root.exists(): return total, metadata, oversized
+     for p in root.rglob("*"):
+         try:
++            if "target" in p.relative_to(root).parts:
++                continue
+             if p.is_file():
+                 size = p.stat().st_size; total += size
+                 if p.suffix.lower() in (".json", ".jsonl"):
+@@ -492,6 +504,7 @@ def execute(argv: list[str], cwd: Path, env: dict[str, str], out: Path,
+                               "group_rss_peak_bytes": 0, "driver_rss_peak_bytes": 0,
+                               "backend_rss_peak_bytes": 0, "memory_threshold": mem}
+     streams = {"stdout": bytearray(), "stderr": bytearray()}
++    tails = {"stdout": bytearray(), "stderr": bytearray()}
+     limits = {"stdout": STDOUT_LIMIT, "stderr": STDERR_LIMIT}
+     paths = {name: out / f"{name}.log" for name in streams}
+     files = {name: p.open("wb") for name, p in paths.items()}
+@@ -544,6 +557,9 @@ def execute(argv: list[str], cwd: Path, env: dict[str, str], out: Path,
+                 if room > 0:
+                     keep = chunk[:room]; streams[name].extend(keep); files[name].write(keep)
+                 if len(chunk) > max(room, 0): trunc[name] = True
++                tails[name].extend(chunk)
++                if len(tails[name]) > EXCERPT_LIMIT:
++                    del tails[name][:-EXCERPT_LIMIT]
+             if leader_wait is not None and not _group_exists(proc.pid) and not selector.get_map():
+                 break
+             if leader_wait is None and not _group_exists(proc.pid):
+@@ -582,6 +598,16 @@ def execute(argv: list[str], cwd: Path, env: dict[str, str], out: Path,
+     result["stdout_bytes"] = len(streams["stdout"]); result["stderr_bytes"] = len(streams["stderr"])
+     result["stdout_truncated"] = trunc["stdout"]; result["stderr_truncated"] = trunc["stderr"]
+     result["stdout_sha256"] = sha256(paths["stdout"]); result["stderr_sha256"] = sha256(paths["stderr"])
++    excerpt_descriptors = {}
++    for name in ("stdout", "stderr"):
++        for side, data in (("head", streams[name][:EXCERPT_LIMIT]), ("tail", tails[name])):
++            excerpt_path = out / f"{name}.{side}.log"
++            excerpt_path.write_bytes(data)
++            excerpt_descriptors[f"{name}_{side}"] = {
++                "path": excerpt_path.name, "bytes": len(data), "sha256": _digest_bytes(data),
++                "source": "observed_stream", "state": "COMPLETE",
++            }
++    result["stream_excerpts"] = excerpt_descriptors
+     result["output_tree_bytes"] = _tree_bytes(artifact_root)[0]
+     if kill_reason == "TIMEOUT":
+         result["termination_classification"] = "TIMEOUT"
+@@ -609,7 +635,9 @@ def root_exit_code(receipt: dict[str, Any]) -> int:
+             receipt.get("output_capped") or receipt.get("artifact_capped") or receipt.get("rss_watchdog_killed") or
+             receipt.get("postprocessing_state") != "COMPLETE" or
+             receipt.get("export", {}).get("state") in INVALID_EXPORT_STATES): return 1
+-    post = receipt.get("post_run_validation", {})
++    post = receipt.get("post_run_validation")
++    if not isinstance(post, dict):
++        return "post-run validation missing or wrong type"
+     if post.get("source_valid") is not True: return 1
+     if post.get("controls_valid") is not True: return 1
+     if receipt.get("stage") == "r1" and post.get("std_overlay_valid") is not True: return 1
+@@ -624,29 +652,72 @@ def bound_artifacts(out: Path) -> dict[str, Any]:
+     """Enforce upload limits, preserving receipts and recording every trimmed artifact."""
+     if not out.is_dir():
+         raise ValueError(f"artifact directory missing: {out}")
++    # Exclude every directory named target without opening or hashing its contents.
++    excluded_targets: list[dict[str, Any]] = []
++    target_dirs = sorted((p for p in out.rglob("*") if p.is_dir() and p.name == "target"),
++                         key=lambda p: len(p.parts))
++    for target in target_dirs:
++        if not target.exists():
++            continue
++        size = 0
++        for base, dirs, names in os.walk(target):
++            dirs[:] = dirs
++            for name in names:
++                try: size += (Path(base) / name).stat().st_size
++                except OSError: pass
++        rel = target.relative_to(out).as_posix()
++        shutil.rmtree(target)
++        excluded_targets.append({"path": rel, "bytes": size, "state": "INTENTIONALLY_EXCLUDED_TARGET_DIRECTORY"})
++    # If execute was stubbed or did not produce excerpts, derive head/tail from its
++    # already bounded stdout.log/stderr.log. Never synthesize a tail from discarded bytes.
++    for source in out.rglob("*.log"):
++        if source.name not in ("stdout.log", "stderr.log"):
++            continue
++        stream = source.stem
++        for side in ("head", "tail"):
++            dest = source.with_name(f"{stream}.{side}.log")
++            if not dest.exists() and source.is_file():
++                with source.open("rb") as f:
++                    if side == "head": data = f.read(EXCERPT_LIMIT)
++                    else:
++                        f.seek(max(0, source.stat().st_size - EXCERPT_LIMIT)); data = f.read(EXCERPT_LIMIT)
++                dest.write_bytes(data)
+     files = [p for p in out.rglob("*") if p.is_file() and p.name != "bound-artifacts.json"]
+     total = sum(p.stat().st_size for p in files)
+-    metadata = sum(p.stat().st_size for p in files if p.name not in ("stdout.log", "stderr.log"))
++    metadata = sum(p.stat().st_size for p in files if p.suffix.lower() in (".json", ".jsonl"))
+     removed: list[dict[str, Any]] = []
+     # Preserve receipts first. If necessary, remove the largest non-receipt artifacts.
+-    candidates = sorted((p for p in files if p.name not in ("receipt.json", "receipts.json")),
++    protected = {"receipt.json", "receipts.json", "stdout.head.log", "stdout.tail.log",
++                 "stderr.head.log", "stderr.tail.log"}
++    candidates = sorted((p for p in files if p.name not in protected),
+                        key=lambda p: p.stat().st_size, reverse=True)
+     for p in candidates:
+-        if total <= JOB_OUTPUT_LIMIT and metadata <= METADATA_LIMIT:
++        if total <= JOB_OUTPUT_LIMIT:
+             break
++        if not p.exists(): continue
+         size = p.stat().st_size
+         # Hash before deletion so the manifest identifies exactly what was omitted.
+         removed.append({"path": p.relative_to(out).as_posix(), "bytes": size, "sha256": sha256(p),
+                         "state": "TRUNCATED_REMOVED"})
+         p.unlink()
+         total -= size
+-        if p.name not in ("stdout.log", "stderr.log"):
++        if p.suffix.lower() in (".json", ".jsonl"):
+             metadata -= size
++    metadata_candidates = sorted((p for p in files if p.name not in protected and
++                                   p.suffix.lower() in (".json", ".jsonl") and p.exists()),
++                                 key=lambda p: p.stat().st_size, reverse=True)
++    for p in metadata_candidates:
++        if metadata <= METADATA_LIMIT: break
++        size = p.stat().st_size
++        removed.append({"path": p.relative_to(out).as_posix(), "bytes": size, "sha256": sha256(p),
++                        "state": "TRUNCATED_REMOVED"})
++        p.unlink(); total -= size; metadata -= size
+     state = "COMPLETE" if not removed and total <= JOB_OUTPUT_LIMIT and metadata <= METADATA_LIMIT else "TRUNCATED"
+     manifest = {"schema": "ch8-w0-a1-bounded-artifacts-v1", "state": state,
+                 "total_bytes_after": total, "metadata_bytes_after": metadata,
+                 "total_cap_bytes": JOB_OUTPUT_LIMIT, "metadata_cap_bytes": METADATA_LIMIT,
+-                "removed": removed, "outcome": "UNKNOWN"}
++                "removed": removed, "intentional_exclusions": excluded_targets,
++                "outcome": "UNKNOWN"}
+     if total > JOB_OUTPUT_LIMIT or metadata > METADATA_LIMIT:
+         manifest["state"] = "INCOMPLETE_PROTECTED_RECEIPTS_EXCEED_CAP"
+     # Mark every durable receipt incomplete when artifact loss occurs or caps remain exceeded.
+@@ -662,6 +733,25 @@ def bound_artifacts(out: Path) -> dict[str, Any]:
+             except (OSError, json.JSONDecodeError, TypeError):
+                 pass
+     write_json_atomic(out / "bound-artifacts.json", manifest)
++    final_total, final_metadata, final_oversized = _tree_bytes(out)
++    manifest["total_bytes_after"] = final_total
++    manifest["metadata_bytes_after"] = final_metadata
++    if final_total > JOB_OUTPUT_LIMIT or final_metadata > METADATA_LIMIT or final_oversized:
++        manifest["state"] = "INCOMPLETE_PROTECTED_RECEIPTS_EXCEED_CAP"
++        for p in out.rglob("receipt.json"):
++            try:
++                value = json.loads(p.read_text())
++                value["postprocessing_state"] = "INCOMPLETE"
++                value["artifact_bound_state"] = manifest["state"]
++                value["artifact_truncations"] = removed
++                value["outcome"] = "UNKNOWN"
++                write_json_atomic(p, value)
++            except (OSError, json.JSONDecodeError, TypeError):
++                pass
++        final_total, final_metadata, _ = _tree_bytes(out)
++        manifest["total_bytes_after"] = final_total
++        manifest["metadata_bytes_after"] = final_metadata
++    write_json_atomic(out / "bound-artifacts.json", manifest)
+     return manifest
+ 
+ 
+@@ -736,6 +826,7 @@ def run(repo: Path, pin_name: str, stage_name: str, row_id: str, binary: Path, o
+         "cwd": str(cwd), "input_abs_path": str(isolated_fixture) if isolated_fixture else None,
+         "control_snapshot_before": controls_before,
+         "environment": {k: env.get(k) for k in row["environment"]},
++        "diagnostic_environment": {k: env.get(k) for k in DIAGNOSTIC_ENV_KEYS if k in env},
+         "std_base_before": std_base_before, "std_before": std_before, "phase": "BEGIN", "outcome": "UNKNOWN",
+         "proof_status": "NOT_RUN_UNTIL_REVIEWED", "postprocessing_state": "INCOMPLETE",
+     }
+@@ -752,6 +843,7 @@ def run(repo: Path, pin_name: str, stage_name: str, row_id: str, binary: Path, o
+         "cwd": str(cwd), "input_abs_path": str(isolated_fixture) if isolated_fixture else None,
+         "control_snapshot_before": controls_before,
+         "environment": {k: env.get(k) for k in row["environment"]},
++        "diagnostic_environment": {k: env.get(k) for k in DIAGNOSTIC_ENV_KEYS if k in env},
+         "std_base_before": std_base_before, "std_before": std_before,
+         "rss": {"max_kib": execution.pop("rss_max_kib", None), "max_bytes": execution.pop("rss_max_bytes"),
+           "max_mib": execution.pop("rss_max_mib", None), "max_gib": execution.pop("rss_max_gib", None),
+@@ -820,6 +912,164 @@ def run(repo: Path, pin_name: str, stage_name: str, row_id: str, binary: Path, o
+     return receipt
+ 
+ 
++def _compile_error_for_core_lib(receipt: dict[str, Any], row_out: Path) -> bool:
++    code = receipt.get("original_exit_code")
++    if not isinstance(code, int) or code == 0:
++        return False
++    if (receipt.get("timed_out") or receipt.get("runner_error") or receipt.get("output_capped") or
++            receipt.get("artifact_capped") or receipt.get("rss_watchdog_killed") or
++            receipt.get("postprocessing_state") != "COMPLETE" or
++            receipt.get("termination_classification") not in (None, "EXITED")):
++        return False
++    chunks = []
++    for stream in ("stdout", "stderr"):
++        for side in ("head", "tail"):
++            path = row_out / f"{stream}.{side}.log"
++            if path.is_file():
++                chunks.append(path.read_bytes()[:EXCERPT_LIMIT].decode("utf-8", "replace"))
++        if not any((row_out / f"{stream}.{side}.log").is_file() for side in ("head", "tail")):
++            path = row_out / f"{stream}.log"
++            if path.is_file():
++                with path.open("rb") as f:
++                    chunks.append(f.read(EXCERPT_LIMIT).decode("utf-8", "replace"))
++                    if path.stat().st_size > EXCERPT_LIMIT:
++                        f.seek(max(0, path.stat().st_size - EXCERPT_LIMIT))
++                        chunks.append(f.read(EXCERPT_LIMIT).decode("utf-8", "replace"))
++    text = "\n".join(chunks)
++    import re
++    text = re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", text)
++    return re.search(r"could\s+not\s+compile\s*[`'\"“”‘’]?\s*core\s*[`'\"“”‘’]?\s*\(\s*lib\s*\)",
++                     text, re.IGNORECASE) is not None
++
++
++def _sequence_uncertain(receipt: dict[str, Any], allow_compile_missing_export: bool = False) -> str | None:
++    if receipt.get("original_exit_code") is None:
++        return "missing original exit code"
++    if receipt.get("timed_out"):
++        return "timeout"
++    if receipt.get("rss_watchdog_killed"):
++        return "resource watchdog termination"
++    if receipt.get("output_capped") or receipt.get("artifact_capped"):
++        return "output cap termination"
++    if receipt.get("runner_error"):
++        return "runner error"
++    if receipt.get("signal") is not None or receipt.get("original_exit_code", 0) < 0:
++        return "signal termination"
++    if receipt.get("termination_classification") not in (None, "EXITED"):
++        return f"uncertain termination: {receipt.get('termination_classification')}"
++    if receipt.get("postprocessing_state") != "COMPLETE":
++        return "incomplete postprocessing"
++    rss = receipt.get("rss")
++    if (not isinstance(rss, dict) or rss.get("status") != "OBSERVED_WAIT4_LINUX_RU_MAXRSS" or
++            not isinstance(rss.get("max_bytes"), int)):
++        return "RSS wait4 evidence missing or invalid"
++    export = receipt.get("export")
++    state = export.get("state") if isinstance(export, dict) else None
++    if state != "UNVALIDATED_COMPLETE_SINGLE_HARNESS" and not (allow_compile_missing_export and state == "MISSING"):
++        return f"incomplete or uncertain export: {state}"
++    post = receipt.get("post_run_validation", {})
++    if any(post.get(k) is not True for k in ("source_valid", "controls_valid", "std_overlay_valid", "std_base_valid")):
++        return "post-run validation incomplete or mismatched"
++    return None
++
++
++def _write_not_run_receipt(path: Path, pin_name: str, row: dict[str, Any], reason: str) -> dict[str, Any]:
++    path.mkdir(parents=True, exist_ok=False)
++    value = {"schema": "ch8-w0-a1-ci-receipt-v1", "pin": pin_name, "stage": "r1",
++             "row_id": row["id"], "selector": row["selector"], "status": "NOT_RUN",
++             "not_run_reason": reason, "original_exit_code": None, "signal": None,
++             "phase": "NOT_RUN", "proof_status": "NOT_RUN", "outcome": "UNKNOWN",
++             "postprocessing_state": "INCOMPLETE"}
++    write_json_atomic(path / "receipt.json", value)
++    return value
++
++
++def run_r1_sequence(repo: Path, pin_name: str, binary: Path, out: Path, std: Path,
++                    timeout_seconds: int = MAX_INVOCATION_SECONDS) -> dict[str, Any]:
++    """Run the exact frozen r1 request order, stopping only on confirmed compile or uncertainty."""
++    req = load_request()
++    if pin_name not in PIN_NAMES:
++        raise ValueError(f"unknown source pin: {pin_name}")
++    if pin_name != "sel1":
++        raise ValueError("r1 sequence requires the frozen sel1 source pin")
++    rows = req.get("r1", {}).get("rows")
++    if not isinstance(rows, list) or len(rows) != len(R1_SUFFIXES):
++        raise ValueError("r1 sequence requires the exact eight requested rows")
++    for row in rows:
++        validate_row("r1", row)
++    expected_first = ("stable_freeze_u64_n32", "unstable_general_nocopy_u64_n32", "unstable_network_u64_n32")
++    if tuple(row["id"] for row in rows[:3]) != expected_first:
++        raise ValueError("r1 sequence request must begin with the exact three N32 rows in frozen order")
++    if not std.is_absolute() or not out.is_absolute():
++        raise ValueError("sequence std and output paths must be absolute")
++    # Complete all frozen identity/stage checks before creating output or starting a child.
++    verify_source(repo, pin_name, req, require_submodules=True)
++    _verify_std_base(std, req["std"])
++    _verify_std_overlay(std, req["std"])
++    if out.exists() and not out.is_dir():
++        raise ValueError(f"sequence output exists and is not a directory: {out}")
++    out.mkdir(parents=True, exist_ok=True)
++    if (out / "sequence-summary.json").exists():
++        raise ValueError(f"refusing existing sequence summary: {out / 'sequence-summary.json'}")
++    for row in rows:
++        if (out / row["id"]).exists():
++            raise ValueError(f"refusing existing row output: {out / row['id']}")
++    rows_summary: list[dict[str, Any]] = []
++    stop_reason: str | None = None
++    failure_codes: list[int] = []
++    for row in rows:
++        row_out = out / row["id"]
++        if stop_reason is not None:
++            not_run = _write_not_run_receipt(row_out, pin_name, row, stop_reason)
++            rows_summary.append({"row_id": row["id"], "status": "NOT_RUN", "receipt": str(row_out / "receipt.json"),
++                                 "original_exit_code": None, "reason": stop_reason})
++            continue
++        try:
++            receipt = run(repo, pin_name, "r1", row["id"], binary, row_out, std, timeout_seconds)
++        except Exception as exc:
++            if not (row_out / "receipt.json").is_file():
++                row_out.mkdir(parents=True, exist_ok=True)
++                partial = {"schema": "ch8-w0-a1-ci-receipt-v1", "pin": pin_name, "stage": "r1",
++                           "row_id": row["id"], "selector": row["selector"], "phase": "RUNNER_EXCEPTION",
++                           "original_exit_code": None, "signal": None, "runner_error": f"{type(exc).__name__}: {exc}",
++                           "outcome": "UNKNOWN", "proof_status": "NOT_RUN_UNTIL_REVIEWED",
++                           "postprocessing_state": "INCOMPLETE"}
++                write_json_atomic(row_out / "receipt.json", partial)
++            else:
++                try:
++                    partial = json.loads((row_out / "receipt.json").read_text())
++                    partial.setdefault("runner_error", f"{type(exc).__name__}: {exc}")
++                    partial["postprocessing_state"] = "INCOMPLETE"
++                    partial["outcome"] = "UNKNOWN"
++                    write_json_atomic(row_out / "receipt.json", partial)
++                except (OSError, json.JSONDecodeError):
++                    partial = {"original_exit_code": None}
++            rows_summary.append({"row_id": row["id"], "status": "EXCEPTION", "receipt": str(row_out / "receipt.json"),
++                                 "original_exit_code": partial.get("original_exit_code"),
++                                 "reason": f"{type(exc).__name__}: {exc}"})
++            stop_reason = f"predecessor {row['id']} receipt {row_out / 'receipt.json'}: row raised {type(exc).__name__}; later rows not run"
++            failure_codes.append(1)
++            continue
++        code = receipt.get("original_exit_code")
++        row_state = "COMPLETE" if receipt.get("postprocessing_state") == "COMPLETE" else "INCOMPLETE"
++        rows_summary.append({"row_id": row["id"], "status": row_state, "receipt": str(row_out / "receipt.json"),
++                             "original_exit_code": code, "signal": receipt.get("signal")})
++        confirmed_compile = _compile_error_for_core_lib(receipt, row_out)
++        uncertain = _sequence_uncertain(receipt, allow_compile_missing_export=confirmed_compile)
++        if uncertain:
++            stop_reason = f"predecessor {row['id']} receipt {row_out / 'receipt.json'}: {uncertain}; later rows not run"
++            failure_codes.append(code if isinstance(code, int) and code > 0 else 1)
++        elif code != 0:
++            failure_codes.append(code if isinstance(code, int) and code > 0 else 1)
++            if confirmed_compile:
++                stop_reason = f"predecessor {row['id']} receipt {row_out / 'receipt.json'}: confirmed core (lib) compile error; later rows not run"
++    summary = {"schema": "ch8-w0-a1-r1-sequence-v1", "pin": pin_name, "stage": "r1",
++               "order": [r["id"] for r in rows], "rows": rows_summary, "stop_reason": stop_reason,
++               "return_code": failure_codes[0] if failure_codes else 0, "outcome": "UNKNOWN"}
++    write_json_atomic(out / "sequence-summary.json", summary)
++    return summary
++
++
+ def main() -> int:
+     parser = argparse.ArgumentParser(description=__doc__)
+     sub = parser.add_subparsers(dest="command", required=True)
+@@ -830,6 +1080,10 @@ def main() -> int:
+     r.add_argument("--stage", choices=("r1", "r2"), required=True); r.add_argument("--row", required=True)
+     r.add_argument("--std", type=Path); r.add_argument("--binary", type=Path, required=True); r.add_argument("--out", type=Path, required=True)
+     r.add_argument("--timeout-seconds", type=int, default=MAX_INVOCATION_SECONDS)
++    q = sub.add_parser("run-r1-sequence"); q.add_argument("--repo", type=Path, required=True)
++    q.add_argument("--pin", choices=PIN_NAMES, required=True); q.add_argument("--std", type=Path, required=True)
++    q.add_argument("--binary", type=Path, required=True); q.add_argument("--out", type=Path, required=True)
++    q.add_argument("--timeout-seconds", type=int, default=MAX_INVOCATION_SECONDS)
+     args = parser.parse_args()
+     try:
+         if args.command == "verify-source": result = verify_source(args.repo, args.pin)
+@@ -838,10 +1092,12 @@ def main() -> int:
+             result = bound_artifacts(args.out)
+             print(json.dumps(result, indent=2, sort_keys=True))
+             return 1 if result["state"] != "COMPLETE" else 0
++        elif args.command == "run-r1-sequence":
++            result = run_r1_sequence(args.repo, args.pin, args.binary, args.out, args.std, args.timeout_seconds)
+         else:
+             result = run(args.repo, args.pin, args.stage, args.row, args.binary, args.out, args.std, args.timeout_seconds)
+         print(json.dumps(result, indent=2, sort_keys=True))
+-        return root_exit_code(result) if args.command == "run" else 0
++        return result["return_code"] if args.command == "run-r1-sequence" else (root_exit_code(result) if args.command == "run" else 0)
+     except (OSError, ValueError, subprocess.SubprocessError, json.JSONDecodeError) as e:
+         print(f"A1 CI wrapper error: {e}", file=sys.stderr); return 2
+ 
+diff --git a/scripts/ch8-w0-a1/std-test-only.patch b/scripts/ch8-w0-a1/std-test-only.patch
+index 54cf6eb50690dcf1818fc9b9fbe150e340070211..78b959acb8fe75c6d1d5fccc0945645f21fa641b 100644
+--- a/scripts/ch8-w0-a1/std-test-only.patch
++++ b/scripts/ch8-w0-a1/std-test-only.patch
+@@ -1,5 +1,5 @@
+ diff --git a/library/core/src/slice/sort/shared/smallsort/verify.rs b/library/core/src/slice/sort/shared/smallsort/verify.rs
+-index 9ed9be525b3181a964ef9d7a994af76287e1ca0e..de9cb0d60dea1ef3b69025a002b20535f2f9f283 100644
++index 9ed9be525b..de9cb0d60d 100644
+ --- a/library/core/src/slice/sort/shared/smallsort/verify.rs
+ +++ b/library/core/src/slice/sort/shared/smallsort/verify.rs
+ @@ -84,9 +84,15 @@ mod merge;
+@@ -19,7 +19,7 @@ index 9ed9be525b3181a964ef9d7a994af76287e1ca0e..de9cb0d60dea1ef3b69025a002b20535
+ +#[cfg(kani_smallsort_controls)]
+ +mod wave0_a1;
+ diff --git a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
+-index 52977f4b1f39637dc16c1620390a16c47dc48edb..336fe652773e58618c0275ed5d47a3f1c9179ef8 100644
++index 52977f4b1f..336fe65277 100644
+ --- a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
+ +++ b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts.rs
+ @@ -36,7 +36,9 @@ fn exercise_swap<T: kani::Arbitrary + Copy + PartialEq>() {
+@@ -47,7 +47,7 @@ index 52977f4b1f39637dc16c1620390a16c47dc48edb..336fe652773e58618c0275ed5d47a3f1
+          kani::assert(src[i] == before[i], "helper contract sort4 source frame");
+      }
+ diff --git a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
+-index b0c6777added9c36716c8aa4a6616facc1a00899..432a9c0d4bc8eb0b5bd22ecf089b21015a57f8ef 100644
++index b0c6777add..432a9c0d4b 100644
+ --- a/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
+ +++ b/library/core/src/slice/sort/shared/smallsort/verify/helper_contracts_wide.rs
+ @@ -114,7 +114,7 @@ fn merge_safety_u64_len8_scratch48_src32_dst0() {
+@@ -61,7 +61,7 @@ index b0c6777added9c36716c8aa4a6616facc1a00899..432a9c0d4bc8eb0b5bd22ecf089b2101
+          // SAFETY: the initialized source must be framed by the merge.
+ diff --git a/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs b/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs
+ new file mode 100644
+-index 0000000000000000000000000000000000000000..b66ce6ee72d95814278c1d9cb323dc3e4ed3ee50
++index 0000000000..b66ce6ee72
+ --- /dev/null
+ +++ b/library/core/src/slice/sort/shared/smallsort/verify/replay_gateb_prime.rs
+ @@ -0,0 +1,52 @@
+@@ -119,7 +119,7 @@ index 0000000000000000000000000000000000000000..b66ce6ee72d95814278c1d9cb323dc3e
+ +}
+ diff --git a/library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs b/library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs
+ new file mode 100644
+-index 0000000000000000000000000000000000000000..890b2597c237578a33e55c534fd35324da224c13
++index 0000000000..890b2597c2
+ --- /dev/null
+ +++ b/library/core/src/slice/sort/shared/smallsort/verify/replay_uninit_controls.rs
+ @@ -0,0 +1,49 @@
+@@ -174,14 +174,14 @@ index 0000000000000000000000000000000000000000..890b2597c237578a33e55c534fd35324
+ +}
+ diff --git a/library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs b/library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs
+ new file mode 100644
+-index 0000000000000000000000000000000000000000..8226194452b6330ed81161d8e48f078433485f42
++index 0000000000..7202969769
+ --- /dev/null
+ +++ b/library/core/src/slice/sort/shared/smallsort/verify/wave0_a1.rs
+ @@ -0,0 +1,166 @@
+ +//! A1 bounded scale probes: actual trait entry points with arbitrary-bool comparators.
+ +//! These roots are opt-in and intentionally make no sortedness or permutation claim.
+ +
+-+use super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
+++use super::super::{StableSmallSortTypeImpl, UnstableSmallSortTypeImpl};
+ +use crate::kani;
+ +use crate::mem::MaybeUninit;
+ +use crate::ptr;
+diff --git a/scripts/ch8-w0-a1/test_a1.py b/scripts/ch8-w0-a1/test_a1.py
+index 9d9849323c74d13007f77769acf626177cd9085b..53c7f332247ed443322911a9cafc8a7cac95744b 100644
+--- a/scripts/ch8-w0-a1/test_a1.py
++++ b/scripts/ch8-w0-a1/test_a1.py
+@@ -41,7 +41,9 @@ def mk_r2(selector):
+     argv += ["--export-json", "<OUT>/export.json"]
+     fixture = a1.R2_FIXTURES[selector]
+     environment = {"NO_COLOR": "1"}
+-    if selector == "reassemble_ptr_fragments_in_static":
++    if selector in ("drop_uninit_in_array", "drop_initialized_slot_in_array"):
++        environment["RUSTFLAGS"] = "--edition=2021"
++    elif selector == "reassemble_ptr_fragments_in_static":
+         environment.update({"RUSTFLAGS": "--edition=2021 --cap-lints=warn", "RUST_BACKTRACE": "full"})
+     return {"id": f"issue-{issue}-{'original' if original else 'companion'}-{selector}",
+             "selector": selector, "mode": mode, "fixture": fixture,
+@@ -78,7 +80,8 @@ class RequestTests(unittest.TestCase):
+             self.assertEqual(len(req["r1"]["rows"]), 8)
+             self.assertEqual(len(req["r2"]["rows"]), 6)
+             for row in req["r2"]["rows"]:
+-                if row["selector"] != "reassemble_ptr_fragments_in_static":
++                if row["selector"] not in ("reassemble_ptr_fragments_in_static", "drop_uninit_in_array",
++                                             "drop_initialized_slot_in_array"):
+                     self.assertNotIn("RUSTFLAGS", row["environment"])
+ 
+     def test_rejects_missing_row_or_native_std_mixup(self):
+@@ -106,6 +109,21 @@ class RequestTests(unittest.TestCase):
+         row = mk_r1(R1[0]); row["argv"][row["argv"].index("--harness") + 1] = "wrong"
+         with self.assertRaisesRegex(ValueError, "r1 mode/selector"):
+             a1.validate_row("r1", row)
++        row = mk_r1(R1[0]); row["argv"].extend(["--target", "wrong-target"])
++        with self.assertRaisesRegex(ValueError, "target policy"):
++            a1.validate_row("r1", row)
++
++    def test_5151_requires_edition_flag_and_other_native_flags_remain_exact(self):
++        for suffix in ("drop_uninit_in_array", "drop_initialized_slot_in_array"):
++            row = mk_r2(suffix); a1.validate_row("r2", row)
++            row["environment"]["RUSTFLAGS"] = "--cfg kani_smallsort_controls"
++            with self.assertRaisesRegex(ValueError, "5151 rows require"):
++                a1.validate_row("r2", row)
++        for suffix in ("nonnull_field", "initialized_same_type_companion", "explicit_proof_observes_initialized_null"):
++            row = mk_r2(suffix); a1.validate_row("r2", row)
++            row["environment"]["RUSTFLAGS"] = "--edition=2021"
++            with self.assertRaisesRegex(ValueError, "cannot receive issue-only"):
++                a1.validate_row("r2", row)
+ 
+ 
+ class ExportTests(unittest.TestCase):
+@@ -210,9 +228,16 @@ class ExecutionTests(unittest.TestCase):
+ 
+     def test_output_stream_cap_is_enforced_during_execution(self):
+         with mock.patch.object(a1, "STDOUT_LIMIT", 256):
+-            td, _, r = self.run_code("import sys; sys.stdout.write('x'*100000); sys.stdout.flush()")
++            td, out, r = self.run_code("import sys; sys.stdout.write('x'*100000); sys.stdout.flush()")
+         self.assertTrue(r["output_capped"]); self.assertTrue(r["stdout_truncated"])
+-        self.assertLessEqual(r["stdout_bytes"], 256); td.cleanup()
++        self.assertLessEqual(r["stdout_bytes"], 256)
++        for suffix in ("stdout.head.log", "stdout.tail.log", "stderr.head.log", "stderr.tail.log"):
++            p = out / suffix
++            self.assertTrue(p.is_file())
++            self.assertLessEqual(p.stat().st_size, 64 * 1024)
++        self.assertEqual(r["stream_excerpts"]["stdout_head"]["sha256"], hashlib.sha256((out / "stdout.head.log").read_bytes()).hexdigest())
++        self.assertEqual(r["stream_excerpts"]["stdout_tail"]["bytes"], (out / "stdout.tail.log").stat().st_size)
++        td.cleanup()
+ 
+     def test_frozen_job_rss_policy_is_used_and_cannot_exceed_reserve(self):
+         env = {"A1_MEM_AVAILABLE_BYTES": str(8 * 1024**3), "A1_RSS_LIMIT_BYTES": str(5 * 1024**3)}
+@@ -307,12 +332,172 @@ class ArtifactTests(unittest.TestCase):
+             (root / "big.bin").write_bytes(b"x"*1024)
+             with mock.patch.object(a1, "JOB_OUTPUT_LIMIT", 512):
+                 result = a1.bound_artifacts(root)
+-            self.assertEqual(result["state"], "TRUNCATED")
++            self.assertEqual(result["state"], "INCOMPLETE_PROTECTED_RECEIPTS_EXCEED_CAP")
+             self.assertTrue((root / "receipt.json").is_file())
+             self.assertFalse((root / "big.bin").exists())
+             receipt = json.loads((root / "receipt.json").read_text())
+             self.assertEqual(receipt["postprocessing_state"], "INCOMPLETE")
+ 
++    def test_metadata_cap_never_deletes_stdout_and_excerpts_are_protected(self):
++        with tempfile.TemporaryDirectory() as td:
++            root = Path(td)
++            (root / "receipt.json").write_text(json.dumps({"outcome": "UNKNOWN", "postprocessing_state": "COMPLETE"}))
++            for name in ("stdout.log", "stdout.head.log", "stdout.tail.log", "stderr.head.log", "stderr.tail.log"):
++                (root / name).write_bytes(name.encode() * 20)
++            (root / "extra.json").write_text("{}")
++            with mock.patch.object(a1, "JOB_OUTPUT_LIMIT", 1024 * 1024), mock.patch.object(a1, "METADATA_LIMIT", 1):
++                result = a1.bound_artifacts(root)
++            self.assertEqual(result["state"], "INCOMPLETE_PROTECTED_RECEIPTS_EXCEED_CAP")
++            for name in ("stdout.log", "stdout.head.log", "stdout.tail.log", "stderr.head.log", "stderr.tail.log"):
++                self.assertTrue((root / name).is_file())
++            self.assertTrue((root / "receipt.json").is_file())
++
++    def test_target_directories_are_excluded_and_fallback_excerpts_created(self):
++        with tempfile.TemporaryDirectory() as td:
++            root = Path(td); target = root / "nested" / "target"; target.mkdir(parents=True)
++            (target / "opaque.bin").write_bytes(b"x" * 91)
++            (root / "stdout.log").write_bytes(b"a" * 100000 + b"z" * 100000)
++            result = a1.bound_artifacts(root)
++            self.assertFalse(target.exists())
++            self.assertEqual(result["intentional_exclusions"], [{"path": "nested/target", "bytes": 91,
++                              "state": "INTENTIONALLY_EXCLUDED_TARGET_DIRECTORY"}])
++            self.assertEqual((root / "stdout.head.log").read_bytes(), b"a" * (64 * 1024))
++            self.assertEqual((root / "stdout.tail.log").read_bytes(), b"z" * (64 * 1024))
++
++    def test_protected_receipts_over_cap_fail_closed(self):
++        with tempfile.TemporaryDirectory() as td:
++            root = Path(td); (root / "receipt.json").write_text(json.dumps({"postprocessing_state": "COMPLETE"}))
++            with mock.patch.object(a1, "JOB_OUTPUT_LIMIT", 1):
++                result = a1.bound_artifacts(root)
++            self.assertEqual(result["state"], "INCOMPLETE_PROTECTED_RECEIPTS_EXCEED_CAP")
++            self.assertTrue((root / "receipt.json").exists())
++            self.assertEqual(json.loads((root / "receipt.json").read_text())["postprocessing_state"], "INCOMPLETE")
++
++
++class SequenceTests(unittest.TestCase):
++    def _setup(self, root):
++        rows = [mk_r1(s) for s in ("stable_freeze_u64_n32", "unstable_general_nocopy_u64_n32",
++                                  "unstable_network_u64_n32") + tuple(s for s in R1 if not s.endswith("n32"))]
++        request = {"r1": {"rows": rows}, "std": {}, "pins": {}}
++        return request, rows
++
++    def _invoke(self, root, outcome):
++        request, rows = self._setup(root)
++        req_path = root / "CI-REQUEST.json"; req_path.write_text("{}")
++        std = root / "std"; std.mkdir(); out = root / "out"
++        base = {"original_exit_code": 0, "signal": None, "timed_out": False, "output_capped": False,
++                "artifact_capped": False, "rss_watchdog_killed": False, "runner_error": None,
++                "termination_classification": "EXITED", "postprocessing_state": "COMPLETE",
++                "rss": {"status": "OBSERVED_WAIT4_LINUX_RU_MAXRSS", "max_bytes": 123},
++                "export": {"state": "UNVALIDATED_COMPLETE_SINGLE_HARNESS"},
++                "post_run_validation": {"source_valid": True, "controls_valid": True,
++                                        "std_overlay_valid": True, "std_base_valid": True}}
++        calls = []
++        def fake_run(repo, pin, stage, row_id, binary, row_out, given_std, timeout):
++            calls.append(row_id); row_out.mkdir(parents=True)
++            index = len(calls) - 1; val = dict(base); val["export"] = dict(base["export"])
++            val["post_run_validation"] = dict(base["post_run_validation"])
++            val.update(outcome(index, row_out))
++            (row_out / "receipt.json").write_text(json.dumps(val))
++            return val
++        patches = [mock.patch.object(a1, "load_request", return_value=request),
++                   mock.patch.object(a1, "REQUEST", req_path), mock.patch.object(a1, "verify_source", return_value={}),
++                   mock.patch.object(a1, "_verify_std_base", return_value={}), mock.patch.object(a1, "_verify_std_overlay", return_value={}),
++                   mock.patch.object(a1, "run", side_effect=fake_run)]
++        return rows, calls, patches, std, out
++
++    def test_success_and_noncompile_nonzero_continue_in_frozen_order(self):
++        with tempfile.TemporaryDirectory() as td:
++            root = Path(td); rows, calls, patches, std, out = self._invoke(root,
++                lambda i, p: {"original_exit_code": 9} if i == 0 else {})
++            for p in patches: p.start()
++            try:
++                result = a1.run_r1_sequence(root, "sel1", Path("/unused"), out, std)
++            finally:
++                for p in reversed(patches): p.stop()
++            self.assertEqual(calls, [r["id"] for r in rows])
++            self.assertEqual(result["return_code"], 9)
++
++    def test_confirmed_compile_error_stops_and_writes_not_run_receipts(self):
++        with tempfile.TemporaryDirectory() as td:
++            root = Path(td)
++            def outcome(i, p):
++                if i == 0:
++                    (p / "stderr.tail.log").write_text("error: could not compile ‘core’ (lib) due to 1 previous error")
++                    return {"original_exit_code": 101, "export": {"state": "MISSING"}}
++                return {}
++            rows, calls, patches, std, out = self._invoke(root, outcome)
++            for p in patches: p.start()
++            try: result = a1.run_r1_sequence(root, "sel1", Path("/unused"), out, std)
++            finally:
++                for p in reversed(patches): p.stop()
++            self.assertEqual(calls, [rows[0]["id"]])
++            self.assertEqual(json.loads((out / rows[1]["id"] / "receipt.json").read_text())["status"], "NOT_RUN")
++            self.assertIn("confirmed core (lib) compile error", result["stop_reason"])
++
++    def test_uncertain_outcomes_fail_stop_and_preserve_original_exit(self):
++        cases = [({"timed_out": True}, "timeout"), ({"postprocessing_state": "INCOMPLETE"}, "postprocessing"),
++                 ({"rss": None}, "RSS wait4 evidence"),
++                 ({"export": {"state": "MISSING"}}, "export"), ({"export": {"state": "NULL"}}, "export"),
++                 ({"export": {"state": "WRONG_TOP_LEVEL_TYPE"}}, "export"),
++                 ({"export": {"state": "PARTIAL"}}, "export"), ({"export": None}, "export"),
++                 ({"export": []}, "export")]
++        for override, reason in cases:
++            with self.subTest(override=override), tempfile.TemporaryDirectory() as td:
++                root = Path(td); rows, calls, patches, std, out = self._invoke(root, lambda i, p: override if i == 0 else {})
++                for p in patches: p.start()
++                try: result = a1.run_r1_sequence(root, "sel1", Path("/unused"), out, std)
++                finally:
++                    for p in reversed(patches): p.stop()
++                self.assertEqual(calls, [rows[0]["id"]])
++                self.assertIn(reason, result["stop_reason"])
++                self.assertEqual(json.loads((out / rows[0]["id"] / "receipt.json").read_text())["original_exit_code"], 0)
++
++    def test_exception_gets_durable_partial_and_remaining_not_run(self):
++        with tempfile.TemporaryDirectory() as td:
++            root = Path(td); request, rows = self._setup(root); req_path = root / "CI-REQUEST.json"; req_path.write_text("{}")
++            std = root / "std"; std.mkdir(); out = root / "out"
++            patches = [mock.patch.object(a1, "load_request", return_value=request), mock.patch.object(a1, "REQUEST", req_path),
++                       mock.patch.object(a1, "verify_source", return_value={}), mock.patch.object(a1, "_verify_std_base", return_value={}),
++                       mock.patch.object(a1, "_verify_std_overlay", return_value={}), mock.patch.object(a1, "run", side_effect=RuntimeError("synthetic"))]
++            for p in patches: p.start()
++            try: result = a1.run_r1_sequence(root, "sel1", Path("/unused"), out, std)
++            finally:
++                for p in reversed(patches): p.stop()
++            first = json.loads((out / rows[0]["id"] / "receipt.json").read_text())
++            self.assertEqual(first["postprocessing_state"], "INCOMPLETE")
++            self.assertEqual(json.loads((out / rows[1]["id"] / "receipt.json").read_text())["status"], "NOT_RUN")
++
++    def test_bad_order_and_source_mismatch_prevent_child(self):
++        with tempfile.TemporaryDirectory() as td:
++            root = Path(td); request, rows = self._setup(root); rows[0], rows[3] = rows[3], rows[0]
++            req_path = root / "CI-REQUEST.json"; req_path.write_text("{}")
++            std = root / "std"; std.mkdir(); out = root / "out"
++            with mock.patch.object(a1, "load_request", return_value=request), mock.patch.object(a1, "REQUEST", req_path), \
++                 mock.patch.object(a1, "run") as run_mock, mock.patch.object(a1, "verify_source"):
++                with self.assertRaisesRegex(ValueError, "begin with the exact three N32"):
++                    a1.run_r1_sequence(root, "sel1", Path("/unused"), out, std)
++                run_mock.assert_not_called()
++
++        with tempfile.TemporaryDirectory() as td:
++            root = Path(td); request, _ = self._setup(root); req_path = root / "CI-REQUEST.json"; req_path.write_text("{}")
++            std = root / "std"; std.mkdir(); out = root / "out"
++            with mock.patch.object(a1, "load_request", return_value=request), mock.patch.object(a1, "REQUEST", req_path), \
++                 mock.patch.object(a1, "verify_source", side_effect=ValueError("pin mismatch")) as source_mock, \
++                 mock.patch.object(a1, "run") as run_mock:
++                with self.assertRaisesRegex(ValueError, "pin mismatch"):
++                    a1.run_r1_sequence(root, "sel1", Path("/unused"), out, std)
++                source_mock.assert_called_once(); run_mock.assert_not_called(); self.assertFalse(out.exists())
++
++        with tempfile.TemporaryDirectory() as td:
++            root = Path(td); request, _ = self._setup(root); req_path = root / "CI-REQUEST.json"; req_path.write_text("{}")
++            std = root / "std"; std.mkdir(); out = root / "out"
++            with mock.patch.object(a1, "load_request", return_value=request), mock.patch.object(a1, "REQUEST", req_path), \
++                 mock.patch.object(a1, "verify_source") as source_mock, mock.patch.object(a1, "run") as run_mock:
++                with self.assertRaisesRegex(ValueError, "requires the frozen sel1"):
++                    a1.run_r1_sequence(root, "baseline", Path("/unused"), out, std)
++                source_mock.assert_not_called(); run_mock.assert_not_called(); self.assertFalse(out.exists())
++
+ 
+ if __name__ == "__main__":
+     unittest.main()
