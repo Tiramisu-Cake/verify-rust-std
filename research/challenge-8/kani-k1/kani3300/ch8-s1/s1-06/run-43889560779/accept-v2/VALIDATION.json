@@ -1,0 +1,30 @@
+{
+  "algorithms_sha256": {
+    "pfc.py": "f4fd9bffb4e909ef4fa855a4b40842707d648cad1e22e0c528e8a6651bdcd9a6",
+    "replay.py": "20475a83d2a9642a53f27bb0abb9773acd5bc797df831f9156dfca462c26cd8c",
+    "semantic.py": "407b6a21067c63f25c193327caf230be69e8431653da9721dc32417074b7443c",
+    "test_replay.py": "0a5f7ae252081c6db770c1ca85a1049e3be6bce805b0625148ee17b5c60585d1",
+    "unreachable.py": "22a0478c16335be615a7834e2296cabe65474f64aa0b8972650b45c58fd68898"
+  },
+  "historical_receipts_modified_by_this_task": false,
+  "input_integrity": "ALL_INPUTS_JSON_DIGESTS_MATCH; EXACT_STOCK_RICH_INVENTORY; PINNED_GIT_SOURCE",
+  "ledger_push_ci_local_verifier_actions_by_this_task": "NONE",
+  "limits": "Static/offline Python checks only; no independent formal proof credit.",
+  "proof_credit": "NONE",
+  "qualified_acceptance": "PENDING",
+  "receipt_sha256": "448f0e950ecd2083ddf7e55e1005a0d1f08cf25648515d082ae998f4844edcbc",
+  "replay": {
+    "command": "python replay.py",
+    "exit_code": 0,
+    "receipt_comparison": "EXACT_MATCH"
+  },
+  "schema": "s106-v2-offline-validation-v1",
+  "state": "PASS_OFFLINE_REPLAY_AND_FAIL_CLOSED_TESTS",
+  "tests": {
+    "command": "python -m unittest -q test_replay.py",
+    "count": 19,
+    "errors": 0,
+    "exit_code": 0,
+    "failures": 0
+  }
+}
