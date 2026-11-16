@@ -156,7 +156,8 @@ S1 list fix (a) `c03363b3b0` (list timeout 1500 s) rejected by coordinator: orga
 - S1-03 43784240498: batch completed 3 of 5 groups. SUCCESS: stable/unstable_default_cell (≈327 s each), stable_freeze_activation (35 s), stable_default_activation, swap type matrix, inactive pairs, snapshot companion, corruption companion, 3 models N0..3. TIMEOUT 600 s: freeze_copy_u8, freeze_default_noncopy, stable_freeze_u8, unstable_freeze_u8. 6 negatives fail with runtime-formatted placeholder description (oracle must bind by property ID). 2 activation groups NOT_RUN (phase exhausted). S1 cap (3) exhausted — S1-04 only with owner. Intake TASK-CH8-S1-03-INTAKE-W13.
 | ~02:20Z | C-02 | C (item 1) | std `597e54c5cb` (merge pair unwind 17; std fork `experiment/ch8-c-ctl-pprime-c02-20261116`); control `59b5c663e3` (tree `e10c359aba`) → sibling `b97c4d6cf6` on `uninit-ci/ch8-c-ctl-b` | 43790257718 | Last C credit. g0 `905a3550b8`. |
 - C-02 43790257718: N1 write-restore FAILURE exactly `Check that *dst is assignable` (covers 4/4); read-only companion SUCCESS (covers 3/4). C cap exhausted. Intake TASK-CH8-C02-INTAKE-W14.
+| ~02:40Z | E-02 | E (item 1) | control `79baf66106` (tree `c07b5aded5`, parent 0aac) → sibling `4a8f7e7b10` on `uninit-ci/ch8-e-ctl-b` | 43792979809 | E-S namespace fix + primitive H positive/no-write/OFF + MRE row; pins 0aac + SEL1. g0 `39c756108c`. |
 C-01 dispatched (was held for the list fix; now batch, no global list).
 C-01 held (superseded): C controls (std `d073585946` on P′, control `cdd3c6d041`, g0 `425f10fbfd`) use the same global `kani list` that timed out in S1-02 — dispatch after the list fix.
 
-Item 1 used: 13 of 18 (A1 3, B 2, U 3, Profiles 2, E 1, C 2). Item 2 used: 3 of 14 (S1 3). Total 16 of 32.
+Item 1 used: 14 of 18 (A1 3, B 2, U 3, Profiles 2, E 2, C 2). Item 2 used: 3 of 14 (S1 3). Total 17 of 32.
