@@ -1,0 +1,38 @@
+{
+  "artifact_replay": "63 ACCEPTED; 54 positive / 9 negative; 0 historical admissions",
+  "command": "python -m unittest discover -s research/challenge-8/kani-k1/kani3300/ch8-profiles/on-ci/fix/run-43808894294/accept-off -p test_intake.py -q",
+  "files_sha256": {
+    "ACCEPT.json": "976cc9deb9f22eeadef1391702a9bdf1b2ee8b29eb837f2bb3ca4ec07f25bcb3",
+    "intake.py": "e2e1b97d57a7ca393233eaf5e7ff958ef2fa6ec82b6b2c865ada0c5ed51d2d12",
+    "test_intake.py": "9ad78e7b9ebcf35b4c31ce314c37b5e89bf573d3b685d9523033ae7920f77bcd"
+  },
+  "proof_credit": "NONE",
+  "schema": "prof02-off-intake-validation-v1",
+  "status": "PASS",
+  "summary": {
+    "covers": {
+      "satisfied": 190
+    },
+    "negative_statuses": {
+      "ACCEPTED": 9
+    },
+    "pending_rows": {},
+    "positive_statuses": {
+      "ACCEPTED": 54
+    },
+    "rows": 63,
+    "statuses": {
+      "ACCEPTED": 63,
+      "BLOCKED_TOOL": 0,
+      "PENDING": 0,
+      "REJECTED": 0
+    },
+    "unreachable_roles": {
+      "defensive_branch": 1770
+    },
+    "unsupported_statuses": {
+      "SUCCESS": 209
+    }
+  },
+  "tests": 17
+}

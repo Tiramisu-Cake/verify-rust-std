@@ -1,0 +1,25 @@
+{
+  "candidate_sha256": {
+    "ACCEPT.json": "976cc9deb9f22eeadef1391702a9bdf1b2ee8b29eb837f2bb3ca4ec07f25bcb3",
+    "intake.py": "e2e1b97d57a7ca393233eaf5e7ff958ef2fa6ec82b6b2c865ada0c5ed51d2d12"
+  },
+  "checks": [
+    "Fresh source/tool/config/inventory and named negative source bindings retained; no historical admissions reused.",
+    "regions_are_disjoint unchanged source body and line111 to114 relocation guarded.",
+    "rejects_always_true covers exactly mapped to literal/source lines229/220/211.",
+    "New merge4 consumer depends on accepted fresh same-run OFF leaf and exact LtU8/merge4 instance."
+  ],
+  "findings": [],
+  "limitations": [
+    "Consumer tuple equality uses identical group export SHA; sufficient for current group-00 artifact with globally pinned identities, conservative for future cross-group data.",
+    "Reviewer did not replay intake or tests; 17 targeted tests and artifact replay performed by main agent."
+  ],
+  "model": "gpt-6-luna",
+  "nested_delegation": false,
+  "proof_credit": "NONE",
+  "reasoning_effort": "high",
+  "reviewer": "/root/off_intake_review",
+  "schema": "prof02-off-intake-independent-review-v1",
+  "scope": "READ_ONLY_STATIC_CODE_AND_RECEIPT_REVIEW; no reviewer replay/tests",
+  "verdict": "GO"
+}
