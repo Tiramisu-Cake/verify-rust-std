@@ -1,0 +1,73 @@
+{
+  "schema": "ch8-prof-off-fix1-checkpoint-v1",
+  "runtime": "Codex",
+  "state": "READY_STATIC_REVIEWED_NOT_RUN",
+  "g0_input": "9f8808d85535611511a713e8f5fa8a9873fb0dd6",
+  "control_worktree": "/root/kani-ch8-prof-off-w11",
+  "control_branch": "work/ch8-prof-off-fix1-w11",
+  "control_commit": "741b7183b4d6e9d752c0b7951206d7257f69f951",
+  "control_tree": "452b26330b97fc9b9816c28c64240bd667b2d4c0",
+  "control_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "previous_control": "242ca631743080daa98850d9d385a8079fbe581f",
+  "reported_failed_sibling": "56caab863780bed55d42493195c91bc12daa6d2a",
+  "reported_failed_run": "43782419242",
+  "failure_assurance": "OWNER_SUPPLIED; not independently queried in this stage",
+  "source_commit": "9fa2f7f97760584f38738909625c064006d8a936",
+  "authority": {
+    "push": false,
+    "ci": false,
+    "ledger": false,
+    "local_compiler_verifier": false
+  },
+  "push_count": 0,
+  "dispatch_count": 0,
+  "ledger_writes": 0,
+  "local_compiler_verifier_count": 0,
+  "qualification": "NOT_RUN",
+  "proof_credit": "NONE",
+  "claims": [
+    {
+      "claim": "Fixed repo path resolves to checkout control; old workflow is rejected offline.",
+      "assurance": "STATIC_SYNTHETIC_ONLY",
+      "evidence": [
+        "control-delta.patch",
+        "VALIDATION.json",
+        "static-audit.json"
+      ]
+    },
+    {
+      "claim": "62 manifest rows, runner, source/tool pins, oracles, budgets and caps preserved.",
+      "assurance": "BYTE_OR_STRUCTURAL_IDENTITY",
+      "evidence": [
+        "static-audit.json",
+        "audit_static.py"
+      ]
+    }
+  ],
+  "open": [
+    "Actual GitHub CI/compilation/proof qualification NOT_RUN.",
+    "Common checker covers literal explicit --repo commands; implicit-root B/E paths are outside its coverage.",
+    "Historical proof and independent post-CI obligations remain unchanged; no proof credit transfers."
+  ],
+  "blocker": null,
+  "next": "Separate coordinator authorization is required for publication/dispatch; preserve exact reviewed tree and stock parent.",
+  "review": {
+    "state": "GO_STATIC_REVIEW_ONLY",
+    "path": "REVIEW.json",
+    "control": "741b7183b4d6e9d752c0b7951206d7257f69f951",
+    "candidate": "2ed50d63e09619470b53c1702f6ae987f4454b78",
+    "tree": "452b26330b97fc9b9816c28c64240bd667b2d4c0",
+    "baseline": "242ca631743080daa98850d9d385a8079fbe581f",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "sha256": "5a2aa9537c46e206e7ed339d1e5a92658380a0e100b0d99a64351a643d3bc1ff",
+    "spec_sha256": "c3cd72d22416430c5e99e2ed8fee9d28d5b461b24e8a10ebed0592bd9b4e6812",
+    "packet_sha256": "c68bb623b2e5e1c12501d94e6c9896d0966d98ec646e67a3832ebd2f45b87971",
+    "findings": []
+  },
+  "validation": {
+    "path": "VALIDATION.json",
+    "sha256": "b3ab6cab639b7ac962c8f2d85b37327de80968780a67571a22ab9f739b8a333c"
+  },
+  "closure_reason": "Single assigned stage complete: repo path fixed; old-path and shared explicit-root static regressions added; 40 isolated tests pass; request/payload hashes rebound; independent Luna HIGH delta review GO; both patch reconstructions exact. No push/CI/ledger/local compiler-verifier."
+}

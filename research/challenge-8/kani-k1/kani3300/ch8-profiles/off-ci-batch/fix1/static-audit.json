@@ -1,0 +1,41 @@
+{
+  "state": "PASS_STATIC_ONLY",
+  "control": "741b7183b4d6e9d752c0b7951206d7257f69f951",
+  "control_tree": "452b26330b97fc9b9816c28c64240bd667b2d4c0",
+  "control_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "review_candidate": "2ed50d63e09619470b53c1702f6ae987f4454b78",
+  "review_baseline": "242ca631743080daa98850d9d385a8079fbe581f",
+  "review_candidate_same_tree": true,
+  "delta_paths": [
+    ".github/workflows/ch8-prof-off.yml",
+    "ch8-prof-off-control/CI-REQUEST.json",
+    "ch8-prof-off-control/check_package.py",
+    "ch8-prof-off-control/test_workflow_repo.py",
+    "ch8-prof-off-control/workflow_repo.py"
+  ],
+  "frozen_request_except_payload_inventory": "IDENTICAL",
+  "manifest_rows": 62,
+  "manifest_sha256": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273",
+  "control_request_sha256": "469b30e584b2de631def887b3d1809d81cb97c307b08b587c8d21986972616a6",
+  "yaml": {
+    "yaml": "PASS",
+    "runner_context": "STEP_ENV_ONLY",
+    "checkout_depth": "AT_LEAST_2",
+    "layout": [
+      "control",
+      "export",
+      "tool"
+    ],
+    "dispatch": "NOT_RUN",
+    "control_repo_paths": [
+      {
+        "job": "profiles",
+        "working_directory": "control/ch8-prof-off-control",
+        "repo": "..",
+        "resolved_checkout": "control"
+      }
+    ]
+  },
+  "qualification": "NOT_RUN",
+  "proof_credit": "NONE"
+}

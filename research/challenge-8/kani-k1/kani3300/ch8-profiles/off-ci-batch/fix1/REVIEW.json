@@ -1,0 +1,24 @@
+{
+  "reviewed_control": "741b7183b4d6e9d752c0b7951206d7257f69f951",
+  "review_candidate": "2ed50d63e09619470b53c1702f6ae987f4454b78",
+  "reviewed_tree": "452b26330b97fc9b9816c28c64240bd667b2d4c0",
+  "baseline": "242ca631743080daa98850d9d385a8079fbe581f",
+  "spec_sha256": "c3cd72d22416430c5e99e2ed8fee9d28d5b461b24e8a10ebed0592bd9b4e6812",
+  "packet_sha256": "c68bb623b2e5e1c12501d94e6c9896d0966d98ec646e67a3832ebd2f45b87971",
+  "verdict": "GO_STATIC_REVIEW_ONLY",
+  "findings": [],
+  "checks": [
+    "review packet check passed: candidate, spec, and packet identities match",
+    "deliverable is sole-parented by stock tool 0aac16ef62da9e9d5645782d458593e5d78143ba; its tree equals review candidate tree",
+    "reviewed only baseline-to-candidate delta; old ../.. path is rejected and corrected .. resolves to checkout control from effective step cwd",
+    "offline static regression suite passed: 40 Python unittest cases",
+    "standalone check_package.py yaml passed on actual workflow",
+    "CI-REQUEST payload hashes all match; manifest, runner, existing profile/runner/batch tests and kani-version are unchanged from prior control",
+    "workflow rows, runner invocation, source/tool pins, selectors, oracles, caps, and budgets are unchanged"
+  ],
+  "limitations": [
+    "No CI, compiler, Kani, CBMC, cargo, rustc, ledger, or push was run.",
+    "Review covers this static Profiles OFF explicit --repo delta only; B/E implicit-root workflows remain outside the checker claim."
+  ],
+  "proof_credit": "NONE"
+}

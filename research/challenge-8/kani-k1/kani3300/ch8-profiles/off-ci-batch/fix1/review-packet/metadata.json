@@ -1,0 +1,107 @@
+{
+  "baseline_commit": "242ca631743080daa98850d9d385a8079fbe581f",
+  "candidate_commit": "2ed50d63e09619470b53c1702f6ae987f4454b78",
+  "candidate_tree": "452b26330b97fc9b9816c28c64240bd667b2d4c0",
+  "changed_files": [
+    {
+      "baseline": {
+        "blob": "11663e58f47f6a309a0c97c99e8d5ab036acc972",
+        "mode": "100644",
+        "sha256": "e3fb5398a9205f6b3325735512317e24839130aeb2fe615602b05ceb384747b8"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "f7000965c51e75c2656b21b6e19b2adaa174fc36",
+        "mode": "100644",
+        "sha256": "6f703f74895ced91e0f8099b6087cf2754b8994856a821e3d07f30d07c504be2"
+      },
+      "path": ".github/workflows/ch8-prof-off.yml",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "79525db3b3982d05a82aa7e34262108c77702555",
+        "mode": "100644",
+        "sha256": "ec9d82e174dec8ae9302d45751b90482105648075ea4f689211c555a51a7dd00"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "94a889894dee4ee7f1289c269a9b53240a4e7784",
+        "mode": "100644",
+        "sha256": "469b30e584b2de631def887b3d1809d81cb97c307b08b587c8d21986972616a6"
+      },
+      "path": "ch8-prof-off-control/CI-REQUEST.json",
+      "status": "modified"
+    },
+    {
+      "baseline": {
+        "blob": "de1f985795a22282a726b363841161528a0e2690",
+        "mode": "100644",
+        "sha256": "774fc5a8a1885f7f945bbcdbe818ee785da036bea141be0162b8f7dc802d5d24"
+      },
+      "binary": false,
+      "candidate": {
+        "blob": "e423d688202ba8df6dbe645a2d5fedd34bfe9cfa",
+        "mode": "100644",
+        "sha256": "74791e8982bbbbf024d858b3a3058521af1f8648faeb65895f8c9b3a6c876cd8"
+      },
+      "path": "ch8-prof-off-control/check_package.py",
+      "status": "modified"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "ff6dc02c9907fb7338b7e7fbb4588e60e660f04b",
+        "mode": "100644",
+        "sha256": "ba6eb483e038c013a328c107ae0d54ac209e3cfe00c99df415416e077b8f4c78"
+      },
+      "path": "ch8-prof-off-control/test_workflow_repo.py",
+      "status": "added"
+    },
+    {
+      "baseline": null,
+      "binary": false,
+      "candidate": {
+        "blob": "0af83968f210ffb706f8c2006c79712dec7eec01",
+        "mode": "100644",
+        "sha256": "e38ce725569e5f4ec66ff2d45a786099fc5f338e16e57f33369fb4f85d4bdb66"
+      },
+      "path": "ch8-prof-off-control/workflow_repo.py",
+      "status": "added"
+    }
+  ],
+  "dependencies": [
+    {
+      "blob": "d37e81f4d2b27c21845288b1a93e7305a9c90cfc",
+      "member": "dependencies/0000.bin",
+      "mode": "100644",
+      "path": "ch8-prof-off-control/manifest.json",
+      "sha256": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273",
+      "size": 62835
+    },
+    {
+      "blob": "36aae723871b6e9b490fbb25b76e36287b16a858",
+      "member": "dependencies/0001.bin",
+      "mode": "100644",
+      "path": "ch8-prof-off-control/runner.py",
+      "sha256": "e866a565788f1f41e4cfb26e9880a44a9cd09713d82b323de3508032bca066be",
+      "size": 51936
+    },
+    {
+      "blob": "24755064c5c6cf2a2e975d8e850b041ef6a2d972",
+      "member": "dependencies/0002.bin",
+      "mode": "100644",
+      "path": "ch8-prof-off-control/test_profiles.py",
+      "sha256": "9726fad1363cdb75628d4560426271125b2dd5e3928ca525571b1e079633a972",
+      "size": 12520
+    }
+  ],
+  "diff_sha256": "3c01c89b2408471b182c764d4c54864b149258b339543f09126030fad8a72587",
+  "prior_reviews": [],
+  "proof_credit": "NONE",
+  "review_state": "NOT_REVIEWED",
+  "schema": "smallsort-review-packet-v1",
+  "spec_sha256": "c3cd72d22416430c5e99e2ed8fee9d28d5b461b24e8a10ebed0592bd9b4e6812",
+  "worktree": "/root/kani-ch8-prof-off-w11"
+}

@@ -1,0 +1,264 @@
+diff --git a/.github/workflows/ch8-prof-off.yml b/.github/workflows/ch8-prof-off.yml
+index 11663e58f47f6a309a0c97c99e8d5ab036acc972..f7000965c51e75c2656b21b6e19b2adaa174fc36 100644
+--- a/.github/workflows/ch8-prof-off.yml
++++ b/.github/workflows/ch8-prof-off.yml
+@@ -36,8 +36,8 @@ jobs:
+         env:
+           PYTHONDONTWRITEBYTECODE: "1"
+         run: |
+-          python3 check_package.py control --repo ../..
+-          python3 -m unittest -v test_runner.py test_profiles.py test_batch.py
++          python3 check_package.py control --repo ..
++          python3 -m unittest -v test_runner.py test_profiles.py test_batch.py test_workflow_repo.py
+       - name: Read immutable export pins
+         timeout-minutes: 1
+         id: pins
+diff --git a/ch8-prof-off-control/CI-REQUEST.json b/ch8-prof-off-control/CI-REQUEST.json
+index 79525db3b3982d05a82aa7e34262108c77702555..94a889894dee4ee7f1289c269a9b53240a4e7784 100644
+--- a/ch8-prof-off-control/CI-REQUEST.json
++++ b/ch8-prof-off-control/CI-REQUEST.json
+@@ -1378,14 +1378,16 @@
+   "source_review_sha256": "9110e4045201a036c9e155cc96a2779b2f64bd9497690497cae28a830c0afe27",
+   "manifest_sha256": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273",
+   "ci_payload_sha256": {
+-    ".github/workflows/ch8-prof-off.yml": "e3fb5398a9205f6b3325735512317e24839130aeb2fe615602b05ceb384747b8",
+-    "ch8-prof-off-control/check_package.py": "774fc5a8a1885f7f945bbcdbe818ee785da036bea141be0162b8f7dc802d5d24",
++    ".github/workflows/ch8-prof-off.yml": "6f703f74895ced91e0f8099b6087cf2754b8994856a821e3d07f30d07c504be2",
++    "ch8-prof-off-control/check_package.py": "74791e8982bbbbf024d858b3a3058521af1f8648faeb65895f8c9b3a6c876cd8",
+     "ch8-prof-off-control/kani-version.toml": "57d2640bfcac7029ceaf91bfc9e061f57f34fa9944e5929155a4fae528a8c0be",
+     "ch8-prof-off-control/manifest.json": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273",
+     "ch8-prof-off-control/runner.py": "e866a565788f1f41e4cfb26e9880a44a9cd09713d82b323de3508032bca066be",
+     "ch8-prof-off-control/test_profiles.py": "9726fad1363cdb75628d4560426271125b2dd5e3928ca525571b1e079633a972",
+     "ch8-prof-off-control/test_runner.py": "ff0cbfc4c1c5bb8ea569bece890d0bf9368d95c8c0fa55bf03d9624f2eac929d",
+-    "ch8-prof-off-control/test_batch.py": "4f1a1f735474bf3f554fac87f23ec3c9fa1ae292438bf76292b9ca0ba015907c"
++    "ch8-prof-off-control/test_batch.py": "4f1a1f735474bf3f554fac87f23ec3c9fa1ae292438bf76292b9ca0ba015907c",
++    "ch8-prof-off-control/workflow_repo.py": "e38ce725569e5f4ec66ff2d45a786099fc5f338e16e57f33369fb4f85d4bdb66",
++    "ch8-prof-off-control/test_workflow_repo.py": "ba6eb483e038c013a328c107ae0d54ac209e3cfe00c99df415416e077b8f4c78"
+   },
+   "ci_changed_paths": [
+     ".github/workflows/bench-compiler.yml",
+@@ -1412,7 +1414,9 @@
+     "ch8-prof-off-control/runner.py",
+     "ch8-prof-off-control/test_batch.py",
+     "ch8-prof-off-control/test_profiles.py",
+-    "ch8-prof-off-control/test_runner.py"
++    "ch8-prof-off-control/test_runner.py",
++    "ch8-prof-off-control/test_workflow_repo.py",
++    "ch8-prof-off-control/workflow_repo.py"
+   ],
+   "batching": {
+     "mode": "VERIFY_STD_MULTI_HARNESS_NO_GLOBAL_LIST",
+diff --git a/ch8-prof-off-control/check_package.py b/ch8-prof-off-control/check_package.py
+index de1f985795a22282a726b363841161528a0e2690..e423d688202ba8df6dbe645a2d5fedd34bfe9cfa 100644
+--- a/ch8-prof-off-control/check_package.py
++++ b/ch8-prof-off-control/check_package.py
+@@ -20,7 +20,9 @@ def git(repo, *args):
+ 
+ def check_yaml(path):
+     import yaml
++    from workflow_repo import check_control_repo_paths
+     doc = yaml.load(path.read_text(), Loader=yaml.BaseLoader)
++    repo_paths = check_control_repo_paths(doc)
+     assert set(doc['on']) == {'push'}
+     assert doc['on']['push']['branches'] == ['uninit-ci/ch8-prof-off-*']
+     assert doc['permissions'] == {'contents': 'read'}
+@@ -50,16 +52,19 @@ def check_yaml(path):
+     assert 'runner.py list ' not in batch_step
+     assert batch_step.count('runner.py run ') == 1
+     assert 'test_batch.py' in next(s['run'] for s in steps if s.get('name') == 'Validate control and synthetic wrapper')
++    assert 'test_workflow_repo.py' in next(s['run'] for s in steps if s.get('name') == 'Validate control and synthetic wrapper')
+     assert sum(int(s['timeout-minutes']) for s in steps[-2:])==10
+     assert steps[-1]['with']['retention-days']=='7'
+     assert "github.run_attempt == 1" in job['if']
+     assert next(s for s in checkouts if s['with']['path']=='export')['with']['repository']=='Tiramisu-Cake/verify-rust-std'
+     assert next(s for s in checkouts if s['with']['path']=='tool')['with']['repository']=='model-checking/kani'
+     return {'yaml':'PASS' ,'runner_context':'STEP_ENV_ONLY','checkout_depth':'AT_LEAST_2',
+-            'layout':['control','export','tool'],'dispatch':'NOT_RUN'}
++            'layout':['control','export','tool'],'dispatch':'NOT_RUN', 'control_repo_paths':repo_paths}
+ 
+ 
+ def control(repo):
++    # Run before git identity checks; also usable offline through the yaml command.
++    check_yaml(repo/'.github/workflows/ch8-prof-off.yml')
+     r=json.loads((HERE/'CI-REQUEST.json').read_text())
+     assert r['status']=='READY'
+     assert os.environ['GITHUB_REPOSITORY']=='Tiramisu-Cake/kani'
+diff --git a/ch8-prof-off-control/test_workflow_repo.py b/ch8-prof-off-control/test_workflow_repo.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..ff6dc02c9907fb7338b7e7fbb4588e60e660f04b
+--- /dev/null
++++ b/ch8-prof-off-control/test_workflow_repo.py
+@@ -0,0 +1,90 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Offline checkout-path regressions; never execute workflow commands."""
++import copy
++from pathlib import Path
++import tempfile
++import unittest
++
++import yaml
++
++import check_package
++from workflow_repo import check_control_repo_paths
++
++
++class WorkflowRepoTests(unittest.TestCase):
++    def setUp(self):
++        self.path = Path(__file__).resolve().parent.parent/'.github/workflows/ch8-prof-off.yml'
++        self.doc = yaml.load(self.path.read_text(), Loader=yaml.BaseLoader)
++        self.steps = self.doc['jobs']['profiles']['steps']
++        self.step = next(s for s in self.steps if s.get('name') == 'Validate control and synthetic wrapper')
++
++    def test_actual_workflow_and_old_failure(self):
++        self.assertEqual(check_package.check_yaml(self.path)['control_repo_paths'][0]['repo'], '..')
++        self.step['run'] = self.step['run'].replace('--repo ..', '--repo ../..')
++        with self.assertRaisesRegex(AssertionError, '--repo resolves'):
++            check_control_repo_paths(self.doc)
++        with tempfile.TemporaryDirectory() as d:
++            path = Path(d)/'old.yml'
++            path.write_text(yaml.dump(self.doc))
++            with self.assertRaisesRegex(AssertionError, '--repo resolves'):
++                check_package.check_yaml(path)
++
++    def test_different_control_names_and_depths(self):
++        for directory in ('ch8-s1-control', 'scripts/ch8-b-control', 'ch8-c-control', 'ch8-e-control'):
++            with self.subTest(directory=directory):
++                self.step['working-directory'] = 'control/'+directory
++                self.step['run'] = 'python3 check_package.py control --repo '+('/'.join(['..']*(directory.count('/')+1)))
++                self.assertEqual(check_control_repo_paths(self.doc)[0]['resolved_checkout'], 'control')
++
++    def test_workflow_job_and_step_working_directory_precedence(self):
++        cwd = self.step.pop('working-directory')
++        self.doc['defaults'] = {'run': {'working-directory': cwd}}
++        self.assertEqual(check_control_repo_paths(self.doc)[0]['working_directory'], cwd)
++        self.doc['jobs']['profiles']['defaults'] = {'run': {'working-directory': 'wrong'}}
++        with self.assertRaises(AssertionError):
++            check_control_repo_paths(self.doc)
++        self.step['working-directory'] = cwd
++        check_control_repo_paths(self.doc)
++
++    def test_repo_equals_and_line_continuation(self):
++        self.step['run'] = 'python3 check_package.py control ' + '\\' + '\n --repo=..'
++        self.assertEqual(check_control_repo_paths(self.doc)[0]['repo'], '..')
++
++    def test_wrong_or_unresolved_paths_rejected(self):
++        for repo in ('.', '../..', '../../tool', '/control', '$ROOT', '${{ github.workspace }}', 'null'):
++            with self.subTest(repo=repo):
++                self.step['run'] = 'python3 check_package.py control --repo '+repo
++                with self.assertRaises((AssertionError, SystemExit)):
++                    check_control_repo_paths(self.doc)
++
++    def test_missing_null_wrong_type_and_not_run_command(self):
++        for command in ('', 'python3 check_package.py control', 'python3 check_package.py control --repo',
++                        'python3 check_package.py control --repo .. --repo ../..', None, [],
++                        'echo NOT_RUN # check_package.py control --repo ..'):
++            with self.subTest(command=command):
++                self.step['run'] = command
++                with self.assertRaises((AssertionError, SystemExit)):
++                    check_control_repo_paths(self.doc)
++
++    def test_missing_wrong_late_or_duplicate_checkout(self):
++        for mutation in ('missing', 'wrong', 'late', 'duplicate'):
++            self.setUp()
++            checkout = next(s for s in self.steps if s.get('uses', '').startswith('actions/checkout@'))
++            if mutation == 'missing': self.steps.remove(checkout)
++            if mutation == 'wrong': checkout['with']['path'] = 'tool'
++            if mutation == 'late': self.steps.remove(checkout); self.steps.append(checkout)
++            if mutation == 'duplicate': self.steps.insert(1, copy.deepcopy(checkout))
++            with self.subTest(mutation=mutation), self.assertRaises(AssertionError):
++                check_control_repo_paths(self.doc)
++
++    def test_every_explicit_control_step_is_checked(self):
++        extra = copy.deepcopy(self.step)
++        extra['run'] = extra['run'].replace('--repo ..', '--repo ../..')
++        self.steps.append(extra)
++        with self.assertRaises(AssertionError):
++            check_control_repo_paths(self.doc)
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/ch8-prof-off-control/workflow_repo.py b/ch8-prof-off-control/workflow_repo.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..0af83968f210ffb706f8c2006c79712dec7eec01
+--- /dev/null
++++ b/ch8-prof-off-control/workflow_repo.py
+@@ -0,0 +1,77 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Static check shared by control workflows with an explicit --repo argument.
++
++Only literal relative paths and direct Python control commands are supported.
++No shell, checkout, compiler or verifier is executed. Implicit repository roots
++(as used by other control packages) require their own package-specific check.
++"""
++import argparse
++import json
++import posixpath
++import re
++import shlex
++from pathlib import Path
++
++
++def literal_path(value):
++    assert isinstance(value, str) and re.fullmatch(r'[A-Za-z0-9_./-]+', value), 'literal relative path required'
++    assert not value.startswith('/'), 'workspace-relative path required'
++    return value
++
++
++def check_control_repo_paths(doc):
++    """Resolve every explicit check_package.py control --repo to path: control.
++
++    GitHub run defaults apply at workflow, job, then step level. Resolution uses
++    a synthetic workspace, so it is independent of the local checkout layout.
++    Return no implicit-root claims; a workflow without explicit checks fails.
++    """
++    workspace = '/__ch8_workspace__'
++    checked = []
++    for job_id, job in doc['jobs'].items():
++        steps = job['steps']
++        for step_index, step in enumerate(steps):
++            command = step.get('run', '')
++            assert isinstance(command, str), 'run must be a string'
++            for line in command.replace('\\\n', ' ').splitlines():
++                # Avoid parsing unrelated shell/heredoc contents.
++                if not re.search(r'check_package\.py\s+control(?:\s|$)', line):
++                    continue
++                argv = shlex.split(line, comments=True)
++                if not argv:
++                    continue
++                assert (len(argv) >= 3 and argv[0] in ('python', 'python3')
++                        and posixpath.basename(argv[1]) == 'check_package.py'
++                        and argv[2] == 'control'), 'direct Python control command required'
++                # Packages with no --repo use an internal root: do not infer it.
++                if len(argv) == 3:
++                    continue
++                tail = argv[3:]
++                assert ((len(tail) == 2 and tail[0] == '--repo')
++                        or (len(tail) == 1 and tail[0].startswith('--repo='))), 'one --repo argument required'
++                repo_arg = literal_path(tail[1] if len(tail) == 2 else tail[0].split('=', 1)[1])
++                checkout = [s for s in steps[:step_index]
++                            if s.get('uses', '').startswith('actions/checkout@')
++                            and s.get('with', {}).get('path') == 'control']
++                assert len(checkout) == 1, 'one preceding checkout path: control required'
++                defaults = doc.get('defaults', {}).get('run', {})
++                defaults = dict(defaults, **job.get('defaults', {}).get('run', {}))
++                cwd = literal_path(step.get('working-directory', defaults.get('working-directory', '.')))
++                resolved = posixpath.normpath(posixpath.join(workspace, cwd, repo_arg))
++                expected = posixpath.join(workspace, 'control')
++                assert resolved == expected, f'{job_id}: --repo resolves to {resolved}, expected {expected}'
++                checked.append({'job': job_id, 'working_directory': cwd, 'repo': repo_arg,
++                                'resolved_checkout': 'control'})
++    assert checked, 'no explicit control --repo validation found'
++    return checked
++
++
++if __name__ == '__main__':
++    import yaml
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('workflows', type=Path, nargs='+')
++    args = parser.parse_args()
++    for path in args.workflows:
++        doc = yaml.load(path.read_text(), Loader=yaml.BaseLoader)
++        print(json.dumps({'workflow': str(path), 'checks': check_control_repo_paths(doc)}, sort_keys=True))

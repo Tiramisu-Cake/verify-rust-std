@@ -1,0 +1,31 @@
+{
+  "applicability": "Review only delta from prior control 242ca631743080daa98850d9d385a8079fbe581f. Packet requires ancestor baseline, so review-only commit 2ed50d63e09619470b53c1702f6ae987f4454b78 has prior control as parent. Actual deliverable 741b7183b4d6e9d752c0b7951206d7257f69f951 has exact same tree 452b26330b97fc9b9816c28c64240bd667b2d4c0 and sole stock0aac parent. Verify tree equality and exact delta; no full stock diff review.",
+  "baseline_commit": "242ca631743080daa98850d9d385a8079fbe581f",
+  "candidate_commit": "2ed50d63e09619470b53c1702f6ae987f4454b78",
+  "controls": [
+    "Fixed actual workflow passes; old ../.. must fail standalone path check and check_package.check_yaml.",
+    "Synthetic nested paths for S1/B/C/E-shaped packages; cwd default precedence; --repo= and line continuation.",
+    "Missing/null/wrong-type/NOT_RUN/duplicate args, wrong paths/checkouts/late checkout and second bad validation step fail.",
+    "All existing Python synthetic runner/profile/batch tests continue to pass."
+  ],
+  "defect": "Profiles OFF workflow resolved --repo ../.. from control/ch8-prof-off-control to workspace root; validate failed before proof. Fix to .. and add static path regression.",
+  "dependencies": [
+    "ch8-prof-off-control/manifest.json",
+    "ch8-prof-off-control/runner.py",
+    "ch8-prof-off-control/test_profiles.py"
+  ],
+  "invariants": [
+    "No push, CI, ledger, local cargo/rustc/Kani/CBMC or nested delegation.",
+    "Source/tool pins, 62 manifest rows, selectors, oracles, resource caps, budgets and runner.py unchanged.",
+    "Offline static check resolves literal --repo relative to effective workflow/job/step working-directory and requires one preceding checkout path: control. Missing/ambiguous/unresolved explicit paths cannot pass.",
+    "Common checker supports explicit check_package.py control --repo workflows; B/E implicit roots are not claimed covered.",
+    "Preserve historical packages/reviews. Static preparation only; qualification NOT_RUN and proof_credit NONE."
+  ],
+  "known_limitations": [
+    "No compiler/verifier/CI execution or proof credit.",
+    "Static checker accepts direct Python commands with literal relative --repo paths; implicit roots, shell cd or dynamic expressions are not resolved."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-prof-off-w11"
+}

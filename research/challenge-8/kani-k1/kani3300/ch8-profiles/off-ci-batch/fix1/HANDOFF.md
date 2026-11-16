@@ -1,0 +1,15 @@
+# Profiles OFF — validate repo fix1
+
+`ch8-prof-off.yml` now passes `--repo ..` from `control/ch8-prof-off-control`, resolving to checkout `control`. The supplied task reports run43782419242 / dispatch sibling56caab8637 failing at this path before proof. That report is retained as owner-supplied context; this stage makes no CI/evidence query.
+
+Control: `741b7183b4d6e9d752c0b7951206d7257f69f951`; tree: `452b26330b97fc9b9816c28c64240bd667b2d4c0`; sole parent remains stock tool `0aac16ef62da9e9d5645782d458593e5d78143ba`. Local branch: `work/ch8-prof-off-fix1-w11`, worktree `/root/kani-ch8-prof-off-w11`. The prior control and all historical g0 packages remain unchanged.
+
+`workflow_repo.py` checks explicit `check_package.py control --repo` commands against the preceding `actions/checkout` with `path: control`, using workflow/job/step working-directory precedence. It requires direct Python commands and literal relative paths. It is called by `check_package.py yaml` for offline pre-dispatch checking and by `control` before Git identity checks. The workflow also runs its regression suite. The actual old `../..` fails both common and package YAML checks; the corrected workflow passes. S1 and C workflows pass the reusable CLI without modification. Synthetic fixtures include deeper B-shaped and E-shaped layouts. Existing B census and E use internal repository roots without explicit `--repo`; their root selection is outside this common check's coverage.
+
+40 isolated Python tests pass (32 existing + 8 new). Static audit confirms the exact five-file delta, rehashed CI payload inventory, unchanged runner/source/tool/62-row manifest/oracles/caps/budgets, and clean stock-parent control. A synthetic local GitHub attempt1 environment passes the actual `check_package.py control --repo ..` command. No compiler or verifier runs.
+
+Review is limited to the delta from control242ca63174. The packet tool requires its baseline to be an ancestor: review-only commit `2ed50d63e09619470b53c1702f6ae987f4454b78` therefore has242ca63174 as parent, with the exact same tree as the deliverable stock-parent control. The packet diff is byte-identical to `control-delta.patch`; tree equivalence is checked in `audit_static.py`. `REVIEW.json` supplies the independent Luna HIGH verdict and exact binding. This review does not re-review the historical batch implementation or grant CI/proof credit.
+
+`control-delta.patch` reconstructs the deliverable tree from242ca63174; `ci-only.patch` reconstructs it from stock0aac. Both were checked with temporary Git indexes. `CI-REQUEST.json` binds payload, patches, validation and review; `MANIFEST.sha256` covers every handoff file except itself. `manifest.json` remains byte-identical, with its original SHA.
+
+No push, CI, ledger writes or local cargo/rustc/Kani/CBMC. Qualification NOT_RUN; proof credit NONE. A future coordinator needs separate publication/dispatch authority and must preserve the reviewed tree, sole stock parent, existing pins and attempt controls.

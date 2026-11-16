@@ -1,0 +1,66 @@
+{
+  "schema": "ch8-prof-off-fix1-validation-v1",
+  "state": "PASS_STATIC_SYNTHETIC_ONLY",
+  "control": "741b7183b4d6e9d752c0b7951206d7257f69f951",
+  "synthetic": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s ch8-prof-off-control -p 'test_*.py' -v",
+    "total": 40,
+    "existing": 32,
+    "new": 8,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 4.692
+  },
+  "repo_regression": {
+    "fixed_path": "..",
+    "fixed": "PASS",
+    "old_path": "../..",
+    "old": "REJECTED_BY_COMMON_CHECK_AND_PACKAGE_YAML_CHECK"
+  },
+  "control_preflight": {
+    "command": "check_package.py control --repo ..",
+    "cwd": "/root/kani-ch8-prof-off-w11/ch8-prof-off-control",
+    "github_environment": "SYNTHETIC_LOCAL_ATTEMPT1",
+    "state": "PASS",
+    "original_exit_code": 0
+  },
+  "common_checker": {
+    "real_workflows": [
+      {
+        "path": "/root/kani-ch8-s1k-w13/.github/workflows/ch8-s1.yml",
+        "sha256": "f3a4dedeb2bcbb13a77a7af4a778072687d38ad3bc12afdf8feeb55d42111257",
+        "state": "PASS"
+      },
+      {
+        "path": "/root/kani-ch8-c-ctl-w14/.github/workflows/ch8-c.yml",
+        "sha256": "84b468016771483b67094f71dc466866d68ff0c61ab9772722d3e69bc768a5dd",
+        "state": "PASS"
+      }
+    ],
+    "synthetic_layouts": [
+      "ch8-s1-control",
+      "scripts/ch8-b-control",
+      "ch8-c-control",
+      "ch8-e-control"
+    ],
+    "coverage": "Explicit --repo with literal relative paths and direct Python commands. Real B census and E control use internal repository roots, so no shared-check coverage claim for those implicit-root paths."
+  },
+  "patch_reconstruction": {
+    "control-delta.patch": {
+      "base": "242ca631743080daa98850d9d385a8079fbe581f",
+      "tree": "452b26330b97fc9b9816c28c64240bd667b2d4c0",
+      "state": "PASS"
+    },
+    "ci-only.patch": {
+      "base": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "452b26330b97fc9b9816c28c64240bd667b2d4c0",
+      "state": "PASS"
+    }
+  },
+  "pushes": 0,
+  "dispatches": 0,
+  "ledger_writes": 0,
+  "local_compiler_verifier_runs": 0,
+  "qualification": "NOT_RUN",
+  "proof_credit": "NONE"
+}

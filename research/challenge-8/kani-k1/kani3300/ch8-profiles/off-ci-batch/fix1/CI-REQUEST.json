@@ -1,0 +1,117 @@
+{
+  "schema": "ch8-prof-off-ci-fix1-handoff-v1",
+  "state": "READY_STATIC_REVIEWED_NOT_RUN",
+  "g0_input": "9f8808d85535611511a713e8f5fa8a9873fb0dd6",
+  "previous_control": "242ca631743080daa98850d9d385a8079fbe581f",
+  "control_worktree": "/root/kani-ch8-prof-off-w11",
+  "control_branch": "work/ch8-prof-off-fix1-w11",
+  "control_sha": "741b7183b4d6e9d752c0b7951206d7257f69f951",
+  "control_tree": "452b26330b97fc9b9816c28c64240bd667b2d4c0",
+  "control_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "source_repository": "Tiramisu-Cake/verify-rust-std",
+  "source_sha": "9fa2f7f97760584f38738909625c064006d8a936",
+  "source_tree": "2faa473adeb0172e0f5a5e75fa2d759b20902e6d",
+  "tool_repository": "model-checking/kani",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+  "host_repository": "Tiramisu-Cake/kani",
+  "manifest_rows": 62,
+  "manifest_sha256": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273",
+  "ci_payload_sha256": {
+    ".github/workflows/ch8-prof-off.yml": "6f703f74895ced91e0f8099b6087cf2754b8994856a821e3d07f30d07c504be2",
+    "ch8-prof-off-control/check_package.py": "74791e8982bbbbf024d858b3a3058521af1f8648faeb65895f8c9b3a6c876cd8",
+    "ch8-prof-off-control/kani-version.toml": "57d2640bfcac7029ceaf91bfc9e061f57f34fa9944e5929155a4fae528a8c0be",
+    "ch8-prof-off-control/manifest.json": "c10f4e49ec65143534bebafec35d59fb7bc1db39f08bfac3d298101b216e1273",
+    "ch8-prof-off-control/runner.py": "e866a565788f1f41e4cfb26e9880a44a9cd09713d82b323de3508032bca066be",
+    "ch8-prof-off-control/test_profiles.py": "9726fad1363cdb75628d4560426271125b2dd5e3928ca525571b1e079633a972",
+    "ch8-prof-off-control/test_runner.py": "ff0cbfc4c1c5bb8ea569bece890d0bf9368d95c8c0fa55bf03d9624f2eac929d",
+    "ch8-prof-off-control/test_batch.py": "4f1a1f735474bf3f554fac87f23ec3c9fa1ae292438bf76292b9ca0ba015907c",
+    "ch8-prof-off-control/workflow_repo.py": "e38ce725569e5f4ec66ff2d45a786099fc5f338e16e57f33369fb4f85d4bdb66",
+    "ch8-prof-off-control/test_workflow_repo.py": "ba6eb483e038c013a328c107ae0d54ac209e3cfe00c99df415416e077b8f4c78"
+  },
+  "control_request_sha256": "469b30e584b2de631def887b3d1809d81cb97c307b08b587c8d21986972616a6",
+  "caps": {
+    "runner": "ubuntu-24.04",
+    "jobs": 1,
+    "max_parallel": 1,
+    "concurrent_runs": 1,
+    "workflow_minutes": 180,
+    "setup_seconds": 1800,
+    "row_seconds": 600,
+    "proof_phase_seconds": 8400,
+    "closeout_seconds": 600,
+    "rss_kib": 6291456,
+    "rss_gib": 6,
+    "stdout_bytes_per_row": 1048576,
+    "stderr_bytes_per_row": 1048576,
+    "export_bytes_per_row": 8388608,
+    "artifact_bytes": 268435456,
+    "planned_row_seconds": 3720,
+    "cost_assurance": "UNMEASURED_ESTIMATE; hard caps do not promise completion"
+  },
+  "budgets": {
+    "phase_seconds": 8400,
+    "rss_kib": 6291456,
+    "stdout_bytes": 1048576,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456,
+    "row_seconds": 600
+  },
+  "batching": {
+    "mode": "VERIFY_STD_MULTI_HARNESS_NO_GLOBAL_LIST",
+    "compile_seconds_per_group": 900,
+    "groups": [
+      {
+        "cfg": [],
+        "rows": 53
+      },
+      {
+        "cfg": [
+          "kani_smallsort_controls"
+        ],
+        "rows": 9
+      }
+    ],
+    "group_wall": "min(sum(row timeout budgets) + compile, remaining phase minus cleanup margin)",
+    "group_rss": "min(12 GiB, available minus 2 GiB); sampled CBMC cap 6 GiB; exact per-row RSS UNKNOWN",
+    "consumer_gate": "POST_BATCH_IN_MANIFEST_ORDER",
+    "stdout_stderr_attribution": "latest stdout harness marker; stderr exact per-row UNKNOWN"
+  },
+  "authority": {
+    "push": false,
+    "ci": false,
+    "ledger": false,
+    "local_compiler_verifier": false
+  },
+  "dispatches": 0,
+  "proof_credit": "NONE",
+  "qualification": "NOT_RUN",
+  "patches": {
+    "control-delta.patch": "3c01c89b2408471b182c764d4c54864b149258b339543f09126030fad8a72587",
+    "ci-only.patch": "aae546f8872cf8e24c780cd16deb552bfd13ee0a21f2aca5f5806af528ee2ac7"
+  },
+  "review": {
+    "state": "GO_STATIC_REVIEW_ONLY",
+    "path": "REVIEW.json",
+    "control": "741b7183b4d6e9d752c0b7951206d7257f69f951",
+    "candidate": "2ed50d63e09619470b53c1702f6ae987f4454b78",
+    "tree": "452b26330b97fc9b9816c28c64240bd667b2d4c0",
+    "baseline": "242ca631743080daa98850d9d385a8079fbe581f",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "sha256": "5a2aa9537c46e206e7ed339d1e5a92658380a0e100b0d99a64351a643d3bc1ff",
+    "spec_sha256": "c3cd72d22416430c5e99e2ed8fee9d28d5b461b24e8a10ebed0592bd9b4e6812",
+    "packet_sha256": "c68bb623b2e5e1c12501d94e6c9896d0966d98ec646e67a3832ebd2f45b87971",
+    "findings": []
+  },
+  "validation": {
+    "path": "VALIDATION.json",
+    "sha256": "b3ab6cab639b7ac962c8f2d85b37327de80968780a67571a22ab9f739b8a333c"
+  },
+  "static_audit": {
+    "path": "static-audit.json",
+    "sha256": "8831b1a7eb802861828e443ab817f754bd506bf3f33adb7c0397cd0c54e1fb87"
+  },
+  "history": "Prior packages unchanged; reported failing run43782419242/sibling56caab8637 is owner-supplied context. Historical source-review hashes in control request retain their original meaning."
+}
