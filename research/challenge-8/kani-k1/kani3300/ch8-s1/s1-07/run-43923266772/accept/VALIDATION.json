@@ -1,0 +1,49 @@
+{
+  "artifacts_sha256": {
+    "ACCEPT.json": "d9e7d7a7c7a19a2a00de494538bc385490a5e557f86e9f6c5a2bf959b74fe816",
+    "ACCEPTANCE.md": "b30b24e5739c51b4a2909cd1529004e469304ca92e2aa64a9e66506d66c5c469",
+    "INPUTS.json": "75282e3da02aaf7aa7f985a5a88b2a81a669ba033c3ef849445fad45510ed2b5",
+    "POLICY-OPTIONS.md": "b45935409b13e09530b1626381c5d70a0e23203f57196967deda28b9d37d9c80",
+    "native.py": "14aede28fef0308a7b48ed24d67273ba5431993d9eda5d31f7d5e5fe850ac291",
+    "pfc.py": "0a5a10d4d26a730f99ad9b99ef77af4ae216ce77d5e90793f7c339c08c033827",
+    "replay.py": "4699495fb618d81a40c435250e9acc7876931b8f0bc1c84db48863f7db5d0e85",
+    "semantic.py": "c686a9824967e3d6ff9036ef3627dcfc071906a58fb7e36f762dfebcbcfebf8a",
+    "test_replay.py": "50da0c57941c3304116c5a12b4cc38da276de7cc13b5466fd2da2bf3d53775c9"
+  },
+  "assurance": {
+    "compact_payload_and_saved_projection_hashes": "RECOMPUTED",
+    "compilation_instance_binding": "NOT_EXPORTED",
+    "native_exact_harness_records": 35,
+    "native_manual_target_definition_links": 22,
+    "native_metadata_files_verified": 322,
+    "original_ZIP_digest": "HISTORICAL_DOWNLOAD_ATTESTATION_ONLY_NOT_RECOMPUTED",
+    "pending_rows": 34,
+    "policy_options": "PROPOSALS_ONLY_NOT_APPLIED",
+    "proof_credit": "NONE",
+    "qualified_rows": 1
+  },
+  "checks": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept/replay.py",
+      "exit_code": 0,
+      "result": "recomputed receipt exactly matches ACCEPT.json; all input/projection/native hashes and inventory checked"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python -m unittest discover -s /root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s1/s1-07/run-43923266772/accept -p test_replay.py",
+      "exit_code": 0,
+      "result": "PASS",
+      "tests": 28
+    }
+  ],
+  "entry_g0": "036c5c1a95",
+  "execution": {
+    "cargo_rustc_kani_cbmc": "NOT_RUN",
+    "compact_archives_unpacked": false,
+    "historical_receipts_changed": false,
+    "offline": true,
+    "push_ci_publication_ledger_changes": false,
+    "raw_logs_read": false
+  },
+  "run": 43923266772,
+  "schema": "s1-07-offline-acceptance-validation-v1"
+}
