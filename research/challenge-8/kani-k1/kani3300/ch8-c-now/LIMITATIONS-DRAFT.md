@@ -67,6 +67,45 @@ assurance и границ — [INVENTORY](INVENTORY.md). Не переносит
 > These are source-reported bounded observations. Strict inventory/coverage and
 > independent body/write/property binding limitations remain; no C PASS,
 > temporal alias enforcement, unwind qualification, or new proof credit follows.
-> C-02 changes only the two merge unwind bounds to17 and is NOT_RUN.
+> These C-01 observations are retained separately from the completed C-02 results below.
 
 См. `../ch8-c-ctl/run-43788110742/RESULT.md`. Публикация не выполнялась.
+
+## Unpublished final C-01 / C-02 qualification
+
+> C-02 (run 43790257718) used experimental std
+> 597e54c5cb503955f9483edc6acc9d4752d57713 on the same P′ base and stock Kani
+> 0aac16ef62da9e9d5645782d458593e5d78143ba, with control
+> 59b5c663e3a2a0fb79bc565cdda20342e51ac7bd and same-tree dispatch sibling
+> b97c4d6cf6eb2c84667209f211a1a703f0ebf5e9. Only the two merge harness unwind
+> bounds changed from8 to17. The write-then-restore N1 fixture returned FAILURE
+> with exactly one failed assigns property, `Check that *dst is assignable`,
+> at ptr/mod.rs:2282; its read-only companion returned SUCCESS with no failed
+> properties. Neither exported the previous memcmp unwinding failure. This is
+> an isolated frame diagnostic and a successful bounded legal companion result,
+> not a general unwind proof or an independently accepted callback-write oracle:
+> the required binding to the two callback write sites remains unestablished.
+>
+> N1 had4/4 satisfied covers. The read-only companion had3/4: the remaining
+> cover is UNREACHABLE and statically corresponds to the transient-write branch
+> under WRITE=false. That branch is not required by the companion's frozen
+> three-label oracle. Exported cover IDs have no source labels/locations, so
+> independent correspondence remains pending; the current acceptance policy
+> also requires every emitted cover to be satisfied. No exception was adopted.
+> Both original row receipts remain UNKNOWN. Each row additionally reports
+> eight unreachable checks and four successful unsupported properties whose
+> precise roles and binding still require qualification under that policy.
+>
+> C-01 supplies the other six control observations and was not rerun in C-02.
+> The deliberately invalid N2 transient write within the allowed outer frame
+> returned stock SUCCESS, leaving the documented temporal aliasing gap. Its
+> read-only companion, legal disjoint external mutable/Cell state controls,
+> local insertion lifetime control and ended-borrow storage reuse control also
+> returned SUCCESS. These bounded source-reported results do not establish
+> complete borrow coverage, general FnMut footprints or temporal permission
+> enforcement. Generated-wrapper/body/write and named assertion/cover binding
+> limitations remain; the production submission gains no new independent
+> B1/B2 proof credit from either experimental run. C budget is exhausted.
+
+Evidence and all eight rows: [C-SUMMARY](../ch8-c-ctl/C-SUMMARY.md) and
+[C-02 RESULT](../ch8-c-ctl/run-43790257718/RESULT.md). Draft only; not published.
