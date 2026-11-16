@@ -1,0 +1,45 @@
+{
+  "offline_closure": "PASS",
+  "control_sha": "2a532e5913173d6af4490c25d74c587f7bf1a749",
+  "control_parent": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+  "control_tree": "e10d7a83577b30a92beafae851093e1571b1a55e",
+  "prior_control_sha": "5fd538730869103cb7108cd823f58b1dac924960",
+  "delta_paths": [
+    ".github/workflows/ch8-s1.yml",
+    "ch8-s1-control/CI-REQUEST.json",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/test_package.py"
+  ],
+  "updated_payload_hash_paths": [
+    ".github/workflows/ch8-s1.yml",
+    "ch8-s1-control/check_package.py",
+    "ch8-s1-control/test_package.py"
+  ],
+  "request_sha256": "2627adf9d963a0ac922edef5d6ba22d12e3d3d650ead4e40780123ba8e167d32",
+  "std_sha": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "yaml": {
+    "yaml": "PASS",
+    "scalar_types": "NATIVE_LITERAL_PASS",
+    "runner_context": "STEP_ENV_ONLY",
+    "checkout_depth": "AT_LEAST_2",
+    "layout": [
+      "control",
+      "export",
+      "tool"
+    ],
+    "dispatch": "NOT_RUN"
+  },
+  "prior_yaml_rejected": "concurrency.cancel-in-progress: expected native boolean",
+  "workflow_values_and_schedule": "UNCHANGED_BASELOADER_DOCUMENT_EQUALITY",
+  "control_preflight": "PASS",
+  "control_environment": "LOCAL_SIMULATED_CI_ENV_READ_ONLY",
+  "source_identity_preflight": "PASS_LOCAL_READ_ONLY",
+  "scheduled_rows": 35,
+  "groups": 14,
+  "unions": 4,
+  "github_server_acceptance": "NOT_RUN",
+  "proof_execution": "NOT_RUN",
+  "proof_credit": "NONE",
+  "dispatch": "NOT_RUN"
+}

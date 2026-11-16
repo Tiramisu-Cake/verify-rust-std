@@ -1,0 +1,22 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-s1-04-yaml-w13",
+  "baseline_commit": "40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5",
+  "candidate_commit": "2a532e5913173d6af4490c25d74c587f7bf1a749",
+  "defect": "S1-04 workflow serialized native boolean/number fields as quoted strings; BaseLoader preflight erases scalar types.",
+  "applicability": "Only S1-04 workflow/preflight/scalar regression tests/payload hashes; unchanged std 5be85699b8826e3286c0bf89efb9affefac0acb5.",
+  "invariants": [
+    "Same jobs, needs, matrix, numeric caps, commands, env, source/tool pins and proof controls.",
+    "Single-parent control on 40b5d9cf48900ff1e227e1fbba24cb5b2edbf8d5; no skip-ci in control message.",
+    "No dispatch/push/publication/ledger/toolchain execution; no proof credit."
+  ],
+  "controls": [
+    "Typed YAML gate, per-field wrong-type regressions, original quoted workflow rejection, BaseLoader document equality, control entrypoint invokes YAML validation, existing synthetic suite."
+  ],
+  "dependencies": [],
+  "prior_reviews": [],
+  "known_limitations": [
+    "Static preflight of this frozen workflow, not full actionlint or server-side GitHub acceptance; arbitrary action inputs remain string-valued by GitHub schema, known numeric/boolean action inputs enforced by stricter local policy.",
+    "Review delta against prior reviewed sibling 5fd538730869103cb7108cd823f58b1dac924960 with git diff; packet baseline is common parent because packet generator requires ancestry."
+  ]
+}

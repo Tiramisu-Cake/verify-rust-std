@@ -1,0 +1,10 @@
+{
+  "control_sha": "2a532e5913173d6af4490c25d74c587f7bf1a749",
+  "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -q test_package.py test_s104.py test_runner.py",
+  "result": "PASS",
+  "count": 36,
+  "elapsed_seconds": 135.724,
+  "typed_workflow_fields_mutated": 93,
+  "regressions": "Each native boolean/integer field independently replaced with quoted text, null, list, object, invalid numeric/boolean types; optional continue-on-error and job-concurrency flags; control entrypoint rejects YAML checker failure. Existing source/runner/oracle/fallback/collector tests retained.",
+  "scope": "Python and isolated synthetic git fixtures only; no Rust or proof execution."
+}
