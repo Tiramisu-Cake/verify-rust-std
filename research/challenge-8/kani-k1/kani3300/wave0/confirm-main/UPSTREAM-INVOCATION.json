@@ -1,0 +1,56 @@
+{
+  "schema": "kani-confirm-main-upstream-invocation-v1",
+  "stock": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "references": {
+    "tools/compiletest/src/header.rs": {
+      "sha256": "9ea266041cff8aaeee82f5270431f0c5f10e1ffa11ce4fd544ac733ab7dbc6e7",
+      "lines": "52-80",
+      "source": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+    },
+    "tools/compiletest/src/main.rs": {
+      "sha256": "9e15ceb4c5dc7bc505081d3ec2be8a4af8bdb8fdf0cd0e5ffcbc137ea36dc412",
+      "lines": "184",
+      "source": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+    },
+    "tools/compiletest/src/runtest.rs": {
+      "sha256": "7ab3d25a027144d8b4b669990793d8f76b980d7a9f9ed59130af8a95749797a4",
+      "lines": "349-370,422-465,488-501",
+      "source": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+    },
+    "kani-driver/src/call_single_file.rs": {
+      "sha256": "3fc27b10a1db7705b514e7689e9c6e6b2f20516066664ad799b32f4adc23c996",
+      "lines": "259-308",
+      "source": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+    },
+    "scripts/kani-regression.sh": {
+      "sha256": "b7dcc0c1418b4a79edc19073acf3d1a8ecb70e1b81e65d334812b594d4d4163b",
+      "lines": "17-19,55-60,94-100",
+      "source": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+    },
+    "tests/script-based-pre/playback_print/playback_print.sh": {
+      "sha256": "ca6d5922eb24e01895c2fea3c845dc6bbff246e37f6b9c247b72417e76682c2a",
+      "lines": "19",
+      "source": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+    }
+  },
+  "expected": {
+    "entry": "run_expected_test -> run_kani",
+    "source_flags": "kani-flags from headers become CLI arguments; compile-flags and edition become RUSTFLAGS",
+    "default_edition": "None unless compiletest --edition is supplied; scripts/kani-regression.sh supplies no --edition",
+    "package": "F2/F3 headers specify edition 2021; native runner uses RUSTFLAGS=--edition=2021 for all four standalone invocations, including stock padding-control (equivalent to a compiletest --edition 2021 default). Kani flags for these tests match their headers; export-json/target-dir and regular output are collector additions."
+  },
+  "script_based_pre": {
+    "entry": "run_exec_test executes time <script> from the test directory; no compile_flags environment injection",
+    "package_F1": "test.sh sets RUSTFLAGS=--edition=2021 for kani autoharness",
+    "package_F4": "bash test.sh executes from its test directory; cargo kani takes edition 2021 from Cargo.toml; job RUSTFLAGS remains empty"
+  },
+  "regression_environment": {
+    "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true, matching scripts/kani-regression.sh"
+  },
+  "edition_hypothesis": {
+    "status": "SOURCE_SUPPORTED_NOT_RUNTIME_CONFIRMED",
+    "prior_run_cause": "UNKNOWN: no diagnostic proves E0433 for run 43879576728",
+    "basis": "single-file driver appends RUSTFLAGS and its base flags specify no edition; supplied report of neighboring E0433 motivates explicit edition 2021"
+  },
+  "local_cargo_rustc_Kani_CBMC": "NOT_RUN"
+}

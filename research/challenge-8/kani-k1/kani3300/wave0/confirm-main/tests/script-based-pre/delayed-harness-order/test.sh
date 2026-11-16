@@ -24,9 +24,10 @@ run() {
     set +e
     timeout 120s env -u CARGO_ENCODED_RUSTFLAGS "CARGO_TARGET_DIR=$work/target-$label" cargo kani \
         -Z ghost-state -Z uninit-checks -Z export-json "${feature_args[@]}" \
-        --export-json "$work/$label.json" "$@" >"$work/$label.log" 2>&1
+        --export-json "$work/$label.json" "$@" >"$work/$label.stdout" 2>"$work/$label.stderr"
     local status=$?
     set -e
+    cat "$work/$label.stdout" "$work/$label.stderr" >"$work/$label.log"
     printf '%s\n' "$status" >"$work/$label.status"
     printf '%s\0' timeout 120s env -u CARGO_ENCODED_RUSTFLAGS \
         "CARGO_TARGET_DIR=$work/target-$label" cargo kani -Z ghost-state -Z uninit-checks -Z export-json "${feature_args[@]}" \

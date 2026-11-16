@@ -20,7 +20,8 @@ jobs:
       RUSTFLAGS: ''
       KANIFLAGS: ''
       KANI_LOG: ''
-      CONFIRM_EVIDENCE_DIR: ${{ github.workspace }}/../confirm-main-evidence
+      KANI_FAIL_ON_UNEXPECTED_DESCRIPTION: 'true'
+      CONFIRM_EVIDENCE_DIR: ${{ github.workspace }}/confirm-main-evidence
     steps:
       - uses: actions/checkout@v6
         with:

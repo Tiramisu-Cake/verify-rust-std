@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 
 set -u
-output=$(kani autoharness -Z autoharness -Z uninit-checks \
+output=$(RUSTFLAGS='--edition=2021' kani autoharness -Z autoharness -Z uninit-checks \
     --include-pattern '::read_(data|padding)$' --output-format=regular fixture.rs 2>&1)
 code=$?
 printf '%s\nKani exit: %s\n' "$output" "$code"

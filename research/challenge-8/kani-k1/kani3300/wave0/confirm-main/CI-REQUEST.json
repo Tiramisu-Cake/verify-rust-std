@@ -3,21 +3,21 @@
   "status": "READY_FOR_REVIEW_PREPARATION_ONLY",
   "runtime": "NOT_RUN",
   "task": "research/challenge-8/kani-k1/TASK-CH8-W0-CONFIRM-MAIN-W15.md",
-  "g0_input": "83c101ca810a24f14f932f6e5bb96dc6571d3872",
+  "g0_input": "744098133fd52147e246c16535a52b74e696242d",
   "task_reported_g0_input": "18743fb816465180215fcd86410ecfd46763b0ed",
   "stock": {
     "commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
     "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
   },
   "control": {
-    "commit": "bb427b45f38d05697e5b8bc0f15ff5e57eba7c19",
-    "tree": "622d35a8fe4289dd16c76cb027998caf3252c13a",
+    "commit": "2e889f7571971aea658f537eed59aeaa5a9c1594",
+    "tree": "ae662405b164116a769103a8b7801b93e0b5157b",
     "parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
-    "branch": "uninit-ci/confirm-main-w15-context-fix",
+    "branch": "uninit-ci/confirm-main-w15-diagnostics-fix",
     "worktree": "/root/kani-confirm-main-w15",
     "author": "Tiramisu-Cake <igkharin@gmail.com>",
     "patch": "control.patch",
-    "patch_sha256": "f5f24ed3cf6493cc0c351e29002a10f5cad77671184f613e147c99096dad304c"
+    "patch_sha256": "0c721a9e2b101c13f0a5a5d403097137e9c6840d2fa7cbcb7d26e75caa0724f2"
   },
   "workflow": ".github/workflows/uninit-quick.yml",
   "trigger": "uninit-ci/**",
@@ -62,16 +62,17 @@
     "name": "confirm-main-${github.run_id}-${github.run_attempt}",
     "retention_days": 7,
     "format": "compact per-test/source/summary JSON; full native logs and exports are temporary",
-    "f4_order_coverage": "UNESTABLISHED"
+    "f4_order_coverage": "UNESTABLISHED",
+    "path": "${{ env.CONFIRM_EVIDENCE_DIR }}/"
   },
   "stock_workflows": "removed only in control branch; retain uninit-quick.yml",
   "sources": {
     "path": "SOURCES.json",
-    "sha256": "2a1b798f6c8dcace213d1654bcc311876718b20e4c7482e0059e0c271dd11db6"
+    "sha256": "3efabe54fff53021bf5917cab78c3aaf66b79d8d3449e5f96194c2593da5b74b"
   },
   "validation": {
     "path": "STATIC-VALIDATION.json",
-    "sha256": "dbe1e8eb3cbfc07896efaebac54d69e1f0a1a9fa8371d7ec3a2369c52994c04d",
+    "sha256": "395881e9c5f97ae297a56d8f1a4a5964fa873d3d34b1c31f59e99d933bcf6f2c",
     "assurance": "STATIC_AND_SYNTHETIC_ONLY"
   },
   "CI": "NOT_RUN_FOR_NEW_CONTROL",
@@ -81,27 +82,72 @@
   "ledger_changes": "NONE",
   "Cloud_spend": 0,
   "previous_package": {
-    "g0_commit": "ab2535905e880222fcab015becb1382bd8c1ea53",
-    "control": "6b653427d2911cb61c14757908e5e19491add138",
-    "tree": "72669e959de2879606f8eaad1bbfb0de31ffe1cd"
+    "g0_commit": "712cb6fac04727044b2c088d301a575da3af9525",
+    "control": "bb427b45f38d05697e5b8bc0f15ff5e57eba7c19",
+    "tree": "622d35a8fe4289dd16c76cb027998caf3252c13a"
   },
   "previous_attempt": {
-    "run_id": "43878357528",
-    "trigger_prefix": "fd036c225f",
-    "trigger_relation": "same-tree child of previous control, user-reported",
-    "outcome": "WORKFLOW_REJECTED_ZERO_JOBS",
-    "jobs": 0,
-    "evidence": "USER_REPORTED; no job logs or artifacts inspected",
-    "cause": "runner context is unavailable in jobs.<job_id>.env per GitHub context availability documentation",
-    "proof_runtime": "NOT_RUN"
+    "run_id": "43879576728",
+    "trigger_prefix": "9a40f247ee",
+    "source_control": "bb427b45f38d05697e5b8bc0f15ff5e57eba7c19",
+    "outcome": "BUILD_SUCCEEDED_ALL_PROBES_INCONCLUSIVE_ARTIFACT_UPLOAD_FAILED",
+    "rows": [
+      "padding-control",
+      "F1",
+      "F2",
+      "F3",
+      "F4"
+    ],
+    "evidence": "USER_REPORTED; summary also recorded in CH8-DISPATCH-LEDGER.md (read only)",
+    "upload_error": "parent component in github.workspace/../confirm-main-evidence",
+    "probe_error": "UNKNOWN; neighboring E0433 is an unconfirmed hypothesis for this run",
+    "proof_credit": "NONE"
   },
   "workflow_contexts": {
     "review": "STATIC-VALIDATION.json#/workflow_context_review",
-    "job_evidence_path": "${{ github.workspace }}/../confirm-main-evidence",
+    "job_evidence_path": "${{ github.workspace }}/confirm-main-evidence",
     "upload_path": "${{ env.CONFIRM_EVIDENCE_DIR }}/",
     "synthetic_check": [
       "python3",
       ".github/confirm-main/check_service.py"
     ]
-  }
+  },
+  "package_history": [
+    {
+      "g0_commit": "ab2535905e880222fcab015becb1382bd8c1ea53",
+      "control": "6b653427d2911cb61c14757908e5e19491add138",
+      "tree": "72669e959de2879606f8eaad1bbfb0de31ffe1cd"
+    }
+  ],
+  "attempt_history": [
+    {
+      "run_id": "43878357528",
+      "trigger_prefix": "fd036c225f",
+      "trigger_relation": "same-tree child of previous control, user-reported",
+      "outcome": "WORKFLOW_REJECTED_ZERO_JOBS",
+      "jobs": 0,
+      "evidence": "USER_REPORTED; no job logs or artifacts inspected",
+      "cause": "runner context is unavailable in jobs.<job_id>.env per GitHub context availability documentation",
+      "proof_runtime": "NOT_RUN"
+    }
+  ],
+  "diagnostics": {
+    "per_row_max_lines": 20,
+    "stderr_head_max_bytes": 4096,
+    "stderr_first_lines_max": 18,
+    "stderr_line_max_characters": 500,
+    "timing": "immediately after each probe, after control classification propagation",
+    "F4": "six native exit/reason/stderr records remain visible on incomplete exports",
+    "output_sha256": "SHA-256 of stdout bytes followed by stderr bytes; separate streams, no temporal ordering asserted"
+  },
+  "upstream_invocation": {
+    "path": "UPSTREAM-INVOCATION.json",
+    "sha256": "c7656cdd0e4b4c9b5efc3e218251490373f09826696bc722c5b0a8c9614cc3d5"
+  },
+  "standalone_environment": {
+    "RUSTFLAGS": "--edition=2021",
+    "CARGO_ENCODED_RUSTFLAGS": "UNSET",
+    "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION": "true (workflow)"
+  },
+  "cargo_fixture_edition": "2021 from Cargo.toml; RUSTFLAGS stays empty"
 }

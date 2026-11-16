@@ -1,5 +1,6 @@
 // Copyright Kani Contributors
 // SPDX-License-Identifier: Apache-2.0 OR MIT
+// edition: 2021
 // kani-flags: -Z ghost-state -Z uninit-checks
 
 //! Checks points-to analysis when a delayed-UB harness reaches a recursive function.

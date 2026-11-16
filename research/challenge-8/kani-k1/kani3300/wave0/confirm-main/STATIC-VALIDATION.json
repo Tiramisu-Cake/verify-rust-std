@@ -1,8 +1,8 @@
 {
   "schema": "kani-confirm-main-static-validation-v1",
   "status": "PASS",
-  "control": "bb427b45f38d05697e5b8bc0f15ff5e57eba7c19",
-  "tree": "622d35a8fe4289dd16c76cb027998caf3252c13a",
+  "control": "2e889f7571971aea658f537eed59aeaa5a9c1594",
+  "tree": "ae662405b164116a769103a8b7801b93e0b5157b",
   "checks": [
     {
       "argv": [
@@ -21,7 +21,16 @@
         ".github/confirm-main/check_service.py"
       ],
       "exit": 0,
-      "output": "{\"status\": \"PASS\", \"checks\": [\"completed success and failure\", \"original exits\", \"timeouts\", \"spawn errors\", \"partial and missing exports\", \"null and wrong types\", \"NOT_RUN\", \"unsupported constructs\", \"source-stage-target selection mismatch\", \"compiler stack overflow versus generic or verification-stage crash\", \"stock-based control and single same-tree trigger child; changed-tree rejection\", \"workflow expression availability and rejected job-env runner regression\"], \"workflow_expressions\": [{\"line\": 23, \"key\": \"jobs.confirm.env.CONFIRM_EVIDENCE_DIR\", \"expression\": \"github.workspace\"}, {\"line\": 45, \"key\": \"jobs.confirm.steps.if\", \"expression\": \"always()\"}, {\"line\": 47, \"key\": \"jobs.confirm.steps.env.CONFIRM_JOB_STATUS\", \"expression\": \"job.status\"}, {\"line\": 50, \"key\": \"jobs.confirm.steps.if\", \"expression\": \"always()\"}, {\"line\": 53, \"key\": \"jobs.confirm.steps.with.name\", \"expression\": \"github.run_id\"}, {\"line\": 53, \"key\": \"jobs.confirm.steps.with.name\", \"expression\": \"github.run_attempt\"}, {\"line\": 54, \"key\": \"jobs.confirm.steps.with.path\", \"expression\": \"env.CONFIRM_EVIDENCE_DIR\"}]}"
+      "output": "{\"status\": \"PASS\", \"checks\": [\"completed success and failure\", \"original exits\", \"timeouts\", \"spawn errors\", \"partial and missing exports\", \"null and wrong types\", \"NOT_RUN\", \"unsupported constructs\", \"source-stage-target selection mismatch\", \"compiler stack overflow versus generic or verification-stage crash\", \"stock-based control and single same-tree trigger child; changed-tree rejection\", \"workflow expression availability and rejected job-env runner regression\", \"artifact path rejects parent components\", \"standalone Rust edition environment\", \"bounded per-row stderr and exit diagnostics\", \"six incomplete F4 runs retain exit and stderr\", \"failed control propagates before reporting; finish avoids duplicate row logs\"], \"workflow_expressions\": [{\"line\": 24, \"key\": \"jobs.confirm.env.CONFIRM_EVIDENCE_DIR\", \"expression\": \"github.workspace\"}, {\"line\": 46, \"key\": \"jobs.confirm.steps.if\", \"expression\": \"always()\"}, {\"line\": 48, \"key\": \"jobs.confirm.steps.env.CONFIRM_JOB_STATUS\", \"expression\": \"job.status\"}, {\"line\": 51, \"key\": \"jobs.confirm.steps.if\", \"expression\": \"always()\"}, {\"line\": 54, \"key\": \"jobs.confirm.steps.with.name\", \"expression\": \"github.run_id\"}, {\"line\": 54, \"key\": \"jobs.confirm.steps.with.name\", \"expression\": \"github.run_attempt\"}, {\"line\": 55, \"key\": \"jobs.confirm.steps.with.path\", \"expression\": \"env.CONFIRM_EVIDENCE_DIR\"}]}"
+    },
+    {
+      "argv": [
+        "python3",
+        "tests/script-based-pre/delayed-harness-order/compare.py",
+        "--self-test"
+      ],
+      "exit": 0,
+      "output": "F4 comparator synthetic checks passed"
     },
     {
       "argv": [
@@ -71,21 +80,21 @@
       "tests/script-based-pre/delayed-harness-order/src/lib.rs",
       "tests/script-based-pre/delayed-harness-order/test.sh"
     ],
-    "control": "bb427b45f38d05697e5b8bc0f15ff5e57eba7c19",
-    "head": "bb427b45f38d05697e5b8bc0f15ff5e57eba7c19",
+    "control": "2e889f7571971aea658f537eed59aeaa5a9c1594",
+    "head": "2e889f7571971aea658f537eed59aeaa5a9c1594",
     "problems": [],
-    "tree": "622d35a8fe4289dd16c76cb027998caf3252c13a"
+    "tree": "ae662405b164116a769103a8b7801b93e0b5157b"
   },
   "static_checks": [
-    "Python AST parse",
-    "YAML parse and workflow trigger/fetch-depth assertions",
-    "bash -n for both test scripts",
-    "Rust copyright headers and no MaybeUninit",
-    "stock parent and allowed delta paths",
+    "Python AST",
+    "YAML and expression-path cross-check",
+    "both bash -n checks",
+    "Rust headers and no MaybeUninit",
+    "stock parent and allowed delta",
     "sole targeted workflow",
-    "exact copied-file bytes and git modes",
-    "control patch check/apply in isolated Git index",
-    "all seven expressions match parsed YAML paths; documented context availability; original runner-in-job-env regression rejected"
+    "copied bytes and Git modes",
+    "patch check/apply with isolated Git index",
+    "synthetic invalid artifact paths, standalone edition env, native failures/timeouts/spawn failures, missing exports, bounded stderr logging, all six F4 failures and control-result propagation"
   ],
   "workflow_context_review": {
     "documentation": [
@@ -95,37 +104,37 @@
     ],
     "expressions": [
       {
-        "line": 23,
+        "line": 24,
         "key": "jobs.confirm.env.CONFIRM_EVIDENCE_DIR",
         "expression": "github.workspace"
       },
       {
-        "line": 45,
+        "line": 46,
         "key": "jobs.confirm.steps.if",
         "expression": "always()"
       },
       {
-        "line": 47,
+        "line": 48,
         "key": "jobs.confirm.steps.env.CONFIRM_JOB_STATUS",
         "expression": "job.status"
       },
       {
-        "line": 50,
+        "line": 51,
         "key": "jobs.confirm.steps.if",
         "expression": "always()"
       },
       {
-        "line": 53,
+        "line": 54,
         "key": "jobs.confirm.steps.with.name",
         "expression": "github.run_id"
       },
       {
-        "line": 53,
+        "line": 54,
         "key": "jobs.confirm.steps.with.name",
         "expression": "github.run_attempt"
       },
       {
-        "line": 54,
+        "line": 55,
         "key": "jobs.confirm.steps.with.path",
         "expression": "env.CONFIRM_EVIDENCE_DIR"
       }
@@ -138,7 +147,8 @@
       "secrets in step if",
       "status function in step env",
       "malformed delimiters",
-      "unreviewed workflow-level location"
+      "unreviewed workflow-level location",
+      "artifact evidence path with parent components"
     ],
     "positive_checks": [
       "github.workspace in job env",
@@ -148,18 +158,20 @@
       "runner.temp in step with"
     ]
   },
-  "reconstructed_tree": "622d35a8fe4289dd16c76cb027998caf3252c13a",
-  "compiler_library_existing_tests": "UNCHANGED_FROM_STOCK",
-  "prior_F4_review": {
-    "control": "6b653427d2911cb61c14757908e5e19491add138",
-    "result": "NO_RUNTIME_OR_CLI_BLOCKERS",
-    "reviewer": "GPT-6 Luna, high reasoning, separate context, read-only",
-    "scope": "F4 collector/fixture/CLI/export compatibility; all F4 files unchanged in this revision"
+  "upstream_invocation": {
+    "path": "UPSTREAM-INVOCATION.json",
+    "sha256": "c7656cdd0e4b4c9b5efc3e218251490373f09826696bc722c5b0a8c9614cc3d5"
   },
-  "prior_F4_synthetic_validation": {
-    "control": "6b653427d2911cb61c14757908e5e19491add138",
-    "result": "PASS_RETAINED",
-    "scope": "unchanged compare.py --self-test; original report is in g0 commit ab2535905e880222fcab015becb1382bd8c1ea53"
+  "reconstructed_tree": "ae662405b164116a769103a8b7801b93e0b5157b",
+  "compiler_library_existing_tests": "UNCHANGED_FROM_STOCK",
+  "diagnostics": {
+    "per_row_max_lines": 20,
+    "stderr_head_max_bytes": 4096,
+    "stderr_first_lines_max": 18,
+    "stderr_line_max_characters": 500,
+    "timing": "immediately after each probe, after control classification propagation",
+    "F4": "six native exit/reason/stderr records remain visible on incomplete exports",
+    "output_sha256": "SHA-256 of stdout bytes followed by stderr bytes; separate streams, no temporal ordering asserted"
   },
   "Rust_compilation": "NOT_RUN",
   "Kani": "NOT_RUN",
@@ -168,9 +180,15 @@
   "push": "NOT_RUN_FOR_NEW_CONTROL",
   "publication": "NOT_RUN",
   "ledger_changes": "NONE",
+  "review": {
+    "reviewer": "GPT-6 Luna, high reasoning, separate context, read-only",
+    "result": "NO_ACTIONABLE_BLOCKERS",
+    "control": "2e889f7571971aea658f537eed59aeaa5a9c1594",
+    "scope": "evidence path, bounded diagnostics, standalone edition environment, F4 script/collector changes",
+    "runtime": "NOT_RUN"
+  },
   "g0_diff_check": {
     "status": "PASS",
-    "exit": 0,
-    "scope": "all changed package files including control.patch"
+    "scope": "all changed package files"
   }
 }

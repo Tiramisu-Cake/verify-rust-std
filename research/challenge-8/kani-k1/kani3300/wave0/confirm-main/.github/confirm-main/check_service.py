@@ -4,9 +4,11 @@
 """Exercise collector failures using synthetic data and Python subprocesses."""
 
 import copy
+import contextlib
 import importlib.util
+import io
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import re
 import subprocess
 import sys
@@ -76,7 +78,25 @@ def workflow_expressions(text):
 workflow = (confirm.ROOT / ".github/workflows/uninit-quick.yml").read_text()
 workflow_checks = workflow_expressions(workflow)
 assert len(workflow_checks) == workflow.count("${{") and workflow_checks
-assert "CONFIRM_EVIDENCE_DIR: ${{ github.workspace }}/../confirm-main-evidence" in workflow
+
+
+def evidence_path(text):
+    value = re.search(r"(?m)^      CONFIRM_EVIDENCE_DIR: (.+)$", text).group(1)
+    prefix = "${{ github.workspace }}/"
+    if not value.startswith(prefix) or ".." in PurePosixPath(value[len(prefix):]).parts:
+        raise ValueError("evidence path must stay inside the workspace without parent components")
+    return value
+
+
+assert evidence_path(workflow) == "${{ github.workspace }}/confirm-main-evidence"
+for suffix in ("../confirm-main-evidence", "subdir/../confirm-main-evidence"):
+    try:
+        evidence_path(workflow.replace("${{ github.workspace }}/confirm-main-evidence",
+                                       "${{ github.workspace }}/" + suffix))
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("parent component in artifact source path accepted")
 assert "path: ${{ env.CONFIRM_EVIDENCE_DIR }}/" in workflow
 for value in ("runner.temp", "job.status", "env.CONFIRM_EVIDENCE_DIR", "unknown.value", "always()"):
     invalid = workflow.replace("${{ github.workspace }}", "${{ " + value + " }}", 1)
@@ -158,7 +178,8 @@ with tempfile.TemporaryDirectory() as directory:
     record = confirm.execute([str(cwd / "missing-command")], cwd, 2)
     assert record["exit"] is None and record["termination"] == "SPAWN_ERROR"
     for content in (None, "null", "{}", '{"run_state":"PARTIAL"}', '"NOT_RUN"'):
-        def fake(argv, workdir, timeout):
+        def fake(argv, workdir, timeout, env=None):
+            assert env == {"RUSTFLAGS": "--edition=2021", "CARGO_ENCODED_RUSTFLAGS": None}
             if content is not None:
                 Path(argv[argv.index("--export-json") + 1]).write_text(content)
             return {"exit": 0, "termination": "EXITED", "output_excerpt": ""}
@@ -170,11 +191,84 @@ with tempfile.TemporaryDirectory() as directory:
         ("compiler exited with status 1", "INCONCLUSIVE"),
         ("Checking harness check...\nthread 'main' has overflowed its stack", "INCONCLUSIVE"),
     ):
-        def crash(argv, workdir, timeout):
+        def crash(argv, workdir, timeout, env=None):
             return {"exit": 1, "termination": "EXITED", "output_excerpt": message}
         with tempfile.TemporaryDirectory(dir=cwd) as scratch, patch.object(confirm, "execute", crash):
             row = {"id": "F3", "file": "unused.rs", "names": ["check"]}
             assert confirm.native(row, Path(scratch))["classification"] == classification
+
+    record = confirm.execute([sys.executable, "-c",
+        "import os,sys; print(os.environ['RUSTFLAGS']); "
+        "assert 'CARGO_ENCODED_RUSTFLAGS' not in os.environ; "
+        "print('error[E0433]: cannot find core', file=sys.stderr); "
+        "[print('detail ' + str(i), file=sys.stderr) for i in range(40)]; sys.exit(3)"],
+        cwd, 2, env={"RUSTFLAGS": "--edition=2021", "CARGO_ENCODED_RUSTFLAGS": None})
+    assert record["exit"] == 3 and record["environment"]["RUSTFLAGS"] == "--edition=2021"
+    assert "--edition=2021" in record["output_excerpt"]
+    assert record["stderr_first_lines"][0].startswith("error[E0433]")
+    record.update(id="padding-control", classification="INCONCLUSIVE", error="export is missing")
+    log = io.StringIO()
+    with contextlib.redirect_stdout(log):
+        confirm.report(record)
+    lines = log.getvalue().splitlines()
+    assert len(lines) <= 20 and '"exit": 3' in lines[0]
+    assert "export is missing" in lines[0] and "E0433" in lines[1]
+
+    for row in confirm.ROWS:
+        def no_export(argv, workdir, timeout, env=None):
+            assert env == {"RUSTFLAGS": "--edition=2021", "CARGO_ENCODED_RUSTFLAGS": None}
+            assert str(confirm.ROOT / row["file"]) in argv
+            return {"exit": 1, "termination": "EXITED", "stderr_first_lines": ["error[E0433]: cannot find core"],
+                    "output_excerpt": "error[E0433]: cannot find core"}
+        with tempfile.TemporaryDirectory(dir=cwd) as scratch, patch.object(confirm, "execute", no_export):
+            result = confirm.native(row, Path(scratch))
+            assert result["classification"] == "INCONCLUSIVE" and result["error"]
+
+    comparison_spec = importlib.util.spec_from_file_location("comparison",
+        confirm.ROOT / "tests/script-based-pre/delayed-harness-order/compare.py")
+    comparison = importlib.util.module_from_spec(comparison_spec)
+    comparison_spec.loader.exec_module(comparison)
+    for mode in ("delayed_first", "control_first"):
+        for case in ("delayed-alone", "control-alone", "paired"):
+            label = mode + "-" + case
+            (cwd / (label + ".status")).write_text("1\n")
+            (cwd / (label + ".stderr")).write_text("error[E0433]: cannot find core\n" * 40)
+    receipt = comparison.compare_runs(cwd)
+    assert receipt["classification"] == "INCONCLUSIVE"
+    log = io.StringIO()
+    with contextlib.redirect_stdout(log):
+        confirm.report({"id": "F4", "classification": "INCONCLUSIVE", "exit": 2,
+                        "termination": "EXITED", "native": receipt})
+    lines = log.getvalue().splitlines()
+    assert len(lines) <= 20 and sum('"run":' in line for line in lines) == 6
+    assert all("E0433" in line and '"exit": 1' in line for line in lines[1:])
+
+    def failed_probe(row, scratch):
+        return {"id": row["id"], "classification": "INCONCLUSIVE", "exit": 1,
+                "termination": "EXITED", "error": "export is missing",
+                "stderr_first_lines": ["error[E0433]: cannot find core"]}
+    def failed_script(argv, workdir, timeout):
+        return {"exit": 2, "termination": "EXITED", "stderr_first_lines": ["script diagnostic"]}
+    log = io.StringIO()
+    with patch.object(confirm, "OUT", cwd / "runner"), patch.object(confirm, "native", failed_probe), \
+            patch.object(confirm, "execute", failed_script), contextlib.redirect_stdout(log):
+        assert confirm.run() == 1
+    headers = [json.loads(line) for line in log.getvalue().splitlines() if '"id":' in line]
+    assert [row["id"] for row in headers] == ["padding-control", "F1", "F2", "F3", "F4"]
+    assert all(row["classification"] == "INCONCLUSIVE" and row["reason"] for row in headers)
+    assert all("control did not pass" in row["reason"] for row in headers[1:])
+    log = io.StringIO()
+    with patch.object(confirm, "OUT", cwd / "runner"), patch.object(confirm, "snapshot", return_value=True), \
+            contextlib.redirect_stdout(log):
+        assert confirm.finish() == 1
+    assert log.getvalue() == ""
+
+for source in ("tests/expected/uninit/pattern-offset/pattern-offset.rs",
+               "tests/expected/uninit/recursive-delayed/recursive-delayed.rs"):
+    assert "// edition: 2021" in (confirm.ROOT / source).read_text()
+assert "RUSTFLAGS='--edition=2021' kani autoharness" in (
+    confirm.ROOT / "tests/script-based-pre/autoharness-uninit-padding/test.sh").read_text()
+assert 'edition = "2021"' in (confirm.ROOT / "tests/script-based-pre/delayed-harness-order/Cargo.toml").read_text()
 
 with tempfile.TemporaryDirectory() as directory:
     root = Path(directory)
@@ -210,5 +304,8 @@ print(json.dumps({"status": "PASS", "checks": ["completed success and failure", 
     "NOT_RUN", "unsupported constructs", "source-stage-target selection mismatch",
     "compiler stack overflow versus generic or verification-stage crash",
     "stock-based control and single same-tree trigger child; changed-tree rejection",
-    "workflow expression availability and rejected job-env runner regression"],
+    "workflow expression availability and rejected job-env runner regression",
+    "artifact path rejects parent components", "standalone Rust edition environment",
+    "bounded per-row stderr and exit diagnostics", "six incomplete F4 runs retain exit and stderr",
+    "failed control propagates before reporting; finish avoids duplicate row logs"],
     "workflow_expressions": workflow_checks}))

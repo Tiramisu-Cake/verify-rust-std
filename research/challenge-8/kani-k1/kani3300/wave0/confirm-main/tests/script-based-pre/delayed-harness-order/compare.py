@@ -129,6 +129,21 @@ def parse_export(label, path, wanted):
     return parse_document(label, doc, wanted)
 
 
+def diagnostics(label, runs_dir):
+    result = {"exit_code": None, "stderr_first_lines": []}
+    try:
+        result["exit_code"] = int((runs_dir / f"{label}.status").read_text().strip())
+    except (OSError, ValueError):
+        pass
+    try:
+        with (runs_dir / f"{label}.stderr").open("rb") as stream:
+            result["stderr_first_lines"] = [line[:500] for line in
+                stream.read(4096).decode(errors="replace").splitlines()[:18]]
+    except OSError:
+        pass
+    return result
+
+
 def parse_run(label, wanted, runs_dir):
     try:
         export_path = runs_dir / f"{label}.json"
@@ -142,6 +157,7 @@ def parse_run(label, wanted, runs_dir):
         target_dir = (runs_dir / f"{label}.target-dir").read_text(encoding="utf-8").strip()
         inventory_digest = hashlib.sha256(json.dumps(inventory, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
         return {
+            **diagnostics(label, runs_dir),
             "exit_code": status,
             "argv": argv,
             "rustflags": rustflags,
@@ -182,7 +198,7 @@ def compare_runs(runs_dir):
                 parsed[key] = parse_run(label, wanted, runs_dir)
             except Incomplete as exc:
                 incomplete = True
-                parsed[key] = {"incomplete": str(exc)}
+                parsed[key] = {"incomplete": str(exc), **diagnostics(label, runs_dir)}
         runs[mode] = parsed
         pairs = {}
         if any("incomplete" in item for item in parsed.values()):

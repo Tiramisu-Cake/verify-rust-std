@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 BASE = "0aac16ef62da9e9d5645782d458593e5d78143ba"
 UNINIT = "Undefined Behavior: Reading from an uninitialized pointer"
 OUT = Path(os.environ.get("CONFIRM_EVIDENCE_DIR", "/tmp/confirm-main-evidence"))
+STANDALONE_RUSTFLAGS = "--edition=2021"
 
 
 def save(path, value):
@@ -61,18 +62,23 @@ def snapshot(label):
     return not problems
 
 
-def execute(argv, cwd, timeout):
+def execute(argv, cwd, timeout, env=None):
     started = time.monotonic()
+    child_env = os.environ.copy()
+    for key, value in (env or {}).items():
+        if value is None:
+            child_env.pop(key, None)
+        else:
+            child_env[key] = value
     record = {"argv": argv, "cwd": str(cwd), "timeout_seconds": timeout,
               "exit": None, "termination": "NOT_RUN",
-              "environment": {name: os.environ.get(name) for name in (
+              "environment": {name: child_env.get(name) for name in (
                   "RUSTFLAGS", "CARGO_ENCODED_RUSTFLAGS", "KANIFLAGS", "KANI_LOG",
-                  "RUST_BACKTRACE", "NO_COLOR")}}
-    text = ""
-    with tempfile.TemporaryFile() as log:
+                  "RUST_BACKTRACE", "NO_COLOR", "KANI_FAIL_ON_UNEXPECTED_DESCRIPTION")}}
+    with tempfile.TemporaryFile() as log, tempfile.TemporaryFile() as errors:
         try:
-            proc = subprocess.Popen(argv, cwd=cwd, stdout=log, stderr=subprocess.STDOUT,
-                                    start_new_session=True)
+            proc = subprocess.Popen(argv, cwd=cwd, stdout=log, stderr=errors,
+                                    start_new_session=True, env=child_env)
             try:
                 record["exit"] = proc.wait(timeout=timeout)
                 record["termination"] = "EXITED"
@@ -83,21 +89,46 @@ def execute(argv, cwd, timeout):
         except OSError as error:
             record["termination"] = "SPAWN_ERROR"
             record["error"] = str(error)
-        log.seek(0)
         digest = hashlib.sha256()
         size = 0
-        head = b""
-        tail = b""
-        for chunk in iter(lambda: log.read(65536), b""):
-            digest.update(chunk)
-            size += len(chunk)
-            head = (head + chunk)[:4096]
-            tail = (tail + chunk)[-8192:]
+        excerpts = []
+        for stream, label in ((log, "stdout"), (errors, "stderr")):
+            stream.seek(0)
+            head, tail, stream_size = b"", b"", 0
+            for chunk in iter(lambda: stream.read(65536), b""):
+                digest.update(chunk)
+                size += len(chunk)
+                stream_size += len(chunk)
+                head = (head + chunk)[:4096]
+                tail = (tail + chunk)[-8192:]
+            if label == "stderr":
+                record["stderr_first_lines"] = [line[:500] for line in head.decode(errors="replace").splitlines()[:18]]
+            excerpt = (head if stream_size <= 4096 else
+                       head + b"\n[output excerpt]\n" + tail)
+            excerpts.append(label + ":\n" + excerpt.decode(errors="replace"))
         record.update(output_bytes=size, output_sha256=digest.hexdigest())
-        text = (head + (b"\n[output excerpt]\n" if size > 12288 else b"\n") + tail).decode(errors="replace")
     record["elapsed_seconds"] = round(time.monotonic() - started, 3)
-    record["output_excerpt"] = text
+    record["output_excerpt"] = "\n".join(excerpts)
     return record
+
+
+def report(record):
+    """Print at most twenty bounded lines for a completed probe record."""
+    reason = "; ".join(str(record[key]) for key in ("control_error", "source_error", "error") if record.get(key))
+    header = {"id": record["id"], "classification": record["classification"],
+              "exit": record.get("exit"), "termination": record.get("termination"),
+              "reason": reason[:1500] or ("no conclusive verification result"
+                  if record["classification"] == "INCONCLUSIVE" else "completed verification")}
+    lines = [json.dumps(header, ensure_ascii=True)]
+    for mode, cases in record.get("native", {}).get("runs", {}).items():
+        for name, case in cases.items():
+            lines.append(json.dumps({"run": mode + "/" + name, "exit": case.get("exit_code"),
+                                    "reason": str(case.get("incomplete", "completed verification"))[:500],
+                                    "stderr": case.get("stderr_first_lines", [])[:2]}, ensure_ascii=True))
+    diagnostics = record.get("stderr_first_lines") or record.get("output_excerpt", "").splitlines()
+    lines.extend(json.dumps({"diagnostic": str(line)[:500]}, ensure_ascii=True)
+                 for line in diagnostics[:max(0, 20 - len(lines))])
+    print("\n".join(lines[:20]), flush=True)
 
 
 def completed(data, names, code, automatic=False):
@@ -163,7 +194,9 @@ def native(row, scratch):
             "-Z", "uninit-checks", "-Z", "export-json", "--export-json", str(export),
             "--output-format=regular", "--target-dir", str(target / "target"),
             *row.get("flags", [])]
-    record = execute(argv, ROOT, 180)
+    # compiletest passes Rust compiler options through RUSTFLAGS.
+    record = execute(argv, ROOT, 180, env={"RUSTFLAGS": STANDALONE_RUSTFLAGS,
+                                         "CARGO_ENCODED_RUSTFLAGS": None})
     record.update(id=row["id"], classification="INCONCLUSIVE", harnesses={})
     try:
         if record["termination"] != "EXITED":
@@ -190,8 +223,10 @@ def native(row, scratch):
                 record["classification"] = "DEFECT_PRESENT"
             elif uninit_failure(harness):
                 record["classification"] = "CONTROL_PASS" if row["id"] == "padding-control" else "DEFECT_ABSENT_FOR_TEST"
+        if record["classification"] == "INCONCLUSIVE":
+            record["error"] = "completed verification did not match the expected uninitialized-memory outcome"
     except (ValueError, KeyError, TypeError, OSError) as error:
-        record["error"] = str(error)
+        record["error"] = "; ".join(filter(None, (record.get("error"), str(error))))
     return record
 
 
@@ -214,35 +249,47 @@ def run():
     import resource
     resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
     records = []
+    control_ok = False
     with tempfile.TemporaryDirectory(prefix="confirm-main-") as directory:
         for row in ROWS:
             record = native(row, Path(directory))
+            if row["id"] == "padding-control":
+                control_ok = record["classification"] == "CONTROL_PASS"
+            elif not control_ok:
+                record["classification"] = "INCONCLUSIVE"
+                record["control_error"] = "explicit-padding control did not pass"
             records.append(record)
             save(OUT / (row["id"] + ".json"), record)
-            print(row["id"], record["classification"], flush=True)
+            report(record)
+    receipt = OUT / "F4-native.json"
+    receipt.unlink(missing_ok=True)
     f4 = execute(["bash", "test.sh"], ROOT / "tests/script-based-pre/delayed-harness-order", 900)
     f4.update(id="F4", classification="INCONCLUSIVE")
-    receipt = OUT / "F4-native.json"
     if receipt.exists():
         try:
             data = json.loads(receipt.read_text())
+            if not isinstance(data, dict):
+                raise ValueError("F4 receipt must be an object")
             f4["native"] = data
             expected_exits = {"DEFECT_PRESENT": 1, "DEFECT_ABSENT_FOR_TEST": 0, "INCONCLUSIVE": 2}
             classification = data.get("classification")
             if (classification in expected_exits and f4["termination"] == "EXITED"
                     and f4["exit"] == expected_exits[classification]):
                 f4["classification"] = classification
-        except (ValueError, KeyError, OSError):
-            pass
+            else:
+                f4["error"] = "F4 receipt disagrees with native exit or termination"
+            if classification == "INCONCLUSIVE":
+                f4["error"] = data.get("reason", "F4 has incomplete native runs; see per-run diagnostics")
+        except (ValueError, KeyError, TypeError, OSError) as error:
+            f4["error"] = str(error)
+    else:
+        f4["error"] = "F4 native receipt is missing"
+    if not control_ok:
+        f4["classification"] = "INCONCLUSIVE"
+        f4["control_error"] = "explicit-padding control did not pass"
     save(OUT / "F4.json", f4)
     records.append(f4)
-    print("F4", f4["classification"], flush=True)
-    control_ok = records[0]["classification"] == "CONTROL_PASS"
-    if not control_ok:
-        for record in records[1:]:
-            record["classification"] = "INCONCLUSIVE"
-            record["control_error"] = "explicit-padding control did not pass"
-            save(OUT / (record["id"] + ".json"), record)
+    report(f4)
     summary = {r["id"]: r["classification"] for r in records}
     save(OUT / "summary.json", summary)
     return int(not control_ok or "INCONCLUSIVE" in summary.values())
@@ -253,15 +300,20 @@ def finish():
     summary = {}
     for name in ("padding-control", "F1", "F2", "F3", "F4"):
         path = OUT / (name + ".json")
-        if not path.exists():
+        report_needed = not path.exists()
+        if report_needed:
             save(path, {"id": name, "classification": "INCONCLUSIVE", "termination": "NOT_RUN",
-                        "exit": None, "job_status": os.environ.get("CONFIRM_JOB_STATUS")})
+                        "exit": None, "job_status": os.environ.get("CONFIRM_JOB_STATUS"),
+                        "error": "probe was not run; inspect earlier job steps"})
         value = json.loads(path.read_text())
         if not clean:
+            report_needed = True
             value["classification"] = "INCONCLUSIVE"
             value["source_error"] = "source identities changed"
             save(path, value)
         summary[name] = value["classification"]
+        if report_needed:
+            report(value)
     save(OUT / "summary.json", summary)
     return int(not clean or "INCONCLUSIVE" in summary.values())
 

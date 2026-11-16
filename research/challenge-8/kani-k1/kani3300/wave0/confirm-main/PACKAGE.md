@@ -31,6 +31,6 @@ Control-коммит содержит `[skip ci]`. Для будущего push-
 
 Зелёный workflow означает, что получены однозначные наблюдения, включая возможное подтверждение дефекта на main. Это не PASS исправлений. Существование всех четырёх дефектов заранее не утверждается.
 
-Job env задаёт каталог evidence через `github.workspace`; upload использует `env.CONFIRM_EVIDENCE_DIR`. Все семь выражений проверены по документации GitHub и синтетической проверкой, отвергающей `runner.temp` в job env. Предыдущий запуск `43878357528` с нулём jobs зафиксирован как сообщение пользователя; результаты F1–F4 остаются **NOT_RUN**.
+Job env задаёт `${{ github.workspace }}/confirm-main-evidence`, без parent components; upload использует `env.CONFIRM_EVIDENCE_DIR`. Все семь выражений workflow и запрет `..` покрыты статическими/синтетическими проверками. Для каждой строки runner сразу печатает native exit, termination, причину и начало stderr (не более 20 строк); для F4 сохраняет и показывает diagnostics шести native runs. Одиночные файлы получают `RUSTFLAGS=--edition=2021`, F4 использует edition 2021 своего Cargo.toml. Сверка с compiletest: `UPSTREAM-INVOCATION.json`. По сообщению пользователя, run `43879576728` дал INCONCLUSIVE по всем строкам и не выгрузил artifacts; причина проверок неизвестна, связь с E0433 остаётся гипотезой. Результаты нового control — **NOT_RUN**.
 
 Точные SHA, команды, лимиты и локальная валидация: `CI-REQUEST.json`, `STATIC-VALIDATION.json`, `HANDOFF.md`. Публикация, dispatch, CI и ledger в этой стадии не выполняются.
