@@ -1,0 +1,32 @@
+{
+  "issue_url": "https://github.com/model-checking/kani/issues/5151",
+  "title": "`-Z uninit-checks`: arrays of `MaybeUninit<T>` with non-trivial `T` are unsupported",
+  "reproducer_utf8_sha256": "5f21884535ffd4fedcf28056257f568bd5d52b95fd00ed059a4576ad5a1c2bb4",
+  "issue_drop_index": 1,
+  "task_drop_index": 0,
+  "resolution": "initialized-slot companion plus unchanged issue body and read-in-drop control",
+  "comment_url": "https://github.com/model-checking/kani/issues/5151#issuecomment-6844432557",
+  "comment_created_at": "2026-11-13T04:52:24Z",
+  "comment_source_reported_counts": {
+    "total_intrinsics_harnesses": 394,
+    "unsupported": 91,
+    "buffer_unions": 77,
+    "maybe_uninit_arrays": 58,
+    "pointer_generator": 19,
+    "trait_objects": 14
+  },
+  "assurance": "GITHUB_SOURCE_METADATA; counts source-reported; runtime NOT_RUN",
+  "g0_task_input": "18743fb816465180215fcd86410ecfd46763b0ed",
+  "pins_remote_git_api_checked": {
+    "stock": {
+      "repository": "model-checking/kani",
+      "sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+      "tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+    },
+    "prototype": {
+      "repository": "Tiramisu-Cake/kani",
+      "sha": "8e299aa6243bc5f06a29c51e98aafa9564478220",
+      "tree": "9829702c1aa0ecb73c860fc0ad5451757917d6cb"
+    }
+  }
+}

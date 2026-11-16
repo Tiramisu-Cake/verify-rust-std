@@ -1,0 +1,26 @@
+{
+  "state": "READY_STATIC_WITH_LIMITATIONS",
+  "reviewer": {
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "fork_turns": "none",
+    "nested_delegation": false
+  },
+  "initial_candidate": "de8939336418e9da6be18390b0355acb24012b31",
+  "final_candidate": "0a9e3bdb8a029815ccf205541b1fc09acf8808f9",
+  "final_tree": "b7fe208e78e90d2455e0323e959414fd77827ff3",
+  "initial_scope": "Committed control diff from stock0aac: workflow, runner and isolated regression tests; static review only.",
+  "initial_finding": "Ambiguous mixed stock unsupported/fatal diagnostics could be accepted.",
+  "resolution": "Mixed fatal diagnostics now UNKNOWN; signal failures, subprocess cleanup and post-build version collection checked in the delta.",
+  "delta_state": "READY",
+  "remaining_concrete_findings": [],
+  "checks": [
+    "frozen package identity checker",
+    "15 Python synthetic tests",
+    "actionlint",
+    "Git parent/tree/scope inspection",
+    "source export-schema comparison"
+  ],
+  "runtime": "NOT_RUN",
+  "proof_credit": "NONE"
+}

@@ -1,0 +1,34 @@
+{
+  "std_repository": "stefanzetzsche/verify-rust-std",
+  "std_commit": "ee550687f489ee864e27c107c5b4b101df3e2a85",
+  "std_tree": "825de989562d96100334361135aec70a620d0099",
+  "pr_url": "https://github.com/model-checking/verify-rust-std/pull/649",
+  "pr_head_committer_date": "2026-11-12T15:39:06Z",
+  "kani_historical_pin": "c5e65fdfc3e15ec32293f2a4c07509aebec033c9",
+  "rust_toolchain": "nightly-2026-10-23",
+  "assurance": "SOURCE_INFERRED_CANDIDATES; runtime NOT_RUN",
+  "candidate_count": 56,
+  "candidate_family_counts": {
+    "PointerGenerator": 19,
+    "array MaybeUninit buffer": 37
+  },
+  "historical_failures_count": 77,
+  "historical_identity_status": "UNCONFIRMED",
+  "static_harnesses_count": 393,
+  "reported_harnesses_count": 394,
+  "source_sha256": {
+    "library/core/src/intrinsics/mod.rs": "5255b85b8253e6db014bdf31f6287bd43d1d2f0dd7898df477b1f01d92609939",
+    "library/core/src/fmt/num.rs": "ea5375fc96dd3f6a8bb77485187f8a713f5fb30965f59d9498181c78c87bdffa",
+    "library/core/src/mem/maybe_uninit.rs": "1b6d5e824f8757dd53eed10d3a058a187dd64fba67868fd279a32af1af67f0e7",
+    "library/core/src/mem/mod.rs": "6bf400999acbe5f5fb3a09ee32476799c835961ee0c63758bf095dd482a24fd9",
+    "library/core/src/ptr/mod.rs": "d3235a8b397f3878ba55ee754e97e661eb25383cb5777c61ae88b2bf27d5c573",
+    "library/core/src/slice/mod.rs": "f63293c79d91ea938e0131c77acbf060d1079dfd49d6e081f158c06c4757d420",
+    "scripts/run-kani.sh": "28f1b23b692058ff0b807115551554504475f586bde7933fafcf28165da5adc1",
+    "tool_config/kani-version.toml": "32bde075882d220716b1b411138c517c515dff4abeca37d365e48f56bb7cdfa7",
+    "rust-toolchain.toml": "689c159497e53389671511fa85e200533c2a892488346620ccaae0a34ad45618"
+  },
+  "inventory_sha256": {
+    "challenge2-candidates.csv": "e29e7edf67bd9c3239a486ed31ad40d1da109c39040bca47010ded719cad5b7d",
+    "challenge2-static-harnesses.csv": "ae85afe57e4d32e5c8ed8b8bb74682395dcb22ddb034d970dcaa94d80d4cf66a"
+  }
+}
