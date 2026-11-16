@@ -1,0 +1,47 @@
+{
+  "schema": "ch8-issue-mre-validation-v1",
+  "control": "d860e30592bc05cad1e8f10f814397b8dfd36a33",
+  "tree": "ba4b7298f099b2273df90b5a0f8e07826e661078",
+  "qualification": "STATIC_AND_SYNTHETIC_ONLY",
+  "proof_status": "ALL_NOT_RUN",
+  "proof_credit": "NONE",
+  "tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s ch8-issue-mre-control -v",
+    "passed": 27,
+    "failed": 0,
+    "runner": 15,
+    "package": 4,
+    "workflow_path": 8,
+    "coverage": [
+      "success",
+      "exact copy/uninit diagnostics and mixed failures",
+      "original process exit/error/timeout/output caps",
+      "missing/null/wrong-type/partial/schema",
+      "source/filter/features/metadata/process mismatch",
+      "exact flags",
+      "actual sibling tool layout and prefixed payload",
+      "NOT_RUN fallback and in-progress UNKNOWN",
+      "preserved snapshots and exceptions",
+      "KeyboardInterrupt initial argv snapshot, byte-preserved original receipt, recovered UNKNOWN"
+    ]
+  },
+  "actionlint": {
+    "version": "1.7.7",
+    "command": "/tmp/arrayrepro-actionlint -shellcheck= .github/workflows/ch8-issue-mre.yml",
+    "exit": 0
+  },
+  "diff_check": "PASS",
+  "control_check": {
+    "status": "PASS",
+    "sole_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "changed_path_scope": [
+      ".github/workflows/",
+      "ch8-issue-mre-control/"
+    ],
+    "stock_workflows": "REMOVED",
+    "job_count": 1,
+    "job_minutes": 30,
+    "step_cap_minutes_total": 28
+  },
+  "compilers_verifiers_executed": false
+}

@@ -1,0 +1,34 @@
+{
+  "applicability": "TASK-CH8-ISSUE-MRE-W14.md. One preparation stage only, no push, CI, publication, ledger or local cargo/rustc/Kani/CBMC. Continuation of same review: previous sibling candidate61ffa0b, final candidate preserves sole upstream parent. Inspect git diff61ffa0b..d860e305 for bounded snapshot delta; packet uses common upstream ancestor.",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "d860e30592bc05cad1e8f10f814397b8dfd36a33",
+  "controls": [
+    "New KeyboardInterrupt/fallback regression: saved RUNNING receipt unchanged, recovered UNKNOWN includes exact argv/cwd/export_path and source/request/rows hashes. Other candidate invariants unchanged. No compiler/verifier."
+  ],
+  "defect": "Delta review: RUNNING receipt must preserve exact resolved argv and export path before execute so hard interruption fallback retains invocation identity.",
+  "dependencies": [
+    ".github/actions/setup/action.yml",
+    "scripts/validate_json_export.py",
+    "tests/json-handler/schema-validation/kani_json_schema.json",
+    "kani-compiler/src/kani_middle/transform/check_values.rs",
+    "kani-compiler/src/kani_middle/transform/check_uninit/mod.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs",
+    "library/kani_core/src/lib.rs",
+    "kani-driver/src/frontend/schema_utils.rs"
+  ],
+  "invariants": [
+    "Sole parent clean upstream0aac, changes only .github/workflows and one control directory, all stock workflows removed; author Tiramisu-Cake <igkharin@gmail.com>, [skip ci]. No SEL1 or tool-model/std-source patch.",
+    "7 source files /10 exact-harness invocations:3 copy MREs, original slice2, initialized slice2, thin uninitialized2, true uninit read1. Preserve original Rust blocks and exact byte slice MRE; initialized/thin variants change only declared substitutions.",
+    "Copy semantic flags exactly -Z valid-value-checks; slice/control flags exactly -Z function-contracts -Z uninit-checks. Append only JSON export transport. No suppression, timeout/jobs/unwind/solver/cbmc override.",
+    "Freeze SUCCESS or exact FAILURE description/class oracle per row. Capture generated property IDs, all failed records, original exits/exception/snapshots. Distinguish expected diagnostic reproduction from desired correctness. No proof credit.",
+    "RFC0015 schema, identities/source/selection/stage/metadata/features/default checks/summary/status inventory gates. Timeouts, errors, partial/missing/null/wrong-type exports, unbound diagnostics and mismatches remain UNKNOWN/NOT_RUN or unexpected; aggregate must not claim successful sweep.",
+    "One job timeout30min, sum step caps28min, setup4min/build720s/row30s/phase330s; bounded process group RSS6GiB, heads1MiB/tails4096, exports8MiB. Always fallback/upload, preserve original run receipt, materialize missing NOT_RUN and incomplete UNKNOWN. No guarantee all rows finish within caps.",
+    "Runtime authority belongs to separate coordinator stage only, same-tree non-skip sibling sole upstream parent; current upstream comparison in draft remains separately pending."
+  ],
+  "known_limitations": [
+    "All MREs runtime NOT_RUN, source predictions only, exact generated IDs available only after future execution, proof credit NONE. External caps can leave UNKNOWN/NOT_RUN."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-issue-mre-w14"
+}

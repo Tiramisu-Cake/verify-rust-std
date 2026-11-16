@@ -1,0 +1,33 @@
+{
+  "schema": "ch8-issue-mre-review-v1",
+  "verdict": "GO",
+  "state": "GO_STATIC_REVIEW_ONLY",
+  "candidate_commit": "d860e30592bc05cad1e8f10f814397b8dfd36a33",
+  "candidate_tree": "ba4b7298f099b2273df90b5a0f8e07826e661078",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "packet": "review-packet-final",
+  "packet_sha256": "777aab824515ea321018d9200dab54049ad77edb713b9423ca9d1180641ccbca",
+  "spec_sha256": "ce5cf4cf589e54cb1065c31eb09756001acad64e407b5697f50b0940024d729b",
+  "diff_sha256": "0d23185d87f6f267e338d6c0df4e1b391dde92683bca66ba6f33fcd50b4ea9ee",
+  "reviewer": "/root/review_issue_mre",
+  "nested_delegation": false,
+  "findings": [],
+  "resolved_findings": [
+    {
+      "issue": "Initial RUNNING receipt omitted resolved argv/export path, so fallback after interruption could not retain invocation identity.",
+      "resolution": "runner.py now constructs argv and persists argv, cwd, and export_path into the RUNNING row receipt before execute (lines 502-505). test_keyboard_interrupt_snapshot_is_complete_and_fallback_keeps_original verifies the original receipt remains byte-identical, fallback reports UNKNOWN, and recovered argv/cwd/export_path plus source/request/rows hashes match the pre-execution snapshot."
+    }
+  ],
+  "reviewed_scope": "Pinned-upstream issue MRE matrix, source variants, flags and exact failure oracles; bounded runner/export classifier and receipt/fallback behavior; workflow gates/caps; source/dependency identities and control checkout scope.",
+  "checks": [
+    "Candidate, tree, sole upstream parent, worktree cleanliness, author and [skip ci] match the final packet.",
+    "Final packet/spec/diff hashes match; all eight declared dependency snapshots match baseline Git blobs.",
+    "Seven standalone sources and ten exact-harness rows; source predictions and diagnostic wording align with pinned sources/drafts; initialized/thin transformations are mechanically exact.",
+    "Static control check passes; workflow check validates one job and bounded timeout layout.",
+    "Synthetic Python suite: 27 tests PASS, including timeout/error/partial-export classification and interruption receipt fallback regression.",
+    "git diff --check clean. No compiler, verifier, build, CI, push, publication, or ledger action performed."
+  ],
+  "qualification": "ALL_NOT_RUN",
+  "proof_status": "ALL_NOT_RUN",
+  "proof_credit": "NONE"
+}
