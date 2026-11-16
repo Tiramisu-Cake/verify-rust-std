@@ -1,10 +1,10 @@
 # #5172 fixup — worker11
 
-Worktree: `/root/kani-5172-fixup-w11`  
-Ветка: `fix/kani-uninit-unresolved-call-v3-fixup-w11`  
-Коммит: `cb0efdbe5bba20635561e5c663cd9f6c3c767578`  
-Родитель: `6fe484b30043b3696b5f1ccc4bea0e42891ad012`  
-Автор: `Tiramisu-Cake <igkharin@gmail.com>`.
+- Worktree: `/root/kani-5172-fixup-w11`
+- Ветка: `fix/kani-uninit-unresolved-call-v3-fixup-w11`
+- Коммит: `cb0efdbe5bba20635561e5c663cd9f6c3c767578`
+- Родитель: `6fe484b30043b3696b5f1ccc4bea0e42891ad012`
+- Автор: `Tiramisu-Cake <igkharin@gmail.com>`.
 
 - `resolve_call` принимает `tcx` и проверяет тело через `checked_body(tcx, instance)`, как требует `kani_middle/mod.rs`. Перенесены соответствующие изменения из PR-01 `d82752c8bc878398e672bffaa631ca6a28430acc`, включая передачу `tcx` из points-to анализа и локального visitor. Проверка явных tail calls выполняется перед преобразованием пользовательского MIR.
 - Комментарии описывают проверки вызовов, перенос memory initialization state и содержимое тестов. Удалены внутренние формулировки про generated ABI, slot pairing, seeds и границы proof coverage. Перенесены правки комментариев четырёх тестов из PR-01; комментарий generated-positive дополнительно сокращён.
