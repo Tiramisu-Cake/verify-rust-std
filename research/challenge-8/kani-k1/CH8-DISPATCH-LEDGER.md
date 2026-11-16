@@ -143,6 +143,7 @@ S1 list fix (a) `c03363b3b0` (list timeout 1500 s) rejected by coordinator: orga
 - PROF-OFF-01 43782419242: FAILURE in 1 s at control validation — workflow `--repo ../..` points at the workspace root (S1 uses `--repo ..`); nothing built or run. Charged 1 (accepted attempt). Fix task TASK-CH8-PROF-OFF-FIX-W11; retry PROF-OFF-02 from the item-1 pool.
 | ~01:55Z | U-03 | U (item 1) | pkg `80d0d98529` (tree `4237f7d2c8`; padding-byte uninit fixtures, independent gates) → trigger `a7c80d91b4` on `uninit-ci/ch8-pr02-reset-c` | 43783429976 | Arm A only; same compiler diff. |
 | ~01:55Z | E-01 | E (item 1) | control `628ba7fd9b` (tree `72cbddf7e0`, parent 0aac) → sibling `3219b3f220` on `uninit-ci/ch8-e-ctl-a` | 43783430196 | Isolated single-file E-Q/E-S/E-H controls, matrix upstream 0aac + SEL1; no std build. g0 `74e78ab8cb`. |
+| ~02:10Z | S1-03 | S1 (item 2) | S′ `f22f84f316`; grouped control `40b5d9cf48` (tree `c17af28753`, parent 0aac; 5 groups by variant/unwind, no global list) → sibling `8233b98c15` on `uninit-ci/ch8-s1k-c` | 43784240498 | Last S1 attempt. g0 `2b49cb29d9` kani-host-nolist/batch/. Per-root RSS UNKNOWN by design (group-scoped). |
 C-01 held: C controls (std `d073585946` on P′, control `cdd3c6d041`, g0 `425f10fbfd`) use the same global `kani list` that timed out in S1-02 — dispatch after the list fix.
 
-Item 1 used: 9 of 18 (A1 3, B 1, U 3, Profiles 1, E 1) + PROF-OFF-02 reserved. Item 2 used: 2 of 14 (S1 2) + S1-03 reserved. Total 11 dispatched + 2 reserved of 32.
+Item 1 used: 9 of 18 (A1 3, B 1, U 3, Profiles 1, E 1) + PROF-OFF-02 reserved. Item 2 used: 3 of 14 (S1 3). Total 12 dispatched + 1 reserved (PROF-OFF-02) of 32.
