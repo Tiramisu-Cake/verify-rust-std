@@ -1,0 +1,298 @@
+{
+  "kani::mem::cbmc::same_allocation.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "Kani does not support reasoning about pointer to unallocated memory",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/lib.rs",
+    "id": "kani::mem::cbmc::same_allocation.unsupported_construct.1",
+    "line": "357",
+    "origin": [
+      "library/kani_core/src/mem.rs:268-270",
+      "library/kani_core/src/lib.rs:588-593",
+      "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs:223-240",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:214-220"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "kani::mem::is_inbounds::<[[u8; 16]]>.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "Kani does not support reasoning about pointer to unallocated memory",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/lib.rs",
+    "id": "kani::mem::is_inbounds::<[[u8; 16]]>.unsupported_construct.1",
+    "line": "357",
+    "origin": [
+      "library/kani_core/src/mem.rs:197-199",
+      "library/kani_core/src/lib.rs:588-593",
+      "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs:223-240",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:214-220"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "kani::mem::is_inbounds::<[cell::Cell<u8>]>.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "Kani does not support reasoning about pointer to unallocated memory",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/lib.rs",
+    "id": "kani::mem::is_inbounds::<[cell::Cell<u8>]>.unsupported_construct.1",
+    "line": "357",
+    "origin": [
+      "library/kani_core/src/mem.rs:197-199",
+      "library/kani_core/src/lib.rs:588-593",
+      "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs:223-240",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:214-220"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "kani::mem::is_inbounds::<[slice::sort::shared::smallsort::verify::forwarding_contracts::NonCopyU8]>.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "Kani does not support reasoning about pointer to unallocated memory",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/lib.rs",
+    "id": "kani::mem::is_inbounds::<[slice::sort::shared::smallsort::verify::forwarding_contracts::NonCopyU8]>.unsupported_construct.1",
+    "line": "357",
+    "origin": [
+      "library/kani_core/src/mem.rs:197-199",
+      "library/kani_core/src/lib.rs:588-593",
+      "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs:223-240",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:214-220"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "kani::mem::is_inbounds::<[u64]>.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "Kani does not support reasoning about pointer to unallocated memory",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/lib.rs",
+    "id": "kani::mem::is_inbounds::<[u64]>.unsupported_construct.1",
+    "line": "357",
+    "origin": [
+      "library/kani_core/src/mem.rs:197-199",
+      "library/kani_core/src/lib.rs:588-593",
+      "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs:223-240",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:214-220"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "kani::mem::is_inbounds::<[u8; 16]>.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "Kani does not support reasoning about pointer to unallocated memory",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/lib.rs",
+    "id": "kani::mem::is_inbounds::<[u8; 16]>.unsupported_construct.1",
+    "line": "357",
+    "origin": [
+      "library/kani_core/src/mem.rs:197-199",
+      "library/kani_core/src/lib.rs:588-593",
+      "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs:223-240",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:214-220"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "kani::mem::is_inbounds::<[u8; 17]>.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "Kani does not support reasoning about pointer to unallocated memory",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/lib.rs",
+    "id": "kani::mem::is_inbounds::<[u8; 17]>.unsupported_construct.1",
+    "line": "357",
+    "origin": [
+      "library/kani_core/src/mem.rs:197-199",
+      "library/kani_core/src/lib.rs:588-593",
+      "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs:223-240",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:214-220"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "kani::mem::is_inbounds::<[u8]>.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "Kani does not support reasoning about pointer to unallocated memory",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/lib.rs",
+    "id": "kani::mem::is_inbounds::<[u8]>.unsupported_construct.1",
+    "line": "357",
+    "origin": [
+      "library/kani_core/src/mem.rs:197-199",
+      "library/kani_core/src/lib.rs:588-593",
+      "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs:223-240",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:214-220"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "kani::mem::is_inbounds::<cell::Cell<i32>>.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "Kani does not support reasoning about pointer to unallocated memory",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/lib.rs",
+    "id": "kani::mem::is_inbounds::<cell::Cell<i32>>.unsupported_construct.1",
+    "line": "357",
+    "origin": [
+      "library/kani_core/src/mem.rs:197-199",
+      "library/kani_core/src/lib.rs:588-593",
+      "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs:223-240",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:214-220"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "kani::mem::is_inbounds::<i32>.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "Kani does not support reasoning about pointer to unallocated memory",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/lib.rs",
+    "id": "kani::mem::is_inbounds::<i32>.unsupported_construct.1",
+    "line": "357",
+    "origin": [
+      "library/kani_core/src/mem.rs:197-199",
+      "library/kani_core/src/lib.rs:588-593",
+      "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs:223-240",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:214-220"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "kani::mem::is_inbounds::<slice::sort::shared::smallsort::verify::network::DropValue>.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "Kani does not support reasoning about pointer to unallocated memory",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/lib.rs",
+    "id": "kani::mem::is_inbounds::<slice::sort::shared::smallsort::verify::network::DropValue>.unsupported_construct.1",
+    "line": "357",
+    "origin": [
+      "library/kani_core/src/mem.rs:197-199",
+      "library/kani_core/src/lib.rs:588-593",
+      "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs:223-240",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:214-220"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "kani::mem::is_inbounds::<u64>.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "Kani does not support reasoning about pointer to unallocated memory",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/lib.rs",
+    "id": "kani::mem::is_inbounds::<u64>.unsupported_construct.1",
+    "line": "357",
+    "origin": [
+      "library/kani_core/src/mem.rs:197-199",
+      "library/kani_core/src/lib.rs:588-593",
+      "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs:223-240",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:214-220"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "kani::mem::is_inbounds::<u8>.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "Kani does not support reasoning about pointer to unallocated memory",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/lib.rs",
+    "id": "kani::mem::is_inbounds::<u8>.unsupported_construct.1",
+    "line": "357",
+    "origin": [
+      "library/kani_core/src/mem.rs:197-199",
+      "library/kani_core/src/lib.rs:588-593",
+      "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs:223-240",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:214-220"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "panic::location::Location::<'_>::caller.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/panic/location.rs",
+    "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+    "line": "185",
+    "origin": [
+      "kani-compiler/src/intrinsics.rs:298-303",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/intrinsic.rs:754-755",
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:278-296"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  },
+  "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1": {
+    "assert_then_assume": "kani-compiler/src/codegen_cprover_gotoc/codegen/assert.rs:129-143",
+    "assurance": "STATIC_SOURCE_CHAIN_PLUS_EXACT_EXPORT_PROPERTY; no independent compiler execution",
+    "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+    "export_exact_id_status_class": [
+      "kani-driver/src/frontend/schema_utils.rs:495-504",
+      "kani-driver/src/frontend/schema_utils.rs:768-772"
+    ],
+    "file_suffix": "library/core/src/panicking.rs",
+    "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+    "line": "110",
+    "origin": [
+      "kani-compiler/src/codegen_cprover_gotoc/codegen/foreign_function.rs:255-261"
+    ],
+    "semantics": "assert(false); assume(false)",
+    "tool_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+  }
+}

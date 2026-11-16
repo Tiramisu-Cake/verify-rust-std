@@ -1,0 +1,61 @@
+{
+  "all_source_cover_windows_exact": 189,
+  "artifact_sha256_verified": true,
+  "counts": {
+    "all_62_historical_snapshots_reproduced": true,
+    "consumers": {
+      "profile_insert_consumer_u8_backing17": {
+        "id": "contract_insert_tail_u8_prefix",
+        "status": "UNKNOWN"
+      },
+      "profile_merge_consumer_u8_len4": {
+        "id": "merge_contract_u8_n2_to4",
+        "status": "UNKNOWN"
+      },
+      "profile_sort4_consumer_b16": {
+        "id": "sort4_contract_bytes16_n4",
+        "status": "UNKNOWN"
+      },
+      "profile_sort4_consumer_u64": {
+        "id": "sort4_contract_u64_n4",
+        "status": "UNKNOWN"
+      },
+      "profile_swap_consumer_u8_backing4": {
+        "id": "swap_contract_four_positions_u8",
+        "status": "UNKNOWN"
+      }
+    },
+    "negative_statuses": {
+      "ACCEPTED": 1,
+      "UNKNOWN": 8
+    },
+    "positive_statuses": {
+      "ACCEPTED": 8,
+      "UNKNOWN": 45
+    },
+    "rows": 62,
+    "statuses": {
+      "ACCEPTED": 9,
+      "PENDING": 0,
+      "UNKNOWN": 53
+    },
+    "unreachable_decisions": {
+      "UNKNOWN": 1710
+    },
+    "unsupported_decisions": {
+      "ALLOWED_UNREACHABLE_CONSTRUCT": 205
+    }
+  },
+  "historical_snapshots_exact": 62,
+  "new_synthetic_tests": {
+    "count": 31,
+    "result": "PASS"
+  },
+  "proof_credit": "NONE",
+  "schema": "prof-off-accept-v2-validation-v1",
+  "unchanged_control_tests": {
+    "control": "112fcc9ada67ee2bb8e1712d47983d6717487b78",
+    "count": 42,
+    "result": "PASS"
+  }
+}
