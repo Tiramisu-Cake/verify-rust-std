@@ -1,0 +1,694 @@
+{
+  "archive_digest_assurance": "GITHUB_METADATA_ONLY; gh run download extracted artifacts; no independent ZIP digest verification",
+  "artifact_count": 14,
+  "collection_command": [
+    "/usr/bin/python3",
+    "/root/kani-ch8-s1-04-depth-w13/ch8-s1-control/collect.py",
+    "--root",
+    "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-activation-default-u34",
+    "--root",
+    "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-activation-override-u34",
+    "--root",
+    "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-cell-u34",
+    "--root",
+    "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_copy_u8-n01-u34",
+    "--root",
+    "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_copy_u8-n23-u34",
+    "--root",
+    "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_default_noncopy-n01-u34",
+    "--root",
+    "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_default_noncopy-n23-u34",
+    "--root",
+    "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-light-controls-u34",
+    "--root",
+    "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-light-corruption-u4",
+    "--root",
+    "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-light-model-u5",
+    "--root",
+    "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-stable_freeze_u8-n01-u34",
+    "--root",
+    "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-stable_freeze_u8-n23-u34",
+    "--root",
+    "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-unstable_freeze_u8-n01-u34",
+    "--root",
+    "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-unstable_freeze_u8-n23-u34",
+    "--out",
+    "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-s1/s1-04/run-43830757263/collected.json"
+  ],
+  "collector_sha256": "cc3dd3ea00c47cc0b639c935ec924a538bbfdeb300164afdada29d22b225716e",
+  "control_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+  "g0_input": "dfa49651efee40fc8c95ba88e9d49def3202c75a",
+  "inventory": [
+    {
+      "artifact": {
+        "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14210617010/zip",
+        "created_at": "2026-11-16T08:53:46Z",
+        "digest": "sha256:21e59bffae3762845efbf5631aaeedfcd63c6f2af77a2adf0e049fdf9774b6c8",
+        "expired": false,
+        "expires_at": "2026-11-23T08:53:45Z",
+        "id": 14210617010,
+        "name": "ch8-s1-04-43830757263-1-activation-default-u34",
+        "node_id": "MDg6QXJ0aWZhY3QxNDIxMDYxNzAxMA==",
+        "size_in_bytes": 28724,
+        "updated_at": "2026-11-16T08:53:46Z",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14210617010",
+        "workflow_run": {
+          "head_branch": "uninit-ci/ch8-s1k-f",
+          "head_repository_id": 1453289307,
+          "head_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+          "id": 43830757263,
+          "repository_id": 1453289307
+        }
+      },
+      "files": [
+        {
+          "original_sha256": "736cc834feba2136ea49e36e81843c12008f2dd1afe91662bcbb60af1c997bfb",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/activation-default-u34/receipt.json",
+          "saved_sha256": "d962a4ec810bfd002c1d2f31dbc853a3665533be09e3046dfab09fc044af88ea",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-activation-default-u34/groups/activation-default-u34/receipt.json"
+        },
+        {
+          "original_sha256": "d42c320db986de4fc2f31ff304f8d5adac925089a610bf427ddd2ba7b0192449",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/activation-default-u34/compile/receipt.json",
+          "saved_sha256": "a039da8782ecab363b46590fad5f9a39dd7934ef19d4fdc20666163bf8567a4f",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-activation-default-u34/groups/activation-default-u34/compile/receipt.json"
+        },
+        {
+          "original_sha256": "c2100dc600b0bced6ae4995b7b4ce7b2f21b58e7b20f7d4a8a3abb3d02a47f61",
+          "projection": "EXACT_EXPORT_BYTES",
+          "saved": "evidence/activation-default-u34/export.json",
+          "saved_sha256": "c2100dc600b0bced6ae4995b7b4ce7b2f21b58e7b20f7d4a8a3abb3d02a47f61",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-activation-default-u34/groups/activation-default-u34/export.json"
+        }
+      ],
+      "terminal_receipt_sha256": "5aebfdb0462ec61e6e31cc7349c3a15b350ac2e02f61040962e8281ef1643c12"
+    },
+    {
+      "artifact": {
+        "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14209903870/zip",
+        "created_at": "2026-11-16T09:00:55Z",
+        "digest": "sha256:34ddaf33c1dcce20dd6752daa96a997ce8635ce0102719cb59e04134ebb848e3",
+        "expired": false,
+        "expires_at": "2026-11-23T09:00:54Z",
+        "id": 14209903870,
+        "name": "ch8-s1-04-43830757263-1-activation-override-u34",
+        "node_id": "MDg6QXJ0aWZhY3QxNDIwOTkwMzg3MA==",
+        "size_in_bytes": 28797,
+        "updated_at": "2026-11-16T09:00:55Z",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14209903870",
+        "workflow_run": {
+          "head_branch": "uninit-ci/ch8-s1k-f",
+          "head_repository_id": 1453289307,
+          "head_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+          "id": 43830757263,
+          "repository_id": 1453289307
+        }
+      },
+      "files": [
+        {
+          "original_sha256": "06de34fc8b0a70801ef8009c16d306b99851565e6cf10de91adeed8fd7c7beda",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/activation-override-u34/receipt.json",
+          "saved_sha256": "69b25a5a2ad4bf55bcd5b741c0ed5433bc7e879968b2663dc05bbfa5228692ac",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-activation-override-u34/groups/activation-override-u34/receipt.json"
+        },
+        {
+          "original_sha256": "ee29f558b1cea30f1da0bb6919d13fca2951026ac552e468c0465d2666d7800f",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/activation-override-u34/compile/receipt.json",
+          "saved_sha256": "7c5d1b7255d547cb33d73b62ed02c26cb063a127fb9fa8d8cd18717a5b16eacf",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-activation-override-u34/groups/activation-override-u34/compile/receipt.json"
+        },
+        {
+          "original_sha256": "d581e0f462bcf0cf4d81f82f123bf6447bb43da42887dca85dc54549d07c413a",
+          "projection": "EXACT_EXPORT_BYTES",
+          "saved": "evidence/activation-override-u34/export.json",
+          "saved_sha256": "d581e0f462bcf0cf4d81f82f123bf6447bb43da42887dca85dc54549d07c413a",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-activation-override-u34/groups/activation-override-u34/export.json"
+        }
+      ],
+      "terminal_receipt_sha256": "536d0df80c275f9a61b494b32c99e1ff3e661d1c60091ba0cb3a0a2a495b6f59"
+    },
+    {
+      "artifact": {
+        "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14211259325/zip",
+        "created_at": "2026-11-16T09:20:35Z",
+        "digest": "sha256:3b29b2bf42382d82e13643380506de2eb236c956ccc042b0badabb7d091fd98c",
+        "expired": false,
+        "expires_at": "2026-11-23T09:20:34Z",
+        "id": 14211259325,
+        "name": "ch8-s1-04-43830757263-1-cell-u34",
+        "node_id": "MDg6QXJ0aWZhY3QxNDIxMTI1OTMyNQ==",
+        "size_in_bytes": 32019,
+        "updated_at": "2026-11-16T09:20:35Z",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14211259325",
+        "workflow_run": {
+          "head_branch": "uninit-ci/ch8-s1k-f",
+          "head_repository_id": 1453289307,
+          "head_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+          "id": 43830757263,
+          "repository_id": 1453289307
+        }
+      },
+      "files": [
+        {
+          "original_sha256": "eeb1177ec87b7bef4d62f4215cacb0ac896e04bb3f135e986d35c7cc8662c23d",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/cell-u34/receipt.json",
+          "saved_sha256": "a910d8e7c9026f36f3c3235023136e1de64d457c6380a285d8be45f61c808074",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-cell-u34/groups/cell-u34/receipt.json"
+        },
+        {
+          "original_sha256": "e1fea4f9e0da4829f4e961e36d116f683020ea11fe9e147d30ebc43889e31935",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/cell-u34/compile/receipt.json",
+          "saved_sha256": "2499d31ce4485963f1a720ee5398ae73fbdd0727aaf6c92bac47c1c2440886c8",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-cell-u34/groups/cell-u34/compile/receipt.json"
+        },
+        {
+          "original_sha256": "4a2b530e2490adcac2a25f7dc2db620bfe551697222e28ff91582caa98c7c2e0",
+          "projection": "EXACT_EXPORT_BYTES",
+          "saved": "evidence/cell-u34/export.json",
+          "saved_sha256": "4a2b530e2490adcac2a25f7dc2db620bfe551697222e28ff91582caa98c7c2e0",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-cell-u34/groups/cell-u34/export.json"
+        }
+      ],
+      "terminal_receipt_sha256": "42b0530847527f21eb50713adecb18a0c3608fb74a94a28d578b157ecbf7dcae"
+    },
+    {
+      "artifact": {
+        "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14211708801/zip",
+        "created_at": "2026-11-16T09:28:23Z",
+        "digest": "sha256:e881690a5101a24a1a7d33ba1faffcd78b9c2f697d25472e7b58912139fc709e",
+        "expired": false,
+        "expires_at": "2026-11-23T09:28:22Z",
+        "id": 14211708801,
+        "name": "ch8-s1-04-43830757263-1-freeze_copy_u8-n01-u34",
+        "node_id": "MDg6QXJ0aWZhY3QxNDIxMTcwODgwMQ==",
+        "size_in_bytes": 33158,
+        "updated_at": "2026-11-16T09:28:23Z",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14211708801",
+        "workflow_run": {
+          "head_branch": "uninit-ci/ch8-s1k-f",
+          "head_repository_id": 1453289307,
+          "head_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+          "id": 43830757263,
+          "repository_id": 1453289307
+        }
+      },
+      "files": [
+        {
+          "original_sha256": "76e2642610e12ebb76b9886806a068969603e612d0fb70ce9e1b5eadd5aa8921",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/freeze_copy_u8-n01-u34/receipt.json",
+          "saved_sha256": "62b5580d11544c641ab747ab1e8d1440404f51c1a63ffed8dd24d8edc245f822",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_copy_u8-n01-u34/groups/freeze_copy_u8-n01-u34/receipt.json"
+        },
+        {
+          "original_sha256": "edefa1a859f0a397ede6f5bfa1ffdae03e3c47ffcc16c30e0c8ac9be8fca40d7",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/freeze_copy_u8-n01-u34/compile/receipt.json",
+          "saved_sha256": "2f208d3ab427c0190293afb15c3c9163cb14427063d9576fcd34159e9d623a66",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_copy_u8-n01-u34/groups/freeze_copy_u8-n01-u34/compile/receipt.json"
+        },
+        {
+          "original_sha256": "8e303e1b7d1735b11cbf4f18719cbd3e0b245e52bc634112f80edef1c7257b99",
+          "projection": "EXACT_EXPORT_BYTES",
+          "saved": "evidence/freeze_copy_u8-n01-u34/export.json",
+          "saved_sha256": "8e303e1b7d1735b11cbf4f18719cbd3e0b245e52bc634112f80edef1c7257b99",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_copy_u8-n01-u34/groups/freeze_copy_u8-n01-u34/export.json"
+        }
+      ],
+      "terminal_receipt_sha256": "00b09910394f50ebcc949c76212abce89c32c1f7c2b587be1cecbdec2e3fbac1"
+    },
+    {
+      "artifact": {
+        "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14212254327/zip",
+        "created_at": "2026-11-16T09:36:39Z",
+        "digest": "sha256:9f580a48a89524fba31db32cc230f0255d94a12805102c09e7c0b54cb99b0493",
+        "expired": false,
+        "expires_at": "2026-11-23T09:36:39Z",
+        "id": 14212254327,
+        "name": "ch8-s1-04-43830757263-1-freeze_copy_u8-n23-u34",
+        "node_id": "MDg6QXJ0aWZhY3QxNDIxMjI1NDMyNw==",
+        "size_in_bytes": 33253,
+        "updated_at": "2026-11-16T09:36:39Z",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14212254327",
+        "workflow_run": {
+          "head_branch": "uninit-ci/ch8-s1k-f",
+          "head_repository_id": 1453289307,
+          "head_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+          "id": 43830757263,
+          "repository_id": 1453289307
+        }
+      },
+      "files": [
+        {
+          "original_sha256": "2c932bc24f499c1668a7bcceaf3f2e0a33311adae4e9990a4925192a1cda9e78",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/freeze_copy_u8-n23-u34/receipt.json",
+          "saved_sha256": "415ccb23db779dac5e41a67e804d4a91f021a600e721eedd45da43b246ff5107",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_copy_u8-n23-u34/groups/freeze_copy_u8-n23-u34/receipt.json"
+        },
+        {
+          "original_sha256": "eee1ca7000e2c12c3a40be473c77d8cd9d58acc261f03fde900021e6e25cddc7",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/freeze_copy_u8-n23-u34/compile/receipt.json",
+          "saved_sha256": "8c12d384df71e5911399473c36ff5ae4a85aa2d3470ec08c91d0aa8c5e12b7f7",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_copy_u8-n23-u34/groups/freeze_copy_u8-n23-u34/compile/receipt.json"
+        },
+        {
+          "original_sha256": "e1943b53a490be30028efd7e3c6783c98b8ad358fcc978d138d213823583363c",
+          "projection": "EXACT_EXPORT_BYTES",
+          "saved": "evidence/freeze_copy_u8-n23-u34/export.json",
+          "saved_sha256": "e1943b53a490be30028efd7e3c6783c98b8ad358fcc978d138d213823583363c",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_copy_u8-n23-u34/groups/freeze_copy_u8-n23-u34/export.json"
+        }
+      ],
+      "terminal_receipt_sha256": "007b2d01ac59fc1cf4e30c9253e739a45686ac354f778926256aa2d8a7f1dfd7"
+    },
+    {
+      "artifact": {
+        "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14214305066/zip",
+        "created_at": "2026-11-16T09:44:09Z",
+        "digest": "sha256:c06788f05f461e9cf972292dafb44948edf98b85ced93639808562bd66b4da00",
+        "expired": false,
+        "expires_at": "2026-11-23T09:44:08Z",
+        "id": 14214305066,
+        "name": "ch8-s1-04-43830757263-1-freeze_default_noncopy-n01-u34",
+        "node_id": "MDg6QXJ0aWZhY3QxNDIxNDMwNTA2Ng==",
+        "size_in_bytes": 33228,
+        "updated_at": "2026-11-16T09:44:09Z",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14214305066",
+        "workflow_run": {
+          "head_branch": "uninit-ci/ch8-s1k-f",
+          "head_repository_id": 1453289307,
+          "head_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+          "id": 43830757263,
+          "repository_id": 1453289307
+        }
+      },
+      "files": [
+        {
+          "original_sha256": "d7fca9f9718ce9e04c5897d927100aa49ae8c27278c3524ed82b9e6c010f0d3d",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/freeze_default_noncopy-n01-u34/receipt.json",
+          "saved_sha256": "6913249cddba559237f1c539de7c51d68c83b8e468b4c8208d89ac36dbba1231",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_default_noncopy-n01-u34/groups/freeze_default_noncopy-n01-u34/receipt.json"
+        },
+        {
+          "original_sha256": "8bbb6b51619e3e195a8140e38ecc049bb29490085368c51290c0f54563893358",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/freeze_default_noncopy-n01-u34/compile/receipt.json",
+          "saved_sha256": "a6e264089cbca3aa2e5655adb969c9fda2e0d11c7e89a063bc1287070d354e4f",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_default_noncopy-n01-u34/groups/freeze_default_noncopy-n01-u34/compile/receipt.json"
+        },
+        {
+          "original_sha256": "a286d7efaad2c24fe56b7f2fd14e4e572856adcac2fadb24ae255527af9af716",
+          "projection": "EXACT_EXPORT_BYTES",
+          "saved": "evidence/freeze_default_noncopy-n01-u34/export.json",
+          "saved_sha256": "a286d7efaad2c24fe56b7f2fd14e4e572856adcac2fadb24ae255527af9af716",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_default_noncopy-n01-u34/groups/freeze_default_noncopy-n01-u34/export.json"
+        }
+      ],
+      "terminal_receipt_sha256": "3665b2f864d460d5bf34e1ecadf175083fd17a7f13f6df0d6744477c8fd3da78"
+    },
+    {
+      "artifact": {
+        "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14215255075/zip",
+        "created_at": "2026-11-16T09:57:07Z",
+        "digest": "sha256:22ad41220af3f7596a32fb7a1e7403b92f83726653e376401989f987cbaf23a5",
+        "expired": false,
+        "expires_at": "2026-11-23T09:57:07Z",
+        "id": 14215255075,
+        "name": "ch8-s1-04-43830757263-1-freeze_default_noncopy-n23-u34",
+        "node_id": "MDg6QXJ0aWZhY3QxNDIxNTI1NTA3NQ==",
+        "size_in_bytes": 32806,
+        "updated_at": "2026-11-16T09:57:07Z",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14215255075",
+        "workflow_run": {
+          "head_branch": "uninit-ci/ch8-s1k-f",
+          "head_repository_id": 1453289307,
+          "head_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+          "id": 43830757263,
+          "repository_id": 1453289307
+        }
+      },
+      "files": [
+        {
+          "original_sha256": "4d12817e1a484077e71988bddbe47b410a532eac24b2f1d7e24ead59be632902",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/freeze_default_noncopy-n23-u34/receipt.json",
+          "saved_sha256": "3073d3f99fd44ba93d5eb9ba5f56bf17fa284a5d3bc8389c257c265e8f916176",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_default_noncopy-n23-u34/groups/freeze_default_noncopy-n23-u34/receipt.json"
+        },
+        {
+          "original_sha256": "a54db215b9ee542ec979dfaaf24548b239caa882ec00feac4fb88055670f9f65",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/freeze_default_noncopy-n23-u34/compile/receipt.json",
+          "saved_sha256": "0984d6e81678d88162fc4d94a7a901df807d1e10d6978c0cd774add3f7a73b38",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_default_noncopy-n23-u34/groups/freeze_default_noncopy-n23-u34/compile/receipt.json"
+        },
+        {
+          "original_sha256": "ff8535241e7c7c6f8b3edb4ad8be193b8301657170df9a9e9a98f335fd162817",
+          "projection": "EXACT_EXPORT_BYTES",
+          "saved": "evidence/freeze_default_noncopy-n23-u34/export.json",
+          "saved_sha256": "ff8535241e7c7c6f8b3edb4ad8be193b8301657170df9a9e9a98f335fd162817",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-freeze_default_noncopy-n23-u34/groups/freeze_default_noncopy-n23-u34/export.json"
+        }
+      ],
+      "terminal_receipt_sha256": "55f8343d5957ed877495ee0639884f6c398df01d3e7279e7dc4b43966a9781e9"
+    },
+    {
+      "artifact": {
+        "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14210370581/zip",
+        "created_at": "2026-11-16T08:45:16Z",
+        "digest": "sha256:1fab9bd7a2e927d8c7792d54936439a7da8f311557a797ee445e1f7c38529781",
+        "expired": false,
+        "expires_at": "2026-11-23T08:45:15Z",
+        "id": 14210370581,
+        "name": "ch8-s1-04-43830757263-1-light-controls-u34",
+        "node_id": "MDg6QXJ0aWZhY3QxNDIxMDM3MDU4MQ==",
+        "size_in_bytes": 57194,
+        "updated_at": "2026-11-16T08:45:16Z",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14210370581",
+        "workflow_run": {
+          "head_branch": "uninit-ci/ch8-s1k-f",
+          "head_repository_id": 1453289307,
+          "head_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+          "id": 43830757263,
+          "repository_id": 1453289307
+        }
+      },
+      "files": [
+        {
+          "original_sha256": "7ced80a0997fb1fcbe17977b5a73c1a404b634695cf57185603c2c4f016eac42",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/light-controls-u34/receipt.json",
+          "saved_sha256": "94181eafcc3df5ca07c5a2f2de98da4c24cca71ea8aeba14449318595bbb0565",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-light-controls-u34/groups/light-controls-u34/receipt.json"
+        },
+        {
+          "original_sha256": "e9fbdd894c2b8070e4f837e3270c46351e34dce78b0bf97402b7954ce9897e35",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/light-controls-u34/compile/receipt.json",
+          "saved_sha256": "b8c4201007372d088296bb2372e2257bdebcc83c99710905f47687e251c0feae",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-light-controls-u34/groups/light-controls-u34/compile/receipt.json"
+        },
+        {
+          "original_sha256": "fd55f9b5242ec4e8bd9659e2db847d1d9d37cb1d84631a37e8c77dccaf4a1ad5",
+          "projection": "EXACT_EXPORT_BYTES",
+          "saved": "evidence/light-controls-u34/export.json",
+          "saved_sha256": "fd55f9b5242ec4e8bd9659e2db847d1d9d37cb1d84631a37e8c77dccaf4a1ad5",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-light-controls-u34/groups/light-controls-u34/export.json"
+        }
+      ],
+      "terminal_receipt_sha256": "ff7f550dfc7ecf8413d60a3bcc5ed18a2a44e58c3dc8491f2fc7095bb87f0243"
+    },
+    {
+      "artifact": {
+        "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14209043200/zip",
+        "created_at": "2026-11-16T08:37:29Z",
+        "digest": "sha256:40ad564a74ab8018226fb632bc84f07387dea3e0b3298022f8c5e53f0c0b51af",
+        "expired": false,
+        "expires_at": "2026-11-23T08:37:29Z",
+        "id": 14209043200,
+        "name": "ch8-s1-04-43830757263-1-light-corruption-u4",
+        "node_id": "MDg6QXJ0aWZhY3QxNDIwOTA0MzIwMA==",
+        "size_in_bytes": 35573,
+        "updated_at": "2026-11-16T08:37:29Z",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14209043200",
+        "workflow_run": {
+          "head_branch": "uninit-ci/ch8-s1k-f",
+          "head_repository_id": 1453289307,
+          "head_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+          "id": 43830757263,
+          "repository_id": 1453289307
+        }
+      },
+      "files": [
+        {
+          "original_sha256": "ec036ed914db074c393df8e1eb787bb11caa748d06420c3b65bffb6fac786a4a",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/light-corruption-u4/receipt.json",
+          "saved_sha256": "98c8f77dc900fef1daaa3302b556c8dc8eebf2f87ef36a69553a2d6e51be3380",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-light-corruption-u4/groups/light-corruption-u4/receipt.json"
+        },
+        {
+          "original_sha256": "5f8bacb427e976fdac13a409f557ec23db3124f2c40ca86b0deec06acb0d36d2",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/light-corruption-u4/compile/receipt.json",
+          "saved_sha256": "9c385dc830abedf8321fb37128b82f2ed77f0c231bf88a70492c47b7d32b0860",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-light-corruption-u4/groups/light-corruption-u4/compile/receipt.json"
+        },
+        {
+          "original_sha256": "a32b9b257c026b0e40a35263de369ed5a6eb1fcc5dce99e922f07d1c8b4237fd",
+          "projection": "EXACT_EXPORT_BYTES",
+          "saved": "evidence/light-corruption-u4/export.json",
+          "saved_sha256": "a32b9b257c026b0e40a35263de369ed5a6eb1fcc5dce99e922f07d1c8b4237fd",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-light-corruption-u4/groups/light-corruption-u4/export.json"
+        }
+      ],
+      "terminal_receipt_sha256": "ef62ea5ffc09055213b4f8476b850c801f823f7caff168db3073550bcd08535c"
+    },
+    {
+      "artifact": {
+        "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14209186139/zip",
+        "created_at": "2026-11-16T08:30:27Z",
+        "digest": "sha256:3fbfd5b509bc172b821e58815bb11b401dbd861aa145aebe9f83e4583486f9a0",
+        "expired": false,
+        "expires_at": "2026-11-23T08:30:25Z",
+        "id": 14209186139,
+        "name": "ch8-s1-04-43830757263-1-light-model-u5",
+        "node_id": "MDg6QXJ0aWZhY3QxNDIwOTE4NjEzOQ==",
+        "size_in_bytes": 32747,
+        "updated_at": "2026-11-16T08:30:27Z",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14209186139",
+        "workflow_run": {
+          "head_branch": "uninit-ci/ch8-s1k-f",
+          "head_repository_id": 1453289307,
+          "head_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+          "id": 43830757263,
+          "repository_id": 1453289307
+        }
+      },
+      "files": [
+        {
+          "original_sha256": "c5eb7e9e11f0b0a4c2b94e33a87d3529e54903ffc0104f901736185aa0e386f1",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/light-model-u5/receipt.json",
+          "saved_sha256": "c07c7146c9df55d71ef02cc1a8d5df125aa16a04d651f87589b786e78b542e21",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-light-model-u5/groups/light-model-u5/receipt.json"
+        },
+        {
+          "original_sha256": "138fa9865e2f8f0684bc00210a0ca8e2ba2d7ffc86534e7176bed36064f4a461",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/light-model-u5/compile/receipt.json",
+          "saved_sha256": "844a7b2b79bae79c7174f458c8727a448c8d49cb8b85c29a408150ffa2ee58bc",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-light-model-u5/groups/light-model-u5/compile/receipt.json"
+        },
+        {
+          "original_sha256": "a03fdb6637f018f3ef58429852d7feea8a8e3f98271b65c1294b19a6ed6d8bcd",
+          "projection": "EXACT_EXPORT_BYTES",
+          "saved": "evidence/light-model-u5/export.json",
+          "saved_sha256": "a03fdb6637f018f3ef58429852d7feea8a8e3f98271b65c1294b19a6ed6d8bcd",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-light-model-u5/groups/light-model-u5/export.json"
+        }
+      ],
+      "terminal_receipt_sha256": "9e13d930b4604d636c6f9c77578ed9809fd58b26cf535dd2ae1b1d77ebaa85e3"
+    },
+    {
+      "artifact": {
+        "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14213994312/zip",
+        "created_at": "2026-11-16T10:04:14Z",
+        "digest": "sha256:f4a5dc2ad17ef8e9e5b2e57c82907409d21a8f4b29d22ce7fb7716d8a4bae372",
+        "expired": false,
+        "expires_at": "2026-11-23T10:04:13Z",
+        "id": 14213994312,
+        "name": "ch8-s1-04-43830757263-1-stable_freeze_u8-n01-u34",
+        "node_id": "MDg6QXJ0aWZhY3QxNDIxMzk5NDMxMg==",
+        "size_in_bytes": 33026,
+        "updated_at": "2026-11-16T10:04:14Z",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14213994312",
+        "workflow_run": {
+          "head_branch": "uninit-ci/ch8-s1k-f",
+          "head_repository_id": 1453289307,
+          "head_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+          "id": 43830757263,
+          "repository_id": 1453289307
+        }
+      },
+      "files": [
+        {
+          "original_sha256": "dee8aae8a8ccb6285514195eeb49d3589b76305b7cda79ca611edb5bc14a975e",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/stable_freeze_u8-n01-u34/receipt.json",
+          "saved_sha256": "6cd8269210d6f60ced2a7fce1320bfcc5832ab90ecb36ca671c5dfe3246a2d03",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-stable_freeze_u8-n01-u34/groups/stable_freeze_u8-n01-u34/receipt.json"
+        },
+        {
+          "original_sha256": "72124cdf35ccea13b31e405e65c49255dc03cdf7807feb5c4f12d1121d67bc7d",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/stable_freeze_u8-n01-u34/compile/receipt.json",
+          "saved_sha256": "cd97640fffc3d6088c1618f25f0f6c2195c5f7fae5b0fd89b294d4acd17ae45d",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-stable_freeze_u8-n01-u34/groups/stable_freeze_u8-n01-u34/compile/receipt.json"
+        },
+        {
+          "original_sha256": "d664e3d0a4c77124080cabe05aec6e0ba8d8c1a430cbe9bc467b4aee1f28439a",
+          "projection": "EXACT_EXPORT_BYTES",
+          "saved": "evidence/stable_freeze_u8-n01-u34/export.json",
+          "saved_sha256": "d664e3d0a4c77124080cabe05aec6e0ba8d8c1a430cbe9bc467b4aee1f28439a",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-stable_freeze_u8-n01-u34/groups/stable_freeze_u8-n01-u34/export.json"
+        }
+      ],
+      "terminal_receipt_sha256": "e89a6ff8df19fbb397a6827941822b14c78dd503767450173f06c274b1488850"
+    },
+    {
+      "artifact": {
+        "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14216665398/zip",
+        "created_at": "2026-11-16T10:17:21Z",
+        "digest": "sha256:f846470950cf759d48c7d85643271ad037d911630b6537b07e2e9170fbd7146d",
+        "expired": false,
+        "expires_at": "2026-11-23T10:17:20Z",
+        "id": 14216665398,
+        "name": "ch8-s1-04-43830757263-1-stable_freeze_u8-n23-u34",
+        "node_id": "MDg6QXJ0aWZhY3QxNDIxNjY2NTM5OA==",
+        "size_in_bytes": 32471,
+        "updated_at": "2026-11-16T10:17:21Z",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14216665398",
+        "workflow_run": {
+          "head_branch": "uninit-ci/ch8-s1k-f",
+          "head_repository_id": 1453289307,
+          "head_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+          "id": 43830757263,
+          "repository_id": 1453289307
+        }
+      },
+      "files": [
+        {
+          "original_sha256": "ffda21fc59a0c6366e7a1ab6d3f904d34ca12b443938e4abe6dad15d4b569453",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/stable_freeze_u8-n23-u34/receipt.json",
+          "saved_sha256": "7c58f45fcda0e82a09858a7f29dc89d90352de161b1a28a18e7201e552f36650",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-stable_freeze_u8-n23-u34/groups/stable_freeze_u8-n23-u34/receipt.json"
+        },
+        {
+          "original_sha256": "4254e4258f0785823263d8a4821f2b4a895beaf17e0f0ee4d45b1455632fbbf5",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/stable_freeze_u8-n23-u34/compile/receipt.json",
+          "saved_sha256": "0918c96b7c5c57dc449b8aa4000c38739778a5f8379e343be6d470cf1c0eb040",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-stable_freeze_u8-n23-u34/groups/stable_freeze_u8-n23-u34/compile/receipt.json"
+        },
+        {
+          "original_sha256": "2eb26a92d8e12f8d6552da482ec13198dfb70be2860ea5b7e9cf3c05fe040ccc",
+          "projection": "EXACT_EXPORT_BYTES",
+          "saved": "evidence/stable_freeze_u8-n23-u34/export.json",
+          "saved_sha256": "2eb26a92d8e12f8d6552da482ec13198dfb70be2860ea5b7e9cf3c05fe040ccc",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-stable_freeze_u8-n23-u34/groups/stable_freeze_u8-n23-u34/export.json"
+        }
+      ],
+      "terminal_receipt_sha256": "6d3ea03fc7cabe3f1d0cec84ccb3043ffc27a6acb2d59491b38e2c99599f5dca"
+    },
+    {
+      "artifact": {
+        "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14215548210/zip",
+        "created_at": "2026-11-16T10:25:52Z",
+        "digest": "sha256:94bf0dacc948fd036b856d30bdde76a78c58f74ef929667fb6e90ec9ab5cea23",
+        "expired": false,
+        "expires_at": "2026-11-23T10:25:51Z",
+        "id": 14215548210,
+        "name": "ch8-s1-04-43830757263-1-unstable_freeze_u8-n01-u34",
+        "node_id": "MDg6QXJ0aWZhY3QxNDIxNTU0ODIxMA==",
+        "size_in_bytes": 33100,
+        "updated_at": "2026-11-16T10:25:52Z",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14215548210",
+        "workflow_run": {
+          "head_branch": "uninit-ci/ch8-s1k-f",
+          "head_repository_id": 1453289307,
+          "head_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+          "id": 43830757263,
+          "repository_id": 1453289307
+        }
+      },
+      "files": [
+        {
+          "original_sha256": "feffd6374f46e1797a3a3666816391aa1130bd338e06deb23a31ed6770b81ef0",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/unstable_freeze_u8-n01-u34/receipt.json",
+          "saved_sha256": "4e3b168df2b490e10898a566bc0d0bd0065026ef47bcfaa6def4bfa5863d7fec",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-unstable_freeze_u8-n01-u34/groups/unstable_freeze_u8-n01-u34/receipt.json"
+        },
+        {
+          "original_sha256": "345fe10e5b4a7429896004902e43bf1274da686cbc33f5749a5e4ec0f0ffaf61",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/unstable_freeze_u8-n01-u34/compile/receipt.json",
+          "saved_sha256": "db6f2edcaad845e7b853cad9fdfeebbcc0a964fc2e77c039eb6c899d6c04b5a8",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-unstable_freeze_u8-n01-u34/groups/unstable_freeze_u8-n01-u34/compile/receipt.json"
+        },
+        {
+          "original_sha256": "b8b01e918e0dae67b14687e9b2770d88b74e32631f25c5ab486ff3b588761cdb",
+          "projection": "EXACT_EXPORT_BYTES",
+          "saved": "evidence/unstable_freeze_u8-n01-u34/export.json",
+          "saved_sha256": "b8b01e918e0dae67b14687e9b2770d88b74e32631f25c5ab486ff3b588761cdb",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-unstable_freeze_u8-n01-u34/groups/unstable_freeze_u8-n01-u34/export.json"
+        }
+      ],
+      "terminal_receipt_sha256": "e43b22f5b7498faaaf9f7f120b8ea017e17e08f6063b61bb2261ce71d5ba54be"
+    },
+    {
+      "artifact": {
+        "archive_download_url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14216663700/zip",
+        "created_at": "2026-11-16T10:33:57Z",
+        "digest": "sha256:106df02e0bb1d99ecd71b6c8e577b853eef0e74a48ae487567bc44733c71777e",
+        "expired": false,
+        "expires_at": "2026-11-23T10:33:57Z",
+        "id": 14216663700,
+        "name": "ch8-s1-04-43830757263-1-unstable_freeze_u8-n23-u34",
+        "node_id": "MDg6QXJ0aWZhY3QxNDIxNjY2MzcwMA==",
+        "size_in_bytes": 33054,
+        "updated_at": "2026-11-16T10:33:57Z",
+        "url": "https://api.github.com/repos/Tiramisu-Cake/kani/actions/artifacts/14216663700",
+        "workflow_run": {
+          "head_branch": "uninit-ci/ch8-s1k-f",
+          "head_repository_id": 1453289307,
+          "head_sha": "205b0e98c771a7e6c6b8ec28414494868bcca4e0",
+          "id": 43830757263,
+          "repository_id": 1453289307
+        }
+      },
+      "files": [
+        {
+          "original_sha256": "bfe7d436a047b7216727455bffb002eddca101b7025512bacee18cc7d21a7d58",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/unstable_freeze_u8-n23-u34/receipt.json",
+          "saved_sha256": "e18778cedf675af804f592f4b4a6d0716cc8c02ccf11ebbfb754dc30d79f3fc4",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-unstable_freeze_u8-n23-u34/groups/unstable_freeze_u8-n23-u34/receipt.json"
+        },
+        {
+          "original_sha256": "27cd4c5fb7bd3b468448f682baf059d50e63c9e8f2105530a31c81d60a8a2a1a",
+          "projection": "JSON_WITHOUT_STDOUT_STDERR",
+          "saved": "evidence/unstable_freeze_u8-n23-u34/compile/receipt.json",
+          "saved_sha256": "050fcc4646d9b3e6541aed6fc79c296cfccb758a44b6d6bfc6eb3e44c606a4e9",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-unstable_freeze_u8-n23-u34/groups/unstable_freeze_u8-n23-u34/compile/receipt.json"
+        },
+        {
+          "original_sha256": "25a4c90ec9c051b0e883094f3d595eac742bccc010cc5a5e81230d46221ff6f1",
+          "projection": "EXACT_EXPORT_BYTES",
+          "saved": "evidence/unstable_freeze_u8-n23-u34/export.json",
+          "saved_sha256": "25a4c90ec9c051b0e883094f3d595eac742bccc010cc5a5e81230d46221ff6f1",
+          "source": "/root/ch8-s1-04-intake-w13/run-43830757263/artifacts/ch8-s1-04-43830757263-1-unstable_freeze_u8-n23-u34/groups/unstable_freeze_u8-n23-u34/export.json"
+        }
+      ],
+      "terminal_receipt_sha256": "2012dbc8f2d366ca057ccbbc171f001f22726192bc42211403b1db0605572bab"
+    }
+  ],
+  "proof_credit": "NONE",
+  "raw_logs_opened": false,
+  "request_sha256": "fce0e446f1506d0aebf4afc9929075843beed69c01a626391f119e18125850b7",
+  "run": 43830757263,
+  "source_and_binary_identity_assurance": "RECEIPT_REPORTED; export hash and cross-file identities checked offline; no independent parser-input binding",
+  "std_sha": "5be85699b8826e3286c0bf89efb9affefac0acb5",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba"
+}

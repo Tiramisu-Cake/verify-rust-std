@@ -1,0 +1,35 @@
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -1272,6 +1272,10 @@
+         {
+           "line": 66,
+           "source": "positive!(model_u8_n0_3, u8, byte);"
++        },
++        {
++          "line": 29,
++          "source": "        fn $name() {"
+         }
+       ],
+       "target": null
+@@ -1286,6 +1290,10 @@
+         {
+           "line": 67,
+           "source": "positive!(model_cell_n0_3, Cell<u8>, Cell::new);"
++        },
++        {
++          "line": 29,
++          "source": "        fn $name() {"
+         }
+       ],
+       "target": null
+@@ -1300,6 +1308,10 @@
+         {
+           "line": 68,
+           "source": "positive!(model_noncopy_n0_3, NonCopyByte, NonCopyByte::new);"
++        },
++        {
++          "line": 29,
++          "source": "        fn $name() {"
+         }
+       ],
+       "target": null
