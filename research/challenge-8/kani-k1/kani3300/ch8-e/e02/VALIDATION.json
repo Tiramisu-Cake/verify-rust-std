@@ -1,0 +1,33 @@
+{
+  "schema": "ch8-e02-validation-v1",
+  "state": "PASS_STATIC_SYNTHETIC_ONLY",
+  "candidate": "84c98513b526a7cc58d2248158f92fe4b8d512f3",
+  "tree": "c07b5aded52231540eab49e2a173a57ed7b903c9",
+  "control": "79baf66106a59e6ef9bcede8000fa893a5a8509d",
+  "tests": {
+    "count": 40,
+    "result": "PASS",
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -q test_runner.py test_package.py test_workflow_repo.py test_e02.py",
+    "cwd": "/root/kani-ch8-e02-w15/ch8-e-control",
+    "compiler_verifier_invoked": false
+  },
+  "yaml": "PASS",
+  "actionlint": {
+    "version": "1.7.7",
+    "result": "PASS"
+  },
+  "diff_check": "PASS",
+  "package_static": "PASS",
+  "control_environment": {
+    "state": "SYNTHETIC_PASS",
+    "repo_argument": "..",
+    "working_directory": "control/ch8-e-control",
+    "resolved_checkout": "control",
+    "actual_git_identity": "PASS",
+    "attempt": 1
+  },
+  "pins_git_trees": "BOTH_MATCH",
+  "proof_status": "ALL_NOT_RUN",
+  "proof_credit": "NONE",
+  "closed_proof_obligations": 0
+}

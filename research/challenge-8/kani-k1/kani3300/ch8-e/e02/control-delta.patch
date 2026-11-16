@@ -1,0 +1,1094 @@
+diff --git a/.github/workflows/ch8-e.yml b/.github/workflows/ch8-e.yml
+index 31d1c448142178663404181a2754aeb574ed5299..5411d1e66d3af5065ed7a850d613b41f95a85c72 100644
+--- a/.github/workflows/ch8-e.yml
++++ b/.github/workflows/ch8-e.yml
+@@ -38,8 +38,8 @@ jobs:
+         env:
+           PYTHONDONTWRITEBYTECODE: "1"
+         run: |
+-          python3 check_package.py control
+-          python3 -m unittest -v test_runner.py test_package.py
++          python3 check_package.py control --repo ..
++          python3 -m unittest -v test_runner.py test_package.py test_workflow_repo.py test_e02.py
+       - name: Checkout exact tool
+         timeout-minutes: 3
+         uses: actions/checkout@v6
+diff --git a/ch8-e-control/CI-REQUEST.json b/ch8-e-control/CI-REQUEST.json
+index fff2a8de4746b76ff4c1de324b6c094e0484fa99..e49e7edb351199bcafe505e0121af417a3ec4d26 100644
+--- a/ch8-e-control/CI-REQUEST.json
++++ b/ch8-e-control/CI-REQUEST.json
+@@ -1,8 +1,8 @@
+ {
+   "schema": "ch8-e-controls-ci-request-v1",
+   "status": "READY",
+-  "task": "TASK-CH8-E-CONTROLS-W15.md",
+-  "input_g0": "7d8ddd22f40a64053de7de13fb23a3f3303bc07a",
++  "task": "TASK-CH8-E02-W15.md",
++  "input_g0": "f04b83e08503d608b91ab7da898e00ba27bdfd75",
+   "bucket": "E",
+   "item": 1,
+   "attempt": 1,
+@@ -71,13 +71,14 @@
+     "solver": "DEFAULT_EXPORTED_AT_RUNTIME",
+     "mir_opt": "NOT_OVERRIDDEN_NOT_INDEPENDENTLY_BOUND"
+   },
+-  "rows_sha256": "b20e030f43b3a316c20a1b4d0275c6c78c6022e48060e9fb83f556fa39ac9c86",
++  "rows_sha256": "3406ce125fafa5d5b6a1c951339e6901f76716898c1cf88a5217bf9f6b23a6e6",
+   "payload_sha256": {
+-    ".github/workflows/ch8-e.yml": "0aa8bd83c41edfdeb8a973d9392145f7ca46101cd8be52c5822d9884ef893f92",
+-    "ch8-e-control/ORACLES.md": "018eedc408f121a92fc90aee8899f1ae4be7694074869e8a9c3daf6c23dbf8cb",
+-    "ch8-e-control/check_package.py": "ec68ae16709756aa450c5c5f41df5dc88e361669c8ecb4f0080ee7c2c07fdf50",
++    ".github/workflows/ch8-e.yml": "60806f9bb3cfaa9c4e72875f3393199a82ea66b378d3e3f7404d4572a7c6534a",
++    "ch8-e-control/ORACLES.md": "0d841d9b7d5397f0d50aac1fef4d41ca7c262b2833ce684c2bced8cdacdebfa5",
++    "ch8-e-control/check_package.py": "450cb231291c49db0490ae2dd9ee3e0fb59db80dfbbf72e6cd24d1058f0e12d8",
+     "ch8-e-control/fixtures/e_h_copy_then_read.rs": "a6e3bc77a76bc5de6cc73af0545740876375f5b6ea36f9d38bd66961ef45b12e",
+     "ch8-e-control/fixtures/e_h_hole_inside_alias.rs": "93e743ea9eb914a704d9bafed7a2335e47edea66bcd38fe9eb496cdf59921049",
++    "ch8-e-control/fixtures/e_h_issue_mre.rs": "832de27430e7d9b30b29d09b5ad9fefd406b9323ae19c8a169b9a95fabc40501",
+     "ch8-e-control/fixtures/e_h_live_after_havoc.rs": "762a9b7b42492e13ea52aac29a284959c8a7ca09cc4744694c9896e6a1b630c7",
+     "ch8-e-control/fixtures/e_h_outside_false_alias.rs": "9144ea4df0ced8dc1a1c129a2cbde742d816afbb129268098fed1cc7b410a34c",
+     "ch8-e-control/fixtures/e_h_write_then_read.rs": "832de27430e7d9b30b29d09b5ad9fefd406b9323ae19c8a169b9a95fabc40501",
+@@ -85,12 +86,25 @@
+     "ch8-e-control/fixtures/e_q_isolated_witness.rs": "765c77554b19cec446ed009f9e2f4ca7f759b33f45d993e2893b9c8aa669b672",
+     "ch8-e-control/fixtures/e_q_pointer_loop.rs": "a7b320bccc1d9c239aa80e104c0294107fa1cf1d82553f001d1ad385d029fc53",
+     "ch8-e-control/fixtures/e_q_scalar_invariant.rs": "b332bcb84a9a6a91c1e6823491e0d954ff42ca1eb00fa45f8b4b39f5d3a58cf5",
+-    "ch8-e-control/fixtures/e_s_unbounded_slice.rs": "918ca6109068245148d66cfaafc339b5eb0f3d72872c0c444c6213fe63173a4f",
+-    "ch8-e-control/rows.json": "b20e030f43b3a316c20a1b4d0275c6c78c6022e48060e9fb83f556fa39ac9c86",
+-    "ch8-e-control/runner.py": "1a13ae8d11c3bac30081c5baff2138f69289a60e1615dc97806b4517c83c3d9a",
++    "ch8-e-control/fixtures/e_s_false_value.rs": "9c477d054ab6c52f50ba53edde6dfebd0ebbf538ac394b20b4051441dc7707c8",
++    "ch8-e-control/fixtures/e_s_unbounded_slice.rs": "d25b9a4cd2cade19b10dea6fae232a05cb9998ef9b36cd11d42a70f0acbe189b",
++    "ch8-e-control/fixtures/shadow_no_write_u8.rs": "7ecd2d699bbe0a203da8b7ba84f5568d0bab3fbd3b9eb7f281dbfb3fe42014db",
++    "ch8-e-control/fixtures/shadow_write_u8_candidate.rs": "163650e4ded1bed5fabc2ecbe35faca04d5774fedec7c0b43566fffca5eb5962",
++    "ch8-e-control/fixtures/shadow_write_u8_no_loop.rs": "b2776500e4b793fb354fd6b14fb45c15c559ac1e8b00f18fe7c3628a90c6afa3",
++    "ch8-e-control/rows.json": "3406ce125fafa5d5b6a1c951339e6901f76716898c1cf88a5217bf9f6b23a6e6",
++    "ch8-e-control/runner.py": "06e911d8f769e4c7fcd540f8d24a08307f43a0dc5746b0ac2f7892b17b734591",
++    "ch8-e-control/test_e02.py": "ecb32a70c7496b74eb61b7a0cf552e7a92bddc64fcde328dee90ff0dc683101c",
+     "ch8-e-control/test_package.py": "0d404bdc46f51b5f25223a12e2239005e9acd7fa10c635ff2aeb2b974234dae3",
+-    "ch8-e-control/test_runner.py": "8da00f2a54c5f17a5b18a2410b134a17c03a6caebb8fd265aaf3d8f1f77b10e8"
++    "ch8-e-control/test_runner.py": "8da00f2a54c5f17a5b18a2410b134a17c03a6caebb8fd265aaf3d8f1f77b10e8",
++    "ch8-e-control/test_workflow_repo.py": "5af200ec80cf8641bb5e3a81e18419b127036b8d88053adb22fc35e05d2f22ef",
++    "ch8-e-control/workflow_repo.py": "e38ce725569e5f4ec66ff2d45a786099fc5f338e16e57f33369fb4f85d4bdb66"
+   },
+-  "payload_manifest_sha256": "4a7fd6ae382adaac379a561a0e60805cc74d3bc0e87d8c5ce42978d92cc7f2ec",
+-  "activation": "Separate coordinator authorization: same-tree sibling without skip-ci and sole parent upstream0aac, fresh branch; never child of preparation commit."
++  "payload_manifest_sha256": "527b0c85e0d4c2733227382d5f3bbb411020f3732fe7d5d37ca276a851ab3397",
++  "activation": "Separate coordinator authorization: same-tree sibling without skip-ci and sole parent upstream0aac, fresh branch; never child of preparation commit.",
++  "stage": "E-02",
++  "prior_control": "628ba7fd9b8d1f66d5ccd220ce6ea84bc4626027",
++  "source_file_count": 6,
++  "invocations_per_pin": 12,
++  "total_invocations": 24,
++  "scope": "Single-file, no std; one prepared E-02 dispatch; ALL_NOT_RUN"
+ }
+diff --git a/ch8-e-control/MANIFEST.sha256 b/ch8-e-control/MANIFEST.sha256
+index 68277fcc981c46cbb7db65f577fa2db320e2f4ba..707c740f655610c636350342624649a07f2b7ea0 100644
+--- a/ch8-e-control/MANIFEST.sha256
++++ b/ch8-e-control/MANIFEST.sha256
+@@ -1,8 +1,9 @@
+-0aa8bd83c41edfdeb8a973d9392145f7ca46101cd8be52c5822d9884ef893f92  .github/workflows/ch8-e.yml
+-018eedc408f121a92fc90aee8899f1ae4be7694074869e8a9c3daf6c23dbf8cb  ch8-e-control/ORACLES.md
+-ec68ae16709756aa450c5c5f41df5dc88e361669c8ecb4f0080ee7c2c07fdf50  ch8-e-control/check_package.py
++60806f9bb3cfaa9c4e72875f3393199a82ea66b378d3e3f7404d4572a7c6534a  .github/workflows/ch8-e.yml
++0d841d9b7d5397f0d50aac1fef4d41ca7c262b2833ce684c2bced8cdacdebfa5  ch8-e-control/ORACLES.md
++450cb231291c49db0490ae2dd9ee3e0fb59db80dfbbf72e6cd24d1058f0e12d8  ch8-e-control/check_package.py
+ a6e3bc77a76bc5de6cc73af0545740876375f5b6ea36f9d38bd66961ef45b12e  ch8-e-control/fixtures/e_h_copy_then_read.rs
+ 93e743ea9eb914a704d9bafed7a2335e47edea66bcd38fe9eb496cdf59921049  ch8-e-control/fixtures/e_h_hole_inside_alias.rs
++832de27430e7d9b30b29d09b5ad9fefd406b9323ae19c8a169b9a95fabc40501  ch8-e-control/fixtures/e_h_issue_mre.rs
+ 762a9b7b42492e13ea52aac29a284959c8a7ca09cc4744694c9896e6a1b630c7  ch8-e-control/fixtures/e_h_live_after_havoc.rs
+ 9144ea4df0ced8dc1a1c129a2cbde742d816afbb129268098fed1cc7b410a34c  ch8-e-control/fixtures/e_h_outside_false_alias.rs
+ 832de27430e7d9b30b29d09b5ad9fefd406b9323ae19c8a169b9a95fabc40501  ch8-e-control/fixtures/e_h_write_then_read.rs
+@@ -10,8 +11,15 @@ a6e3bc77a76bc5de6cc73af0545740876375f5b6ea36f9d38bd66961ef45b12e  ch8-e-control/
+ 765c77554b19cec446ed009f9e2f4ca7f759b33f45d993e2893b9c8aa669b672  ch8-e-control/fixtures/e_q_isolated_witness.rs
+ a7b320bccc1d9c239aa80e104c0294107fa1cf1d82553f001d1ad385d029fc53  ch8-e-control/fixtures/e_q_pointer_loop.rs
+ b332bcb84a9a6a91c1e6823491e0d954ff42ca1eb00fa45f8b4b39f5d3a58cf5  ch8-e-control/fixtures/e_q_scalar_invariant.rs
+-918ca6109068245148d66cfaafc339b5eb0f3d72872c0c444c6213fe63173a4f  ch8-e-control/fixtures/e_s_unbounded_slice.rs
+-b20e030f43b3a316c20a1b4d0275c6c78c6022e48060e9fb83f556fa39ac9c86  ch8-e-control/rows.json
+-1a13ae8d11c3bac30081c5baff2138f69289a60e1615dc97806b4517c83c3d9a  ch8-e-control/runner.py
++9c477d054ab6c52f50ba53edde6dfebd0ebbf538ac394b20b4051441dc7707c8  ch8-e-control/fixtures/e_s_false_value.rs
++d25b9a4cd2cade19b10dea6fae232a05cb9998ef9b36cd11d42a70f0acbe189b  ch8-e-control/fixtures/e_s_unbounded_slice.rs
++7ecd2d699bbe0a203da8b7ba84f5568d0bab3fbd3b9eb7f281dbfb3fe42014db  ch8-e-control/fixtures/shadow_no_write_u8.rs
++163650e4ded1bed5fabc2ecbe35faca04d5774fedec7c0b43566fffca5eb5962  ch8-e-control/fixtures/shadow_write_u8_candidate.rs
++b2776500e4b793fb354fd6b14fb45c15c559ac1e8b00f18fe7c3628a90c6afa3  ch8-e-control/fixtures/shadow_write_u8_no_loop.rs
++3406ce125fafa5d5b6a1c951339e6901f76716898c1cf88a5217bf9f6b23a6e6  ch8-e-control/rows.json
++06e911d8f769e4c7fcd540f8d24a08307f43a0dc5746b0ac2f7892b17b734591  ch8-e-control/runner.py
++ecb32a70c7496b74eb61b7a0cf552e7a92bddc64fcde328dee90ff0dc683101c  ch8-e-control/test_e02.py
+ 0d404bdc46f51b5f25223a12e2239005e9acd7fa10c635ff2aeb2b974234dae3  ch8-e-control/test_package.py
+ 8da00f2a54c5f17a5b18a2410b134a17c03a6caebb8fd265aaf3d8f1f77b10e8  ch8-e-control/test_runner.py
++5af200ec80cf8641bb5e3a81e18419b127036b8d88053adb22fc35e05d2f22ef  ch8-e-control/test_workflow_repo.py
++e38ce725569e5f4ec66ff2d45a786099fc5f338e16e57f33369fb4f85d4bdb66  ch8-e-control/workflow_repo.py
+diff --git a/ch8-e-control/ORACLES.md b/ch8-e-control/ORACLES.md
+index 225c2cf5481717baf7efbdeb85f628e7d9b6c4f5..5cbf595d89c7dde6a3e34a69a3e172d2ad5ce7cd 100644
+--- a/ch8-e-control/ORACLES.md
++++ b/ch8-e-control/ORACLES.md
+@@ -1,61 +1,36 @@
+-# E controls: fixture and oracle notes
+-
+-These are isolated, single-harness diagnostic roots for the E prep stage. They are
+-source artifacts only; they have not been compiled or run. Cover labels are proposed
+-reachability oracles, not measured results. The Kani implementation
+-reference is pinned to U `0aac16ef62da9e9d5645782d458593e5d78143ba` as identified
+-in the stage design. Companion rows are intended for matched S/ON and S/OFF runs;
+-E-Q's ON refusal is expected from the pinned frontend guard, not a measured result.
+-
+-## E-Q — quantified pointer gate and scalar alternative
+-
+-`e_q_isolated_witness.rs` isolates the pointer dereference in an existential
+-predicate. `e_q_pointer_loop.rs` adds the exact bounded loop-contract shape with
+-explicit invariant, modifies, and decreases. The matched false mutant uses the
+-same pointer predicate with a value absent from `[1, 2]`; OFF must fail the
+-invariant base so a dropped or unconstrained predicate cannot masquerade as a
+-pass. The ON oracle for these three roots is the pinned diagnostic:
+-
+-> quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks
+-
+-`e_q_scalar_invariant.rs` reads one pointer directly in an ordinary scalar loop
+-invariant and post-loop assertion. It has no quantified expression and checks
+-that the fallback form works with the ON safety checks active. Constant two-byte
+-storage is only a diagnostic witness, not an arbitrary-length property.
+-
+-## E-S — uncapped storage generation
+-
+-`e_s_unbounded_slice.rs` calls the alloc-enabled `kani::any_slice_mut_unbounded::<u8>()`
+-model directly. It imposes no length assumption or cap. It performs a direct raw
+-read from an arbitrary valid index and covers an interior zero-valued read and
+-`len > 32`; a return cover follows the read. It has no loop or frame, so this root
+-isolates storage generation and read validity. It does not prove the actual core
+-insertion routine or a generic-T validity/init summary.
+-
+-## E-H — initialization shadow and aliases
+-
+-Each H root is independent and uses a small raw slice frame over `MaybeUninit<u8>`
+-payload bytes. No fixture invokes `can_dereference`, sets initialization shadow
+-state, or supplies a modeled initialization summary.
+-
+-- `e_h_live_after_havoc.rs` has the loop write live byte 0 inside the two-byte frame,
+-  then reads fixed initialized byte 1 through an alias created before the loop.
+-  ON success is the positive preservation control; the body and read-result covers
+-  witness the transition and the post-loop read.
+-- `e_h_hole_inside_alias.rs` writes byte 0 but leaves byte 1 unwritten inside the
+-  frame, then directly dereferences its pre-existing alias. The required ON outcome
+-  is an uninitialized-read safety check at that exact source line. OFF is `OBSERVE`,
+-  not evidence about initializedness.
+-- `e_h_outside_false_alias.rs` writes byte 0, checks an initialized sentinel alias
+-  outside the frame, then directly dereferences the unwritten byte just outside
+-  the frame. The ON uninitialized-read failure is the expected preservation of
+-  its false bit; OFF is `OBSERVE` only.
+-- `e_h_write_then_read.rs` and `e_h_copy_then_read.rs` exercise actual raw write
+-  and non-overlapping copy operations inside the loop body, each followed there
+-  by an immediate read. ON success checks that the operation makes the destination
+-  readable without relying on post-havoc initialization assumptions.
+-
+-For H negatives, a failure only counts if it is the specified uninitialized-read
+-check. An assigns failure, compile failure, timeout, or unrelated assertion is not
+-the intended oracle. Cover reachability and all root outcomes remain unmeasured
+-until the separately authorized stage.
++# E-02 — calibration only, all runtime outcomes NOT_RUN
++
++This stage selects six independent single-file roots, ON/OFF at upstream0aac and
++SEL1: 12 invocations per pin, 24 total. E-01 fixtures remain in the package and
++its original full matrix remains frozen at control628ba7fd9; E-02 does not rerun
++or discharge its Q/inside/outside/copy obligations.
++
++- E-S positive fixes only the namespace to `kani::arbitrary::...`. A nondeterministic
++  usize length is generated by the existing model; there is no constant CAP.
++  Covers require len>32, a legal interior-zero read and storage return.
++- E-S false value uses identical storage and a legal symbolic-index read. All
++  covers precede `assert!(value == value.wrapping_add(1))`, false for every u8.
++  Only the exact assertion class/message/source line is accepted; setup, uninit,
++  assigns, missing covers and mixed failures remain UNKNOWN/UNEXPECTED.
++- Primitive H write: initialized u8, framed raw write then read/assert41.
++  No-write companion retains frame/counter/raw read but makes no claim about the
++  havoced payload value. No-loop companion retains write/read/assert41 without
++  loop abstraction. All three require SUCCESS ON/OFF and their return cover.
++  A return cover does not independently prove transformed loop-body binding.
++- Issue MRE: byte-exact E-01 MaybeUninit write/read root, separate fixture/row.
++  SEL1 ON expected diagnostic: `Check that self->value is assignable`, class
++  `assigns`, exact `library/kani_core/src/mem_init.rs:120`. Every failed property
++  must match and body cover must be satisfied. Unreachable subsequent checks
++  may be counted only for this diagnostic outcome, with full count consistency.
++  ASSIGNS_FAILURE is reproduction, never positive proof or initialization credit.
++  OFF expects SUCCESS. Upstream ON retains desired SUCCESS; E-01's known exact
++  blocker `Interaction between raw pointers and unions is not yet supported.`
++  remains UNKNOWN and cannot count as an upstream assigns reproduction.
++
++The primitive matrix distinguishes candidate confounders; it does not prove a
++causal GOTO/shadow binding. Source claims, runtime observations and independent
++proof credit stay separate. No new shadow/havoc model, manual init bit, std build,
++check suppression, solver/unwind override, trusted summary or generic theorem.
++600s/harness, 660s envelope, 6GiB group, 75min run/pin, 120min job/pin;
++phase exhaustion materializes NOT_RUN. Single future dispatch, no retries.
++Preparation only: no push, CI, publication or ledger; proof credit NONE.
+diff --git a/ch8-e-control/check_package.py b/ch8-e-control/check_package.py
+index 60003794374966dc7429500550467ea6ae7cf5bb..91b741bb98689f49b27cf767db39ba50ef303d7e 100644
+--- a/ch8-e-control/check_package.py
++++ b/ch8-e-control/check_package.py
+@@ -8,6 +8,8 @@ from pathlib import Path
+ import re
+ import subprocess
+ 
++from workflow_repo import check_control_repo_paths
++
+ HERE = Path(__file__).resolve().parent
+ ROOT = HERE.parent
+ PINS = {
+@@ -64,7 +66,8 @@ def yaml_check(path):
+     assert 'verify-std' not in commands
+     assert 'runner.py build --tool tool --out "$RECEIPT_ROOT" --pin ${{ matrix.pin }}' in commands
+     assert 'runner.py run --tool tool --out "$RECEIPT_ROOT" --pin ${{ matrix.pin }}' in commands
+-    return {'yaml': 'PASS', 'runner_context': 'STEP_ENV_ONLY', 'matrix_pins': list(PINS)}
++    paths = check_control_repo_paths(doc)
++    return {'control_repo_paths': paths, 'yaml': 'PASS', 'runner_context': 'STEP_ENV_ONLY', 'matrix_pins': list(PINS)}
+ 
+ 
+ def static_check():
+@@ -86,8 +89,13 @@ def static_check():
+         assert re.fullmatch('[a-z][a-z0-9_]*', row['harness'])
+         assert row['checks'] and set(row['checks']) <= {'ON', 'OFF'}
+         assert set(row['expected_by_check']) == set(row['checks'])
+-        assert all(v in {'SUCCESS', 'FRONTEND_REJECTION', 'UNINIT_FAILURE', 'ASSERTION_FAILURE', 'OBSERVE'}
++        assert all(v in {'SUCCESS', 'FRONTEND_REJECTION', 'UNINIT_FAILURE', 'ASSERTION_FAILURE', 'ASSIGNS_FAILURE', 'OBSERVE'}
+                    for v in row['expected_by_check'].values())
++        if 'expected_by_pin' in row:
++            assert set(row['expected_by_pin']) == set(PINS)
++            for expectations in row['expected_by_pin'].values():
++                assert set(expectations) == set(row['checks'])
++                assert set(expectations.values()) <= {'SUCCESS', 'ASSIGNS_FAILURE'}
+         assert isinstance(row['required_covers'], list)
+         text = path.read_text()
+         assert text.count('#[kani::proof]') == 1
+@@ -131,6 +139,11 @@ def control_check():
+ if __name__ == '__main__':
+     parser = argparse.ArgumentParser()
+     parser.add_argument('command', choices=['static', 'yaml', 'control'])
++    parser.add_argument('--repo', type=Path)
+     args = parser.parse_args()
++    if args.command == 'control':
++        assert args.repo is not None and args.repo.resolve() == ROOT, '--repo must resolve to control checkout'
++    elif args.repo is not None:
++        assert args.repo.resolve() == ROOT
+     result = yaml_check(ROOT/'.github/workflows/ch8-e.yml') if args.command == 'yaml' else control_check() if args.command == 'control' else static_check()
+     print(json.dumps(result, sort_keys=True))
+diff --git a/ch8-e-control/fixtures/e_h_issue_mre.rs b/ch8-e-control/fixtures/e_h_issue_mre.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..15fa7af06ad75c55bade8a9a9605525762dd67cd
+--- /dev/null
++++ b/ch8-e-control/fixtures/e_h_issue_mre.rs
+@@ -0,0 +1,23 @@
++#![feature(stmt_expr_attributes)]
++#![feature(proc_macro_hygiene)]
++
++use std::mem::MaybeUninit;
++
++#[kani::proof]
++fn e_h_write_then_read() {
++    let mut destination = MaybeUninit::<u8>::uninit();
++    let destination_ptr = destination.as_mut_ptr();
++    let frame = std::ptr::slice_from_raw_parts_mut(destination_ptr, 1);
++    let mut remaining = 1usize;
++
++    #[kani::loop_invariant(remaining <= 1)]
++    #[kani::loop_modifies(&remaining, frame)]
++    #[kani::loop_decreases(remaining)]
++    while remaining != 0 {
++        kani::cover(remaining == 1, "E-H write loop body reached");
++        unsafe { destination_ptr.write(41) };
++        let written = unsafe { destination_ptr.read() };
++        assert_eq!(written, 41);
++        remaining -= 1;
++    }
++}
+diff --git a/ch8-e-control/fixtures/e_s_false_value.rs b/ch8-e-control/fixtures/e_s_false_value.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..c71b6e1a5b9ca5e4f8cfb1bd7edbb0e99484a33d
+--- /dev/null
++++ b/ch8-e-control/fixtures/e_s_false_value.rs
+@@ -0,0 +1,20 @@
++#![feature(proc_macro_hygiene)]
++
++#[kani::proof]
++fn e_s_false_value() {
++    // Optional alloc-enabled Kani model; deliberately no length cap or bounded Vec model.
++    let slice = kani::arbitrary::any_slice_mut_unbounded::<u8>();
++    let len = slice.len();
++
++    kani::cover(len > 32, "E-S length above 32");
++    kani::cover(len <= isize::MAX as usize, "E-S storage call returns");
++
++    // A legal read before any loop isolates generated storage and read validity.
++    if len != 0 {
++        let index: usize = kani::any();
++        kani::assume(index < len);
++        let value = unsafe { *slice.as_ptr().add(index) };
++        kani::cover(index > 0 && index < len - 1 && value == 0, "E-S interior zero read");
++        assert!(value == value.wrapping_add(1)); // False for every u8.
++    }
++}
+diff --git a/ch8-e-control/fixtures/e_s_unbounded_slice.rs b/ch8-e-control/fixtures/e_s_unbounded_slice.rs
+index 6f7b4972ca6bc27970d8c14461bacee333d6d7d4..ba6543884d0468a94cfcaf5407055e317f9fc176 100644
+--- a/ch8-e-control/fixtures/e_s_unbounded_slice.rs
++++ b/ch8-e-control/fixtures/e_s_unbounded_slice.rs
+@@ -3,7 +3,7 @@
+ #[kani::proof]
+ fn e_s_unbounded_slice() {
+     // Optional alloc-enabled Kani model; deliberately no length cap or bounded Vec model.
+-    let slice = kani::any_slice_mut_unbounded::<u8>();
++    let slice = kani::arbitrary::any_slice_mut_unbounded::<u8>();
+     let len = slice.len();
+ 
+     // A legal read before any loop isolates generated storage and read validity.
+diff --git a/ch8-e-control/fixtures/shadow_no_write_u8.rs b/ch8-e-control/fixtures/shadow_no_write_u8.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..e7d978a0b30e4084083739cc36f996107041fd54
+--- /dev/null
++++ b/ch8-e-control/fixtures/shadow_no_write_u8.rs
+@@ -0,0 +1,20 @@
++#![feature(stmt_expr_attributes)]
++#![feature(proc_macro_hygiene)]
++
++// E-02 primitive reduction. NOT RUN at either pin.
++// Avoids MaybeUninit/union layout support as a confounding variable.
++#[kani::proof]
++fn shadow_no_write_u8() {
++    let mut value = 17u8;
++    let pointer = &mut value as *mut u8;
++    let mut remaining = 1usize;
++
++    #[kani::loop_invariant(remaining <= 1)]
++    #[kani::loop_modifies(&remaining, pointer)]
++    #[kani::loop_decreases(remaining)]
++    while remaining != 0 {
++        let _read = unsafe { pointer.read() };
++        remaining -= 1;
++    }
++    kani::cover(remaining == 0, "primitive no-write loop returns");
++}
+diff --git a/ch8-e-control/fixtures/shadow_write_u8_candidate.rs b/ch8-e-control/fixtures/shadow_write_u8_candidate.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..84e7ae776e3fbe190bff3c15579de0b4a4b2ffb9
+--- /dev/null
++++ b/ch8-e-control/fixtures/shadow_write_u8_candidate.rs
+@@ -0,0 +1,21 @@
++#![feature(stmt_expr_attributes)]
++#![feature(proc_macro_hygiene)]
++
++// E-02 primitive reduction. NOT RUN at either pin.
++// Avoids MaybeUninit/union layout support as a confounding variable.
++#[kani::proof]
++fn shadow_write_u8_candidate() {
++    let mut value = 17u8;
++    let pointer = &mut value as *mut u8;
++    let mut remaining = 1usize;
++
++    #[kani::loop_invariant(remaining <= 1)]
++    #[kani::loop_modifies(&remaining, pointer)]
++    #[kani::loop_decreases(remaining)]
++    while remaining != 0 {
++        unsafe { pointer.write(41) };
++        assert_eq!(unsafe { pointer.read() }, 41);
++        remaining -= 1;
++    }
++    kani::cover(remaining == 0, "primitive write loop returns");
++}
+diff --git a/ch8-e-control/fixtures/shadow_write_u8_no_loop.rs b/ch8-e-control/fixtures/shadow_write_u8_no_loop.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..85f9978aa9313b2fe6127a4cb046d64f8bb5d0e1
+--- /dev/null
++++ b/ch8-e-control/fixtures/shadow_write_u8_no_loop.rs
+@@ -0,0 +1,11 @@
++#![feature(proc_macro_hygiene)]
++
++// Matched primitive raw-write path with no loop abstraction/frame.
++#[kani::proof]
++fn shadow_write_u8_no_loop() {
++    let mut value = 17u8;
++    let pointer = &mut value as *mut u8;
++    unsafe { pointer.write(41) };
++    assert_eq!(unsafe { pointer.read() }, 41);
++    kani::cover(true, "primitive no-loop write returns");
++}
+diff --git a/ch8-e-control/rows.json b/ch8-e-control/rows.json
+index 5de8eb5f973d7a5a6b8b243cc9597a677fe1fdb7..e66875341e1e8aea55bcd64c2dad3e256525a90b 100644
+--- a/ch8-e-control/rows.json
++++ b/ch8-e-control/rows.json
+@@ -1,81 +1,4 @@
+ [
+-  {
+-    "id": "e_q_pointer_loop",
+-    "file": "fixtures/e_q_pointer_loop.rs",
+-    "harness": "e_q_pointer_loop",
+-    "checks": [
+-      "ON",
+-      "OFF"
+-    ],
+-    "expected_by_check": {
+-      "ON": "FRONTEND_REJECTION",
+-      "OFF": "SUCCESS"
+-    },
+-    "oracle": "ON must reject the raw-pointer dereference inside the existential loop invariant with the pinned quantifier safety-check guard. OFF must retain the quantified predicate strongly enough for the positive witness and return cover to pass.",
+-    "required_covers": [
+-      "E-Q pointer loop returns"
+-    ],
+-    "failure_description": "ON exact diagnostic: quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks.",
+-    "frontend_diagnostic": "quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks"
+-  },
+-  {
+-    "id": "e_q_false_pointer_loop",
+-    "file": "fixtures/e_q_false_pointer_loop.rs",
+-    "harness": "e_q_false_pointer_loop",
+-    "checks": [
+-      "ON",
+-      "OFF"
+-    ],
+-    "expected_by_check": {
+-      "ON": "FRONTEND_REJECTION",
+-      "OFF": "ASSERTION_FAILURE"
+-    },
+-    "oracle": "ON has the same frontend guard as the positive pointer predicate. OFF must fail the false existential at the loop invariant base; any unrelated failure or success means the predicate cannot serve as this control.",
+-    "required_covers": [],
+-    "failure_description": "OFF failure must identify the false loop invariant/base assertion for exists i in 0..2, *p.add(i)==3; ON exact diagnostic is the quantifier safety-check guard.",
+-    "frontend_diagnostic": "quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks",
+-    "failure_match": {
+-      "class": "loop_invariant_base",
+-      "description_regex": "^Check invariant before entry for loop e_q_false_pointer_loop\\.0$",
+-      "file": "fixtures/e_q_false_pointer_loop.rs",
+-      "line": 11
+-    }
+-  },
+-  {
+-    "id": "e_q_isolated_witness",
+-    "file": "fixtures/e_q_isolated_witness.rs",
+-    "harness": "e_q_isolated_witness",
+-    "checks": [
+-      "ON",
+-      "OFF"
+-    ],
+-    "expected_by_check": {
+-      "ON": "FRONTEND_REJECTION",
+-      "OFF": "SUCCESS"
+-    },
+-    "oracle": "The isolated existential raw-pointer witness must be rejected by the ON guard and pass OFF. This separates predicate lowering from loop-contract lowering.",
+-    "required_covers": [],
+-    "failure_description": "ON exact diagnostic: quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks.",
+-    "frontend_diagnostic": "quantifier predicates containing safety checks are not supported with -Z valid-value-checks or -Z uninit-checks"
+-  },
+-  {
+-    "id": "e_q_scalar_invariant",
+-    "file": "fixtures/e_q_scalar_invariant.rs",
+-    "harness": "e_q_scalar_invariant",
+-    "checks": [
+-      "ON",
+-      "OFF"
+-    ],
+-    "expected_by_check": {
+-      "ON": "SUCCESS",
+-      "OFF": "SUCCESS"
+-    },
+-    "oracle": "A directly evaluated scalar raw read outside any quantifier remains valid with ON and OFF. Require the loop return cover and final assertion; this is the alternative to the unsupported quantified pointer invariant.",
+-    "required_covers": [
+-      "E-Q scalar loop returns"
+-    ],
+-    "failure_description": "Any ON frontend rejection here is not the quantifier-predicate guard and is a separate blocker."
+-  },
+   {
+     "id": "e_s_unbounded_slice",
+     "file": "fixtures/e_s_unbounded_slice.rs",
+@@ -88,7 +11,7 @@
+       "ON": "SUCCESS",
+       "OFF": "SUCCESS"
+     },
+-    "oracle": "Alloc-enabled any_slice_mut_unbounded::<u8> must support a direct legal symbolic-index read before any loop, with no imposed CAP. ON must pass with uninit checks. Confirm all three reachable covers, especially len>32 and the value-dependent interior-zero read. This is a storage-generation/read control only; no loop or frame is present.",
++    "oracle": "Alloc-enabled kani::arbitrary::any_slice_mut_unbounded::<u8> must support a direct legal symbolic-index read before any loop, with no imposed CAP. ON must pass with uninit checks. Confirm all three reachable covers, especially len>32 and the value-dependent interior-zero read. This is a storage-generation/read control only; no loop or frame is present.",
+     "required_covers": [
+       "E-S interior zero read",
+       "E-S length above 32",
+@@ -97,77 +20,71 @@
+     "failure_description": "If len>32 is unreachable or the model is unavailable for the selected target, storage binding is not established; do not replace the model with a capped generator."
+   },
+   {
+-    "id": "e_h_live_after_havoc",
+-    "file": "fixtures/e_h_live_after_havoc.rs",
+-    "harness": "e_h_live_after_havoc",
++    "id": "e_s_false_value",
++    "file": "fixtures/e_s_false_value.rs",
++    "harness": "e_s_false_value",
+     "checks": [
+       "ON",
+       "OFF"
+     ],
+     "expected_by_check": {
+-      "ON": "SUCCESS",
+-      "OFF": "SUCCESS"
++      "ON": "ASSERTION_FAILURE",
++      "OFF": "ASSERTION_FAILURE"
+     },
+-    "oracle": "The loop actually writes declared live byte 0 inside a two-byte frame. After abstraction, read initialized fixed witness byte 1 through a pre-existing alias and cover its value. ON success checks the witness remains readable after havoc; require both covers.",
++    "oracle": "Same uncapped symbolic-length storage and legal read as positive; all covers precede the false assertion. value == value.wrapping_add(1) is false for every u8. Require exact assertion at line 18, all original covers and no unrelated failures. No CAP/value assume.",
+     "required_covers": [
+-      "E-H live loop body reached",
+-      "E-H fixed initialized witness read"
++      "E-S interior zero read",
++      "E-S length above 32",
++      "E-S storage call returns"
+     ],
+-    "failure_description": "An ON uninit failure on alias.read is evidence that initialization was not preserved through this frame/havoc control."
++    "failure_description": "If len>32 is unreachable or the model is unavailable for the selected target, storage binding is not established; do not replace the model with a capped generator.",
++    "failure_match": {
++      "class": "assertion",
++      "description_regex": "^assertion failed: value == value\\.wrapping_add\\(1\\)$",
++      "file": "fixtures/e_s_false_value.rs",
++      "line": 18
++    }
+   },
+   {
+-    "id": "e_h_hole_inside_alias",
+-    "file": "fixtures/e_h_hole_inside_alias.rs",
+-    "harness": "e_h_hole_inside_alias",
++    "id": "e_h_primitive_write",
++    "file": "fixtures/shadow_write_u8_candidate.rs",
++    "harness": "shadow_write_u8_candidate",
+     "checks": [
+       "ON",
+       "OFF"
+     ],
+     "expected_by_check": {
+-      "ON": "UNINIT_FAILURE",
+-      "OFF": "OBSERVE"
++      "ON": "SUCCESS",
++      "OFF": "SUCCESS"
+     },
+-    "oracle": "The loop actually writes live byte 0 inside a two-byte frame; byte 1 is an unwritten hole inside that frame and is read through a pre-existing alias after abstraction. ON must fail at the exact alias read with an uninitialized-read check. OFF is OBSERVE only.",
++    "oracle": "Initialized u8, explicit pointer/counter loop frame, actual raw write then immediate read. Compare ON/OFF and no-write/no-loop companions. No MaybeUninit union, new shadow model or manual initialized=true.",
+     "required_covers": [
+-      "E-H hole loop body reached"
++      "primitive write loop returns"
+     ],
+-    "failure_description": "Must match the uninitialized-read safety check for the direct raw dereference *alias_to_hole on line 24, not an assigns or unrelated failure.",
+-    "failure_match": {
+-      "class": "safety_check",
+-      "description_regex": "^Undefined Behavior: Reading from an uninitialized pointer of type `(?:u8|\\*const u8)`$",
+-      "file": "fixtures/e_h_hole_inside_alias.rs",
+-      "line": 24
+-    }
++    "failure_description": "Any assigns/uninit/unsupported/value failure is a separate observed blocker, not positive proof credit."
+   },
+   {
+-    "id": "e_h_outside_false_alias",
+-    "file": "fixtures/e_h_outside_false_alias.rs",
+-    "harness": "e_h_outside_false_alias",
++    "id": "e_h_primitive_no_write",
++    "file": "fixtures/shadow_no_write_u8.rs",
++    "harness": "shadow_no_write_u8",
+     "checks": [
+       "ON",
+       "OFF"
+     ],
+     "expected_by_check": {
+-      "ON": "UNINIT_FAILURE",
+-      "OFF": "OBSERVE"
++      "ON": "SUCCESS",
++      "OFF": "SUCCESS"
+     },
+-    "oracle": "The loop actually writes live byte 0 inside a two-byte frame. The initialized sentinel at index 3 is outside the frame and must retain value 77 through its alias; index 2 is an unwritten false bit outside the frame and ON must report its uninitialized read through an alias. OFF is OBSERVE only.",
++    "oracle": "Same initialized u8 and explicit loop frame; omit raw payload write, retain raw pointer read and counter update. Payload value is unconstrained after frame havoc, so assert17 would be invalid without a stronger invariant. This isolates raw-write instrumentation from counter/generated-loop bookkeeping; it is not an uninitialized negative.",
+     "required_covers": [
+-      "E-H outside-frame loop body reached",
+-      "E-H outside sentinel preserved"
++      "primitive no-write loop returns"
+     ],
+-    "failure_description": "Must match the uninitialized-read safety check for the direct raw dereference *alias_outside_frame on line 34; the outside sentinel assertion and cover must pass first.",
+-    "failure_match": {
+-      "class": "safety_check",
+-      "description_regex": "^Undefined Behavior: Reading from an uninitialized pointer of type `(?:u8|\\*const u8)`$",
+-      "file": "fixtures/e_h_outside_false_alias.rs",
+-      "line": 34
+-    }
++    "failure_description": "Any assigns/uninit/unsupported/value failure is a separate observed blocker, not positive proof credit."
+   },
+   {
+-    "id": "e_h_write_makes_readable",
+-    "file": "fixtures/e_h_write_then_read.rs",
+-    "harness": "e_h_write_then_read",
++    "id": "e_h_primitive_no_loop",
++    "file": "fixtures/shadow_write_u8_no_loop.rs",
++    "harness": "shadow_write_u8_no_loop",
+     "checks": [
+       "ON",
+       "OFF"
+@@ -176,16 +93,16 @@
+       "ON": "SUCCESS",
+       "OFF": "SUCCESS"
+     },
+-    "oracle": "On the reachable loop-body transition, an actual raw write to the destination must make its immediate raw read legal under ON; OFF companion confirms the ordinary value path. Require body cover and assertion.",
++    "oracle": "Same initialized primitive and raw write/read assertion, with no loop/frame. Separates ordinary write instrumentation from loop assigns. ON/OFF both expected success.",
+     "required_covers": [
+-      "E-H write loop body reached"
++      "primitive no-loop write returns"
+     ],
+-    "failure_description": "Any ON uninit failure on the read immediately after destination_ptr.write(41) means the actual write did not establish readable shadow state."
++    "failure_description": "Any assigns/uninit/unsupported/value failure is a separate observed blocker, not positive proof credit."
+   },
+   {
+-    "id": "e_h_copy_makes_readable",
+-    "file": "fixtures/e_h_copy_then_read.rs",
+-    "harness": "e_h_copy_then_read",
++    "id": "e_h_issue_mre",
++    "file": "fixtures/e_h_issue_mre.rs",
++    "harness": "e_h_write_then_read",
+     "checks": [
+       "ON",
+       "OFF"
+@@ -194,10 +111,27 @@
+       "ON": "SUCCESS",
+       "OFF": "SUCCESS"
+     },
+-    "oracle": "Copy one initialized u8 from a distinct source into the destination inside the loop body; ON must permit the immediate raw read after the actual copy, and the copied value assertion must pass. Require body cover.",
++    "oracle": "Byte-exact MaybeUninit root from E-01 ISSUE-DRAFT. SEL1 ON diagnostic reproduction, not a positive proof; OFF expected success. Upstream ON desired success remains blocked in E-01 by unsupported union/raw-pointer; no upstream assigns reproduction inferred.",
+     "required_covers": [
+-      "E-H copy loop body reached"
++      "E-H write loop body reached"
+     ],
+-    "failure_description": "Any ON uninit failure on the read immediately after copy_nonoverlapping, or source/destination safety failure, means the copy control did not establish the intended readable destination."
++    "failure_description": "SEL1 ON expected exact assigns diagnostic: Check that self->value is assignable (library/kani_core/src/mem_init.rs:120). All failed properties must match. Upstream ON has a known separate unsupported union/raw-pointer blocker; retain UNKNOWN, never accept it as assigns reproduction.",
++    "expected_by_pin": {
++      "upstream": {
++        "ON": "SUCCESS",
++        "OFF": "SUCCESS"
++      },
++      "sel1": {
++        "ON": "ASSIGNS_FAILURE",
++        "OFF": "SUCCESS"
++      }
++    },
++    "failure_match": {
++      "class": "assigns",
++      "description_regex": "^Check that self->value is assignable$",
++      "file": "library/kani_core/src/mem_init.rs",
++      "line": 120,
++      "file_scope": "tool"
++    }
+   }
+ ]
+diff --git a/ch8-e-control/runner.py b/ch8-e-control/runner.py
+index 6ed19e0a8813eed5c047402ac5510b59cf6074c3..8b5f040fe564f557ac5afc0eb6080c9d6a0af364 100644
+--- a/ch8-e-control/runner.py
++++ b/ch8-e-control/runner.py
+@@ -348,8 +348,21 @@ def _schema_validate(value: Any) -> list[str]:
+         return [f"schema validation unavailable: {exc}"]
+ 
+ 
++def row_for_pin(row: dict[str, Any], pin: str) -> dict[str, Any]:
++    if "expected_by_pin" not in row:
++        return row
++    choices = row["expected_by_pin"]
++    if (not isinstance(choices, dict) or set(choices) != set(PIN_DATA) or
++            any(not isinstance(v, dict) or set(v) != set(row["checks"]) or
++                any(x not in {"SUCCESS", "ASSIGNS_FAILURE"} for x in v.values())
++                for v in choices.values())):
++        raise RunnerError("invalid pin-specific expectations")
++    return {**row, "expected_by_check": choices[pin]}
++
++
+ def parse_export(path: Path, row: dict[str, Any], check: str, pin: str,
+                  source: Path, run: dict[str, Any], max_bytes: int = EXPORT_CAP) -> dict[str, Any]:
++    row = row_for_pin(row, pin)
+     result = {"outcome": "UNKNOWN", "state": "UNKNOWN", "proof_credit": "NONE",
+               "cover_source_binding": "PENDING_SOURCE_REVIEW"}
+     if (run.get("timed_out") or run.get("output_truncated") or run.get("termination_reason") or
+@@ -451,10 +464,16 @@ def parse_export(path: Path, row: dict[str, Any], check: str, pin: str,
+             return {**result, "state": "PROCESS_EXIT_MISMATCH"}
+         failed = harness["failed_properties"]
+         ids = checks["failure"]
++        diagnostic_only = expected == "ASSIGNS_FAILURE"
++        # A reproduced assigns failure can render later checks unreachable.
++        # Accept only this diagnostic outcome, with a complete status inventory;
++        # positive/old negative gates retain their original strictness.
++        unreachable = len(checks["unreachable"]) if diagnostic_only else 0
+         if (not failed or {p["id"] for p in failed} != set(ids) or harness["n_failed"] != len(failed) or
+                 harness["n_properties"] != checks["total"] + covers["total"] or harness["unsupported_constructs"] or
+-                checks["success"] + len(failed) != checks["total"] or
+-                any(checks[k] for k in ("unreachable", "undetermined", "error", "unknown", "other"))):
++                checks["success"] + len(failed) + unreachable != checks["total"] or
++                (not diagnostic_only and checks["unreachable"]) or
++                any(checks[k] for k in ("undetermined", "error", "unknown", "other"))):
+             return {**result, "state": "UNBOUND_FAILURE"}
+         matcher = row.get("failure_match")
+         if not isinstance(matcher, dict):
+@@ -463,6 +482,10 @@ def parse_export(path: Path, row: dict[str, Any], check: str, pin: str,
+         pattern = matcher.get("description_regex")
+         try: regex = re.compile(pattern) if isinstance(pattern, str) else None
+         except re.error: regex = None
++        location_scope = matcher.get("file_scope", "source")
++        if location_scope not in {"source", "tool"}:
++            return {**result, "state": "UNBOUND_FAILURE"}
++        location_root = HERE if location_scope == "source" else REPO.parent / "tool"
+         locations = matcher.get("locations")
+         if not isinstance(locations, list):
+             locations = [{"file": matcher.get("file"), "line": matcher.get("line")}]
+@@ -471,7 +494,9 @@ def parse_export(path: Path, row: dict[str, Any], check: str, pin: str,
+             if not isinstance(file_value, str) or not isinstance(line_value, (str, int)):
+                 return None
+             file_path = Path(file_value)
+-            if not file_path.is_absolute(): file_path = HERE / file_path
++            if not file_path.is_absolute(): file_path = location_root / file_path
++            if location_scope == "tool" and not file_path.resolve().is_relative_to(location_root.resolve()):
++                return None
+             return (str(file_path.resolve()), str(line_value))
+         wanted_locations = {item for loc in locations if isinstance(loc, dict) and (item := row_location(loc))}
+         def source_bound(prop: dict[str, Any]) -> bool:
+@@ -482,8 +507,9 @@ def parse_export(path: Path, row: dict[str, Any], check: str, pin: str,
+             reported = Path(file_value)
+             if not reported.is_absolute():
+                 from_cwd = (Path(run["cwd"]) / reported).resolve()
+-                reported = from_cwd if from_cwd == source.resolve() else (HERE / reported).resolve()
+-            return (reported.resolve() == source.resolve() and
++                reported = (from_cwd if (str(from_cwd), line_value) in wanted_locations
++                            else (location_root / reported).resolve())
++            return ((location_scope == "tool" or reported.resolve() == source.resolve()) and
+                     (str(reported.resolve()), line_value) in wanted_locations and
+                     p_class_matches(prop.get("class"), wanted_class) and regex is not None and
+                     isinstance(prop.get("description"), str) and regex.fullmatch(prop["description"]) is not None)
+@@ -491,7 +517,9 @@ def parse_export(path: Path, row: dict[str, Any], check: str, pin: str,
+         named = None
+         if bound:
+             sample_desc = " ".join(p["description"] for p in failed).lower()
+-            if ("uninitialized" in sample_desc or "uninit" in str(row.get("oracle", "")).lower() or
++            if wanted_class == "assigns" and location_scope == "tool":
++                named = "ASSIGNS_FAILURE"
++            elif ("uninitialized" in sample_desc or "uninit" in str(row.get("oracle", "")).lower() or
+                     str(wanted_class).lower() == "safety_check" and "undefined behavior" in sample_desc):
+                 named = "UNINIT_FAILURE"
+             else:
+@@ -575,6 +603,7 @@ def run_rows(tool: Path, out: Path, pin: str) -> int:
+                                encoding="utf-8")
+     persist("RUNNING")
+     for row in rows:
++        row = row_for_pin(row, pin)
+         source = (HERE / row["file"]).resolve()
+         expected_file_sha = _payload_file_hash(request["payload_sha256"], row["file"])
+         for check in row["checks"]:
+@@ -649,6 +678,7 @@ def fallback(out: Path, pin: str) -> int:
+              and isinstance(x.get("id"), str) and isinstance(x.get("check"), str)}
+     # A terminated aggregate write must not hide a completed per-row receipt.
+     for row in rows:
++        row = row_for_pin(row, pin)
+         for check in row["checks"]:
+             slot = out/"rows"/row["id"]/check.lower()/"receipt.json"
+             try:
+@@ -661,6 +691,7 @@ def fallback(out: Path, pin: str) -> int:
+     present = set(known)
+     missing = []
+     for row in rows:
++        row = row_for_pin(row, pin)
+         for check in row["checks"]:
+             if (row["id"], check) in present: continue
+             source = HERE/row["file"]
+diff --git a/ch8-e-control/test_e02.py b/ch8-e-control/test_e02.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..d4d0fbedd04545ed20870fc1da295ed267b8c3e6
+--- /dev/null
++++ b/ch8-e-control/test_e02.py
+@@ -0,0 +1,126 @@
++"""E-02 diagnostic/selection regressions using synthetic RFC0015 exports only."""
++import copy
++import json
++from pathlib import Path
++import re
++import unittest
++
++import test_runner as base
++
++valid_export = base.valid_export
++runner = base.runner
++
++
++class E02Tests(unittest.TestCase):
++    tearDown = base.RunnerTests.tearDown
++    _write = base.RunnerTests._write
++    def setUp(self):
++        base.RunnerTests.setUp(self)
++        self.rows = json.loads((Path(__file__).parent/'rows.json').read_text())
++        self.mre = next(r for r in self.rows if r['id'] == 'e_h_issue_mre')
++
++    def failure(self):
++        value = valid_export('sel1', self.source, harness=self.mre['harness'])
++        h = value['harnesses'][0]
++        h.update(outcome={'kind':'COMPLETED', 'verdict':'FAILURE'}, failure_kind='OTHER',
++                 n_properties=4, n_failed=2)
++        h['checks'].update(total=3, success=0, failure=['p1','p2'], unreachable=['later'])
++        h['covers'].update(total=1, satisfied=['body'])
++        h['failed_properties'] = [dict(id=p, status='FAILURE', trace_available=False,
++            **{'class':'assigns'}, description='Check that self->value is assignable',
++            file='library/kani_core/src/mem_init.rs', line='120') for p in ('p1','p2')]
++        value['summary'].update(successful=0, failed=1, checks_total=3, checks_success=0,
++                                covers_total=1, covers_satisfied=1)
++        return value
++
++    def classify(self, value, row=None, run=None):
++        return runner.parse_export(self._write(value), row or self.mre, 'ON', 'sel1',
++            self.source, run or {'cwd':str(self.root), 'original_exit_code':1})
++
++    def test_exact_assigns_reproduction_is_diagnostic_only(self):
++        got = self.classify(self.failure())
++        self.assertEqual(got['outcome'], 'ASSIGNS_FAILURE')
++        self.assertEqual(got['proof_credit'], 'NONE')
++
++    def test_unrelated_or_mixed_failures_never_match(self):
++        for key, replacement in [('class','safety_check'), ('description','other assigns'),
++                                 ('file','library/kani_core/src/else.rs'), ('line','121')]:
++            v = self.failure()
++            v['harnesses'][0]['failed_properties'][1][key] = replacement
++            with self.subTest(key=key):
++                self.assertEqual(self.classify(v)['outcome'], 'UNKNOWN')
++
++    def test_wrong_absolute_tool_root_and_missing_cover_never_match(self):
++        v = self.failure()
++        v['harnesses'][0]['failed_properties'][0]['file'] = '/wrong/tool/library/kani_core/src/mem_init.rs'
++        self.assertEqual(self.classify(v)['outcome'], 'UNKNOWN')
++        v = self.failure()
++        v['harnesses'][0]['covers']['satisfied'] = []
++        self.assertEqual(self.classify(v)['outcome'], 'UNKNOWN')
++
++    def test_absolute_exact_tool_location(self):
++        v = self.failure()
++        for p in v['harnesses'][0]['failed_properties']:
++            p['file'] = str(runner.REPO.parent/'tool'/p['file'])
++        self.assertEqual(self.classify(v)['outcome'], 'ASSIGNS_FAILURE')
++
++    def test_incomplete_or_unsupported_diagnostic_never_matches(self):
++        for kind in ('unknown', 'unreachable_count', 'unsupported', 'timeout', 'exit'):
++            v = self.failure()
++            run = {'cwd':str(self.root),'original_exit_code':1}
++            if kind == 'unknown': v['harnesses'][0]['checks']['unknown'] = ['x']
++            if kind == 'unreachable_count': v['harnesses'][0]['checks']['unreachable'] = []
++            if kind == 'unsupported': v['harnesses'][0]['unsupported_constructs'] = [copy.deepcopy(v['harnesses'][0]['failed_properties'][0])]
++            if kind == 'timeout': run['timed_out'] = True
++            if kind == 'exit': run['original_exit_code'] = 0
++            with self.subTest(kind=kind):
++                self.assertEqual(self.classify(v, run=run)['outcome'], 'UNKNOWN')
++
++    def test_pin_specific_expectations_and_validation(self):
++        self.assertEqual(runner.row_for_pin(self.mre,'upstream')['expected_by_check']['ON'],'SUCCESS')
++        self.assertEqual(runner.row_for_pin(self.mre,'sel1')['expected_by_check']['ON'],'ASSIGNS_FAILURE')
++        row = copy.deepcopy(self.mre)
++        del row['expected_by_pin']['upstream']
++        with self.assertRaises(runner.RunnerError): runner.row_for_pin(row,'sel1')
++        row = copy.deepcopy(self.mre)
++        row['expected_by_pin']['sel1']['ON'] = None
++        with self.assertRaises(runner.RunnerError): runner.row_for_pin(row,'sel1')
++
++    def test_original_source_failure_gate_still_rejects_unreachable(self):
++        row = copy.deepcopy(self.mre)
++        del row['expected_by_pin']
++        row['expected_by_check']['ON'] = 'ASSERTION_FAILURE'
++        self.assertEqual(self.classify(self.failure(),row=row)['outcome'],'UNKNOWN')
++
++    def test_false_control_exact_assertion_and_line(self):
++        row = next(r for r in self.rows if r['id'] == 'e_s_false_value')
++        text = (Path(__file__).parent/row['file']).read_text().splitlines()
++        self.assertIn('assert!(value == value.wrapping_add(1))',text[row['failure_match']['line']-1])
++        self.assertTrue(re.fullmatch(row['failure_match']['description_regex'],
++                                   'assertion failed: value == value.wrapping_add(1)'))
++        self.assertEqual([i for i,l in enumerate(text) if 'kani::cover' in l],
++                         [i for i,l in enumerate(text) if 'kani::cover' in l and i < row['failure_match']['line']-1])
++
++    def test_false_control_accepts_only_named_source_assertion(self):
++        row = next(r for r in self.rows if r['id'] == 'e_s_false_value')
++        source = Path(__file__).parent/row['file']
++        v = valid_export('upstream', source, harness=row['harness'])
++        h = v['harnesses'][0]
++        h.update(outcome={'kind':'COMPLETED','verdict':'FAILURE'}, failure_kind='OTHER',
++                 n_properties=4, n_failed=1)
++        h['checks'].update(total=1, success=0, failure=['false'])
++        h['covers'].update(total=3, satisfied=['a','b','c'])
++        h['failed_properties'] = [dict(id='false', status='FAILURE', trace_available=False,
++            **{'class':'assertion'}, description='assertion failed: value == value.wrapping_add(1)',
++            file=str(source.resolve()), line=str(row['failure_match']['line']))]
++        v['summary'].update(successful=0, failed=1, checks_total=1, checks_success=0,
++                            covers_total=3, covers_satisfied=3)
++        def parse(value):
++            return runner.parse_export(self._write(value),row,'ON','upstream',source,
++                {'cwd':str(self.root),'original_exit_code':1})['outcome']
++        self.assertEqual(parse(v),'ASSERTION_FAILURE')
++        h['failed_properties'][0]['line'] = '1'
++        self.assertEqual(parse(v),'UNKNOWN')
++
++
++if __name__ == '__main__': unittest.main()
+diff --git a/ch8-e-control/test_workflow_repo.py b/ch8-e-control/test_workflow_repo.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..3b131bfd5821ffe670d90788fa9a4de704edb996
+--- /dev/null
++++ b/ch8-e-control/test_workflow_repo.py
+@@ -0,0 +1,90 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Offline checkout-path regressions; never execute workflow commands."""
++import copy
++from pathlib import Path
++import tempfile
++import unittest
++
++import yaml
++
++import check_package
++from workflow_repo import check_control_repo_paths
++
++
++class WorkflowRepoTests(unittest.TestCase):
++    def setUp(self):
++        self.path = Path(__file__).resolve().parent.parent/'.github/workflows/ch8-e.yml'
++        self.doc = yaml.load(self.path.read_text(), Loader=yaml.BaseLoader)
++        self.steps = self.doc['jobs']['controls']['steps']
++        self.step = next(s for s in self.steps if s.get('name') == 'Check frozen package and synthetic controls')
++
++    def test_actual_workflow_and_old_failure(self):
++        self.assertEqual(check_package.yaml_check(self.path)['control_repo_paths'][0]['repo'], '..')
++        self.step['run'] = self.step['run'].replace('--repo ..', '--repo ../..')
++        with self.assertRaisesRegex(AssertionError, '--repo resolves'):
++            check_control_repo_paths(self.doc)
++        with tempfile.TemporaryDirectory() as d:
++            path = Path(d)/'old.yml'
++            path.write_text(yaml.dump(self.doc))
++            with self.assertRaisesRegex(AssertionError, '--repo resolves'):
++                check_package.yaml_check(path)
++
++    def test_different_control_names_and_depths(self):
++        for directory in ('ch8-s1-control', 'scripts/ch8-b-control', 'ch8-c-control', 'ch8-e-control'):
++            with self.subTest(directory=directory):
++                self.step['working-directory'] = 'control/'+directory
++                self.step['run'] = 'python3 check_package.py control --repo '+('/'.join(['..']*(directory.count('/')+1)))
++                self.assertEqual(check_control_repo_paths(self.doc)[0]['resolved_checkout'], 'control')
++
++    def test_workflow_job_and_step_working_directory_precedence(self):
++        cwd = self.step.pop('working-directory')
++        self.doc['defaults'] = {'run': {'working-directory': cwd}}
++        self.assertEqual(check_control_repo_paths(self.doc)[0]['working_directory'], cwd)
++        self.doc['jobs']['controls']['defaults'] = {'run': {'working-directory': 'wrong'}}
++        with self.assertRaises(AssertionError):
++            check_control_repo_paths(self.doc)
++        self.step['working-directory'] = cwd
++        check_control_repo_paths(self.doc)
++
++    def test_repo_equals_and_line_continuation(self):
++        self.step['run'] = 'python3 check_package.py control ' + '\\' + '\n --repo=..'
++        self.assertEqual(check_control_repo_paths(self.doc)[0]['repo'], '..')
++
++    def test_wrong_or_unresolved_paths_rejected(self):
++        for repo in ('.', '../..', '../../tool', '/control', '$ROOT', '${{ github.workspace }}', 'null'):
++            with self.subTest(repo=repo):
++                self.step['run'] = 'python3 check_package.py control --repo '+repo
++                with self.assertRaises((AssertionError, SystemExit)):
++                    check_control_repo_paths(self.doc)
++
++    def test_missing_null_wrong_type_and_not_run_command(self):
++        for command in ('', 'python3 check_package.py control', 'python3 check_package.py control --repo',
++                        'python3 check_package.py control --repo .. --repo ../..', None, [],
++                        'echo NOT_RUN # check_package.py control --repo ..'):
++            with self.subTest(command=command):
++                self.step['run'] = command
++                with self.assertRaises((AssertionError, SystemExit)):
++                    check_control_repo_paths(self.doc)
++
++    def test_missing_wrong_late_or_duplicate_checkout(self):
++        for mutation in ('missing', 'wrong', 'late', 'duplicate'):
++            self.setUp()
++            checkout = next(s for s in self.steps if s.get('uses', '').startswith('actions/checkout@'))
++            if mutation == 'missing': self.steps.remove(checkout)
++            if mutation == 'wrong': checkout['with']['path'] = 'tool'
++            if mutation == 'late': self.steps.remove(checkout); self.steps.append(checkout)
++            if mutation == 'duplicate': self.steps.insert(1, copy.deepcopy(checkout))
++            with self.subTest(mutation=mutation), self.assertRaises(AssertionError):
++                check_control_repo_paths(self.doc)
++
++    def test_every_explicit_control_step_is_checked(self):
++        extra = copy.deepcopy(self.step)
++        extra['run'] = extra['run'].replace('--repo ..', '--repo ../..')
++        self.steps.append(extra)
++        with self.assertRaises(AssertionError):
++            check_control_repo_paths(self.doc)
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/ch8-e-control/workflow_repo.py b/ch8-e-control/workflow_repo.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..0af83968f210ffb706f8c2006c79712dec7eec01
+--- /dev/null
++++ b/ch8-e-control/workflow_repo.py
+@@ -0,0 +1,77 @@
++# Copyright Kani Contributors
++# SPDX-License-Identifier: Apache-2.0 OR MIT
++"""Static check shared by control workflows with an explicit --repo argument.
++
++Only literal relative paths and direct Python control commands are supported.
++No shell, checkout, compiler or verifier is executed. Implicit repository roots
++(as used by other control packages) require their own package-specific check.
++"""
++import argparse
++import json
++import posixpath
++import re
++import shlex
++from pathlib import Path
++
++
++def literal_path(value):
++    assert isinstance(value, str) and re.fullmatch(r'[A-Za-z0-9_./-]+', value), 'literal relative path required'
++    assert not value.startswith('/'), 'workspace-relative path required'
++    return value
++
++
++def check_control_repo_paths(doc):
++    """Resolve every explicit check_package.py control --repo to path: control.
++
++    GitHub run defaults apply at workflow, job, then step level. Resolution uses
++    a synthetic workspace, so it is independent of the local checkout layout.
++    Return no implicit-root claims; a workflow without explicit checks fails.
++    """
++    workspace = '/__ch8_workspace__'
++    checked = []
++    for job_id, job in doc['jobs'].items():
++        steps = job['steps']
++        for step_index, step in enumerate(steps):
++            command = step.get('run', '')
++            assert isinstance(command, str), 'run must be a string'
++            for line in command.replace('\\\n', ' ').splitlines():
++                # Avoid parsing unrelated shell/heredoc contents.
++                if not re.search(r'check_package\.py\s+control(?:\s|$)', line):
++                    continue
++                argv = shlex.split(line, comments=True)
++                if not argv:
++                    continue
++                assert (len(argv) >= 3 and argv[0] in ('python', 'python3')
++                        and posixpath.basename(argv[1]) == 'check_package.py'
++                        and argv[2] == 'control'), 'direct Python control command required'
++                # Packages with no --repo use an internal root: do not infer it.
++                if len(argv) == 3:
++                    continue
++                tail = argv[3:]
++                assert ((len(tail) == 2 and tail[0] == '--repo')
++                        or (len(tail) == 1 and tail[0].startswith('--repo='))), 'one --repo argument required'
++                repo_arg = literal_path(tail[1] if len(tail) == 2 else tail[0].split('=', 1)[1])
++                checkout = [s for s in steps[:step_index]
++                            if s.get('uses', '').startswith('actions/checkout@')
++                            and s.get('with', {}).get('path') == 'control']
++                assert len(checkout) == 1, 'one preceding checkout path: control required'
++                defaults = doc.get('defaults', {}).get('run', {})
++                defaults = dict(defaults, **job.get('defaults', {}).get('run', {}))
++                cwd = literal_path(step.get('working-directory', defaults.get('working-directory', '.')))
++                resolved = posixpath.normpath(posixpath.join(workspace, cwd, repo_arg))
++                expected = posixpath.join(workspace, 'control')
++                assert resolved == expected, f'{job_id}: --repo resolves to {resolved}, expected {expected}'
++                checked.append({'job': job_id, 'working_directory': cwd, 'repo': repo_arg,
++                                'resolved_checkout': 'control'})
++    assert checked, 'no explicit control --repo validation found'
++    return checked
++
++
++if __name__ == '__main__':
++    import yaml
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('workflows', type=Path, nargs='+')
++    args = parser.parse_args()
++    for path in args.workflows:
++        doc = yaml.load(path.read_text(), Loader=yaml.BaseLoader)
++        print(json.dumps({'workflow': str(path), 'checks': check_control_repo_paths(doc)}, sort_keys=True))

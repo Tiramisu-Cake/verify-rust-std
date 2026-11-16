@@ -1,0 +1,33 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-e02-w15",
+  "baseline_commit": "628ba7fd9b8d1f66d5ccd220ce6ea84bc4626027",
+  "candidate_commit": "84c98513b526a7cc58d2248158f92fe4b8d512f3",
+  "defect": "E-01 E-S has invalid namespace; H loop shadow assigns observation confounded by MaybeUninit on upstream. Prepare only E-02 calibration with exact diagnostic oracle and static checkout path preflight.",
+  "applicability": "TASK-CH8-E02-W15.md g0 f04b83e085: one stage, bucket E item1, single-file no std, same upstream0aac/SEL1 pins and ch8-e-control template. Prior package reviewed; current review is bounded delta plus dependencies.",
+  "invariants": [
+    "No push/CI/publication/ledger or local cargo/rustc/Kani/CBMC; no tool/shadow/havoc model changes. Control preparation must be skip-ci sole-parent upstream0aac; reviewed candidate has old control as parent, final control must have identical tree.",
+    "Six independent roots ON/OFF at both pins: E-S positive and false value, primitive H raw-write/no-write/no-loop, byte-exact issue MaybeUninit MRE. Original E-01 fixtures remain; old obligations stay open.",
+    "No CAP, symbolic usize length through existing alloc-enabled namespace; false property exact source/message/line and cover inventory. Assumes limited to existing generated storage/read index premises, no assume instead of invariant.",
+    "Primitive no-write has no assert17 since loop frame havocs payload. Positive returns/body/value checks distinct; no uninitialized negative claimed for initialized primitive.",
+    "MRE SEL1 ON ASSIGNS_FAILURE requires all failures exact class/message/library:120, body cover, complete check counts; unreachable follow-on checks allowed only diagnostic outcome. Never count diagnostic as positive proof. Upstream desired SUCCESS remains UNKNOWN on known unsupported union; do not call it assigns reproduction.",
+    "Keep default checks, uninit ON/OFF, exact pins/request/source/schema/stage gates, original exits/exceptions, bounded snapshots and NOT_RUN. 600s/660s/6GiB/75min phase/120min job unchanged.",
+    "Explicit check_package.py control --repo .. from control/ch8-e-control must resolve to checkout control; static workflow path preflight from Profiles fix1. Same-tree activation only by separate coordinator."
+  ],
+  "controls": [
+    "40 isolated Python synthetic tests, including baseline error/timeout/partial/missing/null/wrong-type/NOT_RUN/mismatch and new path/assigns/pin/message/line/mixed-failure/inventory regressions; YAML/actionlint/diff check. Review these tests and scope without executing any compiler."
+  ],
+  "dependencies": [
+    ".github/actions/setup/action.yml",
+    "scripts/validate_json_export.py",
+    "tests/json-handler/schema-validation/kani_json_schema.json",
+    "library/kani/src/arbitrary.rs",
+    "library/kani_core/src/mem_init.rs",
+    "kani-compiler/src/codegen_cprover_gotoc/overrides/hooks.rs"
+  ],
+  "prior_reviews": [],
+  "known_limitations": [
+    "ALL_NOT_RUN, proof credit NONE. No claims of compile success, initialized symbolic storage validity, GOTO causal binding, full E or generic theorem. Covers need runtime source correlation. Historical E-01 unchanged.",
+    "Expected assertion/assigns messages frozen from pinned source and existing observed diagnostics; new roots never compiled. Worst-case 12*660s exceeds phase4500s, same bounded phase policy materializes remaining NOT_RUN."
+  ]
+}

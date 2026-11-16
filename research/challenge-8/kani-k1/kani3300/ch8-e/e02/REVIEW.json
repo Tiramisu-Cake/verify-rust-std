@@ -1,0 +1,24 @@
+{
+  "schema": "ch8-e02-review-v1",
+  "state": "GO_STATIC_REVIEW_ONLY",
+  "candidate": "84c98513b526a7cc58d2248158f92fe4b8d512f3",
+  "tree": "c07b5aded52231540eab49e2a173a57ed7b903c9",
+  "baseline": "628ba7fd9b8d1f66d5ccd220ce6ea84bc4626027",
+  "control": "79baf66106a59e6ef9bcede8000fa893a5a8509d",
+  "reviewer": {
+    "task": "/root/review_e02",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "high",
+    "fork_turns": "none",
+    "nested_delegation": false
+  },
+  "packet": "review-packet",
+  "packet_sha256": "fa6e34cd4b2f536a20aa719e57d8911aaee8d2887d7f3347b41ec9c18b9cfaab",
+  "spec_sha256": "97e654fa73a82e4316b0ad509c845f0aeeace225543160c787ac7227bf9b7d20",
+  "findings": [],
+  "verdict": "No correctness blocker found in the reviewed scope.",
+  "reviewed_scope": "Stage-specific six-root matrix, fixtures/diagnostic oracles, runner classification and pin handling, --repo workflow path preflight and declared dependency snapshots.",
+  "reviewer_checks": "Packet diff/spec hashes and dependency SHA256s match; git diff --check clean. Reviewer ran no tests/compiler.",
+  "proof_credit": "NONE",
+  "qualification": "ALL_NOT_RUN"
+}
