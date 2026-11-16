@@ -151,6 +151,7 @@ S1 list fix (a) `c03363b3b0` (list timeout 1500 s) rejected by coordinator: orga
 - PROF-OFF-02 43784551069: batch mode works — group-00 53/53 SUCCESS (covers 179/179), group-01 9/9 FAILURE on their named checks; compile 53 s/33 s; phase 1661 s; group RSS 4.0 GiB. Runner classified all 62 rows UNKNOWN (`SOURCE_STAGE_TARGET_MISMATCH`) — binding defect under investigation (TASK-CH8-PROF-OFF-INTAKE-W11).
 | ~01:50Z (02:… local next day) | C-01 | C (item 1) | std `d073585946` (P′ + c_controls; std fork `experiment/ch8-c-ctl-pprime-20261116`); batch control `64ec781bc1` (tree `33e95dc779`) → sibling `d224c83361` (parent 0aac) on `uninit-ci/ch8-c-ctl-a` | 43788110742 | Batch mode. g0 `7577118b79` ch8-c-ctl/batch/. |
 | ~01:50Z | B-02 | B (item 1) | std P′ `c5ff36ff43`; batch pkg `99dbb2157b` (tree `10421f334c`) → child trigger `f601ca74ca` on `uninit-ci/ch8-b-census-b` | 43788110361 | 235 roots, one multi-harness invocation per shard. g0 `7577118b79` ch8-b/pprime-batch/. |
+- C-01 43788110742: N1 merge write-restore caught (`Check that *dst is assignable`) + unwinding assertion; merge read-only companion fails only on unwinding assertion (fixture unwind); N2 live-shared SUCCESS (documented alias gap); L3/L4 SUCCESS. Covers 18/30. Intake + C-02 (unwind fix) → TASK-CH8-C01-INTAKE-W14.
 C-01 dispatched (was held for the list fix; now batch, no global list).
 C-01 held (superseded): C controls (std `d073585946` on P′, control `cdd3c6d041`, g0 `425f10fbfd`) use the same global `kani list` that timed out in S1-02 — dispatch after the list fix.
 
