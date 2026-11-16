@@ -1,0 +1,421 @@
+diff --git a/ch8-s1-control/CI-REQUEST.json b/ch8-s1-control/CI-REQUEST.json
+index 3fee9de22..ff8f64468 100644
+--- a/ch8-s1-control/CI-REQUEST.json
++++ b/ch8-s1-control/CI-REQUEST.json
+@@ -638,10 +638,10 @@
+     ".github/workflows/ch8-s1.yml": "8c396c715dc65add25a7a28e6812824d45ae1eb263456a85e567864516f41a6f",
+     "ch8-s1-control/activation-default.patch": "cee9e21c4b5015d6daf53c286f781602d0890e4ed23239f968d228088335dcc3",
+     "ch8-s1-control/activation-override.patch": "6dcb40cc4118035de700f0988a6766c96aad8f4def76513f0f10f275d091c356",
+-    "ch8-s1-control/check_package.py": "55dbacbd1d6756e6c31edc2276205ae2228224f1f28e9c5909ecfab8226ec526",
+-    "ch8-s1-control/runner.py": "4e723e1907a689990a59540e4b2df5a45c0fdd1543e3e1d6956f1c7990fc5e3f",
+-    "ch8-s1-control/test_package.py": "425cece0bb74c0360d15ec241450fb0dbe969ea1c11f39032a941b526346e7ab",
+-    "ch8-s1-control/test_runner.py": "99332ebca71669c53fc66463399231d1abeb0b1f6960ca6fe1096ae1347fe675"
++    "ch8-s1-control/check_package.py": "2eb01abbb16f70388450cfcff6deb64045762360c115794aa20aecf3c89d0699",
++    "ch8-s1-control/runner.py": "2b89b56982bf07649c1e35dbdb128cad21b92e579dbc1e7ce05b9440b9660703",
++    "ch8-s1-control/test_package.py": "5bc08e71b387242f0aa5f91dbc121dc02606971f3a264d6b0a059d168bce9c3c",
++    "ch8-s1-control/test_runner.py": "cafc30c1e7875a5aad5e506502df531b96393806903a134ae1eb340dfaf7463b"
+   },
+   "budgets": {
+     "jobs": 1,
+@@ -656,9 +656,9 @@
+     "stderr_bytes": 1048576,
+     "export_bytes": 8388608,
+     "artifact_bytes": 268435456,
+-    "list_seconds": 600,
++    "list_seconds": 1500,
+     "planned_rows_seconds": 2760,
+-    "planned_list_seconds": 300,
++    "planned_list_seconds": 1500,
+     "rss_cap_kib": 6291456
+   },
+   "reservations": {
+diff --git a/ch8-s1-control/check_package.py b/ch8-s1-control/check_package.py
+index 778e6ebc9..989558a0c 100644
+--- a/ch8-s1-control/check_package.py
++++ b/ch8-s1-control/check_package.py
+@@ -102,6 +102,21 @@ def build(tool, epoch, out):
+ def fallback(out):
+     out.mkdir(parents=True,exist_ok=True)
+     r=json.loads((HERE/'CI-REQUEST.json').read_text())
++    # SIGKILL/job cancellation cannot run Python finally blocks. Preserve the
++    # last atomic list observation and make the missing completion explicit.
++    list_dir=out/'list'; list_dir.mkdir(exist_ok=True)
++    list_receipt=list_dir/'receipt.json'
++    if list_receipt.exists():
++        value=json.loads(list_receipt.read_text())
++        if value.get('state')=='IN_PROGRESS':
++            value.update(state='INTERRUPTED', reason='No completed list receipt; execution outcome UNKNOWN')
++            list_receipt.write_text(json.dumps(value,indent=2)+'\n')
++    else:
++        list_receipt.write_text(json.dumps({'schema':'ch8-s1-list-receipt-v1',
++            'state':'NOT_RUN_OR_INTERRUPTED','proof_credit':'NONE',
++            'reason':'No list receipt (setup/preflight failure or interruption)',
++            'execution':{'original_exit_code':None,'signal':None,'timed_out':None,
++                         'elapsed_seconds':None,'rss_peak_kib':None,'rss_status':'UNKNOWN'}},indent=2)+'\n')
+     # Materialize every absent row, preserving any execution receipt already captured.
+     for row in r['rows']:
+         dest=out/row['id']; dest.mkdir(exist_ok=True)
+diff --git a/ch8-s1-control/runner.py b/ch8-s1-control/runner.py
+index fb385de0f..9def9f723 100644
+--- a/ch8-s1-control/runner.py
++++ b/ch8-s1-control/runner.py
+@@ -26,6 +26,7 @@ STD_TREE = "e0dc89592926571e823797f8618cd6b4a7e11ff6"
+ TOOL_SHA = "0aac16ef62da9e9d5645782d458593e5d78143ba"
+ TOOL_TREE = "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+ MAX_ROW_SECONDS = 600
++LIST_SECONDS = 1500
+ PHASE_SECONDS = 4500
+ PHASE_CLEANUP_MARGIN = 10
+ RSS_CAP_KIB = 6 * 1024 * 1024
+@@ -103,7 +104,7 @@ def load_request(path: Path = REQUEST_PATH) -> dict[str, Any]:
+             "phase_seconds": PHASE_SECONDS, "rss_kib": RSS_CAP_KIB,
+             "stdout_bytes": STDOUT_CAP_BYTES, "stderr_bytes": STDERR_CAP_BYTES,
+             "export_bytes": EXPORT_CAP_BYTES, "artifact_bytes": ARTIFACT_CAP_BYTES,
+-            "row_seconds": MAX_ROW_SECONDS}.items()):
++            "row_seconds": MAX_ROW_SECONDS, "list_seconds": LIST_SECONDS}.items()):
+         raise RunnerError("request budget mismatch")
+     return request
+ 
+@@ -177,7 +178,12 @@ def ci_env() -> dict[str, str]:
+     return env
+ 
+ 
+-def _read_pipe(pipe, target: Path, cap: int, state: dict[str, Any], lock: threading.Lock, key: str) -> None:
++def _read_pipe(pipe, target: Path, cap: int, state: dict[str, Any], lock: threading.Lock, key: str,
++               capture_tail: bool = False) -> None:
++    head_cap = cap // 2 if capture_tail else cap
++    tail_cap = cap - head_cap if capture_tail else 0
++    head_kept = 0
++    tail = bytearray()
+     with target.open("wb") as output:
+         while True:
+             data = pipe.read(65536)
+@@ -189,8 +195,13 @@ def _read_pipe(pipe, target: Path, cap: int, state: dict[str, Any], lock: thread
+                     state[key + "_cap"] = True
+                 state[key + "_kept"] += min(room, len(data))
+                 state[key + "_bytes"] += len(data)
+-            if room:
+-                output.write(data[:room])
++            head = min(len(data), head_cap - head_kept)
++            output.write(data[:head])
++            head_kept += head
++            if tail_cap:
++                tail.extend(data[head:])
++                del tail[:-tail_cap]
++        output.write(tail)
+     pipe.close()
+ 
+ 
+@@ -246,7 +257,8 @@ def _kill_group(pgid: int, grace: float = 5.0) -> None:
+ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+             rss_cap_kib: int = RSS_CAP_KIB, stdout_cap: int = STDOUT_CAP_BYTES,
+             stderr_cap: int = STDERR_CAP_BYTES, export_path: Path | None = None,
+-            export_cap: int = EXPORT_CAP_BYTES, env: dict[str, str] | None = None) -> dict[str, Any]:
++            export_cap: int = EXPORT_CAP_BYTES, env: dict[str, str] | None = None,
++            capture_tail: bool = False) -> dict[str, Any]:
+     out.mkdir(parents=True, exist_ok=True)
+     started = time.monotonic()
+     info: dict[str, Any] = {"original_exit_code": None, "signal": None, "timed_out": False,
+@@ -263,9 +275,9 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+         info.update(runner_error=f"exec failed: {exc}", elapsed_seconds=time.monotonic() - started)
+         return info
+     threads = [threading.Thread(target=_read_pipe, args=(proc.stdout, out / "stdout.log", stdout_cap,
+-                                                         state, lock, "stdout"), daemon=True),
++                                                         state, lock, "stdout", capture_tail), daemon=True),
+                threading.Thread(target=_read_pipe, args=(proc.stderr, out / "stderr.log", stderr_cap,
+-                                                         state, lock, "stderr"), daemon=True)]
++                                                         state, lock, "stderr", capture_tail), daemon=True)]
+     for thread in threads: thread.start()
+     deadline = started + timeout
+     killed_for = None
+@@ -316,6 +328,8 @@ def execute(argv: list[str], cwd: Path, out: Path, timeout: int,
+         info["interrupted_by_signal"] = external_signal[-1]
+         info["termination_reason"] = "external_signal"
+     info["output_bytes"] = state["stdout_bytes"] + state["stderr_bytes"]
++    info["stdout_bytes"] = state["stdout_bytes"]
++    info["stderr_bytes"] = state["stderr_bytes"]
+     info["stdout_truncated"] = state["stdout_cap"]
+     info["stderr_truncated"] = state["stderr_cap"]
+     info["rss_peak_gib"] = info["rss_peak_kib"] / 1048576
+@@ -484,17 +498,76 @@ def binary_fingerprints(tool: Path, export: dict[str, Any]) -> dict[str, Any]:
+             "reported_versions": tools if isinstance(tools, dict) else None}
+ 
+ 
++def _list_log(path: Path, total_bytes: int | None) -> dict[str, Any]:
++    """Inline bounded head/tail of the bounded capture, including omissions."""
++    if not path.is_file():
++        return {"path": path.name, "state": "MISSING", "original_bytes": total_bytes,
++                "head": "", "tail": ""}
++    size = path.stat().st_size
++    with path.open("rb") as stream:
++        head = stream.read(min(size, 2048))
++        stream.seek(max(len(head), size - 2048))
++        tail = stream.read(2048)
++    return {"path": path.name, "state": "CAPTURED", "original_bytes": total_bytes,
++            "captured_bytes": size, "capture_layout": "HEAD_THEN_TAIL",
++            "head": head.decode("utf-8", errors="replace"),
++            "tail": tail.decode("utf-8", errors="replace"),
++            "preview_omitted_bytes": max(0, size - len(head) - len(tail)),
++            "capture_omitted_bytes": max(0, total_bytes - size) if total_bytes is not None else None,
++            "sha256": sha256(path)}
++
++
+ def list_inventory(std: Path, tool: Path, out: Path, request: dict[str, Any]) -> None:
+-    verify_source(std, tool, request)
+     list_dir = out / "list"
+     list_dir.mkdir(parents=True, exist_ok=True)
++    # A failed new attempt must never leave an earlier frozen inventory usable.
++    (out / "inventory.json").unlink(missing_ok=True)
++    for name in ("stdout.log", "stderr.log"):
++        (list_dir / name).write_bytes(b"")
++    (list_dir / "kani-list.json").unlink(missing_ok=True)
+     list_argv = [str(tool.resolve() / "scripts/kani"), "list", str(std.resolve() / "library"),
+                  "--std", "--format", "json", "--quiet", "-Z", "unstable-options"]
+     for feature in UNSTABLE:
+         list_argv += ["-Z", feature]
+     phase_started = time.time()
+-    listing = execute(list_argv, list_dir, list_dir, timeout=MAX_ROW_SECONDS,
+-                      env=ci_env(), stdout_cap=STDOUT_CAP_BYTES, stderr_cap=STDERR_CAP_BYTES)
++    started = time.monotonic()
++    listing: dict[str, Any] = {"original_exit_code": None, "signal": None, "timed_out": False,
++                               "elapsed_seconds": 0, "rss_peak_kib": None,
++                               "rss_status": "NOT_RUN"}
++    receipt = {"schema": "ch8-s1-list-receipt-v1", "state": "IN_PROGRESS",
++               "stage": "SOURCE_PREFLIGHT", "argv": list_argv, "timeout_seconds": LIST_SECONDS,
++               "phase_seconds": PHASE_SECONDS, "phase_started_unix": phase_started,
++               "std_sha": STD_SHA, "tool_sha": TOOL_SHA, "proof_credit": "NONE",
++               "execution": listing}
++    receipt_path = list_dir / "receipt.json"
++    _write_json(receipt_path, receipt)
++    try:
++        verify_source(std, tool, request)
++        child_env = ci_env()
++        receipt["stage"] = "EXECUTING"
++        listing.update(elapsed_seconds=None, timed_out=None, rss_status="UNKNOWN_UNTIL_COMPLETION")
++        _write_json(receipt_path, receipt)
++        listing = execute(list_argv, list_dir, list_dir, timeout=LIST_SECONDS,
++                          env=child_env, stdout_cap=STDOUT_CAP_BYTES,
++                          stderr_cap=STDERR_CAP_BYTES, capture_tail=True)
++        receipt.update(stage="VALIDATING", execution=listing)
++        _write_json(receipt_path, receipt)
++        _freeze_inventory(std, tool, out, request, list_argv, phase_started, listing)
++        receipt.update(state="COMPLETE", stage="INVENTORY_FROZEN")
++    except BaseException as exc:
++        receipt.update(state="FAILED", error=f"{type(exc).__name__}: {exc}")
++        raise
++    finally:
++        receipt["elapsed_seconds"] = round(time.monotonic() - started, 3)
++        receipt["execution"] = listing
++        for name in ("stdout", "stderr"):
++            receipt[name] = _list_log(list_dir / (name + ".log"), listing.get(name + "_bytes"))
++        _write_json(receipt_path, receipt)
++
++
++def _freeze_inventory(std: Path, tool: Path, out: Path, request: dict[str, Any],
++                      list_argv: list[str], phase_started: float, listing: dict[str, Any]) -> None:
++    list_dir = out / "list"
+     if (listing.get("original_exit_code") != 0 or listing.get("timed_out") or
+             listing.get("termination_reason") or listing.get("stdout_truncated") or listing.get("stderr_truncated")):
+         raise RunnerError(f"Kani std list inventory failed: {listing}")
+diff --git a/ch8-s1-control/test_package.py b/ch8-s1-control/test_package.py
+index b8149a67f..8da1a00a5 100644
+--- a/ch8-s1-control/test_package.py
++++ b/ch8-s1-control/test_package.py
+@@ -103,6 +103,15 @@ class PackageTests(unittest.TestCase):
+                 c.fallback(out)
+                 self.assertEqual(json.loads((done/'receipt.json').read_text())['original_exit_code'],42)
+                 self.assertEqual(json.loads((out/'tail/receipt.json').read_text())['status'],'NOT_RUN')
++                list_receipt=out/'list/receipt.json'
++                self.assertEqual(json.loads(list_receipt.read_text())['state'],'NOT_RUN_OR_INTERRUPTED')
++                list_receipt.write_text(json.dumps({'state':'IN_PROGRESS','execution':{'signal':None}}))
++                c.fallback(out)
++                self.assertEqual(json.loads(list_receipt.read_text())['state'],'INTERRUPTED')
++                complete='{"state":"COMPLETE","execution":{"original_exit_code":0}}'
++                list_receipt.write_text(complete)
++                c.fallback(out)
++                self.assertEqual(list_receipt.read_text(),complete)
+                 (out/'oversize.log').write_bytes(b'x'*20000)
+                 c.fallback(out)
+                 self.assertTrue((out/'TRUNCATED.json').is_file())
+diff --git a/ch8-s1-control/test_runner.py b/ch8-s1-control/test_runner.py
+index 4a523267f..7e092b9f6 100644
+--- a/ch8-s1-control/test_runner.py
++++ b/ch8-s1-control/test_runner.py
+@@ -62,7 +62,7 @@ class RequestTests(unittest.TestCase):
+                 "budgets": {"phase_seconds": runner.PHASE_SECONDS, "rss_kib": runner.RSS_CAP_KIB,
+                             "stdout_bytes": runner.STDOUT_CAP_BYTES, "stderr_bytes": runner.STDERR_CAP_BYTES,
+                             "export_bytes": runner.EXPORT_CAP_BYTES, "artifact_bytes": runner.ARTIFACT_CAP_BYTES,
+-                            "row_seconds": runner.MAX_ROW_SECONDS}}
++                            "row_seconds": runner.MAX_ROW_SECONDS, "list_seconds": runner.LIST_SECONDS}}
+ 
+     def test_request_binding_and_guard(self):
+         with tempfile.TemporaryDirectory() as d:
+@@ -211,6 +211,168 @@ class ExecutionTests(unittest.TestCase):
+             self.assertEqual(result["termination_reason"], "external_signal")
+ 
+ 
++class ListTests(unittest.TestCase):
++    def test_list_rss_and_external_interruption_are_receipted(self):
++        request = runner.load_request()
++        real_execute = runner.execute
++        with tempfile.TemporaryDirectory() as d:
++            root = Path(d)
++            for name in ('rss_cap', 'external_signal', 'exec_failure'):
++                out = root/name
++                timer = None
++                def synthetic(argv, cwd, dest, **kwargs):
++                    nonlocal timer
++                    if name == 'external_signal':
++                        timer = threading.Timer(0.25, lambda: os.kill(os.getpid(), runner.signal.SIGTERM))
++                        timer.start()
++                    argv = ([str(root/'no-such-executable')] if name == 'exec_failure' else
++                            [sys.executable, '-c', 'import time; time.sleep(4)'])
++                    return real_execute(argv, cwd, dest, timeout=5, capture_tail=True)
++                try:
++                    with mock.patch.object(runner, 'verify_source', return_value={}), \
++                         mock.patch.object(runner, 'execute', side_effect=synthetic), \
++                         mock.patch.object(runner, '_group_rss_kib', return_value=(
++                             runner.RSS_CAP_KIB+1 if name == 'rss_cap' else 1)):
++                        with self.assertRaises(runner.RunnerError):
++                            runner.list_inventory(root/'std', root/'tool', out, request)
++                finally:
++                    if timer: timer.cancel()
++                receipt = json.loads((out/'list/receipt.json').read_text())
++                self.assertEqual(receipt['state'], 'FAILED')
++                execution = receipt['execution']
++                if name == 'exec_failure':
++                    self.assertIn('exec failed', execution['runner_error'])
++                    self.assertIsNone(execution['original_exit_code'])
++                else:
++                    self.assertEqual(execution['termination_reason'], name)
++                if name == 'external_signal': self.assertEqual(execution['interrupted_by_signal'], 15)
++
++    def fixture(self, request):
++        bindings = {r["selector"]: "target::" + r["id"] for r in request["rows"] if r["mode"] == "PFC"}
++        for diag, positive in (("activation-default", "stable_default_cell"),
++                               ("activation-override", "stable_freeze_u8")):
++            by_id = {r["id"]: r for r in request["rows"]}
++            bindings[by_id[diag]["selector"]] = bindings[by_id[positive]["selector"]]
++        return {"file-version": "0.1", "standard-harnesses": {"source.rs": [
++                    r["selector"] for r in request["rows"] if r["mode"] == "Original"]},
++                "contract-harnesses": {"source.rs": list(bindings)},
++                "contracts": [{"function": target, "harnesses": [selector]}
++                              for selector, target in bindings.items()]}
++
++    def test_list_receipts_success_and_process_failures(self):
++        request = runner.load_request()
++        payload = json.dumps(self.fixture(request))
++        real_execute = runner.execute
++        cases = {
++            "success": "from pathlib import Path; Path('kani-list.json').write_text(" + repr(payload) + ")",
++            "exit": "raise SystemExit(42)",
++            "signal": "import os,signal; os.kill(os.getpid(), signal.SIGTERM)",
++            "timeout": "import time; time.sleep(5)",
++            "stdout_cap": "import sys; sys.stdout.write('HEAD'+'x'*10000+'TAIL'); sys.stdout.flush()",
++            "stderr_cap": "import sys; sys.stderr.write('HEAD'+'x'*10000+'TAIL'); sys.stderr.flush()",
++            "missing_json": "pass",
++            "bad_json": "from pathlib import Path; Path('kani-list.json').write_text('{')",
++        }
++        with tempfile.TemporaryDirectory() as d:
++            root = Path(d)
++            for name, code in cases.items():
++                with self.subTest(name=name):
++                    out = root / name
++                    def synthetic(argv, cwd, dest, timeout, **kwargs):
++                        self.assertEqual(timeout, 1500)
++                        self.assertTrue(kwargs['capture_tail'])
++                        return real_execute([sys.executable, '-c', code], cwd, dest,
++                                            timeout=1, stdout_cap=4096, stderr_cap=4096,
++                                            capture_tail=True, env=kwargs['env'])
++                    with mock.patch.object(runner, 'verify_source', return_value={}), \
++                         mock.patch.object(runner, 'execute', side_effect=synthetic):
++                        if name == 'success':
++                            runner.list_inventory(root/'std', root/'tool', out, request)
++                        else:
++                            with self.assertRaises(runner.RunnerError):
++                                runner.list_inventory(root/'std', root/'tool', out, request)
++                    receipt = json.loads((out/'list/receipt.json').read_text())
++                    self.assertEqual(receipt['state'], 'COMPLETE' if name == 'success' else 'FAILED')
++                    self.assertIn('rss_peak_kib', receipt['execution'])
++                    self.assertIn('elapsed_seconds', receipt['execution'])
++                    self.assertLessEqual(len(receipt['stdout']['head']), 2048)
++                    self.assertLessEqual(len(receipt['stderr']['tail']), 2048)
++                    if name == 'success':
++                        inv = json.loads((out/'inventory.json').read_text())
++                        self.assertEqual(len(inv['rows']), 23)
++                        self.assertEqual(inv['list_execution']['original_exit_code'], 0)
++                        self.assertGreaterEqual(inv['phase_started_unix'], receipt['phase_started_unix'])
++                    else:
++                        self.assertFalse((out/'inventory.json').exists())
++                    if name == 'exit': self.assertEqual(receipt['execution']['original_exit_code'], 42)
++                    if name == 'signal': self.assertEqual(receipt['execution']['signal'], 15)
++                    if name == 'timeout': self.assertTrue(receipt['execution']['timed_out'])
++                    if name.endswith('_cap'):
++                        stream = name.split('_')[0]
++                        self.assertTrue(receipt[stream]['head'].startswith('HEAD'))
++                        self.assertTrue(receipt[stream]['tail'].endswith('TAIL'))
++                        self.assertGreater(receipt[stream]['capture_omitted_bytes'], 0)
++
++    def test_preflight_launch_and_unexpected_errors_leave_receipt(self):
++        request = runner.load_request()
++        with tempfile.TemporaryDirectory() as d:
++            root = Path(d)
++            for name in ('preflight', 'environment', 'launch', 'exception'):
++                out = root/name; out.mkdir()
++                (out/'inventory.json').write_text('{"state":"stale"}')
++                with mock.patch.object(runner, 'verify_source', side_effect=(
++                        runner.RunnerError('synthetic source drift') if name == 'preflight' else None)), \
++                     mock.patch.object(runner, 'ci_env', side_effect=(
++                        runner.RunnerError('synthetic env drift') if name == 'environment' else lambda: {})), \
++                     mock.patch.object(runner, 'execute', side_effect=(
++                        OSError('unexpected execution error') if name == 'exception' else None),
++                        return_value={'original_exit_code': None, 'signal': None, 'timed_out': False,
++                                      'elapsed_seconds': 0, 'rss_peak_kib': 0, 'runner_error': 'exec failed'}):
++                    with self.assertRaises((runner.RunnerError, OSError)):
++                        runner.list_inventory(root/'std', root/'tool', out, request)
++                receipt = json.loads((out/'list/receipt.json').read_text())
++                self.assertEqual(receipt['state'], 'FAILED')
++                self.assertFalse((out/'inventory.json').exists())
++                self.assertIn('error', receipt)
++
++    def test_invalid_inventory_binding_and_budget_fail_closed(self):
++        import copy
++        request = runner.load_request()
++        with tempfile.TemporaryDirectory() as d:
++            root = Path(d)
++            for name in ('version', 'selector', 'mapping', 'six_targets', 'activation', 'oversize'):
++                payload = self.fixture(request)
++                if name == 'version': payload['file-version'] = 'wrong'
++                if name == 'selector': payload['standard-harnesses'] = {}
++                if name == 'mapping': payload['contracts'] = []
++                if name == 'six_targets':
++                    for contract in payload['contracts']: contract['function'] = 'one_target'
++                if name == 'activation':
++                    by_id = {r['id']: r for r in request['rows']}
++                    for contract in payload['contracts']:
++                        if by_id['activation-default']['selector'] in contract['harnesses']:
++                            contract['function'] = 'wrong_activation_target'
++                out = root/name
++                def synthetic(argv, cwd, dest, **kwargs):
++                    (dest/'kani-list.json').write_text('x'*(runner.EXPORT_CAP_BYTES+1)
++                                                       if name == 'oversize' else json.dumps(payload))
++                    return {'original_exit_code': 0, 'signal': None, 'timed_out': False,
++                            'elapsed_seconds': 1, 'rss_peak_kib': 5}
++                with mock.patch.object(runner, 'verify_source', return_value={}), \
++                     mock.patch.object(runner, 'execute', side_effect=synthetic):
++                    with self.assertRaises(runner.RunnerError):
++                        runner.list_inventory(root/'std', root/'tool', out, request)
++                self.assertEqual(json.loads((out/'list/receipt.json').read_text())['state'], 'FAILED')
++                self.assertFalse((out/'inventory.json').exists())
++            bad = copy.deepcopy(request); bad['budgets']['list_seconds'] = 600
++            p = root/'request.json'; p.write_text(json.dumps(bad))
++            with self.assertRaisesRegex(runner.RunnerError, 'budget mismatch'): runner.load_request(p)
++        self.assertEqual(runner.MAX_ROW_SECONDS, 600)
++        self.assertEqual(runner.RSS_CAP_KIB, 6*1024*1024)
++        self.assertLess(runner.LIST_SECONDS + runner.MAX_ROW_SECONDS + runner.PHASE_CLEANUP_MARGIN,
++                        runner.PHASE_SECONDS)
++
++
+ class BatchTests(unittest.TestCase):
+     def test_expected_negative_nonzero_exit_is_preserved(self):
+         with tempfile.TemporaryDirectory() as d:

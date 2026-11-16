@@ -1,0 +1,30 @@
+{
+  "applicability": "TASK-CH8-S1-LIST-W13.md; g0 input45498717e2; preparation only, no push/CI/publication/ledger; no compiler/verifier execution. Previous control for minimal delta comparison:8c8ac10d675fff41d5ec1b2684c6f673cd6bfaf2 (sibling, not ancestor).",
+  "baseline_commit": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "candidate_commit": "c03363b3b0a83fa9e78c4841720cb48ee7638c6a",
+  "controls": [
+    "20 synthetic unit tests including real Python subprocesses (no Kani) for success/nonzero/child signal/external signal/timeout/RSS/output caps/exec errors, invalid list JSON/bindings, fallback interrupted/completed receipts and unchanged prior error paths; exact row/workflow/function comparisons, payload hashes, actionlint, clean source and control checks."
+  ],
+  "defect": "S1-02 standalone list codegens every std harness and was killed by an incorrectly shared 600s/root timeout, without list receipt.",
+  "dependencies": [
+    ".github/workflows/ch8-s1.yml",
+    ".github/actions/setup/action.yml",
+    "kani-driver/src/args/list_args.rs",
+    "kani-driver/src/list/collect_metadata.rs",
+    "kani-driver/src/call_cargo.rs",
+    "kani-driver/src/args/mod.rs"
+  ],
+  "invariants": [
+    "Candidate is sole child of stock tool0aac; source S-prime f22f84f316/treee0dc unchanged. Host/workflow binding and all23 literal rows/oracles/root limits remain unchanged.",
+    "Option a: list timeout1500 independent of600s/root; list consumes existing shared4500s phase. Existing120min job=30min setup+75min phase+15min fallback/upload, including observed~6min list compilation. No budget enlarged except list-specific timeout. Planned list is updated300 to1500, so planned list+rows=4260s; actual phase guard remains authoritative.",
+    "Inventory validation and row proof parsing retain previous semantics and PFC target binding. List receipts persisted for nonzero/timeout/signal/launch/preflight/parse failures; capture stdout/stderr bounded head+tail; fallback marks uncompleted receipt UNKNOWN.",
+    "execute default row behavior retains prior caps; capture_tail is opt-in only for list."
+  ],
+  "known_limitations": [
+    "No compiler or verifier has been run locally; all23 proof rows NOT_RUN; no proof credit. A larger list timeout does not prove full std list will complete in1500s.",
+    "No nested delegation. Review committed exact candidate and return compact findings/decision. Write report only to g0 kani-host-list/REVIEW.md; do not edit candidate."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-s1k-list-w13"
+}

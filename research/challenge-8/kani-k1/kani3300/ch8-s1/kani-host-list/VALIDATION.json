@@ -1,0 +1,36 @@
+{
+  "schema": "ch8-s1-list-validation-v1",
+  "state": "PASS_STATIC_ONLY",
+  "candidate": "c03363b3b0a83fa9e78c4841720cb48ee7638c6a",
+  "checks": {
+    "exact_frozen_batch_and_binding": "STATIC-VALIDATION.json",
+    "synthetic_tests": {
+      "result": "PASS",
+      "tests": 20,
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s ch8-s1-control -p test_*.py -q",
+      "actual_build": "NOT_RUN; build wrapper mocked"
+    },
+    "yaml": "PASS; check_package.py yaml .github/workflows/ch8-s1.yml",
+    "actionlint": "PASS; /tmp/kani3300-d0-ci-tools/actionlint -shellcheck= -pyflakes= .github/workflows/ch8-s1.yml",
+    "candidate_diff_check": "PASS",
+    "manifest": "PASS; all8 control payload hashes generated from exact clean candidate",
+    "independent_review": {
+      "result": "APPROVED_PREPARATION_ONLY",
+      "reviewer": "GPT-6 Luna HIGH, isolated context; no nested delegation",
+      "report": "REVIEW.md",
+      "sha256": "4718387c5ae021152a6003573a462b297373ee7b81ec347bc2e0f318204de2cb",
+      "candidate": "c03363b3b0a83fa9e78c4841720cb48ee7638c6a",
+      "packet_integrity": "PASS"
+    },
+    "g0_diff_check": {
+      "result": "PASS_EXCLUDING_EXACT_PATCH_ARTIFACTS",
+      "note": "Exact generated control-delta.patch and review-packet/diff.patch contain unified-diff context blank lines (space prefix); the packet also preserves original upstream workflow whitespace. Exact bytes preserved. Candidate and authored handoff files pass diff --check."
+    }
+  },
+  "execution": {
+    "push_ci_publication_ledger": "NOT_RUN",
+    "cargo_rustc_kani_cbmc": "NOT_RUN",
+    "proof_rows": "ALL_23_NOT_RUN",
+    "proof_credit": "NONE"
+  }
+}
