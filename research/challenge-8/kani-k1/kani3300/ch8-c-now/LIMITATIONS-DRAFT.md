@@ -20,7 +20,8 @@ assurance и границ — [INVENTORY](INVENTORY.md). Не переносит
 > comparator. Local ManuallyDrop values, gap guards, subsequent reuse of storage,
 > and unwind behavior require separate reasoning; the current results do not
 > establish complete borrow coverage. Dedicated transient write-then-restore
-> controls have been designed but have not been run.
+> controls have now been run separately on the experimental pins described below;
+> those observations do not add proof credit to this submitted production pin.
 >
 > The helper write sets do not describe arbitrary FnMut effects through captured
 > references, raw pointers, or global state. Their contract proofs use the specified
@@ -43,5 +44,29 @@ assurance и границ — [INVENTORY](INVENTORY.md). Не переносит
 и ничего не публикует. Нельзя заменять текст формулировкой «all immutable mutations checked».
 Отсутствие returned references не снимает callback/local temporary borrow obligations;
 #733 не считается принятым scope exception. #5040/RFC0016 — upstream follow-up,
-а не включённый checker текущих roots. Успех будущего N1 уточнит только dst-frame confinement;
+а не включённый checker текущих roots. Наблюдавшийся N1 frame diagnostic уточняет только dst-frame confinement;
 для снятия temporal limitation нужны N2 rejection и legal companions на exact qualified pin.
+
+
+## Непубликуемое уточнение C-01, run 43788110742
+
+> Separate experimental C-01 controls used std d073585946093071b696eada41b8c8cac18362a7
+> on P′ c5ff36ff433692140605891f646043f991db05de, stock Kani
+> 0aac16ef62da9e9d5645782d458593e5d78143ba, and control 64ec781bc119279ccc4365aa831d2a9d0a792fee
+> (same-tree dispatch sibling d224c83361ec905508c21f0130d28f609f41c8cc).
+> The source write-then-restore N1 control produced an assigns/frame failure at
+> ptr::write_volatile under the merge destination frame, together with a separate
+> memcmp unwinding failure. Its read-only companion failed only on that unwind.
+> The exported assigns location is ptr/mod.rs:2282, so the required callback-source
+> binding remains unestablished; this is an observed frame diagnostic, not an
+> independently accepted negative oracle or a complete merge-pair qualification.
+> N2 returned stock SUCCESS in the presence of the deliberately invalid transient
+> write inside the allowed outer frame: the documented alias gap remains.
+> Its read-only companion, the explicit external-mut/Cell footprints, local
+> insertion lifetime, and ended-borrow storage reuse also returned SUCCESS.
+> These are source-reported bounded observations. Strict inventory/coverage and
+> independent body/write/property binding limitations remain; no C PASS,
+> temporal alias enforcement, unwind qualification, or new proof credit follows.
+> C-02 changes only the two merge unwind bounds to17 and is NOT_RUN.
+
+См. `../ch8-c-ctl/run-43788110742/RESULT.md`. Публикация не выполнялась.

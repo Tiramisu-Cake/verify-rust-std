@@ -1,0 +1,32 @@
+{
+  "applicability": "C02 preparation only, g0 d535d987b4. No push, CI, publication, ledger, local Rust/Kani/CBMC or nested delegation.",
+  "baseline_commit": "64ec781bc119279ccc4365aa831d2a9d0a792fee",
+  "candidate_commit": "af49c7ef04d462f5f89b4b3d362b484b1d3f20d0",
+  "controls": [
+    "36 Python synthetic tests including source import/attribute/file/line/unwind mismatch, exact path token boundaries and existing service error/timeout/partial/missing/null/wrong type/NOT_RUN."
+  ],
+  "defect": "C01 bare PFC target syntax rejected by qualified-path equality; merge fixture memcmp unwind8 insufficient for 16-byte equality.",
+  "dependencies": [
+    "ch8-c-control/runner.py",
+    "ch8-c-control/check_package.py",
+    "ch8-c-control/test_runner.py",
+    "ch8-c-control/test_package.py",
+    "ch8-c-control/CI-REQUEST.json",
+    ".github/workflows/ch8-c.yml"
+  ],
+  "invariants": [
+    "Only merge pair selected for C02, both unwind17; source candidate 597e54c5cb503955f9483edc6acc9d4752d57713 on P-prime.",
+    "Algorithms, checks and strict inventory/coverage/failure-location matcher unchanged. All nonmatching failures remain UNKNOWN.",
+    "Bare exported target equals exact pinned source attribute spelling; fully qualified request target/import, source file/line/unwind checked separately. No independent MIR symbol resolution claimed.",
+    "Existing caps and envelopes preserved; one group2100s (900 compile +2x600 rows), same112m step/150m job ceiling.",
+    "C01 raw verdicts are observations. C02 proof NOT_RUN; no proof credit; ptr/mod.rs2282 frame location not silently admitted."
+  ],
+  "known_limitations": [
+    "C02 may remain UNKNOWN under unchanged strict gates; no promise of proof credit.",
+    "Source labels to generated cover IDs and callback writes to ptr/mod.rs frame location remain independent binding limitations.",
+    "Review source dependency directly via git diff d073585946..597e54c5cb in /root/verify-rust-std-ch8-c-ctl-w14-pprime (only two unwind attributes)."
+  ],
+  "prior_reviews": [],
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-ch8-c02-intake-w14"
+}

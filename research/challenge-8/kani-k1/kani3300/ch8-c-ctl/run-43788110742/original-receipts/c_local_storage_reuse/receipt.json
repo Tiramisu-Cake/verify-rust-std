@@ -1,0 +1,56 @@
+{
+  "complete": true,
+  "export": {
+    "checks": {
+      "error": [],
+      "failure": [],
+      "other": [],
+      "success": 26,
+      "total": 28,
+      "undetermined": [],
+      "unknown": [],
+      "unreachable": [
+        "fmt::Arguments::<'_>::from_str.assertion.1",
+        "ptr::const_ptr::<impl *const ()>::is_aligned_to.assertion.1"
+      ]
+    },
+    "failures": [],
+    "outcome": "UNKNOWN",
+    "state": "INCOMPLETE_CHECK_INVENTORY",
+    "unsupported_constructs": [
+      {
+        "class": "unsupported_construct",
+        "description": "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/panic/location.rs",
+        "id": "panic::location::Location::<'_>::caller.unsupported_construct.1",
+        "line": "185",
+        "status": "SUCCESS",
+        "trace_available": false
+      },
+      {
+        "class": "unsupported_construct",
+        "description": "call to foreign \"Rust\" function `_RNvCseilXckri75C_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose",
+        "file": "/home/runner/work/kani/kani/export/library/core/src/panicking.rs",
+        "id": "panicking::panic_nounwind_fmt::runtime.unsupported_construct.1",
+        "line": "110",
+        "status": "SUCCESS",
+        "trace_available": false
+      }
+    ]
+  },
+  "group": 1,
+  "group_exit_code": 1,
+  "group_rss_peak_kib": 2031040,
+  "group_status": "COMPLETE",
+  "group_termination_reason": null,
+  "id": "c_local_storage_reuse",
+  "mode": "Original",
+  "original_exit": null,
+  "outcome": "UNKNOWN",
+  "reviewer_binding": "PENDING; no automatic proof credit",
+  "root_rss_kib": "UNKNOWN",
+  "selector": "slice::sort::shared::smallsort::verify::c_controls::c_local_storage_reuse",
+  "signal": null,
+  "status": "PARTIAL",
+  "variant": "production"
+}

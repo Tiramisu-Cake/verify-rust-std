@@ -1,0 +1,219 @@
+{
+  "request_sha256": "99fc2e0b642f436f5a2b669817d4225aee045138ffc9417858796b2921732091",
+  "artifact_sha256": "5988b9c653717801deefd4f020088a34dfebac1482a0a63cfa73d15c75195cae",
+  "groups": [
+    {
+      "group": "group-01",
+      "export_sha256": "353cc183535b105312dc08d69a2b307b084fb3545324c3be498d2c909ba8ea5e",
+      "complete": true,
+      "original_exit": 1,
+      "std_compile_seconds": 29.463,
+      "source_snapshot_unchanged": true,
+      "binary_snapshot_unchanged": true
+    },
+    {
+      "group": "group-02",
+      "export_sha256": "3bd64e0727979689e34f15645a9036062999a6f19b188d5fc85d69873c33aef5",
+      "complete": true,
+      "original_exit": 0,
+      "std_compile_seconds": 28.089,
+      "source_snapshot_unchanged": true,
+      "binary_snapshot_unchanged": true
+    }
+  ],
+  "rows": [
+    {
+      "id": "c_merge_source_write_restore",
+      "original_state": "CONTRACT_TARGET_BINDING_MISMATCH",
+      "exact_original_replay": true,
+      "verdict": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "checks_counts": {
+        "total": 276,
+        "success": 0,
+        "failure": 2,
+        "unreachable": 0,
+        "undetermined": 274,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "unsupported_statuses": [
+        "UNDETERMINED",
+        "UNDETERMINED",
+        "UNDETERMINED",
+        "UNDETERMINED"
+      ]
+    },
+    {
+      "id": "c_merge_source_read_only",
+      "original_state": "CONTRACT_TARGET_BINDING_MISMATCH",
+      "exact_original_replay": true,
+      "verdict": {
+        "kind": "COMPLETED",
+        "verdict": "FAILURE"
+      },
+      "checks_counts": {
+        "total": 276,
+        "success": 0,
+        "failure": 1,
+        "unreachable": 0,
+        "undetermined": 275,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "unsupported_statuses": [
+        "UNDETERMINED",
+        "UNDETERMINED",
+        "UNDETERMINED",
+        "UNDETERMINED"
+      ]
+    },
+    {
+      "id": "c_callback_live_shared_in_outer_frame",
+      "original_state": "CONTRACT_TARGET_BINDING_MISMATCH",
+      "exact_original_replay": true,
+      "verdict": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "checks_counts": {
+        "total": 285,
+        "success": 279,
+        "failure": 0,
+        "unreachable": 6,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "unsupported_statuses": [
+        "SUCCESS",
+        "SUCCESS",
+        "SUCCESS"
+      ]
+    },
+    {
+      "id": "c_callback_read_only_in_outer_frame",
+      "original_state": "CONTRACT_TARGET_BINDING_MISMATCH",
+      "exact_original_replay": true,
+      "verdict": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "checks_counts": {
+        "total": 285,
+        "success": 279,
+        "failure": 0,
+        "unreachable": 6,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "unsupported_statuses": [
+        "SUCCESS",
+        "SUCCESS",
+        "SUCCESS"
+      ]
+    },
+    {
+      "id": "c_external_mut_state",
+      "original_state": "CONTRACT_TARGET_BINDING_MISMATCH",
+      "exact_original_replay": true,
+      "verdict": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "checks_counts": {
+        "total": 271,
+        "success": 267,
+        "failure": 0,
+        "unreachable": 4,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "unsupported_statuses": [
+        "SUCCESS",
+        "SUCCESS",
+        "SUCCESS"
+      ]
+    },
+    {
+      "id": "c_external_cell_state",
+      "original_state": "CONTRACT_TARGET_BINDING_MISMATCH",
+      "exact_original_replay": true,
+      "verdict": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "checks_counts": {
+        "total": 242,
+        "success": 238,
+        "failure": 0,
+        "unreachable": 4,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "unsupported_statuses": [
+        "SUCCESS",
+        "SUCCESS",
+        "SUCCESS"
+      ]
+    },
+    {
+      "id": "c_local_storage_reuse",
+      "original_state": "INCOMPLETE_CHECK_INVENTORY",
+      "exact_original_replay": true,
+      "verdict": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "checks_counts": {
+        "total": 28,
+        "success": 26,
+        "failure": 0,
+        "unreachable": 2,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "unsupported_statuses": [
+        "SUCCESS",
+        "SUCCESS"
+      ]
+    },
+    {
+      "id": "c_insert_tail_local_lifetime",
+      "original_state": "INCOMPLETE_CHECK_INVENTORY",
+      "exact_original_replay": true,
+      "verdict": {
+        "kind": "COMPLETED",
+        "verdict": "SUCCESS"
+      },
+      "checks_counts": {
+        "total": 190,
+        "success": 186,
+        "failure": 0,
+        "unreachable": 4,
+        "undetermined": 0,
+        "error": 0,
+        "unknown": 0,
+        "other": 0
+      },
+      "unsupported_statuses": [
+        "SUCCESS",
+        "SUCCESS",
+        "SUCCESS"
+      ]
+    }
+  ]
+}

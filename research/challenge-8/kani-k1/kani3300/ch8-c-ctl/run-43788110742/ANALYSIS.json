@@ -1,0 +1,400 @@
+{
+  "scope": "Read-only correctness review of extracted JSON plus pinned design/source. No .log or zip members read.",
+  "pins": {
+    "std": "d073585946093071b696eada41b8c8cac18362a7",
+    "tool": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "control": "64ec781bc119279ccc4365aa831d2a9d0a792fee",
+    "sibling": "d224c83361ec905508c21f0130d28f609f41c8cc",
+    "g0_input": "d535d987b4c4c16604cdb6d4f64094e2f02edbd5"
+  },
+  "oracle_document": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-c-ctl/ORACLES.md",
+  "controls_design": "/root/verify-rust-std-kani3300-g0/research/challenge-8/kani-k1/kani3300/ch8-c-now/CONTROLS-DESIGN.md",
+  "export_provenance": {
+    "group01_export": "groups/group-01/export.json",
+    "group02_export": "groups/group-02/export.json",
+    "group01_harness_count": 7,
+    "group02_harness_count": 1,
+    "selected_count": 8,
+    "group01_summary": {
+      "total": 7,
+      "successful": 5,
+      "failed": 2,
+      "checks_total": 1663,
+      "checks_success": 1089,
+      "covers_total": 30,
+      "covers_satisfied": 18
+    },
+    "group02_summary": {
+      "total": 1,
+      "successful": 1,
+      "failed": 0,
+      "checks_total": 190,
+      "checks_success": 186,
+      "covers_total": 3,
+      "covers_satisfied": 3
+    }
+  },
+  "oracle_comparison": {
+    "c_merge_source_write_restore": {
+      "expected": "FAIL assigns/frame; required positive identification of source-slot write outside bidirectional_merge destination frame",
+      "named_assertions": [
+        "C_MERGE_ARGUMENT_IS_SOURCE_SLOT",
+        "C_MERGE_LIVE_REFERENCE_RESTORED",
+        "C_MERGE_SOURCE_FINAL",
+        "C_MERGE_OUTPUT"
+      ],
+      "source_covers": [
+        "C_merge_callback",
+        "C_N1_transient_write",
+        "C_merge_live_read_after_restore",
+        "C_merge_return"
+      ],
+      "assessment": "FAILURE reported, but neither failed property is independently accepted as the intended frame/source-write detection: assigns location is ptr::write_volatile library implementation line 2282 rather than c_controls.rs write sites 23/25; companion memcmp unwind prevents clean oracle interpretation."
+    },
+    "c_merge_source_read_only": {
+      "expected": "PASS",
+      "named_assertions": [
+        "C_MERGE_ARGUMENT_IS_SOURCE_SLOT",
+        "C_MERGE_LIVE_REFERENCE_RESTORED",
+        "C_MERGE_SOURCE_FINAL",
+        "C_MERGE_OUTPUT"
+      ],
+      "source_covers": [
+        "C_merge_callback",
+        "C_merge_live_read_after_restore",
+        "C_merge_return"
+      ],
+      "assessment": "FAILURE from memcmp unwind; not a frame/alias rejection and not a passing control."
+    },
+    "c_callback_live_shared_in_outer_frame": {
+      "expected": "PASS / ALIAS_GAP diagnostic",
+      "named_assertions": [
+        "C_N2_ARGUMENT_IS_TAIL",
+        "C_OUTER_LIVE_REFERENCE_RESTORED",
+        "C_OUTER_OUTPUT"
+      ],
+      "source_covers": [
+        "C_outer_callback",
+        "C_N2_transient_write",
+        "C_outer_live_read_after_restore",
+        "C_outer_return"
+      ],
+      "assessment": "SUCCESS with covers consistent with reached write/restore path. Qualifies only source-reported stock PASS / ALIAS_GAP for this deliberate invalid shared-reference write scenario; not Rust permission or independent alias proof credit."
+    },
+    "c_callback_read_only_in_outer_frame": {
+      "expected": "PASS",
+      "named_assertions": [
+        "C_N2_ARGUMENT_IS_TAIL",
+        "C_OUTER_LIVE_REFERENCE_RESTORED",
+        "C_OUTER_OUTPUT"
+      ],
+      "source_covers": [
+        "C_outer_callback",
+        "C_outer_live_read_after_restore",
+        "C_outer_return"
+      ],
+      "assessment": "SUCCESS; read-only companion."
+    },
+    "c_external_mut_state": {
+      "expected": "PASS",
+      "named_assertions": [
+        "C_L3_MUT_OUTPUT"
+      ],
+      "source_covers": [
+        "C_L3_mut_changed",
+        "C_L3_mut_return"
+      ],
+      "assessment": "SUCCESS."
+    },
+    "c_external_cell_state": {
+      "expected": "PASS",
+      "named_assertions": [
+        "C_L3_CELL_OUTPUT"
+      ],
+      "source_covers": [
+        "C_L3_cell_changed",
+        "C_L3_cell_return"
+      ],
+      "assessment": "SUCCESS."
+    },
+    "c_insert_tail_local_lifetime": {
+      "expected": "PASS",
+      "named_assertions": [
+        "C_L4_N3_COPY_BACK",
+        "C_L4_OUTPUT_PERMUTATION_SUFFIX"
+      ],
+      "source_covers": [
+        "C_L4_tmp_comparison_after_gap_shift",
+        "C_L4_gap_shift_and_copy_back",
+        "C_L4_next_insertion_return"
+      ],
+      "assessment": "SUCCESS."
+    },
+    "c_local_storage_reuse": {
+      "expected": "PASS",
+      "named_assertions": [
+        "C_L4_FIRST_LIVE_READ",
+        "C_L4_FRESH_LIVE_READ"
+      ],
+      "source_covers": [
+        "C_L4_scoped_read",
+        "C_L4_reinitialized_read_return"
+      ],
+      "assessment": "SUCCESS."
+    }
+  },
+  "actual_harnesses": [
+    {
+      "root": "c_merge_source_write_restore",
+      "group": "group-01",
+      "export_verdict": "FAILURE",
+      "pfc_target": "bidirectional_merge",
+      "unwind": 8,
+      "failed_properties": [
+        {
+          "id": "ptr::write_volatile::<u64>.assigns.1",
+          "description": "Check that *dst is assignable",
+          "class": "assigns",
+          "status": "FAILURE",
+          "file": "/home/runner/work/kani/kani/export/library/core/src/ptr/mod.rs",
+          "line": "2282"
+        },
+        {
+          "id": "memcmp.unwind.0",
+          "description": "unwinding assertion loop 0",
+          "class": "unwind",
+          "status": "FAILURE",
+          "file": "<builtin-library-memcmp>",
+          "line": "25"
+        }
+      ],
+      "covers_total": 4,
+      "covers": [
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::merge_fixture::<true>::{closure#0}.cover.1",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::merge_fixture::<true>::{closure#0}.cover.2",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::merge_fixture::<true>::{closure#0}.cover.3",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::merge_fixture::<true>.cover.1",
+          "status": "UNDETERMINED"
+        }
+      ]
+    },
+    {
+      "root": "c_merge_source_read_only",
+      "group": "group-01",
+      "export_verdict": "FAILURE",
+      "pfc_target": "bidirectional_merge",
+      "unwind": 8,
+      "failed_properties": [
+        {
+          "id": "memcmp.unwind.0",
+          "description": "unwinding assertion loop 0",
+          "class": "unwind",
+          "status": "FAILURE",
+          "file": "<builtin-library-memcmp>",
+          "line": "25"
+        }
+      ],
+      "covers_total": 4,
+      "covers": [
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::merge_fixture::<false>::{closure#0}.cover.1",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::merge_fixture::<false>::{closure#0}.cover.3",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::merge_fixture::<false>.cover.1",
+          "status": "UNDETERMINED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::merge_fixture::<false>::{closure#0}.cover.2",
+          "status": "UNDETERMINED"
+        }
+      ]
+    },
+    {
+      "root": "c_callback_live_shared_in_outer_frame",
+      "group": "group-01",
+      "export_verdict": "SUCCESS",
+      "pfc_target": "callback_outer::<true>",
+      "unwind": 8,
+      "failed_properties": [],
+      "covers_total": 7,
+      "covers": [
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::callback_outer::<true>::{closure#3}::{closure#0}::{closure#0}.cover.1",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::callback_outer::<true>::{closure#3}::{closure#0}::{closure#0}.cover.2",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::callback_outer::<true>::{closure#3}::{closure#0}::{closure#0}.cover.3",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::outer_fixture::<true>.cover.1",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::callback_outer::<true>::{closure#0}.cover.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::callback_outer::<true>::{closure#0}.cover.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::callback_outer::<true>::{closure#0}.cover.3",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "root": "c_callback_read_only_in_outer_frame",
+      "group": "group-01",
+      "export_verdict": "SUCCESS",
+      "pfc_target": "callback_outer::<false>",
+      "unwind": 8,
+      "failed_properties": [],
+      "covers_total": 7,
+      "covers": [
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::callback_outer::<false>::{closure#3}::{closure#0}::{closure#0}.cover.1",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::callback_outer::<false>::{closure#3}::{closure#0}::{closure#0}.cover.3",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::outer_fixture::<false>.cover.1",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::callback_outer::<false>::{closure#3}::{closure#0}::{closure#0}.cover.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::callback_outer::<false>::{closure#0}.cover.1",
+          "status": "UNREACHABLE"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::callback_outer::<false>::{closure#0}.cover.2",
+          "status": "UNREACHABLE"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::callback_outer::<false>::{closure#0}.cover.3",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "root": "c_external_mut_state",
+      "group": "group-01",
+      "export_verdict": "SUCCESS",
+      "pfc_target": "external_mut",
+      "unwind": 8,
+      "failed_properties": [],
+      "covers_total": 3,
+      "covers": [
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::c_external_mut_state.cover.1",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::external_mut::{closure#3}::{closure#0}::{closure#0}.cover.1",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::external_mut::{closure#0}.cover.1",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "root": "c_external_cell_state",
+      "group": "group-01",
+      "export_verdict": "SUCCESS",
+      "pfc_target": "external_cell",
+      "unwind": 8,
+      "failed_properties": [],
+      "covers_total": 3,
+      "covers": [
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::external_cell::{closure#3}::{closure#0}::{closure#0}.cover.1",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::c_external_cell_state.cover.1",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::external_cell::{closure#0}.cover.1",
+          "status": "UNREACHABLE"
+        }
+      ]
+    },
+    {
+      "root": "c_local_storage_reuse",
+      "group": "group-01",
+      "export_verdict": "SUCCESS",
+      "pfc_target": null,
+      "unwind": 8,
+      "failed_properties": [],
+      "covers_total": 2,
+      "covers": [
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::c_local_storage_reuse.cover.1",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::c_local_storage_reuse.cover.2",
+          "status": "SATISFIED"
+        }
+      ]
+    },
+    {
+      "root": "c_insert_tail_local_lifetime",
+      "group": "group-02",
+      "export_verdict": "SUCCESS",
+      "pfc_target": null,
+      "unwind": 12,
+      "failed_properties": [],
+      "covers_total": 3,
+      "covers": [
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::c_insert_tail_local_lifetime.cover.1",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::c_insert_tail_local_lifetime.cover.2",
+          "status": "SATISFIED"
+        },
+        {
+          "id": "slice::sort::shared::smallsort::verify::c_controls::c_insert_tail_local_lifetime::{closure#0}.cover.1",
+          "status": "SATISFIED"
+        }
+      ]
+    }
+  ],
+  "interpretation": {
+    "pfc_binding": "Exported attributes identify ProofForContract targets bidirectional_merge for both merge roots and callback_outer::<true/false> for outer-frame roots; external roots target external_mut/external_cell. Export harness names identify c_controls roots. Source at the pinned std checkout shows those wrappers call real bidirectional_merge / insertion_sort_shift_left, and the N1 closure contains both volatile writes at c_controls.rs:23 and :25. This establishes reported target/root/source context, but the export JSON does not establish generated modifies-wrapper body binding, retained-write-to-property causality, nor source-label-to-cover-ID binding.",
+    "memcmp_unwind": "The source-level assertion at c_controls.rs:36 compares backing [u64; 2] with [2, 1]. This is a 16-byte equality (2 × 8-byte u64); the export reports builtin-library-memcmp unwind.0 at line 25, while merge harness unwind is 8. The 16 byte-comparison iterations plus loop exit require unwind 17, explaining this specific bound failure. It is separate from the intended source-write frame oracle.",
+    "failure_location": "The N1 assigns failure is ptr::write_volatile::<u64>.assigns.1, class assigns, at exported core/ptr/mod.rs:2282. The oracle requires generated assigns-property class/source binding to callback writes at verify/c_controls.rs:23 or :25. Since exported location does not meet that binding, it remains unmatched/UNKNOWN for independent acceptance; do not broaden the matcher.",
+    "proof_credit": "Source-reported export observations only. Independent acceptance UNKNOWN and proof credit NONE: strict original gates fail; generated wrapper/write/label binding remains unestablished. Control/sibling and separately built stock tool have distinct intended roles, not a pin discrepancy."
+  }
+}

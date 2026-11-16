@@ -1,0 +1,108 @@
+{
+  "schema": "ch8-c-batch-handoff-v1",
+  "stage": "C-02",
+  "status": "READY_PACKAGE_NOT_RUN",
+  "g0_input": "d535d987b4c4c16604cdb6d4f64094e2f02edbd5",
+  "containing_g0_commit": "Commit containing this packet (no self reference)",
+  "baseline_control": "64ec781bc119279ccc4365aa831d2a9d0a792fee",
+  "control_worktree": "/root/kani-ch8-c02-intake-w14",
+  "control_branch": "uninit-ci/ch8-c-ctl-c02-ready-w14",
+  "control_sha": "59b5c663e3a2a0fb79bc565cdda20342e51ac7bd",
+  "control_tree": "e10c359aba4830016105bb7e8a8b95544e4c3664",
+  "reviewed_candidate": "af49c7ef04d462f5f89b4b3d362b484b1d3f20d0",
+  "same_tree_as_reviewed_candidate": true,
+  "control_sole_parent": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "skip_ci": true,
+  "std_worktree": "/root/verify-rust-std-ch8-c-ctl-w14-pprime",
+  "std_sha": "597e54c5cb503955f9483edc6acc9d4752d57713",
+  "std_tree": "b3bd6d8c939e08b13fc7a4c6c9da694cc8a2aa97",
+  "std_parent": "d073585946093071b696eada41b8c8cac18362a7",
+  "std_base": "c5ff36ff433692140605891f646043f991db05de",
+  "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+  "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+  "source_file_sha256": {
+    "library/core/src/slice/sort/shared/smallsort/verify.rs": "cda65f8214b25d522a3fce607b824e7960e9f1fef999ee350d44e7952cb24a6a",
+    "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs": "5e2426cd05741a22e162110c73d8c8258cdf5d66ef77971d47ac6e7b69122200"
+  },
+  "execution_request": "EXECUTION-REQUEST.json",
+  "request_sha256": "defc5fc6d75a62623fda86b1a37f430a08ed0b4eb90ac30f7b94da65ca7b532c",
+  "rows": 2,
+  "row_ids": [
+    "c_merge_source_write_restore",
+    "c_merge_source_read_only"
+  ],
+  "groups": [
+    {
+      "unwind": 17,
+      "rows": 2,
+      "seconds": 2100
+    }
+  ],
+  "compile_seconds_per_group": 900,
+  "harness_seconds": 600,
+  "jobs": 1,
+  "budgets": {
+    "phase_seconds": 6720,
+    "rss_kib": 6291456,
+    "stdout_bytes": 1048576,
+    "stderr_bytes": 1048576,
+    "export_bytes": 8388608,
+    "artifact_bytes": 268435456,
+    "row_seconds": 600,
+    "setup_seconds": 1800,
+    "reserve_seconds": 300,
+    "run_step_seconds": 6720,
+    "group_seconds": 2100,
+    "job_seconds": 9000
+  },
+  "flags": {
+    "cli": [
+      "--no-assert-contracts",
+      "--jobs=1",
+      "--cbmc-args",
+      "--object-bits",
+      "12"
+    ],
+    "unstable_features": [
+      "function-contracts",
+      "mem-predicates",
+      "float-lib",
+      "c-ffi",
+      "loop-contracts",
+      "quantifiers",
+      "stubbing",
+      "export-json"
+    ],
+    "cfg": [
+      "kani_smallsort_controls"
+    ],
+    "sorting_cfg": false,
+    "assert_contracts": false,
+    "uninit_checks": false,
+    "valid_value_checks": false,
+    "jobs": 1,
+    "attempt": 1,
+    "max_root_seconds": 600
+  },
+  "review": "REVIEW.md",
+  "review_sha256": "ae35c28c6b95b9b7357830924d4b9097c75780fa557497676f6f45203734614a",
+  "review_spec": "review-spec.json",
+  "review_spec_sha256": "392f18c3c2a606dda0f94427fdfb524c0dd741f0c95f9c334f4502cb42eec628",
+  "runtime_proof": "BOTH_NOT_RUN",
+  "proof_credit": "NONE",
+  "dispatch_authorized": false,
+  "activation": "Separate coordinator authorization/publication only; prepared control is skip-ci sole-parent stock commit. A future activation sibling must keep reviewed tree and sole stock parent; do not dispatch this preparation.",
+  "oracle": "Frozen merge rows from C01; matcher unchanged. Named ptr/mod.rs failure stays UNKNOWN until callback-source binding independently established.",
+  "remaining_limitations": [
+    "Strict original inventory/coverage gates can still keep C02 UNKNOWN.",
+    "Named-success and source-label-to-generated-cover-ID mapping remains pending.",
+    "No promise of proof credit or a third C attempt."
+  ],
+  "accounting": {
+    "pushes": 0,
+    "CI": 0,
+    "publications": 0,
+    "ledger_writes": 0,
+    "local_compiler_runs": 0
+  }
+}

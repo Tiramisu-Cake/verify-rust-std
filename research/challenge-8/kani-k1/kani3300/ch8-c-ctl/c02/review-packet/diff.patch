@@ -1,0 +1,412 @@
+diff --git a/ch8-c-control/CI-REQUEST.json b/ch8-c-control/CI-REQUEST.json
+index 15ab0fb1e53d79a4eda0738925c382c007c174d9..0b47c7b217f57b870ea56a792dd6644748cba140 100644
+--- a/ch8-c-control/CI-REQUEST.json
++++ b/ch8-c-control/CI-REQUEST.json
+@@ -2,14 +2,14 @@
+   "schema": "ch8-c-ci-request-v1",
+   "status": "READY",
+   "authorization": "PREPARATION_ONLY",
+-  "std_sha": "d073585946093071b696eada41b8c8cac18362a7",
+-  "std_tree": "e8e9fa63b59ff886077e938d40cffe7ce8c12d42",
++  "std_sha": "597e54c5cb503955f9483edc6acc9d4752d57713",
++  "std_tree": "b3bd6d8c939e08b13fc7a4c6c9da694cc8a2aa97",
+   "base_std_sha": "c5ff36ff433692140605891f646043f991db05de",
+   "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+   "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b",
+   "changed_file_sha256": {
+     "library/core/src/slice/sort/shared/smallsort/verify.rs": "cda65f8214b25d522a3fce607b824e7960e9f1fef999ee350d44e7952cb24a6a",
+-    "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs": "c2fb42a47e7c14a630412e5e1cd44d60f524484e265f78b170d230413c0d0f1b"
++    "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs": "5e2426cd05741a22e162110c73d8c8258cdf5d66ef77971d47ac6e7b69122200"
+   },
+   "rows": [
+     {
+@@ -18,7 +18,7 @@
+       "mode": "PFC",
+       "variant": "production",
+       "target": "slice::sort::shared::smallsort::bidirectional_merge",
+-      "unwind": 8,
++      "unwind": 17,
+       "expected": "DETECTED",
+       "failure_match": {
+         "description_regex": "^Check that .+ is assignable$",
+@@ -42,7 +42,10 @@
+         "C_merge_return"
+       ],
+       "timeout_seconds": 600,
+-      "state": "NOT_RUN"
++      "state": "NOT_RUN",
++      "source_target_syntax": "bidirectional_merge",
++      "source_harness_file": "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs",
++      "source_harness_line": 43
+     },
+     {
+       "id": "c_merge_source_read_only",
+@@ -50,7 +53,7 @@
+       "mode": "PFC",
+       "variant": "production",
+       "target": "slice::sort::shared::smallsort::bidirectional_merge",
+-      "unwind": 8,
++      "unwind": 17,
+       "expected": "SUCCESS",
+       "required_cover_count": 3,
+       "required_cover_descriptions": [
+@@ -59,107 +62,10 @@
+         "C_merge_return"
+       ],
+       "timeout_seconds": 600,
+-      "state": "NOT_RUN"
+-    },
+-    {
+-      "id": "c_callback_live_shared_in_outer_frame",
+-      "selector": "slice::sort::shared::smallsort::verify::c_controls::c_callback_live_shared_in_outer_frame",
+-      "mode": "PFC",
+-      "variant": "production",
+-      "target": "slice::sort::shared::smallsort::verify::c_controls::callback_outer",
+-      "unwind": 8,
+-      "expected": "ALIAS_GAP",
+-      "required_cover_count": 4,
+-      "required_cover_descriptions": [
+-        "C_outer_callback",
+-        "C_N2_transient_write",
+-        "C_outer_live_read_after_restore",
+-        "C_outer_return"
+-      ],
+-      "timeout_seconds": 600,
+-      "state": "NOT_RUN"
+-    },
+-    {
+-      "id": "c_callback_read_only_in_outer_frame",
+-      "selector": "slice::sort::shared::smallsort::verify::c_controls::c_callback_read_only_in_outer_frame",
+-      "mode": "PFC",
+-      "variant": "production",
+-      "target": "slice::sort::shared::smallsort::verify::c_controls::callback_outer",
+-      "unwind": 8,
+-      "expected": "SUCCESS",
+-      "required_cover_count": 3,
+-      "required_cover_descriptions": [
+-        "C_outer_callback",
+-        "C_outer_live_read_after_restore",
+-        "C_outer_return"
+-      ],
+-      "timeout_seconds": 600,
+-      "state": "NOT_RUN"
+-    },
+-    {
+-      "id": "c_external_mut_state",
+-      "selector": "slice::sort::shared::smallsort::verify::c_controls::c_external_mut_state",
+-      "mode": "PFC",
+-      "variant": "production",
+-      "target": "slice::sort::shared::smallsort::verify::c_controls::external_mut",
+-      "unwind": 8,
+-      "expected": "SUCCESS",
+-      "required_cover_count": 2,
+-      "required_cover_descriptions": [
+-        "C_L3_mut_changed",
+-        "C_L3_mut_return"
+-      ],
+-      "timeout_seconds": 600,
+-      "state": "NOT_RUN"
+-    },
+-    {
+-      "id": "c_external_cell_state",
+-      "selector": "slice::sort::shared::smallsort::verify::c_controls::c_external_cell_state",
+-      "mode": "PFC",
+-      "variant": "production",
+-      "target": "slice::sort::shared::smallsort::verify::c_controls::external_cell",
+-      "unwind": 8,
+-      "expected": "SUCCESS",
+-      "required_cover_count": 2,
+-      "required_cover_descriptions": [
+-        "C_L3_cell_changed",
+-        "C_L3_cell_return"
+-      ],
+-      "timeout_seconds": 600,
+-      "state": "NOT_RUN"
+-    },
+-    {
+-      "id": "c_insert_tail_local_lifetime",
+-      "selector": "slice::sort::shared::smallsort::verify::c_controls::c_insert_tail_local_lifetime",
+-      "mode": "Original",
+-      "variant": "production",
+-      "target": "slice::sort::shared::smallsort::verify::c_controls::c_insert_tail_local_lifetime",
+-      "unwind": 12,
+-      "expected": "SUCCESS",
+-      "required_cover_count": 3,
+-      "required_cover_descriptions": [
+-        "C_L4_tmp_comparison_after_gap_shift",
+-        "C_L4_gap_shift_and_copy_back",
+-        "C_L4_next_insertion_return"
+-      ],
+-      "timeout_seconds": 600,
+-      "state": "NOT_RUN"
+-    },
+-    {
+-      "id": "c_local_storage_reuse",
+-      "selector": "slice::sort::shared::smallsort::verify::c_controls::c_local_storage_reuse",
+-      "mode": "Original",
+-      "variant": "production",
+-      "target": "slice::sort::shared::smallsort::verify::c_controls::c_local_storage_reuse",
+-      "unwind": 8,
+-      "expected": "SUCCESS",
+-      "required_cover_count": 2,
+-      "required_cover_descriptions": [
+-        "C_L4_scoped_read",
+-        "C_L4_reinitialized_read_return"
+-      ],
+-      "timeout_seconds": 600,
+-      "state": "NOT_RUN"
++      "state": "NOT_RUN",
++      "source_target_syntax": "bidirectional_merge",
++      "source_harness_file": "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs",
++      "source_harness_line": 47
+     }
+   ],
+   "budgets": {
+@@ -173,7 +79,7 @@
+     "setup_seconds": 1800,
+     "reserve_seconds": 300,
+     "run_step_seconds": 6720,
+-    "group_seconds": 6600,
++    "group_seconds": 2100,
+     "job_seconds": 9000
+   },
+   "ci_changed_paths": [
+@@ -203,10 +109,10 @@
+   ],
+   "ci_payload_sha256": {
+     ".github/workflows/ch8-c.yml": "8f3eb8994d9746014136541dd968c3c7420d83f6cb3b72bf3cd76ff474cd1662",
+-    "ch8-c-control/check_package.py": "56d159658ef124e6307ce73cbe4690ed64feed4b5237c1ec7cb41301bc0dd5dd",
+-    "ch8-c-control/runner.py": "a361cb0ab355464c8f733cd6ef64866591e9797a4a31c3d54f353e737dbbfe5d",
+-    "ch8-c-control/test_package.py": "0f65798662bc073c5ba5ce21c4061217b49623ebf79de5e7ad57260418b1e577",
+-    "ch8-c-control/test_runner.py": "9f985973e27cfc29a876ccd5147e5e80fa0fc5b834e0e0699cb743baa0791c10"
++    "ch8-c-control/check_package.py": "b68ad40d1915ee0b51776d839c0f7548506835b1a733839b6300ead9283c6a84",
++    "ch8-c-control/runner.py": "55d216f35051bffb34116d3c39298ba50a1dbd5449acc2af9c549b5296a79591",
++    "ch8-c-control/test_package.py": "d03fc6121392f687e00a60d29f4b1eddf5933fdc23ed5e5884fdf68e3b55568c",
++    "ch8-c-control/test_runner.py": "e6120f8ff2c16765eac2ef5dacae6d34c55417e1587fb2131bf73d9d672e1651"
+   },
+   "flags": {
+     "cli": [
+@@ -238,9 +144,10 @@
+     "max_root_seconds": 600
+   },
+   "payload_manifest": "MANIFEST.sha256",
+-  "payload_manifest_sha256": "ef2422faf3cbafb1aee0e8e315fd8aa4b3d284fc4b0f21f1bb1538941338fade",
++  "payload_manifest_sha256": "e338f015457138d770761258f9909c03d61aa9e664d1281dbd479fee6d42c435",
+   "variants": {},
+   "base_std_tree": "1302063846873aa300f8bac64fe09e8a3ed1280f",
+-  "supersedes_control": "7a4f8086e6989dbae10a49b26e83feea8ad34193",
+-  "artifact_exclusion": "Build directories named target are removed before fallback artifact accounting; upload also excludes **/target/**."
++  "supersedes_control": "64ec781bc119279ccc4365aa831d2a9d0a792fee",
++  "artifact_exclusion": "Build directories named target are removed before fallback artifact accounting; upload also excludes **/target/**.",
++  "stage": "C-02"
+ }
+diff --git a/ch8-c-control/MANIFEST.sha256 b/ch8-c-control/MANIFEST.sha256
+index aa59444eca8a61f2adbf597b7411b0e1cbf32712..706f88079f48e1453194143ac393c84fd4c7d167 100644
+--- a/ch8-c-control/MANIFEST.sha256
++++ b/ch8-c-control/MANIFEST.sha256
+@@ -1,5 +1,5 @@
+ 8f3eb8994d9746014136541dd968c3c7420d83f6cb3b72bf3cd76ff474cd1662  .github/workflows/ch8-c.yml
+-56d159658ef124e6307ce73cbe4690ed64feed4b5237c1ec7cb41301bc0dd5dd  ch8-c-control/check_package.py
+-a361cb0ab355464c8f733cd6ef64866591e9797a4a31c3d54f353e737dbbfe5d  ch8-c-control/runner.py
+-0f65798662bc073c5ba5ce21c4061217b49623ebf79de5e7ad57260418b1e577  ch8-c-control/test_package.py
+-9f985973e27cfc29a876ccd5147e5e80fa0fc5b834e0e0699cb743baa0791c10  ch8-c-control/test_runner.py
++b68ad40d1915ee0b51776d839c0f7548506835b1a733839b6300ead9283c6a84  ch8-c-control/check_package.py
++55d216f35051bffb34116d3c39298ba50a1dbd5449acc2af9c549b5296a79591  ch8-c-control/runner.py
++d03fc6121392f687e00a60d29f4b1eddf5933fdc23ed5e5884fdf68e3b55568c  ch8-c-control/test_package.py
++e6120f8ff2c16765eac2ef5dacae6d34c55417e1587fb2131bf73d9d672e1651  ch8-c-control/test_runner.py
+diff --git a/ch8-c-control/check_package.py b/ch8-c-control/check_package.py
+index edcefc446441ef64afcec9bc43a87fa05cb553d4..c74a486167c621b61300edd0ff6a7bc6ae3ce270 100644
+--- a/ch8-c-control/check_package.py
++++ b/ch8-c-control/check_package.py
+@@ -74,15 +74,12 @@ def control(repo):
+                                  for group in grouped.values())
+     assert budgets['group_seconds'] == expected_group_seconds
+     assert budgets['phase_seconds'] == budgets['run_step_seconds'] == 6720
+-    assert budgets['group_seconds'] == 6600
++    assert budgets['group_seconds'] == 2100
+     assert budgets['setup_seconds'] + budgets['phase_seconds'] + budgets['reserve_seconds'] == 8820
+     assert budgets['job_seconds'] == 9000 and 8820 <= budgets['job_seconds']
+     assert budgets['job_seconds'] == 150 * 60 and budgets['run_step_seconds'] == 112 * 60
+     assert [row['id'] for row in r['rows']] == [
+-        'c_merge_source_write_restore', 'c_merge_source_read_only',
+-        'c_callback_live_shared_in_outer_frame', 'c_callback_read_only_in_outer_frame',
+-        'c_external_mut_state', 'c_external_cell_state',
+-        'c_insert_tail_local_lifetime', 'c_local_storage_reuse']
++        'c_merge_source_write_restore', 'c_merge_source_read_only']
+     manifest_path = repo / 'ch8-c-control' / r['payload_manifest']
+     assert hashlib.sha256(manifest_path.read_bytes()).hexdigest() == r['payload_manifest_sha256']
+     manifest_entries = {}
+diff --git a/ch8-c-control/runner.py b/ch8-c-control/runner.py
+index ff405250c93cf83b98e9154044865303a963ec38..77f1a653ae979bacd46013f888889b051c1139f3 100644
+--- a/ch8-c-control/runner.py
++++ b/ch8-c-control/runner.py
+@@ -22,8 +22,8 @@ from typing import Any
+ 
+ HERE = Path(__file__).resolve().parent
+ REQUEST_PATH = HERE / "CI-REQUEST.json"
+-STD_SHA = "d073585946093071b696eada41b8c8cac18362a7"
+-STD_TREE = "e8e9fa63b59ff886077e938d40cffe7ce8c12d42"
++STD_SHA = "597e54c5cb503955f9483edc6acc9d4752d57713"
++STD_TREE = "b3bd6d8c939e08b13fc7a4c6c9da694cc8a2aa97"
+ TOOL_SHA = "0aac16ef62da9e9d5645782d458593e5d78143ba"
+ TOOL_TREE = "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+ MAX_ROW_SECONDS = 600
+@@ -138,7 +138,7 @@ def load_request(path: Path = REQUEST_PATH) -> dict[str, Any]:
+     if not isinstance(budgets, dict) or any(budgets.get(key) != val for key, val in {
+             "phase_seconds": PHASE_SECONDS, "setup_seconds": 1800, "reserve_seconds": 300,
+             "job_seconds": JOB_SECONDS, "run_step_seconds": RUN_STEP_SECONDS,
+-            "group_seconds": 6600,
++            "group_seconds": 2100,
+             "rss_kib": RSS_CAP_KIB,
+             "stdout_bytes": STDOUT_CAP_BYTES, "stderr_bytes": STDERR_CAP_BYTES,
+             "export_bytes": EXPORT_CAP_BYTES, "artifact_bytes": ARTIFACT_CAP_BYTES,
+@@ -182,11 +182,43 @@ def verify_source(std: Path, tool: Path, request: dict[str, Any]) -> dict[str, A
+         path = (std / rel).resolve()
+         if std.resolve() not in path.parents or not path.is_file() or sha256(path) != digest:
+             raise RunnerError(f"std changed-file SHA drift: {rel}")
++    if request.get("stage") == "C-02":
++        _verify_c02_source(std, request)
+     # Variants may describe test overlays; their path/hash are checked when selected.
+     return {"std_sha": STD_SHA, "std_tree": STD_TREE, "tool_sha": TOOL_SHA,
+             "tool_tree": TOOL_TREE, "changed_file_sha256": request["changed_file_sha256"]}
+ 
+ 
++def _target_tokens(value: Any) -> tuple[str, ...] | None:
++    """Frozen C-02 nongeneric Rust path; never join identifier fragments."""
++    if not isinstance(value, str) or not re.fullmatch(
++            r"[A-Za-z_][A-Za-z0-9_]*(?:\s*::\s*[A-Za-z_][A-Za-z0-9_]*)*", value.strip()):
++        return None
++    return tuple(re.split(r"\s*::\s*", value.strip()))
++
++
++def _verify_c02_source(std: Path, request: dict[str, Any]) -> None:
++    """Check the exact pinned harness attributes and explicit parent import."""
++    rel = "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs"
++    source = (std / rel).read_text()
++    if "use super::super::{bidirectional_merge, insert_tail, insertion_sort_shift_left};" not in source:
++        raise RunnerError("C-02 parent helper import mismatch")
++    for row in request["rows"]:
++        pattern = (r"#\[kani::proof_for_contract\(([^)]+)\)\]\s*"
++                   r"#\[kani::unwind\((\d+)\)\]\s*fn " + re.escape(row["id"]) + r"\(\)")
++        matches = list(re.finditer(pattern, source))
++        if len(matches) != 1:
++            raise RunnerError("C-02 source harness attribute mismatch")
++        match = matches[0]
++        line = source[:match.end()].count("\n") + 1
++        if (row.get("source_harness_file") != rel or row.get("source_harness_line") != line or
++                _target_tokens(match[1]) != ("bidirectional_merge",) or
++                _target_tokens(row.get("source_target_syntax")) != ("bidirectional_merge",) or
++                row["target"] != "slice::sort::shared::smallsort::bidirectional_merge" or
++                int(match[2]) != row["unwind"] or row["unwind"] != 17):
++            raise RunnerError("C-02 source stage target/unwind mismatch")
++
++
+ def _variant_info(request: dict[str, Any], name: str) -> tuple[Path, str, dict[str, str]]:
+     item = request["variants"].get(name)
+     if not isinstance(item, dict):
+@@ -597,6 +629,14 @@ def _parse_export_document(value: Any, row: dict[str, Any],
+     harness = harnesses[0]
+     if not isinstance(harness, dict) or harness.get("name") != row["selector"]:
+         return {"state": "WRONG_ROOT_OR_SELECTION", "outcome": "UNKNOWN"}
++    if "source_harness_file" in row:
++        reported_file = harness.get("file")
++        if (not isinstance(reported_file, str) or
++                not (reported_file == row["source_harness_file"] or
++                     reported_file.endswith("/" + row["source_harness_file"])) or
++                type(harness.get("line")) is not int or
++                harness["line"] != row["source_harness_line"]):
++            return {"state": "SOURCE_STAGE_TARGET_MISMATCH", "outcome": "UNKNOWN"}
+     attrs = harness.get("attributes")
+     kind = attrs.get("kind") if isinstance(attrs, dict) else None
+     contract = harness.get("contract")
+@@ -610,7 +650,9 @@ def _parse_export_document(value: Any, row: dict[str, Any],
+         tracker = contract.get("recursion_tracker")
+         expected_target = (expected_source_targets or {}).get(row["selector"], row["target"])
+         if (set(contract) != {"contracted_function_name", "recursion_tracker"} or
+-                expected_target != row["target"] or exported_target != row["target"] or
++                expected_target != row["target"] or
++                _target_tokens(exported_target) is None or
++                _target_tokens(exported_target) != _target_tokens(row.get("source_target_syntax", row["target"])) or
+                 not isinstance(reported_contract_function, str) or not reported_contract_function.strip() or
+                 (tracker is not None and (not isinstance(tracker, str) or not tracker.strip()))):
+             return {"state": "CONTRACT_TARGET_BINDING_MISMATCH", "outcome": "UNKNOWN",
+diff --git a/ch8-c-control/test_package.py b/ch8-c-control/test_package.py
+index e0627c0fdf744dba8052c1c9b0e676bccc9ef71f..a3464dd1da5570f98928b8cb795d1ef6f3fbce07 100644
+--- a/ch8-c-control/test_package.py
++++ b/ch8-c-control/test_package.py
+@@ -57,12 +57,9 @@ class PackageTests(unittest.TestCase):
+                    'flags': {'attempt': 1, 'max_root_seconds': 600, 'uninit_checks': False,
+                              'valid_value_checks': False, 'assert_contracts': False, 'sorting_cfg': False},
+                    'budgets': {'setup_seconds': 1800, 'phase_seconds': 6720, 'reserve_seconds': 300,
+-                     'job_seconds': 9000, 'run_step_seconds': 6720, 'group_seconds': 6600},
++                     'job_seconds': 9000, 'run_step_seconds': 6720, 'group_seconds': 2100},
+                    'rows': [{'id': x, 'timeout_seconds': 600, 'unwind': unwind} for x, unwind in [
+-                     ('c_merge_source_write_restore', 8), ('c_merge_source_read_only', 8),
+-                     ('c_callback_live_shared_in_outer_frame', 8), ('c_callback_read_only_in_outer_frame', 8),
+-                     ('c_external_mut_state', 8), ('c_external_cell_state', 8),
+-                     ('c_insert_tail_local_lifetime', 12), ('c_local_storage_reuse', 8)]],
++                     ('c_merge_source_write_restore', 17), ('c_merge_source_read_only', 17)]],
+                    'ci_payload_sha256': {rel: payload_digest}, 'ci_changed_paths': [rel]}
+             (here / 'CI-REQUEST.json').write_text(json.dumps(req))
+             responses = {('rev-parse', 'HEAD'): 'b'*40, ('rev-parse', 'HEAD^'): 'a'*40,
+diff --git a/ch8-c-control/test_runner.py b/ch8-c-control/test_runner.py
+index d8cc367214c1d471db525af0ef74ea57b3208df5..462c44f58b48bfc5da2b0e08168ba77d664a58a0 100644
+--- a/ch8-c-control/test_runner.py
++++ b/ch8-c-control/test_runner.py
+@@ -119,6 +119,56 @@ class RequestTests(unittest.TestCase):
+                 runner.ci_env()
+ 
+ 
++class C02BindingTests(unittest.TestCase):
++    def test_token_paths_preserve_identifier_boundaries(self):
++        self.assertEqual(runner._target_tokens(" super :: super::bidirectional_merge "),
++                         ("super", "super", "bidirectional_merge"))
++        for value in [None, 17, {}, "", "bidi rectional_merge", "x:::y", "x::", "x-y", "x::<u8>"]:
++            with self.subTest(value=value):
++                self.assertIsNone(runner._target_tokens(value))
++
++    def test_pinned_source_import_attribute_unwind_and_location(self):
++        rel = "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs"
++        source = ("use super::super::{bidirectional_merge, insert_tail, insertion_sort_shift_left};\n"
++                  "#[kani::proof_for_contract(bidirectional_merge)]\n#[kani::unwind(17)]\n"
++                  "fn c_merge_source_read_only() {}\n")
++        selected = row(id="c_merge_source_read_only", target="slice::sort::shared::smallsort::bidirectional_merge",
++                       source_target_syntax="bidirectional_merge", source_harness_file=rel,
++                       source_harness_line=4, unwind=17)
++        with tempfile.TemporaryDirectory() as d:
++            std = Path(d); p = std / rel; p.parent.mkdir(parents=True); p.write_text(source)
++            runner._verify_c02_source(std, {"rows": [selected]})
++            for old, new in [("use super::super", "use other::super"),
++                             ("proof_for_contract(bidirectional_merge)", "proof_for_contract(insert_tail)"),
++                             ("unwind(17)", "unwind(8)"), ("fn c_merge_source_read_only", "fn other")]:
++                p.write_text(source.replace(old, new))
++                with self.subTest(old=old), self.assertRaises(runner.RunnerError):
++                    runner._verify_c02_source(std, {"rows": [selected]})
++            p.write_text(source)
++            with self.assertRaises(runner.RunnerError):
++                runner._verify_c02_source(std, {"rows": [{**selected, "source_harness_line": 99}]})
++
++    def test_export_bare_path_uses_exact_source_spelling_and_location(self):
++        selected = row(source_target_syntax="body", source_harness_file="library/test.rs", source_harness_line=7)
++        payload = export(); h = payload["harnesses"][0]
++        h.update(file="/checkout/library/test.rs", line=7)
++        h["attributes"]["kind"]["ProofForContract"]["target_fn"] = " body "
++        self.assertEqual(runner._parse_export_document(payload, selected)["outcome"], "EXPECTED")
++        for target in [None, "other::body", "bo dy", "other", "body::<u8>"]:
++            h["attributes"]["kind"]["ProofForContract"]["target_fn"] = target
++            with self.subTest(target=target):
++                self.assertEqual(runner._parse_export_document(payload, selected)["state"],
++                                 "CONTRACT_TARGET_BINDING_MISMATCH")
++        h["attributes"]["kind"]["ProofForContract"]["target_fn"] = "body"
++        for field, value in [("file", "other/test.rs"), ("file", None), ("line", 8), ("line", True)]:
++            good = h[field]; h[field] = value
++            with self.subTest(field=field, value=value):
++                self.assertEqual(runner._parse_export_document(payload, selected)["state"], "SOURCE_STAGE_TARGET_MISMATCH")
++            h[field] = good
++        self.assertEqual(runner._parse_export_document(payload, selected,
++                         {selected["selector"]: "wrong::body"})["state"], "CONTRACT_TARGET_BINDING_MISMATCH")
++
++
+ class ExportTests(unittest.TestCase):
+     def parse(self, value, selected_row=None, expected_source_targets=None):
+         with tempfile.TemporaryDirectory() as d:

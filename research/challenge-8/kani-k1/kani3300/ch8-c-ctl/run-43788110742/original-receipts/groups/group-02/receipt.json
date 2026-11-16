@@ -1,0 +1,165 @@
+{
+  "argv": [
+    "/home/runner/work/kani/kani/tool/scripts/kani",
+    "verify-std",
+    "-Z",
+    "unstable-options",
+    "-Z",
+    "function-contracts",
+    "-Z",
+    "mem-predicates",
+    "-Z",
+    "float-lib",
+    "-Z",
+    "c-ffi",
+    "-Z",
+    "loop-contracts",
+    "-Z",
+    "quantifiers",
+    "-Z",
+    "stubbing",
+    "--no-assert-contracts",
+    "--jobs=1",
+    "--harness",
+    "slice::sort::shared::smallsort::verify::c_controls::c_insert_tail_local_lifetime",
+    "--exact",
+    "--default-unwind",
+    "12",
+    "--harness-timeout",
+    "600s",
+    "-Z",
+    "export-json",
+    "--export-json",
+    "/home/runner/work/_temp/ch8-c-receipts/groups/group-02/export.json",
+    "--output-format=terse",
+    "/home/runner/work/kani/kani/export/library",
+    "--cbmc-args",
+    "--object-bits",
+    "12"
+  ],
+  "compile_cap_seconds": 900,
+  "complete": true,
+  "execution": {
+    "compile_receipt": {
+      "boundary": "PINNED_KANI_INCOMPLETE_EXPORT_MARKER",
+      "cap_seconds": 900,
+      "elapsed_seconds": 28.089,
+      "export_marker_sha256": "a215dd547346504d5b935accca02dc9b83935ba01ef6d7c07941703fdc08e60c",
+      "output_snapshots": {
+        "stderr": {
+          "head_bytes": 0,
+          "head_path": "/home/runner/work/_temp/ch8-c-receipts/groups/group-02/compile-stderr.head.log",
+          "tail_bytes": 2300,
+          "tail_path": "/home/runner/work/_temp/ch8-c-receipts/groups/group-02/compile-stderr.tail.log"
+        },
+        "stdout": {
+          "head_bytes": 4096,
+          "head_path": "/home/runner/work/_temp/ch8-c-receipts/groups/group-02/compile-stdout.head.log",
+          "tail_bytes": 4096,
+          "tail_path": "/home/runner/work/_temp/ch8-c-receipts/groups/group-02/compile-stdout.tail.log"
+        }
+      },
+      "status": "COMPLETE"
+    },
+    "elapsed_seconds": 29.947,
+    "original_exit_code": 0,
+    "output_bytes": 84608,
+    "output_truncated": false,
+    "rss_peak_gib": 2.3976058959960938,
+    "rss_peak_kib": 2514072,
+    "rss_sample_period_seconds": 0.05,
+    "rss_status": "SAMPLED_PROCESS_GROUP",
+    "signal": null,
+    "std_compile_boundary": "PINNED_KANI_INCOMPLETE_EXPORT_MARKER",
+    "std_compile_seconds": 28.089,
+    "stderr_truncated": false,
+    "stdout_truncated": false,
+    "timed_out": false
+  },
+  "expected_exit_code": 0,
+  "group": 2,
+  "group_timeout_seconds": 1500,
+  "original_exit_code": 0,
+  "row_ids": [
+    "c_insert_tail_local_lifetime"
+  ],
+  "rss_cap_kib": 12582912,
+  "rss_peak_gib": 2.3976058959960938,
+  "rss_peak_kib": 2514072,
+  "rss_scope": "GROUP_ONLY_PER_ROOT_UNKNOWN",
+  "selectors": [
+    "slice::sort::shared::smallsort::verify::c_controls::c_insert_tail_local_lifetime"
+  ],
+  "signal": null,
+  "source_after": {
+    "changed_file_sha256": {
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "cda65f8214b25d522a3fce607b824e7960e9f1fef999ee350d44e7952cb24a6a",
+      "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs": "c2fb42a47e7c14a630412e5e1cd44d60f524484e265f78b170d230413c0d0f1b"
+    },
+    "std_sha": "d073585946093071b696eada41b8c8cac18362a7",
+    "std_tree": "e8e9fa63b59ff886077e938d40cffe7ce8c12d42",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+  },
+  "source_before": {
+    "changed_file_sha256": {
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "cda65f8214b25d522a3fce607b824e7960e9f1fef999ee350d44e7952cb24a6a",
+      "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs": "c2fb42a47e7c14a630412e5e1cd44d60f524484e265f78b170d230413c0d0f1b"
+    },
+    "std_sha": "d073585946093071b696eada41b8c8cac18362a7",
+    "std_tree": "e8e9fa63b59ff886077e938d40cffe7ce8c12d42",
+    "tool_sha": "0aac16ef62da9e9d5645782d458593e5d78143ba",
+    "tool_tree": "9d8bc9312bf955ef126d32b819b3cd0ed105ed2b"
+  },
+  "source_under_test": {
+    "base_std_sha": "c5ff36ff433692140605891f646043f991db05de",
+    "file_sha256": {
+      "library/core/src/slice/sort/shared/smallsort/verify.rs": "cda65f8214b25d522a3fce607b824e7960e9f1fef999ee350d44e7952cb24a6a",
+      "library/core/src/slice/sort/shared/smallsort/verify/c_controls.rs": "c2fb42a47e7c14a630412e5e1cd44d60f524484e265f78b170d230413c0d0f1b"
+    },
+    "patch_sha256": null,
+    "variant": "production"
+  },
+  "status": "COMPLETE",
+  "tool_fingerprints": {
+    "binaries": {
+      "cbmc": {
+        "path": "/usr/bin/cbmc",
+        "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+      },
+      "kani_compiler": {
+        "path": "tool/target/kani/bin/kani-compiler",
+        "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+      },
+      "kani_driver": {
+        "path": "tool/target/kani/bin/kani-driver",
+        "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      }
+    },
+    "reported_versions": {
+      "cbmc": "6.11.0 (cbmc-6.11.0)",
+      "kani": "0.68.0",
+      "rustc": "1.101.0-nightly (7189d39d9 2026-10-22)"
+    },
+    "required_hashes_present": true
+  },
+  "tool_fingerprints_before": {
+    "binaries": {
+      "cbmc": {
+        "path": "/usr/bin/cbmc",
+        "sha256": "a62af25d27425610608221d79c202f993efe1d5a85cece186119bec196382995"
+      },
+      "kani_compiler": {
+        "path": "tool/target/kani/bin/kani-compiler",
+        "sha256": "0d42d7487985595ffc608a11a4bea15e158c8eff49c80e1779612f8b1a89c3a4"
+      },
+      "kani_driver": {
+        "path": "tool/target/kani/bin/kani-driver",
+        "sha256": "bdff28100fff3b02fc990f7c2d09f9a0edce60fef6d42770a7677e214fcf7846"
+      }
+    },
+    "reported_versions": null,
+    "required_hashes_present": true
+  },
+  "unwind": 12
+}
