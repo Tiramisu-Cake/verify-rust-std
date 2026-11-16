@@ -31,11 +31,13 @@ Bounded controls не обозначены arbitrary-length proof.
 Sorting/permutation, fallback/threshold composition и A1-R3 intake — последующие стадии.
 
 Validation этой стадии: Git identities и source ranges прочитаны на pins;
-проверка whitespace/scope и commit author выполняется перед handoff.
+`git diff --cached --check` прошёл для четырёх новых ch8-e файлов,
+`git show --check` для включившего их commit также прошёл; author и [skip ci] проверены.
 Все runtime/control outcomes NOT_RUN; obligations closed=0; independent proof
 credit=NONE. Никаких cargo/rustc/Kani/CBMC, CI, push, публикаций, ledger изменений
 и чтения raw evidence. Исходный `ch8-s1/kani-host-list/` нами не изменялся.
-Во время чтения shared g0 продвинулся другими участниками до
-`e844b91afac1a1a029bf090a190c1cac3667f25d` (включая регистрацию ранее untracked
-host-list); чужие commits сохранены. Исходный task/pins остаются от 1038c006f9;
-наш commit добавляет только четыре файла ch8-e поверх актуального g0.
+Shared g0 изменялся другими участниками; исходный task/pins остаются от 1038c006f9,
+который сохранён предком. Координатор включил staged четыре документа в
+`82cc48368e1e3aec544975831bc9595d26f5781d` вместе со своей runner note.
+Его commit не переписывался. Финальный отдельный E commit уточняет только этот
+handoff; никакие чужие files/ledgers в него не добавляются.
