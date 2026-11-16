@@ -1,22 +1,12 @@
 {
-  "schema": "smallsort-review-spec-v1",
-  "worktree": "/root/kani-fix-ch8-pr02-reset-u02-ci",
+  "applicability": "One local preparation stage, pinned g0 e3fce08411; source replacement 09a6d1cb2cba63e67e60aeefbd909d1f64849b76 directly on PR02 932fb8395a. No publication or CI.",
   "baseline_commit": "b4edbb18bc8a490197420aac0964a7d55b284380",
   "candidate_commit": "952ea771be3827a495a9c9f29ad6a015bd796fc7",
-  "defect": "U-01 arm A failed in compiletest fixture discovery: nested reset fixtures have no parent config. Prepare U-02 top-level fixtures and bounded always-upload A receipts, retain B U-01 results without rerun.",
-  "applicability": "One local preparation stage, pinned g0 e3fce08411; source replacement 09a6d1cb2cba63e67e60aeefbd909d1f64849b76 directly on PR02 932fb8395a. No publication or CI.",
-  "invariants": [
-    "All 28 fixture file contents and modes unchanged, only seven paths flattened. Compiler diff identical to U-01.",
-    "Arm A fmt/build/clippy/compiler binary units/affected suites/seven new cases and matched old controls retain all previous checks.",
-    "Arm B disabled in U-02 matrix; retain U-01 source-reported SUCCESS only, runner and exact input bytes unchanged.",
-    "Same first-attempt equal-tree push gate, max-parallel 1, 120min cap, jobs2/threads2, no automatic retry.",
-    "A bounded receipts preserve original child exit, failure/error/timeout and NOT_RUN/IN_PROGRESS; no receipts interpreted as new proof.",
-    "Always finalization and artifact upload even earlier setup/build/suite failure, 16KiB tail per gate; no raw logs in artifact."
-  ],
   "controls": [
     "Offline check_package and check_source_structure; fixture byte/mode and compiler diff comparison; isolated PR02/SEL1 index apply trees.",
     "Existing five B result error-path tests retained. Two A receipt synthetic tests cover success, nonzero, missing command, timeout, output bounds, setup failure, missing/partial/malformed/null/wrong type, gate mismatch."
   ],
+  "defect": "U-01 arm A failed in compiletest fixture discovery: nested reset fixtures have no parent config. Prepare U-02 top-level fixtures and bounded always-upload A receipts, retain B U-01 results without rerun.",
   "dependencies": [
     "kani-compiler/src/kani_middle/transform/automatic.rs",
     "kani-compiler/src/kani_middle/transform/mod.rs",
@@ -40,15 +30,25 @@
     "scripts/ch8-pr02-reset/run_arm_b.py",
     "scripts/ch8-pr02-reset/test_runner.py"
   ],
+  "invariants": [
+    "All 28 fixture file contents and modes unchanged, only seven paths flattened. Compiler diff identical to U-01.",
+    "Arm A fmt/build/clippy/compiler binary units/affected suites/seven new cases and matched old controls retain all previous checks.",
+    "Arm B disabled in U-02 matrix; retain U-01 source-reported SUCCESS only, runner and exact input bytes unchanged.",
+    "Same first-attempt equal-tree push gate, max-parallel 1, 120min cap, jobs2/threads2, no automatic retry.",
+    "A bounded receipts preserve original child exit, failure/error/timeout and NOT_RUN/IN_PROGRESS; no receipts interpreted as new proof.",
+    "Always finalization and artifact upload even earlier setup/build/suite failure, 16KiB tail per gate; no raw logs in artifact."
+  ],
+  "known_limitations": [
+    "U-01 native outcomes supplied by coordinator task, not independently audited here. No new native compile/verifier/CI runs or emitted-model/proof credit.",
+    "Receipts describe execution only; expected target/source pins in final summary are request identities, not independently observed model bindings.",
+    "GitHub always() cannot recover artifacts if initial control checkout fails or runner is lost."
+  ],
   "prior_reviews": [
     {
       "path": "/root/verify-rust-std-kani3300-pr02-reset-u02/research/challenge-8/kani-k1/kani3300/ch8-pr02-reset/PACKAGE-REVIEW.md",
       "sha256": "0cb98c35613d86d03288b4369c4339959071d4d8f98b39bc6e9cf93a00e4d64d"
     }
   ],
-  "known_limitations": [
-    "U-01 native outcomes supplied by coordinator task, not independently audited here. No new native compile/verifier/CI runs or emitted-model/proof credit.",
-    "Receipts describe execution only; expected target/source pins in final summary are request identities, not independently observed model bindings.",
-    "GitHub always() cannot recover artifacts if initial control checkout fails or runner is lost."
-  ]
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/kani-fix-ch8-pr02-reset-u02-ci"
 }
