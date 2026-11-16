@@ -139,4 +139,4 @@ Outcomes:
 S1 list fix (a) `c03363b3b0` (list timeout 1500 s) rejected by coordinator: organizers' `Run Kani List` on verify-rust-std main takes 73 min (run 43765200249). Redo as per-row binding (TASK-CH8-S1-LIST2-W13).
 C-01 held: C controls (std `d073585946` on P′, control `cdd3c6d041`, g0 `425f10fbfd`) use the same global `kani list` that timed out in S1-02 — dispatch after the list fix.
 
-Item 1 used: 5 of 18 (A1 3 of 3, B 1 of 3, U 2 of 2). Item 2 used: 2 of 14 (S1 2 of 2; S1-03 reserved). Total 8 of 32.
+Item 1 used: 6 of 18 (A1 3 of 3, B 1 of 3, U 2 of 2). Item 2 used: 2 of 14 (S1 2 of 2) + S1-03 reserved. Total 8 dispatched + 1 reserved of 32.
