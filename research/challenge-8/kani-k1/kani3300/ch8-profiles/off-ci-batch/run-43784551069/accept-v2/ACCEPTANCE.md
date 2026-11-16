@@ -153,7 +153,7 @@ Offline replay читает только JSON из того же ZIP; evidence a
 unreachable properties; для PFC — независимый exact generated-wrapper binding;
 для frame negative — независимый заранее заданный oracle binding. Эти пробелы
 не заполнялись предположениями, изменением stock tool или новым запуском.
-Review записан отдельно в REVIEW.json; READY относится к завершению этой стадии,
+Independent Luna HIGH review: GO, без замечаний (REVIEW.json). READY относится к завершению этой стадии,
 а не к принятию всего batch.
 
 Push / CI / публикаций / ledger writes / local cargo-rustc-Kani-CBMC: 0.

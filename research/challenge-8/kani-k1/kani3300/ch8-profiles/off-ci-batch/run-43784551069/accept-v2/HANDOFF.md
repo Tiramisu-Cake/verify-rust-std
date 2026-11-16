@@ -33,7 +33,18 @@ PYTHONDONTWRITEBYTECODE=1 python3 reclassify_v2.py \
 
 31 новых synthetic tests и 42 прежних runner/service tests PASS;
 189/189 cover source windows проверены по pinned source. Independent review
-и exact candidate/packet identities сохраняются отдельно в REVIEW.json.
+GO (Luna HIGH), замечаний нет; exact candidate/packet identities — в REVIEW.json.
+
+Review packet имеет отдельный source-only candidate, побайтно совпадающий с
+semantic inputs delivery; generated ACCEPT.json проверяется отдельным exact
+replay/SHA из-за лимита diff 524288 байт. REVIEW-IDENTITIES.json фиксирует оба
+commit, все semantic hashes и исключённый generated receipt; packet/spec рядом.
+Финальные изменения validation/review/handoff metadata не меняют semantic inputs.
+
+G0 используется параллельно другими заданиями. Commit `f0a223506f` также захватил
+уже staged файлы E-02 из общего index; их содержимое этим заданием не менялось,
+история сохранена. Review и claims этого пакета относятся только к accept-v2;
+завершающий commit ограничен этим каталогом.
 
 Дальнейшее admission требует exact unreachable-condition/location bindings,
 generated-wrapper specialization binding и независимого frame oracle binding.

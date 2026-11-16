@@ -1,0 +1,40 @@
+{
+  "schema": "smallsort-review-spec-v1",
+  "worktree": "/root/verify-rust-std-kani3300-g0",
+  "baseline_commit": "7a416079bbf17cdd8b64d5e01c2f10171e1baac6",
+  "candidate_commit": "2f6ef36289e55ffc5a0520150b3a4d1bf6a7191b",
+  "defect": "Implement the coordinator-adopted batch acceptance policy as a separately versioned offline classifier and reclassify all exact artifact rows.",
+  "applicability": "Isolated review-only commit contains exactly the accept-v2 semantic inputs/code/docs from delivery f0a223506f7b498f8fa5abd72a3ef997e91a6541. Generated ACCEPT.json excluded from diff due 524288-byte review tool limit; reviewer must independently replay and compare the delivery receipt at the same path. Other concurrent g0 task files are excluded.",
+  "invariants": [
+    "Historical receipts, ledgers, source and stock tool are unchanged.",
+    "No push/CI/publication/ledger/local cargo/rustc/Kani/CBMC. No nested delegation.",
+    "Preserve exact inventories, per-row verdicts, full target/wrapper binding and required cover obligations; consumers require accepted matching leaf.",
+    "Source-reported bounded observation policy admission is separate from independent proof credit."
+  ],
+  "controls": [
+    "Unsupported only SUCCESS with exact-ID linkage to assert(false); unknown linkage blocks.",
+    "Unreachable required posts/frame/relation/section block; reviewed defensive branches allowed with IDs/location/reason; unknown roles UNKNOWN.",
+    "Required cover missing blocks even when emitted-cover count otherwise agrees; source reach and pre-call covers distinguished.",
+    "Full target tokens and fully qualified source import resolution; unresolved mangled generated wrappers PENDING.",
+    "Predeclared negative oracles unchanged; frame placeholder not inferred from observed failure."
+  ],
+  "dependencies": [
+    "research/challenge-8/kani-k1/TASK-CH8-PROF-OFF-ACCEPT-W11.md",
+    "research/challenge-8/kani-k1/ACCEPTANCE-POLICY-BATCH.md",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/reclassify.py",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/RECLASSIFY.json",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/classifier_v2.py",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/reclassify_v2.py",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/SOURCE-MAP.json",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/TOOL-SOURCES.json",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/UNSUPPORTED-LINKS.json",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/UNREACHABLE-REVIEWS.json",
+    "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/test_classifier_v2.py"
+  ],
+  "known_limitations": [
+    "Export schema has only unreachable IDs, not locations/descriptions, and success count rather than named successes.",
+    "Static source-site/ordinal mapping is not independent AST/MIR/codegen binding.",
+    "Exact generated contract-wrapper specialization may remain PENDING; do not silently demote that gate."
+  ],
+  "prior_reviews": []
+}

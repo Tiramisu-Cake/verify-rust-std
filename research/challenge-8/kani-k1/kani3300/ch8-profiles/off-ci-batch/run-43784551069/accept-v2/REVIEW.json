@@ -1,0 +1,41 @@
+{
+  "schema": "smallsort-independent-review-v1",
+  "decision": "GO",
+  "identities": {
+    "baseline_commit": "7a416079bbf17cdd8b64d5e01c2f10171e1baac6",
+    "review_candidate_commit": "2f6ef36289e55ffc5a0520150b3a4d1bf6a7191b",
+    "review_candidate_tree": "b8778e7d04c5f187abb7795d5294b187f32827be",
+    "delivery_commit": "f0a223506f7b498f8fa5abd72a3ef997e91a6541",
+    "isolated_semantic_inputs_match_delivery": true,
+    "generated_receipt_path": "research/challenge-8/kani-k1/kani3300/ch8-profiles/off-ci-batch/run-43784551069/accept-v2/ACCEPT.json",
+    "generated_receipt_sha256_expected_and_replayed": "ea21c7f8127c587a6f8c0ae1475e4c1379bd5106a61f1812b561a10cda1d9ceb"
+  },
+  "validation": {
+    "synthetic_tests": "31/31 PASS",
+    "offline_replay": "PASS; 62 rows and historical snapshots reproduced",
+    "replayed_receipt_bytes": 2183005,
+    "receipt_sha256_matches_delivery": true,
+    "summary": {
+      "rows": 62,
+      "accepted": 9,
+      "pending": 0,
+      "unknown": 53,
+      "positive_accepted": 8,
+      "negative_accepted": 1,
+      "unsupported_allowed_by_exact_link": 205,
+      "unreachable_unknown_role": 1710
+    },
+    "source_map": "Replay verified pinned source file hashes and all 189 cover source windows; classifier enforces required IDs against export covers, missing-cover blocking, no pre-call-only IDs in post-target set, and nonempty post-target set for positive rows.",
+    "unsupported_semantics": "Inspected frozen stock exporter PropertyExport status/class/id linkage and codegen_unimplemented_stmt -> codegen_assert_assume(false) source chain at the pinned tool commit.",
+    "negative_oracles": "Named oracle matching remains exact; generated frame placeholder remains pending in the receipt; no observed failure was substituted as an oracle.",
+    "consumers": "Consumer evaluation is leaf-first and requires an accepted matching positive leaf; no raw SUCCESS bypass found."
+  },
+  "findings": [],
+  "limitations": [
+    "Static source/function/ordinal and macro repetition mapping is not an independent AST/MIR/codegen binding.",
+    "The export omits unreachable property locations/descriptions and success property IDs; unresolved unreachable roles correctly remain UNKNOWN.",
+    "Generated contract-wrapper specialization bindings and the frame negative oracle remain unresolved in row-level secondary reasons.",
+    "This review admits only bounded source-reported observations; proof_credit is NONE and no B2/full-domain claim is made."
+  ],
+  "proof_credit": "NONE"
+}
